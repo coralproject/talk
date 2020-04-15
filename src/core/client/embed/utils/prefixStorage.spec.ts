@@ -69,10 +69,7 @@ it("should prefix removeItem", () => {
 it("should prefix getItem", () => {
   const ret = "value";
   const storage = {
-    getItem: sinon
-      .mock()
-      .withArgs("coral:key")
-      .returns(ret),
+    getItem: sinon.mock().withArgs("coral:key").returns(ret),
   };
 
   const prefixed = prefixStorage(storage as any, "coral:");

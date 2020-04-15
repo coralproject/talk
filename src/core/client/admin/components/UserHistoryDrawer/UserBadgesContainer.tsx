@@ -17,7 +17,7 @@ const UserBadgesContainer: FunctionComponent<Props> = ({ user }) => {
   }
   return (
     <>
-      {user.badges.map(badge => (
+      {user.badges.map((badge) => (
         <Tag
           key={badge}
           color="dark"

@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
-import { graphql, useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -37,7 +38,7 @@ export interface ProfileProps {
     PropTypesOf<typeof MyCommentsContainer>["settings"];
 }
 
-const Profile: FunctionComponent<ProfileProps> = props => {
+const Profile: FunctionComponent<ProfileProps> = (props) => {
   const emitSetProfileTabEvent = useViewerEvent(SetProfileTabEvent);
   const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {

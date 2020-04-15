@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { ChangeEvent, Component, EventHandler, FocusEvent } from "react";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { withKeyboardFocus, withStyles } from "coral-ui/hocs";
 

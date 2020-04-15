@@ -29,7 +29,7 @@ function markPhrasesHTML(text: string, expression: RegExp) {
 // markHTMLNode manipulates the node by looking for #text nodes and adding
 // markers.
 export default function markHTMLNode(parentNode: Node, expression: RegExp) {
-  parentNode.childNodes.forEach(node => {
+  parentNode.childNodes.forEach((node) => {
     // Anchor links are already marked by default, skip them now.
     if (node.nodeName === "A") {
       return;

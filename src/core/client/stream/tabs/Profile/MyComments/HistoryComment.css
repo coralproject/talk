@@ -9,21 +9,21 @@
 }
 
 .replies {
-  composes: button from "coral-ui/shared/typography.css";
+  composes: button from "~coral-ui/shared/typography.css";
   color: var(--palette-text-primary);
   display: inline-flex;
   align-items: center;
 }
 
 .reactions {
-  composes: button from "coral-ui/shared/typography.css";
+  composes: button from "~coral-ui/shared/typography.css";
   color: var(--palette-text-primary);
   display: inline-flex;
   align-items: center;
 }
 
 .viewConversation {
-  composes: button from "coral-ui/shared/typography.css";
+  composes: button from "~coral-ui/shared/typography.css";
 }
 
 .container {

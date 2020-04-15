@@ -98,9 +98,7 @@ it("rotate sso key", async () => {
   });
   const container = within(testRenderer.root).getByTestID("configure-auth-sso");
   act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange({});
+    within(container).getByLabelText("Enabled").props.onChange({});
   });
 
   act(() => {
@@ -121,8 +119,8 @@ it("rotate sso key", async () => {
     // Check that we have two SSO Keys that match
     // our expected key IDs
     const keyIDs = within(container).getAllByTestID("SSO-Key-ID");
-    const hasOldKey = keyIDs.some(k => k.props.value === "kid-01");
-    const hasNewKey = keyIDs.some(k => k.props.value === "kid-02");
+    const hasOldKey = keyIDs.some((k) => k.props.value === "kid-01");
+    const hasNewKey = keyIDs.some((k) => k.props.value === "kid-02");
     expect(hasNewKey).toBe(true);
     expect(hasOldKey).toBe(true);
 
@@ -150,9 +148,7 @@ it("prevents admin lock out", async () => {
 
   // Let's disable local auth.
   act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange();
+    within(container).getByLabelText("Enabled").props.onChange();
   });
 
   // Send form
@@ -162,7 +158,9 @@ it("prevents admin lock out", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByText(
       "Please enable at least one authentication integration",
-      { exact: false }
+      {
+        exact: false,
+      }
     )
   );
 });

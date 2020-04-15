@@ -5,7 +5,7 @@ export interface OptGroupProps {
   children?: React.ReactNode;
 }
 
-const OptionGroup: FunctionComponent<OptGroupProps> = props => {
+const OptionGroup: FunctionComponent<OptGroupProps> = (props) => {
   return <optgroup {...props} />;
 };
 

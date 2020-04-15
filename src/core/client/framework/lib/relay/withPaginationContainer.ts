@@ -10,6 +10,7 @@ import {
 } from "recompose";
 import { PageInfo, Variables } from "relay-runtime";
 
+import { resolveModule, resolveModuleObject } from "./helpers";
 import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
@@ -56,8 +57,11 @@ export default <T, QueryVariables, FragmentVariables>(
 > => (component: React.ComponentType<any>) => {
   const result = createPaginationContainer(
     component,
-    fragmentSpec,
-    connectionConfig
+    resolveModuleObject(fragmentSpec),
+    {
+      ...connectionConfig,
+      query: resolveModule(connectionConfig.query),
+    }
   );
   result.displayName = wrapDisplayName(component, "Relay");
   // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not

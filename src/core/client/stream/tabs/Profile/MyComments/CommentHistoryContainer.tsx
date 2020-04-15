@@ -22,7 +22,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-export const CommentHistoryContainer: FunctionComponent<Props> = props => {
+export const CommentHistoryContainer: FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
     LoadMoreHistoryCommentsEvent
@@ -38,7 +38,7 @@ export const CommentHistoryContainer: FunctionComponent<Props> = props => {
       console.error(error);
     }
   }, [loadMore, beginLoadMoreEvent]);
-  const comments = props.viewer.comments.edges.map(edge => edge.node);
+  const comments = props.viewer.comments.edges.map((edge) => edge.node);
   return (
     <CommentHistory
       story={props.story}

@@ -32,7 +32,7 @@ const SiteFilter: FunctionComponent<Props> = ({
   disableLoadMore,
   loading,
 }) => {
-  const selected = sites.find(s => s.id === siteID);
+  const selected = sites.find((s) => s.id === siteID);
   return (
     <FieldSet>
       <HorizontalGutter spacing={2}>
@@ -62,9 +62,9 @@ const SiteFilter: FunctionComponent<Props> = ({
             site={null}
             active={!siteID}
           />
-          {sites.map(s => (
+          {sites.map((s) => (
             <SiteFilterOption
-              onSelect={id => onSelect(id)}
+              onSelect={(id) => onSelect(id)}
               site={s}
               active={s.id === siteID}
               key={s.id}

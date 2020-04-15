@@ -8,5 +8,5 @@ export type BanStatusInput = user.ConsolidatedBanStatus & {
 export const BanStatus: Required<GQLBanStatusTypeResolver<BanStatusInput>> = {
   active: ({ active }) => active,
   history: ({ history, userID }) =>
-    history.map(status => ({ ...status, userID })),
+    history.map((status) => ({ ...status, userID })),
 };

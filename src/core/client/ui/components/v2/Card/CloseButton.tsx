@@ -1,7 +1,7 @@
 import React, { FunctionComponent, Ref } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import BaseButton from "../BaseButton";
 import Flex from "../Flex";
@@ -20,7 +20,7 @@ export interface CloseButtonProps
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-const CloseButton: FunctionComponent<CloseButtonProps> = props => {
+const CloseButton: FunctionComponent<CloseButtonProps> = (props) => {
   const {
     classes: { icon: iconClassName, ...restClasses },
     forwardRef,

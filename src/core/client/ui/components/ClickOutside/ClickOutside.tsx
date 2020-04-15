@@ -67,7 +67,9 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   }
 }
 
-const ClickOutsideWithContext: FunctionComponent<ClickOutsideProps> = props => (
+const ClickOutsideWithContext: FunctionComponent<ClickOutsideProps> = (
+  props
+) => (
   <UIContext.Consumer>
     {({ registerClickFarAway }) => (
       <ClickOutside {...props} registerClickFarAway={registerClickFarAway} />

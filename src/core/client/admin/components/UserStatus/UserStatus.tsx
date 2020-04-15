@@ -20,7 +20,7 @@ const render = (className: string, content: React.ReactNode) => (
   </div>
 );
 
-const UserStatus: FunctionComponent<Props> = props => {
+const UserStatus: FunctionComponent<Props> = (props) => {
   if (props.banned) {
     return render(
       styles.error,

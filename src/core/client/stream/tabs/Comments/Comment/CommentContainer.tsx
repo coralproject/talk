@@ -127,7 +127,7 @@ export class CommentContainer extends Component<Props, State> {
 
   private toggleReplyDialog = () => {
     if (this.props.viewer) {
-      this.setState(state => {
+      this.setState((state) => {
         if (!state.showReplyDialog) {
           ShowReplyFormEvent.emit(this.props.eventEmitter, {
             commentID: this.props.comment.id,
@@ -147,7 +147,7 @@ export class CommentContainer extends Component<Props, State> {
       ShowEditFormEvent.emit(this.props.eventEmitter, {
         commentID: this.props.comment.id,
       });
-      this.setState(state => ({
+      this.setState((state) => ({
         showEditDialog: true,
       }));
     } else {
@@ -156,13 +156,13 @@ export class CommentContainer extends Component<Props, State> {
   };
 
   private closeEditDialog = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       showEditDialog: false,
     }));
   };
 
   private closeReplyDialog = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       showReplyDialog: false,
     }));
   };
@@ -203,14 +203,14 @@ export class CommentContainer extends Component<Props, State> {
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
-      comment.tags.find(t => t.code === GQLTAG.FEATURED)
+      comment.tags.find((t) => t.code === GQLTAG.FEATURED)
     );
     // We are in a Q&A if the story mode is set to QA.
     const isQA = Boolean(story.settings.mode === GQLSTORY_MODE.QA);
     // Author is expert if comment is tagged Expert and the
     // story mode is Q&A.
     const authorIsExpert =
-      isQA && comment.tags.find(t => t.code === GQLTAG.EXPERT);
+      isQA && comment.tags.find((t) => t.code === GQLTAG.EXPERT);
     // Only show a button to clear removed answers if
     // this comment is by an expert, reply to a top level
     // comment (question) with an answer
@@ -227,7 +227,7 @@ export class CommentContainer extends Component<Props, State> {
     const hasAnsweredTag = Boolean(
       !hideAnsweredTag &&
         isQA &&
-        comment.tags.every(t => t.code !== GQLTAG.UNANSWERED) &&
+        comment.tags.every((t) => t.code !== GQLTAG.UNANSWERED) &&
         !comment.parent
     );
     const commentTags = (

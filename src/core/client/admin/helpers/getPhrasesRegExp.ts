@@ -50,7 +50,7 @@ const cache: Cache = {
   value: null,
 };
 
-export default function(options: GetPhrasesRegExpOptions) {
+export default function (options: GetPhrasesRegExpOptions) {
   // We assume that the cache is valid unless one of the below checks fails.
   let expired = false;
 

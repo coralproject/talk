@@ -10,9 +10,9 @@ export interface PostCommentRejectedProps {
   onDismiss: () => void;
 }
 
-const PostCommentRejected: FunctionComponent<
-  PostCommentRejectedProps
-> = props => {
+const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
+  props
+) => {
   return (
     <Message color="error" className={CLASSES.createComment.rejected} fullWidth>
       <Flex justifyContent="space-between" className={styles.flex}>

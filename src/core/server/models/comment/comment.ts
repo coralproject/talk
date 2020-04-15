@@ -1,8 +1,8 @@
 import { isEmpty } from "lodash";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import * as uuid from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
@@ -388,7 +388,7 @@ export async function retrieveManyComments(
 
   const comments = await cursor.toArray();
 
-  return ids.map(id => comments.find(comment => comment.id === id) || null);
+  return ids.map((id) => comments.find((comment) => comment.id === id) || null);
 }
 
 export type CommentConnectionInput = OrderedConnectionInput<
@@ -402,7 +402,7 @@ function cursorGetterFactory(
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
-      return comment => comment.createdAt;
+      return (comment) => comment.createdAt;
     case GQLCOMMENT_SORT.REPLIES_DESC:
     case GQLCOMMENT_SORT.REACTION_DESC:
       return (_, index) =>
@@ -961,7 +961,7 @@ export async function retrieveStoryCommentTagCounts(
   logger.info({ responseTime: timer(), filter: $match }, "counting tags");
 
   // For each of the storyIDs...
-  return storyIDs.map(storyID => {
+  return storyIDs.map((storyID) => {
     // Get the tags associated with this storyID.
     const tagCounts = tags.filter(({ _id }) => _id.storyID === storyID) || [];
 
@@ -1024,9 +1024,9 @@ export async function retrieveManyRecentStatusCounts(
 
   // Iterate over the documents and join up any of the results that are
   // associated with each user.
-  return authorIDs.map(authorID => {
+  return authorIDs.map((authorID) => {
     // Get all the author's status counts.
-    const filtered = docs.filter(doc => doc._id.authorID === authorID);
+    const filtered = docs.filter((doc) => doc._id.authorID === authorID);
 
     // Iterate over the docs to increment the status counts.
     const counts = createEmptyCommentStatusCounts();

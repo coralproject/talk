@@ -89,9 +89,7 @@ it("change custom css", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -137,9 +135,7 @@ it("remove custom css", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Wait for submission to be finished

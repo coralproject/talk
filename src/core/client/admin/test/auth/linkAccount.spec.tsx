@@ -62,7 +62,6 @@ async function createTestRenderer(
 it("renders link account view", async () => {
   const { testRenderer } = await createTestRenderer();
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });
 
 it("checks for required password", async () => {

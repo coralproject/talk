@@ -1,0 +1,47 @@
+---
+name: Popup
+menu: UI Kit v1
+---
+
+import { Playground } from "docz"
+import { useState } from "react";
+
+import Popup from "./Popup"
+import Button from "../Button"
+import Flex from "../Flex"
+
+# Popup
+
+Declaratively control a popup.
+
+## Basic usage
+
+<Playground>
+  {() => {
+    const [open, setOpen] = useState(false);
+    const [focus, setFocus] = useState(false);
+    return (
+      <Flex itemGutter>
+        <Popup
+          href={"/static/js/src-core-client-ui-components-popup-popup.js"}
+          title="Coral Project"
+          features="menubar=0,resizable=0,width=500,height=550,top=200,left=500"
+          open={open}
+          focus={focus}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onClose={() => setOpen(false)}
+        />
+        <Button onClick={() => setOpen(true)} variant="filled" color="primary" disabled={open}>
+          Open Popup
+        </Button>
+        <Button onClick={() => setOpen(false)} variant="outlined" disabled={!open}>
+          Close Popup
+        </Button>
+        <Button onClick={() => setFocus(true)} variant="outlined" disabled={!open}>
+          Focus Popup
+        </Button>
+      </Flex>
+    );
+  }}
+</Playground>

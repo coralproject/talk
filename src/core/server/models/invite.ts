@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { TenantResource } from "coral-server/models/tenant";
 import { invites as collection } from "coral-server/services/mongodb/collections";
@@ -28,7 +28,7 @@ export async function createInvite(
   now = new Date()
 ) {
   // Create an ID for the Invite.
-  const id = uuid.v4();
+  const id = uuid();
 
   // defaults are the properties set by the application when a new Invite is
   // created.

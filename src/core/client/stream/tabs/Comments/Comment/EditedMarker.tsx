@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-const EditedMarker: FunctionComponent<Props> = props => (
+const EditedMarker: FunctionComponent<Props> = (props) => (
   <div className={cn(styles.root, props.className)}>
     (
     <Localized id="comments-editedMarker-edited">

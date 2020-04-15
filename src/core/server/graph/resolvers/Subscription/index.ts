@@ -20,9 +20,7 @@ export const Subscription: GQLSubscriptionTypeResolver = {
 
 export { CommentFeaturedInput } from "./commentFeatured";
 export { CommentCreatedInput } from "./commentCreated";
-export {
-  CommentEnteredModerationQueueInput,
-} from "./commentEnteredModerationQueue";
+export { CommentEnteredModerationQueueInput } from "./commentEnteredModerationQueue";
 export { CommentLeftModerationQueueInput } from "./commentLeftModerationQueue";
 export { CommentReleasedInput } from "./commentReleased";
 export { CommentReplyCreatedInput } from "./commentReplyCreated";

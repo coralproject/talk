@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
-import { Omit } from "coral-common/types";
+
 import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
@@ -89,7 +89,7 @@ const markCommentAsAnswered = async (
 
   if (
     // If we are the export on this story...
-    story.settings.expertIDs.some(id => id === author.id) &&
+    story.settings.expertIDs.some((id) => id === author.id) &&
     // And this is the first reply (depth of 1)...
     comment.ancestorIDs.length === 1
   ) {

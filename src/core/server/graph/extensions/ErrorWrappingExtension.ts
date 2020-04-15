@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-server-core";
-import { GraphQLError } from "graphql";
+import { GraphQLFormattedError } from "graphql";
 import { GraphQLExtension, GraphQLResponse } from "graphql-extensions";
 import { merge } from "lodash";
 
@@ -9,10 +9,14 @@ import {
   InternalError,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
+import { getOriginalError } from "./helpers";
 
-function hoistCoralErrorExtensions(ctx: GraphContext, err: GraphQLError): void {
+function hoistCoralErrorExtensions(
+  ctx: GraphContext,
+  err: GraphQLFormattedError
+): void {
   // Grab or wrap the originalError so that it's a CoralError.
-  const originalError = extractOriginalError(err, ctx);
+  const originalError = getWrappedOriginalError(err, ctx);
   if (!originalError) {
     return;
   }
@@ -25,7 +29,7 @@ function hoistCoralErrorExtensions(ctx: GraphContext, err: GraphQLError): void {
 
   // Hoist the message from the original error into the message of the base
   // error.
-  err.message = extensions.message;
+  (err as any).message = extensions.message;
 
   // Re-hoist the extensions.
   merge(err.extensions, extensions);
@@ -39,8 +43,8 @@ function hoistCoralErrorExtensions(ctx: GraphContext, err: GraphQLError): void {
  * @param err the error to have their original error extracted from.
  * @param ctx the Context to extract the environment state.
  */
-function extractOriginalError(
-  err: GraphQLError,
+function getWrappedOriginalError(
+  err: GraphQLFormattedError,
   ctx: GraphContext
 ): CoralError | undefined {
   if (err instanceof ApolloError) {
@@ -49,23 +53,25 @@ function extractOriginalError(
     return;
   }
 
-  if (!err.originalError) {
+  const originalError = getOriginalError(err);
+
+  if (!originalError) {
     // Only errors that have an originalError need to be hoisted.
     return;
   }
 
-  if (err.originalError instanceof CoralError) {
-    return err.originalError;
+  if (originalError instanceof CoralError) {
+    return originalError;
   }
 
   if (ctx.config.get("env") !== "production") {
     return new InternalDevelopmentError(
-      err.originalError,
+      originalError,
       "wrapped internal development error"
     );
   }
 
-  return new InternalError(err.originalError, "wrapped internal error");
+  return new InternalError(originalError, "wrapped internal error");
 }
 
 /**
@@ -76,8 +82,8 @@ function extractOriginalError(
  */
 export function enrichError(
   ctx: GraphContext,
-  err: GraphQLError
-): GraphQLError {
+  err: GraphQLFormattedError
+): GraphQLFormattedError {
   if (err.extensions) {
     // Delete the exception field from the error extension, we never need to
     // provide that data.
@@ -85,7 +91,7 @@ export function enrichError(
       delete err.extensions.exception;
     }
 
-    if (err.originalError) {
+    if (getOriginalError(err)) {
       // Hoist the extensions onto the error.
       hoistCoralErrorExtensions(ctx, err);
     }
@@ -104,7 +110,7 @@ export class ErrorWrappingExtension implements GraphQLExtension<GraphContext> {
         ...o,
         graphqlResponse: {
           ...o.graphqlResponse,
-          errors: o.graphqlResponse.errors.map(err =>
+          errors: o.graphqlResponse.errors.map((err) =>
             enrichError(o.context, err)
           ),
         },

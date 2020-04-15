@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
@@ -27,10 +27,7 @@ const verifyFactory = (
     // Validate that the email address and password are reasonable.
     const email = Joi.attempt(
       emailInput,
-      Joi.string()
-        .trim()
-        .lowercase()
-        .email()
+      Joi.string().trim().lowercase().email()
     );
     const password = Joi.attempt(passwordInput, Joi.string());
 

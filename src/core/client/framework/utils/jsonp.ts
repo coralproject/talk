@@ -12,7 +12,7 @@ function jsonp(
 ) {
   const script = document.createElement("script");
   script.src = `${endpoint}?callback=${callback}`;
-  Object.keys(args).forEach(key => {
+  Object.keys(args).forEach((key) => {
     let val = "";
     if (args[key] === undefined) {
       return;

@@ -1,0 +1,26 @@
+---
+name: ToggleShow
+menu: UI Kit v1
+---
+
+import { Playground } from 'docz'
+import ToggleShow from './ToggleShow'
+import Button from '../Button'
+import HorizontalGutter from '../HorizontalGutter'
+
+# ToggleShow
+A render props component to manage visible state.
+
+## Basic usage
+<Playground>
+  <ToggleShow>
+    {({ toggleShow, show }) => (
+      <HorizontalGutter>
+        {show && <div>Hello World!</div>}
+        <Button onClick={toggleShow} variant="filled" color="primary">
+          Toggle Show
+        </Button>
+      </HorizontalGutter>
+    )}
+  </ToggleShow>
+</Playground>

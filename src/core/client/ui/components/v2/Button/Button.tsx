@@ -3,7 +3,7 @@ import { pick } from "lodash";
 import React, { Ref } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 

@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import { CallOut, HorizontalGutter, Typography } from "coral-ui/components";
 
-const BannedInfo: FunctionComponent = props => {
+const BannedInfo: FunctionComponent = (props) => {
   return (
     <CallOut fullWidth>
       <HorizontalGutter>

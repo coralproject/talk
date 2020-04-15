@@ -7,9 +7,9 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
  *
  * @param clientID an identifier for this client.
  */
-const clientIDMiddleware: (
-  clientID: string
-) => Middleware = clientID => next => async req => {
+const clientIDMiddleware: (clientID: string) => Middleware = (clientID) => (
+  next
+) => async (req) => {
   if (!req.fetchOpts.headers) {
     req.fetchOpts.headers = {};
   }

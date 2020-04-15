@@ -13,7 +13,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   classes: typeof styles;
 }
 
-const TextLinkProps: StatelessComponent<Props> = props => {
+const TextLinkProps: StatelessComponent<Props> = (props) => {
   const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

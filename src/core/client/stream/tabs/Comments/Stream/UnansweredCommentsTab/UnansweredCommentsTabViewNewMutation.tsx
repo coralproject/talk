@@ -19,7 +19,7 @@ const UnansweredCommentsTabViewNewMutation = createMutation(
     input: Input,
     { eventEmitter }: CoralContext
   ) => {
-    await commitLocalUpdatePromisified(environment, async store => {
+    await commitLocalUpdatePromisified(environment, async (store) => {
       const story = store.get(input.storyID)!;
       const connection = ConnectionHandler.getConnection(
         story,
@@ -36,7 +36,7 @@ const UnansweredCommentsTabViewNewMutation = createMutation(
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
-      viewNewEdges.forEach(edge => {
+      viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeBefore(connection, edge);
       });
       ViewNewCommentsEvent.emit(eventEmitter, {

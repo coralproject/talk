@@ -6,9 +6,7 @@ export interface InstalledMiddlewareOptions {
   redirectIfInstalled?: boolean;
 }
 
-const DefaultInstalledMiddlewareOptions: Required<
-  InstalledMiddlewareOptions
-> = {
+const DefaultInstalledMiddlewareOptions: Required<InstalledMiddlewareOptions> = {
   redirectIfInstalled: false,
   redirectURL: "/install",
 };

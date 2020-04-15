@@ -1,9 +1,9 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import {
   GQLActionPresence,
   GQLCOMMENT_FLAG_DETECTED_REASON,
@@ -135,7 +135,7 @@ export interface CommentAction extends TenantResource {
   metadata?: Record<string, any>;
 }
 
-const ActionSchema = [
+const ActionSchema = Joi.compile([
   // Flags
   {
     actionType: ACTION_TYPE.FLAG,
@@ -151,7 +151,7 @@ const ActionSchema = [
   {
     actionType: ACTION_TYPE.REACTION,
   },
-];
+]);
 
 /**
  * validateAction is used to validate that a specific action conforms to the
@@ -160,11 +160,10 @@ const ActionSchema = [
 export function validateAction(
   action: Pick<CommentAction, "actionType" | "reason">
 ) {
-  const { error } = Joi.validate(
+  const { error } = ActionSchema.validate(
     // In typescript, this isn't an issue, but when this is transpiled to
     // javascript, it will contain additional elements.
     pick(action, ["actionType", "reason"]),
-    ActionSchema,
     {
       presence: "required",
       abortEarly: false,
@@ -210,7 +209,7 @@ export async function createAction(
   const { metadata, additionalDetails, ...rest } = input;
 
   // Create a new ID for the action.
-  const id = uuid.v4();
+  const id = uuid();
 
   // defaults are the properties set by the application when a new action is
   // created.
@@ -274,7 +273,7 @@ export async function createActions(
 ): Promise<CreateActionResultObject[]> {
   // TODO: (wyattjoh) replace with a batch write.
   return Promise.all(
-    inputs.map(input => createAction(mongo, tenantID, input, now))
+    inputs.map((input) => createAction(mongo, tenantID, input, now))
   );
 }
 
@@ -291,7 +290,7 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, action => action.createdAt);
+  return resolveConnection(query, input, (action) => action.createdAt);
 }
 
 export async function retrieveCommentActionConnection(
@@ -355,8 +354,10 @@ export async function retrieveManyUserActionPresence(
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.
   return commentIDs
-    .map(commentID => actions.filter(action => action.commentID === commentID))
-    .map(itemActions =>
+    .map((commentID) =>
+      actions.filter((action) => action.commentID === commentID)
+    )
+    .map((itemActions) =>
       itemActions.reduce(
         (actionPresence, { actionType }) => ({
           ...actionPresence,

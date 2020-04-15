@@ -1,5 +1,5 @@
+import Joi from "@hapi/joi";
 import convict from "convict";
-import Joi from "joi";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
 import os from "os";
@@ -13,7 +13,7 @@ import { InternalError } from "./errors";
 convict.addFormat({
   name: "mongo-uri",
   validate: (url: string) => {
-    parseConnectionString(url, err => {
+    parseConnectionString(url, (err) => {
       if (err) {
         throw new InternalError(err, "invalid mongo-uri");
       }
@@ -51,13 +51,7 @@ convict.addFormat({
 convict.addFormat({
   name: "ms",
   validate: (val: number) => {
-    Joi.assert(
-      val,
-      Joi.number()
-        .positive()
-        .integer()
-        .required()
-    );
+    Joi.assert(val, Joi.number().positive().integer().required());
   },
   coerce: (val: string): number => ms(val),
 });

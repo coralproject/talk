@@ -19,7 +19,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("unknown-story-id", "storyID");
       localRecord.setValue("unknown-comment-id", "commentID");
     },

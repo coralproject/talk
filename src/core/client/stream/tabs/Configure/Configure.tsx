@@ -21,7 +21,7 @@ export interface Props {
     PropTypesOf<typeof QAConfigContainer>["story"];
 }
 
-const Configure: FunctionComponent<Props> = props => {
+const Configure: FunctionComponent<Props> = (props) => {
   return (
     <div>
       <HorizontalGutter size="double">

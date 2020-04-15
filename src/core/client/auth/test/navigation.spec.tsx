@@ -18,7 +18,7 @@ async function createTestRenderer(
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(initialView, "view");
     },
   });
@@ -37,11 +37,7 @@ it("navigates to sign up form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
-  act(() =>
-    within(container)
-      .getByText("Sign Up")
-      .props.onClick({})
-  );
+  act(() => within(container).getByText("Sign Up").props.onClick({}));
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
@@ -52,11 +48,7 @@ it("navigates to sign in form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
-  act(() =>
-    within(container)
-      .getByText("Sign In")
-      .props.onClick({})
-  );
+  act(() => within(container).getByText("Sign In").props.onClick({}));
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
@@ -68,9 +60,7 @@ it("navigates to forgot password form", async () => {
     within(testRenderer.root).getByTestID("signIn-container")
   );
   act(() =>
-    within(container)
-      .getByText("Forgot your password?")
-      .props.onClick({})
+    within(container).getByText("Forgot your password?").props.onClick({})
   );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("forgotPassword-container")

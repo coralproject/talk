@@ -5,7 +5,6 @@ import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
-import { Omit } from "coral-framework/types";
 
 import { SetPasswordMutation as MutationTypes } from "coral-auth/__generated__/SetPasswordMutation.graphql";
 

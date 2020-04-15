@@ -1,5 +1,5 @@
-import Joi from "joi";
-import uuid from "uuid/v4";
+import Joi from "@hapi/joi";
+import { v4 as uuid } from "uuid";
 
 import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
@@ -23,10 +23,7 @@ export interface SignupBody {
 export const SignupBodySchema = Joi.object().keys({
   username: Joi.string().trim(),
   password: Joi.string(),
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .email(),
+  email: Joi.string().trim().lowercase().email(),
 });
 
 export type SignupOptions = Pick<

@@ -1,10 +1,10 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import { timeout } from "coral-common/utils";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withMutation,

@@ -28,7 +28,7 @@ interface Props {
   onSignIn: () => void;
 }
 
-const PostCommentFormFake: FunctionComponent<Props> = props => {
+const PostCommentFormFake: FunctionComponent<Props> = (props) => {
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
     emitFocusEvent();

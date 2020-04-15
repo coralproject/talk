@@ -15,9 +15,9 @@ const get = (fn: (ctx: GraphContext) => QueueInput) => (
 ) => fn(ctx);
 
 export const Queues: Required<GQLQueuesTypeResolver> = {
-  mailer: get(ctx => ctx.mailerQueue),
-  scraper: get(ctx => ctx.scraperQueue),
-  notifier: get(ctx => ctx.notifierQueue),
-  webhook: get(ctx => ctx.webhookQueue),
-  rejector: get(ctx => ctx.rejectorQueue),
+  mailer: get((ctx) => ctx.mailerQueue),
+  scraper: get((ctx) => ctx.scraperQueue),
+  notifier: get((ctx) => ctx.notifierQueue),
+  webhook: get((ctx) => ctx.webhookQueue),
+  rejector: get((ctx) => ctx.rejectorQueue),
 };

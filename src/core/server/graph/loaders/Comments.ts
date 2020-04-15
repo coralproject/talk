@@ -68,7 +68,7 @@ const primeCommentsFromConnection = (ctx: Context) => (
 ) => {
   if (!ctx.disableCaching) {
     // For each of the nodes, prime the comment loader.
-    connection.nodes.forEach(comment => {
+    connection.nodes.forEach((comment) => {
       ctx.loaders.Comments.visible.prime(comment.id, comment);
     });
   }

@@ -50,7 +50,7 @@ export class TenantCacheAdapter<T> {
     if (this.tenantCache.cachingEnabled && !this.unsubscribeFn) {
       this.unsubscribeFn = this.tenantCache.subscribe(
         ({ id }) => this.handle(id),
-        id => this.handle(id)
+        (id) => this.handle(id)
       );
     }
   }

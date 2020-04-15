@@ -55,5 +55,5 @@ export function calculateRejectionRate(counts: CommentStatusCounts): number {
 }
 
 export function hasTag(comment: Pick<Comment, "tags">, tag: GQLTAG) {
-  return comment.tags.some(v => v.type === tag);
+  return comment.tags.some((v) => v.type === tag);
 }

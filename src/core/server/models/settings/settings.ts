@@ -1,5 +1,3 @@
-import { Omit } from "coral-common/types";
-
 import {
   GQLAuth,
   GQLAuthenticationTargetFilter,

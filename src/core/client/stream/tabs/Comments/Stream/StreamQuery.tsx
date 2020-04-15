@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
@@ -64,7 +64,7 @@ export const render = (
   );
 };
 
-const StreamQuery: FunctionComponent<Props> = props => {
+const StreamQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsTab },
   } = props;
@@ -89,7 +89,7 @@ const StreamQuery: FunctionComponent<Props> = props => {
           storyID,
           storyURL,
         }}
-        render={data => {
+        render={(data) => {
           if (handleIncompleteAccount(data)) {
             return null;
           }

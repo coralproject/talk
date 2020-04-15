@@ -131,10 +131,7 @@ describe("withPymStorage", () => {
     mockConsole();
     const pym = new PymStub("localStorage");
     const storage = createInMemoryStorage();
-    sinon
-      .mock(storage)
-      .expects("getItem")
-      .throws("error");
+    sinon.mock(storage).expects("getItem").throws("error");
     withPymStorage(storage, "localStorage", "coral:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({

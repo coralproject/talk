@@ -532,7 +532,7 @@ export async function deactivateToken(
   user: User,
   id: string
 ) {
-  if (!user.tokens.find(t => t.id === id)) {
+  if (!user.tokens.find((t) => t.id === id)) {
     throw new TokenNotFoundError();
   }
 
@@ -1121,7 +1121,7 @@ export async function ignore(
   }
 
   // TODO: extract function
-  if (user.ignoredUsers && user.ignoredUsers.some(u => u.id === userID)) {
+  if (user.ignoredUsers && user.ignoredUsers.some((u) => u.id === userID)) {
     // TODO: improve error
     throw new Error("user already ignored");
   }
@@ -1143,7 +1143,7 @@ export async function removeIgnore(
     throw new UserNotFoundError(userID);
   }
 
-  if (user.ignoredUsers && user.ignoredUsers.every(u => u.id !== userID)) {
+  if (user.ignoredUsers && user.ignoredUsers.every((u) => u.id !== userID)) {
     // TODO: improve error
     throw new Error("user already not ignored");
   }
@@ -1336,8 +1336,8 @@ export async function link(
 
   // Ensure there is no clash between the source and destination user profiles.
   const profiles = {
-    destination: (destination.profiles || []).map(p => p.type),
-    source: (source.profiles || []).map(p => p.type),
+    destination: (destination.profiles || []).map((p) => p.type),
+    source: (source.profiles || []).map((p) => p.type),
   };
 
   // Check for any intersecting profiles.

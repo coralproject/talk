@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import FacebookButton from "coral-framework/components/FacebookButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { SignUpWithFacebookContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithFacebookContainer_auth.graphql";
 

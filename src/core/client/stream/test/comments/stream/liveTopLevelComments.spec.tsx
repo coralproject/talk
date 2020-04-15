@@ -58,7 +58,7 @@ it("should view more when ordering by newest", async () => {
 
   subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
     "commentCreated",
-    variables => {
+    (variables) => {
       if (variables.storyID !== story.id) {
         return;
       }
@@ -80,7 +80,7 @@ it("should view more when ordering by newest", async () => {
 
 it("should load more when ordering by oldest", async () => {
   const { testRenderer, subscriptionHandler } = await createTestRenderer({
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
     },
   });
@@ -100,7 +100,7 @@ it("should load more when ordering by oldest", async () => {
   await act(async () => {
     subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
       "commentCreated",
-      variables => {
+      (variables) => {
         if (variables.storyID !== story.id) {
           return;
         }

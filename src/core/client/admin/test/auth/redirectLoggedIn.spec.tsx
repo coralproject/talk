@@ -66,7 +66,7 @@ it("redirect when already logged in", async () => {
 
 it("redirect to redirectPath when already logged in", async () => {
   await createTestRenderer({
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("/admin/moderate/pending", "redirectPath");
     },
   });

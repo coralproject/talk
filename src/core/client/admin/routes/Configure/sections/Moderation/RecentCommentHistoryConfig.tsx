@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
-import { hasError } from "coral-framework/lib/form/helpers";
+import { hasError, parseInteger } from "coral-framework/lib/form/helpers";
 import {
   composeValidators,
   required,
@@ -73,6 +73,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
             required,
             validateWholeNumberGreaterThan(0)
           )}
+          parse={parseInteger}
         >
           {({ input, meta }) => (
             <>

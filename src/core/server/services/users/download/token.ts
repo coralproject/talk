@@ -1,9 +1,9 @@
+import Joi from "@hapi/joi";
 import { Redis } from "ioredis";
-import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -25,7 +25,7 @@ interface DownloadToken extends Required<StandardClaims> {
 }
 
 const DownloadTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("download"),
+  aud: Joi.string().valid("download"),
 });
 
 export async function generateDownloadToken(
@@ -40,7 +40,7 @@ export async function generateDownloadToken(
   const expiresAt = Math.round(nowDate.plus({ weeks: 2 }).toSeconds());
 
   const downloadToken: DownloadToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: userID,
     exp: expiresAt,
@@ -99,7 +99,7 @@ export async function generateAdminDownloadLink(
 export function validateDownloadToken(
   token: DownloadToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, DownloadTokenSchema, {
+  const { error } = DownloadTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;

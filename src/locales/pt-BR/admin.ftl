@@ -860,7 +860,7 @@ community-userStatus-changeButton =
 community-userStatus-premodUser = Sempre pré-moderado
 community-userStatus-removePremod = Remover pré-moderação
 
-community-banModal-areYouSure = Você tem certeza que quer banir  <strong>{ $username }</strong>?
+community-banModal-areYouSure = Você tem certeza que quer banir <username></username>?
 community-banModal-consequence =
   Uma vez banido, este usuário não poderá mais comentar, usar
   reações ou relatar comentários.

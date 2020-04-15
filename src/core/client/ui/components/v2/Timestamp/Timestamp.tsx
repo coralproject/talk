@@ -11,7 +11,7 @@ export interface TimestampProps {
   toggleAbsolute?: boolean;
 }
 
-const Timestamp: FunctionComponent<TimestampProps> = props => {
+const Timestamp: FunctionComponent<TimestampProps> = (props) => {
   const [showAbsolute, setShowAbsolute] = useState(false);
   const toggleShowAbsolute = useCallback(() => {
     if (props.toggleAbsolute) {

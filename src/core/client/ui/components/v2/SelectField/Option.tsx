@@ -7,7 +7,7 @@ export interface OptionProps {
   children?: React.ReactNode;
 }
 
-const Option: FunctionComponent<OptionProps> = props => {
+const Option: FunctionComponent<OptionProps> = (props) => {
   return <option {...props} />;
 };
 

@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   commitLocalUpdate,
-  CReaderSelector,
   GraphQLTaggedNode,
+  ReaderFragment,
   RecordProxy,
+  SingularReaderSelector,
 } from "relay-runtime";
+import { ReaderClientExtension } from "relay-runtime/lib/util/ReaderNode";
 
 import { OmitFragments } from "coral-framework/testHelpers/removeFragmentRefs";
 import { DeepPartial } from "coral-framework/types";
 
 import { useCoralContext } from "../bootstrap";
+import { resolveModule } from "./helpers";
 import { LOCAL_ID, LOCAL_TYPE } from "./localState";
 
 /**
@@ -41,8 +44,8 @@ function applySimplified(
   data: any
 ) {
   const keys = Object.keys(data);
-  keys.forEach(k => {
-    const field = selections.find(s => s.alias === k || s.name === k);
+  keys.forEach((k) => {
+    const field = selections.find((s) => s.alias === k || s.name === k);
     if (!field) {
       throw new Error(`Field '${k}' not found in selection`);
     }
@@ -83,33 +86,48 @@ function applySimplified(
 function useLocal<T>(
   fragmentSpec: GraphQLTaggedNode
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
-  const fragment =
-    typeof fragmentSpec === "function"
-      ? (fragmentSpec() as any).default
-      : (fragmentSpec as any).data().default;
+  const fragment = resolveModule(fragmentSpec as ReaderFragment);
+
   if (fragment.kind !== "Fragment") {
     throw new Error("Expected fragment");
   }
   if (fragment.type !== LOCAL_TYPE) {
     throw new Error(`Type must be "Local" in "Fragment ${fragment.name}"`);
   }
-  const selector: CReaderSelector<any> = {
+
+  // TODO: (cvle) This is part is still hacky.
+  // Waiting for a solution to https://github.com/facebook/relay/issues/2997.
+  const selector: SingularReaderSelector = {
+    kind: undefined as any,
+    owner: undefined as any,
     dataID: LOCAL_ID,
-    node: { selections: fragment.selections },
+    node: {
+      type: fragment.type,
+      kind: fragment.kind,
+      name: fragment.name,
+      metadata: fragment.metadata,
+      selections: fragment.selections,
+      argumentDefinitions: [],
+    },
     variables: {},
   };
+
   const { relayEnvironment } = useCoralContext();
   const [local, setLocal] = useState<T>(
-    () => relayEnvironment.lookup(selector).data as T
+    () => relayEnvironment.lookup(selector).data as any
   );
   const localUpdate = useCallback(
     (update: LocalUpdater<T>) => {
-      commitLocalUpdate(relayEnvironment, store => {
+      commitLocalUpdate(relayEnvironment, (store) => {
         const record = store.get(LOCAL_ID)!;
         if (isAdvancedUpdater(update)) {
           update(record);
         } else {
-          applySimplified(record, fragment.selections[0].selections, update);
+          applySimplified(
+            record,
+            (fragment.selections[0] as ReaderClientExtension).selections,
+            update
+          );
         }
       });
       return;
@@ -120,11 +138,11 @@ function useLocal<T>(
 
   useEffect(() => {
     const snapshot = relayEnvironment.lookup(selector);
-    const subscription = relayEnvironment.subscribe(snapshot, update =>
-      setLocal(update.data as T)
+    const subscription = relayEnvironment.subscribe(snapshot, (update) =>
+      setLocal(update.data as any)
     );
     if (!firstRun) {
-      setLocal(snapshot.data as T);
+      setLocal(snapshot.data as any);
     }
     firstRun.current = false;
     return () => {

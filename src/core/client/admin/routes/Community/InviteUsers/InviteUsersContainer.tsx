@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
 import { InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";

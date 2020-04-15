@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
@@ -58,7 +58,7 @@ export class UserBoxContainer extends Component<Props> {
       integrations.google,
       integrations.local,
       integrations.oidc,
-    ].some(i => i.allowRegistration && i.enabled && i.targetFilter.stream);
+    ].some((i) => i.allowRegistration && i.enabled && i.targetFilter.stream);
   }
 
   private get weControlAuth() {
@@ -68,7 +68,7 @@ export class UserBoxContainer extends Component<Props> {
       integrations.google,
       integrations.local,
       integrations.oidc,
-    ].some(i => i.enabled && i.targetFilter.stream);
+    ].some((i) => i.enabled && i.targetFilter.stream);
   }
 
   public render() {

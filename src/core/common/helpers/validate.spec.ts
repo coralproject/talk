@@ -13,7 +13,7 @@ describe("USERNAME_REGEX", () => {
       "åki_smith",
     ];
 
-    usernames.forEach(username => {
+    usernames.forEach((username) => {
       expect(USERNAME_REGEX.test(username)).toEqual(true);
     });
   });

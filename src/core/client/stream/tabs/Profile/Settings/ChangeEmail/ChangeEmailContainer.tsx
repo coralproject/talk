@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import { PasswordField } from "coral-framework/components";
@@ -17,7 +18,6 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
   createFetch,
-  graphql,
   useFetch,
   useMutation,
   withFragmentContainer,
@@ -132,7 +132,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
   const canChangeEmail = useMemo(() => {
     if (
-      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
     ) {
       return false;
     }

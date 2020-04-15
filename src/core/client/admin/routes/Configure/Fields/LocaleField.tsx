@@ -4,11 +4,11 @@ import { LanguageCode, LOCALES_MAP } from "coral-common/helpers/i18n";
 import { PropTypesOf } from "coral-framework/types";
 import { Option, SelectField } from "coral-ui/components/v2";
 
-interface Props extends PropTypesOf<typeof SelectField> {
+interface Props extends Omit<PropTypesOf<typeof SelectField>, "ref"> {
   value: LanguageCode;
 }
 
-const LocaleField: FunctionComponent<Props> = props => {
+const LocaleField: FunctionComponent<Props> = (props) => {
   return (
     <SelectField {...props}>
       {Object.keys(LOCALES_MAP).map((lang: LanguageCode) => {

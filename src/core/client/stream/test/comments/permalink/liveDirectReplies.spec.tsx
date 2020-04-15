@@ -61,7 +61,7 @@ it("direct replies to the permalink comment should immediately appear", async ()
 
   subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
     "commentReplyCreated",
-    variables => {
+    (variables) => {
       if (variables.ancestorID !== rootComment.id) {
         return;
       }

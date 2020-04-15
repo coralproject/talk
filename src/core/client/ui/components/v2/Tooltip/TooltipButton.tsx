@@ -24,7 +24,7 @@ const TooltipButton: FunctionComponent<Props> = ({
 }) => (
   <BaseButton
     className={cn(styles.button, className)}
-    onClick={evt => {
+    onClick={(evt) => {
       evt.stopPropagation();
       toggleVisibility();
     }}

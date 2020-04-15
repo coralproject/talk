@@ -25,7 +25,7 @@ export interface CommentProps {
   userTags?: React.ReactNode;
 }
 
-const Comment: FunctionComponent<CommentProps> = props => {
+const Comment: FunctionComponent<CommentProps> = (props) => {
   return (
     <HorizontalGutter
       role="article"

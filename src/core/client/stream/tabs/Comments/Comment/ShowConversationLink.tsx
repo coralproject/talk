@@ -10,9 +10,9 @@ export interface ShowConversationLinkProps {
   className?: string;
 }
 
-const ShowConversationLink: FunctionComponent<
-  ShowConversationLinkProps
-> = props => {
+const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
+  props
+) => {
   return (
     <Localized id="comments-showConversationLink-readMore">
       <Button

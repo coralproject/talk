@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
-import { graphql } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { AppNotification } from "coral-ui/components/v2";
 

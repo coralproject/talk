@@ -8,7 +8,7 @@ interface Props {
   children: string;
 }
 
-const DecisionHistory: FunctionComponent<Props> = props => (
+const DecisionHistory: FunctionComponent<Props> = (props) => (
   <Timestamp className={styles.root}>{props.children}</Timestamp>
 );
 

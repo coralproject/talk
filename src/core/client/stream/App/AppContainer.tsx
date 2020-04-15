@@ -1,6 +1,7 @@
 import React from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
+import { withLocalStateContainer } from "coral-framework/lib/relay";
 
 import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContainerLocal.graphql";
 

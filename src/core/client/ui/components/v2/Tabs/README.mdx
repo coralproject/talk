@@ -1,0 +1,85 @@
+---
+name: Tabs
+menu: UI Kit v2
+---
+
+# Tabs
+
+### Examples
+
+import { Playground } from "docz";
+import { useState } from "react";
+
+import { Flex, TabBar, Tab, TabContent, TabPane } from "./index";
+
+## Primary Tabs
+
+<Playground>
+  {() => {
+    const [activeID, setActiveID] = useState("two");
+    return (
+      <div>
+        <TabBar
+          activeTab={activeID}
+          onTabClick={id => setActiveID(id)}
+        >
+          <Tab tabID="one">One</Tab>
+          <Tab tabID="two">Two</Tab>
+          <Tab tabID="three">Three</Tab>
+        </TabBar>
+        <TabContent activeTab={activeID}>
+          <TabPane tabID="one">Hola One</TabPane>
+          <TabPane tabID="two">Hola Two</TabPane>
+          <TabPane tabID="three">Hola Three</TabPane>
+        </TabContent>
+      </div>
+    );
+  }}
+</Playground>
+
+## Secondary Tabs
+
+<Playground>
+  {() => {
+    const [activeID, setActiveID] = useState("two");
+    return (
+      <div>
+        <TabBar
+          variant="secondary"
+          activeTab={activeID}
+          onTabClick={id => setActiveID(id)}
+        >
+          <Tab tabID="one">One</Tab>
+          <Tab tabID="two">Two</Tab>
+          <Tab tabID="three">Three</Tab>
+        </TabBar>
+        <TabContent activeTab={activeID}>
+          <TabPane tabID="one">Hola One</TabPane>
+          <TabPane tabID="two">Hola Two</TabPane>
+          <TabPane tabID="three">Hola Three</TabPane>
+        </TabContent>
+      </div>
+    );
+  }}
+  <Container
+    state={{ activeID: "two" }}
+    render={props => (
+      <div>
+        <TabBar
+          variant="secondary"
+          activeTab={props.activeID}
+          onTabClick={id => props.setActiveID(id)}
+        >
+          <Tab tabID="one">One</Tab>
+          <Tab tabID="two">Two</Tab>
+          <Tab tabID="three">Three</Tab>
+        </TabBar>
+        <TabContent activeTab={props.activeID}>
+          <TabPane tabID="one">Hola One</TabPane>
+          <TabPane tabID="two">Hola Two</TabPane>
+          <TabPane tabID="three">Hola Three</TabPane>
+        </TabContent>
+      </div>
+    )}
+  />
+</Playground>

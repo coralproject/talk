@@ -23,7 +23,7 @@ function createTestRenderer() {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });

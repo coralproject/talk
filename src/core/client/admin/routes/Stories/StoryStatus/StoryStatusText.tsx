@@ -10,7 +10,7 @@ interface Props {
   children: GQLSTORY_STATUS_RL;
 }
 
-const StoryStatusText: FunctionComponent<Props> = props => (
+const StoryStatusText: FunctionComponent<Props> = (props) => (
   <TranslatedStoryStatus
     container={
       <span

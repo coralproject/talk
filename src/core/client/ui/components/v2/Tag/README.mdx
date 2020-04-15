@@ -1,0 +1,35 @@
+---
+name: Tag
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Tag from "./Tag";
+import HorizontalGutter from "../HorizontalGutter";
+import Flex from "../Flex";
+
+# Tag
+
+## Basic Use
+
+<Playground>
+  <Flex spacing={1}>
+    <Tag>Staff</Tag>
+    <Tag color="primary">Featured</Tag>
+    <Tag color="error">Rejected</Tag>
+  </Flex>
+</Playground>
+
+## Pill variant
+
+<Playground>
+  <Flex spacing={1}>
+    <Tag variant="pill">Staff</Tag>
+    <Tag variant="pill" color="primary">
+      Featured
+    </Tag>
+    <Tag variant="pill" color="error">
+      Rejected
+    </Tag>
+  </Flex>
+</Playground>

@@ -1,9 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
-import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
@@ -12,6 +10,9 @@ import {
   Tab,
   TabBar,
 } from "coral-ui/components/v2";
+
+import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
+import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
@@ -40,13 +41,13 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
     hasDetails ? "DETAILS" : "HISTORY"
   );
 
+  const onTabClick = useCallback((id) => setActiveTab(id as DetailsTabs), [
+    setActiveTab,
+  ]);
+
   return (
     <HorizontalGutter>
-      <TabBar
-        variant="default"
-        activeTab={activeTab}
-        onTabClick={id => setActiveTab(id as DetailsTabs)}
-      >
+      <TabBar variant="default" activeTab={activeTab} onTabClick={onTabClick}>
         {hasDetails && (
           <Tab tabID="DETAILS" classes={styles}>
             <Flex alignItems="center" itemGutter>

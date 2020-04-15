@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { DeepPartial, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   ConfirmEmailTokenExpired,
@@ -514,7 +514,7 @@ export interface FindOrCreateUserInput {
  */
 async function findOrCreateUserInput(
   tenantID: string,
-  { id = uuid.v4(), profile, ...input }: FindOrCreateUserInput,
+  { id = uuid(), profile, ...input }: FindOrCreateUserInput,
   now: Date
 ): Promise<Readonly<User>> {
   // default are the properties set by the application when a new user is
@@ -549,7 +549,7 @@ async function findOrCreateUserInput(
   if (input.username) {
     // Add the username history to the user.
     defaults.status.username.history.push({
-      id: uuid.v4(),
+      id: uuid(),
       username: input.username,
       createdBy: id,
       createdAt: now,
@@ -679,7 +679,7 @@ export async function retrieveManyUsers(
 
   const users = await cursor.toArray();
 
-  return ids.map(id => users.find(user => user.id === id) || null);
+  return ids.map((id) => users.find((user) => user.id === id) || null);
 }
 
 export async function retrieveUserWithProfile(
@@ -1287,7 +1287,7 @@ export async function createUserToken(
 ) {
   // Create the Token that we'll be adding to the User.
   const token: Readonly<Token> = {
-    id: uuid.v4(),
+    id: uuid(),
     name,
     createdAt: now,
   };
@@ -1345,7 +1345,7 @@ export async function deactivateUserToken(
     }
 
     // Check to see if the User had that Token in the first place.
-    if (!user.tokens.find(t => t.id === id)) {
+    if (!user.tokens.find((t) => t.id === id)) {
       throw new TokenNotFoundError();
     }
 
@@ -1354,12 +1354,12 @@ export async function deactivateUserToken(
 
   // We have to typecast here because we know at this point that the record does
   // contain the Token.
-  const token: Token = result.value.tokens.find(t => t.id === id) as Token;
+  const token: Token = result.value.tokens.find((t) => t.id === id) as Token;
 
   // Mutate the user in order to remove the Token from the list of Token's.
   const updatedUser: Readonly<User> = {
     ...result.value,
-    tokens: result.value.tokens.filter(t => t.id !== id),
+    tokens: result.value.tokens.filter((t) => t.id !== id),
   };
 
   return {
@@ -1397,7 +1397,7 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, user => user.createdAt);
+  return resolveConnection(query, input, (user) => user.createdAt);
 }
 
 /**
@@ -1897,7 +1897,7 @@ export async function createOrRetrieveUserPasswordResetID(
   id: string
 ): Promise<string> {
   // Create the ID.
-  const resetID = uuid.v4();
+  const resetID = uuid();
 
   // Associate the resetID with the user.
   const result = await collection(mongo).findOneAndUpdate(
@@ -1952,7 +1952,7 @@ export async function createOrRetrieveUserEmailVerificationID(
   id: string
 ): Promise<string> {
   // Create the ID.
-  const emailVerificationID = uuid.v4();
+  const emailVerificationID = uuid();
 
   // Associate the resetID with the user.
   const result = await collection(mongo).findOneAndUpdate(
@@ -2155,7 +2155,7 @@ export async function ignoreUser(
     // TODO: extract function
     if (
       user.ignoredUsers &&
-      user.ignoredUsers.some(u => u.id === ignoreUserID)
+      user.ignoredUsers.some((u) => u.id === ignoreUserID)
     ) {
       // TODO: improve error
       throw new Error("user already ignored");
@@ -2198,7 +2198,7 @@ export async function removeUserIgnore(
     // TODO: extract function
     if (
       user.ignoredUsers &&
-      user.ignoredUsers.every(u => u.id !== ignoreUserID)
+      user.ignoredUsers.every((u) => u.id !== ignoreUserID)
     ) {
       // TODO: improve error
       throw new Error("user already not ignored");
@@ -2298,7 +2298,7 @@ export async function insertUserNotificationDigests(
   now: Date
 ) {
   // Form the templates into digests to be sent.
-  const digests: Digest[] = templates.map(template => ({
+  const digests: Digest[] = templates.map((template) => ({
     template,
     createdAt: now,
   }));

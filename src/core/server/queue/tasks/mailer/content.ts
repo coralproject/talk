@@ -32,7 +32,9 @@ function render(env: Environment, { name, context }: EmailTemplate) {
         if (err) {
           return reject(err);
         }
-
+        if (html === null) {
+          throw new Error("unexpected null result");
+        }
         return resolve(html);
       }
     )

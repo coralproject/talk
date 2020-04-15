@@ -12,12 +12,12 @@ interface FormProps {
 }
 const withForm: InferableComponentEnhancer<FormProps> = hoistStatics<any>(
   (WrappedComponent: React.ComponentType<any>) => {
-    const Component: React.FunctionComponent<any> = props => {
+    const Component: React.FunctionComponent<any> = (props) => {
       const form = useForm<any>();
       return <WrappedComponent {...props} form={form} />;
     };
     Component.displayName = wrapDisplayName(WrappedComponent, "withForm");
-    return Component;
+    return Component as any;
   }
 );
 

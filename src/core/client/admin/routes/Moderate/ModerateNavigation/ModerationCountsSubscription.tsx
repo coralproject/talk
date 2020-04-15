@@ -1,8 +1,9 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
@@ -26,7 +27,7 @@ const ModerationCountsSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         let queue: string;
         let change: number;
 

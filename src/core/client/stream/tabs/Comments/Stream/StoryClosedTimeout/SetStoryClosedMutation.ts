@@ -15,7 +15,7 @@ export async function commit(
   environment: Environment,
   input: SetStoryClosedInput
 ) {
-  return commitLocalUpdate(environment, store => {
+  return commitLocalUpdate(environment, (store) => {
     const record = store.get(input.storyID)!;
     record.setValue(input.isClosed, "isClosed");
   });

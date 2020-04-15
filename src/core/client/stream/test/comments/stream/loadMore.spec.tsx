@@ -19,7 +19,7 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const storyStub = {
     ...stories[0],
-    comments: createSinonStub(s =>
+    comments: createSinonStub((s) =>
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
@@ -74,8 +74,8 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       story: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(
               undefined,
@@ -86,8 +86,8 @@ beforeEach(() => {
             .returns(storyStub)
       ),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(
               undefined,
@@ -105,7 +105,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
     },
   }));
@@ -133,9 +133,7 @@ it("loads more comments", async () => {
   const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;
 
   await act(async () => {
-    within(streamLog)
-      .getByText("Load More")
-      .props.onClick();
+    within(streamLog).getByText("Load More").props.onClick();
   });
 
   // Should now have one more comment

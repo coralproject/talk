@@ -46,7 +46,7 @@ const RequestAccountDeletionMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          optimisticUpdater: store => {
+          optimisticUpdater: (store) => {
             const viewer = getViewer(environment)!;
             const deletionDate = new Date(
               Date.now() + SCHEDULED_DELETION_WINDOW_DURATION * 1000

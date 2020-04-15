@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -40,7 +45,7 @@ interface Props {
 const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].includes(status);
 
-export const QueueRoute: FunctionComponent<Props> = props => {
+export const QueueRoute: FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
@@ -76,10 +81,13 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
   ]);
+  const comments = useMemo(
+    () => props.queue?.comments.edges.map((edge) => edge.node),
+    [props.queue?.comments.edges]
+  );
   if (props.isLoading) {
     return <LoadingQueue />;
   }
-  const comments = props.queue!.comments.edges.map(edge => edge.node);
   const viewNewCount =
     (props.queue!.comments.viewNewEdges &&
       props.queue!.comments.viewNewEdges.length) ||
@@ -87,7 +95,7 @@ export const QueueRoute: FunctionComponent<Props> = props => {
   return (
     <IntersectionProvider>
       <Queue
-        comments={comments}
+        comments={comments!}
         settings={props.settings!}
         onLoadMore={loadMore}
         hasLoadMore={props.relay.hasMore()}

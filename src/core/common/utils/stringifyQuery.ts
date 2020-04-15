@@ -15,7 +15,7 @@ export default function stringifyQuery(
   prefix?: string | boolean
 ): string {
   const copy: any = { ...obj };
-  Object.keys(copy).forEach(key => {
+  Object.keys(copy).forEach((key) => {
     if (copy[key] === undefined) {
       delete copy[key];
     }

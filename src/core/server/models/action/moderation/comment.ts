@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import {
   Connection,
@@ -65,7 +65,7 @@ export async function createCommentModerationAction(
     CommentModerationAction,
     CreateCommentModerationActionInput
   > = {
-    id: uuid.v4(),
+    id: uuid(),
     tenantID,
     createdAt: now,
   };
@@ -134,5 +134,5 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, a => a.createdAt);
+  return resolveConnection(query, input, (a) => a.createdAt);
 }

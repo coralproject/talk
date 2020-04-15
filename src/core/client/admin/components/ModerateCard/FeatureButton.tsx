@@ -7,7 +7,7 @@ import { BaseButton } from "coral-ui/components/v2";
 
 import styles from "./FeatureButton.css";
 
-interface Props extends PropTypesOf<typeof BaseButton> {
+interface Props extends Omit<PropTypesOf<typeof BaseButton>, "ref"> {
   featured: boolean;
   enabled?: boolean;
 }

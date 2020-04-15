@@ -28,7 +28,7 @@ export const tagUnansweredQuestions: IntermediateModerationPhase = ({
   // not an expert, then this is an UNANSWERED comment.
   if (
     !story.settings.expertIDs ||
-    story.settings.expertIDs.every(id => id !== comment.authorID)
+    story.settings.expertIDs.every((id) => id !== comment.authorID)
   ) {
     return {
       tags: [

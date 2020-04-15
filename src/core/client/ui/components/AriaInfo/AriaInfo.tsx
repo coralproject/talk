@@ -18,7 +18,7 @@ interface Props extends AllHTMLAttributes<HTMLElement> {
   forwardRef?: Ref<HTMLElement>;
 }
 
-const AriaInfo: FunctionComponent<Props> = props => {
+const AriaInfo: FunctionComponent<Props> = (props) => {
   const { component, className, classes, forwardRef: ref, ...rest } = props;
   const Component: React.ComponentType<
     React.HTMLAttributes<HTMLElement> & React.ClassAttributes<HTMLElement>

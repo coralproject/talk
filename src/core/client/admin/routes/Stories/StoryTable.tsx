@@ -31,7 +31,7 @@ interface Props {
   multisite: boolean;
 }
 
-const StoryTable: FunctionComponent<Props> = props => (
+const StoryTable: FunctionComponent<Props> = (props) => (
   <>
     <HorizontalGutter size="double">
       <Table fullWidth>
@@ -72,7 +72,7 @@ const StoryTable: FunctionComponent<Props> = props => (
         </TableHead>
         <TableBody>
           {!props.loading &&
-            props.stories.map(u => (
+            props.stories.map((u) => (
               <StoryRowContainer
                 key={u.id}
                 story={u}

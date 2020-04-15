@@ -1,10 +1,10 @@
 import { Counter, Histogram } from "prom-client";
 
 export interface Metrics {
-  executedGraphQueriesTotalCounter: Counter;
-  graphQLExecutionTimingsHistogram: Histogram;
-  httpRequestsTotal: Counter;
-  httpRequestDurationMilliseconds: Histogram;
+  executedGraphQueriesTotalCounter: Counter<string>;
+  graphQLExecutionTimingsHistogram: Histogram<string>;
+  httpRequestsTotal: Counter<string>;
+  httpRequestDurationMilliseconds: Histogram<string>;
 }
 
 export function createMetrics(): Metrics {

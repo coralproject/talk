@@ -36,15 +36,15 @@ beforeEach(() => {
     Query: {
       comment: () => null,
       story: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
       ),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
@@ -57,7 +57,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
       localRecord.setValue("unknown-comment-id", "commentID");
     },
@@ -81,9 +81,7 @@ it("show all comments", async () => {
   );
 
   await act(async () => {
-    within(tabPane)
-      .getByText("View Full Discussion")
-      .props.onClick(mockEvent);
+    within(tabPane).getByText("View Full Discussion").props.onClick(mockEvent);
 
     await waitForElement(() =>
       within(tabPane).getByTestID("comments-allComments-log")

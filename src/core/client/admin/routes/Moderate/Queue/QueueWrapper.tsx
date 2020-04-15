@@ -28,7 +28,7 @@ const QueueWrapper: FunctionComponent<Props> = ({
       <>
         {comments
           // FIXME (Nick/Wyatt): Investigate why comments are coming back null
-          .filter(c => Boolean(c))
+          .filter((c) => Boolean(c))
           .map((c, i) => {
             if (i === selected) {
               return card(c, i);
@@ -42,7 +42,7 @@ const QueueWrapper: FunctionComponent<Props> = ({
     <TransitionGroup component={null} appear={false} enter={false} exit>
       {comments
         // FIXME (Nick/Wyatt): Investigate why comments are coming back null
-        .filter(c => Boolean(c))
+        .filter((c) => Boolean(c))
         .map((c, i) => (
           <CSSTransition
             key={c.id}

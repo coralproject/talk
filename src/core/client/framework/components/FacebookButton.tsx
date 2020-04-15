@@ -25,7 +25,7 @@ const facebookIcon = (
   </svg>
 );
 
-const FacebookButton: FunctionComponent<Props> = props => (
+const FacebookButton: FunctionComponent<Props> = (props) => (
   <Button
     classes={styles}
     variant="regular"

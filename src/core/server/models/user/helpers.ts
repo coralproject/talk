@@ -27,7 +27,7 @@ export function getUserProfile(
     return null;
   }
 
-  return user.profiles.find(p => p.type === type) || null;
+  return user.profiles.find((p) => p.type === type) || null;
 }
 
 export function getSSOProfile(user: Pick<User, "profiles">) {

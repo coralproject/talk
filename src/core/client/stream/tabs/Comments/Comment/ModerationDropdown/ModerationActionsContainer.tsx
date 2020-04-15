@@ -83,7 +83,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   }, [unfeature, onDismiss, story, comment]);
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
-  const featured = comment.tags.some(t => t.code === "FEATURED");
+  const featured = comment.tags.some((t) => t.code === "FEATURED");
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false

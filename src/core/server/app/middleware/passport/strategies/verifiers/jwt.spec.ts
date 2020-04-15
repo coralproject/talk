@@ -31,8 +31,6 @@ it("validates a jwt token", async () => {
 
   expect(isJWTToken(token)).toBeTruthy();
   expect((token as JWTToken).exp).toBe(
-    DateTime.fromJSDate(now)
-      .plus({ seconds: 100 })
-      .toSeconds()
+    DateTime.fromJSDate(now).plus({ seconds: 100 }).toSeconds()
   );
 });

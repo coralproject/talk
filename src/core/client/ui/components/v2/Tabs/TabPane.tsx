@@ -11,7 +11,7 @@ export interface TabBarProps {
   tabID: string;
 }
 
-const TabPane: FunctionComponent<TabBarProps> = props => {
+const TabPane: FunctionComponent<TabBarProps> = (props) => {
   const { className, children, tabID, ...rest } = props;
   return (
     <section

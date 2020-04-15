@@ -40,8 +40,8 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
     // it will fit in the text block that is rendered.
     comment = comment
       .split("\n")
-      .filter(line => line !== "\n")
-      .map(line => `                  // ${line.trim()}`)
+      .filter((line) => line !== "\n")
+      .map((line) => `                  // ${line.trim()}`)
       .join("\n")
       .trim();
 

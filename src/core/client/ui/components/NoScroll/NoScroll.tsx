@@ -17,7 +17,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
         // Add className.
         document.body.className = document.body.className
           .split(/\s+/)
-          .filter(s => s)
+          .filter((s) => s)
           .concat(styles.noScroll)
           .join(" ");
       }
@@ -28,7 +28,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
           // Remove className.
           document.body.className = document.body.className
             .split(/\s+/)
-            .filter(s => s && s !== styles.noScroll)
+            .filter((s) => s && s !== styles.noScroll)
             .join(" ");
         }
       };

@@ -1,5 +1,5 @@
 import { CronCommand, CronJob } from "cron";
-import uuid from "uuid";
+import { v1 as uuid } from "uuid";
 
 import { createTimer } from "coral-server/helpers";
 import logger, { Logger } from "coral-server/logger";
@@ -39,7 +39,7 @@ export class ScheduledJob<T extends {} = {}> {
 
   private command(command: ScheduledJobCommand<T>): CronCommand {
     return async () => {
-      const log = this.log.child({ scheduledExecutionID: uuid.v1() }, true);
+      const log = this.log.child({ scheduledExecutionID: uuid() }, true);
       log.info("now starting scheduled job");
       const timer = createTimer();
       try {

@@ -47,7 +47,7 @@ export interface EditCommentFormProps {
   max: number | null;
 }
 
-const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
+const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
   const inputID = `comments-editCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
@@ -162,7 +162,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                       </Localized>
                     ) : (
                       <MatchMedia ltWidth="sm">
-                        {matches => (
+                        {(matches) => (
                           <>
                             <Localized id="comments-editCommentForm-cancel">
                               <Button

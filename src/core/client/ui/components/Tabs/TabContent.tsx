@@ -12,7 +12,7 @@ export interface TabContentProps {
   className?: string;
 }
 
-const TabContent: FunctionComponent<TabContentProps> = props => {
+const TabContent: FunctionComponent<TabContentProps> = (props) => {
   const { children, activeTab, className } = props;
   return (
     <>

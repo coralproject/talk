@@ -2,8 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { SiteSelectorSite_site } from "coral-admin/__generated__/SiteSelectorSite_site.graphql";
 

@@ -29,7 +29,7 @@ interface Props {
   onSaveData: (newData: FormProps) => void;
 }
 
-const SelectLanguageStep: FunctionComponent<Props> = props => {
+const SelectLanguageStep: FunctionComponent<Props> = (props) => {
   const { changeLocale } = useCoralContext();
   const onSubmit = useCallback<OnSubmit<FormProps>>(
     async (input, form) => {

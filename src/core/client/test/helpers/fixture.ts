@@ -1,4 +1,4 @@
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import {
   GQLComment,
@@ -171,7 +171,7 @@ export function createComments(count = 3) {
 export function createStory() {
   const id = uuid();
   const comments = createComments();
-  comments.forEach(c => {
+  comments.forEach((c) => {
     const edges = [{ node: c, cursor: c.createdAt }];
     c.author!.comments = {
       edges,
@@ -233,7 +233,7 @@ export function createStory() {
     })
   );
 
-  comments.forEach(c => (c.story = story));
+  comments.forEach((c) => (c.story = story));
 
   return story;
 }

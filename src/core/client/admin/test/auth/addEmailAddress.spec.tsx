@@ -156,7 +156,7 @@ it("shows server error", async () => {
     muteNetworkErrors: true,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));
@@ -207,7 +207,7 @@ it("successfully sets email", async () => {
     resolvers,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));
@@ -253,7 +253,7 @@ it("switch to link account", async () => {
     muteNetworkErrors: true,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));

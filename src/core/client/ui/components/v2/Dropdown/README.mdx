@@ -1,0 +1,58 @@
+---
+name: Dropdown
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import {
+  Dropdown,
+  Divider as DropdownDivider,
+  Button as DropdownButton,
+} from "./";
+import { Button, ButtonIcon } from "../Button";
+import ClickOutside from "../ClickOutside";
+import Popover from "../Popover";
+
+# Dropdown
+
+## Basic usage
+
+<Playground>
+  <Popover
+    id="dropdownMenu"
+    description="Dropdown Menu"
+    placement="bottom-start"
+    body={({ toggleVisibility }) => (
+      <ClickOutside onClickOutside={toggleVisibility}>
+        <Dropdown>
+          <DropdownButton blankAdornment>Shortcuts</DropdownButton>
+          <DropdownButton
+            href="https://github.com/coralproject/talk/issues/new"
+            target="_blank"
+          >
+            Report Bug
+          </DropdownButton>
+          <DropdownDivider />
+          <DropdownButton blankAdornment>Sign Out</DropdownButton>
+        </Dropdown>
+      </ClickOutside>
+    )}
+  >
+    {({ toggleVisibility, ref, visible }) => (
+      <Button
+        onClick={toggleVisibility}
+        ref={ref}
+        variant="filled"
+        color="primary"
+      >
+        <span>Click me!</span>
+        {
+          <ButtonIcon size="md">
+            {visible ? "arrow_drop_up" : "arrow_drop_down"}
+          </ButtonIcon>
+        }
+      </Button>
+    )}
+  </Popover>
+</Playground>

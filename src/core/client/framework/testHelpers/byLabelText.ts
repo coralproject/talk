@@ -64,7 +64,7 @@ export function queryAllByLabelText(
 ) {
   const matches = container.findAll(ariaLabelMatcher(pattern, options));
   // Find matching aria-labelledby and id pairs.
-  queryAllByText(container, pattern, options).forEach(i => {
+  queryAllByText(container, pattern, options).forEach((i) => {
     if (typeof i.type !== "string") {
       return;
     }
@@ -72,7 +72,7 @@ export function queryAllByLabelText(
       try {
         matches.push(
           container.find(
-            x =>
+            (x) =>
               typeof x.type === "string" &&
               x.props["aria-labelledby"] === i.props.id
           )
@@ -82,12 +82,13 @@ export function queryAllByLabelText(
   });
   // Find matching labels.
   queryAllByText(container, pattern, { ...options, selector: "label" }).forEach(
-    i => {
+    (i) => {
       if (i.props.htmlFor) {
         try {
           matches.push(
             container.find(
-              x => typeof x.type === "string" && x.props.id === i.props.htmlFor
+              (x) =>
+                typeof x.type === "string" && x.props.id === i.props.htmlFor
             )
           );
         } catch {} // eslint-disable-line no-empty

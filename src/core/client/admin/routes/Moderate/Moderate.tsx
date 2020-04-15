@@ -56,7 +56,7 @@ const Moderate: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const toggleModal = () => {
-      setShowHotkeysModal(was => !was);
+      setShowHotkeysModal((was) => !was);
     };
 
     // Attach the modal toggle when the GUIDE button is pressed.

@@ -25,8 +25,8 @@ function createTestRenderer(
   const resolvers = {
     Query: {
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyWithReplies.id, url: null })
             .returns(storyWithReplies)
@@ -68,7 +68,7 @@ function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyWithReplies.id, "storyID");
     },
   });
@@ -94,11 +94,7 @@ it("edit a comment", async () => {
   );
 
   // Open edit form.
-  act(() =>
-    within(comment)
-      .getByText("Edit")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Edit").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
   expect(await within(comment).axe()).toHaveNoViolations();
 
@@ -111,9 +107,7 @@ it("edit a comment", async () => {
   );
 
   act(() => {
-    within(comment)
-      .getByType("form")
-      .props.onSubmit();
+    within(comment).getByType("form").props.onSubmit();
   });
 
   // Test optimistic response.
@@ -138,11 +132,7 @@ it("edit a comment and handle non-published comment state", async () => {
   );
 
   // Open edit form.
-  act(() =>
-    within(comment)
-      .getByText("Edit")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Edit").props.onClick());
 
   act(() =>
     testRenderer.root
@@ -153,18 +143,14 @@ it("edit a comment and handle non-published comment state", async () => {
   );
 
   act(() => {
-    within(comment)
-      .getByType("form")
-      .props.onSubmit();
+    within(comment).getByType("form").props.onSubmit();
   });
 
   // Test after server response.
   await waitForElement(() =>
     within(comment).getByText("will be reviewed", { exact: false })
   );
-  within(comment)
-    .getByText("Dismiss")
-    .props.onClick();
+  within(comment).getByText("Dismiss").props.onClick();
   expect(
     within(testRenderer.root).queryByText("will be reviewed", { exact: false })
   ).toBeNull();
@@ -192,18 +178,10 @@ it("cancel edit", async () => {
   );
 
   // Open edit form.
-  act(() =>
-    within(comment)
-      .getByText("Edit")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Edit").props.onClick());
 
   // Cancel edit form.
-  act(() =>
-    within(comment)
-      .getByText("Cancel")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Cancel").props.onClick());
 
   expect(within(comment).toJSON()).toMatchSnapshot();
 });
@@ -218,11 +196,7 @@ it("shows expiry message", async () => {
   jest.useFakeTimers();
 
   // Open edit form.
-  act(() =>
-    within(comment)
-      .getByText("Edit")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Edit").props.onClick());
 
   timekeeper.reset();
   jest.runOnlyPendingTimers();
@@ -231,11 +205,7 @@ it("shows expiry message", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  act(() =>
-    within(comment)
-      .getByText("Close")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Close").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });
 
@@ -256,11 +226,7 @@ it("edit a comment and handle server error", async () => {
   );
 
   // Open edit form.
-  act(() =>
-    within(comment)
-      .getByText("Edit")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Edit").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   act(() =>
@@ -272,9 +238,7 @@ it("edit a comment and handle server error", async () => {
   );
 
   act(() => {
-    within(comment)
-      .getByType("form")
-      .props.onSubmit();
+    within(comment).getByType("form").props.onSubmit();
   });
 
   // Look for internal error being displayed.

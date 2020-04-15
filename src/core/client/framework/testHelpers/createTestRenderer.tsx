@@ -36,8 +36,8 @@ export interface Resolvers<Q extends Resolver<any, any> = any, M = any> {
 }
 
 export interface TestResolvers<T extends Resolvers = any> {
-  Query?: { [P in keyof Required<T>["Query"]]: (() => any) };
-  Mutation?: { [P in keyof Required<T>["Mutation"]]: (() => any) };
+  Query?: { [P in keyof Required<T>["Query"]]: () => any };
+  Mutation?: { [P in keyof Required<T>["Mutation"]]: () => any };
 }
 
 function createNodeMock(element: React.ReactElement<any>) {
@@ -100,7 +100,11 @@ export default function createTestRenderer<
     sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
-    browserInfo: params.browserInfo || { ios: false },
+    browserInfo: params.browserInfo || {
+      ios: false,
+      mobile: false,
+      msie: false,
+    },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
     clearSession: sinon.stub(),

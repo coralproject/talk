@@ -10,7 +10,7 @@ export async function commit(
   input: undefined,
   { pym }: CoralContext
 ) {
-  return commitLocalUpdate(environment, store => {
+  return commitLocalUpdate(environment, (store) => {
     const record = store.get(LOCAL_ID)!;
     record.setValue(null, "error");
   });

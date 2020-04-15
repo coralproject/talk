@@ -36,7 +36,7 @@ export interface SignInWithEmailForm {
   forgotPasswordHref: string;
 }
 
-const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
+const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (

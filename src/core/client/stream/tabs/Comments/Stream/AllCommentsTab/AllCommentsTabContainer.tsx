@@ -12,7 +12,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Box, Button, HorizontalGutter } from "coral-ui/components";
@@ -50,7 +50,7 @@ graphql`
   }
 `;
 
-export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
+export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
   const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
@@ -124,7 +124,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     props.story.id,
     viewMore,
   ]);
-  const comments = props.story.comments.edges.map(edge => edge.node);
+  const comments = props.story.comments.edges.map((edge) => edge.node);
   const viewNewCount =
     (props.story.comments.viewNewEdges &&
       props.story.comments.viewNewEdges.length) ||
@@ -167,7 +167,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
           ></NoComments>
         )}
         {comments.length > 0 &&
-          comments.map(comment => (
+          comments.map((comment) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
               viewer={props.viewer}

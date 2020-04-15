@@ -340,13 +340,13 @@ export async function merge(
   // Compute the new comment counts from the old stories.
   const commentCounts = {
     status: mergeCommentStatusCount(
-      ...sourceStories.map(s => s.commentCounts.status)
+      ...sourceStories.map((s) => s.commentCounts.status)
     ),
     moderationQueue: mergeCommentModerationQueueCount(
-      ...sourceStories.map(s => s.commentCounts.moderationQueue)
+      ...sourceStories.map((s) => s.commentCounts.moderationQueue)
     ),
     action: mergeCommentActionCounts(
-      ...sourceStories.map(s => s.commentCounts.action)
+      ...sourceStories.map((s) => s.commentCounts.action)
     ),
   };
 

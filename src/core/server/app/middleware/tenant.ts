@@ -1,4 +1,4 @@
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 import { TenantNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";

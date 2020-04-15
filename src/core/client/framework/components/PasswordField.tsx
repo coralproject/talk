@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import { PasswordField as PasswordFieldUI } from "coral-ui/components/v2";
 
 type Props = Omit<
@@ -9,7 +9,7 @@ type Props = Omit<
   "showPasswordTitle" | "hidePasswordTitle"
 >;
 
-const PasswordField: FunctionComponent<Props> = props => (
+const PasswordField: FunctionComponent<Props> = (props) => (
   <Localized
     id="framework-passwordField"
     attrs={{ showPasswordTitle: true, hidePasswordTitle: true }}

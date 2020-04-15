@@ -139,8 +139,8 @@ export function generateFrameOptions(req: Request, allowedOrigins: string[]) {
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
   const allowFrom = allowedOrigins
-    .map(domain => getOrigin(domain))
-    .find(origin => origin === parentsOrigin);
+    .map((domain) => getOrigin(domain))
+    .find((origin) => origin === parentsOrigin);
   if (!allowFrom) {
     return "deny";
   }

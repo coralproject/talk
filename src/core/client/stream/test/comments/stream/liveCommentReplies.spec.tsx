@@ -137,7 +137,7 @@ it("should show more replies", async () => {
 
   subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
     "commentReplyCreated",
-    variables => {
+    (variables) => {
       if (variables.ancestorID !== rootComment.id) {
         return;
       }
@@ -174,7 +174,7 @@ it("should show Read More of this Conversation", async () => {
 
   subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
     "commentReplyCreated",
-    variables => {
+    (variables) => {
       if (variables.ancestorID !== rootComment.id) {
         return;
       }

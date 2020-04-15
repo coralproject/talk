@@ -5,10 +5,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { RelayPaginationProp } from "react-relay";
+import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
-  graphql,
   useLoadMore,
   useMutation,
   useRefetch,
@@ -39,7 +38,7 @@ function computeUsers(query: QueryData | null) {
     return [];
   }
 
-  return query.users.edges.map(edge => edge.node);
+  return query.users.edges.map((edge) => edge.node);
 }
 
 function computeExperts(query: QueryData | null) {
@@ -227,7 +226,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
         </Typography>
         {experts.length > 0 ? (
           <ul className={styles.list}>
-            {experts.map(u => (
+            {experts.map((u) => (
               <ExpertListItem
                 key={u.id}
                 id={u.id}

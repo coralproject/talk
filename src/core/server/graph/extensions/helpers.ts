@@ -1,5 +1,6 @@
 import {
   DocumentNode,
+  GraphQLFormattedError,
   OperationDefinitionNode,
   OperationTypeNode,
 } from "graphql";
@@ -66,3 +67,16 @@ export const getPersistedQueryMetadata = ({
   operation,
   operationName,
 });
+
+/**
+ * getOriginalError tries to return the original error from a
+ * formatted GraphQL error.
+ *
+ * @param err A GraphQL Formatted Error
+ */
+export const getOriginalError = (err: GraphQLFormattedError) => {
+  if ((err as any).originalError) {
+    return (err as any).originalError as Error;
+  }
+  return null;
+};

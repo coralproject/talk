@@ -5,7 +5,6 @@ import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
-import { Omit } from "coral-framework/types";
 
 import { SetEmailMutation as MutationTypes } from "coral-auth/__generated__/SetEmailMutation.graphql";
 

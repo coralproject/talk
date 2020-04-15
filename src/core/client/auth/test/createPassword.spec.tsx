@@ -32,7 +32,7 @@ async function createTestRenderer(
     logNetwork: options.logNetwork,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("CREATE_PASSWORD", "view");
     },
   });
@@ -94,7 +94,7 @@ it("shows server error", async () => {
     { muteNetworkErrors: true }
   );
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => {
@@ -132,7 +132,7 @@ it("successfully sets password", async () => {
     },
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => {

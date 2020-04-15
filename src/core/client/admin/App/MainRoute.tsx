@@ -1,6 +1,6 @@
 import React from "react";
+import { graphql } from "react-relay";
 
-import { graphql } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import { MainRouteQueryResponse } from "coral-admin/__generated__/MainRouteQuery.graphql";

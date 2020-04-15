@@ -31,7 +31,7 @@ type OverwriteQueryResolverTemplate<T extends Resolvers = any> = {
  */
 function overwriteRecursive(original: any, overwrite: any) {
   let ret = original;
-  Object.keys(overwrite).forEach(k => {
+  Object.keys(overwrite).forEach((k) => {
     ret = {
       ...original,
       [k]: (...args: any[]) => {

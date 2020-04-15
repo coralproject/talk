@@ -99,9 +99,10 @@ const DurationField: FunctionComponent<Props> = ({
     }
   }, [value]);
 
-  const elementCallbacks = useMemo(() => units.map(k => DURATION_UNIT_MAP[k]), [
-    units,
-  ]);
+  const elementCallbacks = useMemo(
+    () => units.map((k) => DURATION_UNIT_MAP[k]),
+    [units]
+  );
 
   const { value: computedValue } = useMemo(
     () => convertFromSeconds(value, units, selectedUnit),

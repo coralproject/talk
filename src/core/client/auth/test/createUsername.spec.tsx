@@ -33,7 +33,7 @@ async function createTestRenderer(
     logNetwork: options.logNetwork,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("CREATE_USERNAME", "view");
     },
   });
@@ -108,7 +108,7 @@ it("shows server error", async () => {
       },
       { muteNetworkErrors: true }
     );
-    const s = f.find(i => i.type === "button" && i.props.type === "submit");
+    const s = f.find((i) => i.type === "button" && i.props.type === "submit");
 
     return {
       form: f,
@@ -155,7 +155,7 @@ it("successfully sets username", async () => {
       },
       { muteNetworkErrors: true }
     );
-    const s = f.find(i => i.type === "button" && i.props.type === "submit");
+    const s = f.find((i) => i.type === "button" && i.props.type === "submit");
 
     return {
       form: f,

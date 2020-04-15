@@ -7,7 +7,7 @@ export interface NextButtonProps {
   submitting: boolean;
 }
 
-const NextButton: FunctionComponent<NextButtonProps> = props => {
+const NextButton: FunctionComponent<NextButtonProps> = (props) => {
   return (
     <Button
       variant="filled"

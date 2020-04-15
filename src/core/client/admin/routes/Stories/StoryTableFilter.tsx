@@ -24,7 +24,7 @@ interface Props {
   onSetSearchFilter: (search: string) => void;
 }
 
-const StoryTableFilter: FunctionComponent<Props> = props => (
+const StoryTableFilter: FunctionComponent<Props> = (props) => (
   <Flex itemGutter="double">
     <FieldSet>
       <HorizontalGutter spacing={2}>
@@ -93,7 +93,7 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
           <SelectField
             aria-label="Search by status"
             value={props.statusFilter || ""}
-            onChange={e =>
+            onChange={(e) =>
               props.onSetStatusFilter((e.target.value as any) || null)
             }
           >

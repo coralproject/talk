@@ -1,17 +1,22 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Omit } from "coral-framework/types";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
 import { ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
+
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalRepliesContainer.css";
@@ -31,7 +36,10 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
-  const replies = comment.replies.edges.map(edge => edge.node);
+  const replies = useMemo(
+    () => comment.replies.edges.map((edge) => edge.node, comment.replies),
+    [comment.replies]
+  );
   const [showReplies, setShowReplies] = useState(false);
   const onShowReplies = useCallback(() => {
     setShowReplies(true);
@@ -39,7 +47,7 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter>
       {showReplies &&
-        replies.map(reply => (
+        replies.map((reply) => (
           <div key={reply.id} className={styles.comment}>
             <ConversationModalCommentContainer
               key={reply.id}

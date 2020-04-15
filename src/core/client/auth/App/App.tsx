@@ -52,7 +52,7 @@ const render = ({ view, auth, viewer }: AppProps) => {
   }
 };
 
-const App: FunctionComponent<AppProps> = props => {
+const App: FunctionComponent<AppProps> = (props) => {
   return (
     <div>
       {process.env.NODE_ENV !== "test" && <ViewRouter />}

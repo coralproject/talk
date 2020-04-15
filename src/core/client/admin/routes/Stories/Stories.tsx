@@ -12,7 +12,7 @@ interface Props {
   initialSearchFilter?: string;
 }
 
-const Stories: FunctionComponent<Props> = props => (
+const Stories: FunctionComponent<Props> = (props) => (
   <MainLayout className={styles.root} data-testid="stories-container">
     <StoryTableContainer
       query={props.query}

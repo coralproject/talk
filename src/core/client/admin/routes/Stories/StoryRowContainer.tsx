@@ -15,7 +15,7 @@ interface Props {
   multisite: boolean;
 }
 
-const StoryRowContainer: FunctionComponent<Props> = props => {
+const StoryRowContainer: FunctionComponent<Props> = (props) => {
   const { locales } = useCoralContext();
   const title = props.story.metadata && props.story.metadata.title;
   const author = props.story.metadata && props.story.metadata.author;

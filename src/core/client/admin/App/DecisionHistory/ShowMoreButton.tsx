@@ -10,7 +10,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const ShowMoreButton: FunctionComponent<Props> = props => (
+const ShowMoreButton: FunctionComponent<Props> = (props) => (
   <Localized id="decisionHistory-showMoreButton">
     <BaseButton
       className={styles.root}

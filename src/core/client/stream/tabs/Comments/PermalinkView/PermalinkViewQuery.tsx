@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
@@ -79,7 +79,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
         storyID,
         storyURL,
       }}
-      render={data => {
+      render={(data) => {
         if (handleIncompleteAccount(data)) {
           return null;
         }

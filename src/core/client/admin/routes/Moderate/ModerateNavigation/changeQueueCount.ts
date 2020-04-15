@@ -3,7 +3,7 @@ import { RecordSourceSelectorProxy } from "relay-runtime";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 export default function changeQueueCount(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   change: number,
   queue: GQLMODERATION_QUEUE,
   storyID: string | null = null

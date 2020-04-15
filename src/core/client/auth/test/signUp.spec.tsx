@@ -28,7 +28,7 @@ async function createTestRenderer(customResolver: any = {}) {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("SIGN_UP", "view");
     },
   });
@@ -200,7 +200,7 @@ it("shows server error", async () => {
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() =>
@@ -250,7 +250,7 @@ it("submits form successfully", async () => {
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() =>

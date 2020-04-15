@@ -21,7 +21,7 @@ interface Props {
   status: GQLSTORY_STATUS_RL;
 }
 
-const StoryStatusChange: FunctionComponent<Props> = props => (
+const StoryStatusChange: FunctionComponent<Props> = (props) => (
   <Localized id="stories-status-popover" attrs={{ description: true }}>
     <Popover
       id="stories-statusChange"

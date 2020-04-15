@@ -16,7 +16,7 @@ interface QueueViewNewInput {
 const QueueViewNewMutation = createMutation(
   "viewNew",
   async (environment: Environment, input: QueueViewNewInput) => {
-    await commitLocalUpdatePromisified(environment, async store => {
+    await commitLocalUpdatePromisified(environment, async (store) => {
       const connection = getQueueConnection(
         store,
         input.queue,
@@ -30,8 +30,8 @@ const QueueViewNewMutation = createMutation(
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
-      viewNewEdges.forEach(edge => {
-        ConnectionHandler.insertEdgeBefore(connection, edge!);
+      viewNewEdges.forEach((edge) => {
+        ConnectionHandler.insertEdgeBefore(connection, edge);
       });
       connection.setLinkedRecords([], "viewNewEdges");
     });

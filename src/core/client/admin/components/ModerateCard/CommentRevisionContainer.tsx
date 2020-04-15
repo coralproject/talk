@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
@@ -22,12 +23,12 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
       {comment.revisionHistory
         .concat()
         .reverse()
-        .filter(c =>
+        .filter((c) =>
           comment && comment.revision && comment.revision.id
             ? comment.revision.id !== c.id
             : true
         )
-        .map(c => (
+        .map((c) => (
           <div key={c.id}>
             <Timestamp>{c.createdAt}</Timestamp>
             <CommentContent phrases={settings}>

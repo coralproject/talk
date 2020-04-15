@@ -7,6 +7,6 @@ export const sectionScraper = (): Rules => ({
   section: [
     // From: http://ogp.me/#type_article
     wrap($jsonld("articleSection")),
-    wrap($ => $('meta[property="article:section"]').attr("content")),
+    wrap(($) => $('meta[property="article:section"]').attr("content")),
   ],
 });

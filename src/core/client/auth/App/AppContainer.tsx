@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";

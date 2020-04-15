@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { FieldMeta, hasError } from "coral-framework/lib/form/helpers";
-import { Omit } from "coral-framework/types";
+
 import { ValidationMessage as UIValidationMessage } from "coral-ui/components";
 import { ValidationMessageProps } from "coral-ui/components/ValidationMessage";
 

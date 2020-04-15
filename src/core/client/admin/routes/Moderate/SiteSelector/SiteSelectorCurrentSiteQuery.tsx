@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  QueryRenderData,
-  QueryRenderer,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import Spinner from "coral-stream/common/Spinner";
 import { Delay } from "coral-ui/components";
 

@@ -1,3 +1,5 @@
+import { GraphQLResponseErrors } from "react-relay-network-modern/es";
+
 import extractError from "./extractError";
 
 interface GraphQLErrorWithExtension {
@@ -10,7 +12,9 @@ function isGraphQLErrorWithExtension(
   return Boolean(err && err.extensions);
 }
 
-export default function extractGraphQLError(errors: Error[]): Error | null {
+export default function extractGraphQLError(
+  errors: GraphQLResponseErrors
+): Error | null {
   if (errors.length > 1) {
     // Multiple errors are GraphQL errors.
     // TODO: (cvle) Is this assumption correct?

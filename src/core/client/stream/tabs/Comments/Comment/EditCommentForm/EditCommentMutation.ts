@@ -21,6 +21,7 @@ const mutation = graphql`
   mutation EditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
       comment {
+        id
         body
         status
         revision {
@@ -73,7 +74,7 @@ async function commit(
             clientMutationId: (clientMutationId++).toString(),
           },
         },
-        updater: store => {
+        updater: (store) => {
           store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
         },
       }

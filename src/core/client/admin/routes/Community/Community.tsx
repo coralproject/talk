@@ -11,7 +11,7 @@ interface Props {
   query: PropTypesOf<typeof UserTableContainer>["query"];
 }
 
-const Community: FunctionComponent<Props> = props => (
+const Community: FunctionComponent<Props> = (props) => (
   <MainLayout className={styles.root} data-testid="community-container">
     <UserTableContainer query={props.query} />
   </MainLayout>

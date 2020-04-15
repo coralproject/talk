@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { FieldMeta, hasError } from "coral-framework/lib/form/helpers";
-import { DeepPartial, Omit } from "coral-framework/types";
+import { DeepPartial } from "coral-framework/types";
 import HorizontalGutter from "coral-ui/components/HorizontalGutter";
 import TextField, { TextFieldProps } from "coral-ui/components/v2/TextField";
 

@@ -23,7 +23,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Card: FunctionComponent<CardProps> = props => {
+const Card: FunctionComponent<CardProps> = (props) => {
   const { className, classes, children, forwardRef, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

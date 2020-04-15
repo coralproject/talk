@@ -4,7 +4,6 @@ import { Redis } from "ioredis";
 import { DateTime } from "luxon";
 import ms from "ms";
 
-import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { RateLimitExceeded } from "coral-server/errors";
 import { Request } from "coral-server/types/express";
@@ -41,8 +40,9 @@ export class Limiter {
   }
 
   private key(key: string, resource?: string, operation?: string): string {
-    return `limiter[${this.prefix}][${resource || this.resource}][${operation ||
-      this.operation}][${key}]`;
+    return `limiter[${this.prefix}][${resource || this.resource}][${
+      operation || this.operation
+    }][${key}]`;
   }
 
   public async test(

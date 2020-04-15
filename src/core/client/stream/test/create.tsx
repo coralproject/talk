@@ -1,5 +1,6 @@
 import React from "react";
 
+import { createAndRetain } from "coral-framework/lib/relay";
 import {
   createTestRenderer,
   CreateTestRendererParams,
@@ -11,7 +12,12 @@ export default function create(params: CreateTestRendererParams) {
   return createTestRenderer("stream", <AppContainer disableListeners />, {
     ...params,
     initLocalState: (localRecord, source, environment) => {
-      const authPopupRecord = source.create(AUTH_POPUP_ID, AUTH_POPUP_TYPE);
+      const authPopupRecord = createAndRetain(
+        environment,
+        source,
+        AUTH_POPUP_ID,
+        AUTH_POPUP_TYPE
+      );
       authPopupRecord.setValue(false, "open");
       authPopupRecord.setValue(false, "focus");
       authPopupRecord.setValue("", "href");

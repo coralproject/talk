@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import { formatEmpty, parseIntegerNullable } from "coral-framework/lib/form";
 import {
   composeValidators,
   createValidator,
@@ -85,7 +85,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Field
         name="charCount.min"
         validate={validateWholeNumberGreaterThan(0)}
-        parse={parseEmptyAsNull}
+        parse={parseIntegerNullable}
         format={formatEmpty}
       >
         {({ input, meta }) => (
@@ -129,7 +129,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
           validateWholeNumberGreaterThan(0),
           validateMaxLongerThanMin
         )}
-        parse={parseEmptyAsNull}
+        parse={parseIntegerNullable}
         format={formatEmpty}
       >
         {({ input, meta }) => (

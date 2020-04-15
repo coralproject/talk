@@ -10,7 +10,7 @@ export interface CircleProps {
   color?: "light" | "regular";
 }
 
-const Circle: FunctionComponent<CircleProps> = props => {
+const Circle: FunctionComponent<CircleProps> = (props) => {
   return (
     <div
       className={cn(styles.root, props.className, {

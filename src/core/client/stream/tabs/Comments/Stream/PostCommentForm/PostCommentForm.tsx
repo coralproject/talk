@@ -46,7 +46,7 @@ interface Props {
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
 }
 
-const PostCommentForm: FunctionComponent<Props> = props => {
+const PostCommentForm: FunctionComponent<Props> = (props) => {
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
     emitFocusEvent();
@@ -69,7 +69,9 @@ const PostCommentForm: FunctionComponent<Props> = props => {
             id="comments-postCommentForm-form"
           >
             <FormSpy
-              onChange={state => props.onChange && props.onChange(state, form)}
+              onChange={(state) =>
+                props.onChange && props.onChange(state, form)
+              }
             />
             <HorizontalGutter>
               <Field

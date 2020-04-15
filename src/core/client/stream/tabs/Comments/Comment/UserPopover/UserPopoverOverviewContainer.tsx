@@ -33,7 +33,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
   const canIgnore =
     viewer &&
     viewer.id !== user.id &&
-    viewer.ignoredUsers.every(u => u.id !== user.id) &&
+    viewer.ignoredUsers.every((u) => u.id !== user.id) &&
     user.ignoreable;
   return (
     <HorizontalGutter

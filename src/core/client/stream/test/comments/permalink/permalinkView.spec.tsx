@@ -56,19 +56,20 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       comment: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
+        (s) => s.throws(),
+        (s) =>
+          s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
       ),
       story: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
       ),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
@@ -81,7 +82,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
       localRecord.setValue(commentStub.id, "commentID");
     },
@@ -89,9 +90,6 @@ beforeEach(() => {
 });
 
 it("renders permalink view", async () => {
-  // axe checking takes a bit of time.
-  jest.setTimeout(10000);
-
   const tabPane = await waitForElement(() =>
     within(testRenderer.root).getByTestID("current-tab-pane")
   );
@@ -109,9 +107,7 @@ it("show all comments", async () => {
   );
 
   await act(async () => {
-    within(tabPane)
-      .getByText("View Full Discussion")
-      .props.onClick(mockEvent);
+    within(tabPane).getByText("View Full Discussion").props.onClick(mockEvent);
     await waitForElement(() =>
       within(testRenderer.root).getByTestID("comments-allComments-log")
     );

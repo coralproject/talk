@@ -1,0 +1,22 @@
+---
+name: FormField
+menu: UI Kit v1
+---
+
+import { Playground } from 'docz'
+import { InputLabel, ValidationMessage, TextField, InputDescription, FormField } from '../'
+
+# FormField
+
+`FormField` is to be used with Form Components: `InputLabel`, `InputDescription`, `TextField`, `ValidationMessage`, etc.
+FormField manages the gutters between inner elements. It's a form field wrapper of the `Flex` Component.
+
+## Justify content
+<Playground>
+    <FormField>
+      <InputLabel defaultValue="something.com" color="error" >Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField fullWidth />
+      <ValidationMessage>Invalid characters. Try again.</ValidationMessage>
+    </FormField>
+</Playground>

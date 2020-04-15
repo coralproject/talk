@@ -12,7 +12,7 @@ import { QueryToSitesArgs } from "coral-server/graph/schema/__generated__/types"
 
 export default (ctx: TenantContext) => ({
   site: new DataLoader<string, Site | null>(
-    ids => retrieveManySites(ctx.mongo, ctx.tenant.id, ids),
+    (ids) => retrieveManySites(ctx.mongo, ctx.tenant.id, ids),
     {
       cache: !ctx.disableCaching,
     }

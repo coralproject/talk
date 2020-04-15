@@ -7,7 +7,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";
@@ -27,7 +27,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
+export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
     LoadMoreFeaturedCommentsEvent
@@ -43,7 +43,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
       console.error(error);
     }
   }, [loadMore, beginLoadMoreEvent, props.story.id]);
-  const comments = props.story.featuredComments.edges.map(edge => edge.node);
+  const comments = props.story.featuredComments.edges.map((edge) => edge.node);
   return (
     <>
       <HorizontalGutter
@@ -53,7 +53,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
         aria-live="polite"
         spacing={3}
       >
-        {comments.map(comment => (
+        {comments.map((comment) => (
           <IgnoredTombstoneOrHideContainer
             key={comment.id}
             viewer={props.viewer}

@@ -12,7 +12,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
@@ -49,9 +49,9 @@ graphql`
   }
 `;
 
-export const UnansweredCommentsTabContainer: FunctionComponent<
-  Props
-> = props => {
+export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
+  props
+) => {
   const [{ commentsOrderBy }] = useLocal<UnansweredCommentsTabContainerLocal>(
     graphql`
       fragment UnansweredCommentsTabContainerLocal on Local {
@@ -126,7 +126,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<
     props.story.id,
     viewMore,
   ]);
-  const comments = props.story.comments.edges.map(edge => edge.node);
+  const comments = props.story.comments.edges.map((edge) => edge.node);
   const viewNewCount =
     (props.story.comments.viewNewEdges &&
       props.story.comments.viewNewEdges.length) ||
@@ -173,7 +173,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<
           </Localized>
         )}
         {comments.length > 0 &&
-          comments.map(comment => (
+          comments.map((comment) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
               viewer={props.viewer}

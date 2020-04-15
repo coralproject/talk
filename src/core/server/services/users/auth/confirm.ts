@@ -1,8 +1,8 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -44,7 +44,7 @@ export interface ConfirmToken extends Required<StandardClaims> {
 }
 
 const ConfirmTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("confirm"),
+  aud: Joi.string().valid("confirm"),
   email: Joi.string().email(),
   evid: Joi.string(),
 });
@@ -52,7 +52,7 @@ const ConfirmTokenSchema = StandardClaimsSchema.keys({
 export function validateConfirmToken(
   token: ConfirmToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, ConfirmTokenSchema, {
+  const { error } = ConfirmTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;
@@ -91,7 +91,7 @@ export async function generateConfirmURL(
 
   // Generate a token with this new reset ID.
   const confirmToken: ConfirmToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: id,
     exp: expiresAt,

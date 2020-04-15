@@ -31,7 +31,7 @@ export class IntersectionProvider extends React.Component<any, any> {
       rootMargin: "0px",
       threshold: 0.25,
     });
-    this.elementBuffer.forEach(element => this.observer.observe(element));
+    this.elementBuffer.forEach((element) => this.observer.observe(element));
     this.elementBuffer = [];
   }
 
@@ -42,7 +42,7 @@ export class IntersectionProvider extends React.Component<any, any> {
   private unobserve = (element: Element) => {
     this.elements.delete(element);
     if (!this.observer) {
-      this.elementBuffer = this.elementBuffer.filter(e => e !== element);
+      this.elementBuffer = this.elementBuffer.filter((e) => e !== element);
     } else {
       this.observer.unobserve(element);
     }
@@ -64,7 +64,7 @@ export class IntersectionProvider extends React.Component<any, any> {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver
   ) => {
-    entries.forEach(entry => this.elements.get(entry.target)(entry));
+    entries.forEach((entry) => this.elements.get(entry.target)(entry));
   };
 
   public render() {

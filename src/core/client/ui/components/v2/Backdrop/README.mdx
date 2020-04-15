@@ -1,0 +1,32 @@
+---
+name: Backdrop
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import { useState } from "react";
+
+import Button from "../Button";
+import Backdrop from "./Backdrop";
+
+# Backdrop
+
+## Basic usage
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState(false);
+    return (
+      <div>
+        <Backdrop active={value} />
+        <Button
+          variant="filled"
+          color="primary"
+          onClick={() => setValue(!value)}
+        >
+          Toggle
+        </Button>
+      </div>
+    );
+  }}
+</Playground>

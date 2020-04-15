@@ -27,7 +27,7 @@ export class SingletonResolver<T> {
       return this.cache;
     }
 
-    const promise = this.resolver().then(result => {
+    const promise = this.resolver().then((result) => {
       return result;
     });
 
@@ -41,5 +41,6 @@ export class SingletonResolver<T> {
 export function createManyBatchLoadFn<U, V>(
   batchLoadFn: (input: U) => Promise<V>
 ) {
-  return (inputs: U[]) => Promise.all(inputs.map(input => batchLoadFn(input)));
+  return (inputs: U[]) =>
+    Promise.all(inputs.map((input) => batchLoadFn(input)));
 }

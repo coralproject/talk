@@ -15,8 +15,8 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyWithDeepReplies.id, url: null })
             .returns(storyWithDeepReplies)
@@ -29,7 +29,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyWithDeepReplies.id, "storyID");
     },
   }));

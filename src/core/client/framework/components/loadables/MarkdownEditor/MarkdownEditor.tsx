@@ -3,6 +3,7 @@ import React, { ChangeEvent, Component, Ref } from "react";
 import SimpleMDE from "simplemde";
 
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./MarkdownEditor.css";
 
@@ -137,7 +138,7 @@ class MarkdownEditor extends Component<Props> {
   public textarea: HTMLTextAreaElement | null = null;
   public editor: SimpleMDE | null = null;
 
-  public onRef: Ref<HTMLTextAreaElement> = ref => (this.textarea = ref);
+  public onRef: Ref<HTMLTextAreaElement> = (ref) => (this.textarea = ref);
 
   public componentDidMount() {
     this.editor = new SimpleMDE({
@@ -198,7 +199,7 @@ let enhanced = withGetMessage(MarkdownEditor);
 
 if (process.env.NODE_ENV === "test") {
   // Replace with simple texteditor because it won't work in a jsdom environment.
-  enhanced = function MarkdownEditorTest({ onChange, ...rest }) {
+  enhanced = (function MarkdownEditorTest({ onChange, ...rest }) {
     return (
       <div className={styles.wrapper}>
         <textarea
@@ -211,7 +212,7 @@ if (process.env.NODE_ENV === "test") {
         />
       </div>
     );
-  };
+  } as React.FunctionComponent<PropTypesOf<typeof enhanced>>) as any;
 }
 
 export default enhanced;

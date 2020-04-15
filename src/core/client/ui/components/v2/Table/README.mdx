@@ -1,0 +1,36 @@
+---
+name: Table
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import { Table, TableBody, TableHead, TableRow, TableCell } from "./";
+
+# Table
+
+## Basic usage
+
+<Playground>
+  <Table fullWidth>
+    <TableHead>
+      <TableRow>
+        <TableCell>Username</TableCell>
+        <TableCell>Email Address</TableCell>
+        <TableCell>Member Since</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>ButFirstCoffee</TableCell>
+        <TableCell>coffee@mail.com</TableCell>
+        <TableCell>01/27/2019</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>SneaksOnSneaks</TableCell>
+        <TableCell>hisairness@mail.com</TableCell>
+        <TableCell>04/27/2019</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Playground>

@@ -49,11 +49,11 @@ function convertJSONToHTML(
     return node;
   }
   if (Array.isArray(node)) {
-    return node.map(c => convertJSONToHTML(c)).join("\n");
+    return node.map((c) => convertJSONToHTML(c)).join("\n");
   }
 
   const props = Object.keys(node.props)
-    .map(k => convertPropertyToString(k, node.props[k]))
+    .map((k) => convertPropertyToString(k, node.props[k]))
     .join(" ");
 
   let innerHTML = "";

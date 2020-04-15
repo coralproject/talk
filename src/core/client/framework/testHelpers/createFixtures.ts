@@ -11,5 +11,5 @@ export default function createFixtures<T>(
   data: Array<Fixture<T>>,
   base?: T
 ): Array<WithTypename<T>> {
-  return data.map(d => createFixture(d, base)) as any;
+  return data.map((d) => createFixture(d, base)) as any;
 }

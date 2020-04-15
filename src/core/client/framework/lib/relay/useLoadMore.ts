@@ -19,7 +19,7 @@ export default function useLoadMore(
     }
     setIsLoadingMore(true);
     return new Promise<void>((resolve, reject) => {
-      relay.loadMore(count, error => {
+      relay.loadMore(count, (error) => {
         setIsLoadingMore(false);
         if (error) {
           reject(error);

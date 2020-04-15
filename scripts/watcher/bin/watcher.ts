@@ -30,7 +30,7 @@ const cmd = program
   .description("Run watchers defined in <configFile>")
   .parse(process.argv);
 
-run(cmd.args, cmd.opts()).catch(err => {
+run(cmd.args, cmd.opts()).catch((err) => {
   // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);

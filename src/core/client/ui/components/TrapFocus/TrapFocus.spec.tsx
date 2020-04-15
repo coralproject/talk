@@ -35,7 +35,7 @@ it("renders correctly", () => {
 it("autofocus", () => {
   const autoFocus = sinon.stub();
   create(<TrapFocus />, {
-    createNodeMock: el => ({
+    createNodeMock: (el) => ({
       focus: el.props.tabIndex === -1 ? autoFocus : noop,
     }),
   });

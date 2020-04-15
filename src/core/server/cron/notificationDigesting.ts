@@ -90,23 +90,20 @@ const processNotificationDigesting = (
       );
 
       // Group the digests.
-      const digests = user.digests.reduce(
-        (acc, entry) => {
-          const digest = acc.find(d => d.template === entry.template.name);
-          if (digest) {
-            digest.contexts.push(entry.template.context);
-          } else {
-            acc.push({
-              template: entry.template.name,
-              partial: path.basename(entry.template.name),
-              contexts: [entry.template.context],
-            });
-          }
+      const digests = user.digests.reduce((acc, entry) => {
+        const digest = acc.find((d) => d.template === entry.template.name);
+        if (digest) {
+          digest.contexts.push(entry.template.context);
+        } else {
+          acc.push({
+            template: entry.template.name,
+            partial: path.basename(entry.template.name),
+            contexts: [entry.template.context],
+          });
+        }
 
-          return acc;
-        },
-        [] as DigestElement[]
-      );
+        return acc;
+      }, [] as DigestElement[]);
 
       // TODO: sort the digest template elements by the digest order.
 

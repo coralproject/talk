@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useCallback, useEffect } from "react";
+import { graphql } from "react-relay";
 
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import {
-  graphql,
   useMutation,
   withFragmentContainer,
   withLocalStateContainer,

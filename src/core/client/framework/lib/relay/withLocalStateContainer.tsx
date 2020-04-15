@@ -10,11 +10,13 @@ import {
   Disposable,
   Environment,
   GraphQLTaggedNode,
-  ReaderSelector,
+  ReaderFragment,
+  SingularReaderSelector,
   Snapshot,
 } from "relay-runtime";
 
 import withContext from "../bootstrap/withContext";
+import { resolveModule } from "./helpers";
 import { LOCAL_ID, LOCAL_TYPE } from "./localState";
 
 interface Props {
@@ -31,10 +33,7 @@ interface Props {
 function withLocalStateContainer(
   fragmentSpec: GraphQLTaggedNode
 ): InferableComponentEnhancer<{ local: _RefType<any> }> {
-  const fragment =
-    typeof fragmentSpec === "function"
-      ? (fragmentSpec() as any).default
-      : (fragmentSpec as any).data().default;
+  const fragment = resolveModule(fragmentSpec as ReaderFragment);
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
@@ -54,13 +53,19 @@ function withLocalStateContainer(
               `Type must be "Local" in "Fragment ${fragment.name}"`
             );
           }
-          const selector: ReaderSelector = {
+          // TODO: (cvle) This is part is still hacky.
+          // Waiting for a solution to https://github.com/facebook/relay/issues/2997.
+          const selector: SingularReaderSelector = {
+            kind: undefined as any,
+            owner: undefined as any,
             dataID: LOCAL_ID,
             node: {
+              type: fragment.type,
               kind: fragment.kind,
               name: fragment.name,
               metadata: fragment.metadata,
               selections: fragment.selections,
+              argumentDefinitions: [],
             },
             variables: {},
           };
@@ -108,9 +113,9 @@ function withLocalStateContainer(
           return <BaseComponent {...rest} local={this.state.data} />;
         }
       }
-      return LocalStateContainer as React.ComponentType<any>;
+      return LocalStateContainer as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }
 
 export default withLocalStateContainer;

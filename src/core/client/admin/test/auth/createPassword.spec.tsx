@@ -113,7 +113,7 @@ it("shows server error", async () => {
     muteNetworkErrors: true,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => passwordField.props.onChange({ target: { value: password } }));
@@ -153,7 +153,7 @@ it("successfully sets password", async () => {
     resolvers,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => passwordField.props.onChange({ target: { value: password } }));

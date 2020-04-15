@@ -39,9 +39,9 @@ async function createTestRenderer(
   };
 }
 
-it("emit commentCount events", done => {
+it("emit commentCount events", (done) => {
   createTestRenderer().then(({ context: { eventEmitter } }) => {
-    eventEmitter.on("commentCount", args => {
+    eventEmitter.on("commentCount", (args) => {
       expect(args).toMatchInlineSnapshot(`
         Object {
           "number": 2,

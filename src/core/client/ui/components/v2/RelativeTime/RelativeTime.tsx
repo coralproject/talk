@@ -22,7 +22,7 @@ interface Props {
 const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
   new Date(timestamp).toISOString();
 
-const RelativeTime: React.FunctionComponent<Props> = props => {
+const RelativeTime: React.FunctionComponent<Props> = (props) => {
   const { date, classes, live, className, formatter } = props;
   return (
     <UIContext.Consumer>

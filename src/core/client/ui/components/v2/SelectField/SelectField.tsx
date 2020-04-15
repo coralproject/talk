@@ -42,7 +42,7 @@ export interface SelectFieldProps {
   afterWrapper?: React.ReactElement<any>;
 }
 
-const SelectField: FunctionComponent<SelectFieldProps> = props => {
+const SelectField: FunctionComponent<SelectFieldProps> = (props) => {
   const {
     className,
     classes,

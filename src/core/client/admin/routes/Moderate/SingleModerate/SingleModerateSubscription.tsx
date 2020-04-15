@@ -1,8 +1,9 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
@@ -28,7 +29,7 @@ const SingleModerateSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         const commentID = store
           .getRootField("commentStatusUpdated")!
           .getLinkedRecord("comment")!

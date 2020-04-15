@@ -125,7 +125,7 @@ describe("when has more replies", () => {
     localReply: false,
   };
 
-  let wrapper: ShallowWrapper;
+  let wrapper: ShallowWrapper<any>;
 
   beforeAll(() => (wrapper = shallow(<ReplyListContainerN {...props} />)));
 
@@ -135,10 +135,10 @@ describe("when has more replies", () => {
 
   describe("when showing all", () => {
     beforeAll(() => {
-      wrapper
-        .find(ReplyList)
-        .props()
-        .onShowAll();
+      const replyList = wrapper.find(ReplyList);
+      if (replyList) {
+        wrapper.props().onShowAll();
+      }
     });
     it("calls relay loadMore", () => {
       expect(finishLoading).not.toBeNull();

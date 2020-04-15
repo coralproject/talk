@@ -1,4 +1,4 @@
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 import { ConfirmToken, isConfirmToken } from "./confirm";
 

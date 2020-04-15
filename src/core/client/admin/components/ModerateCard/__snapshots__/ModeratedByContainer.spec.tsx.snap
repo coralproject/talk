@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewer's username shows on moderation cards moderated by viewer 1`] = `
-<ForwardRef(Relay(ModeratedByContainer))
+<Relay(ModeratedByContainer)
   comment={
     Object {
       "id": "comment-id",

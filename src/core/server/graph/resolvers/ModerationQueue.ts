@@ -15,9 +15,7 @@ export interface ModerationQueueInput {
   count: number | null;
 }
 
-export const ModerationQueue: GQLModerationQueueTypeResolver<
-  ModerationQueueInput
-> = {
+export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInput> = {
   id: ({ selector, connection: { filter } }) => {
     // NOTE: (wyattjoh) when the queues change shape in the future, investigate adding more dynamicness to this id generation
     if (filter && filter.storyID) {

@@ -1,6 +1,6 @@
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
@@ -81,7 +81,7 @@ export default class GraphContext {
   public readonly user?: User;
 
   constructor(options: GraphContextOptions) {
-    this.id = options.id || uuid.v1();
+    this.id = options.id || uuid();
     this.now = options.now || new Date();
     this.lang = options.lang || options.i18n.getDefaultLang();
     this.disableCaching = options.disableCaching || false;

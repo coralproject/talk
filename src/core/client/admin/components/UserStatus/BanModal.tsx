@@ -62,7 +62,9 @@ const BanModal: FunctionComponent<Props> = ({
             <Localized
               id="community-banModal-areYouSure"
               strong={<ModalHeaderUsername />}
-              $username={username || <NotAvailable />}
+              username={React.createElement(() => (
+                <strong>{username || <NotAvailable />}</strong>
+              ))}
             >
               <ChangeStatusModalHeader id="banModal-title">
                 Are you sure you want to ban{" "}

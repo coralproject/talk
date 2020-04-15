@@ -16,16 +16,16 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       story: createSinonStub(
-        s => s.throws(),
-        s => s.returns(storyWithDeepestReplies)
+        (s) => s.throws(),
+        (s) => s.returns(storyWithDeepestReplies)
       ),
       stream: createSinonStub(
-        s => s.throws(),
-        s => s.returns(storyWithDeepestReplies)
+        (s) => s.throws(),
+        (s) => s.returns(storyWithDeepestReplies)
       ),
       comment: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: "comment-with-deepest-replies-3" })
             .returns({
@@ -41,7 +41,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
     },
   }));

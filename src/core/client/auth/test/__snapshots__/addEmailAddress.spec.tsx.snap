@@ -787,12 +787,11 @@ Your email address will be used to:
       >
         server error
 
-GraphQL request (4:3)
-3: ) {
-4:   setEmail(input: $input) {
-     ^
-5:     user {
-
+GraphQL request:4:3
+3 | ) {
+4 |   setEmail(input: $input) {
+  |   ^
+5 |     user {
       </div>
     </div>
     <div

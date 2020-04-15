@@ -8,6 +8,7 @@ import {
   wrapDisplayName,
 } from "recompose";
 
+import { resolveModuleObject } from "./helpers";
 import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
@@ -23,7 +24,10 @@ export default <T>(
   { [P in FragmentKeysNoLocal<T>]: T[P] },
   { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
 > => (component: React.ComponentType<any>) => {
-  const result = createFragmentContainer(component, fragmentSpec);
+  const result = createFragmentContainer(
+    component,
+    resolveModuleObject(fragmentSpec)
+  );
   result.displayName = wrapDisplayName(component, "Relay");
   // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
   // well supported yet in enzyme.

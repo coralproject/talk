@@ -37,7 +37,7 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
   onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
-  const parents = comment.parents.edges.map(edge => edge.node);
+  const parents = comment.parents.edges.map((edge) => edge.node);
   return (
     <HorizontalGutter className={styles.root}>
       {comment.parentCount > parents.length && (
@@ -60,7 +60,7 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
           </Flex>
         </div>
       )}
-      {parents.map(parent => (
+      {parents.map((parent) => (
         <ConversationModalComment
           key={parent.id}
           isParent={true}

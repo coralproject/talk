@@ -8,12 +8,13 @@ import Comment from "./Comment";
 
 import styles from "./IndentedComment.css";
 
-export interface IndentedCommentProps extends PropTypesOf<typeof Comment> {
+export interface IndentedCommentProps
+  extends Omit<PropTypesOf<typeof Comment>, "ref"> {
   indentLevel?: number;
   blur?: boolean;
 }
 
-const IndentedComment: FunctionComponent<IndentedCommentProps> = props => {
+const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
   const { indentLevel, ...rest } = props;
   const CommentElement = <Comment {...rest} />;
   const CommentwithIndent = (

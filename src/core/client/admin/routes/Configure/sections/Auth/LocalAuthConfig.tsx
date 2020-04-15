@@ -38,7 +38,7 @@ const LocalAuthConfig: FunctionComponent<Props> = ({ disabled }) => (
     disabled={disabled}
     data-testid="configure-auth-local"
   >
-    {disabledInside => (
+    {(disabledInside) => (
       <>
         <TargetFilterField
           label={

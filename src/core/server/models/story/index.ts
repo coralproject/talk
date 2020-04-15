@@ -1,7 +1,7 @@
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { DeepPartial, FirstDeepPartial, Omit } from "coral-common/types";
+import { DeepPartial, FirstDeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,
@@ -121,7 +121,7 @@ export interface UpsertStoryResult {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id = uuid.v4(), url, siteID }: UpsertStoryInput,
+  { id = uuid(), url, siteID }: UpsertStoryInput,
   now = new Date()
 ): Promise<UpsertStoryResult> {
   // Create the story, optionally sourcing the id from the input, additionally
@@ -319,7 +319,7 @@ export async function retrieveManyStories(
 
   const stories = await cursor.toArray();
 
-  return ids.map(id => stories.find(story => story.id === id) || null);
+  return ids.map((id) => stories.find((story) => story.id === id) || null);
 }
 
 export async function retrieveManyStoriesByURL(
@@ -334,7 +334,7 @@ export async function retrieveManyStoriesByURL(
 
   const stories = await cursor.toArray();
 
-  return urls.map(url => stories.find(story => story.url === url) || null);
+  return urls.map((url) => stories.find((story) => story.url === url) || null);
 }
 
 export type UpdateStoryInput = Omit<
@@ -507,7 +507,7 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, story => story.createdAt);
+  return resolveConnection(query, input, (story) => story.createdAt);
 }
 
 export async function retrieveActiveStories(

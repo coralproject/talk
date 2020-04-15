@@ -11,7 +11,7 @@ interface Props {
   children: React.ReactElement;
 }
 
-const WebhookEndpointsLayout: FunctionComponent<Props> = props => {
+const WebhookEndpointsLayout: FunctionComponent<Props> = (props) => {
   return (
     <MainLayout>
       <Layout>

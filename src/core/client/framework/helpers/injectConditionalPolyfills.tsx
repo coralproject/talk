@@ -1,5 +1,4 @@
-import bowser from "bowser";
-
+import { getBrowserInfo } from "../lib/browserInfo";
 import polyfillCSSVarsForIE11 from "./polyfillCSSVarsForIE11";
 
 export default async function injectConditionalPolyfills() {
@@ -22,7 +21,7 @@ export default async function injectConditionalPolyfills() {
   }
 
   // CSS Vars Polyfill for IE11.
-  if (bowser.msie) {
+  if (getBrowserInfo().msie) {
     pending.push(import("whatwg-fetch"));
     pending.push(import("proxy-polyfill"));
     pending.push(polyfillCSSVarsForIE11());

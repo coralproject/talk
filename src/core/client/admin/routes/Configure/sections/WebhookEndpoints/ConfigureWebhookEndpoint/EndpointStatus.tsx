@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { CopyButton } from "coral-framework/components";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
   FormField,

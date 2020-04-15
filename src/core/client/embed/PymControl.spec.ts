@@ -30,7 +30,7 @@ describe("PymControl", () => {
     });
     expect(container.innerHTML).toMatchSnapshot();
   });
-  it("should send message", done => {
+  it("should send message", (done) => {
     const messages: MessageEvent[] = [];
     const messageRecorder = (e: MessageEvent) => messages.push(e);
     const contentWindow = (container.firstChild as HTMLIFrameElement)

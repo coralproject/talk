@@ -7,6 +7,6 @@ export const modifiedScraper = (): Rules => ({
   modified: [
     // From: http://ogp.me/#type_article
     toDate($jsonld("dateModified")),
-    toDate($ => $('meta[property="article:modified"]').attr("content")),
+    toDate(($) => $('meta[property="article:modified"]').attr("content")),
   ],
 });

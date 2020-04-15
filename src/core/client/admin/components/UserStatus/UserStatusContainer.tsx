@@ -12,7 +12,7 @@ interface Props {
   user: UserData;
 }
 
-const UserStatusContainer: FunctionComponent<Props> = props => {
+const UserStatusContainer: FunctionComponent<Props> = (props) => {
   return (
     <UserStatus
       banned={props.user.status.current.includes(GQLUSER_STATUS.BANNED)}

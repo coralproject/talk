@@ -26,7 +26,7 @@ export async function commit(
     LoginPromptEvent.emit(eventEmitter);
   }
   ShowAuthPopupEvent.emit(eventEmitter, { view: input.view });
-  return commitLocalUpdate(environment, store => {
+  return commitLocalUpdate(environment, (store) => {
     const record = store.get(AUTH_POPUP_ID)!;
     record.setValue(input.view, "view");
     if (!record.getValue("open")) {

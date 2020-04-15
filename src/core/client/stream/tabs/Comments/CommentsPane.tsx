@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 
 import { CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
 

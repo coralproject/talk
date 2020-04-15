@@ -17,7 +17,7 @@ interface Props {
   className?: string;
 }
 
-const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
+const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
   const popoverID = `username-popover-${props.comment.id}`;
   if (!props.comment.author) {
     return null;

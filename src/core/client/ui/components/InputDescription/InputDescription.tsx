@@ -10,7 +10,7 @@ interface InputDescriptionProps {
   container?: PropTypesOf<typeof Typography>["container"];
 }
 
-const InputDescription: FunctionComponent<InputDescriptionProps> = props => {
+const InputDescription: FunctionComponent<InputDescriptionProps> = (props) => {
   const { className, children, ...rest } = props;
   return (
     <Typography

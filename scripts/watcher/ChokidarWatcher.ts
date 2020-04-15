@@ -1,5 +1,6 @@
 import chokidar from "chokidar";
 import path from "path";
+
 import { Watcher, WatchOptions } from "./types";
 
 function prependRootDir(

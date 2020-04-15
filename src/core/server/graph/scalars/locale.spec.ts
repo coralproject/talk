@@ -5,27 +5,36 @@ import Locale from "./locale";
 describe("parseLiteral", () => {
   it("parses a valid locale from a string", () => {
     expect(
-      Locale.parseLiteral({
-        kind: Kind.STRING,
-        value: "en-US",
-      })
+      Locale.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "en-US",
+        },
+        null
+      )
     ).toBe("en-US");
   });
   it("parses an unsupported locale from a string", () => {
     expect(() =>
-      Locale.parseLiteral({
-        kind: Kind.STRING,
-        value: "xyz",
-      })
+      Locale.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "xyz",
+        },
+        null
+      )
     ).toThrow();
   });
 
   it("throws when not a string", () => {
     expect(() =>
-      Locale.parseLiteral({
-        kind: Kind.INT,
-        value: "4",
-      })
+      Locale.parseLiteral(
+        {
+          kind: Kind.INT,
+          value: "4",
+        },
+        null
+      )
     ).toThrow();
   });
 });

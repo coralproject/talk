@@ -12,10 +12,10 @@ function withStyles<T>(
   styles: T
 ): DefaultingInferableComponentEnhancer<{ classes?: Partial<T> }> {
   const classes = { ...(styles as any) };
-  return withPropsOnChange<any, any>(["classes"], props => {
+  return withPropsOnChange<any, any>(["classes"], (props) => {
     const resolvedClasses = { ...classes };
     if (props.classes) {
-      Object.keys(props.classes).forEach(k => {
+      Object.keys(props.classes).forEach((k) => {
         if (classes[k]) {
           resolvedClasses[k] += ` ${props.classes[k]}`;
         } else if (process.env.NODE_ENV === "test") {
