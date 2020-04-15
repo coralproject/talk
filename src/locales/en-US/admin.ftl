@@ -145,6 +145,7 @@ configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
 configure-sideBarNavigation-organization = Organization
+configure-sideBarNavigation-moderationPhases = Moderation Phases
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
