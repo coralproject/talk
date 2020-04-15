@@ -1,5 +1,8 @@
 import { Redis } from "ioredis";
+import { DateTime } from "luxon";
+import { Db } from "mongodb";
 
+import { retrieveManyRejected } from "coral-server/models/comment";
 import { User } from "coral-server/models/user";
 import {
   retrieveDailyTotal,
@@ -87,4 +90,18 @@ export async function retrieveHourlyStaffCommentTotal(
   now: Date
 ) {
   return retrieveHourlyTotals(redis, tenantID, now, hourlyStaffCommentCountKey);
+}
+
+export async function retrieveCommentsByStatus(
+  mongo: Db,
+  tenantID: string,
+  now: Date
+) {
+  const today = DateTime.fromJSDate(now)
+    .minus({ days: 1 })
+    .toJSDate();
+  const rejected = await retrieveManyRejected(mongo, tenantID, today);
+  return {
+    rejected,
+  };
 }

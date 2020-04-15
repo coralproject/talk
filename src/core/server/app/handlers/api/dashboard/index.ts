@@ -1,14 +1,15 @@
 import { AppOptions } from "coral-server/app";
 import {
+  retrieveCommentsByStatus,
   retrieveDailyCommentTotal,
   retrieveDailyStaffCommentTotal,
   retrieveHourlyCommentTotal,
 } from "coral-server/services/comments/stats";
+import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
 import {
   retrieveDailyNewCommentersCount,
   retrieveHourlyNewCommentersCount,
 } from "coral-server/services/users";
-
 import { RequestHandler } from "coral-server/types/express";
 
 type StatsOptions = Pick<AppOptions, "redis">;
@@ -23,13 +24,6 @@ export const dailyCommentStatsHandler = ({
     const tenant = coral.tenant!;
 
     try {
-      const test = await retrieveHourlyCommentTotal(
-        redis,
-        tenant.id,
-        coral.now
-      );
-      /* eslint-disable-next-line */
-      console.log(test);
       const dailyCommentTotal = await retrieveDailyCommentTotal(
         redis,
         tenant.id,
@@ -123,6 +117,61 @@ export const hourlyNewCommentersStatsHandler = ({
         commenters: {
           hourly: hourlyCommenters,
         },
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+type TopCommentedStatsOptions = Pick<AppOptions, "redis" | "mongo">;
+
+export const topCommentedStoriesStatsHandler = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    // Tenant is guaranteed at this point.
+    const coral = req.coral!;
+
+    const tenant = coral.tenant!;
+
+    try {
+      const topStories = await retrieveDailyTopCommentedStories(
+        mongo,
+        redis,
+        tenant.id,
+        coral.now
+      );
+
+      return res.json({
+        stories: topStories,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const commentStatuses = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    // Tenant is guaranteed at this point.
+    const coral = req.coral!;
+
+    const tenant = coral.tenant!;
+
+    try {
+      const topStories = await retrieveCommentsByStatus(
+        mongo,
+        tenant.id,
+        coral.now
+      );
+
+      return res.json({
+        stories: topStories,
       });
     } catch (err) {
       return next(err);
