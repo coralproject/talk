@@ -11,7 +11,7 @@ interface Props {
   children: React.ReactElement;
 }
 
-const ModerationPhasesLayout: FunctionComponent<Props> = props => {
+const ModerationPhasesLayout: FunctionComponent<Props> = (props) => {
   return (
     <MainLayout>
       <Layout>
