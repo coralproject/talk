@@ -1,6 +1,5 @@
 .icon {
-  min-width: 18px;
-  margin-right: var(--spacing-2);
+  color: var(--v2-colors-mono-500);
 }
 
 .gutter {

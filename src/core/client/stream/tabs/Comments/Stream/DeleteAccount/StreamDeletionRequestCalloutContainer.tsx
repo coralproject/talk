@@ -7,14 +7,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import {
-  Button,
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import { HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
 
@@ -65,27 +59,31 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   return (
     <>
       {deletionDate && (
-        <CallOut color="error" className={CLASSES.pendingAccountDeletion.$root}>
-          <HorizontalGutter className={styles.gutter}>
-            <Flex>
-              <Icon size="md" className={styles.icon}>
-                report_problem
-              </Icon>
-              <Localized id="comments-stream-deleteAccount-callOut-title">
-                <Typography variant="bodyCopyBold">
-                  Account deletion requested
-                </Typography>
-              </Localized>
-            </Flex>
-          </HorizontalGutter>
+        <CallOut
+          color="negative"
+          className={CLASSES.pendingAccountDeletion.$root}
+          borderPosition="top"
+          iconColor="inherit"
+          icon={
+            <Icon size="sm" className={styles.icon}>
+              error
+            </Icon>
+          }
+          iconPosition="left"
+          title={
+            <Localized id="comments-stream-deleteAccount-callOut-title">
+              Account deletion requested
+            </Localized>
+          }
+        >
           <HorizontalGutter className={styles.gutter}>
             <Localized
               id="comments-stream-deleteAccount-callOut-receivedDesc"
               $date={requestDate}
             >
-              <Typography variant="bodyCopy">
+              <div>
                 A request to delete your account was received on {requestDate}.
-              </Typography>
+              </div>
             </Localized>
           </HorizontalGutter>
           <HorizontalGutter className={styles.gutter}>
@@ -93,22 +91,25 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
               id="comments-stream-deleteAccount-callOut-cancelDesc"
               $date={deletionDate}
             >
-              <Typography variant="bodyCopy">
+              <div>
                 If you would like to continue leaving comments, replies or
                 reactions, you may cancel your request to delete your account
                 before {deletionDate}.
-              </Typography>
+              </div>
             </Localized>
           </HorizontalGutter>
           <HorizontalGutter className={styles.gutter}>
-            <Localized id="comments-stream-deleteAccount-callOut-cancel">
+            <Localized id="comments-stream-deleteAccount-callOut-cancelAccountDeletion">
               <Button
-                variant="underlined"
-                color="primary"
+                variant="filled"
+                marginSize="extraSmall"
+                textSize="small"
+                upperCase
+                color="secondary"
                 onClick={cancelDeletion}
                 className={CLASSES.pendingAccountDeletion.cancelRequestButton}
               >
-                Cancel account deletion request
+                Cancel account deletion
               </Button>
             </Localized>
           </HorizontalGutter>

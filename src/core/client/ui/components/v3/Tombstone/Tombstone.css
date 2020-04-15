@@ -8,6 +8,8 @@
   color: var(--v2-colors-mono-500);
 
   padding: var(--v2-spacing-4);
+
+  text-align: center;
 }
 
 .fullWidth {
