@@ -4,7 +4,6 @@ import { capitalize } from "lodash";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
-import { Omit } from "coral-common/types";
 import { version } from "coral-common/version";
 import {
   generateSignatures,

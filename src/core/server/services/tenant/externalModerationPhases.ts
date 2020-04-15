@@ -291,9 +291,7 @@ export async function rotateExternalModerationPhaseSigningSecret(
   const inactiveAt =
     inactiveIn === 0
       ? now
-      : DateTime.fromJSDate(now)
-          .plus({ seconds: inactiveIn })
-          .toJSDate();
+      : DateTime.fromJSDate(now).plus({ seconds: inactiveIn }).toJSDate();
 
   // Rotate the secrets.
   const updatedTenant = await rotateTenantExternalModerationPhaseSigningSecret(

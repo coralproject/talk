@@ -1,16 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   FormField,

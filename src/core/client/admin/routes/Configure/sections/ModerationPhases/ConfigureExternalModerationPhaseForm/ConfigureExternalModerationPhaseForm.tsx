@@ -3,15 +3,12 @@ import { FORM_ERROR } from "final-form";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import getExternalModerationPhaseLink from "coral-admin/helpers/getExternalModerationPhaseLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -62,7 +59,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   const create = useMutation(CreateExternalModerationPhaseMutation);
   const update = useMutation(UpdateExternalModerationPhaseMutation);
   const onSubmit = useCallback(
-    async values => {
+    async (values) => {
       try {
         if (phase) {
           // The external moderation phase was defined, update it.

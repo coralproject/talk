@@ -11,5 +11,5 @@ export function getExternalModerationPhase(
   integration: ExternalExternalIntegration,
   phaseID: string
 ) {
-  return integration.phases.find(p => p.id === phaseID) || null;
+  return integration.phases.find((p) => p.id === phaseID) || null;
 }

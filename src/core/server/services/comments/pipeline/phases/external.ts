@@ -191,7 +191,7 @@ async function processPhase(
   // sending.
   const expiredSigningSecretKIDs = phase.signingSecrets
     .filter(filterExpiredSigningSecrets(now))
-    .map(s => s.kid);
+    .map((s) => s.kid);
   if (expiredSigningSecretKIDs.length > 0) {
     process.nextTick(() => {
       deleteTenantExternalModerationPhaseSigningSecrets(
@@ -206,7 +206,7 @@ async function processPhase(
             "removed expired secrets from phase"
           );
         })
-        .catch(err => {
+        .catch((err) => {
           log.error(
             { err },
             "an error occurred when trying to remove expired phase secrets"

@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { ExternalModerationPhaseDetails_phase } from "coral-admin/__generated__/ExternalModerationPhaseDetails_phase.graphql";
 
