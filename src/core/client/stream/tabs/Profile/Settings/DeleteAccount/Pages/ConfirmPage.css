@@ -1,7 +1,11 @@
-.phrase {
-  margin-bottom: var(--v2-spacing-2);
+.input {
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.validationMessage {
+  padding-bottom: var(--v2-spacing-1);
 }
 
 .controls {
-  margin-top: var(--v2-spacing-5);
+  padding-top: var(--v2-spacing-2);
 }
