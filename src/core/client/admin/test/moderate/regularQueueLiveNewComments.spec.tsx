@@ -68,7 +68,7 @@ it("allows viewing new when new comments come in", async () => {
 
   subscriptionHandler.dispatch<
     SubscriptionToCommentEnteredModerationQueueResolver
-  >("commentEnteredModerationQueue", variables => {
+  >("commentEnteredModerationQueue", (variables) => {
     if (
       variables.storyID !== null ||
       variables.queue !== GQLMODERATION_QUEUE.REPORTED
@@ -103,7 +103,7 @@ it("recognizes when same comment enters and leaves again", async () => {
 
   subscriptionHandler.dispatch<
     SubscriptionToCommentEnteredModerationQueueResolver
-  >("commentEnteredModerationQueue", variables => {
+  >("commentEnteredModerationQueue", (variables) => {
     if (
       variables.storyID !== null ||
       variables.queue !== GQLMODERATION_QUEUE.REPORTED
@@ -125,7 +125,7 @@ it("recognizes when same comment enters and leaves again", async () => {
 
   subscriptionHandler.dispatch<
     SubscriptionToCommentLeftModerationQueueResolver
-  >("commentLeftModerationQueue", variables => {
+  >("commentLeftModerationQueue", (variables) => {
     if (
       variables.storyID !== null ||
       variables.queue !== GQLMODERATION_QUEUE.REPORTED

@@ -10,7 +10,7 @@ export default function roleIsAtLeast(
   role: GQLUSER_ROLE_RL,
   atLeast: GQLUSER_ROLE_RL
 ) {
-  [role, atLeast].forEach(r => {
+  [role, atLeast].forEach((r) => {
     if (!hierarchy.includes(r)) {
       throw new Error(`Unknown role ${r}`);
     }

@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
@@ -60,7 +60,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const AnsweredCommentsQuery: FunctionComponent<Props> = props => {
+const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
@@ -89,7 +89,7 @@ const AnsweredCommentsQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data))}
     />
   );
 };

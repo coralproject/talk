@@ -1,8 +1,8 @@
 import { identity, isNumber } from "lodash";
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { FirstDeepPartial, Omit } from "coral-common/types";
+import { FirstDeepPartial } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {
@@ -33,7 +33,7 @@ export type CreateSiteInput = Omit<Site, "id" | "commentCounts" | "createdAt">;
 export type SiteConnectionInput = ConnectionInput<Site>;
 
 export function getURLOrigins(urls: ReadonlyArray<string>) {
-  return urls.map(url => getOrigin(url)).filter(identity) as string[];
+  return urls.map((url) => getOrigin(url)).filter(identity) as string[];
 }
 
 /**
@@ -49,7 +49,7 @@ export async function createSite(
 ): Promise<Readonly<Site>> {
   const site: Site = {
     ...input,
-    id: uuid.v4(),
+    id: uuid(),
     commentCounts: createEmptyRelatedCommentCounts(),
     createdAt: now,
   };
@@ -92,7 +92,7 @@ export async function retrieveManySites(
   });
   const sites = await cursor.toArray();
 
-  return ids.map(id => sites.find(site => site.id === id) || null);
+  return ids.map((id) => sites.find((site) => site.id === id) || null);
 }
 
 export async function retrieveSiteByOrigin(

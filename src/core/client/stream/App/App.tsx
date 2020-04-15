@@ -22,7 +22,7 @@ export interface AppProps {
   activeTab: TabValue;
 }
 
-const App: FunctionComponent<AppProps> = props => {
+const App: FunctionComponent<AppProps> = (props) => {
   return (
     <HorizontalGutter className={cn(CLASSES.app, styles.root)}>
       <nav>

@@ -1,6 +1,6 @@
+import Joi from "@hapi/joi";
 import { CookieOptions, NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
-import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { DateTime } from "luxon";
 import passport, { Authenticator } from "passport";
@@ -64,12 +64,10 @@ interface LogoutToken {
   exp?: number;
 }
 
-const LogoutTokenSchema = Joi.object()
-  .keys({
-    jti: Joi.string().default(undefined),
-    exp: Joi.number().default(undefined),
-  })
-  .optionalKeys(["jti", "exp"]);
+const LogoutTokenSchema = Joi.object().keys({
+  jti: Joi.string().optional(),
+  exp: Joi.number().optional(),
+});
 
 export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
@@ -159,7 +157,7 @@ const generateCookieOptions = (
   // anyways, so don't bother setting `None` when we're not secure. The only
   // time we aren't behind HTTPS is when we're testing/in development where the
   // the setting for `SameSite: Lax` would be OK.
-  sameSite: req.secure ? "None" : "Lax",
+  sameSite: req.secure ? "none" : "lax",
   expires: expiresIn,
 });
 

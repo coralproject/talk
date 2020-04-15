@@ -60,7 +60,7 @@ const Field: FunctionComponent<Props> = ({
           >
             <input
               name={input.name}
-              onChange={evt => {
+              onChange={(evt) => {
                 if (onChange) {
                   onChange(evt);
                 }
@@ -77,7 +77,7 @@ const Field: FunctionComponent<Props> = ({
               autoComplete="off"
               spellCheck={false}
               ref={forwardRef}
-              onBlur={evt => {
+              onBlur={(evt) => {
                 // Reset value when blurring.
                 input.onChange("");
                 if (onBlur) {

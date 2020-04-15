@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
 import { EndpointDetails_webhookEndpoint } from "coral-admin/__generated__/EndpointDetails_webhookEndpoint.graphql";

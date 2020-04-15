@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -27,11 +27,9 @@ export interface ConfirmRequestBody {
   userID?: string;
 }
 
-export const ConfirmRequestBodySchema = Joi.object()
-  .keys({
-    userID: Joi.string().default(undefined),
-  })
-  .optionalKeys(["userID"]);
+export const ConfirmRequestBodySchema = Joi.object().keys({
+  userID: Joi.string().optional(),
+});
 
 export const confirmRequestHandler = ({
   redis,

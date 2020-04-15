@@ -8,5 +8,5 @@ export interface QueueInput {
 }
 
 export const Queue: Required<GQLQueueTypeResolver<QueueInput>> = {
-  counts: t => t.counts(),
+  counts: (t) => t.counts(),
 };

@@ -1,10 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
+import { graphql } from "react-relay";
 
 import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
@@ -16,11 +16,13 @@ import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/Configu
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
 
 const loadConfigureContainer = () =>
-  import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(x => {
-    // New css is loaded, take care of polyfilling those css vars for IE11.
-    polyfillCSSVarsForIE11();
-    return x;
-  });
+  import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(
+    (x) => {
+      // New css is loaded, take care of polyfilling those css vars for IE11.
+      polyfillCSSVarsForIE11();
+      return x;
+    }
+  );
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadConfigureContainer = once(() =>
   setTimeout(loadConfigureContainer)

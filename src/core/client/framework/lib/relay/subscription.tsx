@@ -1,8 +1,14 @@
 import React, { useCallback } from "react";
 import { InferableComponentEnhancer } from "recompose";
-import { Disposable, Environment } from "relay-runtime";
+import {
+  Disposable,
+  Environment,
+  GraphQLSubscriptionConfig,
+  requestSubscription as requestSubscriptionRelay,
+} from "relay-runtime";
 
 import { CoralContext, useCoralContext } from "../bootstrap";
+import { resolveModule } from "./helpers";
 
 export type SubscriptionVariables<
   T extends { variables: any }
@@ -38,6 +44,17 @@ export function createSubscription<N extends string, V>(
     name,
     subscribe,
   };
+}
+
+export function requestSubscription<TSubscriptionPayload>(
+  environment: Environment,
+  // tslint:disable-next-line no-unnecessary-generics
+  config: GraphQLSubscriptionConfig<TSubscriptionPayload>
+): Disposable {
+  return requestSubscriptionRelay(environment, {
+    ...config,
+    subscription: resolveModule(config.subscription),
+  });
 }
 
 /**
@@ -76,13 +93,13 @@ export function withSubscription<N extends string, V, R>(
   return (BaseComponent: React.ComponentType<any>) => {
     {
       const sub = useSubscription(subscription);
-      return function WithSubscription(props) {
+      return function WithSubscription(props: any) {
         const finalProps = {
           ...props,
           [subscription.name]: sub,
         };
         return <BaseComponent {...finalProps} />;
-      };
+      } as any;
     }
   };
 }
@@ -93,7 +110,7 @@ export function withSubscription<N extends string, V, R>(
 export function combineDisposables(...disposables: Disposable[]): Disposable {
   return {
     dispose: () => {
-      disposables.forEach(d => d.dispose());
+      disposables.forEach((d) => d.dispose());
     },
   };
 }

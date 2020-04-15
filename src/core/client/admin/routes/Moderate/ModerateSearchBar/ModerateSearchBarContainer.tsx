@@ -172,7 +172,7 @@ function useSearchOptions(
       }
 
       if (stories.edges.length > 0) {
-        stories.edges.forEach(e => {
+        stories.edges.forEach((e) => {
           // Don't show current story in search results.
           if (story && story.id === e.node.id) {
             return;
@@ -233,7 +233,7 @@ function useSearchOptions(
   return [searchOptions, onSearch];
 }
 
-const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
+const ModerateSearchBarContainer: React.FunctionComponent<Props> = (props) => {
   const linkNavHandler = useLinkNavHandler(props.router);
   const contextOptions: PropTypesOf<typeof Bar>["options"] = props.allStories
     ? getContextOptionsWhenModeratingAll(linkNavHandler)

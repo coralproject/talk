@@ -17,8 +17,8 @@ export class OnPymSetCommentID extends Component<Props> {
     super(props);
 
     // Sets comment id through pym.
-    props.pym.onMessage("setCommentID", raw => {
-      commitLocalUpdate(this.props.relayEnvironment, s => {
+    props.pym.onMessage("setCommentID", (raw) => {
+      commitLocalUpdate(this.props.relayEnvironment, (s) => {
         const id = raw || null;
         if (s.get(LOCAL_ID)!.getValue("commentID") !== id) {
           s.get(LOCAL_ID)!.setValue(id, "commentID");

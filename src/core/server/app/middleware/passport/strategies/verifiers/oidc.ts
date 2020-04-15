@@ -14,7 +14,7 @@ import {
   OIDCIDToken,
 } from "../oidc";
 
-export type OIDCIDToken = OIDCIDToken;
+export { OIDCIDToken } from "../oidc";
 
 export type OIDCVerifierOptions = Pick<
   AppOptions,

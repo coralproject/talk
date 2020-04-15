@@ -20,7 +20,7 @@ export function createPurify(window: Window, returnDOM = true) {
 
   // Ensure that each anchor tag has a "target" and "rel" attributes set, and
   // strip the "href" attribute from all non-anchor tags.
-  purify.addHook("afterSanitizeAttributes", node => {
+  purify.addHook("afterSanitizeAttributes", (node) => {
     if (node.nodeName === "A") {
       // Ensure we wrap all the links with the target + rel set.
       node.setAttribute("target", "_blank");

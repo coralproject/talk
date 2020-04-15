@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+import { QueryRenderer } from "coral-framework/lib/relay";
 
 import { ModerationActionBanQuery as QueryTypes } from "coral-stream/__generated__/ModerationActionBanQuery.graphql";
 
@@ -22,7 +23,7 @@ export default class ModerationActionBanQuery extends Component<Props> {
             }
           }
         `}
-        dataFrom="STORE_THEN_NETWORK"
+        fetchPolicy="store-and-network"
         variables={{
           userID: this.props.userID,
         }}

@@ -1,5 +1,5 @@
 .content {
-  composes: root from "coral-stream/shared/htmlContent.css";
+  composes: root from "~coral-stream/shared/htmlContent.css";
   border: 1px solid var(--palette-grey-main);
 }
 
@@ -9,6 +9,6 @@
 }
 
 .placeholder {
-  composes: placeholder from "coral-ui/shared/typography.css";
+  composes: placeholder from "~coral-ui/shared/typography.css";
   margin: 10px 0 0 calc(10px);
 }

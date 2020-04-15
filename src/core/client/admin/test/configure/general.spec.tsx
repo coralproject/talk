@@ -91,9 +91,7 @@ it("change language", async () => {
 
   // Send form
   await act(async () => {
-    await within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    await within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -136,10 +134,9 @@ it("change site wide commenting", async () => {
     resolvers,
   });
 
-  const sitewideCommentingContainer = within(generalContainer).getAllByText(
-    "Sitewide commenting",
-    { selector: "fieldset" }
-  )[0];
+  const sitewideCommentingContainer = within(
+    generalContainer
+  ).getAllByText("Sitewide commenting", { selector: "fieldset" })[0];
 
   const offField = within(sitewideCommentingContainer).getByLabelText(
     "Off - Comment streams closed for new comments"
@@ -156,9 +153,7 @@ it("change site wide commenting", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -201,10 +196,9 @@ it("change community guidlines", async () => {
     resolvers,
   });
 
-  const guidelinesContainer = within(generalContainer).getAllByText(
-    "Community guidelines summary",
-    { selector: "fieldset" }
-  )[0];
+  const guidelinesContainer = within(
+    generalContainer
+  ).getAllByText("Community guidelines summary", { selector: "fieldset" })[0];
 
   const onField = within(guidelinesContainer).getByLabelText("On");
   const contentField = within(guidelinesContainer).getByLabelText(
@@ -221,9 +215,7 @@ it("change community guidlines", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -269,9 +261,7 @@ it("change closed stream message", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -304,10 +294,9 @@ it("change comment editing time", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const durationFieldset = within(generalContainer).getByText(
-    "Comment edit timeframe",
-    { selector: "fieldset" }
-  );
+  const durationFieldset = within(
+    generalContainer
+  ).getByText("Comment edit timeframe", { selector: "fieldset" });
   const valueField = within(durationFieldset).getByLabelText("value");
   const unitField = within(durationFieldset).getByLabelText("unit");
   const hoursOption = within(unitField).getByText(/Hours?/);
@@ -317,9 +306,7 @@ it("change comment editing time", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -342,9 +329,7 @@ it("change comment editing time", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -381,10 +366,9 @@ it("change comment length limitations", async () => {
     resolvers,
   });
 
-  const commentLengthContainer = within(generalContainer).getByText(
-    "Comment length",
-    { selector: "fieldset" }
-  );
+  const commentLengthContainer = within(
+    generalContainer
+  ).getByText("Comment length", { selector: "fieldset" });
   const onField = within(commentLengthContainer).getByLabelText("On");
   const minField = within(commentLengthContainer).getByLabelText(
     "Minimum comment length"
@@ -400,9 +384,7 @@ it("change comment length limitations", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -433,9 +415,7 @@ it("change comment length limitations", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -473,15 +453,13 @@ it("change closing comment streams", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const closingCommentStreamsContainer = within(generalContainer).getByText(
-    "Closing comment streams",
-    { selector: "fieldset" }
-  );
+  const closingCommentStreamsContainer = within(
+    generalContainer
+  ).getByText("Closing comment streams", { selector: "fieldset" });
   const onField = within(closingCommentStreamsContainer).getByLabelText("On");
-  const durationFieldset = within(closingCommentStreamsContainer).getByText(
-    "Close comments after",
-    { selector: "fieldset" }
-  );
+  const durationFieldset = within(
+    closingCommentStreamsContainer
+  ).getByText("Close comments after", { selector: "fieldset" });
   const valueField = within(durationFieldset).getByLabelText("value");
   const unitField = within(durationFieldset).getByLabelText("unit");
   const daysOption = within(unitField).getByText(/Days?/);
@@ -492,9 +470,7 @@ it("change closing comment streams", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -511,9 +487,7 @@ it("change closing comment streams", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -554,9 +528,7 @@ it("handle server error", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Look for internal error being displayed.

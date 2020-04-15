@@ -22,7 +22,7 @@ export interface InputLabelProps {
   classes: typeof styles;
 }
 
-const InputLabelProps: FunctionComponent<InputLabelProps> = props => {
+const InputLabelProps: FunctionComponent<InputLabelProps> = (props) => {
   const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

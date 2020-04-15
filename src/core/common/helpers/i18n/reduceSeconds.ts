@@ -31,7 +31,7 @@ export default function reduceSeconds(
 ): ScaledUnit {
   // Find the largest match for the smallest number.
   const unit: keyof typeof UNIT_MAP =
-    units.find(compare => value >= compare) || TIME.SECOND;
+    units.find((compare) => value >= compare) || TIME.SECOND;
 
   // Scale the value to the unit.
   const scaled = Math.round((value / unit) * 100) / 100;

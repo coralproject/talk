@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Footer: FunctionComponent<Props> = props => (
+const Footer: FunctionComponent<Props> = (props) => (
   <Flex className={styles.root} alignItems="baseline">
     {props.children}
   </Flex>

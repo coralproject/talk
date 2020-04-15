@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   Divider,

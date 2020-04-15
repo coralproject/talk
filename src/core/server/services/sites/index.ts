@@ -1,6 +1,5 @@
 import { Db } from "mongodb";
 
-import { Omit } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import {
   createSite,

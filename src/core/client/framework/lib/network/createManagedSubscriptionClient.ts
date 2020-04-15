@@ -94,7 +94,7 @@ export default function createManagedSubscriptionClient(
         subscriptionClient = new SubscriptionClient(url, {
           reconnect: true,
           timeout: 60000,
-          connectionCallback: err => {
+          connectionCallback: (err) => {
             if (err) {
               // If an error is thrown as a result of live updates being
               // disabled, then just close the subscription client.
@@ -149,7 +149,7 @@ export default function createManagedSubscriptionClient(
     }
     return {
       dispose: () => {
-        const i = requests.findIndex(r => r === request);
+        const i = requests.findIndex((r) => r === request);
         if (i !== -1) {
           // Unsubscribe if available.
           if (request.unsubscribe) {
@@ -161,7 +161,7 @@ export default function createManagedSubscriptionClient(
           // Close client if there is no active subscription.
           if (
             subscriptionClient &&
-            (requests.length === 0 || requests.every(r => !r.unsubscribe))
+            (requests.length === 0 || requests.every((r) => !r.unsubscribe))
           ) {
             closeClient();
           }

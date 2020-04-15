@@ -8,7 +8,7 @@ export default function useResizeObserver(
   useEffect(() => {
     const element = ref.current;
     if (element) {
-      const resizeObserver = new ResizeObserver(entries => {
+      const resizeObserver = new ResizeObserver((entries) => {
         if (!Array.isArray(entries)) {
           return;
         }

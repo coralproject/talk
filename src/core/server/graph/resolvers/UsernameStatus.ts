@@ -5,9 +5,9 @@ export type UsernameStatusInput = user.ConsolidatedUsernameStatus & {
   userID: string;
 };
 
-export const UsernameStatus: Required<
-  GQLUsernameStatusTypeResolver<UsernameStatusInput>
-> = {
+export const UsernameStatus: Required<GQLUsernameStatusTypeResolver<
+  UsernameStatusInput
+>> = {
   history: ({ history, userID }) =>
-    history.map(status => ({ ...status, userID })),
+    history.map((status) => ({ ...status, userID })),
 };

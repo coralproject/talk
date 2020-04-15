@@ -65,7 +65,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
       console.error(error);
     }
   }, [loadMore, beginLoadMoreEvent]);
-  const parents = comment.parents.edges.map(edge => edge.node);
+  const parents = comment.parents.edges.map((edge) => edge.node);
   const remaining = comment.parentCount - comment.parents.edges.length;
   const hasMore = relay.hasMore();
   const rootParent = hasMore && comment && comment.rootParent;
@@ -173,7 +173,7 @@ interface FragmentVariables {
   cursor?: string;
 }
 
-const enhanced = withContext(ctx => ({
+const enhanced = withContext((ctx) => ({
   pym: ctx.pym,
 }))(
   withSetCommentIDMutation(

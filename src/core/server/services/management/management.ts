@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 
 import { TokenInvalidError } from "coral-server/errors";
@@ -18,13 +18,13 @@ export interface InstallationToken
 }
 
 const InstallationTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("installation"),
-}).requiredKeys(["iat", "exp", "sub", "aud"]);
+  aud: Joi.string().valid("installation"),
+}).fork(["iat", "exp", "sub", "aud"], (s) => s.required());
 
 export function validateInstallationToken(
   token: InstallationToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, InstallationTokenSchema);
+  const { error } = InstallationTokenSchema.validate(token);
   return error || null;
 }
 

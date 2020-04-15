@@ -17,7 +17,7 @@ export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache" | "i18n">;
  */
 export const countHandler = ({ mongo, i18n }: CountOptions): RequestHandler => {
   const window = new JSDOM("").window;
-  const DOMPurify = createDOMPurify(window);
+  const DOMPurify = createDOMPurify(window as any);
 
   return async (req, res, next) => {
     try {

@@ -10,7 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Arrow: FunctionComponent<Props> = props => {
+const Arrow: FunctionComponent<Props> = (props) => {
   const { className, dark, forwardRef: ref, ...rest } = props;
   return (
     <div

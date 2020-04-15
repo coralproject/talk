@@ -6,9 +6,9 @@ interface State {
 }
 
 type Action =
-  | {
+  | ({
       type: "SET_MESSAGE";
-    } & State
+    } & State)
   | {
       type: "CLEAR_MESSAGE";
     };

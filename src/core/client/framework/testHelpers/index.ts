@@ -29,9 +29,7 @@ export {
   WithTypename,
 } from "./createFixture";
 export { default as createFixtures } from "./createFixtures";
-export {
-  default as createMutationResolverStub,
-} from "./createMutationResolverStub";
+export { default as createMutationResolverStub } from "./createMutationResolverStub";
 export { default as createQueryResolverStub } from "./createQueryResolverStub";
 export {
   default as createTestRenderer,

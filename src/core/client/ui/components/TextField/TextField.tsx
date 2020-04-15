@@ -80,7 +80,7 @@ export interface TextFieldProps {
   variant?: "regular" | "seamlessAdornment";
 }
 
-const TextField: FunctionComponent<TextFieldProps> = props => {
+const TextField: FunctionComponent<TextFieldProps> = (props) => {
   const {
     className,
     classes,

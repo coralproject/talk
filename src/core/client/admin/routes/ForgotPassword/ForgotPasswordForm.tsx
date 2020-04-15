@@ -32,7 +32,7 @@ interface Props {
   onCheckEmail: (email: string) => void;
 }
 
-const ForgotPasswordForm: FunctionComponent<Props> = props => {
+const ForgotPasswordForm: FunctionComponent<Props> = (props) => {
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const onSubmit = useCallback(
     async (form: FormProps) => {

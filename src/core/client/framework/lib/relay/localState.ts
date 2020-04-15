@@ -52,7 +52,7 @@ export async function initLocalBaseState(
   { localStorage }: CoralContext,
   accessToken?: string | null
 ) {
-  commitLocalUpdate(environment, s => {
+  commitLocalUpdate(environment, (s) => {
     const root = s.getRoot();
 
     // Create the Local Record which is the Root for the client states.

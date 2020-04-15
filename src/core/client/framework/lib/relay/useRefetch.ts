@@ -22,7 +22,7 @@ export default function useRefetch<V = Variables>(
     setRefetching(true);
     const disposable = relay.refetchConnection(
       10,
-      error => {
+      (error) => {
         setRefetching(false);
         if (error) {
           // eslint-disable-next-line no-console

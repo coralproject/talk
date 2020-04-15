@@ -9,7 +9,7 @@ export interface CircleProps {
   end?: boolean;
 }
 
-const Circle: FunctionComponent<CircleProps> = props => {
+const Circle: FunctionComponent<CircleProps> = (props) => {
   return (
     <div className={cn(styles.circleContainer, props.className)}>
       <div

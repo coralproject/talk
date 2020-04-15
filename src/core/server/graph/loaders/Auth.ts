@@ -11,8 +11,8 @@ export default (ctx: GraphContext) => ({
     string,
     GQLDiscoveredOIDCConfiguration | null
   >(
-    issuers =>
-      Promise.all(issuers.map(issuer => discoverOIDCConfiguration(issuer))),
+    (issuers) =>
+      Promise.all(issuers.map((issuer) => discoverOIDCConfiguration(issuer))),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.

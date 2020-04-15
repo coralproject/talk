@@ -70,7 +70,7 @@ it("should ignore click inside", () => {
 it("should detect click far away", () => {
   let emitFarAwayClick: ClickFarAwayCallback = Function;
   const unlisten = sinon.spy();
-  const registerClickFarAway: ClickFarAwayRegister = cb => {
+  const registerClickFarAway: ClickFarAwayRegister = (cb) => {
     emitFarAwayClick = cb;
     return unlisten;
   };

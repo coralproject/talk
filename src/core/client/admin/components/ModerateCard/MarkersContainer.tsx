@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React from "react";
+import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -26,17 +26,17 @@ function hasDetails(c: MarkersContainer_comment) {
 }
 
 let keyCounter = 0;
-const markers: Array<
-  (c: MarkersContainer_comment) => React.ReactElement<any> | null
-> = [
-  c =>
+const markers: Array<(
+  c: MarkersContainer_comment
+) => React.ReactElement<any> | null> = [
+  (c) =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
         <Marker color="pending">Pre-Mod</Marker>
       </Localized>
     )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
@@ -44,7 +44,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
@@ -52,7 +52,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
@@ -60,7 +60,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
         <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
@@ -68,7 +68,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
         <Localized id="moderate-marker-toxic" key={keyCounter++}>
@@ -76,7 +76,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
         <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
@@ -84,7 +84,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
         <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
@@ -92,7 +92,7 @@ const markers: Array<
         </Localized>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
         <Marker key={keyCounter++} color="reported">
@@ -105,7 +105,7 @@ const markers: Array<
         </Marker>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
         <Marker key={keyCounter++} color="reported">
@@ -118,7 +118,7 @@ const markers: Array<
         </Marker>
       )) ||
     null,
-  c =>
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_NEW_COMMENTER && (
         <Localized id="moderate-marker-newCommenter" key={keyCounter++}>
@@ -128,33 +128,38 @@ const markers: Array<
     null,
 ];
 
-export class MarkersContainer extends React.Component<MarkersContainerProps> {
-  public render() {
-    const elements = markers.map(cb => cb(this.props.comment)).filter(m => m);
-    const doesHaveDetails = hasDetails(this.props.comment);
-    if (elements.length === 0 && !doesHaveDetails) {
-      return null;
-    }
-
-    return (
-      <Markers
-        details={
-          doesHaveDetails || this.props.comment.editing.edited ? (
-            <ModerateCardDetailsContainer
-              hasDetails={!!doesHaveDetails}
-              hasRevisions={this.props.comment.editing.edited}
-              onUsernameClick={this.props.onUsernameClick}
-              comment={this.props.comment}
-              settings={this.props.settings}
-            />
-          ) : null
-        }
-      >
-        {elements}
-      </Markers>
-    );
+export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = (
+  props
+) => {
+  const elements = useMemo(
+    () => markers.map((cb) => cb(props.comment)).filter((m) => m),
+    [markers, props.comment]
+  );
+  const doesHaveDetails = useMemo(() => hasDetails(props.comment), [
+    props.comment,
+  ]);
+  if (elements.length === 0 && !doesHaveDetails) {
+    return null;
   }
-}
+
+  return (
+    <Markers
+      details={
+        doesHaveDetails || props.comment.editing.edited ? (
+          <ModerateCardDetailsContainer
+            hasDetails={!!doesHaveDetails}
+            hasRevisions={props.comment.editing.edited}
+            onUsernameClick={props.onUsernameClick}
+            comment={props.comment}
+            settings={props.settings}
+          />
+        ) : null
+      }
+    >
+      {elements}
+    </Markers>
+  );
+};
 
 const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`

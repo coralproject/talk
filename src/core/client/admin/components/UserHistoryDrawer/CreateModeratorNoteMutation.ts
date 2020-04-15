@@ -25,7 +25,7 @@ const CreateModeratorNoteMutation = createMutation(
   ) => {
     const viewer = getViewer(environment)!;
     const notes =
-      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map(note => {
+      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map((note) => {
         const createdBy = pick(note.createdBy, ["username", "id"]);
         return {
           ...pick(note, ["id", "body", "createdAt"]),
@@ -40,6 +40,7 @@ const CreateModeratorNoteMutation = createMutation(
         ) {
           createModeratorNote(input: $input) {
             user {
+              id
               moderatorNotes {
                 id
                 body

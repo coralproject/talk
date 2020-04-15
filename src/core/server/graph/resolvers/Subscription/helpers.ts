@@ -102,6 +102,6 @@ export function createIterator<
       createTenantAsyncIterator(channel),
       createFilterFn(filter)
     ),
-    resolve: payload => payload,
+    resolve: (payload) => payload,
   };
 }

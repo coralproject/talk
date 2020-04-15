@@ -20,7 +20,7 @@ const postcssAdvancedVariables = require("postcss-advanced-variables");
 delete require.cache[paths.appThemeVariables];
 const variables = require(paths.appThemeVariables).default;
 const flatKebabVariables = mapKeys(
-  mapValues(flat(variables, { delimiter: "-" }), v => v.toString()),
+  mapValues(flat(variables, { delimiter: "-" }), (v) => v.toString()),
   (_, k) => kebabCase(k)
 );
 
@@ -32,7 +32,7 @@ const mediaQueryVariables = mapValues(
   // with the smallest screen and gradually add styling for the
   // next bigger screen. This is realized using `min-width` without
   // ever using `max-width`.
-  v => `${Number.parseInt(v, 10) + 1}px`
+  (v) => `${Number.parseInt(v, 10) + 1}px`
 );
 
 module.exports = {
@@ -63,12 +63,6 @@ module.exports = {
     postcssFlexbugsFixes,
     // Vendor prefixing.
     autoprefixer({
-      browsers: [
-        ">1%",
-        "last 4 versions",
-        "Firefox ESR",
-        "not ie < 9", // React doesn't support IE8 anyway
-      ],
       flexbox: "no-2009",
     }),
   ],

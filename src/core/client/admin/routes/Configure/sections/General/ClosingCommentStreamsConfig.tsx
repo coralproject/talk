@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { colorFromMeta } from "coral-framework/lib/form";
+import { colorFromMeta, parseInteger } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -74,6 +74,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
           required,
           validateWholeNumberGreaterThan(0)
         )}
+        parse={parseInteger}
       >
         {({ input, meta }) => (
           <>

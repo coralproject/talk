@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import path from "path";
-import uuid from "uuid";
+import * as uuid from "uuid";
 
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -125,7 +125,7 @@ export default class Manager {
       }
     }
 
-    return this.migrations.filter(migration => {
+    return this.migrations.filter((migration) => {
       // Find the record based on the migration.
       const record = records.find(({ id }) => migration.id === id);
       if (record) {

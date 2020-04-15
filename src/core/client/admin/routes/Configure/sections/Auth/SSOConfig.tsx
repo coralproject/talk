@@ -42,7 +42,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled }) => (
     disabled={disabled}
     data-testid="configure-auth-sso"
   >
-    {disabledInside => (
+    {(disabledInside) => (
       <>
         <Localized
           id="configure-auth-sso-description"

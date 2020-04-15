@@ -41,7 +41,7 @@ const RemoveUserIgnoreMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          updater: store => {
+          updater: (store) => {
             const viewer = getViewer(environment)!;
             const viewerProxy = store.get(viewer.id)!;
             const removeIgnoredUserRecords = viewerProxy.getLinkedRecords(
@@ -50,7 +50,7 @@ const RemoveUserIgnoreMutation = createMutation(
             if (removeIgnoredUserRecords) {
               viewerProxy.setLinkedRecords(
                 removeIgnoredUserRecords.filter(
-                  r => r!.getValue("id") !== input.userID
+                  (r) => r.getValue("id") !== input.userID
                 ),
                 "ignoredUsers"
               );

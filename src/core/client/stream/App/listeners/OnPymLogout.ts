@@ -17,7 +17,7 @@ export class OnPymLogout extends Component<Props> {
     super(props);
 
     // Sets comment id through pym.
-    props.pym.onMessage("logout", accessToken => {
+    props.pym.onMessage("logout", (accessToken) => {
       this.props.signOut();
     });
   }

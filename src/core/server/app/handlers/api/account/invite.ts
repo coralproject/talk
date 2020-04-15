@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";

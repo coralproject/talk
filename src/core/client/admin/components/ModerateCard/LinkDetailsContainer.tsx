@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
 import { Button, Icon } from "coral-ui/components/v2";
 

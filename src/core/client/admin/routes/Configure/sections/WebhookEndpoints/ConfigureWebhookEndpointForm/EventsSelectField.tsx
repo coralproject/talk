@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { validateWebhookEventSelection } from "coral-framework/lib/validation";
 import { Typography } from "coral-ui/components";
 import {
@@ -93,7 +94,7 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         </FormFieldDescription>
       </Localized>
       <ListGroup className={styles.list}>
-        {settings.webhookEvents.map(event => {
+        {settings.webhookEvents.map((event) => {
           const selectedIndex = events.value.indexOf(event);
           return (
             <ListGroupRow key={event}>

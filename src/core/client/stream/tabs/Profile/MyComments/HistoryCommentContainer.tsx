@@ -23,7 +23,7 @@ interface Props {
   settings: SettingsData;
 }
 
-const HistoryCommentContainer: FunctionComponent<Props> = props => {
+const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const handleGotoConversation = useCallback(
     (e: React.MouseEvent) => {

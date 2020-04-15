@@ -1,9 +1,10 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
@@ -11,7 +12,7 @@ import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
 import { QueueCommentEnteredSubscription } from "coral-admin/__generated__/QueueCommentEnteredSubscription.graphql";
 
 function handleCommentEnteredModerationQueue(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   queue: GQLMODERATION_QUEUE_RL,
   storyID: string | null
 ) {
@@ -56,7 +57,7 @@ const QueueSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         handleCommentEnteredModerationQueue(
           store,
           variables.queue,

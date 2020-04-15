@@ -83,7 +83,7 @@ const UserTable: FunctionComponent<Props> = ({
             {!props.loading &&
               settings &&
               viewer &&
-              props.users.map(u => (
+              props.users.map((u) => (
                 <UserRowContainer
                   key={u.id}
                   user={u}

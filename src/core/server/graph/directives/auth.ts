@@ -81,7 +81,7 @@ const auth: DirectiveResolverFn<
       (!permit && conditions.length > 0) ||
       // If the permit was specified, and some of the conditions for the user
       // aren't in the list of permitted conditions, then error.
-      (permit && conditions.some(condition => !permit.includes(condition)))
+      (permit && conditions.some((condition) => !permit.includes(condition)))
     ) {
       // Compute the resource that the user was attempting to access.
       const resource = calculateLocationKey(info);

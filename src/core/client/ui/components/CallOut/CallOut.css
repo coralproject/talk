@@ -1,5 +1,5 @@
 .root {
-  composes: bodyCopy from "coral-ui/shared/typography.css";
+  composes: bodyCopy from "~coral-ui/shared/typography.css";
   position: relative;
   display: inline-flex;
   justify-content: center;

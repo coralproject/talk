@@ -159,10 +159,9 @@ describe("delete account steps", () => {
       await form.props.onSubmit();
     });
 
-    const confirmRequiredWarning = within(modal).getByText(
-      "This field is required.",
-      { exact: false }
-    );
+    const confirmRequiredWarning = within(
+      modal
+    ).getByText("This field is required.", { exact: false });
     expect(confirmRequiredWarning).toBeDefined();
   });
 
@@ -197,10 +196,9 @@ describe("delete account steps", () => {
       await form.props.onSubmit();
     });
 
-    const passwordRequiredWarning = within(modal).getByText(
-      "This field is required.",
-      { exact: false }
-    );
+    const passwordRequiredWarning = within(
+      modal
+    ).getByText("This field is required.", { exact: false });
     expect(passwordRequiredWarning).toBeDefined();
   });
 });

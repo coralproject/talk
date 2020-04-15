@@ -5,9 +5,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { graphql } from "react-relay";
 
 import { usePrevious } from "coral-framework/hooks";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { CallOut } from "coral-ui/components";
 
@@ -64,7 +65,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   const hide = Boolean(
     comment.author &&
       viewer &&
-      viewer.ignoredUsers.some(u => Boolean(u.id === comment.author!.id))
+      viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
   const tombstone = useTombstone(hide);
 

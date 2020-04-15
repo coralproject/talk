@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { Manager, Popper, Reference, RefHandler } from "react-popper";
+import { Manager, Popper, Reference } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
 import { withStyles } from "coral-ui/hocs";
@@ -35,7 +35,7 @@ interface BodyRenderProps {
 interface ChildrenRenderProps {
   /** toggles visibility, if event is provided, the event will stop propagating. */
   toggleVisibility: (event?: React.SyntheticEvent | Event) => void;
-  ref?: RefHandler;
+  ref?: React.Ref<any>;
   visible: boolean;
 }
 
@@ -139,7 +139,7 @@ class Popover extends React.Component<PopoverProps> {
       <div className={cn(classes.root, className)} {...rest}>
         <Manager>
           <Reference>
-            {props =>
+            {(props) =>
               children({
                 ref: props.ref,
                 toggleVisibility: this.toggleVisibility,
@@ -153,7 +153,7 @@ class Popover extends React.Component<PopoverProps> {
             positionFixed={positionFixed}
             modifiers={modifiers}
           >
-            {props => (
+            {(props) => (
               <div
                 id={id}
                 role="dialog"

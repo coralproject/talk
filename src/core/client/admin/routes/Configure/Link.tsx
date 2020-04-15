@@ -9,7 +9,7 @@ interface Props {
   to: string | LocationDescriptor;
 }
 
-const Link: FunctionComponent<Props> = props => (
+const Link: FunctionComponent<Props> = (props) => (
   <li className={props.className}>
     <FoundLink
       to={props.to}

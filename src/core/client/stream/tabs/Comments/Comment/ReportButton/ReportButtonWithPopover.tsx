@@ -43,7 +43,7 @@ const ReportButtonWithPopover: React.FunctionComponent<Props> = ({
         {({ toggleVisibility, ref, visible }) => (
           <ReportButton
             className={className}
-            onClick={evt => !reported && toggleVisibility(evt)}
+            onClick={(evt) => !reported && toggleVisibility(evt)}
             aria-controls={popoverID}
             ref={ref}
             active={visible}

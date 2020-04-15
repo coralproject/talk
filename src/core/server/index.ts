@@ -225,7 +225,7 @@ class Server {
     this.broker.register(new PerspectiveCoralEventListener());
 
     // Setup the metrics collectors.
-    collectDefaultMetrics({ timeout: 5000 });
+    collectDefaultMetrics();
   }
 
   /**

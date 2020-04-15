@@ -7,7 +7,6 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
@@ -82,10 +81,6 @@ export default function createWebpackConfig(
 
   const styleLoader = {
     loader: require.resolve("style-loader"),
-    options: {
-      sourceMap: !disableSourcemaps,
-      hmr: watch,
-    },
   };
 
   const localesOptions = {
@@ -367,9 +362,10 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("css-loader"),
                   options: {
-                    modules: true,
+                    modules: {
+                      localIdentName: "[name]-[local]-[contenthash]",
+                    },
                     importLoaders: 2,
-                    localIdentName: "[name]-[local]-[contenthash]",
                     sourceMap: !disableSourcemaps,
                   },
                 },
@@ -471,9 +467,10 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("css-loader"),
                   options: {
-                    modules: true,
+                    modules: {
+                      localIdentName: "[name]-[local]-[hash:base64:5]",
+                    },
                     importLoaders: 1,
-                    localIdentName: "[name]-[local]-[hash:base64:5]",
                     sourceMap: !disableSourcemaps,
                   },
                 },
@@ -525,11 +522,6 @@ export default function createWebpackConfig(
           useTypescriptIncrementalApi: false,
           checkSyntacticErrors: true,
           tsconfig: paths.appTsconfig,
-          watch: paths.appSrc,
-          // TODO: (cvle) ForkTsCheckerWebpackPlugin are currently not working, so we resort to default reporting.
-          silent: false,
-          // The formatter is normally invoked directly in WebpackDevServerUtils during development
-          formatter: typescriptFormatter,
         })
       ),
       // Makes some environment variables available to the JS code, for example:

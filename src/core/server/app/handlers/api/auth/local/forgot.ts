@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -20,10 +20,7 @@ export interface ForgotBody {
 }
 
 export const ForgotBodySchema = Joi.object().keys({
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .email(),
+  email: Joi.string().trim().lowercase().email(),
 });
 
 export type ForgotOptions = Pick<

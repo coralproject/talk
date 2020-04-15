@@ -104,7 +104,7 @@ function gatherEntries(
       docs: ts.displayPartsToString(symbol.getDocumentationComment(checker)),
       type: type.getSymbol()!.getName() as DocEntry["type"],
     };
-    typeNode.forEachChild(ch => {
+    typeNode.forEachChild((ch) => {
       if (ts.isTypeLiteralNode(ch)) {
         const text = printer.printNode(
           ts.EmitHint.Unspecified,
@@ -179,13 +179,13 @@ function emitDocs(markdownFile: string, entries: DocEntry[], verify = false) {
   const summary = stripIndent`
     - ${entries
       .map(
-        e => `<a href="#${getEventName(e.name)}">${getEventName(e.name)}</a>`
+        (e) => `<a href="#${getEventName(e.name)}">${getEventName(e.name)}</a>`
       )
       .join("\n    - ")}
   `;
   const list = entries
     .map(
-      e =>
+      (e) =>
         codeBlock`
         - ${
           e.type === "ViewerEvent"

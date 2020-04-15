@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { QueryRenderer } from "react-relay";
 import { OperationType } from "relay-runtime";
 
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import { CoralContextConsumer } from "../bootstrap/CoralContext";
 

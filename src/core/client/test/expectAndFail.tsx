@@ -20,13 +20,13 @@ const isPromise = <T extends any>(obj: any): obj is PromiseLike<T> =>
 const wrapMatcher = (func: any) => {
   const wrappedMatcher: any = {};
   const keys = Object.keys(func);
-  keys.forEach(k => {
+  keys.forEach((k) => {
     if (typeof func[k] === "function") {
       wrappedMatcher[k] = (...args: any[]) => {
         try {
           const result = func[k](...args);
           if (isPromise(result)) {
-            return result.then(undefined, e => {
+            return result.then(undefined, (e) => {
               // Remove this function from stacktrace.
               Error.captureStackTrace(e, wrappedMatcher[k]);
               fail(e);

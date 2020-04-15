@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, RefObject, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, HorizontalGutter, ModalHeader } from "coral-ui/components/v2";
 
 import { ConversationModalHeaderContainer_comment } from "coral-admin/__generated__/ConversationModalHeaderContainer_comment.graphql";

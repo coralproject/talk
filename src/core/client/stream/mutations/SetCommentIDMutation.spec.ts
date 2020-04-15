@@ -35,10 +35,7 @@ it("Should call setCommentID in pym", async () => {
   const id = "comment2-id";
   const context = {
     pym: {
-      sendMessage: sinon
-        .mock()
-        .once()
-        .withArgs("setCommentID", id),
+      sendMessage: sinon.mock().once().withArgs("setCommentID", id),
     },
   };
   commit(environment, { id }, context as any);
@@ -50,10 +47,7 @@ it("Should call setCommentID in pym", async () => {
 it("Should call setCommentID in pym with empty id", async () => {
   const context = {
     pym: {
-      sendMessage: sinon
-        .mock()
-        .once()
-        .withArgs("setCommentID", ""),
+      sendMessage: sinon.mock().once().withArgs("setCommentID", ""),
     },
   };
   commit(environment, { id: null }, context as any);

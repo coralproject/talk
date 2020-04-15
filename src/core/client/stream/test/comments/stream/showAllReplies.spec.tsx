@@ -17,8 +17,8 @@ beforeEach(() => {
   const commentStub = {
     ...comments[0],
     replies: createSinonStub(
-      s => s.throws(),
-      s =>
+      (s) => s.throws(),
+      (s) =>
         s.withArgs({ first: 3, orderBy: "CREATED_AT_ASC" }).returns({
           edges: [
             {
@@ -31,10 +31,10 @@ beforeEach(() => {
             hasNextPage: true,
           },
         }),
-      s =>
+      (s) =>
         s
           .withArgs({
-            first: sinon.match(n => n > 10000),
+            first: sinon.match((n) => n > 10000),
             orderBy: "CREATED_AT_ASC",
             after: comments[1].createdAt,
           })
@@ -72,12 +72,13 @@ beforeEach(() => {
     Query: {
       settings: sinon.stub().returns(settings),
       comment: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
+        (s) => s.throws(),
+        (s) =>
+          s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
       ),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
@@ -89,7 +90,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
     },
   }));
@@ -115,9 +116,7 @@ it("show all replies", async () => {
     .length;
 
   await act(async () => {
-    within(commentReplyList)
-      .getByText("Show All")
-      .props.onClick();
+    within(commentReplyList).getByText("Show All").props.onClick();
     // Wait for loading.
     await wait(() =>
       expect(within(commentReplyList).queryByText("Show All")).toBeNull()

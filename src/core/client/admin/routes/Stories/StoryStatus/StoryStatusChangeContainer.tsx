@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withMutation,
@@ -24,7 +24,7 @@ interface Props {
   story: StoryStatusChangeContainer_story;
 }
 
-const StoryStatusChangeContainer: FunctionComponent<Props> = props => {
+const StoryStatusChangeContainer: FunctionComponent<Props> = (props) => {
   const handleChangeStatus = useCallback(
     (status: GQLSTORY_STATUS_RL) => {
       if (props.story.status === status) {

@@ -30,7 +30,7 @@ export const Tooltip: FunctionComponent<Props> = ({
           <Box
             p={2}
             className={styles.tooltip}
-            onClick={evt => {
+            onClick={(evt) => {
               // Don't propagate click events when clicking inside of popover to
               // avoid accidentally activating other components.
               evt.stopPropagation();
@@ -54,7 +54,7 @@ export const Tooltip: FunctionComponent<Props> = ({
       placement={"bottom"}
       dark
     >
-      {props => button(props)}
+      {(props) => button(props)}
     </Popover>
   );
 };

@@ -90,9 +90,7 @@ it("change organization name", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Should show validation error.
@@ -108,9 +106,7 @@ it("change organization name", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.

@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import {
   colorFromMeta,
@@ -10,7 +11,6 @@ import {
   ValidationMessage,
 } from "coral-framework/lib/form";
 import {
-  graphql,
   useLocal,
   useMutation,
   withFragmentContainer,
@@ -44,7 +44,7 @@ interface Props {
   viewer: LinkAccountContainer_viewer | null;
 }
 
-const LinkAccountContainer: FunctionComponent<Props> = props => {
+const LinkAccountContainer: FunctionComponent<Props> = (props) => {
   const [local] = useLocal<LinkAccountContainerLocal>(graphql`
     fragment LinkAccountContainerLocal on Local {
       authDuplicateEmail

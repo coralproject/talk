@@ -35,7 +35,7 @@ async function createTestRenderer(
     logNetwork: options.logNetwork,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("ADD_EMAIL_ADDRESS", "view");
     },
   });
@@ -148,7 +148,7 @@ it("shows server error", async () => {
     { muteNetworkErrors: true }
   );
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));
@@ -198,7 +198,7 @@ it("successfully sets email", async () => {
     },
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));
@@ -239,7 +239,7 @@ it("switch to link account", async () => {
     { muteNetworkErrors: true }
   );
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => emailAddressField.props.onChange({ target: { value: email } }));

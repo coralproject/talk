@@ -9,10 +9,10 @@ export default function commitLocalUpdatePromisified(
   updater: (store: RecordSourceProxy) => Promise<void>
 ) {
   return new Promise((resolve, reject) => {
-    commitLocalUpdate(environment, store => {
+    commitLocalUpdate(environment, (store) => {
       updater(store)
         .then(() => resolve())
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   });
 }

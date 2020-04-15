@@ -22,7 +22,7 @@ interface Props {
   children: Array<ReactElement<SelectorChildProps, any>>;
 }
 
-const TileSelector: FunctionComponent<Props> = props => {
+const TileSelector: FunctionComponent<Props> = (props) => {
   const { id, name, value, className, children, onChange } = props;
   const onItemChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) =>

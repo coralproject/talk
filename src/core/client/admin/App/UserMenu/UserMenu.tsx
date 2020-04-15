@@ -18,7 +18,7 @@ interface Props {
   onSignOut: React.EventHandler<React.MouseEvent>;
 }
 
-const UserMenu: FunctionComponent<Props> = props => (
+const UserMenu: FunctionComponent<Props> = (props) => (
   <Localized id="userMenu-popover" attrs={{ description: true }}>
     <Popover
       id="userMenu"

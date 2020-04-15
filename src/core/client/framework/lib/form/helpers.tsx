@@ -55,6 +55,20 @@ export const formatBool = (v: boolean) => {
   return v ? "true" : "false";
 };
 
+export const parseInteger = (v: any) => {
+  const result = Number.parseInt(v, 10);
+  if (isNaN(result)) {
+    return v;
+  }
+  return result;
+};
+export const parseIntegerNullable = (v: string) => {
+  if (v.trim() === "") {
+    return null;
+  }
+  return parseInteger(v);
+};
+
 export const parseNewLineDelimitedString = (v: string) => v.split("\n");
 export const formatNewLineDelimitedString = (
   v: ReadonlyArray<string> | undefined | null
@@ -71,7 +85,7 @@ export const parseStringList = (v: string) => {
   if (v === "") {
     return [];
   }
-  return v.split(",").map(x => x.trim());
+  return v.split(",").map((x) => x.trim());
 };
 
 export const formatStringList = (v: string[] | null) => {

@@ -13,7 +13,7 @@ interface Props {
   form: FormApi;
 }
 
-const CommunityRoute: FunctionComponent<Props> = props => {
+const CommunityRoute: FunctionComponent<Props> = (props) => {
   return <Community query={props.data} />;
 };
 

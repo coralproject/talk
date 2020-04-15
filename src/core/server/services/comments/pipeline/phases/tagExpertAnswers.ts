@@ -21,7 +21,7 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
     // And we have experts for this story...
     story.settings.expertIDs &&
     // And the author is in expert list...
-    story.settings.expertIDs.some(id => id === author.id)
+    story.settings.expertIDs.some((id) => id === author.id)
   ) {
     // Assign this comment an expert tag!
     const tags: CommentTag[] = [

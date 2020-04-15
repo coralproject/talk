@@ -40,7 +40,7 @@ function getFiles(target, pathToLocale, context) {
 
   const files = fs.readdirSync(pathToLocale);
 
-  files.forEach(f => {
+  files.forEach((f) => {
     if (commonFiles.includes(f)) {
       common.push(f);
       return;
@@ -62,12 +62,12 @@ function generateTarget(target, context) {
     locales,
     bundled,
   } = context;
-  const getLocalePath = locale => path.join(pathToLocales, locale);
-  const getLocaleFiles = memoize(locale =>
+  const getLocalePath = (locale) => path.join(pathToLocales, locale);
+  const getLocaleFiles = memoize((locale) =>
     getFiles(target, getLocalePath(locale), context)
   );
 
-  const loadables = locales.filter(locale => !bundled.includes(locale));
+  const loadables = locales.filter((locale) => !bundled.includes(locale));
 
   return `
     var ret = {
@@ -81,22 +81,22 @@ function generateTarget(target, context) {
   // Bundled locales are directly available in the main bundle.
   ${bundled
     .map(
-      locale => `
+      (locale) => `
     {
       var suffixes = ${JSON.stringify(getLocaleFiles(locale).suffixes)};
       var contents = [];
     ${getLocaleFiles(locale)
       .common.map(
-        file => `
+        (file) => `
       contents.push(require(${JSON.stringify(
         path.join(getLocalePath(locale), file).replace(/\\/g, "/")
-      )}));
+      )}).default);
     `
       )
       .join("\n")}
       contents = contents.concat(suffixes.map(function(suffix) { return require("${path
         .join(getLocalePath(locale), target)
-        .replace(/\\/g, "/")}" + suffix); }));
+        .replace(/\\/g, "/")}" + suffix).default; }));
       ret.bundled[${JSON.stringify(locale)}] = contents.join("\\n");
     }
   `
@@ -106,13 +106,13 @@ function generateTarget(target, context) {
   // Loadables are in a separate bundle, that can be easily loaded.
   ${loadables
     .map(
-      locale => `
+      (locale) => `
     ret.loadables[${JSON.stringify(locale)}] = function() {
       var suffixes = ${JSON.stringify(getLocaleFiles(locale).suffixes)};
       var promises = [];
     ${getLocaleFiles(locale)
       .common.map(
-        file => `
+        (file) => `
       promises.push(
         import(
           /* webpackChunkName: ${JSON.stringify(
@@ -147,7 +147,7 @@ function generateTarget(target, context) {
   `;
 }
 
-module.exports = function(source) {
+module.exports = function (source) {
   const options = Object.assign(
     {},
     DEFAULT_QUERY_VALUES,
@@ -165,7 +165,7 @@ module.exports = function(source) {
 
   let locales = fs.readdirSync(pathToLocales);
   if (availableLocales) {
-    availableLocales.forEach(locale => {
+    availableLocales.forEach((locale) => {
       if (!locales.includes(locale)) {
         throw new Error(`locale ${fallbackLocale} not available`);
       }

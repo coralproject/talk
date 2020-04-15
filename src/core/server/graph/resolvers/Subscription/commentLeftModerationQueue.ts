@@ -21,22 +21,23 @@ export type CommentLeftModerationQueueSubscription = SubscriptionType<
   CommentLeftModerationQueueInput
 >;
 
-export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueueResolver<
-  CommentLeftModerationQueueInput
-> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE, {
-  filter: (source, { storyID, queue }) => {
-    // If we're filtering by storyID, then only send back comments with the
-    // specific storyID.
-    if (storyID && source.storyID !== storyID) {
-      return false;
-    }
+export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueueResolver<CommentLeftModerationQueueInput> = createIterator(
+  SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
+  {
+    filter: (source, { storyID, queue }) => {
+      // If we're filtering by storyID, then only send back comments with the
+      // specific storyID.
+      if (storyID && source.storyID !== storyID) {
+        return false;
+      }
 
-    // If we're filtering by queue, then only send back comments from the
-    // specific queue.
-    if (queue && source.queue !== queue) {
-      return false;
-    }
+      // If we're filtering by queue, then only send back comments from the
+      // specific queue.
+      if (queue && source.queue !== queue) {
+        return false;
+      }
 
-    return true;
-  },
-});
+      return true;
+    },
+  }
+);

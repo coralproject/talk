@@ -843,7 +843,7 @@ export const reportedComments = createFixtures<GQLComment>(
   baseComment
 );
 
-export const rejectedComments = reportedComments.map<GQLComment>(c => ({
+export const rejectedComments = reportedComments.map<GQLComment>((c) => ({
   ...c,
   status: GQLCOMMENT_STATUS.REJECTED,
 }));

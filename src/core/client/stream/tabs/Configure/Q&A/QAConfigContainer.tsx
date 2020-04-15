@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 
 import { QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";

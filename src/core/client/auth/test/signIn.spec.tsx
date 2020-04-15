@@ -32,7 +32,7 @@ async function createTestRenderer(
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("SIGN_IN", "view");
       localRecord.setValue(error, "error");
     },
@@ -66,14 +66,10 @@ it("renders sign in view with error", async () => {
   const { testRenderer, container } = await createTestRenderer({}, error);
   within(container).getByText(error);
   act(() => {
-    within(testRenderer.root)
-      .getByText("Sign Up")
-      .props.onClick({});
+    within(testRenderer.root).getByText("Sign Up").props.onClick({});
   });
   act(() => {
-    within(testRenderer.root)
-      .getByText("Sign In")
-      .props.onClick({});
+    within(testRenderer.root).getByText("Sign In").props.onClick({});
   });
   const container2 = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
@@ -129,7 +125,7 @@ it("shows server error", async () => {
   const emailAddressField = getByLabelText("Email Address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => passwordField.props.onChange({ target: { value: "testtest" } }));
@@ -174,7 +170,7 @@ it("submits form successfully", async () => {
   const emailAddressField = getByLabelText("Email Address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() =>

@@ -89,8 +89,6 @@ export async function failMigration(mongo: Db, id: number, now = new Date()) {
 }
 
 export async function retrieveAllMigrationRecords(mongo: Db) {
-  const cursor = collection(mongo)
-    .find({})
-    .sort({ id: 1 });
+  const cursor = collection(mongo).find({}).sort({ id: 1 });
   return cursor.toArray();
 }

@@ -17,8 +17,8 @@ beforeEach(() => {
   const meStub = {
     ...viewerWithComments,
     comments: createSinonStub(
-      s => s.throws(),
-      s =>
+      (s) => s.throws(),
+      (s) =>
         s.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
           edges: [
             {
@@ -35,7 +35,7 @@ beforeEach(() => {
             hasNextPage: true,
           },
         }),
-      s =>
+      (s) =>
         s
           .withArgs({
             first: 10,
@@ -61,8 +61,8 @@ beforeEach(() => {
     Query: {
       settings: sinon.stub().returns(settings),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: stories[0].id, url: null })
             .returns(stories[0])
@@ -75,7 +75,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue("MY_COMMENTS", "profileTab");
       localRecord.setValue(stories[0].id, "storyID");
     },
@@ -101,9 +101,7 @@ it("loads more comments", async () => {
   ).length;
 
   act(() => {
-    within(commentHistory)
-      .getByText("Load More")
-      .props.onClick();
+    within(commentHistory).getByText("Load More").props.onClick();
   });
 
   // Wait for loading.

@@ -2,7 +2,7 @@
 
 import { FluentBundle } from "@fluent/bundle/compat";
 import { MongoError } from "mongodb";
-import uuid from "uuid";
+import { v1 as uuid } from "uuid";
 import { VError } from "verror";
 
 import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
@@ -169,7 +169,7 @@ export class CoralError extends VError {
     this.name = new.target.name;
 
     // Assign a unique ID to this error.
-    const id = uuid.v1();
+    const id = uuid();
     this.status = status;
 
     // Capture the context for the error.
@@ -307,10 +307,10 @@ export class UsernameAlreadySetError extends CoralError {
 
 export class UsernameUpdatedWithinWindowError extends CoralError {
   constructor(lastUpdate: Date) {
-    const { scaled, unit } = reduceSeconds(
-      ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
-      [TIME.DAY]
-    );
+    const {
+      scaled,
+      unit,
+    } = reduceSeconds(ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION, [TIME.DAY]);
     super({
       code: ERROR_CODES.USERNAME_UPDATED_WITHIN_WINDOW,
       context: {

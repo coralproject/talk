@@ -59,7 +59,7 @@ const FeatureCommentMutation = createMutation(
               }
             }
           `,
-          optimisticUpdater: store => {
+          optimisticUpdater: (store) => {
             const comment = store.get(input.commentID)!;
             const tags = comment.getLinkedRecords("tags");
             if (tags) {
@@ -70,7 +70,7 @@ const FeatureCommentMutation = createMutation(
             }
             incrementCount(store, input.storyID);
           },
-          updater: store => {
+          updater: (store) => {
             incrementCount(store, input.storyID);
           },
           variables: {

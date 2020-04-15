@@ -102,7 +102,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
   };
 
-  private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async input => {
+  private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async (input) => {
     try {
       const submitStatus = getSubmitStatus(
         await this.props.createCommentReply({

@@ -115,7 +115,9 @@ describe("all stories", () => {
         await wait(() =>
           within(searchBar).getByText(
             "We could not find any stories matching your criteria",
-            { exact: false }
+            {
+              exact: false,
+            }
           )
         );
       });

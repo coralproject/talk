@@ -3,7 +3,7 @@ import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import Icon, { IconProps } from "coral-ui/components/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./ButtonIcon.css";
 
@@ -23,7 +23,7 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-export const ButtonIcon: FunctionComponent<Props> = props => {
+export const ButtonIcon: FunctionComponent<Props> = (props) => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <Icon className={rootClassName} {...rest} ref={forwardRef} />;

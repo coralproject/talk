@@ -28,7 +28,7 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });

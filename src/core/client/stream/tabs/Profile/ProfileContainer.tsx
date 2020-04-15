@@ -19,7 +19,7 @@ interface ProfileContainerProps {
 export class ProfileContainer extends React.Component<ProfileContainerProps> {
   public render() {
     const ssoProfile = this.props.viewer.profiles.find(
-      profile => profile.__typename === "SSOProfile"
+      (profile) => profile.__typename === "SSOProfile"
     );
     return (
       <Profile

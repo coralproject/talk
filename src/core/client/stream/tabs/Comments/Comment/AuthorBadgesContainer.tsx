@@ -20,7 +20,7 @@ const AuthorBadgesContainer: FunctionComponent<Props> = ({
   }
   return (
     <>
-      {comment.author.badges.map(badge => (
+      {comment.author.badges.map((badge) => (
         <Tag key={badge} color="dark" className={className}>
           {badge}
         </Tag>

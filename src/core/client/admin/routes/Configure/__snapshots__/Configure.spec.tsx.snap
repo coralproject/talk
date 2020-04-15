@@ -7,11 +7,13 @@ exports[`renders correctly 1`] = `
   <ReactFinalForm
     mutators={
       Object {
+        "concat": [Function],
         "insert": [Function],
         "move": [Function],
         "pop": [Function],
         "push": [Function],
         "remove": [Function],
+        "removeBatch": [Function],
         "shift": [Function],
         "swap": [Function],
         "unshift": [Function],

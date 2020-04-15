@@ -19,7 +19,7 @@ class ToggleShow extends React.Component<Props, State> {
   };
 
   public toggleShow = () => {
-    this.setState(state => ({ show: !state.show }));
+    this.setState((state) => ({ show: !state.show }));
   };
 
   public render() {

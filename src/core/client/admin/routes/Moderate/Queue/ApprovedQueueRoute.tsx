@@ -5,6 +5,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withPaginationContainer } from "coral-framework/lib/relay";
+import { resolveModule } from "coral-framework/lib/relay/helpers";
 
 import { ApprovedQueueRoute_query } from "coral-admin/__generated__/ApprovedQueueRoute_query.graphql";
 import { ApprovedQueueRoutePaginationQueryVariables } from "coral-admin/__generated__/ApprovedQueueRoutePaginationQuery.graphql";
@@ -33,7 +34,7 @@ export class ApprovedQueueRoute extends React.Component<
   };
 
   public render() {
-    const comments = this.props.query.comments.edges.map(edge => edge.node);
+    const comments = this.props.query.comments.edges.map((edge) => edge.node);
     return (
       <IntersectionProvider>
         <Queue
@@ -61,7 +62,7 @@ export class ApprovedQueueRoute extends React.Component<
     this.setState({ disableLoadMore: true });
     this.props.relay.loadMore(
       10, // Fetch the next 10 feed items
-      error => {
+      (error) => {
         this.setState({ disableLoadMore: false });
         if (error) {
           // eslint-disable-next-line no-console
@@ -151,11 +152,11 @@ const enhanced = (withPaginationContainer<
 
 enhanced.routeConfig = {
   Component: enhanced,
-  query: graphql`
+  query: resolveModule(graphql`
     query ApprovedQueueRouteQuery($storyID: ID, $siteID: ID) {
       ...ApprovedQueueRoute_query @arguments(storyID: $storyID, siteID: $siteID)
     }
-  `,
+  `),
   cacheConfig: { force: true },
   render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {

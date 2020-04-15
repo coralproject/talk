@@ -51,7 +51,7 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
@@ -61,9 +61,7 @@ async function createTestRenderer(
   );
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  within(comment).getByText("Edit").props.onClick();
 
   const rte = await waitForElement(
     () =>

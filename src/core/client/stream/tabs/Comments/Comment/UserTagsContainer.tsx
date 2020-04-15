@@ -27,8 +27,8 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   className,
 }) => {
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-  const staffTag = comment.tags.find(t => t.code === "STAFF");
-  const expertTag = isQA && comment.tags.find(t => t.code === "EXPERT");
+  const staffTag = comment.tags.find((t) => t.code === "STAFF");
+  const expertTag = isQA && comment.tags.find((t) => t.code === "EXPERT");
   return (
     <Flex alignItems="center">
       {expertTag && (

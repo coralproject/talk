@@ -5,7 +5,7 @@ import { Child as PymChild } from "pym.js";
 import React, { Component, ComponentType } from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
@@ -178,7 +178,7 @@ function createManagedCoralContextProvider(
 
       // Set next access token.
       if (nextAccessToken) {
-        await commitLocalUpdatePromisified(newEnvironment, async store => {
+        await commitLocalUpdatePromisified(newEnvironment, async (store) => {
           setAccessTokenInLocalState(nextAccessToken, store);
         });
       }
@@ -265,7 +265,7 @@ export default async function createManaged({
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
-    registerClickFarAway = cb => {
+    registerClickFarAway = (cb) => {
       pym.onMessage("click", cb);
       // Return unlisten callback.
       return () => {

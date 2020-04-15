@@ -27,7 +27,7 @@ function createMutationContainer<T extends string, I, R>(
   ) => Promise<R>
 ): InferableComponentEnhancer<{ [P in T]: (input: I) => Promise<R> }> {
   return compose(
-    withContext(context => ({ context })),
+    withContext((context) => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class CreateMutationContainer extends React.Component<{
         context: CoralContext;
@@ -55,9 +55,9 @@ function createMutationContainer<T extends string, I, R>(
           return <BaseComponent {...rest} {...inject} />;
         }
       }
-      return CreateMutationContainer as React.ComponentType<any>;
+      return CreateMutationContainer as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }
 
 export default createMutationContainer;

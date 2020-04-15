@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button } from "coral-ui/components/v2";
 
 import { SiteFilterOption_site } from "coral-admin/__generated__/SiteFilterOption_site.graphql";

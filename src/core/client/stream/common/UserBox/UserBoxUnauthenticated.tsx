@@ -13,9 +13,9 @@ export interface UserBoxUnauthenticatedProps {
   showRegisterButton?: boolean;
 }
 
-const UserBoxUnauthenticated: FunctionComponent<
-  UserBoxUnauthenticatedProps
-> = props => {
+const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
+  props
+) => {
   return (
     <Flex itemGutter alignItems="center" className={CLASSES.viewerBox.$root}>
       <MatchMedia gteWidth="sm">

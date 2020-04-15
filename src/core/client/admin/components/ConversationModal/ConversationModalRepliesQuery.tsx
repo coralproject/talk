@@ -1,14 +1,12 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  QueryRenderData,
-  QueryRenderer,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesQuery as QueryTypes } from "coral-admin/__generated__/ConversationModalRepliesQuery.graphql";
+
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
 interface Props {
@@ -62,10 +60,13 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
           );
         }
 
-        const replies = props.comment.replies.edges.map(edge => edge.node);
+        const replies = useMemo(
+          () => props.comment!.replies.edges.map((edge) => edge.node),
+          [props.comment.replies]
+        );
         return (
           <div>
-            {replies.map(reply => (
+            {replies.map((reply) => (
               <div key={reply.id}>
                 <ConversationModalCommentContainer
                   key={reply.id}

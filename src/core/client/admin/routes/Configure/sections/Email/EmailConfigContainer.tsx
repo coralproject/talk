@@ -91,7 +91,7 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
       }
       name="email.enabled"
     >
-      {disabledInside => (
+      {(disabledInside) => (
         <>
           <Flex justifyContent="flex-end">
             <Localized id="configure-email-send-test">

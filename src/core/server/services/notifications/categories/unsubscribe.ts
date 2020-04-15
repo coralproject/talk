@@ -1,8 +1,8 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -24,13 +24,13 @@ export interface UnsubscribeToken extends Required<StandardClaims> {
 }
 
 const UnsubscribeTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("unsubscribe"),
+  aud: Joi.string().valid("unsubscribe"),
 });
 
 export function validateUnsubscribeToken(
   token: UnsubscribeToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, UnsubscribeTokenSchema, {
+  const { error } = UnsubscribeTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;
@@ -61,7 +61,7 @@ export async function generateUnsubscribeURL(
 
   // Generate a token.
   const token: UnsubscribeToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: id,
     exp: expiresAt,

@@ -34,7 +34,7 @@ type Variant =
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
 
-interface Props extends PropTypesOf<typeof Box> {
+interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   /**
    * Set the text-align on the component.
    */
@@ -100,7 +100,7 @@ interface Props extends PropTypesOf<typeof Box> {
   forwardRef?: PropTypesOf<typeof Box>["ref"];
 }
 
-const Typography: FunctionComponent<Props> = props => {
+const Typography: FunctionComponent<Props> = (props) => {
   const {
     align,
     classes,

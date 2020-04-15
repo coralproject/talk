@@ -10,7 +10,7 @@ const plugins =
 
 const environment =
   process.env.WEBPACK === "true"
-    ? { targets: "IE 11", modules: false }
+    ? { modules: false }
     : { targets: { node: "current" }, modules: "commonjs" };
 
 module.exports = {

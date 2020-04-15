@@ -10,7 +10,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const OIDCButton: FunctionComponent<Props> = props => (
+const OIDCButton: FunctionComponent<Props> = (props) => (
   <Button
     classes={styles}
     variant="filled"

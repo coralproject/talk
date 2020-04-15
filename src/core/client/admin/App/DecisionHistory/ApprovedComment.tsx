@@ -17,7 +17,7 @@ interface Props {
   onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
 
-const ApprovedComment: FunctionComponent<Props> = props => (
+const ApprovedComment: FunctionComponent<Props> = (props) => (
   <DecisionItem icon={<ApprovedIcon />}>
     <Localized
       id="decisionHistory-approvedCommentBy"

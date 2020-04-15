@@ -62,7 +62,7 @@ export default async function initLocalState(
 
   await initLocalBaseState(environment, context, accessToken);
 
-  commitLocalUpdate(environment, s => {
+  commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
 
     localRecord.setValue(redirectPath, "redirectPath");

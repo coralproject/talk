@@ -38,11 +38,13 @@ const RejectCommentMutation = createMutation(
             mutation RejectCommentMutation($input: RejectCommentInput!) {
               rejectComment(input: $input) {
                 comment {
+                  id
                   status
                   tags {
                     code
                   }
                   story {
+                    id
                     commentCounts {
                       tags {
                         FEATURED
@@ -79,7 +81,7 @@ const RejectCommentMutation = createMutation(
               clientMutationId: clientMutationId.toString(),
             },
           },
-          updater: store => {
+          updater: (store) => {
             store.get(input.commentID)!.setValue("REJECT", "lastViewerAction");
           },
         }

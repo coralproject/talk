@@ -1,11 +1,8 @@
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
@@ -21,7 +18,7 @@ interface Props {
   user: UserRoleChangeContainer_user;
 }
 
-const UserRoleChangeContainer: FunctionComponent<Props> = props => {
+const UserRoleChangeContainer: FunctionComponent<Props> = (props) => {
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const handleOnChangeRole = useCallback(
     (role: GQLUSER_ROLE_RL) => {

@@ -1,9 +1,10 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
@@ -11,7 +12,7 @@ import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
 import { QueueCommentLeftSubscription } from "coral-admin/__generated__/QueueCommentLeftSubscription.graphql";
 
 function handleCommentLeftModerationQueue(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   queue: GQLMODERATION_QUEUE_RL,
   storyID: string | null
 ) {
@@ -32,7 +33,7 @@ function handleCommentLeftModerationQueue(
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(
       linked.filter(
-        r => r!.getLinkedRecord("node")!.getValue("id") !== commentID
+        (r) => r.getLinkedRecord("node")!.getValue("id") !== commentID
       ),
       "viewNewEdges"
     );
@@ -62,7 +63,7 @@ const QueueSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         handleCommentLeftModerationQueue(
           store,
           variables.queue,

@@ -7,8 +7,6 @@ import {
 } from "recompose";
 import { Environment } from "relay-runtime";
 
-import { Omit } from "coral-framework/types";
-
 import { CoralContext, useCoralContext, withContext } from "../bootstrap";
 
 export interface Mutation<N, I, R> {
@@ -89,7 +87,7 @@ export function withMutation<N extends string, I, R>(
   mutation: Mutation<N, I, R>
 ): InferableComponentEnhancer<{ [P in N]: MutationProp<typeof mutation> }> {
   return compose(
-    withContext(context => ({ context })),
+    withContext((context) => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class WithMutation extends React.Component<{
         context: CoralContext;
@@ -120,7 +118,7 @@ export function withMutation<N extends string, I, R>(
           return <BaseComponent {...rest} {...inject} />;
         }
       }
-      return WithMutation as React.ComponentType<any>;
+      return WithMutation as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }

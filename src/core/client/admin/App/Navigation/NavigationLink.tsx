@@ -8,7 +8,7 @@ interface Props {
   to: string | LocationDescriptor;
 }
 
-const NavigationLink: FunctionComponent<Props> = props => (
+const NavigationLink: FunctionComponent<Props> = (props) => (
   <Link to={props.to} as={AppBarNavigationItem as any} activePropName="active">
     {props.children}
   </Link>

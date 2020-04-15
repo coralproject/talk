@@ -83,7 +83,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
             </p>
           </Localized>
           <HorizontalGutter spacing={1}>
-            {viewer.ignoredUsers.map(user => (
+            {viewer.ignoredUsers.map((user) => (
               <Flex
                 key={user.id}
                 justifyContent="space-between"

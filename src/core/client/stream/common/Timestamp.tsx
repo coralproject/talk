@@ -5,9 +5,9 @@ import { ShowAbsoluteTimestampEvent } from "coral-stream/events";
 import { Timestamp as BaseTimestamp } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
-const TimeStamp: FunctionComponent<
-  PropTypesOf<typeof BaseTimestamp>
-> = props => {
+const TimeStamp: FunctionComponent<PropTypesOf<typeof BaseTimestamp>> = (
+  props
+) => {
   const emitEvent = useViewerEvent(ShowAbsoluteTimestampEvent);
   const handleOnToggle = useCallback(
     (absolute: boolean) => {

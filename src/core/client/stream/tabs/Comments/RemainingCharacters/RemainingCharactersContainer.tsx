@@ -9,7 +9,7 @@ interface Props {
   value: string | undefined;
 }
 
-const RemainingCharactersContainer: FunctionComponent<Props> = props => {
+const RemainingCharactersContainer: FunctionComponent<Props> = (props) => {
   return (
     <RemainingCharacters
       className={props.className}

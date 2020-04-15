@@ -28,7 +28,7 @@ export interface MessageProps {
   color?: "error" | "grey" | "primary" | "dark";
 }
 
-const Message: FunctionComponent<MessageProps> = props => {
+const Message: FunctionComponent<MessageProps> = (props) => {
   const { className, classes, fullWidth, children, color, ...rest } = props;
 
   const rootClassName = cn(

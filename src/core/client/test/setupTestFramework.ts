@@ -13,7 +13,7 @@ import "./setupConsole";
 
 // Log unhandled rejections.
 // eslint-disable-next-line no-console
-process.on("unhandledRejection", err => {
+process.on("unhandledRejection", (err) => {
   // eslint-disable-next-line no-console
   console.error("Unhandled Rejection");
   // eslint-disable-next-line no-console
@@ -21,3 +21,8 @@ process.on("unhandledRejection", err => {
 });
 
 expect.extend(toHaveNoViolations);
+
+// axe checking takes a bit of time.
+beforeEach(() => {
+  jest.setTimeout(20000);
+});

@@ -51,12 +51,12 @@ export default function createWordListRegExp(
 
   // Split up the words from the list into a regex escaped string.
   const words = phrases
-    .map(phrase =>
+    .map((phrase) =>
       phrase
         // Split each phrase by whitespace.
         .split(/\s/)
         // Escape each phrase, we don't expect any of them to contain regex.
-        .map(word => escapeRegExp(word))
+        .map((word) => escapeRegExp(word))
         // Rejoin to ensure that any variation of the word separated by a
         // punctuation character should also be caught.
         .join(rule.punctuation)

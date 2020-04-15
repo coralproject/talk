@@ -69,7 +69,7 @@ const FacebookConfig: FunctionComponent<Props> = ({
     name="auth.integrations.facebook.enabled"
     disabled={disabled}
   >
-    {disabledInside => (
+    {(disabledInside) => (
       <>
         <Localized
           id="configure-auth-facebook-toEnableIntegration"

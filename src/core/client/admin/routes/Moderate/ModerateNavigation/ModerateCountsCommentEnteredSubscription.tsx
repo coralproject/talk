@@ -1,8 +1,9 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
@@ -26,7 +27,7 @@ const ModerateCountsCommentEnteredSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         const root = store.getRootField("commentEnteredModerationQueue")!;
         const queue = root.getValue("queue") as GQLMODERATION_QUEUE;
         const change = 1;

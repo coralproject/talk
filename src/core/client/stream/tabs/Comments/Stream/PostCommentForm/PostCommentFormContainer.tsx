@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { withContext } from "coral-framework/lib/bootstrap";
 import {
@@ -9,7 +10,6 @@ import {
 } from "coral-framework/lib/errors";
 import {
   FetchProp,
-  graphql,
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -171,6 +171,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     } else {
       this.props.sessionStorage.removeItem(contextKey);
     }
+
     // Reset errors whenever user clears the form.
     if (state.touched && state.touched.body && !state.values.body) {
       form.reset({});

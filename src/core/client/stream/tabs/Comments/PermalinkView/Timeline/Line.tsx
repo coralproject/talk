@@ -8,7 +8,7 @@ interface LineProps {
   dotted?: boolean;
 }
 
-const Line: FunctionComponent<LineProps> = props => {
+const Line: FunctionComponent<LineProps> = (props) => {
   return (
     <div
       className={cn(styles.root, props.className, {

@@ -1,8 +1,8 @@
 import { PostMessageService } from "./postMessage";
 
-it("post and subscribe to a message", done => {
+it("post and subscribe to a message", (done) => {
   const postMessage = new PostMessageService();
-  const cancel = postMessage.on("test", value => {
+  const cancel = postMessage.on("test", (value) => {
     expect(value).toBe("value");
     done();
     cancel();
@@ -10,10 +10,10 @@ it("post and subscribe to a message", done => {
   postMessage.send("test", "value", window);
 });
 
-it("should support complex value", done => {
+it("should support complex value", (done) => {
   const complex = { foo: "bar" };
   const postMessage = new PostMessageService();
-  const cancel = postMessage.on("test", value => {
+  const cancel = postMessage.on("test", (value) => {
     expect(value).toBe(complex);
     done();
     cancel();
@@ -21,12 +21,12 @@ it("should support complex value", done => {
   postMessage.send("test", complex, window);
 });
 
-it("send to a different origin", done => {
+it("send to a different origin", (done) => {
   const postMessage = new PostMessageService();
-  const cancelA = postMessage.on("testA", value => {
+  const cancelA = postMessage.on("testA", (value) => {
     throw new Error("Should not reach this");
   });
-  const cancelB = postMessage.on("testB", value => {
+  const cancelB = postMessage.on("testB", (value) => {
     done();
     cancelA();
     cancelB();
@@ -35,12 +35,12 @@ it("send to a different origin", done => {
   postMessage.send("testB", "value", window);
 });
 
-it("should cancel", done => {
+it("should cancel", (done) => {
   const postMessage = new PostMessageService();
-  const cancelA = postMessage.on("testA", value => {
+  const cancelA = postMessage.on("testA", (value) => {
     throw new Error("Should not reach this");
   });
-  const cancelB = postMessage.on("testB", value => {
+  const cancelB = postMessage.on("testB", (value) => {
     done();
     cancelB();
   });
@@ -49,13 +49,13 @@ it("should cancel", done => {
   postMessage.send("testB", "value", window);
 });
 
-it("different scopes are isolated", done => {
+it("different scopes are isolated", (done) => {
   const postMessageA = new PostMessageService("scopeA");
   const postMessageB = new PostMessageService("scopeB");
-  const cancelA = postMessageA.on("testA", value => {
+  const cancelA = postMessageA.on("testA", (value) => {
     throw new Error("Should not reach this");
   });
-  const cancelB = postMessageA.on("testB", value => {
+  const cancelB = postMessageA.on("testB", (value) => {
     done();
     cancelA();
     cancelB();
@@ -64,12 +64,12 @@ it("different scopes are isolated", done => {
   postMessageA.send("testB", "value", window);
 });
 
-it("different message names are isolated", done => {
+it("different message names are isolated", (done) => {
   const postMessage = new PostMessageService();
-  const cancelA = postMessage.on("testA", value => {
+  const cancelA = postMessage.on("testA", (value) => {
     expect(value).toBe("valueA");
   });
-  const cancelB = postMessage.on("testB", value => {
+  const cancelB = postMessage.on("testB", (value) => {
     expect(value).toBe("valueB");
     done();
     cancelA();

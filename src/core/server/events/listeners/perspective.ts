@@ -29,7 +29,9 @@ export class PerspectiveCoralEventListener
 
   public initialize: CoralEventPublisherFactory<
     PerspectiveCoralEventListenerPayloads
-  > = ctx => async ({ data: { newStatus, commentID, commentRevisionID } }) => {
+  > = (ctx) => async ({
+    data: { newStatus, commentID, commentRevisionID },
+  }) => {
     const {
       tenant: {
         integrations: { perspective },
@@ -63,7 +65,9 @@ export class PerspectiveCoralEventListener
       }
 
       // Get the target revision.
-      const revision = comment.revisions.find(r => r.id === commentRevisionID);
+      const revision = comment.revisions.find(
+        (r) => r.id === commentRevisionID
+      );
       if (!revision) {
         return;
       }

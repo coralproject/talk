@@ -15,7 +15,7 @@ interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
 }
-const PostCommentFormClosedSitewide: FunctionComponent<Props> = props => (
+const PostCommentFormClosedSitewide: FunctionComponent<Props> = (props) => (
   <HorizontalGutter size="double">
     <CallOut fullWidth className={cn(styles.root, CLASSES.closedSitewide)}>
       <Markdown className={styles.message}>{props.message}</Markdown>

@@ -12,7 +12,7 @@ import variables from "./variables";
 import variables2 from "./variables2";
 
 const flatKebabVariables = mapKeys(
-  mapValues(flat(variables, { delimiter: "-" }), v => v.toString()),
+  mapValues(flat(variables, { delimiter: "-" }), (v) => v.toString()),
   (_, k) => `--${kebabCase(k)}`
 );
 
@@ -23,7 +23,7 @@ const cssVariables = pickBy(
 );
 
 const v2FlatKebabVariables = mapKeys(
-  mapValues(flat(variables2, { delimiter: "-" }), v => v.toString()),
+  mapValues(flat(variables2, { delimiter: "-" }), (v) => v.toString()),
   (_, k) => `--v2-${kebabCase(k)}`
 );
 

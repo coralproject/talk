@@ -26,7 +26,7 @@ export default async function initLocalState(
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
     "CREATED_AT_DESC";
 
-  commitLocalUpdate(environment, s => {
+  commitLocalUpdate(environment, (s) => {
     const root = s.getRoot();
     const localRecord = root.getLinkedRecord("local")!;
 

@@ -32,6 +32,7 @@ const ApproveCommentMutation = createMutation(
             mutation ApproveCommentMutation($input: ApproveCommentInput!) {
               approveComment(input: $input) {
                 comment {
+                  id
                   status
                 }
                 clientMutationId
@@ -53,7 +54,7 @@ const ApproveCommentMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          updater: store => {
+          updater: (store) => {
             store.get(input.commentID)!.setValue("APPROVE", "lastViewerAction");
           },
         }

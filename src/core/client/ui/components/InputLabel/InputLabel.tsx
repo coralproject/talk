@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent, ReactNode } from "react";
 
 import { withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import Typography from "../Typography";
 
@@ -26,7 +26,7 @@ export interface InputLabelProps
   classes: typeof styles;
 }
 
-const InputLabelProps: FunctionComponent<InputLabelProps> = props => {
+const InputLabelProps: FunctionComponent<InputLabelProps> = (props) => {
   const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

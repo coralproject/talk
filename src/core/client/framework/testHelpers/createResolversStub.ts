@@ -67,14 +67,14 @@ export default function createResolversStub<T extends Resolvers = any>(
 ): ResolversStub<T> {
   const result: any = {};
   if (resolvers.Query) {
-    result.Query = mapValues(resolvers.Query, v =>
+    result.Query = mapValues(resolvers.Query, (v) =>
       typeof v === "function" && !isSinonStub(v)
         ? createQueryResolverStub(v)
         : v
     );
   }
   if (resolvers.Mutation) {
-    result.Mutation = mapValues(resolvers.Mutation, v =>
+    result.Mutation = mapValues(resolvers.Mutation, (v) =>
       typeof v === "function" && !isSinonStub(v)
         ? createMutationResolverStub(v)
         : v

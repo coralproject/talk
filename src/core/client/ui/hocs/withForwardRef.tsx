@@ -1,5 +1,4 @@
 import React, { Ref, RefForwardingComponent } from "react";
-import { Omit } from "recompose";
 
 /**
  * withForwardRef provides a property called `forwardRef` using

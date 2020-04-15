@@ -1,6 +1,7 @@
 import React from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { StoryClosedTimeoutContainer_story as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
 

@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
-import { graphql } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { AppNotification } from "coral-ui/components/v2";
 
@@ -17,7 +17,7 @@ interface Props {
   data: AddSiteRouteQueryResponse | null;
 }
 
-const AddSiteRoute: FunctionComponent<Props> = props => {
+const AddSiteRoute: FunctionComponent<Props> = (props) => {
   const { router } = useRouter();
   const { setMessage, clearMessage } = useNotification();
   const onSiteCreate = useCallback(

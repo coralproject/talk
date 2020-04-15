@@ -49,7 +49,7 @@ const ExpertSearchList: FunctionComponent<Props> = ({
 
   return (
     <Card className={styles.list}>
-      {users.map(u => (
+      {users.map((u) => (
         <ExpertSearchItem
           key={u.id}
           id={u.id}

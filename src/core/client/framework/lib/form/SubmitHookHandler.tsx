@@ -47,7 +47,7 @@ class SubmitHookContainer extends React.Component<Props> {
       }
 
       executeCallbacks.push(() => this.props.onExecute(nextData, form));
-      for (const c of executeCallbacks.map(cb => cb())) {
+      for (const c of executeCallbacks.map((cb) => cb())) {
         await c;
       }
     } catch (error) {
@@ -60,10 +60,10 @@ class SubmitHookContainer extends React.Component<Props> {
     return;
   };
 
-  private addSubmitHook: AddSubmitHook = hook => {
+  private addSubmitHook: AddSubmitHook = (hook) => {
     this.submitHooks.push(hook);
     return () => {
-      this.submitHooks = this.submitHooks.filter(h => h !== hook);
+      this.submitHooks = this.submitHooks.filter((h) => h !== hook);
     };
   };
 

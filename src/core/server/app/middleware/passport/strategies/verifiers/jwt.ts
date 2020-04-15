@@ -1,5 +1,5 @@
+import Joi from "@hapi/joi";
 import { Redis } from "ioredis";
-import Joi from "joi";
 import { isNil } from "lodash";
 import { Db } from "mongodb";
 
@@ -36,7 +36,7 @@ export const JWTTokenSchema = Joi.object().keys({
 });
 
 export function isJWTToken(token: JWTToken | object): token is JWTToken {
-  const { error } = Joi.validate(token, JWTTokenSchema, {
+  const { error } = JWTTokenSchema.validate(token, {
     allowUnknown: true,
   });
   return isNil(error);

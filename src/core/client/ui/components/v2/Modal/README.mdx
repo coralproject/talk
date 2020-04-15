@@ -1,0 +1,65 @@
+---
+name: Modal
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import { useState, useCallback } from "react";
+
+import Button from "../Button";
+import Card, { CardCloseButton } from "../Card";
+import Flex from "../Flex";
+import HorizontalGutter from "../HorizontalGutter";
+import Modal from "./Modal";
+
+import styles from "./Modal.mdx.css";
+
+# Modal
+
+## Basic usage
+
+<Playground>
+  {() => {
+    const [open, setOpen] = useState(false);
+    const show = useCallback(() => setOpen(true));
+    const hide = useCallback(() => setOpen(false));
+    return (
+      <>
+        <Button variant="filled" color="primary" onClick={show}>
+          Show Modal
+        </Button>
+        <Modal open={open} onClose={hide} aria-labelledby="modal-title">
+          {({ firstFocusableRef, lastFocusableRef }) => (
+            <Card className={styles.card}>
+              <CardCloseButton onClick={hide} ref={firstFocusableRef} />
+              <HorizontalGutter size="double">
+                <HorizontalGutter>
+                  <h2 id="modal-title">
+                    Are you sure you want to ban <strong>ButFirstCoffee</strong>?
+                  </h2>
+                  <Typography>
+                    Once banned, this user will no longer be able to comment,
+                    use reactions, or report comments.
+                  </Typography>
+                </HorizontalGutter>
+                <Flex justifyContent="flex-end" itemGutter="half">
+                  <Button variant="outlined" onClick={hide}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="filled"
+                    color="primary"
+                    onClick={hide}
+                    ref={lastFocusableRef}
+                  >
+                    Ban User
+                  </Button>
+                </Flex>
+              </HorizontalGutter>
+            </Card>
+          )}
+        </Modal>
+      </>
+    );
+  }}
+</Playground>

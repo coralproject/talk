@@ -2,9 +2,7 @@ import * as actions from "coral-server/models/action/moderation/comment";
 
 import { GQLCommentModerationActionTypeResolver } from "../schema/__generated__/types";
 
-export const CommentModerationAction: GQLCommentModerationActionTypeResolver<
-  actions.CommentModerationAction
-> = {
+export const CommentModerationAction: GQLCommentModerationActionTypeResolver<actions.CommentModerationAction> = {
   revision: async (action, input, ctx) => {
     const comment = await ctx.loaders.Comments.visible.load(action.commentID);
     if (!comment) {

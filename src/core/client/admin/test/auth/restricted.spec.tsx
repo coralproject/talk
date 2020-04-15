@@ -95,9 +95,7 @@ it("sign out when clicking on sign in as", async () => {
     .once()
     .returns({});
 
-  within(authBox)
-    .getByText("Sign in with a different account")
-    .props.onClick();
+  within(authBox).getByText("Sign in with a different account").props.onClick();
 
   await wait(() => {
     expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(

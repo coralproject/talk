@@ -3,15 +3,12 @@ import { FORM_ERROR } from "final-form";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import getEndpointLink from "coral-admin/helpers/getEndpointLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -51,7 +48,7 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   const create = useMutation(CreateWebhookEndpointMutation);
   const update = useMutation(UpdateWebhookEndpointMutation);
   const onSubmit = useCallback(
-    async values => {
+    async (values) => {
       try {
         if (webhookEndpoint) {
           // The webhook endpoint was defined, update it.

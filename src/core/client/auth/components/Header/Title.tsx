@@ -8,7 +8,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Title: FunctionComponent<Props> = props => (
+const Title: FunctionComponent<Props> = (props) => (
   <Typography variant="heading2" align="center" className={styles.root}>
     {props.children}
   </Typography>

@@ -9,7 +9,7 @@ export default function onIntersect(
     threshold: 1.0,
   };
 
-  const observer = new IntersectionObserver(entries => {
+  const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       observer.disconnect();
       callback();

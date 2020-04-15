@@ -1,15 +1,22 @@
 import { graphql, GraphQLSchema, parse } from "graphql";
 import { IResolvers } from "graphql-tools";
-import { SubscribeFunction } from "react-relay-network-modern/es";
 import {
+  CacheConfig,
   commitLocalUpdate,
   Environment,
+  FetchFunction,
+  GraphQLResponse,
   INetwork,
   Network,
+  Observable,
   RecordProxy,
   RecordSource,
   RecordSourceProxy,
+  RequestParameters,
   Store,
+  SubscribeFunction,
+  UploadableMap,
+  Variables,
 } from "relay-runtime";
 
 import { loadSchema } from "coral-common/graphql";
@@ -67,17 +74,22 @@ function createFetch({
   schema: GraphQLSchema;
   rootValue?: any;
   contextValue?: any;
-}) {
-  return function fetchQuery(operation: any, variables: Record<string, any>) {
+}): FetchFunction {
+  return function fetchQuery(
+    request: RequestParameters,
+    variables: Variables,
+    cacheConfig: CacheConfig,
+    uploadables?: UploadableMap | null
+  ) {
     return graphql(
       schema,
-      operation.text,
+      request.text!,
       rootValue,
       contextValue,
       variables
-    ).then(payload => {
+    ).then((payload) => {
       if (payload.errors) {
-        payload.errors.forEach(e => {
+        payload.errors.forEach((e) => {
           // Throw our custom errors directly.
           if (
             e.originalError instanceof InvalidRequestError ||
@@ -89,7 +101,7 @@ function createFetch({
         throw new Error(payload.errors.toString());
       }
       return {
-        data: payload.data,
+        data: payload.data || undefined,
         errors: payload.errors || [],
       };
     });
@@ -113,34 +125,26 @@ function resolveArguments(
 function createSubscribe(
   subscriptionHandler: SubscriptionHandler
 ): SubscribeFunction {
-  const fn: SubscribeFunction = (
-    operation,
-    variables,
-    cacheConfig,
-    observer
-  ) => {
-    // TODO: (cvle) This could probably made less brittle to changes in the order of the
-    // document AST.
-    const subscriptionSelections = (parse(operation.text!) as any)
-      .definitions[0].selectionSet.selections as any[];
-    const sel = subscriptionSelections[0];
-    const subscription = {
-      field: sel.name.value,
-      variables: resolveArguments(variables, sel.arguments),
-      dispatch: (response: any) => {
-        observer.onNext({
-          data: {
-            [sel.name.value]: response,
-          },
-        });
-      },
-    };
-    subscriptionHandler.add(subscription);
-    return {
-      dispose: () => {
-        subscriptionHandler.remove(subscription);
-      },
-    };
+  const fn: SubscribeFunction = (operation, variables, cacheConfig) => {
+    return Observable.create<GraphQLResponse>((sink) => {
+      // TODO: (cvle) This could probably made less brittle to changes in the order of the
+      // document AST.
+      const subscriptionSelections = (parse(operation.text!) as any)
+        .definitions[0].selectionSet.selections as any[];
+      const sel = subscriptionSelections[0];
+      const subscription = {
+        field: sel.name.value,
+        variables: resolveArguments(variables, sel.arguments),
+        dispatch: (response: any) => {
+          sink.next({
+            data: {
+              [sel.name.value]: response,
+            },
+          });
+        },
+      };
+      subscriptionHandler.add(subscription);
+    });
   };
   return fn;
 }
@@ -173,7 +177,7 @@ export default function createRelayEnvironment(
     store: new Store(params.source || new RecordSource()),
   });
   if (params.initLocalState !== false) {
-    commitLocalUpdate(environment, sourceProxy => {
+    commitLocalUpdate(environment, (sourceProxy) => {
       const root = sourceProxy.getRoot();
       const localRecord = createAndRetain(
         environment,

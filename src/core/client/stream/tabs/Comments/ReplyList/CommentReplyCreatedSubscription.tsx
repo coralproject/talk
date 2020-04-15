@@ -1,8 +1,9 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import { ConnectionHandler, Environment, RecordProxy } from "relay-runtime";
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
@@ -51,7 +52,7 @@ const CommentReplyCreatedSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         const rootField = store.getRootField("commentReplyCreated");
         if (!rootField) {
           return;

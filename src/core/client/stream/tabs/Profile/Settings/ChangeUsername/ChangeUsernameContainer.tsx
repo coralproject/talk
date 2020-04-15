@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
 import { reduceSeconds } from "coral-common/helpers/i18n";
@@ -16,11 +17,7 @@ import getAuthenticationIntegrations from "coral-framework/helpers/getAuthentica
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -92,7 +89,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return false;
     }
     if (
-      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
     ) {
       return false;
     }

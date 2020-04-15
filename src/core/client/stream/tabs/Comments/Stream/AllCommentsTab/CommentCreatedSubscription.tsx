@@ -1,13 +1,13 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
-  RecordProxy,
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -15,7 +15,7 @@ import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 import { CommentCreatedSubscription } from "coral-stream/__generated__/CommentCreatedSubscription.graphql";
 
 function updateForNewestFirst(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
   const rootField = store.getRootField("commentCreated");
@@ -39,14 +39,14 @@ function updateForNewestFirst(
 }
 
 function updateForOldestFirst(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
   const story = store.get(storyID)!;
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
   })!;
-  const pageInfo = connection.getLinkedRecord("pageInfo") as RecordProxy;
+  const pageInfo = connection.getLinkedRecord("pageInfo")!;
   pageInfo.setValue(true, "hasNextPage");
 }
 
@@ -71,7 +71,7 @@ const CommentCreatedSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
           updateForNewestFirst(store, variables.storyID);
           return;

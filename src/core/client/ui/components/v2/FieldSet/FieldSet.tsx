@@ -16,7 +16,7 @@ interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   forwardRef?: Ref<HTMLFieldSetElement>;
 }
 
-const FieldSet: FunctionComponent<InnerProps> = props => {
+const FieldSet: FunctionComponent<InnerProps> = (props) => {
   const { className, classes, forwardRef: ref, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <fieldset className={rootClassName} {...rest} ref={ref} />;

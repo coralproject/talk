@@ -46,14 +46,8 @@ it("should relay events methods to event emitter", () => {
   const callback = () => {};
   const fakeFactory: any = () => ({});
   const emitterMock = sinon.mock(config.eventEmitter);
-  emitterMock
-    .expects("on")
-    .withArgs("event", callback)
-    .once();
-  emitterMock
-    .expects("off")
-    .withArgs("event", callback)
-    .once();
+  emitterMock.expects("on").withArgs("event", callback).once();
+  emitterMock.expects("off").withArgs("event", callback).once();
   const streamEmbed = new StreamEmbed(config, fakeFactory);
   streamEmbed.on("event", callback);
   streamEmbed.off("event", callback);
@@ -204,10 +198,7 @@ it("should emit showPermalink", () => {
   // eslint-disable-next-line:no-empty
   const fakeFactory: any = () => ({});
   const emitterMock = sinon.mock(config.eventEmitter);
-  emitterMock
-    .expects("emit")
-    .withArgs("showPermalink")
-    .once();
+  emitterMock.expects("emit").withArgs("showPermalink").once();
   // eslint-disable-next-line:no-unused-expression
   new StreamEmbed(config, fakeFactory);
   jest.runOnlyPendingTimers();

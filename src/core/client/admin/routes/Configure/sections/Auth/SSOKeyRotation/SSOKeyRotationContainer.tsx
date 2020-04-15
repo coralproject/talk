@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Label } from "coral-ui/components/v2";
 
 import { SSOKeyRotationContainer_settings } from "coral-admin/__generated__/SSOKeyRotationContainer_settings.graphql";
@@ -55,7 +56,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
     () =>
       keys
         // Copy this map because we don't want to modify the underlying copy.
-        .map(key => key)
+        .map((key) => key)
         .sort((a: Key, b: Key) => {
           // Both active, sort on createdAt date.
           if (!a.inactiveAt && !b.inactiveAt) {
@@ -91,7 +92,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
       <Localized id="configure-auth-sso-rotate-keys">
         <Label htmlFor="configure-auth-sso-rotate-keys">Keys</Label>
       </Localized>
-      {sortedKeys.map(key => (
+      {sortedKeys.map((key) => (
         <SSOKeyCard
           key={key.kid}
           id={key.kid}

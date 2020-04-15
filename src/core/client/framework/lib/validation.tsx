@@ -62,7 +62,7 @@ export function composeValidators<T = any, V = any>(
  * required is a Validator that checks that the value is truthy.
  */
 export const required = createValidator(
-  v =>
+  (v) =>
     Array.isArray(v) ? v.length > 0 : v !== "" && v !== null && v !== undefined,
   VALIDATION_REQUIRED()
 );
@@ -71,7 +71,7 @@ export const required = createValidator(
  * validateEmail is a Validator that checks that the value is an email.
  */
 export const validateEmail = createValidator(
-  v => !v || EMAIL_REGEX.test(v),
+  (v) => !v || EMAIL_REGEX.test(v),
   INVALID_EMAIL()
 );
 
@@ -79,7 +79,7 @@ export const validateEmail = createValidator(
  * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
  */
 export const validateUsernameCharacters = createValidator(
-  v => !v || USERNAME_REGEX.test(v),
+  (v) => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
 );
 
@@ -87,7 +87,7 @@ export const validateUsernameCharacters = createValidator(
  * validateURL is a Validator that checks that the URL only contains valid characters.
  */
 export const validateURL = createValidator(
-  v => !v || URL_REGEX.test(v),
+  (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
 
@@ -96,10 +96,10 @@ export const validateURL = createValidator(
  */
 export const validateMinLength = (
   minLength: number,
-  getLength: (v: any) => number = v => v.length
+  getLength: (v: any) => number = (v) => v.length
 ) =>
   createValidator(
-    v => !v || getLength(v) >= minLength,
+    (v) => !v || getLength(v) >= minLength,
     VALIDATION_TOO_SHORT(minLength)
   );
 
@@ -108,10 +108,10 @@ export const validateMinLength = (
  */
 export const validateMaxLength = (
   maxLength: number,
-  getLength: (v: any) => number = v => v.length
+  getLength: (v: any) => number = (v) => v.length
 ) =>
   createValidator(
-    v => !v || getLength(v) <= maxLength,
+    (v) => !v || getLength(v) <= maxLength,
     VALIDATION_TOO_LONG(maxLength)
   );
 
@@ -119,7 +119,7 @@ export const validateMaxLength = (
  * validateUsernameMinLength is a Validator that checks that the username has a min length of characters
  */
 export const validateUsernameMinLength = createValidator(
-  v => v.length >= USERNAME_MIN_LENGTH,
+  (v) => v.length >= USERNAME_MIN_LENGTH,
   USERNAME_TOO_SHORT(USERNAME_MIN_LENGTH)
 );
 
@@ -127,7 +127,7 @@ export const validateUsernameMinLength = createValidator(
  * validateUsernameMaxLength is a Validator that checks that the username has a max length of characters
  */
 export const validateUsernameMaxLength = createValidator(
-  v => v.length <= USERNAME_MAX_LENGTH,
+  (v) => v.length <= USERNAME_MAX_LENGTH,
   USERNAME_TOO_LONG(USERNAME_MAX_LENGTH)
 );
 
@@ -144,7 +144,7 @@ export const validateUsername = composeValidators(
  * validateUsername is a Validator that checks that the value is a valid username.
  */
 export const validatePassword = createValidator(
-  v => v.length >= PASSWORD_MIN_LENGTH,
+  (v) => v.length >= PASSWORD_MIN_LENGTH,
   PASSWORD_TOO_SHORT(PASSWORD_MIN_LENGTH)
 );
 
@@ -185,7 +185,7 @@ export const validateUsernameEquals = createValidator(
  * validateWholeNumber is a Validator that checks for a valid whole number.
  */
 export const validateWholeNumber = createValidator(
-  v => !v || v === 0 || Number.isInteger(parseFloat(v)),
+  (v) => !v || v === 0 || Number.isInteger(parseFloat(v)),
   NOT_A_WHOLE_NUMBER()
 );
 
@@ -194,7 +194,7 @@ export const validateWholeNumber = createValidator(
  */
 export const validateWholeNumberGreaterThan = (x: number) =>
   createValidator(
-    v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v > 0),
+    (v) => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v > 0),
     NOT_A_WHOLE_NUMBER_GREATER_THAN(x)
   );
 
@@ -203,7 +203,7 @@ export const validateWholeNumberGreaterThan = (x: number) =>
  */
 export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
   createValidator(
-    v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
+    (v) => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
     NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL(x)
   );
 
@@ -212,7 +212,7 @@ export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
  */
 export const validateWholeNumberBetween = (min: number, max: number) =>
   createValidator(
-    v =>
+    (v) =>
       !v ||
       v === 0 ||
       (Number.isInteger(parseFloat(v)) && v >= min && v <= max),
@@ -224,7 +224,7 @@ export const validateWholeNumberBetween = (min: number, max: number) =>
  */
 export const validatePercentage = (min: number, max: number) =>
   createValidator(
-    v =>
+    (v) =>
       v === null ||
       (typeof v === "number" && !Number.isNaN(v) && v >= min && v <= max),
 
@@ -232,9 +232,9 @@ export const validatePercentage = (min: number, max: number) =>
   );
 
 export const validateDeleteConfirmation = (phrase: string) =>
-  createValidator(v => v === phrase, DELETE_CONFIRMATION_INVALID());
+  createValidator((v) => v === phrase, DELETE_CONFIRMATION_INVALID());
 
-export const validateStrictURLList = createValidator(v => {
+export const validateStrictURLList = createValidator((v) => {
   if (!Array.isArray(v)) {
     return false;
   }

@@ -15,7 +15,7 @@ interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
 }
-const PostCommentFormClosed: FunctionComponent<Props> = props => (
+const PostCommentFormClosed: FunctionComponent<Props> = (props) => (
   <div className={CLASSES.createComment.$root}>
     {props.showMessageBox && (
       <MessageBoxContainer

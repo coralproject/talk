@@ -65,7 +65,7 @@ const SuspendForm: FunctionComponent<Props> = ({
 
   const onFormSubmit = useCallback(
     ({ duration, emailMessage }) => {
-      const unit = DURATIONS.find(d => d.value === duration);
+      const unit = DURATIONS.find((d) => d.value === duration);
       onSubmit(unit!, emailMessage);
     },
     [onSubmit]
@@ -76,7 +76,7 @@ const SuspendForm: FunctionComponent<Props> = ({
       if (state.lastFormState) {
         const { duration, emailMessage } = state.lastFormState
           .values as FormStateValues;
-        const unit = DURATIONS.find(d => d.value === duration);
+        const unit = DURATIONS.find((d) => d.value === duration);
         const expectedEmailMessage = getMessageWithDuration(unit!);
         if (expectedEmailMessage === emailMessage) {
           changeValue(state, name, () => newValue);
@@ -94,7 +94,7 @@ const SuspendForm: FunctionComponent<Props> = ({
     if (state.lastFormState && !checked) {
       const { duration, emailMessage } = state.lastFormState
         .values as FormStateValues;
-      const unit = DURATIONS.find(d => d.value === duration);
+      const unit = DURATIONS.find((d) => d.value === duration);
       const expectedEmailMessage = getMessageWithDuration(unit!);
       if (expectedEmailMessage !== emailMessage) {
         changeValue(state, name, () => expectedEmailMessage);
@@ -141,7 +141,7 @@ const SuspendForm: FunctionComponent<Props> = ({
                           <RadioButton
                             {...input}
                             id={`duration-${value}`}
-                            onChange={event => {
+                            onChange={(event) => {
                               form.mutators.setMessageValue(
                                 "emailMessage",
                                 getMessageWithDuration({ scaled, unit })
@@ -165,7 +165,7 @@ const SuspendForm: FunctionComponent<Props> = ({
                     <CheckBox
                       {...input}
                       id="suspendModal-editMessage"
-                      onChange={event => {
+                      onChange={(event) => {
                         form.mutators.resetMessageValue(
                           "emailMessage",
                           !input.checked

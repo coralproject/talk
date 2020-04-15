@@ -9,7 +9,7 @@ interface Props {
   remaining: number;
 }
 
-const RemainingCharacters: FunctionComponent<Props> = props => {
+const RemainingCharacters: FunctionComponent<Props> = (props) => {
   const belowZero = props.remaining < 0;
   return (
     <Flex

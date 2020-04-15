@@ -71,7 +71,7 @@ it("live update count", async () => {
   const commentEntered = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
     subscriptionHandler.dispatch<
       SubscriptionToCommentEnteredModerationQueueResolver
-    >("commentEnteredModerationQueue", variables => {
+    >("commentEnteredModerationQueue", (variables) => {
       if (variables.queue && variables.queue !== queue) {
         return;
       }
@@ -84,7 +84,7 @@ it("live update count", async () => {
   const commentLeft = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
     subscriptionHandler.dispatch<
       SubscriptionToCommentEnteredModerationQueueResolver
-    >("commentLeftModerationQueue", variables => {
+    >("commentLeftModerationQueue", (variables) => {
       if (variables.queue && variables.queue !== queue) {
         return;
       }

@@ -1,5 +1,5 @@
 import TestRenderer from "react-test-renderer";
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -91,9 +91,7 @@ it("renders the invite button when clicked", async () => {
   const { container } = await createTestRenderer();
 
   await act(async () =>
-    within(container)
-      .getByTestID("invite-users-button")
-      .props.onClick()
+    within(container).getByTestID("invite-users-button").props.onClick()
   );
 
   expect(within(container).getByTestID("invite-users-modal")).toBeDefined();
@@ -241,9 +239,7 @@ it("change user role", async () => {
   });
 
   act(() => {
-    within(userRow)
-      .getByLabelText("Change role")
-      .props.onClick();
+    within(userRow).getByLabelText("Change role").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -251,9 +247,7 @@ it("change user role", async () => {
   );
 
   act(() => {
-    within(popup)
-      .getByText("Staff", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Staff", { selector: "button" }).props.onClick();
   });
 
   within(userRow).getByText("Staff");
@@ -393,7 +387,7 @@ it("filter by status", async () => {
 
 it("can't change staff, moderator and admin status", async () => {
   const { container } = await createTestRenderer();
-  ["Admin", "Moderator", "Staff"].forEach(role => {
+  ["Admin", "Moderator", "Staff"].forEach((role) => {
     const viewerRow = within(container).getByText(role, {
       selector: "tr",
     });
@@ -434,9 +428,7 @@ it("suspend user", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -444,9 +436,7 @@ it("suspend user", async () => {
   );
 
   TestRenderer.act(() => {
-    within(popup)
-      .getByText("Suspend", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText("Suspend", {
@@ -454,9 +444,7 @@ it("suspend user", async () => {
   });
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByType("form")
-      .props.onSubmit();
+    within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Suspended");
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
@@ -503,9 +491,7 @@ it("remove user suspension", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -554,9 +540,7 @@ it("suspend user with custom timeout", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -564,9 +548,7 @@ it("suspend user with custom timeout", async () => {
   );
 
   TestRenderer.act(() => {
-    within(popup)
-      .getByText("Suspend", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText("Suspend", {
@@ -580,9 +562,7 @@ it("suspend user with custom timeout", async () => {
   });
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByType("form")
-      .props.onSubmit();
+    within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Suspended");
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
@@ -620,9 +600,7 @@ it("suspend user with custom message", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -630,9 +608,7 @@ it("suspend user with custom message", async () => {
   );
 
   TestRenderer.act(() => {
-    within(popup)
-      .getByText("Suspend", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText("Suspend", {
@@ -652,9 +628,7 @@ it("suspend user with custom message", async () => {
   });
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByType("form")
-      .props.onSubmit();
+    within(modal).getByType("form").props.onSubmit();
   });
 
   within(userRow).getByText("Suspended");
@@ -692,9 +666,7 @@ it("ban user", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -702,9 +674,7 @@ it("ban user", async () => {
   );
 
   TestRenderer.act(() => {
-    within(popup)
-      .getByText("Ban", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -715,9 +685,7 @@ it("ban user", async () => {
   );
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByType("form")
-      .props.onSubmit();
+    within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
@@ -755,9 +723,7 @@ it("ban user with custom message", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(
@@ -765,9 +731,7 @@ it("ban user with custom message", async () => {
   );
 
   TestRenderer.act(() => {
-    within(popup)
-      .getByText("Ban", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -790,9 +754,7 @@ it("ban user with custom message", async () => {
   });
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByType("form")
-      .props.onSubmit();
+    within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
@@ -809,7 +771,7 @@ it("remove user ban", async () => {
         const userRecord = pureMerge<typeof user>(user, {
           status: {
             current: user.status.current.filter(
-              s => s !== GQLUSER_STATUS.BANNED
+              (s) => s !== GQLUSER_STATUS.BANNED
             ),
             ban: { active: false },
           },
@@ -841,9 +803,7 @@ it("remove user ban", async () => {
   });
 
   TestRenderer.act(() => {
-    within(userRow)
-      .getByLabelText("Change user status")
-      .props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const popup = within(userRow).getByLabelText(

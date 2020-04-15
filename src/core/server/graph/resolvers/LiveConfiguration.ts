@@ -5,9 +5,7 @@ import * as settings from "coral-server/models/settings";
 
 export type LiveConfigurationInput = settings.LiveConfiguration;
 
-export const LiveConfiguration: GQLLiveConfigurationTypeResolver<
-  LiveConfigurationInput
-> = {
+export const LiveConfiguration: GQLLiveConfigurationTypeResolver<LiveConfigurationInput> = {
   configurable: (source, args, ctx) =>
     Boolean(!ctx.config.get("disable_live_updates")),
   enabled: (source, args, ctx) => {

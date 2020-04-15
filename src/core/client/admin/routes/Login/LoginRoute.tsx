@@ -1,7 +1,8 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
+import { withLocalStateContainer } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import { LoginRouteLocal as LocalData } from "coral-admin/__generated__/LoginRouteLocal.graphql";

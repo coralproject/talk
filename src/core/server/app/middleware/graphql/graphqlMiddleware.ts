@@ -8,7 +8,6 @@ import {
   graphqlExpress,
 } from "apollo-server-express/dist/expressApollo";
 
-import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import {
   ErrorWrappingExtension,

@@ -34,12 +34,12 @@ const BanCommentUserMutation = createMutation(
           clientMutationId: clientMutationId.toString(),
         },
       },
-      updater: store => {
+      updater: (store) => {
         const user = store.get(input.userID);
         if (user) {
           const comments = user.getLinkedRecords("comments");
           if (comments) {
-            comments.forEach(comment => {
+            comments.forEach((comment) => {
               if (comment) {
                 comment.setLinkedRecord(user, "author");
               }

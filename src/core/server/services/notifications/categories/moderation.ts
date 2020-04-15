@@ -9,9 +9,7 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types
 
 import { NotificationCategory } from "./category";
 
-export const moderation: NotificationCategory<
-  CommentStatusUpdatedCoralEventPayload
-> = {
+export const moderation: NotificationCategory<CommentStatusUpdatedCoralEventPayload> = {
   name: "moderation",
   process: async (ctx, input) => {
     // Check to see if this comment was previously in a moderation status.

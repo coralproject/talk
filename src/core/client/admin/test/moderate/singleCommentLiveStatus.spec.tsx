@@ -68,7 +68,7 @@ it("update comment status live", async () => {
 
   subscriptionHandler.dispatch<SubscriptionToCommentStatusUpdatedResolver>(
     "commentStatusUpdated",
-    variables => {
+    (variables) => {
       if (variables.id !== commentData.id) {
         return;
       }

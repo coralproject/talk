@@ -145,7 +145,7 @@ const primeStoriesFromConnection = (ctx: GraphContext) => (
 ) => {
   if (!ctx.disableCaching) {
     // For each of these nodes, prime the story loader.
-    connection.nodes.forEach(story => {
+    connection.nodes.forEach((story) => {
       ctx.loaders.Stories.story.prime(story.id, story);
     });
   }
@@ -186,7 +186,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   story: new DataLoader<string, Story | null>(
-    ids => retrieveManyStories(ctx.mongo, ctx.tenant.id, ids),
+    (ids) => retrieveManyStories(ctx.mongo, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.

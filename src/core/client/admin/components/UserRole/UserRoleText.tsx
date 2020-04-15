@@ -11,7 +11,7 @@ interface Props {
   children: PropTypesOf<typeof TranslatedRole>["children"];
 }
 
-const UserRoleText: FunctionComponent<Props> = props => (
+const UserRoleText: FunctionComponent<Props> = (props) => (
   <TranslatedRole
     container={
       <span

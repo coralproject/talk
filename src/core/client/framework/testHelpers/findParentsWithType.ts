@@ -10,6 +10,6 @@ export default function findParentsWithType(
     | React.FunctionComponent<any> = "*"
 ): ReactTestInstance[] {
   return instances
-    .map(i => findParentWithType(i, selector))
-    .filter(i => i) as ReactTestInstance[];
+    .map((i) => findParentWithType(i, selector))
+    .filter((i) => i) as ReactTestInstance[];
 }

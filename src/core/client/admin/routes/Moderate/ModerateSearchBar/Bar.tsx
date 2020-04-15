@@ -72,11 +72,11 @@ const Bar: FunctionComponent<Props> = ({
     });
   }, [searchInput.current]);
   const contextOptions = mappedOptions
-    .filter(o => o.group === "CONTEXT")
-    .map(o => o.element);
+    .filter((o) => o.group === "CONTEXT")
+    .map((o) => o.element);
   const searchOptions = mappedOptions
-    .filter(o => o.group === "SEARCH")
-    .map(o => o.element);
+    .filter((o) => o.group === "SEARCH")
+    .map((o) => o.element);
 
   return (
     <Localized id="moderate-searchBar-comboBox" attrs={{ "aria-label": true }}>

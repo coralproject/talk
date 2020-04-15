@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import { CheckBox, Typography } from "coral-ui/components";
 
 import styles from "./ToggleConfig.css";
@@ -10,7 +10,7 @@ export interface Props extends Omit<PropTypesOf<typeof CheckBox>, "children"> {
   children?: React.ReactNode;
 }
 
-const ToggleConfig: FunctionComponent<Props> = props => {
+const ToggleConfig: FunctionComponent<Props> = (props) => {
   const { title, children, ...rest } = props;
   return (
     <div>

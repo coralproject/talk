@@ -2,12 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -91,7 +88,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
             .concat()
             .reverse()
             .map(
-              note =>
+              (note) =>
                 note && (
                   <ModeratorNote
                     key={note.id}

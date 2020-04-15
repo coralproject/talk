@@ -15,7 +15,7 @@ import {
 } from "subscriptions-transport-ws";
 
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
-import { Omit, RequireProperty } from "coral-common/types";
+import { RequireProperty } from "coral-common/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
 import {
@@ -195,7 +195,7 @@ export function formatResponse(
     if (value.errors && value.errors.length > 0) {
       return {
         ...value,
-        errors: value.errors.map(err => {
+        errors: value.errors.map((err) => {
           const enriched = enrichError(context, err);
 
           // Log the error out.

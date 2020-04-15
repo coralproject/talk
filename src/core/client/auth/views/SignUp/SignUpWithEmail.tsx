@@ -26,7 +26,7 @@ interface Props {
   onSubmit: OnSubmit<FormSubmitProps>;
 }
 
-const SignUp: FunctionComponent<Props> = props => {
+const SignUp: FunctionComponent<Props> = (props) => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (

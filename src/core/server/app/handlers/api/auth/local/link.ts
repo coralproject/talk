@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -14,10 +14,7 @@ export interface LinkBody {
 }
 
 export const LinkBodySchema = Joi.object().keys({
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .email(),
+  email: Joi.string().trim().lowercase().email(),
   password: Joi.string(),
 });
 

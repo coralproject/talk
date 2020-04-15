@@ -1,15 +1,16 @@
 import { commitMutation } from "react-relay";
-import { Environment, MutationConfig, OperationType } from "relay-runtime";
+import { Environment, MutationConfig, MutationParameters } from "relay-runtime";
 
-import { DeepPartial, Omit } from "coral-framework/types";
+import { DeepPartial } from "coral-framework/types";
 
 import extractPayload from "./extractPayload";
+import { resolveModule } from "./helpers";
 
 /**
  * Like `MutationConfig` but omits `onCompleted` and `onError`
  * because we are going to use a Promise API.
  */
-export type MutationPromiseConfig<T extends OperationType> = Omit<
+export type MutationPromiseConfig<T extends MutationParameters> = Omit<
   MutationConfig<T>,
   "onCompleted" | "onError" | "optimisticResponse"
 > & { optimisticResponse?: DeepPartial<T["response"]> };
@@ -20,7 +21,9 @@ export type MutationPromiseConfig<T extends OperationType> = Omit<
  * and errors are wrapped inside of application specific
  * error instances.
  */
-export async function commitMutationPromiseNormalized<T extends OperationType>(
+export async function commitMutationPromiseNormalized<
+  T extends MutationParameters
+>(
   environment: Environment,
   config: MutationPromiseConfig<T>
 ): Promise<T["response"][keyof T["response"]]> {
@@ -30,13 +33,14 @@ export async function commitMutationPromiseNormalized<T extends OperationType>(
 /**
  * Like `commitMutation` of the Relay API but returns a Promise.
  */
-export function commitMutationPromise<T extends OperationType>(
+export function commitMutationPromise<T extends MutationParameters>(
   environment: Environment,
   config: MutationPromiseConfig<T>
 ): Promise<T["response"][keyof T["response"]]> {
   return new Promise((resolve, reject) => {
     commitMutation(environment, {
       ...config,
+      mutation: resolveModule(config.mutation),
       onCompleted: (response, errors) => {
         if (errors) {
           // This should not happen, as the network layer
@@ -47,7 +51,7 @@ export function commitMutationPromise<T extends OperationType>(
         }
         resolve(extractPayload(response));
       },
-      onError: error => {
+      onError: (error) => {
         reject(error);
       },
     });

@@ -9,6 +9,7 @@ import {
   wrapDisplayName,
 } from "recompose";
 
+import { resolveModule } from "./helpers";
 import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
@@ -25,7 +26,11 @@ export default <T>(
   { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayRefetchProp },
   { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
 > => (component: React.ComponentType<any>) => {
-  const result = createRefetchContainer(component, fragmentSpec, refetchQuery);
+  const result = createRefetchContainer(
+    component,
+    resolveModule(fragmentSpec),
+    refetchQuery
+  );
   result.displayName = wrapDisplayName(component, "Relay");
   // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
   // well supported yet in enzyme.

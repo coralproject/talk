@@ -7,7 +7,7 @@ import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./ReportButton.css";
 
-interface Props extends PropTypesOf<typeof Button> {
+interface Props extends Omit<PropTypesOf<typeof Button>, "ref"> {
   reported: boolean;
 
   /** Internal: Forwarded Ref */

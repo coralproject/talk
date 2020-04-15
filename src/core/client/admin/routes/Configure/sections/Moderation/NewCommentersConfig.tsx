@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { ValidationMessage } from "coral-framework/lib/form";
+import { parseInteger, ValidationMessage } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -68,6 +68,7 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
             required,
             validateWholeNumberGreaterThan(1)
           )}
+          parse={parseInteger}
         >
           {({ input, meta }) => (
             <>

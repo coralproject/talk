@@ -38,7 +38,7 @@ export async function rotateSSOKey(
   // Deprecate the old Tenant SSO key if it exists.
   if (tenant.auth.integrations.sso.keys.length > 0) {
     // Get the old keys that are not deprecated.
-    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter(key => {
+    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter((key) => {
       return !key.rotatedAt;
     });
 
@@ -82,7 +82,7 @@ export async function deactivateSSOKey(
   kid: string,
   now: Date
 ) {
-  const key = tenant.auth.integrations.sso.keys.find(k => k.kid === kid);
+  const key = tenant.auth.integrations.sso.keys.find((k) => k.kid === kid);
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }
@@ -112,7 +112,7 @@ export async function deleteSSOKey(
   tenant: Tenant,
   kid: string
 ) {
-  const key = tenant.auth.integrations.sso.keys.find(k => k.kid === kid);
+  const key = tenant.auth.integrations.sso.keys.find((k) => k.kid === kid);
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }

@@ -23,7 +23,7 @@ const RemoveUserSuspensionMutation = createMutation(
       MutationTypes["response"]["removeUserSuspension"]["user"]["status"]["suspension"]["history"]
     > = [];
     if (user.status.suspension.history) {
-      newHistory = user.status.suspension.history.map(h =>
+      newHistory = user.status.suspension.history.map((h) =>
         pick(h, [
           "active",
           "from.start",

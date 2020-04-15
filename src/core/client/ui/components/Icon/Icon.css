@@ -1,5 +1,5 @@
 .root {
-  composes: icon from "coral-ui/shared/icon.css";
+  composes: icon from "~coral-ui/shared/icon.css";
   font-family: "Material Icons";
   speak: none;
   font-style: normal;

@@ -1,16 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { FieldArray } from "react-final-form-arrays";
+import { graphql } from "react-relay";
 
 import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   ButtonIcon,
@@ -33,23 +29,6 @@ interface Props {
 }
 
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
-  const [defaultValues] = useState({
-    slack: {
-      channels: [
-        {
-          enabled: false,
-          name: "",
-          hookURL: "",
-          triggers: {
-            reportedComments: false,
-            pendingComments: false,
-            featuredComments: false,
-          },
-        },
-      ],
-    },
-  });
-
   const onAddChannel = useCallback(() => {
     const mutators = form.mutators;
     mutators.insert("slack.channels", 0, {
@@ -71,18 +50,31 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
   );
 
   useMemo(() => {
+    let formValues = {
+      slack: {
+        channels: [
+          {
+            enabled: false,
+            name: "",
+            hookURL: "",
+            triggers: {
+              reportedComments: false,
+              pendingComments: false,
+              featuredComments: false,
+            },
+          },
+        ],
+      },
+    };
     if (
-      !settings ||
-      !settings.slack ||
-      !settings.slack.channels ||
-      settings.slack.channels.length === 0
+      settings.slack &&
+      settings.slack.channels &&
+      settings.slack.channels.length > 0
     ) {
-      form.initialize(defaultValues);
-    } else {
-      const settingsValues = pureMerge(defaultValues, settings);
-      form.initialize(settingsValues);
+      formValues = pureMerge(formValues, settings);
     }
-  }, [settings, defaultValues]);
+    form.initialize(formValues);
+  }, []);
 
   return (
     <HorizontalGutter size="double">

@@ -5,13 +5,6 @@ import React from "react";
 /**
  * Overwrite properties of `T`.
  *
- * E.g. Omit<{a: boolean, b: boolean}, "b"> = {a: boolean}
- */
-export type Omit<U, K extends keyof U> = Pick<U, Exclude<keyof U, K>>;
-
-/**
- * Overwrite properties of `T`.
- *
  * E.g. Overwrite<{a: boolean}, {a: string}> = {a: string}
  */
 export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;

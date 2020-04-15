@@ -3,9 +3,7 @@ import { GQLCommentEnteredModerationQueuePayloadTypeResolver } from "coral-serve
 import { maybeLoadOnlyID } from "./Comment";
 import { CommentEnteredModerationQueueInput } from "./Subscription/commentEnteredModerationQueue";
 
-export const CommentEnteredModerationQueuePayload: GQLCommentEnteredModerationQueuePayloadTypeResolver<
-  CommentEnteredModerationQueueInput
-> = {
+export const CommentEnteredModerationQueuePayload: GQLCommentEnteredModerationQueuePayloadTypeResolver<CommentEnteredModerationQueueInput> = {
   comment: ({ commentID }, args, ctx, info) =>
     maybeLoadOnlyID(ctx, info, commentID),
 };

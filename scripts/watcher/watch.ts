@@ -1,5 +1,5 @@
+import Joi from "@hapi/joi";
 import chalk from "chalk";
-import Joi from "joi";
 import { pickBy } from "lodash";
 
 import SaneWatcher from "./SaneWatcher";
@@ -28,7 +28,7 @@ async function beginWatch(
 }
 
 function setupCleanup(watcher: Watcher, config: Config) {
-  ["SIGINT", "SIGTERM"].forEach(signal =>
+  ["SIGINT", "SIGTERM"].forEach((signal) =>
     process.once(signal as any, async () => {
       const cleanups = [];
       if (watcher.onCleanup) {
@@ -50,7 +50,7 @@ function resolveSets(
   value: ReadonlyArray<string>
 ) {
   const resolved: string[] = [];
-  value.forEach(v => {
+  value.forEach((v) => {
     if (v in sets) {
       resolved.push(...sets[v]);
       return;
@@ -66,12 +66,12 @@ function filterOnly(
   sets?: Record<string, ReadonlyArray<string>>
 ): Config["watchers"] {
   const resolved = sets ? resolveSets(sets, only) : only;
-  const unknown = resolved.filter(r => !(r in watchers));
+  const unknown = resolved.filter((r) => !(r in watchers));
   if (unknown.length) {
     throw new Error(`Watcher Configuration or Set for ${unknown} not found`);
   }
   return pickBy(watchers, (value, key) => {
-    if (resolved.indexOf(key) === -1) {
+    if (!resolved.includes(key)) {
       // eslint-disable-next-line no-console
       console.log(chalk.grey(`Disabled watcher "${key}"`));
       return false;
@@ -101,7 +101,7 @@ export default async function watch(config: Config, options: Options = {}) {
     // eslint-disable-next-line no-console
     console.log(chalk.cyanBright(`Start watcher "${key}"`));
     const watcherConfig = watchersConfigs[key];
-    beginWatch(watcher, key, watcherConfig, rootDir).catch(err => {
+    beginWatch(watcher, key, watcherConfig, rootDir).catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
       process.exit(1);

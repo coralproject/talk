@@ -34,7 +34,7 @@ interface Props {
   settings: PropTypesOf<typeof InviteUsersContainer>["settings"];
 }
 
-const UserTableFilter: FunctionComponent<Props> = props => (
+const UserTableFilter: FunctionComponent<Props> = (props) => (
   <Flex justifyContent="space-between" alignItems="flex-end">
     <Flex itemGutter="double">
       <FieldSet>
@@ -105,7 +105,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
                 aria-label="Search by role"
                 value={props.roleFilter || ""}
                 className={styles.selectField}
-                onChange={e =>
+                onChange={(e) =>
                   props.onSetRoleFilter((e.target.value as any) || null)
                 }
               >
@@ -148,7 +148,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
                 aria-label="Search by status"
                 value={props.statusFilter || ""}
                 className={styles.selectField}
-                onChange={e =>
+                onChange={(e) =>
                   props.onSetStatusFilter((e.target.value as any) || null)
                 }
               >

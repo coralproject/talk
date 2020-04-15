@@ -1,10 +1,10 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { DOMLocalization } from "@fluent/dom/compat";
+import Joi from "@hapi/joi";
 import { Job } from "bull";
 import createDOMPurify from "dompurify";
 import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
-import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
@@ -131,7 +131,7 @@ function createMessageTranslator(i18n: I18n) {
     }
 
     // Configure the purification.
-    const purify = createDOMPurify(dom.window);
+    const purify = createDOMPurify(dom.window as any);
 
     // Strip the l10n attributes from the email HTML.
     purify.sanitize(dom.window.document.documentElement, {
@@ -183,15 +183,11 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
   const translateMessage = createMessageTranslator(i18n);
 
   return async (job: Job<MailerData>) => {
-    const { value: data, error: err } = Joi.validate(
-      job.data,
-      MailerDataSchema,
-      {
-        stripUnknown: true,
-        presence: "required",
-        abortEarly: false,
-      }
-    );
+    const { value: data, error: err } = MailerDataSchema.validate(job.data, {
+      stripUnknown: true,
+      presence: "required",
+      abortEarly: false,
+    });
     if (err) {
       logger.error(
         {

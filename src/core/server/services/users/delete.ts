@@ -51,7 +51,7 @@ async function deleteUserActionCounts(
 
   const cursor = collections
     .commentActions(mongo)
-    .find({ tenantID, userID, actionType: "REACTION" });
+    .find({ tenantID, userID, actionType: ACTION_TYPE.REACTION });
   while (await cursor.hasNext()) {
     const action = await cursor.next();
     if (!action) {

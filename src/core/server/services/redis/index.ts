@@ -1,6 +1,5 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
 
-import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import logger from "coral-server/logger";

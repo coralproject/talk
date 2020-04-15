@@ -1,0 +1,54 @@
+---
+name: SelectField
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import { useState } from "react";
+
+import SelectField from './SelectField.tsx'
+import Option from './Option.tsx'
+import OptGroup from './OptGroup.tsx'
+import HorizontalGutter from '../HorizontalGutter'
+
+# SelectField
+
+## Basic Use
+<Playground>
+  {() => {
+    const [value, setValue] = useState("blue");
+    return (
+      <SelectField value={value} onChange={e => setValue(e.target.value)}>
+        <Option value="red">Red Pill</Option>
+        <Option value="blue">Blue Pill</Option>
+      </SelectField>
+    );
+  }}
+</Playground>
+
+## Groups
+<Playground>
+  {() => {
+    const [value, setValue] = useState("dog");
+    return (
+      <SelectField value={value} onChange={e => setValue(e.target.value)}>
+        <OptGroup label="mammals">
+          <Option value="dog">Dog</Option>
+          <Option value="cat">Cat</Option>
+        </OptGroup>
+        <OptGroup label="fish">
+          <Option value="salmon">Salmon</Option>
+          <Option value="tuna">Tuna</Option>
+        </OptGroup>
+      </SelectField>
+    );
+  }}
+</Playground>
+
+## Disabled
+<Playground>
+  <SelectField disabled>
+    <Option value="red">Red Pill</Option>
+    <Option value="blue">Blue Pill</Option>
+  </SelectField>
+</Playground>

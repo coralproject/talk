@@ -57,7 +57,7 @@ const RemoveUserPremodMutation = createMutation(
               current: lookup<GQLUser>(
                 environment,
                 input.userID
-              )!.status.current.filter(s => s !== GQLUSER_STATUS.PREMOD),
+              )!.status.current.filter((s) => s !== GQLUSER_STATUS.PREMOD),
               premod: {
                 active: false,
                 history: [

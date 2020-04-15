@@ -26,7 +26,7 @@ interface CommentHistoryProps {
   disableLoadMore?: boolean;
 }
 
-const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
+const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
   return (
     <HorizontalGutter
       size="double"
@@ -52,7 +52,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
           </Localized>
         </Flex>
       )}
-      {props.comments.map(comment => (
+      {props.comments.map((comment) => (
         <HistoryCommentContainer
           key={comment.id}
           story={props.story}

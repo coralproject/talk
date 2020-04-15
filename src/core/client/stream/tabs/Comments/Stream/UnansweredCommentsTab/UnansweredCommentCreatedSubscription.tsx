@@ -1,4 +1,4 @@
-import { graphql, requestSubscription } from "react-relay";
+import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
@@ -8,6 +8,7 @@ import {
 
 import {
   createSubscription,
+  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -15,7 +16,7 @@ import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 import { UnansweredCommentCreatedSubscription } from "coral-stream/__generated__/UnansweredCommentCreatedSubscription.graphql";
 
 function updateForNewestFirst(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
   const rootField = store.getRootField("commentCreated");
@@ -39,7 +40,7 @@ function updateForNewestFirst(
 }
 
 function updateForOldestFirst(
-  store: RecordSourceSelectorProxy,
+  store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
   const story = store.get(storyID)!;
@@ -73,7 +74,7 @@ const UnansweredCommentCreatedSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
           updateForNewestFirst(store, variables.storyID);
           return;

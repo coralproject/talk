@@ -1,11 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -38,7 +35,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onClose = useCallback(() => {
     setShowForm(false);
   }, [showForm]);
-  const onCreate = useCallback(values => {
+  const onCreate = useCallback((values) => {
     try {
       setSubmitError(null);
       createAnnouncement(values);

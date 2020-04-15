@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
+import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   BaseButton,
   Box,
@@ -25,11 +26,11 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
   }
 
   const activeBan = useMemo(() => {
-    return user.status.ban.history.find(item => item.active);
+    return user.status.ban.history.find((item) => item.active);
   }, [user]);
 
   const activeSuspension = useMemo(() => {
-    return user.status.suspension.history.find(item => item.active);
+    return user.status.suspension.history.find((item) => item.active);
   }, [user]);
 
   const { locales } = useCoralContext();
@@ -122,7 +123,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
       >
         {({ toggleVisibility, ref }) => (
           <BaseButton
-            onClick={evt => {
+            onClick={(evt) => {
               evt.stopPropagation();
               toggleVisibility();
             }}

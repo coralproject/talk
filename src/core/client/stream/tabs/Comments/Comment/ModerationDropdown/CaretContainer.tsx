@@ -21,7 +21,7 @@ interface Props {
   viewer: CaretContainer_viewer;
 }
 
-const CaretContainer: FunctionComponent<Props> = props => {
+const CaretContainer: FunctionComponent<Props> = (props) => {
   const popoverID = `comments-moderationMenu-${props.comment.id}`;
   return (
     <Localized

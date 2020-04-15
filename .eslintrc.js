@@ -54,7 +54,7 @@ const typescriptOverrides = {
       "@typescript-eslint/indent": "off",
       "@typescript-eslint/interface-name-prefix": "error",
       "@typescript-eslint/member-delimiter-style": "off",
-      "@typescript-eslint/no-empty-function": "error",
+      "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-interface": "error",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-misused-new": "error",
@@ -77,6 +77,7 @@ const typescriptOverrides = {
       "react/display-name": "error",
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",
+      "no-empty-function": "off",
     }
   ),
 };
@@ -84,7 +85,7 @@ const typescriptOverrides = {
 let typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
-    project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+    project: ["./tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
     // TODO: (cvle) this is a workaround, see: https://github.com/typescript-eslint/typescript-eslint/issues/1091.
     createDefaultProgram: true,
   },
@@ -95,9 +96,10 @@ let typescriptTypeCheckingOverrides = {
         "rules": {
           "ordered-imports": {
             "options": {
-              "import-sources-order": "case-insensitive",
+              // Legacy sorting until this is fixed: https://github.com/SoominHan/import-sorter/issues/60
+              "import-sources-order": "case-insensitive-legacy",
               "module-source-path": "full",
-              "named-imports-order": "case-insensitive",
+              "named-imports-order": "case-insensitive-legacy",
             },
           },
         },

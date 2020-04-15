@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   Flex,
@@ -10,13 +11,12 @@ import {
   Timestamp,
 } from "coral-ui/components/v2";
 
-import ConversationModalRepliesQuery from "./ConversationModalRepliesQuery";
-
 import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
 import { ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";
+import ConversationModalRepliesQuery from "./ConversationModalRepliesQuery";
 
 import styles from "./ConversationModalCommentContainer.css";
 

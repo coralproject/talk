@@ -5,7 +5,7 @@ const withPymStorage = (
   storage: Storage,
   type: "localStorage" | "sessionStorage",
   prefix = "coral:"
-): Decorator => pym => {
+): Decorator => (pym) => {
   pym.onMessage(`pymStorage.${type}.request`, (msg: any) => {
     const { id, method, parameters } = JSON.parse(msg);
     const { n, key, value } = parameters;

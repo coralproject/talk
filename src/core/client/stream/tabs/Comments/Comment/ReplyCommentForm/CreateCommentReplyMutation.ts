@@ -89,7 +89,7 @@ function addLocalCommentReplyToStory(
   input: CreateCommentReplyInput,
   commentEdge: RecordProxy
 ) {
-  const newComment = commentEdge.getLinkedRecord("node");
+  const newComment = commentEdge.getLinkedRecord("node")!;
 
   // Get parent proxy.
   const parentProxy = store.get(input.parentID);
@@ -134,6 +134,7 @@ const mutation = graphql`
         cursor
         node {
           ...AllCommentsTabContainer_comment @relay(mask: false)
+          id
           status
           parent {
             id
@@ -242,8 +243,9 @@ async function commit(
             },
             clientMutationId: (clientMutationId++).toString(),
           },
-        },
-        optimisticUpdater: store => {
+          // TODO: (cvle) fix types.
+        } as any,
+        optimisticUpdater: (store) => {
           // Skip optimistic update if comment is probably premoderated.
           if (expectPremoderation) {
             return;
@@ -251,7 +253,7 @@ async function commit(
           sharedUpdater(environment, store, input);
           store.get(id)!.setValue(true, "pending");
         },
-        updater: store => {
+        updater: (store) => {
           sharedUpdater(environment, store, input);
         },
       }

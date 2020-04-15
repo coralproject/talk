@@ -45,7 +45,7 @@ const CancelAccountDeletionMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          optimisticUpdater: store => {
+          optimisticUpdater: (store) => {
             const viewer = getViewer(environment)!;
             const viewerProxy = store.get(viewer.id);
             if (viewerProxy) {

@@ -34,8 +34,16 @@ interface Props {
   values?: Partial<MediaQueryMatchers>;
 }
 
-export const MatchMedia: FunctionComponent<Props> = props => {
-  const { speech, gteWidth, gtWidth, lteWidth, ltWidth, ...rest } = props;
+export const MatchMedia: FunctionComponent<Props> = (props) => {
+  const {
+    speech,
+    gteWidth,
+    gtWidth,
+    lteWidth,
+    ltWidth,
+    values,
+    ...rest
+  } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
     // react-responsive supports the speech prop.
@@ -50,11 +58,12 @@ export const MatchMedia: FunctionComponent<Props> = props => {
       : lteWidth
       ? theme.breakpoints[lteWidth]
       : undefined,
+    device: values,
   };
   return <Responsive {...rest} {...mapped} />;
 };
 
-const MatchMediaWithContext: FunctionComponent<Props> = props => (
+const MatchMediaWithContext: FunctionComponent<Props> = (props) => (
   <UIContext.Consumer>
     {({ mediaQueryValues }) => (
       <MatchMedia {...props} values={mediaQueryValues} />

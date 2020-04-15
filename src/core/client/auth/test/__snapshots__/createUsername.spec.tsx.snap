@@ -257,12 +257,11 @@ exports[`shows server error 1`] = `
       >
         server error
 
-GraphQL request (4:3)
-3: ) {
-4:   setUsername(input: $input) {
-     ^
-5:     user {
-
+GraphQL request:4:3
+3 | ) {
+4 |   setUsername(input: $input) {
+  |   ^
+5 |     user {
       </div>
     </div>
     <div

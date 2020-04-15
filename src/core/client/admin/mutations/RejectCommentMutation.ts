@@ -65,19 +65,19 @@ const RejectCommentMutation = createMutation(
         },
         storyID: input.storyID,
       },
-      optimisticUpdater: store => {
+      optimisticUpdater: (store) => {
         const proxy = store.get(input.commentID)!;
         proxy.setValue("REJECTED", "status");
         proxy.setValue(true, "viewerDidModerate");
       },
-      updater: store => {
+      updater: (store) => {
         const connections = [
           getQueueConnection(store, "REPORTED", input.storyID),
           getQueueConnection(store, "PENDING", input.storyID),
           getQueueConnection(store, "UNMODERATED", input.storyID),
           getQueueConnection(store, "APPROVED", input.storyID),
-        ].filter(c => c);
-        connections.forEach(con =>
+        ].filter((c) => c);
+        connections.forEach((con) =>
           ConnectionHandler.deleteNode(con!, input.commentID)
         );
       },

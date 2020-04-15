@@ -1,4 +1,5 @@
 import { Db } from "mongodb";
+import { Strategy as BaseStrategy, StrategyCreated } from "passport";
 import { Strategy } from "passport-strategy";
 
 import { Config } from "coral-server/config";
@@ -27,12 +28,12 @@ export interface OAuth2StrategyOptions {
 
 export default abstract class OAuth2Strategy<
   T extends OAuth2Integration,
-  U extends Strategy
+  U extends BaseStrategy
 > extends Strategy {
   public abstract name: string;
   protected config: Config;
   protected mongo: Db;
-  protected cache: TenantCacheAdapter<U>;
+  protected cache: TenantCacheAdapter<Strategy>;
   private authenticateOptions: Record<string, any>;
 
   constructor({
@@ -118,16 +119,20 @@ export default abstract class OAuth2Strategy<
 
       let strategy = this.cache.get(tenant.id);
       if (!strategy) {
-        strategy = this.createStrategy(tenant, integration as Required<T>);
+        strategy = this.createStrategy(
+          tenant,
+          integration as Required<T>
+        ) as StrategyCreated<U>;
+
+        // Augment the strategy with the request method bindings.
+        strategy.error = this.error.bind(this);
+        strategy.fail = this.fail.bind(this);
+        strategy.pass = this.pass.bind(this);
+        strategy.redirect = this.redirect.bind(this);
+        strategy.success = this.success.bind(this);
+
         this.cache.set(tenant.id, strategy);
       }
-
-      // Augment the strategy with the request method bindings.
-      strategy.error = this.error.bind(this);
-      strategy.fail = this.fail.bind(this);
-      strategy.pass = this.pass.bind(this);
-      strategy.redirect = this.redirect.bind(this);
-      strategy.success = this.success.bind(this);
 
       strategy.authenticate(req, {
         session: false,

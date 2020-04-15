@@ -46,7 +46,7 @@ export const filterSuperseded = (
       // and declares that it supersedes this one, return true so we can filter
       // this one from the list.
       supersedesCategories.some(
-        supersededCategory => supersededCategory === name
+        (supersededCategory) => supersededCategory === name
       )
   );
 
@@ -56,7 +56,7 @@ export const handleHandlers = async (
   payload: CoralEventPayload
 ): Promise<CategoryNotification[]> => {
   const notifications: Array<CategoryNotification | null> = await Promise.all(
-    categories.map(async category => {
+    categories.map(async (category) => {
       const notification = await category.process(ctx, payload);
       if (!notification) {
         return null;
@@ -68,7 +68,7 @@ export const handleHandlers = async (
 
   // Filter out the categories that don't have notifications.
   return notifications.filter(
-    notification => notification !== null
+    (notification) => notification !== null
   ) as CategoryNotification[];
 };
 

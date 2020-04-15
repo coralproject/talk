@@ -10,7 +10,7 @@ import Box from "../Box";
 
 import styles from "./HorizontalGutter.css";
 
-interface Props extends PropTypesOf<typeof Box> {
+interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -37,7 +37,7 @@ interface Props extends PropTypesOf<typeof Box> {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
 }
 
-const HorizontalGutter: FunctionComponent<Props> = props => {
+const HorizontalGutter: FunctionComponent<Props> = (props) => {
   const {
     classes,
     className,

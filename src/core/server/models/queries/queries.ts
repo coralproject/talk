@@ -27,10 +27,7 @@ export async function primeQueries(
     const { id } = query;
 
     // Add to the bulk operation for MongoDB.
-    bulk
-      .find({ id })
-      .upsert()
-      .replaceOne(query);
+    bulk.find({ id }).upsert().replaceOne(query);
   }
 
   try {
@@ -63,5 +60,5 @@ export async function primeQueries(
 export async function getQueries(mongo: Db, ids: string[]) {
   const cursor = collection(mongo).find({ id: { $in: ids } });
   const queries = await cursor.toArray();
-  return ids.map(id => queries.find(query => query.id === id) || null);
+  return ids.map((id) => queries.find((query) => query.id === id) || null);
 }

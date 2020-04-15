@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import striptags from "striptags";
 
-import { Omit, Promiseable, RequireProperty } from "coral-common/types";
+import { Promiseable, RequireProperty } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
@@ -77,7 +77,7 @@ export type IntermediateModerationPhase = (
  */
 export const compose = (
   phases: IntermediateModerationPhase[]
-): RootModerationPhase => async context => {
+): RootModerationPhase => async (context) => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
@@ -138,7 +138,7 @@ export const compose = (
         final.tags.push(
           // Only push in tags that we haven't already added.
           ...tags.filter(
-            ({ type }) => !final.tags.some(tag => tag.type === type)
+            ({ type }) => !final.tags.some((tag) => tag.type === type)
           )
         );
       }

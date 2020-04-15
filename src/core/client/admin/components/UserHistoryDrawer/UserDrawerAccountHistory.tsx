@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
+import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
   HorizontalGutter,
@@ -53,7 +54,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     const history: HistoryRecord[] = [];
 
     // Merge in all the suspension history items.
-    user.status.suspension.history.forEach(record => {
+    user.status.suspension.history.forEach((record) => {
       const from: From = {
         start: new Date(record.from.start),
         finish: new Date(record.from.finish),
@@ -96,7 +97,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     });
 
     // Merge in all the ban status history items.
-    user.status.ban.history.forEach(record => {
+    user.status.ban.history.forEach((record) => {
       history.push({
         kind: "ban",
         action: {
@@ -108,7 +109,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     });
 
     // Merge in all the premod history items.
-    user.status.premod.history.forEach(record => {
+    user.status.premod.history.forEach((record) => {
       history.push({
         kind: "premod",
         action: {

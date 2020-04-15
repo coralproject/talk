@@ -44,7 +44,7 @@ function detectAndInject() {
   });
 
   // Call server using JSONP.
-  Object.keys(queryMap).forEach(ref => {
+  Object.keys(queryMap).forEach((ref) => {
     const { url, id, notext } = queryMap[ref];
     const args = { url, id, notext: notext ? "true" : "false", ref };
     jsonp(`${ORIGIN}/api/story/count.js`, "CoralCount.setCount", args);

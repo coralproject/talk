@@ -1,8 +1,8 @@
-import Joi from "joi";
-import uuid from "uuid/v4";
+import Joi from "@hapi/joi";
+import { v4 as uuid } from "uuid";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
-import { Omit } from "coral-common/types";
+
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
@@ -99,23 +99,17 @@ export interface TenantInstallBody {
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
-  tenant: Joi.object()
-    .keys({
-      organization: Joi.object().keys({
-        name: Joi.string().trim(),
-        url: Joi.string()
-          .trim()
-          .uri(),
-        contactEmail: Joi.string()
-          .trim()
-          .lowercase()
-          .email(),
-      }),
-      locale: Joi.string()
-        .default(null)
-        .valid(LOCALES),
-    })
-    .optionalKeys("locale"),
+  tenant: Joi.object().keys({
+    organization: Joi.object().keys({
+      name: Joi.string().trim(),
+      url: Joi.string().trim().uri(),
+      contactEmail: Joi.string().trim().lowercase().email(),
+    }),
+    locale: Joi.string()
+      .default(null)
+      .valid(...LOCALES)
+      .optional(),
+  }),
   site: Joi.object().keys({
     name: Joi.string().trim(),
     allowedOrigins: Joi.array().items(
@@ -127,10 +121,7 @@ const TenantInstallBodySchema = Joi.object().keys({
   user: Joi.object().keys({
     username: Joi.string().trim(),
     password: Joi.string(),
-    email: Joi.string()
-      .trim()
-      .lowercase()
-      .email(),
+    email: Joi.string().trim().lowercase().email(),
   }),
 });
 

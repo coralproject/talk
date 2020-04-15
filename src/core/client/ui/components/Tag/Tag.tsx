@@ -17,7 +17,7 @@ interface Props {
   variant?: "regular" | "pill";
 }
 
-const Tag: FunctionComponent<Props> = props => {
+const Tag: FunctionComponent<Props> = (props) => {
   const { className, children, classes, variant, color, ...rest } = props;
 
   const rootClassName = cn(classes.root, className, {

@@ -55,7 +55,7 @@ const SiteSelector: FunctionComponent<Props> = ({
           site={null}
           active={!siteID}
         />
-        {sites.map(s => (
+        {sites.map((s) => (
           <SiteSelectorSite
             link={getModerationLink({
               queue: queueName as QUEUE_NAME,

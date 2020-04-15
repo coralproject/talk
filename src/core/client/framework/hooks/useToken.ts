@@ -37,7 +37,7 @@ export default function useToken(
         .then(() => {
           handleTokenState("VALID");
         })
-        .catch(error => {
+        .catch((error) => {
           if (error instanceof InvalidRequestError) {
             handleTokenState("INVALID", error);
           } else {

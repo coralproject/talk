@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import jwt from "jsonwebtoken";
 import jwks, {
   CertSigningKey,
@@ -58,21 +58,24 @@ export const OIDCIDTokenSchema = Joi.object()
     sub: Joi.string().required(),
     iss: Joi.string().required(),
     aud: Joi.string().required(),
-    email: Joi.string().default(undefined),
+    email: Joi.string(),
     email_verified: Joi.boolean().default(false),
-    picture: Joi.string().default(undefined),
-    name: Joi.string().default(undefined),
-    nickname: Joi.string().default(undefined),
-    preferred_username: Joi.string().default(undefined),
+    picture: Joi.string(),
+    name: Joi.string(),
+    nickname: Joi.string(),
+    preferred_username: Joi.string(),
   })
-  .optionalKeys([
-    "picture",
-    "email",
-    "email_verified",
-    "name",
-    "nickname",
-    "preferred_username",
-  ]);
+  .fork(
+    [
+      "picture",
+      "email",
+      "email_verified",
+      "name",
+      "nickname",
+      "preferred_username",
+    ],
+    (s) => s.optional()
+  );
 
 export interface StrategyItem {
   strategy: OAuth2Strategy;
@@ -80,7 +83,7 @@ export interface StrategyItem {
 }
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
-  const { error } = Joi.validate(token, OIDCIDTokenSchema, {
+  const { error } = OIDCIDTokenSchema.validate(token, {
     // OIDC ID tokens may contain many other fields we haven't seen.. We Just
     // need to check to see that it contains at least the fields we need.
     allowUnknown: true,
