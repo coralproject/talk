@@ -10,7 +10,7 @@ import { graphql } from "react-relay";
 import { usePrevious } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { CallOut } from "coral-ui/components";
+import { Tombstone } from "coral-ui/components/v3";
 
 import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
 import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
@@ -51,12 +51,12 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   if (deleted) {
     return (
       <>
-        <Localized id="comments-tombstone-deleted">
-          <CallOut className={CLASSES.deletedTombstone} fullWidth>
+        <Tombstone className={CLASSES.deletedTombstone} fullWidth>
+          <Localized id="comments-tombstone-deleted">
             This comment is no longer available. The commenter has deleted their
             account.
-          </CallOut>
-        </Localized>
+          </Localized>
+        </Tombstone>
         {children}
       </>
     );
@@ -75,14 +75,17 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
 
   if (tombstone) {
     return (
-      <Localized
-        id="comments-tombstone-ignore"
-        $username={comment.author!.username}
-      >
-        <CallOut className={CLASSES.ignoredTombstone} fullWidth>
-          This comment is hidden because you ignored {comment.author!.username}
-        </CallOut>
-      </Localized>
+      <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
+        <Localized
+          id="comments-tombstone-ignore"
+          $username={comment.author!.username}
+        >
+          <span>
+            This comment is hidden because you ignored{" "}
+            {comment.author!.username}
+          </span>
+        </Localized>
+      </Tombstone>
     );
   }
   return null;
