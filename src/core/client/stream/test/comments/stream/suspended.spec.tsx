@@ -82,7 +82,7 @@ it("disables comment stream", async () => {
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   within(tabPane).getAllByText(
-    "Your account has been temporarily suspended from commenting.",
+    "Your account has been temporarily suspended from commenting",
     {
       exact: false,
     }
