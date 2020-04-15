@@ -76,8 +76,8 @@
 }
 
 .negative {
-  background-color: var(--v2-colors-red-100);
-  border-color: var(--v2-colors-red-500);
+  background-color: var(--v2-colors-stream-red-100);
+  border-color: var(--v2-colors-stream-red-500);
   color: var(--v2-colors-mono-500);
 }
 
