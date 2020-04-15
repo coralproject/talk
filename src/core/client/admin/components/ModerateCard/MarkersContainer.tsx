@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React from "react";
+import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -128,35 +128,38 @@ const markers: Array<(
     null,
 ];
 
-export class MarkersContainer extends React.Component<MarkersContainerProps> {
-  public render() {
-    const elements = markers
-      .map((cb) => cb(this.props.comment))
-      .filter((m) => m);
-    const doesHaveDetails = hasDetails(this.props.comment);
-    if (elements.length === 0 && !doesHaveDetails) {
-      return null;
-    }
-
-    return (
-      <Markers
-        details={
-          doesHaveDetails || this.props.comment.editing.edited ? (
-            <ModerateCardDetailsContainer
-              hasDetails={!!doesHaveDetails}
-              hasRevisions={this.props.comment.editing.edited}
-              onUsernameClick={this.props.onUsernameClick}
-              comment={this.props.comment}
-              settings={this.props.settings}
-            />
-          ) : null
-        }
-      >
-        {elements}
-      </Markers>
-    );
+export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = (
+  props
+) => {
+  const elements = useMemo(
+    () => markers.map((cb) => cb(props.comment)).filter((m) => m),
+    [markers, props.comment]
+  );
+  const doesHaveDetails = useMemo(() => hasDetails(props.comment), [
+    props.comment,
+  ]);
+  if (elements.length === 0 && !doesHaveDetails) {
+    return null;
   }
-}
+
+  return (
+    <Markers
+      details={
+        doesHaveDetails || props.comment.editing.edited ? (
+          <ModerateCardDetailsContainer
+            hasDetails={!!doesHaveDetails}
+            hasRevisions={props.comment.editing.edited}
+            onUsernameClick={props.onUsernameClick}
+            comment={props.comment}
+            settings={props.settings}
+          />
+        ) : null
+      }
+    >
+      {elements}
+    </Markers>
+  );
+};
 
 const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -18,9 +18,10 @@ interface Props {
   relay: RelayPaginationProp;
 }
 const SitesConfigContainer: React.FunctionComponent<Props> = (props) => {
-  const sites = props.query
-    ? props.query.sites.edges.map((edge) => edge.node)
-    : [];
+  const sites = useMemo(
+    () => (props.query ? props.query.sites.edges.map((edge) => edge.node) : []),
+    [props?.query?.sites.edges]
+  );
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
     SitesConfigContainerPaginationQueryVariables

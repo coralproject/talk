@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -79,7 +84,10 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
   if (props.isLoading) {
     return <LoadingQueue />;
   }
-  const comments = props.queue!.comments.edges.map((edge) => edge.node);
+  const comments = useMemo(
+    () => props.queue!.comments.edges.map((edge) => edge.node),
+    [props.queue?.comments.edges]
+  );
   const viewNewCount =
     (props.queue!.comments.viewNewEdges &&
       props.queue!.comments.viewNewEdges.length) ||

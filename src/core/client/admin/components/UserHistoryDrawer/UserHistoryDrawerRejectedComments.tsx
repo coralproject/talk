@@ -15,6 +15,8 @@ import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
 
+const danglingLogic = () => false;
+
 interface Props {
   user: UserHistoryDrawerRejectedComments_user;
   settings: UserHistoryDrawerRejectedComments_settings;
@@ -61,7 +63,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
           <ModerateCardContainer
             comment={c}
             settings={settings}
-            danglingLogic={(status) => false}
+            danglingLogic={danglingLogic}
             hideUsername
             showStoryInfo
             mini
