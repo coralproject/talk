@@ -6,7 +6,7 @@ import {
   CreateTestRendererParams,
   waitForElement,
   waitUntilThrow,
-  within,
+  within
 } from "coral-framework/testHelpers";
 
 import { featuredTag, moderators, settings, stories } from "../../fixtures";
@@ -37,8 +37,8 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          stream: () => story,
-        },
+          stream: () => story
+        }
       }),
       params.resolvers
     ),
@@ -48,7 +48,7 @@ async function createTestRenderer(
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
-    },
+    }
   });
 
   const tabPane = await waitForElement(() =>
@@ -58,7 +58,7 @@ async function createTestRenderer(
   return {
     testRenderer,
     context,
-    tabPane,
+    tabPane
   };
 }
 
@@ -71,7 +71,7 @@ it("render go to moderate link", async () => {
   caretButton.props.onClick();
   const link = within(comment).getByText("Go to Moderate", {
     selector: "a",
-    exact: false,
+    exact: false
   });
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
 });
@@ -84,23 +84,23 @@ it("feature and unfeature comment", async () => {
         featureComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
+            commentRevisionID: firstComment.revision!.id
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
               tags: [featuredTag],
-              status: GQLCOMMENT_STATUS.APPROVED,
-            }),
+              status: GQLCOMMENT_STATUS.APPROVED
+            })
           };
         },
         unfeatureComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
+            commentID: firstComment.id
           });
           return { comment: firstComment };
-        },
-      },
-    }),
+        }
+      }
+    })
   });
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -113,7 +113,7 @@ it("feature and unfeature comment", async () => {
   });
   const featureButton = await waitForElement(() =>
     within(comment).getByText("Feature", {
-      selector: "button",
+      selector: "button"
     })
   );
   await act(async () => {
@@ -132,7 +132,7 @@ it("feature and unfeature comment", async () => {
     caretButton.props.onClick();
   });
   const UnfeatureButton = within(comment).getByText("Un-Feature", {
-    selector: "button",
+    selector: "button"
   });
   await act(async () => {
     UnfeatureButton.props.onClick();
@@ -152,16 +152,16 @@ it("approve comment", async () => {
         approveComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
+            commentRevisionID: firstComment.revision!.id
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.APPROVED,
-            }),
+              status: GQLCOMMENT_STATUS.APPROVED
+            })
           };
-        },
-      },
-    }),
+        }
+      }
+    })
   });
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -169,7 +169,7 @@ it("approve comment", async () => {
   const caretButton = within(comment).getByLabelText("Moderate");
   caretButton.props.onClick();
   const approveButton = within(comment).getByText("Approve", {
-    selector: "button",
+    selector: "button"
   });
   approveButton.props.onClick();
   await waitForElement(() =>
@@ -184,16 +184,16 @@ it("reject comment", async () => {
         rejectComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
+            commentRevisionID: firstComment.revision!.id
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.REJECTED,
-            }),
+              status: GQLCOMMENT_STATUS.REJECTED
+            })
           };
-        },
-      },
-    }),
+        }
+      }
+    })
   });
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -201,20 +201,17 @@ it("reject comment", async () => {
   const caretButton = within(comment).getByLabelText("Moderate");
   caretButton.props.onClick();
   const rejectButton = within(comment).getByText("Reject", {
-    selector: "button",
+    selector: "button"
   });
   rejectButton.props.onClick();
   await waitForElement(() =>
     within(tabPane).getByText("You have rejected this comment", {
-      exact: false,
+      exact: false
     })
   );
   const link = within(tabPane).getByText(
     "Go to Moderate to review this decision",
-    {
-      selector: "a",
-      exact: false,
-    }
+    { selector: "button", exact: false }
   );
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
 });
@@ -226,37 +223,37 @@ it("ban user", async () => {
         user: ({ variables }) => {
           expectAndFail(variables.id).toBe(firstComment.author!.id);
           return firstComment.author!;
-        },
+        }
       },
       Mutation: {
         banUser: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             userID: firstComment.author!.id,
-            rejectExistingComments: false,
+            rejectExistingComments: false
           });
           return {
             user: pureMerge<typeof firstComment.author>(firstComment.author, {
               status: {
                 ban: {
-                  active: true,
-                },
-              },
-            }),
+                  active: true
+                }
+              }
+            })
           };
         },
         rejectComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
+            commentRevisionID: firstComment.revision!.id
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.REJECTED,
-            }),
+              status: GQLCOMMENT_STATUS.REJECTED
+            })
           };
-        },
-      },
-    }),
+        }
+      }
+    })
   });
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -267,7 +264,7 @@ it("ban user", async () => {
   await act(async () => {
     const banButton = await waitForElement(() => {
       const el = within(comment).getByText("Ban User", {
-        selector: "button",
+        selector: "button"
       });
       expect(el.props.disabled).toBeFalsy();
       return el;
@@ -277,14 +274,14 @@ it("ban user", async () => {
 
   await act(async () => {
     const banButtonDialog = within(comment).getByText("Ban", {
-      selector: "button",
+      selector: "button"
     });
     banButtonDialog.props.onClick();
   });
 
   await waitForElement(() =>
     within(tabPane).getByText("You have rejected this comment", {
-      exact: false,
+      exact: false
     })
   );
 });
@@ -296,9 +293,9 @@ it("cancel ban user", async () => {
         user: ({ variables }) => {
           expectAndFail(variables.id).toBe(firstComment.author!.id);
           return firstComment.author!;
-        },
-      },
-    }),
+        }
+      }
+    })
   });
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -309,7 +306,7 @@ it("cancel ban user", async () => {
   await act(async () => {
     const banButton = await waitForElement(() => {
       const el = within(comment).getByText("Ban User", {
-        selector: "button",
+        selector: "button"
       });
       expect(el.props.disabled).toBeFalsy();
       return el;
@@ -319,14 +316,14 @@ it("cancel ban user", async () => {
 
   await act(async () => {
     const cancelButtonDialog = within(comment).getByText("Cancel", {
-      selector: "button",
+      selector: "button"
     });
     cancelButtonDialog.props.onClick();
   });
 
   expect(
     within(comment).queryByText("Ban", {
-      selector: "button",
+      selector: "button"
     })
   ).toBeNull();
 });

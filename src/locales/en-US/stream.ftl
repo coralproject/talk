@@ -180,8 +180,9 @@ comments-moderationDropdown-goToModerate = Go to Moderate
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
-comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+comments-rejectedTombstone-title = You have rejected this comment.
+comments-rejectedTombstone-moderateLink =
+  Go to Moderate to review this decision
 
 comments-featuredTag = Featured
 
@@ -243,6 +244,8 @@ comments-stream-deleteAccount-callOut-cancelDesc =
   you may cancel your request to delete your account before { $date }.
 comments-stream-deleteAccount-callOut-cancel =
   Cancel account deletion request
+comments-stream-deleteAccount-callOut-cancelAccountDeletion =
+  Cancel account deletion
 
 ### Featured Comments
 comments-featured-gotoConversation = Go to Conversation

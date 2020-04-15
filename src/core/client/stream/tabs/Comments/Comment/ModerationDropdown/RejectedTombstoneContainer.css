@@ -1,15 +1,3 @@
-$commentsRejectedTombstoneLinkColor: var(--v2-colors-stream-blue-500);
-
-$commentsRejectedTombstoneBackground: var(--v2-colors-pure-white);
-$commentsRejectedTombstoneBorderColor: var(--v2-colors-grey-400);
-
-.root {
-  background-color: $commentsRejectedTombstoneBackground;
-  border-color: $commentsRejectedTombstoneBorderColor;
-
-  text-align: center;
-}
-
-.link {
-  color: $commentsRejectedTombstoneLinkColor;
+.icon {
+  margin-left: var(--v2-spacing-1);
 }
