@@ -88,9 +88,7 @@ export const dailyNewCommenterStatsHandler = ({
         coral.now
       );
       return res.json({
-        commenters: {
-          today: newCommenters,
-        },
+        commenters: newCommenters,
       });
     } catch (err) {
       return next(err);
