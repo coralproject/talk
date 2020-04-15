@@ -34,6 +34,11 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           username: "Marvin",
           badges: [],
         },
+        actionCounts: {
+          reaction: {
+            total: 0,
+          },
+        },
         parent: null,
         body: "Woof",
         createdAt: "1995-12-17T03:24:00.000Z",

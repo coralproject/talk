@@ -2,7 +2,7 @@
 
 exports[`post a reply: open reply form 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-0"
 >
   <div
@@ -12,7 +12,7 @@ exports[`post a reply: open reply form 1`] = `
       className="Indent-root"
     >
       <div
-        className=""
+        className="coral coral-indent coral-indent-0"
       >
         <div
           className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -406,7 +406,7 @@ exports[`post a reply: optimistic response 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="coral coral-comment"
+      className="coral coral-comment coral coral-reacted-0"
       data-testid="comment-uuid-0"
     >
       <div
@@ -416,7 +416,7 @@ exports[`post a reply: optimistic response 1`] = `
           className="IndentedComment-blur Indent-root"
         >
           <div
-            className="Indent-level1 coral coral-indent-1"
+            className="Indent-level1 coral coral-indent coral-indent-1"
           >
             <div
               className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"

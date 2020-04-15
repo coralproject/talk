@@ -150,7 +150,7 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment coral coral-conversationThread-highlighted"
+        className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
         data-testid="comment-comment-0"
       >
         <div
@@ -160,7 +160,7 @@ exports[`renders conversation thread 1`] = `
             className="Indent-root"
           >
             <div
-              className=""
+              className="coral coral-indent coral-indent-0"
             >
               <div
                 className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
@@ -394,7 +394,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment"
+        className="coral coral-comment coral coral-reacted-0"
         data-testid="comment-comment-1"
       >
         <div
@@ -404,7 +404,7 @@ exports[`shows more of this conversation 1`] = `
             className="Indent-root"
           >
             <div
-              className=""
+              className="coral coral-indent coral-indent-0"
             >
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -625,7 +625,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment"
+        className="coral coral-comment coral coral-reacted-0"
         data-testid="comment-comment-from-staff-0"
       >
         <div
@@ -635,7 +635,7 @@ exports[`shows more of this conversation 1`] = `
             className="Indent-root"
           >
             <div
-              className=""
+              className="coral coral-indent coral-indent-0"
             >
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -860,7 +860,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment coral coral-conversationThread-highlighted"
+        className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
         data-testid="comment-comment-0"
       >
         <div
@@ -870,7 +870,7 @@ exports[`shows more of this conversation 1`] = `
             className="Indent-root"
           >
             <div
-              className=""
+              className="coral coral-indent coral-indent-0"
             >
               <div
                 className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
