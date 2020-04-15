@@ -2,9 +2,9 @@ import fs from "fs-extra";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import path from "path";
-import now from "performance-now";
 import uuid from "uuid";
 
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
   failMigration,
@@ -177,7 +177,7 @@ export default class Manager {
 
     logger.info({ pending: pending.length }, "executing pending migrations");
 
-    const migrationsStartTime = now();
+    const migrationsStartTimer = createTimer();
 
     for (const migration of pending) {
       let log = logger.child(
@@ -196,11 +196,13 @@ export default class Manager {
 
       // Apply any index changes for the migration.
       if (migration.indexes) {
-        const migrationStartTime = now();
+        const migrationStartTime = createTimer();
         log.info("starting index migration");
         await migration.indexes(mongo);
-        const executionTime = Math.round(now() - migrationStartTime);
-        log.info({ executionTime }, "finished index migration");
+        log.info(
+          { executionTime: migrationStartTime() },
+          "finished index migration"
+        );
       }
 
       if (migration.up) {
@@ -209,7 +211,7 @@ export default class Manager {
         for await (const tenant of this.tenantCache) {
           log = log.child({ tenantID: tenant.id }, true);
 
-          const migrationStartTime = now();
+          const migrationStartTimer = createTimer();
           log.info("starting migration");
 
           try {
@@ -241,8 +243,10 @@ export default class Manager {
             throw err;
           }
 
-          const executionTime = Math.round(now() - migrationStartTime);
-          log.info({ executionTime }, "finished migration");
+          log.info(
+            { executionTime: migrationStartTimer() },
+            "finished migration"
+          );
         }
       }
 
@@ -250,13 +254,11 @@ export default class Manager {
       await finishMigration(mongo, migration.id);
     }
 
-    const finishTime = Math.round(now() - migrationsStartTime);
-
     currentMigration = await this.currentMigration(mongo);
 
     logger.info(
       {
-        finishTime,
+        finishTime: migrationsStartTimer(),
         currentMigrationID: currentMigration ? currentMigration.id : null,
       },
       "finished running pending migrations"

@@ -17,6 +17,9 @@ extend type Comment {
 
   # If true then Comment came in live.
   enteredLive: Boolean
+
+  # If true then the Comment status was updated by the viewer.
+  viewerDidModerate: Boolean
 }
 
 extend type CommentsConnection {

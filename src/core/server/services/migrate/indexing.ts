@@ -1,8 +1,8 @@
 import { merge } from "lodash";
 import { Collection, Db, IndexOptions } from "mongodb";
-import now from "performance-now";
 
 import { Writable } from "coral-common/types";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 
 import collections from "../mongodb/collections";
@@ -33,11 +33,11 @@ export async function createIndex<T>(
 
   try {
     // Try to create the index.
-    const start = now();
+    const timer = createTimer();
     log.debug({ indexSpec, indexOptions }, "creating index");
     const indexName = await collection.createIndex(indexSpec, indexOptions);
     log.debug(
-      { indexName, indexSpec, indexOptions, took: Math.round(now() - start) },
+      { indexName, indexSpec, indexOptions, took: timer() },
       "index was created"
     );
 

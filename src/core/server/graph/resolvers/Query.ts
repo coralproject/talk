@@ -28,4 +28,5 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   sites: (source, args, ctx) => ctx.loaders.Sites.connection(args),
   site: (source, { id }, ctx) => (id ? ctx.loaders.Sites.site.load(id) : null),
   webhookEndpoint: (source, { id }, ctx) => getWebhookEndpoint(ctx.tenant, id),
+  queues: () => ({}),
 };

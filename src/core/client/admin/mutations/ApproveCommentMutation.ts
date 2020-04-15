@@ -40,15 +40,7 @@ const ApproveCommentMutation = createMutation(
                   }
                 }
               }
-              statusHistory(first: 1) {
-                edges {
-                  node {
-                    moderator {
-                      username
-                    }
-                  }
-                }
-              }
+              ...ModeratedByContainer_comment
             }
             moderationQueues(storyID: $storyID) {
               unmoderated {
@@ -74,7 +66,9 @@ const ApproveCommentMutation = createMutation(
         storyID: input.storyID,
       },
       optimisticUpdater: store => {
-        store.get(input.commentID)!.setValue("APPROVED", "status");
+        const proxy = store.get(input.commentID)!;
+        proxy.setValue("APPROVED", "status");
+        proxy.setValue(true, "viewerDidModerate");
       },
       updater: store => {
         const connections = [

@@ -24,10 +24,6 @@ it("viewer's username shows on moderation cards moderated by viewer", () => {
         ],
       },
     },
-    viewer: {
-      id: "viewer",
-      username: "viewer",
-    },
     onUsernameClicked: (id?: string | null) => {
       return;
     },

@@ -249,7 +249,8 @@ configure-general-guidelines-explanation =
   Escreva um resumo das diretrizes da sua comunidade que serão exibidas
   no topo de cada fluxo de comentários em todo o site. Seu resumo pode ser
   formatado usando a Sintaxe do Markdown. Mais informações sobre como usar
-  Markdown podem ser encontradas <externalLink>aqui</externalLink>.
+  Markdown podem ser encontradas aqui:
+  <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
 
 #### Locale
@@ -606,7 +607,8 @@ configure-slack-header-title = Integração com o Slack
 configure-slack-description =
   Encia automaticamente os comentários da fila de moderação do Coral para canais do Slack.
   Você precisa de acesso admin do slack para realizar esta configuração. Para as etapas de
-  como criar uma app no Slack veja nossa <externalLink>documentação</externalLink>.
+  como criar uma app no Slack veja nossa <externalLink>documentação</externalLink>. Não
+  recomendado para sites com mais de 10 mil comentários por mês.
 configure-slack-addChannel = Adicionar Canal
 
 configure-slack-channel-defaultName = Novo canal

@@ -524,6 +524,27 @@ exports[`renders rejected queue with comments 1`] = `
                 </i>
               </button>
             </div>
+            <button
+              className="BaseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <div
+                className="ModeratedByContainer-moderatedBy"
+              >
+                Moderated By
+              </div>
+              <div
+                className="ModeratedByContainer-moderatedByUsername"
+              >
+                System
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -774,6 +795,27 @@ exports[`renders rejected queue with comments 1`] = `
                 </i>
               </button>
             </div>
+            <button
+              className="BaseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <div
+                className="ModeratedByContainer-moderatedBy"
+              >
+                Moderated By
+              </div>
+              <div
+                className="ModeratedByContainer-moderatedByUsername"
+              >
+                System
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -1043,6 +1085,27 @@ exports[`renders rejected queue with comments and load more 1`] = `
           </i>
         </button>
       </div>
+      <button
+        className="BaseButton-root"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <div
+          className="ModeratedByContainer-moderatedBy"
+        >
+          Moderated By
+        </div>
+        <div
+          className="ModeratedByContainer-moderatedByUsername"
+        >
+          System
+        </div>
+      </button>
     </div>
   </div>
 </div>

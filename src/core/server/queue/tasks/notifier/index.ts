@@ -22,46 +22,30 @@ interface Options {
   signingConfig: JWTSigningConfig;
 }
 
-/**
- * NotifierQueue is designed to handle creating and queuing notifications
- * that could be sent to users.
- */
-export class NotifierQueue {
-  private task: Task<NotifierData>;
-
-  constructor(queue: Queue.QueueOptions, options: Options) {
-    const registry = new Map<CoralEventType, NotificationCategory[]>();
-
-    // Notification categories have been grouped by their event name so that
-    // each event emitted need only access the associated notification once.
-    for (const category of categories) {
-      for (const event of category.events as CoralEventType[]) {
-        let handlers = registry.get(event);
-        if (!handlers) {
-          handlers = [];
-        }
-        handlers.push(category);
-        registry.set(event, handlers);
-      }
-    }
-
-    this.task = new Task({
-      jobName: JOB_NAME,
-      jobProcessor: createJobProcessor({ registry, ...options }),
-      queue,
-    });
-  }
-
-  public async add(data: NotifierData) {
-    return this.task.add(data);
-  }
-
-  public process() {
-    return this.task.process();
-  }
-}
+export type NotifierQueue = Task<NotifierData>;
 
 export const createNotifierTask = (
   queue: Queue.QueueOptions,
   options: Options
-) => new NotifierQueue(queue, options);
+) => {
+  const registry = new Map<CoralEventType, NotificationCategory[]>();
+
+  // Notification categories have been grouped by their event name so that
+  // each event emitted need only access the associated notification once.
+  for (const category of categories) {
+    for (const event of category.events as CoralEventType[]) {
+      let handlers = registry.get(event);
+      if (!handlers) {
+        handlers = [];
+      }
+      handlers.push(category);
+      registry.set(event, handlers);
+    }
+  }
+
+  return new Task({
+    jobName: JOB_NAME,
+    jobProcessor: createJobProcessor({ registry, ...options }),
+    queue,
+  });
+};

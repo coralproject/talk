@@ -11,21 +11,18 @@ import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
-import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
 
 interface Props {
   user: UserHistoryDrawerRejectedComments_user;
-  viewer: UserHistoryDrawerRejectedComments_viewer;
   settings: UserHistoryDrawerRejectedComments_settings;
   relay: RelayPaginationProp;
 }
 
 const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
   user,
-  viewer,
   settings,
   relay,
 }) => {
@@ -63,7 +60,6 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
         <div key={c.id}>
           <ModerateCardContainer
             comment={c}
-            viewer={viewer}
             settings={settings}
             danglingLogic={status => false}
             hideUsername
@@ -93,11 +89,6 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    viewer: graphql`
-      fragment UserHistoryDrawerRejectedComments_viewer on User {
-        ...ModerateCardContainer_viewer
-      }
-    `,
     settings: graphql`
       fragment UserHistoryDrawerRejectedComments_settings on Settings {
         ...ModerateCardContainer_settings
