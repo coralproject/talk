@@ -4,7 +4,8 @@ import React, { FunctionComponent } from "react";
 import { Markdown } from "coral-framework/components";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import { CallOut } from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import MessageBoxContainer from "../MessageBoxContainer";
 
@@ -23,9 +24,12 @@ const PostCommentFormClosed: FunctionComponent<Props> = (props) => (
         className={cn(CLASSES.createComment.message, styles.messageBox)}
       />
     )}
-    <CallOut fullWidth className={cn(CLASSES.createComment.closed)}>
-      <Markdown>{props.message}</Markdown>
-    </CallOut>
+    <CallOut
+      color="mono"
+      icon={<Icon size="sm">feedback</Icon>}
+      className={cn(CLASSES.createComment.closed)}
+      title={<Markdown>{props.message}</Markdown>}
+    />
   </div>
 );
 
