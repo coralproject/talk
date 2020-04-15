@@ -1,12 +1,12 @@
+import { Request, Response } from "express";
 import onFinished from "on-finished";
-import now from "performance-now";
 
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
   ErrorRequestHandler,
   RequestHandler,
 } from "coral-server/types/express";
-import { Request, Response } from "express";
 
 const extractMetadata = (req: Request, res: Response) => ({
   url: req.originalUrl || req.url,
@@ -18,11 +18,10 @@ const extractMetadata = (req: Request, res: Response) => ({
 });
 
 export const accessLogger: RequestHandler = (req, res, next) => {
-  const startTime = now();
-
+  const timer = createTimer();
   onFinished(res, () => {
     // Compute the end time.
-    const responseTime = Math.round(now() - startTime);
+    const responseTime = timer();
 
     // Grab the logger.
     const log = req.coral ? req.coral.logger : logger;

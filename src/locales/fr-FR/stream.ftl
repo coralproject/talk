@@ -2,7 +2,7 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Rejoindre la conversation
+general-userBoxUnauthenticated-joinTheConversation = Réagir
 general-userBoxUnauthenticated-signIn = Se connecter
 general-userBoxUnauthenticated-register = S'enregistrer
 
@@ -75,7 +75,7 @@ comments-rte-blockquote =
 
 comments-remainingCharacters = { $remaining } caractères restants
 
-comments-postCommentFormFake-signInAndJoin = Se connecter et rejoindre la conversation
+comments-postCommentFormFake-signInAndJoin = Se connecter et réagir
 
 comments-postCommentForm-rteLabel = Publier un commentaire
 
@@ -186,7 +186,7 @@ profile-myCommentsTab = Mes commentaires
 profile-myCommentsTab-comments = Mes commentaires
 profile-accountTab = Mon compte
 
-accountSettings-manage-account = Gérer votre compte
+accountSettings-manage-account = Gérer mon compte
 
 ### Account Deletion
 
@@ -320,7 +320,7 @@ profile-account-notifications-emailNotifications = Notifications d'Email
 profile-account-notifications-receiveWhen = Recevoir des notifications lorsque :
 profile-account-notifications-onReply =  Mon commentaire reçoit une réponse.
 profile-account-notifications-onFeatured =  Mon commentaire est mis en vedette.
-profile-account-notifications-onStaffReplies = Un membre de l'équipe technique répond à mon commentaire.
+profile-account-notifications-onStaffReplies = Un membre du staff répond à mon commentaire.
 profile-account-notifications-onModeration = Mon commentaire en attente a été analysé.
 profile-account-notifications-sendNotifications = Envoyer des notifications :
 profile-account-notifications-sendNotifications-immediately = Immédiatement

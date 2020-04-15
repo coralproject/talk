@@ -28,7 +28,7 @@ export function getByLabelText(
     return results[0];
   }
   if (results.length === 0) {
-    throw new Error(`Could't find element with label text ${pattern}`);
+    throw new Error(`Couldn't find element with label text ${pattern}`);
   }
   throw new Error(`Found multiple elements with label text ${pattern}`);
 }

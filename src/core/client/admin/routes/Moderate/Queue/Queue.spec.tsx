@@ -17,7 +17,6 @@ it("renders correctly with load more", () => {
     hasLoadMore: true,
     disableLoadMore: false,
     danglingLogic: () => true,
-    viewer: { id: "me", username: "Mirai" },
     onViewNew: noop,
   };
   const renderer = createRenderer();
@@ -33,7 +32,6 @@ it("renders correctly without load more", () => {
     hasLoadMore: false,
     disableLoadMore: false,
     danglingLogic: () => true,
-    viewer: { id: "me", username: "Mirai" },
     onViewNew: noop,
   };
   const renderer = createRenderer();

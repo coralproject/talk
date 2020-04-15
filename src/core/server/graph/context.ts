@@ -12,8 +12,10 @@ import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -38,11 +40,13 @@ export interface GraphContextOptions {
   config: Config;
   i18n: I18n;
   mailerQueue: MailerQueue;
+  rejectorQueue: RejectorQueue;
+  scraperQueue: ScraperQueue;
+  webhookQueue: WebhookQueue;
+  notifierQueue: NotifierQueue;
   mongo: Db;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
-  rejectorQueue: RejectorQueue;
-  scraperQueue: ScraperQueue;
   tenant: Tenant;
   tenantCache: TenantCache;
   broker: CoralEventListenerBroker;
@@ -58,13 +62,15 @@ export default class GraphContext {
   public readonly loaders: ReturnType<typeof loaders>;
   public readonly logger: Logger;
   public readonly mailerQueue: MailerQueue;
+  public readonly rejectorQueue: RejectorQueue;
+  public readonly scraperQueue: ScraperQueue;
+  public readonly webhookQueue: WebhookQueue;
+  public readonly notifierQueue: NotifierQueue;
   public readonly mongo: Db;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
   public readonly pubsub: RedisPubSub;
   public readonly redis: AugmentedRedis;
-  public readonly rejectorQueue: RejectorQueue;
-  public readonly scraperQueue: ScraperQueue;
   public readonly tenant: Tenant;
   public readonly tenantCache: TenantCache;
 
@@ -98,6 +104,8 @@ export default class GraphContext {
     this.scraperQueue = options.scraperQueue;
     this.mailerQueue = options.mailerQueue;
     this.rejectorQueue = options.rejectorQueue;
+    this.notifierQueue = options.notifierQueue;
+    this.webhookQueue = options.webhookQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
 

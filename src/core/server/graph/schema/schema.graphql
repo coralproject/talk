@@ -2998,6 +2998,62 @@ type StoriesConnection {
 }
 
 ################################################################################
+## Queue
+################################################################################
+
+type QueueCounts {
+  """
+  waiting is the number of jobs that are in line to be processed.
+  """
+  waiting: Int!
+
+  """
+  active is the number of jobs that are being activly processed.
+  """
+  active: Int!
+
+  """
+  delayed is the number of jobs that have been delayed due to a failure and are
+  waiting for a backoff.
+  """
+  delayed: Int!
+}
+
+type Queue {
+  """
+  counts is the current counts associated with the Queue.
+  """
+  counts: QueueCounts!
+}
+
+type Queues {
+  """
+  mailer is the Queue associated with the Mailer queue.
+  """
+  mailer: Queue!
+
+  """
+  scraper is the Queue associated with the Scraper queue.
+  """
+  scraper: Queue!
+
+  """
+  notifier is the Queue associated with the Notifier queue.
+  """
+  notifier: Queue!
+
+  """
+  webhook is the Queue associated with the Webhook queue.
+  """
+  webhook: Queue!
+
+  """
+  rejector is the Queue associated with the Rejector queue.
+  """
+  rejector: Queue!
+}
+
+################################################################################
 ## Query
 ################################################################################
 
@@ -3119,6 +3175,11 @@ type Query {
   webhookEndpint will return a specific WebhookEndpoint if it exists.
   """
   webhookEndpoint(id: ID!): WebhookEndpoint @auth(roles: [ADMIN])
+
+  """
+  queues returns information on queues used in Coral to manage
+  """
+  queues: Queues! @auth(roles: [ADMIN])
 }
 
 ################################################################################

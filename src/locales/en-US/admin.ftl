@@ -249,7 +249,7 @@ configure-general-guidelines-explanation =
   This will appear above the comments sitewide.
   You can format the text using Markdown.
   More information on how to use Markdown
-  <externalLink>here</externalLink>.
+  here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Locale
@@ -653,6 +653,7 @@ configure-slack-description =
   Automatically send comments from Coral moderation queues to Slack
   channels. You will need Slack admin access to set this up. For
   steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
+  Not recommended for sites with more than 10K comments per month.
 configure-slack-addChannel = Add Channel
 
 configure-slack-channel-defaultName = New channel

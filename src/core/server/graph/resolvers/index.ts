@@ -35,6 +35,8 @@ import { PremodStatus } from "./PremodStatus";
 import { PremodStatusHistory } from "./PremodStatusHistory";
 import { Profile } from "./Profile";
 import { Query } from "./Query";
+import { Queue } from "./Queue";
+import { Queues } from "./Queues";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Secret } from "./Secret";
@@ -99,6 +101,8 @@ const Resolvers: GQLResolver = {
   Tag,
   Time,
   User,
+  Queue,
+  Queues,
   UsernameHistory,
   UsernameStatus,
   UserStatus,

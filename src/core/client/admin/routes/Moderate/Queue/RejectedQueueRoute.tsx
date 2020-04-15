@@ -38,7 +38,6 @@ export class RejectedQueueRoute extends React.Component<
     return (
       <IntersectionProvider>
         <Queue
-          viewer={this.props.query.viewer!}
           settings={this.props.query.settings}
           comments={comments}
           onLoadMore={this.loadMore}
@@ -107,9 +106,6 @@ const enhanced = (withPaginationContainer<
         }
         settings {
           ...ModerateCardContainer_settings
-        }
-        viewer {
-          ...ModerateCardContainer_viewer
         }
       }
     `,

@@ -33,7 +33,7 @@ navigation-configure = Configurer
 ## User Menu
 userMenu-signOut = Déconnexion
 userMenu-viewLatestRelease = Voir la dernière version
-userMenu-reportBug = Faire part d'un problème ou faire un retour d'information
+userMenu-reportBug = Signaler un problème
 userMenu-popover =
   .description = Un dialogue du menu utilisateur avec des liens et des actions connexes
 
@@ -58,7 +58,7 @@ login-signIn-passwordLabel = Mot de passe
 login-signIn-passwordTextField =
   .placeholder = Mot de passe
 
-login-signIn-signInWithEmail = Connectez-vous en utilisant votre email
+login-signIn-signInWithEmail = Se connecter
 login-orSeparator = ou
 login-signIn-forgot-password = Mot de passe oublié ?
 
@@ -77,9 +77,9 @@ configure-sideBarNavigation-moderation = Modération
 configure-sideBarNavigation-organization = Organisation
 configure-sideBarNavigation-advanced = Avancé
 configure-sideBarNavigation-email = Email
-configure-sideBarNavigation-bannedAndSuspectWords = Mots bannis et suspects
+configure-sideBarNavigation-bannedAndSuspectWords = Mots bannis
 
-configure-sideBar-saveChanges = Sauvegarder les changements
+configure-sideBar-saveChanges = Enregistrer
 configure-configurationSubHeader = Configuration
 configure-onOffField-on = Activer
 configure-onOffField-off = Désactiver
@@ -92,8 +92,7 @@ configure-general-guidelines-explanation =
   Ceci apparaîtra au-dessus des commentaires dans tout le site.
   Vous pouvez formater le texte en utilisant Markdown.
   Plus d'informations sur l'utilisation de Markdown
-  <externalLink>ici</externalLink>.
-
+  ici: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 
 configure-general-guidelines-showCommunityGuidelines = Afficher le résumé des règles de la communauté
 
@@ -423,9 +422,9 @@ moderate-toxicityLabel-likely = Probable <score></score>
 moderate-toxicityLabel-unlikely = Improbable <score></score>
 moderate-toxicityLabel-maybe = Peut-être <score></score>
 
-moderate-emptyQueue-pending = Bien joué ! Il n'y a plus de commentaire en attente à modérer.
-moderate-emptyQueue-reported = Bien joué ! Il n'y a plus de commentaire signalé à modérer.
-moderate-emptyQueue-unmoderated = Bien joué ! Il n'y a plus de commentaire à modérer.
+moderate-emptyQueue-pending = Il n'y a pas de commentaire en attente à modérer.
+moderate-emptyQueue-reported = Il n'y a pas de commentaire signalé à modérer.
+moderate-emptyQueue-unmoderated = Il n'y a pas de commentaire à modérer.
 moderate-emptyQueue-rejected = Il n'y a pas de commentaire rejeté.
 
 moderate-comment-edited = (edité)

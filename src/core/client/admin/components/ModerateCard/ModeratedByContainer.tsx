@@ -1,55 +1,88 @@
 import { Localized } from "@fluent/react/compat";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { BaseButton } from "coral-ui/components/v2";
 
 import { ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
-import { ModeratedByContainer_viewer } from "coral-admin/__generated__/ModeratedByContainer_viewer.graphql";
 
 import styles from "./ModeratedByContainer.css";
 
 interface Props {
-  viewer: ModeratedByContainer_viewer;
   comment: ModeratedByContainer_comment;
   onUsernameClicked: (id?: string | null) => void;
 }
 
+const MODERATION_STATUS = ["APPROVED", "REJECTED"];
+
+interface ModeratedBy {
+  id?: string;
+  username?: string | null;
+  system?: boolean;
+}
+
+const system: ModeratedBy = { system: true };
+
 const ModeratedByContainer: React.FunctionComponent<Props> = ({
   comment,
-  viewer,
   onUsernameClicked,
 }) => {
-  let moderatedBy: React.ReactElement | null;
-  let id: string | null = null;
-  if (comment.statusHistory.edges.length === 0) {
-    moderatedBy = null;
-  } else if (comment.statusHistory.edges[0].node.moderator === null) {
-    moderatedBy = (
-      <Localized id="moderate-comment-moderatedBySystem">System</Localized>
-    );
-  } else if (viewer.id === comment.statusHistory.edges[0].node.moderator.id) {
-    moderatedBy = viewer.username ? <>{viewer.username}</> : null;
-  } else {
-    moderatedBy = <>{comment.statusHistory.edges[0].node.moderator.username}</>;
-    id = comment.statusHistory.edges[0].node.moderator.id;
-  }
+  const moderatedBy: ModeratedBy | null = useMemo(() => {
+    // If the comment was just moderated by the viewer, don't display anything.
+    // This will update once the mutation returns.
+    if (comment.viewerDidModerate) {
+      return null;
+    }
+
+    // If the comment has not been approved or rejected, don't render anything.
+    if (!MODERATION_STATUS.includes(comment.status)) {
+      return null;
+    }
+
+    if (comment.statusHistory.edges.length === 0) {
+      return system;
+    }
+
+    // Get the node that was the last moderated by element.
+    const {
+      node: { status, moderator },
+    } = comment.statusHistory.edges[0];
+    if (!MODERATION_STATUS.includes(status)) {
+      return null;
+    }
+
+    if (!moderator) {
+      return system;
+    }
+
+    return moderator;
+  }, [comment]);
+
+  const onClick = useCallback(() => {
+    if (!moderatedBy || !moderatedBy.id) {
+      return;
+    }
+
+    onUsernameClicked(moderatedBy.id);
+  }, [onUsernameClicked, moderatedBy]);
 
   if (!moderatedBy) {
     return null;
   }
-
-  const onClick = useCallback(() => {
-    onUsernameClicked(id);
-  }, [onUsernameClicked, comment]);
 
   return (
     <BaseButton onClick={onClick}>
       <Localized id="moderate-comment-moderatedBy">
         <div className={styles.moderatedBy}>Moderated By</div>
       </Localized>
-      <div className={styles.moderatedByUsername}>{moderatedBy}</div>
+      <div className={styles.moderatedByUsername}>
+        {moderatedBy.system ? (
+          <Localized id="moderate-comment-moderatedBySystem">System</Localized>
+        ) : (
+          moderatedBy.username
+        )}
+      </div>
     </BaseButton>
   );
 };
@@ -58,10 +91,12 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModeratedByContainer_comment on Comment {
       id
-      statusLiveUpdated
+      status
+      viewerDidModerate
       statusHistory(first: 1) {
         edges {
           node {
+            status
             moderator {
               id
               username
@@ -69,12 +104,6 @@ const enhanced = withFragmentContainer<Props>({
           }
         }
       }
-    }
-  `,
-  viewer: graphql`
-    fragment ModeratedByContainer_viewer on User {
-      id
-      username
     }
   `,
 })(ModeratedByContainer);

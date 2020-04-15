@@ -13,9 +13,7 @@ import { createRejectorTask, RejectorQueue } from "./tasks/rejector";
 import { createScraperTask, ScraperQueue } from "./tasks/scraper";
 import { createWebhookTask, WebhookQueue } from "./tasks/webhook";
 
-const createQueueOptions = async (
-  config: Config
-): Promise<Queue.QueueOptions> => {
+const createQueueOptions = (config: Config): Queue.QueueOptions => {
   const client = createRedisClient(config);
   const subscriber = createRedisClient(config);
 
@@ -60,10 +58,13 @@ export interface TaskQueue {
   rejector: RejectorQueue;
 }
 
-export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
+export function createQueue(options: QueueOptions): TaskQueue {
+  // Pull some options out.
+  const { config } = options;
+
   // Create the processor queue options. This holds references to the Redis
   // clients that are shared per queue.
-  const queueOptions = await createQueueOptions(options.config);
+  const queueOptions = createQueueOptions(config);
 
   // Attach process functions to the various tasks in the queue.
   const mailer = createMailerTask(queueOptions, options);
@@ -73,7 +74,6 @@ export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
     ...options,
   });
   const webhook = createWebhookTask(queueOptions, options);
-
   const rejector = createRejectorTask(queueOptions, options);
 
   // Return the tasks + client.

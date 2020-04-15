@@ -1,11 +1,11 @@
 import { isEmpty } from "lodash";
 import { Db } from "mongodb";
-import performanceNow from "performance-now";
-import { v4 as uuid } from "uuid";
+import * as uuid from "uuid";
 
 import { Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
   EncodedCommentActionCounts,
@@ -153,7 +153,7 @@ export async function createComment(
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
-    id: uuid(),
+    id: uuid.v4(),
     body,
     actionCounts,
     metadata,
@@ -163,7 +163,7 @@ export async function createComment(
   // default are the properties set by the application when a new comment is
   // created.
   const defaults: Sub<Comment, CreateCommentInput> = {
-    id: uuid(),
+    id: uuid.v4(),
     tenantID,
     childIDs: [],
     childCount: 0,
@@ -296,7 +296,7 @@ export async function editComment(
 
   // Generate the revision.
   const revision: Revision = {
-    id: uuid(),
+    id: uuid.v4(),
     body,
     actionCounts,
     metadata,
@@ -936,7 +936,7 @@ export async function retrieveStoryCommentTagCounts(
   }
 
   // Get the start time.
-  const startTime = performanceNow();
+  const timer = createTimer();
 
   // Load the counts from the database for this particular tag query.
   const cursor = collection<{
@@ -956,12 +956,9 @@ export async function retrieveStoryCommentTagCounts(
   // Get all of the counts.
   const tags = await cursor.toArray();
 
-  // Compute the end time.
-  const responseTime = Math.round(performanceNow() - startTime);
-
   // Logging at the info level here to ensure we track any degrading performance
   // issues from this query.
-  logger.info({ responseTime, filter: $match }, "counting tags");
+  logger.info({ responseTime: timer(), filter: $match }, "counting tags");
 
   // For each of the storyIDs...
   return storyIDs.map((storyID) => {

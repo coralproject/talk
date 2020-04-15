@@ -18,8 +18,10 @@ import { Config } from "coral-server/config";
 import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { Metrics } from "coral-server/services/metrics";
@@ -40,6 +42,10 @@ export interface AppOptions {
   disableClientRoutes: boolean;
   i18n: I18n;
   mailerQueue: MailerQueue;
+  scraperQueue: ScraperQueue;
+  rejectorQueue: RejectorQueue;
+  webhookQueue: WebhookQueue;
+  notifierQueue: NotifierQueue;
   metrics?: Metrics;
   mongo: Db;
   parent: Express;
@@ -48,12 +54,10 @@ export interface AppOptions {
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
   schema: GraphQLSchema;
-  scraperQueue: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   migrationManager: MigrationManager;
   broker: CoralEventListenerBroker;
-  rejectorQueue: RejectorQueue;
 }
 
 /**

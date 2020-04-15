@@ -382,7 +382,8 @@ it("approves comment in reported queue", async () => {
               {
                 node: {
                   id: "mod-action",
-                  author: {
+                  status: GQLCOMMENT_STATUS.APPROVED,
+                  moderator: {
                     id: viewer.id,
                     username: viewer.username,
                   },
@@ -479,7 +480,8 @@ it("rejects comment in reported queue", async () => {
               {
                 node: {
                   id: "mod-action",
-                  author: {
+                  status: GQLCOMMENT_STATUS.REJECTED,
+                  moderator: {
                     id: viewer.id,
                     username: viewer.username,
                   },
