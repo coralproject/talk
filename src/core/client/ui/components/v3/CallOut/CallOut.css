@@ -21,7 +21,9 @@
   font-weight: var(--v2-font-weight-primary-bold);
   font-size: var(--v2-font-size-3);
   line-height: var(--v2-line-height-5);
+}
 
+.titleMargin {
   margin-bottom: var(--v2-spacing-2);
 }
 

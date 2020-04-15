@@ -1,8 +1,14 @@
 .root {
-  @mixin bodyCopy;
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: 1.375rem;
+
+  color: var(--v2-colors-mono-500);
+
   b,
   strong {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--v2-font-weight-primary-bold);
   }
   h1 {
     @mixin heading1;
@@ -19,6 +25,7 @@
   h5 {
     @mixin heading5;
   }
+
   *:first-child {
     margin-top: 0;
   }

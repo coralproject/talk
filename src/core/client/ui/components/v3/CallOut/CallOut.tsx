@@ -71,6 +71,10 @@ const CallOut: FunctionComponent<Props> = ({
     [classes.leftIcon]: iconPosition === "left",
   });
 
+  const titleClasses = cn(classes.title, {
+    [classes.titleMargin]: children !== null && children !== undefined,
+  });
+
   const onCloseClicked = useCallback(() => {
     if (!onClose) {
       return;
@@ -86,7 +90,7 @@ const CallOut: FunctionComponent<Props> = ({
           <div className={iconClasses}>{icon}</div>
         )}
         <div className={classes.content}>
-          {title !== null && <div className={classes.title}>{title}</div>}
+          {title !== null && <div className={titleClasses}>{title}</div>}
           <div className={classes.body}>{children}</div>
         </div>
         {onClose && (
