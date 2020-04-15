@@ -1,4 +1,6 @@
-// TODO: (cvle) graphql tags should be inlined instead.
+// TODO: (cvle) we shouldn't need that.
+// Try to fix that in Relay >9.0.0 with more complete
+// support for the new eagerESModules flag.
 
 /**
  * graphql tags currently come as resolved or unresolved es6 modules
