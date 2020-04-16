@@ -448,17 +448,19 @@ export async function retrieveDailyTopCommentedStories(
     if (story) {
       const { id, url, metadata } = story;
       return {
-        story: {
-          id,
-          url,
-          metadata,
+        id,
+        url,
+        metadata,
+        comments: {
+          count: result.count || 0,
         },
-        count: result.count,
       };
     }
     return {
-      count: result.count,
-      story: null,
+      comments: {
+        count: result.count,
+      },
+      id: result.storyID,
     };
   });
 }

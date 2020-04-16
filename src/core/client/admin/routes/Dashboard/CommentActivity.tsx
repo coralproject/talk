@@ -3,25 +3,9 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Legend, Line, LineChart, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
+import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
-
-interface CommentTotals {
-  total: number;
-  staff: number;
-}
-
-interface HourlyCounts {
-  [timestamp: string]: CommentTotals;
-}
-
-interface RestResponse {
-  comments: HourlyCounts;
-}
-
-type TotalsArr = CommentTotals & {
-  time: number;
-};
 
 interface Props {
   locales?: string[];
@@ -29,27 +13,32 @@ interface Props {
 const CommentActivityFetch = createFetch(
   "commentActivityFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<RestResponse>("/dashboard/hourly-comments", {
+    await rest.fetch<HourlyCommentsJSON>("/dashboard/hourly/comments", {
       method: "GET",
     })
 );
+
+interface CommentsByHour {
+  timestamp: number;
+  count: number;
+  staffCount: number;
+}
 
 const CommentActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
 }) => {
   const commentActivityFetch = useFetch(CommentActivityFetch);
-  const [commentActivity, setCommentActivity] = useState<TotalsArr[]>([]);
+  const [commentActivity, setCommentActivity] = useState<CommentsByHour[]>([]);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
       const commentActivityResp = await commentActivityFetch(null);
-      const json = Object.keys(commentActivityResp.comments).map(key => {
-        const hour = commentActivityResp.comments[key];
+      const json = commentActivityResp.comments.map(comment => {
         return {
-          time: new Date(key).getTime(),
-          staff: hour.staff,
-          total: hour.total,
+          count: comment.count,
+          staffCount: comment.byAuthorRole.staff.count,
+          timestamp: new Date(comment.hour).getTime(),
         };
       });
       setCommentActivity(json);
@@ -66,7 +55,7 @@ const CommentActivity: FunctionComponent<Props> = ({
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <XAxis
-          dataKey="time"
+          dataKey="timestamp"
           tickFormatter={(unixTime: number) => {
             const formatter = new Intl.DateTimeFormat(locales, {
               hour: "numeric",
@@ -76,8 +65,8 @@ const CommentActivity: FunctionComponent<Props> = ({
           }}
         />
         <YAxis allowDecimals={false} />
-        <Line type="linear" dataKey="staff" stroke="#8884d8" />
-        <Line type="linear" dataKey="total" stroke="#82ca9d" />
+        <Line type="linear" dataKey="staffCount" stroke="#8884d8" />
+        <Line type="linear" dataKey="count" stroke="#82ca9d" />
         <Legend />
       </LineChart>
       <ul></ul>

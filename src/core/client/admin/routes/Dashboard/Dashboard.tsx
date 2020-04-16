@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import MainLayout from "coral-admin/components/MainLayout";
 
 import CommentActivity from "./CommentActivity";
-import CommenterActivity from "./CommenterActivity";
+import NewCommenterActivity from "./NewCommenterActivity";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
 
@@ -15,7 +15,7 @@ const Dashboard: FunctionComponent = props => (
     <TodayTotals />
     <TopStories />
     <CommentActivity />
-    <CommenterActivity />
+    <NewCommenterActivity />
   </MainLayout>
 );
 

@@ -35,11 +35,11 @@ export function createDashboardRouter(app: AppOptions) {
   const router = createAPIRouter();
   router.use(requestLimiter(app));
 
-  router.get("/daily-comments", dailyCommentStatsHandler(app));
-  router.get("/hourly-comments", hourlyCommentsStatsHandler(app));
-  router.get("/daily-commenters", dailyNewCommenterStatsHandler(app));
-  router.get("/hourly-commenters", hourlyNewCommentersStatsHandler(app));
-  router.get("/daily-top-stories", topCommentedStoriesStatsHandler(app));
+  router.get("/daily/comments", dailyCommentStatsHandler(app));
+  router.get("/hourly/comments", hourlyCommentsStatsHandler(app));
+  router.get("/daily/new-commenters", dailyNewCommenterStatsHandler(app));
+  router.get("/hourly/new-commenters", hourlyNewCommentersStatsHandler(app));
+  router.get("/daily/top-stories", topCommentedStoriesStatsHandler(app));
 
   return router;
 }

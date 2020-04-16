@@ -1,28 +1,19 @@
 // import { Localized } from "@fluent/react/compat";
+import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Environment } from "relay-runtime";
 
+import {
+  DailyCommentsJSON,
+  DailyNewCommentersJSON,
+} from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import {} from "coral-ui/components/v2";
-
-// interface Props {}
-interface CommentTotals {
-  total: number;
-  staff: number;
-}
-
-interface CommentsRestResponse {
-  comments: CommentTotals;
-}
-
-interface CommentersRestResponse {
-  commenters: number;
-}
 
 const TodayTotalsFetch = createFetch(
   "todayTotalsFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<CommentsRestResponse>("/dashboard/daily-comments", {
+    await rest.fetch<DailyCommentsJSON>("/dashboard/daily/comments", {
       method: "GET",
     })
 );
@@ -30,25 +21,29 @@ const TodayTotalsFetch = createFetch(
 const TodayNewCommentersFetch = createFetch(
   "newCommentersFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<CommentersRestResponse>("/dashboard/daily-commenters", {
-      method: "GET",
-    })
+    await rest.fetch<DailyNewCommentersJSON>(
+      "/dashboard/daily/new-commenters",
+      {
+        method: "GET",
+      }
+    )
 );
 
 const TodayTotals: FunctionComponent = () => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
   const newComentersFetch = useFetch(TodayNewCommentersFetch);
-  const [totalComents, setTotalComments] = useState<CommentTotals | null>(null);
-  const [
-    newCommenters,
-    setNewCommenters,
-  ] = useState<CommentersRestResponse | null>(null);
+  const [totalComents, setTotalComments] = useState<number | null>(null);
+  const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
+    null
+  );
+  const [newCommenters, setNewCommenters] = useState<number | null>(null);
   useEffect(() => {
     async function getTotals() {
       const todayTotals = await todayTotalsFetch(null);
-      setTotalComments(todayTotals.comments);
+      setTotalComments(todayTotals.comments.count);
+      setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
       const newCommenterResp = await newComentersFetch(null);
-      setNewCommenters(newCommenterResp);
+      setNewCommenters(newCommenterResp.newCommenters.count);
     }
     getTotals();
   }, []);
@@ -56,20 +51,20 @@ const TodayTotals: FunctionComponent = () => {
     <div>
       <h3>Daily totals</h3>
       <ul>
-        {totalComents && (
-          <>
-            <li>
-              <strong>Total comments:</strong> {totalComents.total}
-            </li>
-            <li>
-              <strong>Staff comments:</strong> {totalComents.staff}
-            </li>
-          </>
+        {isNumber(totalComents) && (
+          <li>
+            <strong>Total comments:</strong> {totalComents}
+          </li>
         )}
-        {newCommenters && (
+        {isNumber(totalStaffComents) && (
+          <li>
+            <strong>Staff comments:</strong> {totalStaffComents}
+          </li>
+        )}
+        {isNumber(newCommenters) && (
           <>
             <li>
-              <strong>New commenters:</strong> {newCommenters.commenters}
+              <strong>New commenters:</strong> {newCommenters}
             </li>
           </>
         )}

@@ -1,6 +1,12 @@
+import {
+  DailyCommentsJSON,
+  DailyNewCommentersJSON,
+  DailyTopStoriesJSON,
+  HourlyCommentsJSON,
+  HourlyNewCommentersJSON,
+} from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
-  retrieveCommentsByStatus,
   retrieveDailyCommentTotal,
   retrieveDailyStaffCommentTotal,
   retrieveHourlyCommentTotal,
@@ -19,9 +25,7 @@ export const dailyCommentStatsHandler = ({
   redis,
 }: StatsOptions): RequestHandler => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
     const coral = req.coral!;
-
     const tenant = coral.tenant!;
 
     try {
@@ -35,12 +39,21 @@ export const dailyCommentStatsHandler = ({
         tenant.id,
         coral.now
       );
-      return res.json({
+      /* eslint-disable-next-line */
+      console.log(dailyCommentTotal, dailyStaffCommentTotal);
+
+      const resp: DailyCommentsJSON = {
         comments: {
-          total: dailyCommentTotal,
-          staff: dailyStaffCommentTotal,
+          count: dailyCommentTotal,
+          byAuthorRole: {
+            staff: {
+              count: dailyStaffCommentTotal,
+            },
+          },
         },
-      });
+      };
+
+      return res.json(resp);
     } catch (err) {
       return next(err);
     }
@@ -51,9 +64,7 @@ export const hourlyCommentsStatsHandler = ({
   redis,
 }: StatsOptions): RequestHandler => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
     const coral = req.coral!;
-
     const tenant = coral.tenant!;
 
     try {
@@ -67,16 +78,21 @@ export const hourlyCommentsStatsHandler = ({
         tenant.id,
         coral.now
       );
-      const json: any = {};
+      const json: HourlyCommentsJSON = {
+        comments: [],
+      };
       for (const key of Object.keys(hourlyComments)) {
-        json[key] = {
-          total: hourlyComments[key],
-          staff: hourlyStaffComments[key],
-        };
+        json.comments.push({
+          hour: key,
+          count: hourlyComments[key] || 0,
+          byAuthorRole: {
+            staff: {
+              count: hourlyStaffComments[key] || 0,
+            },
+          },
+        });
       }
-      return res.json({
-        comments: json,
-      });
+      return res.json(json);
     } catch (err) {
       return next(err);
     }
@@ -87,9 +103,7 @@ export const dailyNewCommenterStatsHandler = ({
   redis,
 }: StatsOptions): RequestHandler => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
     const coral = req.coral!;
-
     const tenant = coral.tenant!;
 
     try {
@@ -98,9 +112,12 @@ export const dailyNewCommenterStatsHandler = ({
         tenant,
         coral.now
       );
-      return res.json({
-        commenters: newCommenters,
-      });
+      const json: DailyNewCommentersJSON = {
+        newCommenters: {
+          count: newCommenters,
+        },
+      };
+      return res.json(json);
     } catch (err) {
       return next(err);
     }
@@ -111,9 +128,7 @@ export const hourlyNewCommentersStatsHandler = ({
   redis,
 }: StatsOptions): RequestHandler => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
     const coral = req.coral!;
-
     const tenant = coral.tenant!;
 
     try {
@@ -122,9 +137,17 @@ export const hourlyNewCommentersStatsHandler = ({
         tenant,
         coral.now
       );
-      return res.json({
-        commenters: hourlyCommenters,
-      });
+
+      const json: HourlyNewCommentersJSON = {
+        newCommenters: [],
+      };
+      for (const key of Object.keys(hourlyCommenters)) {
+        json.newCommenters.push({
+          hour: key,
+          count: hourlyCommenters[key] || 0,
+        });
+      }
+      return res.json(json);
     } catch (err) {
       return next(err);
     }
@@ -138,9 +161,7 @@ export const topCommentedStoriesStatsHandler = ({
   mongo,
 }: TopCommentedStatsOptions): RequestHandler => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
     const coral = req.coral!;
-
     const tenant = coral.tenant!;
 
     try {
@@ -151,35 +172,11 @@ export const topCommentedStoriesStatsHandler = ({
         coral.now
       );
 
-      return res.json({
-        stories: topStories,
-      });
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
+      const json: DailyTopStoriesJSON = {
+        topStories,
+      };
 
-export const commentStatuses = ({
-  redis,
-  mongo,
-}: TopCommentedStatsOptions): RequestHandler => {
-  return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
-    const coral = req.coral!;
-
-    const tenant = coral.tenant!;
-
-    try {
-      const topStories = await retrieveCommentsByStatus(
-        mongo,
-        tenant.id,
-        coral.now
-      );
-
-      return res.json({
-        stories: topStories,
-      });
+      return res.json(json);
     } catch (err) {
       return next(err);
     }

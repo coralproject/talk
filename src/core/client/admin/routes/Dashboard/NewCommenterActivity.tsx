@@ -3,21 +3,10 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Bar, BarChart, Legend, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
+import { HourlyNewCommentersJSON } from "coral-common/rest/dashboard/types";
+
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
-
-interface HourlyCounts {
-  [timestamp: string]: number;
-}
-
-interface RestResponse {
-  commenters: HourlyCounts;
-}
-
-interface TotalsArr {
-  time: number;
-  count: number;
-}
 
 interface Props {
   locales?: string[];
@@ -25,28 +14,39 @@ interface Props {
 const CommenterActivityFetch = createFetch(
   "commenterActivityFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<RestResponse>("/dashboard/hourly-commenters", {
-      method: "GET",
-    })
+    await rest.fetch<HourlyNewCommentersJSON>(
+      "/dashboard/hourly/new-commenters",
+      {
+        method: "GET",
+      }
+    )
 );
+
+interface NewCommentersByHour {
+  count: number;
+  timestamp: number;
+}
 
 const CommenterActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
 }) => {
   const commenterActivityFetch = useFetch(CommenterActivityFetch);
-  const [commenterActivity, setCommenterActivity] = useState<TotalsArr[]>([]);
+  const [commenterActivity, setCommenterActivity] = useState<
+    NewCommentersByHour[]
+  >([]);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
       const commenterActivityResp = await commenterActivityFetch(null);
-      const json = Object.keys(commenterActivityResp.commenters).map(key => {
-        const count = commenterActivityResp.commenters[key];
-        return {
-          time: new Date(key).getTime(),
-          count,
-        };
-      });
+      const json = commenterActivityResp.newCommenters.map(
+        ({ hour, count }) => {
+          return {
+            timestamp: new Date(hour).getTime(),
+            count,
+          };
+        }
+      );
       setCommenterActivity(json);
     }
     getTotals();
@@ -61,7 +61,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <XAxis
-          dataKey="time"
+          dataKey="timestamp"
           tickFormatter={(unixTime: number) => {
             const formatter = new Intl.DateTimeFormat(locales, {
               hour: "numeric",
