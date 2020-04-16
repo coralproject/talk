@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import MainLayout from "coral-admin/components/MainLayout";
+import { Flex } from "coral-ui/components/v2";
 
 import CommentActivity from "./CommentActivity";
 import NewCommenterActivity from "./NewCommenterActivity";
@@ -11,9 +12,10 @@ import TopStories from "./TopStories";
 
 const Dashboard: FunctionComponent = props => (
   <MainLayout data-testid="dashboard-container">
-    <h2>Dashboard</h2>
-    <TodayTotals />
-    <TopStories />
+    <Flex justifyContent="space-between">
+      <TodayTotals />
+      <TopStories />
+    </Flex>
     <CommentActivity />
     <NewCommenterActivity />
   </MainLayout>

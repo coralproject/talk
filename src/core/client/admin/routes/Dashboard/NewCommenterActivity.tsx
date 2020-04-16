@@ -1,12 +1,15 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Bar, BarChart, Legend, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
 import { HourlyNewCommentersJSON } from "coral-common/rest/dashboard/types";
-
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
+
+import { CHART_COLOR_PRIMARY } from "./ChartColors";
+
+import styles from "./NewCommenterActivity.css";
 
 interface Props {
   locales?: string[];
@@ -53,8 +56,11 @@ const CommenterActivity: FunctionComponent<Props> = ({
   }, []);
   return (
     <div>
-      <h3>New Commenters Activity</h3>
+      <Localized id="dashboard-commenters-activity-heading">
+        <h3 className={styles.heading}>New Commenters Activity</h3>
+      </Localized>
       <BarChart
+        className={styles.chart}
         width={730}
         height={250}
         data={commenterActivity}
@@ -71,8 +77,8 @@ const CommenterActivity: FunctionComponent<Props> = ({
           }}
         />
         <YAxis allowDecimals={false} />
-        <Bar dataKey="count" stroke="#82ca9d" />
-        <Legend />
+        <Bar dataKey="count" fill={CHART_COLOR_PRIMARY} />
+        <Tooltip />
       </BarChart>
       <ul></ul>
     </div>

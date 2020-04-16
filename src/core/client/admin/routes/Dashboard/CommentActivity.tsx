@@ -1,11 +1,15 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Legend, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
 import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
+
+import styles from "./CommentActivity.css";
+
+import { CHART_COLOR_PRIMARY, CHART_COLOR_SECONDARY } from "./ChartColors";
 
 interface Props {
   locales?: string[];
@@ -47,10 +51,13 @@ const CommentActivity: FunctionComponent<Props> = ({
   }, []);
   return (
     <div>
-      <h3>Comment Activity</h3>
+      <Localized id="dashboard-comment-activity-heading">
+        <h3 className={styles.heading}>Comment Activity</h3>
+      </Localized>
       <LineChart
         width={730}
         height={250}
+        className={styles.chart}
         data={commentActivity}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -65,9 +72,20 @@ const CommentActivity: FunctionComponent<Props> = ({
           }}
         />
         <YAxis allowDecimals={false} />
-        <Line type="linear" dataKey="staffCount" stroke="#8884d8" />
-        <Line type="linear" dataKey="count" stroke="#82ca9d" />
+        <Line
+          type="linear"
+          dot={false}
+          dataKey="staffCount"
+          stroke={CHART_COLOR_PRIMARY}
+        />
+        <Line
+          dot={false}
+          type="linear"
+          dataKey="count"
+          stroke={CHART_COLOR_SECONDARY}
+        />
         <Legend />
+        <Tooltip />
       </LineChart>
       <ul></ul>
     </div>

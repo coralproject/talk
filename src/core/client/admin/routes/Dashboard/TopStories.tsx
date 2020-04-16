@@ -1,11 +1,18 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Environment } from "relay-runtime";
 
-import { createFetch, useFetch } from "coral-framework/lib/relay";
-import {} from "coral-ui/components/v2";
-
 import { DailyTopStoriesJSON } from "coral-common/rest/dashboard/types";
+import { createFetch, useFetch } from "coral-framework/lib/relay";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "coral-ui/components/v2";
+
+import styles from "./TopStories.css";
 
 const TopStoriesFetch = createFetch(
   "TopStoriesFetch",
@@ -29,21 +36,34 @@ const TopStories: FunctionComponent = () => {
   }, []);
   return (
     <div>
-      <h3>Top Stories Today</h3>
-      <ul>
-        {topStories &&
-          topStories.map(topStory => (
-            <li key={topStory.id}>
-              <strong>
-                {topStory.metadata && topStory.metadata.title
-                  ? topStory.metadata.title
-                  : "N/A"}
-              </strong>
-              {": "}
-              {topStory.comments.count}
-            </li>
-          ))}
-      </ul>
+      <Localized id="dashboard-top-stories-today-heading">
+        <h3 className={styles.heading}>Top stories</h3>
+      </Localized>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <Localized id="dashboard-top-stories-heading-stories">
+              <TableCell>Top commented stories today</TableCell>
+            </Localized>
+            <Localized id="dashboard-top-stories-heading-comments">
+              <TableCell>New comments today</TableCell>
+            </Localized>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {topStories &&
+            topStories.map(topStory => (
+              <TableRow key={topStory.id}>
+                <TableCell>
+                  {topStory.metadata && topStory.metadata.title
+                    ? topStory.metadata.title
+                    : "N/A"}
+                </TableCell>
+                <TableCell>{topStory.comments.count}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
