@@ -50,7 +50,7 @@ exports[`renders message box when commenting disabled 1`] = `
         className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart"
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
         >
           <div
             className="CallOut-icon CallOut-mono CallOut-leftIcon"
@@ -66,7 +66,7 @@ exports[`renders message box when commenting disabled 1`] = `
             className="CallOut-content"
           >
             <div
-              className="CallOut-title"
+              className="CallOut-title CallOut-titleBold"
             >
               <div
                 className="Markdown-root"
@@ -930,7 +930,7 @@ exports[`renders message box when story isClosed 1`] = `
         className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart"
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
         >
           <div
             className="CallOut-icon CallOut-mono CallOut-leftIcon"
@@ -946,7 +946,7 @@ exports[`renders message box when story isClosed 1`] = `
             className="CallOut-content"
           >
             <div
-              className="CallOut-title"
+              className="CallOut-title CallOut-titleBold"
             >
               <div
                 className="Markdown-root"

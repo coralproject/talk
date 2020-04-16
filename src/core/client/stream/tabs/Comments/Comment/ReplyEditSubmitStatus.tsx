@@ -2,11 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
-import { Button, CallOut, Flex, HorizontalGutter } from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { SubmitStatus } from "../helpers/getSubmitStatus";
-
-import styles from "./ReplyEditSubmitStatus.css";
 
 interface Props {
   status: SubmitStatus;
@@ -15,7 +14,11 @@ interface Props {
   onDismiss: () => void;
 }
 
-function getMessage(status: SubmitStatus, inReviewClassName = "") {
+function getMessage(
+  status: SubmitStatus,
+  inReviewClassName = "",
+  onDismiss: () => void
+) {
   switch (status) {
     case "RETRY":
       throw new Error(`Invalid status ${status}`);
@@ -24,15 +27,21 @@ function getMessage(status: SubmitStatus, inReviewClassName = "") {
     // falls through
     case "IN_REVIEW":
       return (
-        <Localized id="comments-submitStatus-submittedAndWillBeReviewed">
-          <CallOut
-            className={cn(inReviewClassName, styles.callout)}
-            color="primary"
-            fullWidth
-          >
-            Your comment has been submitted and will be reviewed by a moderator
-          </CallOut>
-        </Localized>
+        <CallOut
+          className={cn(inReviewClassName)}
+          color="primary"
+          icon={<Icon size="sm">check</Icon>}
+          onClose={onDismiss}
+          titleWeight="semiBold"
+          title={
+            <Localized id="comments-submitStatus-submittedAndWillBeReviewed">
+              <span>
+                Your comment has been submitted and will be reviewed by a
+                moderator
+              </span>
+            </Localized>
+          }
+        />
       );
     case "APPROVED":
     case null:
@@ -43,20 +52,5 @@ function getMessage(status: SubmitStatus, inReviewClassName = "") {
 }
 
 export default function ReplyEditSubmitStatus(props: Props) {
-  return (
-    <HorizontalGutter>
-      {getMessage(props.status, props.inReviewClassName)}
-      <Flex justifyContent="flex-end">
-        <Localized id="comments-submitStatus-dismiss">
-          <Button
-            onClick={props.onDismiss}
-            className={props.buttonClassName}
-            variant="outlined"
-          >
-            Dismiss
-          </Button>
-        </Localized>
-      </Flex>
-    </HorizontalGutter>
-  );
+  return getMessage(props.status, props.inReviewClassName, props.onDismiss);
 }

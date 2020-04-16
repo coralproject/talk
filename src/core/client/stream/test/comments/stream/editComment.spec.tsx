@@ -153,7 +153,7 @@ it("edit a comment and handle non-published comment state", async () => {
   await waitForElement(() =>
     within(comment).getByText("will be reviewed", { exact: false })
   );
-  within(comment).getByText("Dismiss").props.onClick();
+  within(comment).getByTestID("callout-close-button").props.onClick();
   expect(
     within(testRenderer.root).queryByText("will be reviewed", { exact: false })
   ).toBeNull();

@@ -13,13 +13,22 @@
 }
 
 .content {
-  width: calc(100% - 35px);
+  width: calc(100% - 50px);
 }
 
 .title {
   font-family: var(--v2-font-family-primary);
+}
+
+.titleBold {
   font-weight: var(--v2-font-weight-primary-bold);
   font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+}
+
+.titleSemiBold {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
   line-height: var(--v2-line-height-5);
 }
 
@@ -42,7 +51,6 @@
 }
 
 .leftIcon {
-  margin-top: 2px;
   margin-left: var(--v2-spacing-1);
   margin-right: var(--v2-spacing-3);
 }

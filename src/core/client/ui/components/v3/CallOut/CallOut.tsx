@@ -24,6 +24,7 @@ interface Props {
   iconPosition?: "left";
   iconColor?: IconColor;
   title?: any;
+  titleWeight?: "bold" | "semiBold" | "none";
 
   className?: string;
   classes: typeof styles;
@@ -38,6 +39,7 @@ const CallOut: FunctionComponent<Props> = ({
   iconPosition = "left",
   iconColor = "inherit",
   title = null,
+  titleWeight = "bold",
   classes,
   className,
   children,
@@ -73,6 +75,8 @@ const CallOut: FunctionComponent<Props> = ({
 
   const titleClasses = cn(classes.title, {
     [classes.titleMargin]: children !== null && children !== undefined,
+    [classes.titleBold]: titleWeight === "bold",
+    [classes.titleSemiBold]: titleWeight === "semiBold",
   });
 
   const onCloseClicked = useCallback(() => {
@@ -85,7 +89,7 @@ const CallOut: FunctionComponent<Props> = ({
 
   return (
     <div className={rootClasses}>
-      <Flex justifyContent="flex-start">
+      <Flex justifyContent="flex-start" alignItems="flex-start">
         {iconPosition === "left" && icon !== null && (
           <div className={iconClasses}>{icon}</div>
         )}
@@ -94,7 +98,11 @@ const CallOut: FunctionComponent<Props> = ({
           <div className={classes.body}>{children}</div>
         </div>
         {onClose && (
-          <BaseButton className={classes.closeButton} onClick={onCloseClicked}>
+          <BaseButton
+            className={classes.closeButton}
+            onClick={onCloseClicked}
+            data-testid="callout-close-button"
+          >
             <Icon size="sm">close</Icon>
           </BaseButton>
         )}

@@ -77,7 +77,7 @@ exports[`renders the empty settings pane 1`] = `
           className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifyFlexStart"
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
           >
             <div
               className="CallOut-content"
