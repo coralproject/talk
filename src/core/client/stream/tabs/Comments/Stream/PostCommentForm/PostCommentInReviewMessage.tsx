@@ -2,9 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Message } from "coral-ui/components";
-
-import styles from "./PostCommentInReviewMessage.css";
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 export interface PostCommentInReviewProps {
   onDismiss: () => void;
@@ -14,31 +13,20 @@ const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = (
   props
 ) => {
   return (
-    <Message
+    <CallOut
       color="primary"
       className={CLASSES.createComment.inReview}
-      fullWidth
-    >
-      <Flex justifyContent="space-between" className={styles.flex}>
+      onClose={props.onDismiss}
+      icon={<Icon size="sm">check</Icon>}
+      titleWeight="semiBold"
+      title={
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">
-          <div>
+          <span>
             Your comment has been submitted and will be reviewed by a moderator
-          </div>
+          </span>
         </Localized>
-        <div className={styles.buttonWrapper}>
-          <Localized id="comments-submitStatus-dismiss">
-            <Button
-              className={CLASSES.createComment.dismissButton}
-              onClick={props.onDismiss}
-              variant="underlined"
-              color="light"
-            >
-              Dismiss
-            </Button>
-          </Localized>
-        </div>
-      </Flex>
-    </Message>
+      }
+    />
   );
 };
 
