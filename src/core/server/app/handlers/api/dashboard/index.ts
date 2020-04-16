@@ -4,6 +4,7 @@ import {
   retrieveDailyCommentTotal,
   retrieveDailyStaffCommentTotal,
   retrieveHourlyCommentTotal,
+  retrieveHourlyStaffCommentTotal,
 } from "coral-server/services/comments/stats";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
 import {
@@ -61,10 +62,20 @@ export const hourlyCommentsStatsHandler = ({
         tenant.id,
         coral.now
       );
+      const hourlyStaffComments = await retrieveHourlyStaffCommentTotal(
+        redis,
+        tenant.id,
+        coral.now
+      );
+      const json: any = {};
+      for (const key of Object.keys(hourlyComments)) {
+        json[key] = {
+          total: hourlyComments[key],
+          staff: hourlyStaffComments[key],
+        };
+      }
       return res.json({
-        comments: {
-          hourly: hourlyComments,
-        },
+        comments: json,
       });
     } catch (err) {
       return next(err);
@@ -112,9 +123,7 @@ export const hourlyNewCommentersStatsHandler = ({
         coral.now
       );
       return res.json({
-        commenters: {
-          hourly: hourlyCommenters,
-        },
+        commenters: hourlyCommenters,
       });
     } catch (err) {
       return next(err);

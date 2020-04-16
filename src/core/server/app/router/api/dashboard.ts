@@ -39,7 +39,7 @@ export function createDashboardRouter(app: AppOptions) {
   router.get("/hourly-comments", hourlyCommentsStatsHandler(app));
   router.get("/daily-commenters", dailyNewCommenterStatsHandler(app));
   router.get("/hourly-commenters", hourlyNewCommentersStatsHandler(app));
-  router.get("/top-stories", topCommentedStoriesStatsHandler(app));
+  router.get("/daily-top-stories", topCommentedStoriesStatsHandler(app));
 
   return router;
 }
