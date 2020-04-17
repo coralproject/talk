@@ -210,7 +210,7 @@ class Users {
         locals: {
           body: message,
         },
-        subject: 'Your account has been suspended', // TODO: replace with translation
+        subject: i18n.t('email.suspended.subject'),
       });
     }
 
@@ -307,7 +307,7 @@ class Users {
         locals: {
           body: message,
         },
-        subject: 'Your account has been banned',
+        subject: i18n.t('email.banned.subject'),
       });
     }
 
