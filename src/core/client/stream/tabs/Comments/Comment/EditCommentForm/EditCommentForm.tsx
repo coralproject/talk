@@ -104,7 +104,6 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                       <Localized id="comments-editCommentForm-editTimeExpired">
                         <ValidationMessage
                           className={CLASSES.editComment.expiredTime}
-                          fullWidth
                         >
                           Edit time has expired. You can no longer edit this
                           comment. Why not post another one?
@@ -130,14 +129,12 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                           (meta.error ||
                             (meta.submitError &&
                               !meta.dirtySinceLastSubmit)) && (
-                            <ValidationMessage fullWidth>
+                            <ValidationMessage>
                               {meta.error || meta.submitError}
                             </ValidationMessage>
                           )}
                         {submitError && (
-                          <ValidationMessage fullWidth>
-                            {submitError}
-                          </ValidationMessage>
+                          <ValidationMessage>{submitError}</ValidationMessage>
                         )}
                         {props.max && (
                           <RemainingCharactersContainer

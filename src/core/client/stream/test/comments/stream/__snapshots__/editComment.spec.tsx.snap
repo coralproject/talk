@@ -1814,15 +1814,21 @@ exports[`shows expiry message: edit time expired 1`] = `
           </div>
         </div>
         <div
-          className="Message-root Message-colorError Message-fullWidth coral coral-editComment-expiredTime coral-validation-message"
+          className="ValidationMessage-root coral coral-editComment-expiredTime coral-validation-message"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="Box-root Flex-root Flex-flex Flex-alignCenter"
           >
-            warning
-          </i>
-          Edit time has expired. You can no longer edit this comment. Why not post another one?
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm ValidationMessage-icon"
+            >
+              error
+            </i>
+            <span>
+              Edit time has expired. You can no longer edit this comment. Why not post another one?
+            </span>
+          </div>
         </div>
       </div>
       <div
