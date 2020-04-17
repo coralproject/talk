@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-moderation-actions/README.md

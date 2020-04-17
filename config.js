@@ -85,6 +85,9 @@ const CONFIG = {
   // as report CSP violations.
   ENABLE_STRICT_CSP: process.env.TALK_ENABLE_STRICT_CSP === 'TRUE',
 
+  // TRUST_PROXY allows control over the `trust proxy` configuration on express.
+  TRUST_PROXY: process.env.TALK_TRUST_PROXY || '1',
+
   // LOGGING_LEVEL specifies the logging level used by the bunyan logger.
   LOGGING_LEVEL: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'].includes(
     process.env.TALK_LOGGING_LEVEL

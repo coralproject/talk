@@ -14,8 +14,6 @@ const {
 } = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
-const bowser = require('bowser');
-const ms = require('ms');
 const _ = require('lodash');
 const { attachStaticLocals } = require('../middleware/staticTemplate');
 const { encodeJSONForHTML } = require('./response');
@@ -57,21 +55,6 @@ const GenerateToken = user => {
   });
 };
 
-// SetTokenForSafari sends the token in a cookie for Safari clients.
-const SetTokenForSafari = (req, res, token) => {
-  const browser = bowser._detect(req.headers['user-agent']);
-  if (browser.ios || browser.safari) {
-    debug('browser was safari/ios, setting a cookie');
-    res.cookie(JWT_SIGNING_COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      expires: new Date(Date.now() + ms(JWT_EXPIRY)),
-    });
-  } else {
-    debug("browser wasn't safari/ios, didn't set a cookie");
-  }
-};
-
 // HandleGenerateCredentials validates that an authentication scheme did indeed
 // return a user, if it did, then sign and return the user and token to be used
 // by the frontend to display and update the UI.
@@ -86,8 +69,6 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
-
-  SetTokenForSafari(req, res, token);
 
   // Set the cache control headers.
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
@@ -138,8 +119,6 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
-
-  SetTokenForSafari(req, res, token);
 
   // We logged in the user! Let's send back the user data.
   res.render('auth-callback.njk', {

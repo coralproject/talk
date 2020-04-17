@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-toxic-comments/README.md

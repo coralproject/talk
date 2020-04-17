@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-profile-data/README.md

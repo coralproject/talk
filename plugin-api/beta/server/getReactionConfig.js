@@ -21,17 +21,6 @@ function getReactionConfig(reaction) {
         background: true,
       }
     );
-
-    Comment.collection.ensureIndex(
-      {
-        asset_id: 1,
-        [`action_counts.${sc(reaction)}`]: -1,
-        created_at: -1,
-      },
-      {
-        background: true,
-      }
-    );
   }
 
   const reactionPlural = pluralize(reaction);

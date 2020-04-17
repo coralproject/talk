@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-slack-notifications/README.md
