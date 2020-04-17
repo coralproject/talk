@@ -107,7 +107,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                     {props.disabled ? (
                       <>
                         {props.disabledMessage && (
-                          <ValidationMessage fullWidth>
+                          <ValidationMessage>
                             {props.disabledMessage}
                           </ValidationMessage>
                         )}
@@ -118,14 +118,12 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                           (meta.error ||
                             (meta.submitError &&
                               !meta.dirtySinceLastSubmit)) && (
-                            <ValidationMessage fullWidth>
+                            <ValidationMessage>
                               {meta.error || meta.submitError}
                             </ValidationMessage>
                           )}
                         {submitError && (
-                          <ValidationMessage fullWidth>
-                            {submitError}
-                          </ValidationMessage>
+                          <ValidationMessage>{submitError}</ValidationMessage>
                         )}
                         {props.max && (
                           <RemainingCharactersContainer
