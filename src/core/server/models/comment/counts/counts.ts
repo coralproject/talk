@@ -101,7 +101,7 @@ export function mergeCommentStatusCount(
   const mergedStatusCounts = createEmptyCommentStatusCounts();
   for (const commentCounts of statusCounts) {
     for (const status in commentCounts) {
-      if (!commentCounts.hasOwnProperty(status)) {
+      if (!Object.prototype.hasOwnProperty.call(commentCounts, status)) {
         continue;
       }
 
@@ -147,7 +147,7 @@ export function calculateTotalCommentCount(
 ): number {
   let count = 0;
   for (const status in commentCounts) {
-    if (!commentCounts.hasOwnProperty(status)) {
+    if (!Object.prototype.hasOwnProperty.call(commentCounts, status)) {
       continue;
     }
 

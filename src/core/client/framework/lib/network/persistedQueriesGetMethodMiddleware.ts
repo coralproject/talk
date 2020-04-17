@@ -31,7 +31,7 @@ const persistedQueriesGetMethodMiddleware: Middleware = (next) => async (
     // Rebuild the query parameters for GET.
     const params: Record<string, string> = { query: "" };
     for (const key in body) {
-      if (!body.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(body, key)) {
         continue;
       }
 

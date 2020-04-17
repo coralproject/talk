@@ -45,7 +45,7 @@ function reduce({
 
   if (isObject(obj)) {
     for (const property in obj) {
-      if (!obj.hasOwnProperty(property)) {
+      if (!Object.prototype.hasOwnProperty.call(obj, property)) {
         continue;
       }
 

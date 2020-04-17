@@ -51,7 +51,7 @@ class Scraper {
 
     for (const rule of this.rules) {
       for (const property in rule) {
-        if (!rule.hasOwnProperty(property)) {
+        if (!Object.prototype.hasOwnProperty.call(rule, property)) {
           continue;
         }
 
