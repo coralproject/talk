@@ -7,7 +7,6 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
-  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
@@ -176,7 +175,9 @@ it("render ignored users list", async () => {
       Mutation: {
         removeUserIgnore: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
-            userID: commenters[0].id,
+            // we sort by username now, so this user
+            // comes first because of their username
+            userID: commenters[1].id,
           });
           return {};
         },
@@ -190,14 +191,19 @@ it("render ignored users list", async () => {
   within(ignoredCommenters).getByText(commenters[0].username!);
   within(ignoredCommenters).getByText(commenters[1].username!);
 
-  // Stop ignoring first users.
-  within(ignoredCommenters)
-    .getAllByText("Stop ignoring", { selector: "button" })[0]
-    .props.onClick();
-
-  // First user should dissappear from list.
-  await waitUntilThrow(() =>
-    within(ignoredCommenters).getByText(commenters[0].username!)
+  const stopIgnoreButtons = within(ignoredCommenters).getAllByText(
+    "Stop ignoring",
+    { selector: "button" }
   );
-  within(ignoredCommenters).getByText(commenters[1].username!);
+
+  // Stop ignoring first users.
+  await act(async () => {
+    stopIgnoreButtons[0].props.onClick();
+  });
+
+  // First user should be replaced with "you are no longer ignoring"
+  await waitForElement(() =>
+    within(ignoredCommenters).getByText("You are no longer ignoring")
+  );
+  within(ignoredCommenters).getByText(commenters[0].username!);
 });

@@ -288,6 +288,8 @@ profile-account-ignoredCommenters-description =
   be able to see your comments.
 profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
 profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
+profile-account-ignoredCommenters-youAreNoLonger =
+  You are no longer ignoring
 profile-account-ignoredCommenters-manage = Manage
 profile-account-ignoredCommenters-cancel = Cancel
 profile-account-ignoredCommenters-close = Close
