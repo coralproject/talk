@@ -1,8 +1,7 @@
 import Joi from "@hapi/joi";
-import { CookieOptions, NextFunction, RequestHandler, Response } from "express";
+import { NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
 import jwt from "jsonwebtoken";
-import { DateTime } from "luxon";
 import passport, { Authenticator } from "passport";
 
 import { stringifyQuery } from "coral-common/utils";
@@ -16,7 +15,6 @@ import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import {
-  COOKIE_NAME,
   extractTokenFromRequest,
   JWTSigningConfig,
   revokeJWT,
@@ -95,8 +93,9 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     await revokeJWT(redis, jti, exp, now);
   }
 
-  // Clear the cookie.
-  res.clearCookie(COOKIE_NAME, generateCookieOptions(req, new Date(0)));
+  // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+  // // Clear the cookie.
+  // res.clearCookie(COOKIE_NAME, generateCookieOptions(req, new Date(0)));
 
   return res.sendStatus(204);
 }
@@ -115,11 +114,6 @@ export async function handleSuccessfulLogin(
     // Tenant is guaranteed at this point.
     const tenant = coral.tenant!;
 
-    // Compute the expiry date.
-    const expiresIn = DateTime.fromJSDate(coral.now).plus({
-      seconds: tenant.auth.sessionDuration,
-    });
-
     // Grab the token.
     const token = await signTokenString(
       signingConfig,
@@ -133,11 +127,18 @@ export async function handleSuccessfulLogin(
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
     res.header("Expires", "-1");
     res.header("Pragma", "no-cache");
-    res.cookie(
-      COOKIE_NAME,
-      token,
-      generateCookieOptions(req, expiresIn.toJSDate())
-    );
+
+    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+    // // Compute the expiry date.
+    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
+    //   seconds: tenant.auth.sessionDuration,
+    // });
+    //
+    // res.cookie(
+    //   COOKIE_NAME,
+    //   token,
+    //   generateCookieOptions(req, expiresIn.toJSDate())
+    // );
 
     // Send back the details!
     res.json({ token });
@@ -146,20 +147,21 @@ export async function handleSuccessfulLogin(
   }
 }
 
-const generateCookieOptions = (
-  req: Request,
-  expiresIn: Date
-): CookieOptions => ({
-  path: "/api",
-  httpOnly: true,
-  secure: req.secure,
-  // Chrome will ignore `SameSite: None` when not used in a secure context
-  // anyways, so don't bother setting `None` when we're not secure. The only
-  // time we aren't behind HTTPS is when we're testing/in development where the
-  // the setting for `SameSite: Lax` would be OK.
-  sameSite: req.secure ? "none" : "lax",
-  expires: expiresIn,
-});
+// NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+// const generateCookieOptions = (
+//   req: Request,
+//   expiresIn: Date
+// ): CookieOptions => ({
+//   path: "/api",
+//   httpOnly: true,
+//   secure: req.secure,
+//   // Chrome will ignore `SameSite: None` when not used in a secure context
+//   // anyways, so don't bother setting `None` when we're not secure. The only
+//   // time we aren't behind HTTPS is when we're testing/in development where the
+//   // the setting for `SameSite: Lax` would be OK.
+//   sameSite: req.secure ? "none" : "lax",
+//   expires: expiresIn,
+// });
 
 function redirectWithHash(
   res: Response,
@@ -191,11 +193,6 @@ export async function handleOAuth2Callback(
     const coral = req.coral!;
     const tenant = coral.tenant!;
 
-    // Compute the expiry date.
-    const expiresIn = DateTime.fromJSDate(coral.now).plus({
-      seconds: tenant.auth.sessionDuration,
-    });
-
     // Grab the token.
     const accessToken = await signTokenString(
       signingConfig,
@@ -204,11 +201,18 @@ export async function handleOAuth2Callback(
       {},
       coral.now
     );
-    res.cookie(
-      COOKIE_NAME,
-      accessToken,
-      generateCookieOptions(req, expiresIn.toJSDate())
-    );
+
+    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+    // // Compute the expiry date.
+    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
+    //   seconds: tenant.auth.sessionDuration,
+    // });
+    //
+    // res.cookie(
+    //   COOKIE_NAME,
+    //   accessToken,
+    //   generateCookieOptions(req, expiresIn.toJSDate())
+    // );
 
     // Send back the details!
     return redirectWithHash(res, path, { accessToken });
