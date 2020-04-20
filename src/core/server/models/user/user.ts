@@ -682,6 +682,24 @@ export async function retrieveManyUsers(
   return ids.map((id) => users.find((user) => user.id === id) || null);
 }
 
+export async function countUsersByCreationDate(
+  mongo: Db,
+  tenantID: string,
+  after: Date,
+  before: Date | null,
+  now: Date
+) {
+  return collection(mongo)
+    .find({
+      tenantID,
+      createdAt: {
+        $gt: after,
+        $lt: before || now,
+      },
+    })
+    .count();
+}
+
 export async function retrieveUserWithProfile(
   mongo: Db,
   tenantID: string,

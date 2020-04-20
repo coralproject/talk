@@ -1,10 +1,8 @@
 import {
   CommentStatusesJSON,
   DailyCommentsJSON,
-  DailyNewCommentersJSON,
   DailyTopStoriesJSON,
   HourlyCommentsJSON,
-  HourlyNewCommentersJSON,
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
@@ -14,10 +12,7 @@ import {
   retrieveHourlyStaffCommentTotal,
 } from "coral-server/services/comments/stats";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
-import {
-  retrieveDailyNewCommentersCount,
-  retrieveHourlyNewCommentersCount,
-} from "coral-server/services/users";
+import { retrieveDailySignups } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
 type StatsOptions = Pick<AppOptions, "redis">;
@@ -104,65 +99,6 @@ export const hourlyCommentsStatsHandler = ({
   };
 };
 
-export const dailyNewCommenterStatsHandler = ({
-  redis,
-}: StatsOptions): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const site = req.site!;
-
-    try {
-      const newCommenters = await retrieveDailyNewCommentersCount(
-        redis,
-        tenant,
-        site.id,
-        coral.now
-      );
-      const json: DailyNewCommentersJSON = {
-        newCommenters: {
-          count: newCommenters,
-        },
-      };
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
-
-export const hourlyNewCommentersStatsHandler = ({
-  redis,
-}: StatsOptions): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const site = req.site!;
-
-    try {
-      const hourlyCommenters = await retrieveHourlyNewCommentersCount(
-        redis,
-        tenant,
-        site.id,
-        coral.now
-      );
-
-      const json: HourlyNewCommentersJSON = {
-        newCommenters: [],
-      };
-      for (const key of Object.keys(hourlyCommenters)) {
-        json.newCommenters.push({
-          hour: key,
-          count: hourlyCommenters[key] || 0,
-        });
-      }
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
-
 type TopCommentedStatsOptions = Pick<AppOptions, "redis" | "mongo">;
 
 export const topCommentedStoriesStatsHandler = ({
@@ -185,6 +121,30 @@ export const topCommentedStoriesStatsHandler = ({
 
       const json: DailyTopStoriesJSON = {
         topStories,
+      };
+
+      return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const dailySignupsHandler = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+
+    try {
+      const count = await retrieveDailySignups(mongo, tenant.id, coral.now);
+
+      const json = {
+        signups: {
+          count,
+        },
       };
 
       return res.json(json);

@@ -22,12 +22,9 @@ const TodayTotalsFetch = createFetch(
 const TodayNewCommentersFetch = createFetch(
   "newCommentersFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<DailyNewCommentersJSON>(
-      "/dashboard/daily/new-commenters",
-      {
-        method: "GET",
-      }
-    )
+    await rest.fetch<any>("/dashboard/daily/new-signups", {
+      method: "GET",
+    })
 );
 
 const TodayTotals: FunctionComponent = () => {
@@ -44,7 +41,7 @@ const TodayTotals: FunctionComponent = () => {
       setTotalComments(todayTotals.comments.count);
       setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
       const newCommenterResp = await newComentersFetch(null);
-      setNewCommenters(newCommenterResp.newCommenters.count);
+      setNewCommenters(newCommenterResp.signups.count);
     }
     getTotals();
   }, []);

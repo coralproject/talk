@@ -49,10 +49,7 @@ import {
   processForModeration,
 } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
-import {
-  updateNewCommentersCount,
-  updateUserLastCommentID,
-} from "coral-server/services/users";
+import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
@@ -250,7 +247,6 @@ export default async function create(
 
   // Updating some associated data.
   await Promise.all([
-    updateNewCommentersCount(redis, tenant, story.siteID, author, now),
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateCommentTotals(redis, tenant.id, story.siteID, now),
     updateStaffCommentTotals(redis, tenant.id, story.siteID, author, now),

@@ -4,10 +4,9 @@ import MainLayout from "coral-admin/components/MainLayout";
 import { Flex } from "coral-ui/components/v2";
 
 import CommentActivity from "./CommentActivity";
-import NewCommenterActivity from "./NewCommenterActivity";
+import CommentStatuses from "./CommentStatuses";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
-import CommentStatuses from "./CommentStatuses";
 
 interface Props {
   multisite: boolean;
@@ -21,7 +20,6 @@ const Dashboard: FunctionComponent<Props> = props => (
       <TopStories />
     </Flex>
     <CommentActivity />
-    <NewCommenterActivity />
   </MainLayout>
 );
 

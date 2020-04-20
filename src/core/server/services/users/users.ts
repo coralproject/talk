@@ -29,7 +29,6 @@ import {
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
-import { calculateTotalCommentCount } from "coral-server/models/comment/counts";
 import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -37,6 +36,7 @@ import {
   consolidateUserBanStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
+  countUsersByCreationDate,
   createModeratorNote,
   createUser,
   createUserToken,
@@ -77,12 +77,6 @@ import {
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
-import {
-  retrieveDailyTotal,
-  retrieveHourlyTotals,
-  updateDailyCount,
-  updateHourlyCount,
-} from "coral-server/services/stats/helpers";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
@@ -1251,78 +1245,6 @@ function userLastCommentIDKey(
   return `${tenant.id}:lastCommentID:${user.id}`;
 }
 
-function dailyNewCommentersCountKey(
-  tenantID: string,
-  siteID: string,
-  today: number
-) {
-  return `stats:${tenantID}:${siteID}:dailyNewCommenters:${today}`;
-}
-
-function hourlyNewCommentersCountKey(
-  tenantID: string,
-  siteID: string,
-  hour: number
-) {
-  return `stats:${tenantID}:${siteID}:hourlyNewCommenters:${hour}`;
-}
-
-export async function updateNewCommentersCount(
-  redis: AugmentedRedis,
-  tenant: Tenant,
-  siteID: string,
-  user: User,
-  now: Date
-) {
-  if (calculateTotalCommentCount(user.commentCounts.status) > 0) {
-    return;
-  }
-  await updateDailyCount(
-    redis,
-    tenant.id,
-    siteID,
-    now,
-    dailyNewCommentersCountKey
-  );
-  await updateHourlyCount(
-    redis,
-    tenant.id,
-    siteID,
-    now,
-    hourlyNewCommentersCountKey
-  );
-}
-
-export async function retrieveDailyNewCommentersCount(
-  redis: AugmentedRedis,
-  tenant: Tenant,
-  siteID: string,
-  now: Date
-) {
-  return retrieveDailyTotal(
-    redis,
-    tenant.id,
-    siteID,
-    now,
-    dailyNewCommentersCountKey
-  );
-}
-
-export async function retrieveHourlyNewCommentersCount(
-  redis: AugmentedRedis,
-  tenant: Tenant,
-  siteID: string,
-  now: Date
-) {
-  return retrieveHourlyTotals(
-    redis,
-    tenant.id,
-    siteID,
-    now,
-    hourlyNewCommentersCountKey
-  );
-}
-
 /**
  * updateUserLastCommentID will update the id of the users most recent comment.
  *
@@ -1437,4 +1359,15 @@ export async function link(
   // TODO: send an email to the linked user
 
   return linked;
+}
+
+export async function retrieveDailySignups(
+  mongo: Db,
+  tenantID: string,
+  now: Date
+) {
+  const today = DateTime.fromJSDate(now)
+    .startOf("day")
+    .toJSDate();
+  return countUsersByCreationDate(mongo, tenantID, today, null, now);
 }

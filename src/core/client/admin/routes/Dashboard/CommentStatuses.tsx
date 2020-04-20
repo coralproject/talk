@@ -1,14 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { PieChart, Pie, Legend, Tooltip } from "recharts";
+import { Legend, Pie, PieChart, Tooltip } from "recharts";
 import { Environment } from "relay-runtime";
 
 import { CommentStatusesJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 
 import styles from "./CommentStatuses.css";
-
-import { CHART_COLOR_PRIMARY, CHART_COLOR_SECONDARY } from "./ChartColors";
 
 interface PieValue {
   name: string;
@@ -23,9 +21,7 @@ const CommentStatusesFetch = createFetch(
     })
 );
 
-const CommentStatuses: FunctionComponent<Props> = ({
-  locales: localesFromProps,
-}) => {
+const CommentStatuses: FunctionComponent = () => {
   const commentStatusesFetch = useFetch(CommentStatusesFetch);
   const [commentStatuses, setCommentStatuses] = useState<PieValue[]>([]);
   useEffect(() => {
