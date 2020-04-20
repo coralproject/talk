@@ -4,8 +4,9 @@ import { DateTime } from "luxon";
 export function updateDailyCount(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date,
-  keyGenerator: (tenantID: string, offset: number) => string
+  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
 ) {
   const today = DateTime.fromJSDate(now)
     .startOf("day")
@@ -14,7 +15,7 @@ export function updateDailyCount(
   const expireDaily = DateTime.fromJSDate(now)
     .endOf("day")
     .toSeconds();
-  const dailyKey = keyGenerator(tenantID, today);
+  const dailyKey = keyGenerator(tenantID, siteID, today);
   return redis
     .multi()
     .incr(dailyKey)
@@ -25,8 +26,9 @@ export function updateDailyCount(
 export function updateHourlyCount(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date,
-  keyGenerator: (tenantID: string, offset: number) => string
+  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
 ) {
   const hour = DateTime.fromJSDate(now).startOf("hour").hour;
   const expireHourly = DateTime.fromJSDate(now)
@@ -34,7 +36,7 @@ export function updateHourlyCount(
     .plus({ days: 1 })
     .toSeconds();
 
-  const hourlyKey = keyGenerator(tenantID, hour);
+  const hourlyKey = keyGenerator(tenantID, siteID, hour);
   return redis
     .multi()
     .incr(hourlyKey)
@@ -45,13 +47,14 @@ export function updateHourlyCount(
 export async function retrieveDailyTotal(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date,
-  keyGenerator: (tenantID: string, offset: number) => string
+  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
 ) {
   const today = DateTime.fromJSDate(now)
     .startOf("day")
     .toSeconds();
-  const key = keyGenerator(tenantID, today);
+  const key = keyGenerator(tenantID, siteID, today);
   const value = await redis.get(key);
   return value ? parseInt(value, 10) : 0;
 }
@@ -59,8 +62,9 @@ export async function retrieveDailyTotal(
 export async function retrieveHourlyTotals(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date,
-  keyGenerator: (tenantID: string, offset: number) => string
+  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
 ) {
   const firstHour = DateTime.fromJSDate(now)
     .startOf("hour")
@@ -68,7 +72,7 @@ export async function retrieveHourlyTotals(
   const keys = [];
   for (let i = 0; i < 24; i++) {
     const hour = firstHour.plus({ hours: i }).hour;
-    keys[i] = keyGenerator(tenantID, hour);
+    keys[i] = keyGenerator(tenantID, siteID, hour);
   }
   const values = await redis.mget(...keys);
 

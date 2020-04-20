@@ -7,13 +7,17 @@ import CommentActivity from "./CommentActivity";
 import NewCommenterActivity from "./NewCommenterActivity";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
+import CommentStatuses from "./CommentStatuses";
 
-// interface Props {}
+interface Props {
+  multisite: boolean;
+}
 
-const Dashboard: FunctionComponent = props => (
+const Dashboard: FunctionComponent<Props> = props => (
   <MainLayout data-testid="dashboard-container">
     <Flex justifyContent="space-between">
       <TodayTotals />
+      <CommentStatuses />
       <TopStories />
     </Flex>
     <CommentActivity />

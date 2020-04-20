@@ -1,4 +1,5 @@
 import {
+  CommentStatusesJSON,
   DailyCommentsJSON,
   DailyNewCommentersJSON,
   DailyTopStoriesJSON,
@@ -27,20 +28,21 @@ export const dailyCommentStatsHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const site = req.site!;
 
     try {
       const dailyCommentTotal = await retrieveDailyCommentTotal(
         redis,
         tenant.id,
+        site.id,
         coral.now
       );
       const dailyStaffCommentTotal = await retrieveDailyStaffCommentTotal(
         redis,
         tenant.id,
+        site.id,
         coral.now
       );
-      /* eslint-disable-next-line */
-      console.log(dailyCommentTotal, dailyStaffCommentTotal);
 
       const resp: DailyCommentsJSON = {
         comments: {
@@ -66,16 +68,19 @@ export const hourlyCommentsStatsHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const site = req.site!;
 
     try {
       const hourlyComments = await retrieveHourlyCommentTotal(
         redis,
         tenant.id,
+        site.id,
         coral.now
       );
       const hourlyStaffComments = await retrieveHourlyStaffCommentTotal(
         redis,
         tenant.id,
+        site.id,
         coral.now
       );
       const json: HourlyCommentsJSON = {
@@ -105,11 +110,13 @@ export const dailyNewCommenterStatsHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const site = req.site!;
 
     try {
       const newCommenters = await retrieveDailyNewCommentersCount(
         redis,
         tenant,
+        site.id,
         coral.now
       );
       const json: DailyNewCommentersJSON = {
@@ -130,11 +137,13 @@ export const hourlyNewCommentersStatsHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const site = req.site!;
 
     try {
       const hourlyCommenters = await retrieveHourlyNewCommentersCount(
         redis,
         tenant,
+        site.id,
         coral.now
       );
 
@@ -163,12 +172,14 @@ export const topCommentedStoriesStatsHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const site = req.site!;
 
     try {
       const topStories = await retrieveDailyTopCommentedStories(
         mongo,
         redis,
         tenant.id,
+        site.id,
         coral.now
       );
 
@@ -181,4 +192,21 @@ export const topCommentedStoriesStatsHandler = ({
       return next(err);
     }
   };
+};
+
+export const commentStatuses = (req, res, next) => {
+  const site = req.site!;
+
+  try {
+    const json: CommentStatusesJSON = {
+      commentStatuses: {
+        ...site.commentCounts.status,
+        REPORTED: site.commentCounts.action.FLAG,
+      },
+    };
+
+    return res.json(json);
+  } catch (err) {
+    return next(err);
+  }
 };

@@ -1251,43 +1251,73 @@ function userLastCommentIDKey(
   return `${tenant.id}:lastCommentID:${user.id}`;
 }
 
-function dailyNewCommentersCountKey(tenantID: string, today: number) {
-  return `stats:${tenantID}:dailyNewCommenters:${today}`;
+function dailyNewCommentersCountKey(
+  tenantID: string,
+  siteID: string,
+  today: number
+) {
+  return `stats:${tenantID}:${siteID}:dailyNewCommenters:${today}`;
 }
 
-function hourlyNewCommentersCountKey(tenantID: string, hour: number) {
-  return `stats:${tenantID}:hourlyNewCommenters:${hour}`;
+function hourlyNewCommentersCountKey(
+  tenantID: string,
+  siteID: string,
+  hour: number
+) {
+  return `stats:${tenantID}:${siteID}:hourlyNewCommenters:${hour}`;
 }
 
 export async function updateNewCommentersCount(
   redis: AugmentedRedis,
   tenant: Tenant,
+  siteID: string,
   user: User,
   now: Date
 ) {
   if (calculateTotalCommentCount(user.commentCounts.status) > 0) {
     return;
   }
-  await updateDailyCount(redis, tenant.id, now, dailyNewCommentersCountKey);
-  await updateHourlyCount(redis, tenant.id, now, hourlyNewCommentersCountKey);
+  await updateDailyCount(
+    redis,
+    tenant.id,
+    siteID,
+    now,
+    dailyNewCommentersCountKey
+  );
+  await updateHourlyCount(
+    redis,
+    tenant.id,
+    siteID,
+    now,
+    hourlyNewCommentersCountKey
+  );
 }
 
 export async function retrieveDailyNewCommentersCount(
   redis: AugmentedRedis,
   tenant: Tenant,
+  siteID: string,
   now: Date
 ) {
-  return retrieveDailyTotal(redis, tenant.id, now, dailyNewCommentersCountKey);
+  return retrieveDailyTotal(
+    redis,
+    tenant.id,
+    siteID,
+    now,
+    dailyNewCommentersCountKey
+  );
 }
 
 export async function retrieveHourlyNewCommentersCount(
   redis: AugmentedRedis,
   tenant: Tenant,
+  siteID: string,
   now: Date
 ) {
   return retrieveHourlyTotals(
     redis,
     tenant.id,
+    siteID,
     now,
     hourlyNewCommentersCountKey
   );

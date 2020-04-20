@@ -430,11 +430,13 @@ export async function retrieveDailyTopCommentedStories(
   mongo: Db,
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
   const results = await retrieveTopCommentedStoriesToday(
     redis,
     tenantID,
+    siteID,
     20,
     now
   );

@@ -44,3 +44,14 @@ export interface TopStoryJSON {
 export interface DailyTopStoriesJSON {
   topStories: TopStoryJSON[];
 }
+
+export interface CommentStatusesJSON {
+  commentStatuses: {
+    APPROVED: number;
+    NONE: number;
+    PREMOD: number;
+    REJECTED: number;
+    SYSTEM_WITHHELD: number;
+    REPORTED: number;
+  };
+}

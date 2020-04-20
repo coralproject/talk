@@ -250,11 +250,11 @@ export default async function create(
 
   // Updating some associated data.
   await Promise.all([
-    updateNewCommentersCount(redis, tenant, author, now),
+    updateNewCommentersCount(redis, tenant, story.siteID, author, now),
     updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateCommentTotals(redis, tenant.id, now),
-    updateStaffCommentTotals(redis, tenant.id, author, now),
-    updateTopCommentedStoriesToday(redis, tenant.id, story.id, now),
+    updateCommentTotals(redis, tenant.id, story.siteID, now),
+    updateStaffCommentTotals(redis, tenant.id, story.siteID, author, now),
+    updateTopCommentedStoriesToday(redis, tenant.id, story, now),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(
       mongo,

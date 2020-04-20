@@ -1,8 +1,5 @@
 import { Redis } from "ioredis";
-import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
-import { retrieveManyRejected } from "coral-server/models/comment";
 import { User } from "coral-server/models/user";
 import {
   retrieveDailyTotal,
@@ -18,34 +15,44 @@ export interface DailyCommentCounts {
   staff: number;
 }
 
-function dailyCommentCountKey(tenantID: string, today: number) {
-  return `stats:${tenantID}:dailyCommentCount:${today}`;
+function dailyCommentCountKey(tenantID: string, siteID: string, today: number) {
+  return `stats:${tenantID}:${siteID}:dailyCommentCount:${today}`;
 }
 
-function hourlyCommentCountKey(tenantID: string, hour: number) {
-  return `stats:${tenantID}:hourlyCommentCount:${hour}`;
+function hourlyCommentCountKey(tenantID: string, siteID: string, hour: number) {
+  return `stats:${tenantID}:${siteID}:hourlyCommentCount:${hour}`;
 }
 
-function dailyStaffCommentCountKey(tenantID: string, today: number) {
-  return `stats:${tenantID}:dailyStaffCommentCount:${today}`;
+function dailyStaffCommentCountKey(
+  tenantID: string,
+  siteID: string,
+  today: number
+) {
+  return `stats:${tenantID}:${siteID}:dailyStaffCommentCount:${today}`;
 }
 
-function hourlyStaffCommentCountKey(tenantID: string, hour: number) {
-  return `stats:${tenantID}:hourlyStaffCommentCount:${hour}`;
+function hourlyStaffCommentCountKey(
+  tenantID: string,
+  siteID: string,
+  hour: number
+) {
+  return `stats:${tenantID}:${siteID}:hourlyStaffCommentCount:${hour}`;
 }
 
 export async function updateCommentTotals(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
-  await updateHourlyCount(redis, tenantID, now, hourlyCommentCountKey);
-  await updateDailyCount(redis, tenantID, now, dailyCommentCountKey);
+  await updateHourlyCount(redis, tenantID, siteID, now, hourlyCommentCountKey);
+  await updateDailyCount(redis, tenantID, siteID, now, dailyCommentCountKey);
 }
 
 export async function updateStaffCommentTotals(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   user: Pick<User, "role">,
   now: Date
 ) {
@@ -54,8 +61,20 @@ export async function updateStaffCommentTotals(
       user.role
     )
   ) {
-    await updateHourlyCount(redis, tenantID, now, hourlyStaffCommentCountKey);
-    await updateDailyCount(redis, tenantID, now, dailyStaffCommentCountKey);
+    await updateHourlyCount(
+      redis,
+      tenantID,
+      siteID,
+      now,
+      hourlyStaffCommentCountKey
+    );
+    await updateDailyCount(
+      redis,
+      tenantID,
+      siteID,
+      now,
+      dailyStaffCommentCountKey
+    );
   }
   return;
 }
@@ -63,45 +82,53 @@ export async function updateStaffCommentTotals(
 export async function retrieveDailyCommentTotal(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
-  return retrieveDailyTotal(redis, tenantID, now, dailyCommentCountKey);
+  return retrieveDailyTotal(redis, tenantID, siteID, now, dailyCommentCountKey);
 }
 
 export async function retrieveDailyStaffCommentTotal(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
-  return retrieveDailyTotal(redis, tenantID, now, dailyStaffCommentCountKey);
+  return retrieveDailyTotal(
+    redis,
+    tenantID,
+    siteID,
+    now,
+    dailyStaffCommentCountKey
+  );
 }
 
 export async function retrieveHourlyCommentTotal(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
-  return retrieveHourlyTotals(redis, tenantID, now, hourlyCommentCountKey);
+  return retrieveHourlyTotals(
+    redis,
+    tenantID,
+    siteID,
+    now,
+    hourlyCommentCountKey
+  );
 }
 
 export async function retrieveHourlyStaffCommentTotal(
   redis: Redis,
   tenantID: string,
+  siteID: string,
   now: Date
 ) {
-  return retrieveHourlyTotals(redis, tenantID, now, hourlyStaffCommentCountKey);
-}
-
-export async function retrieveCommentsByStatus(
-  mongo: Db,
-  tenantID: string,
-  now: Date
-) {
-  const today = DateTime.fromJSDate(now)
-    .minus({ days: 1 })
-    .toJSDate();
-  const rejected = await retrieveManyRejected(mongo, tenantID, today);
-  return {
-    rejected,
-  };
+  return retrieveHourlyTotals(
+    redis,
+    tenantID,
+    siteID,
+    now,
+    hourlyStaffCommentCountKey
+  );
 }
