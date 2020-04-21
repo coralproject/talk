@@ -1,3 +1,11 @@
+.title {
+  font-family: var(--v2-font-family-primary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: 1.15rem;
+  }
+
 .details {
   margin-top: 2.5px;
   margin-left: 25px;

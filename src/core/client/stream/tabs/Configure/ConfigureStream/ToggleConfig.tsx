@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { CheckBox, Typography } from "coral-ui/components";
+import { CheckBox } from "coral-ui/components/v2";
 
 import styles from "./ToggleConfig.css";
 
@@ -14,10 +14,8 @@ const ToggleConfig: FunctionComponent<Props> = (props) => {
   const { title, children, ...rest } = props;
   return (
     <div>
-      <CheckBox {...rest}>
-        <Typography variant="heading3" container="span">
-          {title}
-        </Typography>
+      <CheckBox {...rest} variant="streamBlue">
+        <div className={styles.title}>{title}</div>
       </CheckBox>
       {children && <div className={styles.details}>{children}</div>}
     </div>

@@ -6,13 +6,8 @@ import { Form } from "react-final-form";
 import { purgeMetadata } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import {
-  Button,
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
@@ -41,33 +36,10 @@ const ConfigureStream: FunctionComponent<Props> = ({
         onSubmit={handleSubmit}
         id="configure-form"
       >
-        <Flex justifyContent="space-between" alignItems="flex-start" itemGutter>
-          <Localized id="configure-stream-title-configureThisStream">
-            <Typography variant="heading2" className={styles.heading}>
-              Configure this Stream
-            </Typography>
-          </Localized>
-          <Localized id="configure-stream-apply">
-            <Button
-              className={CLASSES.configureCommentStream.applyButton}
-              color="success"
-              variant="filled"
-              type="submit"
-              disabled={submitting || pristine}
-            >
-              Apply
-            </Button>
-          </Localized>
-        </Flex>
-        <HorizontalGutter size="double">
-          {submitError && (
-            <CallOut
-              className={CLASSES.configureCommentStream.errorMessage}
-              color="error"
-            >
-              {submitError}
-            </CallOut>
-          )}
+        <Localized id="configure-stream-title-configureThisStream">
+          <div className={styles.heading}>Configure this Stream</div>
+        </Localized>
+        <div className={styles.liveUpdates}>
           <LiveUpdatesConfigContainer
             storySettings={storySettings}
             disabled={submitting}
@@ -75,7 +47,31 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <PremodConfigContainer disabled={submitting} />
           <PremodLinksConfigContainer disabled={submitting} />
           <MessageBoxConfigContainer disabled={submitting} />
-        </HorizontalGutter>
+        </div>
+        <Localized id="configure-stream-update">
+          <Button
+            className={CLASSES.configureCommentStream.applyButton}
+            color="secondary"
+            variant="filled"
+            type="submit"
+            disabled={submitting || pristine}
+            upperCase
+            data-testid="configure-stream-apply"
+          >
+            Update
+          </Button>
+        </Localized>
+        <div className={styles.footer}>
+          {submitError && (
+            <CallOut
+              className={CLASSES.configureCommentStream.errorMessage}
+              color="negative"
+              icon={<Icon size="sm">error</Icon>}
+              titleWeight="semiBold"
+              title={submitError}
+            />
+          )}
+        </div>
       </form>
     )}
   </Form>
