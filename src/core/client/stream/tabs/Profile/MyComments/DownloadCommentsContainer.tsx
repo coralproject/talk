@@ -123,11 +123,9 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showSuccessMessage}
           onClose={onCloseSuccess}
-        >
-          <Flex justifyContent="flex-start" alignItems="center">
-            <Icon size="sm" className={styles.successIcon}>
-              check_circle
-            </Icon>
+          icon={<Icon size="sm">check_circle</Icon>}
+          titleWeight="semiBold"
+          title={
             <Localized
               id="profile-account-download-comments-requestSubmitted"
               $value={scaled}
@@ -138,8 +136,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
                 download your comment history again in {scaled} {unit}.
               </span>
             </Localized>
-          </Flex>
-        </CallOut>
+          }
+        />
       )}
       {showErrorMessage && (
         <CallOut
@@ -150,11 +148,9 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showErrorMessage}
           onClose={onCloseError}
-        >
-          <Flex justifyContent="flex-start" alignItems="center">
-            <Icon size="sm" className={styles.errorIcon}>
-              warning
-            </Icon>
+          icon={<Icon size="sm">warning</Icon>}
+          titleWeight="semiBold"
+          title={
             <Localized
               id="profile-account-download-comments-error"
               $value={scaled}
@@ -162,8 +158,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             >
               <span>We were unable to complete your download request.</span>
             </Localized>
-          </Flex>
-        </CallOut>
+          }
+        />
       )}
     </div>
   );

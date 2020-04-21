@@ -50,15 +50,3 @@
 .callOut {
   padding-bottom: var(--v2-spacing-2);
 }
-
-.successIcon {
-  min-width: 22px;
-  color: var(--v2-colors-green-500);
-  margin-right: var(--v2-spacing-2);
-}
-
-.errorIcon {
-  min-width: 22px;
-  color: var(--v2-colors-red-500);
-  margin-right: var(--v2-spacing-2);
-}

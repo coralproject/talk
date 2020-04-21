@@ -78,8 +78,3 @@
 .successMessage {
   padding-bottom: var(--v2-spacing-3);
 }
-
-.successIcon {
-  min-width: 25px;
-  color: var(--v2-colors-green-500);
-}

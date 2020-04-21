@@ -946,7 +946,7 @@ exports[`renders message box when story isClosed 1`] = `
             className="CallOut-content"
           >
             <div
-              className="CallOut-title CallOut-titleBold"
+              className="CallOut-title CallOut-titleSemiBold"
             >
               <div
                 className="Markdown-root"

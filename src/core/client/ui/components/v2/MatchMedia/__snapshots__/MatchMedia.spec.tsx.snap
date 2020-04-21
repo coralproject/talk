@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`map new speech prop to older aural prop 1`] = `
-<MediaQueryContextConsumer
+<MediaQuery
   aural={true}
 >
   <div>
     Hello World
   </div>
-</MediaQueryContextConsumer>
+</MediaQuery>
 `;
 
 exports[`renders correctly 1`] = `
-<MediaQueryContextConsumer
+<MediaQuery
   component="div"
   maxWidth={320}
   minWidth={640}
@@ -20,16 +20,16 @@ exports[`renders correctly 1`] = `
   <div>
     Hello World
   </div>
-</MediaQueryContextConsumer>
+</MediaQuery>
 `;
 
 exports[`renders less than and great than correctly 1`] = `
-<MediaQueryContextConsumer
+<MediaQuery
   maxWidth={319}
   minWidth={641}
 >
   <div>
     Hello World
   </div>
-</MediaQueryContextConsumer>
+</MediaQuery>
 `;

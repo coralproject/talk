@@ -292,22 +292,23 @@ const changeEmailContainer: FunctionComponent<Props> = ({
       )}
       {showSuccessMessage && (
         <div className={styles.successMessage}>
-          <CallOut color="positive" onClose={onCloseSuccess}>
-            <Flex justifyContent="flex-start" alignItems="center">
-              <Icon className={styles.successIcon} size="sm">
-                check_circle
-              </Icon>
+          <CallOut
+            color="positive"
+            onClose={onCloseSuccess}
+            icon={<Icon size="sm">check_circle</Icon>}
+            titleWeight="semiBold"
+            title={
               <Localized id="profile-changeEmail-success">
                 Your email has been successfully updated
               </Localized>
-            </Flex>
-          </CallOut>
+            }
+          />
         </div>
       )}
       {confirmationResent && (
         <CallOut className={CLASSES.verifyEmail.resentMessage} color="mono">
           <Localized id="profile-changeEmail-resent">
-            <div>Your confirmation email has been re-sent.</div>
+            <span>Your confirmation email has been re-sent.</span>
           </Localized>
         </CallOut>
       )}
@@ -410,14 +411,10 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                     <CallOut
                       className={CLASSES.myEmail.form.errorMessage}
                       color="negative"
-                    >
-                      <Flex justifyContent="flex-start" alignItems="center">
-                        <Icon size="sm" className={styles.errorIcon}>
-                          error
-                        </Icon>
-                        <span>{submitError}</span>
-                      </Flex>
-                    </CallOut>
+                      icon={<Icon size="sm">error</Icon>}
+                      titleWeight="semiBold"
+                      title={<span>{submitError}</span>}
+                    />
                   )}
                 </HorizontalGutter>
                 <Flex

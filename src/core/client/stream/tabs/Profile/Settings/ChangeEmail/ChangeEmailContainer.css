@@ -53,16 +53,6 @@
   color: var(--v2-colors-mono-500);
 }
 
-.successIcon {
-  min-width: 25px;
-  color: var(--v2-colors-green-500);
-}
-
-.errorIcon {
-  min-width: 25px;
-  color: var(--v2-colors-red-500);
-}
-
 .footer {
   margin-top: var(--v2-spacing-4);
   margin-bottom: var(--v2-spacing-4);

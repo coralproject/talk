@@ -17,6 +17,7 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
+  Icon,
   InputLabel,
   PasswordField,
   TextField,
@@ -223,7 +224,12 @@ const ConfirmPage: FunctionComponent<Props> = ({
                 </FormField>
 
                 {submitError && (
-                  <CallOut color="negative">{submitError}</CallOut>
+                  <CallOut
+                    color="negative"
+                    icon={<Icon size="sm">error</Icon>}
+                    titleWeight="semiBold"
+                    title={submitError}
+                  />
                 )}
               </HorizontalGutter>
               <div className={styles.controls}>
