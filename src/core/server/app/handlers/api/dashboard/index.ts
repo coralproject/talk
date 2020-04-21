@@ -1,6 +1,7 @@
 import {
   CommentStatusesJSON,
   DailyCommentsJSON,
+  DailySignupsJSON,
   DailyTopStoriesJSON,
   HourlyCommentsJSON,
 } from "coral-common/rest/dashboard/types";
@@ -12,7 +13,10 @@ import {
   retrieveHourlyStaffCommentTotal,
 } from "coral-server/services/comments/stats";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
-import { retrieveDailySignups } from "coral-server/services/users";
+import {
+  retrieveDailySignups,
+  retrieveDailySignupsForWeek,
+} from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
 type StatsOptions = Pick<AppOptions, "redis">;
@@ -139,9 +143,9 @@ export const dailySignupsHandler = ({
     const tenant = coral.tenant!;
 
     try {
-      const count = await retrieveDailySignups(mongo, tenant.id, coral.now);
+      const count = await retrieveDailySignups(mongo, tenant, coral.now);
 
-      const json = {
+      const json: DailySignupsJSON = {
         signups: {
           count,
         },
@@ -154,7 +158,33 @@ export const dailySignupsHandler = ({
   };
 };
 
-export const commentStatuses = (req, res, next) => {
+export const dailySignupsForWeekHandler = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+
+    try {
+      const signups = await retrieveDailySignupsForWeek(
+        mongo,
+        tenant,
+        coral.now
+      );
+
+      const json: any = {
+        signups,
+      };
+
+      return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const commentStatuses: RequestHandler = (req, res, next) => {
   const site = req.site!;
 
   try {

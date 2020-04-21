@@ -37,6 +37,7 @@ import {
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
   countUsersByCreationDate,
+  countUsersForCreationDate,
   createModeratorNote,
   createUser,
   createUserToken,
@@ -1363,11 +1364,51 @@ export async function link(
 
 export async function retrieveDailySignups(
   mongo: Db,
-  tenantID: string,
+  tenant: Tenant,
   now: Date
 ) {
+  if (
+    tenant.auth.integrations.sso.enabled &&
+    tenant.auth.integrations.sso.allowRegistration
+  ) {
+    throw new Error("can't count users");
+  }
   const today = DateTime.fromJSDate(now)
     .startOf("day")
     .toJSDate();
-  return countUsersByCreationDate(mongo, tenantID, today, null, now);
+  return countUsersForCreationDate(mongo, tenant.id, today, null, now);
+}
+
+export async function retrieveDailySignupsForWeek(
+  mongo: Db,
+  tenant: Tenant,
+  now: Date
+) {
+  if (
+    tenant.auth.integrations.sso.enabled &&
+    tenant.auth.integrations.sso.allowRegistration
+  ) {
+    throw new Error("can't count users");
+  }
+  const weekAgo = DateTime.fromJSDate(now).minus({ days: 7 });
+  const daysWithSignups = await countUsersByCreationDate(
+    mongo,
+    tenant.id,
+    weekAgo.toJSDate(),
+    now
+  );
+
+  const output = [];
+
+  for (let i = 0; i < 7; i++) {
+    const stamp = weekAgo.plus({ days: i });
+    const signups = daysWithSignups.find(day => {
+      return day["_id"] === stamp.toFormat("yyyy-MM-dd");
+    });
+    output.push({
+      date: stamp.toJSDate(),
+      count: signups ? signups.count : 0,
+    });
+  }
+  return output;
 }

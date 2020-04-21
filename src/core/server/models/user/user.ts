@@ -682,7 +682,7 @@ export async function retrieveManyUsers(
   return ids.map((id) => users.find((user) => user.id === id) || null);
 }
 
-export async function countUsersByCreationDate(
+export async function countUsersForCreationDate(
   mongo: Db,
   tenantID: string,
   after: Date,
@@ -698,6 +698,35 @@ export async function countUsersByCreationDate(
       },
     })
     .count();
+}
+
+export async function countUsersByCreationDate(
+  mongo: Db,
+  tenantID: string,
+  since: Date,
+  now: Date
+) {
+  // should we filter by profile type?
+  const cursor = collection(mongo).aggregate([
+    {
+      $match: {
+        tenantID,
+        createdAt: {
+          $gte: since,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const docs = await cursor.toArray();
+  /* eslint-disable-next-line */
+  console.log(docs);
+  return docs;
 }
 
 export async function retrieveUserWithProfile(

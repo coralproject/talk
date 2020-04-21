@@ -3,6 +3,7 @@ import { AppOptions } from "coral-server/app";
 import {
   commentStatuses,
   dailyCommentStatsHandler,
+  dailySignupsForWeekHandler,
   dailySignupsHandler,
   hourlyCommentsStatsHandler,
   topCommentedStoriesStatsHandler,
@@ -40,6 +41,7 @@ export function createDashboardRouter(app: AppOptions) {
   router.get("/daily/comments", dailyCommentStatsHandler(app));
   router.get("/hourly/comments", hourlyCommentsStatsHandler(app));
   router.get("/daily/new-signups", dailySignupsHandler(app));
+  router.get("/weekly/new-signups", dailySignupsForWeekHandler(app));
   router.get("/daily/top-stories", topCommentedStoriesStatsHandler(app));
   router.get("/comment-statuses", commentStatuses);
 

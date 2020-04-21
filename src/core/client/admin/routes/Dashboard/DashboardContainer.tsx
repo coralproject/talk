@@ -11,13 +11,29 @@ interface Props {
 }
 
 const DashboardContainer: FunctionComponent<Props> = ({ settings }) => {
-  return <Dashboard multisite={settings.multisite} />;
+  return (
+    <Dashboard
+      multisite={settings.multisite}
+      ssoRegistrationEnabled={
+        settings.auth.integrations.sso.enabled &&
+        settings.auth.integrations.sso.allowRegistration
+      }
+    />
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment DashboardContainer_settings on Settings {
       multisite
+      auth {
+        integrations {
+          sso {
+            enabled
+            allowRegistration
+          }
+        }
+      }
     }
   `,
 })(DashboardContainer);

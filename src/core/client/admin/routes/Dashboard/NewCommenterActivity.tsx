@@ -17,12 +17,9 @@ interface Props {
 const CommenterActivityFetch = createFetch(
   "commenterActivityFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<HourlyNewCommentersJSON>(
-      "/dashboard/hourly/new-commenters",
-      {
-        method: "GET",
-      }
-    )
+    await rest.fetch<HourlyNewCommentersJSON>("/dashboard/weekly/new-signups", {
+      method: "GET",
+    })
 );
 
 interface NewCommentersByHour {
@@ -42,14 +39,12 @@ const CommenterActivity: FunctionComponent<Props> = ({
   useEffect(() => {
     async function getTotals() {
       const commenterActivityResp = await commenterActivityFetch(null);
-      const json = commenterActivityResp.newCommenters.map(
-        ({ hour, count }) => {
-          return {
-            timestamp: new Date(hour).getTime(),
-            count,
-          };
-        }
-      );
+      const json = commenterActivityResp.signups.map(({ date, count }) => {
+        return {
+          timestamp: new Date(date).getTime(),
+          count,
+        };
+      });
       setCommenterActivity(json);
     }
     getTotals();
@@ -70,8 +65,8 @@ const CommenterActivity: FunctionComponent<Props> = ({
           dataKey="timestamp"
           tickFormatter={(unixTime: number) => {
             const formatter = new Intl.DateTimeFormat(locales, {
-              hour: "numeric",
-              minute: "2-digit",
+              day: "numeric",
+              month: "numeric",
             });
             return formatter.format(new Date(unixTime));
           }}

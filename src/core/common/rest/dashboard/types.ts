@@ -17,6 +17,21 @@ export interface HourlyCommentsJSON {
   })[];
 }
 
+export interface DailySignupsJSON {
+  signups: {
+    count: number;
+  };
+}
+
+export interface DailySignupsByWeekJSON {
+  signups: [
+    {
+      count: number;
+      date: string;
+    }
+  ];
+}
+
 export interface DailyNewCommentersJSON {
   newCommenters: {
     count: number;

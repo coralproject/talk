@@ -5,7 +5,7 @@ import { Environment } from "relay-runtime";
 
 import {
   DailyCommentsJSON,
-  DailyNewCommentersJSON,
+  DailySignupsJSON,
 } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
@@ -22,12 +22,16 @@ const TodayTotalsFetch = createFetch(
 const TodayNewCommentersFetch = createFetch(
   "newCommentersFetch",
   async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<any>("/dashboard/daily/new-signups", {
+    await rest.fetch<DailySignupsJSON>("/dashboard/daily/new-signups", {
       method: "GET",
     })
 );
 
-const TodayTotals: FunctionComponent = () => {
+interface Props {
+  ssoRegistrationEnabled: boolean;
+}
+
+const TodayTotals: FunctionComponent<Props> = props => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
   const newComentersFetch = useFetch(TodayNewCommentersFetch);
   const [totalComents, setTotalComments] = useState<number | null>(null);
@@ -40,8 +44,10 @@ const TodayTotals: FunctionComponent = () => {
       const todayTotals = await todayTotalsFetch(null);
       setTotalComments(todayTotals.comments.count);
       setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
-      const newCommenterResp = await newComentersFetch(null);
-      setNewCommenters(newCommenterResp.signups.count);
+      if (!props.ssoRegistrationEnabled) {
+        const newCommenterResp = await newComentersFetch(null);
+        setNewCommenters(newCommenterResp.signups.count);
+      }
     }
     getTotals();
   }, []);
