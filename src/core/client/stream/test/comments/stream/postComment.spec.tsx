@@ -6,7 +6,7 @@ import timekeeper from "timekeeper";
 import { ERROR_CODES } from "coral-common/errors";
 import {
   InvalidRequestError,
-  ModerationNudgeError
+  ModerationNudgeError,
 } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
@@ -15,7 +15,7 @@ import {
   createSinonStub,
   findParentWithType,
   waitForElement,
-  within
+  within,
 } from "coral-framework/testHelpers";
 
 import { baseComment, commenters, settings, stories } from "../../fixtures";
@@ -34,8 +34,8 @@ async function createTestRenderer(
         expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),
-      ...resolver.Query
-    }
+      ...resolver.Query,
+    },
   };
 
   const { testRenderer, context } = create({
@@ -43,9 +43,9 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
-    }
+    },
   });
 
   const tabPane = await waitForElement(() =>
@@ -69,7 +69,7 @@ async function createTestRenderer(
     context,
     tabPane,
     rte,
-    form
+    form,
   };
 }
 
@@ -81,8 +81,8 @@ it("post a comment", async () => {
           expectAndFail(data).toMatchObject({
             input: {
               storyID: stories[0].id,
-              body: "<b>Hello world!</b>"
-            }
+              body: "<b>Hello world!</b>",
+            },
           });
           return {
             edge: {
@@ -91,13 +91,13 @@ it("post a comment", async () => {
                 ...baseComment,
                 id: "comment-x",
                 author: commenters[0],
-                body: "<b>Hello world! (from server)</b>"
-              }
+                body: "<b>Hello world! (from server)</b>",
+              },
             },
-            clientMutationId: data.input.clientMutationId
+            clientMutationId: data.input.clientMutationId,
           };
-        })
-      }
+        }),
+      },
     });
 
     rte.props.onChange("<b>Hello world!</b>");
@@ -130,8 +130,8 @@ const postACommentAndHandleNonPublishedComment = async (
           expectAndFail(data).toMatchObject({
             input: {
               storyID: stories[0].id,
-              body: "<b>Hello world!</b>"
-            }
+              body: "<b>Hello world!</b>",
+            },
           });
           return {
             edge: {
@@ -141,13 +141,13 @@ const postACommentAndHandleNonPublishedComment = async (
                 id: "comment-x",
                 status: "SYSTEM_WITHHELD",
                 author: commenters[0],
-                body: "<b>Hello world!</b>"
-              }
+                body: "<b>Hello world!</b>",
+              },
             },
-            clientMutationId: data.input.clientMutationId
+            clientMutationId: data.input.clientMutationId,
           };
-        })
-      }
+        }),
+      },
     });
 
     rte.props.onChange("<b>Hello world!</b>");
@@ -167,9 +167,7 @@ const postACommentAndHandleNonPublishedComment = async (
 
 it("post a comment and handle non-visible comment state (dismiss by click)", async () =>
   await postACommentAndHandleNonPublishedComment((form, rte) => {
-    within(form)
-      .getByTestID("callout-close-button")
-      .props.onClick();
+    within(form).getByTestID("callout-close-button").props.onClick();
   }));
 
 it("post a comment and handle non-visible comment state (dismiss by typing)", async () =>
@@ -184,8 +182,8 @@ it("post a comment and handle server error", async () => {
         Mutation: {
           createComment: sinon.stub().callsFake(() => {
             throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-          })
-        }
+          }),
+        },
       },
       { muteNetworkErrors: true }
     );
@@ -204,27 +202,27 @@ it("handle moderation nudge error", async () => {
       {
         Mutation: {
           createComment: createSinonStub(
-            s =>
+            (s) =>
               s.onFirstCall().callsFake((_, data) => {
                 expectAndFail(data).toMatchObject({
                   input: {
                     storyID: stories[0].id,
                     body: "<b>Hello world!</b>",
-                    nudge: true
-                  }
+                    nudge: true,
+                  },
                 });
                 throw new ModerationNudgeError({
-                  code: ERROR_CODES.TOXIC_COMMENT
+                  code: ERROR_CODES.TOXIC_COMMENT,
                 });
               }),
-            s =>
+            (s) =>
               s.onSecondCall().callsFake((_, data) => {
                 expectAndFail(data).toMatchObject({
                   input: {
                     storyID: stories[0].id,
                     body: "<b>Hello world!</b>",
-                    nudge: false
-                  }
+                    nudge: false,
+                  },
                 });
                 return {
                   edge: {
@@ -234,14 +232,14 @@ it("handle moderation nudge error", async () => {
                       id: "comment-x",
                       status: "SYSTEM_WITHHELD",
                       author: commenters[0],
-                      body: "<b>Hello world!</b>"
-                    }
+                      body: "<b>Hello world!</b>",
+                    },
                   },
-                  clientMutationId: data.input.clientMutationId
+                  clientMutationId: data.input.clientMutationId,
                 };
               })
-          )
-        }
+          ),
+        },
       },
       { muteNetworkErrors: true }
     );
@@ -271,9 +269,9 @@ it("handle disabled commenting error", async () => {
           createComment: () => {
             createCommentCalled = true;
             throw new InvalidRequestError({
-              code: ERROR_CODES.COMMENTING_DISABLED
+              code: ERROR_CODES.COMMENTING_DISABLED,
             });
-          }
+          },
         },
         Query: {
           settings: () => {
@@ -284,11 +282,11 @@ it("handle disabled commenting error", async () => {
               ...settings,
               disableCommenting: {
                 enabled: true,
-                message: "commenting disabled"
-              }
+                message: "commenting disabled",
+              },
             };
-          }
-        }
+          },
+        },
       }),
       { muteNetworkErrors: true }
     );
@@ -310,13 +308,13 @@ it("handle story closed", async () => {
         Mutation: {
           createComment: sinon.stub().callsFake(() => {
             throw new InvalidRequestError({
-              code: ERROR_CODES.STORY_CLOSED
+              code: ERROR_CODES.STORY_CLOSED,
             });
-          })
+          }),
         },
         Query: {
-          story: sinon.stub().callsFake(() => returnStory)
-        }
+          story: sinon.stub().callsFake(() => returnStory),
+        },
       },
       { muteNetworkErrors: true }
     );

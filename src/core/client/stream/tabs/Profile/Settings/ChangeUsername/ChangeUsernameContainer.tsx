@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useMemo,
-  useState
+  useState,
 } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -23,7 +23,7 @@ import {
   composeValidators,
   required,
   validateUsername,
-  validateUsernameEquals
+  validateUsernameEquals,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import { ShowEditUsernameDialogEvent } from "coral-stream/events";
@@ -33,7 +33,7 @@ import {
   HorizontalGutter,
   Icon,
   InputLabel,
-  TextField
+  TextField,
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
@@ -61,7 +61,7 @@ interface FormProps {
 
 const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
-  settings
+  settings,
 }) => {
   const emitShowEditUsernameDialog = useViewerEvent(
     ShowEditUsernameDialogEvent
@@ -77,7 +77,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   const updateUsername = useMutation(UpdateUsernameMutation);
 
   const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
-    setShowEditForm
+    setShowEditForm,
   ]);
 
   const canChangeLocalAuth = useMemo(() => {
@@ -85,7 +85,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return false;
     }
     if (
-      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
     ) {
       return false;
     }
@@ -131,7 +131,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     async (input: FormProps, form: FormApi) => {
       try {
         await updateUsername({
-          username: input.username
+          username: input.username,
         });
       } catch (err) {
         if (err instanceof InvalidRequestError) {
@@ -139,7 +139,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         }
 
         return {
-          [FORM_ERROR]: err.message
+          [FORM_ERROR]: err.message,
         };
       }
 
@@ -156,7 +156,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   const formatter = new Intl.DateTimeFormat(locales, {
     day: "2-digit",
     month: "2-digit",
-    year: "numeric"
+    year: "numeric",
   });
 
   return (
@@ -450,7 +450,7 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
     }
-  `
+  `,
 })(ChangeUsernameContainer);
 
 export default enhanced;

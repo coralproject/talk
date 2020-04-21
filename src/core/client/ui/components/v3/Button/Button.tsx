@@ -5,7 +5,6 @@ import React from "react";
 import { BaseButton } from "coral-ui/components/v2";
 import { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
 import { withStyles } from "coral-ui/hocs";
-import { Omit } from "coral-ui/types";
 
 import styles from "./Button.css";
 

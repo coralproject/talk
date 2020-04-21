@@ -8,7 +8,7 @@ import {
   CreateTestRendererParams,
   findParentWithType,
   waitForElement,
-  within
+  within,
 } from "coral-framework/testHelpers";
 
 import {
@@ -16,7 +16,7 @@ import {
   commenters,
   comments,
   settings,
-  stories
+  stories,
 } from "../../fixtures";
 import create from "./create";
 
@@ -26,15 +26,15 @@ const storyFixture = {
   ...stories[0],
   comments: {
     pageInfo: {
-      hasNextPage: false
+      hasNextPage: false,
     },
     edges: [
       {
         node: commentFixture,
-        cursor: commentFixture.createdAt
-      }
-    ]
-  }
+        cursor: commentFixture.createdAt,
+      },
+    ],
+  },
 };
 
 const createTestRenderer = async (
@@ -54,8 +54,8 @@ const createTestRenderer = async (
           story: ({ variables }) => {
             expectAndFail(variables.id).toBe(storyFixture.id);
             return storyFixture;
-          }
-        }
+          },
+        },
       }),
       params.resolvers
     ),
@@ -65,7 +65,7 @@ const createTestRenderer = async (
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
-    }
+    },
   });
 
   const comment = await waitForElement(() =>
@@ -73,9 +73,7 @@ const createTestRenderer = async (
   );
 
   // Open reply form.
-  within(comment)
-    .getByTestID("comment-reply-button")
-    .props.onClick();
+  within(comment).getByTestID("comment-reply-button").props.onClick();
 
   const rte = await waitForElement(
     () =>
@@ -94,7 +92,7 @@ const createTestRenderer = async (
     context,
     comment,
     rte,
-    form
+    form,
   };
 };
 
@@ -107,7 +105,7 @@ it("post a reply", async () => {
             storyID: storyFixture.id,
             parentID: storyFixture.comments.edges[0].node.id,
             parentRevisionID: storyFixture.comments.edges[0].node.revision!.id,
-            body: "<b>Hello world!</b>"
+            body: "<b>Hello world!</b>",
           });
           return {
             edge: {
@@ -116,13 +114,13 @@ it("post a reply", async () => {
                 ...baseComment,
                 id: "comment-x",
                 author: commenters[0],
-                body: "<b>Hello world! (from server)</b>"
-              }
-            }
+                body: "<b>Hello world! (from server)</b>",
+              },
+            },
           };
-        }
-      }
-    })
+        },
+      },
+    }),
   });
 
   expect(await within(form).axe()).toHaveNoViolations();

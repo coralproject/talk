@@ -4,7 +4,7 @@ import React, {
   EventHandler,
   FunctionComponent,
   MouseEvent,
-  useMemo
+  useMemo,
 } from "react";
 
 import { Button } from "coral-ui/components/v2";
@@ -18,15 +18,15 @@ export interface ShowConversationLinkProps {
   className?: string;
 }
 
-const ShowConversationLink: FunctionComponent<
-  ShowConversationLinkProps
-> = props => {
+const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
+  props
+) => {
   const classesOverride = useMemo(
     () => ({
       colorRegular: styles.colorRegular,
       active: styles.active,
       mouseHover: styles.mouseHover,
-      disabled: styles.disabled
+      disabled: styles.disabled,
     }),
     [styles]
   );
