@@ -1,12 +1,27 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Legend, Pie, PieChart, Tooltip } from "recharts";
+import {
+  Legend,
+  Pie,
+  PieChart,
+  Tooltip,
+  Cell,
+  ResponsiveContainer,
+} from "recharts";
 import { Environment } from "relay-runtime";
 
 import { CommentStatusesJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 
 import styles from "./CommentStatuses.css";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const COLOR_MAP = {
+  public: "#268742",
+  rejected: "#D53F3F",
+  witheld: "#E5766C",
+};
 
 interface PieValue {
   name: string;
@@ -40,29 +55,25 @@ const CommentStatuses: FunctionComponent = () => {
     getTotals();
   }, []);
   return (
-    <div>
+    <div className={styles.root}>
       <Localized id="dashboard-comment-activity-heading">
-        <h3 className={styles.heading}>Comment Statuses</h3>
+        <h3 className={styles.heading}>Community health (all-time)</h3>
       </Localized>
       {commentStatuses && (
-        <PieChart
-          width={730}
-          height={250}
-          className={styles.chart}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <Pie
-            data={commentStatuses}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={50}
-            fill="#8884d8"
-          />
-          <Legend />
-          <Tooltip />
-        </PieChart>
+        <ResponsiveContainer height={200}>
+          <PieChart
+            className={styles.chart}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <Pie data={commentStatuses} dataKey="value" nameKey="name">
+              {commentStatuses.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLOR_MAP[entry.name]} />
+              ))}
+            </Pie>
+            <Legend />
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
       )}
     </div>
   );

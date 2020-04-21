@@ -73,18 +73,12 @@ const CommentActivity: FunctionComponent<Props> = ({
         />
         <YAxis allowDecimals={false} />
         <Line
-          type="linear"
-          dot={false}
-          dataKey="staffCount"
-          stroke={CHART_COLOR_PRIMARY}
-        />
-        <Line
           dot={false}
           type="linear"
           dataKey="count"
           stroke={CHART_COLOR_SECONDARY}
         />
-        <Legend />
+        {/* <Legend /> */}
         <Tooltip />
       </LineChart>
       <ul></ul>

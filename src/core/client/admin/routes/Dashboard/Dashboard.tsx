@@ -9,6 +9,8 @@ import NewCommenterActivity from "./NewCommenterActivity";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
 
+import styles from "./Dashboard.css";
+
 interface Props {
   multisite: boolean;
   ssoRegistrationEnabled: boolean;
@@ -16,13 +18,15 @@ interface Props {
 
 const Dashboard: FunctionComponent<Props> = props => (
   <MainLayout data-testid="dashboard-container">
-    <Flex justifyContent="space-between">
-      <TodayTotals ssoRegistrationEnabled={props.ssoRegistrationEnabled} />
-      <CommentStatuses />
+    <div className={styles.root}>
+      <Flex justifyContent="space-between">
+        <TodayTotals ssoRegistrationEnabled={props.ssoRegistrationEnabled} />
+        <CommentStatuses />
+      </Flex>
       <TopStories />
-    </Flex>
-    <CommentActivity />
-    <NewCommenterActivity />
+      <CommentActivity />
+      <NewCommenterActivity />
+    </div>
   </MainLayout>
 );
 

@@ -7,3 +7,7 @@
 .chart {
   font-family: var(--v2-font-family-primary);
 }
+
+.root {
+  flex: 1;
+}
