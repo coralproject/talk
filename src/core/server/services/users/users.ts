@@ -1403,7 +1403,7 @@ export async function retrieveDailySignupsForWeek(
   for (let i = 0; i < 7; i++) {
     const stamp = weekAgo.plus({ days: i });
     const signups = daysWithSignups.find(day => {
-      return day["_id"] === stamp.toFormat("yyyy-MM-dd");
+      return day._id === stamp.toFormat("yyyy-MM-dd");
     });
     output.push({
       date: stamp.toJSDate(),

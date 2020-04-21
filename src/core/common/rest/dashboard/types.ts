@@ -62,11 +62,8 @@ export interface DailyTopStoriesJSON {
 
 export interface CommentStatusesJSON {
   commentStatuses: {
-    APPROVED: number;
-    NONE: number;
-    PREMOD: number;
-    REJECTED: number;
-    SYSTEM_WITHHELD: number;
-    REPORTED: number;
+    public: number;
+    rejected: number;
+    witheld: number;
   };
 }

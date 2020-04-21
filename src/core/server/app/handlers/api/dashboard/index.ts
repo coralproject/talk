@@ -188,10 +188,12 @@ export const commentStatuses: RequestHandler = (req, res, next) => {
   const site = req.site!;
 
   try {
+    const { status } = site.commentCounts;
     const json: CommentStatusesJSON = {
       commentStatuses: {
-        ...site.commentCounts.status,
-        REPORTED: site.commentCounts.action.FLAG,
+        public: status.APPROVED + status.NONE,
+        rejected: site.commentCounts.status.REJECTED,
+        witheld: site.commentCounts.status.SYSTEM_WITHHELD,
       },
     };
 
