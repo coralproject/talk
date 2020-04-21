@@ -55,7 +55,7 @@ const createTestRenderer = async (
     const tabPane = await waitForElement(() =>
       within(testRenderer.root).getByTestID("current-tab-pane")
     );
-    const applyButton = within(tabPane).getByText("Apply");
+    const applyButton = within(tabPane).getByTestID("configure-stream-apply");
     const form = findParentWithType(applyButton, "form")!;
 
     return { testRenderer, tabPane, applyButton, form };

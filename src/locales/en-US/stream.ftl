@@ -490,7 +490,8 @@ profile-changeUsername-close = Close
 configure-stream-title = Configure this Comment Stream
 configure-stream-title-configureThisStream =
   Configure this Stream
-configure-stream-apply = Apply
+configure-stream-apply =
+configure-stream-update = Update
 
 configure-premod-title = Enable Pre-Moderation
 configure-premod-description =
