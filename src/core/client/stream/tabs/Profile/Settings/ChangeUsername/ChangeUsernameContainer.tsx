@@ -28,7 +28,6 @@ import {
 import CLASSES from "coral-stream/classes";
 import { ShowEditUsernameDialogEvent } from "coral-stream/events";
 import {
-  Flex,
   FormField,
   HorizontalGutter,
   Icon,
@@ -207,16 +206,14 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             color="positive"
             onClose={closeSuccessMessage}
             className={cn(CLASSES.myUsername.form.successCallOut)}
-          >
-            <Flex justifyContent="flex-start" alignItems="center">
-              <Icon size="sm" className={styles.successIcon}>
-                check_circle
-              </Icon>
+            icon={<Icon size="sm">check_circle</Icon>}
+            titleWeight="semiBold"
+            title={
               <Localized id="profile-changeUsername-success">
                 <span>Your username has been successfully updated</span>
               </Localized>
-            </Flex>
-          </CallOut>
+            }
+          />
         </div>
       )}
       {!canChangeUsername && !showSuccessMessage && (
@@ -340,9 +337,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                       <CallOut
                         color="negative"
                         className={CLASSES.myUsername.form.errorMessage}
-                      >
-                        {submitError}
-                      </CallOut>
+                        icon={<Icon size="sm">error</Icon>}
+                        titleWeight="semiBold"
+                        title={submitError}
+                      />
                     )}
                   </HorizontalGutter>
                   <div

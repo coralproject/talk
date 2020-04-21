@@ -12,7 +12,6 @@ import CLASSES from "coral-stream/classes";
 import {
   CheckBox,
   FieldSet,
-  Flex,
   FormField,
   HorizontalGutter,
   HorizontalRule,
@@ -226,28 +225,28 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 (submitSucceeded && showSuccess)) && (
                 <div className={styles.callOut}>
                   {submitError && showError && (
-                    <CallOut color="negative" onClose={closeError}>
-                      <Flex justifyContent="flex-start" alignItems="center">
-                        <Icon size="sm" className={styles.errorIcon}>
-                          warning
-                        </Icon>
-                        <span>{submitError}</span>
-                      </Flex>
-                    </CallOut>
+                    <CallOut
+                      color="negative"
+                      onClose={closeError}
+                      icon={<Icon size="sm">warning</Icon>}
+                      titleWeight="semiBold"
+                      title={<span>{submitError}</span>}
+                    />
                   )}
                   {submitSucceeded && showSuccess && (
-                    <CallOut color="positive" onClose={closeSuccess}>
-                      <Flex justifyContent="flex-start" alignItems="center">
-                        <Icon size="sm" className={styles.successIcon}>
-                          check_circle
-                        </Icon>
+                    <CallOut
+                      color="positive"
+                      onClose={closeSuccess}
+                      icon={<Icon size="sm">check_circle</Icon>}
+                      titleWeight="semiBold"
+                      title={
                         <Localized id="profile-account-notifications-updated">
                           <span>
                             Your notification settings have been updated
                           </span>
                         </Localized>
-                      </Flex>
-                    </CallOut>
+                      }
+                    />
                   )}
                 </div>
               )}

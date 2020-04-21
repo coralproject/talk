@@ -118,16 +118,14 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
             color="positive"
             onClose={onCloseSuccess}
             className={CLASSES.myPassword.form.successMessage}
-          >
-            <Flex justifyContent="flex-start" alignItems="center">
-              <Icon size="sm" className={styles.successIcon}>
-                check_circle
-              </Icon>
+            icon={<Icon size="sm">check_circle</Icon>}
+            titleWeight="semiBold"
+            title={
               <Localized id="profile-account-changePassword-updated">
                 <span>Your password has been updated</span>
               </Localized>
-            </Flex>
-          </CallOut>
+            }
+          />
         </div>
       )}
       {showForm && (
@@ -211,9 +209,10 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       <CallOut
                         color="negative"
                         className={CLASSES.myPassword.form.errorMessage}
-                      >
-                        {submitError}
-                      </CallOut>
+                        icon={<Icon size="sm">error</Icon>}
+                        titleWeight="semiBold"
+                        title={submitError}
+                      />
                     )}
                     <div
                       className={cn(

@@ -28,6 +28,7 @@ const PostCommentFormClosed: FunctionComponent<Props> = (props) => (
       color="mono"
       icon={<Icon size="sm">feedback</Icon>}
       className={cn(CLASSES.createComment.closed)}
+      titleWeight="semiBold"
       title={<Markdown>{props.message}</Markdown>}
     />
   </div>
