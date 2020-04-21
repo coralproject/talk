@@ -56,7 +56,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   );
 
   const merged = [
-    ...viewer.ignoredUsers.map(user => {
+    ...viewer.ignoredUsers.map((user) => {
       return { id: user.id, name: user.username, removed: false };
     }),
     ...removed,
@@ -120,7 +120,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
           spacing={1}
           className={cn(styles.list, CLASSES.ignoredCommenters.list)}
         >
-          {userList.map(user =>
+          {userList.map((user) =>
             user.removed ? (
               <div className={styles.removed} key={user.id}>
                 <Localized id="profile-account-ignoredCommenters-youAreNoLonger">

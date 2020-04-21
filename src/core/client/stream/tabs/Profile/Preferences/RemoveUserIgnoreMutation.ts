@@ -6,13 +6,13 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
-  MutationInput
+  MutationInput,
 } from "coral-framework/lib/relay";
 import { RemoveUserIgnoreEvent } from "coral-stream/events";
 
 import {
   RemoveUserIgnoreInput,
-  RemoveUserIgnoreMutation as MutationTypes
+  RemoveUserIgnoreMutation as MutationTypes,
 } from "coral-stream/__generated__/RemoveUserIgnoreMutation.graphql";
 
 let clientMutationId = 0;
@@ -27,7 +27,7 @@ const sharedUpdater = (
   const removeIgnoredUserRecords = viewerProxy.getLinkedRecords("ignoredUsers");
   if (removeIgnoredUserRecords) {
     viewerProxy.setLinkedRecords(
-      removeIgnoredUserRecords.filter(r => r!.getValue("id") !== input.userID),
+      removeIgnoredUserRecords.filter((r) => r.getValue("id") !== input.userID),
       "ignoredUsers"
     );
   }
@@ -41,7 +41,7 @@ const RemoveUserIgnoreMutation = createMutation(
     { eventEmitter }: CoralContext
   ) => {
     const removeUserIgnore = RemoveUserIgnoreEvent.begin(eventEmitter, {
-      userID: input.userID
+      userID: input.userID,
     });
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
@@ -57,15 +57,15 @@ const RemoveUserIgnoreMutation = createMutation(
           variables: {
             input: {
               ...input,
-              clientMutationId: (clientMutationId++).toString()
-            }
+              clientMutationId: (clientMutationId++).toString(),
+            },
           },
-          optimisticUpdater: store => {
+          optimisticUpdater: (store) => {
             sharedUpdater(store, environment, input);
           },
-          updater: store => {
+          updater: (store) => {
             sharedUpdater(store, environment, input);
-          }
+          },
         }
       );
       removeUserIgnore.success();

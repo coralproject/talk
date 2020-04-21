@@ -191,10 +191,9 @@ it("render ignored users list", async () => {
   within(ignoredCommenters).getByText(commenters[0].username!);
   within(ignoredCommenters).getByText(commenters[1].username!);
 
-  const stopIgnoreButtons = within(ignoredCommenters).getAllByText(
-    "Stop ignoring",
-    { selector: "button" }
-  );
+  const stopIgnoreButtons = within(
+    ignoredCommenters
+  ).getAllByText("Stop ignoring", { selector: "button" });
 
   // Stop ignoring first users.
   await act(async () => {

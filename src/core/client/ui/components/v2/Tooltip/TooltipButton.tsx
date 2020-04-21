@@ -30,11 +30,11 @@ const TooltipButton: FunctionComponent<Props> = ({
   forwardRef,
   activeColor = "primary",
   ariaLabel,
-  title
+  title,
 }) => (
   <BaseButton
     className={cn(classes ? classes.button : styles.button, className)}
-    onClick={evt => {
+    onClick={(evt) => {
       evt.stopPropagation();
       toggleVisibility();
     }}

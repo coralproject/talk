@@ -84,9 +84,7 @@ it("post a reply", async () => {
 
   // Open reply form.
   act(() =>
-    within(deepestReply)
-      .getByTestID("comment-reply-button")
-      .props.onClick()
+    within(deepestReply).getByTestID("comment-reply-button").props.onClick()
   );
 
   const form = await waitForElement(() =>

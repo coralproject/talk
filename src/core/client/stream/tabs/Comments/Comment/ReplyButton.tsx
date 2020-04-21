@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const ReplyButton: FunctionComponent<Props> = props => (
+const ReplyButton: FunctionComponent<Props> = (props) => (
   <Localized id="comments-replyButton" attrs={{ "aria-label": true }}>
     <Button
       className={props.className}
