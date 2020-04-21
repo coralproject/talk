@@ -12,7 +12,7 @@ const fetch = createFetch({ name: "perspective" });
  * Language is the language key that is supported by the Perspective API in the
  * ISO 631-1 format.
  */
-type PerspectiveLanguage = "en" | "es" | "fr" | "de";
+type PerspectiveLanguage = "en" | "es" | "fr" | "de" | "pt";
 
 /**
  * convertLanguage returns the language code for the related Perspective API
@@ -26,8 +26,12 @@ function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
       return "en";
     case "es":
       return "es";
+    case "fr-FR":
+      return "fr";
     case "de":
       return "de";
+    case "pt-BR":
+      return "pt";
     default:
       return "en";
   }
