@@ -1,12 +1,25 @@
 .base {
   border-radius: var(--v2-round-corners);
-
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
 }
 
 .upperCase {
   text-transform: uppercase;
+}
+
+.fontFamilyPrimary {
+  font-family: var(--v2-font-family-primary);
+}
+
+.fontWeightPrimaryBold {
+  font-weight: var(--v2-font-weight-primary-bold);
+}
+
+.fontWeightPrimarySemiBold {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
+.fontWeightPrimaryRegular {
+  font-weight: var(--v2-font-weight-primary-regular);
 }
 
 .textSizeExtraSmall {

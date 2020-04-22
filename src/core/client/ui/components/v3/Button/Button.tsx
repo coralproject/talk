@@ -17,6 +17,8 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
   className?: string;
 
+  fontFamily?: "primary" | "secondary" | "none";
+  fontWeight?: "regular" | "semiBold" | "bold" | "none";
   textSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   marginSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   color?: "primary" | "secondary" | "positive" | "negative" | "none";
@@ -36,6 +38,8 @@ export class Button extends React.Component<Props> {
       variant = "filled",
       color = "primary",
       textSize = "small",
+      fontFamily = "primary",
+      fontWeight = "bold",
       marginSize = "small",
       children,
       disabled = false,
@@ -57,6 +61,13 @@ export class Button extends React.Component<Props> {
         [classes.textSizeSmall]: textSize === "small",
         [classes.textSizeMedium]: textSize === "medium",
         [classes.textSizeLarge]: textSize === "large",
+        [classes.fontFamilyPrimary]: fontFamily === "primary",
+        [classes.fontWeightPrimaryRegular]:
+          fontFamily === "primary" && fontWeight === "regular",
+        [classes.fontWeightPrimarySemiBold]:
+          fontFamily === "primary" && fontWeight === "semiBold",
+        [classes.fontWeightPrimaryBold]:
+          fontFamily === "primary" && fontWeight === "bold",
         [classes.marginSizeExtraSmall]: marginSize === "extraSmall",
         [classes.marginSizeSmall]: marginSize === "small",
         [classes.marginSizeMedium]: marginSize === "medium",

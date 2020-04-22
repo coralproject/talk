@@ -543,12 +543,16 @@ configure-enableQA-description =
   The Q&A format allows community members to submit questions for chosen
   experts to answer.
 configure-enableQA-enableQA = Switch to Q&A
+configure-enableQA-streamIsNowComments =
+  This stream is now in comments format
 
 configure-disableQA-title = Configure this Q&A
 configure-disableQA-description =
   The Q&A format allows community members to submit questions for chosen
   experts to answer.
 configure-disableQA-disableQA = Switch to Comments
+configure-disableQA-streamIsNowQA =
+  This stream is now in Q&A format
 
 configure-experts-title = Add an Expert
 configure-experts-filter-searchField =
@@ -561,11 +565,13 @@ configure-experts-filter-description =
   page. New users must first sign up and open the comments on a page
   to create their account.
 configure-experts-search-none-found = No users were found with that email or username
+configure-experts-
 configure-experts-remove-button = Remove
 configure-experts-load-more = Load More
 configure-experts-none-yet = There are currently no experts for this Q&A.
+configure-experts-search-title = Search for an expert
 configure-experts-assigned-title = Experts
-
+configure-experts-noLongerAnExpert = is no longer an expert
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
