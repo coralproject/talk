@@ -30,6 +30,7 @@ import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import WebhookEndpointsLayout from "./routes/Configure/sections/WebhookEndpoints/WebhookEndpointsLayout";
 import DashboardRoute from "./routes/Dashboard";
+import SiteDashboardRoute from "./routes/Dashboard/SiteDashboardRoute";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
 import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
@@ -113,6 +114,7 @@ export default makeRouteConfig(
         </Route>
         <Route path="stories" {...StoriesRoute.routeConfig} />
         <Route path="dashboard" {...DashboardRoute.routeConfig} />
+        <Route path="dashboard/:siteID" {...SiteDashboardRoute.routeConfig} />
         <Route path="community" {...CommunityRoute.routeConfig} />
         <Route
           {...createAuthCheckRoute({

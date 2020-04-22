@@ -3,7 +3,6 @@ import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
 import { graphQLHandler } from "coral-server/app/handlers";
-import { attachSite } from "coral-server/app/middleware/attachSite";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
@@ -33,7 +32,7 @@ export interface RouterOptions {
 
 export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
-  const router = express.Router();
+  const router = express.Router({ mergeParams: true });
 
   // Installation router.
   router.use("/install", createNewInstallRouter(app));
@@ -71,7 +70,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
       GQLUSER_ROLE.STAFF,
       GQLUSER_ROLE.MODERATOR,
     ]),
-    attachSite(app),
     jsonMiddleware,
     createDashboardRouter(app)
   );
@@ -85,7 +83,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
       GQLUSER_ROLE.STAFF,
       GQLUSER_ROLE.MODERATOR,
     ]),
-    attachSite(app),
     jsonMiddleware,
     createDashboardRouter(app)
   );

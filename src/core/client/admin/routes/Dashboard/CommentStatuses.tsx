@@ -1,12 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
+  Cell,
   Legend,
   Pie,
   PieChart,
-  Tooltip,
-  Cell,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { Environment } from "relay-runtime";
 
@@ -14,8 +14,6 @@ import { CommentStatusesJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 
 import styles from "./CommentStatuses.css";
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const COLOR_MAP = {
   public: "#268742",
@@ -30,18 +28,26 @@ interface PieValue {
 
 const CommentStatusesFetch = createFetch(
   "CommentStatusesFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<CommentStatusesJSON>("/dashboard/comment-statuses", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }comment-statuses`;
+    return rest.fetch<CommentStatusesJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
-const CommentStatuses: FunctionComponent = () => {
+interface Props {
+  siteID?: string;
+}
+
+const CommentStatuses: FunctionComponent<Props> = ({ siteID }) => {
   const commentStatusesFetch = useFetch(CommentStatusesFetch);
   const [commentStatuses, setCommentStatuses] = useState<PieValue[]>([]);
   useEffect(() => {
     async function getTotals() {
-      const commentStatusesResp = await commentStatusesFetch(null);
+      const commentStatusesResp = await commentStatusesFetch({ siteID });
       const json: PieValue[] = Object.keys(
         commentStatusesResp.commentStatuses
       ).map((key: keyof CommentStatusesJSON["commentStatuses"]) => {

@@ -12,20 +12,26 @@ import TopStories from "./TopStories";
 import styles from "./Dashboard.css";
 
 interface Props {
-  multisite: boolean;
   ssoRegistrationEnabled: boolean;
+  siteID?: string;
 }
 
 const Dashboard: FunctionComponent<Props> = props => (
   <MainLayout data-testid="dashboard-container">
     <div className={styles.root}>
       <Flex justifyContent="space-between">
-        <TodayTotals ssoRegistrationEnabled={props.ssoRegistrationEnabled} />
-        <CommentStatuses />
+        <TodayTotals
+          ssoRegistrationEnabled={props.ssoRegistrationEnabled}
+          siteID={props.siteID}
+        />
+        <CommentStatuses siteID={props.siteID} />
       </Flex>
-      <TopStories />
-      <CommentActivity />
-      <NewCommenterActivity />
+      <TopStories siteID={props.siteID} />
+      <CommentActivity siteID={props.siteID} />
+
+      {!props.ssoRegistrationEnabled && (
+        <NewCommenterActivity siteID={props.siteID} />
+      )}
     </div>
   </MainLayout>
 );

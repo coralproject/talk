@@ -8,6 +8,7 @@ import {
   hourlyCommentsStatsHandler,
   topCommentedStoriesStatsHandler,
 } from "coral-server/app/handlers/api/dashboard";
+import { attachSite } from "coral-server/app/middleware/attachSite";
 
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { RequestHandler } from "coral-server/types/express";
@@ -38,12 +39,24 @@ export function createDashboardRouter(app: AppOptions) {
     router.use(requestLimiter(app));
   }
 
-  router.get("/daily/comments", dailyCommentStatsHandler(app));
-  router.get("/hourly/comments", hourlyCommentsStatsHandler(app));
-  router.get("/daily/new-signups", dailySignupsHandler(app));
-  router.get("/weekly/new-signups", dailySignupsForWeekHandler(app));
-  router.get("/daily/top-stories", topCommentedStoriesStatsHandler(app));
-  router.get("/comment-statuses", commentStatuses);
+  router.get("/daily/comments", attachSite(app), dailyCommentStatsHandler(app));
+  router.get(
+    "/hourly/comments",
+    attachSite(app),
+    hourlyCommentsStatsHandler(app)
+  );
+  router.get("/daily/new-signups", attachSite(app), dailySignupsHandler(app));
+  router.get(
+    "/weekly/new-signups",
+    attachSite(app),
+    dailySignupsForWeekHandler(app)
+  );
+  router.get(
+    "/daily/top-stories",
+    attachSite(app),
+    topCommentedStoriesStatsHandler(app)
+  );
+  router.get("/comment-statuses", attachSite(app), commentStatuses);
 
   return router;
 }

@@ -13,22 +13,31 @@ import styles from "./TodayTotals.css";
 
 const TodayTotalsFetch = createFetch(
   "todayTotalsFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<DailyCommentsJSON>("/dashboard/daily/comments", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }/daily/comments`;
+    return rest.fetch<DailyCommentsJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
 const TodayNewCommentersFetch = createFetch(
   "newCommentersFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<DailySignupsJSON>("/dashboard/daily/new-signups", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }daily/new-signups`;
+    return rest.fetch<DailySignupsJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
 interface Props {
   ssoRegistrationEnabled: boolean;
+  siteID?: string;
 }
 
 const TodayTotals: FunctionComponent<Props> = props => {
@@ -41,11 +50,13 @@ const TodayTotals: FunctionComponent<Props> = props => {
   const [newCommenters, setNewCommenters] = useState<number | null>(null);
   useEffect(() => {
     async function getTotals() {
-      const todayTotals = await todayTotalsFetch(null);
+      const todayTotals = await todayTotalsFetch({ siteID: props.siteID });
       setTotalComments(todayTotals.comments.count);
       setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
       if (!props.ssoRegistrationEnabled) {
-        const newCommenterResp = await newComentersFetch(null);
+        const newCommenterResp = await newComentersFetch({
+          siteID: props.siteID,
+        });
         setNewCommenters(newCommenterResp.signups.count);
       }
     }

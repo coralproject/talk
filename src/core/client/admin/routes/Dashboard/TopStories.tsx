@@ -16,20 +16,28 @@ import styles from "./TopStories.css";
 
 const TopStoriesFetch = createFetch(
   "TopStoriesFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<DailyTopStoriesJSON>("/dashboard/daily/top-stories", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }daily/top-stories`;
+    return rest.fetch<DailyTopStoriesJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
-const TopStories: FunctionComponent = () => {
+interface Props {
+  siteID?: string;
+}
+
+const TopStories: FunctionComponent<Props> = ({ siteID }) => {
   const topStoriesFetch = useFetch(TopStoriesFetch);
   const [topStories, setTopStories] = useState<
     DailyTopStoriesJSON["topStories"] | null
   >(null);
   useEffect(() => {
     async function getTotals() {
-      const resp = await topStoriesFetch(null);
+      const resp = await topStoriesFetch({ siteID });
       setTopStories(resp.topStories);
     }
     getTotals();

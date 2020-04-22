@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
 import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
@@ -9,17 +9,22 @@ import { useUIContext } from "coral-ui/components";
 
 import styles from "./CommentActivity.css";
 
-import { CHART_COLOR_PRIMARY, CHART_COLOR_SECONDARY } from "./ChartColors";
+import { CHART_COLOR_SECONDARY } from "./ChartColors";
 
 interface Props {
   locales?: string[];
+  siteID?: string;
 }
 const CommentActivityFetch = createFetch(
   "commentActivityFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<HourlyCommentsJSON>("/dashboard/hourly/comments", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }hourly/comments`;
+    return rest.fetch<HourlyCommentsJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
 interface CommentsByHour {
@@ -30,6 +35,7 @@ interface CommentsByHour {
 
 const CommentActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
+  siteID,
 }) => {
   const commentActivityFetch = useFetch(CommentActivityFetch);
   const [commentActivity, setCommentActivity] = useState<CommentsByHour[]>([]);
@@ -37,7 +43,7 @@ const CommentActivity: FunctionComponent<Props> = ({
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const commentActivityResp = await commentActivityFetch(null);
+      const commentActivityResp = await commentActivityFetch({ siteID });
       const json = commentActivityResp.comments.map(comment => {
         return {
           count: comment.count,

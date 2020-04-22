@@ -8,12 +8,13 @@ import Dashboard from "./Dashboard";
 
 interface Props {
   settings: DashboardContainer_settings;
+  siteID?: string;
 }
 
-const DashboardContainer: FunctionComponent<Props> = ({ settings }) => {
+const DashboardContainer: FunctionComponent<Props> = ({ settings, siteID }) => {
   return (
     <Dashboard
-      multisite={settings.multisite}
+      siteID={siteID}
       ssoRegistrationEnabled={
         settings.auth.integrations.sso.enabled &&
         settings.auth.integrations.sso.allowRegistration

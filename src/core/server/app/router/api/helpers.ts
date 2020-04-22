@@ -7,7 +7,7 @@ interface Options {
 }
 
 export function createAPIRouter({ cache = false }: Options = {}) {
-  const router = express.Router();
+  const router = express.Router({ mergeParams: true });
 
   // Add the cache headers middleware.
   router.use(cacheHeadersMiddleware(cache));

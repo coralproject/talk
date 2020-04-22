@@ -123,7 +123,7 @@ async function retrieveConnection(
 
 export async function countTenantSites(mongo: Db, tenantID: string) {
   return collection(mongo)
-    .find({})
+    .find({ tenantID })
     .count();
 }
 

@@ -13,13 +13,18 @@ import styles from "./NewCommenterActivity.css";
 
 interface Props {
   locales?: string[];
+  siteID?: string;
 }
 const CommenterActivityFetch = createFetch(
   "commenterActivityFetch",
-  async (environment: Environment, variables: any, { rest }) =>
-    await rest.fetch<HourlyNewCommentersJSON>("/dashboard/weekly/new-signups", {
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }weekly/new-signups`;
+    return rest.fetch<HourlyNewCommentersJSON>(url, {
       method: "GET",
-    })
+    });
+  }
 );
 
 interface NewCommentersByHour {
@@ -29,6 +34,7 @@ interface NewCommentersByHour {
 
 const CommenterActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
+  siteID,
 }) => {
   const commenterActivityFetch = useFetch(CommenterActivityFetch);
   const [commenterActivity, setCommenterActivity] = useState<
@@ -38,7 +44,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const commenterActivityResp = await commenterActivityFetch(null);
+      const commenterActivityResp = await commenterActivityFetch({ siteID });
       const json = commenterActivityResp.signups.map(({ date, count }) => {
         return {
           timestamp: new Date(date).getTime(),
@@ -52,7 +58,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
   return (
     <div>
       <Localized id="dashboard-commenters-activity-heading">
-        <h3 className={styles.heading}>New Commenters Activity</h3>
+        <h3 className={styles.heading}>New Signups</h3>
       </Localized>
       <BarChart
         className={styles.chart}
