@@ -169,6 +169,7 @@ export const dailySignupsForWeekHandler = ({
     try {
       const signups = await retrieveDailySignupsForWeek(
         mongo,
+        redis,
         tenant,
         coral.now
       );

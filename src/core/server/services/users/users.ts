@@ -1,4 +1,4 @@
-import { intersection } from "lodash";
+import { flatten, intersection } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -1379,8 +1379,13 @@ export async function retrieveDailySignups(
   return countUsersForCreationDate(mongo, tenant.id, today, null, now);
 }
 
+function dailySignupsKey(tenantID: string) {
+  return `dailySignups:${tenantID}`;
+}
+
 export async function retrieveDailySignupsForWeek(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   now: Date
 ) {
@@ -1390,25 +1395,51 @@ export async function retrieveDailySignupsForWeek(
   ) {
     throw new Error("can't count users");
   }
+
   const weekAgo = DateTime.fromJSDate(now).minus({ days: 7 });
+
+  // create array of last 7 days as yyyy-mm-dd strings
+  const stamps = [];
+  for (let i = 0; i < 7; i++) {
+    const stamp = weekAgo.plus({ days: i });
+    stamps.push(stamp.toFormat("yyyy-MM-dd"));
+  }
+  const ydayKey = stamps[-1];
+  const hashKey = dailySignupsKey(tenant.id);
+
+  const cachedValues = await redis.hgetall(hashKey);
+
+  // if the has exists and there is an entry for yesterday, return the values
+  if (cachedValues && cachedValues[ydayKey]) {
+    return Object.keys(cachedValues).map(key => ({
+      date: DateTime.fromString(key, "yyyy-MM-dd").toJSDate(),
+      count: parseInt(key, 10),
+    }));
+  }
+
+  // if there are no cached values or there is no value for yesterday, recalculate and cache
+  await redis.del(hashKey);
   const daysWithSignups = await countUsersByCreationDate(
     mongo,
     tenant.id,
     weekAgo.toJSDate(),
     now
   );
+  // ensure there are array entries for each day even if no count was found for that day
+  const output = stamps.map(stamp => {
+    const signups = daysWithSignups.find(({ _id }) => _id === stamp);
 
-  const output = [];
-
-  for (let i = 0; i < 7; i++) {
-    const stamp = weekAgo.plus({ days: i });
-    const signups = daysWithSignups.find(day => {
-      return day._id === stamp.toFormat("yyyy-MM-dd");
-    });
-    output.push({
-      date: stamp.toJSDate(),
+    return {
+      date: DateTime.fromString(stamp, "yyyy-MM-dd").toJSDate(),
+      dateString: stamp,
       count: signups ? signups.count : 0,
-    });
-  }
-  return output;
+    };
+  });
+
+  // cache counts as hash of datestrings with count values
+  await redis.hmset(
+    dailySignupsKey(tenant.id),
+    flatten(output.map(day => [day.dateString, day.count]))
+  );
+  return output.map(({ date, count }) => ({ date, count }));
 }

@@ -707,7 +707,10 @@ export async function countUsersByCreationDate(
   now: Date
 ) {
   // should we filter by profile type?
-  const cursor = collection(mongo).aggregate([
+  const cursor = collection<{
+    _id: string;
+    count: number;
+  }>(mongo).aggregate([
     {
       $match: {
         tenantID,
@@ -724,8 +727,6 @@ export async function countUsersByCreationDate(
     },
   ]);
   const docs = await cursor.toArray();
-  /* eslint-disable-next-line */
-  console.log(docs);
   return docs;
 }
 
