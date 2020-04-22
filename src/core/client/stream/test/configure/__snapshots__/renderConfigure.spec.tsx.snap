@@ -10,304 +10,32 @@ exports[`renders configure 1`] = `
 >
   <div>
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root Flex-root coral coral-viewerBox"
     >
       <div
-        className="Box-root Flex-root coral coral-viewerBox"
+        className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
         >
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
+          Signed in as 
+          <span
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
           >
-            Signed in as 
-            <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
-            >
-              Moderator
-            </span>
-            .
-          </div>
-          <div
-            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText Flex-flex"
-          >
-            <span>
-              Not you? 
-            </span>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
-              data-color="primary"
-              data-variant="regular"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary"
-        >
-          <a
-            className="ExternalLink-root"
-            href="/admin/moderate/stories/story-1"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Moderate this stream
-          </a>
-        </h1>
-      </div>
-      <hr
-        className="HorizontalRule-root"
-      />
-      <form
-        autoComplete="off"
-        className="coral coral-configureCommentStream"
-        id="configure-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="ConfigureStream-heading"
-        >
-          Configure this Stream
+            Moderator
+          </span>
+          .
         </div>
         <div
-          className="ConfigureStream-liveUpdates"
+          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText Flex-flex"
         >
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue"
-            >
-              <input
-                checked={true}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="live.enabled"
-                name="live.enabled"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={true}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="live.enabled"
-              >
-                <span
-                  className="CheckBox-labelSpan"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Enable Live Updates for this Story
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                When enabled, the comments will be updated instantly
-as new comments and replies are submitted, instead of
-requiring a page refresh. You can disable this in the
-unusual situation of an article getting so much traffic that the comments are loading slowly.
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue"
-            >
-              <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="moderation"
-                name="moderation"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={false}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="moderation"
-              >
-                <span
-                  className="CheckBox-labelSpan"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Enable Pre-Moderation
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                Moderators must approve any comment before it is published to this story.
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue"
-            >
-              <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="premodLinksEnable"
-                name="premodLinksEnable"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={false}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="premodLinksEnable"
-              >
-                <span
-                  className="CheckBox-labelSpan"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Pre-Moderate Comments Containing Links
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                Moderators must approve any comment that contains a link before it is published to this story.
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue coral coral-configureMessageBox"
-            >
-              <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="messageBox.enabled"
-                name="messageBox.enabled"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={false}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="messageBox.enabled"
-              >
-                <span
-                  className="CheckBox-labelSpan"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Enable Message Box for this Story
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-              >
-                <div
-                  className="WidthLimitedDescription-root"
-                >
-                  Add a message to the top of the comment box for your readers.
-Use this to suggest a discussion topic, ask a question or make
-announcements relating to the comments on this story.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-marginSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
-          data-testid="configure-stream-apply"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Update
-        </button>
-        <div
-          className="ConfigureStream-footer"
-        />
-      </form>
-      <hr
-        className="HorizontalRule-root"
-      />
-      <div
-        className="coral coral-closeCommentStream"
-      >
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary CloseStream-heading"
-        >
-          Close Comment Stream
-        </h1>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart gutter"
-        >
-          <p
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            This comment stream is currently open. By closing this comment stream,
-no new comments may be submitted and all previously submitted comments
-will still be displayed.
-          </p>
+          <span>
+            Not you? 
+          </span>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorError Button-variantOutlined CloseStream-button coral coral-closeCommentStream-closeButton"
-            data-color="error"
-            data-variant="outlined"
-            disabled={false}
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+            data-color="primary"
+            data-variant="regular"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -316,9 +44,277 @@ will still be displayed.
             onTouchEnd={[Function]}
             type="button"
           >
-            Close Stream
+            Sign Out
           </button>
         </div>
+      </div>
+    </div>
+    <div>
+      <h1
+        className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary"
+      >
+        <a
+          className="ExternalLink-root"
+          href="/admin/moderate/stories/story-1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Moderate this stream
+        </a>
+      </h1>
+    </div>
+    <hr
+      className="HorizontalRule-root"
+    />
+    <form
+      autoComplete="off"
+      className="coral coral-configureCommentStream"
+      id="configure-form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="ConfigureStream-heading"
+      >
+        Configure this Stream
+      </div>
+      <div
+        className="ConfigureStream-liveUpdates"
+      >
+        <div>
+          <div
+            className="CheckBox-root CheckBox-streamBlue"
+          >
+            <input
+              checked={true}
+              className="CheckBox-input CheckBox-streamBlue"
+              disabled={false}
+              id="live.enabled"
+              name="live.enabled"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+              value={true}
+            />
+            <label
+              className="CheckBox-label CheckBox-streamBlue"
+              htmlFor="live.enabled"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <div
+                  className="ToggleConfig-title"
+                >
+                  <span>
+                    Enable Live Updates for this Story
+                  </span>
+                </div>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <div
+              className="WidthLimitedDescription-root"
+            >
+              When enabled, the comments will be updated instantly
+as new comments and replies are submitted, instead of
+requiring a page refresh. You can disable this in the
+unusual situation of an article getting so much traffic that the comments are loading slowly.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className="CheckBox-root CheckBox-streamBlue"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input CheckBox-streamBlue"
+              disabled={false}
+              id="moderation"
+              name="moderation"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+              value={false}
+            />
+            <label
+              className="CheckBox-label CheckBox-streamBlue"
+              htmlFor="moderation"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <div
+                  className="ToggleConfig-title"
+                >
+                  <span>
+                    Enable Pre-Moderation
+                  </span>
+                </div>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <div
+              className="WidthLimitedDescription-root"
+            >
+              Moderators must approve any comment before it is published to this story.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className="CheckBox-root CheckBox-streamBlue"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input CheckBox-streamBlue"
+              disabled={false}
+              id="premodLinksEnable"
+              name="premodLinksEnable"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+              value={false}
+            />
+            <label
+              className="CheckBox-label CheckBox-streamBlue"
+              htmlFor="premodLinksEnable"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <div
+                  className="ToggleConfig-title"
+                >
+                  <span>
+                    Pre-Moderate Comments Containing Links
+                  </span>
+                </div>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <div
+              className="WidthLimitedDescription-root"
+            >
+              Moderators must approve any comment that contains a link before it is published to this story.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className="CheckBox-root CheckBox-streamBlue coral coral-configureMessageBox"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input CheckBox-streamBlue"
+              disabled={false}
+              id="messageBox.enabled"
+              name="messageBox.enabled"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+              value={false}
+            />
+            <label
+              className="CheckBox-label CheckBox-streamBlue"
+              htmlFor="messageBox.enabled"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <div
+                  className="ToggleConfig-title"
+                >
+                  <span>
+                    Enable Message Box for this Story
+                  </span>
+                </div>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            >
+              <div
+                className="WidthLimitedDescription-root"
+              >
+                Add a message to the top of the comment box for your readers.
+Use this to suggest a discussion topic, ask a question or make
+announcements relating to the comments on this story.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
+        data-testid="configure-stream-apply"
+        disabled={true}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Update
+      </button>
+      <div
+        className="ConfigureStream-footer"
+      />
+    </form>
+    <hr
+      className="HorizontalRule-root"
+    />
+    <div
+      className="coral coral-closeCommentStream"
+    >
+      <h1
+        className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary CloseStream-heading"
+      >
+        Close Comment Stream
+      </h1>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart gutter"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          This comment stream is currently open. By closing this comment stream,
+no new comments may be submitted and all previously submitted comments
+will still be displayed.
+        </p>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorError Button-variantOutlined CloseStream-button coral coral-closeCommentStream-closeButton"
+          data-color="error"
+          data-variant="outlined"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Close Stream
+        </button>
       </div>
     </div>
   </div>

@@ -6,6 +6,7 @@
 
   color: var(--v2-colors-mono-500);
 
+  margin-top: var(--v2-spacing-5);
   margin-bottom: var(--v2-spacing-3);
 }
 

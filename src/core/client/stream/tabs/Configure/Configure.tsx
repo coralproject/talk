@@ -2,10 +2,9 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { HorizontalRule } from "coral-ui/components/v2";
 
 import ConfigureStreamContainer from "./ConfigureStream";
-import HorizontalRule from "./HorizontalRule";
 import ModerateStreamContainer from "./ModerateStreamContainer";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 import { QAConfigContainer } from "./Q&A";
@@ -24,18 +23,13 @@ export interface Props {
 const Configure: FunctionComponent<Props> = (props) => {
   return (
     <div>
-      <HorizontalGutter size="double">
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-        <ModerateStreamContainer
-          settings={props.settings}
-          story={props.story}
-        />
-        <HorizontalRule />
-        <ConfigureStreamContainer story={props.story} />
-        <QAConfigContainer story={props.story} settings={props.settings} />
-        <HorizontalRule />
-        <OpenOrCloseStreamContainer story={props.story} />
-      </HorizontalGutter>
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <ModerateStreamContainer settings={props.settings} story={props.story} />
+      <HorizontalRule />
+      <ConfigureStreamContainer story={props.story} />
+      <QAConfigContainer story={props.story} settings={props.settings} />
+      <HorizontalRule />
+      <OpenOrCloseStreamContainer story={props.story} />
     </div>
   );
 };

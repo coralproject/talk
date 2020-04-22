@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button } from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./ExpertListItem.css";
 
@@ -9,7 +10,11 @@ interface Props {
   id: string;
   username: string | null;
   email: string | null;
-  onClickRemove: (id: string) => void;
+  onClickRemove: (
+    id: string,
+    username: string | null,
+    email: string | null
+  ) => void;
 }
 
 const ExpertListItem: FunctionComponent<Props> = ({
@@ -19,8 +24,8 @@ const ExpertListItem: FunctionComponent<Props> = ({
   onClickRemove,
 }) => {
   const onClick = useCallback(() => {
-    onClickRemove(id);
-  }, [id, onClickRemove]);
+    onClickRemove(id, username, email);
+  }, [id, username, email, onClickRemove]);
 
   return (
     <li key={id} className={styles.root}>
@@ -35,12 +40,20 @@ const ExpertListItem: FunctionComponent<Props> = ({
         )}
       </div>
       <Button
-        variant="outlined"
-        color="error"
+        variant="flat"
+        color="primary"
+        textSize="none"
+        fontWeight="semiBold"
+        marginSize="none"
         onClick={onClick}
         className={styles.removeButton}
       >
-        <Localized id="configure-experts-remove-button">Remove</Localized>
+        <Flex alignItems="center" justifyContent="center">
+          <Icon size="sm" className={styles.removeIcon}>
+            clear
+          </Icon>
+          <Localized id="configure-experts-remove-button">Remove</Localized>
+        </Flex>
       </Button>
     </li>
   );
