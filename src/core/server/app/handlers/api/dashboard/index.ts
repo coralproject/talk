@@ -1,10 +1,11 @@
 import {
+  BansTodayJSON,
+  CommentsHourlyJSON,
   CommentStatusesJSON,
-  DailyBansJSON,
-  DailyCommentsJSON,
-  DailySignupsJSON,
+  CommentsTodayJSON,
   DailyTopStoriesJSON,
-  HourlyCommentsJSON,
+  SignupsDailyJSON,
+  SignupsTodayJSON,
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
@@ -17,15 +18,13 @@ import { retrieveDailyTopCommentedStories } from "coral-server/services/stories"
 import {
   countBanned,
   retrieveDailySignups,
-  retrieveDailySignupsForWeek,
+  retrieveTodaySignups,
 } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
-type StatsOptions = Pick<AppOptions, "redis">;
-
-export const dailyCommentStatsHandler = ({
+export const commentsTodayHandler = ({
   redis,
-}: StatsOptions): RequestHandler => {
+}: Pick<AppOptions, "redis">): RequestHandler => {
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
@@ -45,7 +44,7 @@ export const dailyCommentStatsHandler = ({
         coral.now
       );
 
-      const resp: DailyCommentsJSON = {
+      const resp: CommentsTodayJSON = {
         comments: {
           count: dailyCommentTotal,
           byAuthorRole: {
@@ -63,9 +62,9 @@ export const dailyCommentStatsHandler = ({
   };
 };
 
-export const hourlyCommentsStatsHandler = ({
+export const commentsHourlyHandler = ({
   redis,
-}: StatsOptions): RequestHandler => {
+}: Pick<AppOptions, "redis">): RequestHandler => {
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
@@ -84,7 +83,7 @@ export const hourlyCommentsStatsHandler = ({
         site.id,
         coral.now
       );
-      const json: HourlyCommentsJSON = {
+      const json: CommentsHourlyJSON = {
         comments: [],
       };
       for (const key of Object.keys(hourlyComments)) {
@@ -107,7 +106,7 @@ export const hourlyCommentsStatsHandler = ({
 
 type TopCommentedStatsOptions = Pick<AppOptions, "redis" | "mongo">;
 
-export const topCommentedStoriesStatsHandler = ({
+export const topCommentedStoriesHandler = ({
   redis,
   mongo,
 }: TopCommentedStatsOptions): RequestHandler => {
@@ -136,18 +135,17 @@ export const topCommentedStoriesStatsHandler = ({
   };
 };
 
-export const dailySignupsHandler = ({
-  redis,
+export const signupsTodayHandler = ({
   mongo,
-}: TopCommentedStatsOptions): RequestHandler => {
+}: Pick<AppOptions, "mongo">): RequestHandler => {
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
 
     try {
-      const count = await retrieveDailySignups(mongo, tenant, coral.now);
+      const count = await retrieveTodaySignups(mongo, tenant, coral.now);
 
-      const json: DailySignupsJSON = {
+      const json: SignupsTodayJSON = {
         signups: {
           count,
         },
@@ -160,7 +158,34 @@ export const dailySignupsHandler = ({
   };
 };
 
-export const dailyBansHandler = ({
+export const signupsDailyHandler = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+
+    try {
+      const signups = await retrieveDailySignups(
+        mongo,
+        redis,
+        tenant,
+        coral.now
+      );
+
+      const json: SignupsDailyJSON = {
+        signups,
+      };
+
+      return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const bansTodayHandler = ({
   redis,
   mongo,
 }: TopCommentedStatsOptions): RequestHandler => {
@@ -171,37 +196,10 @@ export const dailyBansHandler = ({
     try {
       const count = await countBanned(mongo, redis, tenant.id, coral.now);
 
-      const json: DailyBansJSON = {
+      const json: BansTodayJSON = {
         banned: {
           count,
         },
-      };
-
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
-
-export const dailySignupsForWeekHandler = ({
-  redis,
-  mongo,
-}: TopCommentedStatsOptions): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-
-    try {
-      const signups = await retrieveDailySignupsForWeek(
-        mongo,
-        redis,
-        tenant,
-        coral.now
-      );
-
-      const json: any = {
-        signups,
       };
 
       return res.json(json);

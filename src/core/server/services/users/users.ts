@@ -1369,7 +1369,7 @@ export async function link(
   return linked;
 }
 
-export async function retrieveDailySignups(
+export async function retrieveTodaySignups(
   mongo: Db,
   tenant: Tenant,
   now: Date
@@ -1394,7 +1394,7 @@ function dailyBansKey(tenantID: string, siteID: string, day: number) {
   return `dailyBans:${tenantID}:${day}`;
 }
 
-export async function retrieveDailySignupsForWeek(
+export async function retrieveDailySignups(
   mongo: Db,
   redis: AugmentedRedis,
   tenant: Tenant,
@@ -1423,7 +1423,9 @@ export async function retrieveDailySignupsForWeek(
   // if the has exists and there is an entry for yesterday, return the values
   if (cachedValues && cachedValues[ydayKey]) {
     return Object.keys(cachedValues).map(key => ({
-      date: DateTime.fromString(key, "yyyy-MM-dd").toJSDate(),
+      date: DateTime.fromString(key, "yyyy-MM-dd")
+        .toJSDate()
+        .toISOString(),
       count: parseInt(key, 10),
     }));
   }
@@ -1441,7 +1443,9 @@ export async function retrieveDailySignupsForWeek(
     const signups = daysWithSignups.find(({ _id }) => _id === stamp);
 
     return {
-      date: DateTime.fromString(stamp, "yyyy-MM-dd").toJSDate(),
+      date: DateTime.fromString(stamp, "yyyy-MM-dd")
+        .toJSDate()
+        .toISOString(),
       dateString: stamp,
       count: signups ? signups.count : 0,
     };

@@ -7,29 +7,27 @@ export interface CommentsCount {
   };
 }
 
-export interface DailyCommentsJSON {
+export interface CommentsTodayJSON {
   comments: CommentsCount;
 }
 
-export interface HourlyCommentsJSON {
+export interface CommentsHourlyJSON {
   comments: (CommentsCount & {
     hour: string;
   })[];
 }
 
-export interface DailySignupsJSON {
+export interface SignupsTodayJSON {
   signups: {
     count: number;
   };
 }
 
-export interface DailySignupsByWeekJSON {
-  signups: [
-    {
-      count: number;
-      date: string;
-    }
-  ];
+export interface SignupsDailyJSON {
+  signups: {
+    count: number;
+    date: string;
+  }[];
 }
 
 export interface DailyNewCommentersJSON {
@@ -68,7 +66,7 @@ export interface CommentStatusesJSON {
   };
 }
 
-export interface DailyBansJSON {
+export interface BansTodayJSON {
   banned: {
     count: number;
   };

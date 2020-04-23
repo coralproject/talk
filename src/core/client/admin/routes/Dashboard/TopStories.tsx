@@ -19,7 +19,7 @@ const TopStoriesFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }daily/top-stories`;
+    }top-stories/today`;
     return rest.fetch<DailyTopStoriesJSON>(url, {
       method: "GET",
     });

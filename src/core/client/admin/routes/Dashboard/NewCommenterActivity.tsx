@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
-import { HourlyNewCommentersJSON } from "coral-common/rest/dashboard/types";
+import { SignupsDailyJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
@@ -20,8 +20,8 @@ const CommenterActivityFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }weekly/new-signups`;
-    return rest.fetch<HourlyNewCommentersJSON>(url, {
+    }signups/daily`;
+    return rest.fetch<SignupsDailyJSON>(url, {
       method: "GET",
     });
   }

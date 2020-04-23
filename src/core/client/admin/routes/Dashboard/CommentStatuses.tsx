@@ -31,7 +31,7 @@ const CommentStatusesFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }comment-statuses`;
+    }community-health`;
     return rest.fetch<CommentStatusesJSON>(url, {
       method: "GET",
     });

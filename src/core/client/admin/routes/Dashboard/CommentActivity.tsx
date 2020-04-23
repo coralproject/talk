@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
-import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
+import { CommentsHourlyJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
@@ -20,8 +20,8 @@ const CommentActivityFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }hourly/comments`;
-    return rest.fetch<HourlyCommentsJSON>(url, {
+    }comments/hourly`;
+    return rest.fetch<CommentsHourlyJSON>(url, {
       method: "GET",
     });
   }

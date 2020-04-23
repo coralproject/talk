@@ -1,13 +1,13 @@
 import { AppOptions } from "coral-server/app";
 
 import {
+  bansTodayHandler,
+  commentsHourlyHandler,
   commentStatuses,
-  dailyBansHandler,
-  dailyCommentStatsHandler,
-  dailySignupsForWeekHandler,
-  dailySignupsHandler,
-  hourlyCommentsStatsHandler,
-  topCommentedStoriesStatsHandler,
+  commentsTodayHandler,
+  signupsDailyHandler,
+  signupsTodayHandler,
+  topCommentedStoriesHandler,
 } from "coral-server/app/handlers/api/dashboard";
 import { attachSite } from "coral-server/app/middleware/attachSite";
 
@@ -40,25 +40,17 @@ export function createDashboardRouter(app: AppOptions) {
     router.use(requestLimiter(app));
   }
 
-  router.get("/daily/comments", attachSite(app), dailyCommentStatsHandler(app));
-  router.get("/daily/bans", attachSite(app), dailyBansHandler(app));
+  router.get("/comments/today", attachSite(app), commentsTodayHandler(app));
+  router.get("/comments/hourly", attachSite(app), commentsHourlyHandler(app));
+  router.get("/bans/today", attachSite(app), bansTodayHandler(app));
+  router.get("/signups/today", attachSite(app), signupsTodayHandler(app));
+  router.get("/signups/daily", attachSite(app), signupsDailyHandler(app));
   router.get(
-    "/hourly/comments",
+    "/top-stories/today",
     attachSite(app),
-    hourlyCommentsStatsHandler(app)
+    topCommentedStoriesHandler(app)
   );
-  router.get("/daily/new-signups", attachSite(app), dailySignupsHandler(app));
-  router.get(
-    "/weekly/new-signups",
-    attachSite(app),
-    dailySignupsForWeekHandler(app)
-  );
-  router.get(
-    "/daily/top-stories",
-    attachSite(app),
-    topCommentedStoriesStatsHandler(app)
-  );
-  router.get("/comment-statuses", attachSite(app), commentStatuses);
+  router.get("/community-health", attachSite(app), commentStatuses);
 
   return router;
 }

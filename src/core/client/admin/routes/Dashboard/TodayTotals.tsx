@@ -4,9 +4,9 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Environment } from "relay-runtime";
 
 import {
-  DailyBansJSON,
-  DailyCommentsJSON,
-  DailySignupsJSON,
+  BansTodayJSON,
+  CommentsTodayJSON,
+  SignupsTodayJSON,
 } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
@@ -17,8 +17,8 @@ const TodayTotalsFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }/daily/comments`;
-    return rest.fetch<DailyCommentsJSON>(url, {
+    }/comments/today`;
+    return rest.fetch<CommentsTodayJSON>(url, {
       method: "GET",
     });
   }
@@ -29,8 +29,8 @@ const TodayNewCommentersFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }daily/new-signups`;
-    return rest.fetch<DailySignupsJSON>(url, {
+    }signups/today`;
+    return rest.fetch<SignupsTodayJSON>(url, {
       method: "GET",
     });
   }
@@ -41,8 +41,8 @@ const TodayBansFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }daily/bans`;
-    return rest.fetch<DailyBansJSON>(url, {
+    }bans/today`;
+    return rest.fetch<BansTodayJSON>(url, {
       method: "GET",
     });
   }
