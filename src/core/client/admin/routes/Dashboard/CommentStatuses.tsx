@@ -1,25 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
+  Bar,
+  BarChart,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { Environment } from "relay-runtime";
 
 import { CommentStatusesJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 
-import styles from "./CommentStatuses.css";
+import { CHART_COLOR_PRIMARY } from "./ChartColors";
 
-const COLOR_MAP = {
-  public: "#268742",
-  rejected: "#D53F3F",
-  witheld: "#E5766C",
-};
+import styles from "./CommentStatuses.css";
 
 interface PieValue {
   name: string;
@@ -48,12 +44,20 @@ const CommentStatuses: FunctionComponent<Props> = ({ siteID }) => {
   useEffect(() => {
     async function getTotals() {
       const commentStatusesResp = await commentStatusesFetch({ siteID });
+      const total = Object.keys(commentStatusesResp.commentStatuses).reduce(
+        (acc, key: keyof CommentStatusesJSON["commentStatuses"]) => {
+          return acc + commentStatusesResp.commentStatuses[key];
+        },
+        0
+      );
       const json: PieValue[] = Object.keys(
         commentStatusesResp.commentStatuses
       ).map((key: keyof CommentStatusesJSON["commentStatuses"]) => {
+        const value = commentStatusesResp.commentStatuses[key];
+        const percent = (value / total) * 100;
         return {
           name: key,
-          value: commentStatusesResp.commentStatuses[key],
+          value: percent,
         };
       });
       setCommentStatuses(json);
@@ -67,18 +71,12 @@ const CommentStatuses: FunctionComponent<Props> = ({ siteID }) => {
       </Localized>
       {commentStatuses && (
         <ResponsiveContainer height={200}>
-          <PieChart
-            className={styles.chart}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <Pie data={commentStatuses} dataKey="value" nameKey="name">
-              {commentStatuses.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLOR_MAP[entry.name]} />
-              ))}
-            </Pie>
-            <Legend />
+          <BarChart data={commentStatuses} className={styles.chart}>
+            <Bar dataKey="value" fill={CHART_COLOR_PRIMARY} />
+            <XAxis dataKey="name" />
+            <YAxis dataKey="value" />
             <Tooltip />
-          </PieChart>
+          </BarChart>
         </ResponsiveContainer>
       )}
     </div>

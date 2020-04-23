@@ -60,7 +60,7 @@ export interface DailyTopStoriesJSON {
 
 export interface CommentStatusesJSON {
   commentStatuses: {
-    public: number;
+    other: number;
     rejected: number;
     witheld: number;
   };

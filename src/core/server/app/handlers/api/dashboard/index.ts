@@ -216,7 +216,7 @@ export const commentStatuses: RequestHandler = (req, res, next) => {
     const { status } = site.commentCounts;
     const json: CommentStatusesJSON = {
       commentStatuses: {
-        public: status.APPROVED + status.NONE,
+        other: status.APPROVED + status.NONE + status.PREMOD,
         rejected: site.commentCounts.status.REJECTED,
         witheld: site.commentCounts.status.SYSTEM_WITHHELD,
       },
