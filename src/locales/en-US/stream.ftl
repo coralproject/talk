@@ -492,6 +492,8 @@ configure-stream-title-configureThisStream =
   Configure this Stream
 configure-stream-apply =
 configure-stream-update = Update
+configure-stream-streamHasBeenUpdated =
+  This stream has been updated
 
 configure-premod-title = Enable Pre-Moderation
 configure-premod-description =

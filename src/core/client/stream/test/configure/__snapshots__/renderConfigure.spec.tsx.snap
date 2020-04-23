@@ -263,7 +263,7 @@ announcements relating to the comments on this story.
         </div>
       </div>
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
+        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
         data-testid="configure-stream-apply"
         disabled={true}
         onBlur={[Function]}
