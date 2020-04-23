@@ -5,23 +5,26 @@ You can configure external moderation phases on your installation of Coral by
 visiting `/admin/configure/moderation/phases`.
 
 Once you've configured a external moderation phase in Coral, you will start to
-receive moderation requests in the form of
+receive moderation requests in the form of a
 [External Moderation Requests](#external-moderation-request) at the provided
 callback URL. These will be in the form of `POST` requests with a `JSON`
 payload.
 
-Coral will only send moderation requests if no other moderation phase before it
-catches it. The current set of moderation phases is listed [here](https://github.com/coralproject/talk/blob/master/src/core/server/services/comments/pipeline/phases/index.ts).
+When a comment is created or edited, it will be processed by moderation phases in
+a predefined order. Any external moderation phase is run last, and only if all
+other moderation phases before it do not return a status. The current set of
+moderation phases is listed in order [here](https://github.com/coralproject/talk/blob/master/src/core/server/services/comments/pipeline/phases/index.ts).
 
 Once you have received a moderation request, you must respond within the
 provided timeout else the phase will be skipped and it will continue. It is
 strongly recommended to [verify the request signature](#request-signing).
 
-You have the following options for responding to moderation requests:
+The external moderation phase must respond with one of the following:
 
-1. Return HTTP 204 without a body
-2. Return HTTP 200 with a [External Moderation Response](#external-moderation-response)
-   as a `JSON` encoded body
+1. Do not moderate the comment, and return a 204 without a body.
+2. Perform a moderation action and return a 200 with a [External Moderation Response](#external-moderation-response)
+   as a `JSON` encoded body containing the operations you want to perform on the
+   comment.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -189,21 +192,21 @@ interface ExternalModerationResponse {
   }>;
 
   /**
+   * tags are any listed tags that should be added to the comment.
+   */
+  tags?: Array<"FEATURED" | "STAFF">;
+
+  /**
    * status when provided decides and terminates the moderation process by
    * setting the status of the comment.
    */
   status?: "NONE" | "APPROVED" | "REJECTED" | "PREMOD" | "SYSTEM_WITHHELD";
-
-  /**
-   * tags are any listed tags that should be added to the comment.
-   */
-  tags?: Array<"FEATURED" | "STAFF">;
 }
 ```
 
 #### Examples
 
-Add a flag to a comment:
+Add a flag to a comment and do not set a status:
 
 ```json
 {
@@ -219,7 +222,7 @@ Reject a comment:
 }
 ```
 
-Feature a comment:
+Feature a comment and do not set a status:
 
 ```json
 {
@@ -227,11 +230,11 @@ Feature a comment:
 }
 ```
 
-Approve a comment and mark it as staff:
+Approve a comment and mark it as featured:
 
 ```json
 {
   "status": "APPROVED",
-  "tags": ["STAFF"]
+  "tags": ["FEATURED"]
 }
 ```
