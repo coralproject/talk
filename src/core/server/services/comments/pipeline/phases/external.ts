@@ -24,65 +24,116 @@ import {
 import { mergePhaseResult } from "../helpers";
 import { IntermediateModerationPhaseContext } from "../pipeline";
 
-interface ExternalModerationPhaseRequest {
-  tenant: {
-    id: string;
-    domain: string;
-  };
+export interface ExternalModerationRequest {
+  /**
+   * action refers to the specific operation being performed. If `NEW`, this
+   * is referring to a new comment being created. If `EDIT`, then this refers to
+   * an operation involving an edit operation on an existing Comment.
+   */
   action: "NEW" | "EDIT";
+
+  /**
+   * comment refers to the actual Comment data for the Comment being
+   * created/edited.
+   */
   comment: {
+    /**
+     * body refers to the actual body text of the Comment being created/edited.
+     */
     body: string;
+
+    /**
+     * parentID is the identifier for the parent comment (if this Comment is a
+     * reply, null otherwise).
+     */
     parentID: string | null;
   };
+
+  /**
+   * author refers to the User that is creating/editing the Comment.
+   */
   author: {
+    /**
+     * id is the identifier for this User.
+     */
     id: string;
+
+    /**
+     * role refers to the role of this User.
+     */
     role: GQLUSER_ROLE;
   };
+
+  /**
+   * story refers to the Story being commented on.
+   */
   story: {
+    /**
+     * id is the identifier for this Story.
+     */
     id: string;
+
+    /**
+     * url is the URL for this Story.
+     */
     url: string;
   };
+
+  /**
+   * site refers to the Site that the story being commented on belongs to.
+   */
   site: {
+    /**
+     * id is the identifier for this Site.
+     */
     id: string;
   };
+
+  /**
+   * tenantID is the identifer of the Tenant that this Comment is being
+   * created/edited on.
+   */
+  tenantID: string;
+
+  /**
+   * tenantDomain is the domain that is associated with this Tenant that this
+   * Comment is being created/edited on.
+   */
+  tenantDomain: string;
 }
 
-type ExternalModerationPhaseResponse = Partial<PhaseResult>;
+export type ExternalModerationResponse = Partial<
+  Pick<PhaseResult, "actions" | "status" | "tags">
+>;
 
-const ExternalModerationPhaseResponseSchema = Joi.object().keys({
-  body: Joi.string(),
+const ExternalModerationResponseSchema = Joi.object().keys({
   actions: Joi.array().items(
     Joi.object().keys({
       actionType: Joi.string().only().allow(ACTION_TYPE.FLAG).required(),
       reason: Joi.string()
         .only()
-        .allow(...Object.keys(GQLCOMMENT_FLAG_DETECTED_REASON))
+        .allow(
+          GQLCOMMENT_FLAG_DETECTED_REASON.COMMENT_DETECTED_TOXIC,
+          GQLCOMMENT_FLAG_DETECTED_REASON.COMMENT_DETECTED_SPAM
+        )
         .required(),
-      additionalDetails: Joi.string(),
-      metadata: Joi.object(),
     })
   ),
   status: Joi.string()
     .only()
     .allow(...Object.keys(GQLCOMMENT_STATUS)),
-  metadata: Joi.object(),
   tags: Joi.array().items(
-    Joi.string()
-      .only()
-      .allow(...Object.keys(GQLTAG))
-      .required()
+    Joi.string().only().allow(GQLTAG.FEATURED, GQLTAG.STAFF).required()
   ),
 });
 
 /**
- * validate will validate the `ExternalModerationPhaseResponse`.
+ * validate will validate the `ExternalModerationResponse`.
  *
- * @param body the input body that is being coerced into an `ExternalModerationPhaseResponse`.
+ * @param body the input body that is being coerced into an `ExternalModerationResponse`.
  */
-export function validateResponse(
-  body: object
-): ExternalModerationPhaseResponse {
-  const { value, error: err } = ExternalModerationPhaseResponseSchema.validate(
+export function validateResponse(body: object): ExternalModerationResponse {
+  const { value, error: err } = ExternalModerationResponseSchema.validate(
     body,
     {
       stripUnknown: true,
@@ -122,11 +173,7 @@ async function processPhase(
   phase: ExternalModerationPhase
 ) {
   // Create the crafted input payload to be used.
-  const request: ExternalModerationPhaseRequest = {
-    tenant: {
-      id: tenant.id,
-      domain: tenant.domain,
-    },
+  const request: ExternalModerationRequest = {
     action,
     comment: {
       body:
@@ -151,6 +198,8 @@ async function processPhase(
     site: {
       id: story.siteID,
     },
+    tenantID: tenant.id,
+    tenantDomain: tenant.domain,
   };
 
   // Craft the request options now to use.

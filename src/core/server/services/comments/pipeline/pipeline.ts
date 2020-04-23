@@ -29,7 +29,15 @@ export type ModerationAction = Omit<
 >;
 
 export interface PhaseResult {
+  /**
+   * actions are moderation actions that are added to the comment revision.
+   */
   actions: ModerationAction[];
+
+  /**
+   * status when provided decides and terminates the moderation process by
+   * setting the status of the comment.
+   */
   status: GQLCOMMENT_STATUS;
 
   /**
