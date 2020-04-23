@@ -2582,3 +2582,15 @@ export const updateUserCommentCounts = (
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+
+export async function countUserBans(mongo: Db, tenantID: string, since: Date) {
+  return collection(mongo)
+    .find({
+      tenantID,
+      "status.ban.active": true,
+      "status.ban.history.createdAt": {
+        $gt: since,
+      },
+    })
+    .count();
+}

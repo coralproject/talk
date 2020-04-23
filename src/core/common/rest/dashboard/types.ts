@@ -67,3 +67,9 @@ export interface CommentStatusesJSON {
     witheld: number;
   };
 }
+
+export interface DailyBansJSON {
+  banned: {
+    count: number;
+  };
+}

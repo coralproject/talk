@@ -78,6 +78,10 @@ import {
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
+import {
+  retrieveDailyTotal,
+  updateDailyCount,
+} from "coral-server/services/stats/helpers";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
@@ -853,6 +857,7 @@ export async function destroyModeratorNote(
  */
 export async function ban(
   mongo: Db,
+  redis: AugmentedRedis,
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
@@ -877,6 +882,8 @@ export async function ban(
 
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
+
+  await updateDailyCount(redis, tenant.id, null, now, dailyBansKey);
 
   if (rejectExistingComments) {
     await rejector.add({
@@ -1383,6 +1390,10 @@ function dailySignupsKey(tenantID: string) {
   return `dailySignups:${tenantID}`;
 }
 
+function dailyBansKey(tenantID: string, siteID: string, day: number) {
+  return `dailyBans:${tenantID}:${day}`;
+}
+
 export async function retrieveDailySignupsForWeek(
   mongo: Db,
   redis: AugmentedRedis,
@@ -1442,4 +1453,13 @@ export async function retrieveDailySignupsForWeek(
     flatten(output.map(day => [day.dateString, day.count]))
   );
   return output.map(({ date, count }) => ({ date, count }));
+}
+
+export async function countBanned(
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenantID: string,
+  now: Date
+) {
+  return retrieveDailyTotal(redis, tenantID, null, now, dailyBansKey);
 }

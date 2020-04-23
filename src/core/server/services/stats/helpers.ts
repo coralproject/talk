@@ -4,9 +4,13 @@ import { DateTime } from "luxon";
 export function updateDailyCount(
   redis: Redis,
   tenantID: string,
-  siteID: string,
+  siteID: string | null,
   now: Date,
-  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
+  keyGenerator: (
+    tenantID: string,
+    siteID: string | null,
+    offset: number
+  ) => string
 ) {
   const today = DateTime.fromJSDate(now)
     .startOf("day")
@@ -26,9 +30,13 @@ export function updateDailyCount(
 export function updateHourlyCount(
   redis: Redis,
   tenantID: string,
-  siteID: string,
+  siteID: string | null,
   now: Date,
-  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
+  keyGenerator: (
+    tenantID: string,
+    siteID: string | null,
+    offset: number
+  ) => string
 ) {
   const hour = DateTime.fromJSDate(now).startOf("hour").hour;
   const expireHourly = DateTime.fromJSDate(now)
@@ -47,9 +55,13 @@ export function updateHourlyCount(
 export async function retrieveDailyTotal(
   redis: Redis,
   tenantID: string,
-  siteID: string,
+  siteID: string | null,
   now: Date,
-  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
+  keyGenerator: (
+    tenantID: string,
+    siteID: string | null,
+    offset: number
+  ) => string
 ) {
   const today = DateTime.fromJSDate(now)
     .startOf("day")
@@ -62,9 +74,13 @@ export async function retrieveDailyTotal(
 export async function retrieveHourlyTotals(
   redis: Redis,
   tenantID: string,
-  siteID: string,
+  siteID: string | null,
   now: Date,
-  keyGenerator: (tenantID: string, siteID: string, offset: number) => string
+  keyGenerator: (
+    tenantID: string,
+    siteID: string | null,
+    offset: number
+  ) => string
 ) {
   const firstHour = DateTime.fromJSDate(now)
     .startOf("hour")

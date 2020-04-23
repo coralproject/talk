@@ -4,6 +4,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Environment } from "relay-runtime";
 
 import {
+  DailyBansJSON,
   DailyCommentsJSON,
   DailySignupsJSON,
 } from "coral-common/rest/dashboard/types";
@@ -35,6 +36,18 @@ const TodayNewCommentersFetch = createFetch(
   }
 );
 
+const TodayBansFetch = createFetch(
+  "todayBansFetch",
+  async (environment: Environment, variables: any, { rest }) => {
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }daily/bans`;
+    return rest.fetch<DailyBansJSON>(url, {
+      method: "GET",
+    });
+  }
+);
+
 interface Props {
   ssoRegistrationEnabled: boolean;
   siteID?: string;
@@ -43,7 +56,9 @@ interface Props {
 const TodayTotals: FunctionComponent<Props> = props => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
   const newComentersFetch = useFetch(TodayNewCommentersFetch);
+  const bansFetch = useFetch(TodayBansFetch);
   const [totalComents, setTotalComments] = useState<number | null>(null);
+  const [bans, setBans] = useState<number | null>(null);
   const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
     null
   );
@@ -59,6 +74,8 @@ const TodayTotals: FunctionComponent<Props> = props => {
         });
         setNewCommenters(newCommenterResp.signups.count);
       }
+      const bansResp = await bansFetch({ siteID: props.siteID });
+      setBans(bansResp.banned.count);
     }
     getTotals();
   }, []);
@@ -91,6 +108,14 @@ const TodayTotals: FunctionComponent<Props> = props => {
                 <TableCell>New commenters</TableCell>
               </Localized>
               <TableCell>{newCommenters}</TableCell>
+            </TableRow>
+          )}
+          {isNumber(bans) && (
+            <TableRow>
+              <Localized id="dashboard-today-table-new-commenters">
+                <TableCell>User bans</TableCell>
+              </Localized>
+              <TableCell>{bans}</TableCell>
             </TableRow>
           )}
         </TableBody>

@@ -1,5 +1,6 @@
 import {
   CommentStatusesJSON,
+  DailyBansJSON,
   DailyCommentsJSON,
   DailySignupsJSON,
   DailyTopStoriesJSON,
@@ -14,6 +15,7 @@ import {
 } from "coral-server/services/comments/stats";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
 import {
+  countBanned,
   retrieveDailySignups,
   retrieveDailySignupsForWeek,
 } from "coral-server/services/users";
@@ -147,6 +149,30 @@ export const dailySignupsHandler = ({
 
       const json: DailySignupsJSON = {
         signups: {
+          count,
+        },
+      };
+
+      return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const dailyBansHandler = ({
+  redis,
+  mongo,
+}: TopCommentedStatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+
+    try {
+      const count = await countBanned(mongo, redis, tenant.id, coral.now);
+
+      const json: DailyBansJSON = {
+        banned: {
           count,
         },
       };
