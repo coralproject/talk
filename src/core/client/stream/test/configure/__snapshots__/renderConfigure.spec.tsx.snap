@@ -285,38 +285,35 @@ announcements relating to the comments on this story.
     <div
       className="coral coral-closeCommentStream"
     >
-      <h1
-        className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary CloseStream-heading"
+      <div
+        className="CloseStream-heading"
       >
         Close Comment Stream
-      </h1>
+      </div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart gutter"
+        className="CloseStream-description"
       >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-        >
-          This comment stream is currently open. By closing this comment stream,
+        This comment stream is currently open. By closing this comment stream,
 no new comments may be submitted and all previously submitted comments
 will still be displayed.
-        </p>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorError Button-variantOutlined CloseStream-button coral coral-closeCommentStream-closeButton"
-          data-color="error"
-          data-variant="outlined"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Close Stream
-        </button>
       </div>
+      <button
+        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorNegative Button-upperCase coral coral-closeCommentStream-closeButton"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Close Stream
+      </button>
     </div>
+    <div
+      className="OpenOrCloseStreamContainer-calloutHidden"
+    />
   </div>
 </section>
 `;
