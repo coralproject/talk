@@ -529,12 +529,14 @@ configure-closeStream-description =
   no new comments may be submitted and all previously submitted comments
   will still be displayed.
 configure-closeStream-closeStream = Close Stream
+configure-closeStream-theStreamIsNowOpen = The stream is now open
 
 configure-openStream-title = Open Stream
 configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
+configure-openStream-theStreamIsNowClosed = The stream is now closed
 
 configure-moderateThisStream = Moderate this stream
 
