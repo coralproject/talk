@@ -17,3 +17,8 @@
 .footer {
   margin-bottom: var(--v2-spacing-6);
 }
+
+.footerWithMessage {
+  margin-top: var(--v2-spacing-3);
+  margin-bottom: var(--v2-spacing-6);
+}

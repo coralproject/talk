@@ -908,6 +908,7 @@ const CLASSES = {
     $root: "coral coral-configureCommentStream",
     applyButton: "coral coral-configureCommentStream-applyButton",
     errorMessage: "coral coral-configureCommentStream-errorMessage",
+    successMessage: "coral coral-configureCommentStream-successMessage",
   },
 
   /**
