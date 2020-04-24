@@ -3,8 +3,8 @@ import { FORM_ERROR } from "final-form";
 import React, { useCallback, useMemo } from "react";
 import { Form } from "react-final-form";
 
+import { parseAccessTokenClaims } from "coral-framework/lib/auth/helpers";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { parseJWT } from "coral-framework/lib/jwt";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
@@ -52,7 +52,14 @@ const InviteCompleteForm: React.FunctionComponent<Props> = ({
     },
     [token]
   );
-  const email = useMemo(() => parseJWT(token).payload.email, [token]);
+  const email = useMemo(() => {
+    const claims = parseAccessTokenClaims<{ email?: string }>(token);
+    if (!claims) {
+      return null;
+    }
+
+    return claims.email;
+  }, [token]);
 
   return (
     <div data-testid="invite-complete-form">

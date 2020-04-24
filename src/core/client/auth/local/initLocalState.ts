@@ -13,14 +13,15 @@ export default async function initLocalState(
   environment: Environment,
   context: CoralContext
 ) {
-  const {
-    error = null,
-    accessToken = null,
-  } = getParamsFromHashAndClearIt();
+  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
 
-  await initLocalBaseState(environment, context, accessToken);
+  if (accessToken) {
+    context.auth.set(accessToken);
+  }
 
-  commitLocalUpdate(environment, s => {
+  initLocalBaseState(environment, context);
+
+  commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
 
     // Parse query params

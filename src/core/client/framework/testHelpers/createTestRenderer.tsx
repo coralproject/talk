@@ -8,6 +8,7 @@ import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 import sinon from "sinon";
 
 import { RequireProperty } from "coral-common/types";
+import Auth from "coral-framework/lib/auth";
 import {
   CoralContext,
   CoralContextProvider,
@@ -22,6 +23,7 @@ import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
   SubscriptionHandlerReadOnly,
 } from "./createSubscriptionHandler";
+import { syncAuthWithLocalState } from "coral-framework/lib/relay/localState";
 
 export type Resolver<V, R> = (
   parent: any,
@@ -88,6 +90,8 @@ export default function createTestRenderer<
   });
 
   const context: RequireProperty<CoralContext, "transitionControl"> = {
+    auth: new Auth(),
+    cleanupCallbacks: [],
     relayEnvironment: environment,
     locales: ["en-US"],
     localeBundles: [
@@ -114,6 +118,9 @@ export default function createTestRenderer<
       history: [],
     },
   };
+
+  syncAuthWithLocalState(context.relayEnvironment, context.auth);
+
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(

@@ -10,5 +10,5 @@ export default async function initLocalState(
   environment: Environment,
   context: CoralContext
 ) {
-  await initLocalBaseState(environment, context);
+  initLocalBaseState(environment, context);
 }

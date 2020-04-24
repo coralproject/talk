@@ -22,12 +22,7 @@ export {
   commitMutationPromiseNormalized,
 } from "./commitMutationPromise";
 export { default as commitLocalUpdatePromisified } from "./commitLocalUpdatePromisified";
-export {
-  initLocalBaseState,
-  setAccessTokenInLocalState,
-  LOCAL_ID,
-  LOCAL_TYPE,
-} from "./localState";
+export { initLocalBaseState, LOCAL_ID, LOCAL_TYPE } from "./localState";
 export {
   fetchQuery,
   createFetch,

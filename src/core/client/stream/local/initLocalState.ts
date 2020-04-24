@@ -16,11 +16,11 @@ export default async function initLocalState(
   context: CoralContext
 ) {
   const config = await getExternalConfig(context.pym);
-  await initLocalBaseState(
-    environment,
-    context,
-    config ? config.accessToken : undefined
-  );
+  if (config && config.accessToken) {
+    context.auth.set(config.accessToken);
+  }
+
+  initLocalBaseState(environment, context);
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -44,6 +44,7 @@ export default async function initLocalState(
     if (query.commentID) {
       localRecord.setValue(query.commentID, "commentID");
     }
+
     // Set sort
     localRecord.setValue(commentsOrderBy, "commentsOrderBy");
 
@@ -63,7 +64,7 @@ export default async function initLocalState(
     localRecord.setValue("COMMENTS", "activeTab");
     localRecord.setValue("MY_COMMENTS", "profileTab");
 
-    // Initilzie the comments tab to NONE for now, it will be initialized to an
+    // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
   });

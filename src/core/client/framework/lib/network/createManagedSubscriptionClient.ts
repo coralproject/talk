@@ -12,6 +12,8 @@ import {
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 
+import Auth from "../auth";
+
 /**
  * SubscriptionRequest contains the subscription
  * request data that comes from Relay.
@@ -46,24 +48,23 @@ export interface ManagedSubscriptionClient {
   pause(): void;
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
-  /** Sets access token and restarts the websocket connection */
-  setAccessToken(accessToken: string): void;
 }
 
 /**
  * Creates a ManagedSubscriptionClient
  *
  * @param url url of the graphql live server
+ * @param auth the auth client to use and subscribe to for authentication changes
  * @param clientID a clientID that is provided to the graphql live server
  */
 export default function createManagedSubscriptionClient(
   url: string,
+  auth: Auth,
   clientID: string
 ): ManagedSubscriptionClient {
   const requests: SubscriptionRequest[] = [];
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
-  let accessToken = "";
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -108,7 +109,7 @@ export default function createManagedSubscriptionClient(
             }
           },
           connectionParams: {
-            [ACCESS_TOKEN_PARAM]: accessToken,
+            [ACCESS_TOKEN_PARAM]: auth.getAccessToken(),
             [CLIENT_ID_PARAM]: clientID,
           },
         });
@@ -193,18 +194,17 @@ export default function createManagedSubscriptionClient(
     paused = false;
   };
 
-  const setAccessToken = (t: string) => {
-    accessToken = t;
+  // Register when the access token changes.
+  auth.onChange(() => {
     if (!paused) {
       pause();
       resume();
     }
-  };
+  });
 
   return Object.freeze({
     subscribe,
     pause,
     resume,
-    setAccessToken,
   });
 }

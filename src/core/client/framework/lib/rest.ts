@@ -3,7 +3,7 @@ import { merge } from "lodash";
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { Overwrite } from "coral-framework/types";
 
-import { extractError } from "./network";
+import { extractError, TokenGetter } from "./network";
 
 const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
@@ -53,10 +53,10 @@ type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
 
 export class RestClient {
   public readonly uri: string;
-  private tokenGetter?: () => string;
+  private tokenGetter?: TokenGetter;
   private clientID?: string;
 
-  constructor(uri: string, tokenGetter?: () => string, clientID?: string) {
+  constructor(uri: string, tokenGetter?: TokenGetter, clientID?: string) {
     this.uri = uri;
     this.tokenGetter = tokenGetter;
     this.clientID = clientID;

@@ -1,6 +1,7 @@
 import { Environment, RecordSource } from "relay-runtime";
 
 import { timeout } from "coral-common/utils";
+import Auth from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
@@ -24,6 +25,7 @@ beforeEach(() => {
 
 it("init local state", async () => {
   const context: Partial<CoralContext> = {
+    auth: new Auth(),
     localStorage: createPromisifiedStorage(),
   };
   await initLocalState(environment, context as any);
@@ -33,6 +35,7 @@ it("init local state", async () => {
 
 it("set storyID from query", async () => {
   const context: Partial<CoralContext> = {
+    auth: new Auth(),
     localStorage: createPromisifiedStorage(),
   };
   const storyID = "story-id";
@@ -46,6 +49,7 @@ it("set storyID from query", async () => {
 
 it("set commentID from query", async () => {
   const context: Partial<CoralContext> = {
+    auth: new Auth(),
     localStorage: createPromisifiedStorage(),
   };
   const commentID = "comment-id";
