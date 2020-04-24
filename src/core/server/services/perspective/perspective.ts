@@ -11,8 +11,11 @@ const fetch = createFetch({ name: "perspective" });
 /**
  * Language is the language key that is supported by the Perspective API in the
  * ISO 631-1 format.
+ *
+ * The current list of supported languages can be found:
+ *  https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md#languages-in-production
  */
-type PerspectiveLanguage = "en" | "es" | "fr" | "de";
+type PerspectiveLanguage = "en" | "es" | "fr" | "de" | "pt";
 
 /**
  * convertLanguage returns the language code for the related Perspective API
@@ -26,8 +29,12 @@ function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
       return "en";
     case "es":
       return "es";
+    case "fr-FR":
+      return "fr";
     case "de":
       return "de";
+    case "pt-BR":
+      return "pt";
     default:
       return "en";
   }
