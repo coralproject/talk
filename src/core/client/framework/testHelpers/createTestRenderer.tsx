@@ -14,6 +14,7 @@ import {
   CoralContextProvider,
 } from "coral-framework/lib/bootstrap";
 import { PostMessageService } from "coral-framework/lib/postMessage";
+import { syncAuthWithLocalState } from "coral-framework/lib/relay/localState";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
@@ -23,7 +24,6 @@ import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
   SubscriptionHandlerReadOnly,
 } from "./createSubscriptionHandler";
-import { syncAuthWithLocalState } from "coral-framework/lib/relay/localState";
 
 export type Resolver<V, R> = (
   parent: any,
