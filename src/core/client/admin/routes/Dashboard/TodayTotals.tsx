@@ -6,6 +6,7 @@ import { Environment } from "relay-runtime";
 import {
   BansTodayJSON,
   CommentsTodayJSON,
+  RejectedTodayJSON,
   SignupsTodayJSON,
 } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
@@ -51,6 +52,19 @@ const TodayBansFetch = createFetch(
   }
 );
 
+const TodayRejectedFetch = createFetch(
+  "todayRejectedFetch",
+  async (environment: Environment, variables: any, { rest }) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const url = `/dashboard/${
+      variables.siteID ? variables.siteID + "/" : ""
+    }rejected/today?tz=${zone}`;
+    return rest.fetch<RejectedTodayJSON>(url, {
+      method: "GET",
+    });
+  }
+);
+
 interface Props {
   ssoRegistrationEnabled: boolean;
   siteID?: string;
@@ -60,8 +74,10 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
   const newComentersFetch = useFetch(TodayNewCommentersFetch);
   const bansFetch = useFetch(TodayBansFetch);
+  const rejectedFetch = useFetch(TodayRejectedFetch);
   const [totalComents, setTotalComments] = useState<number | null>(null);
   const [bans, setBans] = useState<number | null>(null);
+  const [rejected, setRejected] = useState<number | null>(null);
   const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
     null
   );
@@ -79,6 +95,8 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
       }
       const bansResp = await bansFetch({ siteID: props.siteID });
       setBans(bansResp.banned.count);
+      const rejectedResp = await rejectedFetch({ siteID: props.siteID });
+      setRejected(rejectedResp.rejected.count);
     }
     getTotals();
   }, []);
@@ -119,6 +137,14 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>User bans</TableCell>
               </Localized>
               <TableCell>{bans}</TableCell>
+            </TableRow>
+          )}
+          {isNumber(rejected) && (
+            <TableRow>
+              <Localized id="dashboard-today-table-new-commenters">
+                <TableCell>Rejected comments</TableCell>
+              </Localized>
+              <TableCell>{rejected}</TableCell>
             </TableRow>
           )}
         </TableBody>

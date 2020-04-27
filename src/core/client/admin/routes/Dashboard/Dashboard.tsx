@@ -4,7 +4,6 @@ import MainLayout from "coral-admin/components/MainLayout";
 import { Flex } from "coral-ui/components/v2";
 
 import CommentActivity from "./CommentActivity";
-import CommentStatuses from "./CommentStatuses";
 import NewCommenterActivity from "./NewCommenterActivity";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
@@ -24,7 +23,6 @@ const Dashboard: FunctionComponent<Props> = (props) => (
           ssoRegistrationEnabled={props.ssoRegistrationEnabled}
           siteID={props.siteID}
         />
-        <CommentStatuses siteID={props.siteID} />
       </Flex>
       <TopStories siteID={props.siteID} />
       <CommentActivity siteID={props.siteID} />

@@ -1,9 +1,13 @@
 import { Db } from "mongodb";
 
+import { CommentNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
-import { hasTag } from "coral-server/models/comment";
+import { hasTag, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
-import { removeTag } from "coral-server/services/comments";
+import {
+  removeTag,
+  updateRejectionTotal,
+} from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
 
@@ -37,6 +41,12 @@ const rejectComment = async (
     now
   );
 
+  const comment = await retrieveComment(mongo, tenant.id, commentID);
+
+  if (!comment) {
+    throw new CommentNotFoundError(commentID);
+  }
+
   // Update all the comment counts on stories and users.
   const counts = await updateAllCommentCounts(mongo, redis, {
     ...result,
@@ -44,6 +54,8 @@ const rejectComment = async (
     // Rejecting a comment does not change the action counts.
     actionCounts: {},
   });
+
+  await updateRejectionTotal(redis, tenant.id, comment.siteID, now);
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira

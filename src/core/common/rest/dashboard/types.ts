@@ -7,6 +7,10 @@ export interface CommentsCount {
   };
 }
 
+export interface CommentsAllTimeJSON {
+  comments: CommentsCount;
+}
+
 export interface CommentsTodayJSON {
   comments: CommentsCount;
 }
@@ -68,6 +72,12 @@ export interface CommentStatusesJSON {
 
 export interface BansTodayJSON {
   banned: {
+    count: number;
+  };
+}
+
+export interface RejectedTodayJSON {
+  rejected: {
     count: number;
   };
 }

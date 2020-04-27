@@ -14,6 +14,14 @@ export interface DailyCommentCounts {
   staff: number;
 }
 
+function hourlyCommentsRejectedKey(
+  tenantID: string,
+  siteID: string,
+  hour: number
+) {
+  return `stats:${tenantID}:${siteID}:hourlyRejectionCount:${hour}`;
+}
+
 function hourlyCommentCountKey(tenantID: string, siteID: string, hour: number) {
   return `stats:${tenantID}:${siteID}:hourlyCommentCount:${hour}`;
 }
@@ -58,6 +66,21 @@ export async function updateStaffCommentTotals(
   return;
 }
 
+export async function updateRejectionTotal(
+  redis: Redis,
+  tenantID: string,
+  siteID: string,
+  now: Date
+) {
+  return updateHourlyCount(
+    redis,
+    tenantID,
+    siteID,
+    now,
+    hourlyCommentsRejectedKey
+  );
+}
+
 export async function retrieveDailyCommentTotal(
   redis: Redis,
   tenantID: string,
@@ -72,6 +95,23 @@ export async function retrieveDailyCommentTotal(
     zone,
     now,
     hourlyCommentCountKey
+  );
+}
+
+export async function retrieveDailyRejectionTotal(
+  redis: Redis,
+  tenantID: string,
+  siteID: string,
+  zone: string,
+  now: Date
+) {
+  return retrieveDailyTotal(
+    redis,
+    tenantID,
+    siteID,
+    zone,
+    now,
+    hourlyCommentsRejectedKey
   );
 }
 
