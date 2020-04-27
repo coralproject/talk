@@ -26,8 +26,6 @@ const Configure: FunctionComponent<Props> = (props) => {
   return (
     <div>
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-      <ModerateStreamContainer settings={props.settings} story={props.story} />
-      <HorizontalRule />
       <ConfigureStreamContainer story={props.story} />
       <QAConfigContainer story={props.story} settings={props.settings} />
       <HorizontalRule />
