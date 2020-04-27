@@ -16,7 +16,7 @@ interface Props {
   siteID?: string;
 }
 
-const Dashboard: FunctionComponent<Props> = props => (
+const Dashboard: FunctionComponent<Props> = (props) => (
   <MainLayout data-testid="dashboard-container">
     <div className={styles.root}>
       <Flex justifyContent="space-between">

@@ -431,6 +431,7 @@ export async function retrieveDailyTopCommentedStories(
   redis: Redis,
   tenantID: string,
   siteID: string,
+  zone: string,
   now: Date
 ) {
   const results = await retrieveTopCommentedStoriesToday(
@@ -438,6 +439,7 @@ export async function retrieveDailyTopCommentedStories(
     tenantID,
     siteID,
     20,
+    zone,
     now
   );
   const stories = await retrieveManyStories(

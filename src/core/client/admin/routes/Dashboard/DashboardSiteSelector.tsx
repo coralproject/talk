@@ -23,7 +23,7 @@ interface Props {
   loading: boolean;
 }
 
-const SitesTable: FunctionComponent<Props> = props => {
+const SitesTable: FunctionComponent<Props> = (props) => {
   return (
     <>
       <Table fullWidth>
@@ -36,7 +36,7 @@ const SitesTable: FunctionComponent<Props> = props => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.sites.map(site => (
+          {props.sites.map((site) => (
             <SiteRowContainer site={site} key={site.id} />
           ))}
         </TableBody>

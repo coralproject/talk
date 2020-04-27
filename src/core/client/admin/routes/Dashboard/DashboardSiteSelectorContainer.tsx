@@ -17,11 +17,11 @@ interface Props {
   query: QueryData | null;
   relay: RelayPaginationProp;
 }
-const DashboardSiteSelectorContainer: React.FunctionComponent<
-  Props
-> = props => {
+const DashboardSiteSelectorContainer: React.FunctionComponent<Props> = (
+  props
+) => {
   const sites = props.query
-    ? props.query.sites.edges.map(edge => edge.node)
+    ? props.query.sites.edges.map((edge) => edge.node)
     : [];
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<

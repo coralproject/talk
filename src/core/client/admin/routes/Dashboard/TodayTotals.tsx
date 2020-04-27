@@ -15,9 +15,10 @@ import styles from "./TodayTotals.css";
 const TodayTotalsFetch = createFetch(
   "todayTotalsFetch",
   async (environment: Environment, variables: any, { rest }) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }/comments/today`;
+    }/comments/today?tz=${zone}`;
     return rest.fetch<CommentsTodayJSON>(url, {
       method: "GET",
     });
@@ -27,9 +28,10 @@ const TodayTotalsFetch = createFetch(
 const TodayNewCommentersFetch = createFetch(
   "newCommentersFetch",
   async (environment: Environment, variables: any, { rest }) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }signups/today`;
+    }signups/today?tz=${zone}`;
     return rest.fetch<SignupsTodayJSON>(url, {
       method: "GET",
     });
@@ -39,9 +41,10 @@ const TodayNewCommentersFetch = createFetch(
 const TodayBansFetch = createFetch(
   "todayBansFetch",
   async (environment: Environment, variables: any, { rest }) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }bans/today`;
+    }bans/today?tz=${zone}`;
     return rest.fetch<BansTodayJSON>(url, {
       method: "GET",
     });
@@ -53,7 +56,7 @@ interface Props {
   siteID?: string;
 }
 
-const TodayTotals: FunctionComponent<Props> = props => {
+const TodayTotals: FunctionComponent<Props> = (props) => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
   const newComentersFetch = useFetch(TodayNewCommentersFetch);
   const bansFetch = useFetch(TodayBansFetch);

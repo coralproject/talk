@@ -17,7 +17,7 @@ interface Props {
   router: Router;
   match: Match & { params: RouteParams };
 }
-const SiteDashboardRoute: React.FunctionComponent<Props> = props => {
+const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site && data.settings) {
     return (

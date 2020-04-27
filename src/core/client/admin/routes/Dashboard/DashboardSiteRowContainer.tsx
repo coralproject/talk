@@ -1,8 +1,8 @@
-import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Button, Flex, Icon } from "coral-ui/components/v2";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { Button, Flex } from "coral-ui/components/v2";
 import { TableCell, TableRow } from "coral-ui/components/v2/Table";
 
 import { DashboardSiteRowContainer_site } from "coral-admin/__generated__/DashboardSiteRowContainer_site.graphql";

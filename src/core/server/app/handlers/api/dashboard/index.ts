@@ -22,6 +22,8 @@ import {
 } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
+const DEFAULT_TIMEZONE = "America/New_York";
+
 export const commentsTodayHandler = ({
   redis,
 }: Pick<AppOptions, "redis">): RequestHandler => {
@@ -29,18 +31,21 @@ export const commentsTodayHandler = ({
     const coral = req.coral!;
     const tenant = coral.tenant!;
     const site = req.site!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
       const dailyCommentTotal = await retrieveDailyCommentTotal(
         redis,
         tenant.id,
         site.id,
+        zone,
         coral.now
       );
       const dailyStaffCommentTotal = await retrieveDailyStaffCommentTotal(
         redis,
         tenant.id,
         site.id,
+        zone,
         coral.now
       );
 
@@ -114,6 +119,7 @@ export const topCommentedStoriesHandler = ({
     const coral = req.coral!;
     const tenant = coral.tenant!;
     const site = req.site!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
       const topStories = await retrieveDailyTopCommentedStories(
@@ -121,6 +127,7 @@ export const topCommentedStoriesHandler = ({
         redis,
         tenant.id,
         site.id,
+        zone,
         coral.now
       );
 
@@ -141,9 +148,10 @@ export const signupsTodayHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      const count = await retrieveTodaySignups(mongo, tenant, coral.now);
+      const count = await retrieveTodaySignups(mongo, tenant, zone, coral.now);
 
       const json: SignupsTodayJSON = {
         signups: {
@@ -192,9 +200,10 @@ export const bansTodayHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      const count = await countBanned(mongo, redis, tenant.id, coral.now);
+      const count = await countBanned(mongo, redis, tenant.id, zone, coral.now);
 
       const json: BansTodayJSON = {
         banned: {

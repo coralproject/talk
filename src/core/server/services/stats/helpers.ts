@@ -1,4 +1,5 @@
 import { Redis } from "ioredis";
+import { isNull } from "lodash";
 import { DateTime } from "luxon";
 
 export function updateDailyCount(
@@ -12,19 +13,11 @@ export function updateDailyCount(
     offset: number
   ) => string
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
+  const today = DateTime.fromJSDate(now).startOf("day").toSeconds();
 
-  const expireDaily = DateTime.fromJSDate(now)
-    .endOf("day")
-    .toSeconds();
+  const expireDaily = DateTime.fromJSDate(now).endOf("day").toSeconds();
   const dailyKey = keyGenerator(tenantID, siteID, today);
-  return redis
-    .multi()
-    .incr(dailyKey)
-    .expireat(dailyKey, expireDaily)
-    .exec();
+  return redis.multi().incr(dailyKey).expireat(dailyKey, expireDaily).exec();
 }
 
 export function updateHourlyCount(
@@ -45,17 +38,14 @@ export function updateHourlyCount(
     .toSeconds();
 
   const hourlyKey = keyGenerator(tenantID, siteID, hour);
-  return redis
-    .multi()
-    .incr(hourlyKey)
-    .expireat(hourlyKey, expireHourly)
-    .exec();
+  return redis.multi().incr(hourlyKey).expireat(hourlyKey, expireHourly).exec();
 }
 
 export async function retrieveDailyTotal(
   redis: Redis,
   tenantID: string,
   siteID: string | null,
+  zone: string,
   now: Date,
   keyGenerator: (
     tenantID: string,
@@ -63,12 +53,17 @@ export async function retrieveDailyTotal(
     offset: number
   ) => string
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const key = keyGenerator(tenantID, siteID, today);
-  const value = await redis.get(key);
-  return value ? parseInt(value, 10) : 0;
+  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  const keys = [];
+  for (let i = 0; i < 24; i++) {
+    const hour = startOfDay.plus({ hours: i }).hour;
+    keys[i] = keyGenerator(tenantID, siteID, hour);
+  }
+  const values = await redis.mget(...keys);
+  return values.reduce(
+    (acc, value) => (!isNull(value) ? acc + parseInt(value, 10) : acc),
+    0
+  );
 }
 
 export async function retrieveHourlyTotals(
@@ -95,7 +90,7 @@ export async function retrieveHourlyTotals(
   const output: { [timestamp: string]: number | null } = {};
   for (let i = 0; i < values.length; i++) {
     const timestamp = firstHour.plus({ hours: i }).toISO();
-    output[timestamp] = values[i] ? parseInt(values[i], 10) : 0;
+    output[timestamp] = !isNull(values[i]) ? parseInt(values[i]!, 10) : 0;
   }
   return output;
 }

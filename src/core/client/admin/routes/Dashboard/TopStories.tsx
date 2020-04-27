@@ -17,9 +17,10 @@ import styles from "./TopStories.css";
 const TopStoriesFetch = createFetch(
   "TopStoriesFetch",
   async (environment: Environment, variables: any, { rest }) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }top-stories/today`;
+    }top-stories/today?tz=${zone}`;
     return rest.fetch<DailyTopStoriesJSON>(url, {
       method: "GET",
     });
@@ -60,7 +61,7 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
         </TableHead>
         <TableBody>
           {topStories &&
-            topStories.map(topStory => (
+            topStories.map((topStory) => (
               <TableRow key={topStory.id}>
                 <TableCell>
                   {topStory.metadata && topStory.metadata.title

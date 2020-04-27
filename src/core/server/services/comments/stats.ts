@@ -4,7 +4,6 @@ import { User } from "coral-server/models/user";
 import {
   retrieveDailyTotal,
   retrieveHourlyTotals,
-  updateDailyCount,
   updateHourlyCount,
 } from "coral-server/services/stats/helpers";
 
@@ -15,20 +14,8 @@ export interface DailyCommentCounts {
   staff: number;
 }
 
-function dailyCommentCountKey(tenantID: string, siteID: string, today: number) {
-  return `stats:${tenantID}:${siteID}:dailyCommentCount:${today}`;
-}
-
 function hourlyCommentCountKey(tenantID: string, siteID: string, hour: number) {
   return `stats:${tenantID}:${siteID}:hourlyCommentCount:${hour}`;
-}
-
-function dailyStaffCommentCountKey(
-  tenantID: string,
-  siteID: string,
-  today: number
-) {
-  return `stats:${tenantID}:${siteID}:dailyStaffCommentCount:${today}`;
 }
 
 function hourlyStaffCommentCountKey(
@@ -39,14 +26,13 @@ function hourlyStaffCommentCountKey(
   return `stats:${tenantID}:${siteID}:hourlyStaffCommentCount:${hour}`;
 }
 
-export async function updateCommentTotals(
+export function updateCommentTotals(
   redis: Redis,
   tenantID: string,
   siteID: string,
   now: Date
 ) {
-  await updateHourlyCount(redis, tenantID, siteID, now, hourlyCommentCountKey);
-  await updateDailyCount(redis, tenantID, siteID, now, dailyCommentCountKey);
+  return updateHourlyCount(redis, tenantID, siteID, now, hourlyCommentCountKey);
 }
 
 export async function updateStaffCommentTotals(
@@ -61,19 +47,12 @@ export async function updateStaffCommentTotals(
       user.role
     )
   ) {
-    await updateHourlyCount(
+    return updateHourlyCount(
       redis,
       tenantID,
       siteID,
       now,
       hourlyStaffCommentCountKey
-    );
-    await updateDailyCount(
-      redis,
-      tenantID,
-      siteID,
-      now,
-      dailyStaffCommentCountKey
     );
   }
   return;
@@ -83,23 +62,33 @@ export async function retrieveDailyCommentTotal(
   redis: Redis,
   tenantID: string,
   siteID: string,
-  now: Date
-) {
-  return retrieveDailyTotal(redis, tenantID, siteID, now, dailyCommentCountKey);
-}
-
-export async function retrieveDailyStaffCommentTotal(
-  redis: Redis,
-  tenantID: string,
-  siteID: string,
+  zone: string,
   now: Date
 ) {
   return retrieveDailyTotal(
     redis,
     tenantID,
     siteID,
+    zone,
     now,
-    dailyStaffCommentCountKey
+    hourlyCommentCountKey
+  );
+}
+
+export async function retrieveDailyStaffCommentTotal(
+  redis: Redis,
+  tenantID: string,
+  siteID: string,
+  zone: string,
+  now: Date
+) {
+  return retrieveDailyTotal(
+    redis,
+    tenantID,
+    siteID,
+    zone,
+    now,
+    hourlyStaffCommentCountKey
   );
 }
 

@@ -44,7 +44,7 @@ const CommentActivity: FunctionComponent<Props> = ({
   useEffect(() => {
     async function getTotals() {
       const commentActivityResp = await commentActivityFetch({ siteID });
-      const json = commentActivityResp.comments.map(comment => {
+      const json = commentActivityResp.comments.map((comment) => {
         return {
           count: comment.count,
           staffCount: comment.byAuthorRole.staff.count,

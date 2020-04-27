@@ -690,17 +690,26 @@ export async function updateTopCommentedStoriesToday(
   story: Story,
   now: Date
 ) {
-  // Get the current date to a today timestamp in seconds.
-  const today = DateTime.fromJSDate(now).startOf("day").toSeconds();
-
+  // Get the current date to an hourly timestamp in seconds.
+  const startOfHour = DateTime.fromJSDate(now).startOf("hour");
   // Get the time to tomorrow based on the current time.
-  const expires = DateTime.fromJSDate(now).endOf("day").toSeconds();
-
+  const expiresAt = startOfHour.plus({ hours: 24 }).toSeconds();
   // Craft the key.
-  const key = `tcst:${tenantID}:${story.siteID}:${today}`;
-
+  const key = `tcst:${tenantID}:${story.siteID}:${startOfHour.toSeconds()}`;
   // Operate on Redis to increment this.
-  await redis.multi().zincrby(key, 1, story.id).expireat(key, expires).exec();
+  await redis.multi().zincrby(key, 1, story.id).expireat(key, expiresAt).exec();
+}
+function generateRangeKeys(
+  tenantID: string,
+  siteID: string,
+  startOfDay: DateTime
+) {
+  const keys: string[] = [];
+  for (let i = 0; i < 24; i++) {
+    keys.push(`tcst:${tenantID}:${siteID}:${startOfDay.toSeconds()}`);
+    startOfDay = startOfDay.plus({ hour: 1 });
+  }
+  return keys;
 }
 
 export async function retrieveTopCommentedStoriesToday(
@@ -708,14 +717,20 @@ export async function retrieveTopCommentedStoriesToday(
   tenantID: string,
   siteID: string,
   limit: number,
+  zone: string,
   now: Date
 ) {
   // Get the current date to a today timestamp in seconds.
-  const today = DateTime.fromJSDate(now).startOf("day").toSeconds();
-
+  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  // Get the range of keys to interact with.
+  const ranges = generateRangeKeys(tenantID, siteID, startOfDay);
+  // Get the key to store the timezone aware data.
+  const key = `tcst:${tenantID}:${siteID}:${zone}:${startOfDay.toSeconds()}`;
+  // Perform the union store of the data.
+  await redis.zunionstore(key, 24, ranges[0], ...ranges.slice(1));
   // Fetch the story ids with comment counts.
   const result: string[] = await redis.zrevrange(
-    `tcst:${tenantID}:${siteID}:${today}`,
+    key,
     // Start pulling from the beginning of the list.
     0,
     // This refers to the "stop" of this zero indexed list, so we remove one.
@@ -723,20 +738,16 @@ export async function retrieveTopCommentedStoriesToday(
     // Load with all the scores too!
     "WITHSCORES"
   );
-
   const scores: Array<{
     storyID: string;
     count: number;
   }> = [];
-
   // It's always the case that this array from Redis is of even length because
   // we added `WITHSCORES`.
   for (let i = 0; i < result.length; i += 2) {
     const storyID = result[i];
     const count = parseInt(result[i + 1], 10);
-
     scores.push({ storyID, count });
   }
-
   return scores;
 }
