@@ -1,10 +1,15 @@
-import jwt from "jsonwebtoken";
-
 const TOKEN_JTI = "31b26591-4e9a-4388-a7ff-e1bdc5d97cce";
-const TOKEN_SECRET = "test-secret";
+
+function encodePart(obj: object): string {
+  return btoa(JSON.stringify(obj));
+}
 
 export default function createAccessToken(payload = {}) {
-  return jwt.sign({ jti: TOKEN_JTI, ...payload }, TOKEN_SECRET, {
-    algorithm: "HS256",
-  });
+  return [
+    { kid: "96c8066a-d987-4282-83f9-da516797f9fc", alg: "HS256" },
+    { jti: TOKEN_JTI, ...payload },
+    null,
+  ]
+    .map((obj) => (obj ? encodePart(obj) : obj))
+    .join(".");
 }
