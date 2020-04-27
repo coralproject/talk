@@ -78,54 +78,8 @@ exports[`renders configure 1`] = `
         Configure this Stream
       </div>
       <div
-        className="ConfigureStream-liveUpdates"
+        className="ConfigureStream-configureItems"
       >
-        <div>
-          <div
-            className="CheckBox-root CheckBox-streamBlue"
-          >
-            <input
-              checked={true}
-              className="CheckBox-input CheckBox-streamBlue"
-              disabled={false}
-              id="live.enabled"
-              name="live.enabled"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              type="checkbox"
-              value={true}
-            />
-            <label
-              className="CheckBox-label CheckBox-streamBlue"
-              htmlFor="live.enabled"
-            >
-              <span
-                className="CheckBox-labelSpan"
-              >
-                <div
-                  className="ToggleConfig-title"
-                >
-                  <span>
-                    Enable Live Updates for this Story
-                  </span>
-                </div>
-              </span>
-            </label>
-          </div>
-          <div
-            className="ToggleConfig-details"
-          >
-            <div
-              className="WidthLimitedDescription-root"
-            >
-              When enabled, the comments will be updated instantly
-as new comments and replies are submitted, instead of
-requiring a page refresh. You can disable this in the
-unusual situation of an article getting so much traffic that the comments are loading slowly.
-            </div>
-          </div>
-        </div>
         <div>
           <div
             className="CheckBox-root CheckBox-streamBlue"
@@ -279,6 +233,42 @@ announcements relating to the comments on this story.
         className="ConfigureStream-footer"
       />
     </form>
+    <hr
+      className="HorizontalRule-root"
+    />
+    <div
+      className="coral coral-openCommentStream"
+    >
+      <div
+        className="DisableLiveUpdates-heading"
+      >
+        Disable live updates
+      </div>
+      <div
+        className="DisableLiveUpdates-description"
+      >
+        When disabled, new comments and replies will no longer instantly update
+as they are submitted. Commenters will need to refresh the page to see
+new comments. We recommend this in the unusual situation of a story
+getting so much traffic that the comments are loading slowly.
+      </div>
+      <button
+        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Disable
+      </button>
+    </div>
+    <div
+      className="LiveUpdatesConfigContainer-messagesHidden"
+    />
     <hr
       className="HorizontalRule-root"
     />
