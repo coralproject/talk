@@ -503,12 +503,26 @@ configure-premodLink-title = Pre-Moderate Comments Containing Links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title =
+configure-enableLiveUpdates-title = Enable live updates
 configure-liveUpdates-description =
-  When enabled, the comments will be updated instantly
-  as new comments and replies are submitted, instead of
-  requiring a page refresh. You can disable this in the
-  unusual situation of an article getting so much traffic that the comments are loading slowly.
+configure-enableLiveUpdates-description =
+  When enabled, the comments will be updated instantly as new comments and
+  replies are submitted, instead of requiring a page refresh. You can
+  disable this in the unusual situation of an article getting so much
+  traffic that the comments are loading slowly.
+configure-enableLiveUpdates-enable = Enable
+
+configure-disableLiveUpdates-title = Disable live updates
+configure-disableLiveUpdates-description =
+  When disabled, new comments and replies will no longer instantly update
+  as they are submitted. Commenters will need to refresh the page to see
+  new comments. We recommend this in the unusual situation of a story
+  getting so much traffic that the comments are loading slowly.
+configure-disableLiveUpdates-disable = Disable
+
+configure-liveUpdates-disabledSuccess = Live updates are now disabled
+configure-liveUpdates-enabledSuccess = Live updates are now enabled
 
 configure-messageBox-title = Enable Message Box for this Story
 configure-messageBox-description =
