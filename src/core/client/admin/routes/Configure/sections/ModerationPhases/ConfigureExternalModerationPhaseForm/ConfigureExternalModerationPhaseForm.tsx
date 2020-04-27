@@ -115,11 +115,14 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
                   <Localized id="configure-moderationPhases-endpointURL">
                     <Label>Callback URL</Label>
                   </Localized>
-                  <HelperText>
-                    The URL that Coral moderation requests will be POST'ed to.
-                    The provided URL must respond within the designated timeout
-                    or the decision of the moderation action will be skipped.
-                  </HelperText>
+                  <Localized id="configure-moderationPhases-endpointURL-details">
+                    <HelperText>
+                      The URL that Coral moderation requests will be POST'ed to.
+                      The provided URL must respond within the designated
+                      timeout or the decision of the moderation action will be
+                      skipped.
+                    </HelperText>
+                  </Localized>
                   <TextField
                     {...input}
                     placeholder="https://"
@@ -142,10 +145,12 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
                   <Localized id="configure-moderationPhases-timeout">
                     <Label>Timeout</Label>
                   </Localized>
-                  <HelperText>
-                    The time that Coral will wait for your moderation response
-                    in milliseconds.
-                  </HelperText>
+                  <Localized id="configure-moderationPhases-timeout-details">
+                    <HelperText>
+                      The time that Coral will wait for your moderation response
+                      in milliseconds.
+                    </HelperText>
+                  </Localized>
                   <TextField
                     {...input}
                     type="number"
@@ -162,17 +167,23 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
                   <Localized id="configure-moderationPhases-format">
                     <Label>Comment Body Format</Label>
                   </Localized>
-                  <HelperText>
-                    The format that Coral will send the comment body in. By
-                    default, Coral will send the comment in the original HTML
-                    encoded format. If "Plain Text" is selected, then the HTML
-                    stripped version will be sent instead.
-                  </HelperText>
+                  <Localized id="configure-moderationPhases-format-details">
+                    <HelperText>
+                      The format that Coral will send the comment body in. By
+                      default, Coral will send the comment in the original HTML
+                      encoded format. If "Plain Text" is selected, then the HTML
+                      stripped version will be sent instead.
+                    </HelperText>
+                  </Localized>
                   <SelectField {...input} fullWidth>
-                    <Option value={GQLCOMMENT_BODY_FORMAT.HTML}>HTML</Option>
-                    <Option value={GQLCOMMENT_BODY_FORMAT.PLAIN_TEXT}>
-                      Plain Text
-                    </Option>
+                    <Localized id="configure-moderationPhases-format-html">
+                      <Option value={GQLCOMMENT_BODY_FORMAT.HTML}>HTML</Option>
+                    </Localized>
+                    <Localized id="configure-moderationPhases-format-plain">
+                      <Option value={GQLCOMMENT_BODY_FORMAT.PLAIN_TEXT}>
+                        Plain Text
+                      </Option>
+                    </Localized>
                   </SelectField>
                   <ValidationMessage meta={meta} fullWidth />
                 </FormField>

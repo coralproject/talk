@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
@@ -44,12 +45,20 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
           </Localized>
         }
       >
-        <Localized id="configure-moderationPhases-description">
-          {/* FIXME: add link to our docs */}
+        <Localized
+          id="configure-moderationPhases-description"
+          externalLink={
+            <ExternalLink href="https://github.com/coralproject/talk/blob/master/EXTERNAL_MODERATION_PHASES.md#request-signing" />
+          }
+        >
           <FormFieldDescription>
             Configure a external moderation phase to automate some moderation
             actions. Moderation requests will be JSON encoded and signed. To
-            learn more about moderation requests, visit our docs.
+            learn more about moderation requests, visit our{" "}
+            <ExternalLink href="https://github.com/coralproject/talk/blob/master/EXTERNAL_MODERATION_PHASES.md#request-signing">
+              docs
+            </ExternalLink>
+            .
           </FormFieldDescription>
         </Localized>
         <Button
