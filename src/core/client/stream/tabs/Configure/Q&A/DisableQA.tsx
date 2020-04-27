@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button } from "coral-ui/components/v3";
+import { Flex } from "coral-ui/components/v2";
+import { Button, ExperimentalTag } from "coral-ui/components/v3";
 
 import ExpertSelectionQuery from "./ExpertSelectionQuery";
 
@@ -20,9 +21,22 @@ const DisableQA: FunctionComponent<Props> = ({
   storyID,
 }) => (
   <div className={CLASSES.openCommentStream.$root}>
-    <Localized id="configure-disableQA-title">
-      <div className={styles.heading}>Configure this Q&A</div>
-    </Localized>
+    <Flex alignItems="center">
+      <Localized id="configure-disableQA-title">
+        <div className={styles.heading}>Configure this Q&A</div>
+      </Localized>
+      <div className={styles.experimental}>
+        <ExperimentalTag
+          content={
+            <Localized id="qa-experimental-tag-tooltip-content">
+              The Q&A format is currently in active development. Please contact
+              us with any feedback or requests.
+            </Localized>
+          }
+        />
+      </div>
+    </Flex>
+
     <Localized id="configure-disableQA-description">
       <div className={styles.description}>
         The Q&A format allows community members to submit questions for chosen

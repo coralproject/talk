@@ -542,7 +542,13 @@ configure-openStream-theStreamIsNowClosed = The stream is now closed
 
 configure-moderateThisStream = Moderate this stream
 
-configure-enableQA-title = Switch to Q&A Format
+qa-experimental-tag-tooltip-content =
+  The Q&A format is currently in active development. Please contact
+  us with any feedback or requests.
+
+configure-enableQA-title =
+configure-enableQA-switchToQA =
+  Switch to Q&A format
 configure-enableQA-description =
   The Q&A format allows community members to submit questions for chosen
   experts to answer.
