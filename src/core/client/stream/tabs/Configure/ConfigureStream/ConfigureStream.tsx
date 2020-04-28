@@ -8,7 +8,6 @@ import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
 import { UpdateStorySettingsInput } from "./UpdateStorySettingsMutation";
@@ -46,7 +45,6 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <div className={styles.configureItems}>
             <PremodConfigContainer disabled={submitting} />
             <PremodLinksConfigContainer disabled={submitting} />
-            <MessageBoxConfigContainer disabled={submitting} />
           </div>
           <Localized id="configure-stream-update">
             <Button

@@ -527,20 +527,32 @@ configure-disableLiveUpdates-disable = Disable
 configure-liveUpdates-disabledSuccess = Live updates are now disabled
 configure-liveUpdates-enabledSuccess = Live updates are now enabled
 
-configure-messageBox-title = Enable Message Box for this Story
+configure-messageBox-title =
+configure-addMessage-title =
+  Add a message or question
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers.
-  Use this to suggest a discussion topic, ask a question or make
-  announcements relating to the comments on this story.
+configure-addMessage-description =
+  Add a message to the top of the comment box for your readers. Use this
+  to pose a topic, ask a question or make announcements relating to this
+  story.
+configure-addMessage-addMessage = Add message
+configure-addMessage-removed = Message has been removed
+config-addMessage-messageHasBeenAdded =
+  The message has been added to the comment box
+configure-addMessage-remove = Remove
+configure-addMessage-submitUpdate = Update
+configure-addMessage-cancel = Cancel
+configure-addMessage-submitAdd = Add message
+
 configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-selectAnIcon = Select an icon
 configure-messageBox-iconConversation = Conversation
 configure-messageBox-iconDate = Date
 configure-messageBox-iconHelp = Help
 configure-messageBox-iconWarning = Warning
-configure-messageBox-iconChatBubble = Chat Bubble
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+configure-messageBox-iconChatBubble = Chat bubble
+configure-messageBox-noIcon = No icon
+configure-messageBox-writeAMessage = Write a message
 
 configure-closeStream-title =
 configure-closeStream-closeCommentStream =
