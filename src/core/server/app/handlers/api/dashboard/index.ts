@@ -6,22 +6,23 @@ import {
   CommentsTodayJSON,
   DailyTopStoriesJSON,
   RejectedTodayJSON,
-  SignupsDailyJSON,
   SignupsTodayJSON,
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
-  retrieveDailyCommentTotal,
-  retrieveDailyRejectionTotal,
-  retrieveDailyStaffCommentTotal,
+  retrieveCommentsToday,
   retrieveHourlyCommentTotal,
   retrieveHourlyStaffCommentTotal,
-} from "coral-server/services/comments/stats";
+  retrieveStaffCommentsToday,
+  retrievRejectionsToday,
+  totalComments,
+  totalRejected,
+  totalStaffComments,
+} from "coral-server/services/comments";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
 import {
-  countBanned,
-  retrieveDailySignups,
-  retrieveTodaySignups,
+  retrieveBansToday,
+  retrieveSignupsToday,
 } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
@@ -29,35 +30,38 @@ const DEFAULT_TIMEZONE = "America/New_York";
 
 export const commentsHandler = ({
   redis,
-}: Pick<AppOptions, "redis">): RequestHandler => {
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
   return async (req, res, next) => {
-    // const coral = req.coral!;
-    // const tenant = coral.tenant!;
-    // const site = req.site!;
-    // const zone = req.query.tz || DEFAULT_TIMEZONE;
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const site = req.site!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      // const dailyCommentTotal = await retrieveDailyCommentTotal(
-      //   redis,
-      //   tenant.id,
-      //   site.id,
-      //   zone,
-      //   coral.now
-      // );
-      // const dailyStaffCommentTotal = await retrieveDailyStaffCommentTotal(
-      //   redis,
-      //   tenant.id,
-      //   site.id,
-      //   zone,
-      //   coral.now
-      // );
+      const total = await totalComments(
+        redis,
+        mongo,
+        tenant.id,
+        site.id,
+        zone,
+        coral.now
+      );
+      const staffTotal = await totalStaffComments(
+        redis,
+        mongo,
+        tenant.id,
+        site.id,
+        zone,
+        coral.now
+      );
 
       const resp: CommentsAllTimeJSON = {
         comments: {
-          count: 0,
+          count: total,
           byAuthorRole: {
             staff: {
-              count: 0,
+              count: staffTotal,
             },
           },
         },
@@ -80,14 +84,14 @@ export const commentsTodayHandler = ({
     const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      const dailyCommentTotal = await retrieveDailyCommentTotal(
+      const dailyCommentTotal = await retrieveCommentsToday(
         redis,
         tenant.id,
         site.id,
         zone,
         coral.now
       );
-      const dailyStaffCommentTotal = await retrieveDailyStaffCommentTotal(
+      const dailyStaffCommentTotal = await retrieveStaffCommentsToday(
         redis,
         tenant.id,
         site.id,
@@ -189,47 +193,20 @@ export const topCommentedStoriesHandler = ({
 };
 
 export const signupsTodayHandler = ({
-  mongo,
-}: Pick<AppOptions, "mongo">): RequestHandler => {
+  redis,
+}: Pick<AppOptions, "redis">): RequestHandler => {
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
     const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      const count = await retrieveTodaySignups(mongo, tenant, zone, coral.now);
+      const count = await retrieveSignupsToday(redis, tenant, zone, coral.now);
 
       const json: SignupsTodayJSON = {
         signups: {
           count,
         },
-      };
-
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
-
-export const signupsDailyHandler = ({
-  redis,
-  mongo,
-}: TopCommentedStatsOptions): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-
-    try {
-      const signups = await retrieveDailySignups(
-        mongo,
-        redis,
-        tenant,
-        coral.now
-      );
-
-      const json: SignupsDailyJSON = {
-        signups,
       };
 
       return res.json(json);
@@ -249,7 +226,7 @@ export const bansTodayHandler = ({
     const zone = req.query.tz || DEFAULT_TIMEZONE;
 
     try {
-      const count = await countBanned(mongo, redis, tenant.id, zone, coral.now);
+      const count = await retrieveBansToday(redis, tenant.id, zone, coral.now);
 
       const json: BansTodayJSON = {
         banned: {
@@ -293,8 +270,41 @@ export const rejectedTodayHandler = ({
     const site = req.site!;
 
     try {
-      const count = await retrieveDailyRejectionTotal(
+      const count = await retrievRejectionsToday(
         redis,
+        tenant.id,
+        site.id,
+        zone,
+        coral.now
+      );
+
+      const json: RejectedTodayJSON = {
+        rejected: {
+          count,
+        },
+      };
+
+      return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const rejectedAllTimeHandler = ({
+  redis,
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
+    const site = req.site!;
+
+    try {
+      const count = await totalRejected(
+        redis,
+        mongo,
         tenant.id,
         site.id,
         zone,

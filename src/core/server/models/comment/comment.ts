@@ -30,6 +30,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
   GQLTAG,
+  GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
@@ -1055,6 +1056,65 @@ export async function retrieveRecentStatusCounts(
     authorID,
   ]);
   return counts[0];
+}
+
+export async function countUntil(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  until: Date
+) {
+  return collection(mongo)
+    .find({
+      tenantID,
+      siteID,
+      createdAt: {
+        $lt: until,
+      },
+    })
+    .count();
+}
+
+export async function countStaffCommentsUntil(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  until: Date
+) {
+  return collection(mongo)
+    .find({
+      tenantID,
+      siteID,
+      createdAt: {
+        $lt: until,
+      },
+      author: {
+        role: {
+          $in: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR, GQLUSER_ROLE.STAFF],
+        },
+      },
+    })
+    .count();
+}
+
+export async function countRejectedUntil(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  until: Date
+) {
+  return collection(mongo)
+    .find({
+      tenantID,
+      siteID,
+      createdAt: {
+        $lt: until,
+      },
+      status: {
+        $in: [GQLCOMMENT_STATUS.REJECTED],
+      },
+    })
+    .count();
 }
 
 export async function retrieveManyRejected(

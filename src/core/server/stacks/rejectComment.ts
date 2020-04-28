@@ -5,8 +5,8 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { hasTag, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import {
+  incrementRejectionsToday,
   removeTag,
-  updateRejectionTotal,
 } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -55,7 +55,7 @@ const rejectComment = async (
     actionCounts: {},
   });
 
-  await updateRejectionTotal(redis, tenant.id, comment.siteID, now);
+  await incrementRejectionsToday(redis, tenant.id, comment.siteID, now);
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira

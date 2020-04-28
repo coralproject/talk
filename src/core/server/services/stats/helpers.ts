@@ -2,7 +2,7 @@ import { Redis } from "ioredis";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 
-export function updateDailyCount(
+export function incrementDailyCount(
   redis: Redis,
   tenantID: string,
   siteID: string | null,
@@ -20,7 +20,7 @@ export function updateDailyCount(
   return redis.multi().incr(dailyKey).expireat(dailyKey, expireDaily).exec();
 }
 
-export function updateHourlyCount(
+export function incrementHourlyCount(
   redis: Redis,
   tenantID: string,
   siteID: string | null,

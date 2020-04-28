@@ -1,4 +1,4 @@
-import { flatten, intersection } from "lodash";
+import { intersection } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -36,8 +36,6 @@ import {
   consolidateUserBanStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
-  countUsersByCreationDate,
-  countUsersForCreationDate,
   createModeratorNote,
   createUser,
   createUserToken,
@@ -78,11 +76,9 @@ import {
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
-import {
-  retrieveDailyTotal,
-  updateHourlyCount,
-} from "coral-server/services/stats/helpers";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
+
+import { incrementBansToday, incrementSignupsToday } from "./stats";
 
 import {
   GQLAuthIntegrations,
@@ -127,6 +123,7 @@ export interface FindOrCreateUserOptions {
 
 export async function findOrCreate(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -168,6 +165,7 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
+    await incrementSignupsToday(redis, tenant.id, now);
     // TODO: (wyattjoh) emit that a user was created
   }
 
@@ -180,6 +178,7 @@ export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   input: CreateUser,
   options: CreateUserOptions,
@@ -213,6 +212,7 @@ export async function create(
   const user = await createUser(mongo, tenant.id, input, now);
 
   // TODO: (wyattjoh) emit that a user was created
+  await incrementSignupsToday(redis, tenant.id, now);
 
   // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
@@ -884,7 +884,7 @@ export async function ban(
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-  await updateHourlyCount(redis, tenant.id, null, now, hourlyBansKey);
+  await incrementBansToday(redis, tenant.id, now);
 
   if (rejectExistingComments) {
     await rejector.add({
@@ -1370,100 +1370,77 @@ export async function link(
   return linked;
 }
 
-export async function retrieveTodaySignups(
-  mongo: Db,
-  tenant: Tenant,
-  zone: string,
-  now: Date
-) {
-  if (
-    tenant.auth.integrations.sso.enabled &&
-    tenant.auth.integrations.sso.allowRegistration
-  ) {
-    throw new Error("can't count users");
-  }
-  const startOfDay = DateTime.fromJSDate(now)
-    .setZone(zone)
-    .startOf("day")
-    .toJSDate();
-  return countUsersForCreationDate(mongo, tenant.id, startOfDay, null, now);
-}
+// function dailySignupsKey(tenantID: string) {
+//   return `dailySignups:${tenantID}`;
+// }
 
-function dailySignupsKey(tenantID: string) {
-  return `dailySignups:${tenantID}`;
-}
+// export async function retrieveDailySignups(
+//   mongo: Db,
+//   redis: AugmentedRedis,
+//   tenant: Tenant,
+//   now: Date
+// ) {
+//   if (
+//     tenant.auth.integrations.sso.enabled &&
+//     tenant.auth.integrations.sso.allowRegistration
+//   ) {
+//     throw new Error("can't count users");
+//   }
 
-function hourlyBansKey(tenantID: string, siteID: string, day: number) {
-  return `hourlyBans:${tenantID}:${day}`;
-}
+//   const weekAgo = DateTime.fromJSDate(now).minus({ days: 7 });
 
-export async function retrieveDailySignups(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenant: Tenant,
-  now: Date
-) {
-  if (
-    tenant.auth.integrations.sso.enabled &&
-    tenant.auth.integrations.sso.allowRegistration
-  ) {
-    throw new Error("can't count users");
-  }
+//   // create array of last 7 days as yyyy-mm-dd strings
+//   const stamps = [];
+//   for (let i = 0; i < 7; i++) {
+//     const stamp = weekAgo.plus({ days: i });
+//     stamps.push(stamp.toFormat("yyyy-MM-dd"));
+//   }
+//   const ydayKey = stamps[-1];
+//   const hashKey = dailySignupsKey(tenant.id);
 
-  const weekAgo = DateTime.fromJSDate(now).minus({ days: 7 });
+//   const cachedValues = await redis.hgetall(hashKey);
 
-  // create array of last 7 days as yyyy-mm-dd strings
-  const stamps = [];
-  for (let i = 0; i < 7; i++) {
-    const stamp = weekAgo.plus({ days: i });
-    stamps.push(stamp.toFormat("yyyy-MM-dd"));
-  }
-  const ydayKey = stamps[-1];
-  const hashKey = dailySignupsKey(tenant.id);
+//   // if the key exists and there is an entry for yesterday, return the values
+//   if (cachedValues && cachedValues[ydayKey]) {
+//     return Object.keys(cachedValues).map((key) => ({
+//       date: DateTime.fromString(key, "yyyy-MM-dd").toJSDate().toISOString(),
+//       count: parseInt(key, 10),
+//     }));
+//   }
 
-  const cachedValues = await redis.hgetall(hashKey);
+//   // if there are no cached values or there is no value for yesterday, recalculate and cache
+//   await redis.del(hashKey);
+//   const daysWithSignups = await countUsersByCreationDate(
+//     mongo,
+//     tenant.id,
+//     weekAgo.toJSDate(),
+//     now
+//   );
+//   // ensure there are array entries for each day even if no count was found for that day
+//   const output = stamps.map((stamp) => {
+//     const signups = daysWithSignups.find(({ _id }) => _id === stamp);
 
-  // if the key exists and there is an entry for yesterday, return the values
-  if (cachedValues && cachedValues[ydayKey]) {
-    return Object.keys(cachedValues).map((key) => ({
-      date: DateTime.fromString(key, "yyyy-MM-dd").toJSDate().toISOString(),
-      count: parseInt(key, 10),
-    }));
-  }
+//     return {
+//       date: DateTime.fromString(stamp, "yyyy-MM-dd").toJSDate().toISOString(),
+//       dateString: stamp,
+//       count: signups ? signups.count : 0,
+//     };
+//   });
 
-  // if there are no cached values or there is no value for yesterday, recalculate and cache
-  await redis.del(hashKey);
-  const daysWithSignups = await countUsersByCreationDate(
-    mongo,
-    tenant.id,
-    weekAgo.toJSDate(),
-    now
-  );
-  // ensure there are array entries for each day even if no count was found for that day
-  const output = stamps.map((stamp) => {
-    const signups = daysWithSignups.find(({ _id }) => _id === stamp);
+//   // cache counts as hash of datestrings with count values
+//   await redis.hmset(
+//     dailySignupsKey(tenant.id),
+//     flatten(output.map((day) => [day.dateString, day.count]))
+//   );
+//   return output.map(({ date, count }) => ({ date, count }));
+// }
 
-    return {
-      date: DateTime.fromString(stamp, "yyyy-MM-dd").toJSDate().toISOString(),
-      dateString: stamp,
-      count: signups ? signups.count : 0,
-    };
-  });
-
-  // cache counts as hash of datestrings with count values
-  await redis.hmset(
-    dailySignupsKey(tenant.id),
-    flatten(output.map((day) => [day.dateString, day.count]))
-  );
-  return output.map(({ date, count }) => ({ date, count }));
-}
-
-export async function countBanned(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  zone: string,
-  now: Date
-) {
-  return retrieveDailyTotal(redis, tenantID, null, zone, now, hourlyBansKey);
-}
+// export async function countBanned(
+//   mongo: Db,
+//   redis: AugmentedRedis,
+//   tenantID: string,
+//   zone: string,
+//   now: Date
+// ) {
+//   return retrieveDailyTotal(redis, tenantID, null, zone, now, hourlyBansKey);
+// }

@@ -23,10 +23,12 @@ export type OIDCVerifierOptions = Pick<
 
 export class OIDCVerifier implements Verifier<OIDCIDToken> {
   private mongo: Db;
+  private redis: AugmentedRedis;
   private cache: TenantCacheAdapter<JwksClient>;
 
-  constructor({ mongo, tenantCache }: OIDCVerifierOptions) {
+  constructor({ mongo, tenantCache, redis }: OIDCVerifierOptions) {
     this.mongo = mongo;
+    this.redis = redis;
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 
@@ -54,6 +56,7 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
 
     return findOrCreateOIDCUserWithToken(
       this.mongo,
+      this.redis,
       tenant,
       client,
       integration,

@@ -1,7 +1,6 @@
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
-
 import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
@@ -36,9 +35,9 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
+  incrementCommentsToday,
+  incrementStaffCommentsToday,
   removeTag,
-  updateCommentTotals,
-  updateStaffCommentTotals,
 } from "coral-server/services/comments";
 import {
   addCommentActions,
@@ -248,8 +247,8 @@ export default async function create(
   // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateCommentTotals(redis, tenant.id, story.siteID, now),
-    updateStaffCommentTotals(redis, tenant.id, story.siteID, author, now),
+    incrementCommentsToday(redis, tenant.id, story.siteID, now),
+    incrementStaffCommentsToday(redis, tenant.id, story.siteID, author, now),
     updateTopCommentedStoriesToday(redis, tenant.id, story, now),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(

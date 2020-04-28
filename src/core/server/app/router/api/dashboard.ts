@@ -6,7 +6,6 @@ import {
   commentStatuses,
   commentsTodayHandler,
   rejectedTodayHandler,
-  signupsDailyHandler,
   signupsTodayHandler,
   topCommentedStoriesHandler,
 } from "coral-server/app/handlers/api/dashboard";
@@ -46,7 +45,6 @@ export function createDashboardRouter(app: AppOptions) {
   router.get("/bans/today", attachSite(app), bansTodayHandler(app));
   router.get("/rejected/today", attachSite(app), rejectedTodayHandler(app));
   router.get("/signups/today", attachSite(app), signupsTodayHandler(app));
-  router.get("/signups/daily", attachSite(app), signupsDailyHandler(app));
   router.get(
     "/top-stories/today",
     attachSite(app),

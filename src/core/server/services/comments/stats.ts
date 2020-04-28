@@ -1,10 +1,17 @@
 import { Redis } from "ioredis";
+import { DateTime } from "luxon";
+import { Db } from "mongodb";
 
+import {
+  countRejectedUntil,
+  countStaffCommentsUntil,
+  countUntil,
+} from "coral-server/models/comment";
 import { User } from "coral-server/models/user";
 import {
+  incrementHourlyCount,
   retrieveDailyTotal,
   retrieveHourlyTotals,
-  updateHourlyCount,
 } from "coral-server/services/stats/helpers";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
@@ -34,16 +41,22 @@ function hourlyStaffCommentCountKey(
   return `stats:${tenantID}:${siteID}:hourlyStaffCommentCount:${hour}`;
 }
 
-export function updateCommentTotals(
+export function incrementCommentsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
   now: Date
 ) {
-  return updateHourlyCount(redis, tenantID, siteID, now, hourlyCommentCountKey);
+  return incrementHourlyCount(
+    redis,
+    tenantID,
+    siteID,
+    now,
+    hourlyCommentCountKey
+  );
 }
 
-export async function updateStaffCommentTotals(
+export function incrementStaffCommentsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
@@ -55,7 +68,7 @@ export async function updateStaffCommentTotals(
       user.role
     )
   ) {
-    return updateHourlyCount(
+    return incrementHourlyCount(
       redis,
       tenantID,
       siteID,
@@ -66,13 +79,13 @@ export async function updateStaffCommentTotals(
   return;
 }
 
-export async function updateRejectionTotal(
+export function incrementRejectionsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
   now: Date
 ) {
-  return updateHourlyCount(
+  return incrementHourlyCount(
     redis,
     tenantID,
     siteID,
@@ -81,7 +94,7 @@ export async function updateRejectionTotal(
   );
 }
 
-export async function retrieveDailyCommentTotal(
+export async function retrieveCommentsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
@@ -98,7 +111,7 @@ export async function retrieveDailyCommentTotal(
   );
 }
 
-export async function retrieveDailyRejectionTotal(
+export async function retrievRejectionsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
@@ -115,7 +128,7 @@ export async function retrieveDailyRejectionTotal(
   );
 }
 
-export async function retrieveDailyStaffCommentTotal(
+export async function retrieveStaffCommentsToday(
   redis: Redis,
   tenantID: string,
   siteID: string,
@@ -160,4 +173,45 @@ export async function retrieveHourlyStaffCommentTotal(
     now,
     hourlyStaffCommentCountKey
   );
+}
+
+export async function totalComments(
+  redis: Redis,
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  zone: string,
+  now: Date
+) {
+  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  return countUntil(mongo, tenantID, siteID, startOfDay.toJSDate());
+}
+
+export async function totalStaffComments(
+  redis: Redis,
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  zone: string,
+  now: Date
+) {
+  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  return countStaffCommentsUntil(
+    mongo,
+    tenantID,
+    siteID,
+    startOfDay.toJSDate()
+  );
+}
+
+export async function totalRejected(
+  redis: Redis,
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  zone: string,
+  now: Date
+) {
+  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  return countRejectedUntil(mongo, tenantID, siteID, startOfDay.toJSDate());
 }

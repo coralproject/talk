@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
-import { Strategy as BaseStrategy, StrategyCreated } from "passport";
+import { Profile, Strategy as BaseStrategy, StrategyCreated } from "passport";
+import { VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { Config } from "coral-server/config";
@@ -12,8 +13,6 @@ import {
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
-import { Profile } from "passport";
-import { VerifyCallback } from "passport-oauth2";
 
 interface OAuth2Integration {
   enabled: boolean;
@@ -24,6 +23,7 @@ interface OAuth2Integration {
 export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
+  redis: AugmentedRedis;
   tenantCache: TenantCache;
   authenticateOptions?: Record<string, any>;
 }
@@ -35,6 +35,7 @@ export default abstract class OAuth2Strategy<
   public abstract name: string;
   protected config: Config;
   protected mongo: Db;
+  protected redis: AugmentedRedis;
   protected cache: TenantCacheAdapter<Strategy>;
   private authenticateOptions: Record<string, any>;
 
@@ -42,12 +43,14 @@ export default abstract class OAuth2Strategy<
     config,
     mongo,
     tenantCache,
+    redis,
     authenticateOptions,
   }: OAuth2StrategyOptions) {
     super();
 
     this.config = config;
     this.mongo = mongo;
+    this.redis = redis;
     this.cache = new TenantCacheAdapter(tenantCache);
     this.authenticateOptions = authenticateOptions || {};
   }

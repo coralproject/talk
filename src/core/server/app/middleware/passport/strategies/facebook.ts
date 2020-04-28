@@ -78,6 +78,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
 
     return findOrCreate(
       this.mongo,
+      this.redis,
       tenant,
       {
         role: GQLUSER_ROLE.COMMENTER,
