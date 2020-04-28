@@ -41,7 +41,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
           id="configure-form"
         >
           <Localized id="configure-stream-title-configureThisStream">
-            <div className={styles.heading}>Configure this Stream</div>
+            <div className={styles.heading}>Configure this stream</div>
           </Localized>
           <div className={styles.configureItems}>
             <PremodConfigContainer disabled={submitting} />

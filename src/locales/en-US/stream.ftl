@@ -487,19 +487,22 @@ profile-changeUsername-youChangedYourUsernameWithin =
 profile-changeUsername-close = Close
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
+configure-stream-title =
 configure-stream-title-configureThisStream =
-  Configure this Stream
+  Configure this stream
 configure-stream-apply =
 configure-stream-update = Update
 configure-stream-streamHasBeenUpdated =
   This stream has been updated
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title =
+configure-premod-premoderateAllComments = Pre-moderate all comments
 configure-premod-description =
   Moderators must approve any comment before it is published to this story.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title =
+configure-premodLink-commentsContainingLinks =
+  Pre-moderate comments containing links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
@@ -539,7 +542,9 @@ configure-messageBox-iconChatBubble = Chat Bubble
 configure-messageBox-noIcon = No Icon
 configure-messageBox-writeAMessage = Write a Message
 
-configure-closeStream-title = Close Comment Stream
+configure-closeStream-title =
+configure-closeStream-closeCommentStream =
+  Close comment stream
 configure-closeStream-description =
   This comment stream is currently open. By closing this comment stream,
   no new comments may be submitted and all previously submitted comments

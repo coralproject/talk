@@ -79,7 +79,7 @@ it("change premod", async () => {
     }),
   });
 
-  const premodField = within(form).getByLabelText("Enable Pre-Moderation");
+  const premodField = within(form).getByLabelText("Pre-moderate all comments");
 
   expect(applyButton.props.disabled).toBe(true);
   // Let's enable premod.
@@ -123,7 +123,7 @@ it("change premod links", async () => {
   });
 
   const premodLinksField = within(form).getByLabelText(
-    "Pre-Moderate Comments Containing Links"
+    "Pre-moderate comments containing links"
   );
 
   expect(applyButton.props.disabled).toBe(true);

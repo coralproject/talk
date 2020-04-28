@@ -58,7 +58,7 @@ exports[`renders configure 1`] = `
       <div
         className="ConfigureStream-heading"
       >
-        Configure this Stream
+        Configure this stream
       </div>
       <div
         className="ConfigureStream-configureItems"
@@ -90,7 +90,7 @@ exports[`renders configure 1`] = `
                   className="ToggleConfig-title"
                 >
                   <span>
-                    Enable Pre-Moderation
+                    Pre-moderate all comments
                   </span>
                 </div>
               </span>
@@ -133,7 +133,7 @@ exports[`renders configure 1`] = `
                   className="ToggleConfig-title"
                 >
                   <span>
-                    Pre-Moderate Comments Containing Links
+                    Pre-moderate comments containing links
                   </span>
                 </div>
               </span>
@@ -261,7 +261,7 @@ getting so much traffic that the comments are loading slowly.
       <div
         className="CloseStream-heading"
       >
-        Close Comment Stream
+        Close comment stream
       </div>
       <div
         className="CloseStream-description"
