@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { FirstDeepPartial } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
+import { CommentStatusCounts } from "coral-server/models/comment";
 import {
   Connection,
   ConnectionInput,
@@ -13,6 +14,8 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { sites as collection } from "coral-server/services/mongodb/collections";
+
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import {
   createEmptyRelatedCommentCounts,
@@ -177,3 +180,25 @@ export const updateSiteCounts = (
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+
+export function getSiteCommentCount(site: Site) {
+  if (!site) {
+    return 0;
+  }
+  return Object.keys(site.commentCounts.status).reduce(
+    (acc, status: keyof CommentStatusCounts) => {
+      return acc + site.commentCounts.status[status];
+    },
+    0
+  );
+}
+
+export function getSiteCommentCountByStatus(
+  site: Site,
+  status: GQLCOMMENT_STATUS
+) {
+  if (!site) {
+    return 0;
+  }
+  return site.commentCounts.status[status];
+}

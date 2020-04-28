@@ -2583,14 +2583,26 @@ export const updateUserCommentCounts = (
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
 
-export async function countUserBans(mongo: Db, tenantID: string, since: Date) {
-  return collection(mongo)
-    .find({
-      tenantID,
-      "status.ban.active": true,
-      "status.ban.history.createdAt": {
-        $gt: since,
+export async function countUsersByBanStatus(mongo: Db, tenantID: string) {
+  const cursor = collection<{
+    _id: boolean | null;
+    count: number;
+  }>(mongo).aggregate([
+    {
+      $match: {
+        tenantID,
       },
-    })
-    .count();
+    },
+    {
+      $group: {
+        _id: "$status.ban.active",
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  const arr = await cursor.toArray();
+  const banned = arr.find((item) => item._id);
+  const all = arr.reduce((prev, item) => prev + item.count, 0);
+  return { all, banned: banned ? banned.count : 0 };
 }

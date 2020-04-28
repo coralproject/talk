@@ -36,6 +36,7 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   incrementCommentsToday,
+  incrementStaffCommentCount,
   incrementStaffCommentsToday,
   removeTag,
 } from "coral-server/services/comments";
@@ -249,6 +250,7 @@ export default async function create(
     updateUserLastCommentID(redis, tenant, author, comment.id),
     incrementCommentsToday(redis, tenant.id, story.siteID, now),
     incrementStaffCommentsToday(redis, tenant.id, story.siteID, author, now),
+    incrementStaffCommentCount(redis, tenant.id, story.siteID),
     updateTopCommentedStoriesToday(redis, tenant.id, story, now),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(

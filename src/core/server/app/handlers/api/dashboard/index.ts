@@ -1,8 +1,6 @@
 import {
   BansTodayJSON,
-  CommentsAllTimeJSON,
   CommentsHourlyJSON,
-  CommentStatusesJSON,
   CommentsTodayJSON,
   DailyTopStoriesJSON,
   RejectedTodayJSON,
@@ -10,69 +8,28 @@ import {
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
+  getSiteCommentCount,
+  getSiteCommentCountByStatus,
+} from "coral-server/models/site";
+import {
   retrieveCommentsToday,
   retrieveHourlyCommentTotal,
   retrieveHourlyStaffCommentTotal,
+  retrieveStaffCommentCount,
   retrieveStaffCommentsToday,
   retrievRejectionsToday,
-  totalComments,
-  totalRejected,
-  totalStaffComments,
 } from "coral-server/services/comments";
 import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
 import {
+  retrieveBanStatusCount,
   retrieveBansToday,
   retrieveSignupsToday,
 } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+
 const DEFAULT_TIMEZONE = "America/New_York";
-
-export const commentsHandler = ({
-  redis,
-  mongo,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const site = req.site!;
-    const zone = req.query.tz || DEFAULT_TIMEZONE;
-
-    try {
-      const total = await totalComments(
-        redis,
-        mongo,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-      const staffTotal = await totalStaffComments(
-        redis,
-        mongo,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-
-      const resp: CommentsAllTimeJSON = {
-        comments: {
-          count: total,
-          byAuthorRole: {
-            staff: {
-              count: staffTotal,
-            },
-          },
-        },
-      };
-
-      return res.json(resp);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
 
 export const commentsTodayHandler = ({
   redis,
@@ -241,25 +198,6 @@ export const bansTodayHandler = ({
   };
 };
 
-export const commentStatuses: RequestHandler = (req, res, next) => {
-  const site = req.site!;
-
-  try {
-    const { status } = site.commentCounts;
-    const json: CommentStatusesJSON = {
-      commentStatuses: {
-        other: status.APPROVED + status.NONE + status.PREMOD,
-        rejected: site.commentCounts.status.REJECTED,
-        witheld: site.commentCounts.status.SYSTEM_WITHHELD,
-      },
-    };
-
-    return res.json(json);
-  } catch (err) {
-    return next(err);
-  }
-};
-
 export const rejectedTodayHandler = ({
   redis,
 }: TopCommentedStatsOptions): RequestHandler => {
@@ -296,28 +234,82 @@ export const rejectedAllTimeHandler = ({
   mongo,
 }: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
   return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const zone = req.query.tz || DEFAULT_TIMEZONE;
     const site = req.site!;
 
     try {
-      const count = await totalRejected(
-        redis,
-        mongo,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-
       const json: RejectedTodayJSON = {
         rejected: {
-          count,
+          count: getSiteCommentCountByStatus(site, GQLCOMMENT_STATUS.REJECTED),
         },
       };
 
       return res.json(json);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const commentsAllTimeHandler = ({
+  redis,
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const site = req.site!;
+
+    try {
+      const staff = await retrieveStaffCommentCount(
+        mongo,
+        redis,
+        tenant.id,
+        site.id
+      );
+
+      const resp = {
+        comments: {
+          count: getSiteCommentCount(site),
+          byAuthorRole: {
+            staff,
+          },
+        },
+      };
+
+      return res.json(resp);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const banStatusAllTimeHandler = ({
+  redis,
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const site = req.site!;
+
+    try {
+      const { all, banned } = await retrieveBanStatusCount(
+        mongo,
+        redis,
+        tenant.id,
+        site.id
+      );
+
+      const resp = {
+        users: {
+          count: all,
+          banned: {
+            count: banned,
+          },
+        },
+      };
+
+      return res.json(resp);
     } catch (err) {
       return next(err);
     }

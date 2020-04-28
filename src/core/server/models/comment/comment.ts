@@ -1058,21 +1058,36 @@ export async function retrieveRecentStatusCounts(
   return counts[0];
 }
 
-export async function countUntil(
+export async function countAll(mongo: Db, tenantID: string, siteID: string) {
+  const cursor = collection<{
+    count: number;
+  }>(mongo).aggregate([
+    { $match: { tenantID, siteID } },
+    {
+      $count: "count",
+    },
+  ]);
+  return cursor.toArray();
+}
+
+export async function countAllByTagType(
   mongo: Db,
   tenantID: string,
   siteID: string,
-  until: Date
+  tag: GQLTAG
 ) {
-  return collection(mongo)
-    .find({
-      tenantID,
-      siteID,
-      createdAt: {
-        $lt: until,
+  const cursor = collection<{
+    count: number;
+  }>(mongo).aggregate([
+    { $match: { tenantID, siteID, "tags.type": tag } },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
       },
-    })
-    .count();
+    },
+  ]);
+  return cursor.toArray();
 }
 
 export async function countStaffCommentsUntil(
@@ -1095,63 +1110,4 @@ export async function countStaffCommentsUntil(
       },
     })
     .count();
-}
-
-export async function countRejectedUntil(
-  mongo: Db,
-  tenantID: string,
-  siteID: string,
-  until: Date
-) {
-  return collection(mongo)
-    .find({
-      tenantID,
-      siteID,
-      createdAt: {
-        $lt: until,
-      },
-      status: {
-        $in: [GQLCOMMENT_STATUS.REJECTED],
-      },
-    })
-    .count();
-}
-
-export async function retrieveManyRejected(
-  mongo: Db,
-  tenantID: string,
-  since: Date
-) {
-  // Get all the statuses for the given date stamp.
-  const cursor = collection<{
-    _id: {
-      status: GQLCOMMENT_STATUS;
-    };
-    count: number;
-  }>(mongo).aggregate([
-    {
-      $match: {
-        tenantID,
-        status: {
-          $in: [GQLCOMMENT_STATUS.REJECTED, GQLCOMMENT_STATUS.SYSTEM_WITHHELD],
-        },
-        createdAt: {
-          $gte: since,
-        },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          status: "$status",
-        },
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-
-  // Get all of the statuses.
-  const docs = await cursor.toArray();
-  /* eslint-disable-next-line */
-  return docs;
 }

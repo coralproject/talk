@@ -1,10 +1,12 @@
 import { AppOptions } from "coral-server/app";
 
 import {
+  banStatusAllTimeHandler,
   bansTodayHandler,
+  commentsAllTimeHandler,
   commentsHourlyHandler,
-  commentStatuses,
   commentsTodayHandler,
+  rejectedAllTimeHandler,
   rejectedTodayHandler,
   signupsTodayHandler,
   topCommentedStoriesHandler,
@@ -41,16 +43,18 @@ export function createDashboardRouter(app: AppOptions) {
   }
 
   router.get("/comments/today", attachSite(app), commentsTodayHandler(app));
+  router.get("/comments/all", attachSite(app), commentsAllTimeHandler(app));
   router.get("/comments/hourly", attachSite(app), commentsHourlyHandler(app));
   router.get("/bans/today", attachSite(app), bansTodayHandler(app));
   router.get("/rejected/today", attachSite(app), rejectedTodayHandler(app));
   router.get("/signups/today", attachSite(app), signupsTodayHandler(app));
+  router.get("/user_ban_status", attachSite(app), banStatusAllTimeHandler(app));
   router.get(
     "/top-stories/today",
     attachSite(app),
     topCommentedStoriesHandler(app)
   );
-  router.get("/community-health", attachSite(app), commentStatuses);
+  router.get("/rejected/all", attachSite(app), rejectedAllTimeHandler(app));
 
   return router;
 }
