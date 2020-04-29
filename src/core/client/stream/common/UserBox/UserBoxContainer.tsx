@@ -35,7 +35,11 @@ interface Props {
   signOut: MutationProp<typeof SignOutMutation>;
 }
 
-export class UserBoxContainer extends Component<Props> {
+interface State {
+  showLogout: boolean;
+}
+
+export class UserBoxContainer extends Component<Props, State> {
   private handleFocus = () => this.props.setAuthPopupState({ focus: true });
   private handleBlur = () => this.props.setAuthPopupState({ focus: false });
   private handleClose = () => this.props.setAuthPopupState({ open: false });

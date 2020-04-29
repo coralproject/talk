@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./UserBoxAuthenticated.css";
 
@@ -17,51 +18,42 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
   props
 ) => {
   const Username = () => (
-    <Typography variant="heading3" container="span">
-      {props.username}
-    </Typography>
+    <div className={styles.username}>{props.username}</div>
   );
 
   return (
-    <Flex itemGutter="half" className={CLASSES.viewerBox.$root} wrap>
-      <Localized
-        id="general-userBoxAuthenticated-signedInAs"
-        Username={<Username />}
-      >
-        <Typography
-          className={styles.userBoxText}
-          variant="bodyCopy"
-          container="div"
-        >
-          {"Signed in as <Username></Username>."}
-        </Typography>
+    <div className={CLASSES.viewerBox.$root}>
+      <Localized id="general-userBoxAuthenticated-signedIn">
+        <div className={styles.text}>Signed in as</div>
       </Localized>
-      {props.showLogoutButton && (
-        <Localized
-          id="general-userBoxAuthenticated-notYou"
-          button={
-            <Button
-              color="primary"
-              size="small"
-              onClick={props.onSignOut}
-              variant="regular"
-              className={cn(
-                styles.userBoxButton,
-                CLASSES.viewerBox.logoutButton
-              )}
-            />
-          }
-        >
-          <Typography
-            variant="bodyCopy"
-            className={styles.userBoxText}
-            container={Flex}
+      <Flex alignItems="center" wrap>
+        <Username />
+        {props.showLogoutButton && (
+          <Localized
+            id="general-userBoxAuthenticated-notYou"
+            button={
+              <Button
+                color="primary"
+                textSize="small"
+                fontWeight="semiBold"
+                marginSize="none"
+                onClick={props.onSignOut}
+                variant="flat"
+                underline
+                className={cn(
+                  styles.userBoxButton,
+                  CLASSES.viewerBox.logoutButton
+                )}
+              />
+            }
           >
-            {"Not you? <button>Sign Out</button>"}
-          </Typography>
-        </Localized>
-      )}
-    </Flex>
+            <span className={cn(styles.text, styles.signOut)}>
+              {"Not you? <button>Sign Out</button>"}
+            </span>
+          </Localized>
+        )}
+      </Flex>
+    </div>
   );
 };
 

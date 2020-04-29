@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
-import MatchMedia from "coral-ui/components/MatchMedia";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./UserBoxUnauthenticated.css";
 
@@ -17,45 +18,40 @@ const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
   props
 ) => {
   return (
-    <Flex itemGutter alignItems="center" className={CLASSES.viewerBox.$root}>
-      <MatchMedia gteWidth="sm">
-        <Localized id="general-userBoxUnauthenticated-joinTheConversation">
-          <Typography
-            className={styles.joinText}
-            variant="bodyCopyBold"
-            container="span"
-          >
-            Join the conversation
-          </Typography>
-        </Localized>
-        <Typography variant="bodyCopyBold" container="span">
-          |
-        </Typography>
-      </MatchMedia>
-      <Localized id="general-userBoxUnauthenticated-signIn">
-        <Button
-          color="primary"
-          size="small"
-          variant="underlined"
-          onClick={props.onSignIn}
-          className={CLASSES.viewerBox.signInButton}
-        >
-          Sign in
-        </Button>
+    <Flex alignItems="center" className={CLASSES.viewerBox.$root} wrap>
+      <Localized id="general-userBoxUnauthenticated-joinTheConversation">
+        <span className={styles.joinText}>Join the conversation</span>
       </Localized>
-      {props.showRegisterButton && (
-        <Localized id="general-userBoxUnauthenticated-register">
+      <div className={styles.actions}>
+        {props.showRegisterButton && (
+          <Localized id="general-userBoxUnauthenticated-register">
+            <Button
+              color="primary"
+              textSize="extraSmall"
+              marginSize="extraSmall"
+              variant="filled"
+              onClick={props.onRegister}
+              className={cn(styles.register, CLASSES.viewerBox.registerButton)}
+              upperCase
+            >
+              Register
+            </Button>
+          </Localized>
+        )}
+        <Localized id="general-userBoxUnauthenticated-signIn">
           <Button
             color="primary"
-            size="small"
+            textSize="extraSmall"
+            marginSize="extraSmall"
             variant="outlined"
-            onClick={props.onRegister}
-            className={CLASSES.viewerBox.registerButton}
+            onClick={props.onSignIn}
+            className={CLASSES.viewerBox.signInButton}
+            upperCase
           >
-            Register
+            Sign in
           </Button>
         </Localized>
-      )}
+      </div>
     </Flex>
   );
 };
