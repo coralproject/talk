@@ -260,6 +260,41 @@ export const commenters = createFixtures<GQLUser>(
   baseUser
 );
 
+export const baseStory = createFixture<GQLStory>({
+  id: "story-0",
+  metadata: {
+    title: "title",
+  },
+  isClosed: false,
+  comments: {
+    edges: [],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+  commentCounts: {
+    totalPublished: 0,
+    tags: {
+      FEATURED: 0,
+      UNANSWERED: 0,
+    },
+  },
+  settings: {
+    moderation: GQLMODERATION_MODE.POST,
+    premodLinksEnable: false,
+    messageBox: {
+      enabled: false,
+    },
+    live: {
+      enabled: true,
+      configurable: true,
+    },
+    mode: GQLSTORY_MODE.COMMENTS,
+    experts: [],
+  },
+  site,
+});
+
 export const baseComment = createFixture<GQLComment>({
   author: commenters[0],
   body: "Comment Body",
@@ -279,6 +314,7 @@ export const baseComment = createFixture<GQLComment>({
       total: 0,
     },
   },
+  story: baseStory,
   parent: undefined,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
@@ -513,40 +549,6 @@ export const commentWithDeepestReplies = denormalizeComment(
     },
   })
 );
-
-export const baseStory = createFixture<GQLStory>({
-  metadata: {
-    title: "title",
-  },
-  isClosed: false,
-  comments: {
-    edges: [],
-    pageInfo: {
-      hasNextPage: false,
-    },
-  },
-  commentCounts: {
-    totalPublished: 0,
-    tags: {
-      FEATURED: 0,
-      UNANSWERED: 0,
-    },
-  },
-  settings: {
-    moderation: GQLMODERATION_MODE.POST,
-    premodLinksEnable: false,
-    messageBox: {
-      enabled: false,
-    },
-    live: {
-      enabled: true,
-      configurable: true,
-    },
-    mode: GQLSTORY_MODE.COMMENTS,
-    experts: [],
-  },
-  site,
-});
 
 export const moderators = createFixtures<GQLUser>(
   [

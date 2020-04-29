@@ -48,11 +48,9 @@ export interface StreamModeSettings {
   expertIDs?: string[];
 }
 
-export type StorySettings = DeepPartial<
-  StreamModeSettings &
-    GlobalModerationSettings &
-    Pick<GQLStorySettings, "messageBox" | "mode" | "experts">
->;
+export type StorySettings = StreamModeSettings &
+  GlobalModerationSettings &
+  Pick<GQLStorySettings, "messageBox" | "mode" | "experts">;
 
 export type StoryMetadata = GQLStoryMetadata;
 
@@ -83,7 +81,7 @@ export interface Story extends TenantResource {
    * settings provides a point where the settings can be overridden for a
    * specific Story.
    */
-  settings: StorySettings;
+  settings: DeepPartial<StorySettings>;
 
   /**
    * closedAt is the date that the Story was forced closed at, or false to
@@ -378,7 +376,7 @@ export async function updateStory(
     throw err;
   }
 }
-export type UpdateStorySettingsInput = StorySettings;
+export type UpdateStorySettingsInput = DeepPartial<StorySettings>;
 
 export async function updateStorySettings(
   mongo: Db,
