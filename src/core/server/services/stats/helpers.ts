@@ -31,7 +31,7 @@ export function incrementHourlyCount(
     offset: number
   ) => string
 ) {
-  const hour = DateTime.fromJSDate(now).startOf("hour").hour;
+  const hour = DateTime.fromJSDate(now).startOf("hour").toUTC().hour;
   const expireHourly = DateTime.fromJSDate(now)
     .startOf("hour")
     .plus({ days: 1 })
@@ -53,7 +53,10 @@ export async function retrieveDailyTotal(
     offset: number
   ) => string
 ) {
-  const startOfDay = DateTime.fromJSDate(now).setZone(zone).startOf("day");
+  const startOfDay = DateTime.fromJSDate(now)
+    .setZone(zone)
+    .startOf("day")
+    .toUTC();
   const keys = [];
   for (let i = 0; i < 24; i++) {
     const hour = startOfDay.plus({ hours: i }).hour;
