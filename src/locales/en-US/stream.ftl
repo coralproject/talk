@@ -7,10 +7,13 @@ general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
-
+general-userBoxAuthenticated-signedIn =
+  Signed in as
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
+
+general-userBox-youHaveBeenSuccessfullySignedOut =
+  You have been successfully signed out
 
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
