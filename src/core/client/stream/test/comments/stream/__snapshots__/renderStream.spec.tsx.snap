@@ -51,36 +51,43 @@ exports[`renders comment stream 1`] = `
         className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
       >
         <div
-          className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+          className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
         >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
-            data-color="primary"
-            data-variant="underlined"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+          <span
+            className="UserBoxUnauthenticated-joinText"
           >
-            Sign in
-          </button>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
-            data-color="primary"
-            data-variant="outlined"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+            Join the conversation
+          </span>
+          <div
+            className="UserBoxUnauthenticated-actions"
           >
-            Register
-          </button>
+            <button
+              className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Register
+            </button>
+            <button
+              className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Sign in
+            </button>
+          </div>
         </div>
         <div
           className="coral coral-createComment"

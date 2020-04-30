@@ -163,7 +163,7 @@ it("change message box", async () => {
       story: pureMerge(story, { settings: variables.settings }),
     };
   });
-  const { form, applyButton } = await createTestRenderer({
+  const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         updateStorySettings: updateStorySettingsStub,
@@ -171,44 +171,24 @@ it("change message box", async () => {
     }),
   });
 
-  const enableField = within(form).getByLabelText(
-    "Enable Message Box for this Story"
-  );
-
-  expect(applyButton.props.disabled).toBe(true);
-  // Let's enable premod.
-  act(() => enableField.props.onChange({}));
-  expect(applyButton.props.disabled).toBe(false);
+  const enableField = within(tabPane).getByTestID("configure-addMessage");
+  act(() => enableField.props.onClick());
 
   // Select icon
-  const iconButton = within(form).getByLabelText("question_answer");
+  const iconButton = within(tabPane).getByLabelText("question_answer");
 
   act(() =>
     iconButton.props.onChange({ target: { value: iconButton.props.value } })
   );
 
   // Change content.
-  const messageText = await act(async () => {
-    return await waitForElement(() =>
-      within(form).getByLabelText("Write a Message")
-    );
-  });
+  const messageText = await waitForElement(() =>
+    within(tabPane).getByLabelText("Write a message")
+  );
   act(() => messageText.props.onChange("*What do you think?*"));
 
-  // Send form
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  expect(applyButton.props.disabled).toBe(true);
-  expect(enableField.props.disabled).toBe(true);
-
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(enableField.props.disabled).toBe(false);
-    });
-  });
+  const form = within(tabPane).getByTestID("configure-addMessage-form");
+  act(() => form.props.onSubmit());
 
   // Should have successfully sent with server.
   expect(updateStorySettingsStub.called).toBe(true);
@@ -227,7 +207,7 @@ it("remove message icon", async () => {
       story: pureMerge(story, { settings: variables.settings }),
     };
   });
-  const { form, applyButton } = await createTestRenderer({
+  const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         story: () =>
@@ -248,7 +228,7 @@ it("remove message icon", async () => {
   });
 
   const noIconButton = await waitForElement(() =>
-    within(form).getByLabelText("No Icon", { exact: false })
+    within(tabPane).getByLabelText("No icon", { exact: false })
   );
 
   act(() =>
@@ -256,10 +236,8 @@ it("remove message icon", async () => {
   );
 
   // Send form
-  act(() => {
-    form.props.onSubmit();
-  });
-  expect(applyButton.props.disabled).toBe(true);
+  const form = within(tabPane).getByTestID("configure-addMessage-form");
+  act(() => form.props.onSubmit());
 
   // Wait for submission to be finished
   await act(async () => {

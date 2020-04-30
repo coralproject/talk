@@ -4,55 +4,51 @@ exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   alignItems="center"
   className="coral coral-viewerBox"
-  itemGutter={true}
+  wrap={true}
 >
-  <MatchMediaWithContext
-    gteWidth="sm"
+  <Localized
+    id="general-userBoxUnauthenticated-joinTheConversation"
+  >
+    <span
+      className="UserBoxUnauthenticated-joinText"
+    >
+      Join the conversation
+    </span>
+  </Localized>
+  <div
+    className="UserBoxUnauthenticated-actions"
   >
     <Localized
-      id="general-userBoxUnauthenticated-joinTheConversation"
+      id="general-userBoxUnauthenticated-register"
     >
-      <ForwardRef(forwardRef)
-        className="UserBoxUnauthenticated-joinText"
-        container="span"
-        variant="bodyCopyBold"
+      <withPropsOnChange(Button)
+        className="UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+        color="primary"
+        marginSize="extraSmall"
+        onClick={[Function]}
+        textSize="extraSmall"
+        upperCase={true}
+        variant="filled"
       >
-        Join the conversation
-      </ForwardRef(forwardRef)>
+        Register
+      </withPropsOnChange(Button)>
     </Localized>
-    <ForwardRef(forwardRef)
-      container="span"
-      variant="bodyCopyBold"
+    <Localized
+      id="general-userBoxUnauthenticated-signIn"
     >
-      |
-    </ForwardRef(forwardRef)>
-  </MatchMediaWithContext>
-  <Localized
-    id="general-userBoxUnauthenticated-signIn"
-  >
-    <ForwardRef(forwardRef)
-      className="coral coral-viewerBox-signInButton"
-      color="primary"
-      onClick={[Function]}
-      size="small"
-      variant="underlined"
-    >
-      Sign in
-    </ForwardRef(forwardRef)>
-  </Localized>
-  <Localized
-    id="general-userBoxUnauthenticated-register"
-  >
-    <ForwardRef(forwardRef)
-      className="coral coral-viewerBox-registerButton"
-      color="primary"
-      onClick={[Function]}
-      size="small"
-      variant="outlined"
-    >
-      Register
-    </ForwardRef(forwardRef)>
-  </Localized>
+      <withPropsOnChange(Button)
+        className="coral coral-viewerBox-signInButton"
+        color="primary"
+        marginSize="extraSmall"
+        onClick={[Function]}
+        textSize="extraSmall"
+        upperCase={true}
+        variant="outlined"
+      >
+        Sign in
+      </withPropsOnChange(Button)>
+    </Localized>
+  </div>
 </ForwardRef(forwardRef)>
 `;
 
@@ -60,41 +56,35 @@ exports[`renders correctly hides showRegisterButton 1`] = `
 <ForwardRef(forwardRef)
   alignItems="center"
   className="coral coral-viewerBox"
-  itemGutter={true}
+  wrap={true}
 >
-  <MatchMediaWithContext
-    gteWidth="sm"
+  <Localized
+    id="general-userBoxUnauthenticated-joinTheConversation"
+  >
+    <span
+      className="UserBoxUnauthenticated-joinText"
+    >
+      Join the conversation
+    </span>
+  </Localized>
+  <div
+    className="UserBoxUnauthenticated-actions"
   >
     <Localized
-      id="general-userBoxUnauthenticated-joinTheConversation"
+      id="general-userBoxUnauthenticated-signIn"
     >
-      <ForwardRef(forwardRef)
-        className="UserBoxUnauthenticated-joinText"
-        container="span"
-        variant="bodyCopyBold"
+      <withPropsOnChange(Button)
+        className="coral coral-viewerBox-signInButton"
+        color="primary"
+        marginSize="extraSmall"
+        onClick={[Function]}
+        textSize="extraSmall"
+        upperCase={true}
+        variant="outlined"
       >
-        Join the conversation
-      </ForwardRef(forwardRef)>
+        Sign in
+      </withPropsOnChange(Button)>
     </Localized>
-    <ForwardRef(forwardRef)
-      container="span"
-      variant="bodyCopyBold"
-    >
-      |
-    </ForwardRef(forwardRef)>
-  </MatchMediaWithContext>
-  <Localized
-    id="general-userBoxUnauthenticated-signIn"
-  >
-    <ForwardRef(forwardRef)
-      className="coral coral-viewerBox-signInButton"
-      color="primary"
-      onClick={[Function]}
-      size="small"
-      variant="underlined"
-    >
-      Sign in
-    </ForwardRef(forwardRef)>
-  </Localized>
+  </div>
 </ForwardRef(forwardRef)>
 `;

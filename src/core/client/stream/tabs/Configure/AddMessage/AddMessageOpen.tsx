@@ -113,6 +113,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
             autoComplete="off"
             onSubmit={handleSubmit}
             id="message-box-form"
+            data-testid="configure-addMessage-form"
           >
             <MessageBoxConfig disabled={false} />
             {storySettings.messageBox.content ? (

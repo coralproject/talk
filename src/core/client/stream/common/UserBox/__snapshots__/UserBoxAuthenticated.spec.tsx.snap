@@ -1,68 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly with logout button 1`] = `
-<ForwardRef(forwardRef)
+<div
   className="coral coral-viewerBox"
-  itemGutter="half"
-  wrap={true}
 >
   <Localized
-    Username={<Username />}
-    id="general-userBoxAuthenticated-signedInAs"
+    id="general-userBoxAuthenticated-signedIn"
   >
-    <ForwardRef(forwardRef)
-      className="UserBoxAuthenticated-userBoxText"
-      container="div"
-      variant="bodyCopy"
+    <div
+      className="UserBoxAuthenticated-text"
     >
-      Signed in as &lt;Username&gt;&lt;/Username&gt;.
-    </ForwardRef(forwardRef)>
+      Signed in as
+    </div>
   </Localized>
-  <Localized
-    button={
-      <ForwardRef(forwardRef)
-        className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
-        color="primary"
-        onClick={[Function]}
-        size="small"
-        variant="regular"
-      />
-    }
-    id="general-userBoxAuthenticated-notYou"
+  <ForwardRef(forwardRef)
+    alignItems="center"
+    wrap={true}
   >
-    <ForwardRef(forwardRef)
-      className="UserBoxAuthenticated-userBoxText"
-      container={
-        Object {
-          "$$typeof": Symbol(react.forward_ref),
-          "render": [Function],
-        }
+    <Username />
+    <Localized
+      button={
+        <withPropsOnChange(Button)
+          className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+          color="primary"
+          fontWeight="semiBold"
+          marginSize="none"
+          onClick={[Function]}
+          textSize="small"
+          underline={true}
+          variant="flat"
+        />
       }
-      variant="bodyCopy"
+      id="general-userBoxAuthenticated-notYou"
     >
-      Not you? &lt;button&gt;Sign Out&lt;/button&gt;
-    </ForwardRef(forwardRef)>
-  </Localized>
-</ForwardRef(forwardRef)>
+      <span
+        className="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
+      >
+        Not you? &lt;button&gt;Sign Out&lt;/button&gt;
+      </span>
+    </Localized>
+  </ForwardRef(forwardRef)>
+</div>
 `;
 
 exports[`renders correctly without logout button 1`] = `
-<ForwardRef(forwardRef)
+<div
   className="coral coral-viewerBox"
-  itemGutter="half"
-  wrap={true}
 >
   <Localized
-    Username={<Username />}
-    id="general-userBoxAuthenticated-signedInAs"
+    id="general-userBoxAuthenticated-signedIn"
   >
-    <ForwardRef(forwardRef)
-      className="UserBoxAuthenticated-userBoxText"
-      container="div"
-      variant="bodyCopy"
+    <div
+      className="UserBoxAuthenticated-text"
     >
-      Signed in as &lt;Username&gt;&lt;/Username&gt;.
-    </ForwardRef(forwardRef)>
+      Signed in as
+    </div>
   </Localized>
-</ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
+    alignItems="center"
+    wrap={true}
+  >
+    <Username />
+  </ForwardRef(forwardRef)>
+</div>
 `;
