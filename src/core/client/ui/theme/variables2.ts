@@ -161,6 +161,7 @@ const variables2 = {
     6: "1.5rem",
     7: "1.75rem",
     8: "2rem",
+    9: "2.25rem",
     iconLarge: "1.5rem",
     iconMedium: "1.125rem",
     iconSmall: "0.875rem",

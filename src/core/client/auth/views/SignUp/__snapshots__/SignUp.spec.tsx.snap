@@ -4,69 +4,96 @@ exports[`renders correctly 1`] = `
 <div
   data-testid="signUp-container"
 >
-  <Localized
-    id="signUp-signUpToJoinHeader"
-    subtitle={<Subtitle />}
-    title={<Title />}
+  <div
+    role="banner"
   >
-    <Bar>
-      <Title>
-        Sign Up
-      </Title>
-      <Subtitle>
-        to join the conversation
-      </Subtitle>
-    </Bar>
-  </Localized>
-  <SubBar>
     <Localized
-      id="signUp-accountAvailableSignIn"
-      textlink={
-        <withPropsOnChange(TextLinkProps)
-          href="/signIn"
-          onClick={[Function]}
+      id="signUp-signUpToJoinHeader"
+      subtitle={
+        <div
+          className="coral coral-login-signUp-header SignUp-header"
+        />
+      }
+      title={
+        <div
+          className="coral coral-login-signUp-title SignUp-title"
         />
       }
     >
-      <ForwardRef(forwardRef)
-        container={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        variant="bodyCopy"
+      <div
+        className="coral coral-login-signUp-bar SignUp-bar"
+      >
+        <div
+          className="coral coral-login-signUp-title SignUp-title"
+        >
+          Sign Up
+        </div>
+        <div
+          className="coral coral-login-signUp-header SignUp-header"
+        >
+          to join the conversation
+        </div>
+      </div>
+    </Localized>
+  </div>
+  <div
+    className="coral coral-login-signUp-subBar SignUp-subBar"
+    role="contentinfo"
+  >
+    <Localized
+      id="signUp-accountAvailableSignIn"
+      textlink={
+        <withPropsOnChange(Button)
+          className="SignUp-signIn"
+          color="primary"
+          fontFamily="secondary"
+          fontWeight="semiBold"
+          href="/signIn"
+          marginSize="none"
+          onClick={[Function]}
+          textSize="small"
+          underline={true}
+          variant="flat"
+        />
+      }
+    >
+      <div
+        className="coral coral-login-signUp-alreadyHaveAccount SignUp-alreadyHaveAccount"
       >
         Already have an account?
          
-        <withPropsOnChange(TextLinkProps)
+        <withPropsOnChange(Button)
+          className="SignUp-signIn"
+          color="primary"
+          fontFamily="secondary"
+          fontWeight="bold"
           href="/signIn"
+          marginSize="none"
           onClick={[Function]}
+          textSize="small"
+          underline={true}
+          variant="flat"
         >
           Sign In
-        </withPropsOnChange(TextLinkProps)>
-      </ForwardRef(forwardRef)>
+        </withPropsOnChange(Button)>
+      </div>
     </Localized>
-  </SubBar>
+  </div>
   <Main
     data-testid="signUp-main"
   >
-    <ForwardRef(forwardRef)
-      size="oneAndAHalf"
-    >
-      <withContext(createMutationContainer(SignUpContainer)) />
-      <OrSeparator />
-      <ForwardRef(forwardRef)>
-        <Relay(SignUpWithFacebookContainer)
-          auth={Object {}}
-        />
-        <Relay(SignUpWithGoogleContainer)
-          auth={Object {}}
-        />
-        <Relay(SignUpWithOIDCContainer)
-          auth={Object {}}
-        />
-      </ForwardRef(forwardRef)>
+    <withContext(createMutationContainer(SignUpContainer)) />
+    <OrSeparator />
+    <ForwardRef(forwardRef)>
+      <Relay(SignUpWithFacebookContainer)
+        auth={Object {}}
+      />
+      <Relay(SignUpWithGoogleContainer)
+        auth={Object {}}
+      />
+      <Relay(SignUpWithOIDCContainer)
+        auth={Object {}}
+      />
     </ForwardRef(forwardRef)>
   </Main>
 </div>
@@ -76,37 +103,51 @@ exports[`renders without email sign up 1`] = `
 <div
   data-testid="signUp-container"
 >
-  <Localized
-    id="signUp-signUpToJoinHeader"
-    subtitle={<Subtitle />}
-    title={<Title />}
+  <div
+    role="banner"
   >
-    <Bar>
-      <Title>
-        Sign Up
-      </Title>
-      <Subtitle>
-        to join the conversation
-      </Subtitle>
-    </Bar>
-  </Localized>
+    <Localized
+      id="signUp-signUpToJoinHeader"
+      subtitle={
+        <div
+          className="coral coral-login-signUp-header SignUp-header"
+        />
+      }
+      title={
+        <div
+          className="coral coral-login-signUp-title SignUp-title"
+        />
+      }
+    >
+      <div
+        className="coral coral-login-signUp-bar SignUp-bar"
+      >
+        <div
+          className="coral coral-login-signUp-title SignUp-title"
+        >
+          Sign Up
+        </div>
+        <div
+          className="coral coral-login-signUp-header SignUp-header"
+        >
+          to join the conversation
+        </div>
+      </div>
+    </Localized>
+  </div>
   <Main
     data-testid="signUp-main"
   >
-    <ForwardRef(forwardRef)
-      size="oneAndAHalf"
-    >
-      <ForwardRef(forwardRef)>
-        <Relay(SignUpWithFacebookContainer)
-          auth={Object {}}
-        />
-        <Relay(SignUpWithGoogleContainer)
-          auth={Object {}}
-        />
-        <Relay(SignUpWithOIDCContainer)
-          auth={Object {}}
-        />
-      </ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)>
+      <Relay(SignUpWithFacebookContainer)
+        auth={Object {}}
+      />
+      <Relay(SignUpWithGoogleContainer)
+        auth={Object {}}
+      />
+      <Relay(SignUpWithOIDCContainer)
+        auth={Object {}}
+      />
     </ForwardRef(forwardRef)>
   </Main>
 </div>

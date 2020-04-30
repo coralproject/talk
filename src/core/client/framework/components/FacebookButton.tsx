@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button } from "coral-ui/components/v2";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./FacebookButton.css";
 
@@ -27,14 +28,19 @@ const facebookIcon = (
 
 const FacebookButton: FunctionComponent<Props> = (props) => (
   <Button
-    classes={styles}
-    variant="regular"
-    size="large"
+    className={styles.button}
+    variant="filled"
+    color="none"
+    textSize="small"
+    marginSize="small"
+    upperCase
     fullWidth
     onClick={props.onClick}
   >
-    {facebookIcon}
-    <span>{props.children}</span>
+    <Flex alignItems="center" justifyContent="center">
+      <div className={styles.icon}>{facebookIcon}</div>
+      <span>{props.children}</span>
+    </Flex>
   </Button>
 );
 

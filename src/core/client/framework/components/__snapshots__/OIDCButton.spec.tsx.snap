@@ -1,23 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
-  classes={
-    Object {
-      "active": "OIDCButton-active",
-      "colorRegular": "OIDCButton-colorRegular",
-      "disabled)": "OIDCButton-disabled)",
-      "mouseHover": "OIDCButton-mouseHover",
-      "variantRegular": "OIDCButton-variantRegular",
-    }
-  }
+<withPropsOnChange(Button)
+  className="OIDCButton-button"
+  color="none"
   fullWidth={true}
+  marginSize="small"
   onClick={[Function]}
-  size="large"
+  textAlign="center"
+  textSize="small"
+  upperCase={true}
   variant="filled"
 >
   <span>
     Login with OIDC
   </span>
-</ForwardRef(forwardRef)>
+</withPropsOnChange(Button)>
 `;

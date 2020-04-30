@@ -6,12 +6,10 @@ import EmailField from "coral-auth/components/EmailField";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import UsernameField from "coral-auth/components/UsernameField";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import {
-  Button,
-  ButtonIcon,
-  CallOut,
-  HorizontalGutter,
-} from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
+
+import styles from "./SignUpWithEmail.css";
 
 interface FormProps {
   email: string;
@@ -31,29 +29,37 @@ const SignUp: FunctionComponent<Props> = (props) => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="full">
-            {submitError && (
-              <CallOut color="error" fullWidth>
-                {submitError}
-              </CallOut>
-            )}
+          {submitError && <CallOut color="negative" title={submitError} />}
+          <div className={styles.field}>
             <EmailField disabled={submitting} />
+          </div>
+          <div className={styles.field}>
             <UsernameField disabled={submitting} />
+          </div>
+          <div className={styles.field}>
             <SetPasswordField disabled={submitting} />
+          </div>
+          <div className={styles.actions}>
             <Button
               variant="filled"
-              color="brand"
-              size="large"
+              color="primary"
+              textSize="small"
+              marginSize="small"
               type="submit"
               disabled={submitting}
               fullWidth
+              upperCase
             >
-              <ButtonIcon size="md">email</ButtonIcon>
-              <Localized id="signUp-signUpWithEmail">
-                <span>Sign up with Email</span>
-              </Localized>
+              <Flex alignItems="center" justifyContent="center">
+                <Icon size="md" className={styles.icon}>
+                  email
+                </Icon>
+                <Localized id="signUp-signUpWithEmail">
+                  <span>Sign up with Email</span>
+                </Localized>
+              </Flex>
             </Button>
-          </HorizontalGutter>
+          </div>
         </form>
       )}
     </Form>

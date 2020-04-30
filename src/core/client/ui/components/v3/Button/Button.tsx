@@ -20,6 +20,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   fontFamily?: "primary" | "secondary" | "none";
   fontWeight?: "regular" | "semiBold" | "bold" | "none";
   textSize?: "extraSmall" | "small" | "medium" | "large" | "none";
+  textAlign?: "left" | "center" | "right";
   marginSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   color?: "primary" | "secondary" | "positive" | "negative" | "none";
   variant?: "filled" | "outlined" | "flat" | "none";
@@ -38,6 +39,7 @@ export class Button extends React.Component<Props> {
       variant = "filled",
       color = "primary",
       textSize = "small",
+      textAlign = "left",
       fontFamily = "primary",
       fontWeight = "bold",
       marginSize = "small",
@@ -61,13 +63,23 @@ export class Button extends React.Component<Props> {
         [classes.textSizeSmall]: textSize === "small",
         [classes.textSizeMedium]: textSize === "medium",
         [classes.textSizeLarge]: textSize === "large",
+        [classes.textAlignLeft]: textAlign === "left",
+        [classes.textAlignCenter]: textAlign === "center",
+        [classes.textAlignRight]: textAlign === "right",
         [classes.fontFamilyPrimary]: fontFamily === "primary",
+        [classes.fontFamilySecondary]: fontFamily === "secondary",
         [classes.fontWeightPrimaryRegular]:
           fontFamily === "primary" && fontWeight === "regular",
         [classes.fontWeightPrimarySemiBold]:
           fontFamily === "primary" && fontWeight === "semiBold",
         [classes.fontWeightPrimaryBold]:
           fontFamily === "primary" && fontWeight === "bold",
+        [classes.fontWeightSecondaryRegular]:
+          fontFamily === "secondary" && fontWeight === "regular",
+        [classes.fontWeightSecondarySemiBold]:
+          fontFamily === "secondary" && fontWeight === "semiBold",
+        [classes.fontWeightSecondaryBold]:
+          fontFamily === "secondary" && fontWeight === "bold",
         [classes.marginSizeExtraSmall]: marginSize === "extraSmall",
         [classes.marginSizeSmall]: marginSize === "small",
         [classes.marginSizeMedium]: marginSize === "medium",

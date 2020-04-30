@@ -108,16 +108,9 @@ link these enter your password.
             </div>
           </form>
           <div
-            className="Box-root Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+            className="coral coral-login-orSeparator OrSeparator-or"
           >
-            <hr
-              className="HorizontalSeparator-hr"
-            />
-            <div
-              className="HorizontalSeparator-text"
-            >
-              Or
-            </div>
+            Or
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantFilled Button-fullWidth"

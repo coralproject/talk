@@ -2,18 +2,16 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validateUsername,
 } from "coral-framework/lib/validation";
-import {
-  FormField,
-  InputDescription,
-  InputLabel,
-  TextField,
-} from "coral-ui/components";
+import { FormField, InputLabel, TextField } from "coral-ui/components/v2";
+import { ValidationMessage } from "coral-ui/components/v3";
+
+import styles from "./UsernameField.css";
 
 interface Props {
   disabled: boolean;
@@ -30,7 +28,7 @@ const CreateUsernameField: FunctionComponent<Props> = (props) => (
           <InputLabel htmlFor={input.name}>Username</InputLabel>
         </Localized>
         <Localized id="general-usernameDescription">
-          <InputDescription>You may use “_” and “.”</InputDescription>
+          <div className={styles.description}>You may use “_” and “.”</div>
         </Localized>
         <Localized id="general-usernameTextField" attrs={{ placeholder: true }}>
           <TextField
@@ -42,7 +40,7 @@ const CreateUsernameField: FunctionComponent<Props> = (props) => (
             fullWidth
           />
         </Localized>
-        <ValidationMessage meta={meta} fullWidth />
+        <ValidationMessage meta={meta} />
       </FormField>
     )}
   </Field>

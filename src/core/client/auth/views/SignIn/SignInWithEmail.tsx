@@ -3,25 +3,18 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import EmailField from "coral-auth/components/EmailField";
-import { PasswordField } from "coral-framework/components";
-import {
-  colorFromMeta,
-  FormError,
-  OnSubmit,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { colorFromMeta, FormError, OnSubmit } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import {
-  Button,
-  ButtonIcon,
-  CallOut,
   Flex,
   FormField,
-  HorizontalGutter,
+  Icon,
   InputLabel,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+  PasswordField,
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
+
+import styles from "./SignInWithEmail.css";
 
 interface FormProps {
   email: string;
@@ -41,14 +34,12 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="full">
-            {submitError && (
-              <CallOut color="error" fullWidth>
-                {submitError}
-              </CallOut>
-            )}
+          {submitError && <CallOut color="negative" title={submitError} />}
 
+          <div className={styles.field}>
             <EmailField disabled={submitting} />
+          </div>
+          <div className={styles.field}>
             <Field name="password" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>
@@ -68,36 +59,50 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                       fullWidth
                     />
                   </Localized>
-                  <ValidationMessage meta={meta} fullWidth />
+                  <ValidationMessage meta={meta} />
                   <Flex justifyContent="flex-end">
-                    <Typography variant="bodyCopy">
-                      <Localized id="signIn-forgotYourPassword">
-                        <TextLink
-                          onClick={props.onGotoForgotPassword}
-                          href={props.forgotPasswordHref}
-                        >
+                    <div className={styles.forgotPassword}>
+                      <Button
+                        variant="flat"
+                        color="primary"
+                        textSize="none"
+                        fontWeight="semiBold"
+                        marginSize="none"
+                        onClick={props.onGotoForgotPassword}
+                        href={props.forgotPasswordHref}
+                        underline
+                      >
+                        <Localized id="signIn-forgotYourPassword">
                           Forgot your password?
-                        </TextLink>
-                      </Localized>
-                    </Typography>
+                        </Localized>
+                      </Button>
+                    </div>
                   </Flex>
                 </FormField>
               )}
             </Field>
+          </div>
+          <div className={styles.actions}>
             <Button
               variant="filled"
-              color="brand"
-              size="large"
+              color="primary"
+              textSize="small"
+              marginSize="small"
               type="submit"
               disabled={submitting}
               fullWidth
+              upperCase
             >
-              <ButtonIcon size="md">email</ButtonIcon>
-              <Localized id="signIn-signInWithEmail">
-                <span>Sign in with Email</span>
-              </Localized>
+              <Flex alignItems="center" justifyContent="center">
+                <Icon size="md" className={styles.icon}>
+                  email
+                </Icon>
+                <Localized id="signIn-signInWithEmail">
+                  <span>Sign in with Email</span>
+                </Localized>
+              </Flex>
             </Button>
-          </HorizontalGutter>
+          </div>
         </form>
       )}
     </Form>
