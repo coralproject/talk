@@ -10,32 +10,28 @@ exports[`renders configure 1`] = `
 >
   <div>
     <div
-      className="Box-root Flex-root coral coral-viewerBox"
+      className="coral coral-viewerBox"
     >
       <div
-        className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
+        className="UserBoxAuthenticated-text"
+      >
+        Signed in as
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
       >
         <div
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
+          className="UserBoxAuthenticated-username"
         >
-          Signed in as 
-          <span
-            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
-          >
-            Moderator
-          </span>
-          .
+          Moderator
         </div>
-        <div
-          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText Flex-flex"
+        <span
+          className="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
         >
-          <span>
-            Not you? 
-          </span>
+          Not you? 
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
-            data-color="primary"
-            data-variant="regular"
+            className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -46,7 +42,7 @@ exports[`renders configure 1`] = `
           >
             Sign Out
           </button>
-        </div>
+        </span>
       </div>
     </div>
     <form
@@ -149,55 +145,6 @@ exports[`renders configure 1`] = `
             </div>
           </div>
         </div>
-        <div>
-          <div
-            className="CheckBox-root CheckBox-streamBlue coral coral-configureMessageBox"
-          >
-            <input
-              checked={false}
-              className="CheckBox-input CheckBox-streamBlue"
-              disabled={false}
-              id="messageBox.enabled"
-              name="messageBox.enabled"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              type="checkbox"
-              value={false}
-            />
-            <label
-              className="CheckBox-label CheckBox-streamBlue"
-              htmlFor="messageBox.enabled"
-            >
-              <span
-                className="CheckBox-labelSpan"
-              >
-                <div
-                  className="ToggleConfig-title"
-                >
-                  <span>
-                    Enable Message Box for this Story
-                  </span>
-                </div>
-              </span>
-            </label>
-          </div>
-          <div
-            className="ToggleConfig-details"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                Add a message to the top of the comment box for your readers.
-Use this to suggest a discussion topic, ask a question or make
-announcements relating to the comments on this story.
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <button
         className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
@@ -216,6 +163,44 @@ announcements relating to the comments on this story.
         className="ConfigureStream-footer"
       />
     </form>
+    <hr
+      className="HorizontalRule-root"
+    />
+    <div>
+      <div
+        className="coral coral-openCommentStream"
+      >
+        <div
+          className="shared-heading"
+        >
+          Add a message or question
+        </div>
+        <div
+          className="shared-description"
+        >
+          Add a message to the top of the comment box for your readers. Use this
+to pose a topic, ask a question or make announcements relating to this
+story.
+        </div>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+          data-testid="configure-addMessage"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Add message
+        </button>
+      </div>
+      <div
+        className="AddMessageContainer-messagesHidden"
+      />
+    </div>
     <hr
       className="HorizontalRule-root"
     />
