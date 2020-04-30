@@ -15,7 +15,7 @@ import {
   getSiteCommentCountByStatus,
 } from "coral-server/models/site";
 import {
-  retrieveAverageCommentsPerDay,
+  retrieveAverageCommentsPerHour,
   retrieveCommentsToday,
   retrieveHourlyCommentTotal,
   retrieveHourlyStaffCommentTotal,
@@ -355,7 +355,7 @@ export const commentsAverageHandler = ({
     const site = req.site!;
 
     try {
-      const average = await retrieveAverageCommentsPerDay(
+      const average = await retrieveAverageCommentsPerHour(
         mongo,
         redis,
         tenant.id,

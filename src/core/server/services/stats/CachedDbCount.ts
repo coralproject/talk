@@ -1,13 +1,17 @@
 import { Redis } from "ioredis";
 import { isNumber } from "lodash";
 
+const THREE_HOUR_EXPIRY = 3 * 3600;
+
 export class CachedDbCount {
   private redis: Redis;
   private keys: string[];
+  private expiry: number;
 
-  constructor(redis: Redis, keyPrefixes: string[]) {
+  constructor(redis: Redis, keyPrefixes: string[], expiry = THREE_HOUR_EXPIRY) {
     this.redis = redis;
     this.keys = keyPrefixes.map((prefix) => `${prefix}:allTimeCount`);
+    this.expiry = expiry;
   }
 
   public increment() {
@@ -29,11 +33,10 @@ export class CachedDbCount {
         isNumber(count) ? parseInt(count, 10) : 0
       );
     }
-    const expiry = 3 * 3600;
     const counts = await cb();
     const multi = this.redis.multi();
     for (let i = 0; i < this.keys.length; i++) {
-      multi.set(this.keys[i], counts[i], "EX", expiry);
+      multi.set(this.keys[i], counts[i], "EX", this.expiry);
     }
     await multi.exec();
     return counts;

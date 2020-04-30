@@ -1089,7 +1089,7 @@ export async function countAllByTagType(
   return cursor.toArray();
 }
 
-export async function dailyAverageComments(
+export async function hourlyAverageComments(
   mongo: Db,
   tenantID: string,
   siteID: string
@@ -1104,11 +1104,12 @@ export async function dailyAverageComments(
         year: { $year: "$createdAt" },
         month: { $month: "$createdAt" },
         day: { $dayOfMonth: "$createdAt" },
+        hour: { $hour: "$createdAt" },
       },
     },
     {
       $group: {
-        _id: { year: "$year", month: "$month", day: "$day" },
+        _id: { year: "$year", month: "$month", day: "$day", hour: "$hour" },
 
         count: { $sum: 1 },
       },
