@@ -71,6 +71,7 @@ const AllTimeTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>Total comments</TableCell>
               </Localized>
               <TableCell>{totalComents}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(totalStaffComents) && (
@@ -79,6 +80,7 @@ const AllTimeTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>Staff comments</TableCell>
               </Localized>
               <TableCell>{totalStaffComents}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(users) && (
@@ -87,6 +89,7 @@ const AllTimeTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>Commenters</TableCell>
               </Localized>
               <TableCell>{users}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(bans) && (
@@ -95,14 +98,18 @@ const AllTimeTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>User bans</TableCell>
               </Localized>
               <TableCell>{bans}</TableCell>
+              <TableCell />
             </TableRow>
           )}
-          {isNumber(rejected) && (
+          {isNumber(rejected) && isNumber(totalComents) && (
             <TableRow>
               <Localized id="dashboard-today-table-new-commenters">
                 <TableCell>Rejected comments</TableCell>
               </Localized>
               <TableCell>{rejected}</TableCell>
+              <TableCell>
+                {((rejected / totalComents) * 100).toFixed(1)} %
+              </TableCell>
             </TableRow>
           )}
         </TableBody>

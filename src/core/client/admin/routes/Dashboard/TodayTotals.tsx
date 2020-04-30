@@ -83,6 +83,7 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>Total comments</TableCell>
               </Localized>
               <TableCell>{totalComents}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(totalStaffComents) && (
@@ -91,6 +92,7 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>Staff comments</TableCell>
               </Localized>
               <TableCell>{totalStaffComents}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(newCommenters) && (
@@ -99,6 +101,7 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>New commenters</TableCell>
               </Localized>
               <TableCell>{newCommenters}</TableCell>
+              <TableCell />
             </TableRow>
           )}
           {isNumber(bans) && (
@@ -107,14 +110,18 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
                 <TableCell>User bans</TableCell>
               </Localized>
               <TableCell>{bans}</TableCell>
+              <TableCell />
             </TableRow>
           )}
-          {isNumber(rejected) && (
+          {isNumber(rejected) && isNumber(totalComents) && (
             <TableRow>
               <Localized id="dashboard-today-table-new-commenters">
                 <TableCell>Rejected comments</TableCell>
               </Localized>
               <TableCell>{rejected}</TableCell>
+              <TableCell>
+                {((rejected / totalComents) * 100).toFixed(2)} %
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
