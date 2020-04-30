@@ -4,62 +4,48 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Environment } from "relay-runtime";
 
 import {
-  BansTodayJSON,
-  CommentsTodayJSON,
+  CommentsCountJSON,
   RejectedJSON,
-  SignupsJSON,
+  UserBanStatusJSON,
 } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
 
 import styles from "./TodayTotals.css";
 
-const TodayTotalsFetch = createFetch(
-  "todayTotalsFetch",
+const AllTimeTotalsFetch = createFetch(
+  "allTimeTotalsFetch",
   async (environment: Environment, variables: any, { rest }) => {
     const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }/comments/today?tz=${zone}`;
-    return rest.fetch<CommentsTodayJSON>(url, {
+    }/comments/all?tz=${zone}`;
+    return rest.fetch<CommentsCountJSON>(url, {
       method: "GET",
     });
   }
 );
 
-const TodayNewCommentersFetch = createFetch(
-  "newCommentersFetch",
+const UserBanStatusFetch = createFetch(
+  "userBanStatusFetch",
   async (environment: Environment, variables: any, { rest }) => {
     const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }signups/today?tz=${zone}`;
-    return rest.fetch<SignupsJSON>(url, {
+    }user_ban_status?tz=${zone}`;
+    return rest.fetch<UserBanStatusJSON>(url, {
       method: "GET",
     });
   }
 );
 
-const TodayBansFetch = createFetch(
-  "todayBansFetch",
+const AllTimeRejectedFetch = createFetch(
+  "AllTimeRejectedFetch",
   async (environment: Environment, variables: any, { rest }) => {
     const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }bans/today?tz=${zone}`;
-    return rest.fetch<BansTodayJSON>(url, {
-      method: "GET",
-    });
-  }
-);
-
-const TodayRejectedFetch = createFetch(
-  "todayRejectedFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }rejected/today?tz=${zone}`;
+    }rejected/all?tz=${zone}`;
     return rest.fetch<RejectedJSON>(url, {
       method: "GET",
     });
@@ -71,31 +57,25 @@ interface Props {
   siteID?: string;
 }
 
-const TodayTotals: FunctionComponent<Props> = (props) => {
-  const todayTotalsFetch = useFetch(TodayTotalsFetch);
-  const newComentersFetch = useFetch(TodayNewCommentersFetch);
-  const bansFetch = useFetch(TodayBansFetch);
-  const rejectedFetch = useFetch(TodayRejectedFetch);
+const AllTimeTotals: FunctionComponent<Props> = (props) => {
+  const allTimeTotalsFetch = useFetch(AllTimeTotalsFetch);
+  const userBanStatusFetch = useFetch(UserBanStatusFetch);
+  const rejectedFetch = useFetch(AllTimeRejectedFetch);
   const [totalComents, setTotalComments] = useState<number | null>(null);
   const [bans, setBans] = useState<number | null>(null);
+  const [users, setUsers] = useState<number | null>(null);
   const [rejected, setRejected] = useState<number | null>(null);
   const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
     null
   );
-  const [newCommenters, setNewCommenters] = useState<number | null>(null);
   useEffect(() => {
     async function getTotals() {
-      const todayTotals = await todayTotalsFetch({ siteID: props.siteID });
-      setTotalComments(todayTotals.comments.count);
-      setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
-      if (!props.ssoRegistrationEnabled) {
-        const newCommenterResp = await newComentersFetch({
-          siteID: props.siteID,
-        });
-        setNewCommenters(newCommenterResp.signups.count);
-      }
-      const bansResp = await bansFetch({ siteID: props.siteID });
-      setBans(bansResp.banned.count);
+      const allTimeTotals = await allTimeTotalsFetch({ siteID: props.siteID });
+      setTotalComments(allTimeTotals.comments.count);
+      setTotalStaffComments(allTimeTotals.comments.byAuthorRole.staff.count);
+      const bansResp = await userBanStatusFetch({ siteID: props.siteID });
+      setBans(bansResp.users.banned.count);
+      setUsers(bansResp.users.count);
       const rejectedResp = await rejectedFetch({ siteID: props.siteID });
       setRejected(rejectedResp.rejected.count);
     }
@@ -104,7 +84,7 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
   return (
     <div>
       <Localized id="dashboard-today-heading">
-        <h3 className={styles.heading}>Today</h3>
+        <h3 className={styles.heading}>All Time</h3>
       </Localized>
       <Table>
         <TableBody>
@@ -124,12 +104,12 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
               <TableCell>{totalStaffComents}</TableCell>
             </TableRow>
           )}
-          {isNumber(newCommenters) && (
+          {isNumber(users) && (
             <TableRow>
               <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>New commenters</TableCell>
+                <TableCell>Commenters</TableCell>
               </Localized>
-              <TableCell>{newCommenters}</TableCell>
+              <TableCell>{users}</TableCell>
             </TableRow>
           )}
           {isNumber(bans) && (
@@ -154,4 +134,4 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
   );
 };
 
-export default TodayTotals;
+export default AllTimeTotals;

@@ -20,17 +20,14 @@ const CommenterActivityFetch = createFetch(
   async (environment: Environment, variables: any, { rest }) => {
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
-    }signups/daily`;
+    }signups/week`;
     return rest.fetch<SignupsDailyJSON>(url, {
       method: "GET",
     });
   }
 );
 
-interface NewCommentersByHour {
-  count: number;
-  timestamp: number;
-}
+type NewCommentersByHour = SignupsDailyJSON["signups"]["days"];
 
 const CommenterActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
@@ -38,20 +35,14 @@ const CommenterActivity: FunctionComponent<Props> = ({
 }) => {
   const commenterActivityFetch = useFetch(CommenterActivityFetch);
   const [commenterActivity, setCommenterActivity] = useState<
-    NewCommentersByHour[]
+    NewCommentersByHour
   >([]);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const commenterActivityResp = await commenterActivityFetch({ siteID });
-      const json = commenterActivityResp.signups.map(({ date, count }) => {
-        return {
-          timestamp: new Date(date).getTime(),
-          count,
-        };
-      });
-      setCommenterActivity(json);
+      const { signups } = await commenterActivityFetch({ siteID });
+      setCommenterActivity(signups.days);
     }
     getTotals();
   }, []);
@@ -81,7 +72,6 @@ const CommenterActivity: FunctionComponent<Props> = ({
         <Bar dataKey="count" fill={CHART_COLOR_PRIMARY} />
         <Tooltip />
       </BarChart>
-      <ul></ul>
     </div>
   );
 };

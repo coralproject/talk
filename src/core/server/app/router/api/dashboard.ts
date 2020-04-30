@@ -10,6 +10,7 @@ import {
   rejectedTodayHandler,
   signupsTodayHandler,
   topCommentedStoriesHandler,
+  usersWeeklyHandler,
 } from "coral-server/app/handlers/api/dashboard";
 import { attachSite } from "coral-server/app/middleware/attachSite";
 
@@ -48,6 +49,7 @@ export function createDashboardRouter(app: AppOptions) {
   router.get("/bans/today", attachSite(app), bansTodayHandler(app));
   router.get("/rejected/today", attachSite(app), rejectedTodayHandler(app));
   router.get("/signups/today", attachSite(app), signupsTodayHandler(app));
+  router.get("/signups/week", attachSite(app), usersWeeklyHandler(app));
   router.get("/user_ban_status", attachSite(app), banStatusAllTimeHandler(app));
   router.get(
     "/top-stories/today",

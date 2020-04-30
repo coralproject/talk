@@ -7,7 +7,7 @@ export interface CommentsCount {
   };
 }
 
-export interface CommentsAllTimeJSON {
+export interface CommentsCountJSON {
   comments: CommentsCount;
 }
 
@@ -15,36 +15,18 @@ export interface CommentsTodayJSON {
   comments: CommentsCount;
 }
 
-export interface CommentsHourlyJSON {
-  comments: (CommentsCount & {
-    hour: string;
-  })[];
-}
-
-export interface SignupsTodayJSON {
+export interface SignupsJSON {
   signups: {
     count: number;
   };
 }
-
-export interface SignupsDailyJSON {
-  signups: {
+export interface UserBanStatusJSON {
+  users: {
     count: number;
-    date: string;
-  }[];
-}
-
-export interface DailyNewCommentersJSON {
-  newCommenters: {
-    count: number;
+    banned: {
+      count: number;
+    };
   };
-}
-
-export interface HourlyNewCommentersJSON {
-  newCommenters: {
-    count: number;
-    hour: string;
-  }[];
 }
 
 export interface TopStoryJSON {
@@ -62,22 +44,38 @@ export interface DailyTopStoriesJSON {
   topStories: TopStoryJSON[];
 }
 
-export interface CommentStatusesJSON {
-  commentStatuses: {
-    other: number;
-    rejected: number;
-    witheld: number;
-  };
-}
-
 export interface BansTodayJSON {
   banned: {
     count: number;
   };
 }
 
-export interface RejectedTodayJSON {
+export interface RejectedJSON {
   rejected: {
     count: number;
+  };
+}
+
+export interface HourlyCommentsJSON {
+  hours: {
+    count: number;
+    timestamp: string;
+  }[];
+  byAuthorRole: {
+    staff: {
+      hours: {
+        count: number;
+        timestamp: string;
+      }[];
+    };
+  };
+}
+
+export interface SignupsDailyJSON {
+  signups: {
+    days: {
+      count: number;
+      timestamp: string;
+    }[];
   };
 }

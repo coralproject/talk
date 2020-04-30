@@ -78,7 +78,7 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
-import { incrementBansToday, incrementSignupsToday } from "./stats";
+import { incrementBansCount, incrementSignupsToday } from "./stats";
 
 import {
   GQLAuthIntegrations,
@@ -884,7 +884,7 @@ export async function ban(
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-  await incrementBansToday(redis, tenant.id, now);
+  await incrementBansCount(redis, tenant.id, now);
 
   if (rejectExistingComments) {
     await rejector.add({

@@ -4,9 +4,8 @@ import { Db } from "mongodb";
 import { countAllByTagType } from "coral-server/models/comment";
 import { User } from "coral-server/models/user";
 import {
-  incrementHourlyCount,
-  retrieveDailyTotal,
-  retrieveHourlyTotals,
+  CachedDbCount,
+  CachedHourlyCount,
 } from "coral-server/services/stats/helpers";
 
 import {
@@ -19,24 +18,20 @@ export interface DailyCommentCounts {
   staff: number;
 }
 
-function hourlyCommentsRejectedKey(
-  tenantID: string,
-  siteID: string,
-  hour: number
-) {
-  return `stats:${tenantID}:${siteID}:hourlyRejectionCount:${hour}`;
+function hourlyCommentsRejectedPrefix(tenantID: string, siteID: string) {
+  return `stats:${tenantID}:${siteID}:rejections:`;
 }
 
-function hourlyCommentCountKey(tenantID: string, siteID: string, hour: number) {
-  return `stats:${tenantID}:${siteID}:hourlyCommentCount:${hour}`;
+function hourlyCommentCountPrefix(tenantID: string, siteID: string) {
+  return `stats:${tenantID}:${siteID}:comments`;
 }
 
-function hourlyStaffCommentCountKey(
-  tenantID: string,
-  siteID: string,
-  hour: number
-) {
-  return `stats:${tenantID}:${siteID}:hourlyStaffCommentCount:${hour}`;
+function hourlyStaffCommentCountPrefix(tenantID: string, siteID: string) {
+  return `stats:${tenantID}:${siteID}:staffComments`;
+}
+
+function allTimeStaffCommentsKey(tenantID: string, siteID: string) {
+  return `stats:${tenantID}:${siteID}:allTimeStaffComments`;
 }
 
 export function incrementCommentsToday(
@@ -45,13 +40,11 @@ export function incrementCommentsToday(
   siteID: string,
   now: Date
 ) {
-  return incrementHourlyCount(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    now,
-    hourlyCommentCountKey
+    hourlyCommentCountPrefix(tenantID, siteID)
   );
+  return counter.increment(now);
 }
 
 export function incrementStaffCommentsToday(
@@ -66,13 +59,11 @@ export function incrementStaffCommentsToday(
       user.role
     )
   ) {
-    return incrementHourlyCount(
+    const counter = new CachedHourlyCount(
       redis,
-      tenantID,
-      siteID,
-      now,
-      hourlyStaffCommentCountKey
+      hourlyStaffCommentCountPrefix(tenantID, siteID)
     );
+    return counter.increment(now);
   }
   return;
 }
@@ -83,13 +74,11 @@ export function incrementRejectionsToday(
   siteID: string,
   now: Date
 ) {
-  return incrementHourlyCount(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    now,
-    hourlyCommentsRejectedKey
+    hourlyCommentsRejectedPrefix(tenantID, siteID)
   );
+  return counter.increment(now);
 }
 
 export async function retrieveCommentsToday(
@@ -99,14 +88,11 @@ export async function retrieveCommentsToday(
   zone: string,
   now: Date
 ) {
-  return retrieveDailyTotal(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    zone,
-    now,
-    hourlyCommentCountKey
+    hourlyCommentCountPrefix(tenantID, siteID)
   );
+  return counter.retrieveDailyTotal(zone, now);
 }
 
 export async function retrievRejectionsToday(
@@ -116,14 +102,11 @@ export async function retrievRejectionsToday(
   zone: string,
   now: Date
 ) {
-  return retrieveDailyTotal(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    zone,
-    now,
-    hourlyCommentsRejectedKey
+    hourlyCommentsRejectedPrefix(tenantID, siteID)
   );
+  return counter.retrieveDailyTotal(zone, now);
 }
 
 export async function retrieveStaffCommentsToday(
@@ -133,14 +116,11 @@ export async function retrieveStaffCommentsToday(
   zone: string,
   now: Date
 ) {
-  return retrieveDailyTotal(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    zone,
-    now,
-    hourlyStaffCommentCountKey
+    hourlyStaffCommentCountPrefix(tenantID, siteID)
   );
+  return counter.retrieveDailyTotal(zone, now);
 }
 
 export async function retrieveHourlyCommentTotal(
@@ -149,13 +129,11 @@ export async function retrieveHourlyCommentTotal(
   siteID: string,
   now: Date
 ) {
-  return retrieveHourlyTotals(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    now,
-    hourlyCommentCountKey
+    hourlyCommentCountPrefix(tenantID, siteID)
   );
+  return counter.retrieveHourlyTotals(now);
 }
 
 export async function retrieveHourlyStaffCommentTotal(
@@ -164,17 +142,11 @@ export async function retrieveHourlyStaffCommentTotal(
   siteID: string,
   now: Date
 ) {
-  return retrieveHourlyTotals(
+  const counter = new CachedHourlyCount(
     redis,
-    tenantID,
-    siteID,
-    now,
-    hourlyStaffCommentCountKey
+    hourlyStaffCommentCountPrefix(tenantID, siteID)
   );
-}
-
-function allTimeStaffCommentsKey(tenantID: string, siteID: string) {
-  return `stats:${tenantID}:${siteID}:allTimeStaffComments`;
+  return counter.retrieveHourlyTotals(now);
 }
 
 export async function incrementStaffCommentCount(
@@ -182,9 +154,10 @@ export async function incrementStaffCommentCount(
   tenantID: string,
   siteID: string
 ) {
-  const countKey = allTimeStaffCommentsKey(tenantID, siteID);
-
-  return redis.incr(countKey);
+  const counter = new CachedDbCount(redis, [
+    allTimeStaffCommentsKey(tenantID, siteID),
+  ]);
+  return counter.increment();
 }
 
 export async function retrieveStaffCommentCount(
@@ -193,19 +166,18 @@ export async function retrieveStaffCommentCount(
   tenantID: string,
   siteID: string
 ) {
-  const countKey = allTimeStaffCommentsKey(tenantID, siteID);
-  const cachedCount = await redis.get(countKey);
-  if (cachedCount) {
-    return parseInt(cachedCount, 10);
-  }
-  const expiry = 3 * 3600;
+  const counter = new CachedDbCount(redis, [
+    allTimeStaffCommentsKey(tenantID, siteID),
+  ]);
 
-  const [{ count }] = await countAllByTagType(
-    mongo,
-    tenantID,
-    siteID,
-    GQLTAG.STAFF
-  );
-  await redis.set(countKey, count, "EX", expiry);
-  return count;
+  const [total] = await counter.retrieveTotal(async () => {
+    const [{ count }] = await countAllByTagType(
+      mongo,
+      tenantID,
+      siteID,
+      GQLTAG.STAFF
+    );
+    return [count];
+  });
+  return total;
 }

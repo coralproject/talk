@@ -1,10 +1,12 @@
 import {
   BansTodayJSON,
-  CommentsHourlyJSON,
   CommentsTodayJSON,
   DailyTopStoriesJSON,
-  RejectedTodayJSON,
-  SignupsTodayJSON,
+  HourlyCommentsJSON,
+  RejectedJSON,
+  SignupsDailyJSON,
+  SignupsJSON,
+  UserBanStatusJSON,
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
 import {
@@ -23,6 +25,7 @@ import { retrieveDailyTopCommentedStories } from "coral-server/services/stories"
 import {
   retrieveBanStatusCount,
   retrieveBansToday,
+  retrieveSignupsForWeek,
   retrieveSignupsToday,
 } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
@@ -95,20 +98,14 @@ export const commentsHourlyHandler = ({
         site.id,
         coral.now
       );
-      const json: CommentsHourlyJSON = {
-        comments: [],
-      };
-      for (const key of Object.keys(hourlyComments)) {
-        json.comments.push({
-          hour: key,
-          count: hourlyComments[key] || 0,
-          byAuthorRole: {
-            staff: {
-              count: hourlyStaffComments[key] || 0,
-            },
+      const json: HourlyCommentsJSON = {
+        hours: hourlyComments,
+        byAuthorRole: {
+          staff: {
+            hours: hourlyStaffComments,
           },
-        });
-      }
+        },
+      };
       return res.json(json);
     } catch (err) {
       return next(err);
@@ -160,7 +157,7 @@ export const signupsTodayHandler = ({
     try {
       const count = await retrieveSignupsToday(redis, tenant, zone, coral.now);
 
-      const json: SignupsTodayJSON = {
+      const json: SignupsJSON = {
         signups: {
           count,
         },
@@ -216,7 +213,7 @@ export const rejectedTodayHandler = ({
         coral.now
       );
 
-      const json: RejectedTodayJSON = {
+      const json: RejectedJSON = {
         rejected: {
           count,
         },
@@ -237,7 +234,7 @@ export const rejectedAllTimeHandler = ({
     const site = req.site!;
 
     try {
-      const json: RejectedTodayJSON = {
+      const json: RejectedJSON = {
         rejected: {
           count: getSiteCommentCountByStatus(site, GQLCOMMENT_STATUS.REJECTED),
         },
@@ -271,7 +268,9 @@ export const commentsAllTimeHandler = ({
         comments: {
           count: getSiteCommentCount(site),
           byAuthorRole: {
-            staff,
+            staff: {
+              count: staff,
+            },
           },
         },
       };
@@ -290,22 +289,50 @@ export const banStatusAllTimeHandler = ({
   return async (req, res, next) => {
     const coral = req.coral!;
     const tenant = coral.tenant!;
-    const site = req.site!;
 
     try {
       const { all, banned } = await retrieveBanStatusCount(
         mongo,
         redis,
-        tenant.id,
-        site.id
+        tenant.id
       );
 
-      const resp = {
+      const resp: UserBanStatusJSON = {
         users: {
           count: all,
           banned: {
             count: banned,
           },
+        },
+      };
+
+      return res.json(resp);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const usersWeeklyHandler = ({
+  redis,
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const zone = req.query.tz || DEFAULT_TIMEZONE;
+
+    try {
+      const signups = await retrieveSignupsForWeek(
+        redis,
+        tenant,
+        zone,
+        coral.now
+      );
+
+      const resp: SignupsDailyJSON = {
+        signups: {
+          days: signups,
         },
       };
 

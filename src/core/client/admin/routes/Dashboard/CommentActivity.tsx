@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { Environment } from "relay-runtime";
 
-import { CommentsHourlyJSON } from "coral-common/rest/dashboard/types";
+import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
@@ -21,37 +21,26 @@ const CommentActivityFetch = createFetch(
     const url = `/dashboard/${
       variables.siteID ? variables.siteID + "/" : ""
     }comments/hourly`;
-    return rest.fetch<CommentsHourlyJSON>(url, {
+    return rest.fetch<HourlyCommentsJSON>(url, {
       method: "GET",
     });
   }
 );
 
-interface CommentsByHour {
-  timestamp: number;
-  count: number;
-  staffCount: number;
-}
+type CommentsForHour = HourlyCommentsJSON["hours"];
 
 const CommentActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
   siteID,
 }) => {
   const commentActivityFetch = useFetch(CommentActivityFetch);
-  const [commentActivity, setCommentActivity] = useState<CommentsByHour[]>([]);
+  const [commentActivity, setCommentActivity] = useState<CommentsForHour>([]);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const commentActivityResp = await commentActivityFetch({ siteID });
-      const json = commentActivityResp.comments.map((comment) => {
-        return {
-          count: comment.count,
-          staffCount: comment.byAuthorRole.staff.count,
-          timestamp: new Date(comment.hour).getTime(),
-        };
-      });
-      setCommentActivity(json);
+      const { hours } = await commentActivityFetch({ siteID });
+      setCommentActivity(hours);
     }
     getTotals();
   }, []);
@@ -84,10 +73,8 @@ const CommentActivity: FunctionComponent<Props> = ({
           dataKey="count"
           stroke={CHART_COLOR_SECONDARY}
         />
-        {/* <Legend /> */}
         <Tooltip />
       </LineChart>
-      <ul></ul>
     </div>
   );
 };

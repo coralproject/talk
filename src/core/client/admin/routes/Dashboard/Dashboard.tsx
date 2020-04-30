@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import MainLayout from "coral-admin/components/MainLayout";
 import { Flex } from "coral-ui/components/v2";
 
+import AllTimeTotals from "./AllTimeTotals";
 import CommentActivity from "./CommentActivity";
 import NewCommenterActivity from "./NewCommenterActivity";
 import TodayTotals from "./TodayTotals";
@@ -23,10 +24,13 @@ const Dashboard: FunctionComponent<Props> = (props) => (
           ssoRegistrationEnabled={props.ssoRegistrationEnabled}
           siteID={props.siteID}
         />
+        <AllTimeTotals
+          ssoRegistrationEnabled={props.ssoRegistrationEnabled}
+          siteID={props.siteID}
+        />
       </Flex>
       <TopStories siteID={props.siteID} />
       <CommentActivity siteID={props.siteID} />
-
       {!props.ssoRegistrationEnabled && (
         <NewCommenterActivity siteID={props.siteID} />
       )}
