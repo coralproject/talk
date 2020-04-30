@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Environment } from "relay-runtime";
 
 import { DailyTopStoriesJSON } from "coral-common/rest/dashboard/types";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import {
   Table,
   TableBody,
@@ -14,17 +13,11 @@ import {
 
 import styles from "./TopStories.css";
 
-const TopStoriesFetch = createFetch(
-  "TopStoriesFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }top-stories/today?tz=${zone}`;
-    return rest.fetch<DailyTopStoriesJSON>(url, {
-      method: "GET",
-    });
-  }
+import createDashboardFetch from "./createDashboardFetch";
+
+const TopStoriesFetch = createDashboardFetch<DailyTopStoriesJSON>(
+  "topStoriesFetch",
+  "/dashboard/top-stories/today"
 );
 
 interface Props {

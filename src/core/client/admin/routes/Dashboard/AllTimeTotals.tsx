@@ -1,55 +1,32 @@
 import { Localized } from "@fluent/react/compat";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Environment } from "relay-runtime";
 
 import {
   CommentsCountJSON,
   RejectedJSON,
   UserBanStatusJSON,
 } from "coral-common/rest/dashboard/types";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
+
+import createDashboardFetch from "./createDashboardFetch";
 
 import styles from "./TodayTotals.css";
 
-const AllTimeTotalsFetch = createFetch(
+const AllTimeTotalsFetch = createDashboardFetch<CommentsCountJSON>(
   "allTimeTotalsFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }/comments/all?tz=${zone}`;
-    return rest.fetch<CommentsCountJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/comments/all"
 );
 
-const UserBanStatusFetch = createFetch(
+const UserBanStatusFetch = createDashboardFetch<UserBanStatusJSON>(
   "userBanStatusFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }user_ban_status?tz=${zone}`;
-    return rest.fetch<UserBanStatusJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/user_ban_status"
 );
 
-const AllTimeRejectedFetch = createFetch(
-  "AllTimeRejectedFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }rejected/all?tz=${zone}`;
-    return rest.fetch<RejectedJSON>(url, {
-      method: "GET",
-    });
-  }
+const AllTimeRejectedFetch = createDashboardFetch<RejectedJSON>(
+  "allTimeRejectedFetch",
+  "/dashboard/rejected/all"
 );
 
 interface Props {

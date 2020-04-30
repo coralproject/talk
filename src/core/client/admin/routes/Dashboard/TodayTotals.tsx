@@ -1,7 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Environment } from "relay-runtime";
 
 import {
   BansTodayJSON,
@@ -9,61 +8,31 @@ import {
   RejectedJSON,
   SignupsJSON,
 } from "coral-common/rest/dashboard/types";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
+
+import createDashboardFetch from "./createDashboardFetch";
 
 import styles from "./TodayTotals.css";
 
-const TodayTotalsFetch = createFetch(
+const TodayTotalsFetch = createDashboardFetch<CommentsTodayJSON>(
   "todayTotalsFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }/comments/today?tz=${zone}`;
-    return rest.fetch<CommentsTodayJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/comments/today"
 );
 
-const TodayNewCommentersFetch = createFetch(
+const TodayNewCommentersFetch = createDashboardFetch<SignupsJSON>(
   "newCommentersFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }signups/today?tz=${zone}`;
-    return rest.fetch<SignupsJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/signups/today"
 );
 
-const TodayBansFetch = createFetch(
+const TodayBansFetch = createDashboardFetch<BansTodayJSON>(
   "todayBansFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }bans/today?tz=${zone}`;
-    return rest.fetch<BansTodayJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/bans/today"
 );
 
-const TodayRejectedFetch = createFetch(
+const TodayRejectedFetch = createDashboardFetch<RejectedJSON>(
   "todayRejectedFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }rejected/today?tz=${zone}`;
-    return rest.fetch<RejectedJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/rejected/today"
 );
 
 interface Props {

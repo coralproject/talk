@@ -1,13 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
-import { Environment } from "relay-runtime";
 
 import { SignupsDailyJSON } from "coral-common/rest/dashboard/types";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
 import { CHART_COLOR_PRIMARY } from "./ChartColors";
+import createDashboardFetch from "./createDashboardFetch";
 
 import styles from "./NewCommenterActivity.css";
 
@@ -15,16 +15,9 @@ interface Props {
   locales?: string[];
   siteID?: string;
 }
-const CommenterActivityFetch = createFetch(
+const CommenterActivityFetch = createDashboardFetch<SignupsDailyJSON>(
   "commenterActivityFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }signups/week`;
-    return rest.fetch<SignupsDailyJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/signups/week"
 );
 
 type NewCommentersByHour = SignupsDailyJSON["signups"]["days"];

@@ -12,11 +12,11 @@ export const attachSite = (options: AppOptions): RequestHandler => {
     const tenant = coral.tenant!;
     const sitesCount = await countTenantSites(options.mongo, tenant.id);
     if (sitesCount > 1) {
-      if (req.params.siteID) {
+      if (req.query.siteID) {
         const site = await retrieveSite(
           options.mongo,
           tenant.id,
-          req.params.siteID
+          req.query.siteID
         );
         if (site) {
           req.site = site;

@@ -1,30 +1,25 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
-import { Environment } from "relay-runtime";
 
 import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
 import styles from "./CommentActivity.css";
 
 import { CHART_COLOR_SECONDARY } from "./ChartColors";
 
+import createDashboardFetch from "./createDashboardFetch";
+
 interface Props {
   locales?: string[];
   siteID?: string;
 }
-const CommentActivityFetch = createFetch(
+
+const CommentActivityFetch = createDashboardFetch<HourlyCommentsJSON>(
   "commentActivityFetch",
-  async (environment: Environment, variables: any, { rest }) => {
-    const url = `/dashboard/${
-      variables.siteID ? variables.siteID + "/" : ""
-    }comments/hourly`;
-    return rest.fetch<HourlyCommentsJSON>(url, {
-      method: "GET",
-    });
-  }
+  "/dashboard/comments/hourly"
 );
 
 type CommentsForHour = HourlyCommentsJSON["hours"];

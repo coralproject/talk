@@ -32,7 +32,7 @@ export interface RouterOptions {
 
 export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
-  const router = express.Router({ mergeParams: true });
+  const router = express.Router();
 
   // Installation router.
   router.use("/install", createNewInstallRouter(app));
@@ -63,19 +63,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   router.use(
     "/dashboard",
-    authenticate(options.passport),
-    loggedInMiddleware,
-    roleMiddleware([
-      GQLUSER_ROLE.ADMIN,
-      GQLUSER_ROLE.STAFF,
-      GQLUSER_ROLE.MODERATOR,
-    ]),
-    jsonMiddleware,
-    createDashboardRouter(app)
-  );
-
-  router.use(
-    "/dashboard/:siteID",
     authenticate(options.passport),
     loggedInMiddleware,
     roleMiddleware([
