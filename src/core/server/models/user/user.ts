@@ -700,36 +700,6 @@ export async function countUsersForCreationDate(
     .count();
 }
 
-export async function countUsersByCreationDate(
-  mongo: Db,
-  tenantID: string,
-  since: Date,
-  now: Date
-) {
-  // should we filter by profile type?
-  const cursor = collection<{
-    _id: string;
-    count: number;
-  }>(mongo).aggregate([
-    {
-      $match: {
-        tenantID,
-        createdAt: {
-          $gte: since,
-        },
-      },
-    },
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-  const docs = await cursor.toArray();
-  return docs;
-}
-
 export async function retrieveUserWithProfile(
   mongo: Db,
   tenantID: string,

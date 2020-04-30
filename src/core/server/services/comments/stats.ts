@@ -1,7 +1,10 @@
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
-import { countAllByTagType } from "coral-server/models/comment";
+import {
+  countAllByTagType,
+  dailyAverageComments,
+} from "coral-server/models/comment";
 import { User } from "coral-server/models/user";
 import {
   CachedDbCount,
@@ -32,6 +35,10 @@ function hourlyStaffCommentCountPrefix(tenantID: string, siteID: string) {
 
 function allTimeStaffCommentsKey(tenantID: string, siteID: string) {
   return `stats:${tenantID}:${siteID}:allTimeStaffComments`;
+}
+
+function commentsAverageKey(tenantID: string, siteID: string) {
+  return `stats:${tenantID}:${siteID}:dailyAverageComments`;
 }
 
 export function incrementCommentsToday(
@@ -180,4 +187,21 @@ export async function retrieveStaffCommentCount(
     return [count];
   });
   return total;
+}
+
+export async function retrieveAverageCommentsPerDay(
+  mongo: Db,
+  redis: Redis,
+  tenantID: string,
+  siteID: string
+) {
+  const counter = new CachedDbCount(redis, [
+    commentsAverageKey(tenantID, siteID),
+  ]);
+
+  const [avg] = await counter.retrieveTotal(async () => {
+    const [dac] = await dailyAverageComments(mongo, tenantID, siteID);
+    return [dac.avg];
+  });
+  return avg;
 }

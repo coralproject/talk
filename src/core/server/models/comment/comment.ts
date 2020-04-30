@@ -30,7 +30,6 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
   GQLTAG,
-  GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
@@ -1090,24 +1089,36 @@ export async function countAllByTagType(
   return cursor.toArray();
 }
 
-export async function countStaffCommentsUntil(
+export async function dailyAverageComments(
   mongo: Db,
   tenantID: string,
-  siteID: string,
-  until: Date
+  siteID: string
 ) {
-  return collection(mongo)
-    .find({
-      tenantID,
-      siteID,
-      createdAt: {
-        $lt: until,
+  const cursor = collection<{
+    _id: null;
+    avg: number;
+  }>(mongo).aggregate([
+    { $match: { tenantID, siteID } },
+    {
+      $project: {
+        year: { $year: "$createdAt" },
+        month: { $month: "$createdAt" },
+        day: { $dayOfMonth: "$createdAt" },
       },
-      author: {
-        role: {
-          $in: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR, GQLUSER_ROLE.STAFF],
-        },
+    },
+    {
+      $group: {
+        _id: { year: "$year", month: "$month", day: "$day" },
+
+        count: { $sum: 1 },
       },
-    })
-    .count();
+    },
+    {
+      $group: {
+        _id: null,
+        avg: { $avg: "$count" },
+      },
+    },
+  ]);
+  return cursor.toArray();
 }

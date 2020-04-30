@@ -4,6 +4,7 @@ import {
   banStatusAllTimeHandler,
   bansTodayHandler,
   commentsAllTimeHandler,
+  commentsAverageHandler,
   commentsHourlyHandler,
   commentsTodayHandler,
   rejectedAllTimeHandler,
@@ -46,6 +47,7 @@ export function createDashboardRouter(app: AppOptions) {
   router.get("/comments/today", attachSite(app), commentsTodayHandler(app));
   router.get("/comments/all", attachSite(app), commentsAllTimeHandler(app));
   router.get("/comments/hourly", attachSite(app), commentsHourlyHandler(app));
+  router.get("/comments/average", attachSite(app), commentsAverageHandler(app));
   router.get("/bans/today", attachSite(app), bansTodayHandler(app));
   router.get("/rejected/today", attachSite(app), rejectedTodayHandler(app));
   router.get("/signups/today", attachSite(app), signupsTodayHandler(app));

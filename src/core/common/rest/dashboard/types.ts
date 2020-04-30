@@ -79,3 +79,9 @@ export interface SignupsDailyJSON {
     }[];
   };
 }
+
+export interface DailyAverageCommentsJSON {
+  comments: {
+    average: number;
+  };
+}

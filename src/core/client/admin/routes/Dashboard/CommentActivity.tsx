@@ -1,8 +1,19 @@
 import { Localized } from "@fluent/react/compat";
+import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Line,
+  LineChart,
+  ReferenceLine,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
+import {
+  DailyAverageCommentsJSON,
+  HourlyCommentsJSON,
+} from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
@@ -22,6 +33,10 @@ const CommentActivityFetch = createDashboardFetch<HourlyCommentsJSON>(
   "/dashboard/comments/hourly"
 );
 
+const DailyAverageCommentsFetch = createDashboardFetch<
+  DailyAverageCommentsJSON
+>("dailyAverageCommentsFetch", "/dashboard/comments/average");
+
 type CommentsForHour = HourlyCommentsJSON["hours"];
 
 const CommentActivity: FunctionComponent<Props> = ({
@@ -29,13 +44,17 @@ const CommentActivity: FunctionComponent<Props> = ({
   siteID,
 }) => {
   const commentActivityFetch = useFetch(CommentActivityFetch);
+  const dailyAverageFetch = useFetch(DailyAverageCommentsFetch);
   const [commentActivity, setCommentActivity] = useState<CommentsForHour>([]);
+  const [average, setAverage] = useState<number | null>(null);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
       const { hours } = await commentActivityFetch({ siteID });
       setCommentActivity(hours);
+      const averageResponse = await dailyAverageFetch({ siteID });
+      setAverage(averageResponse.comments.average);
     }
     getTotals();
   }, []);
@@ -51,6 +70,9 @@ const CommentActivity: FunctionComponent<Props> = ({
         data={commentActivity}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
+        {isNumber(average) && (
+          <ReferenceLine stroke="pink" y={average} label="Average" />
+        )}
         <XAxis
           dataKey="timestamp"
           tickFormatter={(unixTime: number) => {

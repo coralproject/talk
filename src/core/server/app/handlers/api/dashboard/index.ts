@@ -1,6 +1,7 @@
 import {
   BansTodayJSON,
   CommentsTodayJSON,
+  DailyAverageCommentsJSON,
   DailyTopStoriesJSON,
   HourlyCommentsJSON,
   RejectedJSON,
@@ -14,6 +15,7 @@ import {
   getSiteCommentCountByStatus,
 } from "coral-server/models/site";
 import {
+  retrieveAverageCommentsPerDay,
   retrieveCommentsToday,
   retrieveHourlyCommentTotal,
   retrieveHourlyStaffCommentTotal,
@@ -333,6 +335,36 @@ export const usersWeeklyHandler = ({
       const resp: SignupsDailyJSON = {
         signups: {
           days: signups,
+        },
+      };
+
+      return res.json(resp);
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const commentsAverageHandler = ({
+  redis,
+  mongo,
+}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
+  return async (req, res, next) => {
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const site = req.site!;
+
+    try {
+      const average = await retrieveAverageCommentsPerDay(
+        mongo,
+        redis,
+        tenant.id,
+        site.id
+      );
+
+      const resp: DailyAverageCommentsJSON = {
+        comments: {
+          average,
         },
       };
 
