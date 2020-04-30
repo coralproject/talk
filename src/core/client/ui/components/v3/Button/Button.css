@@ -10,6 +10,10 @@
   font-family: var(--v2-font-family-primary);
 }
 
+.fontFamilySecondary{
+  font-family: var(--v2-font-family-secondary);
+}
+
 .fontWeightPrimaryBold {
   font-weight: var(--v2-font-weight-primary-bold);
 }
@@ -20,6 +24,18 @@
 
 .fontWeightPrimaryRegular {
   font-weight: var(--v2-font-weight-primary-regular);
+}
+
+.fontWeightSecondaryBold {
+  font-weight: var(--v2-font-weight-secondary-bold);
+}
+
+.fontWeightSecondarySemiBold {
+  font-weight: var(--v2-font-weight-secondary-bold);
+}
+
+.fontWeightSecondaryRegular {
+  font-weight: var(--v2-font-weight-secondary-regular);
 }
 
 .textSizeExtraSmall {
@@ -40,6 +56,18 @@
 .textSizeLarge {
   font-size: var(--v2-font-size-3);
   line-height: var(--v2-line-height-3);
+}
+
+.textAlignLeft {
+  text-align: left;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.textAlignRight {
+  text-align: right;
 }
 
 .marginSizeExtraSmall {

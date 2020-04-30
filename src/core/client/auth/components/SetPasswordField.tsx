@@ -2,18 +2,16 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { PasswordField } from "coral-framework/components";
-import {
-  colorFromMeta,
-  parseString,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { colorFromMeta, parseString } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validatePassword,
 } from "coral-framework/lib/validation";
-import { FormField, InputDescription, InputLabel } from "coral-ui/components";
+import { FormField, InputLabel, PasswordField } from "coral-ui/components/v2";
+import { ValidationMessage } from "coral-ui/components/v3";
+
+import styles from "./SetPasswordField.css";
 
 interface Props {
   disabled: boolean;
@@ -31,9 +29,9 @@ const SetPasswordField: FunctionComponent<Props> = (props) => (
           <InputLabel htmlFor={input.name}>Password</InputLabel>
         </Localized>
         <Localized id="general-passwordDescription" $minLength={8}>
-          <InputDescription>
+          <div className={styles.description}>
             {"Must be at least {$minLength} characters"}
-          </InputDescription>
+          </div>
         </Localized>
         <Localized id="general-passwordTextField" attrs={{ placeholder: true }}>
           <PasswordField
@@ -45,7 +43,7 @@ const SetPasswordField: FunctionComponent<Props> = (props) => (
             fullWidth
           />
         </Localized>
-        <ValidationMessage meta={meta} fullWidth />
+        <ValidationMessage meta={meta} />
       </FormField>
     )}
   </Field>

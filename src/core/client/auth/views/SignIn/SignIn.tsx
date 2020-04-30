@@ -1,23 +1,21 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Bar, SubBar, Subtitle, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { PropTypesOf } from "coral-framework/types";
-import {
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+import CLASSES from "coral-stream/classes";
+import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import SignInWithEmailContainer from "./SignInWithEmailContainer";
 import SignInWithFacebookContainer from "./SignInWithFacebookContainer";
 import SignInWithGoogleContainer from "./SignInWithGoogleContainer";
 import SignInWithOIDCContainer from "./SignInWithOIDCContainer";
+
+import styles from "./SignIn.css";
 
 export interface SignInForm {
   error: string | null;
@@ -47,45 +45,78 @@ const SignIn: FunctionComponent<SignInForm> = ({
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <div ref={ref} data-testid="signIn-container">
-      <Localized
-        id="signIn-signInToJoinHeader"
-        title={<Title />}
-        subtitle={<Subtitle />}
-      >
-        <Bar>
-          <Title>Sign In</Title>
-          <Subtitle>to join the conversation</Subtitle>
-        </Bar>
-      </Localized>
+      <div role="banner">
+        <Localized
+          id="signIn-signInToJoinHeader"
+          title={
+            <div className={cn(CLASSES.login.signIn.title, styles.title)} />
+          }
+          subtitle={
+            <div className={cn(CLASSES.login.signIn.header, styles.header)} />
+          }
+        >
+          <div className={cn(CLASSES.login.signIn.bar, styles.bar)}>
+            <div className={cn(CLASSES.login.signIn.title, styles.title)}>
+              Sign In
+            </div>
+            <div className={cn(CLASSES.login.signIn.header, styles.header)}>
+              to join the conversation
+            </div>
+          </div>
+        </Localized>
+      </div>
       {emailEnabled && (
-        <SubBar>
+        <div
+          role="contentinfo"
+          className={cn(CLASSES.login.signIn.subBar, styles.subBar)}
+        >
           <Localized
             id="signIn-noAccountSignUp"
-            textlink={<TextLink onClick={onGotoSignUp} href={signUpHref} />}
+            textlink={
+              <Button
+                color="primary"
+                variant="flat"
+                marginSize="none"
+                textSize="small"
+                fontFamily="secondary"
+                fontWeight="semiBold"
+                underline
+                onClick={onGotoSignUp}
+                href={signUpHref}
+                className={styles.signUp}
+              />
+            }
           >
-            <Typography variant="bodyCopy" container={Flex}>
-              Don't have an account?{" "}
-              <TextLink onClick={onGotoSignUp} href={signUpHref}>
+            <div
+              className={cn(CLASSES.login.signIn.noAccount, styles.noAccount)}
+            >
+              Don't have an account?
+              <Button
+                color="primary"
+                variant="flat"
+                marginSize="none"
+                textSize="small"
+                fontFamily="secondary"
+                fontWeight="bold"
+                underline
+                onClick={onGotoSignUp}
+                href={signUpHref}
+                className={styles.signUp}
+              >
                 Sign Up
-              </TextLink>
-            </Typography>
+              </Button>
+            </div>
           </Localized>
-        </SubBar>
+        </div>
       )}
       <Main data-testid="signIn-main">
-        <HorizontalGutter size="oneAndAHalf">
-          {error && (
-            <CallOut color="error" fullWidth>
-              {error}
-            </CallOut>
-          )}
-          {emailEnabled && <SignInWithEmailContainer />}
-          {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
-          <HorizontalGutter>
-            {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
-            {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
-            {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
-          </HorizontalGutter>
+        {error && <CallOut color="negative" title={error} />}
+        {emailEnabled && <SignInWithEmailContainer />}
+        {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
+        <HorizontalGutter>
+          {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
+          {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
+          {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
         </HorizontalGutter>
       </Main>
     </div>

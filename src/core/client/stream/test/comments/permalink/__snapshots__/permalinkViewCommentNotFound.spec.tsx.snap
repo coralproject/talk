@@ -23,7 +23,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         className="UserBoxUnauthenticated-actions"
       >
         <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+          className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -36,7 +36,7 @@ exports[`renders permalink view with unknown comment 1`] = `
           Register
         </button>
         <button
-          className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+          className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}

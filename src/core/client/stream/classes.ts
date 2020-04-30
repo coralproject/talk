@@ -941,6 +941,24 @@ const CLASSES = {
    * validation message that shows up on form errors.
    */
   validationMessage: "coral-validation-message",
+
+  login: {
+    signIn: {
+      bar: "coral coral-login-signIn-bar",
+      title: "coral coral-login-signIn-title",
+      header: "coral coral-login-signIn-header",
+      subBar: "coral coral-login-signIn-subBar",
+      noAccount: "coral coral-login-signIn-noAccount",
+    },
+    signUp: {
+      bar: "coral coral-login-signUp-bar",
+      title: "coral coral-login-signUp-title",
+      header: "coral coral-login-signUp-header",
+      subBar: "coral coral-login-signUp-subBar",
+      alreadyHaveAccount: "coral coral-login-signUp-alreadyHaveAccount",
+    },
+    orSeparator: "coral coral-login-orSeparator",
+  },
 };
 
 export default CLASSES;

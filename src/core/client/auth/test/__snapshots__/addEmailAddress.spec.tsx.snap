@@ -83,10 +83,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -248,10 +248,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -273,17 +273,21 @@ Your email address will be used to:
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          Please enter a valid email address.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            Please enter a valid email address.
+          </span>
+        </div>
       </div>
     </div>
     <div
@@ -446,10 +450,10 @@ Your email address will be used to:
               </li>
             </ul>
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
             >
               <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="InputLabel-root"
                 htmlFor="email"
               >
                 Email Address
@@ -602,10 +606,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -627,17 +631,21 @@ Your email address will be used to:
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
     </div>
     <div
@@ -795,10 +803,10 @@ GraphQL request:4:3
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="email"
       >
         Email Address

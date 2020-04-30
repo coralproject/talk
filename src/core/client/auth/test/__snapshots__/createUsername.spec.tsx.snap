@@ -14,19 +14,19 @@ exports[`checks for invalid username 1`] = `
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="UsernameField-description"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -44,17 +44,21 @@ exports[`checks for invalid username 1`] = `
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          Username must contain at least 3 characters.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            Username must contain at least 3 characters.
+          </span>
+        </div>
       </div>
     </div>
     <button
@@ -109,19 +113,19 @@ exports[`renders createUsername view 1`] = `
               Your username is an identifier that will appear on all of your comments.
             </p>
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
             >
               <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="InputLabel-root"
                 htmlFor="username"
               >
                 Username
               </label>
-              <p
-                className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+              <div
+                className="UsernameField-description"
               >
                 You may use “_” and “.” Spaces not permitted.
-              </p>
+              </div>
               <div
                 className="TextField-root TextField-fullWidth"
               >
@@ -175,19 +179,19 @@ exports[`shows error when submitting empty form 1`] = `
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="UsernameField-description"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -205,17 +209,21 @@ exports[`shows error when submitting empty form 1`] = `
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
     </div>
     <button
@@ -265,19 +273,19 @@ GraphQL request:4:3
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="UsernameField-description"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -327,19 +335,19 @@ exports[`successfully sets username 1`] = `
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="UsernameField-description"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
