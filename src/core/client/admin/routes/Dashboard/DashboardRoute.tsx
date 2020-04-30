@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "react-relay";
 
+import MainLayout from "coral-admin/components/MainLayout";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import { DashboardRouteQueryResponse } from "coral-admin/__generated__/DashboardRouteQuery.graphql";
@@ -12,13 +13,18 @@ interface Props {
   data: DashboardRouteQueryResponse | null;
 }
 const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
-  if (data && data.settings) {
-    if (!data.settings.multisite) {
-      return <DashboardContainer settings={data.settings} />;
-    }
-    return <DashboardSiteSelectorContainer query={data} />;
+  if (!data || !data.settings) {
+    return null;
   }
-  return null;
+  return (
+    <MainLayout data-testid="dashboard-container">
+      {data.settings.multisite ? (
+        <DashboardSiteSelectorContainer query={data} />
+      ) : (
+        <DashboardContainer settings={data.settings} />
+      )}
+    </MainLayout>
+  );
 };
 
 const enhanced = withRouteConfig<Props>({
