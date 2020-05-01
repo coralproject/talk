@@ -2,25 +2,25 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
 
-import { SignupsDailyJSON } from "coral-common/rest/dashboard/types";
+import { DailySignupsJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
 import { CHART_COLOR_PRIMARY } from "./ChartColors";
 import createDashboardFetch from "./createDashboardFetch";
 
-import styles from "./NewCommenterActivity.css";
+import styles from "./SignupsActivity.css";
 
 interface Props {
   locales?: string[];
   siteID?: string;
 }
-const CommenterActivityFetch = createDashboardFetch<SignupsDailyJSON>(
+const CommenterActivityFetch = createDashboardFetch<DailySignupsJSON>(
   "commenterActivityFetch",
-  "/dashboard/signups/week"
+  "/dashboard/daily-signups"
 );
 
-type NewCommentersByHour = SignupsDailyJSON["signups"]["days"];
+type NewCommentersByHour = DailySignupsJSON["counts"];
 
 const CommenterActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
@@ -34,8 +34,8 @@ const CommenterActivity: FunctionComponent<Props> = ({
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const { signups } = await commenterActivityFetch({ siteID });
-      setCommenterActivity(signups.days);
+      const { counts } = await commenterActivityFetch({ siteID });
+      setCommenterActivity(counts);
     }
     getTotals();
   }, []);

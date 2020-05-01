@@ -57,18 +57,18 @@ export interface RejectedJSON {
 }
 
 export interface HourlyCommentsJSON {
-  hours: {
+  counts: {
     count: number;
     timestamp: string;
   }[];
-  byAuthorRole: {
-    staff: {
-      hours: {
-        count: number;
-        timestamp: string;
-      }[];
-    };
-  };
+  average: number;
+}
+
+export interface DailySignupsJSON {
+  counts: {
+    count: number;
+    timestamp: string;
+  }[];
 }
 
 export interface SignupsDailyJSON {
@@ -83,5 +83,15 @@ export interface SignupsDailyJSON {
 export interface DailyAverageCommentsJSON {
   comments: {
     average: number;
+  };
+}
+
+export interface CountersJSON {
+  counts: {
+    comments: number;
+    staffComments: number;
+    rejections: number;
+    signups: number;
+    bans: number;
   };
 }

@@ -17,7 +17,7 @@ import createDashboardFetch from "./createDashboardFetch";
 
 const TopStoriesFetch = createDashboardFetch<DailyTopStoriesJSON>(
   "topStoriesFetch",
-  "/dashboard/top-stories/today"
+  "/dashboard/top-stories-today"
 );
 
 interface Props {
@@ -53,6 +53,13 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {topStories && topStories.length < 1 && (
+            <TableRow>
+              <Localized id="dashboard-top-stories-no-comments">
+                <TableCell>No comments today.</TableCell>
+              </Localized>
+            </TableRow>
+          )}
           {topStories &&
             topStories.map((topStory) => (
               <TableRow key={topStory.id}>

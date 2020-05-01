@@ -1,17 +1,11 @@
 import { AppOptions } from "coral-server/app";
 
 import {
-  banStatusAllTimeHandler,
-  bansTodayHandler,
-  commentsAllTimeHandler,
-  commentsAverageHandler,
+  allTimeCountersHandler,
   commentsHourlyHandler,
-  commentsTodayHandler,
-  rejectedAllTimeHandler,
-  rejectedTodayHandler,
-  signupsTodayHandler,
+  dailySignupsHandler,
+  todayCountersHandler,
   topCommentedStoriesHandler,
-  usersWeeklyHandler,
 } from "coral-server/app/handlers/api/dashboard";
 import { attachSite } from "coral-server/app/middleware/attachSite";
 
@@ -44,21 +38,15 @@ export function createDashboardRouter(app: AppOptions) {
     router.use(requestLimiter(app));
   }
 
-  router.get("/comments/today", attachSite(app), commentsTodayHandler(app));
-  router.get("/comments/all", attachSite(app), commentsAllTimeHandler(app));
-  router.get("/comments/hourly", attachSite(app), commentsHourlyHandler(app));
-  router.get("/comments/average", attachSite(app), commentsAverageHandler(app));
-  router.get("/bans/today", attachSite(app), bansTodayHandler(app));
-  router.get("/rejected/today", attachSite(app), rejectedTodayHandler(app));
-  router.get("/signups/today", attachSite(app), signupsTodayHandler(app));
-  router.get("/signups/week", attachSite(app), usersWeeklyHandler(app));
-  router.get("/user_ban_status", attachSite(app), banStatusAllTimeHandler(app));
+  router.get("/today", attachSite(app), todayCountersHandler(app));
+  router.get("/all-time", attachSite(app), allTimeCountersHandler(app));
   router.get(
-    "/top-stories/today",
+    "/top-stories-today",
     attachSite(app),
     topCommentedStoriesHandler(app)
   );
-  router.get("/rejected/all", attachSite(app), rejectedAllTimeHandler(app));
+  router.get("/hourly-comments", attachSite(app), commentsHourlyHandler(app));
+  router.get("/daily-signups", attachSite(app), dailySignupsHandler(app));
 
   return router;
 }

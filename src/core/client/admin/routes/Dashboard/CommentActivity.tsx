@@ -10,10 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import {
-  DailyAverageCommentsJSON,
-  HourlyCommentsJSON,
-} from "coral-common/rest/dashboard/types";
+import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
@@ -30,31 +27,25 @@ interface Props {
 
 const CommentActivityFetch = createDashboardFetch<HourlyCommentsJSON>(
   "commentActivityFetch",
-  "/dashboard/comments/hourly"
+  "/dashboard/hourly-comments"
 );
 
-const DailyAverageCommentsFetch = createDashboardFetch<
-  DailyAverageCommentsJSON
->("dailyAverageCommentsFetch", "/dashboard/comments/average");
-
-type CommentsForHour = HourlyCommentsJSON["hours"];
+type CommentsForHour = HourlyCommentsJSON["counts"];
 
 const CommentActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
   siteID,
 }) => {
   const commentActivityFetch = useFetch(CommentActivityFetch);
-  const dailyAverageFetch = useFetch(DailyAverageCommentsFetch);
   const [commentActivity, setCommentActivity] = useState<CommentsForHour>([]);
-  const [average, setAverage] = useState<number | null>(null);
+  const [averageComments, setAverageComments] = useState<number | null>(null);
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   useEffect(() => {
     async function getTotals() {
-      const { hours } = await commentActivityFetch({ siteID });
-      setCommentActivity(hours);
-      const averageResponse = await dailyAverageFetch({ siteID });
-      setAverage(averageResponse.comments.average);
+      const { counts, average } = await commentActivityFetch({ siteID });
+      setCommentActivity(counts);
+      setAverageComments(average);
     }
     getTotals();
   }, []);
@@ -70,8 +61,8 @@ const CommentActivity: FunctionComponent<Props> = ({
         data={commentActivity}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
-        {isNumber(average) && (
-          <ReferenceLine stroke="pink" y={average} label="Average" />
+        {isNumber(averageComments) && (
+          <ReferenceLine stroke="pink" y={averageComments} label="Average" />
         )}
         <XAxis
           dataKey="timestamp"

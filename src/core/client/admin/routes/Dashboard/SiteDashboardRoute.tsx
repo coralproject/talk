@@ -30,7 +30,6 @@ const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
           siteID={props.match.params.siteID}
           settings={data.settings}
         />
-        ;
       </MainLayout>
     );
   }

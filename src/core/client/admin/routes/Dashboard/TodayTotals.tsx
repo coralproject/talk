@@ -2,12 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import {
-  BansTodayJSON,
-  CommentsTodayJSON,
-  RejectedJSON,
-  SignupsJSON,
-} from "coral-common/rest/dashboard/types";
+import { CountersJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
 
@@ -15,24 +10,9 @@ import createDashboardFetch from "./createDashboardFetch";
 
 import styles from "./TodayTotals.css";
 
-const TodayTotalsFetch = createDashboardFetch<CommentsTodayJSON>(
+const TodayTotalsFetch = createDashboardFetch<CountersJSON>(
   "todayTotalsFetch",
-  "/dashboard/comments/today"
-);
-
-const TodayNewCommentersFetch = createDashboardFetch<SignupsJSON>(
-  "newCommentersFetch",
-  "/dashboard/signups/today"
-);
-
-const TodayBansFetch = createDashboardFetch<BansTodayJSON>(
-  "todayBansFetch",
-  "/dashboard/bans/today"
-);
-
-const TodayRejectedFetch = createDashboardFetch<RejectedJSON>(
-  "todayRejectedFetch",
-  "/dashboard/rejected/today"
+  "/dashboard/today"
 );
 
 interface Props {
@@ -42,31 +22,13 @@ interface Props {
 
 const TodayTotals: FunctionComponent<Props> = (props) => {
   const todayTotalsFetch = useFetch(TodayTotalsFetch);
-  const newComentersFetch = useFetch(TodayNewCommentersFetch);
-  const bansFetch = useFetch(TodayBansFetch);
-  const rejectedFetch = useFetch(TodayRejectedFetch);
-  const [totalComents, setTotalComments] = useState<number | null>(null);
-  const [bans, setBans] = useState<number | null>(null);
-  const [rejected, setRejected] = useState<number | null>(null);
-  const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
+  const [todayTotals, setTodayTotals] = useState<CountersJSON["counts"] | null>(
     null
   );
-  const [newCommenters, setNewCommenters] = useState<number | null>(null);
   useEffect(() => {
     async function getTotals() {
-      const todayTotals = await todayTotalsFetch({ siteID: props.siteID });
-      setTotalComments(todayTotals.comments.count);
-      setTotalStaffComments(todayTotals.comments.byAuthorRole.staff.count);
-      if (!props.ssoRegistrationEnabled) {
-        const newCommenterResp = await newComentersFetch({
-          siteID: props.siteID,
-        });
-        setNewCommenters(newCommenterResp.signups.count);
-      }
-      const bansResp = await bansFetch({ siteID: props.siteID });
-      setBans(bansResp.banned.count);
-      const rejectedResp = await rejectedFetch({ siteID: props.siteID });
-      setRejected(rejectedResp.rejected.count);
+      const { counts } = await todayTotalsFetch({ siteID: props.siteID });
+      setTodayTotals(counts);
     }
     getTotals();
   }, []);
@@ -76,55 +38,64 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
         <h3 className={styles.heading}>Today</h3>
       </Localized>
       <Table>
-        <TableBody>
-          {isNumber(totalComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-total-comments">
-                <TableCell>Total comments</TableCell>
-              </Localized>
-              <TableCell>{totalComents}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(totalStaffComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-total-staff-comments">
-                <TableCell>Staff comments</TableCell>
-              </Localized>
-              <TableCell>{totalStaffComents}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(newCommenters) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>New commenters</TableCell>
-              </Localized>
-              <TableCell>{newCommenters}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(bans) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>User bans</TableCell>
-              </Localized>
-              <TableCell>{bans}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(rejected) && isNumber(totalComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>Rejected comments</TableCell>
-              </Localized>
-              <TableCell>{rejected}</TableCell>
-              <TableCell>
-                {((rejected / totalComents) * 100).toFixed(2)} %
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
+        {todayTotals && (
+          <TableBody>
+            {isNumber(todayTotals.comments) && (
+              <TableRow>
+                <Localized id="dashboard-today-table-total-comments">
+                  <TableCell>Total comments</TableCell>
+                </Localized>
+                <TableCell>{todayTotals.comments}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {isNumber(todayTotals.rejections) &&
+              isNumber(todayTotals.comments) && (
+                <TableRow>
+                  <Localized id="dashboard-today-table-rejections">
+                    <TableCell>Rejected</TableCell>
+                  </Localized>
+                  <TableCell>{todayTotals.rejections}</TableCell>
+                  <TableCell>
+                    {todayTotals.comments > 0
+                      ? (
+                          (todayTotals.rejections / todayTotals.comments) *
+                          100
+                        ).toFixed(2)
+                      : 0}
+                    %
+                  </TableCell>
+                </TableRow>
+              )}
+            {isNumber(todayTotals.staffComments) && (
+              <TableRow>
+                <Localized id="dashboard-today-table-staffComments">
+                  <TableCell>Staff comments</TableCell>
+                </Localized>
+                <TableCell>{todayTotals.staffComments}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {props.ssoRegistrationEnabled && isNumber(todayTotals.signups) && (
+              <TableRow>
+                <Localized id="dashboard-today-table-signups">
+                  <TableCell>Registrations</TableCell>
+                </Localized>
+                <TableCell>{todayTotals.signups}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {isNumber(todayTotals.bans) && (
+              <TableRow>
+                <Localized id="dashboard-today-table-bans">
+                  <TableCell>Banned commenters</TableCell>
+                </Localized>
+                <TableCell>{todayTotals.bans}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+          </TableBody>
+        )}
       </Table>
     </div>
   );

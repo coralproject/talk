@@ -2,31 +2,17 @@ import { Localized } from "@fluent/react/compat";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import {
-  CommentsCountJSON,
-  RejectedJSON,
-  UserBanStatusJSON,
-} from "coral-common/rest/dashboard/types";
+import { CountersJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { Table, TableBody, TableCell, TableRow } from "coral-ui/components/v2";
 
 import createDashboardFetch from "./createDashboardFetch";
 
-import styles from "./TodayTotals.css";
+import styles from "./AllTimeTotals.css";
 
-const AllTimeTotalsFetch = createDashboardFetch<CommentsCountJSON>(
+const AllTimeTotalsFetch = createDashboardFetch<CountersJSON>(
   "allTimeTotalsFetch",
-  "/dashboard/comments/all"
-);
-
-const UserBanStatusFetch = createDashboardFetch<UserBanStatusJSON>(
-  "userBanStatusFetch",
-  "/dashboard/user_ban_status"
-);
-
-const AllTimeRejectedFetch = createDashboardFetch<RejectedJSON>(
-  "allTimeRejectedFetch",
-  "/dashboard/rejected/all"
+  "/dashboard/all-time"
 );
 
 interface Props {
@@ -36,83 +22,78 @@ interface Props {
 
 const AllTimeTotals: FunctionComponent<Props> = (props) => {
   const allTimeTotalsFetch = useFetch(AllTimeTotalsFetch);
-  const userBanStatusFetch = useFetch(UserBanStatusFetch);
-  const rejectedFetch = useFetch(AllTimeRejectedFetch);
-  const [totalComents, setTotalComments] = useState<number | null>(null);
-  const [bans, setBans] = useState<number | null>(null);
-  const [users, setUsers] = useState<number | null>(null);
-  const [rejected, setRejected] = useState<number | null>(null);
-  const [totalStaffComents, setTotalStaffComments] = useState<number | null>(
-    null
-  );
+  const [allTimeTotals, setallTimeTotals] = useState<
+    CountersJSON["counts"] | null
+  >(null);
   useEffect(() => {
     async function getTotals() {
-      const allTimeTotals = await allTimeTotalsFetch({ siteID: props.siteID });
-      setTotalComments(allTimeTotals.comments.count);
-      setTotalStaffComments(allTimeTotals.comments.byAuthorRole.staff.count);
-      const bansResp = await userBanStatusFetch({ siteID: props.siteID });
-      setBans(bansResp.users.banned.count);
-      setUsers(bansResp.users.count);
-      const rejectedResp = await rejectedFetch({ siteID: props.siteID });
-      setRejected(rejectedResp.rejected.count);
+      const { counts } = await allTimeTotalsFetch({ siteID: props.siteID });
+      setallTimeTotals(counts);
     }
     getTotals();
   }, []);
   return (
     <div>
-      <Localized id="dashboard-today-heading">
-        <h3 className={styles.heading}>All Time</h3>
+      <Localized id="dashboard-allTime-heading">
+        <h3 className={styles.heading}>All-time</h3>
       </Localized>
       <Table>
-        <TableBody>
-          {isNumber(totalComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-total-comments">
-                <TableCell>Total comments</TableCell>
-              </Localized>
-              <TableCell>{totalComents}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(totalStaffComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-total-staff-comments">
-                <TableCell>Staff comments</TableCell>
-              </Localized>
-              <TableCell>{totalStaffComents}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(users) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>Commenters</TableCell>
-              </Localized>
-              <TableCell>{users}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(bans) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>User bans</TableCell>
-              </Localized>
-              <TableCell>{bans}</TableCell>
-              <TableCell />
-            </TableRow>
-          )}
-          {isNumber(rejected) && isNumber(totalComents) && (
-            <TableRow>
-              <Localized id="dashboard-today-table-new-commenters">
-                <TableCell>Rejected comments</TableCell>
-              </Localized>
-              <TableCell>{rejected}</TableCell>
-              <TableCell>
-                {((rejected / totalComents) * 100).toFixed(1)} %
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
+        {allTimeTotals && (
+          <TableBody>
+            {isNumber(allTimeTotals.comments) && (
+              <TableRow>
+                <Localized id="dashboard-allTime-table-total-comments">
+                  <TableCell>Total comments</TableCell>
+                </Localized>
+                <TableCell>{allTimeTotals.comments}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {isNumber(allTimeTotals.rejections) &&
+              isNumber(allTimeTotals.comments) && (
+                <TableRow>
+                  <Localized id="dashboard-allTime-table-rejections">
+                    <TableCell>Rejected</TableCell>
+                  </Localized>
+                  <TableCell>{allTimeTotals.rejections}</TableCell>
+                  <TableCell>
+                    {(
+                      (allTimeTotals.rejections / allTimeTotals.comments) *
+                      100
+                    ).toFixed(2)}{" "}
+                    %
+                  </TableCell>
+                </TableRow>
+              )}
+            {isNumber(allTimeTotals.staffComments) && (
+              <TableRow>
+                <Localized id="dashboard-allTime-table-staffComments">
+                  <TableCell>Staff comments</TableCell>
+                </Localized>
+                <TableCell>{allTimeTotals.staffComments}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {props.ssoRegistrationEnabled && isNumber(allTimeTotals.signups) && (
+              <TableRow>
+                <Localized id="dashboard-allTime-table-signups">
+                  <TableCell>Registrations</TableCell>
+                </Localized>
+                <TableCell>{allTimeTotals.signups}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+            {isNumber(allTimeTotals.bans) && (
+              <TableRow>
+                <Localized id="dashboard-allTime-table-bans">
+                  <TableCell>Banned commenters</TableCell>
+                </Localized>
+                <TableCell>{allTimeTotals.bans}</TableCell>
+                <TableCell />
+              </TableRow>
+            )}
+          </TableBody>
+        )}
       </Table>
     </div>
   );

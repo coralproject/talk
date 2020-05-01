@@ -4,7 +4,7 @@ import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import AllTimeTotals from "./AllTimeTotals";
 import CommentActivity from "./CommentActivity";
-import NewCommenterActivity from "./NewCommenterActivity";
+import SignupsActivity from "./SignupsActivity";
 import TodayTotals from "./TodayTotals";
 import TopStories from "./TopStories";
 
@@ -27,9 +27,7 @@ const Dashboard: FunctionComponent<Props> = (props) => (
       <TopStories siteID={props.siteID} />
     </Flex>
     <CommentActivity siteID={props.siteID} />
-    {!props.ssoRegistrationEnabled && (
-      <NewCommenterActivity siteID={props.siteID} />
-    )}
+    {!props.ssoRegistrationEnabled && <SignupsActivity siteID={props.siteID} />}
   </HorizontalGutter>
 );
 
