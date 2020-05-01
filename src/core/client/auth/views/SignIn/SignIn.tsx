@@ -48,18 +48,12 @@ const SignIn: FunctionComponent<SignInForm> = ({
       <div role="banner">
         <Localized
           id="signIn-signInToJoinHeader"
-          title={
-            <div className={cn(CLASSES.login.signIn.title, styles.title)} />
-          }
-          subtitle={
-            <div className={cn(CLASSES.login.signIn.header, styles.header)} />
-          }
+          title={<div className={cn(CLASSES.login.title, styles.title)} />}
+          subtitle={<div className={cn(CLASSES.login.header, styles.header)} />}
         >
-          <div className={cn(CLASSES.login.signIn.bar, styles.bar)}>
-            <div className={cn(CLASSES.login.signIn.title, styles.title)}>
-              Sign In
-            </div>
-            <div className={cn(CLASSES.login.signIn.header, styles.header)}>
+          <div className={cn(CLASSES.login.bar, styles.bar)}>
+            <div className={cn(CLASSES.login.title, styles.title)}>Sign In</div>
+            <div className={cn(CLASSES.login.header, styles.header)}>
               to join the conversation
             </div>
           </div>
@@ -68,7 +62,7 @@ const SignIn: FunctionComponent<SignInForm> = ({
       {emailEnabled && (
         <div
           role="contentinfo"
-          className={cn(CLASSES.login.signIn.subBar, styles.subBar)}
+          className={cn(CLASSES.login.subBar, styles.subBar)}
         >
           <Localized
             id="signIn-noAccountSignUp"
@@ -110,7 +104,15 @@ const SignIn: FunctionComponent<SignInForm> = ({
         </div>
       )}
       <Main data-testid="signIn-main">
-        {error && <CallOut color="negative" title={error} />}
+        {error && (
+          <div className={CLASSES.login.errorContainer}>
+            <CallOut
+              className={CLASSES.login.error}
+              color="negative"
+              title={error}
+            />
+          </div>
+        )}
         {emailEnabled && <SignInWithEmailContainer />}
         {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
         <HorizontalGutter>

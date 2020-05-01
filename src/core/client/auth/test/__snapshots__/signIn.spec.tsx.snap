@@ -10,7 +10,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="SignInWithEmail-field"
+      className="coral coral-login-field SignInWithEmail-field"
     >
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -19,7 +19,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           className="InputLabel-root"
           htmlFor="email"
         >
-          Email Address
+          Email address
         </label>
         <div
           className="TextField-root TextField-fullWidth"
@@ -32,7 +32,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Email Address"
+            placeholder="Email address"
             type="email"
             value=""
           />
@@ -40,7 +40,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </div>
     <div
-      className="SignInWithEmail-field"
+      className="coral coral-login-field SignInWithEmail-field"
     >
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -95,10 +95,10 @@ exports[`auth configuration renders all auth enabled 1`] = `
           className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <div
-            className="SignInWithEmail-forgotPassword"
+            className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
           >
             <button
-              className="BaseButton-root Button-base Button-flat Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
+              className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
               disabled={false}
               href="http://localhost/?view=FORGOT_PASSWORD"
               onBlur={[Function]}
@@ -119,7 +119,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       className="SignInWithEmail-actions"
     >
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
         disabled={false}
         onBlur={[Function]}
         onFocus={[Function]}
@@ -153,7 +153,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth FacebookButton-button"
+      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -188,7 +188,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth GoogleButton-button"
+      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -206,9 +206,9 @@ exports[`auth configuration renders all auth enabled 1`] = `
         >
           <svg
             fill="none"
-            height="17"
+            height="14"
             viewBox="0 0 18 18"
-            width="17"
+            width="14"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -223,7 +223,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth OIDCButton-button"
+      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-oidcButton OIDCButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -250,7 +250,7 @@ exports[`auth configuration renders only some social login enabled 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth FacebookButton-button"
+      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -285,7 +285,7 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth GoogleButton-button"
+      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -303,9 +303,9 @@ exports[`auth configuration renders only some social login enabled 1`] = `
         >
           <svg
             fill="none"
-            height="17"
+            height="14"
             viewBox="0 0 18 18"
-            width="17"
+            width="14"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -333,22 +333,22 @@ exports[`renders sign in view 1`] = `
         role="banner"
       >
         <div
-          className="coral coral-login-signIn-bar SignIn-bar"
+          className="coral coral-login-bar SignIn-bar"
         >
           <div
-            className="coral coral-login-signIn-title SignIn-title"
+            className="coral coral-login-title SignIn-title"
           >
-            Sign In
+            Sign in
           </div>
           <div
-            className="coral coral-login-signIn-header SignIn-header"
+            className="coral coral-login-header SignIn-header"
           >
             to join the conversation
           </div>
         </div>
       </div>
       <div
-        className="coral coral-login-signIn-subBar SignIn-subBar"
+        className="coral coral-login-subBar SignIn-subBar"
         role="contentinfo"
       >
         <div
@@ -356,7 +356,7 @@ exports[`renders sign in view 1`] = `
         >
           Don't have an account? 
           <button
-            className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignLeft Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignIn-signUp"
+            className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignIn-signUp"
             disabled={false}
             href="http://localhost/?view=SIGN_UP"
             onBlur={[Function]}
@@ -367,7 +367,7 @@ exports[`renders sign in view 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Sign Up
+            Sign up
           </button>
         </div>
       </div>
@@ -380,7 +380,7 @@ exports[`renders sign in view 1`] = `
           onSubmit={[Function]}
         >
           <div
-            className="SignInWithEmail-field"
+            className="coral coral-login-field SignInWithEmail-field"
           >
             <div
               className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -389,7 +389,7 @@ exports[`renders sign in view 1`] = `
                 className="InputLabel-root"
                 htmlFor="email"
               >
-                Email Address
+                Email address
               </label>
               <div
                 className="TextField-root TextField-fullWidth"
@@ -402,7 +402,7 @@ exports[`renders sign in view 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  placeholder="Email Address"
+                  placeholder="Email address"
                   type="email"
                   value=""
                 />
@@ -410,7 +410,7 @@ exports[`renders sign in view 1`] = `
             </div>
           </div>
           <div
-            className="SignInWithEmail-field"
+            className="coral coral-login-field SignInWithEmail-field"
           >
             <div
               className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -465,10 +465,10 @@ exports[`renders sign in view 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
               >
                 <div
-                  className="SignInWithEmail-forgotPassword"
+                  className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
                 >
                   <button
-                    className="BaseButton-root Button-base Button-flat Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
+                    className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
                     disabled={false}
                     href="http://localhost/?view=FORGOT_PASSWORD"
                     onBlur={[Function]}
@@ -489,7 +489,7 @@ exports[`renders sign in view 1`] = `
             className="SignInWithEmail-actions"
           >
             <button
-              className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignLeft Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+              className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}

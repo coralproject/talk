@@ -1,34 +1,34 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { Bar, SubBar, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import { getViewURL } from "coral-auth/helpers";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
 import {
-  Button,
-  CallOut,
   Flex,
   FormField,
-  HorizontalGutter,
+  Icon,
   InputLabel,
   TextField,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import ForgotPasswordMutation from "./ForgotPasswordMutation";
+
+import styles from "./ForgotPasswordForm.css";
 
 interface FormProps {
   email: string;
@@ -74,39 +74,56 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
 
   return (
     <div ref={ref} data-testid="forgotPassword-container">
-      <Bar>
+      <div role="banner" className={cn(CLASSES.login.bar, styles.bar)}>
         <Localized id="forgotPassword-forgotPasswordHeader">
-          <Title>Forgot Password?</Title>
+          <div className={cn(CLASSES.login.title, styles.title)}>
+            Forgot password?
+          </div>
         </Localized>
-      </Bar>
+      </div>
       {/* If an email address has been provided, then they are already logged in. */}
       {!email && (
-        <SubBar>
-          <Typography variant="bodyCopy" container={Flex}>
-            <Localized id="forgotPassword-gotBackToSignIn">
-              <TextLink href={signInHref} onClick={onGotoSignIn}>
+        <div role="region" className={cn(CLASSES.login.subBar, styles.subBar)}>
+          <Flex alignItems="center" justifyContent="center">
+            <Button
+              color="primary"
+              variant="flat"
+              fontFamily="primary"
+              fontWeight="semiBold"
+              textSize="small"
+              marginSize="none"
+              underline
+              href={signInHref}
+              onClick={onGotoSignIn}
+            >
+              <Localized id="forgotPassword-gotBackToSignIn">
                 Go back to sign in page
-              </TextLink>
-            </Localized>
-          </Typography>
-        </SubBar>
+              </Localized>
+            </Button>
+          </Flex>
+        </div>
       )}
-      <Main data-testid="forgotPassword-main">
+      <Main id="forgot-password-main" data-testid="forgotPassword-main">
         <Form onSubmit={onSubmit} initialValues={{ email: email ? email : "" }}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
-              <HorizontalGutter size="full">
-                <Localized id="forgotPassword-enterEmailAndGetALink">
-                  <Typography variant="bodyCopy">
-                    Enter your email address below and we will send you a link
-                    to reset your password.
-                  </Typography>
-                </Localized>
-                {submitError && (
-                  <CallOut color="error" fullWidth>
-                    {submitError}
-                  </CallOut>
-                )}
+              <Localized id="forgotPassword-enterEmailAndGetALink">
+                <div className={styles.description}>
+                  Enter your email address below and we will send you a link to
+                  reset your password.
+                </div>
+              </Localized>
+              {submitError && (
+                <div className={cn(CLASSES.login.errorContainer, styles.error)}>
+                  <CallOut
+                    className={CLASSES.login.error}
+                    color="negative"
+                    icon={<Icon size="sm">error</Icon>}
+                    title={submitError}
+                  />
+                </div>
+              )}
+              <div className={cn(CLASSES.login.field, styles.field)}>
                 <Field
                   name="email"
                   validate={composeValidators(required, validateEmail)}
@@ -131,23 +148,27 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                           fullWidth
                         />
                       </Localized>
-                      <ValidationMessage meta={meta} fullWidth />
+                      <ValidationMessage meta={meta} />
                     </FormField>
                   )}
                 </Field>
+              </div>
+              <div className={styles.actions}>
                 <Localized id="forgotPassword-sendEmailButton">
                   <Button
                     variant="filled"
                     color="primary"
-                    size="large"
+                    textSize="medium"
+                    marginSize="medium"
+                    upperCase
                     fullWidth
                     type="submit"
                     disabled={submitting}
                   >
-                    Send Email
+                    Send email
                   </Button>
                 </Localized>
-              </HorizontalGutter>
+              </div>
             </form>
           )}
         </Form>

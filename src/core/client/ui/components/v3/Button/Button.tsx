@@ -39,7 +39,7 @@ export class Button extends React.Component<Props> {
       variant = "filled",
       color = "primary",
       textSize = "small",
-      textAlign = "left",
+      textAlign = "center",
       fontFamily = "primary",
       fontWeight = "bold",
       marginSize = "small",

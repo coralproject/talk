@@ -46,9 +46,9 @@ async function createTestRenderer(
     );
     const main = within(testRenderer.root).getByTestID(/.*-main/);
     const form = within(main).getByType("form");
-    const emailAddressField = within(form).getByLabelText("Email Address");
+    const emailAddressField = within(form).getByLabelText("Email address");
     const confirmEmailAddressField = within(form).getByLabelText(
-      "Confirm Email Address"
+      "Confirm email address"
     );
 
     return {

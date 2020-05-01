@@ -66,10 +66,10 @@ it("renders sign in view with error", async () => {
   const { testRenderer, container } = await createTestRenderer({}, error);
   within(container).getByText(error);
   act(() => {
-    within(testRenderer.root).getByText("Sign Up").props.onClick({});
+    within(testRenderer.root).getByText("Sign up").props.onClick({});
   });
   act(() => {
-    within(testRenderer.root).getByText("Sign In").props.onClick({});
+    within(testRenderer.root).getByText("Sign in").props.onClick({});
   });
   const container2 = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
@@ -90,7 +90,7 @@ it("shows error when submitting empty form", async () => {
 it("checks for invalid email", async () => {
   const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   act(() => {
     emailAddressField.props.onChange({ target: { value: "invalid-email" } });
   });
@@ -105,7 +105,7 @@ it("checks for invalid email", async () => {
 it("accepts valid email", async () => {
   const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   act(() => {
     emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
   });
@@ -122,7 +122,7 @@ it("accepts valid email", async () => {
 it("shows server error", async () => {
   const { form, main, context } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
     (i) => i.type === "button" && i.props.type === "submit"
@@ -167,7 +167,7 @@ it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const accessToken = createAccessToken();
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
     (i) => i.type === "button" && i.props.type === "submit"

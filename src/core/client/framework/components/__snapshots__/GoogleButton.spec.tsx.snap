@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Button)
-  className="GoogleButton-button"
+  className="coral coral-login-googleButton GoogleButton-button"
   color="none"
   fullWidth={true}
   marginSize="small"
@@ -20,9 +20,9 @@ exports[`renders correctly 1`] = `
     >
       <svg
         fill="none"
-        height="17"
+        height="14"
         viewBox="0 0 18 18"
-        width="17"
+        width="14"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

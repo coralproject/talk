@@ -11,25 +11,25 @@ exports[`renders correctly 1`] = `
       id="signIn-signInToJoinHeader"
       subtitle={
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         />
       }
       title={
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         />
       }
     >
       <div
-        className="coral coral-login-signIn-bar SignIn-bar"
+        className="coral coral-login-bar SignIn-bar"
       >
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         >
           Sign In
         </div>
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         >
           to join the conversation
         </div>
@@ -37,7 +37,7 @@ exports[`renders correctly 1`] = `
     </Localized>
   </div>
   <div
-    className="coral coral-login-signIn-subBar SignIn-subBar"
+    className="coral coral-login-subBar SignIn-subBar"
     role="contentinfo"
   >
     <Localized
@@ -109,25 +109,25 @@ exports[`renders error 1`] = `
       id="signIn-signInToJoinHeader"
       subtitle={
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         />
       }
       title={
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         />
       }
     >
       <div
-        className="coral coral-login-signIn-bar SignIn-bar"
+        className="coral coral-login-bar SignIn-bar"
       >
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         >
           Sign In
         </div>
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         >
           to join the conversation
         </div>
@@ -135,7 +135,7 @@ exports[`renders error 1`] = `
     </Localized>
   </div>
   <div
-    className="coral coral-login-signIn-subBar SignIn-subBar"
+    className="coral coral-login-subBar SignIn-subBar"
     role="contentinfo"
   >
     <Localized
@@ -179,10 +179,15 @@ exports[`renders error 1`] = `
   <Main
     data-testid="signIn-main"
   >
-    <withPropsOnChange(CallOut)
-      color="negative"
-      title="Server Error"
-    />
+    <div
+      className="coral coral-login-errorContainer"
+    >
+      <withPropsOnChange(CallOut)
+        className="coral coral-login-error"
+        color="negative"
+        title="Server Error"
+      />
+    </div>
     <SignInContainer />
     <OrSeparator />
     <ForwardRef(forwardRef)>
@@ -211,25 +216,25 @@ exports[`renders without email login 1`] = `
       id="signIn-signInToJoinHeader"
       subtitle={
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         />
       }
       title={
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         />
       }
     >
       <div
-        className="coral coral-login-signIn-bar SignIn-bar"
+        className="coral coral-login-bar SignIn-bar"
       >
         <div
-          className="coral coral-login-signIn-title SignIn-title"
+          className="coral coral-login-title SignIn-title"
         >
           Sign In
         </div>
         <div
-          className="coral coral-login-signIn-header SignIn-header"
+          className="coral coral-login-header SignIn-header"
         >
           to join the conversation
         </div>

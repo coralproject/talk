@@ -7,126 +7,122 @@ exports[`renders link account view 1`] = `
       data-testid="linkAccount-container"
     >
       <div
-        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+        className="coral coral-login-bar LinkAccountContainer-bar"
+        role="banner"
       >
-        <header>
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-          >
-            Link Account
-          </h1>
-        </header>
+        <div
+          className="coral coral-login-title LinkAccountContainer-title"
+        >
+          Link account
+        </div>
       </div>
       <main
         className="Main-root"
         data-testid="linkAccount-main"
+        id="link-account-main"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+        <form
+          autoComplete="off"
+          onSubmit={[Function]}
         >
-          <form
-            autoComplete="off"
-            onSubmit={[Function]}
+          <div
+            className="coral coral-login-description LinkAccountContainer-description"
           >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            The email 
+            <span
+              className="LinkAccountContainer-strong"
             >
-              <p
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                The email 
-                <strong>
-                  my@email.com
-                </strong>
-                 is
+              my@email.com
+            </span>
+             is
 already associated with an account. If you would like to
 link these enter your password.
-              </p>
-              <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          </div>
+          <div
+            className="coral coral-login-field LinkAccountContainer-field"
+          >
+            <div
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+            >
+              <label
+                className="InputLabel-root"
+                htmlFor="password"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
+                Password
+              </label>
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
                 <div
-                  className="PasswordField-fullWidth PasswordField-root"
+                  className="PasswordField-wrapper"
                 >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    data-testid="password-field"
+                    disabled={false}
+                    id="password"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder="Password"
+                    spellCheck={false}
+                    type="password"
+                    value=""
+                  />
                   <div
-                    className="PasswordField-wrapper"
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    onKeyUp={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Hide password"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
-                      disabled={false}
-                      id="password"
-                      name="password"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="Password"
-                      spellCheck={false}
-                      type="password"
-                      value=""
-                    />
-                    <div
-                      className="PasswordField-icon"
-                      onClick={[Function]}
-                      onKeyUp={[Function]}
-                      role="button"
-                      tabIndex={0}
-                      title="Hide password"
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
-                      >
-                        visibility
-                      </i>
-                    </div>
+                      visibility
+                    </i>
                   </div>
                 </div>
               </div>
-              <button
-                className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-                data-color="primary"
-                data-variant="filled"
-                disabled={false}
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
-              >
-                Link Account
-              </button>
             </div>
-          </form>
-          <div
-            className="coral coral-login-orSeparator OrSeparator-or"
-          >
-            Or
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantFilled Button-fullWidth"
-            data-color="regular"
-            data-variant="filled"
+            className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+            disabled={false}
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             type="submit"
           >
-            Use a different email address
+            Link account
           </button>
+        </form>
+        <div
+          className="coral coral-login-orSeparator OrSeparator-or"
+        >
+          Or
         </div>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorSecondary Button-upperCase Button-fullWidth"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Use a different email address
+        </button>
       </main>
     </div>
   </div>

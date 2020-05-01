@@ -37,7 +37,7 @@ it("navigates to sign up form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
-  act(() => within(container).getByText("Sign Up").props.onClick({}));
+  act(() => within(container).getByText("Sign up").props.onClick({}));
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
@@ -48,7 +48,7 @@ it("navigates to sign in form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
-  act(() => within(container).getByText("Sign In").props.onClick({}));
+  act(() => within(container).getByText("Sign in").props.onClick({}));
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );

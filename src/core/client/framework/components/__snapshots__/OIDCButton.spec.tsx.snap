@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Button)
-  className="OIDCButton-button"
+  className="coral coral-login-oidcButton OIDCButton-button"
   color="none"
   fullWidth={true}
   marginSize="small"

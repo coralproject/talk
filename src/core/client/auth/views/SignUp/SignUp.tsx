@@ -46,18 +46,12 @@ const SignUp: FunctionComponent<Props> = ({
       <div role="banner">
         <Localized
           id="signUp-signUpToJoinHeader"
-          title={
-            <div className={cn(CLASSES.login.signUp.title, styles.title)} />
-          }
-          subtitle={
-            <div className={cn(CLASSES.login.signUp.header, styles.header)} />
-          }
+          title={<div className={cn(CLASSES.login.title, styles.title)} />}
+          subtitle={<div className={cn(CLASSES.login.header, styles.header)} />}
         >
-          <div className={cn(CLASSES.login.signUp.bar, styles.bar)}>
-            <div className={cn(CLASSES.login.signUp.title, styles.title)}>
-              Sign Up
-            </div>
-            <div className={cn(CLASSES.login.signUp.header, styles.header)}>
+          <div className={cn(CLASSES.login.bar, styles.bar)}>
+            <div className={cn(CLASSES.login.title, styles.title)}>Sign Up</div>
+            <div className={cn(CLASSES.login.header, styles.header)}>
               to join the conversation
             </div>
           </div>
@@ -66,7 +60,7 @@ const SignUp: FunctionComponent<Props> = ({
       {emailEnabled && (
         <div
           role="contentinfo"
-          className={cn(CLASSES.login.signUp.subBar, styles.subBar)}
+          className={cn(CLASSES.login.subBar, styles.subBar)}
         >
           <Localized
             id="signUp-accountAvailableSignIn"
