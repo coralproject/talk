@@ -1,40 +1,36 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
-import {
-  colorFromMeta,
-  FormError,
-  OnSubmit,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { colorFromMeta, FormError, OnSubmit } from "coral-framework/lib/form";
 import {
   useLocal,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
 import {
-  Button,
-  CallOut,
   FormField,
-  HorizontalGutter,
+  Icon,
   InputLabel,
   PasswordField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import { LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
 import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";
+
+import styles from "./LinkAccountContainer.css";
 
 interface FormProps {
   password: string;
@@ -81,85 +77,97 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <div ref={ref} data-testid="linkAccount-container">
-      <Bar>
+      <div role="banner" className={cn(CLASSES.login.bar, styles.bar)}>
         <Localized id="linkAccount-linkAccountHeader">
-          <Title>Link Account</Title>
+          <div className={cn(CLASSES.login.title, styles.title)}>
+            Link Account
+          </div>
         </Localized>
-      </Bar>
-      <Main data-testid="linkAccount-main">
-        <HorizontalGutter spacing={3}>
-          <Form onSubmit={onSubmit}>
-            {({ handleSubmit, submitting, submitError }) => (
-              <form autoComplete="off" onSubmit={handleSubmit}>
-                <HorizontalGutter size="oneAndAHalf">
-                  <Localized
-                    id="linkAccount-alreadyAssociated"
-                    $email={duplicateEmail}
-                    strong={<strong />}
-                  >
-                    <Typography variant="bodyCopy">
-                      The email <strong>{duplicateEmail}</strong> is already
-                      associated with an account. If you would like to link
-                      these enter your password.
-                    </Typography>
-                  </Localized>
-                  {submitError && (
-                    <CallOut color="error" fullWidth>
-                      {submitError}
-                    </CallOut>
+      </div>
+      <Main id="link-account-main" data-testid="linkAccount-main">
+        <Form onSubmit={onSubmit}>
+          {({ handleSubmit, submitting, submitError }) => (
+            <form autoComplete="off" onSubmit={handleSubmit}>
+              <Localized
+                id="linkAccount-alreadyAssociated"
+                $email={duplicateEmail}
+                strong={<span className={styles.strong} />}
+              >
+                <div
+                  className={cn(CLASSES.login.description, styles.description)}
+                >
+                  The email <strong>{duplicateEmail}</strong> is already
+                  associated with an account. If you would like to link these
+                  enter your password.
+                </div>
+              </Localized>
+              {submitError && (
+                <div className={cn(CLASSES.login.errorContainer, styles.error)}>
+                  <CallOut
+                    className={CLASSES.login.error}
+                    color="negative"
+                    icon={<Icon size="sm">error</Icon>}
+                    title={submitError}
+                  />
+                </div>
+              )}
+              <div className={cn(CLASSES.login.field, styles.field)}>
+                <Field name="password" validate={required}>
+                  {({ input, meta }) => (
+                    <FormField>
+                      <Localized id="linkAccount-passwordLabel">
+                        <InputLabel htmlFor={input.name}>Password</InputLabel>
+                      </Localized>
+                      <Localized
+                        id="linkAccount-passwordTextField"
+                        attrs={{ placeholder: true }}
+                      >
+                        <PasswordField
+                          {...input}
+                          id={input.name}
+                          placeholder="Password"
+                          color={colorFromMeta(meta)}
+                          disabled={submitting}
+                          fullWidth
+                        />
+                      </Localized>
+                      <ValidationMessage meta={meta} />
+                    </FormField>
                   )}
-                  <Field name="password" validate={required}>
-                    {({ input, meta }) => (
-                      <FormField>
-                        <Localized id="linkAccount-passwordLabel">
-                          <InputLabel htmlFor={input.name}>Password</InputLabel>
-                        </Localized>
-                        <Localized
-                          id="linkAccount-passwordTextField"
-                          attrs={{ placeholder: true }}
-                        >
-                          <PasswordField
-                            {...input}
-                            id={input.name}
-                            placeholder="Password"
-                            color={colorFromMeta(meta)}
-                            disabled={submitting}
-                            fullWidth
-                          />
-                        </Localized>
-                        <ValidationMessage meta={meta} fullWidth />
-                      </FormField>
-                    )}
-                  </Field>
-                  <Localized id="linkAccount-linkAccountButton">
-                    <Button
-                      variant="filled"
-                      color="primary"
-                      size="large"
-                      type="submit"
-                      fullWidth
-                      disabled={submitting}
-                    >
-                      Link Account
-                    </Button>
-                  </Localized>
-                </HorizontalGutter>
-              </form>
-            )}
-          </Form>
-          <OrSeparator />
-          <Localized id="linkAccount-useDifferentEmail">
-            <Button
-              variant="filled"
-              size="large"
-              type="submit"
-              fullWidth
-              onClick={changeEmail}
-            >
-              Use a different email address
-            </Button>
-          </Localized>
-        </HorizontalGutter>
+                </Field>
+              </div>
+              <Localized id="linkAccount-linkAccountButton">
+                <Button
+                  variant="filled"
+                  color="primary"
+                  textSize="medium"
+                  marginSize="medium"
+                  upperCase
+                  type="submit"
+                  fullWidth
+                  disabled={submitting}
+                >
+                  Link Account
+                </Button>
+              </Localized>
+            </form>
+          )}
+        </Form>
+        <OrSeparator />
+        <Localized id="linkAccount-useDifferentEmail">
+          <Button
+            variant="filled"
+            color="secondary"
+            textSize="medium"
+            marginSize="medium"
+            upperCase
+            type="submit"
+            fullWidth
+            onClick={changeEmail}
+          >
+            Use a different email address
+          </Button>
+        </Localized>
       </Main>
     </div>
   );

@@ -1,6 +1,8 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -13,8 +15,8 @@ interface Props {
 
 const googleIcon = (
   <svg
-    width="17"
-    height="17"
+    width="14"
+    height="14"
     viewBox="0 0 18 18"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +30,7 @@ const googleIcon = (
 
 const GoogleButton: FunctionComponent<Props> = (props) => (
   <Button
-    className={styles.button}
+    className={cn(CLASSES.login.googleButton, styles.button)}
     variant="filled"
     color="none"
     textSize="small"

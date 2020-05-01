@@ -6,82 +6,82 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="AddEmailAddress-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      For your added security, we require users to add an email address to their accounts.
+    For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
-    </p>
-    <ul
-      className="UnorderedList-root"
+  </div>
+  <ul
+    className="UnorderedList-root"
+  >
+    <li
+      className="ListItem-root"
     >
-      <li
-        className="ListItem-root"
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Receive updates regarding any changes to your account
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Receive updates regarding any changes to your account
 (email address, username, password, etc.)
-          </div>
         </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Allow you to download your comments.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Allow you to download your comments.
-          </div>
-        </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Send comment notifications that you have chosen to receive.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Send comment notifications that you have chosen to receive.
-          </div>
-        </div>
-      </li>
-    </ul>
+      </div>
+    </li>
+  </ul>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -89,7 +89,7 @@ Your email address will be used to:
         className="InputLabel-root"
         htmlFor="email"
       >
-        Email Address
+        Email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -102,20 +102,24 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Email Address"
+          placeholder="Email address"
           type="email"
           value="hans@test.com"
         />
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="confirmEmail"
       >
-        Confirm Email Address
+        Confirm email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -128,29 +132,35 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Confirm Email Address"
+          placeholder="Confirm email address"
           type="text"
           value=""
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    className="AddEmailAddress-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -159,7 +169,7 @@ Your email address will be used to:
       onTouchEnd={[Function]}
       type="submit"
     >
-      Add Email Address
+      Add email address
     </button>
   </div>
 </form>
@@ -171,82 +181,82 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="AddEmailAddress-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      For your added security, we require users to add an email address to their accounts.
+    For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
-    </p>
-    <ul
-      className="UnorderedList-root"
+  </div>
+  <ul
+    className="UnorderedList-root"
+  >
+    <li
+      className="ListItem-root"
     >
-      <li
-        className="ListItem-root"
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Receive updates regarding any changes to your account
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Receive updates regarding any changes to your account
 (email address, username, password, etc.)
-          </div>
         </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Allow you to download your comments.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Allow you to download your comments.
-          </div>
-        </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Send comment notifications that you have chosen to receive.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Send comment notifications that you have chosen to receive.
-          </div>
-        </div>
-      </li>
-    </ul>
+      </div>
+    </li>
+  </ul>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -254,7 +264,7 @@ Your email address will be used to:
         className="InputLabel-root"
         htmlFor="email"
       >
-        Email Address
+        Email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -267,7 +277,7 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Email Address"
+          placeholder="Email address"
           type="email"
           value="invalid-email"
         />
@@ -290,14 +300,18 @@ Your email address will be used to:
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="confirmEmail"
       >
-        Confirm Email Address
+        Confirm email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -310,29 +324,35 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Confirm Email Address"
+          placeholder="Confirm email address"
           type="text"
           value="invalid-confirmation-email"
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          Emails do not match. Try again.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            Emails do not match. Try again.
+          </span>
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    className="AddEmailAddress-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -341,7 +361,7 @@ Your email address will be used to:
       onTouchEnd={[Function]}
       type="submit"
     >
-      Add Email Address
+      Add email address
     </button>
   </div>
 </form>
@@ -354,101 +374,101 @@ exports[`renders addEmailAddress view 1`] = `
       data-testid="addEmailAddress-container"
     >
       <div
-        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+        className="coral coral-login-bar AddEmailAddress-bar"
+        role="banner"
       >
-        <header>
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-          >
-            Add Email Address
-          </h1>
-        </header>
+        <div
+          className="coral coral-login-title AddEmailAddress-title"
+        >
+          Add email address
+        </div>
       </div>
       <main
         className="Main-root"
         data-testid="addEmailAddress-main"
+        id="add-email-main"
       >
         <form
           autoComplete="off"
           onSubmit={[Function]}
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="AddEmailAddress-description"
           >
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            >
-              For your added security, we require users to add an email address to their accounts.
+            For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
-            </p>
-            <ul
-              className="UnorderedList-root"
+          </div>
+          <ul
+            className="UnorderedList-root"
+          >
+            <li
+              className="ListItem-root"
             >
-              <li
-                className="ListItem-root"
+              <div
+                className="ListItem-leftCol"
               >
-                <div
-                  className="ListItem-leftCol"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    done
-                  </i>
-                </div>
-                <div>
-                  <div
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                  >
-                    Receive updates regarding any changes to your account
+                  done
+                </i>
+              </div>
+              <div>
+                <div
+                  className="AddEmailAddress-description"
+                >
+                  Receive updates regarding any changes to your account
 (email address, username, password, etc.)
-                  </div>
                 </div>
-              </li>
-              <li
-                className="ListItem-root"
+              </div>
+            </li>
+            <li
+              className="ListItem-root"
+            >
+              <div
+                className="ListItem-leftCol"
               >
-                <div
-                  className="ListItem-leftCol"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    done
-                  </i>
+                  done
+                </i>
+              </div>
+              <div>
+                <div
+                  className="AddEmailAddress-description"
+                >
+                  Allow you to download your comments.
                 </div>
-                <div>
-                  <div
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                  >
-                    Allow you to download your comments.
-                  </div>
-                </div>
-              </li>
-              <li
-                className="ListItem-root"
+              </div>
+            </li>
+            <li
+              className="ListItem-root"
+            >
+              <div
+                className="ListItem-leftCol"
               >
-                <div
-                  className="ListItem-leftCol"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    done
-                  </i>
+                  done
+                </i>
+              </div>
+              <div>
+                <div
+                  className="AddEmailAddress-description"
+                >
+                  Send comment notifications that you have chosen to receive.
                 </div>
-                <div>
-                  <div
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                  >
-                    Send comment notifications that you have chosen to receive.
-                  </div>
-                </div>
-              </li>
-            </ul>
+              </div>
+            </li>
+          </ul>
+          <div
+            className="coral coral-login-field AddEmailAddress-field"
+          >
             <div
               className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
             >
@@ -456,7 +476,7 @@ Your email address will be used to:
                 className="InputLabel-root"
                 htmlFor="email"
               >
-                Email Address
+                Email address
               </label>
               <div
                 className="TextField-root TextField-fullWidth"
@@ -469,20 +489,24 @@ Your email address will be used to:
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  placeholder="Email Address"
+                  placeholder="Email address"
                   type="email"
                   value=""
                 />
               </div>
             </div>
+          </div>
+          <div
+            className="coral coral-login-field AddEmailAddress-field"
+          >
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
             >
               <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="InputLabel-root"
                 htmlFor="confirmEmail"
               >
-                Confirm Email Address
+                Confirm email address
               </label>
               <div
                 className="TextField-root TextField-fullWidth"
@@ -495,16 +519,18 @@ Your email address will be used to:
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  placeholder="Confirm Email Address"
+                  placeholder="Confirm email address"
                   type="text"
                   value=""
                 />
               </div>
             </div>
+          </div>
+          <div
+            className="AddEmailAddress-actions"
+          >
             <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-              data-color="primary"
-              data-variant="filled"
+              className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -513,7 +539,7 @@ Your email address will be used to:
               onTouchEnd={[Function]}
               type="submit"
             >
-              Add Email Address
+              Add email address
             </button>
           </div>
         </form>
@@ -529,82 +555,82 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="AddEmailAddress-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      For your added security, we require users to add an email address to their accounts.
+    For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
-    </p>
-    <ul
-      className="UnorderedList-root"
+  </div>
+  <ul
+    className="UnorderedList-root"
+  >
+    <li
+      className="ListItem-root"
     >
-      <li
-        className="ListItem-root"
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Receive updates regarding any changes to your account
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Receive updates regarding any changes to your account
 (email address, username, password, etc.)
-          </div>
         </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Allow you to download your comments.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Allow you to download your comments.
-          </div>
-        </div>
-      </li>
-      <li
-        className="ListItem-root"
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
       >
-        <div
-          className="ListItem-leftCol"
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Send comment notifications that you have chosen to receive.
         </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Send comment notifications that you have chosen to receive.
-          </div>
-        </div>
-      </li>
-    </ul>
+      </div>
+    </li>
+  </ul>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -612,7 +638,7 @@ Your email address will be used to:
         className="InputLabel-root"
         htmlFor="email"
       >
-        Email Address
+        Email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -625,7 +651,7 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Email Address"
+          placeholder="Email address"
           type="email"
           value=""
         />
@@ -648,14 +674,18 @@ Your email address will be used to:
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="confirmEmail"
       >
-        Confirm Email Address
+        Confirm email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -668,29 +698,35 @@ Your email address will be used to:
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Confirm Email Address"
+          placeholder="Confirm email address"
           type="text"
           value=""
         />
       </div>
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="ValidationMessage-root"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm ValidationMessage-icon"
+          >
+            error
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    className="AddEmailAddress-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -699,7 +735,7 @@ Your email address will be used to:
       onTouchEnd={[Function]}
       type="submit"
     >
-      Add Email Address
+      Add email address
     </button>
   </div>
 </form>
@@ -711,97 +747,122 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="AddEmailAddress-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      For your added security, we require users to add an email address to their accounts.
+    For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
-    </p>
-    <ul
-      className="UnorderedList-root"
-    >
-      <li
-        className="ListItem-root"
-      >
-        <div
-          className="ListItem-leftCol"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Receive updates regarding any changes to your account
-(email address, username, password, etc.)
-          </div>
-        </div>
-      </li>
-      <li
-        className="ListItem-root"
-      >
-        <div
-          className="ListItem-leftCol"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Allow you to download your comments.
-          </div>
-        </div>
-      </li>
-      <li
-        className="ListItem-root"
-      >
-        <div
-          className="ListItem-leftCol"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm"
-          >
-            done
-          </i>
-        </div>
-        <div>
-          <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Send comment notifications that you have chosen to receive.
-          </div>
-        </div>
-      </li>
-    </ul>
-    <div
-      className="CallOut-root CallOut-colorError CallOut-fullWidth"
+  </div>
+  <ul
+    className="UnorderedList-root"
+  >
+    <li
+      className="ListItem-root"
     >
       <div
-        className="CallOut-inner"
+        className="ListItem-leftCol"
       >
-        server error
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+        </div>
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Allow you to download your comments.
+        </div>
+      </div>
+    </li>
+    <li
+      className="ListItem-root"
+    >
+      <div
+        className="ListItem-leftCol"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          done
+        </i>
+      </div>
+      <div>
+        <div
+          className="AddEmailAddress-description"
+        >
+          Send comment notifications that you have chosen to receive.
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div
+    className="coral coral-login-errorContainer AddEmailAddress-error"
+  >
+    <div
+      className="CallOut-root CallOut-negative CallOut-leftBorder coral coral-login-error"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+      >
+        <div
+          className="CallOut-icon CallOut-negative CallOut-leftIcon"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            error
+          </i>
+        </div>
+        <div
+          className="CallOut-content"
+        >
+          <div
+            className="CallOut-title CallOut-titleBold"
+          >
+            server error
 
 GraphQL request:4:3
 3 | ) {
 4 |   setEmail(input: $input) {
   |   ^
 5 |     user {
+          </div>
+          <div
+            className="CallOut-body"
+          />
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -809,7 +870,7 @@ GraphQL request:4:3
         className="InputLabel-root"
         htmlFor="email"
       >
-        Email Address
+        Email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -822,20 +883,24 @@ GraphQL request:4:3
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Email Address"
+          placeholder="Email address"
           type="email"
           value="hans@test.com"
         />
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field AddEmailAddress-field"
+  >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="confirmEmail"
       >
-        Confirm Email Address
+        Confirm email address
       </label>
       <div
         className="TextField-root TextField-fullWidth"
@@ -848,16 +913,18 @@ GraphQL request:4:3
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          placeholder="Confirm Email Address"
+          placeholder="Confirm email address"
           type="text"
           value="hans@test.com"
         />
       </div>
     </div>
+  </div>
+  <div
+    className="AddEmailAddress-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -866,7 +933,7 @@ GraphQL request:4:3
       onTouchEnd={[Function]}
       type="submit"
     >
-      Add Email Address
+      Add email address
     </button>
   </div>
 </form>

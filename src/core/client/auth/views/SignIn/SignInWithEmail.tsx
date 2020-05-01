@@ -1,10 +1,12 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import EmailField from "coral-auth/components/EmailField";
 import { colorFromMeta, FormError, OnSubmit } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
 import {
   Flex,
   FormField,
@@ -34,12 +36,17 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          {submitError && <CallOut color="negative" title={submitError} />}
-
-          <div className={styles.field}>
+          {submitError && (
+            <CallOut
+              className={CLASSES.login.error}
+              color="negative"
+              title={submitError}
+            />
+          )}
+          <div className={cn(CLASSES.login.field, styles.field)}>
             <EmailField disabled={submitting} />
           </div>
-          <div className={styles.field}>
+          <div className={cn(CLASSES.login.field, styles.field)}>
             <Field name="password" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>
@@ -61,7 +68,12 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                   </Localized>
                   <ValidationMessage meta={meta} />
                   <Flex justifyContent="flex-end">
-                    <div className={styles.forgotPassword}>
+                    <div
+                      className={cn(
+                        CLASSES.login.signInWithEmail.forgotPassword,
+                        styles.forgotPassword
+                      )}
+                    >
                       <Button
                         variant="flat"
                         color="primary"

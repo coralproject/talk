@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Button)
-  className="FacebookButton-button"
+  className="coral coral-login-facebookButton FacebookButton-button"
   color="none"
   fullWidth={true}
   marginSize="small"

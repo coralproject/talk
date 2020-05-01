@@ -6,13 +6,13 @@ exports[`checks for invalid username 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="CreateUsername-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      Your username is an identifier that will appear on all of your comments.
-    </p>
+    Your username is an identifier that will appear on all of your comments.
+  </div>
+  <div
+    className="coral coral-login-field CreateUsername-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -61,10 +61,12 @@ exports[`checks for invalid username 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="CreateUsername-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -73,7 +75,7 @@ exports[`checks for invalid username 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      Create Username
+      Create username
     </button>
   </div>
 </form>
@@ -86,32 +88,32 @@ exports[`renders createUsername view 1`] = `
       data-testid="createUsername-container"
     >
       <div
-        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+        className="coral coral-login-bar CreateUsername-bar"
+        role="banner"
       >
-        <header>
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-          >
-            Create Username
-          </h1>
-        </header>
+        <div
+          className="coral coral-login-title CreateUsername-title"
+        >
+          Create a username
+        </div>
       </div>
       <main
         className="Main-root"
         data-testid="createUsername-main"
+        id="create-username-main"
       >
         <form
           autoComplete="off"
           onSubmit={[Function]}
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="CreateUsername-description"
           >
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            >
-              Your username is an identifier that will appear on all of your comments.
-            </p>
+            Your username is an identifier that will appear on all of your comments.
+          </div>
+          <div
+            className="coral coral-login-field CreateUsername-field"
+          >
             <div
               className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
             >
@@ -143,10 +145,12 @@ exports[`renders createUsername view 1`] = `
                 />
               </div>
             </div>
+          </div>
+          <div
+            className="CreateUsername-actions"
+          >
             <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-              data-color="primary"
-              data-variant="filled"
+              className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -155,7 +159,7 @@ exports[`renders createUsername view 1`] = `
               onTouchEnd={[Function]}
               type="submit"
             >
-              Create Username
+              Create username
             </button>
           </div>
         </form>
@@ -171,13 +175,13 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="CreateUsername-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      Your username is an identifier that will appear on all of your comments.
-    </p>
+    Your username is an identifier that will appear on all of your comments.
+  </div>
+  <div
+    className="coral coral-login-field CreateUsername-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -226,10 +230,12 @@ exports[`shows error when submitting empty form 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="CreateUsername-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -238,7 +244,7 @@ exports[`shows error when submitting empty form 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      Create Username
+      Create username
     </button>
   </div>
 </form>
@@ -250,28 +256,53 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="CreateUsername-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      Your username is an identifier that will appear on all of your comments.
-    </p>
+    Your username is an identifier that will appear on all of your comments.
+  </div>
+  <div
+    className="coral coral-login-errorContainer CreateUsername-error"
+  >
     <div
-      className="CallOut-root CallOut-colorError CallOut-fullWidth"
+      className="CallOut-root CallOut-negative CallOut-leftBorder coral coral-login-error"
     >
       <div
-        className="CallOut-inner"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
       >
-        server error
+        <div
+          className="CallOut-icon CallOut-negative CallOut-leftIcon"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            error
+          </i>
+        </div>
+        <div
+          className="CallOut-content"
+        >
+          <div
+            className="CallOut-title CallOut-titleBold"
+          >
+            server error
 
 GraphQL request:4:3
 3 | ) {
 4 |   setUsername(input: $input) {
   |   ^
 5 |     user {
+          </div>
+          <div
+            className="CallOut-body"
+          />
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    className="coral coral-login-field CreateUsername-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -303,10 +334,12 @@ GraphQL request:4:3
         />
       </div>
     </div>
+  </div>
+  <div
+    className="CreateUsername-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -315,7 +348,7 @@ GraphQL request:4:3
       onTouchEnd={[Function]}
       type="submit"
     >
-      Create Username
+      Create username
     </button>
   </div>
 </form>
@@ -327,13 +360,13 @@ exports[`successfully sets username 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="CreateUsername-description"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
-      Your username is an identifier that will appear on all of your comments.
-    </p>
+    Your username is an identifier that will appear on all of your comments.
+  </div>
+  <div
+    className="coral coral-login-field CreateUsername-field"
+  >
     <div
       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
@@ -365,10 +398,12 @@ exports[`successfully sets username 1`] = `
         />
       </div>
     </div>
+  </div>
+  <div
+    className="CreateUsername-actions"
+  >
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -377,7 +412,7 @@ exports[`successfully sets username 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      Create Username
+      Create username
     </button>
   </div>
 </form>

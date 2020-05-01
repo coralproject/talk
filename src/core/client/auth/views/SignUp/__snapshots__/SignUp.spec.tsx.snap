@@ -11,25 +11,25 @@ exports[`renders correctly 1`] = `
       id="signUp-signUpToJoinHeader"
       subtitle={
         <div
-          className="coral coral-login-signUp-header SignUp-header"
+          className="coral coral-login-header SignUp-header"
         />
       }
       title={
         <div
-          className="coral coral-login-signUp-title SignUp-title"
+          className="coral coral-login-title SignUp-title"
         />
       }
     >
       <div
-        className="coral coral-login-signUp-bar SignUp-bar"
+        className="coral coral-login-bar SignUp-bar"
       >
         <div
-          className="coral coral-login-signUp-title SignUp-title"
+          className="coral coral-login-title SignUp-title"
         >
           Sign Up
         </div>
         <div
-          className="coral coral-login-signUp-header SignUp-header"
+          className="coral coral-login-header SignUp-header"
         >
           to join the conversation
         </div>
@@ -37,7 +37,7 @@ exports[`renders correctly 1`] = `
     </Localized>
   </div>
   <div
-    className="coral coral-login-signUp-subBar SignUp-subBar"
+    className="coral coral-login-subBar SignUp-subBar"
     role="contentinfo"
   >
     <Localized
@@ -110,25 +110,25 @@ exports[`renders without email sign up 1`] = `
       id="signUp-signUpToJoinHeader"
       subtitle={
         <div
-          className="coral coral-login-signUp-header SignUp-header"
+          className="coral coral-login-header SignUp-header"
         />
       }
       title={
         <div
-          className="coral coral-login-signUp-title SignUp-title"
+          className="coral coral-login-title SignUp-title"
         />
       }
     >
       <div
-        className="coral coral-login-signUp-bar SignUp-bar"
+        className="coral coral-login-bar SignUp-bar"
       >
         <div
-          className="coral coral-login-signUp-title SignUp-title"
+          className="coral coral-login-title SignUp-title"
         >
           Sign Up
         </div>
         <div
-          className="coral coral-login-signUp-header SignUp-header"
+          className="coral coral-login-header SignUp-header"
         >
           to join the conversation
         </div>

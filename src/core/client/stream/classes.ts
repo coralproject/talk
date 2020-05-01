@@ -944,20 +944,26 @@ const CLASSES = {
 
   login: {
     signIn: {
-      bar: "coral coral-login-signIn-bar",
-      title: "coral coral-login-signIn-title",
-      header: "coral coral-login-signIn-header",
-      subBar: "coral coral-login-signIn-subBar",
       noAccount: "coral coral-login-signIn-noAccount",
     },
     signUp: {
-      bar: "coral coral-login-signUp-bar",
-      title: "coral coral-login-signUp-title",
-      header: "coral coral-login-signUp-header",
-      subBar: "coral coral-login-signUp-subBar",
       alreadyHaveAccount: "coral coral-login-signUp-alreadyHaveAccount",
     },
+    signInWithEmail: {
+      forgotPassword: "coral coral-login-signInWithEmail-forgotPassword",
+    },
+    bar: "coral coral-login-bar",
+    title: "coral coral-login-title",
+    header: "coral coral-login-header",
+    subBar: "coral coral-login-subBar",
     orSeparator: "coral coral-login-orSeparator",
+    description: "coral coral-login-description",
+    field: "coral coral-login-field",
+    errorContainer: "coral coral-login-errorContainer",
+    error: "coral coral-login-error",
+    facebookButton: "coral coral-login-facebookButton",
+    googleButton: "coral coral-login-googleButton",
+    oidcButton: "coral coral-login-oidcButton",
   },
 };
 

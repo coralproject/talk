@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Bar, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { Button, HorizontalGutter, Typography } from "coral-ui/components";
+import { Button } from "coral-ui/components/v3";
+
+import styles from "./CheckEmail.css";
 
 interface Props {
   email: string;
@@ -15,31 +16,33 @@ const CheckEmail: FunctionComponent<Props> = ({ email }) => {
   const closeWindow = useCallback(() => {
     window.close();
   }, []);
-  const UserEmail = () => <strong>{email}</strong>;
+  const UserEmail = () => <span className={styles.strong}>{email}</span>;
   return (
     <div ref={ref} data-testid="forgotPassword-checkEmail-container">
-      <Bar>
+      <div className={styles.bar}>
         <Localized id="forgotPassword-checkEmail-checkEmailHeader">
-          <Title>Check Your Email</Title>
+          <div className={styles.title}>Check Your Email</div>
         </Localized>
-      </Bar>
+      </div>
       <Main data-testid="forgotPassword-checkEmail-main">
-        <HorizontalGutter size="full">
-          <Localized
-            id="forgotPassword-checkEmail-receiveEmail"
-            email={<UserEmail />}
-          >
-            <Typography variant="bodyCopy">
-              {
-                "If there is an account associated with <email></email>, you will receive an email with a link to create a new password."
-              }
-            </Typography>
-          </Localized>
+        <Localized
+          id="forgotPassword-checkEmail-receiveEmail"
+          email={<UserEmail />}
+        >
+          <div className={styles.description}>
+            {
+              "If there is an account associated with <email></email>, you will receive an email with a link to create a new password."
+            }
+          </div>
+        </Localized>
+        <div className={styles.actions}>
           <Localized id="forgotPassword-checkEmail-closeButton">
             <Button
               variant="filled"
               color="primary"
-              size="large"
+              textSize="medium"
+              marginSize="medium"
+              upperCase
               fullWidth
               type="submit"
               onClick={closeWindow}
@@ -47,7 +50,7 @@ const CheckEmail: FunctionComponent<Props> = ({ email }) => {
               Close
             </Button>
           </Localized>
-        </HorizontalGutter>
+        </div>
       </Main>
     </div>
   );

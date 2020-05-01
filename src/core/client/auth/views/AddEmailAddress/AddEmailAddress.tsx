@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
-import { Bar, Title } from "coral-auth/components//Header";
 import ConfirmEmailField from "coral-auth/components/ConfirmEmailField";
 import EmailField from "coral-auth/components/EmailField";
 import Main from "coral-auth/components/Main";
@@ -15,16 +15,14 @@ import {
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
-import {
-  Button,
-  CallOut,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import CLASSES from "coral-stream/classes";
+import { Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import SetEmailMutation from "./SetEmailMutation";
 import { ListItem, UnorderedList } from "./UnorderedList";
+
+import styles from "./AddEmailAddress.css";
 
 interface FormProps {
   email: string;
@@ -59,60 +57,72 @@ const AddEmailAddressContainer: FunctionComponent = () => {
 
   return (
     <div ref={ref} data-testid="addEmailAddress-container">
-      <Bar>
+      <div role="banner" className={cn(CLASSES.login.bar, styles.bar)}>
         <Localized id="addEmailAddress-addEmailAddressHeader">
-          <Title>Add Email Address</Title>
+          <div className={cn(CLASSES.login.title, styles.title)}>
+            Add Email Address
+          </div>
         </Localized>
-      </Bar>
-      <Main data-testid="addEmailAddress-main">
+      </div>
+      <Main id="add-email-main" data-testid="addEmailAddress-main">
         <Form onSubmit={onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
-              <HorizontalGutter size="oneAndAHalf">
-                <Localized id="addEmailAddress-whatItIs">
-                  <Typography variant="bodyCopy">
-                    For your added security, we require users to add an email
-                    address to their accounts. Your email address will be used
-                    to:
-                  </Typography>
-                </Localized>
-                <UnorderedList>
-                  <ListItem icon={<Icon>done</Icon>}>
-                    <Localized id="addEmailAddress-receiveUpdates">
-                      <Typography container="div">
-                        Receive updates regarding any changes to your account
-                        (email address, username, password, etc.)
-                      </Typography>
-                    </Localized>
-                  </ListItem>
-                  <ListItem icon={<Icon>done</Icon>}>
-                    <Localized id="addEmailAddress-allowDownload">
-                      <Typography container="div">
-                        Allow you to download your comments.
-                      </Typography>
-                    </Localized>
-                  </ListItem>
-                  <ListItem icon={<Icon>done</Icon>}>
-                    <Localized id="addEmailAddress-sendNotifications">
-                      <Typography container="div">
-                        Send comment notifications that you have chosen to
-                        receive.
-                      </Typography>
-                    </Localized>
-                  </ListItem>
-                </UnorderedList>
-                {submitError && (
-                  <CallOut color="error" fullWidth>
-                    {submitError}
-                  </CallOut>
-                )}
+              <Localized id="addEmailAddress-whatItIs">
+                <div className={styles.description}>
+                  For your added security, we require users to add an email
+                  address to their accounts. Your email address will be used to:
+                </div>
+              </Localized>
+              <UnorderedList>
+                <ListItem icon={<Icon>done</Icon>}>
+                  <Localized id="addEmailAddress-receiveUpdates">
+                    <div className={styles.description}>
+                      Receive updates regarding any changes to your account
+                      (email address, username, password, etc.)
+                    </div>
+                  </Localized>
+                </ListItem>
+                <ListItem icon={<Icon>done</Icon>}>
+                  <Localized id="addEmailAddress-allowDownload">
+                    <div className={styles.description}>
+                      Allow you to download your comments.
+                    </div>
+                  </Localized>
+                </ListItem>
+                <ListItem icon={<Icon>done</Icon>}>
+                  <Localized id="addEmailAddress-sendNotifications">
+                    <div className={styles.description}>
+                      Send comment notifications that you have chosen to
+                      receive.
+                    </div>
+                  </Localized>
+                </ListItem>
+              </UnorderedList>
+              {submitError && (
+                <div className={cn(CLASSES.login.errorContainer, styles.error)}>
+                  <CallOut
+                    className={CLASSES.login.error}
+                    color="negative"
+                    icon={<Icon size="sm">error</Icon>}
+                    title={submitError}
+                  />
+                </div>
+              )}
+              <div className={cn(CLASSES.login.field, styles.field)}>
                 <EmailField disabled={submitting} />
+              </div>
+              <div className={cn(CLASSES.login.field, styles.field)}>
                 <ConfirmEmailField disabled={submitting} />
+              </div>
+              <div className={styles.actions}>
                 <Localized id="addEmailAddress-addEmailAddressButton">
                   <Button
                     variant="filled"
                     color="primary"
-                    size="large"
+                    textSize="medium"
+                    marginSize="medium"
+                    upperCase
                     type="submit"
                     fullWidth
                     disabled={submitting}
@@ -120,7 +130,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
                     Add Email Address
                   </Button>
                 </Localized>
-              </HorizontalGutter>
+              </div>
             </form>
           )}
         </Form>
