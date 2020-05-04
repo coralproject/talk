@@ -18,6 +18,7 @@ import {
   Counter,
   Flex,
   HorizontalGutter,
+  MatchMedia,
   Tab,
   TabBar,
   TabContent,
@@ -201,18 +202,11 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
-            direction="row-reverse"
+            direction="row"
             alignItems="flex-end"
             justifyContent="space-between"
             className={styles.tabBarRow}
           >
-            <SortMenu
-              className={styles.sortMenu}
-              orderBy={local.commentsOrderBy}
-              onChange={onChangeOrder}
-              reactionSortLabel={props.settings.reaction.sortLabel}
-              isQA={isQA}
-            />
             <TabBar
               variant="streamSecondary"
               activeTab={local.commentsTab}
@@ -318,7 +312,35 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 </Flex>
               </Tab>
             </TabBar>
+            <MatchMedia ltWidth="sm">
+              {(matches) => {
+                return !matches ? (
+                  <SortMenu
+                    className={styles.sortMenu}
+                    orderBy={local.commentsOrderBy}
+                    onChange={onChangeOrder}
+                    reactionSortLabel={props.settings.reaction.sortLabel}
+                    showLabel
+                    isQA={isQA}
+                  />
+                ) : null;
+              }}
+            </MatchMedia>
           </Flex>
+          <MatchMedia ltWidth="sm">
+            {(matches) => {
+              return matches ? (
+                <SortMenu
+                  className={styles.sortMenu}
+                  orderBy={local.commentsOrderBy}
+                  onChange={onChangeOrder}
+                  reactionSortLabel={props.settings.reaction.sortLabel}
+                  fullWidth
+                  isQA={isQA}
+                />
+              ) : null;
+            }}
+          </MatchMedia>
           <TabContent activeTab={local.commentsTab}>
             {isQA ? (
               <TabPane

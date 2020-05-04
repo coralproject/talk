@@ -199,63 +199,8 @@ exports[`renders comment stream 1`] = `
           className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
         >
           <div
-            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRowReverse"
+            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
           >
-            <div
-              className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
-            >
-              <label
-                className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-                htmlFor="coral-comments-sortMenu"
-              >
-                Sort By
-              </label>
-              <span
-                className="SelectField-root"
-              >
-                <select
-                  className="SelectField-select undefined"
-                  id="coral-comments-sortMenu"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  value="CREATED_AT_DESC"
-                >
-                  <option
-                    value="CREATED_AT_DESC"
-                  >
-                    Newest
-                  </option>
-                  <option
-                    value="CREATED_AT_ASC"
-                  >
-                    Oldest
-                  </option>
-                  <option
-                    value="REPLIES_DESC"
-                  >
-                    Most Replies
-                  </option>
-                  <option
-                    value="REACTION_DESC"
-                  >
-                    Most Respected
-                  </option>
-                </select>
-                <span
-                  aria-hidden={true}
-                  className="SelectField-afterWrapper undefined"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    expand_more
-                  </i>
-                </span>
-              </span>
-            </div>
             <ul
               className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
               role="tablist"
@@ -366,6 +311,61 @@ exports[`renders comment stream 1`] = `
                 </button>
               </li>
             </ul>
+            <div
+              className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+            >
+              <label
+                className="SortMenu-label"
+                htmlFor="coral-comments-sortMenu"
+              >
+                Sort by
+              </label>
+              <span
+                className="SelectField-root"
+              >
+                <select
+                  className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+                  id="coral-comments-sortMenu"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  value="CREATED_AT_DESC"
+                >
+                  <option
+                    value="CREATED_AT_DESC"
+                  >
+                    Newest
+                  </option>
+                  <option
+                    value="CREATED_AT_ASC"
+                  >
+                    Oldest
+                  </option>
+                  <option
+                    value="REPLIES_DESC"
+                  >
+                    Most replies
+                  </option>
+                  <option
+                    value="REACTION_DESC"
+                  >
+                    Most Respected
+                  </option>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    expand_more
+                  </i>
+                </span>
+              </span>
+            </div>
           </div>
           <section
             aria-labelledby="tab-FEATURED_COMMENTS"

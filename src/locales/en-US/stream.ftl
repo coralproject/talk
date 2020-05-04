@@ -143,10 +143,10 @@ comments-reportButton-aria-report =
 comments-reportButton-aria-reported =
   .aria-label = Reported
 
-comments-sortMenu-sortBy = Sort By
+comments-sortMenu-sortBy = Sort by
 comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-mostReplies = Most replies
 
 comments-userPopover =
   .description = A popover with more user information
@@ -213,7 +213,7 @@ qa-postQuestionForm-rte =
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
-qa-sortMenu-mostVoted = Most Voted
+qa-sortMenu-mostVoted = Most voted
 
 qa-answered-tag = answered
 qa-expert-tag = expert
