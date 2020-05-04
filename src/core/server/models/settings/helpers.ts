@@ -1,5 +1,5 @@
 import {
-  ExternalExternalIntegration,
+  ExternalModerationExternalIntegration,
   ExternalModerationPhase,
 } from "./settings";
 
@@ -8,7 +8,7 @@ export function filterActivePhase() {
 }
 
 export function getExternalModerationPhase(
-  integration: ExternalExternalIntegration,
+  integration: ExternalModerationExternalIntegration,
   phaseID: string
 ) {
   return integration.phases.find((p) => p.id === phaseID) || null;

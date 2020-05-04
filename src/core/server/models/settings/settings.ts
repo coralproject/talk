@@ -126,7 +126,7 @@ export interface ExternalModerationPhase extends SigningSecretResource {
   createdAt: Date;
 }
 
-export interface ExternalExternalIntegration {
+export interface ExternalModerationExternalIntegration {
   /**
    * phases is all the external moderation phases for this Tenant.
    */
@@ -149,7 +149,7 @@ export interface ExternalIntegrations {
    * external provides integration details for external moderation phases that can be
    * used in the moderation pipeline.
    */
-  external?: ExternalExternalIntegration;
+  external?: ExternalModerationExternalIntegration;
 }
 
 /**
