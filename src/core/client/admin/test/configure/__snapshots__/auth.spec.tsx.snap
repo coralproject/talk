@@ -461,7 +461,7 @@ address from the site and the database.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
                         disabled={false}
                         name="auth.sessionDuration-unit"
                         onBlur={[Function]}

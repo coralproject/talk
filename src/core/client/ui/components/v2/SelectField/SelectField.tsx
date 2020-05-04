@@ -32,6 +32,7 @@ export interface SelectFieldProps {
   autofocus?: boolean;
   name?: string;
   onChange?: EventHandler<ChangeEvent<HTMLSelectElement>>;
+  onClick?: EventHandler<React.MouseEvent>;
   disabled?: boolean;
 
   // These handlers are passed down by the `withKeyboardFocus` HOC.
@@ -58,9 +59,14 @@ const SelectField: FunctionComponent<SelectFieldProps> = (props) => {
     [classes.fullWidth]: fullWidth,
   });
 
-  const selectClassName = cn(classes.select, {
-    [classes.keyboardFocus]: keyboardFocus,
-  });
+  const selectClassName = cn(
+    classes.select,
+    classes.selectFont,
+    classes.selectColor,
+    {
+      [classes.keyboardFocus]: keyboardFocus,
+    }
+  );
 
   const afterWrapperClassName = cn(classes.afterWrapper, {
     [classes.afterWrapperDisabled]: disabled,

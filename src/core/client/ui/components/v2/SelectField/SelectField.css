@@ -19,16 +19,23 @@
   border: 1px solid var(--v2-palette-input-focused-border);
 }
 
-.select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.selectFont {
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-3);
   line-height: var(--v2-line-height-reset);
+}
+
+.selectColor {
+  color: var(--v2-palette-input-value);
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
   appearance: none;
   outline: none;
-  color: var(--v2-palette-input-value);
   width: 100%;
 
   &::-moz-focus-inner {

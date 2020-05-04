@@ -4,17 +4,11 @@ exports[`renders correctly on big screens 1`] = `
 <div
   className="Box-root Flex-root coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
 >
-  <label
-    className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-    htmlFor="coral-comments-sortMenu"
-  >
-    Sort By
-  </label>
   <span
     className="SelectField-root"
   >
     <select
-      className="SelectField-select undefined"
+      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
       id="coral-comments-sortMenu"
       onBlur={[Function]}
       onChange={[Function]}
@@ -35,7 +29,7 @@ exports[`renders correctly on big screens 1`] = `
       <option
         value="REPLIES_DESC"
       >
-        Most Replies
+        Most replies
       </option>
       <option
         value="REACTION_DESC"
@@ -45,7 +39,7 @@ exports[`renders correctly on big screens 1`] = `
     </select>
     <span
       aria-hidden={true}
-      className="SelectField-afterWrapper undefined"
+      className="SelectField-afterWrapper"
     >
       <i
         aria-hidden="true"
@@ -66,7 +60,7 @@ exports[`renders correctly on small screens 1`] = `
     className="SelectField-root"
   >
     <select
-      className="SelectField-select SortMenu-mobileSelect"
+      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
       id="coral-comments-sortMenu"
       onBlur={[Function]}
       onChange={[Function]}
@@ -87,7 +81,7 @@ exports[`renders correctly on small screens 1`] = `
       <option
         value="REPLIES_DESC"
       >
-        Most Replies
+        Most replies
       </option>
       <option
         value="REACTION_DESC"
@@ -97,13 +91,13 @@ exports[`renders correctly on small screens 1`] = `
     </select>
     <span
       aria-hidden={true}
-      className="SelectField-afterWrapper SortMenu-mobileAfterWrapper"
+      className="SelectField-afterWrapper"
     >
       <i
         aria-hidden="true"
         className="Icon-root Icon-sm"
       >
-        sort
+        expand_more
       </i>
     </span>
   </span>
