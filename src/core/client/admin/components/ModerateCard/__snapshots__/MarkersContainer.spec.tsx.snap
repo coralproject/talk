@@ -6,9 +6,6 @@ exports[`renders all markers 1`] = `
     <Relay(ModerateCardDetailsContainer)
       comment={
         Object {
-          "editing": Object {
-            "edited": false,
-          },
           "revision": Object {
             "actionCounts": Object {
               "flag": Object {
@@ -26,17 +23,10 @@ exports[`renders all markers 1`] = `
                 },
               },
             },
-            "metadata": Object {
-              "perspective": Object {
-                "score": 0,
-              },
-            },
           },
           "status": "PREMOD",
         }
       }
-      hasDetails={true}
-      hasRevisions={false}
       onUsernameClick={[Function]}
       settings={
         Object {
@@ -161,9 +151,6 @@ exports[`renders some markers 1`] = `
     <Relay(ModerateCardDetailsContainer)
       comment={
         Object {
-          "editing": Object {
-            "edited": false,
-          },
           "revision": Object {
             "actionCounts": Object {
               "flag": Object {
@@ -181,17 +168,10 @@ exports[`renders some markers 1`] = `
                 },
               },
             },
-            "metadata": Object {
-              "perspective": Object {
-                "score": 1,
-              },
-            },
           },
           "status": "PREMOD",
         }
       }
-      hasDetails={true}
-      hasRevisions={false}
       onUsernameClick={[Function]}
       settings={
         Object {
