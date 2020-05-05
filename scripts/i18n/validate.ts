@@ -1,5 +1,11 @@
 #!/usr/bin/env ./node_modules/.bin/tsnd
 
+//
+// Based on the script written by @cristiandean
+//
+// Source: https://gist.github.com/cristiandean/8196bc2b965f9acf9ad8f9e4530011c1
+//
+
 import { FluentResource } from "@fluent/bundle";
 import fs from "fs";
 import path from "path";
