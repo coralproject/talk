@@ -174,6 +174,16 @@ also supports comments in specific languages. When the language is supported in
 Coral and supported by the Perspective API, the language should be added to the
 language map in `src/core/server/services/comments/pipeline/phases/toxic.ts`.
 
+To assist with the translation process, we have a script that is based on the
+work by @cristiandean in https://github.com/coralproject/talk/pull/2949 that
+will detect missing, new, or changed translation keys for the specified
+language. You can use this with:
+
+```sh
+# usage: ./scripts/i18n/validate.ts <locale>
+./scripts/i18n/validate.ts pt-BR
+```
+
 ## Documentation
 
 Documentation that is publicly shown on
