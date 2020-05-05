@@ -115,6 +115,7 @@ async function deleteUserComments(
         revisions: [],
         tags: [],
         deletedAt: now,
+        deleted: true,
       },
     }
   );
