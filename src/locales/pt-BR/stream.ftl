@@ -28,6 +28,7 @@ comment-count-text =
 
 comments-allCommentsTab = Todos os comentários
 comments-featuredTab = Destaques
+comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-featuredCommentTooltip-how = Como um comentário é destacado?
 comments-featuredCommentTooltip-handSelectedComments =
   Os comentários são selecionados por nossa equipe como merecedores de serem lidos.
@@ -47,8 +48,8 @@ comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar
 comments-streamQuery-storyNotFound = História não encontrada
 
 comments-postCommentForm-submit = Enviar
-comments-stream-loadMore = Carregar Mais
 comments-replyList-showAll = Mostrar Tudo
+comments-replyList-showMoreReplies = Carregar Mais
 
 comments-viewNew =
   { $count ->
@@ -431,7 +432,7 @@ profile-changeUsername-current = Nome de usuário atual
 profile-changeUsername-newUsername-label = Novo usuário
 profile-changeUsername-confirmNewUsername-label = Confirme o novo nome de usuário
 profile-changeUsername-cancel = Cancelar
-profile-changeUsername-submit-button = Salvar
+profile-changeUsername-save = Salvar
 profile-changeUsername-recentChange = Seu nome de usuário foi alterado em { framework-timeago-time }. Você pode alterar seu nome de usuário novamente em { $nextUpdate }
 profile-changeUsername-close = Fechar
 
