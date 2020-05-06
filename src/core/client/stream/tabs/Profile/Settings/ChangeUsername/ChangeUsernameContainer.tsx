@@ -17,7 +17,7 @@ import getAuthenticationIntegrations from "coral-framework/helpers/getAuthentica
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { hasError } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -292,7 +292,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                               fullWidth
                               id={input.name}
                               data-testid="profile-changeUsername-username"
-                              color={hasError(meta) ? "streamError" : "regular"}
+                              color={streamColorFromMeta(meta)}
                             />
                             <ValidationMessage
                               className={CLASSES.validationMessage}
@@ -323,7 +323,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                               fullWidth
                               id={input.name}
                               data-testid="profile-changeUsername-username-confirm"
-                              color={hasError(meta) ? "streamError" : "regular"}
+                              color={streamColorFromMeta(meta)}
                             />
                             <ValidationMessage
                               className={CLASSES.validationMessage}

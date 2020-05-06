@@ -9,7 +9,7 @@ import { getViewURL } from "coral-auth/helpers";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -143,7 +143,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                           {...input}
                           id={input.name}
                           placeholder="Email Address"
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           disabled={submitting}
                           fullWidth
                         />

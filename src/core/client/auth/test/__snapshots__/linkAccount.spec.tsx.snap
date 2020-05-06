@@ -60,7 +60,7 @@ link these enter your password.
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                     data-testid="password-field"
                     disabled={false}
                     id="password"

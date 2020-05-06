@@ -31,7 +31,7 @@ export interface TextFieldProps {
   /**
    * Color of the TextField
    */
-  color?: "regular" | "error" | "streamError" | "dark";
+  color?: "regular" | "streamBlue" | "error" | "dark";
   /*
    * If set renders a full width button
    */
@@ -105,7 +105,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => {
   const inputClassName = cn(classes.input, {
     [classes.colorRegular]: color === "regular",
     [classes.colorError]: color === "error",
-    [classes.colorStreamError]: color === "streamError",
+    [classes.colorStreamBlue]: color === "streamBlue",
     [classes.colorDark]: color === "dark",
     [classes.textAlignCenter]: textAlignCenter,
     [classes.seamlessAdornment]: variant === "seamlessAdornment",

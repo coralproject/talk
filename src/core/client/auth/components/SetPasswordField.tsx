@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, parseString } from "coral-framework/lib/form";
+import { parseString, streamColorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -38,7 +38,7 @@ const SetPasswordField: FunctionComponent<Props> = (props) => (
             {...input}
             id={input.name}
             placeholder="Password"
-            color={colorFromMeta(meta)}
+            color={streamColorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
           />

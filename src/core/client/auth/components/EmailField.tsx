@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -31,7 +31,7 @@ const EmailField: FunctionComponent<Props> = (props) => (
             id={input.name}
             placeholder="Email Address"
             type="email"
-            color={colorFromMeta(meta)}
+            color={streamColorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
           />

@@ -15,7 +15,7 @@ import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { hasError } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import {
   createFetch,
   useFetch,
@@ -359,7 +359,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                               {...input}
                               fullWidth
                               id="profile-changeEmail-Email"
-                              color={hasError(meta) ? "streamError" : "regular"}
+                              color={streamColorFromMeta(meta)}
                             />
                             <ValidationMessage
                               meta={meta}
@@ -391,9 +391,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                 {...input}
                                 id={input.name}
                                 placeholder="Password"
-                                color={
-                                  hasError(meta) ? "streamError" : "regular"
-                                }
+                                color={streamColorFromMeta(meta)}
                                 disabled={submitting}
                                 fullWidth
                               />

@@ -9,7 +9,11 @@ import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
-import { colorFromMeta, FormError, OnSubmit } from "coral-framework/lib/form";
+import {
+  FormError,
+  OnSubmit,
+  streamColorFromMeta,
+} from "coral-framework/lib/form";
 import {
   useLocal,
   useMutation,
@@ -126,7 +130,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
                           {...input}
                           id={input.name}
                           placeholder="Password"
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           disabled={submitting}
                           fullWidth
                         />

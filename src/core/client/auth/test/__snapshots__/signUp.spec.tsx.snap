@@ -25,7 +25,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           className="TextField-root TextField-fullWidth"
         >
           <input
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorStreamBlue"
             disabled={false}
             id="email"
             name="email"
@@ -60,7 +60,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           className="TextField-root TextField-fullWidth"
         >
           <input
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorStreamBlue"
             disabled={false}
             id="username"
             name="username"
@@ -101,7 +101,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
               autoCapitalize="off"
               autoComplete="off"
               autoCorrect="off"
-              className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+              className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
               data-testid="password-field"
               disabled={false}
               id="password"
@@ -413,7 +413,7 @@ exports[`renders sign up form 1`] = `
                 className="TextField-root TextField-fullWidth"
               >
                 <input
-                  className="TextField-input TextField-colorRegular"
+                  className="TextField-input TextField-colorStreamBlue"
                   disabled={false}
                   id="email"
                   name="email"
@@ -448,7 +448,7 @@ exports[`renders sign up form 1`] = `
                 className="TextField-root TextField-fullWidth"
               >
                 <input
-                  className="TextField-input TextField-colorRegular"
+                  className="TextField-input TextField-colorStreamBlue"
                   disabled={false}
                   id="username"
                   name="username"
@@ -489,7 +489,7 @@ exports[`renders sign up form 1`] = `
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                     data-testid="password-field"
                     disabled={false}
                     id="password"
