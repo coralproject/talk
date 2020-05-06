@@ -1,3 +1,6 @@
+/**
+ * trimHTML trims the end of the html and removes any whitespace elements.
+ */
 export default function trimHTML(html: string) {
   const divElement = document.createElement("div");
   divElement.innerHTML = html;

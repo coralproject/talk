@@ -33,17 +33,23 @@ const originalError = global.console.error;
 const originalWarn = global.console.warn;
 const originalLog = global.console.log;
 
+function argToString(arg: any): string {
+  if (typeof arg === "string") {
+    return arg;
+  }
+  if (arg.toString !== undefined) {
+    return arg.toString();
+  }
+  try {
+    return JSON.stringify(arg);
+  } catch {
+    return "";
+  }
+}
+
 function getMatchingPatterns(patterns: PatternMap, args: any[]) {
   try {
-    const str = args
-      .map((a) =>
-        typeof a === "string"
-          ? a
-          : a.toString !== undefined
-          ? a.toString()
-          : JSON.stringify(a)
-      )
-      .join(" ");
+    const str = args.map((a) => argToString(a)).join(" ");
     const matchedPatterns: string[] = [];
     Object.keys(patterns).forEach((k) => {
       const matching =
