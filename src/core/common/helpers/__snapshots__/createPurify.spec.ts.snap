@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`allows anchor links 1`] = `
+<body>
+  <a
+    href="http://test.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    http://test.com
+  </a>
+</body>
+`;
+
+exports[`allows anchor tags and counts them correctly 1`] = `
+"
+    <div>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
+    </div>
+  "
+`;
+
+exports[`allows bolded tags 1`] = `
+<body>
+  A 
+  <b>
+    bolded comment!
+  </b>
+</body>
+`;
+
+exports[`allows mailto links 1`] = `
+<body>
+  <a
+    href="mailto:email@example.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    email@example.com
+  </a>
+</body>
+`;
+
+exports[`sanitizes out attributes not allowed 1`] = `
+<body>
+  <div>
+    Test
+  </div>
+</body>
+`;
+
+exports[`sanitizes out tags not allowed 1`] = `<body />`;
+
+exports[`sanitizes out tags not allowed 2`] = `<body />`;

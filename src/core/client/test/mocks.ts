@@ -5,12 +5,12 @@ jest.mock("react-transition-group", () => ({
 }));
 
 jest.mock("react-dom", () => ({
-  ...require.requireActual("react-dom"),
+  ...jest.requireActual("react-dom"),
   createPortal: (node: any) => node,
 }));
 
 jest.mock("popper.js", () => {
-  const PopperJS = require.requireActual("popper.js");
+  const PopperJS = jest.requireActual("popper.js");
 
   return class Popper {
     public static placements = PopperJS.placements;

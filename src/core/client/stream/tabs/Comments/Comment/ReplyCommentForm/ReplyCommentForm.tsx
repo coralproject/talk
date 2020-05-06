@@ -24,7 +24,10 @@ import {
   MatchMedia,
 } from "coral-ui/components";
 
-import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
+import {
+  getCommentBodyValidators,
+  getHTMLCharacterLength,
+} from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import ReplyTo from "./ReplyTo";
@@ -91,9 +94,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                         <RTE
                           inputId={inputID}
                           onFocus={onFocus}
-                          onChange={({ html }) =>
-                            input.onChange(normalizeRTEHTML(html))
-                          }
+                          onChange={(html) => input.onChange(html)}
                           value={input.value}
                           placeholder="Write a reply"
                           forwardRef={props.rteRef}
@@ -157,7 +158,9 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                             color="primary"
                             variant="filled"
                             disabled={
-                              submitting || !input.value || props.disabled
+                              submitting ||
+                              getHTMLCharacterLength(input.value) === 0 ||
+                              props.disabled
                             }
                             type="submit"
                             className={CLASSES.createReplyComment.submit}

@@ -75,6 +75,9 @@ comments-rte-italic =
 comments-rte-blockquote =
   .title = Blockquote
 
+comments-rte-bulletedList =
+  .title = Bulleted List
+
 comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation

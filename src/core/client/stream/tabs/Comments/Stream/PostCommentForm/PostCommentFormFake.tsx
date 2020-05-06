@@ -33,10 +33,9 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
-  const onChange = useCallback(
-    (data: { html: string; text: string }) => props.onDraftChange(data.html),
-    [props.onDraftChange]
-  );
+  const onChange = useCallback((html: string) => props.onDraftChange(html), [
+    props.onDraftChange,
+  ]);
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   return (

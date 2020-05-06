@@ -1,20 +1,35 @@
 import cn from "classnames";
+import { DOMPurifyI } from "dompurify";
 import React, { FunctionComponent, useMemo } from "react";
-import striptags from "striptags";
 
 import {
   getPhrasesRegExp,
   GetPhrasesRegExpOptions,
   markHTMLNode,
 } from "coral-admin/helpers";
-import { createPurify } from "coral-common/utils/purify";
+import createPurify, { purifyConfig } from "coral-common/helpers/createPurify";
 
 import styles from "./CommentContent.css";
 
+/** Resused DOMPurify instance */
+let purify: DOMPurifyI | null = null;
+
 /**
- * Create a purify instance that will be used to handle HTML content.
+ * Return a purify instance that will be used to handle HTML content.
  */
-const purify = createPurify(window, false);
+function getPurifyInstance(highlight: boolean) {
+  if (!purify) {
+    purify = createPurify(window, {
+      normalize: true,
+    });
+  }
+  purify.setConfig({
+    ...purifyConfig,
+    FORBID_TAGS: highlight ? ["b", "strong", "i", "em", "s", "span"] : [],
+    RETURN_DOM: true,
+  });
+  return purify;
+}
 
 interface Props {
   className?: string;
@@ -51,15 +66,10 @@ const CommentContent: FunctionComponent<Props> = ({
     }
 
     // Sanitize the input for display.
-    let html = purify.sanitize(children);
-    if (highlight) {
-      html = striptags(html, ["a"]);
-    }
-
-    // We create a Shadow DOM Tree with the HTML body content and use it as a
-    // parser.
-    const node = document.createElement("div");
-    node.innerHTML = html;
+    const node = getPurifyInstance(highlight).sanitize(children, {
+      // TODO: Be aware, this has only affect on the return type. It does not affect the config.
+      RETURN_DOM: true,
+    });
 
     // If the expression is available, then mark the nodes.
     if (expression) {

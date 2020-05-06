@@ -13,7 +13,10 @@ import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
 
-import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
+import {
+  getCommentBodyValidators,
+  getHTMLCharacterLength,
+} from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
@@ -111,9 +114,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                         <RTE
                           inputId="comments-postCommentForm-field"
                           onFocus={onFocus}
-                          onChange={({ html }) =>
-                            input.onChange(normalizeRTEHTML(html))
-                          }
+                          onChange={(html) => input.onChange(html)}
                           contentClassName={
                             props.showMessageBox
                               ? styles.rteBorderless
@@ -166,7 +167,9 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                           variant="filled"
                           className={CLASSES.createComment.submit}
                           disabled={
-                            submitting || !input.value || props.disabled
+                            submitting ||
+                            getHTMLCharacterLength(input.value) === 0 ||
+                            props.disabled
                           }
                           type="submit"
                         >

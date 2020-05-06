@@ -59,11 +59,28 @@ exports[`renders correctly 1`] = `
             </ForwardRef(forwardRef)>
           </Toggle>
         </ForwardRef(RTELocalized)>,
+        <ForwardRef(RTELocalized)
+          attrs={
+            Object {
+              "title": true,
+            }
+          }
+          id="comments-rte-bulletedList"
+        >
+          <Toggle>
+            <ForwardRef(forwardRef)
+              size="md"
+            >
+              format_list_bulleted
+            </ForwardRef(forwardRef)>
+          </Toggle>
+        </ForwardRef(RTELocalized)>,
       ]
     }
     placeholder="Post a comment"
     placeholderClassName="coral coral-rte-placeholder RTE-placeholder"
     placeholderClassNameDisabled=""
+    sanitizeToDOMFragment={[Function]}
     toolbarClassName="coral coral-rte-toolbar RTE-toolbar"
     toolbarClassNameDisabled=""
     toolbarPosition="bottom"

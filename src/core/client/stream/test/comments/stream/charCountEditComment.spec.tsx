@@ -1,4 +1,3 @@
-import RTE from "@coralproject/rte";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
@@ -12,6 +11,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -61,18 +61,12 @@ async function createTestRenderer(
   );
 
   // Open edit form.
-  within(comment).getByText("Edit").props.onClick();
+  act(() => {
+    within(comment).getByText("Edit").props.onClick();
+  });
 
-  const rte = await waitForElement(
-    () =>
-      findParentWithType(
-        within(comment).getByLabelText("Edit comment"),
-        // We'll use the RTE component here as an exception because the
-        // jsdom does not support all of what is needed for rendering the
-        // Rich Text Editor.
-        RTE
-      )!
-  );
+  // Wait for edit RTE to initialize.
+  const rte = await waitForRTE(comment, "Edit comment");
 
   const form = findParentWithType(rte, "form")!;
   return {
@@ -89,7 +83,7 @@ it("validate min", async () => {
 
   const text = "Please enter at least 3 characters.";
 
-  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => rte.props.onChange("ab"));
   act(() => {
     form.props.onSubmit();
   });
@@ -101,7 +95,7 @@ it("validate max", async () => {
 
   const text = "Please enter at max 10 characters.";
 
-  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
   act(() => {
     form.props.onSubmit();
   });
@@ -111,9 +105,9 @@ it("validate max", async () => {
 it("show remaining characters", async () => {
   const { rte, form } = await createTestRenderer();
 
-  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => rte.props.onChange("abc"));
   within(form).getByText("7 characters remaining");
-  act(() => rte.props.onChange({ html: "abcdefghijkl" }));
+  act(() => rte.props.onChange("abcdefghijkl"));
   within(form).getByText("-2 characters remaining");
 });
 
@@ -153,9 +147,9 @@ it("update from server upon specific char count error", async () => {
       { muteNetworkErrors: true }
     );
 
-    act(() => rte.props.onChange({ html: "abc" }));
+    act(() => rte.props.onChange("abc"));
     within(form).getByText("7 characters remaining");
-    act(() => rte.props.onChange({ html: "abcdefgh" }));
+    act(() => rte.props.onChange("abcdefgh"));
     within(form).getByText("2 characters remaining");
     act(() => {
       form.props.onSubmit();
@@ -167,7 +161,7 @@ it("update from server upon specific char count error", async () => {
     });
     // Body submit error should be displayed.
     within(form).getByText(errorCode);
-    act(() => rte.props.onChange({ html: "abcde" }));
+    act(() => rte.props.onChange("abcde"));
 
     // Body submit error should disappear when form gets dirty.
     expect(within(form).queryByText(errorCode)).toBeNull();

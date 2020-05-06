@@ -1,25 +1,67 @@
-import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
+import {
+  Blockquote,
+  Bold,
+  CoralRTE,
+  Italic,
+  UnorderedList,
+} from "@coralproject/rte";
 import { Localized as LocalizedOriginal } from "@fluent/react/compat";
 import cn from "classnames";
+import { DOMPurifyI } from "dompurify";
 import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
+import createPurify from "coral-common/helpers/createPurify";
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RTE.css";
 
+/** Resused DOMPurify instance */
+let purify: DOMPurifyI | null = null;
+
+/**
+ * Return a purify instance that will be used to handle HTML content.
+ */
+function getPurifyInstance() {
+  if (purify) {
+    return purify;
+  }
+  purify = createPurify(window, {
+    config: {
+      ALLOW_UNKNOWN_PROTOCOLS: true,
+      WHOLE_DOCUMENT: false,
+      RETURN_DOM: false,
+      RETURN_DOM_FRAGMENT: true,
+    },
+  });
+  return purify;
+}
+
+/**
+ * Sanitation callback that we pass to squire.
+ */
+const sanitizeToDOMFragment = (html: string) => {
+  const frag = html
+    ? getPurifyInstance().sanitize(html, {
+        // TODO: Be aware, this has only affect on the return type. It does not affect the config.
+        RETURN_DOM_FRAGMENT: true,
+      })
+    : document.createDocumentFragment();
+  return frag;
+};
+
 // Use a special Localized version that forwards
 // ref and passes the api prop to the children.
 // This is currently required in order for the RTE
 // to detect and setup the features.
 const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
-  function RTELocalized({ api, ...props }, ref) {
+  function RTELocalized({ ctrlKey, squire, ...props }, ref) {
     return (
       <LocalizedOriginal {...props}>
         {React.cloneElement(
           React.Children.only(props.children as React.ReactElement),
-          { api, ref }
+          { ctrlKey, squire, ref }
         )}
       </LocalizedOriginal>
     );
@@ -29,7 +71,7 @@ const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
 export interface RTEProps {
   inputId?: string;
   /**
-   * The content value of the component.
+   * The default content value of the component.
    */
   defaultValue?: string;
   /**
@@ -66,7 +108,7 @@ export interface RTEProps {
   /**
    * onChange
    */
-  onChange?: (data: { html: string; text: string }) => void;
+  onChange?: (html: string) => void;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
 
@@ -91,9 +133,18 @@ const features = [
     id="comments-rte-blockquote"
     attrs={{ title: true }}
   >
-    <Blockquote key="blockquote">
+    <Blockquote>
       <Icon size="md">format_quote</Icon>
     </Blockquote>
+  </Localized>,
+  <Localized
+    key="bulletedList"
+    id="comments-rte-bulletedList"
+    attrs={{ title: true }}
+  >
+    <UnorderedList>
+      <Icon size="md">format_list_bulleted</Icon>
+    </UnorderedList>
   </Localized>,
 ];
 
@@ -136,7 +187,7 @@ const RTE: FunctionComponent<RTEProps> = (props) => {
           styles.toolbar
         )}
         onChange={onChange}
-        value={value || defaultValue}
+        value={value || defaultValue || "<div><br></div>"}
         disabled={disabled}
         placeholder={placeholder}
         features={features}
@@ -144,6 +195,7 @@ const RTE: FunctionComponent<RTEProps> = (props) => {
         toolbarPosition="bottom"
         onBlur={onBlur}
         onFocus={onFocus}
+        sanitizeToDOMFragment={sanitizeToDOMFragment}
         {...rest}
       />
     </div>

@@ -24,6 +24,7 @@ import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
   SubmitStatus,
+  trimHTML,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
@@ -114,7 +115,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           parentRevisionID: this.props.comment.revision!.id,
           local: this.props.localReply,
           nudge: this.state.nudge,
-          ...input,
+          body: trimHTML(input.body),
         })
       );
       if (submitStatus !== "RETRY") {

@@ -1,6 +1,5 @@
 import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
-import { noop } from "lodash";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
@@ -41,12 +40,8 @@ export interface TestResolvers<T extends Resolvers = any> {
 }
 
 function createNodeMock(element: React.ReactElement<any>) {
-  if (element.type === "div") {
-    return {
-      innerHtml: "",
-      className: "",
-      focus: noop,
-    };
+  if (typeof element.type === "string") {
+    return document.createElement(element.type);
   }
   return null;
 }

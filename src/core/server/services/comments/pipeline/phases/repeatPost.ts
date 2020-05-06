@@ -16,14 +16,14 @@ import {
 
 export const repeatPost: IntermediateModerationPhase = async ({
   mongo,
-  htmlStripped,
+  bodyText,
   tenant,
   author,
   nudge,
   redis,
   log,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!htmlStripped) {
+  if (!bodyText) {
     return;
   }
 
@@ -43,13 +43,15 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    const revision = striptags(getLatestRevision(lastComment).body);
+    const revision = striptags(getLatestRevision(lastComment).body).trim();
+    // Removing the newlines from body text will yield the same results as above transformation.
+    const compareTo = bodyText.replace(/\n/g, "").trim();
 
     // Calculate the comment similarity. At the moment, we only do a string
     // comparison, so it's either completely equal (they match) or the
     // similarity can't be determined (null). This gives us room in the future
     // to include a percentage matching.
-    const similarity = revision.trim() === htmlStripped.trim() ? 1 : null;
+    const similarity = revision === compareTo ? 1 : null;
 
     if (similarity) {
       log.trace({ similarity }, "comment contains repeat content");

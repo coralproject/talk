@@ -1,5 +1,4 @@
-import striptags from "striptags";
-
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
 import GraphContext from "coral-server/graph/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
@@ -94,8 +93,7 @@ export default class SlackPublishEvent {
     );
     const commentLink = getURLWithCommentID(this.story.url, this.comment.id);
 
-    // Replace HTML link breaks with newlines.
-    const body = striptags(getLatestRevision(this.comment).body);
+    const body = getHTMLPlainText(getLatestRevision(this.comment).body);
     return [
       {
         type: "section",

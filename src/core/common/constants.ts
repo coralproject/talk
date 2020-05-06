@@ -67,3 +67,8 @@ export const DEFAULT_SESSION_DURATION = 90 * TIME.DAY;
  * same comment repeatedly.
  */
 export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
+
+/**
+ * SPOILER_CLASSNAME is the classname that is attached to spoilers.
+ */
+export const SPOILER_CLASSNAME = "coral-rte-spoiler";

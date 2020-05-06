@@ -106,7 +106,7 @@ it("save values", async () => {
 
 it("creates a comment", async () => {
   const storyID = "story-id";
-  const input = { body: "Hello World!", local: false };
+  const input = { body: "Hello World!" };
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
   const form = { reset: noop };
   const onCloseStub = sinon.stub();
@@ -131,6 +131,7 @@ it("creates a comment", async () => {
       parentID: props.comment.id,
       parentRevisionID: "revision-id",
       nudge: true,
+      local: undefined,
       ...input,
     })
   ).toBeTruthy();

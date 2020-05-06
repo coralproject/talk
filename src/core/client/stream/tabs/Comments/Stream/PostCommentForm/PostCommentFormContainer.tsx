@@ -32,6 +32,7 @@ import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
   SubmitStatus,
+  trimHTML,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import {
@@ -130,7 +131,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           storyID: this.props.story.id,
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
-          ...input,
+          body: trimHTML(input.body),
         })
       );
       if (submitStatus !== "RETRY") {

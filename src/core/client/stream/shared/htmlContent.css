@@ -30,4 +30,17 @@
       color: var(--palette-primary-dark);
     }
   }
+  & :global(.coral-rte-spoiler) {
+    background-color: var(--palette-text-dark);
+    transition: background 300ms;
+    border-radius: var(--round-corners);
+    color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+  }
+  & :global(.coral-rte-spoiler-reveal) {
+    opacity: 1.0;
+    color: var(--palette-text-dark);
+    background-color: transparent;
+    cursor: text;
+  }
 }
