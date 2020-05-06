@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -181,7 +181,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           id={input.name}
                           data-testid="confirm-page-confirmation"
                           disabled={submitting}
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           autoComplete="off"
                         />
                         <div className={styles.validationMessage}>
@@ -209,7 +209,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           id={input.name}
                           data-testid="confirm-page-password"
                           disabled={submitting}
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           autoComplete="off"
                         />
                         <div className={styles.validationMessage}>

@@ -132,7 +132,7 @@ exports[`renders createUsername view 1`] = `
                 className="TextField-root TextField-fullWidth"
               >
                 <input
-                  className="TextField-input TextField-colorRegular"
+                  className="TextField-input TextField-colorStreamBlue"
                   disabled={false}
                   id="username"
                   name="username"
@@ -321,7 +321,7 @@ GraphQL request:4:3
         className="TextField-root TextField-fullWidth"
       >
         <input
-          className="TextField-input TextField-colorRegular"
+          className="TextField-input TextField-colorStreamBlue"
           disabled={false}
           id="username"
           name="username"
@@ -385,7 +385,7 @@ exports[`successfully sets username 1`] = `
         className="TextField-root TextField-fullWidth"
       >
         <input
-          className="TextField-input TextField-colorRegular"
+          className="TextField-input TextField-colorStreamBlue"
           disabled={false}
           id="username"
           name="username"

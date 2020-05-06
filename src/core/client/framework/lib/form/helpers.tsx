@@ -105,3 +105,6 @@ export const hasError = ({ touched, error, submitError }: FieldMeta) =>
 
 export const colorFromMeta = (meta: FieldMeta) =>
   hasError(meta) ? "error" : "regular";
+
+export const streamColorFromMeta = (meta: FieldMeta) =>
+  hasError(meta) ? "error" : "streamBlue";

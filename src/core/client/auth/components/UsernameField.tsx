@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -35,7 +35,7 @@ const CreateUsernameField: FunctionComponent<Props> = (props) => (
             {...input}
             id={input.name}
             placeholder="Username"
-            color={colorFromMeta(meta)}
+            color={streamColorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
           />

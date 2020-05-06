@@ -4,7 +4,11 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import EmailField from "coral-auth/components/EmailField";
-import { colorFromMeta, FormError, OnSubmit } from "coral-framework/lib/form";
+import {
+  FormError,
+  OnSubmit,
+  streamColorFromMeta,
+} from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import {
@@ -61,7 +65,7 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                       {...input}
                       id={input.name}
                       placeholder="Password"
-                      color={colorFromMeta(meta)}
+                      color={streamColorFromMeta(meta)}
                       disabled={submitting}
                       fullWidth
                     />
