@@ -1,6 +1,5 @@
 /**
  * getHTMLPlainText returns text representation of html.
- * Includes a different implementation during test that works.
  *
  * @param html string
  */
