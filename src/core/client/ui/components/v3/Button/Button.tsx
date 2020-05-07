@@ -49,6 +49,7 @@ export class Button extends React.Component<Props> {
       upperCase = false,
       underline = false,
       fullWidth = false,
+      href,
       ...rest
     } = this.props;
 
@@ -102,6 +103,8 @@ export class Button extends React.Component<Props> {
         classes={pick(classes, "keyboardFocus", "mouseHover")}
         disabled={disabled}
         to={to}
+        href={href}
+        anchor={href ? true : false}
         {...rest}
       >
         {children}

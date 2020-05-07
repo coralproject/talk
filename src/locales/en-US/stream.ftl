@@ -2,6 +2,8 @@
 
 ## General
 
+general-moderate = Moderate
+
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
@@ -185,7 +187,7 @@ comments-moderationDropdown-caretButton =
 
 comments-rejectedTombstone-title = You have rejected this comment.
 comments-rejectedTombstone-moderateLink =
-  Go to Moderate to review this decision
+  Go to moderate to review this decision
 
 comments-featuredTag = Featured
 
@@ -574,7 +576,7 @@ configure-openStream-description =
 configure-openStream-openStream = Open Stream
 configure-openStream-theStreamIsNowClosed = The stream is now closed
 
-configure-moderateThisStream = Moderate this stream
+configure-moderateThisStream =
 
 qa-experimental-tag-tooltip-content =
   The Q&A format is currently in active development. Please contact

@@ -97,7 +97,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           <div
             className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
           >
-            <button
+            <a
               className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
               disabled={false}
               href="http://localhost/?view=FORGOT_PASSWORD"
@@ -110,7 +110,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
               type="button"
             >
               Forgot your password?
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -355,7 +355,7 @@ exports[`renders sign in view 1`] = `
           className="coral coral-login-signIn-noAccount SignIn-noAccount"
         >
           Don't have an account? 
-          <button
+          <a
             className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignIn-signUp"
             disabled={false}
             href="http://localhost/?view=SIGN_UP"
@@ -368,7 +368,7 @@ exports[`renders sign in view 1`] = `
             type="button"
           >
             Sign up
-          </button>
+          </a>
         </div>
       </div>
       <main
@@ -467,7 +467,7 @@ exports[`renders sign in view 1`] = `
                 <div
                   className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
                 >
-                  <button
+                  <a
                     className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
                     disabled={false}
                     href="http://localhost/?view=FORGOT_PASSWORD"
@@ -480,7 +480,7 @@ exports[`renders sign in view 1`] = `
                     type="button"
                   >
                     Forgot your password?
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
