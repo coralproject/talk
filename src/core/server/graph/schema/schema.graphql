@@ -2625,6 +2625,9 @@ type Comment {
   """
   deleted: Boolean
 
+  """
+  site is the Site referenced by the Story for this Comment.
+  """
   site: Site!
 }
 
