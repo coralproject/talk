@@ -178,13 +178,16 @@ export async function retrieveStaffCommentCount(
   ]);
 
   const [total] = await counter.retrieveTotal(async () => {
-    const [{ count }] = await countAllByTagType(
+    const [first] = await countAllByTagType(
       mongo,
       tenantID,
       siteID,
       GQLTAG.STAFF
     );
-    return [count];
+    if (first) {
+      return [first.count];
+    }
+    return [0];
   });
   return total;
 }
