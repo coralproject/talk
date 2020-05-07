@@ -37,7 +37,7 @@ install-addSite-siteEmailDescription =
 install-addOrganization-orgURL = URL da Organização
 install-addOrganization-orgURLTextField =
   .placeholder = URL da Organização
-  install-addSite-siteURL = URL da Organização
+install-addSite-siteURL = URL da Organização
 install-addSite-siteURLTextField =
   .placeholder = URL da Organização
 install-addSite-siteURLDescription =
@@ -63,11 +63,10 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Adicionar domínios permitidos
 install-permittedDomains-title =  Domínios Permitidos
-install-allowedOrigins-description-with-schema =
-   Digite os domínios que você deseja permitir para { -product-name }, por exemplo
-   seus ambientes locais, de preparação e produção, incluindo o
-   protocolo (por exemplo, http: // localhost: 3000, https://staging.domain.com,
-   https://domain.com).
+install-permittedDomains-description-with-scheme =
+  Domínios nos quais os fluxos de comentários de {-product-name} podem ser incorporados
+  (por exemplo, http: // localhost: 3000, https://staging.domain.com,
+  https://domain.com).
 install-permittedDomains-permittedDomains = Domínios Permitidos
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domínios

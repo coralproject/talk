@@ -84,7 +84,7 @@ email-template-accountNotificationDeleteRequestCompleted =
 # Notification
 
 email-footer-notification =
-Enviado por <a data-l10n-name="organizationLink">{ $organizationName }</a> - <a data-l10n-name="unsubscribeLink">Cancelar a assinatura das notificações</a>
+  Enviado por <a data-l10n-name="organizationLink">{ $organizationName }</a> - <a data-l10n-name="unsubscribeLink">Cancelar a assinatura das notificações</a>
 
 ## On Reply
 
@@ -121,3 +121,6 @@ email-template-notificationOnCommentRejected =
 # Notification Digest
 
 email-subject-notificationDigest = Sua última atividade em  { $organizationName }
+
+email-subject-testSmtpTest = Email de teste do Coral
+email-template-testSmtpTest = Este é um email de teste enviado para { $email }

@@ -54,6 +54,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       : null,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
+  deleted: ({ deletedAt }) => !!deletedAt,
   editing: ({ revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
