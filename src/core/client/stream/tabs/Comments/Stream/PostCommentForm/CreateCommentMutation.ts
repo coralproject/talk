@@ -131,6 +131,15 @@ const mutation = graphql`
         node {
           ...AllCommentsTabContainer_comment @relay(mask: false)
           status
+          story {
+            settings {
+              # Load the story live settings so new comments can verify if live
+              # updates are still enabled (and enable then if they are).
+              live {
+                enabled
+              }
+            }
+          }
         }
       }
       clientMutationId
@@ -218,6 +227,14 @@ async function commit(
                 replies: {
                   edges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },
+                },
+                story: {
+                  id: input.storyID,
+                  settings: {
+                    live: {
+                      enabled: storySettings.live.enabled,
+                    },
+                  },
                 },
                 deleted: false,
               },

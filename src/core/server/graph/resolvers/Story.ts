@@ -11,6 +11,7 @@ import {
 
 import { CommentCountsInput } from "./CommentCounts";
 import { storyModerationInputResolver } from "./ModerationQueues";
+import { StorySettingsInput } from "./StorySettings";
 
 export const Story: GQLStoryTypeResolver<story.Story> = {
   comments: (s, input, ctx) => ctx.loaders.Comments.forStory(s.id, input),
@@ -26,7 +27,16 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
-  settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
+  settings: (s, input, ctx): StorySettingsInput =>
+    defaultsDeep(
+      {
+        // Pass these options as required by StorySettingsInput.
+        lastCommentedAt: s.lastCommentedAt,
+        createdAt: s.createdAt,
+      },
+      s.settings,
+      ctx.tenant
+    ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
 };

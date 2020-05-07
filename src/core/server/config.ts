@@ -217,6 +217,13 @@ const config = convict({
     default: false,
     env: "DISABLE_LIVE_UPDATES",
   },
+  disable_live_updates_timeout: {
+    doc:
+      "Disables subscriptions for the comment stream for all stories across all tenants where a comment has not been left within the timeout",
+    format: "ms",
+    default: "2 weeks",
+    env: "DISABLE_LIVE_UPDATES_TIMEOUT",
+  },
   disable_client_routes: {
     doc:
       "Disables mounting of client routes for developing with Webpack Dev Server",
