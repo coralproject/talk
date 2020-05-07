@@ -4,10 +4,10 @@ import { PropTypesOf } from "coral-framework/types";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { HorizontalRule } from "coral-ui/components/v2";
 
+import ModerateStreamContainer from "../../common/ModerateStream/ModerateStreamContainer";
 import { AddMessageContainer } from "./AddMessage";
 import ConfigureStreamContainer from "./ConfigureStream";
 import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
-import ModerateStreamContainer from "./ModerateStreamContainer";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 import { QAConfigContainer } from "./Q&A";
 

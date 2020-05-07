@@ -373,7 +373,7 @@ exports[`renders sign up form 1`] = `
           className="coral coral-login-signUp-alreadyHaveAccount SignUp-alreadyHaveAccount"
         >
           Already have an account? 
-          <button
+          <a
             className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignUp-signIn"
             disabled={false}
             href="http://localhost/?view=SIGN_IN"
@@ -386,7 +386,7 @@ exports[`renders sign up form 1`] = `
             type="button"
           >
             Sign in
-          </button>
+          </a>
         </div>
       </div>
       <main

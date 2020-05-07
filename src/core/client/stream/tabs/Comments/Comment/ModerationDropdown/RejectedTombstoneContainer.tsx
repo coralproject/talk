@@ -31,7 +31,7 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({ comment }) => {
       >
         <Flex alignItems="center">
           <Localized id="comments-rejectedTombstone-moderateLink">
-            <span>Go to Moderate to review this decision</span>
+            <span>Go to moderate to review this decision</span>
           </Localized>
           <Icon size="sm" className={styles.icon}>
             open_in_new

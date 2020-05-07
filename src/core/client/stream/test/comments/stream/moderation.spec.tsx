@@ -203,16 +203,18 @@ it("reject comment", async () => {
   const rejectButton = within(comment).getByText("Reject", {
     selector: "button",
   });
-  rejectButton.props.onClick();
+  act(() => {
+    rejectButton.props.onClick();
+  });
   await waitForElement(() =>
     within(tabPane).getByText("You have rejected this comment", {
       exact: false,
     })
   );
   const link = within(tabPane).getByText(
-    "Go to Moderate to review this decision",
+    "Go to moderate to review this decision",
     {
-      selector: "button",
+      selector: "a",
       exact: false,
     }
   );

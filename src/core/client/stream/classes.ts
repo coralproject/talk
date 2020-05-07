@@ -965,6 +965,8 @@ const CLASSES = {
     googleButton: "coral coral-login-googleButton",
     oidcButton: "coral coral-login-oidcButton",
   },
+
+  moderateStream: "coral coral-general-moderateStreamLink",
 };
 
 export default CLASSES;

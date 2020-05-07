@@ -30,5 +30,9 @@ export const Ability = mapValues(permissionMap, (_, key) => key) as {
  * Example: `can(props.me, Ability.CHANGE_ROLE)`.
  */
 export function can(viewer: { role: GQLUSER_ROLE_RL }, ability: AbilityType) {
+  if (!viewer) {
+    return false;
+  }
+
   return permissionMap[ability].includes(viewer.role as GQLUSER_ROLE);
 }

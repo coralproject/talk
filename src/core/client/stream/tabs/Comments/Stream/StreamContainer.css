@@ -54,3 +54,8 @@
 .tabBarRow {
   border-bottom: 1px solid var(--v2-palette-divider);
 }
+
+.moderateStream {
+  margin-top: var(--v2-spacing-1);
+  margin-bottom: var(--v2-spacing-2);
+}

@@ -34,6 +34,7 @@ import {
   StreamContainerLocal,
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
+import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
 import AnsweredComments from "./AnsweredCommentsTab";
@@ -177,7 +178,17 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         })}
         size="double"
       >
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        <Flex alignItems="flex-start" justifyContent="space-between" wrap>
+          <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+          <div className={styles.moderateStream}>
+            <ModerateStreamContainer
+              settings={props.settings}
+              story={props.story}
+              viewer={props.viewer}
+            />
+          </div>
+        </Flex>
+
         <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
@@ -385,6 +396,7 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
+      ...ModerateStreamContainer_story
       id
       url
       settings {
@@ -407,6 +419,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PostCommentFormContainer_viewer
       ...SuspendedInfoContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
+      ...ModerateStreamContainer_viewer
       status {
         current
       }
@@ -422,6 +435,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CommunityGuidelinesContainer_settings
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
+      ...ModerateStreamContainer_settings
     }
   `,
 })(StreamContainer);
