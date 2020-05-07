@@ -17,14 +17,6 @@ interface MarkersContainerProps {
   settings: MarkersContainer_settings;
 }
 
-function hasDetails(c: MarkersContainer_comment) {
-  return c.revision
-    ? c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
-        c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
-        0 || c.revision.metadata.perspective
-    : false;
-}
-
 let keyCounter = 0;
 const markers: Array<(
   c: MarkersContainer_comment
@@ -135,25 +127,15 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
     () => markers.map((cb) => cb(props.comment)).filter((m) => m),
     [markers, props.comment]
   );
-  const doesHaveDetails = useMemo(() => hasDetails(props.comment), [
-    props.comment,
-  ]);
-  if (elements.length === 0 && !doesHaveDetails) {
-    return null;
-  }
 
   return (
     <Markers
       details={
-        doesHaveDetails || props.comment.editing.edited ? (
-          <ModerateCardDetailsContainer
-            hasDetails={!!doesHaveDetails}
-            hasRevisions={props.comment.editing.edited}
-            onUsernameClick={props.onUsernameClick}
-            comment={props.comment}
-            settings={props.settings}
-          />
-        ) : null
+        <ModerateCardDetailsContainer
+          onUsernameClick={props.onUsernameClick}
+          comment={props.comment}
+          settings={props.settings}
+        />
       }
     >
       {elements}
@@ -166,9 +148,6 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
       status
-      editing {
-        edited
-      }
       revision {
         actionCounts {
           flag {
@@ -184,11 +163,6 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_NEW_COMMENTER
               COMMENT_DETECTED_REPEAT_POST
             }
-          }
-        }
-        metadata {
-          perspective {
-            score
           }
         }
       }

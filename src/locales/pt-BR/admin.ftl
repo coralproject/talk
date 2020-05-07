@@ -246,10 +246,9 @@ configure-webhooks-detailsButton = Detalhes <icon>keyboard_arrow_right</icon>
 ### General
 configure-general-guidelines-title = Resumo das Diretrizes da Comunidade
 configure-general-guidelines-explanation =
-  Escreva um resumo das diretrizes da sua comunidade que serão exibidas
-  no topo de cada fluxo de comentários em todo o site. Seu resumo pode ser
-  formatado usando a Sintaxe do Markdown. Mais informações sobre como usar
-  Markdown podem ser encontradas aqui:
+  Escreva um resumo das diretrizes da sua comunidade que serão exibidas no topo de cada
+  fluxo de comentários em todo o site. Seu resumo pode ser formatado usando a Sintaxe do
+  Markdown. Mais informações sobre como usar Markdown podem ser encontradas aqui:
   <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
 
@@ -276,7 +275,7 @@ configure-general-sitewideCommenting-messageExplanation =
 
 configure-general-announcements-title = Anúncio da comunidade
 configure-general-announcements-description =
-Adicione um anúncio temporário que aparecerá na parte superior de todos os fluxos de comentários da sua organização por um período específico.
+  Adicione um anúncio temporário que aparecerá na parte superior de todos os fluxos de comentários da sua organização por um período específico.
 configure-general-announcements-delete = Remover anúncio
 configure-general-announcements-add = Adicionar anúncio
 configure-general-announcements-start = Começar anúncio
@@ -385,6 +384,7 @@ configure-email-smtpAuthenticationLabel = Autenticação SMTP
 configure-email-smtpCredentialsHeader = credencial de email
 configure-email-smtpUsernameLabel = Nome de usuário
 configure-email-smtpPasswordLabel = Senha
+configure-email-send-test = Enviar email de teste
 
 ### Authentication
 
@@ -427,6 +427,51 @@ configure-auth-sso-regenerateAt = CHAVE GERADA EM:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-regenerateHonoredWarning =
   Ao regenerar uma chave, os tokens assinados com a chave anterior serão respeitados por 30 dias.
+
+configure-auth-sso-description =
+  Para habilitar a integração com seu sistema de autenticação existente,
+  você precisará criar um token JWT para conectar-se. Você pode aprender
+  mais sobre como criar um token JWT com <IntroLink>esta introdução</IntroLink>. Veja nossa
+  <DocLink>documentação</DocLink> para obter informações adicionais sobre login único.
+
+configure-auth-sso-rotate-keys = Chaves
+configure-auth-sso-rotate-keyID = Identificação da chave
+configure-auth-sso-rotate-secret = Chave privada
+configure-auth-sso-rotate-copySecret =
+  .aria-label = Copiar chave privada
+
+configure-auth-sso-rotate-date =
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-auth-sso-rotate-activeSince = Sessões ativas
+configure-auth-sso-rotate-inactiveAt = Inativo em
+configure-auth-sso-rotate-inactiveSince = Inativo desde
+
+configure-auth-sso-rotate-status = Status
+configure-auth-sso-rotate-statusActive = Ativo
+configure-auth-sso-rotate-statusExpiring = Expirando
+configure-auth-sso-rotate-statusExpired = Expirado
+configure-auth-sso-rotate-statusUnknown = Desconhecido
+
+configure-auth-sso-rotate-expiringTooltip =
+  Uma chave SSO está expirando quando está agendada para rotação.
+configure-auth-sso-rotate-expiringTooltip-toggleButton =
+  .aria-label = Alternar visibilidade da dica de expirando
+configure-auth-sso-rotate-expiredTooltip =
+  Uma chave SSO expira quando é rotacionada por falta de uso.
+configure-auth-sso-rotate-expiredTooltip-toggleButton =
+  Alternar visibilidade da dica de expirado
+
+configure-auth-sso-rotate-rotate = Rotacionar
+configure-auth-sso-rotate-deactivateNow = Desativar Agora
+configure-auth-sso-rotate-delete = Deletar
+
+configure-auth-sso-rotate-now = Agora
+configure-auth-sso-rotate-10seconds = 10 segundos a partir de agora
+configure-auth-sso-rotate-1day = 1 dia a partir de agora
+configure-auth-sso-rotate-1week = 1 semana a partir de agora
+configure-auth-sso-rotate-30days = 30 dias a partir de agora
+configure-auth-sso-rotate-dropdown-description =
+  .description = Uma lista suspensa para rotacionar a chave SSO
 
 configure-auth-local-loginWith = Entrar com autenticação via E-mail
 configure-auth-local-useLoginOn = Usar login com autenticação via e-mail ligado
@@ -568,9 +613,9 @@ configure-advanced-customCSS-override =
 
 configure-advanced-permittedDomains = Domínios Permitidos
 configure-advanced-permittedDomains-description =
-Domínios onde sua instance de { -product-name } pode ser incorporada,
-incluindo o protocolo (ex. http://localhost:3000, https://staging.domain.com,
-https://domain.com).
+  Domínios onde sua instance de { -product-name } pode ser incorporada,
+  incluindo o protocolo (ex. http://localhost:3000, https://staging.domain.com,
+  https://domain.com).
 
 configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
 configure-advanced-liveUpdates-explanation =
@@ -598,7 +643,7 @@ decisionHistory-showMoreButton =
   Mostrar mais
 decisionHistory-yourDecisionHistory = Seu Histórico de Decisão
 decisionHistory-rejectedCommentBy = Comentário Rejeitado por <username></username>
-decisionHistory-acceptedCommentBy = Comentário Aceito por <username></username>
+decisionHistory-approvedCommentBy = Comentário Aceito por <username></username>
 decisionHistory-goToComment = Ir para o comentário
 
 ### Slack
@@ -626,10 +671,11 @@ configure-slack-channel-hookURL-description =
   Siga as instruções<externalLink>aqui</externalLink>.
 configure-slack-channel-triggers-label =
   Receba notificações neste canal do Slack para
-configure-slack-channel-triggers-allComments = Todos os Comentários
 configure-slack-channel-triggers-reportedComments = Commentários Reportados
 configure-slack-channel-triggers-pendingComments = Comentários Pendentes
 configure-slack-channel-triggers-featuredComments = Comentários Destacados
+configure-slack-channel-triggers-allComments = Todos os Comentários
+configure-slack-channel-triggers-staffComments = Staff Comments
 
 ## moderate
 moderate-navigation-reported = reportado
@@ -646,7 +692,6 @@ moderate-marker-suspectWord = Palavra Suspeita
 moderate-marker-spam = Spam
 moderate-marker-spamDetected = Spam detectado
 moderate-marker-toxic = Tóxico
-moderate-marker-karma = Karma
 moderate-marker-recentHistory = Histórico recente
 moderate-marker-bodyCount = Tamanho do conteúdo
 moderate-marker-offensive = Ofensivo
@@ -670,13 +715,15 @@ moderate-emptyQueue-pending = Muito bem! Não há mais comentários pendentes pa
 moderate-emptyQueue-reported = Muito bem! Não há mais comentários relatados para moderar.
 moderate-emptyQueue-unmoderated = Muito bem! Todos os comentários foram moderados.
 moderate-emptyQueue-rejected = Não há comentários rejeitados.
+moderate-emptyQueue-approved = Não há comentários aprovados.
 
 moderate-comment-edited = (editado)
 moderate-comment-inReplyTo = Responder para <username><username>
 moderate-comment-viewContext = Ver contexto
+moderate-comment-viewConversation = Ver conversa
 moderate-comment-rejectButton =
   .aria-label = Rejeitar
-moderate-comment-acceptButton =
+moderate-comment-approveButton =
   .aria-label = Aceitar
 moderate-comment-decision = Decisão
 moderate-comment-story = História
@@ -725,6 +772,7 @@ moderate-searchBar-seeAllResults = Ver todos os resultados
 moderateCardDetails-tab-info = Informações
 moderateCardDetails-tab-edits = Editar história
 ### Moderate User History Drawer
+
 moderate-user-drawer-email =
   .title = Endereço de email
 moderate-user-drawer-created-at =
@@ -852,7 +900,7 @@ community-userStatus-removeBan = Remover Banimento
 community-userStatus-removeUserBan = Remover banimento
 community-userStatus-suspendUser = Suspender Usuário
 community-userStatus-suspend = Suspender
-community-userStatus-removeSupsension = Remover Suspensão
+community-userStatus-removeSuspension = Remover Suspensão
 community-userStatus-removeUserSuspension = Remover Suspensão
 community-userStatus-unknown = Desconhecido
 community-userStatus-changeButton =
@@ -1048,6 +1096,8 @@ configure-advanced-stories-custom-user-agent-detail =
   request de scrape.
 
 commentAuthor-status-banned = Banido
+commentAuthor-status-premod = Pré-moderado
+commentAuthor-status-suspended = Suspenso
 
 hotkeysModal-title = Atalhos do teclado
 hotkeysModal-navigation-shortcuts = Atalhos de navegação

@@ -13,9 +13,6 @@ it("renders all markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
-      editing: {
-        edited: false,
-      },
       revision: {
         actionCounts: {
           flag: {
@@ -31,11 +28,6 @@ it("renders all markers", () => {
               COMMENT_DETECTED_NEW_COMMENTER: 0,
               COMMENT_DETECTED_REPEAT_POST: 1,
             },
-          },
-        },
-        metadata: {
-          perspective: {
-            score: 0,
           },
         },
       },
@@ -58,9 +50,6 @@ it("renders some markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
-      editing: {
-        edited: false,
-      },
       revision: {
         actionCounts: {
           flag: {
@@ -76,11 +65,6 @@ it("renders some markers", () => {
               COMMENT_DETECTED_NEW_COMMENTER: 0,
               COMMENT_DETECTED_REPEAT_POST: 0,
             },
-          },
-        },
-        metadata: {
-          perspective: {
-            score: 1,
           },
         },
       },
