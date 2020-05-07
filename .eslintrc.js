@@ -1,10 +1,11 @@
-const typescriptEslintRecommended = require('@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended').default.overrides[0];
-const typescriptRecommended = require('@typescript-eslint/eslint-plugin/dist/configs/recommended.json');
-const typescriptRecommendedTypeChecking = require('@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.json');
-const typescriptEslintPrettier = require('eslint-config-prettier/@typescript-eslint');
-const react = require('eslint-plugin-react').configs.recommended;
-const jsxA11y = require('eslint-plugin-jsx-a11y').configs.recommended;
-const reactPrettier = require('eslint-config-prettier/react');
+const typescriptEslintRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended")
+  .default.overrides[0];
+const typescriptRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/recommended.json");
+const typescriptRecommendedTypeChecking = require("@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.json");
+const typescriptEslintPrettier = require("eslint-config-prettier/@typescript-eslint");
+const react = require("eslint-plugin-react").configs.recommended;
+const jsxA11y = require("eslint-plugin-jsx-a11y").configs.recommended;
+const reactPrettier = require("eslint-config-prettier/react");
 
 const typescriptOverrides = {
   files: ["*.ts", "*.tsx"],
@@ -24,7 +25,7 @@ const typescriptOverrides = {
   settings: {
     react: {
       version: "detect",
-    }
+    },
   },
   rules: Object.assign(
     typescriptEslintRecommended.rules,
@@ -36,7 +37,10 @@ const typescriptOverrides = {
     {
       "@typescript-eslint/adjacent-overload-signatures": "error",
       // TODO: (cvle) change `readonly` param to `array-simple` when upgraded typescript.
-      "@typescript-eslint/array-type": ["error", { "default": "array-simple", "readonly": "generic"}],
+      "@typescript-eslint/array-type": [
+        "error",
+        { default: "array-simple", readonly: "generic" },
+      ],
       "@typescript-eslint/ban-types": "error",
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/consistent-type-assertions": "error",
@@ -46,8 +50,8 @@ const typescriptOverrides = {
       "@typescript-eslint/explicit-member-accessibility": [
         "error",
         {
-          "overrides": {
-            "constructors": "off",
+          overrides: {
+            constructors: "off",
           },
         },
       ],
@@ -61,7 +65,10 @@ const typescriptOverrides = {
       "@typescript-eslint/no-namespace": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-parameter-properties": "off",
-      "@typescript-eslint/no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { args: "none", ignoreRestSiblings: true },
+      ],
       "@typescript-eslint/no-use-before-define": "off", // TODO: (cvle) Should be on?
       "@typescript-eslint/no-use-before-declare": "off",
       "@typescript-eslint/no-var-requires": "error",
@@ -85,17 +92,21 @@ const typescriptOverrides = {
 let typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
-    project: ["./tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+    project: [
+      "./tsconfig.json",
+      "./src/tsconfig.json",
+      "./src/core/client/tsconfig.json",
+    ],
     // TODO: (cvle) this is a workaround, see: https://github.com/typescript-eslint/typescript-eslint/issues/1091.
     createDefaultProgram: true,
   },
-  rules: Object.assign(
-    typescriptRecommendedTypeChecking.rules,
-    {
-      "@typescript-eslint/tslint/config": ["error", {
-        "rules": {
+  rules: Object.assign(typescriptRecommendedTypeChecking.rules, {
+    "@typescript-eslint/tslint/config": [
+      "error",
+      {
+        rules: {
           "ordered-imports": {
-            "options": {
+            options: {
               // Legacy sorting until this is fixed: https://github.com/SoominHan/import-sorter/issues/60
               "import-sources-order": "case-insensitive-legacy",
               "module-source-path": "full",
@@ -103,14 +114,14 @@ let typescriptTypeCheckingOverrides = {
             },
           },
         },
-      }],
-      // 28.11.19: (cvle) Disabled because behavior of regexp.exec seems different than str.match?
-      "@typescript-eslint/prefer-regexp-exec": "off",
-      "@typescript-eslint/require-await": "off",
-      "@typescript-eslint/no-misused-promises": "off",
-      "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
-    }
-  ),
+      },
+    ],
+    // 28.11.19: (cvle) Disabled because behavior of regexp.exec seems different than str.match?
+    "@typescript-eslint/prefer-regexp-exec": "off",
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
+  }),
 };
 
 const jestOverrides = {
@@ -119,8 +130,8 @@ const jestOverrides = {
   },
   files: ["test/**/*.ts", "test/**/*.tsx"],
   globals: {
-    "expectAndFail": "readonly",
-    "fail": "readonly",
+    expectAndFail: "readonly",
+    fail: "readonly",
   },
 };
 
@@ -144,22 +155,19 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parserOptions: {
-    "ecmaVersion": 2018,
+    ecmaVersion: 2018,
   },
   rules: {
     "arrow-body-style": "off",
-    "arrow-parens": [
-      "off",
-      "as-needed",
-    ],
-    "camelcase": "off",
-    "complexity": "off",
+    "arrow-parens": ["off", "as-needed"],
+    camelcase: "off",
+    complexity: "off",
     "constructor-super": "error",
     "spaced-comment": ["error", "always"],
-    "curly": "error",
+    curly: "error",
     "dot-notation": "error",
     "eol-last": "off",
-    "eqeqeq": "error",
+    eqeqeq: "error",
     "guard-for-in": "error",
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-returns": "off",
@@ -167,10 +175,7 @@ module.exports = {
     "jsdoc/require-param-type": "off",
     "jsdoc/require-returns-type": "off",
     "linebreak-style": "off",
-    "max-classes-per-file": [
-      "error",
-      1,
-    ],
+    "max-classes-per-file": ["error", 1],
     "member-ordering": "off",
     "new-parens": "off",
     "newline-per-chained-call": "off",
@@ -187,7 +192,7 @@ module.exports = {
     "no-irregular-whitespace": "off",
     "no-multiple-empty-lines": "off",
     "no-new-wrappers": "error",
-    "no-prototype-builtins": "off",
+    "no-prototype-builtins": "error",
     "no-shadow": "error",
     "no-throw-literal": "error",
     "no-undef": "off",
@@ -195,14 +200,14 @@ module.exports = {
     "no-unsafe-finally": "error",
     "no-unused-expressions": "error",
     "no-unused-labels": "error",
-    "no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
+    "no-unused-vars": ["error", { args: "none", ignoreRestSiblings: true }],
     "no-var": "error",
     "object-shorthand": "error",
     "one-var": "off",
     "prefer-arrow-callback": "off",
     "prefer-const": "error",
     "quote-props": "off",
-    "radix": "error",
+    radix: "error",
     "require-atomic-updates": "off",
     "space-before-function-paren": "off",
     "sort-imports": "off",

@@ -37,7 +37,7 @@ export default class Entrypoints {
 
   constructor(manifest: Manifest) {
     for (const entry in manifest.entrypoints) {
-      if (!manifest.entrypoints.hasOwnProperty(entry)) {
+      if (!Object.prototype.hasOwnProperty.call(manifest.entrypoints, entry)) {
         continue;
       }
 
@@ -47,7 +47,12 @@ export default class Entrypoints {
 
       // Itterate over the extension's in the entrypoint.
       for (const extension in manifest.entrypoints[entry]) {
-        if (!manifest.entrypoints[entry].hasOwnProperty(extension)) {
+        if (
+          !Object.prototype.hasOwnProperty.call(
+            manifest.entrypoints[entry],
+            extension
+          )
+        ) {
           continue;
         }
 
@@ -61,7 +66,10 @@ export default class Entrypoints {
         for (const src of assets) {
           // Search for the entry in the assets.
           for (const name in manifest) {
-            if (name !== "entrypoints" && !manifest.hasOwnProperty(name)) {
+            if (
+              name !== "entrypoints" &&
+              !Object.prototype.hasOwnProperty.call(manifest, name)
+            ) {
               continue;
             }
 

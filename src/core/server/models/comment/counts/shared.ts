@@ -126,7 +126,7 @@ function fillAndConvertStringToNumber<
 >(input: T, initial: U): U {
   const result: U = Object.assign({}, initial);
   for (const key in input) {
-    if (!input.hasOwnProperty(key)) {
+    if (!Object.prototype.hasOwnProperty.call(input, key)) {
       continue;
     }
 

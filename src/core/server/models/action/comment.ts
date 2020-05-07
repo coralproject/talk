@@ -464,7 +464,7 @@ export function invertEncodedActionCounts(
   actionCounts: EncodedCommentActionCounts
 ): EncodedCommentActionCounts {
   for (const key in actionCounts) {
-    if (!actionCounts.hasOwnProperty(key)) {
+    if (!Object.prototype.hasOwnProperty.call(actionCounts, key)) {
       continue;
     }
 

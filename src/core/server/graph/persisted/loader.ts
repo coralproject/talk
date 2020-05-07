@@ -36,7 +36,7 @@ export function loadPersistedQueries(): PersistedQuery[] {
     // Go over each of the persisted queries and collect the ID and query to
     // merge in.
     for (const id in persistedQueries) {
-      if (!persistedQueries.hasOwnProperty(id)) {
+      if (!Object.prototype.hasOwnProperty.call(persistedQueries, id)) {
         continue;
       }
 

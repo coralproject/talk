@@ -20,7 +20,7 @@ export async function mapFieldsetToErrorCodes<T>(
     if (err instanceof CoralError) {
       // Then loop over all the fieldSpecs...
       for (const param in errorMap) {
-        if (!errorMap.hasOwnProperty(param)) {
+        if (!Object.prototype.hasOwnProperty.call(errorMap, param)) {
           continue;
         }
 
