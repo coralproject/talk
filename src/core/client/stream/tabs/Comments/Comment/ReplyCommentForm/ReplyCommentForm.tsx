@@ -92,7 +92,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                         attrs={{ placeholder: true }}
                       >
                         <RTE
-                          inputId={inputID}
+                          inputID={inputID}
                           onFocus={onFocus}
                           onChange={(html) => input.onChange(html)}
                           value={input.value}

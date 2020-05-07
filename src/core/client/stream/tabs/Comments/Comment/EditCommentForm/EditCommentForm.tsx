@@ -89,7 +89,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                       attrs={{ placeholder: true }}
                     >
                       <RTE
-                        inputId={inputID}
+                        inputID={inputID}
                         onChange={(html) => input.onChange(html)}
                         value={input.value}
                         placeholder="Edit comment"

@@ -69,7 +69,7 @@ const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
 );
 
 export interface RTEProps {
-  inputId?: string;
+  inputID?: string;
   /**
    * The default content value of the component.
    */
@@ -153,7 +153,7 @@ const RTE: FunctionComponent<RTEProps> = (props) => {
     className,
     fullWidth,
     value,
-    inputId,
+    inputID,
     placeholder,
     onChange,
     disabled,
@@ -169,7 +169,7 @@ const RTE: FunctionComponent<RTEProps> = (props) => {
   return (
     <div>
       <CoralRTE
-        inputId={inputId}
+        inputID={inputID}
         className={cn(CLASSES.rte, className)}
         contentClassName={cn(
           CLASSES.rte.content,

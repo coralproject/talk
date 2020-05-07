@@ -101,7 +101,7 @@ it("edit a comment", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
       .props.onChange("Edited!")
   );
@@ -140,7 +140,7 @@ it("edit a comment and handle non-published comment state", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
       .props.onChange("Edited!")
   );
@@ -235,7 +235,7 @@ it("edit a comment and handle server error", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
       .props.onChange("Edited!")
   );

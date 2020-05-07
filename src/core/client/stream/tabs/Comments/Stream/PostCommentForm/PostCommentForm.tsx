@@ -112,7 +112,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                         attrs={{ placeholder: true }}
                       >
                         <RTE
-                          inputId="comments-postCommentForm-field"
+                          inputID="comments-postCommentForm-field"
                           onFocus={onFocus}
                           onChange={(html) => input.onChange(html)}
                           contentClassName={
