@@ -1,6 +1,5 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import Auth from "coral-framework/lib/auth";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import {
   createAccessToken,
@@ -14,7 +13,6 @@ let environment: Environment;
 let source: RecordSource;
 
 const context = {
-  auth: new Auth(),
   localStorage: window.localStorage,
   sessionStorage: window.sessionStorage,
 };

@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
+import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
@@ -13,14 +14,15 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
   const config = await getExternalConfig(context.pym);
   if (config && config.accessToken) {
-    context.auth.set(config.accessToken);
+    auth = updateAccessToken(config.accessToken);
   }
 
-  initLocalBaseState(environment, context);
+  initLocalBaseState(environment, context, auth);
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||

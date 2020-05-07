@@ -2,6 +2,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
+import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -10,7 +11,8 @@ import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
@@ -29,7 +31,7 @@ export default async function initLocalState(
 
     // If there was an access token, store it.
     if (params.accessToken) {
-      context.auth.set(params.accessToken);
+      auth = updateAccessToken(params.accessToken);
     }
 
     // As we are in the middle of an auth flow (given that there was something
@@ -42,7 +44,7 @@ export default async function initLocalState(
     await context.localStorage.setItem(REDIRECT_PATH_KEY, "");
   }
 
-  initLocalBaseState(environment, context);
+  initLocalBaseState(environment, context, auth);
 
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;

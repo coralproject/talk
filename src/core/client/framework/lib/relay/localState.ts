@@ -1,12 +1,8 @@
-import {
-  commitLocalUpdate,
-  Environment,
-  RecordSourceProxy,
-} from "relay-runtime";
+import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import Auth from "coral-framework/lib/auth";
 import { createAndRetain } from "coral-framework/lib/relay";
 
+import { AuthState } from "../auth";
 import { CoralContext } from "../bootstrap";
 
 /**
@@ -19,40 +15,33 @@ export const LOCAL_TYPE = "Local";
  */
 export const LOCAL_ID = "client:root.local";
 
-export function syncAuthWithLocalState(environment: Environment, auth: Auth) {
-  // Attach a listener to access token changes to update the local graph.
-  return auth.onChange(() => {
-    commitLocalUpdate(environment, (source) => {
-      setAccessTokenRecordValues(source, auth);
-    });
-  });
-}
-
-function setAccessTokenRecordValues(source: RecordSourceProxy, auth: Auth) {
-  // Get the local record.
-  const localRecord = source.get(LOCAL_ID)!;
-
-  // Update the access token properties.
-  const accessToken = auth.getAccessToken();
-  localRecord.setValue(accessToken, "accessToken");
-
-  // Update the claims.
-  const { jti = null, exp = null } = auth.getClaims();
-  localRecord.setValue(exp, "accessTokenExp");
-  localRecord.setValue(jti, "accessTokenJTI");
-}
-
+/**
+ * initLocalBaseState will initialize the local base relay state. If as a part
+ * of your target you need to change the auth state, you can do so by passing a
+ * new auth state object into this function when committing.
+ *
+ * @param environment the initialized relay environment
+ * @param context application context
+ * @param auth application auth state
+ */
 export function initLocalBaseState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
-  commitLocalUpdate(environment, (s) => {
-    const root = s.getRoot();
+  commitLocalUpdate(environment, (source) => {
+    const root = source.getRoot();
 
     // Create the Local Record which is the Root for the client states.
-    const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
-    root.setLinkedRecord(localRecord, "local");
+    const local = createAndRetain(environment, source, LOCAL_ID, LOCAL_TYPE);
 
-    setAccessTokenRecordValues(s, context.auth);
+    root.setLinkedRecord(local, "local");
+
+    // Update the access token properties.
+    local.setValue(auth?.accessToken, "accessToken");
+
+    // Update the claims.
+    local.setValue(auth?.claims.exp, "accessTokenExp");
+    local.setValue(auth?.claims.jti, "accessTokenJTI");
   });
 }

@@ -19,7 +19,13 @@ import {
 } from "coral-framework/lib/storage";
 import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
-import Auth from "../auth";
+import {
+  AccessTokenProvider,
+  AuthState,
+  deleteAccessToken,
+  retrieveAccessToken,
+  updateAccessToken,
+} from "../auth";
 import { generateBundles, LocalesData } from "../i18n";
 import {
   createManagedSubscriptionClient,
@@ -27,13 +33,14 @@ import {
   ManagedSubscriptionClient,
 } from "../network";
 import { PostMessageService } from "../postMessage";
-import { syncAuthWithLocalState } from "../relay/localState";
+import { LOCAL_ID } from "../relay";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
 
 export type InitLocalState = (
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) => void | Promise<void>;
 
 interface CreateContextArguments {
@@ -99,17 +106,31 @@ function areWeInIframe() {
 
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
-  auth: Auth,
-  clientID: string
+  clientID: string,
+  accessToken?: string
 ) {
-  return new Environment({
-    network: createNetwork(subscriptionClient, auth.getAccessToken, clientID),
-    store: new Store(new RecordSource()),
+  const source = new RecordSource();
+  const accessTokenProvider: AccessTokenProvider = () => {
+    const local = source.get(LOCAL_ID);
+    if (!local) {
+      return;
+    }
+
+    return local.accessToken as string | undefined;
+  };
+  const environment = new Environment({
+    network: createNetwork(subscriptionClient, clientID, accessTokenProvider),
+    store: new Store(source),
   });
+
+  return { environment, accessTokenProvider };
 }
 
-function createRestClient(auth: Auth, clientID: string) {
-  return new RestClient("/api", auth.getAccessToken, clientID);
+function createRestClient(
+  clientID: string,
+  accessTokenProvider: AccessTokenProvider
+) {
+  return new RestClient("/api", clientID, accessTokenProvider);
 }
 
 /**
@@ -139,43 +160,37 @@ function createManagedCoralContextProvider(
     }
 
     // This is called every time a user session starts or ends.
-    private clearSession = async (nextAccessToken?: string | null) => {
+    private clearSession = async (nextAccessToken?: string) => {
+      // Clear session storage.
+      this.state.context.sessionStorage.clear();
+
       // Pause subscriptions.
       subscriptionClient.pause();
 
-      // Call all functions to cleanup.
-      this.state.context.cleanupCallbacks.forEach((cb) => cb());
-
-      // Update the token.
-      this.state.context.auth.set(nextAccessToken);
+      // Parse the claims/token and update storage.
+      const auth = nextAccessToken
+        ? updateAccessToken(nextAccessToken)
+        : deleteAccessToken();
 
       // Create the new environment.
-      const environment = createRelayEnvironment(
+      const { environment, accessTokenProvider } = createRelayEnvironment(
         subscriptionClient,
-        this.state.context.auth,
-        clientID
+        clientID,
+        auth?.accessToken
       );
-
-      // Reset the cleanup callbacks.
-      this.state.context.cleanupCallbacks = [];
 
       // Create the new context.
       const newContext: CoralContext = {
         ...this.state.context,
         relayEnvironment: environment,
-        rest: createRestClient(this.state.context.auth, clientID),
+        rest: createRestClient(clientID, accessTokenProvider),
       };
 
       // Initialize local state.
-      await initLocalState(newContext.relayEnvironment, newContext);
+      await initLocalState(newContext.relayEnvironment, newContext, auth);
 
-      // Configure the syncing of the relay environment with the auth changes.
-      this.state.context.cleanupCallbacks.push(
-        syncAuthWithLocalState(environment, this.state.context.auth)
-      );
-
-      // Update the token.
-      this.state.context.auth.set(nextAccessToken);
+      // Update the subscription client access token.
+      subscriptionClient.setAccessToken(accessTokenProvider());
 
       // Propagate new context.
       this.setState({ context: newContext }, () => {
@@ -289,27 +304,25 @@ export default async function createManaged({
 
   const localeBundles = await generateBundles(locales, localesData);
 
-  // Setup the auth manager backed on localStorage.
-  const auth = new Auth(localStorage);
+  // Get the access token from storage.
+  const auth = retrieveAccessToken();
 
   /** clientID is sent to the server with every request */
   const clientID = uuid();
 
   const subscriptionClient = createManagedSubscriptionClient(
     websocketURL,
-    auth,
     clientID
   );
 
-  const environment = createRelayEnvironment(
+  const { environment, accessTokenProvider } = createRelayEnvironment(
     subscriptionClient,
-    auth,
-    clientID
+    clientID,
+    auth?.accessToken
   );
 
   // Assemble context.
   const context: CoralContext = {
-    auth,
     relayEnvironment: environment,
     locales,
     localeBundles,
@@ -317,7 +330,7 @@ export default async function createManaged({
     pym,
     eventEmitter,
     registerClickFarAway,
-    rest: createRestClient(auth, clientID),
+    rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),
     localStorage: resolveLocalStorage(pym),
     sessionStorage: resolveSessionStorage(pym),
@@ -326,17 +339,18 @@ export default async function createManaged({
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
     clearSession: (nextAccessToken?: string | null) => Promise.resolve(),
-    cleanupCallbacks: [],
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
     changeLocale: (locale?: LanguageCode) => Promise.resolve(),
   };
 
   // Initialize local state.
-  await initLocalState(context.relayEnvironment, context);
+  await initLocalState(context.relayEnvironment, context, auth);
 
-  // Configure the syncing of the relay environment with the auth changes.
-  context.cleanupCallbacks.push(syncAuthWithLocalState(environment, auth));
+  // Set new token for the websocket connection.
+  // TODO: (cvle) dynamically reset when token changes.
+  // ^ only necessary when we can prolong existing session using a new token.
+  subscriptionClient.setAccessToken(accessTokenProvider());
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.

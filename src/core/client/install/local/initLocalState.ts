@@ -1,6 +1,7 @@
 import { Environment } from "relay-runtime";
 
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
+import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState } from "coral-framework/lib/relay";
 
@@ -9,7 +10,8 @@ import { initLocalBaseState } from "coral-framework/lib/relay";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
   // Get all the parameters from the hash.
   const params = getParamsFromHash();
@@ -18,8 +20,8 @@ export default async function initLocalState(
     clearHash();
 
     // Save the token in storage.
-    context.auth.set(params.accessToken);
+    auth = updateAccessToken(params.accessToken);
   }
 
-  initLocalBaseState(environment, context);
+  initLocalBaseState(environment, context, auth);
 }

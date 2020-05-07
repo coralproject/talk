@@ -16,8 +16,6 @@ import { TransitionControlData } from "coral-framework/testHelpers";
 import { UIContext } from "coral-ui/components";
 import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
-import Auth from "../auth";
-
 export interface CoralContext {
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
@@ -67,20 +65,11 @@ export interface CoralContext {
   /** Clear session data. */
   clearSession: (nextAccessToken?: string | null) => Promise<void>;
 
-  /**
-   * cleanupCallbacks is callbacks that are called and reset when the session
-   * is cleared
-   */
-  cleanupCallbacks: Function[];
-
   /** Change locale and rerender */
   changeLocale: (locale: LanguageCode) => Promise<void>;
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;
-
-  /** handles managing and persisting the authentication state */
-  auth: Auth;
 }
 
 export const CoralReactContext = React.createContext<CoralContext>({} as any);

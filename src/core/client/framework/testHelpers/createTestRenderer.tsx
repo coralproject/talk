@@ -8,13 +8,11 @@ import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 import sinon from "sinon";
 
 import { RequireProperty } from "coral-common/types";
-import Auth from "coral-framework/lib/auth";
 import {
   CoralContext,
   CoralContextProvider,
 } from "coral-framework/lib/bootstrap";
 import { PostMessageService } from "coral-framework/lib/postMessage";
-import { syncAuthWithLocalState } from "coral-framework/lib/relay/localState";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
@@ -90,8 +88,6 @@ export default function createTestRenderer<
   });
 
   const context: RequireProperty<CoralContext, "transitionControl"> = {
-    auth: new Auth(),
-    cleanupCallbacks: [],
     relayEnvironment: environment,
     locales: ["en-US"],
     localeBundles: [
@@ -118,8 +114,6 @@ export default function createTestRenderer<
       history: [],
     },
   };
-
-  syncAuthWithLocalState(context.relayEnvironment, context.auth);
 
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
