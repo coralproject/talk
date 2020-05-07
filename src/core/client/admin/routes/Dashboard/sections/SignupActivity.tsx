@@ -1,13 +1,26 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { DailySignupsJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
-import { CHART_COLOR_PRIMARY } from "../ChartColors";
+import { DashboardBox, DashboardComponentHeading } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
+import {
+  CHART_COLOR_GREY_200,
+  CHART_COLOR_MONO_500,
+  CHART_COLOR_PRIMARY_LIGHT,
+} from "./ChartColors";
+import SignupActivityTick from "./SignupActivityTick";
 
 import styles from "./SignupActivity.css";
 
@@ -40,32 +53,39 @@ const CommenterActivity: FunctionComponent<Props> = ({
     getTotals();
   }, []);
   return (
-    <div>
+    <DashboardBox>
       <Localized id="dashboard-commenters-activity-heading">
-        <h3 className={styles.heading}>New Signups</h3>
+        <DashboardComponentHeading>New Signups</DashboardComponentHeading>
       </Localized>
-      <BarChart
-        className={styles.chart}
-        width={730}
-        height={250}
-        data={commenterActivity}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis
-          dataKey="timestamp"
-          tickFormatter={(unixTime: number) => {
-            const formatter = new Intl.DateTimeFormat(locales, {
-              day: "numeric",
-              month: "numeric",
-            });
-            return formatter.format(new Date(unixTime));
-          }}
-        />
-        <YAxis allowDecimals={false} />
-        <Bar dataKey="count" fill={CHART_COLOR_PRIMARY} />
-        <Tooltip />
-      </BarChart>
-    </div>
+      <ResponsiveContainer height={300}>
+        <BarChart
+          className={styles.chart}
+          width={730}
+          height={250}
+          data={commenterActivity}
+        >
+          <CartesianGrid vertical={false} stroke={CHART_COLOR_GREY_200} />
+          <XAxis
+            height={36}
+            stroke={CHART_COLOR_MONO_500}
+            axisLine={{ strokeWidth: 0 }}
+            tickLine={false}
+            dataKey="timestamp"
+            interval={0}
+            tick={<SignupActivityTick locales={locales} />}
+          />
+          <YAxis
+            allowDecimals={false}
+            tickLine={false}
+            width={36}
+            stroke={CHART_COLOR_MONO_500}
+            axisLine={{ strokeWidth: 0 }}
+            tick={{ fontSize: 12, fontWeight: 600 }}
+          />
+          <Bar dataKey="count" fill={CHART_COLOR_PRIMARY_LIGHT} />
+        </BarChart>
+      </ResponsiveContainer>
+    </DashboardBox>
   );
 };
 

@@ -1,2 +1,0 @@
-export const CHART_COLOR_PRIMARY = "#419EA7";
-export const CHART_COLOR_SECONDARY = "#7188CD";

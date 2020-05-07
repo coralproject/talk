@@ -15,10 +15,8 @@ import {
   TextLink,
 } from "coral-ui/components/v2";
 
-import { DashboardBox } from "../components";
+import { DashboardBox, DashboardComponentHeading } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
-
-import styles from "./TopStories.css";
 
 const TopStoriesFetch = createDashboardFetch<DailyTopStoriesJSON>(
   "topStoriesFetch",
@@ -44,7 +42,9 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
   return (
     <DashboardBox>
       <Localized id="dashboard-top-stories-today-heading">
-        <h3 className={styles.heading}>Today's most commented stories</h3>
+        <DashboardComponentHeading>
+          Today's most commented stories
+        </DashboardComponentHeading>
       </Localized>
       <Table fullWidth>
         <TableHead>

@@ -2,9 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
+  CartesianGrid,
   Line,
   LineChart,
   ReferenceLine,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -14,11 +16,16 @@ import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
-import styles from "./CommentActivity.css";
-
-import { CHART_COLOR_SECONDARY } from "../ChartColors";
-
+import { DashboardBox, DashboardComponentHeading } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
+import {
+  CHART_COLOR_GREY_200,
+  CHART_COLOR_MONO_500,
+  CHART_COLOR_PRIMARY,
+  CHART_COLOR_SECONDARY,
+} from "./ChartColors";
+
+import styles from "./CommentActivity.css";
 
 interface Props {
   locales?: string[];
@@ -50,40 +57,67 @@ const CommentActivity: FunctionComponent<Props> = ({
     getTotals();
   }, []);
   return (
-    <div>
+    <DashboardBox>
       <Localized id="dashboard-comment-activity-heading">
-        <h3 className={styles.heading}>Comment Activity</h3>
+        <DashboardComponentHeading>
+          Hourly comment activity
+        </DashboardComponentHeading>
       </Localized>
-      <LineChart
-        width={730}
-        height={250}
-        className={styles.chart}
-        data={commentActivity}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        {isNumber(averageComments) && (
-          <ReferenceLine stroke="pink" y={averageComments} label="Average" />
-        )}
-        <XAxis
-          dataKey="timestamp"
-          tickFormatter={(unixTime: number) => {
-            const formatter = new Intl.DateTimeFormat(locales, {
-              hour: "numeric",
-              minute: "2-digit",
-            });
-            return formatter.format(new Date(unixTime));
-          }}
-        />
-        <YAxis allowDecimals={false} />
-        <Line
-          dot={false}
-          type="linear"
-          dataKey="count"
-          stroke={CHART_COLOR_SECONDARY}
-        />
-        <Tooltip />
-      </LineChart>
-    </div>
+      <ResponsiveContainer height={300}>
+        <LineChart className={styles.chart} data={commentActivity}>
+          {isNumber(averageComments) && (
+            <ReferenceLine stroke={CHART_COLOR_SECONDARY} y={averageComments} />
+          )}
+          <XAxis
+            dataKey="timestamp"
+            stroke={CHART_COLOR_MONO_500}
+            axisLine={{ strokeWidth: 0 }}
+            tick={{ fontSize: 12, fontWeight: 600 }}
+            tickLine={false}
+            dy={6}
+            tickFormatter={(unixTime: number) => {
+              const formatter = new Intl.DateTimeFormat(locales, {
+                hour: "numeric",
+              });
+              return formatter
+                .format(new Date(unixTime))
+                .toLowerCase()
+                .replace(" ", "");
+            }}
+          />
+          <YAxis
+            allowDecimals={false}
+            tickLine={false}
+            width={36}
+            stroke={CHART_COLOR_MONO_500}
+            axisLine={{ strokeWidth: 0 }}
+            tick={{ fontSize: 12, fontWeight: 600 }}
+          />
+          <CartesianGrid vertical={false} stroke={CHART_COLOR_GREY_200} />
+          <Line
+            strokeWidth={2}
+            dot={{ strokeWidth: 1 }}
+            type="monotoneX"
+            dataKey="count"
+            stroke={CHART_COLOR_PRIMARY}
+          />
+          <Tooltip
+            formatter={(value, name) => [value, "Comments"]}
+            labelStyle={{ color: CHART_COLOR_MONO_500 }}
+            labelFormatter={(unixTime: number) => {
+              const formatter = new Intl.DateTimeFormat(locales, {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+              return formatter.format(new Date(unixTime)).toLowerCase();
+            }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </DashboardBox>
   );
 };
 
