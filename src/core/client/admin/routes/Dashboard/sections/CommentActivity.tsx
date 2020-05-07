@@ -16,9 +16,9 @@ import { useUIContext } from "coral-ui/components";
 
 import styles from "./CommentActivity.css";
 
-import { CHART_COLOR_SECONDARY } from "./ChartColors";
+import { CHART_COLOR_SECONDARY } from "../ChartColors";
 
-import createDashboardFetch from "./createDashboardFetch";
+import createDashboardFetch from "../createDashboardFetch";
 
 interface Props {
   locales?: string[];

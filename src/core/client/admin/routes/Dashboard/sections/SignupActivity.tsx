@@ -6,10 +6,10 @@ import { DailySignupsJSON } from "coral-common/rest/dashboard/types";
 import { useFetch } from "coral-framework/lib/relay";
 import { useUIContext } from "coral-ui/components";
 
-import { CHART_COLOR_PRIMARY } from "./ChartColors";
-import createDashboardFetch from "./createDashboardFetch";
+import { CHART_COLOR_PRIMARY } from "../ChartColors";
+import createDashboardFetch from "../createDashboardFetch";
 
-import styles from "./SignupsActivity.css";
+import styles from "./SignupActivity.css";
 
 interface Props {
   locales?: string[];

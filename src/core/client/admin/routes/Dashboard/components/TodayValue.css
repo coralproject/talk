@@ -1,0 +1,10 @@
+.valueBoxValue {
+  font-size: var(--v2-font-size-7);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  line-height: var(--v2-line-height-reset);
+}
+
+.valueBoxName {
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}

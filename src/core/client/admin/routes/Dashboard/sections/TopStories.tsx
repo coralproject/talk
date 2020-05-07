@@ -1,7 +1,10 @@
 import { Localized } from "@fluent/react/compat";
+import { Link } from "found";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
+import NotAvailable from "coral-admin/components/NotAvailable";
 import { DailyTopStoriesJSON } from "coral-common/rest/dashboard/types";
+import { getModerationLink } from "coral-framework/helpers";
 import { useFetch } from "coral-framework/lib/relay";
 import {
   Table,
@@ -9,11 +12,13 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextLink,
 } from "coral-ui/components/v2";
 
-import styles from "./TopStories.css";
+import { DashboardBox } from "../components";
+import createDashboardFetch from "../createDashboardFetch";
 
-import createDashboardFetch from "./createDashboardFetch";
+import styles from "./TopStories.css";
 
 const TopStoriesFetch = createDashboardFetch<DailyTopStoriesJSON>(
   "topStoriesFetch",
@@ -37,18 +42,18 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
     getTotals();
   }, []);
   return (
-    <div>
+    <DashboardBox>
       <Localized id="dashboard-top-stories-today-heading">
-        <h3 className={styles.heading}>Top stories</h3>
+        <h3 className={styles.heading}>Today's most commented stories</h3>
       </Localized>
-      <Table>
+      <Table fullWidth>
         <TableHead>
           <TableRow>
             <Localized id="dashboard-top-stories-heading-stories">
-              <TableCell>Top commented stories today</TableCell>
+              <TableCell>Story</TableCell>
             </Localized>
             <Localized id="dashboard-top-stories-heading-comments">
-              <TableCell>New comments today</TableCell>
+              <TableCell align="end">Comments</TableCell>
             </Localized>
           </TableRow>
         </TableHead>
@@ -64,16 +69,23 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
             topStories.map((topStory) => (
               <TableRow key={topStory.id}>
                 <TableCell>
-                  {topStory.metadata && topStory.metadata.title
-                    ? topStory.metadata.title
-                    : "N/A"}
+                  <Link
+                    to={getModerationLink({ storyID: topStory.id })}
+                    as={TextLink}
+                  >
+                    {topStory.metadata ? (
+                      topStory.metadata.title || <NotAvailable />
+                    ) : (
+                      <NotAvailable />
+                    )}
+                  </Link>
                 </TableCell>
-                <TableCell>{topStory.comments.count}</TableCell>
+                <TableCell align="end">{topStory.comments.count}</TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
-    </div>
+    </DashboardBox>
   );
 };
 

@@ -1,0 +1,7 @@
+.root {
+  border: 1px solid var(--v2-colors-grey-300);
+  border-radius: 4px;
+  padding: var(--v2-spacing-3);
+  font-family: var(--v2-font-family-primary);
+  flex: 1;
+}

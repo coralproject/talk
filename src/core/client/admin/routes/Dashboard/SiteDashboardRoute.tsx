@@ -7,6 +7,7 @@ import { withRouteConfig } from "coral-framework/lib/router";
 
 import { SiteDashboardRouteQueryResponse } from "coral-admin/__generated__/SiteDashboardRouteQuery.graphql";
 
+import { SiteDashboardHeader } from "./components";
 import DashboardContainer from "./DashboardContainer";
 
 import styles from "./SiteDashboard.css";
@@ -24,8 +25,8 @@ const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site && data.settings) {
     return (
-      <MainLayout data-testid="dashboard-container">
-        <h2 className={styles.heading}>{data.site.name}</h2>
+      <MainLayout data-testid="dashboard-container" className={styles.layout}>
+        <SiteDashboardHeader name={data.site.name} />
         <DashboardContainer
           siteID={props.match.params.siteID}
           settings={data.settings}

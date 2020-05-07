@@ -1,0 +1,32 @@
+.root {
+  flex: 1;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.tealIcon {
+  background-color: var(--v2-colors-teal-100);
+  color: var(--v2-colors-teal-600);
+}
+
+.redIcon {
+  background-color: var(--v2-colors-red-100);
+  color: var(--v2-colors-teal-500);
+}
+
+.greyIcon {
+  background-color: var(--v2-colors-grey-200);
+  color: var(--v2-colors-grey-500);
+}
+
+.blueIcon {
+  background-color: var(--v2-colors-blue-100);
+  color: var(--v2-colors-blue-500);
+}

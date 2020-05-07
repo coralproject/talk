@@ -1,5 +1,3 @@
-.heading {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-4);
+.layout {
+  margin-top: var(--v2-spacing-4);
 }

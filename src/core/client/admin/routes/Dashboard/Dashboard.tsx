@@ -1,12 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { Flex, HorizontalGutter } from "coral-ui/components/v2";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
-import AllTimeTotals from "./AllTimeTotals";
-import CommentActivity from "./CommentActivity";
-import SignupsActivity from "./SignupsActivity";
-import TodayTotals from "./TodayTotals";
-import TopStories from "./TopStories";
+import { CommentActivity, SignupActivity, Today, TopStories } from "./sections";
 
 interface Props {
   ssoRegistrationEnabled: boolean;
@@ -15,19 +11,13 @@ interface Props {
 
 const Dashboard: FunctionComponent<Props> = (props) => (
   <HorizontalGutter spacing={6}>
-    <Flex spacing={6}>
-      <TodayTotals
-        ssoRegistrationEnabled={props.ssoRegistrationEnabled}
-        siteID={props.siteID}
-      />
-      <AllTimeTotals
-        ssoRegistrationEnabled={props.ssoRegistrationEnabled}
-        siteID={props.siteID}
-      />
-      <TopStories siteID={props.siteID} />
-    </Flex>
+    <Today
+      ssoRegistrationEnabled={props.ssoRegistrationEnabled}
+      siteID={props.siteID}
+    />
+    <TopStories siteID={props.siteID} />
     <CommentActivity siteID={props.siteID} />
-    {!props.ssoRegistrationEnabled && <SignupsActivity siteID={props.siteID} />}
+    {!props.ssoRegistrationEnabled && <SignupActivity siteID={props.siteID} />}
   </HorizontalGutter>
 );
 
