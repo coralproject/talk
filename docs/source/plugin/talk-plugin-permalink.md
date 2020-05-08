@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-permalink/README.md

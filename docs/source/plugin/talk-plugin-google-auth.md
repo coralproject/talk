@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-google-auth/README.md

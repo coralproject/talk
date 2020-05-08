@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-viewing-options/README.md

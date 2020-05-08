@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-respect/README.md

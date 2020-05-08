@@ -155,7 +155,7 @@ describe('/api/v1/assets', () => {
         .and.to.not.equal(null);
     });
 
-    it('should require ADMIN role', async () => {
+    it('should require ADMIN or MODERATOR role', async () => {
       const today = Date.now();
 
       const asset = await AssetsService.findOrCreateByUrl('http://test.com');
@@ -165,7 +165,7 @@ describe('/api/v1/assets', () => {
       const promise = chai
         .request(app)
         .put(`/api/v1/assets/${asset.id}/status`)
-        .set(passport.inject({ role: 'MODERATOR' }))
+        .set(passport.inject({ role: 'COMMENTER' }))
         .send({ closedAt: today });
       await expect(promise).to.eventually.be.rejected;
     });

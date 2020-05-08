@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-love/README.md
