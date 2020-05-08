@@ -12,7 +12,7 @@ interface Props {
    */
   classes: typeof styles;
   children: React.ReactNode;
-  color?: "grey" | "primary" | "error" | "dark";
+  color?: "grey" | "primary" | "error" | "dark" | "streamBlue";
 
   variant?: "regular" | "pill";
 }
@@ -26,6 +26,7 @@ const Tag: FunctionComponent<Props> = (props) => {
     [classes.colorError]: color === "error",
     [classes.colorGrey]: color === "grey",
     [classes.colorDarkest]: color === "dark",
+    [classes.colorStreamBlue]: color === "streamBlue",
     [classes.uppercase]: variant !== "pill",
   });
 

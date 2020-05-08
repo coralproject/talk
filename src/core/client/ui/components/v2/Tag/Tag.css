@@ -37,6 +37,10 @@ $tag-pill-bg: var(--v2-colors-pure-white);
   background-color: $tag-color-dark;
 }
 
+.colorStreamBlue {
+  background-color: var(--v2-colors-stream-blue-500);
+}
+
 .variantPill {
   border-radius: 20px;
   padding: 2px 10px;
@@ -56,6 +60,10 @@ $tag-pill-bg: var(--v2-colors-pure-white);
   &.colorDarkest {
     border: 1px solid $tag-color-dark;
     color: $tag-color-dark;
+  }
+  &.colorStreamBlue {
+    border: 1px solid var(--v2-colors-stream-blue-500);
+    color: var(--v2-colors-stream-blue-500);
   }
 }
 

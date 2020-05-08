@@ -100,11 +100,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
                 star
               </Icon>
             }
-            className={cn(
-              styles.label,
-              styles.featured,
-              CLASSES.moderationDropdown.unfeatureButton
-            )}
+            className={cn(CLASSES.moderationDropdown.unfeatureButton)}
+            classes={{
+              root: cn(styles.label, styles.featured),
+              mouseHover: styles.mouseHover,
+            }}
             onClick={onUnfeature}
             disabled={isQA}
           >
@@ -114,10 +114,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-feature">
           <DropdownButton
-            className={cn(
-              styles.label,
-              CLASSES.moderationDropdown.featureButton
-            )}
+            className={cn(CLASSES.moderationDropdown.featureButton)}
+            classes={{
+              root: styles.label,
+              mouseHover: styles.mouseHover,
+            }}
             icon={<Icon size="md">star_border</Icon>}
             onClick={onFeature}
             disabled={isQA}
@@ -137,11 +138,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
                 check
               </Icon>
             }
-            className={cn(
-              styles.label,
-              styles.approved,
-              CLASSES.moderationDropdown.approvedButton
-            )}
+            className={cn(CLASSES.moderationDropdown.approvedButton)}
+            classes={{
+              root: cn(styles.label, styles.approved),
+              mouseHover: styles.mouseHover,
+            }}
             disabled
           >
             Approved
@@ -150,7 +151,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-approve">
           <DropdownButton
-            className={(styles.label, CLASSES.moderationDropdown.approveButton)}
+            className={CLASSES.moderationDropdown.approveButton}
+            classes={{
+              root: styles.label,
+              mouseHover: styles.mouseHover,
+            }}
             icon={
               <Icon size="md" className={styles.approveIcon}>
                 check
@@ -178,6 +183,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               styles.rejected,
               CLASSES.moderationDropdown.rejectedButton
             )}
+            classes={{
+              mouseHover: styles.mouseHover,
+            }}
             disabled
           >
             Rejected
@@ -196,6 +204,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               styles.label,
               CLASSES.moderationDropdown.rejectButton
             )}
+            classes={{
+              mouseHover: styles.mouseHover,
+            }}
           >
             Reject
           </DropdownButton>
@@ -208,15 +219,36 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         </>
       )}
       <DropdownDivider />
-      <Localized id="comments-moderationDropdown-goToModerate">
+      <Localized id="comments-moderationDropdown-moderationView">
         <DropdownButton
           className={CLASSES.moderationDropdown.goToModerateButton}
+          classes={{
+            anchor: styles.link,
+            iconOpenInNew: styles.linkIcon,
+            mouseHover: styles.mouseHover,
+          }}
           href={`/admin/moderate/comment/${comment.id}`}
           target="_blank"
           onClick={onGotoModerate}
           anchor
         >
-          Go to Moderate
+          Moderation view
+        </DropdownButton>
+      </Localized>
+      <Localized id="comments-moderationDropdown-moderateStory">
+        <DropdownButton
+          className={CLASSES.moderationDropdown.goToModerateButton}
+          classes={{
+            anchor: styles.link,
+            iconOpenInNew: styles.linkIcon,
+            mouseHover: styles.mouseHover,
+          }}
+          href={`/admin/moderate/reported/stories/${story.id}`}
+          target="_blank"
+          onClick={onGotoModerate}
+          anchor
+        >
+          Moderate story
         </DropdownButton>
       </Localized>
     </>
