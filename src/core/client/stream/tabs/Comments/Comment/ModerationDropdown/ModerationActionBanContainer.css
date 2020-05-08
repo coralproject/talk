@@ -1,10 +1,13 @@
 $commentsModerationBannedColor: var(--v2-colors-red-500);
-$commentsModerationLabelColor: var(--v2-colors-mono-500);
 
 .label {
-  color: $commentsModerationLabelColor;
+  color: var(--v2-colors-mono-500);
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-3);
+
+  text-align: left;
 }
 
 .banned {
@@ -24,4 +27,8 @@ $commentsModerationLabelColor: var(--v2-colors-mono-500);
 
 .spinner {
   height: 14px;
+}
+
+.mouseHover {
+  background-color: var(--v2-colors-stream-blue-100);
 }

@@ -241,7 +241,7 @@ export class CommentContainer extends Component<Props, State> {
         {hasFeaturedTag && !isQA && (
           <Tag
             className={CLASSES.comment.topBar.featuredTag}
-            color="primary"
+            color="streamBlue"
             variant="pill"
           >
             <Localized id="comments-featuredTag">
