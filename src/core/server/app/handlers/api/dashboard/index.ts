@@ -1,222 +1,190 @@
 import {
-  CountersJSON,
-  DailySignupsJSON,
-  DailyTopStoriesJSON,
-  HourlyCommentsJSON,
+  TimeSeriesMetricsJSON,
+  TodayMetricsJSON,
+  TodayStoriesMetricsJSON,
 } from "coral-common/rest/dashboard/types";
 import { AppOptions } from "coral-server/app";
+import { calculateTotalCommentCount } from "coral-server/models/comment";
 import {
-  getSiteCommentCount,
-  getSiteCommentCountByStatus,
-} from "coral-server/models/site";
+  retrieveAllTimeStaffCommentMetrics,
+  retrieveAverageCommentsMetric,
+  retrieveHourlyCommentMetrics,
+  retrieveTodayCommentMetrics,
+  retrieveTodayTopStoryMetrics,
+} from "coral-server/models/comment/metrics";
+import { retrieveSite } from "coral-server/models/site";
+import { retrieveManyStories } from "coral-server/models/story";
 import {
-  retrieveAverageCommentsPerHour,
-  retrieveCommentsToday,
-  retrieveHourlyCommentTotal,
-  retrieveStaffCommentCount,
-  retrieveStaffCommentsToday,
-  retrievRejectionsToday,
-} from "coral-server/services/comments";
-import { retrieveDailyTopCommentedStories } from "coral-server/services/stories";
-import {
-  retrieveBanStatusCount,
-  retrieveBansToday,
-  retrieveSignupsForWeek,
-  retrieveSignupsToday,
-} from "coral-server/services/users";
-import { RequestHandler } from "coral-server/types/express";
+  retrieveAllTimeUserMetrics,
+  retrieveDailyUserMetrics,
+  retrieveTodayUserMetrics,
+} from "coral-server/models/user/metrics";
+import { Request, RequestHandler } from "coral-server/types/express";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+function getMetricsOptions(req: Request) {
+  // Get the current Tenant on the request.
+  const { id: tenantID } = req.coral?.tenant!;
 
-const DEFAULT_TIMEZONE = "America/New_York";
+  const now = req.coral?.now!;
 
-export const topCommentedStoriesHandler = ({
-  redis,
+  // To set a fixed date for the date, uncomment the line below.
+  // const now = DateTime.utc(2020, 5, 5, 12, 30).toJSDate();
+
+  // To allow for date overrides (to load metrics for another time then now),
+  // uncomment the lines below.
+  // const { date = req.coral?.now!.toISOString() } = req.query;
+  // const now = new Date(date);
+
+  // Get the Site ID and timezone for this set of metrics.
+  const { siteID, tz } = req.query;
+
+  return { tenantID, siteID, tz, now };
+}
+
+export const todayMetricsHandler = ({
   mongo,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const site = req.site!;
-    const zone = req.query.tz || DEFAULT_TIMEZONE;
+}: AppOptions): RequestHandler => async (req, res, next) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
 
-    try {
-      const topStories = await retrieveDailyTopCommentedStories(
-        mongo,
-        redis,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
+    const usersResults = await retrieveTodayUserMetrics(
+      mongo,
+      tenantID,
+      tz,
+      now
+    );
 
-      const json: DailyTopStoriesJSON = {
-        topStories,
-      };
+    const commentsResults = await retrieveTodayCommentMetrics(
+      mongo,
+      tenantID,
+      siteID,
+      tz,
+      now
+    );
 
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
+    const result: TodayMetricsJSON = {
+      users: usersResults,
+      comments: commentsResults,
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-export const todayCountersHandler = ({
-  redis,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    try {
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
-      const site = req.site!;
-      const zone = req.query.tz || DEFAULT_TIMEZONE;
+export const totalMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler => async (req, res, next) => {
+  try {
+    const { tenantID, siteID } = getMetricsOptions(req);
 
-      const comments = await retrieveCommentsToday(
-        redis,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-      const staffComments = await retrieveStaffCommentsToday(
-        redis,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-      const signups = await retrieveSignupsToday(
-        redis,
-        tenant,
-        zone,
-        coral.now
-      );
-
-      const rejections = await retrievRejectionsToday(
-        redis,
-        tenant.id,
-        site.id,
-        zone,
-        coral.now
-      );
-      const bans = await retrieveBansToday(redis, tenant.id, zone, coral.now);
-
-      const resp: CountersJSON = {
-        counts: {
-          comments,
-          staffComments,
-          signups,
-          rejections,
-          bans,
-        },
-      };
-
-      return res.json(resp);
-    } catch (err) {
-      return next(err);
+    const site = await retrieveSite(mongo, tenantID, siteID);
+    if (!site) {
+      throw new Error("site specified was not found");
     }
-  };
+
+    const result: TodayMetricsJSON = {
+      users: await retrieveAllTimeUserMetrics(mongo, tenantID),
+      comments: {
+        total: calculateTotalCommentCount(site.commentCounts.status),
+        rejected: site.commentCounts.status.REJECTED,
+        staff: await retrieveAllTimeStaffCommentMetrics(
+          mongo,
+          tenantID,
+          siteID
+        ),
+      },
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-export const allTimeCountersHandler = ({
-  redis,
+export const hourlyCommentsMetricsHandler = ({
   mongo,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    try {
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
-      const site = req.site!;
-      const comments = getSiteCommentCount(site);
-      const rejections = getSiteCommentCountByStatus(
-        site,
-        GQLCOMMENT_STATUS.REJECTED
-      );
-      const staffComments = await retrieveStaffCommentCount(
-        mongo,
-        redis,
-        tenant.id,
-        site.id
-      );
-      const { all, banned } = await retrieveBanStatusCount(
-        mongo,
-        redis,
-        tenant.id
-      );
+}: AppOptions): RequestHandler => async (req, res, next) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
 
-      const resp: CountersJSON = {
-        counts: {
-          comments,
-          staffComments,
-          signups: all,
-          rejections,
-          bans: banned,
-        },
-      };
-      return res.json(resp);
-    } catch (err) {
-      return next(err);
-    }
-  };
+    const result: TimeSeriesMetricsJSON = {
+      series: await retrieveHourlyCommentMetrics(
+        mongo,
+        tenantID,
+        siteID,
+        tz,
+        now
+      ),
+      average: await retrieveAverageCommentsMetric(
+        mongo,
+        tenantID,
+        siteID,
+        tz,
+        now
+      ),
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-export const commentsHourlyHandler = ({
-  redis,
+export const dailyUsersMetricsHandler = ({
   mongo,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const site = req.site!;
+}: AppOptions): RequestHandler => async (req, res, next) => {
+  try {
+    const { tenantID, tz, now } = getMetricsOptions(req);
 
-    try {
-      const counts = await retrieveHourlyCommentTotal(
-        redis,
-        tenant.id,
-        site.id,
-        coral.now
-      );
-      const average = await retrieveAverageCommentsPerHour(
-        mongo,
-        redis,
-        tenant.id,
-        site.id
-      );
-      const json: HourlyCommentsJSON = {
-        counts,
-        average,
-      };
-      return res.json(json);
-    } catch (err) {
-      return next(err);
-    }
-  };
+    const result: TimeSeriesMetricsJSON = {
+      series: await retrieveDailyUserMetrics(mongo, tenantID, tz, now),
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-export const dailySignupsHandler = ({
-  redis,
+export const todayStoriesMetricsHandler = ({
   mongo,
-}: Pick<AppOptions, "redis" | "mongo">): RequestHandler => {
-  return async (req, res, next) => {
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
-    const zone = req.query.tz || DEFAULT_TIMEZONE;
+}: AppOptions): RequestHandler => async (req, res, next) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
 
-    try {
-      const signups = await retrieveSignupsForWeek(
-        redis,
-        tenant,
-        zone,
-        coral.now
-      );
+    const results = await retrieveTodayTopStoryMetrics(
+      mongo,
+      tenantID,
+      siteID,
+      tz,
+      now
+    );
 
-      const resp: DailySignupsJSON = {
-        counts: signups,
-      };
+    // Fetch all the stories for each count.
+    const stories = await retrieveManyStories(
+      mongo,
+      tenantID,
+      results.map(({ _id }) => _id)
+    );
 
-      return res.json(resp);
-    } catch (err) {
-      return next(err);
+    // Ensure that all entries are not null.
+    if (!stories.every((story) => story) || results.length !== stories.length) {
+      throw new Error("some stories with comments were not found");
     }
-  };
+
+    const result: TodayStoriesMetricsJSON = {
+      results: results.map(({ count }, idx) => {
+        // We verified above that there were no null values.
+        const story = stories[idx]!;
+
+        return { count, story: { id: story.id, title: story.metadata?.title } };
+      }),
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
 };

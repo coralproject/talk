@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 
-import { CountersJSON } from "coral-common/rest/dashboard/types";
-import { useFetch } from "coral-framework/lib/relay";
+import { TodayMetricsJSON } from "coral-common/rest/dashboard/types";
+import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
 
 import {
@@ -14,41 +14,24 @@ import createDashboardFetch from "../createDashboardFetch";
 
 import styles from "./Today.css";
 
-const TodayTotalsFetch = createDashboardFetch<CountersJSON>(
-  "todayTotalsFetch",
+const TodayMetricsFetch = createDashboardFetch<TodayMetricsJSON>(
+  "todayMetricsFetch",
   "/dashboard/today"
 );
 
-const AllTimeTotalsFetch = createDashboardFetch<CountersJSON>(
-  "allTimeTotalsFetch",
-  "/dashboard/all-time"
+const TotalMetricsFetch = createDashboardFetch<TodayMetricsJSON>(
+  "totalMetricsFetch",
+  "/dashboard/total"
 );
 
 interface Props {
-  ssoRegistrationEnabled: boolean;
-  siteID?: string;
+  siteID: string;
 }
 
-const TodayTotals: FunctionComponent<Props> = (props) => {
-  const todayTotalsFetch = useFetch(TodayTotalsFetch);
-  const allTimeTotalsFetch = useFetch(AllTimeTotalsFetch);
-  const [todayTotals, setTodayTotals] = useState<CountersJSON["counts"] | null>(
-    null
-  );
-  const [allTimeTotals, setAllTimeTotals] = useState<
-    CountersJSON["counts"] | null
-  >(null);
-  useEffect(() => {
-    async function getTotals() {
-      const { counts } = await todayTotalsFetch({ siteID: props.siteID });
-      setTodayTotals(counts);
-      const { counts: allTimeCounts } = await allTimeTotalsFetch({
-        siteID: props.siteID,
-      });
-      setAllTimeTotals(allTimeCounts);
-    }
-    getTotals();
-  }, []);
+const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
+  const today = useImmediateFetch(TodayMetricsFetch, { siteID });
+  const total = useImmediateFetch(TotalMetricsFetch, { siteID });
+
   return (
     <div>
       <Localized id="dashboard-today-heading">
@@ -56,90 +39,78 @@ const TodayTotals: FunctionComponent<Props> = (props) => {
       </Localized>
       <Flex justifyContent="space-between" spacing={3}>
         <TodayDashboardBox icon="forum">
-          {todayTotals && (
-            <TodayValue value={todayTotals.comments.toString()}>
-              <Localized id="dashboard-today-new-comments">
-                New comments
-              </Localized>
-            </TodayValue>
-          )}
-          {allTimeTotals && (
-            <TodayCompareValue value={allTimeTotals.comments.toString()}>
-              <Localized id="dashboard-today-alltime-comments">
-                All time total
-              </Localized>
-            </TodayCompareValue>
-          )}
+          <TodayValue value={today?.comments.total.toString()}>
+            <Localized id="dashboard-today-new-comments">
+              New comments
+            </Localized>
+          </TodayValue>
+          <TodayCompareValue value={total?.comments.total.toString()}>
+            <Localized id="dashboard-today-alltime-comments">
+              All time total
+            </Localized>
+          </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="close">
-          {todayTotals && (
-            <TodayValue
-              value={`${(todayTotals.comments > 0
-                ? (todayTotals.rejections / todayTotals.comments) * 100
-                : 0
-              ).toFixed(2)} %`}
-            >
-              <Localized id="dashboard-today-rejections">
-                Rejection rate
-              </Localized>
-            </TodayValue>
-          )}
-          {allTimeTotals && (
-            <TodayCompareValue
-              value={`${(allTimeTotals.comments > 0
-                ? (allTimeTotals.rejections / allTimeTotals.comments) * 100
-                : 0
-              ).toFixed(2)} %`}
-            >
-              <Localized id="dashboard-today-alltime-rejection">
-                All time average
-              </Localized>
-            </TodayCompareValue>
-          )}
+          <TodayValue
+            value={
+              today
+                ? `${(today.comments.total > 0
+                    ? (today.comments.rejected / today.comments.total) * 100
+                    : 0
+                  ).toFixed(2)} %`
+                : "-.-- %"
+            }
+          >
+            <Localized id="dashboard-today-rejections">
+              Rejection rate
+            </Localized>
+          </TodayValue>
+          <TodayCompareValue
+            value={
+              total
+                ? `${(total.comments.total > 0
+                    ? (total.comments.rejected / total.comments.total) * 100
+                    : 0
+                  ).toFixed(2)} %`
+                : "-.-- %"
+            }
+          >
+            <Localized id="dashboard-today-alltime-rejection">
+              All time average
+            </Localized>
+          </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="badge">
-          {todayTotals && (
-            <TodayValue value={todayTotals.staffComments.toString()}>
-              <Localized id="dashboard-today-staff-comments">
-                Staff comments
-              </Localized>
-            </TodayValue>
-          )}
-          {allTimeTotals && (
-            <TodayCompareValue value={allTimeTotals.staffComments.toString()}>
-              <Localized id="dashboard-today-alltime-staff-comments">
-                All time total
-              </Localized>
-            </TodayCompareValue>
-          )}
+          <TodayValue value={today?.comments.staff.toString()}>
+            <Localized id="dashboard-today-staff-comments">
+              Staff comments
+            </Localized>
+          </TodayValue>
+          <TodayCompareValue value={total?.comments.staff.toString()}>
+            <Localized id="dashboard-today-alltime-staff-comments">
+              All time total
+            </Localized>
+          </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="person_add">
-          {todayTotals && (
-            <TodayValue value={todayTotals.signups.toString()}>
-              <Localized id="dashboard-today-signups">New accounts</Localized>
-            </TodayValue>
-          )}
-          {allTimeTotals && (
-            <TodayCompareValue value={allTimeTotals.signups.toString()}>
-              <Localized id="dashboard-today-alltime-signups">
-                Total accounts
-              </Localized>
-            </TodayCompareValue>
-          )}
+          <TodayValue value={today?.users.total.toString()}>
+            <Localized id="dashboard-today-signups">New accounts</Localized>
+          </TodayValue>
+          <TodayCompareValue value={total?.users.total.toString()}>
+            <Localized id="dashboard-today-alltime-signups">
+              Total accounts
+            </Localized>
+          </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="block">
-          {todayTotals && (
-            <TodayValue value={todayTotals.bans.toString()}>
-              <Localized id="dashboard-today-bans">Account bans</Localized>
-            </TodayValue>
-          )}
-          {allTimeTotals && (
-            <TodayCompareValue value={allTimeTotals.bans.toString()}>
-              <Localized id="dashboard-today-alltime-bans">
-                Total account bans
-              </Localized>
-            </TodayCompareValue>
-          )}
+          <TodayValue value={today?.users.bans.toString()}>
+            <Localized id="dashboard-today-bans">Account bans</Localized>
+          </TodayValue>
+          <TodayCompareValue value={total?.users.bans.toString()}>
+            <Localized id="dashboard-today-alltime-bans">
+              Total account bans
+            </Localized>
+          </TodayCompareValue>
         </TodayDashboardBox>
       </Flex>
     </div>

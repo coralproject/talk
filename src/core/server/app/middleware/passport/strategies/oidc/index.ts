@@ -154,7 +154,6 @@ export function getEnabledIntegration(
 
 export async function findOrCreateOIDCUser(
   mongo: Db,
-  redis: AugmentedRedis,
   tenant: Tenant,
   integration: OIDCAuthIntegration,
   token: OIDCIDToken,
@@ -204,7 +203,6 @@ export async function findOrCreateOIDCUser(
     // Create the new user, as one didn't exist before!
     user = await findOrCreate(
       mongo,
-      redis,
       tenant,
       {
         username,
@@ -226,7 +224,6 @@ export async function findOrCreateOIDCUser(
 
 export function findOrCreateOIDCUserWithToken(
   mongo: Db,
-  redis: AugmentedRedis,
   tenant: Tenant,
   client: JwksClient,
   integration: OIDCAuthIntegration,
@@ -270,7 +267,6 @@ export function findOrCreateOIDCUserWithToken(
         try {
           const user = await findOrCreateOIDCUser(
             mongo,
-            redis,
             tenant,
             integration,
             token,
@@ -293,21 +289,18 @@ const OIDC_SCOPE = "openid email profile";
 export interface OIDCStrategyOptions {
   mongo: Db;
   tenantCache: TenantCache;
-  redis: AugmentedRedis;
 }
 
 export default class OIDCStrategy extends Strategy {
   public name = "oidc";
 
   private mongo: Db;
-  private redis: AugmentedRedis;
   private cache: TenantCacheAdapter<StrategyItem>;
 
-  constructor({ mongo, tenantCache, redis }: OIDCStrategyOptions) {
+  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
     this.mongo = mongo;
-    this.redis = redis;
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 
@@ -386,7 +379,6 @@ export default class OIDCStrategy extends Strategy {
     try {
       const user = await findOrCreateOIDCUserWithToken(
         this.mongo,
-        this.redis,
         tenant,
         client,
         integration,

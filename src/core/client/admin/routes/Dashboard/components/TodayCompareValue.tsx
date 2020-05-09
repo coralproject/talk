@@ -5,10 +5,13 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import styles from "./TodayCompareValue.css";
 
 interface Props {
-  value: string;
+  value?: string;
 }
 
-const TodayCompareValue: FunctionComponent<Props> = ({ value, children }) => {
+const TodayCompareValue: FunctionComponent<Props> = ({
+  value = "-",
+  children,
+}) => {
   return (
     <HorizontalGutter spacing={1}>
       <p className={styles.valueBoxCompareValue}>{value}</p>

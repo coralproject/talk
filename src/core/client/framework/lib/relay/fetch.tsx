@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
   compose,
@@ -68,6 +68,27 @@ export function useFetch<V, R>(
     }) as any,
     [context]
   );
+}
+
+export function useImmediateFetch<V, R>(
+  fetch: Fetch<any, V, Promise<R>>,
+  variables: V
+) {
+  const fetcher = useFetch(fetch);
+  const [state, setState] = useState<R | null>(null);
+
+  useEffect(() => {
+    async function doTheFetch() {
+      const value = await fetcher(variables);
+      setTimeout(() => {
+        setState(value);
+      }, 100 + 50 * Math.random());
+    }
+
+    doTheFetch();
+  }, []);
+
+  return state;
 }
 
 /**

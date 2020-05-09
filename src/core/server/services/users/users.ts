@@ -78,8 +78,6 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
-import { incrementBansCount, incrementSignupsToday } from "./stats";
-
 import {
   GQLAuthIntegrations,
   GQLUSER_ROLE,
@@ -123,7 +121,6 @@ export interface FindOrCreateUserOptions {
 
 export async function findOrCreate(
   mongo: Db,
-  redis: AugmentedRedis,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -165,7 +162,6 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
-    await incrementSignupsToday(redis, tenant.id, now);
     // TODO: (wyattjoh) emit that a user was created
   }
 
@@ -178,7 +174,6 @@ export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
   mongo: Db,
-  redis: AugmentedRedis,
   tenant: Tenant,
   input: CreateUser,
   options: CreateUserOptions,
@@ -212,7 +207,6 @@ export async function create(
   const user = await createUser(mongo, tenant.id, input, now);
 
   // TODO: (wyattjoh) emit that a user was created
-  await incrementSignupsToday(redis, tenant.id, now);
 
   // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
@@ -846,7 +840,6 @@ export async function destroyModeratorNote(
  * ban will ban a specific user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
- * @param redis redis database to interact with
  * @param mailer the mailer
  * @param rejector the comment rejector queue
  * @param tenant Tenant where the User will be banned on
@@ -858,7 +851,6 @@ export async function destroyModeratorNote(
  */
 export async function ban(
   mongo: Db,
-  redis: AugmentedRedis,
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
@@ -883,8 +875,6 @@ export async function ban(
 
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
-
-  await incrementBansCount(redis, tenant.id, now);
 
   if (rejectExistingComments) {
     await rejector.add({
@@ -1369,78 +1359,3 @@ export async function link(
 
   return linked;
 }
-
-// function dailySignupsKey(tenantID: string) {
-//   return `dailySignups:${tenantID}`;
-// }
-
-// export async function retrieveDailySignups(
-//   mongo: Db,
-//   redis: AugmentedRedis,
-//   tenant: Tenant,
-//   now: Date
-// ) {
-//   if (
-//     tenant.auth.integrations.sso.enabled &&
-//     tenant.auth.integrations.sso.allowRegistration
-//   ) {
-//     throw new Error("can't count users");
-//   }
-
-//   const weekAgo = DateTime.fromJSDate(now).minus({ days: 7 });
-
-//   // create array of last 7 days as yyyy-mm-dd strings
-//   const stamps = [];
-//   for (let i = 0; i < 7; i++) {
-//     const stamp = weekAgo.plus({ days: i });
-//     stamps.push(stamp.toFormat("yyyy-MM-dd"));
-//   }
-//   const ydayKey = stamps[-1];
-//   const hashKey = dailySignupsKey(tenant.id);
-
-//   const cachedValues = await redis.hgetall(hashKey);
-
-//   // if the key exists and there is an entry for yesterday, return the values
-//   if (cachedValues && cachedValues[ydayKey]) {
-//     return Object.keys(cachedValues).map((key) => ({
-//       date: DateTime.fromString(key, "yyyy-MM-dd").toJSDate().toISOString(),
-//       count: parseInt(key, 10),
-//     }));
-//   }
-
-//   // if there are no cached values or there is no value for yesterday, recalculate and cache
-//   await redis.del(hashKey);
-//   const daysWithSignups = await countUsersByCreationDate(
-//     mongo,
-//     tenant.id,
-//     weekAgo.toJSDate(),
-//     now
-//   );
-//   // ensure there are array entries for each day even if no count was found for that day
-//   const output = stamps.map((stamp) => {
-//     const signups = daysWithSignups.find(({ _id }) => _id === stamp);
-
-//     return {
-//       date: DateTime.fromString(stamp, "yyyy-MM-dd").toJSDate().toISOString(),
-//       dateString: stamp,
-//       count: signups ? signups.count : 0,
-//     };
-//   });
-
-//   // cache counts as hash of datestrings with count values
-//   await redis.hmset(
-//     dailySignupsKey(tenant.id),
-//     flatten(output.map((day) => [day.dateString, day.count]))
-//   );
-//   return output.map(({ date, count }) => ({ date, count }));
-// }
-
-// export async function countBanned(
-//   mongo: Db,
-//   redis: AugmentedRedis,
-//   tenantID: string,
-//   zone: string,
-//   now: Date
-// ) {
-//   return retrieveDailyTotal(redis, tenantID, null, zone, now, hourlyBansKey);
-// }

@@ -1,11 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { DailyTopStoriesJSON } from "coral-common/rest/dashboard/types";
+import { TodayStoriesMetricsJSON } from "coral-common/rest/dashboard/types";
 import { getModerationLink } from "coral-framework/helpers";
-import { useFetch } from "coral-framework/lib/relay";
+import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import {
   Table,
   TableBody,
@@ -18,9 +18,9 @@ import {
 import { DashboardBox, DashboardComponentHeading } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
 
-const TopStoriesFetch = createDashboardFetch<DailyTopStoriesJSON>(
+const TodayStoriesMetrics = createDashboardFetch<TodayStoriesMetricsJSON>(
   "topStoriesFetch",
-  "/dashboard/top-stories-today"
+  "/dashboard/today/stories"
 );
 
 interface Props {
@@ -28,17 +28,7 @@ interface Props {
 }
 
 const TopStories: FunctionComponent<Props> = ({ siteID }) => {
-  const topStoriesFetch = useFetch(TopStoriesFetch);
-  const [topStories, setTopStories] = useState<
-    DailyTopStoriesJSON["topStories"] | null
-  >(null);
-  useEffect(() => {
-    async function getTotals() {
-      const resp = await topStoriesFetch({ siteID });
-      setTopStories(resp.topStories);
-    }
-    getTotals();
-  }, []);
+  const today = useImmediateFetch(TodayStoriesMetrics, { siteID });
   return (
     <DashboardBox>
       <Localized id="dashboard-top-stories-today-heading">
@@ -58,29 +48,25 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {topStories && topStories.length < 1 && (
+          {today && today.results.length < 1 && (
             <TableRow>
               <Localized id="dashboard-top-stories-no-comments">
                 <TableCell>No comments today.</TableCell>
               </Localized>
             </TableRow>
           )}
-          {topStories &&
-            topStories.map((topStory) => (
-              <TableRow key={topStory.id}>
+          {today &&
+            today.results.map((result) => (
+              <TableRow key={result.story.id}>
                 <TableCell>
                   <Link
-                    to={getModerationLink({ storyID: topStory.id })}
+                    to={getModerationLink({ storyID: result.story.id })}
                     as={TextLink}
                   >
-                    {topStory.metadata ? (
-                      topStory.metadata.title || <NotAvailable />
-                    ) : (
-                      <NotAvailable />
-                    )}
+                    {result.story.title ? result.story.title : <NotAvailable />}
                   </Link>
                 </TableCell>
-                <TableCell align="end">{topStory.comments.count}</TableCell>
+                <TableCell align="end">{result.count}</TableCell>
               </TableRow>
             ))}
         </TableBody>

@@ -1,6 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { isNumber } from "lodash";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import {
   CartesianGrid,
   Line,
@@ -12,8 +11,8 @@ import {
   YAxis,
 } from "recharts";
 
-import { HourlyCommentsJSON } from "coral-common/rest/dashboard/types";
-import { useFetch } from "coral-framework/lib/relay";
+import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
+import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { useUIContext } from "coral-ui/components";
 
 import { DashboardBox, DashboardComponentHeading } from "../components";
@@ -29,33 +28,21 @@ import styles from "./CommentActivity.css";
 
 interface Props {
   locales?: string[];
-  siteID?: string;
+  siteID: string;
 }
 
-const CommentActivityFetch = createDashboardFetch<HourlyCommentsJSON>(
-  "commentActivityFetch",
-  "/dashboard/hourly-comments"
+const HourlyCommentsMetricsFetch = createDashboardFetch<TimeSeriesMetricsJSON>(
+  "hourlyCommentsMetricsFetch",
+  "/dashboard/hourly/comments"
 );
-
-type CommentsForHour = HourlyCommentsJSON["counts"];
 
 const CommentActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
   siteID,
 }) => {
-  const commentActivityFetch = useFetch(CommentActivityFetch);
-  const [commentActivity, setCommentActivity] = useState<CommentsForHour>([]);
-  const [averageComments, setAverageComments] = useState<number | null>(null);
+  const hourly = useImmediateFetch(HourlyCommentsMetricsFetch, { siteID });
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
-  useEffect(() => {
-    async function getTotals() {
-      const { counts, average } = await commentActivityFetch({ siteID });
-      setCommentActivity(counts);
-      setAverageComments(average);
-    }
-    getTotals();
-  }, []);
   return (
     <DashboardBox>
       <Localized id="dashboard-comment-activity-heading">
@@ -64,9 +51,9 @@ const CommentActivity: FunctionComponent<Props> = ({
         </DashboardComponentHeading>
       </Localized>
       <ResponsiveContainer height={300}>
-        <LineChart className={styles.chart} data={commentActivity}>
-          {isNumber(averageComments) && (
-            <ReferenceLine stroke={CHART_COLOR_SECONDARY} y={averageComments} />
+        <LineChart className={styles.chart} data={hourly ? hourly.series : []}>
+          {hourly && (
+            <ReferenceLine stroke={CHART_COLOR_SECONDARY} y={hourly.average} />
           )}
           <XAxis
             dataKey="timestamp"
@@ -78,6 +65,7 @@ const CommentActivity: FunctionComponent<Props> = ({
             tickFormatter={(unixTime: number) => {
               const formatter = new Intl.DateTimeFormat(locales, {
                 hour: "numeric",
+                hour12: true,
               });
               return formatter
                 .format(new Date(unixTime))
@@ -102,7 +90,7 @@ const CommentActivity: FunctionComponent<Props> = ({
             stroke={CHART_COLOR_PRIMARY}
           />
           <Tooltip
-            formatter={(value, name) => [value, "Comments"]}
+            formatter={(value) => [value, "Comments"]}
             labelStyle={{ color: CHART_COLOR_MONO_500 }}
             labelFormatter={(unixTime: number) => {
               const formatter = new Intl.DateTimeFormat(locales, {

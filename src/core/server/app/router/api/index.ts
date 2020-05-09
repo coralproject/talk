@@ -12,8 +12,7 @@ import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { authenticate } from "coral-server/app/middleware/passport";
 import { roleMiddleware } from "coral-server/app/middleware/role";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
-
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
@@ -65,12 +64,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     "/dashboard",
     authenticate(options.passport),
     loggedInMiddleware,
-    roleMiddleware([
-      GQLUSER_ROLE.ADMIN,
-      GQLUSER_ROLE.STAFF,
-      GQLUSER_ROLE.MODERATOR,
-    ]),
-    jsonMiddleware,
+    roleMiddleware(STAFF_ROLES),
     createDashboardRouter(app)
   );
 

@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import {
   Bar,
   BarChart,
@@ -9,8 +9,8 @@ import {
   YAxis,
 } from "recharts";
 
-import { DailySignupsJSON } from "coral-common/rest/dashboard/types";
-import { useFetch } from "coral-framework/lib/relay";
+import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
+import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { useUIContext } from "coral-ui/components";
 
 import { DashboardBox, DashboardComponentHeading } from "../components";
@@ -26,32 +26,20 @@ import styles from "./SignupActivity.css";
 
 interface Props {
   locales?: string[];
-  siteID?: string;
+  siteID: string;
 }
-const CommenterActivityFetch = createDashboardFetch<DailySignupsJSON>(
+const DailySignupMetrics = createDashboardFetch<TimeSeriesMetricsJSON>(
   "commenterActivityFetch",
-  "/dashboard/daily-signups"
+  "/dashboard/daily/users"
 );
-
-type NewCommentersByHour = DailySignupsJSON["counts"];
 
 const CommenterActivity: FunctionComponent<Props> = ({
   locales: localesFromProps,
   siteID,
 }) => {
-  const commenterActivityFetch = useFetch(CommenterActivityFetch);
-  const [commenterActivity, setCommenterActivity] = useState<
-    NewCommentersByHour
-  >([]);
+  const daily = useImmediateFetch(DailySignupMetrics, { siteID });
   const { locales: localesFromContext } = useUIContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
-  useEffect(() => {
-    async function getTotals() {
-      const { counts } = await commenterActivityFetch({ siteID });
-      setCommenterActivity(counts);
-    }
-    getTotals();
-  }, []);
   return (
     <DashboardBox>
       <Localized id="dashboard-commenters-activity-heading">
@@ -62,7 +50,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
           className={styles.chart}
           width={730}
           height={250}
-          data={commenterActivity}
+          data={daily ? daily.series : []}
         >
           <CartesianGrid vertical={false} stroke={CHART_COLOR_GREY_200} />
           <XAxis
@@ -72,6 +60,8 @@ const CommenterActivity: FunctionComponent<Props> = ({
             tickLine={false}
             dataKey="timestamp"
             interval={0}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
             tick={<SignupActivityTick locales={locales} />}
           />
           <YAxis

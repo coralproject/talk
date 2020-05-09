@@ -682,24 +682,6 @@ export async function retrieveManyUsers(
   return ids.map((id) => users.find((user) => user.id === id) || null);
 }
 
-export async function countUsersForCreationDate(
-  mongo: Db,
-  tenantID: string,
-  after: Date,
-  before: Date | null,
-  now: Date
-) {
-  return collection(mongo)
-    .find({
-      tenantID,
-      createdAt: {
-        $gt: after,
-        $lt: before || now,
-      },
-    })
-    .count();
-}
-
 export async function retrieveUserWithProfile(
   mongo: Db,
   tenantID: string,
@@ -2552,27 +2534,3 @@ export const updateUserCommentCounts = (
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
-
-export async function countUsersByBanStatus(mongo: Db, tenantID: string) {
-  const cursor = collection<{
-    _id: boolean | null;
-    count: number;
-  }>(mongo).aggregate([
-    {
-      $match: {
-        tenantID,
-      },
-    },
-    {
-      $group: {
-        _id: "$status.ban.active",
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-
-  const arr = await cursor.toArray();
-  const banned = arr.find((item) => item._id);
-  const all = arr.reduce((prev, item) => prev + item.count, 0);
-  return { all, banned: banned ? banned.count : 0 };
-}

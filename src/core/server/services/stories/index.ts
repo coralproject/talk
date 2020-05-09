@@ -1,4 +1,3 @@
-import { Redis } from "ioredis";
 import { uniq } from "lodash";
 import { Db } from "mongodb";
 
@@ -35,8 +34,11 @@ import {
   removeStory,
   retrieveManyStories,
   retrieveStory,
+<<<<<<< HEAD
   retrieveStorySections,
   retrieveTopCommentedStoriesToday,
+=======
+>>>>>>> feat: redis/mongo refactor
   setStoryMode,
   Story,
   updateStory,
@@ -417,54 +419,4 @@ export async function updateStoryMode(
   mode: GQLSTORY_MODE
 ) {
   return setStoryMode(mongo, tenant.id, storyID, mode);
-}
-
-export async function retrieveSections(mongo: Db, tenant: Tenant) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
-    return null;
-  }
-
-  return retrieveStorySections(mongo, tenant.id);
-}
-export async function retrieveDailyTopCommentedStories(
-  mongo: Db,
-  redis: Redis,
-  tenantID: string,
-  siteID: string,
-  zone: string,
-  now: Date
-) {
-  const results = await retrieveTopCommentedStoriesToday(
-    redis,
-    tenantID,
-    siteID,
-    20,
-    zone,
-    now
-  );
-  const stories = await retrieveManyStories(
-    mongo,
-    tenantID,
-    results.map((value) => value.storyID)
-  );
-  return results.map((result) => {
-    const story = stories.find((s) => s && s.id === result.storyID);
-    if (story) {
-      const { id, url, metadata } = story;
-      return {
-        id,
-        url,
-        metadata,
-        comments: {
-          count: result.count || 0,
-        },
-      };
-    }
-    return {
-      comments: {
-        count: result.count,
-      },
-      id: result.storyID,
-    };
-  });
 }

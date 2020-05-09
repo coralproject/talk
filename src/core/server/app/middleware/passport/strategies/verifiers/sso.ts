@@ -134,7 +134,6 @@ export async function findOrCreateSSOUser(
     // Create the new user, as one didn't exist before!
     user = await findOrCreate(
       mongo,
-      redis,
       tenant,
       {
         id,

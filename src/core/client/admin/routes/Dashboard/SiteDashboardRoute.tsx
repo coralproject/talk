@@ -23,14 +23,11 @@ interface Props {
 }
 const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
-  if (data && data.site && data.settings) {
+  if (data && data.site) {
     return (
       <MainLayout data-testid="dashboard-container" className={styles.layout}>
         <SiteDashboardHeader name={data.site.name} />
-        <DashboardContainer
-          siteID={props.match.params.siteID}
-          settings={data.settings}
-        />
+        <DashboardContainer siteID={props.match.params.siteID} />
       </MainLayout>
     );
   }
@@ -43,9 +40,6 @@ const enhanced = withRouteConfig<Props>({
       site(id: $siteID) {
         name
         id
-      }
-      settings {
-        ...DashboardContainer_settings
       }
     }
   `,

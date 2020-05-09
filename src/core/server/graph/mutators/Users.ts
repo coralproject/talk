@@ -228,7 +228,6 @@ export const Users = (ctx: GraphContext) => ({
   ban: async (input: GQLBanUserInput) =>
     ban(
       ctx.mongo,
-      ctx.redis,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,

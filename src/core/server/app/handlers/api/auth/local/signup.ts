@@ -83,7 +83,6 @@ export const signupHandler = ({
       // Create the new user.
       const user = await create(
         mongo,
-        redis,
         tenant,
         {
           email,

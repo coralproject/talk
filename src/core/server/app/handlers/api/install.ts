@@ -242,7 +242,6 @@ export const installHandler = ({
       // Create the first admin user.
       await create(
         mongo,
-        redis,
         tenant,
         {
           email,

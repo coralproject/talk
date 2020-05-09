@@ -1,52 +1,25 @@
 import { AppOptions } from "coral-server/app";
-
 import {
-  allTimeCountersHandler,
-  commentsHourlyHandler,
-  dailySignupsHandler,
-  todayCountersHandler,
-  topCommentedStoriesHandler,
-} from "coral-server/app/handlers/api/dashboard";
-import { attachSite } from "coral-server/app/middleware/attachSite";
+  dailyUsersMetricsHandler,
+  hourlyCommentsMetricsHandler,
+  todayMetricsHandler,
+  todayStoriesMetricsHandler,
+  totalMetricsHandler,
+} from "coral-server/app/handlers";
+import { userLimiterMiddleware } from "coral-server/app/middleware/userLimiter";
 
-import { RequestLimiter } from "coral-server/app/request/limiter";
-import { RequestHandler } from "coral-server/types/express";
 import { createAPIRouter } from "./helpers";
 
-type LimiterOptions = Pick<AppOptions, "redis" | "config">;
-const requestLimiter = ({ redis, config }: LimiterOptions): RequestHandler => {
-  return async (req, res, next) => {
-    try {
-      const userIDLimiter = new RequestLimiter({
-        redis,
-        ttl: "1m",
-        max: 5,
-        prefix: "userID",
-        config,
-      });
-      await userIDLimiter.test(req, req.user!.id);
-      return next();
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
-
 export function createDashboardRouter(app: AppOptions) {
-  const router = createAPIRouter();
-  if (process.env.NODE_ENV !== "development") {
-    router.use(requestLimiter(app));
-  }
+  const router = createAPIRouter({ cache: "30s" });
 
-  router.get("/today", attachSite(app), todayCountersHandler(app));
-  router.get("/all-time", attachSite(app), allTimeCountersHandler(app));
-  router.get(
-    "/top-stories-today",
-    attachSite(app),
-    topCommentedStoriesHandler(app)
-  );
-  router.get("/hourly-comments", attachSite(app), commentsHourlyHandler(app));
-  router.get("/daily-signups", attachSite(app), dailySignupsHandler(app));
+  router.use(userLimiterMiddleware(app));
+
+  router.get("/today", todayMetricsHandler(app));
+  router.get("/total", totalMetricsHandler(app));
+  router.get("/hourly/comments", hourlyCommentsMetricsHandler(app));
+  router.get("/daily/users", dailyUsersMetricsHandler(app));
+  router.get("/today/stories", todayStoriesMetricsHandler(app));
 
   return router;
 }
