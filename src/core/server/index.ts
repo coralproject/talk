@@ -1,5 +1,5 @@
-import express, { Express } from "express";
 import cluster from "cluster";
+import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
