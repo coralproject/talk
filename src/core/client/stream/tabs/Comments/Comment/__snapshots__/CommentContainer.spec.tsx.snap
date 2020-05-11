@@ -46,6 +46,10 @@ exports[`hide reply button 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -75,8 +79,7 @@ exports[`hide reply button 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -102,9 +105,14 @@ exports[`hide reply button 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -151,6 +159,10 @@ exports[`hide reply button 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -182,6 +194,10 @@ exports[`hide reply button 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -228,6 +244,10 @@ exports[`hide reply button 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -284,6 +304,10 @@ exports[`renders body only 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -320,8 +344,7 @@ exports[`renders body only 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -347,9 +370,14 @@ exports[`renders body only 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -396,6 +424,10 @@ exports[`renders body only 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -427,6 +459,10 @@ exports[`renders body only 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -473,6 +509,10 @@ exports[`renders body only 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -529,6 +569,10 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -565,8 +609,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -592,9 +635,14 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -641,6 +689,10 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -672,6 +724,10 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -718,6 +774,10 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -774,6 +834,10 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -810,8 +874,7 @@ exports[`renders disabled reply when story is closed 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -837,9 +900,14 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -886,6 +954,10 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -917,6 +989,10 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -963,6 +1039,10 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -1023,6 +1103,10 @@ exports[`renders in reply to 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -1059,8 +1143,7 @@ exports[`renders in reply to 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1090,9 +1173,14 @@ exports[`renders in reply to 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -1143,6 +1231,10 @@ exports[`renders in reply to 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -1178,6 +1270,10 @@ exports[`renders in reply to 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -1228,6 +1324,10 @@ exports[`renders in reply to 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -1284,6 +1384,10 @@ exports[`renders username and body 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -1320,8 +1424,7 @@ exports[`renders username and body 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1347,9 +1450,14 @@ exports[`renders username and body 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -1396,6 +1504,10 @@ exports[`renders username and body 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -1427,6 +1539,10 @@ exports[`renders username and body 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -1473,6 +1589,10 @@ exports[`renders username and body 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />
@@ -1538,6 +1658,10 @@ exports[`shows conversation link 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
                 isQA={false}
@@ -1574,8 +1698,7 @@ exports[`shows conversation link 1`] = `
               />
             </ButtonsBar>
             <ButtonsBar>
-              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
-                className="coral coral-reportButton coral-comment-reportButton"
+              <withContext(createMutationContainer(Relay(ReportButton)))
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1601,9 +1724,14 @@ exports[`shows conversation link 1`] = `
                     "pending": false,
                     "status": "NONE",
                     "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
                   }
                 }
-                reportedClassName="coral-reportedButton coral-comment-reportedButton"
+                onClick={[Function]}
+                open={false}
                 viewer={null}
               />
             </ButtonsBar>
@@ -1656,6 +1784,10 @@ exports[`shows conversation link 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             viewer={null}
@@ -1687,6 +1819,10 @@ exports[`shows conversation link 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
             settings={
@@ -1733,6 +1869,10 @@ exports[`shows conversation link 1`] = `
                 "pending": false,
                 "status": "NONE",
                 "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
               }
             }
           />

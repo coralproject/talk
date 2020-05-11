@@ -499,11 +499,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Report"
-                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                              data-color="mono"
+                              className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
-                              data-variant="text"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -513,12 +510,17 @@ exports[`renders comment stream with community guidelines 1`] = `
                               onTouchEnd={[Function]}
                               type="button"
                             >
-                              <i
-                                aria-hidden="true"
-                                className="Icon-root Icon-sm"
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
                               >
-                                flag
-                              </i>
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm ReportButton-icon"
+                                >
+                                  flag
+                                </i>
+                                Report
+                              </div>
                             </button>
                           </div>
                         </div>
@@ -732,11 +734,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Report"
-                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                              data-color="mono"
+                              className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
-                              data-variant="text"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -746,12 +745,17 @@ exports[`renders comment stream with community guidelines 1`] = `
                               onTouchEnd={[Function]}
                               type="button"
                             >
-                              <i
-                                aria-hidden="true"
-                                className="Icon-root Icon-sm"
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
                               >
-                                flag
-                              </i>
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm ReportButton-icon"
+                                >
+                                  flag
+                                </i>
+                                Report
+                              </div>
                             </button>
                           </div>
                         </div>

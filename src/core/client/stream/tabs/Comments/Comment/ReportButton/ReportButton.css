@@ -1,9 +1,0 @@
-$commentsReportedButtonColor: var(--v2-colors-red-500);
-
-.variantText {
-  &:disabled {
-    opacity: 1;
-    color: $commentsReportedButtonColor;
-    font-weight: var(--v2-font-weight-primary-bold);
-  }
-}
