@@ -449,8 +449,10 @@ comments-reportPopover-reasonIDisagree = I disagree with this comment
 comments-reportPopover-reasonSpam = This looks like an ad or marketing
 comments-reportPopover-reasonOther = Other
 
+comments-reportPopover-additionalInformation =
+  Additional information <optional>Optional</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Please leave any additional information that may be helpful to our moderators.
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
 comments-reportPopover-cancel = Cancel

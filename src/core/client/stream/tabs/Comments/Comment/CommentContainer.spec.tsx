@@ -50,6 +50,10 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         tags: [],
         lastViewerAction: null,
         deleted: false,
+        viewerActionPresence: {
+          dontAgree: false,
+          flag: false,
+        },
       },
       settings: {
         disableCommenting: {

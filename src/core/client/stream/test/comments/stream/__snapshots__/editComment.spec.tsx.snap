@@ -226,47 +226,30 @@ exports[`cancel edit 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
-                <div
-                  className="Popover-root"
+                <button
+                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  data-testid="comment-report-button"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  <button
-                    aria-controls="report-popover-comment-with-replies"
-                    aria-label="Report"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                    data-active={false}
-                    data-color="mono"
-                    data-testid="comment-report-button"
-                    data-variant="text"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm ReportButton-icon"
                     >
                       flag
                     </i>
-                  </button>
-                  <div
-                    aria-hidden={true}
-                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
-                    id="report-popover-comment-with-replies"
-                    role="dialog"
-                  >
-                    <div
-                      className="AriaInfo-root"
-                      id="report-popover-comment-with-replies-ariainfo"
-                    >
-                      A dialog for reporting comments
-                    </div>
+                    Report
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -1070,47 +1053,30 @@ exports[`edit a comment: render comment with edit button 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
-                <div
-                  className="Popover-root"
+                <button
+                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  data-testid="comment-report-button"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  <button
-                    aria-controls="report-popover-comment-with-replies"
-                    aria-label="Report"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                    data-active={false}
-                    data-color="mono"
-                    data-testid="comment-report-button"
-                    data-variant="text"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm ReportButton-icon"
                     >
                       flag
                     </i>
-                  </button>
-                  <div
-                    aria-hidden={true}
-                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
-                    id="report-popover-comment-with-replies"
-                    role="dialog"
-                  >
-                    <div
-                      className="AriaInfo-root"
-                      id="report-popover-comment-with-replies-ariainfo"
-                    >
-                      A dialog for reporting comments
-                    </div>
+                    Report
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -1356,47 +1322,30 @@ exports[`edit a comment: server response 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
-                <div
-                  className="Popover-root"
+                <button
+                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  data-testid="comment-report-button"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  <button
-                    aria-controls="report-popover-comment-with-replies"
-                    aria-label="Report"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                    data-active={false}
-                    data-color="mono"
-                    data-testid="comment-report-button"
-                    data-variant="text"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm ReportButton-icon"
                     >
                       flag
                     </i>
-                  </button>
-                  <div
-                    aria-hidden={true}
-                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
-                    id="report-popover-comment-with-replies"
-                    role="dialog"
-                  >
-                    <div
-                      className="AriaInfo-root"
-                      id="report-popover-comment-with-replies-ariainfo"
-                    >
-                      A dialog for reporting comments
-                    </div>
+                    Report
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -1633,47 +1582,30 @@ exports[`shows expiry message: edit form closed 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
-                <div
-                  className="Popover-root"
+                <button
+                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  data-testid="comment-report-button"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  <button
-                    aria-controls="report-popover-comment-with-replies"
-                    aria-label="Report"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reportButton coral-comment-reportButton"
-                    data-active={false}
-                    data-color="mono"
-                    data-testid="comment-report-button"
-                    data-variant="text"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm ReportButton-icon"
                     >
                       flag
                     </i>
-                  </button>
-                  <div
-                    aria-hidden={true}
-                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
-                    id="report-popover-comment-with-replies"
-                    role="dialog"
-                  >
-                    <div
-                      className="AriaInfo-root"
-                      id="report-popover-comment-with-replies-ariainfo"
-                    >
-                      A dialog for reporting comments
-                    </div>
+                    Report
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>

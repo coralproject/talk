@@ -2,517 +2,702 @@
 
 exports[`close popup 1`] = `
 <div
-  aria-hidden={true}
-  aria-labelledby="report-popover-comment-0-ariainfo"
-  id="report-popover-comment-0"
-  role="dialog"
+  className="coral coral-comment coral coral-reacted-0"
+  data-testid="comment-comment-0"
 >
   <div
-    className="AriaInfo-root"
-    id="report-popover-comment-0-ariainfo"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
-    A dialog for reporting comments
+    <div
+      className="Indent-root"
+    >
+      <div
+        className="coral coral-indent coral-indent-0"
+      >
+        <div
+          className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
+          role="article"
+        >
+          <div
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+              >
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="username-popover-comment-0"
+                    className="BaseButton-root coral coral-username coral-comment-username"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span
+                      className="Username-root"
+                    >
+                      Markus
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="username-popover-comment-0-ariainfo"
+                    id="username-popover-comment-0"
+                    role="dialog"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="username-popover-comment-0-ariainfo"
+                    >
+                      A popover with more user information
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+              >
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <time
+                    className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+              />
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <div
+              className="HTMLContent-root coral coral-content coral-comment-content"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
+              }
+            />
+            <div
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+            >
+              <div
+                className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+              >
+                <button
+                  aria-label="Respect"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                  data-color="mono"
+                  data-testid="comment-reaction-button"
+                  data-variant="text"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    thumb_up
+                  </i>
+                </button>
+                <button
+                  aria-label="Reply"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                  data-active={false}
+                  data-color="mono"
+                  data-testid="comment-reply-button"
+                  data-variant="text"
+                  disabled={false}
+                  id="comments-commentContainer-replyButton-comment-0"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    reply
+                  </i>
+                </button>
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="permalink-popover-comment-0"
+                    aria-label="Share"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                    data-active={false}
+                    data-color="mono"
+                    data-variant="text"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      share
+                    </i>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="permalink-popover-comment-0-ariainfo"
+                    id="permalink-popover-comment-0"
+                    role="dialog"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="permalink-popover-comment-0-ariainfo"
+                    >
+                      A dialog showing a permalink to the comment
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+              >
+                <button
+                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  data-testid="comment-report-button"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm ReportButton-icon"
+                    >
+                      flag
+                    </i>
+                    Report
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
 
 exports[`render popup 1`] = `
 <div
-  aria-hidden={false}
-  aria-labelledby="report-popover-comment-0-ariainfo"
-  id="report-popover-comment-0"
-  role="dialog"
+  className="ReportCommentForm-root"
+  data-testid="report-comment-form"
 >
-  <div
-    className="AriaInfo-root"
-    id="report-popover-comment-0-ariainfo"
+  <form
+    autoComplete="off"
+    className="ReportCommentForm-root"
+    id="report-comments-form"
+    onSubmit={[Function]}
   >
-    A dialog for reporting comments
-  </div>
-  <div
-    className="Popover-popover Popover-top"
-    style={
-      Object {
-        "left": 0,
-        "opacity": 0,
-        "pointerEvents": "none",
-        "position": "absolute",
-        "top": 0,
-      }
-    }
-  >
-    <div
-      className="Arrow-root"
-      style={Object {}}
-    />
-    <div
-      className="ReportPopover-root coral coral-reportPopover"
-    >
-      <button
-        aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
+    <div>
+      <div
+        className="ReportCommentForm-title"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          close
-        </i>
-      </button>
-      <form
-        autoComplete="off"
-        className="ReportCommentForm-root"
-        id="report-comments-form"
-        onSubmit={[Function]}
+        Report This Comment
+      </div>
+      <div
+        className="ReportCommentForm-heading"
       >
-        <div
-          className="Box-root HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
-        >
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
-          >
-            Report This Comment
-          </h1>
+        Why are you reporting this comment?
+      </div>
+      <ul
+        className="ReportCommentForm-list"
+      >
+        <li>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-half"
+            className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
           >
-            <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
-            >
-              Why are you reporting this comment?
-            </p>
-            <ul
-              className="ReportCommentForm-list"
-            >
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_OFFENSIVE"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
-                  >
-                    This comment is offensive
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-DISAGREE"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="DISAGREE"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-DISAGREE"
-                  >
-                    I disagree with this comment
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_SPAM"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
-                  >
-                    This looks like an ad or marketing
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_OTHER"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
-                  >
-                    Other
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`render popup expanded 1`] = `
-<div
-  aria-hidden={false}
-  aria-labelledby="report-popover-comment-0-ariainfo"
-  id="report-popover-comment-0"
-  role="dialog"
->
-  <div
-    className="AriaInfo-root"
-    id="report-popover-comment-0-ariainfo"
-  >
-    A dialog for reporting comments
-  </div>
-  <div
-    className="Popover-popover Popover-top"
-    style={
-      Object {
-        "left": 0,
-        "opacity": 0,
-        "pointerEvents": "none",
-        "position": "absolute",
-        "top": 0,
-      }
-    }
-  >
-    <div
-      className="Arrow-root"
-      style={Object {}}
-    />
-    <div
-      className="ReportPopover-root coral coral-reportPopover"
-    >
-      <button
-        aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          close
-        </i>
-      </button>
-      <form
-        autoComplete="off"
-        className="ReportCommentForm-root"
-        id="report-comments-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="Box-root HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
-        >
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
-          >
-            Report This Comment
-          </h1>
-          <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-half"
-          >
-            <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
-            >
-              Why are you reporting this comment?
-            </p>
-            <ul
-              className="ReportCommentForm-list"
-            >
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={true}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_OFFENSIVE"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
-                  >
-                    This comment is offensive
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-DISAGREE"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="DISAGREE"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-DISAGREE"
-                  >
-                    I disagree with this comment
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_SPAM"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
-                  >
-                    This looks like an ad or marketing
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
-                    name="reason"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="COMMENT_REPORTED_OTHER"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
-                  >
-                    Other
-                  </label>
-                </div>
-              </li>
-            </ul>
-            <label
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
-              htmlFor="comments-reportCommentForm-aditionalDetails--comment-0"
-            >
-              Please leave any additional information that may be helpful to our moderators. (Optional)
-            </label>
-            <div>
-              <div>
-                <textarea
-                  className="ReportCommentForm-textarea"
-                  disabled={false}
-                  id="comments-reportCommentForm-aditionalDetails--comment-0"
-                  name="additionalDetails"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  value=""
-                />
-                <p
-                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ReportCommentForm-textareaInfo"
-                >
-                  Max. 500 Characters
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-reportPopover-cancelButton"
-              data-color="primary"
-              data-variant="regular"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled coral coral-reportPopover-submitButton"
-              data-color="primary"
-              data-variant="filled"
+            <input
+              checked={false}
+              className="RadioButton-input"
               disabled={false}
+              id="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
+              name="reason"
               onBlur={[Function]}
+              onChange={[Function]}
               onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
+              type="radio"
+              value="COMMENT_REPORTED_OFFENSIVE"
+            />
+            <label
+              className="RadioButton-label"
+              htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
             >
-              Submit
-            </button>
+              This comment is offensive
+            </label>
+          </div>
+        </li>
+        <li>
+          <div
+            className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+          >
+            <input
+              checked={false}
+              className="RadioButton-input"
+              disabled={false}
+              id="reportComment-popover--reason-DISAGREE"
+              name="reason"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="radio"
+              value="DISAGREE"
+            />
+            <label
+              className="RadioButton-label"
+              htmlFor="reportComment-popover--reason-DISAGREE"
+            >
+              I disagree with this comment
+            </label>
+          </div>
+        </li>
+        <li>
+          <div
+            className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+          >
+            <input
+              checked={false}
+              className="RadioButton-input"
+              disabled={false}
+              id="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+              name="reason"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="radio"
+              value="COMMENT_REPORTED_SPAM"
+            />
+            <label
+              className="RadioButton-label"
+              htmlFor="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+            >
+              This looks like an ad or marketing
+            </label>
+          </div>
+        </li>
+        <li>
+          <div
+            className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+          >
+            <input
+              checked={false}
+              className="RadioButton-input"
+              disabled={false}
+              id="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+              name="reason"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="radio"
+              value="COMMENT_REPORTED_OTHER"
+            />
+            <label
+              className="RadioButton-label"
+              htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+            >
+              Other
+            </label>
+          </div>
+        </li>
+      </ul>
+      <label
+        className="ReportCommentForm-heading"
+        htmlFor="comments-reportCommentForm-aditionalDetails--comment-0"
+      >
+        Additional information 
+        <span
+          className="ReportCommentForm-detail"
+        >
+          Optional
+        </span>
+      </label>
+      <div
+        className="ReportCommentForm-detail"
+      >
+        Please leave any additional information that may be helpful to our moderators.
+      </div>
+      <div>
+        <div
+          className="ReportCommentForm-textAreaContainer"
+        >
+          <textarea
+            className="ReportCommentForm-textarea"
+            disabled={false}
+            id="comments-reportCommentForm-aditionalDetails--comment-0"
+            name="additionalDetails"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value=""
+          />
+          <div
+            className="ReportCommentForm-textareaInfo"
+            color="textSecondary"
+          >
+            Max. 500 Characters
           </div>
         </div>
-      </form>
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
+      >
+        <button
+          className="BaseButton-root Button-base Button-outlined Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-cancelButton ReportCommentForm-cancel"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-reportPopover-submitButton"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 `;
 
 exports[`report comment as offensive 1`] = `
 <div
-  aria-hidden={false}
-  aria-labelledby="report-popover-comment-0-ariainfo"
-  id="report-popover-comment-0"
-  role="dialog"
+  className="coral coral-comment coral coral-reacted-0"
+  data-testid="comment-comment-0"
 >
   <div
-    className="AriaInfo-root"
-    id="report-popover-comment-0-ariainfo"
-  >
-    A dialog for reporting comments
-  </div>
-  <div
-    className="Popover-popover Popover-top"
-    style={
-      Object {
-        "left": 0,
-        "opacity": 0,
-        "pointerEvents": "none",
-        "position": "absolute",
-        "top": 0,
-      }
-    }
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="Arrow-root"
-      style={Object {}}
-    />
-    <div
-      className="ReportPopover-root coral coral-reportPopover"
+      className="Indent-root"
     >
-      <button
-        aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          close
-        </i>
-      </button>
       <div
-        className="Box-root HorizontalGutter-root ThankYou-root HorizontalGutter-full"
+        className="coral coral-indent coral-indent-0"
       >
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ThankYou-title"
+        <div
+          className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
+          role="article"
         >
-          Thank you!
-        </h1>
-        <div>
-          <p
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          <div
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+              >
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="username-popover-comment-0"
+                    className="BaseButton-root coral coral-username coral-comment-username"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span
+                      className="Username-root"
+                    >
+                      Markus
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="username-popover-comment-0-ariainfo"
+                    id="username-popover-comment-0"
+                    role="dialog"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="username-popover-comment-0-ariainfo"
+                    >
+                      A popover with more user information
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+              >
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <time
+                    className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+              />
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <div
+              className="HTMLContent-root coral coral-content coral-comment-content"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
+              }
+            />
+            <div
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+            >
+              <div
+                className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+              >
+                <button
+                  aria-label="Respect"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                  data-color="mono"
+                  data-testid="comment-reaction-button"
+                  data-variant="text"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    thumb_up
+                  </i>
+                </button>
+                <button
+                  aria-label="Reply"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                  data-active={false}
+                  data-color="mono"
+                  data-testid="comment-reply-button"
+                  data-variant="text"
+                  disabled={false}
+                  id="comments-commentContainer-replyButton-comment-0"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    reply
+                  </i>
+                </button>
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="permalink-popover-comment-0"
+                    aria-label="Share"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                    data-active={false}
+                    data-color="mono"
+                    data-variant="text"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      share
+                    </i>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="permalink-popover-comment-0-ariainfo"
+                    id="permalink-popover-comment-0"
+                    role="dialog"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="permalink-popover-comment-0-ariainfo"
+                    >
+                      A dialog showing a permalink to the comment
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+              >
+                <div
+                  className="coral-reportedButton coral-comment-reportedButton ReportButton-reported"
+                  data-testid="comment-reported-button"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm ReportButton-icon"
+                    >
+                      flag
+                    </i>
+                    Reported
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="CallOut-root CallOut-positive CallOut-leftBorder"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+      >
+        <div
+          className="CallOut-icon CallOut-positive CallOut-leftIcon"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            check_circle
+          </i>
+        </div>
+        <div
+          className="CallOut-content"
+        >
+          <div
+            className="CallOut-title CallOut-titleMargin CallOut-titleBold"
+          >
+            Thank you!
+          </div>
+          <div
+            className="CallOut-body"
           >
             We’ve received your message. Reports from members like you keep the community safe.
-             
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined ThankYou-dismiss"
-              data-color="primary"
-              data-variant="underlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Dismiss
-            </button>
-          </p>
+          </div>
         </div>
+        <button
+          className="BaseButton-root CallOut-closeButton"
+          data-testid="callout-close-button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            close
+          </i>
+        </button>
       </div>
     </div>
   </div>

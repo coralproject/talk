@@ -48,7 +48,7 @@ import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
 import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
-import ReportButtonContainer from "./ReportButton";
+import ReportFlowContainer, { ReportButton } from "./ReportFlow";
 import ShowConversationLink from "./ShowConversationLink";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
@@ -86,6 +86,7 @@ interface State {
   showReplyDialog: boolean;
   showEditDialog: boolean;
   editable: boolean;
+  showReportFlow: boolean;
 }
 
 export class CommentContainer extends Component<Props, State> {
@@ -95,6 +96,7 @@ export class CommentContainer extends Component<Props, State> {
     showReplyDialog: false,
     showEditDialog: false,
     editable: this.isEditable(),
+    showReportFlow: false,
   };
 
   constructor(props: Props) {
@@ -193,6 +195,17 @@ export class CommentContainer extends Component<Props, State> {
     return false;
   };
 
+  private onReportButtonClicked = () => {
+    this.setState({
+      showReportFlow: !this.state.showReportFlow,
+    });
+  };
+  private onCloseReportFlow = () => {
+    this.setState({
+      showReportFlow: false,
+    });
+  };
+
   public render() {
     const {
       comment,
@@ -276,6 +289,7 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
       can(this.props.viewer, Ability.MODERATE) &&
       !this.props.hideModerationCarat;
+
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -428,13 +442,11 @@ export class CommentContainer extends Component<Props, State> {
                       {!banned &&
                         !suspended &&
                         !this.props.hideReportButton && (
-                          <ReportButtonContainer
-                            comment={comment}
-                            viewer={viewer}
-                            className={CLASSES.comment.actionBar.reportButton}
-                            reportedClassName={
-                              CLASSES.comment.actionBar.reportedButton
-                            }
+                          <ReportButton
+                            onClick={this.onReportButtonClicked}
+                            open={this.state.showReportFlow}
+                            viewer={this.props.viewer}
+                            comment={this.props.comment}
                           />
                         )}
                     </ButtonsBar>
@@ -452,6 +464,13 @@ export class CommentContainer extends Component<Props, State> {
                   )}
                 </>
               }
+            />
+          )}
+          {this.state.showReportFlow && (
+            <ReportFlowContainer
+              viewer={viewer}
+              comment={comment}
+              onClose={this.onCloseReportFlow}
             />
           )}
           {showReplyDialog && !comment.deleted && (
@@ -499,7 +518,8 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             scheduledDeletionDate
             ...UsernameWithPopoverContainer_viewer
             ...ReactionButtonContainer_viewer
-            ...ReportButtonContainer_viewer
+            ...ReportFlowContainer_viewer
+            ...ReportButton_viewer
             ...CaretContainer_viewer
           }
         `,
@@ -547,10 +567,15 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
                 total
               }
             }
+            viewerActionPresence {
+              dontAgree
+              flag
+            }
             ...ReplyCommentFormContainer_comment
             ...EditCommentFormContainer_comment
             ...ReactionButtonContainer_comment
-            ...ReportButtonContainer_comment
+            ...ReportFlowContainer_comment
+            ...ReportButton_comment
             ...CaretContainer_comment
             ...RejectedTombstoneContainer_comment
             ...AuthorBadgesContainer_comment
