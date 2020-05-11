@@ -1,4 +1,3 @@
-import cluster from "cluster";
 import cons from "consolidate";
 import cors from "cors";
 import express, { Express } from "express";
@@ -225,9 +224,9 @@ export default function createMetricsServer(config: Config) {
     );
   }
 
-  // If we are running in concurrency mode, and we are the master, we should
-  // setup the aggregator for the cluster metrics.
-  if (cluster.isMaster && config.get("concurrency") > 1) {
+  // If we are running in concurrency mode, we should setup the aggregator for
+  // the cluster metrics.
+  if (config.get("concurrency") > 1) {
     // Create the aggregator registry for metrics.
     const aggregatorRegistry = new AggregatorRegistry();
 
