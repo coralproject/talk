@@ -107,12 +107,6 @@ const config = convict({
     default: 3000,
     env: "PORT",
   },
-  cluster_metrics_port: {
-    doc: "The port to bind for cluster metrics.",
-    format: "port",
-    default: 3001,
-    env: "CLUSTER_METRICS_PORT",
-  },
   metrics_username: {
     doc: "The username to use to authenticate to the metrics endpoint.",
     format: "String",
@@ -124,8 +118,13 @@ const config = convict({
     format: "String",
     default: "",
     env: "METRICS_PASSWORD",
-
     sensitive: true,
+  },
+  metrics_port: {
+    doc: "The port that the metrics handler should be mounted.",
+    format: "port",
+    default: 9000,
+    env: "METRICS_PORT",
   },
   dev_port: {
     doc: "The port to bind for the Webpack Dev Server.",

@@ -40,21 +40,14 @@ const NoIntrospection = (context: ValidationContext) => ({
 const graphqlMiddleware = (
   config: Config,
   requestOptions: ExpressGraphQLOptionsFunction,
-  metrics?: Metrics
+  metrics: Metrics
 ): Handler => {
   const extensions: Array<() => GraphQLExtension> = [
     () => new ErrorWrappingExtension(),
     () => new LoggerExtension(),
+    // Pass the metrics to the extension so it can increment.
+    () => new MetricsExtension(metrics),
   ];
-
-  // Add the metrics extension if provided.
-  if (metrics) {
-    extensions.push(
-      () =>
-        // Pass the metrics to the extension so it can increment.
-        new MetricsExtension(metrics)
-    );
-  }
 
   // Create a new baseOptions that will be merged into the new options.
   const baseOptions: Omit<GraphQLOptions, "schema"> = {

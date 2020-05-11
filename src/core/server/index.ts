@@ -4,16 +4,15 @@ import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
 import { Db } from "mongodb";
-import { AggregatorRegistry, collectDefaultMetrics } from "prom-client";
+import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import { AppOptions, createApp, listenAndServe } from "coral-server/app";
-import { basicAuth } from "coral-server/app/middleware/basicAuth";
-import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
-import { JSONErrorHandler } from "coral-server/app/middleware/error";
-import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
-import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
+import createMetricsServer, {
+  AppOptions,
+  createApp,
+  listenAndServe,
+} from "coral-server/app";
 import config, { Config } from "coral-server/config";
 import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
 import getTenantSchema from "coral-server/graph/schema";
@@ -274,60 +273,13 @@ class Server {
       signingConfig: this.signingConfig,
     });
 
-    // If we are running in concurrency mode, and we are the master, we should
-    // setup the aggregator for the cluster metrics.
-    if (cluster.isMaster && this.config.get("concurrency") > 1) {
-      // Create the aggregator registry for metrics.
-      const aggregatorRegistry = new AggregatorRegistry();
-
-      // Setup the cluster metrics server.
-      const metricsServer = express();
-
-      // Setup access logger.
-      metricsServer.use(accessLogger);
-
-      // Add basic auth if provided.
-      const username = this.config.get("metrics_username");
-      const password = this.config.get("metrics_password");
-      if (username && password) {
-        metricsServer.use("/cluster_metrics", basicAuth(username, password));
-        logger.info("adding authentication to metrics endpoint");
-      } else {
-        logger.info(
-          "not adding authentication to metrics endpoint, credentials not provided"
-        );
-      }
-
-      // Cluster metrics will be served on /cluster_metrics.
-      metricsServer.get(
-        "/cluster_metrics",
-        noCacheMiddleware,
-        (req, res, next) => {
-          aggregatorRegistry.clusterMetrics((err, metrics) => {
-            if (err) {
-              return next(err);
-            }
-
-            res.set("Content-Type", aggregatorRegistry.contentType);
-            res.send(metrics);
-          });
-        }
-      );
-
-      // Error handling.
-      metricsServer.use(notFoundMiddleware);
-      metricsServer.use(errorLogger);
-      metricsServer.use(JSONErrorHandler());
-
-      const port = this.config.get("cluster_metrics_port");
-
-      // Star the server listening for cluster metrics.
-      await listenAndServe(metricsServer, port);
-
-      logger.info(
-        { port, path: "/cluster_metrics" },
-        "now listening for cluster metrics"
-      );
+    // We only want to setup a metrics server iff the concurrency is 1 or the
+    // concurrency is greater than one and this is the master process.
+    if (config.get("concurrency") === 1 || cluster.isMaster) {
+      // Configure the metrics server and start it.
+      const port = this.config.get("metrics_port");
+      await listenAndServe(createMetricsServer(this.config), port);
+      logger.info({ port }, "now listening for metrics");
     }
   }
 
@@ -370,16 +322,12 @@ class Server {
       notifierQueue: this.tasks.notifier,
       disableClientRoutes,
       persistedQueryCache: this.persistedQueryCache,
+      metrics: createMetrics(),
       persistedQueriesRequired:
         this.config.get("env") === "production" &&
         !this.config.get("enable_graphiql"),
       migrationManager: this.migrationManager,
     };
-
-    // Only enable the metrics server if concurrency is set to 1.
-    if (this.config.get("concurrency") === 1) {
-      options.metrics = createMetrics();
-    }
 
     // Create the Coral App, branching off from the parent app.
     const app: Express = await createApp(options);

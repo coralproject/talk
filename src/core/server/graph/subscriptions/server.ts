@@ -180,16 +180,13 @@ export function formatResponse(
     // Log out the query.
     logQuery(context, query, persisted);
 
-    // Increment the metrics if enabled.
-    if (metrics) {
-      // Get the request metadata.
-      const { operation, operationName } = getOperationMetadata(query);
-      if (operation && operationName) {
-        // Increment the graph query value, tagging with the name of the query.
-        metrics.executedGraphQueriesTotalCounter
-          .labels(operation, operationName)
-          .inc();
-      }
+    // Get the request metadata.
+    const { operation, operationName } = getOperationMetadata(query);
+    if (operation && operationName) {
+      // Increment the graph query value, tagging with the name of the query.
+      metrics.executedGraphQueriesTotalCounter
+        .labels(operation, operationName)
+        .inc();
     }
 
     if (value.errors && value.errors.length > 0) {
