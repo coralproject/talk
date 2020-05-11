@@ -1,0 +1,596 @@
+ro:
+  admin_sidebar:
+    sort_comments: 'Sortează comentariile'
+    view_options: 'Vezi opțiunile'
+  already_flagged_username: 'Ai marcat deja acest nume de utilizator.'
+  alwayspremoddialog:
+    are_you_sure: 'Ești sigur ca vrei să pre-moderezi continuu {0}?'
+    always_premod_user: 'Pre-moderează utilizatorul continuu'
+    cancel: Anulează
+    note: 'Notă: {0}'
+    note_always_premod_user: 'Pre-moderarea continuă a acestui utilizator va plasa toate comentariile sale în lista de pre-moderare.'
+    yes_always_premod_user: 'Confirm, pre-moderează continuu utizatorul'
+  bandialog:
+    are_you_sure: 'Ești sigur că vrei să blochezi {0}?'
+    ban_user: 'Blochează utilizatorul?'
+    banned_user: 'Utlizator blocat'
+    cancel: Anulează
+    email_message_ban: "Bună {0},\n\nCineva cu access la contul tău a încălcat regulile comunității noastre. În consecință, contul tău a fost blocat. Nu vei mai putea adăuga comentarii, reacționa la comentariile altor utilizatori sau raporta alte comentarii. Dacă vei considera că este o eroare, te rugăm să contactezi echipa noastră."
+    note: 'Notă: {0}'
+    note_ban_user: 'Blocând utilizatorul nu îi va mai permite acestuia/acesteia de a adăuga comentarii, reacționa la comentariile altor utilizatori sau raporta alte comentarii.'
+    note_reject_comment: 'Blocând acest utilizatorul va plasa comentariile sale in lista de comentarii respinse.'
+    notify_ban_description: 'Utilizatorul va fi notificat prin email cu privire la blocarea sa din comunitate.'
+    notify_ban_headline: 'Notifică utlizatorul cu privire la blocarea sa'
+    send: Trimite
+    write_a_message: 'Scrie un mesaj'
+    yes_ban_user: 'Confirm, blochează utilizatorul'
+  bio_offensive: 'Aceasta descriere este ofensatoare'
+  cancel: Anulează
+  characters_remaining: 'caractere rămase'
+  comment:
+    anon: Anonim
+    ban_user: 'Blochează utilizatorul'
+    comment: 'Postează un comentariu'
+    edited: Editat
+    flagged: Marcat
+    undo_reject: Anulează
+    view_context: 'Vezi contextul'
+    edit_history: 'Editează istoricul'
+    show_edit_history: 'Afișeză istoricul editărilor'
+    hide_edit_history: 'Ascunde istoricul editărilor'
+  comment_box:
+    cancel: Anulează
+    characters_remaining: 'caractere rămase'
+    comment: 'Postează un comentariu'
+    comment_post_banned_word: 'Comentariul tău conține unul sau mai multe cuvinte nepermise, astfel încat nu va fi publicat. In cazul in care ești de părere ca este o eroare, te rugăm sa contactezi echipa noastră.'
+    comment_post_notif: 'Comentariul tău a fost postat.'
+    comment_post_notif_premod: 'Mulțumim pentru postare. Echipa noastra va revizui comentariul tău în scurt timp.'
+    name: Nume
+    post: Postează
+    reply: Răspunde
+  comment_history_blank:
+    info: 'Un istoric al comentariilor tale va apărea aici'
+    title: 'Nu ai lăsat niciun comentariu'
+  comment_offensive: 'Acest comentariu este ofensator'
+  comment_plural: Comentarii
+  comment_post_banned_word: 'Comentariul tău conține unul sau mai multe cuvinte nepermise, astfel încat nu va fi publicat. In cazul in care ești de părere ca este o eroare, te rugăm sa contactezi echipa noastră.'
+  comment_post_notif: 'Comentariul tău a fost postat.'
+  comment_post_notif_premod: 'Mulțumim pentru postare. Echipa noastra va revizui comentariul tău în scurt timp.'
+  comment_singular: Comentariu
+  common:
+    contains_link: 'Conține link'
+    copy: Copiază
+    copied: 'Copiat'
+    notsupported: 'Nesuportat'
+    error: 'A apărut o eroare'
+    reaction: Reacție
+    reactions: Reacții
+    reply: 'Răspuns' # noun, singular
+    replies: 'Răspunsuri'
+    story: 'Subiect'
+  community:
+    account_creation_date: 'Dată creare cont'
+    active: Activ
+    admin: Administrator
+    ads_marketing: 'Acesta pare a fi publicitate'
+    all: 'Tot'
+    always_premod: 'Pre-moderat continuu'
+    are_you_sure: 'Ești sigur ca vrei sa blochezi {0}?'
+    ban_user: 'Blochează utlizatorul?'
+    banned: Blochat
+    banned_user: 'Utilizator blocat'
+    cancel: Anulează
+    commenter: Comentator
+    dont_like_username: 'Nu apreciez numele de utilizator'
+    filter_users: 'Filtrează utilizatorii'
+    filter_role: Rol
+    flaggedaccounts: 'Utilizatori raportați'
+    flags: Marcaje
+    impersonating: Impersonare
+    loading: 'Incărcare rezultate'
+    moderator: Moderator
+    newsroom_role: 'Rol de Newsroom'
+    no_flagged_accounts: 'Lista de nume de utilizator raportaț este goală.'
+    no_results: 'Niciun utilizator cu acest nume sau adresă de email nu a fost găsit.'
+    offensive: Ofensator
+    other: Altele
+    people: Persoane
+    role: 'Selectează rol...'
+    select_status: 'Selectează status...'
+    spam_ads: Spam/Publicitate
+    staff: Membru al echipei
+    status: Status
+    suspended: Suspendat
+    username_and_email: 'Nume de utilizator sau email'
+    yes_ban_user: 'Confirm blocarea utilizatorului'
+  configure:
+    access_message: 'Trebuie să fii administrator pentru a putea accessa setările de configurație. Te rugăm să contactezi un administrator.'
+    apply: Aplică
+    banned_word_text: 'Comentariile ce conțin aceste cuvinte sau fraze vor fi șterse automat din fluxul de comentarii. Scrie un cuvânt si apasă tasta Enter sau Tab pentru a adăuga. Poți de asemenea sa faci paste unei liste separate prin virgulă.'
+    banned_words_title: 'Lista de cuvinte nepermise'
+    close: Închide
+    close_after: 'Închide comentarii după'
+    close_stream: 'Închide flux'
+    close_stream_configuration: 'Acest flux de comentarii este momentan închis. Deschizând fluxul, noi comentarii pot fi postate.'
+    closed_comments_desc: 'Scrie un mesaj pentru a fi afișat atunci cânf fluxul de comentarii este închis si noi comentarii nu sunt acceptate.'
+    closed_comments_label: 'Scrie uin mesaj...'
+    closed_stream_settings: 'Mesaj pentru flux închis'
+    comment_count_error: 'Te rugăm sa introduci un număr valid.'
+    comment_count_header: 'Limitează lungimea conținutului'
+    comment_count_text_post: caractere
+    comment_count_text_pre: 'Comentariile vor fi limitate la'
+    comment_settings: Setări
+    comment_stream: 'Flux de comentarii'
+    comment_stream_will_close: 'Fluxul de comentarii va fi închis'
+    community: Comunitate
+    configure: Configurează
+    copy_and_paste: 'Copiază acest cod in CMS-ul tău pentru a integra secțiunea de comentarii in articolele tale.'
+    custom_css_url: 'URL-ul fișierului personalizat de CSS'
+    custom_css_url_desc: 'URL-ul fișierului de CSS ce va suprascrie stilul implicit al fluxului de comentarii integrat. Poate fi intern sau extern.'
+    custom_admin_css_url: 'URL-ul fișierului personalizat de CSS pentru panoului de administrare'
+    custom_admin_css_url_desc: 'URL-ul fișierului de CSS ce va suprascrie stilul implicit al panoului de administrare. Poate fi intern sau extern.'
+    days: Zile
+    description: 'Schimbă setările comentariilor pentru acest subiect.'
+    disable_commenting_desc: 'Scrie un mesaj pentru a fi afișat in momentul in care comentariile sunt dezactivate.'
+    disable_commenting_title: 'Dezactivează comentariile pentru intregul site'
+    domain_list_text: 'Introdu domeniile pentru care vrei sa permiti utilizare sistemului Talk. De exemplu: URL-ul aplicației tale de test sau de producție (localhost:3000 staging.domain.com domain.com).'
+    domain_list_title: 'Domenii permise'
+    edit_comment_timeframe_heading: 'Editează durata comentariului'
+    edit_comment_timeframe_text_post: 'secunde pentru a edita comentariul.'
+    edit_comment_timeframe_text_pre: 'Comentariile vor avea'
+    edit_info: 'Editează Info'
+    embed_comment_stream: 'Integreazp fluxul de comentarii'
+    enable_pre_moderation: 'Activează pre-moderarea'
+    enable_pre_moderation_text: 'Moderatorii trebuie să aprobe orice comentariu înainte ca acesta sa fie publicat.'
+    enable_premod: 'Activează pre-moderarea'
+    enable_premod_description: 'Moderatorii trebuie să aprobe orice comentariu înainte ca acesta sa fie publicat.'
+    enable_premod_links: 'Pre-modereaza comentariile ce includ linkuri'
+    enable_premod_links_description: 'Moderatorii trebuie să aprobe orice comentariu ce conține linkuri înainte ca acesta sa fie publicat.'
+    enable_premod_links_text: 'Moderatorii trebuie să aprobe orice comentariu ce conține linkuri înainte ca acesta sa fie publicat.'
+    enable_questionbox: 'Întreabă cititorii o întrebare'
+    enable_questionbox_description: 'Această întrebare va apărea in partea de sus a fluxului de comentarii. Întreabă cititorii despre un subiect anume al articolului sau postează o întrebare in legătură cu discuția curentă etc.'
+    hours: Ore
+    code_of_conduct_summary: 'Rezumatul Codului de Maniere'
+    code_of_conduct_summary_desc: 'Acest mesaj va apărea înaintea oricărui flux de comentarii pe site-ul tău. Click aici pentru a afla mai multe despre scrierea Codului de Maniere'
+    include_an_icon: 'Include o iconiță'
+    include_question_here: 'Scrie aici întrbarea ta:'
+    include_text: 'Include textul tău aici.'
+    moderate: Moderează
+    moderation_settings: 'Setări de moderare'
+    open: Deschide
+    open_stream: 'Deschide flux'
+    open_stream_configuration: 'Acest flux de comentarii este acum activ. închizându-l, niciun comentariu nou nu va putea fi postat și toate comentariile anterioare vor for afișate.'
+    organization_contact_email: 'Email-ul contactului organizației'
+    organization_info_copy: 'Folosim aceste informații in notificările email generate de sistemul Talk. Acesta conectează mesajele cu organizația ta si de asemenea furnizează o modalitate de a permite utilizatorilor să te contacteze în cazul în care au probleme legate de conturile lor.'
+    organization_info_copy_2: 'Recomandăm crearea unui cont generic de email (de exemplu: community@yournewsroom.com). Astfel va rămâne consistent de-a lungul timpului și nici nu va expune vreo informație pe care utlizatorii ar putea-o folosi in cazul în care conturile lor vor fi blocate.'
+    organization_information: 'Informațiile organizației'
+    organization_name: 'Numele organizației'
+    suspect_or_forbidden_words_placeholder: 'Cuvânt sau frază'
+    product_guide_link: 'Manualul produsului'
+    report_bug_or_feedback: 'Raportează un bug sau trimite feedback'
+    require_email_verification: 'Necesită verificarea adresei de email'
+    require_email_verification_text: 'Utilizatorii noi trebuie sa își verifice adresa de email înainte de a posta un comentariu'
+    save: Salvează
+    save_changes: 'Salveză modificările'
+    save_changes_dialog:
+      cancel: Anulează
+      copy: 'Ai făcut modificări fără sa salvezi. Dorești sa salvezi sau sa ignori modificările?'
+      discard: Ignoră
+      save_settings: 'Salvează setările'
+      unsaved_changes: 'Modificări nesalvate'
+    shortcuts: Scurtături
+    sign_out: 'Delogare'
+    stories: Subiecte
+    stream_settings: 'Setări flux'
+    suspect_word_text: 'Comentariile ce conțin aceste cuvinte sau fraze (case-sensitive) vor fi accentuate in fluxul de comentarii. Scrie un cuvînt și apasă Enter sau Tab pentru adăugare. De altfel, poți să copiezi o listă de cuvinte separate prin virgulă.'
+    suspect_word_title: 'Lista de cuvinte suspecte'
+    tech_settings: 'Setări tehnice'
+    title: 'Configurare flux de comentarii'
+    view_last_version: 'Vezi ulitma versiune'
+    weeks: Săptămâni
+    wordlist: 'Cuvinte blocate'
+  confirm_email:
+    click_to_confirm: 'Click mai jos pentru a confirma adresa ta de email.'
+    confirm: Confirmă
+    email_confirmation: 'Adresă de email confirmată'
+  continue: Continuă
+  createdisplay:
+    check_the_form: 'Formular invalid. Te rugăm să verific câmpurile'
+    continue: 'Continuă cu utilizatorul de Facebook'
+    error_create: 'Eroare schimbând numele de utilizator'
+    fake_comment_body: 'Acesta este un exemplu de comentariu. Cititorii pot să își împărtașească opiniile cu ajutorul Newsroom-ului în secțiunea de comentarii.'
+    fake_comment_date: 'Acum 1 minut'
+    if_you_dont_change_your_name: 'Dacă nu îți schimbi numele de utilizator la acest pas atunci vom folosi numele tău de pe Facebook.'
+    required_field: 'Câmp necesar'
+    save: Salvează
+    special_characters: 'Numele de utilizator poate conține doar litere cifre si _'
+    username: 'Nume de utilizator'
+    write_your_username: 'Editează-ți numele de utilizator'
+    your_username: 'Numele tău de utilizator apare la fiecare comentariu pe care îl postezi.'
+  done: Terminat
+  edit_comment:
+    body_input_label: 'Editează acest comentariu'
+    edit_window_expired: 'Nu mai poți edita comentariul. Timpul a expirat. De ce nu postezi încă unul?'
+    edit_window_expired_close: Închide
+    edit_window_timer_prefix: 'Editează'
+    minute: minut
+    minutes_plural: minute
+    save_button: 'Salvează modificările'
+    second: secundă
+    seconds_plural: secunde
+  email:
+    banned:
+      body: 'In concordanță cu ghidul comunității The Coral Project’s, contul tău a fost banat. Nu mai poți adăuga comentarii, marca sau interacționa cu comunitatea noastră.'
+      subject: 'Contul tău a fost banat'
+    confirm:
+      confirm_email: 'Confirmă Email-ul'
+      has_been_requested: 'Un email de confirmare a fost solicitat pentru urmatorul cont:'
+      if_you_did_not: 'Dacă nu ai fost tu cel care a facut această solicitare atunci poți ignora acest email.'
+      subject: 'Email de confirmare'
+      to_confirm: 'Pentru a confirma acest cont te rugăm sa vizitezi următorul link:'
+    password_change:
+      body: "Parolă contului tau a fost schimbată.\n\nDacă nu ai fost tu cel care a facut această solicitare, contactează-ne la {0}."
+      subject: '{0} schimbăre de parola'
+    password_reset:
+      if_you_did: 'Daca ai făcut,'
+      please_click: 'te rugăm să apeși aici pentru a-ți reseta parola'
+      subject: 'Resetare de parolă'
+      we_received_a_request: 'Am primit o cerere de resetare parolă. Dacă nu ai fost tu cel care a solicitat această schimbare poți ignora acest email.'
+    suspended:
+      subject: 'Contul tău a fost suspendat'
+  embed_comments_tab: Comentarii
+  embedlink:
+    copy: 'Copiază in Clipboard'
+    copied: 'Copiat'
+  error:
+    ALREADY_EXISTS: 'Resursa există deja'
+    AUTHENTICATION: 'O eroare s-a petrecut în timpul autentificării contului tău.'
+    CANNOT_IGNORE_STAFF: 'Nu poți ignora membrii staff-ului.'
+    COMMENT_PARENT_NOT_VISIBLE: 'Comentariul la care răspunzi a fost șters sau nu mai există.'
+    COMMENT_TOO_SHORT: 'Comentariile trebuie să aibe mai mult de un caracter. Revizuiește textul și incearcă din nou.'
+    COMMENT_TOO_LONG: 'Comentariul depășește limita maximă de caractere'
+    COMMENTING_CLOSED: 'Comentariile sunt deja închise'
+    COMMENTING_DISABLED: 'Comentariile sunt momentan dezactivate pe site.'
+    confirm_password: 'Parolele nu se potrivesc. Încearcă din nou'
+    DELETION_NOT_SCHEDULED: 'Ștergerea nu a fost programată'
+    EDIT_USERNAME_NOT_AUTHORIZED: 'Nu aveți permisiunea de a vă modifica numele de utilizator.'
+    EDIT_WINDOW_ENDED: 'Nu mai puteți edita acest comentariu. Perioada de timp a expirat.'
+    email: 'Introduceți un email valid.'
+    EMAIL_ALREADY_VERIFIED: 'Adresa de email a fost deja verificată.'
+    EMAIL_IN_USE: 'Adresa de email este deja folosită'
+    email_not_verified: 'Adresa de email {0} nu este verificată.'
+    EMAIL_NOT_VERIFIED: 'Adresa de email nu este verificată.'
+    email_password: 'Combinația de e-mail și/sau parolă este incorectă.'
+    EMAIL_REQUIRED: 'O adresă de email este obligatorie'
+    EMAIL_VERIFICATION_TOKEN_INVALID: 'Token-ul de verificare a adresei de email este invalid.'
+    INCORRECT_PASSWORD: 'Parolă incorectă'
+    INVALID_ASSET_URL: 'URL-ul resursei este invalid'
+    LOGIN_MAXIMUM_EXCEEDED: 'Ai efectuat prea multe încercări nereușite. Te rog așteaptă.'
+    network_error: 'Conectare eșuată la server. Verificați conexiunea la internet și încercați din nou.'
+    NO_SPECIAL_CHARACTERS: 'Numele de utilizator poate conține doar litere, numere si _'
+    NOT_AUTHORIZED: 'Nu sunteți autorizat să efectuați această acțiune.'
+    NOT_FOUND: 'Resursa nu a fost gasită'
+    organization_contact_email: 'E-mailul organizației nu este valid.'
+    organization_name: 'Numele de organizație trebuie să conțină doar litere sau cifre.'
+    password: 'Parola trebuie să fie de cel puțin 8 caractere'
+    PAGE_NOT_AVAILABLE_ROLE: 'Această pagină este destinată doar folosirii echipei. Vă rugăm să contactați un administrator dacă doriți să vă alăturați acestei echipe.'
+    PASSWORD_INCORRECT: 'Parola ta curentă a fost introdusă incorect'
+    PASSWORD_LENGTH: 'Parola este prea scurtă'
+    PASSWORD_REQUIRED: 'Trebuie să introduci o parolă'
+    PASSWORD_RESET_TOKEN_INVALID: 'Linkul de resetare a parolei este invalid.'
+    PROFANITY_ERROR: 'Numele de utilizator nu trebuie să conțină profanitate. Vă rugăm să contactați administratorul dacă considerați că aceasta este o eroare.'
+    RATE_LIMIT_EXCEEDED: 'Limita a fost depășită'
+    required_field: 'Acest câmp este obligatoriu'
+    SAME_USERNAME_PROVIDED: 'Trebuie să trimiteți un nume de utilizator diferit.'
+    temporarily_suspended: 'În prezent, contul tău este suspendat. Acesta va fi reactivat {0}. Vă rugăm să ne contactați dacă aveți întrebări.'
+    unexpected: 'A apărut o eroare neașteptată. Ne pare rău!'
+    username: 'Numele de utilizator poate conține doar litere, numere si _'
+    USERNAME_IN_USE: 'Nume de utilizator deja în uz'
+    USERNAME_REQUIRED: 'Trebuie să introduci un nume de utilizator'
+  flag_comment: 'Raportează un comentariu'
+  flag_reason: 'Motivul raportării (opțional)'
+  flag_reasons:
+    username:
+      impersonating: 'Acest utilizator pretinde ca este altcineva'
+      nolike: 'Nu-mi place acest nume de utilizator'
+      offensive: 'Acest nume de utilizator este ofensator'
+      other: Altele
+      spam: 'Acest lucru arată ca un anunț / marketing'
+  flag_username: 'Raportează numele de utilizator'
+  flagged_usernames:
+    notify_approved: '{0} nume de utilizator aprobat {1}'
+    notify_changed: 'Utilizatorul {0} și-a schimbat numele de utilizator în {1}'
+    notify_flagged: '{0} nume de utilizator raportat {1}'
+    notify_rejected: '{0} nume de utilizator respins {1}'
+  flags:
+    reasons:
+      comment:
+        banned_word: 'Cuvânt banat'
+        comment_noagree: Dezacord
+        comment_offensive: Ofensator
+        comment_other: Altele
+        comment_spam: Spam
+        links: Link
+        suspect_word: 'Cuvânt suspect'
+        trust: Karma
+      user:
+        username_impersonating: Impersonare
+        username_nolike: Dislike
+        username_offensive: Ofensator
+        username_other: Altele
+        username_spam: Spam
+  framework:
+    banned_account_body: 'Asta înseamnă că nu poți scrie, raporta sau da Like la comentarii.'
+    banned_account_header: 'În prezent, contul tău este banat.'
+    changed_name:
+      msg: 'Schimbarea numelui de utilizator este analizată de către echipa noastră de moderare.'
+    comment: comentariu
+    comment_is_deleted: 'Acest comentator și-a șters contul.'
+    comment_is_hidden: 'Acest comentariu nu este disponibil.'
+    comment_is_ignored: 'Acest comentariu este ascuns deoarece ai ignorat acest utilizator.'
+    comment_is_rejected: 'Ați respins acest comentariu.'
+    comments: comentarii
+    configure_stream: Configurare
+    content_not_available: 'Acest conținut nu este disponibil'
+    edit: Editați
+    edit_name:
+      button: Trimite
+      error: 'Numele de utilizator poate conține doar litere, numere si _'
+      label: 'Noul nume de utilizator'
+      rejected: 'Alegerea numelui de utilizator a fost respinsă deoarece nu corespunde politicilor noastre de utilizator. Te rugăm să trimiți un alt nume pentru aprobarea moderatorului.'
+    my_comments: 'Comentariile mele'
+    my_profile: 'Profilul meu'
+    new_count: 'Vezi {0} mai multe {1}'
+    profile: Profil
+    show_all_comments: 'Afișează toate comentariile'
+    show_all_replies: 'Afișează toate răspunsurile'
+    show_more_replies: 'Afișează mai multe răspunsuri'
+    success_bio_update: 'Biografia ta a fost actualizată'
+    success_name_update: 'Numele tău de utlizator a fost actualizat'
+    success_update_settings: 'Modificările pe care le-ai făcut au fost aplicate fluxului de comentarii la acest articol'
+    view_more_comments: 'vezi mai multe comentarii'
+    view_reply: 'vezi răspuns'
+  from_settings_page: 'Din pagina de profil puteți vedea istoricul comentariilor.'
+  install:
+    add_organization:
+      description: 'Vă rugăm să ne spuneți numele organizației dvs. Acest lucru va apărea în e-mailuri atunci când invitați noi membri ai echipei.'
+      label: 'Numele Organizației'
+      save: Salvează
+    create:
+      confirm_password: 'Confirma parola'
+      email: 'Adresa de email'
+      organization_contact_email: 'Adresa de email a organizației'
+      password: Parola
+      save: Salvează
+      username: 'Nume de utilizator'
+    final:
+      close: 'Închideți acest program de instalare'
+      description: 'Vă mulțumim pentru instalarea Talk! Am trimis un e-mail pentru a vă confirma adresa de e-mail. În timp ce terminați configurarea contului, puteți începe să interacționați cu cititorii acum.'
+      launch: 'Lansează Talk'
+    initial:
+      description: 'Hai să setam comunitatea ta de Talk in câțiva pași.'
+      submit: 'Începe'
+    permitted_domains:
+      description: 'Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).'
+      submit: 'Termină instalarea'
+      title: 'Domenii permise'
+  like: Like
+  loading_results: 'Se încarcă rezultatele'
+  login:
+    email_address: 'Adresa de email'
+    forgot_password: 'Ți-ai uitat parola?'
+    go_back: 'Du-te înapoi'
+    sign_in: 'Conectare'
+    sign_in_button: 'Conectare'
+    sign_in_message: 'Conectează-te pentru a interacționa cu comunitatea ta.'
+    password: Parolă
+    reset_password_send_button: 'Recuperează Parola'
+    request_password: 'Cere una nouă.'
+    team_sign_in: 'Conectare de echipa'
+  marketing: 'Acest lucru arată ca un anunț / marketing'
+  moderate_all_streams: 'Moderează ceomntariile din toate poveștile'
+  moderate_this_stream: 'Moderează acest flux'
+  modqueue:
+    account: 'opțiuni de cont'
+    actions: Acțiuni
+    all: toate
+    all_streams: 'Toate fluxurile'
+    always_premod_user_actions: 'Pre-moderează utilizatorul întotdeauna'
+    approve: Acceptă
+    approved: Acceptat
+    ban_user: Blochează
+    ban_user_actions: 'Blochează utilizatorul'
+    billion: mld
+    close: Închide
+    empty_queue: 'Niciun comentariu rămas de moderat! Ai terminat tot. Îți poți face un ☕️'
+    flagged: marcat
+    jump_to_queue: 'Sari la o anumită coadă'
+    less_detail: 'Mai puține detalii'
+    likes: aprecieri
+    million: mil
+    mod_faster: 'Moderează mai repede cu combinații de taste'
+    moderate: 'Moderează →'
+    more_detail: 'Mai multe detalii'
+    navigation: Navigare
+    new: Nou
+    newest_first: 'Cel mai nou primul'
+    next_comment: 'Mergi la următorul comentariu'
+    next_queue: 'Schimbă coada'
+    notify_accepted: '{0} a acceptat comentariul "{1}"'
+    notify_edited: '{0} a modificat comentariul "{1}"'
+    notify_flagged: '{0} a marcat comentariul "{1}"'
+    notify_rejected: '{0} a respins comentariul "{1}"'
+    notify_reset: '{0} a resetat starea comentariului "{1}"'
+    oldest_first: 'Cel mai vechi primul'
+    premod: pre-mod
+    prev_comment: 'Mergi la comentariul precedent'
+    reject: Respinge
+    rejected: Respins
+    reply: Răspunde
+    reported: raportat
+    select_stream: 'Alege flux'
+    shift_key: ⇧
+    shortcuts: Scurtături
+    show_shortcuts: 'Afișează scurtături'
+    singleview: 'Mod focus'
+    sort: Sortează
+    suspend: 'Suspendă utilizator'
+    system_withheld: 'Oprit de sistem'
+    thismenu: 'Deschide acest meniu'
+    thousand: mii
+    toggle_search: 'Deschide căutarea'
+    try_these: 'Încearcă acestea'
+    view_more_shortcuts: 'Vezi mai multe scurtături'
+  my_comment_history: 'Istoricul comentariilor mele'
+  name: Nume
+  no_agree_comment: 'Nu sunt de acord cu acest comentariu'
+  no_like_bio: 'Nu-mi place această descriere'
+  no_like_username: 'Nu-mi place acest nume de utilizator'
+  other: Altele
+  password_reset:
+    change_password: 'Schimbă parola'
+    change_password_help: 'Te rugăm să introduci o nouă parolă pentru intrarea în cont. Ai grijă să fie sigură!'
+    confirm_new_password: 'Confirmă parola nouă'
+    mail_sent: 'Dacă ai un cont înregistrat, un link de resetare a parolei a fost trimis la adresa de email introdusă'
+    new_password: 'Parolă nouă'
+    new_password_help: 'Parola trebuie să aibă o lungime de cel puțin 8 caractere'
+    set_new_password: 'Schimbă parola'
+  permalink: Redistribuie
+  personal_info: 'Acest comentariu conține date personale'
+  post: Trimite
+  profile: Profil
+  profile_settings: Setări
+  reject_username:
+    description_notify: 'Suspendarea acestui utilizator va duce la blocarea temporară a contului său.'
+    description_reject: 'Dorești să blochezi temporar acest utilizator pentru {0}? Aceasta îl va bloca temporar până cand își înlocuiește {0}.'
+    email_message_reject: 'Un membru al comunității ți-a marcat recent numele de utilizator pentru verificare. Din cauza conținutului, utilizatorul tău a fost respins. Asta înseamnă că nu mai poți comenta, aprecia sau marca conținut până cand îți schimbi numele de utilizator. Te rugăm să ne scrii un email dacă ai întrebări sau nelămuriri.'
+    no_cancel: 'Nu anula'
+    send: Trimite
+    suspend_user: 'Suspendă utilizator'
+    title_notify: 'Notifică utilizatorul cu privire la suspendarea temporară'
+    title_reject: 'Am observat că ai respins un nume de utilizator'
+    username: 'numele de utilizator'
+    write_message: 'Scrie un mesaj'
+    yes_suspend: 'Da, anulează'
+  reject_username_dialog:
+    cancel: Anulează
+    description: 'Ajută-ne să înțelegem'
+    message: 'Motivul raportării (opțional)'
+    reason: Motiv
+    reject_username: 'Respinge numele de utilizator'
+    title: 'Respinge numele de utilizator'
+  reply: Răspunde
+  report: Raportează
+  report_notif: 'Îți mulțumim că ai raportat acest comentariu. Echipa noastră de moderare a fost anunțată și îl va verifica în curand.'
+  report_notif_remove: 'Raportul tău a fost șters.'
+  reported: Raportat
+  settings:
+    from_settings_page: 'Din pagina de profil îți poți vedea istoricul comentariilor.'
+    my_comment_history: 'Istoricul comentariilor mele'
+    profile: Profil
+    profile_settings: 'Setări de profil'
+    sign_in: 'Intră în cont'
+    to_access: 'să accesezi profilul'
+    user_no_comment: 'Nu ai lăsat niciun comentariu. Alătură-te conversației!'
+  step_1_header: 'Raportează o problemă'
+  step_2_header: 'Ajută-ne să înțelegem'
+  step_3_header: 'Mulțumim pentru contribuție'
+  stream:
+    all_comments: 'Toate comentariile'
+    comment_not_found: 'Acest comentariu a fost șters sau nu există.'
+    no_comments: 'Nu există comentarii încă. Scrie tu unul!'
+    no_comments_and_closed: 'Nu au fost comentarii la acest articol.'
+    temporarily_suspended: 'Conform regulilor comunității {0}, contul tău a fost suspendat temporar. Te rugăm să te realături conversației {1}.'
+  streams:
+    all: Toate
+    article: Știre
+    closed: Închis
+    empty_result: 'Nicio resursă nu se potrivește căutării. Încearcă să extinzi căutarea.'
+    filter_streams: 'Filtrează fluxuri'
+    most_recent_stories: 'Cele mai recente știri'
+    newest: 'Cele mai noi'
+    no_results: 'Niciun rezultat'
+    oldest: 'Cele mai vechi'
+    open: 'Deschis'
+    pubdate: 'Data publicării'
+    search: 'Caută'
+    search_results: 'Rezultatele căutării'
+    sort_by: 'Sortează după'
+    status: 'Statut flux'
+    stream_status: 'Statut flux'
+  suspenduser:
+    cancel: 'Anulează'
+    day: '{0} zile'
+    days: '{0} zile'
+    description_notify: 'Suspendarea acestui utilizator îi va dezactiva temporar contul.'
+    description_suspend: 'Îl suspenzi pe {0}. Acest comentariu va ajunge în coada de comentarii respinse, și {0} nu va mai putea aprecia, raporta, răspunde sau scrie până la sfarșitul suspendării.'
+    email_message_suspend: "Stimate {0},\n\nIn conformitate cu regulile comunității {1}, contul tău a fost suspendat temporar. Pe perioada suspendării, nu vei mai putea comenta, marca comentarii sau interacționa cu alți comentatori. Te invităm să revii în conversație {2}."
+    hour: '{0} ore'
+    hours: '{0} ore'
+    notify_suspend_until: 'Utilizatorul {0} a fost suspendat temporar. Această suspendare se va termina automat {1}.'
+    one_hour: '1 oră'
+    select_duration: 'Alege durata suspendării'
+    send: Trimite
+    suspend_user: 'Suspendă utilizatorul'
+    title_notify: 'Anunță utilizatorul despre suspendarea sa temporară'
+    title_suspend: 'Suspendă utilizatorul'
+    write_message: 'Scrie un mesaj'
+  thank_you: 'Pentru noi sunt importante feedback-ul și siguranța ta. Un moderator va verifica raportul tău.'
+  user:
+    bio_flags: 'opțiuni pentru această descriere'
+    user_bio: 'Descrierea utilizatorului'
+    username_flags: 'opțiuni pentru acest nume de utilizator'
+  user_detail:
+    all: Toate
+    always_premod: 'Pre-moderează utilizatorul întotdeauna'
+    always_premoded: 'Pre-moderat întodeauna'
+    ban: 'Blochează utilizatorul'
+    banned: Blocat
+    email: Email
+    id: ID
+    karma: Karma
+    karma_docs_link: 'https://docs.coralproject.net/talk/trust/#user-karma-score'
+    learn_more: 'Află mai multe'
+    member_since: 'Membru din'
+    reject_rate: 'Rata de respingere'
+    reject_username: 'Respinge numele de utilizator'
+    rejected: Respins
+    remove_always_premod: 'Dezactivează pre-moderarea permanentă'
+    remove_ban: 'Deblochează'
+    remove_suspension: 'Oprește suspendarea'
+    suspend: 'Suspendă utilizatorul'
+    suspended: Suspendat
+    total_comments: 'Total comentarii'
+    unreliable: 'Nedemn de încredere'
+    user_history: 'Istoric utilizator'
+    user_karma_score: 'Scor Karma utilizator'
+    username: 'Nume de utilizator'
+    username_needs_approval: 'Numele de utilizator necesită aprobare'
+    username_rejected: 'Nume de utilizator respins'
+  user_history:
+    action: Acțiune
+    always_premod_removed: 'Pre-moderarea permanentă dezactivată'
+    ban_removed: 'Deblocat'
+    date: Data
+    suspended: 'Suspendat, {0}'
+    suspension_removed: 'Suspendare oprită'
+    system: Sistem
+    taken_by: 'Luat de'
+    user_always_premoded: 'Utilizator pre-moderat întotdeauna'
+    user_banned: 'Utilizator blocat'
+    username_status: 'Nume de utilizator {0}'
+  user_impersonating: 'Acest utilizator pretinde că este altcineva'
+  user_no_comment: 'Nu ai lăsat niciun comentariu. Alătură-te conversației!'
+  username_offensive: 'Acest nume de utilizator este jignitor'
+  validators:
+    confirm_email: 'Adresele de email sunt diferite. Te rugăm să verifici din nou'
+    confirm_password: 'Parolele sunt diferite. Te rugăm să verifici din nou'
+    required: 'Acest câmp este necesar'
+    verify_email: 'Te rugăm să introduci o adresă de email validă.'
+    verify_organization_name: 'Numele de organizație trebuie să conțină doar litere sau cifre.'
+    verify_password: 'Parola trebuie să aibă o lungime de cel puțin 8 caractere'
+    verify_username: 'Numele de utilizator poate să conțină doar litere, cifre și _'
+  view_conversation: 'Vezi conversația'
+  your_account_has_been_banned: 'Contul tău a fost blocat.'
+  your_account_has_been_suspended: 'Contul tău a fost suspendat temporar.'
+  your_username_has_been_rejected_not_in_line: 'Numele de utilizator ales de tine a fost respins deoarece contravine politicilor noastre. Te rugăm să alegi alt nume pentru a fi aprobat de moderatori.'
