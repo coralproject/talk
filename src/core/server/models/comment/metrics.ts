@@ -166,6 +166,7 @@ export async function retrieveTodayTopStoryMetrics(
         },
       },
       { $sort: { count: -1 } },
+      // TODO: 17 was for visual treatment, feel free to change this!
       { $limit: 17 },
     ])
     .toArray();

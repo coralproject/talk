@@ -37,6 +37,9 @@ function getMetricsOptions(req: Request) {
 
   // Get the Site ID and timezone for this set of metrics.
   const { siteID, tz } = req.query;
+  if (!tz) {
+    throw new Error("tz was not provided");
+  }
 
   return { tenantID, siteID, tz, now };
 }
@@ -46,25 +49,18 @@ export const todayMetricsHandler = ({
 }: AppOptions): RequestHandler => async (req, res, next) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
+    }
 
-    const usersResults = await retrieveTodayUserMetrics(
-      mongo,
-      tenantID,
-      tz,
-      now
-    );
-
-    const commentsResults = await retrieveTodayCommentMetrics(
-      mongo,
-      tenantID,
-      siteID,
-      tz,
-      now
-    );
+    const [users, comments] = await Promise.all([
+      retrieveTodayUserMetrics(mongo, tenantID, tz, now),
+      retrieveTodayCommentMetrics(mongo, tenantID, siteID, tz, now),
+    ]);
 
     const result: TodayMetricsJSON = {
-      users: usersResults,
-      comments: commentsResults,
+      users,
+      comments,
     };
 
     return res.json(result);
@@ -78,22 +74,26 @@ export const totalMetricsHandler = ({
 }: AppOptions): RequestHandler => async (req, res, next) => {
   try {
     const { tenantID, siteID } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
+    }
 
     const site = await retrieveSite(mongo, tenantID, siteID);
     if (!site) {
       throw new Error("site specified was not found");
     }
 
+    const [users, staff] = await Promise.all([
+      retrieveAllTimeUserMetrics(mongo, tenantID),
+      retrieveAllTimeStaffCommentMetrics(mongo, tenantID, siteID),
+    ]);
+
     const result: TodayMetricsJSON = {
-      users: await retrieveAllTimeUserMetrics(mongo, tenantID),
+      users,
       comments: {
         total: calculateTotalCommentCount(site.commentCounts.status),
         rejected: site.commentCounts.status.REJECTED,
-        staff: await retrieveAllTimeStaffCommentMetrics(
-          mongo,
-          tenantID,
-          siteID
-        ),
+        staff,
       },
     };
 
@@ -108,22 +108,18 @@ export const hourlyCommentsMetricsHandler = ({
 }: AppOptions): RequestHandler => async (req, res, next) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
+    }
+
+    const [series, average] = await Promise.all([
+      retrieveHourlyCommentMetrics(mongo, tenantID, siteID, tz, now),
+      retrieveAverageCommentsMetric(mongo, tenantID, siteID, tz, now),
+    ]);
 
     const result: TimeSeriesMetricsJSON = {
-      series: await retrieveHourlyCommentMetrics(
-        mongo,
-        tenantID,
-        siteID,
-        tz,
-        now
-      ),
-      average: await retrieveAverageCommentsMetric(
-        mongo,
-        tenantID,
-        siteID,
-        tz,
-        now
-      ),
+      series,
+      average,
     };
 
     return res.json(result);
@@ -153,6 +149,9 @@ export const todayStoriesMetricsHandler = ({
 }: AppOptions): RequestHandler => async (req, res, next) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
+    }
 
     const results = await retrieveTodayTopStoryMetrics(
       mongo,

@@ -70,7 +70,7 @@ export function useFetch<V, R>(
   );
 }
 
-export function useImmediateFetch<V, R>(
+export function useImmediateFetch<V extends {}, R>(
   fetch: Fetch<any, V, Promise<R>>,
   variables: V
 ) {
@@ -80,13 +80,15 @@ export function useImmediateFetch<V, R>(
   useEffect(() => {
     async function doTheFetch() {
       const value = await fetcher(variables);
+
+      // TODO: Maybe we don't need this timeout?
       setTimeout(() => {
         setState(value);
       }, 100 + 50 * Math.random());
     }
 
     doTheFetch();
-  }, []);
+  }, Object.values(variables));
 
   return state;
 }
