@@ -11,7 +11,7 @@ exports[`renders comment stream 1`] = `
       Navigation
     </h2>
     <ul
-      className="TabBar-root TabBar-primary coral coral-tabBar"
+      className="TabBar-root TabBar-streamPrimary coral coral-tabBar"
       role="tablist"
     >
       <li
@@ -21,8 +21,9 @@ exports[`renders comment stream 1`] = `
       >
         <button
           aria-controls="tabPane-COMMENTS"
+          aria-label="Comments"
           aria-selected={true}
-          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active"
+          className="BaseButton-root Tab-button Tab-streamPrimary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -32,9 +33,20 @@ exports[`renders comment stream 1`] = `
           role="tab"
           type="button"
         >
-          <span>
-            Comments
-          </span>
+          <div>
+            <i
+              aria-hidden="true"
+              aria-label="Comments"
+              className="Icon-root Icon-lg"
+            >
+              forum
+            </i>
+            <div
+              className="TabBar-smallText"
+            >
+              Comments
+            </div>
+          </div>
         </button>
       </li>
     </ul>
