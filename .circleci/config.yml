@@ -116,7 +116,7 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Verify Bundle Size
-          command: npx bundlesize2
+          command: npx bundlesize2 --enable-github-checks
       - save_cache:
           key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
