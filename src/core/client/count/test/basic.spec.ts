@@ -1,4 +1,8 @@
+import timekeeper from "timekeeper";
+
 beforeAll(async () => {
+  timekeeper.freeze(new Date(1589310827300));
+
   const script = document.createElement("script");
   script.src = "http://localhost:8080/assets/js/count.js";
   Object.defineProperty(window.document, "currentScript", {
@@ -9,6 +13,10 @@ beforeAll(async () => {
   link.rel = "canonical";
   link.href = "http://localhost:8080/";
   document.head.appendChild(link);
+});
+
+afterAll(() => {
+  timekeeper.reset();
 });
 
 beforeEach(async () => {
@@ -40,6 +48,12 @@ it("Sets the JSONP callback", async () => {
 });
 
 it("Calls JSONP", async () => {
+  expect(document.body).toMatchSnapshot();
+});
+
+it("Calls JSONP again", async () => {
+  expect(document.body).toMatchSnapshot();
+  (window as any).CoralCount.getCount({ reset: true });
   expect(document.body).toMatchSnapshot();
 });
 

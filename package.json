@@ -420,6 +420,10 @@
     {
       "path": "./dist/static/assets/js/embed.js",
       "maxSize": "15 kB"
+    },
+    {
+      "path": "./dist/static/assets/js/count.js",
+      "maxSize": "2 kB"
     }
   ],
   "graphql-schema-linter": {
