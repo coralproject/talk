@@ -1,4 +1,3 @@
-import cluster from "cluster";
 import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
@@ -273,14 +272,10 @@ class Server {
       signingConfig: this.signingConfig,
     });
 
-    // We only want to setup a metrics server iff the concurrency is 1 or the
-    // concurrency is greater than one and this is the master process.
-    if (config.get("concurrency") === 1 || cluster.isMaster) {
-      // Configure the metrics server and start it.
-      const port = this.config.get("metrics_port");
-      await listenAndServe(createMetricsServer(this.config), port);
-      logger.info({ port }, "now listening for metrics");
-    }
+    // Configure the metrics server and start it.
+    const port = this.config.get("metrics_port");
+    await listenAndServe(createMetricsServer(this.config), port);
+    logger.info({ port, path: "/metrics" }, "now listening for metrics");
   }
 
   /**

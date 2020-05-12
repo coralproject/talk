@@ -2,7 +2,6 @@ import Joi from "@hapi/joi";
 import convict from "convict";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
-import os from "os";
 
 import { LOCALES } from "coral-common/helpers/i18n/locales";
 import { ensureEndSlash } from "coral-common/utils";
@@ -95,12 +94,6 @@ const config = convict({
     default: false,
     env: "ENABLE_GRAPHIQL",
   },
-  concurrency: {
-    doc: "The number of worker nodes to spawn to handle traffic",
-    format: Number,
-    default: os.cpus().length,
-    env: "CONCURRENCY",
-  },
   port: {
     doc: "The port to bind.",
     format: "port",
@@ -137,7 +130,6 @@ const config = convict({
     format: "mongo-uri",
     default: "mongodb://127.0.0.1:27017/coral",
     env: "MONGODB_URI",
-
     sensitive: true,
   },
   redis: {
@@ -145,7 +137,6 @@ const config = convict({
     format: "redis-uri",
     default: "redis://127.0.0.1:6379",
     env: "REDIS_URI",
-
     sensitive: true,
   },
   redis_options: {
@@ -160,7 +151,6 @@ const config = convict({
     format: "*",
     default: "keyboard cat", // TODO: (wyattjoh) evaluate best solution
     env: "SIGNING_SECRET",
-
     sensitive: true,
   },
   signing_algorithm: {
@@ -174,7 +164,6 @@ const config = convict({
     format: "*",
     default: null,
     env: "MANAGEMENT_SIGNING_SECRET",
-
     sensitive: true,
   },
   management_signing_algorithm: {
