@@ -52,6 +52,12 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
     if (!ref) {
       ref = createCountQueryRef(args);
       element.dataset.coralRef = ref;
+    } else {
+      // The element already had a ref attached to it, which means it's already
+      // been processed. If we aren't resetting, we should skip this.
+      if (!opts.reset) {
+        return;
+      }
     }
 
     // Add it to the managed set if we haven't already.

@@ -19,6 +19,13 @@ afterAll(() => {
   timekeeper.reset();
 });
 
+function attachTag(attrs: object) {
+  const element = document.createElement("span");
+  element.className = "coral-count";
+  Object.assign(element.dataset, attrs);
+  document.body.appendChild(element);
+}
+
 beforeEach(async () => {
   document.body.innerHTML = "";
   const tags = [
@@ -35,11 +42,9 @@ beforeEach(async () => {
   ];
 
   tags.forEach((attrs) => {
-    const element = document.createElement("span");
-    element.className = "coral-count";
-    Object.assign(element.dataset, attrs);
-    document.body.appendChild(element);
+    attachTag(attrs);
   });
+
   (await import("../")).main();
 });
 
@@ -52,6 +57,15 @@ it("Calls JSONP", async () => {
 });
 
 it("Calls JSONP again", async () => {
+  expect(document.body).toMatchSnapshot();
+  (window as any).CoralCount.getCount();
+  expect(document.body).toMatchSnapshot();
+  attachTag({ coralId: "another-coral-id" });
+  (window as any).CoralCount.getCount();
+  expect(document.body).toMatchSnapshot();
+});
+
+it("Calls JSONP again with reset", async () => {
   expect(document.body).toMatchSnapshot();
   (window as any).CoralCount.getCount({ reset: true });
   expect(document.body).toMatchSnapshot();
