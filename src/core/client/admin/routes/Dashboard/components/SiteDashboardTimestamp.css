@@ -1,13 +1,11 @@
-.header {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-6);
-  color: var(--v2-colors-teal-600);
-}
-
 .timestamp {
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-1);
   color: var(--v2-colors-mono-500);
+  margin-top: var(--v2-spacing-1);
+}
+
+.root {
+  text-align: left;
 }
