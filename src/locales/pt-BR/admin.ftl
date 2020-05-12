@@ -652,8 +652,9 @@ configure-slack-header-title = Integração com o Slack
 configure-slack-description =
   Encia automaticamente os comentários da fila de moderação do Coral para canais do Slack.
   Você precisa de acesso admin do slack para realizar esta configuração. Para as etapas de
-  como criar uma app no Slack veja nossa <externalLink>documentação</externalLink>. Não
-  recomendado para sites com mais de 10 mil comentários por mês.
+  como criar uma app no Slack veja nossa <externalLink>documentação</externalLink>.
+configure-slack-notRecommended =
+  Não recomendado para sites com mais de 10 mil comentários por mês.
 configure-slack-addChannel = Adicionar Canal
 
 configure-slack-channel-defaultName = Novo canal
