@@ -1,0 +1,7 @@
+.smallText {
+  font-family: var(--v2-font-family-secondary);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-1);
+
+  padding-top: var(--v2-spacing-1);
+}

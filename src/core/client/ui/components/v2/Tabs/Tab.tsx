@@ -27,13 +27,20 @@ export interface TabProps {
   /**
    * Style variant
    */
-  variant?: "primary" | "secondary" | "default" | "streamSecondary";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "default"
+    | "streamSecondary"
+    | "streamPrimary";
   /**
    * Action taken on tab click
    */
   onTabClick?: (tabID: string) => void;
 
   uppercase?: boolean;
+
+  ariaLabel?: string;
 }
 
 class Tab extends React.Component<TabProps> {
@@ -52,6 +59,7 @@ class Tab extends React.Component<TabProps> {
       active,
       variant,
       uppercase,
+      ariaLabel,
     } = this.props;
 
     const buttonClassName = cn(
@@ -60,6 +68,7 @@ class Tab extends React.Component<TabProps> {
         [classes.primary]: variant === "primary",
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
+        [classes.streamPrimary]: variant === "streamPrimary",
         [classes.default]: variant === "default",
         [classes.uppercase]: uppercase,
         [classes.active]: active,
@@ -79,6 +88,7 @@ class Tab extends React.Component<TabProps> {
           aria-controls={`tabPane-${tabID}`}
           role="tab"
           aria-selected={active}
+          aria-label={ariaLabel}
           onClick={this.handleTabClick}
         >
           {children}
