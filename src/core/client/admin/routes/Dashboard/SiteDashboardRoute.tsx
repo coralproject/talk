@@ -2,15 +2,11 @@ import { Match, Router } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import MainLayout from "coral-admin/components/MainLayout";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import { SiteDashboardRouteQueryResponse } from "coral-admin/__generated__/SiteDashboardRouteQuery.graphql";
 
-import { SiteDashboardHeader } from "./components";
-import DashboardContainer from "./DashboardContainer";
-
-import styles from "./SiteDashboard.css";
+import DashboardSiteSelectorContainer from "./DashboardContainer";
 
 interface RouteParams {
   siteID: string;
@@ -25,10 +21,10 @@ const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site) {
     return (
-      <MainLayout data-testid="dashboard-container" className={styles.layout}>
-        <SiteDashboardHeader name={data.site.name} />
-        <DashboardContainer siteID={props.match.params.siteID} />
-      </MainLayout>
+      <DashboardSiteSelectorContainer
+        query={data}
+        selectedSiteID={props.match.params.siteID}
+      />
     );
   }
   return null;
@@ -37,6 +33,7 @@ const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query SiteDashboardRouteQuery($siteID: ID!) {
+      ...DashboardContainer_query
       site(id: $siteID) {
         name
         id
