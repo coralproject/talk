@@ -1,5 +1,4 @@
 import Joi from "@hapi/joi";
-import cookie from "cookie";
 import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import jwt, { KeyFunction, SignOptions, VerifyOptions } from "jsonwebtoken";
@@ -293,10 +292,11 @@ export async function signString<T extends {}>(
   return jwt.sign(payload, secret, { ...options, algorithm });
 }
 
-/**
- * COOKIE_NAME is the name of the authorization cookie used by Coral.
- */
-export const COOKIE_NAME = "authorization";
+// NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+// /**
+//  * COOKIE_NAME is the name of the authorization cookie used by Coral.
+//  */
+// export const COOKIE_NAME = "authorization";
 
 /**
  * isExpressRequest will check to see if this is a Request or an
@@ -315,31 +315,32 @@ export function isExpressRequest(
   return true;
 }
 
-/**
- * extractJWTFromRequestCookie will parse the cookies off of the request if it
- * can.
- *
- * @param req the incoming request possibly containing a cookie
- */
-function extractJWTFromRequestCookie(
-  req: Request | IncomingMessage
-): string | null {
-  if (!isExpressRequest(req)) {
-    // Grab the cookie header.
-    const header = req.headers.cookie;
-    if (typeof header !== "string" || header.length === 0) {
-      return null;
-    }
+// NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+// /**
+//  * extractJWTFromRequestCookie will parse the cookies off of the request if it
+//  * can.
+//  *
+//  * @param req the incoming request possibly containing a cookie
+//  */
+// function extractJWTFromRequestCookie(
+//   req: Request | IncomingMessage
+// ): string | null {
+//   if (!isExpressRequest(req)) {
+//     // Grab the cookie header.
+//     const header = req.headers.cookie;
+//     if (typeof header !== "string" || header.length === 0) {
+//       return null;
+//     }
 
-    // Parse the cookies from that header.
-    const cookies = cookie.parse(header);
-    return cookies[COOKIE_NAME] || null;
-  }
+//     // Parse the cookies from that header.
+//     const cookies = cookie.parse(header);
+//     return cookies[COOKIE_NAME] || null;
+//   }
 
-  return req.cookies && req.cookies[COOKIE_NAME]
-    ? req.cookies[COOKIE_NAME]
-    : null;
-}
+//   return req.cookies && req.cookies[COOKIE_NAME]
+//     ? req.cookies[COOKIE_NAME]
+//     : null;
+// }
 
 /**
  *
@@ -365,7 +366,7 @@ function extractJWTFromRequestHeaders(
 
 /**
  * extractJWTFromRequest will extract the token from the request if it can find
- * it. It first tries to get the token from the headers, then from the cookie.
+ * it. It will try to extract the token from the headers.
  *
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
@@ -374,10 +375,9 @@ export function extractTokenFromRequest(
   req: Request | IncomingMessage,
   excludeQuery = false
 ): string | null {
-  return (
-    extractJWTFromRequestHeaders(req, excludeQuery) ||
-    extractJWTFromRequestCookie(req)
-  );
+  // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
+  // return extractJWTFromRequestHeaders(req, excludeQuery)|| extractJWTFromRequestCookie(req)
+  return extractJWTFromRequestHeaders(req, excludeQuery);
 }
 
 function generateJTIRevokedKey(jti: string) {

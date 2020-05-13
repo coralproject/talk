@@ -4,8 +4,7 @@ exports[`get access token from url 1`] = `
 "{
   \\"__id\\": \\"client:root.local\\",
   \\"__typename\\": \\"Local\\",
-  \\"accessToken\\": \\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==\\",
-  \\"accessTokenExp\\": null,
+  \\"accessToken\\": \\"eyJraWQiOiI5NmM4MDY2YS1kOTg3LTQyODItODNmOS1kYTUxNjc5N2Y5ZmMiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==.\\",
   \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
   \\"view\\": \\"SIGN_IN\\",
   \\"error\\": null
@@ -24,9 +23,6 @@ exports[`init local state 1`] = `
   \\"client:root.local\\": {
     \\"__id\\": \\"client:root.local\\",
     \\"__typename\\": \\"Local\\",
-    \\"accessToken\\": \\"\\",
-    \\"accessTokenExp\\": null,
-    \\"accessTokenJTI\\": null,
     \\"view\\": \\"SIGN_IN\\",
     \\"error\\": null
   }

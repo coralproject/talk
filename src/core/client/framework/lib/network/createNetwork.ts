@@ -10,12 +10,11 @@ import { GraphQLResponse, Observable, SubscribeFunction } from "relay-runtime";
 import TIME from "coral-common/time";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
+import { AccessTokenProvider } from "../auth";
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
 import persistedQueriesGetMethodMiddleware from "./persistedQueriesGetMethodMiddleware";
-
-export type TokenGetter = () => string;
 
 const graphqlURL = `${getLocationOrigin()}/api/graphql`;
 
@@ -44,8 +43,8 @@ function createSubscriptionFunction(
 
 export default function createNetwork(
   subscriptionClient: ManagedSubscriptionClient,
-  tokenGetter: TokenGetter,
-  clientID: string
+  clientID: string,
+  accessTokenProvider: AccessTokenProvider
 ) {
   return new RelayNetworkLayer(
     [
@@ -70,7 +69,9 @@ export default function createNetwork(
         },
       }),
       authMiddleware({
-        token: tokenGetter,
+        token: () => {
+          return accessTokenProvider() || "";
+        },
       }),
       clientIDMiddleware(clientID),
       persistedQueriesGetMethodMiddleware,
