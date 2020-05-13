@@ -10,10 +10,10 @@ export function parseAccessTokenClaims<T = {}>(
 ): (Claims & T) | null {
   const parts = accessToken.split(".");
   if (parts.length !== 3) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn("access token does not have the right number of parts");
-    }
+    // TODO: (wyattjoh) add error reporting around this error
+    // eslint-disable-next-line no-console
+    console.warn("access token does not have the right number of parts");
+
     return null;
   }
 
@@ -32,10 +32,9 @@ export function parseAccessTokenClaims<T = {}>(
 
     return claims;
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error("access token can not be parsed:", err);
-    }
+    // TODO: (wyattjoh) add error reporting around this error
+    // eslint-disable-next-line no-console
+    console.error("access token can not be parsed:", err);
 
     return null;
   }

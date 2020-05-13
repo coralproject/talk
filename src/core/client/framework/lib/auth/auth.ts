@@ -55,10 +55,9 @@ export function retrieveAccessToken() {
     // Return the parsed access token.
     return parseAccessToken(accessToken);
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error("could not get access token from storage", err);
-    }
+    // TODO: (wyattjoh) add error reporting around this error
+    // eslint-disable-next-line no-console
+    console.error("could not get access token from storage", err);
 
     return;
   }
@@ -69,10 +68,9 @@ export function storeAccessToken(accessToken: string) {
     // Update the access token in storage.
     storage.setItem(ACCESS_TOKEN_KEY, accessToken);
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error("could not set access token in storage", err);
-    }
+    // TODO: (wyattjoh) add error reporting around this error
+    // eslint-disable-next-line no-console
+    console.error("could not set access token in storage", err);
   }
 
   // Return the parsed access token.
@@ -83,10 +81,9 @@ export function deleteAccessToken() {
   try {
     storage.removeItem(ACCESS_TOKEN_KEY);
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error("could not remove access token from storage", err);
-    }
+    // TODO: (wyattjoh) add error reporting around this error
+    // eslint-disable-next-line no-console
+    console.error("could not remove access token from storage", err);
   }
 
   return undefined;
