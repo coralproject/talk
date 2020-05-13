@@ -12,6 +12,8 @@ import {
 } from "recharts";
 
 import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { useUIContext } from "coral-ui/components";
 
@@ -42,6 +44,7 @@ const CommentActivity: FunctionComponent<Props> = ({
 }) => {
   const hourly = useImmediateFetch(HourlyCommentsMetricsFetch, { siteID });
   const { locales: localesFromContext } = useUIContext();
+  const { localeBundles } = useCoralContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   return (
     <DashboardBox>
@@ -90,7 +93,14 @@ const CommentActivity: FunctionComponent<Props> = ({
             stroke={CHART_COLOR_PRIMARY}
           />
           <Tooltip
-            formatter={(value) => [value, "Comments"]}
+            formatter={(value) => [
+              value,
+              getMessage(
+                localeBundles,
+                "dashboard-comment-activity-tooltip-comments",
+                "Comments"
+              ),
+            ]}
             labelStyle={{ color: CHART_COLOR_MONO_500 }}
             labelFormatter={(unixTime: number) => {
               const formatter = new Intl.DateTimeFormat(locales, {

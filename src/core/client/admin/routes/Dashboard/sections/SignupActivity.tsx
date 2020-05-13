@@ -60,9 +60,9 @@ const CommenterActivity: FunctionComponent<Props> = ({
             tickLine={false}
             dataKey="timestamp"
             interval={0}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore
-            tick={<SignupActivityTick locales={locales} />}
+            tick={(props) => (
+              <SignupActivityTick locales={locales} {...props} />
+            )}
           />
           <YAxis
             allowDecimals={false}

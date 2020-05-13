@@ -45,7 +45,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.total.toString()}>
-            <Localized id="dashboard-today-alltime-comments">
+            <Localized id="dashboard-alltime-new-comments">
               All time total
             </Localized>
           </TodayCompareValue>
@@ -75,7 +75,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
                 : "-.-- %"
             }
           >
-            <Localized id="dashboard-today-alltime-rejection">
+            <Localized id="dashboard-alltime-rejections">
               All time average
             </Localized>
           </TodayCompareValue>
@@ -87,7 +87,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.staff.toString()}>
-            <Localized id="dashboard-today-alltime-staff-comments">
+            <Localized id="dashboard-alltime-staff-comments">
               All time total
             </Localized>
           </TodayCompareValue>
@@ -97,9 +97,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             <Localized id="dashboard-today-signups">New accounts</Localized>
           </TodayValue>
           <TodayCompareValue value={total?.users.total.toString()}>
-            <Localized id="dashboard-today-alltime-signups">
-              Total accounts
-            </Localized>
+            <Localized id="dashboard-alltime-signups">Total accounts</Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="block">
@@ -107,7 +105,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             <Localized id="dashboard-today-bans">Account bans</Localized>
           </TodayValue>
           <TodayCompareValue value={total?.users.bans.toString()}>
-            <Localized id="dashboard-today-alltime-bans">
+            <Localized id="dashboard-alltime-bans">
               Total account bans
             </Localized>
           </TodayCompareValue>

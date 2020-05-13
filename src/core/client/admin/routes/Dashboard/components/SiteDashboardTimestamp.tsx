@@ -10,19 +10,16 @@ const SiteDashboardHeader: FunctionComponent = () => {
   useEffect(() => {
     setUpdatedAt(new Date());
   }, []);
+  if (!updatedAt) {
+    return null;
+  }
   return (
-    <>
-      {updatedAt && (
-        <Localized
-          id="dashboard-site-updated-at"
-          $timestamp={<AbsoluteTime date={updatedAt.toISOString()} />}
-        >
-          <p className={styles.timestamp}>
-            Last updated: <AbsoluteTime date={updatedAt.toISOString()} />
-          </p>
-        </Localized>
-      )}
-    </>
+    <p className={styles.timestamp}>
+      <Localized id="dashboard-heading-last-updated">
+        <span>Last updated: </span>
+      </Localized>{" "}
+      <AbsoluteTime date={updatedAt.toISOString()} />
+    </p>
   );
 };
 

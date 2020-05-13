@@ -39,10 +39,10 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <Localized id="dashboard-top-stories-heading-stories">
+            <Localized id="dashboard-top-stories-table-header-story">
               <TableCell>Story</TableCell>
             </Localized>
-            <Localized id="dashboard-top-stories-heading-comments">
+            <Localized id="dashboard-top-stories-table-header-comments">
               <TableCell align="end">Comments</TableCell>
             </Localized>
           </TableRow>
