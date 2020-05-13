@@ -232,7 +232,7 @@ async function commit(
                   id: input.storyID,
                   settings: {
                     live: {
-                      enabled: storySettings.live.enabled,
+                      enabled: Boolean(storySettings.live?.enabled),
                     },
                   },
                 },
