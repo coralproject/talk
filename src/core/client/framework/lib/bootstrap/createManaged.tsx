@@ -24,7 +24,7 @@ import {
   AuthState,
   deleteAccessToken,
   retrieveAccessToken,
-  updateAccessToken,
+  storeAccessToken,
 } from "../auth";
 import { generateBundles, LocalesData } from "../i18n";
 import {
@@ -169,7 +169,7 @@ function createManagedCoralContextProvider(
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
-        ? updateAccessToken(nextAccessToken)
+        ? storeAccessToken(nextAccessToken)
         : deleteAccessToken();
 
       // Create the new environment.

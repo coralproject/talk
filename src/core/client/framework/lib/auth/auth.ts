@@ -64,7 +64,7 @@ export function retrieveAccessToken() {
   }
 }
 
-export function updateAccessToken(accessToken: string) {
+export function storeAccessToken(accessToken: string) {
   try {
     // Update the access token in storage.
     storage.setItem(ACCESS_TOKEN_KEY, accessToken);

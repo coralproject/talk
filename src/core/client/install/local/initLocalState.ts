@@ -1,7 +1,7 @@
 import { Environment } from "relay-runtime";
 
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState } from "coral-framework/lib/relay";
 
@@ -20,7 +20,7 @@ export default async function initLocalState(
     clearHash();
 
     // Save the token in storage.
-    auth = updateAccessToken(params.accessToken);
+    auth = storeAccessToken(params.accessToken);
   }
 
   initLocalBaseState(environment, context, auth);

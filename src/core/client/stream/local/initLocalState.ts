@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
-import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
@@ -19,7 +19,7 @@ export default async function initLocalState(
 ) {
   const config = await getExternalConfig(context.pym);
   if (config && config.accessToken) {
-    auth = updateAccessToken(config.accessToken);
+    auth = storeAccessToken(config.accessToken);
   }
 
   initLocalBaseState(environment, context, auth);

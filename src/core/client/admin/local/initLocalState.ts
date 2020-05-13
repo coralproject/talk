@@ -2,7 +2,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import { AuthState, updateAccessToken } from "coral-framework/lib/auth";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -31,7 +31,7 @@ export default async function initLocalState(
 
     // If there was an access token, store it.
     if (params.accessToken) {
-      auth = updateAccessToken(params.accessToken);
+      auth = storeAccessToken(params.accessToken);
     }
 
     // As we are in the middle of an auth flow (given that there was something
