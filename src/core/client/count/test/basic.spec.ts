@@ -1,4 +1,8 @@
+import timekeeper from "timekeeper";
+
 beforeAll(async () => {
+  timekeeper.freeze(new Date(1589310827300));
+
   const script = document.createElement("script");
   script.src = "http://localhost:8080/assets/js/count.js";
   Object.defineProperty(window.document, "currentScript", {
@@ -10,6 +14,17 @@ beforeAll(async () => {
   link.href = "http://localhost:8080/";
   document.head.appendChild(link);
 });
+
+afterAll(() => {
+  timekeeper.reset();
+});
+
+function attachTag(attrs: object) {
+  const element = document.createElement("span");
+  element.className = "coral-count";
+  Object.assign(element.dataset, attrs);
+  document.body.appendChild(element);
+}
 
 beforeEach(async () => {
   document.body.innerHTML = "";
@@ -27,11 +42,9 @@ beforeEach(async () => {
   ];
 
   tags.forEach((attrs) => {
-    const element = document.createElement("span");
-    element.className = "coral-count";
-    Object.assign(element.dataset, attrs);
-    document.body.appendChild(element);
+    attachTag(attrs);
   });
+
   (await import("../")).main();
 });
 
@@ -40,6 +53,21 @@ it("Sets the JSONP callback", async () => {
 });
 
 it("Calls JSONP", async () => {
+  expect(document.body).toMatchSnapshot();
+});
+
+it("Calls JSONP again", async () => {
+  expect(document.body).toMatchSnapshot();
+  (window as any).CoralCount.getCount();
+  expect(document.body).toMatchSnapshot();
+  attachTag({ coralId: "another-coral-id" });
+  (window as any).CoralCount.getCount();
+  expect(document.body).toMatchSnapshot();
+});
+
+it("Calls JSONP again with reset", async () => {
+  expect(document.body).toMatchSnapshot();
+  (window as any).CoralCount.getCount({ reset: true });
   expect(document.body).toMatchSnapshot();
 });
 
