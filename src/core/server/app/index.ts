@@ -1,6 +1,6 @@
 import cons from "consolidate";
 import cors from "cors";
-import { Express } from "express";
+import express, { Express } from "express";
 import enforceHTTPSMiddleware from "express-enforces-ssl";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
@@ -9,9 +9,16 @@ import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
+import { AggregatorRegistry, register } from "prom-client";
 
-import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
-import { HTMLErrorHandler } from "coral-server/app/middleware/error";
+import {
+  cacheHeadersMiddleware,
+  noCacheMiddleware,
+} from "coral-server/app/middleware/cacheHeaders";
+import {
+  HTMLErrorHandler,
+  JSONErrorHandler,
+} from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
@@ -32,6 +39,7 @@ import TenantCache from "coral-server/services/tenant/cache";
 
 import { healthHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
+import { basicAuth } from "./middleware/basicAuth";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
@@ -46,7 +54,7 @@ export interface AppOptions {
   rejectorQueue: RejectorQueue;
   webhookQueue: WebhookQueue;
   notifierQueue: NotifierQueue;
-  metrics?: Metrics;
+  metrics: Metrics;
   mongo: Db;
   parent: Express;
   persistedQueriesRequired: boolean;
@@ -73,10 +81,8 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Logging
   parent.use(accessLogger);
 
-  if (options.metrics) {
-    // Capturing metrics.
-    parent.use(metricsRecorder(options.metrics));
-  }
+  // Capturing metrics.
+  parent.use(metricsRecorder(options.metrics));
 
   // Configure the health check endpoint.
   parent.get("/api/health", healthHandler);
@@ -197,4 +203,60 @@ function configureApplicationViews(options: AppOptions) {
 
   // set .html as the default extension.
   parent.set("view engine", "html");
+}
+
+export default function createMetricsServer(config: Config) {
+  const server = express();
+
+  // Setup access logger.
+  server.use(accessLogger);
+  server.use(noCacheMiddleware);
+
+  // Add basic auth if provided.
+  const username = config.get("metrics_username");
+  const password = config.get("metrics_password");
+  if (username && password) {
+    server.use(basicAuth(username, password));
+    logger.info("adding authentication to metrics endpoint");
+  } else {
+    logger.info(
+      "not adding authentication to metrics endpoint, credentials not provided"
+    );
+  }
+
+  // If we are running in concurrency mode, we should setup the aggregator for
+  // the cluster metrics.
+  if (config.get("concurrency") > 1) {
+    // Create the aggregator registry for metrics.
+    const aggregatorRegistry = new AggregatorRegistry();
+
+    // Use the aggregator registry to handle serving metrics.
+    server.get("/cluster_metrics", (req, res, next) => {
+      aggregatorRegistry.clusterMetrics((err, metrics) => {
+        if (err) {
+          return next(err);
+        }
+
+        res.set("Content-Type", aggregatorRegistry.contentType);
+        res.send(metrics);
+      });
+    });
+
+    logger.info({ path: "/cluster_metrics" }, "mounted metrics handler");
+  } else {
+    // Use the memory register to handle serving metrics.
+    server.get("/metrics", (req, res) => {
+      res.set("Content-Type", register.contentType);
+      res.end(register.metrics());
+    });
+
+    logger.info({ path: "/metrics" }, "mounted metrics handler");
+  }
+
+  // Error handling.
+  server.use(notFoundMiddleware);
+  server.use(errorLogger);
+  server.use(JSONErrorHandler());
+
+  return server;
 }

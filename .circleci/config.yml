@@ -1,8 +1,8 @@
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
-  NODE_ENV: test
-  WEBPACK_MAX_CORES: 4
-  NODE_OPTIONS: --max-old-space-size=8192
+  NODE_ENV: "test"
+  WEBPACK_MAX_CORES: "4"
+  NODE_OPTIONS: "--max-old-space-size=8192"
 
 # job_defaults applies all the defaults for each job.
 job_defaults: &job_defaults
@@ -49,7 +49,8 @@ jobs:
             - ~/.npm
       - persist_to_workspace:
           root: .
-          paths: node_modules
+          paths:
+            - node_modules
 
   # lint will perform file linting.
   lint:
@@ -78,7 +79,7 @@ jobs:
     <<: *job_defaults
     environment:
       <<: *job_environment
-      CI: true
+      CI: "true"
       JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     steps:
       - checkout
@@ -115,14 +116,15 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Verify Bundle Size
-          command: npx bundlesize
+          command: npx bundlesize2 --enable-github-checks
       - save_cache:
           key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ./dist
       - persist_to_workspace:
           root: .
-          paths: dist
+          paths:
+            - dist
 
   # docker_tests will test that the docker build process completes.
   docker_tests:

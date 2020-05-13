@@ -1,7 +1,9 @@
 import { COUNT_SELECTOR } from "coral-framework/constants";
 
+type GetCountFunction = (opts?: { reset?: boolean }) => void;
+
 /** Injects a global CoralCount callback into the window object to be used in JSONP */
-function injectJSONPCallback() {
+function injectJSONPCallback(getCount: GetCountFunction) {
   (window as any).CoralCount = {
     setCount: (data: { ref: string; html: string }) => {
       // Find all the elements with ref.
@@ -12,6 +14,7 @@ function injectJSONPCallback() {
         element.innerHTML = data.html;
       });
     },
+    getCount,
   };
 }
 
