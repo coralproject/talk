@@ -1,15 +1,13 @@
 import cookies from "cookie-parser";
 import express, { Router } from "express";
-import { register } from "prom-client";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
-import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
+
 import playground from "coral-server/app/middleware/playground";
 import { RouterOptions } from "coral-server/app/router/types";
 import logger from "coral-server/logger";
 
-import { basicAuth } from "../middleware/basicAuth";
 import { createAPIRouter } from "./api";
 import { mountClientRoutes } from "./client";
 
@@ -36,26 +34,6 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
     });
   } else {
     logger.warn("client routes are disabled");
-  }
-
-  if (app.metrics) {
-    // Add basic auth if provided.
-    const username = app.config.get("metrics_username");
-    const password = app.config.get("metrics_password");
-    if (username && password) {
-      router.use("/metrics", basicAuth(username, password));
-      logger.info("adding authentication to metrics endpoint");
-    } else {
-      logger.info(
-        "not adding authentication to metrics endpoint, credentials not provided"
-      );
-    }
-
-    router.get("/metrics", noCacheMiddleware, (req, res) => {
-      res.set("Content-Type", register.contentType);
-      res.end(register.metrics());
-    });
-    logger.info({ path: "/metrics" }, "mounting metrics path on app");
   }
 
   return router;
