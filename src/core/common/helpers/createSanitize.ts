@@ -1,4 +1,4 @@
-import createDOMPurify from "dompurify";
+import createDOMPurify, { DOMPurifyI } from "dompurify";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
 
@@ -26,9 +26,6 @@ const sanitizeAnchor = (node: Element) => {
       }
       node.textContent = href;
     }
-  } else {
-    // The only tag that's allowed attributes is the "A" tag.
-    node.removeAttribute("href");
   }
 };
 
@@ -81,14 +78,21 @@ export const purifyConfig: any = {
   ALLOW_ARIA_ATTR: false,
 };
 
-export interface PurifyOptions {
+export interface SanitizeOptions {
   /** Allow overriding parts of the config */
   config?: any;
   /** normalize makes sure that neighboring text nodes are merged */
   normalize?: boolean;
+  /** modify allows accessing the purify instance to e.g. add hooks */
+  modify?: (purify: DOMPurifyI) => void;
 }
 
-export default function createPurify(window: Window, options?: PurifyOptions) {
+export type Sanitize = (source: Node | string) => HTMLElement;
+
+export default function createSanitize(
+  window: Window,
+  options?: SanitizeOptions
+): Sanitize {
   // Initializing JSDOM and DOMPurify
   const purify = createDOMPurify(window);
 
@@ -107,11 +111,15 @@ export default function createPurify(window: Window, options?: PurifyOptions) {
         n.nodeType === Node.TEXT_NODE &&
         n.previousSibling?.nodeType === Node.TEXT_NODE
       ) {
+        // Merge text node sublings together.
         // eslint-disable-next-line no-unused-expressions
         n.parentNode?.normalize();
       }
     });
   }
+  if (options?.modify) {
+    options.modify(purify);
+  }
 
-  return purify;
+  return purify.sanitize.bind(purify);
 }

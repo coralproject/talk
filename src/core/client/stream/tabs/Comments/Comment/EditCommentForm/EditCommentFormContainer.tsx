@@ -20,7 +20,6 @@ import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
   SubmitStatus,
-  trimHTML,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
@@ -98,7 +97,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
       const submitStatus = getSubmitStatus(
         await this.props.editComment({
           commentID: this.props.comment.id,
-          body: trimHTML(input.body),
+          body: input.body,
         })
       );
       if (submitStatus !== "RETRY") {

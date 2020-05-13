@@ -1,7 +1,7 @@
-import { DOMPurifyI } from "dompurify";
 import { JSDOM } from "jsdom";
 
-import createPurify from "coral-common/helpers/createPurify";
+import createSanitize from "coral-common/helpers/createSanitize";
+import removeTrailingEmptyLines from "coral-common/helpers/removeTrailingEmptyLines";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -9,19 +9,18 @@ import {
 
 // Initializing JSDOM and DOMPurify
 const window = new JSDOM("", {}).window;
-const DOMPurify = createPurify(window as any);
+const sanitize = createSanitize(window as any);
 
-function sanitizeCommentBody(purify: DOMPurifyI, source: string) {
+function sanitizeCommentBody(source: string) {
   // Sanitize and return the HTMLBodyElement for the parsed source.
-  const sanitized = purify.sanitize(
-    source,
-    // TODO: Be aware, this has only affect on the return type. It does not affect the config.
-    { RETURN_DOM: true }
-  );
+  const sanitized = sanitize(source);
 
   // Count the total number of anchor links in the sanitized output, this is the
   // number of links.
   const linkCount = sanitized.getElementsByTagName("a").length;
+
+  // Remove empty trailing lines.
+  removeTrailingEmptyLines(sanitized);
 
   return {
     body: sanitized.innerHTML,
@@ -32,7 +31,7 @@ function sanitizeCommentBody(purify: DOMPurifyI, source: string) {
 export const purify: IntermediateModerationPhase = async ({
   comment,
 }): Promise<IntermediatePhaseResult | void> => {
-  const { body, linkCount } = sanitizeCommentBody(DOMPurify, comment.body);
+  const { body, linkCount } = sanitizeCommentBody(comment.body);
 
   return {
     body,

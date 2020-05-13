@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { DOMPurifyI } from "dompurify";
 import React, { FunctionComponent, useMemo } from "react";
 
 import {
@@ -7,29 +6,36 @@ import {
   GetPhrasesRegExpOptions,
   markHTMLNode,
 } from "coral-admin/helpers";
-import createPurify, { purifyConfig } from "coral-common/helpers/createPurify";
+import createSanitize, { Sanitize } from "coral-common/helpers/createSanitize";
 
 import styles from "./CommentContent.css";
-
-/** Resused DOMPurify instance */
-let purify: DOMPurifyI | null = null;
 
 /**
  * Return a purify instance that will be used to handle HTML content.
  */
-function getPurifyInstance(highlight: boolean) {
-  if (!purify) {
-    purify = createPurify(window, {
-      normalize: true,
-    });
-  }
-  purify.setConfig({
-    ...purifyConfig,
-    FORBID_TAGS: highlight ? ["b", "strong", "i", "em", "s", "span"] : [],
-    RETURN_DOM: true,
-  });
-  return purify;
-}
+const getSanitize: (highlight: boolean) => Sanitize = (() => {
+  let sanitizers: Record<"default" | "highlight", Sanitize> | null = null;
+  return (highlight: boolean) => {
+    if (!sanitizers) {
+      sanitizers = {
+        default: createSanitize(window),
+        highlight: createSanitize(window, {
+          // We need normalized text nodes to mark nodes for suspect/banned words.
+          normalize: true,
+          config: {
+            FORBID_TAGS: highlight
+              ? ["b", "strong", "i", "em", "s", "span"]
+              : [],
+          },
+        }),
+      };
+    }
+    if (highlight) {
+      return sanitizers.highlight!;
+    }
+    return sanitizers.default!;
+  };
+})();
 
 interface Props {
   className?: string;
@@ -66,10 +72,7 @@ const CommentContent: FunctionComponent<Props> = ({
     }
 
     // Sanitize the input for display.
-    const node = getPurifyInstance(highlight).sanitize(children, {
-      // TODO: Be aware, this has only affect on the return type. It does not affect the config.
-      RETURN_DOM: true,
-    });
+    const node = getSanitize(highlight)(children);
 
     // If the expression is available, then mark the nodes.
     if (expression) {

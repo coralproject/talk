@@ -1,5 +1,4 @@
-import striptags from "striptags";
-
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
@@ -43,9 +42,10 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    const revision = striptags(getLatestRevision(lastComment).body).trim();
-    // Removing the newlines from body text will yield the same results as above transformation.
-    const compareTo = bodyText.replace(/\n/g, "").trim();
+    const revision = getHTMLPlainText(
+      getLatestRevision(lastComment).body
+    ).trim();
+    const compareTo = bodyText.trim();
 
     // Calculate the comment similarity. At the moment, we only do a string
     // comparison, so it's either completely equal (they match) or the

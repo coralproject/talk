@@ -7,47 +7,41 @@ import {
 } from "@coralproject/rte";
 import { Localized as LocalizedOriginal } from "@fluent/react/compat";
 import cn from "classnames";
-import { DOMPurifyI } from "dompurify";
 import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
-import createPurify from "coral-common/helpers/createPurify";
+import createSanitize, { Sanitize } from "coral-common/helpers/createSanitize";
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RTE.css";
 
-/** Resused DOMPurify instance */
-let purify: DOMPurifyI | null = null;
-
 /**
  * Return a purify instance that will be used to handle HTML content.
  */
-function getPurifyInstance() {
-  if (purify) {
-    return purify;
-  }
-  purify = createPurify(window, {
-    config: {
-      ALLOW_UNKNOWN_PROTOCOLS: true,
-      WHOLE_DOCUMENT: false,
-      RETURN_DOM: false,
-      RETURN_DOM_FRAGMENT: true,
-    },
-  });
-  return purify;
-}
+const getSanitize: () => Sanitize = (() => {
+  /** Resused Sanitize instance */
+  let sanitize: Sanitize | null = null;
+
+  return () => {
+    if (!sanitize) {
+      sanitize = createSanitize(window);
+    }
+    return sanitize;
+  };
+})();
 
 /**
  * Sanitation callback that we pass to squire.
  */
 const sanitizeToDOMFragment = (html: string) => {
-  const frag = html
-    ? getPurifyInstance().sanitize(html, {
-        // TODO: Be aware, this has only affect on the return type. It does not affect the config.
-        RETURN_DOM_FRAGMENT: true,
-      })
-    : document.createDocumentFragment();
+  const frag = document.createDocumentFragment();
+  if (html) {
+    const sanitized = getSanitize()(html);
+    while (sanitized.firstChild) {
+      frag.appendChild(sanitized.firstChild);
+    }
+  }
   return frag;
 };
 

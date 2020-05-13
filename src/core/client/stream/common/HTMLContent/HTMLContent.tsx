@@ -1,34 +1,45 @@
 import cn from "classnames";
-import { DOMPurifyI } from "dompurify";
 import React, { FunctionComponent } from "react";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
-import createPurify from "coral-common/helpers/createPurify";
+import createSanitize, { Sanitize } from "coral-common/helpers/createSanitize";
 
 import styles from "./HTMLContent.css";
 
-/** Resused DOMPurify instance */
-let purify: DOMPurifyI | null = null;
-/** Found spoiler tags during sanitization will be placed here. */
-let spoilerTags: Element[] = [];
-
 /**
- * Return a purify instance that will be used to handle HTML content.
+ * Sanitize html content and find spoiler tags.
  */
-function getPurifyInstance() {
-  if (purify) {
-    return purify;
-  }
-  purify = createPurify(window);
+const sanitizeAndFindSpoilerTags: (
+  source: string | Node
+) => [HTMLElement, Element[]] = (() => {
+  /** Resused instance */
+  let sanitize: Sanitize | null = null;
 
-  // Add a hook that detects spoiler tags and adds to `spoilerTags` array
-  purify.addHook("afterSanitizeAttributes", (node) => {
-    if (node.tagName === "SPAN" && node.className === SPOILER_CLASSNAME) {
-      spoilerTags.push(node);
+  /** Found spoiler tags during sanitization will be placed here. */
+  let spoilerTags: Element[] = [];
+
+  return (source: string | Node): [HTMLElement, Element[]] => {
+    if (!sanitize) {
+      sanitize = createSanitize(window, {
+        modify: (purify) => {
+          // Add a hook that detects spoiler tags and adds to `spoilerTags` array
+          purify.addHook("afterSanitizeAttributes", (node) => {
+            if (
+              node.tagName === "SPAN" &&
+              node.className === SPOILER_CLASSNAME
+            ) {
+              spoilerTags.push(node);
+            }
+          });
+        },
+      });
     }
-  });
-  return purify;
-}
+    const sanitized = sanitize(source);
+    const ret = spoilerTags;
+    spoilerTags = [];
+    return [sanitized, ret];
+  };
+})();
 
 /**
  * Makes sure SpoilerTag Handler is registered in `global`.
@@ -62,11 +73,7 @@ function registerSpoilerTagHandler() {
 
 function transform(source: string | Node) {
   // Sanitize source.
-  const el = getPurifyInstance().sanitize(
-    source,
-    // TODO: Be aware, this has only affect on the return type. It does not affect the config.
-    { RETURN_DOM: true }
-  );
+  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(source);
 
   // Make sure spoiler tag handler exists.
   registerSpoilerTagHandler();
@@ -81,12 +88,8 @@ function transform(source: string | Node) {
     node.setAttribute("tabindex", "0");
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
   });
-
-  // Reset top level spoiler tags array.
-  spoilerTags = [];
-
   // Return results.
-  return el.innerHTML;
+  return sanitized.innerHTML;
 }
 
 interface HTMLContentProps {

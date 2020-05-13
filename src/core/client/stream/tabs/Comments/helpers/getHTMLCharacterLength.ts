@@ -9,5 +9,5 @@ export default function getHTMLCharacterLength(html: string | undefined) {
   if (!html) {
     return 0;
   }
-  return getHTMLPlainText(html).trimRight().length;
+  return getHTMLPlainText(html).length;
 }
