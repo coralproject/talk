@@ -404,7 +404,7 @@ exports[`renders comment stream 1`] = `
                 data-testid="featuredComment-comment-0"
               >
                 <div
-                  className="HTMLContent-root coral coral-content coral-featuredComment-content"
+                  className="HTMLContent-root FeaturedCommentContainer-body coral coral-content coral-featuredComment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "Joining Too",
@@ -429,7 +429,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Username-root"
+                        className="Username-root FeaturedCommentContainer-username"
                       >
                         Markus
                       </span>
@@ -506,19 +506,29 @@ exports[`renders comment stream 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
-                    <div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
                       <a
-                        className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
+                        onBlur={[Function]}
                         onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        <span>
-                          Go to Conversation
-                        </span>
-                        <span
-                          className="FeaturedCommentContainer-gotoArrow"
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
                         >
-                          &gt;
+                          forum
+                        </i>
+                        <span>
+                          Go to conversation
                         </span>
                       </a>
                     </div>
@@ -530,7 +540,7 @@ exports[`renders comment stream 1`] = `
                 data-testid="featuredComment-comment-1"
               >
                 <div
-                  className="HTMLContent-root coral coral-content coral-featuredComment-content"
+                  className="HTMLContent-root FeaturedCommentContainer-body coral coral-content coral-featuredComment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "What's up?",
@@ -555,7 +565,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Username-root"
+                        className="Username-root FeaturedCommentContainer-username"
                       >
                         Lukas
                       </span>
@@ -632,19 +642,29 @@ exports[`renders comment stream 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
-                    <div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
                       <a
-                        className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"
+                        onBlur={[Function]}
                         onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        <span>
-                          Go to Conversation
-                        </span>
-                        <span
-                          className="FeaturedCommentContainer-gotoArrow"
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
                         >
-                          &gt;
+                          forum
+                        </i>
+                        <span>
+                          Go to conversation
                         </span>
                       </a>
                     </div>

@@ -255,7 +255,7 @@ comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancel account deletion
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
+comments-featured-gotoConversation = Go to conversation
 comments-featured-replies = Replies
 
 ## Profile Tab

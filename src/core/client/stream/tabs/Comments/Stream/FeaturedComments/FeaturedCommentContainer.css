@@ -1,25 +1,43 @@
 .root {
-  background-color: var(--palette-primary-lightest);
-  border: 1px solid var(--palette-primary-light);
-  color: var(--palette-text-primary);
-  padding: var(--spacing-4);
+  background-color: var(--v2-colors-stream-blue-100);
+  border-left: 4px solid var(--v2-colors-stream-blue-300);
+  color: var(--v2-colors-mono-900);
+  padding: var(--v2-spacing-4);
   box-sizing: border-box;
+}
+
+.body {
+  color: var(--v2-colors-mono-900);
+  font-size: var(--v2-font-size-4);
 }
 
 .replies,
 .gotoConversation {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: 0;
+  font-family: var(--v2-font-family-primary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+
+  color: var(--v2-colors-mono-100);
+
+  padding-right: var(--v2-spacing-3);
 }
 
 .gotoArrow {
   display: inline-block;
   text-decoration: none;
-  margin-left: var(--spacing-1);
+  margin-left: var(--v2-spacing-1);
 }
 
 .replies {
-  color: var(--palette-grey-main);
+  color: var(--v2-colors-mono-100);
+}
+
+.icon {
+  margin-right: var(--v2-spacing-1);
+}
+
+.username {
+  font-size: var(--v2-font-size-3);
 }
