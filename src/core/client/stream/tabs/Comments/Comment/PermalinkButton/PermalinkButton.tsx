@@ -11,8 +11,6 @@ import {
 
 import PermalinkPopover from "./PermalinkPopover";
 
-import styles from "./PermalinkButton.css";
-
 interface PermalinkProps {
   commentID: string;
   url: string;
@@ -29,12 +27,20 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
     <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
       <Popover
         id={popoverID}
-        placement="top"
+        placement="bottom"
         description="A dialog showing a permalink to the comment"
-        classes={{ popover: styles.popover }}
+        modifiers={{
+          arrow: {
+            enabled: false,
+          },
+        }}
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
-            <PermalinkPopover permalinkURL={url} commentID={commentID} />
+            <PermalinkPopover
+              permalinkURL={url}
+              commentID={commentID}
+              toggleVisibility={toggleVisibility}
+            />
           </ClickOutside>
         )}
       >
