@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
@@ -13,14 +14,15 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
   const config = await getExternalConfig(context.pym);
-  await initLocalBaseState(
-    environment,
-    context,
-    config ? config.accessToken : undefined
-  );
+  if (config && config.accessToken) {
+    auth = storeAccessToken(config.accessToken);
+  }
+
+  initLocalBaseState(environment, context, auth);
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -44,6 +46,7 @@ export default async function initLocalState(
     if (query.commentID) {
       localRecord.setValue(query.commentID, "commentID");
     }
+
     // Set sort
     localRecord.setValue(commentsOrderBy, "commentsOrderBy");
 
@@ -63,7 +66,7 @@ export default async function initLocalState(
     localRecord.setValue("COMMENTS", "activeTab");
     localRecord.setValue("MY_COMMENTS", "profileTab");
 
-    // Initilzie the comments tab to NONE for now, it will be initialized to an
+    // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
   });

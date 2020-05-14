@@ -1,9 +1,9 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { ACCESS_TOKEN_KEY, REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
-import { parseJWT } from "coral-framework/lib/jwt";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
 /**
@@ -11,11 +11,9 @@ import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
-  // Get the access token from the session storage.
-  let accessToken = await context.sessionStorage.getItem(ACCESS_TOKEN_KEY);
-
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
   let error: string | null = null;
@@ -31,11 +29,9 @@ export default async function initLocalState(
       error = params.error;
     }
 
-    // If there was an access token, store it and replace the one that was in
-    // the session storage before.
+    // If there was an access token, store it.
     if (params.accessToken) {
-      accessToken = params.accessToken;
-      await context.sessionStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      auth = storeAccessToken(params.accessToken);
     }
 
     // As we are in the middle of an auth flow (given that there was something
@@ -48,19 +44,7 @@ export default async function initLocalState(
     await context.localStorage.setItem(REDIRECT_PATH_KEY, "");
   }
 
-  if (accessToken) {
-    // As there's a token on the request, decode it, and check to see if it's
-    // expired already. If it is, this will send them back to the error page.
-    const { payload } = parseJWT(accessToken);
-    if (payload && payload.exp) {
-      if (payload.exp - Date.now() / 1000 <= 0) {
-        accessToken = null;
-        await context.sessionStorage.removeItem(ACCESS_TOKEN_KEY);
-      }
-    }
-  }
-
-  await initLocalBaseState(environment, context, accessToken);
+  initLocalBaseState(environment, context, auth);
 
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;

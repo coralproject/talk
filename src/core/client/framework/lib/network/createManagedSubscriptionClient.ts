@@ -26,14 +26,14 @@ export interface SubscriptionRequest {
 }
 
 /**
- * ManagedSubscriptionClient builts on top of `SubscriptionClient`
+ * ManagedSubscriptionClient builds on top of `SubscriptionClient`
  * and manages the websocket connection economically. A connection is
- * only establish when there is at least 1 active susbcription and closes
+ * only establish when there is at least 1 active subscription and closes
  * when there is no more active subscriptions.
  */
 export interface ManagedSubscriptionClient {
   /**
-   * Susbcribe to a GraphQL subscription, this is usually called from
+   * Subscribe to a GraphQL subscription, this is usually called from
    * the SubscriptionFunction provided to Relay.
    */
   subscribe(
@@ -47,7 +47,7 @@ export interface ManagedSubscriptionClient {
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
   /** Sets access token and restarts the websocket connection */
-  setAccessToken(accessToken: string): void;
+  setAccessToken(accessToken?: string): void;
 }
 
 /**
@@ -63,7 +63,7 @@ export default function createManagedSubscriptionClient(
   const requests: SubscriptionRequest[] = [];
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
-  let accessToken = "";
+  let accessToken: string | undefined;
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -143,7 +143,7 @@ export default function createManagedSubscriptionClient(
     // Register the request.
     requests.push(request as SubscriptionRequest);
 
-    // Start susbcription if we are not paused.
+    // Start subscription if we are not paused.
     if (!paused) {
       request.subscribe();
     }
@@ -179,7 +179,7 @@ export default function createManagedSubscriptionClient(
         r.unsubscribe = null;
       }
     }
-    // Close websocket conncetion.
+    // Close websocket connection.
     closeClient();
   };
 
@@ -193,12 +193,8 @@ export default function createManagedSubscriptionClient(
     paused = false;
   };
 
-  const setAccessToken = (t: string) => {
-    accessToken = t;
-    if (!paused) {
-      pause();
-      resume();
-    }
+  const setAccessToken = (nextAccessToken?: string) => {
+    accessToken = nextAccessToken;
   };
 
   return Object.freeze({

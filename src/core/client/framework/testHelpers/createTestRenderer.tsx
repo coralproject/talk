@@ -109,6 +109,7 @@ export default function createTestRenderer<
       history: [],
     },
   };
+
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(
