@@ -1,7 +1,7 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
 
 import { Config } from "coral-server/config";
-import { InternalError } from "coral-server/errors";
+import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
 
 export interface AugmentedRedisCommands {
@@ -52,7 +52,7 @@ export function createRedisClient(config: Config, lazyConnect = false): Redis {
 
     return redis;
   } catch (err) {
-    throw new InternalError(err, "could not connect to redis");
+    throw new WrappedInternalError(err, "could not connect to redis");
   }
 }
 
@@ -73,6 +73,6 @@ export async function createAugmentedRedisClient(
 
     return redis;
   } catch (err) {
-    throw new InternalError(err, "could not connect to redis");
+    throw new WrappedInternalError(err, "could not connect to redis");
   }
 }

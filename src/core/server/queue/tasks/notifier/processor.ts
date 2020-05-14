@@ -10,7 +10,7 @@ import { JWTSigningConfig } from "coral-server/services/jwt";
 import { NotificationCategory } from "coral-server/services/notifications/categories";
 import NotificationContext from "coral-server/services/notifications/context";
 import { Notification } from "coral-server/services/notifications/notification";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
   filterSuperseded,

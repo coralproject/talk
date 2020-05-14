@@ -11,3 +11,8 @@ export {
   ConfigureWebhookEndpointRoute,
   AddWebhookEndpointRoute,
 } from "./WebhookEndpoints";
+export {
+  ModerationPhasesConfigRoute,
+  ConfigureExternalModerationPhaseRoute,
+  AddExternalModerationPhaseRoute,
+} from "./ModerationPhases";

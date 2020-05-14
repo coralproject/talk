@@ -1,4 +1,3 @@
-import Logger from "bunyan";
 import cheerio from "cheerio";
 import authorScraper from "metascraper-author";
 import descriptionScraper from "metascraper-description";
@@ -12,7 +11,7 @@ import { ScrapeFailed } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
-import { createFetch, Fetch, FetchOptions } from "coral-server/services/fetch";
+import { createFetch, FetchOptions } from "coral-server/services/fetch";
 
 import { GQLStoryMetadata } from "coral-server/graph/schema/__generated__/types";
 
@@ -27,15 +26,21 @@ export type Rule = Record<
   >
 >;
 
+interface ScrapeOptions {
+  url: string;
+  timeout: number;
+  size: number;
+  customUserAgent?: string;
+  proxyURL?: string;
+}
+
 class Scraper {
   private readonly rules: Rule[];
-  private readonly log: Logger;
-  private readonly fetch: Fetch;
+  private readonly log = logger.child({ taskName: "scraper" }, true);
+  private readonly fetch = createFetch({ name: "Scraper" });
 
   constructor(rules: Rule[]) {
-    this.fetch = createFetch({ name: "Scraper" });
     this.rules = rules;
-    this.log = logger.child({ taskName: "scraper" }, true);
   }
 
   public parse(url: string, html: string): GQLStoryMetadata {
@@ -83,15 +88,15 @@ class Scraper {
     };
   }
 
-  public async download(
-    url: string,
-    timeout: number,
-    customUserAgent?: string,
-    proxyURL?: string
-  ) {
+  public async download({
+    url,
+    timeout,
+    customUserAgent,
+    proxyURL,
+  }: ScrapeOptions) {
     const log = this.log.child({ storyURL: url }, true);
 
-    const options: FetchOptions = { timeout };
+    const options: FetchOptions = { method: "GET", timeout };
     if (customUserAgent) {
       options.headers = {
         ...options.headers,
@@ -131,22 +136,14 @@ class Scraper {
   }
 
   public async scrape(
-    url: string,
-    abortAfterMilliseconds: number,
-    customUserAgent?: string,
-    proxyURL?: string
+    options: ScrapeOptions
   ): Promise<GQLStoryMetadata | null> {
-    const html = await this.download(
-      url,
-      abortAfterMilliseconds,
-      customUserAgent,
-      proxyURL
-    );
+    const html = await this.download(options);
     if (!html) {
       return null;
     }
 
-    return this.parse(url, html);
+    return this.parse(options.url, html);
   }
 }
 
@@ -195,14 +192,16 @@ export async function scrape(
   // This typecast is needed because the custom `ms` format does not return the
   // desired `number` type even though that's the only type it can output.
   const timeout = (config.get("scrape_timeout") as unknown) as number;
+  const size = config.get("scrape_max_response_size");
 
   // Get the metadata from the scraped html.
-  const metadata = await scraper.scrape(
-    storyURL,
+  const metadata = await scraper.scrape({
+    url: storyURL,
     timeout,
-    tenant.stories.scraping.customUserAgent,
-    tenant.stories.scraping.proxyURL
-  );
+    size,
+    customUserAgent: tenant.stories.scraping.customUserAgent,
+    proxyURL: tenant.stories.scraping.proxyURL,
+  });
   if (!metadata) {
     throw new Error("story at specified url not found");
   }

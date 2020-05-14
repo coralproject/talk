@@ -20,6 +20,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
@@ -39,8 +40,8 @@ import { Queue } from "./Queue";
 import { Queues } from "./Queues";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
-import { Secret } from "./Secret";
 import { Settings } from "./Settings";
+import { SigningSecret } from "./SigningSecret";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
 import { Story } from "./Story";
@@ -73,6 +74,7 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  ExternalModerationPhase,
   FacebookAuthIntegration,
   FeatureCommentPayload,
   Flag,
@@ -92,7 +94,7 @@ const Resolvers: GQLResolver = {
   RecentCommentHistory,
   RejectCommentPayload,
   SSOAuthIntegration,
-  Secret,
+  SigningSecret,
   Story,
   StorySettings,
   Subscription,

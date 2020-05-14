@@ -62,7 +62,7 @@ it("rotate sso key", async () => {
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
-        rotateSSOKey: () => {
+        rotateSSOSigningSecret: () => {
           return {
             settings: pureMerge<typeof settingsWithEmptyAuth>(
               settingsWithEmptyAuth,
@@ -71,7 +71,7 @@ it("rotate sso key", async () => {
                   integrations: {
                     sso: {
                       enabled: true,
-                      keys: [
+                      signingSecrets: [
                         {
                           kid: "kid-01",
                           secret: "secret",

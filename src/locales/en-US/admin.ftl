@@ -145,6 +145,7 @@ configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
 configure-sideBarNavigation-organization = Organization
+configure-sideBarNavigation-moderationPhases = Moderation Phases
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
@@ -158,7 +159,116 @@ configure-onOffField-off = Off
 configure-radioButton-allow = Allow
 configure-radioButton-dontAllow = Don't allow
 
+### Moderation Phases
+
+configure-moderationPhases-generatedAt = KEY GENERATED AT:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-moderationPhases-phaseNotFound = External moderation phase not found
+configure-moderationPhases-experimentalFeature =
+  The custom moderation phases feature is currently in active development.
+  Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
+configure-moderationPhases-header-title = Moderation Phases
+configure-moderationPhases-description =
+  Configure a external moderation phase to automate some moderation
+  actions. Moderation requests will be JSON encoded and signed. To
+  learn more about moderation requests, visit our <externalLink>docs</externalLink>.
+configure-moderationPhases-addExternalModerationPhaseButton =
+  Add external moderation phase
+configure-moderationPhases-moderationPhases = Moderation Phases
+configure-moderationPhases-name = Name
+configure-moderationPhases-status = Status
+configure-moderationPhases-noExternalModerationPhases =
+  There are no external moderation phases configured, add one above.
+configure-moderationPhases-enabledModerationPhase = Enabled
+configure-moderationPhases-disableModerationPhase = Disabled
+configure-moderationPhases-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-addExternalModerationPhase = Add external moderation phase
+configure-moderationPhases-updateExternalModerationPhaseButton = Update details
+configure-moderationPhases-cancelButton = Cancel
+configure-moderationPhases-format = Comment Body Format
+configure-moderationPhases-endpointURL = Callback URL
+configure-moderationPhases-timeout = Timeout
+configure-moderationPhases-timeout-details =
+  The time that Coral will wait for your moderation response in milliseconds.
+configure-moderationPhases-format-details =
+  The format that Coral will send the comment body in. By default, Coral will
+  send the comment in the original HTML encoded format. If "Plain Text" is
+  selected, then the HTML stripped version will be sent instead.
+configure-moderationPhases-format-html = HTML
+configure-moderationPhases-format-plain = Plain Text
+configure-moderationPhases-endpointURL-details =
+  The URL that Coral moderation requests will be POST'ed to. The provided URL
+  must respond within the designated timeout or the decision of the moderation
+  action will be skipped.
+configure-moderationPhases-configureExternalModerationPhase =
+  Configure external moderation phase
+configure-moderationPhases-phaseDetails = Phase details
+onfigure-moderationPhases-status = Status
+configure-moderationPhases-signingSecret = Signing secret
+configure-moderationPhases-signingSecretDescription =
+  The following signing secret is used to sign request payloads sent
+  to the URL. To learn more about webhook signing, visit our <externalLink>docs</externalLink>.
+configure-moderationPhases-phaseStatus = Phase status
+configure-moderationPhases-status = Status
+configure-moderationPhases-signingSecret = Signing secret
+configure-moderationPhases-signingSecretDescription =
+  The following signing secret is used to sign request payloads sent to the URL.
+  To learn more about webhook signing, visit our <externalLink>docs</externalLink>.
+configure-moderationPhases-dangerZone = Danger Zone
+configure-moderationPhases-rotateSigningSecret = Rotate signing secret
+configure-moderationPhases-rotateSigningSecretDescription =
+  Rotating the signing secret will allow to you to safely replace a signing
+  secret used in production with a delay.
+configure-moderationPhases-rotateSigningSecretButton = Rotate signing secret
+
+configure-moderationPhases-disableExternalModerationPhase =
+  Disable external moderation phase
+configure-moderationPhases-disableExternalModerationPhaseDescription =
+  This external moderation phase is current enabled. By disabling, no new
+  moderation queries will be sent to the URL provided.
+configure-moderationPhases-disableExternalModerationPhaseButton = Disable phase
+configure-moderationPhases-enableExternalModerationPhase =
+  Enable external moderation phase
+configure-moderationPhases-enableExternalModerationPhaseDescription =
+  This external moderation phase is currently disabled. By enabling, new
+  moderation queries will be sent to the URL provided.
+configure-moderationPhases-enableExternalModerationPhaseButton = Enable phase
+configure-moderationPhases-deleteExternalModerationPhase =
+  Delete external moderation phase
+configure-moderationPhases-deleteExternalModerationPhaseDescription =
+  Deleting this external moderation phase will stop any new moderation queries
+  from being sent to this URL and will remove all the associated settings.
+configure-moderationPhases-deleteExternalModerationPhaseButton = Delete phase
+configure-moderationPhases-rotateSigningSecret = Rotate signing secret
+configure-moderationPhases-rotateSigningSecretHelper =
+  After it expires, signatures will no longer be generated with the old secret.
+configure-moderationPhases-expiresOldSecret =
+  Expire the old secret
+configure-moderationPhases-expiresOldSecretImmediately =
+  Immediately
+configure-moderationPhases-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 hour
+    *[other] { $hours } hours
+  } from now
+configure-moderationPhases-rotateSigningSecretSuccessUseNewSecret =
+  External moderation phase signing secret has been rotated. Please ensure you
+  update your integrations to use the new secret below.
+configure-moderationPhases-confirmDisable =
+  Disabling this external moderation phase will stop any new moderation queries
+  from being sent to this URL. Are you sure you want to continue?
+configure-moderationPhases-confirmEnable =
+  Enabling the external moderation phase will start to send moderation queries
+  to this URL. Are you sure you want to continue?
+configure-moderationPhases-confirmDelete =
+  Deleting this external moderation phase will stop any new moderation queries
+  from being sent to this URL and will remove all the associated settings. Are
+  you sure you want to continue?
+
 ### Webhooks
+
+configure-webhooks-generatedAt = KEY GENERATED AT:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-webhooks-experimentalFeature =
   The webhook feature is currently in active development. Events may be
   added or removed. Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.

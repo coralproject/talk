@@ -62,9 +62,14 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
           />
           <CopyButton text={webhookEndpoint.signingSecret.secret} />
         </Flex>
-        <HelperText>
-          KEY GENERATED AT: {webhookEndpoint.signingSecret.createdAt}
-        </HelperText>
+        <Localized
+          id="configure-webhooks-generatedAt"
+          $date={new Date(webhookEndpoint.signingSecret.createdAt)}
+        >
+          <HelperText>
+            KEY GENERATED AT: {webhookEndpoint.signingSecret.createdAt}
+          </HelperText>
+        </Localized>
       </FormField>
     </>
   );

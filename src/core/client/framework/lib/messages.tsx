@@ -92,13 +92,13 @@ export const NOT_A_WHOLE_NUMBER = () => (
 
 export const NOT_A_WHOLE_NUMBER_GREATER_THAN = (x: number) => (
   <Localized id="framework-validation-notAWholeNumberGreaterThan" $x={x}>
-    <span>Please enter a valid whole number greater than $x</span>
+    <span>Please enter a valid whole number greater than {x}</span>
   </Localized>
 );
 
 export const NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL = (x: number) => (
   <Localized id="framework-validation-notAWholeNumberGreaterThanOrEqual" $x={x}>
-    <span>Please enter a valid whole number greater than or equal to $x</span>
+    <span>Please enter a valid whole number greater than or equal to {x}</span>
   </Localized>
 );
 

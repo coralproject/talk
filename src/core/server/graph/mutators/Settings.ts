@@ -2,34 +2,46 @@ import GraphContext from "coral-server/graph/context";
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
+  createExternalModerationPhase,
   createWebhookEndpoint,
-  deactivateSSOKey,
+  deactivateSSOSigningSecret,
   deleteAnnouncement,
-  deleteSSOKey,
+  deleteExternalModerationPhase,
+  deleteSSOSigningSecret,
   deleteWebhookEndpoint,
+  disableExternalModerationPhase,
   disableFeatureFlag,
   disableWebhookEndpoint,
+  enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
   regenerateSSOKey,
-  rotateSSOKey,
-  rotateWebhookEndpointSecret,
+  rotateExternalModerationPhaseSigningSecret,
+  rotateSSOSigningSecret,
+  rotateWebhookEndpointSigningSecret,
   sendSMTPTest,
   update,
+  updateExternalModerationPhase,
   updateWebhookEndpoint,
 } from "coral-server/services/tenant";
 
 import {
   GQLCreateAnnouncementInput,
+  GQLCreateExternalModerationPhaseInput,
   GQLCreateWebhookEndpointInput,
-  GQLDeactivateSSOKeyInput,
-  GQLDeleteSSOKeyInput,
+  GQLDeactivateSSOSigningSecretInput,
+  GQLDeleteExternalModerationPhaseInput,
+  GQLDeleteSSOSigningSecretInput,
   GQLDeleteWebhookEndpointInput,
+  GQLDisableExternalModerationPhaseInput,
   GQLDisableWebhookEndpointInput,
+  GQLEnableExternalModerationPhaseInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
-  GQLRotateSSOKeyInput,
-  GQLRotateWebhookEndpointSecretInput,
+  GQLRotateExternalModerationPhaseSigningSecretInput,
+  GQLRotateSSOSigningSecretInput,
+  GQLRotateWebhookEndpointSigningSecretInput,
+  GQLUpdateExternalModerationPhaseInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
 } from "coral-server/graph/schema/__generated__/types";
@@ -50,20 +62,21 @@ export const Settings = ({
     input: WithoutMutationID<GQLUpdateSettingsInput>
   ): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, config, tenant, input.settings),
+  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
-  rotateSSOKey: ({ inactiveIn }: GQLRotateSSOKeyInput) =>
-    rotateSSOKey(mongo, redis, tenantCache, tenant, inactiveIn, now),
-  deactivateSSOKey: ({ kid }: GQLDeactivateSSOKeyInput) =>
-    deactivateSSOKey(mongo, redis, tenantCache, tenant, kid, now),
-  deleteSSOKey: ({ kid }: GQLDeleteSSOKeyInput) =>
-    deleteSSOKey(mongo, redis, tenantCache, tenant, kid),
+  rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>
+    rotateSSOSigningSecret(mongo, redis, tenantCache, tenant, inactiveIn, now),
+  deleteSSOSigningSecret: ({ kid }: GQLDeleteSSOSigningSecretInput) =>
+    deleteSSOSigningSecret(mongo, redis, tenantCache, tenant, kid),
+  deactivateSSOSigningSecret: ({ kid }: GQLDeactivateSSOSigningSecretInput) =>
+    deactivateSSOSigningSecret(mongo, redis, tenantCache, tenant, kid, now),
   enableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   createAnnouncement: (input: GQLCreateAnnouncementInput) =>
-    createAnnouncement(mongo, redis, tenantCache, tenant, input, now),
+    createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
   createWebhookEndpoint: (
@@ -92,10 +105,59 @@ export const Settings = ({
   deleteWebhookEndpoint: (
     input: WithoutMutationID<GQLDeleteWebhookEndpointInput>
   ) => deleteWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
-  rotateWebhookEndpointSecret: (
-    input: WithoutMutationID<GQLRotateWebhookEndpointSecretInput>
+  rotateWebhookEndpointSigningSecret: (
+    input: WithoutMutationID<GQLRotateWebhookEndpointSigningSecretInput>
   ) =>
-    rotateWebhookEndpointSecret(
+    rotateWebhookEndpointSigningSecret(
+      mongo,
+      redis,
+      tenantCache,
+      tenant,
+      input.id,
+      input.inactiveIn,
+      now
+    ),
+  createExternalModerationPhase: (
+    input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
+  ) =>
+    createExternalModerationPhase(
+      mongo,
+      redis,
+      config,
+      tenantCache,
+      tenant,
+      input,
+      now
+    ),
+  updateExternalModerationPhase: ({
+    id,
+    ...input
+  }: WithoutMutationID<GQLUpdateExternalModerationPhaseInput>) =>
+    updateExternalModerationPhase(
+      mongo,
+      redis,
+      config,
+      tenantCache,
+      tenant,
+      id,
+      input
+    ),
+  enableExternalModerationPhase: (
+    input: WithoutMutationID<GQLEnableExternalModerationPhaseInput>
+  ) =>
+    enableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  disableExternalModerationPhase: (
+    input: WithoutMutationID<GQLDisableExternalModerationPhaseInput>
+  ) =>
+    disableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  deleteExternalModerationPhase: (
+    input: WithoutMutationID<GQLDeleteExternalModerationPhaseInput>
+  ) =>
+    deleteExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  rotateExternalModerationPhaseSigningSecret: (
+    input: WithoutMutationID<GQLRotateExternalModerationPhaseSigningSecretInput>
+  ) =>
+    rotateExternalModerationPhaseSigningSecret(
       mongo,
       redis,
       tenantCache,

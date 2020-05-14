@@ -1,7 +1,7 @@
 import { Db, MongoClient } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { InternalError } from "coral-server/errors";
+import { WrappedInternalError } from "coral-server/errors";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
   try {
@@ -10,7 +10,7 @@ export async function createMongoClient(config: Config): Promise<MongoClient> {
       ignoreUndefined: true,
     });
   } catch (err) {
-    throw new InternalError(err, "could not connect to mongodb");
+    throw new WrappedInternalError(err, "could not connect to mongodb");
   }
 }
 

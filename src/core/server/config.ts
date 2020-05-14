@@ -7,7 +7,7 @@ import os from "os";
 import { LOCALES } from "coral-common/helpers/i18n/locales";
 import { ensureEndSlash } from "coral-common/utils";
 
-import { InternalError } from "./errors";
+import { WrappedInternalError } from "./errors";
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
@@ -15,7 +15,7 @@ convict.addFormat({
   validate: (url: string) => {
     parseConnectionString(url, (err) => {
       if (err) {
-        throw new InternalError(err, "invalid mongo-uri");
+        throw new WrappedInternalError(err, "invalid mongo-uri");
       }
     });
   },
@@ -236,6 +236,13 @@ const config = convict({
     format: Boolean,
     default: false,
     env: "DISABLE_RATE_LIMITERS",
+  },
+  scrape_max_response_size: {
+    doc: "The maximum size (in bytes) to allow for scraping responses.",
+    format: Number,
+    default: 10e6,
+    env: "SCRAPE_MAX_RESPONSE_SIZE",
+    arg: "scrapeMaxResponseSize",
   },
   scrape_timeout: {
     doc: "The request timeout (in ms) for scraping operations.",

@@ -495,7 +495,7 @@ type LocalAuthIntegration {
 ## SSOAuthIntegration
 ##########################
 
-type Secret {
+type SigningSecret {
   """
   kid is the identifier for the key used when verifying tokens issued by the
   provider.
@@ -551,23 +551,23 @@ type SSOAuthIntegration {
   targetFilter: AuthenticationTargetFilter!
 
   """
-  keys are the different SSOKey's used by this Tenant.
+  signingSecrets are the different SigningSecret's used by this Tenant.
   """
-  keys: [Secret!]! @auth(roles: [ADMIN])
+  signingSecrets: [SigningSecret!]! @auth(roles: [ADMIN])
 
   """
   key is the secret that is used to sign tokens.
   """
   key: String
     @auth(roles: [ADMIN])
-    @deprecated(reason: "field is deprecated in favour of `keys`")
+    @deprecated(reason: "field is deprecated in favour of `signingSecrets`")
 
   """
   keyGeneratedAt is the Time that the key was effective from.
   """
   keyGeneratedAt: Time
     @auth(roles: [ADMIN])
-    @deprecated(reason: "field is deprecated in favour of `keys`")
+    @deprecated(reason: "field is deprecated in favour of `signingSecrets`")
 }
 
 ##########################
@@ -908,6 +908,73 @@ type PerspectiveExternalIntegration {
   sendFeedback: Boolean @auth(roles: [ADMIN])
 }
 
+"""
+COMMENT_BODY_FORMAT describes the various formats that a comment body can be
+provided in.
+"""
+enum COMMENT_BODY_FORMAT {
+  """
+  HTML describes the format of the comment body using HTML.
+  """
+  HTML
+
+  """
+  PLAIN_TEXT describes the format of the comment body with the HTML stripped.
+  """
+  PLAIN_TEXT
+}
+
+"""
+ExternalModerationPhase describes a phase use in the moderation pipeline that
+calls out to an external resource as defined by the provided URL.
+"""
+type ExternalModerationPhase {
+  """
+  id identifies this particular External Moderation Phase.
+  """
+  id: ID!
+
+  """
+  name is the name assigned to this ExternalModerationPhase for identification
+  purposes.
+  """
+  name: String!
+
+  """
+  enabled when true, will use this phase in the moderation pipeline.
+  """
+  enabled: Boolean!
+
+  """
+  url is the actual URL that should be called.
+  """
+  url: String!
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT!
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int!
+
+  """
+  signingSecret is the secret used to sign outgoing requests to the url during
+  the moderation pipeline.
+  """
+  signingSecret: SigningSecret!
+}
+
+type CustomExternalIntegration {
+  """
+  phases is all the external moderation phases for this Tenant.
+  """
+  phases: [ExternalModerationPhase!]!
+}
+
 type ExternalIntegrations {
   """
   akismet provides integration with the Akismet Spam detection service.
@@ -919,6 +986,12 @@ type ExternalIntegrations {
   platform.
   """
   perspective: PerspectiveExternalIntegration!
+
+  """
+  external provides integration details for external moderation phases that can be
+  used in the moderation pipeline.
+  """
+  external: CustomExternalIntegration
 }
 
 ################################################################################
@@ -1318,7 +1391,7 @@ type WebhookEndpoint {
   """
   signingSecret is the current secret used to sign the events sent out.
   """
-  signingSecret: Secret!
+  signingSecret: SigningSecret!
 
   """
   deliveries store the deliveries for each event sent for the last 50 events.
@@ -3183,6 +3256,13 @@ type Query {
   queues returns information on queues used in Coral to manage
   """
   queues: Queues! @auth(roles: [ADMIN])
+
+  """
+  externalModerationPhase will return a specific ExternalModerationPhase if it
+  exists.
+  """
+  externalModerationPhase(id: ID!): ExternalModerationPhase
+    @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -4369,7 +4449,7 @@ input RegenerateSSOKeyInput {
 
 type RegenerateSSOKeyPayload {
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 
@@ -5158,10 +5238,10 @@ type UpdateWebhookEndpointPayload {
 }
 
 ##################
-# rotateWebhookEndpointSecret
+# rotateWebhookEndpointSigningSecret
 ##################
 
-input RotateWebhookEndpointSecretInput {
+input RotateWebhookEndpointSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -5179,7 +5259,7 @@ input RotateWebhookEndpointSecretInput {
   inactiveIn: Int!
 }
 
-type RotateWebhookEndpointSecretPayload {
+type RotateWebhookEndpointSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -5188,7 +5268,7 @@ type RotateWebhookEndpointSecretPayload {
   """
   endpoint is the endpoint that we just updated.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5216,7 +5296,7 @@ type DisableWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just disabled.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5244,7 +5324,7 @@ type EnableWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just enabled.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5272,7 +5352,225 @@ type DeleteWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just deleted.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
+}
+
+#################
+# createExternalModerationPhase
+##################
+
+input CreateExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  name is the name assigned to this ExternalModerationPhase for identification
+  purposes.
+  """
+  name: String!
+
+  """
+  url is the URL that Coral will POST moderation queries to.
+  """
+  url: String!
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT!
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int!
+}
+
+type CreateExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just created.
+  """
+  phase: ExternalModerationPhase!
+
+  """
+  settings is the updated settings also containing the new phase.
+  """
+  settings: Settings!
+}
+
+##################
+# updateExternalModerationPhase
+##################
+
+input UpdateExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being updated.
+  """
+  id: ID!
+
+  """
+  name is the name assigned to this ExternalModerationPhase for identification
+  purposes.
+  """
+  name: String
+
+  """
+  url is the URL that Coral will POST moderation queries to.
+  """
+  url: String
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int
+}
+
+type UpdateExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just updated.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# deleteExternalModerationPhase
+##################
+
+input DeleteExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being deleted.
+  """
+  id: ID!
+}
+
+type DeleteExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just deleted.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# disableExternalModerationPhase
+##################
+
+input DisableExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being disabled.
+  """
+  id: ID!
+}
+
+type DisableExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just disabled.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# enableExternalModerationPhase
+##################
+
+input EnableExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being enabled.
+  """
+  id: ID!
+}
+
+type EnableExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just enabled.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# rotateExternalModerationPhaseSigningSecret
+##################
+
+input RotateExternalModerationPhaseSigningSecretInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being updated.
+  """
+  id: ID!
+
+  """
+  inactiveIn is the number of seconds that the current active Secret should be
+  kept active.
+  """
+  inactiveIn: Int!
+}
+
+type RotateExternalModerationPhaseSigningSecretPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just updated.
+  """
+  phase: ExternalModerationPhase!
 }
 
 ##################
@@ -6001,87 +6299,87 @@ type EnableFeatureFlagPayload {
 }
 
 #########################
-## rotateSSOKey
+## rotateSSOSigningSecret
 #########################
 
-input RotateSSOKeyInput {
+input RotateSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  inactiveIn is the number of seconds that the current active SSOKey should be
-  kept active (allow signed tokens signed with this secret) before rejecting
-  them.
+  inactiveIn is the number of seconds that the current active SigningSecret
+  should be kept active (allow signed tokens signed with this secret) before
+  rejecting them.
   """
   inactiveIn: Int!
 }
 
-type RotateSSOKeyPayload {
+type RotateSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
 
 #########################
-## deactivateSSOKey
+## deactivateSSOSigningSecret
 #########################
 
-input DeactivateSSOKeyInput {
+input DeactivateSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  kid is the ID of the SSOKey being deactivated.
+  kid is the ID of the SigningSecret being deactivated.
   """
   kid: ID!
 }
 
-type DeactivateSSOKeyPayload {
+type DeactivateSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
 
 #########################
-## deleteSSOKey
+## deleteSSOSigningSecret
 #########################
 
-input DeleteSSOKeyInput {
+input DeleteSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  kid is the ID of the SSOKey being deleted.
+  kid is the ID of the SigningSecret being deleted.
   """
   kid: ID!
 }
 
-type DeleteSSOKeyPayload {
+type DeleteSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
@@ -6349,30 +6647,35 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
+  regenerateSSOKey will regenerate the SSO secret used to sign secrets. This will
   invalidate any existing user sessions.
+
+  DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
     @auth(roles: [ADMIN])
-    @deprecated(reason: "deprecated in favour of `rotateSSOKey`")
+    @deprecated(reason: "deprecated in favour of `rotateSSOSigningSecret`")
 
   """
-  rotateSSOKey can be used to rotate a given active SSOKey.
+  rotateSSOSigningSecret can be used to rotate a given active SigningSecret.
   """
-  rotateSSOKey(input: RotateSSOKeyInput!): RotateSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  rotateSSOSigningSecret(
+    input: RotateSSOSigningSecretInput!
+  ): RotateSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
-  deactivateSSOKey will deactivate a given deactivated SSOKey.
+  deactivateSSOSigningSecret will deactivate a given deactivated SigningSecret.
   """
-  deactivateSSOKey(input: DeactivateSSOKeyInput!): DeactivateSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  deactivateSSOSigningSecret(
+    input: DeactivateSSOSigningSecretInput!
+  ): DeactivateSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
-  deleteSSOKey will delete a given inactive SSOKey.
+  deleteSSOSigningSecret will delete a given inactive SigningSecret.
   """
-  deleteSSOKey(input: DeleteSSOKeyInput!): DeleteSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  deleteSSOSigningSecret(
+    input: DeleteSSOSigningSecretInput!
+  ): DeleteSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
@@ -6762,11 +7065,56 @@ type Mutation {
   ): DeleteWebhookEndpointPayload! @auth(roles: [ADMIN])
 
   """
-  rotateWebhookEndpointSecret will roll the current active secret to a new key.
+  rotateWebhookEndpointSigningSecret will roll the current active secret to a new key.
   """
-  rotateWebhookEndpointSecret(
-    input: RotateWebhookEndpointSecretInput!
-  ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
+  rotateWebhookEndpointSigningSecret(
+    input: RotateWebhookEndpointSigningSecretInput!
+  ): RotateWebhookEndpointSigningSecretPayload! @auth(roles: [ADMIN])
+
+  """
+  createExternalModerationPhase will create a new ExternalModerationPhase.
+  """
+  createExternalModerationPhase(
+    input: CreateExternalModerationPhaseInput!
+  ): CreateExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  updateExternalModerationPhase will update a ExternalModerationPhase.
+  """
+  updateExternalModerationPhase(
+    input: UpdateExternalModerationPhaseInput!
+  ): UpdateExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  enableExternalModerationPhase will enable a ExternalModerationPhase to recieve
+  new comments.
+  """
+  enableExternalModerationPhase(
+    input: EnableExternalModerationPhaseInput!
+  ): EnableExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  disableExternalModerationPhase will disable a ExternalModerationPhase from
+  recieving new comments.
+  """
+  disableExternalModerationPhase(
+    input: DisableExternalModerationPhaseInput!
+  ): DisableExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  deleteExternalModerationPhase will delete a ExternalModerationPhase.
+  """
+  deleteExternalModerationPhase(
+    input: DeleteExternalModerationPhaseInput!
+  ): DeleteExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  rotateExternalModerationPhaseSigningSecret will roll the current active secret
+  to a new key.
+  """
+  rotateExternalModerationPhaseSigningSecret(
+    input: RotateExternalModerationPhaseSigningSecretInput!
+  ): RotateExternalModerationPhaseSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
   updateStoryMode will set the story mode.

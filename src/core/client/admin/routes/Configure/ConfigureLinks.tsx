@@ -14,7 +14,12 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         <Link to="/admin/configure/organization">Organization</Link>
       </Localized>
       <Localized id="configure-sideBarNavigation-moderation">
-        <Link to="/admin/configure/moderation">Moderation</Link>
+        <Link exact to="/admin/configure/moderation">
+          Moderation
+        </Link>
+      </Localized>
+      <Localized id="configure-sideBarNavigation-moderationPhases">
+        <Link to="/admin/configure/moderation/phases">Moderation Phases</Link>
       </Localized>
       <Localized id="configure-sideBarNavigation-bannedAndSuspectWords">
         <Link to="/admin/configure/wordList">Banned and Suspect Words</Link>

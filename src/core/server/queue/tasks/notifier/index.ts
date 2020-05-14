@@ -10,7 +10,7 @@ import {
   categories,
   NotificationCategory,
 } from "coral-server/services/notifications/categories";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { createJobProcessor, JOB_NAME, NotifierData } from "./processor";
 

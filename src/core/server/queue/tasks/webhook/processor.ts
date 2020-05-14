@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
@@ -6,19 +5,15 @@ import { Config } from "coral-server/config";
 import { CoralEventPayload } from "coral-server/events/event";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
+import { filterExpiredSigningSecrets } from "coral-server/models/settings";
 import {
-  filterActiveSecrets,
-  filterExpiredSecrets,
-} from "coral-server/models/settings";
-import {
-  deleteEndpointSecrets,
-  Endpoint,
+  deleteTenantWebhookEndpointSigningSecrets,
   getWebhookEndpoint,
 } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
-import { createFetch, FetchOptions } from "coral-server/services/fetch";
+import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
 import { disableWebhookEndpoint } from "coral-server/services/tenant";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 export const JOB_NAME = "webhook";
 
@@ -53,36 +48,7 @@ export interface WebhookDelivery {
   createdAt: Date;
 }
 
-/**
- * generateSignature will generate a signature used to assist clients to
- * validate that the request came from Coral.
- *
- * @param secret the secret used to sign the body with
- * @param body the body to use when signing
- */
-export function generateSignature(secret: string, body: string) {
-  return crypto
-    .createHmac("sha256", secret)
-    .update(body)
-    .digest()
-    .toString("hex");
-}
-
-export function generateSignatures(
-  endpoint: Pick<Endpoint, "signingSecrets">,
-  body: string,
-  now: Date
-) {
-  // For each of the signatures, we only want to sign the body with secrets that
-  // are still active.
-  return endpoint.signingSecrets
-    .filter(filterActiveSecrets(now))
-    .map(({ secret }) => generateSignature(secret, body))
-    .map((signature) => `sha256=${signature}`)
-    .join(",");
-}
-
-type CoralWebhookEventPayload = CoralEventPayload & {
+interface CoralWebhookEventPayload extends CoralEventPayload {
   /**
    * tenantID is the ID of the Tenant that this event originated at.
    */
@@ -92,28 +58,6 @@ type CoralWebhookEventPayload = CoralEventPayload & {
    * tenantDomain is the domain that is associated with this Tenant that this event originated at.
    */
   readonly tenantDomain: string;
-};
-
-export function generateFetchOptions(
-  endpoint: Pick<Endpoint, "signingSecrets">,
-  data: CoralWebhookEventPayload,
-  now: Date
-): FetchOptions {
-  // Serialize the body and signature to include in the request.
-  const body = JSON.stringify(data, null, 2);
-  const signature = generateSignatures(endpoint, body, now);
-
-  const headers: Record<string, any> = {
-    "Content-Type": "application/json",
-    "X-Coral-Event": data.type,
-    "X-Coral-Signature": signature,
-  };
-
-  return {
-    method: "POST",
-    headers,
-    body,
-  };
 }
 
 export function createJobProcessor({
@@ -162,12 +106,21 @@ export function createJobProcessor({
     // Get the current date.
     const now = new Date();
 
+    // Generate the payload.
+    const payload: CoralWebhookEventPayload = {
+      ...event,
+      tenantID,
+      tenantDomain: tenant.domain,
+    };
+
     // Get the fetch options.
-    const options = generateFetchOptions(
-      endpoint,
-      { ...event, tenantID, tenantDomain: tenant.domain },
-      now
-    );
+    const options = generateFetchOptions(endpoint.signingSecrets, payload, now);
+
+    // Add the X-Coral-Event header.
+    options.headers = {
+      ...options.headers,
+      "X-Coral-Event": event.type,
+    };
 
     // Send the request.
     const timer = createTimer();
@@ -240,35 +193,34 @@ export function createJobProcessor({
           tenant,
           endpointID
         );
-      } else {
-        // TODO: (wyattjoh) maybe schedule a retry?
       }
+      // TODO: (wyattjoh) maybe schedule a retry?
     }
 
     // Remove the expired secrets in the next tick so that it does not affect
     // the sending performance of this job, and errors do not impact the
     // sending.
-    const expiredSigningSecrets = endpoint.signingSecrets.filter(
-      filterExpiredSecrets(now)
-    );
-    if (expiredSigningSecrets.length > 0) {
+    const expiredSigningSecretKIDs = endpoint.signingSecrets
+      .filter(filterExpiredSigningSecrets(now))
+      .map((s) => s.kid);
+    if (expiredSigningSecretKIDs.length > 0) {
       process.nextTick(() => {
-        deleteEndpointSecrets(
+        deleteTenantWebhookEndpointSigningSecrets(
           mongo,
           tenantID,
           endpoint.id,
-          expiredSigningSecrets.map((s) => s.kid)
+          expiredSigningSecretKIDs
         )
           .then(() => {
             log.info(
-              { secrets: expiredSigningSecrets.length },
+              { endpointID: endpoint.id, kids: expiredSigningSecretKIDs },
               "removed expired secrets from endpoint"
             );
           })
           .catch((err) => {
             log.error(
               { err },
-              "an error occurred when trying to remove expired secrets"
+              "an error occurred when trying to remove expired endpoint secrets"
             );
           });
       });

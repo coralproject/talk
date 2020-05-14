@@ -7,8 +7,10 @@ import { IntegrationDisabled } from "coral-server/errors";
 import { AuthIntegrations } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import TenantCache from "coral-server/services/tenant/cache";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";

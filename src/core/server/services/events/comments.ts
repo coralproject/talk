@@ -11,6 +11,7 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   Comment,
   CommentModerationQueueCounts,
+  getDepth,
   hasPublishedStatus,
 } from "coral-server/models/comment";
 
@@ -42,7 +43,7 @@ export async function publishCommentReplyCreated(
   broker: CoralEventPublisherBroker,
   comment: Pick<Comment, "id" | "status" | "ancestorIDs">
 ) {
-  if (comment.ancestorIDs.length > 0 && hasPublishedStatus(comment)) {
+  if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentReplyCreatedCoralEvent.publish(broker, {
       ancestorIDs: comment.ancestorIDs,
       commentID: comment.id,

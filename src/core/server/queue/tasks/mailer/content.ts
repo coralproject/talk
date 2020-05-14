@@ -3,8 +3,10 @@ import nunjucks, { Environment, ILoader } from "nunjucks";
 import path from "path";
 
 import { Config } from "coral-server/config";
-import TenantCache from "coral-server/services/tenant/cache";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
 
 import { Tenant } from "coral-server/models/tenant";
 import { EmailTemplate } from "./templates";

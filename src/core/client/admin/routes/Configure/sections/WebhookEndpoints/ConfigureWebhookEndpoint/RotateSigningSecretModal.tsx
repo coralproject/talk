@@ -22,7 +22,7 @@ import {
 } from "coral-ui/components/v2";
 import AppNotification from "coral-ui/components/v2/AppNotification";
 
-import RotateWebhookEndpointSecretMutation from "./RotateWebhookEndpointSecretMutation";
+import RotateWebhookEndpointSigningSecretMutation from "./RotateWebhookEndpointSigningSecretMutation";
 
 import styles from "./RotateSigningSecretModal.css";
 
@@ -32,20 +32,23 @@ interface Props {
   open: boolean;
 }
 
-const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
+const RotateWebhookEndpointSigningSecretModal: FunctionComponent<Props> = ({
   onHide,
   open,
   endpointID,
 }) => {
-  const rotateWebhookEndpointSecret = useMutation(
-    RotateWebhookEndpointSecretMutation
+  const rotateWebhookEndpointSigningSecret = useMutation(
+    RotateWebhookEndpointSigningSecretMutation
   );
   const { setMessage, clearMessage } = useNotification();
   const onRotateSecret = useCallback(
     async ({ inactiveIn: inactiveInString }) => {
       try {
         const inactiveIn = parseInt(inactiveInString, 10);
-        await rotateWebhookEndpointSecret({ id: endpointID, inactiveIn });
+        await rotateWebhookEndpointSigningSecret({
+          id: endpointID,
+          inactiveIn,
+        });
 
         // Post a notification about the successful change.
         setMessage(
@@ -56,7 +59,9 @@ const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
             </AppNotification>
           </Localized>
         );
-        window.scroll(0, 0);
+
+        // Scroll after a zero timeout because chrome won't scroll otherwise.
+        setTimeout(() => window.scroll(0, 0), 0);
       } catch (err) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
@@ -69,7 +74,7 @@ const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
 
       return;
     },
-    [endpointID, rotateWebhookEndpointSecret]
+    [endpointID, rotateWebhookEndpointSigningSecret]
   );
 
   return (
@@ -162,4 +167,4 @@ const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
   );
 };
 
-export default RotateWebhookEndpointSecretModal;
+export default RotateWebhookEndpointSigningSecretModal;
