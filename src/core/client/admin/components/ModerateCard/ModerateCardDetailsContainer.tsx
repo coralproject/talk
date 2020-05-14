@@ -36,6 +36,7 @@ type DetailsTabs = "INFO" | "HISTORY";
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
     ? c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
+        c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
         0 || c.revision.metadata.perspective
     : false;

@@ -291,6 +291,30 @@ exports[`render popup 1`] = `
               checked={false}
               className="RadioButton-input"
               disabled={false}
+              id="reportComment-popover--reason-COMMENT_REPORTED_ABUSIVE"
+              name="reason"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="radio"
+              value="COMMENT_REPORTED_ABUSIVE"
+            />
+            <label
+              className="RadioButton-label"
+              htmlFor="reportComment-popover--reason-COMMENT_REPORTED_ABUSIVE"
+            >
+              This is abusive behaviour
+            </label>
+          </div>
+        </li>
+        <li>
+          <div
+            className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+          >
+            <input
+              checked={false}
+              className="RadioButton-input"
+              disabled={false}
               id="reportComment-popover--reason-DISAGREE"
               name="reason"
               onBlur={[Function]}
