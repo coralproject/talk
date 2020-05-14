@@ -1,8 +1,10 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { Markdown } from "coral-framework/components";
 import CLASSES from "coral-stream/classes";
-import { CallOut } from "coral-ui/components";
+
+import styles from "./CommunityGuidelines.css";
 
 interface Props {
   children: string;
@@ -10,9 +12,9 @@ interface Props {
 
 const CommunityGuidelines: FunctionComponent<Props> = (props) => {
   return (
-    <CallOut color="primary" fullWidth className={CLASSES.guidelines}>
+    <div className={cn(styles.root, CLASSES.guidelines)}>
       <Markdown>{props.children}</Markdown>
-    </CallOut>
+    </div>
   );
 };
 

@@ -37,7 +37,7 @@
     padding: var(--mini-unit);
     margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
       var(--mini-unit);
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     &::after {
       content: none;
     }
