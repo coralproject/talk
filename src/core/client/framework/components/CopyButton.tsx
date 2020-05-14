@@ -1,5 +1,11 @@
 import { Localized } from "@fluent/react/compat";
-import React from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 import { Button } from "coral-ui/components/v2";
@@ -7,56 +13,68 @@ import { PropTypesOf } from "coral-ui/types";
 
 interface Props extends Omit<PropTypesOf<typeof Button>, "ref"> {
   text: string;
+  inner?: React.ReactNode;
+  innerCopied?: React.ReactNode;
 }
 
-interface State {
-  copied: boolean;
-}
+const CopyButton: FunctionComponent<Props> = ({
+  text,
+  color,
+  size,
+  inner,
+  innerCopied,
+  ...rest
+}) => {
+  let timeout: any = null;
+  const [copied, setCopied] = useState(false);
 
-class CopyButton extends React.Component<Props> {
-  private timeout: any = null;
+  // clear time out when we de-scope
+  useEffect(() => {
+    return function cleanup() {
+      clearTimeout(timeout);
+    };
+  }, [timeout]);
 
-  public state: State = {
-    copied: false,
-  };
+  const timeoutCallback = useCallback(() => {
+    setCopied(false);
+  }, [setCopied]);
 
-  public componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
+  const handleCopy = useCallback(() => {
+    setCopied(true);
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutCallback, 500);
+  }, [timeout, setCopied]);
 
-  private handleCopy = () => {
-    this.setCopied(true);
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.setCopied(false);
-    }, 500);
-  };
+  const copyBody = useMemo(() => {
+    if (inner) {
+      return inner;
+    }
 
-  private setCopied = (b: boolean) => {
-    this.setState({
-      copied: b,
-    });
-  };
-
-  public render() {
-    const { text, color, size, ...rest } = this.props;
-    const { copied } = this.state;
     return (
-      <CopyToClipboard text={text} onCopy={this.handleCopy}>
-        <Button color={color || "mono"} variant="flat" {...rest}>
-          {copied ? (
-            <Localized id="framework-copyButton-copied">
-              <span>Copied!</span>
-            </Localized>
-          ) : (
-            <Localized id="framework-copyButton-copy">
-              <span>Copy</span>
-            </Localized>
-          )}
-        </Button>
-      </CopyToClipboard>
+      <Localized id="framework-copyButton-copy">
+        <span>Copy</span>
+      </Localized>
     );
-  }
-}
+  }, [inner]);
+  const copiedBody = useMemo(() => {
+    if (innerCopied) {
+      return innerCopied;
+    }
+
+    return (
+      <Localized id="framework-copyButton-copied">
+        <span>Copied!</span>
+      </Localized>
+    );
+  }, [innerCopied]);
+
+  return (
+    <CopyToClipboard text={text} onCopy={handleCopy}>
+      <Button color={color || "mono"} variant="flat" {...rest}>
+        {copied ? copiedBody : copyBody}
+      </Button>
+    </CopyToClipboard>
+  );
+};
 
 export default CopyButton;
