@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { BaseButton, ClickOutside, Popover } from "coral-ui/components";
+import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
 
 import { UsernameWithPopoverContainer_comment } from "coral-stream/__generated__/UsernameWithPopoverContainer_comment.graphql";
 import { UsernameWithPopoverContainer_viewer } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
@@ -15,6 +15,7 @@ interface Props {
   comment: UsernameWithPopoverContainer_comment;
   viewer: UsernameWithPopoverContainer_viewer | null;
   className?: string;
+  usernameClassName?: string;
 }
 
 const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
@@ -45,7 +46,9 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
             ref={ref}
             className={props.className}
           >
-            <Username>{props.comment.author!.username}</Username>
+            <Username className={props.usernameClassName}>
+              {props.comment.author!.username}
+            </Username>
           </BaseButton>
         )}
       </Popover>

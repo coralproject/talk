@@ -15,7 +15,8 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon, TextLink } from "coral-ui/components";
+import { Box, Flex, Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
 import { FeaturedCommentContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
@@ -60,7 +61,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       className={cn(CLASSES.featuredComment.$root, styles.root)}
       data-testid={`featuredComment-${comment.id}`}
     >
-      <HTMLContent className={CLASSES.featuredComment.content}>
+      <HTMLContent className={cn(styles.body, CLASSES.featuredComment.content)}>
         {comment.body || ""}
       </HTMLContent>
       <Flex
@@ -72,6 +73,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         {comment.author && (
           <UsernameWithPopoverContainer
             className={CLASSES.featuredComment.authorBar.username}
+            usernameClassName={styles.username}
             comment={comment}
             viewer={viewer}
           />
@@ -105,40 +107,41 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         />
         <Flex alignItems="center">
           {comment.replyCount > 0 && (
-            <Flex alignItems="center" className={styles.replies}>
-              <Flex
-                alignItems="center"
-                className={CLASSES.featuredComment.actionBar.replies}
-              >
-                <Icon size="md">reply</Icon>
-                <Localized id="comments-featured-replies">
-                  <Box mx={1}>Replies</Box>
-                </Localized>
-                <Box>{comment.replyCount}</Box>
-              </Flex>
-              <Box
-                className={CLASSES.featuredComment.actionBar.repliesDivider}
-                mx={2}
-              >
-                |
-              </Box>
+            <Flex
+              alignItems="center"
+              className={cn(
+                styles.replies,
+                CLASSES.featuredComment.actionBar.replies
+              )}
+            >
+              <Icon size="sm">comment</Icon>
+              <Localized id="comments-featured-replies">
+                <Box mx={1}>Replies</Box>
+              </Localized>
+              <Box>{comment.replyCount}</Box>
             </Flex>
           )}
-          <div>
-            <TextLink
+          <Flex alignItems="center">
+            <Button
               className={cn(
                 CLASSES.featuredComment.actionBar.goToConversation,
                 styles.gotoConversation
               )}
+              variant="flat"
+              textSize="small"
+              color="none"
+              marginSize="none"
               onClick={onGotoConversation}
               href={getURLWithCommentID(story.url, comment.id)}
             >
+              <Icon size="sm" className={styles.icon}>
+                forum
+              </Icon>
               <Localized id="comments-featured-gotoConversation">
-                <span>Go to Conversation</span>
+                <span>Go to conversation</span>
               </Localized>
-              <span className={styles.gotoArrow}>&gt;</span>
-            </TextLink>
-          </div>
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
     </div>
