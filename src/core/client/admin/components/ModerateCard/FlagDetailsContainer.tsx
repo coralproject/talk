@@ -32,6 +32,9 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   const offensive = nodes.filter(
     ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE
   );
+  const abusive = nodes.filter(
+    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE
+  );
   const spam = nodes.filter(
     ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM
   );
@@ -60,6 +63,26 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
           category={
             <Localized id="moderate-flagDetails-offensive">
               <span>Offensive</span>
+            </Localized>
+          }
+        >
+          {offensive.map((flag, i) => (
+            <FlagDetailsEntry
+              key={i}
+              onClick={() =>
+                flag.flagger ? onUsernameClick(flag.flagger.id) : null
+              }
+              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
+              details={flag.additionalDetails}
+            />
+          ))}
+        </FlagDetailsCategory>
+      )}
+      {abusive.length > 0 && (
+        <FlagDetailsCategory
+          category={
+            <Localized id="moderate-flagDetails-abusive">
+              <span>Abusive</span>
             </Localized>
           }
         >

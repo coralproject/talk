@@ -824,11 +824,13 @@ moderate-marker-toxic = Toxic
 moderate-marker-recentHistory = Recent history
 moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
+moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
+moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
 
 moderate-flagDetails-toxicityScore = Toxicity Score

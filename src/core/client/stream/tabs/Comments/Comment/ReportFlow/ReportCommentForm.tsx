@@ -86,6 +86,17 @@ class ReportCommentForm extends React.Component<Props> {
                     </Localized>
                   </li>
                   <li>
+                    <Localized id="comments-reportPopover-reasonAbusive">
+                      <RadioField
+                        name="reason"
+                        value="COMMENT_REPORTED_ABUSIVE"
+                        disabled={submitting}
+                      >
+                        This is abusive behaviour
+                      </RadioField>
+                    </Localized>
+                  </li>
+                  <li>
                     <Localized id="comments-reportPopover-reasonIDisagree">
                       <RadioField
                         name="reason"
