@@ -25,6 +25,7 @@ import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllComm
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import { CommentContainer } from "../../Comment";
+import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
@@ -178,20 +179,22 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
               comment={comment}
             >
               <FadeInTransition active={Boolean(comment.enteredLive)}>
-                <HorizontalGutter>
-                  <CommentContainer
-                    viewer={props.viewer}
-                    settings={props.settings}
-                    comment={comment}
-                    story={props.story}
-                  />
-                  <ReplyListContainer
-                    settings={props.settings}
-                    viewer={props.viewer}
-                    comment={comment}
-                    story={props.story}
-                  />
-                </HorizontalGutter>
+                <CollapsableComment>
+                  <HorizontalGutter>
+                    <CommentContainer
+                      viewer={props.viewer}
+                      settings={props.settings}
+                      comment={comment}
+                      story={props.story}
+                    />
+                    <ReplyListContainer
+                      settings={props.settings}
+                      viewer={props.viewer}
+                      comment={comment}
+                      story={props.story}
+                    />
+                  </HorizontalGutter>
+                </CollapsableComment>
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
           ))}

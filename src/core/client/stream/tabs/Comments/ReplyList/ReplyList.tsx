@@ -7,6 +7,7 @@ import CLASSES from "coral-stream/classes";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
+import CollapsableComment from "../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import Indent from "../Indent";
 
@@ -56,21 +57,23 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
             comment={comment}
             singleConversationView={props.singleConversationView}
           >
-            <HorizontalGutter key={comment.id}>
-              <CommentContainer
-                key={comment.id}
-                viewer={props.viewer}
-                comment={comment}
-                story={props.story}
-                settings={props.settings}
-                indentLevel={props.indentLevel}
-                localReply={props.localReply}
-                disableReplies={props.disableReplies}
-                showConversationLink={!!comment.showConversationLink}
-                onRemoveAnswered={props.onRemoveAnswered}
-              />
-              {comment.replyListElement}
-            </HorizontalGutter>
+            <CollapsableComment>
+              <HorizontalGutter key={comment.id}>
+                <CommentContainer
+                  key={comment.id}
+                  viewer={props.viewer}
+                  comment={comment}
+                  story={props.story}
+                  settings={props.settings}
+                  indentLevel={props.indentLevel}
+                  localReply={props.localReply}
+                  disableReplies={props.disableReplies}
+                  showConversationLink={!!comment.showConversationLink}
+                  onRemoveAnswered={props.onRemoveAnswered}
+                />
+                {comment.replyListElement}
+              </HorizontalGutter>
+            </CollapsableComment>
           </IgnoredTombstoneOrHideContainer>
         </FadeInTransition>
       ))}
