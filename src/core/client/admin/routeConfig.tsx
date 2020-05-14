@@ -141,11 +141,6 @@ export default makeRouteConfig(
           >
             <Route path="/" {...ModerationPhasesConfigRoute.routeConfig} />
             <Route path="add" Component={AddExternalModerationPhaseRoute} />
-          </Route>
-          <Route
-            path="configure/moderation/phase"
-            Component={ModerationPhasesLayout}
-          >
             <Route
               path=":phaseID"
               {...ConfigureExternalModerationPhaseRoute.routeConfig}

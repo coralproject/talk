@@ -85,7 +85,7 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
       await deleteExternalModerationPhase({ id: phase.id });
 
       // Send the user back to the webhook endpoints listing.
-      router.push(urls.admin.webhooks);
+      router.push(urls.admin.moderationPhases);
     }
   }, [phase, disableExternalModerationPhase, router]);
 

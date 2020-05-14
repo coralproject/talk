@@ -7,7 +7,11 @@ import { graphql } from "react-relay";
 
 import getExternalModerationPhaseLink from "coral-admin/helpers/getExternalModerationPhaseLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseInteger,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -65,7 +69,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
           // The external moderation phase was defined, update it.
           await update(values);
         } else {
-          // The external moderation phase wasn't defined, created it.
+          // The external moderation phase wasn't defined, create it.
           const result = await create(values);
 
           // Redirect the user to the new external moderation phase page.
@@ -135,6 +139,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
             </Field>
             <Field
               name="timeout"
+              parse={parseInteger}
               validate={composeValidators(
                 required,
                 validateWholeNumberBetween(100, 10000)

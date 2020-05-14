@@ -59,7 +59,9 @@ const RotateWebhookEndpointSigningSecretModal: FunctionComponent<Props> = ({
             </AppNotification>
           </Localized>
         );
-        window.scroll(0, 0);
+
+        // Scroll after a zero timeout because chrome won't scroll otherwise.
+        setTimeout(() => window.scroll(0, 0), 0);
       } catch (err) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
