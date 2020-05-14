@@ -1,0 +1,9 @@
+.root {
+  background-color: var(--v2-colors-stream-blue-100);
+  border-radius: var(--v2-round-corners);
+
+  padding-left: var(--v2-spacing-4);
+  padding-right: var(--v2-spacing-4);
+  padding-top: var(--v2-spacing-3);
+  padding-bottom: var(--v2-spacing-3);
+}

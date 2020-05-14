@@ -58,21 +58,17 @@ exports[`renders comment stream with community guidelines 1`] = `
       />
     </div>
     <div
-      className="CallOut-root CallOut-colorPrimary CallOut-fullWidth coral coral-guidelines"
+      className="CommunityGuidelines-root coral coral-guidelines"
     >
       <div
-        className="CallOut-inner"
-      >
-        <div
-          className="Markdown-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<h2 id=\\"community-guidelines\\">Community Guidelines</h2>
+        className="Markdown-root"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h2 id=\\"community-guidelines\\">Community Guidelines</h2>
 ",
-            }
           }
-        />
-      </div>
+        }
+      />
     </div>
     <div
       className="coral coral-createComment"
