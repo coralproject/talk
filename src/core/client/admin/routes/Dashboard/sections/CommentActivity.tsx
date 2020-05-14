@@ -7,13 +7,14 @@ import {
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
+  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
 
+import { Flex } from "coral-ui/components/v2";
+
 import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { getMessage } from "coral-framework/lib/i18n";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { useUIContext } from "coral-ui/components";
 
@@ -25,6 +26,7 @@ import {
   CHART_COLOR_PRIMARY,
   CHART_COLOR_SECONDARY,
 } from "./ChartColors";
+import CommentActivityTooltip from "./CommentActivityTooltip";
 
 import styles from "./CommentActivity.css";
 
@@ -44,7 +46,6 @@ const CommentActivity: FunctionComponent<Props> = ({
 }) => {
   const hourly = useImmediateFetch(HourlyCommentsMetricsFetch, { siteID });
   const { locales: localesFromContext } = useUIContext();
-  const { localeBundles } = useCoralContext();
   const locales = localesFromProps || localesFromContext || ["en-US"];
   return (
     <DashboardBox>
@@ -93,28 +94,17 @@ const CommentActivity: FunctionComponent<Props> = ({
             stroke={CHART_COLOR_PRIMARY}
           />
           <Tooltip
-            formatter={(value) => [
-              value,
-              getMessage(
-                localeBundles,
-                "dashboard-comment-activity-tooltip-comments",
-                "Comments"
-              ),
-            ]}
-            labelStyle={{ color: CHART_COLOR_MONO_500 }}
-            labelFormatter={(unixTime: number) => {
-              const formatter = new Intl.DateTimeFormat(locales, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
-              return formatter.format(new Date(unixTime)).toLowerCase();
-            }}
+            content={(tooltipProps: TooltipProps) => (
+              <CommentActivityTooltip {...tooltipProps} locales={locales} />
+            )}
           />
         </LineChart>
       </ResponsiveContainer>
+      <Flex alignItems="center" justifyContent="center">
+        <Localized id="dashboard-comment-activity-legend">
+          <p className={styles.legend}>All-time average</p>
+        </Localized>
+      </Flex>
     </DashboardBox>
   );
 };

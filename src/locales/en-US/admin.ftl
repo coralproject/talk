@@ -1279,3 +1279,4 @@ dashboard-commenters-activity-heading = New signups
 
 dashboard-comment-activity-heading = Hourly comment activity
 dashboard-comment-activity-tooltip-comments = Comments
+dashboard-comment-activity-legend = All-time average
