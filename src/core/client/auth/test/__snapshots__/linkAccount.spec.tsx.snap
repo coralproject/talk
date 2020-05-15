@@ -93,7 +93,7 @@ link these enter your password.
             </div>
           </div>
           <button
-            className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+            className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
             disabled={false}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -111,7 +111,7 @@ link these enter your password.
           Or
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorSecondary Button-upperCase Button-fullWidth"
+          className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorSecondary Button-upperCase Button-fullWidth"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}

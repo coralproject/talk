@@ -75,8 +75,8 @@ const CreateUsernameContainer: FunctionComponent = () => {
                   <Button
                     variant="filled"
                     color="primary"
-                    textSize="medium"
-                    marginSize="medium"
+                    fontSize="medium"
+                    paddingSize="medium"
                     upperCase
                     type="submit"
                     fullWidth

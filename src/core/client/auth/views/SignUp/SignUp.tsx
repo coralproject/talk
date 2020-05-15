@@ -68,8 +68,8 @@ const SignUp: FunctionComponent<Props> = ({
               <Button
                 color="primary"
                 variant="flat"
-                marginSize="none"
-                textSize="small"
+                paddingSize="none"
+                fontSize="small"
                 fontFamily="secondary"
                 fontWeight="semiBold"
                 underline
@@ -89,8 +89,8 @@ const SignUp: FunctionComponent<Props> = ({
               <Button
                 color="primary"
                 variant="flat"
-                marginSize="none"
-                textSize="small"
+                paddingSize="none"
+                fontSize="small"
                 fontFamily="secondary"
                 fontWeight="bold"
                 underline

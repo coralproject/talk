@@ -128,9 +128,9 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                 styles.gotoConversation
               )}
               variant="flat"
-              textSize="small"
+              fontSize="small"
               color="none"
-              marginSize="none"
+              paddingSize="none"
               onClick={onGotoConversation}
               href={getURLWithCommentID(story.url, comment.id)}
             >

@@ -26,7 +26,7 @@ exports[`renders message box when commenting disabled 1`] = `
           className="UserBoxUnauthenticated-actions"
         >
           <button
-            className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -39,7 +39,7 @@ exports[`renders message box when commenting disabled 1`] = `
             Register
           </button>
           <button
-            className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -289,7 +289,7 @@ exports[`renders message box when logged in 1`] = `
           >
             Not you? 
             <button
-              className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -610,7 +610,7 @@ exports[`renders message box when not logged in 1`] = `
           className="UserBoxUnauthenticated-actions"
         >
           <button
-            className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -623,7 +623,7 @@ exports[`renders message box when not logged in 1`] = `
             Register
           </button>
           <button
-            className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -924,7 +924,7 @@ exports[`renders message box when story isClosed 1`] = `
           className="UserBoxUnauthenticated-actions"
         >
           <button
-            className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -937,7 +937,7 @@ exports[`renders message box when story isClosed 1`] = `
             Register
           </button>
           <button
-            className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}

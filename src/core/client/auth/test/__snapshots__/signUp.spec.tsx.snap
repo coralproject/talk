@@ -137,7 +137,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       className="SignUpWithEmail-actions"
     >
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
         disabled={false}
         onBlur={[Function]}
         onFocus={[Function]}
@@ -171,7 +171,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -206,7 +206,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -241,7 +241,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-oidcButton OIDCButton-button"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-upperCase Button-fullWidth coral coral-login-oidcButton OIDCButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -268,7 +268,7 @@ exports[`auth configuration renders only some social login enabled 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-upperCase Button-fullWidth coral coral-login-facebookButton FacebookButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -303,7 +303,7 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       </div>
     </button>
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-upperCase Button-fullWidth coral coral-login-googleButton GoogleButton-button"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -374,7 +374,7 @@ exports[`renders sign up form 1`] = `
         >
           Already have an account? 
           <a
-            className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignUp-signIn"
+            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignUp-signIn"
             disabled={false}
             href="http://localhost/?view=SIGN_IN"
             onBlur={[Function]}
@@ -525,7 +525,7 @@ exports[`renders sign up form 1`] = `
             className="SignUpWithEmail-actions"
           >
             <button
-              className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}

@@ -4,11 +4,11 @@ exports[`renders correctly 1`] = `
 <withPropsOnChange(Button)
   className="coral coral-login-oidcButton OIDCButton-button"
   color="none"
+  fontSize="small"
   fullWidth={true}
-  marginSize="small"
   onClick={[Function]}
+  paddingSize="small"
   textAlign="center"
-  textSize="small"
   upperCase={true}
   variant="filled"
 >

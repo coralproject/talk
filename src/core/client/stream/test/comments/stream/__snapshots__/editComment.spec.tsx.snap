@@ -227,7 +227,7 @@ exports[`cancel edit 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                   data-testid="comment-report-button"
                   disabled={false}
                   onBlur={[Function]}
@@ -1054,7 +1054,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                   data-testid="comment-report-button"
                   disabled={false}
                   onBlur={[Function]}
@@ -1323,7 +1323,7 @@ exports[`edit a comment: server response 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                   data-testid="comment-report-button"
                   disabled={false}
                   onBlur={[Function]}
@@ -1583,7 +1583,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                   data-testid="comment-report-button"
                   disabled={false}
                   onBlur={[Function]}

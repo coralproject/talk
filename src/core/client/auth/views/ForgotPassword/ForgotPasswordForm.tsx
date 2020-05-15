@@ -90,8 +90,8 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
               variant="flat"
               fontFamily="primary"
               fontWeight="semiBold"
-              textSize="small"
-              marginSize="none"
+              fontSize="small"
+              paddingSize="none"
               underline
               href={signInHref}
               onClick={onGotoSignIn}
@@ -158,8 +158,8 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                   <Button
                     variant="filled"
                     color="primary"
-                    textSize="medium"
-                    marginSize="medium"
+                    fontSize="medium"
+                    paddingSize="medium"
                     upperCase
                     fullWidth
                     type="submit"

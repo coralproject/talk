@@ -257,7 +257,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                     onClick={resend}
                     variant="flat"
                     color="primary"
-                    marginSize="none"
+                    paddingSize="none"
                     className={cn(
                       styles.resendButton,
                       CLASSES.verifyEmail.resendButton
@@ -282,7 +282,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
             <Button
               className={CLASSES.myEmail.editButton}
               variant="flat"
-              marginSize="none"
+              paddingSize="none"
               onClick={toggleEditForm}
             >
               Change

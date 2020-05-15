@@ -76,7 +76,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
             )}
             variant="filled"
             color="secondary"
-            marginSize="none"
+            paddingSize="none"
             upperCase
             onClick={cancelDeletion}
           >

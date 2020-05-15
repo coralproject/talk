@@ -23,10 +23,10 @@ exports[`renders correctly with logout button 1`] = `
         <withPropsOnChange(Button)
           className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
           color="primary"
+          fontSize="small"
           fontWeight="semiBold"
-          marginSize="none"
           onClick={[Function]}
-          textSize="small"
+          paddingSize="none"
           underline={true}
           variant="flat"
         />

@@ -43,8 +43,8 @@ const SignUp: FunctionComponent<Props> = (props) => {
             <Button
               variant="filled"
               color="primary"
-              textSize="small"
-              marginSize="small"
+              fontSize="small"
+              paddingSize="small"
               type="submit"
               disabled={submitting}
               fullWidth

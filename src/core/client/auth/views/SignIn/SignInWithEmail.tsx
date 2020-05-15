@@ -81,9 +81,9 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                       <Button
                         variant="flat"
                         color="primary"
-                        textSize="none"
+                        fontSize="none"
                         fontWeight="semiBold"
-                        marginSize="none"
+                        paddingSize="none"
                         onClick={props.onGotoForgotPassword}
                         href={props.forgotPasswordHref}
                         underline
@@ -102,8 +102,8 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
             <Button
               variant="filled"
               color="primary"
-              textSize="small"
-              marginSize="small"
+              fontSize="small"
+              paddingSize="small"
               type="submit"
               disabled={submitting}
               fullWidth

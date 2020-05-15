@@ -19,9 +19,9 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
 
   fontFamily?: "primary" | "secondary" | "none";
   fontWeight?: "regular" | "semiBold" | "bold" | "none";
-  textSize?: "extraSmall" | "small" | "medium" | "large" | "none";
+  fontSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   textAlign?: "left" | "center" | "right";
-  marginSize?: "extraSmall" | "small" | "medium" | "large" | "none";
+  paddingSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   color?: "primary" | "secondary" | "positive" | "negative" | "none";
   variant?: "filled" | "outlined" | "flat" | "none";
 
@@ -38,11 +38,11 @@ export class Button extends React.Component<Props> {
       className,
       variant = "filled",
       color = "primary",
-      textSize = "small",
       textAlign = "center",
+      fontSize = "small",
       fontFamily = "primary",
       fontWeight = "bold",
-      marginSize = "small",
+      paddingSize = "small",
       children,
       disabled = false,
       to,
@@ -60,10 +60,10 @@ export class Button extends React.Component<Props> {
         [classes.filled]: variant === "filled",
         [classes.outlined]: variant === "outlined",
         [classes.flat]: variant === "flat",
-        [classes.textSizeExtraSmall]: textSize === "extraSmall",
-        [classes.textSizeSmall]: textSize === "small",
-        [classes.textSizeMedium]: textSize === "medium",
-        [classes.textSizeLarge]: textSize === "large",
+        [classes.fontSizeExtraSmall]: fontSize === "extraSmall",
+        [classes.fontSizeSmall]: fontSize === "small",
+        [classes.fontSizeMedium]: fontSize === "medium",
+        [classes.fontSizeLarge]: fontSize === "large",
         [classes.textAlignLeft]: textAlign === "left",
         [classes.textAlignCenter]: textAlign === "center",
         [classes.textAlignRight]: textAlign === "right",
@@ -81,10 +81,10 @@ export class Button extends React.Component<Props> {
           fontFamily === "secondary" && fontWeight === "semiBold",
         [classes.fontWeightSecondaryBold]:
           fontFamily === "secondary" && fontWeight === "bold",
-        [classes.marginSizeExtraSmall]: marginSize === "extraSmall",
-        [classes.marginSizeSmall]: marginSize === "small",
-        [classes.marginSizeMedium]: marginSize === "medium",
-        [classes.marginSizeLarge]: marginSize === "large",
+        [classes.paddingSizeExtraSmall]: paddingSize === "extraSmall",
+        [classes.paddingSizeSmall]: paddingSize === "small",
+        [classes.paddingSizeMedium]: paddingSize === "medium",
+        [classes.paddingSizeLarge]: paddingSize === "large",
         [classes.colorPrimary]: color === "primary",
         [classes.colorSecondary]: color === "secondary",
         [classes.colorPositive]: color === "positive",

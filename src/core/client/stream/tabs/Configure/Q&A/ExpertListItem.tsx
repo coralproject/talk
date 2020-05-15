@@ -42,9 +42,9 @@ const ExpertListItem: FunctionComponent<Props> = ({
       <Button
         variant="flat"
         color="primary"
-        textSize="none"
+        fontSize="none"
         fontWeight="semiBold"
-        marginSize="none"
+        paddingSize="none"
         onClick={onClick}
         className={styles.removeButton}
       >

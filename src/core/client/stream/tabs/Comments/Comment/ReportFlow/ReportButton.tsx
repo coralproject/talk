@@ -77,9 +77,9 @@ const ReportButton: FunctionComponent<Props> = ({
       className={cn(CLASSES.comment.actionBar.reportButton)}
       variant={open ? "filled" : "flat"}
       color="secondary"
-      textSize="small"
+      fontSize="small"
       fontWeight="semiBold"
-      marginSize="extraSmall"
+      paddingSize="extraSmall"
       onClick={isLoggedIn ? onClickReport : signIn}
       data-testid="comment-report-button"
     >
