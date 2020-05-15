@@ -103,19 +103,21 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
         </TodayDashboardBox>
         <TodayDashboardBox icon="person_add" loading={loading || totalLoading}>
           <TodayValue value={today?.users.total.toString()}>
-            <Localized id="dashboard-today-signups">New accounts</Localized>
+            <Localized id="dashboard-today-signups">
+              New community members
+            </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.users.total.toString()}>
-            <Localized id="dashboard-alltime-signups">Total accounts</Localized>
+            <Localized id="dashboard-alltime-signups">Total members</Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="block" loading={loading || totalLoading}>
           <TodayValue value={today?.users.bans.toString()}>
-            <Localized id="dashboard-today-bans">Account bans</Localized>
+            <Localized id="dashboard-today-bans">Banned members</Localized>
           </TodayValue>
           <TodayCompareValue value={total?.users.bans.toString()}>
             <Localized id="dashboard-alltime-bans">
-              Total account bans
+              Total banned members
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>

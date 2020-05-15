@@ -23,7 +23,7 @@ const TodayDashboardBox: FunctionComponent<Props> = ({
       {loading ? (
         <Loader loading={loading} />
       ) : (
-        <Flex spacing={5}>
+        <Flex spacing={5} className={styles.outer}>
           <div
             className={cn(styles.icon, {
               [styles.tealIcon]: icon === "forum",
@@ -34,7 +34,15 @@ const TodayDashboardBox: FunctionComponent<Props> = ({
           >
             <Icon size="md">{icon}</Icon>
           </div>
-          <HorizontalGutter>{children}</HorizontalGutter>
+          <HorizontalGutter>
+            <Flex
+              direction="column"
+              className={styles.inner}
+              justifyContent="space-between"
+            >
+              {children}
+            </Flex>
+          </HorizontalGutter>
         </Flex>
       )}
     </DashboardBox>

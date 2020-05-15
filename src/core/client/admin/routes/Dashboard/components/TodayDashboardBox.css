@@ -1,6 +1,6 @@
 .root {
   flex: 1;
-  min-height: 135px;
+  min-height: 120px;
 }
 
 .icon {
@@ -30,4 +30,12 @@
 .blueIcon {
   background-color: var(--v2-colors-blue-100);
   color: var(--v2-colors-blue-500);
+}
+
+.outer {
+  height: 100%;
+}
+
+.inner {
+  height: 100%;
 }

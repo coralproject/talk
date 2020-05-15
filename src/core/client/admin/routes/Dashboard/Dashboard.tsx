@@ -12,10 +12,10 @@ interface Props {
 }
 
 const Dashboard: FunctionComponent<Props> = (props) => (
-  <HorizontalGutter spacing={6}>
+  <HorizontalGutter spacing={4}>
     <Today siteID={props.siteID} lastUpdated={props.lastUpdated} />
     <Flex spacing={5}>
-      <HorizontalGutter className={styles.columns}>
+      <HorizontalGutter className={styles.columns} spacing={4}>
         <CommentActivity
           siteID={props.siteID}
           lastUpdated={props.lastUpdated}

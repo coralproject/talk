@@ -1260,22 +1260,22 @@ dashboard-heading-last-updated = Last updated:
 
 dashboard-today-heading = Today's activity
 dashboard-today-new-comments = New comments
-dashboard-alltime-new-comments = All-time total
+dashboard-alltime-new-comments = All time total
 dashboard-today-rejections = Rejection rate
-dashboard-alltime-rejections = All-time average
+dashboard-alltime-rejections = All time average
 dashboard-today-staff-comments = Staff comments
-dashboard-alltime-staff-comments = All-time total
-dashboard-today-signups = New accounts
-dashboard-alltime-signups = Total accounts
-dashboard-today-bans = Account bans
-dashboard-alltime-bans = Total account bans
+dashboard-alltime-staff-comments = All time total
+dashboard-today-signups = New community members
+dashboard-alltime-signups = Total members
+dashboard-today-bans = Banned members
+dashboard-alltime-bans = Total banned members
 
 dashboard-top-stories-today-heading = Today's most commented stories
 dashboard-top-stories-table-header-story = Story
 dashboard-top-stories-table-header-comments = Comments
 dashboard-top-stories-no-comments = No comments today
 
-dashboard-commenters-activity-heading = New signups
+dashboard-commenters-activity-heading = New community members this week
 
 dashboard-comment-activity-heading = Hourly comment activity
 dashboard-comment-activity-tooltip-comments = Comments
