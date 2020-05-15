@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useMemo } from "react";
 
-import { CHART_COLOR_MONO_100, CHART_COLOR_MONO_500 } from "./ChartColors";
+import {
+  CHART_COLOR_MONO_100,
+  CHART_COLOR_MONO_500,
+  CHART_COLOR_PRIMARY_DARK,
+} from "./ChartColors";
 
 interface TickPayload {
   value: string;
@@ -11,6 +15,7 @@ interface Props {
   locales: string[];
   y: number;
   payload: TickPayload;
+  isToday: boolean;
 }
 
 const SignupActivityTick: FunctionComponent<Props> = ({
@@ -18,6 +23,7 @@ const SignupActivityTick: FunctionComponent<Props> = ({
   y,
   payload,
   locales,
+  isToday,
 }) => {
   const date = useMemo(() => {
     const formatter = new Intl.DateTimeFormat(locales, {
@@ -38,9 +44,9 @@ const SignupActivityTick: FunctionComponent<Props> = ({
         x={0}
         y={0}
         dy={12}
-        fill={CHART_COLOR_MONO_500}
+        fill={isToday ? CHART_COLOR_PRIMARY_DARK : CHART_COLOR_MONO_500}
         fontSize={12}
-        fontWeight={600}
+        fontWeight={isToday ? 700 : 600}
         textAnchor="middle"
       >
         {date}
@@ -49,8 +55,9 @@ const SignupActivityTick: FunctionComponent<Props> = ({
         x={0}
         y={0}
         dy={28}
-        fill={CHART_COLOR_MONO_100}
+        fill={isToday ? CHART_COLOR_PRIMARY_DARK : CHART_COLOR_MONO_100}
         fontSize={12}
+        fontWeight={isToday ? 700 : 500}
         textAnchor="middle"
       >
         {dayOfWeek}

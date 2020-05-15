@@ -6,14 +6,20 @@ import styles from "./Loader.css";
 
 interface Props {
   loading: boolean;
+  height?: number;
 }
 
-const Loader: FunctionComponent<Props> = ({ loading }) => {
+const Loader: FunctionComponent<Props> = ({ loading, height }) => {
   if (!loading) {
     return null;
   }
   return (
-    <Flex justifyContent="center" alignItems="center" className={styles.root}>
+    <Flex
+      style={height ? { height } : {}}
+      justifyContent="center"
+      alignItems="center"
+      className={styles.root}
+    >
       <Spinner />
     </Flex>
   );

@@ -4,3 +4,5 @@ export const CHART_COLOR_SECONDARY = "#F77160";
 export const CHART_COLOR_MONO_500 = "#353F44";
 export const CHART_COLOR_MONO_100 = "#65696B";
 export const CHART_COLOR_GREY_200 = "#EAEFF0";
+export const CHART_COLOR_PRIMARY_PALE = "#9FECDF";
+export const CHART_COLOR_PRIMARY_DARK = "#2C7B8C";

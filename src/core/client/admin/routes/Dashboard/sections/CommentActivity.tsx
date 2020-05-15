@@ -60,7 +60,7 @@ const CommentActivity: FunctionComponent<Props> = ({
           Hourly comment activity
         </DashboardComponentHeading>
       </Localized>
-      <Loader loading={loading} />
+      <Loader loading={loading} height={300} />
       {!loading && (
         <>
           <ResponsiveContainer height={300}>

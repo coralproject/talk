@@ -4,6 +4,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -19,6 +20,7 @@ import {
   CHART_COLOR_GREY_200,
   CHART_COLOR_MONO_500,
   CHART_COLOR_PRIMARY_LIGHT,
+  CHART_COLOR_PRIMARY_PALE,
 } from "./ChartColors";
 import SignupActivityTick from "./SignupActivityTick";
 
@@ -51,7 +53,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
       <Localized id="dashboard-commenters-activity-heading">
         <DashboardComponentHeading>New Signups</DashboardComponentHeading>
       </Localized>
-      <Loader loading={loading} />
+      <Loader loading={loading} height={300} />
       {!loading && (
         <ResponsiveContainer height={300}>
           <BarChart
@@ -69,7 +71,15 @@ const CommenterActivity: FunctionComponent<Props> = ({
               dataKey="timestamp"
               interval={0}
               tick={(props) => (
-                <SignupActivityTick locales={locales} {...props} />
+                <SignupActivityTick
+                  isToday={
+                    daily &&
+                    daily.series &&
+                    daily.series.length - 1 === props.index
+                  }
+                  locales={locales}
+                  {...props}
+                />
               )}
             />
             <YAxis
@@ -80,7 +90,20 @@ const CommenterActivity: FunctionComponent<Props> = ({
               axisLine={{ strokeWidth: 0 }}
               tick={{ fontSize: 12, fontWeight: 600 }}
             />
-            <Bar dataKey="count" fill={CHART_COLOR_PRIMARY_LIGHT} />
+            <Bar dataKey="count">
+              {(daily ? daily.series : []).map((entry, index) => {
+                return (
+                  <Cell
+                    key={entry.timestamp}
+                    fill={
+                      daily && daily.series && daily.series.length - 1 === index
+                        ? CHART_COLOR_PRIMARY_PALE
+                        : CHART_COLOR_PRIMARY_LIGHT
+                    }
+                  />
+                );
+              })}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       )}
