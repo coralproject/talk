@@ -4,10 +4,10 @@ exports[`renders correctly 1`] = `
 <withPropsOnChange(Button)
   className="coral coral-login-facebookButton FacebookButton-button"
   color="none"
+  fontSize="small"
   fullWidth={true}
-  marginSize="small"
   onClick={[Function]}
-  textSize="small"
+  paddingSize="small"
   upperCase={true}
   variant="filled"
 >

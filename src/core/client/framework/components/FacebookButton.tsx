@@ -34,8 +34,8 @@ const FacebookButton: FunctionComponent<Props> = (props) => (
     className={cn(CLASSES.login.facebookButton, styles.button)}
     variant="filled"
     color="none"
-    textSize="small"
-    marginSize="small"
+    fontSize="small"
+    paddingSize="small"
     upperCase
     fullWidth
     onClick={props.onClick}

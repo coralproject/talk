@@ -51,8 +51,8 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
       className={CLASSES.moderateStream}
       variant="outlined"
       color="primary"
-      marginSize="small"
-      textSize="small"
+      paddingSize="small"
+      fontSize="small"
       href={href}
       target="_blank"
       upperCase

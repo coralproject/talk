@@ -30,7 +30,7 @@ exports[`renders configure 1`] = `
         >
           Not you? 
           <button
-            className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -147,7 +147,7 @@ exports[`renders configure 1`] = `
         </div>
       </div>
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
+        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
         data-testid="configure-stream-apply"
         disabled={true}
         onBlur={[Function]}
@@ -183,7 +183,7 @@ to pose a topic, ask a question or make announcements relating to this
 story.
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
           data-testid="configure-addMessage"
           disabled={false}
           onBlur={[Function]}
@@ -221,7 +221,7 @@ new comments. We recommend this in the unusual situation of a story
 getting so much traffic that the comments are loading slowly.
       </div>
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -256,7 +256,7 @@ no new comments may be submitted and all previously submitted comments
 will still be displayed.
       </div>
       <button
-        className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorNegative Button-upperCase coral coral-closeCommentStream-closeButton"
+        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorNegative Button-upperCase coral coral-closeCommentStream-closeButton"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}

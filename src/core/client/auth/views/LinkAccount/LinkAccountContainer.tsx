@@ -144,8 +144,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
                 <Button
                   variant="filled"
                   color="primary"
-                  textSize="medium"
-                  marginSize="medium"
+                  fontSize="medium"
+                  paddingSize="medium"
                   upperCase
                   type="submit"
                   fullWidth
@@ -162,8 +162,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
           <Button
             variant="filled"
             color="secondary"
-            textSize="medium"
-            marginSize="medium"
+            fontSize="medium"
+            paddingSize="medium"
             upperCase
             type="submit"
             fullWidth

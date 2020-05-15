@@ -160,7 +160,7 @@ Your email address will be used to:
     className="AddEmailAddress-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -352,7 +352,7 @@ Your email address will be used to:
     className="AddEmailAddress-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -530,7 +530,7 @@ Your email address will be used to:
             className="AddEmailAddress-actions"
           >
             <button
-              className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -726,7 +726,7 @@ Your email address will be used to:
     className="AddEmailAddress-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -924,7 +924,7 @@ GraphQL request:4:3
     className="AddEmailAddress-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

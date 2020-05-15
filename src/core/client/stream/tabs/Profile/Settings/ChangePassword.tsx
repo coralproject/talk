@@ -93,7 +93,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
           <Button
             variant="flat"
             color="primary"
-            marginSize="none"
+            paddingSize="none"
             onClick={toggleForm}
             className={cn(
               {
@@ -167,7 +167,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                               <Button
                                 variant="flat"
                                 color="primary"
-                                marginSize="none"
+                                paddingSize="none"
                                 underline
                                 onClick={onResetPassword}
                                 className={CLASSES.myPassword.form.forgotButton}

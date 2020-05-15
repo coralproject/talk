@@ -71,8 +71,8 @@ const PermalinkPopover: FunctionComponent<Props> = ({
           )}
           color="none"
           variant="none"
-          textSize="none"
-          marginSize="none"
+          fontSize="none"
+          paddingSize="none"
         >
           {copied ? (
             <Flex alignItems="center">

@@ -201,7 +201,7 @@ exports[`close popup 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                   data-testid="comment-report-button"
                   disabled={false}
                   onBlur={[Function]}
@@ -422,7 +422,7 @@ exports[`render popup 1`] = `
         className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
       >
         <button
-          className="BaseButton-root Button-base Button-outlined Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-cancelButton ReportCommentForm-cancel"
+          className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-cancelButton ReportCommentForm-cancel"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -435,7 +435,7 @@ exports[`render popup 1`] = `
           Cancel
         </button>
         <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-reportPopover-submitButton"
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-reportPopover-submitButton"
           disabled={true}
           onBlur={[Function]}
           onFocus={[Function]}

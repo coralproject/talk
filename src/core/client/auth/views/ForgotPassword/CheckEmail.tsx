@@ -40,8 +40,8 @@ const CheckEmail: FunctionComponent<Props> = ({ email }) => {
             <Button
               variant="filled"
               color="primary"
-              textSize="medium"
-              marginSize="medium"
+              fontSize="medium"
+              paddingSize="medium"
               upperCase
               fullWidth
               type="submit"

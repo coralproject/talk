@@ -194,8 +194,8 @@ class ReportCommentForm extends React.Component<Props> {
                       )}
                       color="secondary"
                       variant="outlined"
-                      textSize="small"
-                      marginSize="small"
+                      fontSize="small"
+                      paddingSize="small"
                       onClick={onCancel}
                       disabled={submitting}
                       upperCase
@@ -208,8 +208,8 @@ class ReportCommentForm extends React.Component<Props> {
                       className={CLASSES.reportPopover.submitButton}
                       color="secondary"
                       variant="filled"
-                      textSize="small"
-                      marginSize="small"
+                      fontSize="small"
+                      paddingSize="small"
                       type="submit"
                       disabled={
                         !get(form.getFieldState("reason"), "value") ||

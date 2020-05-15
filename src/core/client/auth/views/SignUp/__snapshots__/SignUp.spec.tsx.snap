@@ -47,11 +47,11 @@ exports[`renders correctly 1`] = `
           className="SignUp-signIn"
           color="primary"
           fontFamily="secondary"
+          fontSize="small"
           fontWeight="semiBold"
           href="/signIn"
-          marginSize="none"
           onClick={[Function]}
-          textSize="small"
+          paddingSize="none"
           underline={true}
           variant="flat"
         />
@@ -66,11 +66,11 @@ exports[`renders correctly 1`] = `
           className="SignUp-signIn"
           color="primary"
           fontFamily="secondary"
+          fontSize="small"
           fontWeight="bold"
           href="/signIn"
-          marginSize="none"
           onClick={[Function]}
-          textSize="small"
+          paddingSize="none"
           underline={true}
           variant="flat"
         >

@@ -66,7 +66,7 @@ exports[`checks for invalid username 1`] = `
     className="CreateUsername-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -150,7 +150,7 @@ exports[`renders createUsername view 1`] = `
             className="CreateUsername-actions"
           >
             <button
-              className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -235,7 +235,7 @@ exports[`shows error when submitting empty form 1`] = `
     className="CreateUsername-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -339,7 +339,7 @@ GraphQL request:4:3
     className="CreateUsername-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -403,7 +403,7 @@ exports[`successfully sets username 1`] = `
     className="CreateUsername-actions"
   >
     <button
-      className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

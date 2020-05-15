@@ -185,7 +185,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 CLASSES.myUsername.change
               )}
               variant="flat"
-              marginSize="none"
+              paddingSize="none"
               color="primary"
               onClick={toggleEditForm}
               disabled={!canChangeUsername}

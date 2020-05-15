@@ -24,9 +24,9 @@ exports[`renders correctly 1`] = `
       <withPropsOnChange(Button)
         className="UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
         color="primary"
-        marginSize="extraSmall"
+        fontSize="extraSmall"
         onClick={[Function]}
-        textSize="extraSmall"
+        paddingSize="extraSmall"
         upperCase={true}
         variant="filled"
       >
@@ -39,9 +39,9 @@ exports[`renders correctly 1`] = `
       <withPropsOnChange(Button)
         className="coral coral-viewerBox-signInButton"
         color="primary"
-        marginSize="extraSmall"
+        fontSize="extraSmall"
         onClick={[Function]}
-        textSize="extraSmall"
+        paddingSize="extraSmall"
         upperCase={true}
         variant="outlined"
       >
@@ -76,9 +76,9 @@ exports[`renders correctly hides showRegisterButton 1`] = `
       <withPropsOnChange(Button)
         className="coral coral-viewerBox-signInButton"
         color="primary"
-        marginSize="extraSmall"
+        fontSize="extraSmall"
         onClick={[Function]}
-        textSize="extraSmall"
+        paddingSize="extraSmall"
         upperCase={true}
         variant="outlined"
       >

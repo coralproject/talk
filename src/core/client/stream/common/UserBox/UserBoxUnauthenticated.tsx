@@ -27,8 +27,8 @@ const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
           <Localized id="general-userBoxUnauthenticated-register">
             <Button
               color="primary"
-              textSize="extraSmall"
-              marginSize="extraSmall"
+              fontSize="extraSmall"
+              paddingSize="extraSmall"
               variant="filled"
               onClick={props.onRegister}
               className={cn(styles.register, CLASSES.viewerBox.registerButton)}
@@ -41,8 +41,8 @@ const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
         <Localized id="general-userBoxUnauthenticated-signIn">
           <Button
             color="primary"
-            textSize="extraSmall"
-            marginSize="extraSmall"
+            fontSize="extraSmall"
+            paddingSize="extraSmall"
             variant="outlined"
             onClick={props.onSignIn}
             className={CLASSES.viewerBox.signInButton}

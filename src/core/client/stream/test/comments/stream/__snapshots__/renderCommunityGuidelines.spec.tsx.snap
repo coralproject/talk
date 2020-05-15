@@ -26,7 +26,7 @@ exports[`renders comment stream with community guidelines 1`] = `
           className="UserBoxUnauthenticated-actions"
         >
           <button
-            className="BaseButton-root Button-base Button-filled Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -39,7 +39,7 @@ exports[`renders comment stream with community guidelines 1`] = `
             Register
           </button>
           <button
-            className="BaseButton-root Button-base Button-outlined Button-textSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-marginSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -495,7 +495,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
                               disabled={false}
                               onBlur={[Function]}
@@ -730,7 +730,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-marginSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
                               disabled={false}
                               onBlur={[Function]}
