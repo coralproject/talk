@@ -1,5 +1,6 @@
 .root {
   flex: 1;
+  min-height: 135px;
 }
 
 .icon {

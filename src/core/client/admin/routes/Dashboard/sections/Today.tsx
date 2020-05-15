@@ -26,11 +26,20 @@ const TotalMetricsFetch = createDashboardFetch<TodayMetricsJSON>(
 
 interface Props {
   siteID: string;
+  lastUpdated: string;
 }
 
-const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
-  const today = useImmediateFetch(TodayMetricsFetch, { siteID });
-  const total = useImmediateFetch(TotalMetricsFetch, { siteID });
+const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
+  const [today, loading] = useImmediateFetch(
+    TodayMetricsFetch,
+    { siteID },
+    lastUpdated
+  );
+  const [total, totalLoading] = useImmediateFetch(
+    TotalMetricsFetch,
+    { siteID },
+    lastUpdated
+  );
 
   return (
     <div>
@@ -38,7 +47,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
         <h3 className={styles.heading}>Today's activity</h3>
       </Localized>
       <Flex justifyContent="space-between" spacing={3}>
-        <TodayDashboardBox icon="forum">
+        <TodayDashboardBox icon="forum" loading={loading || totalLoading}>
           <TodayValue value={today?.comments.total.toString()}>
             <Localized id="dashboard-today-new-comments">
               New comments
@@ -50,7 +59,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="close">
+        <TodayDashboardBox icon="close" loading={loading || totalLoading}>
           <TodayValue
             value={
               today
@@ -80,7 +89,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="badge">
+        <TodayDashboardBox icon="badge" loading={loading || totalLoading}>
           <TodayValue value={today?.comments.staff.toString()}>
             <Localized id="dashboard-today-staff-comments">
               Staff comments
@@ -92,7 +101,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="person_add">
+        <TodayDashboardBox icon="person_add" loading={loading || totalLoading}>
           <TodayValue value={today?.users.total.toString()}>
             <Localized id="dashboard-today-signups">New accounts</Localized>
           </TodayValue>
@@ -100,7 +109,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID }) => {
             <Localized id="dashboard-alltime-signups">Total accounts</Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="block">
+        <TodayDashboardBox icon="block" loading={loading || totalLoading}>
           <TodayValue value={today?.users.bans.toString()}>
             <Localized id="dashboard-today-bans">Account bans</Localized>
           </TodayValue>

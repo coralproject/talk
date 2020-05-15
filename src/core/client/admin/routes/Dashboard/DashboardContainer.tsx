@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import MainLayout from "coral-admin/components/MainLayout";
@@ -10,6 +10,7 @@ import {
 } from "coral-framework/lib/relay";
 import {
   BaseButton,
+  Button,
   ButtonIcon,
   ClickOutside,
   Dropdown,
@@ -42,10 +43,14 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
   if (!selectedSite) {
     return null;
   }
+  const [lastUpdated, setLastUpdated] = useState<string>(new Date().toString());
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
     DashboardContainerPaginationQueryVariables
   >(props.relay);
+  const onRefetch = useCallback(() => {
+    setLastUpdated(new Date().toString());
+  }, []);
   return (
     <MainLayout className={styles.root}>
       <Popover
@@ -81,8 +86,14 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
           </BaseButton>
         )}
       </Popover>
-      <SiteDashboardTimestamp />
-      <Dashboard siteID={selectedSite.id} />
+      <Flex alignItems="center" spacing={2}>
+        <SiteDashboardTimestamp />
+        <Button variant="text" onClick={onRefetch} iconLeft>
+          <ButtonIcon>refresh</ButtonIcon>
+          Refresh
+        </Button>
+      </Flex>
+      <Dashboard siteID={selectedSite.id} lastUpdated={lastUpdated} />
     </MainLayout>
   );
 };

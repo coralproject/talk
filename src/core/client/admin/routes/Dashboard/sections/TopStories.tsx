@@ -15,7 +15,7 @@ import {
   TextLink,
 } from "coral-ui/components/v2";
 
-import { DashboardBox, DashboardComponentHeading } from "../components";
+import { DashboardBox, DashboardComponentHeading, Loader } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
 
 const TodayStoriesMetrics = createDashboardFetch<TodayStoriesMetricsJSON>(
@@ -24,11 +24,16 @@ const TodayStoriesMetrics = createDashboardFetch<TodayStoriesMetricsJSON>(
 );
 
 interface Props {
-  siteID?: string;
+  siteID: string;
+  lastUpdated: string;
 }
 
-const TopStories: FunctionComponent<Props> = ({ siteID }) => {
-  const today = useImmediateFetch(TodayStoriesMetrics, { siteID });
+const TopStories: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
+  const [today, loading] = useImmediateFetch(
+    TodayStoriesMetrics,
+    { siteID },
+    lastUpdated
+  );
   return (
     <DashboardBox>
       <Localized id="dashboard-top-stories-today-heading">
@@ -48,10 +53,17 @@ const TopStories: FunctionComponent<Props> = ({ siteID }) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={2}>
+                <Loader loading={loading} />
+              </TableCell>
+            </TableRow>
+          )}
           {today && today.results.length < 1 && (
             <TableRow>
               <Localized id="dashboard-top-stories-no-comments">
-                <TableCell>No comments today.</TableCell>
+                <TableCell colSpan={2}>No comments today.</TableCell>
               </Localized>
             </TableRow>
           )}

@@ -8,6 +8,10 @@
   font-family: var(--v2-font-family-primary);
 }
 
+.loader {
+  height: 300px;
+}
+
 .legend {
   color: var(--v2-colors-coral-500);
   font-size: var(--v2-font-size-2);

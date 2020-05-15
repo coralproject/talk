@@ -4,3 +4,4 @@ export { default as TodayValue } from "./TodayValue";
 export { default as TodayDashboardBox } from "./TodayDashboardBox";
 export { default as SiteDashboardHeader } from "./SiteDashboardTimestamp";
 export { default as DashboardComponentHeading } from "./DashboardComponentHeading";
+export { default as Loader } from "./Loader";
