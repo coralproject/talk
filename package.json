@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -19,7 +19,7 @@
   "contributors": [
     "https://github.com/coralproject/talk/graphs/contributors"
   ],
-  "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
+  "description": "A better commenting experience from Vox Media.",
   "scripts": {
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
