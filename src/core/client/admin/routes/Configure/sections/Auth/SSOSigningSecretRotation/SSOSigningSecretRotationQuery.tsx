@@ -4,21 +4,23 @@ import { graphql } from "react-relay";
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
 
-import { SSOKeyRotationQuery as QueryTypes } from "coral-admin/__generated__/SSOKeyRotationQuery.graphql";
+import { SSOSigningSecretRotationQuery as QueryTypes } from "coral-admin/__generated__/SSOSigningSecretRotationQuery.graphql";
 
-import SSOKeyRotationContainer from "./SSOKeyRotationContainer";
+import SSOSigningSecretRotationContainer from "./SSOSigningSecretRotationContainer";
 
 interface Props {
   disabled?: boolean;
 }
 
-const SSOKeyRotationQuery: FunctionComponent<Props> = ({ disabled }) => {
+const SSOSigningSecretRotationQuery: FunctionComponent<Props> = ({
+  disabled,
+}) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query SSOKeyRotationQuery {
+        query SSOSigningSecretRotationQuery {
           settings {
-            ...SSOKeyRotationContainer_settings
+            ...SSOSigningSecretRotationContainer_settings
           }
         }
       `}
@@ -38,7 +40,7 @@ const SSOKeyRotationQuery: FunctionComponent<Props> = ({ disabled }) => {
         }
 
         return (
-          <SSOKeyRotationContainer
+          <SSOSigningSecretRotationContainer
             settings={props.settings}
             disabled={disabled}
           />
@@ -48,4 +50,4 @@ const SSOKeyRotationQuery: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default SSOKeyRotationQuery;
+export default SSOSigningSecretRotationQuery;

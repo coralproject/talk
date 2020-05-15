@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import startsWith from "coral-common/utils/startsWith";
-
 import {
   EMAIL_REGEX,
   PASSWORD_MIN_LENGTH,
@@ -10,6 +8,7 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/helpers/validate";
+import startsWith from "coral-common/utils/startsWith";
 
 import {
   DELETE_CONFIRMATION_INVALID,

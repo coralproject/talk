@@ -465,12 +465,22 @@ export class IntegrationDisabled extends CoralError {
   }
 }
 
-export class InternalError extends CoralError {
+export class WrappedInternalError extends CoralError {
   constructor(cause: Error, reason: string) {
     super({
       code: ERROR_CODES.INTERNAL_ERROR,
       cause,
       context: { pvt: { reason } },
+      status: 500,
+    });
+  }
+}
+
+export class InternalError extends CoralError {
+  constructor(reason: string, context?: Record<string, any>) {
+    super({
+      code: ERROR_CODES.INTERNAL_ERROR,
+      context: { pvt: { reason, ...context } },
       status: 500,
     });
   }

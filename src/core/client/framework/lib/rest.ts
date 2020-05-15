@@ -3,6 +3,7 @@ import { merge } from "lodash";
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { Overwrite } from "coral-framework/types";
 
+import { AccessTokenProvider } from "./auth";
 import { extractError } from "./network";
 
 const buildOptions = (inputOptions: RequestInit = {}) => {
@@ -53,13 +54,17 @@ type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
 
 export class RestClient {
   public readonly uri: string;
-  private tokenGetter?: () => string;
   private clientID?: string;
+  private accessTokenProvider?: AccessTokenProvider;
 
-  constructor(uri: string, tokenGetter?: () => string, clientID?: string) {
+  constructor(
+    uri: string,
+    clientID?: string,
+    accessTokenProvider?: AccessTokenProvider
+  ) {
     this.uri = uri;
-    this.tokenGetter = tokenGetter;
     this.clientID = clientID;
+    this.accessTokenProvider = accessTokenProvider;
   }
 
   public async fetch<T = {}>(
@@ -67,7 +72,8 @@ export class RestClient {
     options: PartialRequestInit
   ): Promise<T> {
     let opts = options;
-    const token = options.token || (this.tokenGetter && this.tokenGetter());
+    const token =
+      options.token || (this.accessTokenProvider && this.accessTokenProvider());
     if (token) {
       opts = merge({}, options, {
         headers: {
@@ -75,6 +81,7 @@ export class RestClient {
         },
       });
     }
+
     if (this.clientID) {
       opts = merge({}, opts, {
         headers: {
@@ -82,7 +89,9 @@ export class RestClient {
         },
       });
     }
+
     const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
+
     return handleResp(response);
   }
 }

@@ -1,12 +1,9 @@
-import {
-  commitLocalUpdate,
-  Environment,
-  RecordSourceProxy,
-} from "relay-runtime";
+import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { CoralContext } from "coral-framework/lib/bootstrap";
-import { parseJWT } from "coral-framework/lib/jwt";
 import { createAndRetain } from "coral-framework/lib/relay";
+
+import { AuthState } from "../auth";
+import { CoralContext } from "../bootstrap";
 
 /**
  * The Root Record of Client-Side Schema Extension must be of this type.
@@ -18,48 +15,33 @@ export const LOCAL_TYPE = "Local";
  */
 export const LOCAL_ID = "client:root.local";
 
-export function setAccessTokenInLocalState(
-  accessToken: string | null,
-  source: RecordSourceProxy
-) {
-  const localRecord = source.get(LOCAL_ID)!;
-  localRecord.setValue(accessToken || "", "accessToken");
-  if (accessToken) {
-    const { payload } = parseJWT(accessToken);
-    // TODO: (cvle) maybe a timer to detect when accessToken has expired?
-
-    // Set the exp if it's valid.
-    if (typeof payload.exp === "number") {
-      localRecord.setValue(payload.exp, "accessTokenExp");
-    } else {
-      localRecord.setValue(null, "accessTokenExp");
-    }
-
-    // Set the jti if it's valid.
-    if (typeof payload.jti === "string" && payload.jti.length > 0) {
-      localRecord.setValue(payload.jti, "accessTokenJTI");
-    } else {
-      localRecord.setValue(null, "accessTokenJTI");
-    }
-  } else {
-    localRecord.setValue(null, "accessTokenExp");
-    localRecord.setValue(null, "accessTokenJTI");
-  }
-}
-
-export async function initLocalBaseState(
+/**
+ * initLocalBaseState will initialize the local base relay state. If as a part
+ * of your target you need to change the auth state, you can do so by passing a
+ * new auth state object into this function when committing.
+ *
+ * @param environment the initialized relay environment
+ * @param context application context
+ * @param auth application auth state
+ */
+export function initLocalBaseState(
   environment: Environment,
-  { localStorage }: CoralContext,
-  accessToken?: string | null
+  context: CoralContext,
+  auth?: AuthState
 ) {
-  commitLocalUpdate(environment, (s) => {
-    const root = s.getRoot();
+  commitLocalUpdate(environment, (source) => {
+    const root = source.getRoot();
 
     // Create the Local Record which is the Root for the client states.
-    const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
-    root.setLinkedRecord(localRecord, "local");
+    const local = createAndRetain(environment, source, LOCAL_ID, LOCAL_TYPE);
 
-    // Set access token
-    setAccessTokenInLocalState(accessToken || null, s);
+    root.setLinkedRecord(local, "local");
+
+    // Update the access token properties.
+    local.setValue(auth?.accessToken, "accessToken");
+
+    // Update the claims.
+    local.setValue(auth?.claims.exp, "accessTokenExp");
+    local.setValue(auth?.claims.jti, "accessTokenJTI");
   });
 }

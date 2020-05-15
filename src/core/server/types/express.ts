@@ -4,7 +4,7 @@ import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 export interface CoralRequest {
   id: string;

@@ -11,7 +11,7 @@ import {
 import { Connection } from "coral-server/models/helpers";
 import Task from "coral-server/queue/Task";
 import { AugmentedRedis } from "coral-server/services/redis";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { rejectComment } from "coral-server/stacks";
 
 import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";

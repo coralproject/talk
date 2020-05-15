@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
 import { getParamsFromHashAndClearIt } from "coral-framework/helpers";
+import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -11,16 +11,18 @@ import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
-  const {
-    error = null,
-    accessToken = null,
-  } = getParamsFromHashAndClearIt();
+  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
 
-  await initLocalBaseState(environment, context, accessToken);
+  if (accessToken) {
+    auth = storeAccessToken(accessToken);
+  }
 
-  commitLocalUpdate(environment, s => {
+  initLocalBaseState(environment, context, auth);
+
+  commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
 
     // Parse query params

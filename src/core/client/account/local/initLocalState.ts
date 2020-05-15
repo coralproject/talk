@@ -1,5 +1,6 @@
 import { Environment } from "relay-runtime";
 
+import { AuthState } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState } from "coral-framework/lib/relay";
 
@@ -8,7 +9,8 @@ import { initLocalBaseState } from "coral-framework/lib/relay";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: CoralContext
+  context: CoralContext,
+  auth?: AuthState
 ) {
-  await initLocalBaseState(environment, context);
+  initLocalBaseState(environment, context, auth);
 }

@@ -2,8 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
 import React, { useMemo } from "react";
 
+import { parseAccessTokenClaims } from "coral-framework/lib/auth/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { parseJWT } from "coral-framework/lib/jwt";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import styles from "./Success.css";
@@ -19,7 +19,14 @@ const Success: React.FunctionComponent<Props> = ({
   organizationName,
   organizationURL,
 }) => {
-  const email = useMemo(() => parseJWT(token).payload.email, [token]);
+  const email = useMemo(() => {
+    const claims = parseAccessTokenClaims<{ email?: string }>(token);
+    if (!claims) {
+      return null;
+    }
+
+    return claims.email;
+  }, [token]);
 
   return (
     <HorizontalGutter

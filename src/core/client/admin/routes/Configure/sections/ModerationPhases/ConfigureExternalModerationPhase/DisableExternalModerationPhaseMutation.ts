@@ -7,21 +7,21 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { RotateWebhookEndpointSecretMutation as MutationTypes } from "coral-admin/__generated__/RotateWebhookEndpointSecretMutation.graphql";
+import { DisableExternalModerationPhaseMutation as MutationTypes } from "coral-admin/__generated__/DisableExternalModerationPhaseMutation.graphql";
 
 let clientMutationId = 0;
 
-const RotateWebhookEndpointSecretMutation = createMutation(
-  "rotateWebhookEndpointSecret",
+const DisableExternalModerationPhaseMutation = createMutation(
+  "disableExternalModerationPhase",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RotateWebhookEndpointSecretMutation(
-          $input: RotateWebhookEndpointSecretInput!
+        mutation DisableExternalModerationPhaseMutation(
+          $input: DisableExternalModerationPhaseInput!
         ) {
-          rotateWebhookEndpointSecret(input: $input) {
-            endpoint {
-              ...ConfigureWebhookEndpointContainer_webhookEndpoint
+          disableExternalModerationPhase(input: $input) {
+            phase {
+              ...ConfigureExternalModerationPhaseContainer_phase
             }
           }
         }
@@ -35,4 +35,4 @@ const RotateWebhookEndpointSecretMutation = createMutation(
     })
 );
 
-export default RotateWebhookEndpointSecretMutation;
+export default DisableExternalModerationPhaseMutation;

@@ -23,8 +23,10 @@ import {
   User,
 } from "coral-server/models/user";
 import { AsymmetricSigningAlgorithm } from "coral-server/services/jwt";
-import TenantCache from "coral-server/services/tenant/cache";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
 import { findOrCreate } from "coral-server/services/users";
 import { validateUsername } from "coral-server/services/users/helpers";
 import { Request } from "coral-server/types/express";

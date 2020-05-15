@@ -27,7 +27,7 @@
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
-    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' README.md CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md",
+    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' README.md CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
@@ -108,6 +108,7 @@
     "jwks-rsa": "^1.7.0",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.15",
+    "long-settimeout": "^1.0.1",
     "lru-cache": "^5.1.1",
     "luxon": "^1.22.2",
     "metascraper-author": "^5.11.6",
@@ -412,7 +413,7 @@
     "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
       "npm run docs:events -- --verify"
     ],
-    "{README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS}.md": [
+    "{README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
       "npm run doctoc"
     ]
   },
@@ -420,6 +421,10 @@
     {
       "path": "./dist/static/assets/js/embed.js",
       "maxSize": "15 kB"
+    },
+    {
+      "path": "./dist/static/assets/js/count.js",
+      "maxSize": "2 kB"
     }
   ],
   "graphql-schema-linter": {

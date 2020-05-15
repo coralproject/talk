@@ -75,20 +75,21 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     comment: await ctx.mutators.Comments.unfeature(input),
     clientMutationId,
   }),
+  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
   regenerateSSOKey: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
     clientMutationId: input.clientMutationId,
   }),
-  rotateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.rotateSSOKey(input),
+  rotateSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.rotateSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
-  deactivateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.deactivateSSOKey(input),
+  deactivateSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deactivateSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
-  deleteSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.deleteSSOKey(input),
+  deleteSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deleteSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
   createStory: async (source, { input }, ctx) => ({
@@ -319,12 +320,64 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     endpoint: await ctx.mutators.Settings.deleteWebhookEndpoint(input),
     clientMutationId,
   }),
-  rotateWebhookEndpointSecret: async (
+  rotateWebhookEndpointSigningSecret: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSecret(input),
+    endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSigningSecret(
+      input
+    ),
+    clientMutationId,
+  }),
+  createExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    ...(await ctx.mutators.Settings.createExternalModerationPhase(input)),
+    clientMutationId,
+  }),
+  updateExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.updateExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  disableExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.disableExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  enableExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.enableExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  deleteExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.deleteExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  rotateExternalModerationPhaseSigningSecret: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.rotateExternalModerationPhaseSigningSecret(
+      input
+    ),
     clientMutationId,
   }),
   testSMTP: async (source, { input: { clientMutationId } }, ctx) => {

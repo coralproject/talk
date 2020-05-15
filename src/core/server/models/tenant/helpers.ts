@@ -1,5 +1,4 @@
 import { FluentBundle } from "@fluent/bundle/compat";
-import crypto from "crypto";
 
 import { translate } from "coral-server/services/i18n";
 
@@ -10,7 +9,6 @@ import {
   GQLStaffConfiguration,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { Secret } from "../settings";
 import { Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
@@ -33,23 +31,6 @@ export const getDefaultStaffConfiguration = (
 ): GQLStaffConfiguration => ({
   label: translate(bundle, "Staff", "staff-label"),
 });
-
-export function generateRandomString(size: number, drift = 5) {
-  return crypto
-    .randomBytes(size + Math.floor(Math.random() * drift))
-    .toString("hex");
-}
-
-export function generateSecret(prefix: string, createdAt: Date): Secret {
-  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
-  // as 16 was the minimum length recommended.
-  //
-  // Reference: https://security.stackexchange.com/a/96176
-  const secret = prefix + "_" + generateRandomString(32, 5);
-  const kid = generateRandomString(8, 3);
-
-  return { kid, secret, createdAt };
-}
 
 /**
  * hasFeatureFlag will check to see if the Tenant has a particular feature flag
