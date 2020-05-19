@@ -1,7 +1,9 @@
 export default {
   admin: {
     moderate: "/admin/moderate",
-    configureWebhooks: "/admin/configure/webhooks",
+    moderationPhases: "/admin/configure/moderation/phases",
+    addExternalModerationPhase: "/admin/configure/moderation/phases/add",
+    configureExternalModerationPhase: "/admin/configure/moderation/phases",
     webhooks: "/admin/configure/webhooks",
     addWebhookEndpoint: "/admin/configure/webhooks/add",
     configureWebhookEndpoint: "/admin/configure/webhooks/endpoint",

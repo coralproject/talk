@@ -11,6 +11,7 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   Comment,
   CommentModerationQueueCounts,
+  getDepth,
   hasPublishedStatus,
 } from "coral-server/models/comment";
 
@@ -42,7 +43,7 @@ export async function publishCommentReplyCreated(
   broker: CoralEventPublisherBroker,
   comment: Pick<Comment, "id" | "status" | "ancestorIDs">
 ) {
-  if (comment.ancestorIDs.length > 0 && hasPublishedStatus(comment)) {
+  if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentReplyCreatedCoralEvent.publish(broker, {
       ancestorIDs: comment.ancestorIDs,
       commentID: comment.id,
@@ -89,19 +90,23 @@ export async function publishCommentFeatured(
 export async function publishModerationQueueChanges(
   broker: CoralEventPublisherBroker,
   moderationQueue: Pick<CommentModerationQueueCounts, "queues">,
-  comment: Pick<Comment, "id" | "storyID">
+  comment: Pick<Comment, "id" | "storyID" | "siteID" | "section">
 ) {
   if (moderationQueue.queues.pending === 1) {
     await CommentEnteredModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.pending === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
   if (moderationQueue.queues.reported === 1) {
@@ -109,12 +114,16 @@ export async function publishModerationQueueChanges(
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.reported === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
   if (moderationQueue.queues.unmoderated === 1) {
@@ -122,12 +131,16 @@ export async function publishModerationQueueChanges(
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.unmoderated === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
 }

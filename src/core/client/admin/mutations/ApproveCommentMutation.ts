@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { SectionFilter } from "coral-common/section";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -16,13 +17,19 @@ const ApproveCommentMutation = createMutation(
   "approveComment",
   (
     environment: Environment,
-    input: MutationInput<MutationTypes> & { storyID?: string }
+    input: MutationInput<MutationTypes> & {
+      storyID?: string | null;
+      siteID?: string | null;
+      section?: SectionFilter | null;
+    }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation ApproveCommentMutation(
           $input: ApproveCommentInput!
           $storyID: ID
+          $siteID: ID
+          $section: SectionFilter
         ) {
           approveComment(input: $input) {
             comment {
@@ -42,7 +49,11 @@ const ApproveCommentMutation = createMutation(
               }
               ...ModeratedByContainer_comment
             }
-            moderationQueues(storyID: $storyID) {
+            moderationQueues(
+              storyID: $storyID
+              siteID: $siteID
+              section: $section
+            ) {
               unmoderated {
                 count
               }
@@ -64,6 +75,8 @@ const ApproveCommentMutation = createMutation(
           clientMutationId: (clientMutationId++).toString(),
         },
         storyID: input.storyID,
+        siteID: input.siteID,
+        section: input.section,
       },
       optimisticUpdater: (store) => {
         const proxy = store.get(input.commentID)!;
@@ -72,10 +85,34 @@ const ApproveCommentMutation = createMutation(
       },
       updater: (store) => {
         const connections = [
-          getQueueConnection(store, "REPORTED", input.storyID),
-          getQueueConnection(store, "PENDING", input.storyID),
-          getQueueConnection(store, "UNMODERATED", input.storyID),
-          getQueueConnection(store, "REJECTED", input.storyID),
+          getQueueConnection(
+            store,
+            "REPORTED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "PENDING",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "UNMODERATED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "REJECTED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
         ].filter((c) => c);
         connections.forEach((con) =>
           ConnectionHandler.deleteNode(con!, input.commentID)

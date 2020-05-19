@@ -129,6 +129,7 @@ createComment.error
 - <a href="#showSharePopover">showSharePopover</a>
 - <a href="#showUserPopover">showUserPopover</a>
 - <a href="#signOut">signOut</a>
+- <a href="#signedIn">signedIn</a>
 - <a href="#unfeatureComment">unfeatureComment</a>
 - <a href="#updateNotificationSettings">updateNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
@@ -538,6 +539,7 @@ createComment.error
       };
   }
   ```
+- <a id="signedIn">**signedIn**</a>: This event is emitted when the viewer signed in (not applicable for SSO).
 - <a id="unfeatureComment">**unfeatureComment.success**, **unfeatureComment.error**</a>: This event is emitted when the viewer unfeatures a comment.
   ```ts
   {

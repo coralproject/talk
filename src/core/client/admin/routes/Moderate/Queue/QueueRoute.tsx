@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
+import { SectionFilter } from "coral-common/section";
+import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
@@ -36,8 +38,9 @@ interface Props {
   settings: QueueRoute_settings | null;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
-  storyID?: string;
-  siteID?: string;
+  storyID?: string | null;
+  siteID?: string | null;
+  section?: SectionFilter | null;
   count?: string;
 }
 
@@ -59,6 +62,7 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
       queue: props.queueName,
       storyID: props.storyID || null,
       siteID: props.siteID || null,
+      section: props.section,
     });
   }, [props.queueName, props.storyID, props.siteID, viewNew]);
   useEffect(() => {
@@ -66,6 +70,7 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
       queue: props.queueName,
       storyID: props.storyID || null,
       siteID: props.siteID || null,
+      section: props.section,
     };
     const disposable = combineDisposables(
       subscribeToQueueCommentEntered(vars),
@@ -77,6 +82,7 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
   }, [
     props.storyID,
     props.siteID,
+    props.section,
     props.queueName,
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
@@ -126,6 +132,9 @@ const createQueueRoute = (
       if (!Component) {
         throw new Error("Missing component");
       }
+
+      const { storyID, siteID, section } = parseModerationOptions(match);
+
       if (!data || !data.moderationQueues) {
         return (
           <Component
@@ -134,13 +143,15 @@ const createQueueRoute = (
             queue={null}
             settings={null}
             emptyElement={emptyElement}
-            storyID={match.params.storyID}
-            siteID={match.params.siteID}
+            storyID={storyID}
+            siteID={siteID}
+            section={section}
           />
         );
       }
       const queue =
         data.moderationQueues[Object.keys(data.moderationQueues)[0]];
+
       return (
         <Component
           isLoading={false}
@@ -148,8 +159,9 @@ const createQueueRoute = (
           queue={queue}
           settings={data.settings}
           emptyElement={emptyElement}
-          storyID={match.params.storyID}
-          siteID={match.params.siteID}
+          storyID={storyID}
+          siteID={siteID}
+          section={section}
         />
       );
     },
@@ -217,8 +229,13 @@ const createQueueRoute = (
 export const PendingQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.PENDING,
   graphql`
-    query QueueRoutePendingQuery($storyID: ID, $siteID: ID, $count: Int) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+    query QueueRoutePendingQuery(
+      $storyID: ID
+      $siteID: ID
+      $count: Int
+      $section: SectionFilter
+    ) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
           ...QueueRoute_queue @arguments(count: $count)
         }
@@ -234,10 +251,11 @@ export const PendingQueueRoute = createQueueRoute(
     query QueueRoutePaginationPendingQuery(
       $storyID: ID
       $siteID: ID
+      $section: SectionFilter
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -255,8 +273,12 @@ export const PendingQueueRoute = createQueueRoute(
 export const ReportedQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.REPORTED,
   graphql`
-    query QueueRouteReportedQuery($storyID: ID, $siteID: ID) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+    query QueueRouteReportedQuery(
+      $storyID: ID
+      $siteID: ID
+      $section: SectionFilter
+    ) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
           ...QueueRoute_queue
         }
@@ -272,10 +294,11 @@ export const ReportedQueueRoute = createQueueRoute(
     query QueueRoutePaginationReportedQuery(
       $storyID: ID
       $siteID: ID
+      $section: SectionFilter
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -293,8 +316,12 @@ export const ReportedQueueRoute = createQueueRoute(
 export const UnmoderatedQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.UNMODERATED,
   graphql`
-    query QueueRouteUnmoderatedQuery($storyID: ID, $siteID: ID) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+    query QueueRouteUnmoderatedQuery(
+      $storyID: ID
+      $siteID: ID
+      $section: SectionFilter
+    ) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
           ...QueueRoute_queue
         }
@@ -310,10 +337,11 @@ export const UnmoderatedQueueRoute = createQueueRoute(
     query QueueRoutePaginationUnmoderatedQuery(
       $storyID: ID
       $siteID: ID
+      $section: SectionFilter
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }

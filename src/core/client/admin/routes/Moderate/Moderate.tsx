@@ -8,12 +8,14 @@ import React, {
 
 import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
+import { SectionFilter } from "coral-common/section";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/v2/SubBar";
 
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
+import { SectionSelectorContainer } from "./SectionSelector";
 import { SiteSelectorContainer } from "./SiteSelector";
 
 import styles from "./Moderate.css";
@@ -26,12 +28,14 @@ interface RouteParams {
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
-  query: PropTypesOf<typeof SiteSelectorContainer>["query"];
+  query: PropTypesOf<typeof SiteSelectorContainer>["query"] &
+    PropTypesOf<typeof SectionSelectorContainer>["query"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
   siteID: string | null;
+  section?: SectionFilter | null;
   settings: PropTypesOf<typeof ModerateSearchBarContainer>["settings"] | null;
   children?: React.ReactNode;
   queueName: string;
@@ -48,6 +52,7 @@ const Moderate: FunctionComponent<Props> = ({
   routeParams,
   settings,
   siteID,
+  section,
 }) => {
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
@@ -80,12 +85,20 @@ const Moderate: FunctionComponent<Props> = ({
             siteID={routeParams.siteID || siteID || null}
           />
         }
+        sectionSelector={
+          <SectionSelectorContainer
+            queueName={queueName}
+            query={query}
+            section={section}
+          />
+        }
       />
       <SubBar data-testid="moderate-tabBar-container">
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}
           siteID={routeParams.siteID || siteID || null}
+          section={section}
         />
       </SubBar>
       <div className={styles.background} />

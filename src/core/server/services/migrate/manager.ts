@@ -14,7 +14,7 @@ import {
   startMigration,
 } from "coral-server/models/migration";
 import { I18n } from "coral-server/services/i18n";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
   FailedMigrationDetectedError,

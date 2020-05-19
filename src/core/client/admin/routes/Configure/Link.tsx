@@ -7,6 +7,7 @@ interface Props {
   className?: string;
   children: React.ReactNode;
   to: string | LocationDescriptor;
+  exact?: boolean;
 }
 
 const Link: FunctionComponent<Props> = (props) => (
@@ -15,6 +16,7 @@ const Link: FunctionComponent<Props> = (props) => (
       to={props.to}
       className={styles.link}
       activeClassName={styles.linkActive}
+      exact={props.exact}
     >
       {props.children}
     </FoundLink>

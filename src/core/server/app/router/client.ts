@@ -9,7 +9,7 @@ import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import logger from "coral-server/logger";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
 import Entrypoints, { Entrypoint } from "../helpers/entrypoints";

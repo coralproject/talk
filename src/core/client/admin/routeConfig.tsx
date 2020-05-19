@@ -9,18 +9,22 @@ import { createAuthCheckRoute } from "./routes/AuthCheck";
 import CommunityRoute from "./routes/Community";
 import ConfigureRoute from "./routes/Configure";
 import {
+  AddExternalModerationPhaseRoute,
   AddWebhookEndpointRoute,
   AdvancedConfigRoute,
   AuthConfigRoute,
+  ConfigureExternalModerationPhaseRoute,
   ConfigureWebhookEndpointRoute,
   EmailConfigRoute,
   GeneralConfigRoute,
   ModerationConfigRoute,
+  ModerationPhasesConfigRoute,
   OrganizationConfigRoute,
   SlackConfigRoute,
   WebhookEndpointsConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
+import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
 import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
@@ -120,12 +124,27 @@ export default makeRouteConfig(
               path="organization"
               {...OrganizationConfigRoute.routeConfig}
             />
-            <Route path="moderation" {...ModerationConfigRoute.routeConfig} />
+            <Route
+              exact
+              path="moderation"
+              {...ModerationConfigRoute.routeConfig}
+            />
             <Route path="wordList" {...WordListConfigRoute.routeConfig} />
             <Route path="auth" {...AuthConfigRoute.routeConfig} />
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
+          </Route>
+          <Route
+            path="configure/moderation/phases"
+            Component={ModerationPhasesLayout}
+          >
+            <Route path="/" {...ModerationPhasesConfigRoute.routeConfig} />
+            <Route path="add" Component={AddExternalModerationPhaseRoute} />
+            <Route
+              path=":phaseID"
+              {...ConfigureExternalModerationPhaseRoute.routeConfig}
+            />
           </Route>
           <Route path="configure/webhooks" Component={WebhookEndpointsLayout}>
             <Route path="/" {...WebhookEndpointsConfigRoute.routeConfig} />

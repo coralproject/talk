@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { SectionFilter } from "coral-common/section";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -16,13 +17,19 @@ const RejectCommentMutation = createMutation(
   "rejectComment",
   (
     environment: Environment,
-    input: MutationInput<MutationTypes> & { storyID?: string }
+    input: MutationInput<MutationTypes> & {
+      storyID?: string | null;
+      siteID?: string | null;
+      section?: SectionFilter | null;
+    }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation RejectCommentMutation(
           $input: RejectCommentInput!
           $storyID: ID
+          $siteID: ID
+          $section: SectionFilter
         ) {
           rejectComment(input: $input) {
             comment {
@@ -42,7 +49,11 @@ const RejectCommentMutation = createMutation(
               }
               ...ModeratedByContainer_comment
             }
-            moderationQueues(storyID: $storyID) {
+            moderationQueues(
+              storyID: $storyID
+              siteID: $siteID
+              section: $section
+            ) {
               unmoderated {
                 count
               }
@@ -64,6 +75,8 @@ const RejectCommentMutation = createMutation(
           clientMutationId: (clientMutationId++).toString(),
         },
         storyID: input.storyID,
+        siteID: input.siteID,
+        section: input.section,
       },
       optimisticUpdater: (store) => {
         const proxy = store.get(input.commentID)!;

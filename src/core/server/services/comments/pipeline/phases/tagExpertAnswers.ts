@@ -1,4 +1,4 @@
-import { CommentTag } from "coral-server/models/comment/tag";
+import { getDepth } from "coral-server/models/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -11,7 +11,6 @@ import {
 
 export const tagExpertAnswers: IntermediateModerationPhase = ({
   author,
-  now,
   story,
   comment,
 }): IntermediatePhaseResult | void => {
@@ -24,20 +23,12 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
     story.settings.expertIDs.some((id) => id === author.id)
   ) {
     // Assign this comment an expert tag!
-    const tags: CommentTag[] = [
-      {
-        type: GQLTAG.EXPERT,
-        createdAt: now,
-      },
-    ];
+    const tags: GQLTAG[] = [GQLTAG.EXPERT];
 
     // If this comment is the first reply in a thread (depth of 1)...
-    if (comment.ancestorIDs.length === 1) {
+    if (getDepth(comment) === 1) {
       // Add the featured tag!
-      tags.push({
-        type: GQLTAG.FEATURED,
-        createdAt: now,
-      });
+      tags.push(GQLTAG.FEATURED);
     }
 
     return { tags };

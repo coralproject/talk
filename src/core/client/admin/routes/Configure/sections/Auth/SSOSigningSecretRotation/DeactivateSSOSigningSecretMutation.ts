@@ -7,23 +7,25 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { RotateSSOKeyMutation as MutationTypes } from "coral-admin/__generated__/RotateSSOKeyMutation.graphql";
+import { DeactivateSSOSigningSecretMutation as MutationTypes } from "coral-admin/__generated__/DeactivateSSOSigningSecretMutation.graphql";
 
 const clientMutationId = 0;
 
-const RotateSSOKeyMutation = createMutation(
-  "rotateSSOKey",
+const DeactivateSSOSigningSecretMutation = createMutation(
+  "deactivateSSOSigningSecret",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RotateSSOKeyMutation($input: RotateSSOKeyInput!) {
-          rotateSSOKey(input: $input) {
+        mutation DeactivateSSOSigningSecretMutation(
+          $input: DeactivateSSOSigningSecretInput!
+        ) {
+          deactivateSSOSigningSecret(input: $input) {
             settings {
               auth {
                 integrations {
                   sso {
                     enabled
-                    keys {
+                    signingSecrets {
                       kid
                       secret
                       createdAt
@@ -49,4 +51,4 @@ const RotateSSOKeyMutation = createMutation(
   }
 );
 
-export default RotateSSOKeyMutation;
+export default DeactivateSSOSigningSecretMutation;

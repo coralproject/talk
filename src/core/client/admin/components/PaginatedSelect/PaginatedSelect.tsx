@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { noop } from "lodash";
 import React, { FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -16,20 +17,20 @@ import {
 import styles from "./PaginatedSelect.css";
 
 interface Props {
-  onLoadMore: () => void;
+  onLoadMore?: () => void;
   icon?: string;
-  hasMore: boolean;
-  disableLoadMore: boolean;
-  loading: boolean;
+  hasMore?: boolean;
+  disableLoadMore?: boolean;
+  loading?: boolean;
   selected: React.ReactNode;
   className?: string;
 }
 
 const PaginatedSelect: FunctionComponent<Props> = ({
-  loading,
-  onLoadMore,
-  disableLoadMore,
-  hasMore,
+  onLoadMore = noop,
+  disableLoadMore = false,
+  hasMore = false,
+  loading = false,
   children,
   icon,
   selected,

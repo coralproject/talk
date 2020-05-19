@@ -5,6 +5,7 @@ import {
 import { FilterQuery } from "coral-server/models/helpers";
 import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   PENDING_STATUS,
   REPORTED_STATUS,
@@ -12,7 +13,9 @@ import {
 } from "coral-server/services/comments/moderation/counts";
 
 import {
+  GQLFEATURE_FLAG,
   GQLModerationQueuesTypeResolver,
+  GQLSectionFilter,
   QueryToModerationQueuesResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -21,7 +24,7 @@ import { ModerationQueueInput } from "./ModerationQueue";
 
 interface ModerationQueuesInput {
   connection: Partial<CommentConnectionInput>;
-  counts: CommentModerationCountsPerQueue;
+  counts?: CommentModerationCountsPerQueue;
 }
 
 const mergeModerationInputFilters = (
@@ -81,6 +84,25 @@ export const storyModerationInputResolver = (
 });
 
 /**
+ * sectionModerationInputResolver can be used to retrieve the moderationQueue for
+ * a specific Story.
+ *
+ * @param section the section that will be used to base the comment moderation
+ *              queues on
+ */
+export const sectionModerationInputResolver = async (
+  section: GQLSectionFilter
+): Promise<ModerationQueuesInput> => ({
+  connection: {
+    filter: {
+      // This moderationQueues is being sourced from the section, so require
+      // that all the comments for theses queues are also for this section.
+      section: section.name || null,
+    },
+  },
+});
+
+/**
  * sharedModerationInputResolver implements the resolver function style which
  * allows it to be used in a type resolver.
  *
@@ -120,6 +142,10 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
     }
 
     return storyModerationInputResolver(story);
+  }
+
+  if (args.section && hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SECTIONS)) {
+    return sectionModerationInputResolver(args.section);
   }
 
   if (args.siteID) {

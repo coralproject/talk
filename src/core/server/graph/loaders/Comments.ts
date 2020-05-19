@@ -2,6 +2,7 @@ import DataLoader from "dataloader";
 import { defaultTo, isNil, omitBy } from "lodash";
 import { DateTime } from "luxon";
 
+import { SectionFilter } from "coral-common/section";
 import Context from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -21,6 +22,7 @@ import {
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 import {
@@ -28,6 +30,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -38,6 +41,18 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { SingletonResolver } from "./util";
+
+/**
+ * requiredPropertyFilter will remove those properties that are nil from the
+ * object as they are not nilable on the database model. If we didn't do this,
+ * then any time that the property is nil, we'd be querying for comments that
+ * can't possibly exist!
+ *
+ * @param props properties that if nil should be removed from the return object
+ */
+const requiredPropertyFilter = (
+  props: CommentConnectionInput["filter"]
+): CommentConnectionInput["filter"] => omitBy(props, isNil);
 
 const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   if (tag) {
@@ -52,6 +67,22 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
+  }
+
+  return {};
+};
+
+const sectionFilter = (
+  tenant: Pick<Tenant, "featureFlags">,
+  section?: SectionFilter
+): CommentConnectionInput["filter"] => {
+  // Don't filter by section if the feature flag is disabled.
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
+    return {};
+  }
+
+  if (section) {
+    return { section: section.name || null };
   }
 
   return {};
@@ -139,6 +170,7 @@ export default (ctx: Context) => ({
     after,
     storyID,
     siteID,
+    section,
     status,
     tag,
     query,
@@ -147,16 +179,15 @@ export default (ctx: Context) => ({
       first: defaultTo(first, 10),
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      filter: omitBy(
-        {
-          ...queryFilter(query),
-          ...tagFilter(tag),
-          storyID,
-          siteID,
-          status,
-        },
-        isNil
-      ),
+      filter: {
+        ...queryFilter(query),
+        ...tagFilter(tag),
+        ...sectionFilter(ctx.tenant, section),
+        // If these properties are not provided or are null, remove them from
+        // the filter because they do not exist in a nullable state on the
+        // database model.
+        ...requiredPropertyFilter({ storyID, siteID, status }),
+      },
     }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) => {

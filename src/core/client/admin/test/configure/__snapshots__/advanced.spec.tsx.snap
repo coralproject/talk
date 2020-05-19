@@ -55,6 +55,15 @@ exports[`renders configure advanced 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/moderation/phases"
+                  onClick={[Function]}
+                >
+                  Moderation Phases
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/wordList"
                   onClick={[Function]}
                 >

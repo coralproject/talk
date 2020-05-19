@@ -6,6 +6,12 @@ exports[`renders correctly 1`] = `
 >
   <withRouter(Relay(ModerateSearchBarContainer))
     allStories={true}
+    sectionSelector={
+      <Relay(SectionSelectorContainer)
+        query=""
+        queueName=""
+      />
+    }
     settings={
       Object {
         "multisite": false,

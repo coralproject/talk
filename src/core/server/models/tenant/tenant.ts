@@ -1,4 +1,3 @@
-import { Redis } from "ioredis";
 import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -10,7 +9,11 @@ import TIME from "coral-common/time";
 import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
-import logger from "coral-server/logger";
+import {
+  generateSigningSecret,
+  Settings,
+  SigningSecretResource,
+} from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
@@ -22,12 +25,9 @@ import {
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { Secret, Settings } from "../settings";
 import {
-  generateSecret,
   getDefaultReactionConfiguration,
   getDefaultStaffConfiguration,
-  getWebhookEndpoint,
 } from "./helpers";
 
 /**
@@ -42,7 +42,7 @@ export interface TenantResource {
   readonly tenantID: string;
 }
 
-export interface Endpoint {
+export interface Endpoint extends SigningSecretResource {
   /**
    * id is the unique identifier for this specific endpoint.
    */
@@ -57,11 +57,6 @@ export interface Endpoint {
    * url is the URL that we will POST event data to.
    */
   url: string;
-
-  /**
-   * signingSecret is the secret used to sign the events sent out.
-   */
-  signingSecrets: Secret[];
 
   /**
    * all when true indicates that all events should trigger.
@@ -198,7 +193,7 @@ export async function createTenant(
             stream: true,
           },
           // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
-          keys: [generateSecret("ssosec", now)],
+          signingSecrets: [generateSigningSecret("ssosec", now)],
         },
         oidc: {
           enabled: false,
@@ -360,59 +355,6 @@ export async function updateTenant(
   return result.value || null;
 }
 
-/**
- * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
- * for the specified Tenant. All existing user sessions signed with the old
- * secret will be invalidated.
- */
-export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
-  // Construct the new key.
-  const key = generateSecret("ssosec", now);
-
-  // Update the Tenant with this new key.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $push: {
-        "auth.integrations.sso.keys": key,
-      },
-    },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
-}
-
-export async function deactivateTenantSSOKey(
-  mongo: Db,
-  id: string,
-  kid: string,
-  inactiveAt: Date,
-  now: Date
-) {
-  // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $set: {
-        "auth.integrations.sso.keys.$[keys].inactiveAt": inactiveAt,
-        "auth.integrations.sso.keys.$[keys].rotatedAt": now,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      // Add an ArrayFilter to only update one of the keys.
-      arrayFilters: [{ "keys.kid": kid }],
-    }
-  );
-
-  return result.value || null;
-}
-
 export async function enableTenantFeatureFlag(
   mongo: Db,
   id: string,
@@ -449,24 +391,6 @@ export async function disableTenantFeatureFlag(
       // Pull the flag from the set of enabled flags.
       $pull: {
         featureFlags: flag,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-
-  return result.value || null;
-}
-export async function deleteTenantSSOKey(mongo: Db, id: string, kid: string) {
-  // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "auth.integrations.sso.keys": { kid },
       },
     },
     {
@@ -541,307 +465,4 @@ export function retrieveAnnouncementIfEnabled(
     };
   }
   return null;
-}
-
-export async function rollTenantWebhookEndpointSecret(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  inactiveAt: Date,
-  now: Date
-) {
-  // Create the new secret.
-  const secret = generateSecret("whsec", now);
-
-  // Update the Tenant with this new secret.
-  let result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $push: { "webhooks.endpoints.$[endpoint].signingSecrets": secret },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      arrayFilters: [
-        // Select the endpoint we're updating.
-        { "endpoint.id": endpointID },
-      ],
-    }
-  );
-  if (!result.value) {
-    return null;
-  }
-
-  // Grab the endpoint we just modified.
-  const endpoint = getWebhookEndpoint(result.value, endpointID);
-  if (!endpoint) {
-    return null;
-  }
-
-  // Get the secrets we need to deactivate...
-  const secretKIDsToDeprecate = endpoint.signingSecrets
-    // By excluding the last one (the one we just pushed)...
-    .splice(0, endpoint.signingSecrets.length - 1)
-    // And only finding keys that have not been rotated yet.
-    .filter((s) => !s.rotatedAt)
-    // And get their kid's.
-    .map((s) => s.kid);
-  if (secretKIDsToDeprecate.length > 0) {
-    logger.trace(
-      { kids: secretKIDsToDeprecate },
-      "deprecating old signingSecrets"
-    );
-
-    // Deactivate the old keys.
-    result = await collection(mongo).findOneAndUpdate(
-      { id },
-      {
-        $set: {
-          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].inactiveAt": inactiveAt,
-          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].rotatedAt": now,
-        },
-      },
-      {
-        arrayFilters: [
-          // Select the endpoint we're updating.
-          { "endpoint.id": endpointID },
-          // Select any signing secrets with the given ids.
-          { "signingSecret.kid": { $in: secretKIDsToDeprecate } },
-        ],
-      }
-    );
-  }
-
-  return result.value;
-}
-
-export interface CreateTenantWebhookEndpointInput {
-  url: string;
-  all: boolean;
-  events: GQLWEBHOOK_EVENT_NAME[];
-}
-
-export async function createTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  input: CreateTenantWebhookEndpointInput,
-  now: Date
-) {
-  // Create the new endpoint.
-  const endpoint: Endpoint = {
-    ...input,
-    id: uuid(),
-    enabled: true,
-    signingSecrets: [generateSecret("whsec", now)],
-    createdAt: now,
-  };
-
-  // Update the Tenant with this new endpoint.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    { $push: { "webhooks.endpoints": endpoint } },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return {
-        endpoint: null,
-        tenant: null,
-      };
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return {
-    endpoint,
-    tenant: result.value,
-  };
-}
-
-export interface UpdateTenantWebhookEndpointInput {
-  enabled?: boolean;
-  url?: string;
-  all?: boolean;
-  events?: GQLWEBHOOK_EVENT_NAME[];
-}
-
-export async function updateTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  update: UpdateTenantWebhookEndpointInput
-) {
-  const $set = dotize(
-    { "webhooks.endpoints.$[endpoint]": update },
-    { embedArrays: true }
-  );
-
-  // Check to see if there is any updates that will be made.
-  if (isEmpty($set)) {
-    // No updates need to be made, abort here and just return the tenant.
-    return retrieveTenant(mongo, id);
-  }
-
-  // Perform the actual update operation.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    { $set },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      arrayFilters: [{ "endpoint.id": endpointID }],
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    const endpoint = getWebhookEndpoint(tenant, endpointID);
-    if (!endpoint) {
-      throw new Error(
-        `endpoint not found with id: ${endpointID} on tenant: ${id}`
-      );
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-export async function deleteEndpointSecrets(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  kids: string[]
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
-      },
-    },
-    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    const endpoint = getWebhookEndpoint(tenant, endpointID);
-    if (!endpoint) {
-      throw new Error(
-        `endpoint not found with id: ${endpointID} on tenant: ${id}`
-      );
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-export async function deleteTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  endpointID: string
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "webhooks.endpoints": { id: endpointID },
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-function lastUsedAtTenantSSOKey(id: string): string {
-  return `${id}:lastUsedSSOKey`;
-}
-
-/**
- * updateLastUsedAtTenantSSOKey will update the time stamp that the SSO key was
- * last used at.
- *
- * @param redis the Redis connection to use to update the timestamp on
- * @param id the ID of the Tenant
- * @param kid the kid of the token that was used
- * @param when the date that the token was last used at
- */
-export async function updateLastUsedAtTenantSSOKey(
-  redis: Redis,
-  id: string,
-  kid: string,
-  when: Date
-) {
-  await redis.hset(lastUsedAtTenantSSOKey(id), kid, when.toISOString());
-}
-
-/**
- *
- * @param redis the Redis connection to use to remove the last used on.
- * @param id the ID of the Tenant
- * @param kid the kid of the token that is being deleted
- */
-export async function deleteLastUsedAtTenantSSOKey(
-  redis: Redis,
-  id: string,
-  kid: string
-) {
-  await redis.hdel(lastUsedAtTenantSSOKey(id), kid);
-}
-
-/**
- * retrieveLastUsedAtTenantSSOKeys will get the dates that the requested sso
- * keys were last used on.
- *
- * @param redis the Redis connection to use to update the timestamp on
- * @param id the ID of the Tenant
- * @param kids the kids of the tokens that we want to know when they were last used
- */
-export async function retrieveLastUsedAtTenantSSOKeys(
-  redis: Redis,
-  id: string,
-  kids: string[]
-) {
-  const results: Array<string | null> = await redis.hmget(
-    lastUsedAtTenantSSOKey(id),
-    ...kids
-  );
-
-  return results.map((lastUsedAt) => {
-    if (!lastUsedAt) {
-      return null;
-    }
-
-    return new Date(lastUsedAt);
-  });
 }

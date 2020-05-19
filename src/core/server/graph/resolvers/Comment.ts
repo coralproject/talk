@@ -9,6 +9,7 @@ import {
 } from "coral-server/models/action/comment";
 import * as comment from "coral-server/models/comment";
 import {
+  getDepth,
   getLatestRevision,
   hasAncestors,
   hasPublishedStatus,
@@ -52,9 +53,9 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
+  deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
-  deleted: ({ deletedAt }) => !!deletedAt,
   editing: ({ revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
@@ -98,8 +99,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     }),
   viewerActionPresence: (c, input, ctx) =>
     ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
-  parentCount: (c) => (hasAncestors(c) ? c.ancestorIDs.length : 0),
-  depth: (c) => (hasAncestors(c) ? c.ancestorIDs.length : 0),
+  parentCount: (c) => getDepth(c),
+  depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>
     hasAncestors(c)
       ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1])

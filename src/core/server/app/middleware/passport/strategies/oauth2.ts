@@ -7,8 +7,10 @@ import { IntegrationDisabled } from "coral-server/errors";
 import { AuthIntegrations } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import TenantCache from "coral-server/services/tenant/cache";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";
@@ -124,15 +126,15 @@ export default abstract class OAuth2Strategy<
           integration as Required<T>
         ) as StrategyCreated<U>;
 
-        // Augment the strategy with the request method bindings.
-        strategy.error = this.error.bind(this);
-        strategy.fail = this.fail.bind(this);
-        strategy.pass = this.pass.bind(this);
-        strategy.redirect = this.redirect.bind(this);
-        strategy.success = this.success.bind(this);
-
         this.cache.set(tenant.id, strategy);
       }
+
+      // Augment the strategy with the request method bindings.
+      strategy.error = this.error.bind(this);
+      strategy.fail = this.fail.bind(this);
+      strategy.pass = this.pass.bind(this);
+      strategy.redirect = this.redirect.bind(this);
+      strategy.success = this.success.bind(this);
 
       strategy.authenticate(req, {
         session: false,

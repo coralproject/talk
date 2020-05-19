@@ -195,6 +195,12 @@ export const SignOutEvent = createViewerNetworkEvent<{
 }>("signOut");
 
 /**
+ * This event is emitted when the viewer
+ * signed in (not applicable for SSO).
+ */
+export const SignedInEvent = createViewerEvent("signedIn");
+
+/**
  * This event is emitted when the viewer updates its
  * notification settings.
  */

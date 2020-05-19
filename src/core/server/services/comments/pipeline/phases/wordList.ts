@@ -35,7 +35,6 @@ export const wordList: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
         {
-          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
@@ -53,7 +52,6 @@ export const wordList: IntermediateModerationPhase = ({
     return {
       actions: [
         {
-          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },

@@ -1,6 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 
-import { CoralError, InternalError } from "coral-server/errors";
+import { CoralError, WrappedInternalError } from "coral-server/errors";
 import { I18n } from "coral-server/services/i18n";
 import { ErrorRequestHandler, Request } from "coral-server/types/express";
 
@@ -12,7 +12,7 @@ import { ErrorRequestHandler, Request } from "coral-server/types/express";
 const wrapError = (err: Error) =>
   err instanceof CoralError
     ? err
-    : new InternalError(err, "wrapped internal error");
+    : new WrappedInternalError(err, "wrapped internal error");
 
 /**
  * serializeError will return a serialized error that can be returned via the

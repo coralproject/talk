@@ -1,5 +1,7 @@
 import urls from "./urls";
 
+import { SectionFilter } from "coral-common/section";
+
 export type QUEUE_NAME =
   | "reported"
   | "pending"
@@ -7,16 +9,18 @@ export type QUEUE_NAME =
   | "rejected"
   | "approved";
 
-interface Options {
+export interface Options {
   queue?: QUEUE_NAME;
   storyID?: string | null;
   siteID?: string | null;
+  section?: SectionFilter | null;
 }
 
 export default function getModerationLink({
   queue,
   storyID,
   siteID,
+  section,
 }: Options = {}) {
   const parts = [urls.admin.moderate];
 
@@ -32,5 +36,16 @@ export default function getModerationLink({
     parts.push("sites", encodeURIComponent(siteID));
   }
 
-  return parts.join("/");
+  const path = parts.join("/");
+
+  if (section) {
+    const { name } = section;
+    if (name) {
+      return path + "?section=" + encodeURIComponent(name);
+    }
+
+    return path + "?section=";
+  }
+
+  return path;
 }

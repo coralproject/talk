@@ -81,6 +81,13 @@ export interface Comment extends TenantResource {
   siteID: string;
 
   /**
+   * section is the section of the story that this comment was left on. If the
+   * section was not available when the comment was authored, the section will
+   * be null here.
+   */
+  section?: string;
+
+  /**
    * revisions stores all the revisions of the Comment body including the most
    * recent revision, the last revision is the most recent.
    */

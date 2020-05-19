@@ -20,8 +20,11 @@ const ModerateCountsCommentEnteredSubscription = createSubscription(
   ) =>
     requestSubscription(environment, {
       subscription: graphql`
-        subscription ModerateCountsCommentEnteredSubscription($storyID: ID) {
-          commentEnteredModerationQueue(storyID: $storyID) {
+        subscription ModerateCountsCommentEnteredSubscription(
+          $storyID: ID
+          $siteID: ID
+        ) {
+          commentEnteredModerationQueue(storyID: $storyID, siteID: $siteID) {
             queue
           }
         }

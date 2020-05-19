@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -19,7 +20,9 @@ const EndpointDetails: FunctionComponent<Props> = ({
   settings,
 }) => (
   <>
-    <Subheader>Endpoint details</Subheader>
+    <Localized id="configure-webhooks-endpointDetails">
+      <Subheader>Endpoint details</Subheader>
+    </Localized>
     <ConfigureWebhookEndpointForm
       settings={settings}
       webhookEndpoint={webhookEndpoint}

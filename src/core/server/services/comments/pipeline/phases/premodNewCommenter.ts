@@ -30,7 +30,6 @@ export const premodNewCommenter = async ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_NEW_COMMENTER,
           metadata: {

@@ -23,7 +23,7 @@ function createSubscriptionFunction(
 ): SubscribeFunction {
   const fn: SubscribeFunction = (operation, variables, cacheConfig) => {
     return Observable.create<GraphQLResponse>((sink) => {
-      subscriptionClient.subscribe(
+      const subscription = subscriptionClient.subscribe(
         operation as any,
         variables,
         {
@@ -36,6 +36,10 @@ function createSubscriptionFunction(
           onCompleted: sink.complete,
         }
       );
+
+      return () => {
+        subscription.dispose();
+      };
     });
   };
   return fn;

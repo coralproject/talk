@@ -35,7 +35,7 @@ import { Metrics } from "coral-server/services/metrics";
 import { MigrationManager } from "coral-server/services/migrate";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { healthHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
