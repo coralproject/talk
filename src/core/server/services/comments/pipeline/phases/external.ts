@@ -163,7 +163,7 @@ async function processPhase(
     mongo,
     action,
     comment,
-    htmlStripped,
+    bodyText,
     author,
     tenant,
     story,
@@ -179,9 +179,7 @@ async function processPhase(
       body:
         // Depending on the selected format, the comment body could be in an
         // HTML or HTML stripped format.
-        phase.format === GQLCOMMENT_BODY_FORMAT.HTML
-          ? comment.body
-          : htmlStripped,
+        phase.format === GQLCOMMENT_BODY_FORMAT.HTML ? comment.body : bodyText,
       // We're casting this to a `string | null` here because it's more
       // actionable to get a `null` rather than an undefined value in a
       // request.
