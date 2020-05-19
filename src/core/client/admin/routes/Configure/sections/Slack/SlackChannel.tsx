@@ -13,6 +13,7 @@ import {
   Flex,
   FormField,
   FormFieldDescription,
+  HelperText,
   Label,
   TextField,
 } from "coral-ui/components/v2";
@@ -159,16 +160,23 @@ const SlackChannel: FunctionComponent<Props> = ({
                   parse={parseBool}
                 >
                   {({ input }) => (
-                    <CheckBox
-                      id={`configure-slack-channel-triggers-allComments-${input.name}`}
-                      disabled={disabled || !channelEnabled}
-                      className={styles.trigger}
-                      {...input}
-                    >
-                      <Localized id="configure-slack-channel-triggers-allComments">
-                        All Comments
+                    <div className={styles.trigger}>
+                      <CheckBox
+                        id={`configure-slack-channel-triggers-allComments-${input.name}`}
+                        disabled={disabled || !channelEnabled}
+                        {...input}
+                      >
+                        <Localized id="configure-slack-channel-triggers-allComments">
+                          All Comments
+                        </Localized>
+                      </CheckBox>
+                      <Localized id="configure-slack-notRecommended">
+                        <HelperText className={styles.triggerHelp}>
+                          Not recommended for sites with more than 10K comments
+                          per month.
+                        </HelperText>
                       </Localized>
-                    </CheckBox>
+                    </div>
                   )}
                 </Field>
                 <Field

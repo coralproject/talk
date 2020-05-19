@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 
 import GraphContext from "coral-server/graph/context";
-import { retrieveLastUsedAtTenantSSOKeys } from "coral-server/models/tenant";
+import { retrieveLastUsedAtTenantSSOSigningSecrets } from "coral-server/models/tenant";
 import { discoverOIDCConfiguration } from "coral-server/services/tenant";
 
 import { GQLDiscoveredOIDCConfiguration } from "coral-server/graph/schema/__generated__/types";
@@ -19,7 +19,7 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  retrieveSSOKeyLastUsedAt: new DataLoader((kids: string[]) =>
-    retrieveLastUsedAtTenantSSOKeys(ctx.redis, ctx.tenant.id, kids)
+  retrieveSSOSigningSecretLastUsedAt: new DataLoader((kids: string[]) =>
+    retrieveLastUsedAtTenantSSOSigningSecrets(ctx.redis, ctx.tenant.id, kids)
   ),
 });

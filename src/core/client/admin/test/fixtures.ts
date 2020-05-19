@@ -114,7 +114,7 @@ export const settings = createFixture<GQLSettings>({
           admin: true,
           stream: true,
         },
-        keys: [
+        signingSecrets: [
           {
             kid: "kid-01",
             secret: "secret",
@@ -212,7 +212,7 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
             stream: true,
           },
           key: "",
-          keys: [
+          signingSecrets: [
             {
               kid: "kid-01",
               secret: "secret",

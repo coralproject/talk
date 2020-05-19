@@ -57,3 +57,14 @@ export function calculateRejectionRate(counts: CommentStatusCounts): number {
 export function hasTag(comment: Pick<Comment, "tags">, tag: GQLTAG) {
   return comment.tags.some((v) => v.type === tag);
 }
+
+/**
+ * getDepth will return the depth of the comment.
+ *
+ * @param comment the comment to check for depth
+ */
+export function getDepth(
+  comment: Pick<Comment, "ancestorIDs" | "parentID">
+): number {
+  return hasAncestors(comment) ? comment.ancestorIDs.length : 0;
+}

@@ -2,7 +2,7 @@ import { Db } from "mongodb";
 
 import { retrieveUserScheduledForDeletion } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { deleteUser } from "coral-server/services/users/delete";
 
 import {

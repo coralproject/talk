@@ -20,9 +20,7 @@ export const approve: IntermediateModerationPhase = ({
   //   automatically approved. We will only see EXPERT
   //   tags assigned when we are in Q&A mode, so we can
   //   trust this simple tag type check.
-  if (
-    tags.some((tag) => tag.type === GQLTAG.STAFF || tag.type === GQLTAG.EXPERT)
-  ) {
+  if (tags.includes(GQLTAG.STAFF) || tags.includes(GQLTAG.EXPERT)) {
     return {
       status: GQLCOMMENT_STATUS.APPROVED,
     };

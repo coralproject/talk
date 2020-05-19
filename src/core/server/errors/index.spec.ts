@@ -1,6 +1,6 @@
 import { VError } from "verror";
 
-import { CoralError, DuplicateUserError, InternalError } from ".";
+import { CoralError, DuplicateUserError, WrappedInternalError } from ".";
 
 it("has the right inheritance chain", () => {
   const err = new DuplicateUserError();
@@ -14,12 +14,12 @@ it("has the right inheritance chain", () => {
 });
 
 it("provides an accurate stack", () => {
-  const err = new InternalError(
+  const err = new WrappedInternalError(
     new Error("this is a test"),
     "this is the reason"
   );
 
-  expect(err).toBeInstanceOf(InternalError);
+  expect(err).toBeInstanceOf(WrappedInternalError);
   expect(err).toBeInstanceOf(CoralError);
   expect(err).toBeInstanceOf(VError);
   expect(err).toBeInstanceOf(Error);

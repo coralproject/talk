@@ -11,6 +11,11 @@
   padding-bottom: var(--v2-spacing-2);
 }
 
+.triggerHelp {
+  padding-left: 26px;
+  margin: 0;
+}
+
 .button {
   padding-top: var(--v2-spacing-1);
   padding-bottom: var(--v2-spacing-1);

@@ -6,7 +6,7 @@ import { merge } from "lodash";
 import {
   CoralError,
   InternalDevelopmentError,
-  InternalError,
+  WrappedInternalError,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { getOriginalError } from "./helpers";
@@ -71,7 +71,7 @@ function getWrappedOriginalError(
     );
   }
 
-  return new InternalError(originalError, "wrapped internal error");
+  return new WrappedInternalError(originalError, "wrapped internal error");
 }
 
 /**
