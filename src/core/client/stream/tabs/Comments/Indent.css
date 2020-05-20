@@ -3,37 +3,37 @@
 
 .level1 {
   padding-left: var(--v2-spacing-2);
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .level2 {
   padding-left: var(--v2-spacing-2);
   margin-left: var(--v2-spacing-2);
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .level3 {
   padding-left: var(--v2-spacing-2);
   margin-left: calc(2 * var(--v2-spacing-2));
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .level4 {
   padding-left: var(--v2-spacing-2);
   margin-left: calc(3 * var(--v2-spacing-2));
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .level5 {
   padding-left: var(--v2-spacing-2);
   margin-left: calc(4 * var(--v2-spacing-2));
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .level6 {
   padding-left: var(--v2-spacing-2);
   margin-left: calc(5 * var(--v2-spacing-2));
-  border-left: 3px solid var(--v2-colors-grey-400);
+  border-left: 2px solid var(--v2-colors-grey-400);
 }
 
 .noBorder {
