@@ -180,20 +180,25 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
             >
               <FadeInTransition active={Boolean(comment.enteredLive)}>
                 <CollapsableComment>
-                  <HorizontalGutter>
-                    <CommentContainer
-                      viewer={props.viewer}
-                      settings={props.settings}
-                      comment={comment}
-                      story={props.story}
-                    />
-                    <ReplyListContainer
-                      settings={props.settings}
-                      viewer={props.viewer}
-                      comment={comment}
-                      story={props.story}
-                    />
-                  </HorizontalGutter>
+                  {({ collapsed }) => (
+                    <HorizontalGutter>
+                      <CommentContainer
+                        collapsed={collapsed}
+                        viewer={props.viewer}
+                        settings={props.settings}
+                        comment={comment}
+                        story={props.story}
+                      />
+                      {!collapsed && (
+                        <ReplyListContainer
+                          settings={props.settings}
+                          viewer={props.viewer}
+                          comment={comment}
+                          story={props.story}
+                        />
+                      )}
+                    </HorizontalGutter>
+                  )}
                 </CollapsableComment>
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>

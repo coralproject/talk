@@ -58,21 +58,24 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
             singleConversationView={props.singleConversationView}
           >
             <CollapsableComment>
-              <HorizontalGutter key={comment.id}>
-                <CommentContainer
-                  key={comment.id}
-                  viewer={props.viewer}
-                  comment={comment}
-                  story={props.story}
-                  settings={props.settings}
-                  indentLevel={props.indentLevel}
-                  localReply={props.localReply}
-                  disableReplies={props.disableReplies}
-                  showConversationLink={!!comment.showConversationLink}
-                  onRemoveAnswered={props.onRemoveAnswered}
-                />
-                {comment.replyListElement}
-              </HorizontalGutter>
+              {({ collapsed }) => (
+                <HorizontalGutter key={comment.id}>
+                  <CommentContainer
+                    key={comment.id}
+                    viewer={props.viewer}
+                    comment={comment}
+                    story={props.story}
+                    collapsed={collapsed}
+                    settings={props.settings}
+                    indentLevel={props.indentLevel}
+                    localReply={props.localReply}
+                    disableReplies={props.disableReplies}
+                    showConversationLink={!!comment.showConversationLink}
+                    onRemoveAnswered={props.onRemoveAnswered}
+                  />
+                  {!collapsed && comment.replyListElement}
+                </HorizontalGutter>
+              )}
             </CollapsableComment>
           </IgnoredTombstoneOrHideContainer>
         </FadeInTransition>

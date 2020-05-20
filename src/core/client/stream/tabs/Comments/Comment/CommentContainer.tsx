@@ -80,6 +80,7 @@ interface Props {
   hideReportButton?: boolean;
   hideModerationCarat?: boolean;
   onRemoveAnswered?: () => void;
+  collapsed: boolean;
 }
 
 interface State {
@@ -219,6 +220,7 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
       className,
       hideAnsweredTag,
+      collapsed,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
@@ -326,6 +328,7 @@ export class CommentContainer extends Component<Props, State> {
           {!comment.deleted && (
             <IndentedComment
               indentLevel={indentLevel}
+              collapsed={collapsed}
               body={comment.body}
               createdAt={comment.createdAt}
               blur={comment.pending || false}

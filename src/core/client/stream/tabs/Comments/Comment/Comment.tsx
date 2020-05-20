@@ -23,6 +23,7 @@ export interface CommentProps {
   highlight?: boolean;
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
+  collapsed: boolean;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -63,12 +64,14 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         </div>
       )}
 
-      <HorizontalGutter size="oneAndAHalf">
-        <HTMLContent className={CLASSES.comment.content}>
-          {props.body || ""}
-        </HTMLContent>
-        {props.footer}
-      </HorizontalGutter>
+      {!props.collapsed && (
+        <HorizontalGutter size="oneAndAHalf">
+          <HTMLContent className={CLASSES.comment.content}>
+            {props.body || ""}
+          </HTMLContent>
+          {props.footer}
+        </HorizontalGutter>
+      )}
     </HorizontalGutter>
   );
 };
