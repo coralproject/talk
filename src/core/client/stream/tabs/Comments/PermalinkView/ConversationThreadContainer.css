@@ -1,11 +1,34 @@
 .root {
 }
 
-.loadMore {
-  padding-left: var(--mini-unit);
-  padding-bottom: var(--mini-unit);
+.rootParent {
+  padding-bottom: var(--v2-spacing-2);
 }
 
-.showMoreButton {
-  text-transform: uppercase;
+.parentList {
+  margin-left: var(--v2-spacing-2);
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.parentContainer {
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.targetComment {
+  margin-left: calc(var(--v2-spacing-2) - 2px);
+}
+
+.loadMore {
+  padding-left: var(--v2-spacing-2);
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.showMoreContainer {
+  margin-left: -7px;
+
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.showMoreIcon {
+  color: var(--v2-colors-mono-100);
 }

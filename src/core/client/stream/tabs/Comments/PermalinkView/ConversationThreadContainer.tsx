@@ -11,19 +11,15 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import Counter from "coral-stream/common/Counter";
 import { ShowMoreOfConversationEvent } from "coral-stream/events";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import {
-  CommentContainer,
-  RootParent,
-  UserTagsContainer,
-} from "coral-stream/tabs/Comments/Comment";
+import { CommentContainer } from "coral-stream/tabs/Comments/Comment";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
-import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+import { Counter, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { ConversationThreadContainer_comment as CommentData } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
 import { ConversationThreadContainer_settings as SettingsData } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
@@ -61,8 +57,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
-      // eslint-disable-next-line no-console
-      console.error(error);
     }
   }, [loadMore, beginLoadMoreEvent]);
   const parents = comment.parents.edges.map((edge) => edge.node);
@@ -89,80 +83,87 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
       className={cn(CLASSES.conversationThread.$root, styles.root)}
       data-testid={dataTestID}
     >
-      <HorizontalGutter container={<Line dotted />}>
-        {rootParent && (
-          <Circle>
-            <RootParent
-              id={rootParent.id}
-              username={rootParent.author && rootParent.author.username}
-              createdAt={rootParent.createdAt}
-              tags={
-                <UserTagsContainer
-                  className={CLASSES.conversationThread.rootParent.userTag}
-                  story={story}
-                  comment={rootParent}
-                  settings={settings}
-                />
-              }
-            />
-          </Circle>
-        )}
-        {remaining > 0 && (
-          <Circle hollow className={styles.loadMore}>
-            <Flex alignItems="center" itemGutter="half">
-              <Localized
-                id="comments-conversationThread-showMoreOfThisConversation"
-                $count={remaining}
-              >
-                <Button
-                  className={cn(
-                    CLASSES.conversationThread.showMore,
-                    styles.showMoreButton
-                  )}
-                  onClick={loadMoreAndEmit}
-                  disabled={isLoadingMore}
-                  variant="underlined"
-                >
-                  Show more of this conversation
-                </Button>
-              </Localized>
-              {remaining > 1 && <Counter color="dark">{remaining}</Counter>}
-            </Flex>
-          </Circle>
-        )}
-      </HorizontalGutter>
-      <HorizontalGutter container={Line}>
-        {parents.map((parent, i) => (
-          <Circle key={parent.id} hollow={!!remaining || i > 0}>
-            <CommentContainer
-              comment={parent}
-              story={story}
-              viewer={viewer}
-              settings={settings}
-              localReply
-            />
-            {viewer && (
-              <LocalReplyListContainer
+      <div className={styles.rootParent}>
+        <HorizontalGutter container={Line}>
+          {rootParent && (
+            <Circle>
+              <CommentContainer
+                comment={rootParent}
                 story={story}
                 viewer={viewer}
                 settings={settings}
-                comment={parent}
-                indentLevel={1}
+                localReply
               />
-            )}
-          </Circle>
+            </Circle>
+          )}
+        </HorizontalGutter>
+      </div>
+
+      {remaining > 0 && (
+        <Flex alignItems="center" className={styles.showMoreContainer}>
+          <Icon size="lg" className={styles.showMoreIcon}>
+            more_vert
+          </Icon>
+          <Localized
+            id="comments-conversationThread-showMoreOfThisConversation"
+            $count={remaining}
+          >
+            <Button
+              className={CLASSES.conversationThread.showMore}
+              onClick={loadMoreAndEmit}
+              disabled={isLoadingMore}
+              variant="flat"
+              fontSize="small"
+              paddingSize="medium"
+              color="secondary"
+              upperCase
+            >
+              Show more of this conversation
+            </Button>
+          </Localized>
+          {remaining > 1 && <Counter color="dark">{remaining}</Counter>}
+        </Flex>
+      )}
+
+      <div className={styles.parentList}>
+        {parents.map((parent) => (
+          <div key={parent.id} className={styles.parentContainer}>
+            <Line>
+              <Circle>
+                <CommentContainer
+                  comment={parent}
+                  story={story}
+                  viewer={viewer}
+                  settings={settings}
+                  localReply
+                />
+                {viewer && (
+                  <LocalReplyListContainer
+                    story={story}
+                    viewer={viewer}
+                    settings={settings}
+                    comment={parent}
+                    indentLevel={1}
+                  />
+                )}
+              </Circle>
+            </Line>
+          </div>
         ))}
-        <Circle end>
-          <CommentContainer
-            className={CLASSES.conversationThread.hightlighted}
-            comment={comment}
-            story={story}
-            settings={settings}
-            viewer={viewer}
-            highlight
-          />
-        </Circle>
-      </HorizontalGutter>
+
+        <div className={styles.targetComment}>
+          <Circle end>
+            <CommentContainer
+              className={CLASSES.conversationThread.hightlighted}
+              comment={comment}
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              highlight
+            />
+          </Circle>
+        </div>
+      </div>
     </div>
   );
 };
@@ -213,6 +214,7 @@ const enhanced = withContext((ctx) => ({
               }
               createdAt
               ...UserTagsContainer_comment
+              ...CommentContainer_comment
             }
             parentCount
             parents(last: $count, before: $cursor)
