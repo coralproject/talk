@@ -81,7 +81,7 @@ it("show all comments", async () => {
   );
 
   await act(async () => {
-    within(tabPane).getByText("View Full Discussion").props.onClick(mockEvent);
+    within(tabPane).getByText("View full discussion").props.onClick(mockEvent);
 
     await waitForElement(() =>
       within(tabPane).getByTestID("comments-allComments-log")

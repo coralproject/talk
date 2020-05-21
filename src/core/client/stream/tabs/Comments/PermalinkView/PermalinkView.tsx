@@ -6,13 +6,8 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
-import {
-  Button,
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
@@ -52,37 +47,40 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
       size="double"
     >
       <UserBoxContainer viewer={viewer} settings={settings} />
-      <Flex alignItems="center" justifyContent="center" direction="column">
-        <Localized id="comments-permalinkView-currentViewing">
-          <Typography className={styles.title1}>
-            You are currently viewing a
-          </Typography>
-        </Localized>
-        <Localized id="comments-permalinkView-singleConversation">
-          <Typography className={styles.title2}>SINGLE CONVERSATION</Typography>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
+        className={styles.header}
+      >
+        <Localized id="comments-permalinkView-youAreCurrentlyViewing">
+          <div className={styles.title}>
+            You are currently viewing a single conversation
+          </div>
         </Localized>
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button
               className={CLASSES.permalinkView.viewFullDiscussionButton}
-              variant="underlined"
+              variant="flat"
               color="primary"
+              fontSize="medium"
+              fontWeight="semiBold"
               onClick={onShowAllComments}
               href={showAllCommentsHref}
               target="_parent"
               anchor
+              underline
             >
-              View Full Discussion
+              View full discussion
             </Button>
           </Localized>
         )}
       </Flex>
       {!comment && (
-        <CallOut fullWidth>
+        <CallOut>
           <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
-            <Typography>
-              This comment has been removed or does not exist.
-            </Typography>
+            This comment has been removed or does not exist.
           </Localized>
         </CallOut>
       )}
