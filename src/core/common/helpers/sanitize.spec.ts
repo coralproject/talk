@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-import createSanitize from "./createSanitize";
+import { createSanitize } from "./sanitize";
 
 const window = new JSDOM("", {}).window;
 const sanitize = createSanitize(window as any);

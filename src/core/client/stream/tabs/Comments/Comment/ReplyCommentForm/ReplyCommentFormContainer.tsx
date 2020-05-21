@@ -176,6 +176,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     return (
       <ReplyCommentForm
         id={this.props.comment.id}
+        rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
@@ -228,6 +229,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             }
             closeCommenting {
               message
+            }
+            rte {
+              ...RTEContainer_config
             }
           }
         `,

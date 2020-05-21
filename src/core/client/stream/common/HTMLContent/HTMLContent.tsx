@@ -2,7 +2,11 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
-import createSanitize, { Sanitize } from "coral-common/helpers/createSanitize";
+import {
+  ALL_FEATURES,
+  createSanitize,
+  Sanitize,
+} from "coral-common/helpers/sanitize";
 
 import styles from "./HTMLContent.css";
 
@@ -21,6 +25,8 @@ const sanitizeAndFindSpoilerTags: (
   return (source: string | Node): [HTMLElement, Element[]] => {
     if (!sanitize) {
       sanitize = createSanitize(window, {
+        // Allow all rte features to be displayed.
+        features: ALL_FEATURES,
         modify: (purify) => {
           // Add a hook that detects spoiler tags and adds to `spoilerTags` array
           purify.addHook("afterSanitizeAttributes", (node) => {

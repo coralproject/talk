@@ -14,6 +14,9 @@
   background-color: var(--palette-common-white);
   border: 1px solid var(--palette-grey-main);
 }
+.toolbarHidden {
+  display: none;
+}
 
 .placeholder {
   composes: placeholder from "~coral-ui/shared/typography.css";

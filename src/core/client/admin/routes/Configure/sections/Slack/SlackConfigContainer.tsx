@@ -108,7 +108,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
         <FieldArray name="slack.channels">
           {({ fields }) =>
             fields.map((channel: any, index: number) => (
-              <div key={index}>
+              <div key={channel}>
                 <SlackChannel
                   channel={channel}
                   disabled={false}

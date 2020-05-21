@@ -10,6 +10,7 @@ import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import {
+  defaultRTEConfiguration,
   generateSigningSecret,
   Settings,
   SigningSecretResource,
@@ -263,6 +264,7 @@ export async function createTenant(
     slack: {
       channels: [],
     },
+    rte: defaultRTEConfiguration,
   };
 
   // Create the new Tenant by merging it together with the defaults.

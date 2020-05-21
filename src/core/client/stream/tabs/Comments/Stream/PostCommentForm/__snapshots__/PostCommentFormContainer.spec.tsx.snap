@@ -13,6 +13,13 @@ exports[`renders correctly 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  rteConfig={
+    Object {
+      "enabled": true,
+      "spoiler": false,
+      "strikethrough": false,
+    }
+  }
   showMessageBox={false}
   story={
     Object {
@@ -62,6 +69,13 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  rteConfig={
+    Object {
+      "enabled": true,
+      "spoiler": false,
+      "strikethrough": false,
+    }
+  }
   showMessageBox={false}
   story={
     Object {
@@ -111,6 +125,13 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  rteConfig={
+    Object {
+      "enabled": true,
+      "spoiler": false,
+      "strikethrough": false,
+    }
+  }
   showMessageBox={false}
   story={
     Object {
@@ -147,6 +168,13 @@ exports[`renders when user is scheduled to be deleted 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  rteConfig={
+    Object {
+      "enabled": true,
+      "spoiler": false,
+      "strikethrough": false,
+    }
+  }
   showMessageBox={false}
   story={
     Object {
@@ -177,6 +205,13 @@ exports[`renders with initialValues 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  rteConfig={
+    Object {
+      "enabled": true,
+      "spoiler": false,
+      "strikethrough": false,
+    }
+  }
   showMessageBox={false}
   story={
     Object {

@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   className="HTMLContent-root"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "Hello world",
+      "__html": "<span>Hello world</span>",
     }
   }
 />
@@ -17,7 +17,7 @@ exports[`sanitizes evil html 1`] = `
   dangerouslySetInnerHTML={
     Object {
       "__html": "
-        Hello world
+        <span>Hello world</span>
       ",
     }
   }

@@ -2,7 +2,49 @@ import createDOMPurify, { DOMPurifyI } from "dompurify";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
 
+import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
+
+export interface RTEFeatures {
+  bold?: boolean;
+  italic?: boolean;
+  blockquote?: boolean;
+  bulletList?: boolean;
+  strikethrough?: boolean;
+  spoiler?: boolean;
+}
+
+/**
+ * ALL_FEATURES is a predefined map of RTEFeatures with all
+ * features turned on
+ */
+export const ALL_FEATURES: RTEFeatures = {
+  bold: true,
+  italic: true,
+  blockquote: true,
+  bulletList: true,
+  strikethrough: true,
+  spoiler: true,
+};
+
 const MAILTO_PROTOCOL = "mailto:";
+
+/**
+ * convertGQLRTEConfigToRTEFeatures turns the
+ * RTE configuration from the GraphQL Schema to
+ * RTEFeatures.
+ */
+export function convertGQLRTEConfigToRTEFeatures(
+  config: Partial<GQLRTEConfiguration>
+): RTEFeatures {
+  return {
+    bold: config.enabled,
+    italic: config.enabled,
+    blockquote: config.enabled,
+    bulletList: config.enabled,
+    strikethrough: config.enabled && config.strikethrough,
+    spoiler: config.enabled && config.spoiler,
+  };
+}
 
 /**
  * Ensure that each anchor tag has a "target" and "rel" attributes set, and
@@ -32,51 +74,60 @@ const sanitizeAnchor = (node: Element) => {
 /**
  * Further restrict the use of attributes.
  */
-const sanitizeAttributes = (node: Element) => {
+const sanitizeAttributes = (features: RTEFeatures, node: Element) => {
   // Only achor tags can have the `href` attribute.
   if (node.nodeName !== "A" && node.getAttribute("href")) {
     node.removeAttribute("href");
   }
-  // Only allow <span class="SPOILER_CLASSNAME"> as our spoiler tag.
-  if (node.nodeName === "SPAN" && node.classList.contains(SPOILER_CLASSNAME)) {
-    // Remove other classes.
-    node.className = SPOILER_CLASSNAME;
-  } else {
-    node.removeAttribute("class");
+  if (features.spoiler) {
+    // Only allow <span class="SPOILER_CLASSNAME"> as our spoiler tag.
+    if (
+      node.nodeName === "SPAN" &&
+      node.classList.contains(SPOILER_CLASSNAME)
+    ) {
+      // Remove other classes.
+      node.className = SPOILER_CLASSNAME;
+    } else {
+      node.removeAttribute("class");
+    }
   }
 };
 
-export const purifyConfig: any = {
-  // Only forward anchor tags, bold, italics, blockquote, breaks, divs, and
-  // spans.
-  ALLOWED_TAGS: [
-    "a",
-    "b",
-    "strong",
-    "i",
-    "em",
-    "blockquote",
-    "br",
-    "div",
-    // TODO: allow spoiler.
-    // "span",
-    "ul",
-    "ol",
-    "li",
-    // TODO: allow strikethrough.
-    // "s",
-    "p",
-  ],
-  ALLOWED_ATTR: [
+function createPurifyConfig(features: RTEFeatures) {
+  const ALLOWED_TAGS = ["a", "br", "div", "p"];
+  const ALLOWED_ATTR = [
     // Allow href tags for anchor tags.
     "href",
-    // Allow class for spoiler tags.
-    "class",
-  ],
-  ALLOW_DATA_ATTR: false,
-  // `ALLOW_ARIA_ATTR` not typed as for v2.0.1.
-  ALLOW_ARIA_ATTR: false,
-};
+  ];
+
+  if (features.bold) {
+    ALLOWED_TAGS.push("b", "strong");
+  }
+  if (features.italic) {
+    ALLOWED_TAGS.push("i", "em");
+  }
+  if (features.blockquote) {
+    ALLOWED_TAGS.push("blockquote");
+  }
+  if (features.bulletList) {
+    ALLOWED_TAGS.push("ul", "li");
+  }
+  if (features.strikethrough) {
+    ALLOWED_TAGS.push("s");
+  }
+  if (features.spoiler) {
+    ALLOWED_TAGS.push("span");
+    ALLOWED_ATTR.push("class");
+  }
+
+  return {
+    ALLOWED_TAGS,
+    ALLOWED_ATTR,
+    ALLOW_DATA_ATTR: false,
+    // `ALLOW_ARIA_ATTR` not typed as for v2.0.1.
+    ALLOW_ARIA_ATTR: false,
+  };
+}
 
 export interface SanitizeOptions {
   /** Allow overriding parts of the config */
@@ -85,25 +136,31 @@ export interface SanitizeOptions {
   normalize?: boolean;
   /** modify allows accessing the purify instance to e.g. add hooks */
   modify?: (purify: DOMPurifyI) => void;
+  /** enable individual features. If not set, all are disabled */
+  features?: RTEFeatures;
 }
 
 export type Sanitize = (source: Node | string) => HTMLElement;
 
-export default function createSanitize(
+export function createSanitize(
   window: Window,
   options?: SanitizeOptions
 ): Sanitize {
   // Initializing JSDOM and DOMPurify
   const purify = createDOMPurify(window);
+  const features = options?.features || {};
 
   // Setting our DOMPurify config.
   purify.setConfig({
-    ...purifyConfig,
+    ...createPurifyConfig(features),
     // Always return the DOM to the caller of sanitize.
     RETURN_DOM: true,
     ...options?.config,
   });
-  purify.addHook("afterSanitizeAttributes", sanitizeAttributes);
+  purify.addHook(
+    "afterSanitizeAttributes",
+    sanitizeAttributes.bind(null, features)
+  );
   purify.addHook("afterSanitizeAttributes", sanitizeAnchor);
   if (options?.normalize) {
     purify.addHook("afterSanitizeElements", (n) => {

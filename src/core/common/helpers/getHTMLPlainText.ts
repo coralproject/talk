@@ -9,12 +9,16 @@ export default function getHTMLPlainText(html: string): string {
     "\n$1"
   );
 
+  let textContent: string;
+
   if (process.env.WEBPACK !== "true") {
     // textContent is not fully implemented in JSDOM, so we use `striptags` inste ad.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    return require("striptags")(htmlWithNewLine);
+    textContent = require("striptags")(htmlWithNewLine);
+  } else {
+    const divElement = document.createElement("div");
+    divElement.innerHTML = htmlWithNewLine;
+    textContent = divElement.textContent || "";
   }
-  const divElement = document.createElement("div");
-  divElement.innerHTML = htmlWithNewLine;
-  return divElement.textContent || "";
+  return textContent.trimRight();
 }

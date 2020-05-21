@@ -24,9 +24,7 @@ exports[`allows anchor tags and counts them correctly 1`] = `
 exports[`allows bolded tags 1`] = `
 <body>
   A 
-  <b>
-    bolded comment!
-  </b>
+  bolded comment!
 </body>
 `;
 

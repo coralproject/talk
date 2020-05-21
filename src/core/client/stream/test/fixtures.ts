@@ -110,6 +110,11 @@ export const settings = createFixture<GQLSettings>({
   },
   multisite: false,
   featureFlags: [],
+  rte: {
+    enabled: true,
+    strikethrough: false,
+    spoiler: false,
+  },
 });
 
 export const site = createFixture<GQLSite>({
