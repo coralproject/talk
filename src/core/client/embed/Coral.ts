@@ -15,8 +15,9 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
-  bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
+  /** Allow setting className of body tag inside iframe */
+  bodyClassName?: string;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
