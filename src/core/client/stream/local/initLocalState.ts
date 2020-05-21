@@ -18,8 +18,14 @@ export default async function initLocalState(
   auth?: AuthState
 ) {
   const config = await getExternalConfig(context.pym);
-  if (config && config.accessToken) {
-    auth = storeAccessToken(config.accessToken);
+  if (config) {
+    if (config.accessToken) {
+      auth = storeAccessToken(config.accessToken);
+    }
+    // append body class name if set in config.
+    if (config.bodyClassName) {
+      document.body.classList.add(config.bodyClassName);
+    }
   }
 
   initLocalBaseState(environment, context, auth);

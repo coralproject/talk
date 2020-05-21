@@ -4,6 +4,7 @@ import { areWeInIframe } from "coral-framework/utils";
 
 export interface ExternalConfig {
   accessToken?: string;
+  bodyClassName?: string;
 }
 
 export function getExternalConfig(

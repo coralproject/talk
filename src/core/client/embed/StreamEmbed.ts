@@ -33,6 +33,7 @@ export interface StreamEmbedConfig {
   id: string;
   rootURL: string;
   accessToken?: string;
+  bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
 }
 
@@ -131,6 +132,7 @@ export class StreamEmbed {
 
     const externalConfig: ExternalConfig = {
       accessToken: this.config.accessToken,
+      bodyClassName: this.config.bodyClassName,
     };
 
     const streamDecorators: ReadonlyArray<Decorator> = [
