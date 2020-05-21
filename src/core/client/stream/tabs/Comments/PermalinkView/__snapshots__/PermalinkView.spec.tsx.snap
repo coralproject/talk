@@ -124,6 +124,7 @@ exports[`renders correctly 1`] = `
         comment={Object {}}
         liveDirectRepliesInsertion={true}
         settings={Object {}}
+        singleConversationView={true}
         story={Object {}}
         viewer={Object {}}
       />

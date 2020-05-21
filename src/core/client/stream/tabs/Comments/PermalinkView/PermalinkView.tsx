@@ -101,6 +101,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
               story={story}
               settings={settings}
               liveDirectRepliesInsertion
+              singleConversationView
             />
           </div>
         </HorizontalGutter>
