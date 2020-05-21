@@ -68,18 +68,23 @@ comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been remo
 
 comments-rte-bold =
   .title = Bold
+  .aria-label = Bold
 
 comments-rte-italic =
   .title = Italic
+  .aria-label = Italic
 
 comments-rte-blockquote =
   .title = Blockquote
+  .aria-label = Blockquote
 
 comments-rte-bulletedList =
   .title = Bulleted List
+  .aria-label = Bulleted List
 
 comments-rte-strikethrough =
   .title = Strikethrough
+  .aria-label = Strikethrough
 
 comments-rte-spoiler = Spoiler
 

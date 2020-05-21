@@ -538,3 +538,66 @@ it("handle server error", async () => {
     );
   });
 });
+
+it("change rte config", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.rte).toEqual({
+          enabled: true,
+          strikethrough: true,
+          spoiler: false,
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const {
+    configureContainer,
+    generalContainer,
+    saveChangesButton,
+  } = await createTestRenderer({
+    resolvers,
+  });
+
+  const rteContainer = within(
+    generalContainer
+  ).getAllByText("Rich-text comments", { selector: "fieldset" })[0];
+  const onField = within(rteContainer).getByLabelText("On", { exact: false });
+  const offField = within(rteContainer).getByLabelText("Off", { exact: false });
+  const strikethroughField = within(rteContainer).getByLabelText(
+    "Strikethrough"
+  );
+
+  // Turn off rte will disable additional options.
+  act(() => offField.props.onChange(offField.props.value.toString()));
+  expect(strikethroughField.props.disabled).toBe(true);
+
+  // Turn on rte will enable additional options.
+  act(() => onField.props.onChange(onField.props.value.toString()));
+  expect(strikethroughField.props.disabled).toBe(false);
+
+  // Enable strikethrough option.
+  act(() => strikethroughField.props.onChange(true));
+
+  // Send form
+  act(() => {
+    within(configureContainer).getByType("form").props.onSubmit();
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onField.props.disabled).toBe(true);
+  expect(strikethroughField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+      expect(strikethroughField.props.disabled).toBe(false);
+    });
+  });
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
