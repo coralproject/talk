@@ -3,7 +3,7 @@ import sinon from "sinon";
 import withConfig from "./withConfig";
 
 it("should emit events from pym to Config", () => {
-  const config = { accessToken: "token" };
+  const config = { accessToken: "token", bodyClassName: "custom" };
   const fakePym = {
     onMessage: (type: string, callback: () => void) => {
       expect(type).toBe("getConfig");
