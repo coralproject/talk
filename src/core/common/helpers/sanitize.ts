@@ -2,6 +2,8 @@ import createDOMPurify, { DOMPurifyI } from "dompurify";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
 
+// TODO: Reaching directly into coral-framework for the types. Maybe having
+// types in coral-common instead? 🤔
 import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
 
 export interface RTEFeatures {
