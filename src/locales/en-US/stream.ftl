@@ -71,7 +71,7 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Share
 comments-permalinkButton =
   .aria-label = Share
-comments-permalinkView-viewFullDiscussion = View Full Discussion
+comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
 comments-rte-bold =
@@ -133,8 +133,10 @@ comments-showConversationLink-readMore = Read More of this Conversation >
 comments-conversationThread-showMoreOfThisConversation =
   Show More of This Conversation
 
-comments-permalinkView-currentViewing = You are currently viewing a
-comments-permalinkView-singleConversation = SINGLE CONVERSATION
+comments-permalinkView-currentViewing =
+comments-permalinkView-singleConversation =
+comments-permalinkView-youAreCurrentlyViewing =
+  You are currently viewing a single conversation
 comments-inReplyTo = In reply to <Username></Username>
 comments-replyingTo = Replying to <Username></Username>
 

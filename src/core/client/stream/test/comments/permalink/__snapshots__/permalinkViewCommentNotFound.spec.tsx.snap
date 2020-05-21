@@ -51,22 +51,16 @@ exports[`renders permalink view with unknown comment 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+      className="Box-root Flex-root PermalinkView-header Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
     >
-      <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title1"
+      <div
+        className="PermalinkView-title"
       >
-        You are currently viewing a
-      </p>
-      <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title2"
-      >
-        SINGLE CONVERSATION
-      </p>
+        You are currently viewing a single conversation
+      </div>
       <a
-        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-permalink-viewFullDiscussionButton"
-        data-color="primary"
-        data-variant="underlined"
+        className="BaseButton-root Button-base Button-flat Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeSmall Button-colorPrimary Button-underline coral coral-permalink-viewFullDiscussionButton"
+        disabled={false}
         href="http://localhost/"
         onBlur={[Function]}
         onClick={[Function]}
@@ -77,20 +71,24 @@ exports[`renders permalink view with unknown comment 1`] = `
         target="_parent"
         type="button"
       >
-        View Full Discussion
+        View full discussion
       </a>
     </div>
     <div
-      className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+      className="CallOut-root CallOut-mono CallOut-leftBorder"
     >
       <div
-        className="CallOut-inner"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
       >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        <div
+          className="CallOut-content"
         >
-          This comment has been removed or does not exist.
-        </p>
+          <div
+            className="CallOut-body"
+          >
+            This comment has been removed or does not exist.
+          </div>
+        </div>
       </div>
     </div>
   </div>

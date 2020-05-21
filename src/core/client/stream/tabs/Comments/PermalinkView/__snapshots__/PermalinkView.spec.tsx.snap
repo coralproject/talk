@@ -11,52 +11,43 @@ exports[`renders comment not found 1`] = `
   />
   <ForwardRef(forwardRef)
     alignItems="center"
+    className="PermalinkView-header"
     direction="column"
     justifyContent="center"
   >
     <Localized
-      id="comments-permalinkView-currentViewing"
+      id="comments-permalinkView-youAreCurrentlyViewing"
     >
-      <ForwardRef(forwardRef)
-        className="PermalinkView-title1"
+      <div
+        className="PermalinkView-title"
       >
-        You are currently viewing a
-      </ForwardRef(forwardRef)>
-    </Localized>
-    <Localized
-      id="comments-permalinkView-singleConversation"
-    >
-      <ForwardRef(forwardRef)
-        className="PermalinkView-title2"
-      >
-        SINGLE CONVERSATION
-      </ForwardRef(forwardRef)>
+        You are currently viewing a single conversation
+      </div>
     </Localized>
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <ForwardRef(forwardRef)
+      <withPropsOnChange(Button)
         anchor={true}
         className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
+        fontSize="medium"
+        fontWeight="semiBold"
         href="http://localhost/link"
         onClick={[Function]}
         target="_parent"
-        variant="underlined"
+        underline={true}
+        variant="flat"
       >
-        View Full Discussion
-      </ForwardRef(forwardRef)>
+        View full discussion
+      </withPropsOnChange(Button)>
     </Localized>
   </ForwardRef(forwardRef)>
-  <withPropsOnChange(CallOut)
-    fullWidth={true}
-  >
+  <withPropsOnChange(CallOut)>
     <Localized
       id="comments-permalinkView-commentRemovedOrDoesNotExist"
     >
-      <ForwardRef(forwardRef)>
-        This comment has been removed or does not exist.
-      </ForwardRef(forwardRef)>
+      This comment has been removed or does not exist.
     </Localized>
   </withPropsOnChange(CallOut)>
 </ForwardRef(forwardRef)>
@@ -73,41 +64,36 @@ exports[`renders correctly 1`] = `
   />
   <ForwardRef(forwardRef)
     alignItems="center"
+    className="PermalinkView-header"
     direction="column"
     justifyContent="center"
   >
     <Localized
-      id="comments-permalinkView-currentViewing"
+      id="comments-permalinkView-youAreCurrentlyViewing"
     >
-      <ForwardRef(forwardRef)
-        className="PermalinkView-title1"
+      <div
+        className="PermalinkView-title"
       >
-        You are currently viewing a
-      </ForwardRef(forwardRef)>
-    </Localized>
-    <Localized
-      id="comments-permalinkView-singleConversation"
-    >
-      <ForwardRef(forwardRef)
-        className="PermalinkView-title2"
-      >
-        SINGLE CONVERSATION
-      </ForwardRef(forwardRef)>
+        You are currently viewing a single conversation
+      </div>
     </Localized>
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <ForwardRef(forwardRef)
+      <withPropsOnChange(Button)
         anchor={true}
         className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
+        fontSize="medium"
+        fontWeight="semiBold"
         href="http://localhost/link"
         onClick={[Function]}
         target="_parent"
-        variant="underlined"
+        underline={true}
+        variant="flat"
       >
-        View Full Discussion
-      </ForwardRef(forwardRef)>
+        View full discussion
+      </withPropsOnChange(Button)>
     </Localized>
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)>

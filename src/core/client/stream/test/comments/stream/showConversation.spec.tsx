@@ -70,7 +70,12 @@ it("shows conversation", async () => {
       .props.onClick(mockEvent);
 
     await waitForElement(() =>
-      within(testRenderer.root).getByText("SINGLE CONVERSATION")
+      within(testRenderer.root).getByText(
+        "You are currently viewing a single conversation",
+        {
+          exact: false,
+        }
+      )
     );
   });
 });
