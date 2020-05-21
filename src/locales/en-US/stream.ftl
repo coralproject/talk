@@ -624,6 +624,7 @@ configure-experts-search-title = Search for an expert
 configure-experts-assigned-title = Experts
 configure-experts-noLongerAnExpert = is no longer an expert
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
 

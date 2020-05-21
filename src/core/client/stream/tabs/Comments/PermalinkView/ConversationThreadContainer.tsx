@@ -17,6 +17,7 @@ import {
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
 import { CommentContainer } from "coral-stream/tabs/Comments/Comment";
+import IgnoredTombstoneOrHideContainer from "coral-stream/tabs/Comments/IgnoredTombstoneOrHideContainer";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
 import { Counter, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -130,22 +131,29 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
           <div key={parent.id} className={styles.parentContainer}>
             <Line>
               <Circle>
-                <CommentContainer
-                  comment={parent}
-                  story={story}
+                <IgnoredTombstoneOrHideContainer
                   viewer={viewer}
-                  settings={settings}
-                  localReply
-                />
-                {viewer && (
-                  <LocalReplyListContainer
+                  comment={parent}
+                  singleConversationView={true}
+                >
+                  <CommentContainer
+                    comment={parent}
                     story={story}
                     viewer={viewer}
                     settings={settings}
-                    comment={parent}
-                    indentLevel={1}
+                    localReply
                   />
-                )}
+                  {viewer && (
+                    <LocalReplyListContainer
+                      story={story}
+                      viewer={viewer}
+                      settings={settings}
+                      comment={parent}
+                      indentLevel={1}
+                      singleConversationView={true}
+                    />
+                  )}
+                </IgnoredTombstoneOrHideContainer>
               </Circle>
             </Line>
           </div>
@@ -206,6 +214,7 @@ const enhanced = withContext((ctx) => ({
             ) {
             id
             ...CommentContainer_comment
+            ...IgnoredTombstoneOrHideContainer_comment
             rootParent {
               id
               author {
@@ -215,6 +224,7 @@ const enhanced = withContext((ctx) => ({
               createdAt
               ...UserTagsContainer_comment
               ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
             }
             parentCount
             parents(last: $count, before: $cursor)
@@ -224,6 +234,7 @@ const enhanced = withContext((ctx) => ({
                   id
                   ...CommentContainer_comment
                   ...LocalReplyListContainer_comment
+                  ...IgnoredTombstoneOrHideContainer_comment
                 }
               }
             }
@@ -233,6 +244,7 @@ const enhanced = withContext((ctx) => ({
           fragment ConversationThreadContainer_viewer on User {
             ...CommentContainer_viewer
             ...LocalReplyListContainer_viewer
+            ...IgnoredTombstoneOrHideContainer_viewer
           }
         `,
       },

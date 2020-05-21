@@ -36,6 +36,7 @@ export interface ReplyListProps {
   viewNewCount?: number;
   onViewNew?: () => void;
   onRemoveAnswered?: () => void;
+  singleConversationView?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
@@ -53,6 +54,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           <IgnoredTombstoneOrHideContainer
             viewer={props.viewer}
             comment={comment}
+            singleConversationView={props.singleConversationView}
           >
             <HorizontalGutter key={comment.id}>
               <CommentContainer
