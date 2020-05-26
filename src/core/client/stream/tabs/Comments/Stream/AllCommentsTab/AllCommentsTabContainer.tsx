@@ -180,7 +180,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
             >
               <FadeInTransition active={Boolean(comment.enteredLive)}>
                 <CollapsableComment>
-                  {({ collapsed }) => (
+                  {({ collapsed, toggleCollapsed }) => (
                     <HorizontalGutter>
                       <CommentContainer
                         collapsed={collapsed}
@@ -188,6 +188,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
                         settings={props.settings}
                         comment={comment}
                         story={props.story}
+                        toggleCollapsed={toggleCollapsed}
                       />
                       {!collapsed && (
                         <ReplyListContainer

@@ -66,6 +66,8 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       localReply: false,
       disableReplies: false,
       onRemoveAnswered: undefined,
+      collapsed: undefined,
+      toggleCollapsed: noop as any,
     },
     add
   );

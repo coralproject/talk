@@ -58,7 +58,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
             singleConversationView={props.singleConversationView}
           >
             <CollapsableComment>
-              {({ collapsed }) => (
+              {({ collapsed, toggleCollapsed }) => (
                 <HorizontalGutter key={comment.id}>
                   <CommentContainer
                     key={comment.id}
@@ -72,6 +72,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
                     disableReplies={props.disableReplies}
                     showConversationLink={!!comment.showConversationLink}
                     onRemoveAnswered={props.onRemoveAnswered}
+                    toggleCollapsed={toggleCollapsed}
                   />
                   {!collapsed && comment.replyListElement}
                 </HorizontalGutter>

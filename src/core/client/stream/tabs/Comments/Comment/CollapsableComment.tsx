@@ -1,16 +1,8 @@
-import React, {
-  FunctionComponent,
-  ReactElement,
-  useCallback,
-  useState,
-} from "react";
-
-// import {} from "coral-ui/components/v2";
-
-// import styles from "./CollapsableComment.css";
+import { FunctionComponent, ReactElement, useCallback, useState } from "react";
 
 interface InjectedCollapsableCommentProps {
   collapsed: boolean;
+  toggleCollapsed: () => void;
 }
 
 interface Props {
@@ -22,13 +14,7 @@ const CollapsableComment: FunctionComponent<Props> = ({ children }) => {
   const toggleCollapsed = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
-  return (
-    <div>
-      <button onClick={toggleCollapsed}>{collapsed ? "+" : "-"}</button>
-      {/* {!collapsed && children} */}
-      {children({ collapsed })}
-    </div>
-  );
+  return children({ collapsed, toggleCollapsed });
 };
 
 export default CollapsableComment;

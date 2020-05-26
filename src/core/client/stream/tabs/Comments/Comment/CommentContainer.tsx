@@ -80,7 +80,8 @@ interface Props {
   hideReportButton?: boolean;
   hideModerationCarat?: boolean;
   onRemoveAnswered?: () => void;
-  collapsed: boolean;
+  collapsed?: boolean;
+  toggleCollapsed?: () => void;
 }
 
 interface State {
@@ -334,6 +335,7 @@ export class CommentContainer extends Component<Props, State> {
               blur={comment.pending || false}
               showEditedMarker={comment.editing.edited}
               highlight={highlight}
+              toggleCollapsed={this.props.toggleCollapsed}
               parentAuthorName={
                 comment.parent &&
                 comment.parent.author &&

@@ -23,7 +23,7 @@ export interface CommentProps {
   highlight?: boolean;
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
-  collapsed: boolean;
+  collapsed?: boolean;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
