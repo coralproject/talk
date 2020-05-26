@@ -17,6 +17,7 @@ const Sorry: React.FunctionComponent<Props> = ({ reason }) => {
       </Localized>
       <CallOut
         color="negative"
+        titleWeight="semiBold"
         title={
           reason ? (
             reason

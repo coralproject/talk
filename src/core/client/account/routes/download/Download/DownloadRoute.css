@@ -6,10 +6,10 @@
 .root {
   display: inline-block;
 
-  max-width: calc(70 * var(--mini-unit));
+  max-width: calc(70 * var(--v2-spacing-2));
 
   @media (min-width: $breakpoints-xs) {
-    max-width: calc(90 * var(--mini-unit));
+    max-width: calc(60 * var(--v2-spacing-2));
   }
 
   text-align: left;
