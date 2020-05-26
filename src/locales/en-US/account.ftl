@@ -35,7 +35,7 @@ confirmEmail-youMayClose =
 
 ## Download
 
-download-landingPage-title = Download Your Comment History
+download-landingPage-title = Download your comment history
 download-landingPage-description =
   Your comment history will be downloaded into a .zip file. After your
   comment history is unzipped you will have a comma separated value (or .csv)
@@ -52,7 +52,7 @@ download-landingPage-contentsText =
 download-landingPage-contentsStoryUrl =
   The URL on the article or story where the comment appears
 download-landingPage-downloadComments =
-  Download My Comment History
+download-landingPage-download = Download
 download-landingPage-sorry = Your download link is invalid.
 
 ## Unsubscribe
