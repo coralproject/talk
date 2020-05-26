@@ -21,6 +21,7 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
+    "clean": "gulp clean",
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
