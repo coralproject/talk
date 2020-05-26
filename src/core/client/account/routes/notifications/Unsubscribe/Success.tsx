@@ -1,17 +1,20 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import styles from "./Unsubscribe.css";
 
 const Success: React.FunctionComponent = () => {
   return (
-    <HorizontalGutter data-testid="success" size="double">
-      <Localized id="unsubscribe-successfullyUnsubscribed">
-        <Typography variant="heading1">
-          You are now unsubscribed from all notifications
-        </Typography>
+    <div data-testid="success">
+      <Localized id="unsubscribe-unsubscribedSuccessfully">
+        <div className={styles.title}>
+          Unsubscribed successfully from email notifications
+        </div>
       </Localized>
-    </HorizontalGutter>
+      <Localized id="unsubscribe-youMayNowClose">
+        <div className={styles.description}>You may now close this window</div>
+      </Localized>
+    </div>
   );
 };
 

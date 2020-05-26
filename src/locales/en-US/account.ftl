@@ -55,7 +55,15 @@ download-landingPage-sorry = Your download link is invalid.
 
 ## Unsubscribe
 
+unsubscribe-unsubscribeFromEmails =
+unsubscribe-confirm =
+unsubscribe-successfullyUnsubscribed =
+
 unsubscribe-oopsSorry = Oops Sorry!
-unsubscribe-successfullyUnsubscribed = You are now unsubscribed from all notifications
-unsubscribe-clickToConfirm = Click below to confirm that you want to unsubscribe from all notifications.
-unsubscribe-confirm = Confirm
+unsubscribe-clickToConfirm =
+  Click below to confirm that you want to unsubscribe from all notifications.
+unsubscribe-submit-unsubscribe = Unsubscribe
+unsubscribe-unsubscribedSuccessfully =
+  Unsubscribed successfully from email notifications
+unsubscribe-youMayNowClose =
+  You may now close this window
