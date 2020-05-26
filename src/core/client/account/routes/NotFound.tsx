@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+
+import styles from "./NotFound.css";
 
 const NotFound: FunctionComponent = () => (
   <HorizontalGutter container="main">
-    <Typography variant="heading3" container="h1">
-      Not Found
-    </Typography>
+    <div className={styles.content}>Not Found</div>
   </HorizontalGutter>
 );
 
