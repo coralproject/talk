@@ -1,7 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { CallOut, HorizontalGutter, Typography } from "coral-ui/components";
+import { CallOut } from "coral-ui/components/v3";
+
+import styles from "./Confirm.css";
 
 interface Props {
   reason: React.ReactNode;
@@ -9,23 +11,26 @@ interface Props {
 
 const Sorry: React.FunctionComponent<Props> = ({ reason }) => {
   return (
-    <HorizontalGutter size="double">
+    <div>
       <Localized id="confirmEmail-oopsSorry">
-        <Typography variant="heading1">Oops Sorry!</Typography>
+        <div className={styles.title}>Oops Sorry!</div>
       </Localized>
-      <CallOut color="error" fullWidth>
-        {reason ? (
-          reason
-        ) : (
-          <Localized id="account-tokenNotFound">
-            <span data-testid="invalid-link">
-              The specified link is invalid, check to see if it was copied
-              correctly.
-            </span>
-          </Localized>
-        )}
-      </CallOut>
-    </HorizontalGutter>
+      <CallOut
+        color="negative"
+        title={
+          reason ? (
+            reason
+          ) : (
+            <Localized id="account-tokenNotFound">
+              <span data-testid="invalid-link">
+                The specified link is invalid, check to see if it was copied
+                correctly.
+              </span>
+            </Localized>
+          )
+        }
+      />
+    </div>
   );
 };
 

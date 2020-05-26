@@ -22,7 +22,9 @@ resetPassword-missingResetToken = The Reset Token seems to be missing.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Email Confirmation
+confirmEmail-emailConfirmation =
+confirmEmail-confirmYourEmailAddress =
+  Confirm your email address
 confirmEmail-confirmEmail = Confirm email
 confirmEmail-pleaseClickToConfirm = Click below to confirm your email address.
 confirmEmail-oopsSorry = Oops Sorry!
