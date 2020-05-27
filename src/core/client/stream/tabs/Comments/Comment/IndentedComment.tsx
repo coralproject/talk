@@ -1,10 +1,10 @@
 import cn from "classnames";
-import { isUndefined } from "lodash";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
 
+import CLASSES from "coral-stream/classes";
 import Indent from "../Indent";
 import Comment from "./Comment";
 import CommentToggle from "./CommentToggle";
@@ -41,19 +41,31 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
     <Indent
       level={indentLevel}
       collapsed={rest.collapsed}
-      className={cn({
-        [styles.open]: !rest.collapsed,
-        [styles.topLevelComment]: isUndefined(indentLevel),
-        [styles.blur]: props.blur,
-        [styles.collapsed]: rest.collapsed,
-      })}
+      className={cn(
+        {
+          [styles.open]: !rest.collapsed,
+          [styles.blur]: props.blur,
+          [CLASSES.comment.collapseToggle.collapsed]: rest.collapsed,
+        },
+        CLASSES.comment.collapseToggle.indent
+      )}
     >
       {rest.collapsed ? (
         CommentToggleElement
       ) : (
         <Flex alignItems="flex-start" spacing={1}>
-          <BaseButton onClick={toggleCollapsed} className={styles.toggleButton}>
-            <ButtonIcon className={styles.icon}>remove</ButtonIcon>
+          <BaseButton
+            onClick={toggleCollapsed}
+            className={cn(
+              styles.toggleButton,
+              CLASSES.comment.collapseToggle.$root
+            )}
+          >
+            <ButtonIcon
+              className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
+            >
+              remove
+            </ButtonIcon>
           </BaseButton>
           {CommentElement}
         </Flex>

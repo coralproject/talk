@@ -26,9 +26,14 @@ export interface Props {
 
 const CommentToggle: FunctionComponent<Props> = (props) => {
   return (
-    <BaseButton onClick={props.toggleCollapsed} className={styles.root}>
+    <BaseButton
+      onClick={props.toggleCollapsed}
+      className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
+    >
       <Flex alignItems="center" spacing={1}>
-        <Icon className={styles.icon}>add</Icon>
+        <Icon className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}>
+          add
+        </Icon>
         <Flex
           direction="row"
           justifyContent="space-between"

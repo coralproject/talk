@@ -314,10 +314,7 @@ export class CommentContainer extends Component<Props, State> {
         className={cn(
           CLASSES.comment.$root,
           `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-          className,
-          {
-            [styles.collapsed]: collapsed,
-          }
+          className
         )}
         data-testid={`comment-${comment.id}`}
       >
