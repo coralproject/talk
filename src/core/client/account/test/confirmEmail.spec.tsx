@@ -53,9 +53,7 @@ it("renders form", async () => {
 
   await act(async () => {
     await waitForElement(() =>
-      within(root).getByText("Email Confirmation", {
-        exact: false,
-      })
+      within(root).getByText("Confirm your email address")
     );
   });
   expect(within(root).toJSON()).toMatchSnapshot();
@@ -130,9 +128,7 @@ it("submits form", async () => {
 
   await act(async () => {
     await waitForElement(() =>
-      within(root).getByText("Email Confirmation", {
-        exact: false,
-      })
+      within(root).getByText("Confirm your email address")
     );
   });
   const form = within(root).getByType("form");
