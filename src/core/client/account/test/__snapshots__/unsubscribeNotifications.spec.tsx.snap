@@ -22,18 +22,19 @@ exports[`renders form 1`] = `
           <form
             onSubmit={[Function]}
           >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
-            >
-              <h1
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+            <div>
+              <div
+                className="Unsubscribe-title"
+              >
+                Unsubscribe from email notifications
+              </div>
+              <div
+                className="Unsubscribe-description"
               >
                 Click below to confirm that you want to unsubscribe from all notifications.
-              </h1>
+              </div>
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
-                data-color="primary"
-                data-variant="filled"
+                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth Unsubscribe-submit"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}
@@ -42,7 +43,7 @@ exports[`renders form 1`] = `
                 onTouchEnd={[Function]}
                 type="submit"
               >
-                Confirm
+                Unsubscribe
               </button>
             </div>
           </form>
@@ -69,25 +70,34 @@ exports[`renders missing confirm token 1`] = `
       <div
         className="UnsubscribeRoute-root"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-double"
-        >
-          <h1
-            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+        <div>
+          <div
+            className="Unsubscribe-title"
           >
             Oops Sorry!
-          </h1>
+          </div>
           <div
-            className="CallOut-root CallOut-colorError CallOut-fullWidth"
+            className="CallOut-root CallOut-negative CallOut-leftBorder"
           >
             <div
-              className="CallOut-inner"
+              className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
             >
-              <span
-                data-testid="invalid-link"
+              <div
+                className="CallOut-content"
               >
-                The specified link is invalid, check to see if it was copied correctly.
-              </span>
+                <div
+                  className="CallOut-title CallOut-titleSemiBold"
+                >
+                  <span
+                    data-testid="invalid-link"
+                  >
+                    The specified link is invalid, check to see if it was copied correctly.
+                  </span>
+                </div>
+                <div
+                  className="CallOut-body"
+                />
+              </div>
             </div>
           </div>
         </div>
