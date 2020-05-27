@@ -3,3 +3,19 @@
   user-select: none;
   pointer-events: none;
 }
+
+.toggleButton {
+  padding: 0 var(--v2-spacing-1);
+}
+
+.icon {
+  color: var(--v2-colors-grey-400);
+}
+
+.collapsed {
+  /* background: var(--v2-colors-grey-100); */
+}
+
+.topLevelComment {
+  /* border-top: 1px solid var(--palette-divider); */
+}

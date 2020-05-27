@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -181,7 +182,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
               <FadeInTransition active={Boolean(comment.enteredLive)}>
                 <CollapsableComment>
                   {({ collapsed, toggleCollapsed }) => (
-                    <HorizontalGutter>
+                    <HorizontalGutter
+                      className={cn({
+                        [styles.borderedComment]: !collapsed,
+                      })}
+                    >
                       <CommentContainer
                         collapsed={collapsed}
                         viewer={props.viewer}
@@ -190,14 +195,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
                         story={props.story}
                         toggleCollapsed={toggleCollapsed}
                       />
-                      {!collapsed && (
+                      <div
+                        className={cn({
+                          [styles.hiddenReplies]: collapsed,
+                        })}
+                      >
                         <ReplyListContainer
                           settings={props.settings}
                           viewer={props.viewer}
                           comment={comment}
                           story={props.story}
                         />
-                      )}
+                      </div>
                     </HorizontalGutter>
                   )}
                 </CollapsableComment>

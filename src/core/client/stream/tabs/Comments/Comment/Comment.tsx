@@ -58,20 +58,18 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
+
       {props.parentAuthorName && (
         <div className={styles.subBar}>
           <InReplyTo username={props.parentAuthorName} />
         </div>
       )}
-
-      {!props.collapsed && (
-        <HorizontalGutter size="oneAndAHalf">
-          <HTMLContent className={CLASSES.comment.content}>
-            {props.body || ""}
-          </HTMLContent>
-          {props.footer}
-        </HorizontalGutter>
-      )}
+      <HorizontalGutter size="oneAndAHalf">
+        <HTMLContent className={CLASSES.comment.content}>
+          {props.body || ""}
+        </HTMLContent>
+        {props.footer}
+      </HorizontalGutter>
     </HorizontalGutter>
   );
 };

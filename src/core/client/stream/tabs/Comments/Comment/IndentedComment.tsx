@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { isUndefined } from "lodash";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
@@ -6,6 +7,7 @@ import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
 
 import Indent from "../Indent";
 import Comment from "./Comment";
+import CommentToggle from "./CommentToggle";
 
 import styles from "./IndentedComment.css";
 
@@ -14,23 +16,39 @@ export interface IndentedCommentProps
   indentLevel?: number;
   blur?: boolean;
   toggleCollapsed?: () => void;
+  staticUsername: React.ReactNode;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
-  const { indentLevel, toggleCollapsed, ...rest } = props;
+  const { staticUsername, indentLevel, toggleCollapsed, ...rest } = props;
+  const CommentToggleElement = (
+    <CommentToggle
+      {...rest}
+      toggleCollapsed={toggleCollapsed}
+      username={staticUsername}
+    />
+  );
   const CommentElement = <Comment {...rest} />;
   const CommentwithIndent = (
-    <Indent level={indentLevel} className={cn({ [styles.blur]: props.blur })}>
-      <Flex alignItems="flex-start">
-        <BaseButton onClick={toggleCollapsed}>
-          {rest.collapsed ? (
-            <ButtonIcon>add</ButtonIcon>
-          ) : (
-            <ButtonIcon>remove</ButtonIcon>
-          )}
-        </BaseButton>
-        {CommentElement}
-      </Flex>
+    <Indent
+      level={indentLevel}
+      collapsed={rest.collapsed}
+      className={cn({
+        [styles.topLevelComment]: isUndefined(indentLevel),
+        [styles.blur]: props.blur,
+        [styles.collapsed]: rest.collapsed,
+      })}
+    >
+      {rest.collapsed ? (
+        CommentToggleElement
+      ) : (
+        <Flex alignItems="flex-start" spacing={1}>
+          <BaseButton onClick={toggleCollapsed} className={styles.toggleButton}>
+            <ButtonIcon className={styles.icon}>remove</ButtonIcon>
+          </BaseButton>
+          {CommentElement}
+        </Flex>
+      )}
     </Indent>
   );
   return CommentwithIndent;

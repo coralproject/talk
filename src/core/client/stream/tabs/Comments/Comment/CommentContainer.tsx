@@ -50,7 +50,7 @@ import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportFlowContainer, { ReportButton } from "./ReportFlow";
 import ShowConversationLink from "./ShowConversationLink";
-import { UsernameWithPopoverContainer } from "./Username";
+import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
 import styles from "./CommentContainer.css";
@@ -321,7 +321,10 @@ export class CommentContainer extends Component<Props, State> {
         className={cn(
           CLASSES.comment.$root,
           `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-          className
+          className,
+          {
+            [styles.collapsed]: collapsed,
+          }
         )}
         data-testid={`comment-${comment.id}`}
       >
@@ -340,6 +343,26 @@ export class CommentContainer extends Component<Props, State> {
                 comment.parent &&
                 comment.parent.author &&
                 comment.parent.author.username
+              }
+              staticUsername={
+                comment.author && (
+                  <>
+                    <UsernameContainer
+                      className={CLASSES.comment.topBar.username}
+                      comment={comment}
+                    />
+                    <UserTagsContainer
+                      className={CLASSES.comment.topBar.userTag}
+                      story={story}
+                      comment={comment}
+                      settings={settings}
+                    />
+                    <UserBadgesContainer
+                      className={CLASSES.comment.topBar.userBadge}
+                      comment={comment}
+                    />
+                  </>
+                )
               }
               username={
                 comment.author && (
@@ -586,6 +609,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...AuthorBadgesContainer_comment
             ...UserTagsContainer_comment
             ...UsernameWithPopoverContainer_comment
+            ...UsernameContainer_comment
           }
         `,
         settings: graphql`
