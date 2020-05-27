@@ -15,3 +15,7 @@
   line-height: var(--v2-line-height-3);
   color: var(--v2-colors-grey-500);
 }
+
+.inner {
+  flex: 1;
+}

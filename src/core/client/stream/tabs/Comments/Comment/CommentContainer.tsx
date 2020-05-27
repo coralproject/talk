@@ -40,6 +40,7 @@ import { isPublished } from "../helpers";
 import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
+import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import CaretContainer, {
   RejectedTombstoneContainer,
@@ -255,15 +256,7 @@ export class CommentContainer extends Component<Props, State> {
     const commentTags = (
       <>
         {hasFeaturedTag && !isQA && (
-          <Tag
-            className={CLASSES.comment.topBar.featuredTag}
-            color="streamBlue"
-            variant="pill"
-          >
-            <Localized id="comments-featuredTag">
-              <span>Featured</span>
-            </Localized>
-          </Tag>
+          <FeaturedTag collapsed={this.props.collapsed} />
         )}
         {hasAnsweredTag && isQA && (
           <Tag variant="regular" color="primary" className={styles.answeredTag}>
@@ -348,7 +341,10 @@ export class CommentContainer extends Component<Props, State> {
                 comment.author && (
                   <>
                     <UsernameContainer
-                      className={CLASSES.comment.topBar.username}
+                      className={cn(
+                        styles.staticUsername,
+                        CLASSES.comment.topBar.username
+                      )}
                       comment={comment}
                     />
                     <UserTagsContainer
@@ -385,6 +381,7 @@ export class CommentContainer extends Component<Props, State> {
                   </>
                 )
               }
+              staticTopBarRight={commentTags}
               topBarRight={
                 <Flex alignItems="center" itemGutter>
                   {commentTags}

@@ -17,15 +17,23 @@ export interface IndentedCommentProps
   blur?: boolean;
   toggleCollapsed?: () => void;
   staticUsername: React.ReactNode;
+  staticTopBarRight: React.ReactNode;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
-  const { staticUsername, indentLevel, toggleCollapsed, ...rest } = props;
+  const {
+    staticTopBarRight,
+    staticUsername,
+    indentLevel,
+    toggleCollapsed,
+    ...rest
+  } = props;
   const CommentToggleElement = (
     <CommentToggle
       {...rest}
       toggleCollapsed={toggleCollapsed}
       username={staticUsername}
+      topBarRight={staticTopBarRight}
     />
   );
   const CommentElement = <Comment {...rest} />;
@@ -34,6 +42,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
       level={indentLevel}
       collapsed={rest.collapsed}
       className={cn({
+        [styles.open]: !rest.collapsed,
         [styles.topLevelComment]: isUndefined(indentLevel),
         [styles.blur]: props.blur,
         [styles.collapsed]: rest.collapsed,

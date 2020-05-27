@@ -8,6 +8,10 @@
   padding: 0 var(--v2-spacing-1);
 }
 
+.open {
+  padding-bottom: var(--v2-spacing-2);
+}
+
 .icon {
   color: var(--v2-colors-grey-400);
 }

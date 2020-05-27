@@ -45,6 +45,6 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
   padding: var(--v2-spacing-1);
 }
 
-.collapsed {
-  /* background: green; */
+.staticUsername {
+  color: var(--v2-colors-mono-100);
 }

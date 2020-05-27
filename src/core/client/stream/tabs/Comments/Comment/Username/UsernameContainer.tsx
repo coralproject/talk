@@ -10,7 +10,6 @@ import Username from "./Username";
 interface Props {
   comment: UsernameContainer_comment;
   className?: string;
-  usernameClassName?: string;
 }
 
 const UsernameContainer: FunctionComponent<Props> = (props) => {
@@ -18,7 +17,7 @@ const UsernameContainer: FunctionComponent<Props> = (props) => {
     return null;
   }
   return (
-    <Username className={props.usernameClassName}>
+    <Username className={props.className}>
       {props.comment.author.username}
     </Username>
   );
