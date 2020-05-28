@@ -5,7 +5,7 @@
 }
 
 .toggleButton {
-  padding: 0 var(--v2-spacing-1);
+  padding: calc(var(--v2-spacing-1) / 2) var(--v2-spacing-1);
 }
 
 .open {
