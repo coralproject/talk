@@ -111,6 +111,7 @@ const enhanced = withFragmentContainer<Props>({
           flag {
             reasons {
               COMMENT_REPORTED_OFFENSIVE
+              COMMENT_REPORTED_ABUSIVE
               COMMENT_REPORTED_SPAM
             }
           }
