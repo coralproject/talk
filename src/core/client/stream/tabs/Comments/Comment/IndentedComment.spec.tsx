@@ -11,6 +11,7 @@ it("renders correctly", () => {
     username: "Marvin",
     staticUsername: "Marvin",
     body: "Woof",
+    staticTopBarRight: "",
     createdAt: "1995-12-17T03:24:00.000Z",
   };
   const renderer = createRenderer();
