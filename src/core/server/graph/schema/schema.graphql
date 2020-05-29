@@ -2551,6 +2551,30 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
+enum EMBED_LINK_SOURCE {
+  """
+  YOUTUBE represents a youtube link source.
+  """
+  YOUTUBE
+
+  """
+  TWITTER represents a twitter link source.
+  """
+  TWITTER
+}
+
+type CommentEmbedLink {
+  """
+  url represents the actual linked content for the embed.
+  """
+  url: String!
+
+  """
+  type represents which source the link comes from.
+  """
+  source: EMBED_LINK_SOURCE!
+}
+
 type CommentRevision {
   """
   id is the identifier of the CommentRevision.
@@ -2574,6 +2598,12 @@ type CommentRevision {
   body text was deleted.
   """
   body: String
+
+  """
+  embedLinks is the collection of links that were identified as supported
+  embedded content in the comment body
+  """
+  embedLinks: [CommentEmbedLink!]
 
   """
   metadata stores details on a CommentRevision.

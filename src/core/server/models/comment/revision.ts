@@ -1,5 +1,7 @@
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 
+import { GQLEMBED_LINK_SOURCE } from "coral-server/graph/schema/__generated__/types";
+
 export interface RevisionMetadata {
   /**
    * akismet is true when it was determined to be spam.
@@ -36,6 +38,22 @@ export interface RevisionMetadata {
 }
 
 /**
+ * CommentEmbedLink stores the source and url of any links
+ * that were detected as embeddable content in the comment body.
+ */
+export interface CommentEmbedLink {
+  /**
+   * url represents the actual linked content for the embed.
+   */
+  url: string;
+
+  /**
+   * type represents which source the link comes from.
+   */
+  source: GQLEMBED_LINK_SOURCE;
+}
+
+/**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
  * a Revision, as can moderation actions.
  */
@@ -64,4 +82,9 @@ export interface Revision {
    * createdAt is the date that this revision was created at.
    */
   createdAt: Date;
+
+  /**
+   * embedLinks are the embedded link content found in the comment body.
+   */
+  embedLinks: CommentEmbedLink[];
 }

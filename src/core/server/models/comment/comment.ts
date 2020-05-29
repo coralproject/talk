@@ -29,13 +29,14 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
+  GQLEMBED_LINK_SOURCE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
-import { Revision } from "./revision";
+import { CommentEmbedLink, Revision } from "./revision";
 import { CommentTag } from "./tag";
 
 /**
@@ -149,6 +150,35 @@ export type CreateCommentInput = Omit<
   Pick<Revision, "metadata"> &
   Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
+function formatLink(
+  source: GQLEMBED_LINK_SOURCE,
+  link: string
+): CommentEmbedLink {
+  return {
+    url: link,
+    source,
+  };
+}
+
+function findEmbedLinks(body: string): CommentEmbedLink[] {
+  const youtubeRegex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[a-zA-z0-9]{1,12}|youtu\.be\/[a-zA-z0-9]{1,12})/g;
+  const twitterRegex = /(https?:\/\/)?(www\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g;
+
+  const foundYouTubeLinks = new Set(body.match(youtubeRegex) || []);
+  const foundTwitterLinks = new Set(body.match(twitterRegex) || []);
+
+  const embedLinks = [
+    ...[...foundYouTubeLinks].map((l) =>
+      formatLink(GQLEMBED_LINK_SOURCE.YOUTUBE, l)
+    ),
+    ...[...foundTwitterLinks].map((l) =>
+      formatLink(GQLEMBED_LINK_SOURCE.TWITTER, l)
+    ),
+  ];
+
+  return embedLinks;
+}
+
 export async function createComment(
   mongo: Db,
   tenantID: string,
@@ -165,6 +195,7 @@ export async function createComment(
     actionCounts,
     metadata,
     createdAt: now,
+    embedLinks: findEmbedLinks(body),
   };
 
   // default are the properties set by the application when a new comment is
@@ -308,6 +339,7 @@ export async function editComment(
     actionCounts,
     metadata,
     createdAt: now,
+    embedLinks: findEmbedLinks(body),
   };
 
   const update: Record<string, any> = {
