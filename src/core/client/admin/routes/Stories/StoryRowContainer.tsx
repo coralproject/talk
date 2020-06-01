@@ -81,6 +81,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       isClosed
       ...StoryStatusChangeContainer_story
+      ...StoryActionsContainer_story
     }
   `,
 })(StoryRowContainer);
