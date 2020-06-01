@@ -3,9 +3,11 @@ import { Component } from "react";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
+import { SignedInEvent } from "coral-stream/events";
 
 interface Props {
   postMessage: CoralContext["postMessage"];
+  eventEmitter: CoralContext["eventEmitter"];
   setAccessToken: MutationProp<typeof SetAccessTokenMutation>;
 }
 
@@ -15,6 +17,7 @@ export class OnPostMessageSetAccessToken extends Component<Props> {
     // Auth popup will use this to handle a successful login.
     props.postMessage.on("setAccessToken", (accessToken: string) => {
       props.setAccessToken({ accessToken });
+      SignedInEvent.emit(props.eventEmitter);
     });
   }
 
@@ -23,7 +26,8 @@ export class OnPostMessageSetAccessToken extends Component<Props> {
   }
 }
 
-const enhanced = withContext(({ postMessage }) => ({ postMessage }))(
-  withMutation(SetAccessTokenMutation)(OnPostMessageSetAccessToken)
-);
+const enhanced = withContext(({ postMessage, eventEmitter }) => ({
+  postMessage,
+  eventEmitter,
+}))(withMutation(SetAccessTokenMutation)(OnPostMessageSetAccessToken));
 export default enhanced;
