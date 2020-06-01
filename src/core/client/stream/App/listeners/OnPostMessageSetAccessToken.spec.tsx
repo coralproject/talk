@@ -14,6 +14,13 @@ it("Listens to event and sets access token", () => {
     },
   };
 
+  let emittedEventName = "";
+  const eventEmitter: any = {
+    emit: (name: string, values: any) => {
+      emittedEventName = name;
+    },
+  };
+
   const setAccessToken = createSinonStub(
     (s) => s.throws(),
     (s) => s.withArgs({ accessToken: token }).returns(null)
@@ -21,9 +28,11 @@ it("Listens to event and sets access token", () => {
 
   createRenderer().render(
     <OnPostMessageSetAccessToken
+      eventEmitter={eventEmitter}
       postMessage={postMessage}
       setAccessToken={setAccessToken}
     />
   );
   expect(setAccessToken.calledOnce);
+  expect(emittedEventName).toBe("signedIn");
 });
