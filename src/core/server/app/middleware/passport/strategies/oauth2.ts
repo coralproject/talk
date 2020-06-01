@@ -126,15 +126,15 @@ export default abstract class OAuth2Strategy<
           integration as Required<T>
         ) as StrategyCreated<U>;
 
-        // Augment the strategy with the request method bindings.
-        strategy.error = this.error.bind(this);
-        strategy.fail = this.fail.bind(this);
-        strategy.pass = this.pass.bind(this);
-        strategy.redirect = this.redirect.bind(this);
-        strategy.success = this.success.bind(this);
-
         this.cache.set(tenant.id, strategy);
       }
+
+      // Augment the strategy with the request method bindings.
+      strategy.error = this.error.bind(this);
+      strategy.fail = this.fail.bind(this);
+      strategy.pass = this.pass.bind(this);
+      strategy.redirect = this.redirect.bind(this);
+      strategy.success = this.success.bind(this);
 
       strategy.authenticate(req, {
         session: false,
