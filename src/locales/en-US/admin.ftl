@@ -386,6 +386,16 @@ configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
+#### Embed Links
+configure-general-embedLinks-title = Embed links
+configure-general-embedLinks-enableTwitterEmbeds = Enable Twitter embeds
+configure-general-embedLinks-enableYouTubeEmbeds = Enable YouTube embeds
+
+configure-general-embedLinks-On = On
+configure-general-embedLinks-Off = Off
+
+#### Configure Announcements
+
 configure-general-announcements-title = Community announcement
 configure-general-announcements-description =
   Add a temporary announcement that will appear at the top of all of your organization’s comment streams for a specific amount of time.

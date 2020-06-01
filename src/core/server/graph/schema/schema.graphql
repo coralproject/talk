@@ -1279,6 +1279,22 @@ type StoryMessageBox {
 }
 
 ################################################################################
+## Embed Links
+################################################################################
+
+type EmbedLinksConfiguration {
+  """
+  twitterEnabled when true will enable twitter link embeds in the stream.
+  """
+  twitterEnabled: Boolean!
+
+  """
+  youtubeEnabled when true will enable youtube link embeds in the stream.
+  """
+  youtubeEnabled: Boolean!
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -1687,6 +1703,12 @@ type Settings {
   stories stores the configuration around stories.
   """
   stories: StoryConfiguration! @auth(roles: [ADMIN])
+
+  """
+  embedLinks stores the configuration around embedding links
+  in the stream.
+  """
+  embedLinks: EmbedLinksConfiguration! @auth(roles: [ADMIN])
 
   """
   featureFlags provides the enabled feature flags.
@@ -4232,6 +4254,21 @@ input SlackConfigurationInput {
 }
 
 """
+
+"""
+input EmbedLinksConfigurationInput {
+  """
+  twitterEnabled
+  """
+  twitterEnabled: Boolean!
+
+  """
+  youtubeEnabled
+  """
+  youtubeEnabled: Boolean!
+}
+
+"""
 NewCommenterConfigurationInput specifies the features that apply to new commenters
 """
 input NewCommentersConfigurationInput {
@@ -4391,6 +4428,11 @@ input SettingsInput {
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfigurationInput
+
+  """
+  embedLinks is the configuration for whether link content is embedded in the stream.
+  """
+  embedLinks: EmbedLinksConfigurationInput
 }
 
 """
