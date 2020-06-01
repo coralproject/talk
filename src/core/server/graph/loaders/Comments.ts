@@ -2,6 +2,7 @@ import DataLoader from "dataloader";
 import { defaultTo, isNil, omitBy } from "lodash";
 import { DateTime } from "luxon";
 
+import { SectionFilter } from "coral-common/section";
 import Context from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -21,6 +22,7 @@ import {
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 import {
@@ -28,6 +30,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -52,6 +55,22 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
+  }
+
+  return {};
+};
+
+const sectionFilter = (
+  tenant: Pick<Tenant, "featureFlags">,
+  section?: SectionFilter
+): CommentConnectionInput["filter"] => {
+  // Don't filter by section if the feature flag is disabled.
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
+    return {};
+  }
+
+  if (section) {
+    return { section: section.name || null };
   }
 
   return {};
@@ -139,6 +158,7 @@ export default (ctx: Context) => ({
     after,
     storyID,
     siteID,
+    section,
     status,
     tag,
     query,
@@ -151,6 +171,7 @@ export default (ctx: Context) => ({
         {
           ...queryFilter(query),
           ...tagFilter(tag),
+          ...sectionFilter(ctx.tenant, section),
           storyID,
           siteID,
           status,

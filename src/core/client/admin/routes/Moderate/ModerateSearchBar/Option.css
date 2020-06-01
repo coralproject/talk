@@ -8,6 +8,7 @@
     @mixin outline;
   }
 }
+
 .container {
   min-height: calc(4 * var(--mini-unit));
   padding: var(--mini-unit) calc(2.5 * var(--mini-unit));
@@ -30,7 +31,7 @@
 }
 
 .details {
-  padding-top: 3px;
+  padding-top: 8px;
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-2);

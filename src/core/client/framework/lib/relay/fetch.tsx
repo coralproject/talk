@@ -14,7 +14,6 @@ import {
 } from "relay-runtime";
 
 import { CoralContext, useCoralContext, withContext } from "../bootstrap";
-import extractPayload from "./extractPayload";
 
 export interface Fetch<N, V, R> {
   name: N;
@@ -49,14 +48,8 @@ export async function fetchQuery<T extends { response: any }>(
   taggedNode: GraphQLTaggedNode,
   variables: Variables,
   cacheConfig?: CacheConfig
-): Promise<T["response"][keyof T["response"]]> {
-  const result = await relayFetchQuery(
-    environment,
-    taggedNode,
-    variables,
-    cacheConfig
-  );
-  return extractPayload(result);
+): Promise<T["response"]> {
+  return relayFetchQuery(environment, taggedNode, variables, cacheConfig);
 }
 
 /**

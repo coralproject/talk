@@ -5,6 +5,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
+  combineDisposables,
   useLoadMore,
   useLocal,
   useMutation,
@@ -86,17 +87,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
       // Only chronological sort supports top level live updates of incoming comments.
       return;
     }
-    const newCommentDisposable = subscribeToCommentCreated({
-      storyID: props.story.id,
-      orderBy: commentsOrderBy,
-    });
-    const releasedCommentDisposable = subscribeToCommentReleased({
-      storyID: props.story.id,
-      orderBy: commentsOrderBy,
-    });
+
+    const disposable = combineDisposables(
+      subscribeToCommentCreated({
+        storyID: props.story.id,
+        orderBy: commentsOrderBy,
+      }),
+      subscribeToCommentReleased({
+        storyID: props.story.id,
+        orderBy: commentsOrderBy,
+      })
+    );
+
     return () => {
-      newCommentDisposable.dispose();
-      releasedCommentDisposable.dispose();
+      disposable.dispose();
     };
   }, [
     commentsOrderBy,

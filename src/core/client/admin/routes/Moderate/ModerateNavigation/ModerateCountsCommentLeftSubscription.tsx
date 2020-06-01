@@ -20,11 +20,11 @@ const ModerateCountsCommentLeftSubscription = createSubscription(
   ) =>
     requestSubscription(environment, {
       subscription: graphql`
-        subscription ModerateCountsCommentLeftSubscription($storyID: ID) {
-          commentLeftModerationQueue(storyID: $storyID) {
-            queue
-          }
-          commentLeftModerationQueue(storyID: $storyID) {
+        subscription ModerateCountsCommentLeftSubscription(
+          $storyID: ID
+          $siteID: ID
+        ) {
+          commentLeftModerationQueue(storyID: $storyID, siteID: $siteID) {
             queue
           }
         }

@@ -42,10 +42,13 @@ export interface ManagedSubscriptionClient {
     cacheConfig: CacheConfig,
     observer: any
   ): Disposable;
+
   /** Pauses all active subscriptions causing websocket connection to close. */
   pause(): void;
+
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
+
   /** Sets access token and restarts the websocket connection */
   setAccessToken(accessToken?: string): void;
 }
@@ -140,13 +143,28 @@ export default function createManagedSubscriptionClient(
         subscription.unsubscribe();
       };
     };
+
     // Register the request.
     requests.push(request as SubscriptionRequest);
 
     // Start subscription if we are not paused.
     if (!paused) {
       request.subscribe();
+
+      // Debug subscriptions being logged. These should be kept here to help
+      // with debugging subscriptions.
+      if (process.env.NODE_ENV !== "production") {
+        window.console.debug(
+          `+1 [${requests.length - 1} + 1 = ${
+            requests.length
+          }] subscribe called for subscription:`,
+          request.operation?.name,
+          "with variables:",
+          JSON.stringify(request.variables)
+        );
+      }
     }
+
     return {
       dispose: () => {
         const i = requests.findIndex((r) => r === request);
@@ -165,6 +183,19 @@ export default function createManagedSubscriptionClient(
           ) {
             closeClient();
           }
+        }
+
+        // Debug subscriptions being logged. These should be kept here to help
+        // with debugging subscriptions.
+        if (process.env.NODE_ENV !== "production") {
+          window.console.debug(
+            `-1 [${requests.length + 1} - 1 = ${
+              requests.length
+            }] dispose called for subscription:`,
+            request.operation?.name,
+            "with variables:",
+            JSON.stringify(request.variables)
+          );
         }
       },
     };

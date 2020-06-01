@@ -39,7 +39,9 @@ class OIDCConfigContainer extends React.Component<Props, State> {
     }
     this.setState({ awaitingResponse: true });
     try {
-      const config = await this.props.discoverOIDCConfiguration({
+      const {
+        discoverOIDCConfiguration: config,
+      } = await this.props.discoverOIDCConfiguration({
         issuer,
       });
       if (config) {

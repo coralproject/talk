@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { graphql } from "react-relay";
 
+import { SectionFilter } from "coral-common/section";
 import {
   combineDisposables,
   useSubscription,
@@ -18,6 +19,7 @@ interface Props {
   moderationQueues: ModerationQueuesData | null;
   story: StoryData | null;
   siteID: string | null;
+  section?: SectionFilter | null;
 }
 
 const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
@@ -29,7 +31,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
   );
 
   useEffect(() => {
-    if (!props.moderationQueues) {
+    if (!props.moderationQueues || props.section) {
       return;
     }
     const vars = {
@@ -43,7 +45,12 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
     return () => {
       disposable.dispose();
     };
-  }, [Boolean(props.moderationQueues), props.story, props.siteID]);
+  }, [
+    Boolean(props.moderationQueues),
+    props.story,
+    props.siteID,
+    props.section,
+  ]);
 
   if (!props.moderationQueues) {
     return <Navigation />;
@@ -55,6 +62,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       pendingCount={props.moderationQueues.pending.count}
       storyID={props.story && props.story.id}
       siteID={props.siteID}
+      section={props.section}
     />
   );
 };

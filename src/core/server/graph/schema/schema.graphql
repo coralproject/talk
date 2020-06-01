@@ -92,6 +92,21 @@ Locale represents a language code in the BCP 47 format.
 scalar Locale
 
 ################################################################################
+## Custom Input Types
+################################################################################
+
+input SectionFilter {
+  """
+  name when provided will filter only those comments/stories that have this
+  section. When name is not provided or is null, only comments/stories without
+  a section (uncategorized) will be returned. In order to return all
+  comments/stories regardless of section, specify null or undefined for this
+  filter option.
+  """
+  name: String
+}
+
+################################################################################
 ## Actions
 ################################################################################
 
@@ -343,6 +358,12 @@ type ActionPresence {
 ################################################################################
 
 enum FEATURE_FLAG {
+  """
+  SECTIONS when enabled will allow filtering comments in the moderation queue
+  by section.
+  """
+  SECTIONS
+
   """
   DISABLE_WARN_USER_OF_TOXIC_COMMENT when enabled will turn off warnings for
   toxic comments.
@@ -3150,6 +3171,7 @@ type Query {
     storyID: ID
     siteID: ID
     status: COMMENT_STATUS
+    section: SectionFilter
     tag: TAG
     query: String
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
@@ -3236,8 +3258,16 @@ type Query {
   moderationQueues returns the set of ModerationQueues that are available for
   all stories or if given the story identified by the `storyID`.
   """
-  moderationQueues(storyID: ID, siteID: ID): ModerationQueues!
-    @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues(
+    storyID: ID
+    siteID: ID
+    section: SectionFilter
+  ): ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  sections will return the unique sections used by this Tenant.
+  """
+  sections: [String!] @auth(roles: [ADMIN, MODERATOR])
 
   """
   activeStories is the list of most recently commented on stories identified
@@ -4888,7 +4918,11 @@ type ApproveCommentPayload {
   is provided, it will filter the moderation queues for only comments in that
   Story.
   """
-  moderationQueues(storyID: ID): ModerationQueues
+  moderationQueues(
+    storyID: ID
+    siteID: ID
+    section: SectionFilter
+  ): ModerationQueues
 
   """
   clientMutationId is required for Relay support.
@@ -4928,7 +4962,11 @@ type RejectCommentPayload {
   is provided, it will filter the moderation queues for only comments in that
   Story.
   """
-  moderationQueues(storyID: ID): ModerationQueues
+  moderationQueues(
+    storyID: ID
+    siteID: ID
+    section: SectionFilter
+  ): ModerationQueues
 
   """
   clientMutationId is required for Relay support.
@@ -7281,6 +7319,8 @@ type Subscription {
   """
   commentEnteredModerationQueue(
     storyID: ID
+    siteID: ID
+    section: SectionFilter
     queue: MODERATION_QUEUE
   ): CommentEnteredModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 
@@ -7290,6 +7330,8 @@ type Subscription {
   """
   commentLeftModerationQueue(
     storyID: ID
+    siteID: ID
+    section: SectionFilter
     queue: MODERATION_QUEUE
   ): CommentLeftModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 

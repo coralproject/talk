@@ -2,6 +2,7 @@ import { Match, RouteProps, Router, withRouter } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
+import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { Spinner } from "coral-ui/components/v2";
 
@@ -36,6 +37,8 @@ class ModerateContainer extends React.Component<Props> {
     ].find((name) => {
       return this.props.match.location.pathname.includes(name);
     });
+    const { section } = parseModerationOptions(this.props.match);
+
     if (!this.props.data) {
       return (
         <Moderate
@@ -43,6 +46,7 @@ class ModerateContainer extends React.Component<Props> {
           story={null}
           settings={null}
           siteID={null}
+          section={section}
           query={this.props.data}
           routeParams={this.props.match.params}
           queueName={queueName || "default"}
@@ -58,6 +62,7 @@ class ModerateContainer extends React.Component<Props> {
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
         siteID={this.props.data.story ? this.props.data.story.site.id : null}
+        section={section}
         routeParams={this.props.match.params}
         query={this.props.data}
         allStories={allStories}
@@ -76,6 +81,7 @@ const enhanced = withRouteConfig<Props>({
       $storyID: ID
       $includeStory: Boolean!
       $siteID: ID
+      $section: SectionFilter
     ) {
       settings {
         ...ModerateSearchBarContainer_settings
@@ -87,19 +93,23 @@ const enhanced = withRouteConfig<Props>({
           id
         }
       }
-      moderationQueues(storyID: $storyID, siteID: $siteID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         ...ModerateNavigationContainer_moderationQueues
       }
       ...SiteSelectorContainer_query
+      ...SectionSelectorContainer_query
     }
   `,
   cacheConfig: { force: true },
   prepareVariables: (params, match) => {
+    const { storyID, siteID, section } = parseModerationOptions(match);
+
     return {
-      storyID: match.params.storyID,
-      siteID: match.params.siteID,
-      includeStory: Boolean(match.params.storyID),
-      includeSite: Boolean(match.params.siteID),
+      storyID,
+      siteID,
+      section,
+      includeStory: Boolean(storyID),
+      includeSite: Boolean(siteID),
     };
   },
 })(withRouter(ModerateContainer));

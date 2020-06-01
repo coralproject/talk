@@ -10,6 +10,7 @@ import {
 } from "coral-admin/mutations";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { getModerationLink } from "coral-framework/helpers";
+import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import {
   MutationProp,
   withFragmentContainer,
@@ -95,10 +96,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       return;
     }
 
+    const { storyID, siteID, section } = parseModerationOptions(match);
+
     await approveComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
-      storyID: match.params.storyID,
+      storyID,
+      siteID,
+      section,
     });
     if (loadNext) {
       loadNext();
@@ -110,10 +115,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       return;
     }
 
+    const { storyID, siteID, section } = parseModerationOptions(match);
+
     await rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
-      storyID: match.params.storyID,
+      storyID,
+      siteID,
+      section,
     });
     if (loadNext) {
       loadNext();
@@ -125,10 +134,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       return;
     }
 
+    const { storyID, siteID, section } = parseModerationOptions(match);
+
     featureComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
-      storyID: match.params.storyID,
+      storyID,
+      siteID,
+      section,
     });
   }, [featureComment, comment, match]);
 

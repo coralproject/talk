@@ -36,6 +36,7 @@ interface Props {
   onSearch?: (value: string) => void;
 
   siteSelector: React.ReactNode;
+  sectionSelector?: React.ReactNode;
 
   multisite: boolean;
 }
@@ -48,6 +49,7 @@ const Bar: FunctionComponent<Props> = ({
   options,
   onSearch,
   siteSelector,
+  sectionSelector,
   multisite,
 }) => {
   const [focused, focusHandlers] = useFocus();
@@ -90,7 +92,7 @@ const Bar: FunctionComponent<Props> = ({
         aria-expanded={focused}
       >
         <Backdrop className={styles.bumpZIndex} active={focused} />
-        {multisite ? siteSelector : null}
+        {multisite ? siteSelector : sectionSelector}
         <Form onSubmit={submitHandler}>
           {({ handleSubmit }) => (
             <Localized

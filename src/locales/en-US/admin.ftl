@@ -475,6 +475,12 @@ stories-column-site = Site
 site-table-siteName = Site name
 stories-filter-sites = Site
 
+### Sections
+
+moderate-section-selector-allSections = All Sections
+moderate-section-selector-uncategorized = Uncategorized
+moderate-section-uncategorized = Uncategorized
+
 ### Email
 
 configure-email = Email settings
