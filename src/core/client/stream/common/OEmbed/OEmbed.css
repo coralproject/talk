@@ -1,3 +1,12 @@
+.root {
+  width: 100%;
+}
+
+.link {
+  margin-left: var(--v2-spacing-2);
+  color: var(--palette-primary-main);
+}
+
 .frame {
   width: 100%;
   border: none;
