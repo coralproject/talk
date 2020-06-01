@@ -230,6 +230,11 @@ comments-stream-deleteAccount-callOut-cancelDesc =
 comments-stream-deleteAccount-callOut-cancel =
   Cancel account deletion request
 
+### Embed Links
+
+comments-embedLinks-showEmbeds = Show embeds
+comments-embedLinks-hideEmbeds = Hide embeds
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to Conversation
 comments-featured-replies = Replies

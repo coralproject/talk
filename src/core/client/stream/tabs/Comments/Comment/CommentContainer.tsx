@@ -34,6 +34,7 @@ import { isPublished } from "../helpers";
 import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
+import EmbedSectionContainer from "./EmbedSection/EmbedSectionContainer";
 import IndentedComment from "./IndentedComment";
 import CaretContainer, {
   RejectedTombstoneContainer,
@@ -430,6 +431,7 @@ export class CommentContainer extends Component<Props, State> {
               }
             />
           )}
+          <EmbedSectionContainer comment={comment} />
           {showReplyDialog && !comment.deleted && (
             <ReplyCommentFormContainer
               settings={settings}
@@ -532,6 +534,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...AuthorBadgesContainer_comment
             ...UserTagsContainer_comment
             ...UsernameWithPopoverContainer_comment
+            ...EmbedSectionContainer_comment
           }
         `,
         settings: graphql`

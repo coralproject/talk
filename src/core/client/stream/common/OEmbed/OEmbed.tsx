@@ -5,22 +5,27 @@ import React, {
   useState,
 } from "react";
 
+import { TextLink } from "coral-ui/components/v2";
+
 import styles from "./OEmbed.css";
 
 interface Props {
   url: string;
   type: string;
   loadTimeout?: number;
+  showLink?: boolean;
 }
 
 const oEmbed: FunctionComponent<Props> = ({
   url,
   type,
   loadTimeout = 10000,
+  showLink = true,
 }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const step = 300;
   const [loaded, setLoaded] = useState(false);
+  const cleanUrl = encodeURIComponent(url);
 
   useEffect(() => {
     if (!loaded) {
@@ -62,13 +67,18 @@ const oEmbed: FunctionComponent<Props> = ({
   }, [setLoaded]);
 
   return (
-    <iframe
-      ref={iframeRef}
-      title="oEmbed"
-      src={`/api/oembed?type=${type}&url=${encodeURIComponent(url)}`}
-      onLoad={onLoad}
-      className={styles.frame}
-    />
+    <div className={styles.root}>
+      <TextLink href={url} className={styles.link} target="_blank">
+        {url}
+      </TextLink>
+      <iframe
+        ref={iframeRef}
+        title="oEmbed"
+        src={`/api/oembed?type=${type}&url=${cleanUrl}`}
+        onLoad={onLoad}
+        className={styles.frame}
+      />
+    </div>
   );
 };
 
