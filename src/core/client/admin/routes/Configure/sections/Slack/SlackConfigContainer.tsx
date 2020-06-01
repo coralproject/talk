@@ -30,21 +30,28 @@ interface Props {
 
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
   const onAddChannel = useCallback(() => {
-    const mutators = form.mutators;
-    mutators.insert("slack.channels", 0, {
+    // We use push here because final form still has issues tracking new items
+    // being inserted at the old array index.
+    //
+    // Ref: https://github.com/final-form/final-form-arrays/issues/44
+    //
+    form.mutators.push("slack.channels", {
       enabled: true,
+      name: "",
       hookURL: "",
       triggers: {
+        allComments: false,
         reportedComments: false,
         pendingComments: false,
         featuredComments: false,
+        staffComments: false,
       },
     });
   }, [form]);
+
   const onRemoveChannel = useCallback(
     (index: number) => {
-      const mutators = form.mutators;
-      mutators.remove("slack.channels", index);
+      form.mutators.remove("slack.channels", index);
     },
     [form]
   );
@@ -58,9 +65,11 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
             name: "",
             hookURL: "",
             triggers: {
+              allComments: false,
               reportedComments: false,
               pendingComments: false,
               featuredComments: false,
+              staffComments: false,
             },
           },
         ],
@@ -107,16 +116,20 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
         </Button>
         <FieldArray name="slack.channels">
           {({ fields }) =>
-            fields.map((channel: any, index: number) => (
-              <div key={index}>
+            fields
+              .map((channel, index) => (
                 <SlackChannel
+                  key={index}
                   channel={channel}
                   disabled={false}
                   index={index}
                   onRemoveClicked={onRemoveChannel}
                 />
-              </div>
-            ))
+              ))
+              // We're reversing here because we wanted the order of new items
+              // added to be at the front, and we can only use `.push` and not
+              // `.insert` or `.unshift`.
+              .reverse()
           }
         </FieldArray>
       </ConfigBox>

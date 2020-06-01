@@ -24,7 +24,7 @@ import TextFieldWithValidation from "../../TextFieldWithValidation";
 import styles from "./SlackChannel.css";
 
 interface Props {
-  channel: any;
+  channel: string;
   disabled: boolean;
   index: number;
   onRemoveClicked: (index: number) => void;
