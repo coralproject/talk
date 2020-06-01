@@ -19,11 +19,24 @@ export const oEmbedHandler = (): RequestHandler => {
   const fetch = createFetch({ name: "twitter-fetch" });
 
   return async (req, res, next) => {
+    // Tenant is guaranteed at this point.
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+
     try {
       const url = encodeURIComponent(req.query.url);
       const type = req.query.type;
 
       if (type !== "youtube" && type !== "twitter") {
+        res.sendStatus(400);
+        return;
+      }
+
+      if (type === "youtube" && !tenant.embedLinks.youtubeEnabled) {
+        res.sendStatus(400);
+        return;
+      }
+      if (type === "twitter" && !tenant.embedLinks.twitterEnabled) {
         res.sendStatus(400);
         return;
       }

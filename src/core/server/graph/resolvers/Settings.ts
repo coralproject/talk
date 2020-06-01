@@ -31,4 +31,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   },
   webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
   rte: ({ rte = defaultRTEConfiguration }) => rte,
+  embedLinks: ({ embedLinks = {} }) => embedLinks,
 };

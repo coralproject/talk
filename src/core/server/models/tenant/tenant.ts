@@ -265,6 +265,10 @@ export async function createTenant(
       channels: [],
     },
     rte: defaultRTEConfiguration,
+    embedLinks: {
+      twitterEnabled: false,
+      youtubeEnabled: false,
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.

@@ -431,7 +431,7 @@ export class CommentContainer extends Component<Props, State> {
               }
             />
           )}
-          <EmbedSectionContainer comment={comment} />
+          <EmbedSectionContainer comment={comment} settings={settings} />
           {showReplyDialog && !comment.deleted && (
             <ReplyCommentFormContainer
               settings={settings}
@@ -546,6 +546,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...ReplyCommentFormContainer_settings
             ...EditCommentFormContainer_settings
             ...UserTagsContainer_settings
+            ...EmbedSectionContainer_settings
           }
         `,
       })(CommentContainer)
