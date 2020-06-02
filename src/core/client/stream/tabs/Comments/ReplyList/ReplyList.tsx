@@ -49,6 +49,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
+      className={styles.root}
     >
       {props.comments.map((comment) => (
         <FadeInTransition

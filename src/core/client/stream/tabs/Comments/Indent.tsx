@@ -37,6 +37,7 @@ const Indent: FunctionComponent<IndentProps> = (props) => {
         className={cn(getLevelClassName(props.level), {
           [styles.noBorder]: props.noBorder,
           [styles.collapsed]: props.collapsed,
+          [styles.open]: !props.collapsed,
         })}
       >
         {props.children}

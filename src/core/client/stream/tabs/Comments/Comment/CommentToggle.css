@@ -1,6 +1,12 @@
 .root {
   padding: var(--v2-spacing-2);
   width: 100%;
+  background: var(--v2-colors-grey-100);
+
+  &.mouseHover,
+  &:hover {
+    background: var(--v2-colors-grey-200);
+  }
 }
 
 .icon {
