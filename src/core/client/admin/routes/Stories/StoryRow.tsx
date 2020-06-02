@@ -12,8 +12,8 @@ import {
   TextLink,
 } from "coral-ui/components/v2";
 
-import StoryActions from "./StoryActions";
-import StoryStatus from "./StoryStatus";
+import StoryActionsContainer from "./StoryActions";
+import StoryStatusContainer from "./StoryStatus";
 
 import styles from "./StoryRow.css";
 
@@ -22,9 +22,9 @@ interface Props {
   title: string | null;
   author: string | null;
   publishDate: string | null;
-  story: PropTypesOf<typeof StoryStatus>["story"] &
-    PropTypesOf<typeof StoryActions>["story"];
-  viewer: PropTypesOf<typeof StoryStatus>["viewer"];
+  story: PropTypesOf<typeof StoryActionsContainer>["story"] &
+    PropTypesOf<typeof StoryStatusContainer>["story"];
+  viewer: PropTypesOf<typeof StoryActionsContainer>["viewer"];
   siteName: string;
   siteID: string;
   multisite: boolean;
@@ -75,10 +75,10 @@ const UserRow: FunctionComponent<Props> = (props) => (
       {props.totalCount}
     </TableCell>
     <TableCell className={styles.statusColumn}>
-      <StoryStatus story={props.story} viewer={props.viewer} />
+      <StoryStatusContainer story={props.story} />
     </TableCell>
     <TableCell className={styles.actionsColumn}>
-      <StoryActions story={props.story} />
+      <StoryActionsContainer story={props.story} viewer={props.viewer} />
     </TableCell>
   </TableRow>
 );

@@ -12,9 +12,19 @@ import {
 
 interface Props {
   onRescrape: () => void;
+  onOpen: () => void;
+  onClose: () => void;
+  canOpen: boolean;
+  canClose: boolean;
 }
 
-const StoryActions: FunctionComponent<Props> = ({ onRescrape }) => {
+const StoryActions: FunctionComponent<Props> = ({
+  onRescrape,
+  onOpen,
+  onClose,
+  canOpen,
+  canClose,
+}) => {
   return (
     <Localized id="stories-actions-popover" attrs={{ description: true }}>
       <Popover
@@ -27,6 +37,16 @@ const StoryActions: FunctionComponent<Props> = ({ onRescrape }) => {
               <Localized id="stories-actions-rescrape">
                 <DropdownButton onClick={onRescrape}>Re-scrape</DropdownButton>
               </Localized>
+              {canOpen && (
+                <Localized id="stories-actions-open">
+                  <DropdownButton onClick={onOpen}>Open story</DropdownButton>
+                </Localized>
+              )}
+              {canClose && (
+                <Localized id="stories-actions-close">
+                  <DropdownButton onClick={onClose}>Close story</DropdownButton>
+                </Localized>
+              )}
             </Dropdown>
           </ClickOutside>
         )}
