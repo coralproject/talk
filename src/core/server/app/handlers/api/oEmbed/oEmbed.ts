@@ -43,11 +43,11 @@ export const oEmbedHandler = (): RequestHandler => {
         return;
       }
 
-      if (type === "youtube" && !tenant.embedLinks.youtubeEnabled) {
+      if (type === "youtube" && !tenant.embeds.youtube) {
         res.sendStatus(400);
         return;
       }
-      if (type === "twitter" && !tenant.embedLinks.twitterEnabled) {
+      if (type === "twitter" && !tenant.embeds.twitter) {
         res.sendStatus(400);
         return;
       }

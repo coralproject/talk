@@ -26,6 +26,10 @@ const mutation = graphql`
         status
         revision {
           id
+          embeds {
+            url
+            source
+          }
         }
         editing {
           edited
@@ -66,6 +70,7 @@ async function commit(
               status: lookup<GQLComment>(environment, input.commentID)!.status,
               revision: {
                 id: uuidGenerator(),
+                embeds: [],
               },
               editing: {
                 edited: true,

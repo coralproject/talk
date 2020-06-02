@@ -15,9 +15,9 @@ interface Props {
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment EmbedLinksConfig_formValues on Settings {
-    embedLinks {
-      twitterEnabled
-      youtubeEnabled
+    embeds {
+      twitter
+      youtube
     }
   }
 `;
@@ -37,7 +37,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Enable Twitter embeds</Label>
         </Localized>
         <OnOffField
-          name="embedLinks.twitterEnabled"
+          name="embeds.twitter"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -57,7 +57,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Enable YouTube embeds</Label>
         </Localized>
         <OnOffField
-          name="embedLinks.youtubeEnabled"
+          name="embeds.youtube"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">

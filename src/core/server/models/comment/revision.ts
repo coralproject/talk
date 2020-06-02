@@ -1,6 +1,6 @@
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 
-import { GQLEMBED_LINK_SOURCE } from "coral-server/graph/schema/__generated__/types";
+import { GQLEMBED_SOURCE } from "coral-server/graph/schema/__generated__/types";
 
 export interface RevisionMetadata {
   /**
@@ -38,10 +38,10 @@ export interface RevisionMetadata {
 }
 
 /**
- * CommentEmbedLink stores the source and url of any links
+ * CommentEmbed stores the source and url of any links
  * that were detected as embeddable content in the comment body.
  */
-export interface CommentEmbedLink {
+export interface CommentEmbed {
   /**
    * url represents the actual linked content for the embed.
    */
@@ -50,7 +50,7 @@ export interface CommentEmbedLink {
   /**
    * type represents which source the link comes from.
    */
-  source: GQLEMBED_LINK_SOURCE;
+  source: GQLEMBED_SOURCE;
 }
 
 /**
@@ -84,7 +84,7 @@ export interface Revision {
   createdAt: Date;
 
   /**
-   * embedLinks are the embedded link content found in the comment body.
+   * embeds are the embedded link content found in the comment body.
    */
-  embedLinks: CommentEmbedLink[];
+  embeds: CommentEmbed[];
 }

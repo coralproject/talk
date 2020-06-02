@@ -265,9 +265,9 @@ export async function createTenant(
       channels: [],
     },
     rte: defaultRTEConfiguration,
-    embedLinks: {
-      twitterEnabled: false,
-      youtubeEnabled: false,
+    embeds: {
+      twitter: false,
+      youtube: false,
     },
   };
 
