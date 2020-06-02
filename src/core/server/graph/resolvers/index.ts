@@ -20,7 +20,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
-import { EmbedLinksConfiguration } from "./EmbedLinks";
+import { EmbedConfiguration } from "./EmbedConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
@@ -112,7 +112,7 @@ const Resolvers: GQLResolver = {
   Settings,
   SlackConfiguration,
   WebhookEndpoint,
-  EmbedLinksConfiguration,
+  EmbedConfiguration,
 };
 
 export default Resolvers;

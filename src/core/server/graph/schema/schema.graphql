@@ -1265,16 +1265,16 @@ type StoryMessageBox {
 ## Embed Links
 ################################################################################
 
-type EmbedLinksConfiguration {
+type EmbedConfiguration {
   """
-  twitterEnabled when true will enable twitter link embeds in the stream.
+  twitter when true will enable twitter link embeds in the stream.
   """
-  twitterEnabled: Boolean!
+  twitter: Boolean!
 
   """
-  youtubeEnabled when true will enable youtube link embeds in the stream.
+  youtube when true will enable youtube link embeds in the stream.
   """
-  youtubeEnabled: Boolean!
+  youtube: Boolean!
 }
 
 ################################################################################
@@ -1682,10 +1682,10 @@ type Settings {
   stories: StoryConfiguration! @auth(roles: [ADMIN])
 
   """
-  embedLinks stores the configuration around embedding links
+  embeds stores the configuration around embedding links
   in the stream.
   """
-  embedLinks: EmbedLinksConfiguration! @auth(roles: [ADMIN])
+  embeds: EmbedConfiguration! @auth(roles: [ADMIN])
 
   """
   featureFlags provides the enabled feature flags.
@@ -2525,7 +2525,7 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
-enum EMBED_LINK_SOURCE {
+enum EMBED_SOURCE {
   """
   YOUTUBE represents a youtube link source.
   """
@@ -2537,7 +2537,7 @@ enum EMBED_LINK_SOURCE {
   TWITTER
 }
 
-type CommentEmbedLink {
+type CommentEmbed {
   """
   url represents the actual linked content for the embed.
   """
@@ -2546,7 +2546,7 @@ type CommentEmbedLink {
   """
   type represents which source the link comes from.
   """
-  source: EMBED_LINK_SOURCE!
+  source: EMBED_SOURCE!
 }
 
 type CommentRevision {
@@ -2574,10 +2574,10 @@ type CommentRevision {
   body: String
 
   """
-  embedLinks is the collection of links that were identified as supported
+  embeds is the collection of links that were identified as supported
   embedded content in the comment body
   """
-  embedLinks: [CommentEmbedLink!]
+  embeds: [CommentEmbed!]
 
   """
   metadata stores details on a CommentRevision.
@@ -4197,16 +4197,16 @@ input SlackConfigurationInput {
 """
 
 """
-input EmbedLinksConfigurationInput {
+input EmbedConfigurationInput {
   """
-  twitterEnabled
+  twitter
   """
-  twitterEnabled: Boolean!
+  twitter: Boolean!
 
   """
-  youtubeEnabled
+  youtube
   """
-  youtubeEnabled: Boolean!
+  youtube: Boolean!
 }
 
 """
@@ -4372,9 +4372,9 @@ input SettingsInput {
   rte: RTEConfigurationInput
 
   """
-  embedLinks is the configuration for whether link content is embedded in the stream.
+  embeds is the configuration for whether link content is embedded in the stream.
   """
-  embedLinks: EmbedLinksConfigurationInput
+  embeds: EmbedConfigurationInput
 }
 
 
