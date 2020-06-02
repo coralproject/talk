@@ -3,10 +3,10 @@ import { RequestHandler } from "coral-server/types/express";
 
 const fetchURL = (url: string, type: string) => {
   if (type === "twitter") {
-    return `https://publish.twitter.com/oembed?url=${url}`;
+    return `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
   }
   if (type === "youtube") {
-    return `https://www.youtube.com/oembed?url=${url}`;
+    return `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
   }
 
   return "";
@@ -23,7 +23,7 @@ const createNotFoundMessage = (type: string) => {
   return null;
 };
 
-export const oEmbedHandler = (): RequestHandler => {
+export const oembedHandler = (): RequestHandler => {
   // TODO: add some kind of rate limiting or spam protection
   // on this endpoint
 
@@ -35,8 +35,13 @@ export const oEmbedHandler = (): RequestHandler => {
     const tenant = coral.tenant!;
 
     try {
-      const url = encodeURIComponent(req.query.url);
+      const url = req.query.url;
       const type = req.query.type;
+
+      if (!url || !type) {
+        res.sendStatus(400);
+        return;
+      }
 
       if (type !== "youtube" && type !== "twitter") {
         res.sendStatus(400);
