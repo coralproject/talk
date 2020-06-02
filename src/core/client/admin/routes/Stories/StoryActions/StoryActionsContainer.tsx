@@ -2,11 +2,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import {
-  MutationProp,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 
 import { StoryActionsContainer_story } from "coral-admin/__generated__/StoryActionsContainer_story.graphql";
@@ -18,9 +14,6 @@ import RescrapeStoryMutation from "./RescrapeStoryMutation";
 import StoryActions from "./StoryActions";
 
 interface Props {
-  openStory: MutationProp<typeof OpenStoryMutation>;
-  closeStory: MutationProp<typeof CloseStoryMutation>;
-  scrapeStory: MutationProp<typeof RescrapeStoryMutation>;
   story: StoryActionsContainer_story;
   viewer: StoryActionsContainer_viewer;
 }
