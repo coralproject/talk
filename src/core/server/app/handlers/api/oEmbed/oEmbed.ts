@@ -12,6 +12,17 @@ const fetchURL = (url: string, type: string) => {
   return "";
 };
 
+const createNotFoundMessage = (type: string) => {
+  if (type === "twitter") {
+    return "Tweet could not be found. Perhaps it was deleted?";
+  }
+  if (type === "youtube") {
+    return "YouTube video could not be found. Perhaps it was deleted?";
+  }
+
+  return null;
+};
+
 export const oEmbedHandler = (): RequestHandler => {
   // TODO: add some kind of rate limiting or spam protection
   // on this endpoint
@@ -43,7 +54,17 @@ export const oEmbedHandler = (): RequestHandler => {
 
       const response = await fetch(fetchURL(url, type));
 
-      if (!response.ok) {
+      if (!response.ok && response.status === 404) {
+        res.status(404);
+        res.send(
+          `<html>
+            <body>
+              ${createNotFoundMessage(type)}
+            </body>
+          <html>`
+        );
+        return;
+      } else if (!response.ok) {
         next(new Error("unable to retrieve embed"));
         return;
       }
