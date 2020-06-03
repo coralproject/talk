@@ -37,841 +37,31 @@ exports[`renders conversation thread 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Indent-root"
+              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
-                className="coral coral-indent coral-indent-0"
+                className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                  role="article"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  <button
+                    aria-label="Collapse comment thread"
+                    className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                     >
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <div
-                          className="Popover-root"
-                        >
-                          <button
-                            aria-controls="username-popover-comment-from-staff-0"
-                            className="BaseButton-root coral coral-username coral-comment-username"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <span
-                              className="Username-root"
-                            >
-                              Moderator
-                            </span>
-                          </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="username-popover-comment-from-staff-0-ariainfo"
-                            id="username-popover-comment-from-staff-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="username-popover-comment-from-staff-0-ariainfo"
-                            >
-                              A popover with more user information
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                        >
-                          <span
-                            className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
-                          >
-                            Staff
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Timestamp-root"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <time
-                            className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
-                          >
-                            2018-07-06T18:24:00.000Z
-                          </time>
-                        </button>
-                      </div>
-                    </div>
-                    <div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-                  >
-                    <div
-                      className="HTMLContent-root coral coral-content coral-comment-content"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Joining Too",
-                        }
-                      }
-                    />
-                    <div
-                      className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
-                    >
-                      <div
-                        className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <button
-                          aria-label="Respect"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                          data-color="mono"
-                          data-testid="comment-reaction-button"
-                          data-variant="text"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            thumb_up
-                          </i>
-                        </button>
-                        <button
-                          aria-label="Reply"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                          data-active={false}
-                          data-color="mono"
-                          data-testid="comment-reply-button"
-                          data-variant="text"
-                          disabled={false}
-                          id="comments-commentContainer-replyButton-comment-from-staff-0"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            reply
-                          </i>
-                        </button>
-                        <div
-                          className="Popover-root"
-                        >
-                          <button
-                            aria-controls="permalink-popover-comment-from-staff-0"
-                            aria-label="Share"
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                            data-active={false}
-                            data-color="mono"
-                            data-variant="text"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm"
-                            >
-                              share
-                            </i>
-                          </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
-                            id="permalink-popover-comment-from-staff-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="permalink-popover-comment-from-staff-0-ariainfo"
-                            >
-                              A dialog showing a permalink to the comment
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
-                          data-testid="comment-report-button"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <div
-                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm ReportButton-icon"
-                            >
-                              flag
-                            </i>
-                            Report
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="Box-root Flex-root ConversationThreadContainer-showMoreContainer Flex-flex Flex-alignCenter"
-  >
-    <i
-      aria-hidden="true"
-      className="Icon-root Icon-lg ConversationThreadContainer-showMoreIcon"
-    >
-      more_vert
-    </i>
-    <button
-      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
-      onTouchEnd={[Function]}
-      type="button"
-    >
-      Show More of This Conversation
-    </button>
-    <span
-      className="Counter-root Counter-colorDark"
-    >
-      <span
-        className="Counter-text"
-      >
-        2
-      </span>
-    </span>
-  </div>
-  <div
-    className="ConversationThreadContainer-parentList"
-  >
-    <div
-      className="ConversationThreadContainer-targetComment"
-    >
-      <div
-        className="Circle-circleContainer"
-      >
-        <div
-          className="Circle-circleSubContainer Circle-end"
-        >
-          <svg
-            className="Circle-circle"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="50"
-              cy="50"
-              r="50"
-            />
-          </svg>
-        </div>
-        <div
-          className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
-          data-testid="comment-comment-0"
-        >
-          <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          >
-            <div
-              className="Indent-root"
-            >
-              <div
-                className="coral coral-indent coral-indent-0"
-              >
-                <div
-                  className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
-                  role="article"
-                >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                  >
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-                    >
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <div
-                          className="Popover-root"
-                        >
-                          <button
-                            aria-controls="username-popover-comment-0"
-                            className="BaseButton-root coral coral-username coral-comment-username"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <span
-                              className="Username-root"
-                            >
-                              Markus
-                            </span>
-                          </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="username-popover-comment-0-ariainfo"
-                            id="username-popover-comment-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="username-popover-comment-0-ariainfo"
-                            >
-                              A popover with more user information
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                        />
-                      </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Timestamp-root"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <time
-                            className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
-                          >
-                            2018-07-06T18:24:00.000Z
-                          </time>
-                        </button>
-                      </div>
-                    </div>
-                    <div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-                  >
-                    <div
-                      className="HTMLContent-root coral coral-content coral-comment-content"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Joining Too",
-                        }
-                      }
-                    />
-                    <div
-                      className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
-                    >
-                      <div
-                        className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <button
-                          aria-label="Respect"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                          data-color="mono"
-                          data-testid="comment-reaction-button"
-                          data-variant="text"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            thumb_up
-                          </i>
-                        </button>
-                        <button
-                          aria-label="Reply"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                          data-active={false}
-                          data-color="mono"
-                          data-testid="comment-reply-button"
-                          data-variant="text"
-                          disabled={false}
-                          id="comments-commentContainer-replyButton-comment-0"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            reply
-                          </i>
-                        </button>
-                        <div
-                          className="Popover-root"
-                        >
-                          <button
-                            aria-controls="permalink-popover-comment-0"
-                            aria-label="Share"
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                            data-active={false}
-                            data-color="mono"
-                            data-variant="text"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm"
-                            >
-                              share
-                            </i>
-                          </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="permalink-popover-comment-0-ariainfo"
-                            id="permalink-popover-comment-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="permalink-popover-comment-0-ariainfo"
-                            >
-                              A dialog showing a permalink to the comment
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
-                          data-testid="comment-report-button"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <div
-                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm ReportButton-icon"
-                            >
-                              flag
-                            </i>
-                            Report
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`shows more of this conversation 1`] = `
-<div
-  className="coral coral-conversationThread ConversationThreadContainer-root"
-  data-testid="comments-permalinkView-conversationThread"
->
-  <div
-    className="ConversationThreadContainer-rootParent"
-  >
-    <div
-      className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full"
-    />
-  </div>
-  <div
-    className="ConversationThreadContainer-parentList"
-  >
-    <div
-      className="ConversationThreadContainer-parentContainer"
-    >
-      <div
-        className="Line-root"
-      >
-        <div
-          className="Circle-circleContainer"
-        >
-          <div
-            className="Circle-circleSubContainer"
-          >
-            <svg
-              className="Circle-circle"
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="50"
-              />
-            </svg>
-          </div>
-          <div
-            className="coral coral-comment coral coral-reacted-0"
-            data-testid="comment-comment-1"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
-            >
-              <div
-                className="Indent-root"
-              >
-                <div
-                  className="coral coral-indent coral-indent-0"
-                >
-                  <div
-                    className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                    role="article"
-                  >
-                    <div
-                      className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                    >
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-                      >
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
-                        >
-                          <div
-                            className="Popover-root"
-                          >
-                            <button
-                              aria-controls="username-popover-comment-1"
-                              className="BaseButton-root coral coral-username coral-comment-username"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span
-                                className="Username-root"
-                              >
-                                Lukas
-                              </span>
-                            </button>
-                            <div
-                              aria-hidden={true}
-                              aria-labelledby="username-popover-comment-1-ariainfo"
-                              id="username-popover-comment-1"
-                              role="dialog"
-                            >
-                              <div
-                                className="AriaInfo-root"
-                                id="username-popover-comment-1-ariainfo"
-                              >
-                                A popover with more user information
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                          />
-                        </div>
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
-                        >
-                          <button
-                            className="BaseButton-root Timestamp-root"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <time
-                              className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
-                              dateTime="2018-07-06T18:24:00.000Z"
-                              title="2018-07-06T18:24:00.000Z"
-                            >
-                              2018-07-06T18:24:00.000Z
-                            </time>
-                          </button>
-                        </div>
-                      </div>
-                      <div>
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-                    >
-                      <div
-                        className="HTMLContent-root coral coral-content coral-comment-content"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "What's up?",
-                          }
-                        }
-                      />
-                      <div
-                        className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
-                      >
-                        <div
-                          className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                        >
-                          <button
-                            aria-label="Respect"
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                            data-color="mono"
-                            data-testid="comment-reaction-button"
-                            data-variant="text"
-                            disabled={false}
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm"
-                            >
-                              thumb_up
-                            </i>
-                          </button>
-                          <button
-                            aria-label="Reply"
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                            data-active={false}
-                            data-color="mono"
-                            data-testid="comment-reply-button"
-                            data-variant="text"
-                            disabled={false}
-                            id="comments-commentContainer-replyButton-comment-1"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm"
-                            >
-                              reply
-                            </i>
-                          </button>
-                          <div
-                            className="Popover-root"
-                          >
-                            <button
-                              aria-controls="permalink-popover-comment-1"
-                              aria-label="Share"
-                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                              data-active={false}
-                              data-color="mono"
-                              data-variant="text"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <i
-                                aria-hidden="true"
-                                className="Icon-root Icon-sm"
-                              >
-                                share
-                              </i>
-                            </button>
-                            <div
-                              aria-hidden={true}
-                              aria-labelledby="permalink-popover-comment-1-ariainfo"
-                              id="permalink-popover-comment-1"
-                              role="dialog"
-                            >
-                              <div
-                                className="AriaInfo-root"
-                                id="permalink-popover-comment-1-ariainfo"
-                              >
-                                A dialog showing a permalink to the comment
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                        >
-                          <button
-                            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
-                            data-testid="comment-report-button"
-                            disabled={false}
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <div
-                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                            >
-                              <i
-                                aria-hidden="true"
-                                className="Icon-root Icon-sm ReportButton-icon"
-                              >
-                                flag
-                              </i>
-                              Report
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="ConversationThreadContainer-parentContainer"
-    >
-      <div
-        className="Line-root"
-      >
-        <div
-          className="Circle-circleContainer"
-        >
-          <div
-            className="Circle-circleSubContainer"
-          >
-            <svg
-              className="Circle-circle"
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="50"
-              />
-            </svg>
-          </div>
-          <div
-            className="coral coral-comment coral coral-reacted-0"
-            data-testid="comment-comment-from-staff-0"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
-            >
-              <div
-                className="Indent-root"
-              >
-                <div
-                  className="coral coral-indent coral-indent-0"
-                >
+                      remove
+                    </i>
+                  </button>
                   <div
                     className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                     role="article"
@@ -1099,6 +289,42 @@ exports[`shows more of this conversation 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="Box-root Flex-root ConversationThreadContainer-showMoreContainer Flex-flex Flex-alignCenter"
+  >
+    <i
+      aria-hidden="true"
+      className="Icon-root Icon-lg ConversationThreadContainer-showMoreIcon"
+    >
+      more_vert
+    </i>
+    <button
+      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="button"
+    >
+      Show More of This Conversation
+    </button>
+    <span
+      className="Counter-root Counter-colorDark"
+    >
+      <span
+        className="Counter-text"
+      >
+        2
+      </span>
+    </span>
+  </div>
+  <div
+    className="ConversationThreadContainer-parentList"
+  >
     <div
       className="ConversationThreadContainer-targetComment"
     >
@@ -1128,30 +354,87 @@ exports[`shows more of this conversation 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Indent-root"
+              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
-                className="coral coral-indent coral-indent-0"
+                className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
-                  role="article"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
+                  <button
+                    aria-label="Collapse comment thread"
+                    className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                    >
+                      remove
+                    </i>
+                  </button>
                   <div
-                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
+                    role="article"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                      className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                       >
                         <div
-                          className="Popover-root"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                        >
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="username-popover-comment-0"
+                              className="BaseButton-root coral coral-username coral-comment-username"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="Username-root"
+                              >
+                                Markus
+                              </span>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="username-popover-comment-0-ariainfo"
+                              id="username-popover-comment-0"
+                              role="dialog"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="username-popover-comment-0-ariainfo"
+                              >
+                                A popover with more user information
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                          />
+                        </div>
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                         >
                           <button
-                            aria-controls="username-popover-comment-0"
-                            className="BaseButton-root coral coral-username coral-comment-username"
+                            className="BaseButton-root Timestamp-root"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -1160,132 +443,46 @@ exports[`shows more of this conversation 1`] = `
                             onTouchEnd={[Function]}
                             type="button"
                           >
-                            <span
-                              className="Username-root"
+                            <time
+                              className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
                             >
-                              Markus
-                            </span>
+                              2018-07-06T18:24:00.000Z
+                            </time>
                           </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="username-popover-comment-0-ariainfo"
-                            id="username-popover-comment-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="username-popover-comment-0-ariainfo"
-                            >
-                              A popover with more user information
-                            </div>
-                          </div>
                         </div>
+                      </div>
+                      <div>
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                         />
                       </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Timestamp-root"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <time
-                            className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
-                          >
-                            2018-07-06T18:24:00.000Z
-                          </time>
-                        </button>
-                      </div>
                     </div>
-                    <div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-                  >
                     <div
-                      className="HTMLContent-root coral coral-content coral-comment-content"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Joining Too",
-                        }
-                      }
-                    />
-                    <div
-                      className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
                     >
                       <div
-                        className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                        className="HTMLContent-root coral coral-content coral-comment-content"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "Joining Too",
+                          }
+                        }
+                      />
+                      <div
+                        className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                       >
-                        <button
-                          aria-label="Respect"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                          data-color="mono"
-                          data-testid="comment-reaction-button"
-                          data-variant="text"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            thumb_up
-                          </i>
-                        </button>
-                        <button
-                          aria-label="Reply"
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                          data-active={false}
-                          data-color="mono"
-                          data-testid="comment-reply-button"
-                          data-variant="text"
-                          disabled={false}
-                          id="comments-commentContainer-replyButton-comment-0"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            reply
-                          </i>
-                        </button>
                         <div
-                          className="Popover-root"
+                          className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-controls="permalink-popover-comment-0"
-                            aria-label="Share"
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                            data-active={false}
+                            aria-label="Respect"
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-color="mono"
+                            data-testid="comment-reaction-button"
                             data-variant="text"
+                            disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -1298,51 +495,959 @@ exports[`shows more of this conversation 1`] = `
                               aria-hidden="true"
                               className="Icon-root Icon-sm"
                             >
-                              share
+                              thumb_up
                             </i>
                           </button>
-                          <div
-                            aria-hidden={true}
-                            aria-labelledby="permalink-popover-comment-0-ariainfo"
-                            id="permalink-popover-comment-0"
-                            role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="permalink-popover-comment-0-ariainfo"
-                            >
-                              A dialog showing a permalink to the comment
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
-                      >
-                        <button
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
-                          data-testid="comment-report-button"
-                          disabled={false}
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <div
-                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                          <button
+                            aria-label="Reply"
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                            data-active={false}
+                            data-color="mono"
+                            data-testid="comment-reply-button"
+                            data-variant="text"
+                            disabled={false}
+                            id="comments-commentContainer-replyButton-comment-0"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm ReportButton-icon"
+                              className="Icon-root Icon-sm"
                             >
-                              flag
+                              reply
                             </i>
-                            Report
+                          </button>
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="permalink-popover-comment-0"
+                              aria-label="Share"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                              data-active={false}
+                              data-color="mono"
+                              data-variant="text"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                share
+                              </i>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="permalink-popover-comment-0-ariainfo"
+                              id="permalink-popover-comment-0"
+                              role="dialog"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="permalink-popover-comment-0-ariainfo"
+                              >
+                                A dialog showing a permalink to the comment
+                              </div>
+                            </div>
                           </div>
-                        </button>
+                        </div>
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                        >
+                          <button
+                            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                            data-testid="comment-report-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <div
+                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm ReportButton-icon"
+                              >
+                                flag
+                              </i>
+                              Report
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`shows more of this conversation 1`] = `
+<div
+  className="coral coral-conversationThread ConversationThreadContainer-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <div
+    className="ConversationThreadContainer-rootParent"
+  >
+    <div
+      className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full"
+    />
+  </div>
+  <div
+    className="ConversationThreadContainer-parentList"
+  >
+    <div
+      className="ConversationThreadContainer-parentContainer"
+    >
+      <div
+        className="Line-root"
+      >
+        <div
+          className="Circle-circleContainer"
+        >
+          <div
+            className="Circle-circleSubContainer"
+          >
+            <svg
+              className="Circle-circle"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="50"
+              />
+            </svg>
+          </div>
+          <div
+            className="coral coral-comment coral coral-reacted-0"
+            data-testid="comment-comment-1"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              >
+                <div
+                  className="coral coral-indent coral-indent-0 Indent-open"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                  >
+                    <button
+                      aria-label="Collapse comment thread"
+                      className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                      >
+                        remove
+                      </i>
+                    </button>
+                    <div
+                      className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
+                      role="article"
+                    >
+                      <div
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                        >
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <div
+                              className="Popover-root"
+                            >
+                              <button
+                                aria-controls="username-popover-comment-1"
+                                className="BaseButton-root coral coral-username coral-comment-username"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="Username-root"
+                                >
+                                  Lukas
+                                </span>
+                              </button>
+                              <div
+                                aria-hidden={true}
+                                aria-labelledby="username-popover-comment-1-ariainfo"
+                                id="username-popover-comment-1"
+                                role="dialog"
+                              >
+                                <div
+                                  className="AriaInfo-root"
+                                  id="username-popover-comment-1-ariainfo"
+                                >
+                                  A popover with more user information
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                            />
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                          >
+                            <button
+                              className="BaseButton-root Timestamp-root"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <time
+                                className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                                dateTime="2018-07-06T18:24:00.000Z"
+                                title="2018-07-06T18:24:00.000Z"
+                              >
+                                2018-07-06T18:24:00.000Z
+                              </time>
+                            </button>
+                          </div>
+                        </div>
+                        <div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+                      >
+                        <div
+                          className="HTMLContent-root coral coral-content coral-comment-content"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "What's up?",
+                            }
+                          }
+                        />
+                        <div
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+                        >
+                          <div
+                            className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <button
+                              aria-label="Respect"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="mono"
+                              data-testid="comment-reaction-button"
+                              data-variant="text"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                thumb_up
+                              </i>
+                            </button>
+                            <button
+                              aria-label="Reply"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                              data-active={false}
+                              data-color="mono"
+                              data-testid="comment-reply-button"
+                              data-variant="text"
+                              disabled={false}
+                              id="comments-commentContainer-replyButton-comment-1"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                reply
+                              </i>
+                            </button>
+                            <div
+                              className="Popover-root"
+                            >
+                              <button
+                                aria-controls="permalink-popover-comment-1"
+                                aria-label="Share"
+                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                                data-active={false}
+                                data-color="mono"
+                                data-variant="text"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm"
+                                >
+                                  share
+                                </i>
+                              </button>
+                              <div
+                                aria-hidden={true}
+                                aria-labelledby="permalink-popover-comment-1-ariainfo"
+                                id="permalink-popover-comment-1"
+                                role="dialog"
+                              >
+                                <div
+                                  className="AriaInfo-root"
+                                  id="permalink-popover-comment-1-ariainfo"
+                                >
+                                  A dialog showing a permalink to the comment
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <button
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                              data-testid="comment-report-button"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm ReportButton-icon"
+                                >
+                                  flag
+                                </i>
+                                Report
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ConversationThreadContainer-parentContainer"
+    >
+      <div
+        className="Line-root"
+      >
+        <div
+          className="Circle-circleContainer"
+        >
+          <div
+            className="Circle-circleSubContainer"
+          >
+            <svg
+              className="Circle-circle"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="50"
+              />
+            </svg>
+          </div>
+          <div
+            className="coral coral-comment coral coral-reacted-0"
+            data-testid="comment-comment-from-staff-0"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              >
+                <div
+                  className="coral coral-indent coral-indent-0 Indent-open"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                  >
+                    <button
+                      aria-label="Collapse comment thread"
+                      className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                      >
+                        remove
+                      </i>
+                    </button>
+                    <div
+                      className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
+                      role="article"
+                    >
+                      <div
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                        >
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <div
+                              className="Popover-root"
+                            >
+                              <button
+                                aria-controls="username-popover-comment-from-staff-0"
+                                className="BaseButton-root coral coral-username coral-comment-username"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="Username-root"
+                                >
+                                  Moderator
+                                </span>
+                              </button>
+                              <div
+                                aria-hidden={true}
+                                aria-labelledby="username-popover-comment-from-staff-0-ariainfo"
+                                id="username-popover-comment-from-staff-0"
+                                role="dialog"
+                              >
+                                <div
+                                  className="AriaInfo-root"
+                                  id="username-popover-comment-from-staff-0-ariainfo"
+                                >
+                                  A popover with more user information
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                            >
+                              <span
+                                className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                              >
+                                Staff
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                          >
+                            <button
+                              className="BaseButton-root Timestamp-root"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <time
+                                className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                                dateTime="2018-07-06T18:24:00.000Z"
+                                title="2018-07-06T18:24:00.000Z"
+                              >
+                                2018-07-06T18:24:00.000Z
+                              </time>
+                            </button>
+                          </div>
+                        </div>
+                        <div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+                      >
+                        <div
+                          className="HTMLContent-root coral coral-content coral-comment-content"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Joining Too",
+                            }
+                          }
+                        />
+                        <div
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+                        >
+                          <div
+                            className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <button
+                              aria-label="Respect"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="mono"
+                              data-testid="comment-reaction-button"
+                              data-variant="text"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                thumb_up
+                              </i>
+                            </button>
+                            <button
+                              aria-label="Reply"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                              data-active={false}
+                              data-color="mono"
+                              data-testid="comment-reply-button"
+                              data-variant="text"
+                              disabled={false}
+                              id="comments-commentContainer-replyButton-comment-from-staff-0"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                reply
+                              </i>
+                            </button>
+                            <div
+                              className="Popover-root"
+                            >
+                              <button
+                                aria-controls="permalink-popover-comment-from-staff-0"
+                                aria-label="Share"
+                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                                data-active={false}
+                                data-color="mono"
+                                data-variant="text"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm"
+                                >
+                                  share
+                                </i>
+                              </button>
+                              <div
+                                aria-hidden={true}
+                                aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
+                                id="permalink-popover-comment-from-staff-0"
+                                role="dialog"
+                              >
+                                <div
+                                  className="AriaInfo-root"
+                                  id="permalink-popover-comment-from-staff-0-ariainfo"
+                                >
+                                  A dialog showing a permalink to the comment
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                          >
+                            <button
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                              data-testid="comment-report-button"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  className="Icon-root Icon-sm ReportButton-icon"
+                                >
+                                  flag
+                                </i>
+                                Report
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ConversationThreadContainer-targetComment"
+    >
+      <div
+        className="Circle-circleContainer"
+      >
+        <div
+          className="Circle-circleSubContainer Circle-end"
+        >
+          <svg
+            className="Circle-circle"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="50"
+            />
+          </svg>
+        </div>
+        <div
+          className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+          data-testid="comment-comment-0"
+        >
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+            >
+              <div
+                className="coral coral-indent coral-indent-0 Indent-open"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                >
+                  <button
+                    aria-label="Collapse comment thread"
+                    className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                    >
+                      remove
+                    </i>
+                  </button>
+                  <div
+                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
+                    role="article"
+                  >
+                    <div
+                      className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    >
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                        >
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="username-popover-comment-0"
+                              className="BaseButton-root coral coral-username coral-comment-username"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span
+                                className="Username-root"
+                              >
+                                Markus
+                              </span>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="username-popover-comment-0-ariainfo"
+                              id="username-popover-comment-0"
+                              role="dialog"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="username-popover-comment-0-ariainfo"
+                              >
+                                A popover with more user information
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                          />
+                        </div>
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                        >
+                          <button
+                            className="BaseButton-root Timestamp-root"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <time
+                              className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+                    >
+                      <div
+                        className="HTMLContent-root coral coral-content coral-comment-content"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "Joining Too",
+                          }
+                        }
+                      />
+                      <div
+                        className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+                      >
+                        <div
+                          className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                        >
+                          <button
+                            aria-label="Respect"
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                            data-color="mono"
+                            data-testid="comment-reaction-button"
+                            data-variant="text"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              thumb_up
+                            </i>
+                          </button>
+                          <button
+                            aria-label="Reply"
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                            data-active={false}
+                            data-color="mono"
+                            data-testid="comment-reply-button"
+                            data-variant="text"
+                            disabled={false}
+                            id="comments-commentContainer-replyButton-comment-0"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              reply
+                            </i>
+                          </button>
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="permalink-popover-comment-0"
+                              aria-label="Share"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                              data-active={false}
+                              data-color="mono"
+                              data-variant="text"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                share
+                              </i>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="permalink-popover-comment-0-ariainfo"
+                              id="permalink-popover-comment-0"
+                              role="dialog"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="permalink-popover-comment-0-ariainfo"
+                              >
+                                A dialog showing a permalink to the comment
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                        >
+                          <button
+                            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                            data-testid="comment-report-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <div
+                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm ReportButton-icon"
+                              >
+                                flag
+                              </i>
+                              Report
+                            </div>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

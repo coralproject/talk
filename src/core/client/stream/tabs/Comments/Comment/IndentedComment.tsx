@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -54,19 +55,25 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
         CommentToggleElement
       ) : (
         <Flex alignItems="flex-start" spacing={1}>
-          <BaseButton
-            onClick={toggleCollapsed}
-            className={cn(
-              styles.toggleButton,
-              CLASSES.comment.collapseToggle.$root
-            )}
+          <Localized
+            id="comments-collapse-toggle"
+            attrs={{ "aria-label": true }}
           >
-            <ButtonIcon
-              className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
+            <BaseButton
+              onClick={toggleCollapsed}
+              aria-label="Collapse comment thread"
+              className={cn(
+                styles.toggleButton,
+                CLASSES.comment.collapseToggle.$root
+              )}
             >
-              remove
-            </ButtonIcon>
-          </BaseButton>
+              <ButtonIcon
+                className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
+              >
+                remove
+              </ButtonIcon>
+            </BaseButton>
+          </Localized>
           {CommentElement}
         </Flex>
       )}
