@@ -50,10 +50,13 @@ export const commentEnteredModerationQueue: SubscriptionToCommentEnteredModerati
       }
 
       // If we're filtering by section, then only send back comments from the
-      // specific section.
+      // specific section. If the source has a section, if it's not equal to the
+      // filter then return false. If the source does not have a section, then
+      // the filter must also be null/undefined, otherwise return false.
       if (
         section &&
-        section.name !== source.section &&
+        ((source.section && section.name !== source.section) ||
+          (!source.section && section.name)) &&
         hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SECTIONS)
       ) {
         return false;
