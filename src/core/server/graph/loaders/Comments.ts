@@ -42,6 +42,18 @@ import {
 
 import { SingletonResolver } from "./util";
 
+/**
+ * requiredPropertyFilter will remove those properties that are nil from the
+ * object as they are not nilable on the database model. If we didn't do this,
+ * then any time that the property is nil, we'd be querying for comments that
+ * can't possibly exist!
+ *
+ * @param props properties that if nil should be removed from the return object
+ */
+const requiredPropertyFilter = (
+  props: CommentConnectionInput["filter"]
+): CommentConnectionInput["filter"] => omitBy(props, isNil);
+
 const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   if (tag) {
     return {
@@ -167,17 +179,15 @@ export default (ctx: Context) => ({
       first: defaultTo(first, 10),
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      filter: omitBy(
-        {
-          ...queryFilter(query),
-          ...tagFilter(tag),
-          ...sectionFilter(ctx.tenant, section),
-          storyID,
-          siteID,
-          status,
-        },
-        isNil
-      ),
+      filter: {
+        ...queryFilter(query),
+        ...tagFilter(tag),
+        ...sectionFilter(ctx.tenant, section),
+        // If these properties are not provided or are null, remove them from
+        // the filter because they do not exist in a nullable state on the
+        // database model.
+        ...requiredPropertyFilter({ storyID, siteID, status }),
+      },
     }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) => {
