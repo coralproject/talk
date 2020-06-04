@@ -90,19 +90,23 @@ export async function publishCommentFeatured(
 export async function publishModerationQueueChanges(
   broker: CoralEventPublisherBroker,
   moderationQueue: Pick<CommentModerationQueueCounts, "queues">,
-  comment: Pick<Comment, "id" | "storyID">
+  comment: Pick<Comment, "id" | "storyID" | "siteID" | "section">
 ) {
   if (moderationQueue.queues.pending === 1) {
     await CommentEnteredModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.pending === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
   if (moderationQueue.queues.reported === 1) {
@@ -110,12 +114,16 @@ export async function publishModerationQueueChanges(
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.reported === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
   if (moderationQueue.queues.unmoderated === 1) {
@@ -123,12 +131,16 @@ export async function publishModerationQueueChanges(
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   } else if (moderationQueue.queues.unmoderated === -1) {
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
+      section: comment.section,
     });
   }
 }

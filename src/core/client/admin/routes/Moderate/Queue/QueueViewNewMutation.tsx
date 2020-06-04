@@ -1,6 +1,7 @@
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { SectionFilter } from "coral-common/section";
 import {
   commitLocalUpdatePromisified,
   createMutation,
@@ -10,6 +11,7 @@ import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 interface QueueViewNewInput {
   storyID: string | null;
   siteID: string | null;
+  section?: SectionFilter | null;
   queue: GQLMODERATION_QUEUE;
 }
 
@@ -21,7 +23,8 @@ const QueueViewNewMutation = createMutation(
         store,
         input.queue,
         input.storyID,
-        input.siteID
+        input.siteID,
+        input.section
       );
       if (!connection) {
         return;

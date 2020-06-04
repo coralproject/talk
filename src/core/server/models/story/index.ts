@@ -661,3 +661,23 @@ export async function setStoryMode(
 
   return result.value || null;
 }
+
+/**
+ * retrieveStorySections will return the sections used by stories in the
+ * database for a given Tenant sorted alphabetically.
+ *
+ * @param mongo the database connection to use to retrieve the data
+ * @param tenantID the ID of the Tenant that we're retrieving data
+ */
+export async function retrieveStorySections(
+  mongo: Db,
+  tenantID: string
+): Promise<string[]> {
+  const results: Array<string | null> = await collection(
+    mongo
+  ).distinct("metadata.section", { tenantID });
+
+  // We perform the type assertion here because we know that after filtering out
+  // the null entries, the resulting array can not contain null.
+  return results.filter((section) => section !== null).sort() as string[];
+}

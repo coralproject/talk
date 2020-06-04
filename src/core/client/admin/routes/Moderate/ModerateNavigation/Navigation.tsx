@@ -5,6 +5,7 @@ import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
+import { SectionFilter } from "coral-common/section";
 import { getModerationLink } from "coral-framework/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
@@ -16,6 +17,7 @@ interface Props {
   pendingCount?: number | null;
   storyID?: string | null;
   siteID?: string | null;
+  section?: SectionFilter | null;
   router: Router;
   match: Match;
 }
@@ -26,16 +28,17 @@ const Navigation: FunctionComponent<Props> = ({
   pendingCount,
   storyID,
   siteID,
+  section,
   router,
   match,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
-      getModerationLink({ queue: "reported", storyID, siteID }),
-      getModerationLink({ queue: "pending", storyID, siteID }),
-      getModerationLink({ queue: "unmoderated", storyID, siteID }),
-      getModerationLink({ queue: "approved", storyID, siteID }),
-      getModerationLink({ queue: "rejected", storyID, siteID }),
+      getModerationLink({ queue: "reported", storyID, siteID, section }),
+      getModerationLink({ queue: "pending", storyID, siteID, section }),
+      getModerationLink({ queue: "unmoderated", storyID, siteID, section }),
+      getModerationLink({ queue: "approved", storyID, siteID, section }),
+      getModerationLink({ queue: "rejected", storyID, siteID, section }),
     ];
   }, [storyID, siteID]);
 

@@ -24,6 +24,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   debugScrapeStoryMetadata: (source, { url }, ctx) =>
     ctx.loaders.Stories.debugScrapeMetadata.load(url),
   moderationQueues: moderationQueuesResolver,
+  sections: (source, args, ctx) => ctx.loaders.Stories.sections(),
   activeStories: (source, { limit = 10 }, ctx) =>
     ctx.loaders.Stories.activeStories(limit),
   sites: (source, args, ctx) => ctx.loaders.Sites.connection(args),

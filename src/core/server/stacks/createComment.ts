@@ -222,6 +222,8 @@ export default async function create(
     {
       ...input,
       siteID: story.siteID,
+      // Copy the current story section into the comment if it exists.
+      section: story.metadata?.section,
       // Remap the tags to include the createdAt.
       tags: tags.map((tag) => ({ type: tag, createdAt: now })),
       body,

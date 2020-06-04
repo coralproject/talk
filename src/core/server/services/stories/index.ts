@@ -34,6 +34,7 @@ import {
   removeStory,
   retrieveManyStories,
   retrieveStory,
+  retrieveStorySections,
   setStoryMode,
   Story,
   updateStory,
@@ -42,13 +43,16 @@ import {
   updateStorySettings,
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 export type FindStory = FindStoryInput;
 
@@ -411,4 +415,12 @@ export async function updateStoryMode(
   mode: GQLSTORY_MODE
 ) {
   return setStoryMode(mongo, tenant.id, storyID, mode);
+}
+
+export async function retrieveSections(mongo: Db, tenant: Tenant) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
+    return null;
+  }
+
+  return retrieveStorySections(mongo, tenant.id);
 }

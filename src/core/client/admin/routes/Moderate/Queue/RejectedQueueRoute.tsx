@@ -3,6 +3,7 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withPaginationContainer } from "coral-framework/lib/relay";
 import { resolveModule } from "coral-framework/lib/relay/helpers";
@@ -19,6 +20,7 @@ interface RejectedQueueRouteProps {
   relay: RelayPaginationProp;
   storyID?: string;
   siteID?: string;
+  section?: string | null;
 }
 
 // TODO: use generated types
@@ -89,11 +91,13 @@ const enhanced = (withPaginationContainer<
           cursor: { type: "Cursor" }
           storyID: { type: "ID" }
           siteID: { type: "ID" }
+          section: { type: "SectionFilter" }
         ) {
         comments(
           status: REJECTED
           storyID: $storyID
           siteID: $siteID
+          section: $section
           first: $count
           after: $cursor
         ) @connection(key: "RejectedQueue_comments") {
@@ -135,6 +139,7 @@ const enhanced = (withPaginationContainer<
       query RejectedQueueRoutePaginationQuery(
         $storyID: ID
         $siteID: ID
+        $section: SectionFilter
         $count: Int!
         $cursor: Cursor
       ) {
@@ -142,6 +147,7 @@ const enhanced = (withPaginationContainer<
           @arguments(
             storyID: $storyID
             siteID: $siteID
+            section: $section
             count: $count
             cursor: $cursor
           )
@@ -153,18 +159,26 @@ const enhanced = (withPaginationContainer<
 enhanced.routeConfig = {
   Component: enhanced,
   query: resolveModule(graphql`
-    query RejectedQueueRouteQuery($storyID: ID, $siteID: ID) {
-      ...RejectedQueueRoute_query @arguments(storyID: $storyID, siteID: $siteID)
+    query RejectedQueueRouteQuery(
+      $storyID: ID
+      $siteID: ID
+      $section: SectionFilter
+    ) {
+      ...RejectedQueueRoute_query
+        @arguments(storyID: $storyID, siteID: $siteID, section: $section)
     }
   `),
   cacheConfig: { force: true },
   render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {
+      const { storyID, siteID, section } = parseModerationOptions(match);
+
       return (
         <Component
           query={props}
-          storyID={match.params.storyID}
-          siteID={match.params.siteID}
+          storyID={storyID}
+          siteID={siteID}
+          section={section}
         />
       );
     }

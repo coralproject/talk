@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { SectionFilter } from "coral-common/section";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -18,7 +19,11 @@ const FeatureCommentMutation = createMutation(
   "featureComment",
   (
     environment: Environment,
-    input: MutationInput<FeatureCommentMutation> & { storyID: string },
+    input: MutationInput<FeatureCommentMutation> & {
+      storyID?: string | null;
+      siteID?: string | null;
+      section?: SectionFilter | null;
+    },
     { uuidGenerator }: CoralContext
   ) =>
     commitMutationPromiseNormalized<FeatureCommentMutation>(environment, {
@@ -69,10 +74,34 @@ const FeatureCommentMutation = createMutation(
       },
       updater: (store) => {
         const connections = [
-          getQueueConnection(store, "PENDING", input.storyID),
-          getQueueConnection(store, "REPORTED", input.storyID),
-          getQueueConnection(store, "UNMODERATED", input.storyID),
-          getQueueConnection(store, "REJECTED", input.storyID),
+          getQueueConnection(
+            store,
+            "PENDING",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "REPORTED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "UNMODERATED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "REJECTED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
         ].filter((c) => c);
         connections.forEach((con) =>
           ConnectionHandler.deleteNode(con!, input.commentID)

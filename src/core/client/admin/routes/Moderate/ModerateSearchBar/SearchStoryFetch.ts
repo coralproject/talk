@@ -20,6 +20,10 @@ const SearchStoryFetch = createFetch(
           $limit: Int!
           $siteID: ID
         ) {
+          settings {
+            multisite
+            featureFlags
+          }
           stories(query: $query, first: $limit, siteID: $siteID) {
             edges {
               node {
@@ -30,6 +34,7 @@ const SearchStoryFetch = createFetch(
                 }
                 metadata {
                   title
+                  section
                   author
                 }
               }

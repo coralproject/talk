@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { SectionFilter } from "coral-common/section";
 import {
   createSubscription,
   requestSubscription,
@@ -14,7 +15,9 @@ import { QueueCommentLeftSubscription } from "coral-admin/__generated__/QueueCom
 function handleCommentLeftModerationQueue(
   store: RecordSourceSelectorProxy<unknown>,
   queue: GQLMODERATION_QUEUE_RL,
-  storyID: string | null
+  storyID: string | null,
+  siteID: string | null,
+  section?: SectionFilter | null
 ) {
   const rootField = store.getRootField("commentLeftModerationQueue");
   if (!rootField) {
@@ -28,7 +31,7 @@ function handleCommentLeftModerationQueue(
     // Mark that the status of the comment was live updated.
     commentInStore.setValue(true, "statusLiveUpdated");
   }
-  const connection = getQueueConnection(store, queue, storyID);
+  const connection = getQueueConnection(store, queue, storyID, siteID, section);
   if (connection) {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(
@@ -50,9 +53,16 @@ const QueueSubscription = createSubscription(
       subscription: graphql`
         subscription QueueCommentLeftSubscription(
           $storyID: ID
+          $siteID: ID
+          $section: SectionFilter
           $queue: MODERATION_QUEUE!
         ) {
-          commentLeftModerationQueue(storyID: $storyID, queue: $queue) {
+          commentLeftModerationQueue(
+            storyID: $storyID
+            siteID: $siteID
+            section: $section
+            queue: $queue
+          ) {
             comment {
               id
               status
@@ -67,7 +77,9 @@ const QueueSubscription = createSubscription(
         handleCommentLeftModerationQueue(
           store,
           variables.queue,
-          variables.storyID || null
+          variables.storyID || null,
+          variables.siteID || null,
+          variables.section
         );
       },
     })

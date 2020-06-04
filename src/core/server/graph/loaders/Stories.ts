@@ -17,6 +17,7 @@ import {
   findOrCreate,
   FindOrCreateStory,
   FindStory,
+  retrieveSections,
 } from "coral-server/services/stories";
 import { scraper } from "coral-server/services/stories/scraper";
 
@@ -185,6 +186,7 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
+  sections: () => retrieveSections(ctx.mongo, ctx.tenant),
   story: new DataLoader<string, Story | null>(
     (ids) => retrieveManyStories(ctx.mongo, ctx.tenant.id, ids),
     {
