@@ -35,16 +35,37 @@ const StoryActions: FunctionComponent<Props> = ({
           <ClickOutside onClickOutside={toggleVisibility}>
             <Dropdown>
               <Localized id="stories-actions-rescrape">
-                <DropdownButton onClick={onRescrape}>Re-scrape</DropdownButton>
+                <DropdownButton
+                  onClick={() => {
+                    onRescrape();
+                    toggleVisibility();
+                  }}
+                >
+                  Re-scrape
+                </DropdownButton>
               </Localized>
               {canOpen && (
                 <Localized id="stories-actions-open">
-                  <DropdownButton onClick={onOpen}>Open story</DropdownButton>
+                  <DropdownButton
+                    onClick={() => {
+                      onOpen();
+                      toggleVisibility();
+                    }}
+                  >
+                    Open story
+                  </DropdownButton>
                 </Localized>
               )}
               {canClose && (
                 <Localized id="stories-actions-close">
-                  <DropdownButton onClick={onClose}>Close story</DropdownButton>
+                  <DropdownButton
+                    onClick={() => {
+                      onClose();
+                      toggleVisibility();
+                    }}
+                  >
+                    Close story
+                  </DropdownButton>
                 </Localized>
               )}
             </Dropdown>
@@ -54,7 +75,7 @@ const StoryActions: FunctionComponent<Props> = ({
         {({ toggleVisibility, ref, visible }) => (
           <Localized id="stories-actionsButton" attrs={{ "aria-label": true }}>
             <Button
-              aria-label="select action"
+              aria-label="Select action"
               onClick={toggleVisibility}
               ref={ref}
               color="mono"

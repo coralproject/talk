@@ -479,10 +479,12 @@ stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
 
 stories-actionsButton =
-  .aria-label = select action
+  .aria-label = Select action
 stories-actions-popover =
   .description = A dropdown to select story actions
 stories-actions-rescrape = Re-scrape
+stories-actions-close = Close story
+stories-actions-open = Open story
 
 ### Sections
 

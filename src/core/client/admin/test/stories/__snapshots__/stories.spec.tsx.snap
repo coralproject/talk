@@ -233,48 +233,11 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <span
+                className="StoryStatusText-root StoryStatusText-open"
               >
-                <button
-                  aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
-                  data-color="mono"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span
-                    className="StoryStatusText-root StoryStatusText-open"
-                  >
-                    Open
-                  </span>
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    arrow_drop_down
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-labelledby="stories-statusChange-ariainfo"
-                  id="stories-statusChange"
-                  role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-statusChange-ariainfo"
-                  >
-                    A dropdown to change the story status
-                  </div>
-                </div>
-              </div>
+                Open
+              </span>
             </td>
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
@@ -283,7 +246,7 @@ exports[`renders empty stories 1`] = `
                 className="Popover-root"
               >
                 <button
-                  aria-label="select action"
+                  aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
                   data-color="mono"
                   data-variant="text"
@@ -367,48 +330,11 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <span
+                className="StoryStatusText-root StoryStatusText-open"
               >
-                <button
-                  aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
-                  data-color="mono"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span
-                    className="StoryStatusText-root StoryStatusText-open"
-                  >
-                    Open
-                  </span>
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    arrow_drop_down
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-labelledby="stories-statusChange-ariainfo"
-                  id="stories-statusChange"
-                  role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-statusChange-ariainfo"
-                  >
-                    A dropdown to change the story status
-                  </div>
-                </div>
-              </div>
+                Open
+              </span>
             </td>
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
@@ -417,7 +343,7 @@ exports[`renders empty stories 1`] = `
                 className="Popover-root"
               >
                 <button
-                  aria-label="select action"
+                  aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
                   data-color="mono"
                   data-variant="text"
@@ -692,48 +618,11 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <span
+                className="StoryStatusText-root StoryStatusText-open"
               >
-                <button
-                  aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
-                  data-color="mono"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span
-                    className="StoryStatusText-root StoryStatusText-open"
-                  >
-                    Open
-                  </span>
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    arrow_drop_down
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-labelledby="stories-statusChange-ariainfo"
-                  id="stories-statusChange"
-                  role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-statusChange-ariainfo"
-                  >
-                    A dropdown to change the story status
-                  </div>
-                </div>
-              </div>
+                Open
+              </span>
             </td>
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
@@ -742,7 +631,7 @@ exports[`renders stories 1`] = `
                 className="Popover-root"
               >
                 <button
-                  aria-label="select action"
+                  aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
                   data-color="mono"
                   data-variant="text"
@@ -826,48 +715,11 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <span
+                className="StoryStatusText-root StoryStatusText-open"
               >
-                <button
-                  aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
-                  data-color="mono"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span
-                    className="StoryStatusText-root StoryStatusText-open"
-                  >
-                    Open
-                  </span>
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    arrow_drop_down
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-labelledby="stories-statusChange-ariainfo"
-                  id="stories-statusChange"
-                  role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-statusChange-ariainfo"
-                  >
-                    A dropdown to change the story status
-                  </div>
-                </div>
-              </div>
+                Open
+              </span>
             </td>
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
@@ -876,7 +728,7 @@ exports[`renders stories 1`] = `
                 className="Popover-root"
               >
                 <button
-                  aria-label="select action"
+                  aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
                   data-color="mono"
                   data-variant="text"
