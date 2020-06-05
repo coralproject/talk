@@ -5,12 +5,8 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { UserPopoverOverviewContainer_user as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
 import { UserPopoverOverviewContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
@@ -50,9 +46,9 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
           id="comments-userPopover-memberSince"
           $timestamp={new Date(user.createdAt)}
         >
-          <Typography variant="detail" container="div">
+          <div className={styles.memberSince}>
             Member since: {user.createdAt}
-          </Typography>
+          </div>
         </Localized>
       </HorizontalGutter>
       {canIgnore && (
@@ -60,7 +56,10 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
           <Localized id="comments-userPopover-ignore">
             <Button
               variant="outlined"
-              size="small"
+              fontSize="extraSmall"
+              paddingSize="extraSmall"
+              color="secondary"
+              upperCase
               onClick={onIgnore}
               className={CLASSES.userPopover.ignoreButton}
             >
