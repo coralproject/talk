@@ -19,7 +19,8 @@
 
 .reportedCountColumn,
 .pendingCountColumn,
-.totalCountColumn {
+.totalCountColumn,
+.actionsColumn {
   text-align: center;
 }
 

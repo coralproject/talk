@@ -201,9 +201,9 @@ it("change story status", async () => {
     selector: "tr",
   });
 
-  const changeStatusButton = within(storyRow).getByLabelText("Change status");
+  const changeStatusButton = within(storyRow).getByLabelText("Select action");
   const popup = within(storyRow).getByLabelText(
-    "A dropdown to change the story status"
+    "A dropdown to select story actions"
   );
 
   /** CLOSE STORY */
@@ -211,7 +211,9 @@ it("change story status", async () => {
     changeStatusButton.props.onClick();
   });
   act(() => {
-    within(popup).getByText("Closed", { selector: "button" }).props.onClick();
+    within(popup)
+      .getByText("Close story", { selector: "button" })
+      .props.onClick();
   });
 
   within(storyRow).getByText("Closed");
@@ -223,7 +225,9 @@ it("change story status", async () => {
   });
 
   act(() => {
-    within(popup).getByText("Open", { selector: "button" }).props.onClick();
+    within(popup)
+      .getByText("Open story", { selector: "button" })
+      .props.onClick();
   });
 
   within(storyRow).getByText("Open");

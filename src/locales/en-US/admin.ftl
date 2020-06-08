@@ -475,6 +475,17 @@ stories-column-site = Site
 site-table-siteName = Site name
 stories-filter-sites = Site
 
+stories-column-actions = Actions
+stories-column-rescrape = Re-scrape
+
+stories-actionsButton =
+  .aria-label = Select action
+stories-actions-popover =
+  .description = A dropdown to select story actions
+stories-actions-rescrape = Re-scrape
+stories-actions-close = Close story
+stories-actions-open = Open story
+
 ### Sections
 
 moderate-section-selector-allSections = All Sections

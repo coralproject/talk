@@ -53,7 +53,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment StoryRowContainer_viewer on User {
       id
-      ...StoryStatusChangeContainer_viewer
+      ...StoryActionsContainer_viewer
     }
   `,
   story: graphql`
@@ -80,7 +80,8 @@ const enhanced = withFragmentContainer<Props>({
         id
       }
       isClosed
-      ...StoryStatusChangeContainer_story
+      ...StoryActionsContainer_story
+      ...StoryStatusContainer_story
     }
   `,
 })(StoryRowContainer);
