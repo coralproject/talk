@@ -29,43 +29,12 @@ process.on("unhandledRejection", (err) => {
 });
 
 import express from "express";
-import throng from "throng";
 
 import createCoral from "./core";
-import Server from "./core/server";
 import logger from "./core/server/logger";
 
 // Create the app that will serve as the mounting point for the Coral Server.
 const parent = express();
-
-// worker will start the worker process.
-async function worker(server: Server) {
-  try {
-    // Start the server.
-    await server.start({ parent });
-
-    logger.debug("started server worker");
-  } catch (err) {
-    logger.error({ err }, "can not start server in worker mode");
-    throw err;
-  }
-}
-
-// master will start the master process.
-async function master(server: Server) {
-  const workerCount = server.config.get("concurrency");
-  logger.debug({ workerCount }, "spawning workers to handle traffic");
-
-  try {
-    // Process jobs.
-    await server.process();
-
-    logger.debug("started server master");
-  } catch (err) {
-    logger.error({ err }, "can not start server in master mode");
-    throw err;
-  }
-}
 
 // bootstrap will create a new Coral server, and start it up.
 async function bootstrap() {
@@ -75,31 +44,14 @@ async function bootstrap() {
     // Create the server instance.
     const server = createCoral();
 
-    // Determine the number of workers.
-    const workerCount = server.config.get("concurrency");
-
     // Connect the server to databases.
     await server.connect();
 
-    if (workerCount === 1) {
-      logger.debug(
-        { workerCount },
-        "not utilizing cluster as concurrency level is 1"
-      );
+    // Start processing jobs.
+    await server.process();
 
-      // Start processing jobs.
-      await server.process();
-
-      // Start the server.
-      await server.start({ parent });
-    } else {
-      // Launch the server start within throng.
-      throng({
-        workers: workerCount,
-        start: () => worker(server),
-        master: () => master(server),
-      });
-    }
+    // Start the server.
+    await server.start({ parent });
   } catch (err) {
     logger.error({ err }, "can not bootstrap server");
     throw err;

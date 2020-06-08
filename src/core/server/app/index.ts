@@ -9,7 +9,7 @@ import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
-import { AggregatorRegistry, register } from "prom-client";
+import { register } from "prom-client";
 
 import {
   cacheHeadersMiddleware,
@@ -224,34 +224,11 @@ export default function createMetricsServer(config: Config) {
     );
   }
 
-  // If we are running in concurrency mode, we should setup the aggregator for
-  // the cluster metrics.
-  if (config.get("concurrency") > 1) {
-    // Create the aggregator registry for metrics.
-    const aggregatorRegistry = new AggregatorRegistry();
-
-    // Use the aggregator registry to handle serving metrics.
-    server.get("/cluster_metrics", (req, res, next) => {
-      aggregatorRegistry.clusterMetrics((err, metrics) => {
-        if (err) {
-          return next(err);
-        }
-
-        res.set("Content-Type", aggregatorRegistry.contentType);
-        res.send(metrics);
-      });
-    });
-
-    logger.info({ path: "/cluster_metrics" }, "mounted metrics handler");
-  } else {
-    // Use the memory register to handle serving metrics.
-    server.get("/metrics", (req, res) => {
-      res.set("Content-Type", register.contentType);
-      res.end(register.metrics());
-    });
-
-    logger.info({ path: "/metrics" }, "mounted metrics handler");
-  }
+  // Use the memory register to handle serving metrics.
+  server.get("/metrics", (req, res) => {
+    res.set("Content-Type", register.contentType);
+    res.end(register.metrics());
+  });
 
   // Error handling.
   server.use(notFoundMiddleware);
