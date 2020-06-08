@@ -216,7 +216,7 @@ export default (ctx: GraphContext) => ({
       scraper.scrape({
         url,
         timeout: (ctx.config.get("scrape_timeout") as unknown) as number,
-        size: ctx.config.get("scrape_response_max_size"),
+        size: ctx.config.get("scrape_max_response_size"),
         customUserAgent: ctx.tenant.stories.scraping.customUserAgent,
         proxyURL: ctx.tenant.stories.scraping.proxyURL,
       })
