@@ -38,10 +38,10 @@ export function initLocalBaseState(
     root.setLinkedRecord(local, "local");
 
     // Update the access token properties.
-    local.setValue(auth?.accessToken, "accessToken");
+    local.setValue(auth?.accessToken || null, "accessToken");
 
     // Update the claims.
-    local.setValue(auth?.claims.exp, "accessTokenExp");
-    local.setValue(auth?.claims.jti, "accessTokenJTI");
+    local.setValue(auth?.claims.exp || null, "accessTokenExp");
+    local.setValue(auth?.claims.jti || null, "accessTokenJTI");
   });
 }
