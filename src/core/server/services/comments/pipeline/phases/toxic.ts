@@ -24,16 +24,16 @@ export const toxic: IntermediateModerationPhase = async ({
   tenant,
   nudge,
   log,
-  htmlStripped,
+  bodyText,
   config,
   // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
   comment: { body },
 }: Pick<
   ModerationPhaseContext,
   // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
-  "tenant" | "nudge" | "log" | "htmlStripped" | "comment" | "config"
+  "tenant" | "nudge" | "log" | "bodyText" | "comment" | "config"
 >): Promise<IntermediatePhaseResult | void> => {
-  if (!htmlStripped) {
+  if (!bodyText) {
     return;
   }
 
@@ -92,7 +92,7 @@ export const toxic: IntermediateModerationPhase = async ({
         operation: "comments:analyze",
         locale: tenant.locale,
         body: {
-          text: htmlStripped,
+          text: bodyText,
           doNotStore,
           model,
         },

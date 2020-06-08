@@ -1,5 +1,4 @@
-import striptags from "striptags";
-
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
 import { sendToPerspective } from "coral-server/services/perspective";
 
@@ -94,7 +93,7 @@ export class PerspectiveCoralEventListener
           operation: "comments:suggestscore",
           locale: ctx.tenant.locale,
           body: {
-            text: striptags(revision.body),
+            text: getHTMLPlainText(revision.body),
             commentID: comment.id,
             commentParentID: comment.parentID,
             commentStatus: status,

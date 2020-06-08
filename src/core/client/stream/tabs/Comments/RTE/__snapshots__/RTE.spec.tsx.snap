@@ -9,62 +9,13 @@ exports[`renders correctly 1`] = `
     contentClassNameDisabled=""
     contentContainerClassName=""
     contentContainerClassNameDisabled=""
-    features={
-      Array [
-        <ForwardRef(RTELocalized)
-          attrs={
-            Object {
-              "title": true,
-            }
-          }
-          id="comments-rte-bold"
-        >
-          <Toggle>
-            <ForwardRef(forwardRef)
-              size="md"
-            >
-              format_bold
-            </ForwardRef(forwardRef)>
-          </Toggle>
-        </ForwardRef(RTELocalized)>,
-        <ForwardRef(RTELocalized)
-          attrs={
-            Object {
-              "title": true,
-            }
-          }
-          id="comments-rte-italic"
-        >
-          <Toggle>
-            <ForwardRef(forwardRef)
-              size="md"
-            >
-              format_italic
-            </ForwardRef(forwardRef)>
-          </Toggle>
-        </ForwardRef(RTELocalized)>,
-        <ForwardRef(RTELocalized)
-          attrs={
-            Object {
-              "title": true,
-            }
-          }
-          id="comments-rte-blockquote"
-        >
-          <Toggle>
-            <ForwardRef(forwardRef)
-              size="md"
-            >
-              format_quote
-            </ForwardRef(forwardRef)>
-          </Toggle>
-        </ForwardRef(RTELocalized)>,
-      ]
-    }
+    features={Array []}
     placeholder="Post a comment"
     placeholderClassName="coral coral-rte-placeholder RTE-placeholder"
     placeholderClassNameDisabled=""
-    toolbarClassName="coral coral-rte-toolbar RTE-toolbar"
+    sanitizeToDOMFragment={[Function]}
+    sanitizeValue={true}
+    toolbarClassName="coral coral-rte-toolbar RTE-toolbar RTE-toolbarHidden"
     toolbarClassNameDisabled=""
     toolbarPosition="bottom"
     value="Hello world"

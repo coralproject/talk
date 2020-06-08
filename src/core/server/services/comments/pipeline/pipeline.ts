@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
-import striptags from "striptags";
 
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { Promiseable, RequireProperty } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { Logger } from "coral-server/logger";
@@ -74,9 +74,9 @@ export interface ModerationPhaseContextInput {
 
 export interface ModerationPhaseContext extends ModerationPhaseContextInput {
   /**
-   * htmlStripped is the HTML stripped version of the comment body.
+   * bodyText is a text version of the comment body.
    */
-  htmlStripped: string;
+  bodyText: string;
 }
 
 export type RootModerationPhase = (
@@ -116,9 +116,9 @@ export const compose = (
     tags: [],
   };
 
-  // Strip the tags from the comment body so that filters that can't process
+  // Get text representation of the comment body so that filters that can't process
   // HTML can reuse it.
-  const htmlStripped = striptags(final.body);
+  const bodyText = getHTMLPlainText(final.body);
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
@@ -129,7 +129,7 @@ export const compose = (
         body: final.body,
       },
       tags: final.tags,
-      htmlStripped,
+      bodyText,
       metadata: final.metadata,
     });
     if (result) {

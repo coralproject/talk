@@ -7,7 +7,7 @@ import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
 
-function createTestRenderer(
+async function createTestRenderer(
   resolver: any = {},
   options: { muteNetworkErrors?: boolean } = {}
 ) {
@@ -72,7 +72,7 @@ function createTestRenderer(
 
 it("render popup", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = createTestRenderer();
+  const { testRenderer } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
@@ -88,7 +88,7 @@ it("render popup", async () => {
 
 it("close popup", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = createTestRenderer();
+  const { testRenderer } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
@@ -109,7 +109,7 @@ it("close popup", async () => {
 
 it("render popup expanded", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = createTestRenderer();
+  const { testRenderer } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
@@ -135,7 +135,7 @@ it("render popup expanded", async () => {
 
 it("report comment as offensive", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer, resolvers } = createTestRenderer();
+  const { testRenderer, resolvers } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
@@ -186,7 +186,7 @@ it("report comment as offensive", async () => {
 
 it("dont agree with comment", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer, resolvers } = createTestRenderer();
+  const { testRenderer, resolvers } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
@@ -244,7 +244,7 @@ it("dont agree with comment", async () => {
 
 it("report comment as offensive and handle server error", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = createTestRenderer(
+  const { testRenderer } = await createTestRenderer(
     {
       Mutation: {
         createCommentFlag: sinon.stub().callsFake(() => {

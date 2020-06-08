@@ -47,6 +47,11 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: false,
           message: "",
         },
+        rte: {
+          enabled: true,
+          strikethrough: false,
+          spoiler: false,
+        },
       },
       viewer: {
         id: "viewer-id",

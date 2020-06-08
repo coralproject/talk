@@ -20,7 +20,8 @@ exports[`renders correctly 1`] = `
         }
         id="comments-postCommentFormFake-rte"
       >
-        <RTE
+        <ForwardRef(forwardRef)
+          config={Object {}}
           onChange={[Function]}
           onFocus={[Function]}
           placeholder="Post a comment"

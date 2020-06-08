@@ -1,5 +1,4 @@
-import striptags from "striptags";
-
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
@@ -16,14 +15,14 @@ import {
 
 export const repeatPost: IntermediateModerationPhase = async ({
   mongo,
-  htmlStripped,
+  bodyText,
   tenant,
   author,
   nudge,
   redis,
   log,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!htmlStripped) {
+  if (!bodyText) {
     return;
   }
 
@@ -43,13 +42,16 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    const revision = striptags(getLatestRevision(lastComment).body);
+    const revision = getHTMLPlainText(
+      getLatestRevision(lastComment).body
+    ).trim();
+    const compareTo = bodyText.trim();
 
     // Calculate the comment similarity. At the moment, we only do a string
     // comparison, so it's either completely equal (they match) or the
     // similarity can't be determined (null). This gives us room in the future
     // to include a percentage matching.
-    const similarity = revision.trim() === htmlStripped.trim() ? 1 : null;
+    const similarity = revision === compareTo ? 1 : null;
 
     if (similarity) {
       log.trace({ similarity }, "comment contains repeat content");

@@ -96,38 +96,24 @@ exports[`renders comment stream 1`] = `
                   onFocus={[Function]}
                 >
                   <div
-                    className="RTE-contentEditableContainer"
+                    className="RTE.module-contentEditableContainer"
                   >
                     <div
                       aria-placeholder="Post a comment"
-                      className="RTE-contentEditable coral coral-rte-content RTE-content"
-                      contentEditable={true}
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "",
-                        }
-                      }
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onCut={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      onSelect={[Function]}
+                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
                     />
                     <div
                       aria-hidden="true"
-                      className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
+                      className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
                     >
                       Post a comment
                     </div>
                   </div>
                   <div
-                    className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                    className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
                   >
                     <button
-                      className="Button-button"
+                      className="Button.module-button"
                       disabled={false}
                       onClick={[Function]}
                       title="Bold"
@@ -141,7 +127,7 @@ exports[`renders comment stream 1`] = `
                       </i>
                     </button>
                     <button
-                      className="Button-button"
+                      className="Button.module-button"
                       disabled={false}
                       onClick={[Function]}
                       title="Italic"
@@ -155,7 +141,7 @@ exports[`renders comment stream 1`] = `
                       </i>
                     </button>
                     <button
-                      className="Button-button"
+                      className="Button.module-button"
                       disabled={false}
                       onClick={[Function]}
                       title="Blockquote"
@@ -166,6 +152,20 @@ exports[`renders comment stream 1`] = `
                         className="Icon-root Icon-md"
                       >
                         format_quote
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bulleted List"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_list_bulleted
                       </i>
                     </button>
                   </div>

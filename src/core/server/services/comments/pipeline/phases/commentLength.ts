@@ -11,19 +11,27 @@ import {
 
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
-  htmlStripped,
+  bodyText,
 }): IntermediatePhaseResult | void => {
-  const length = htmlStripped.trim().length;
+  const length = bodyText.length;
+  let min: number | null = null;
+  let max: number | null = null;
   if (tenant.charCount && tenant.charCount.enabled) {
     if (!isNil(tenant.charCount.min)) {
-      if (length < tenant.charCount.min) {
-        throw new CommentBodyTooShortError(tenant.charCount.min);
-      }
+      min = tenant.charCount.min;
     }
     if (!isNil(tenant.charCount.max)) {
-      if (length > tenant.charCount.max) {
-        throw new CommentBodyExceedsMaxLengthError(tenant.charCount.max);
-      }
+      max = tenant.charCount.max;
     }
+  }
+  if (!min) {
+    // Comment body should have at least 1 character.
+    min = 1;
+  }
+  if (length < min) {
+    throw new CommentBodyTooShortError(min);
+  }
+  if (max && length > max) {
+    throw new CommentBodyExceedsMaxLengthError(max);
   }
 };

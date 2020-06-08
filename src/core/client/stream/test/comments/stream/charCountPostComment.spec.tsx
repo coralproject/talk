@@ -1,4 +1,3 @@
-import RTE from "@coralproject/rte";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
@@ -12,6 +11,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -49,16 +49,7 @@ async function createTestRenderer(
     },
   });
 
-  const rte = await waitForElement(
-    () =>
-      findParentWithType(
-        within(testRenderer.root).getByLabelText("Post a comment"),
-        // We'll use the RTE component here as an exception because the
-        // jsdom does not support all of what is needed for rendering the
-        // Rich Text Editor.
-        RTE
-      )!
-  );
+  const rte = await waitForRTE(testRenderer.root, "Post a comment");
   const form = findParentWithType(rte, "form")!;
   return {
     testRenderer,
@@ -73,19 +64,19 @@ it("validate min", async () => {
 
   const text = "Please enter at least 3 characters.";
 
-  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => rte.props.onChange("ab"));
   act(() => form.props.onSubmit());
   await act(async () => {
     waitForElement(() => within(form).getByText(text));
   });
 
   // Reset validation when erasing all content.
-  act(() => rte.props.onChange({ html: "" }));
+  act(() => rte.props.onChange(""));
   await wait(() => {
     expect(within(form).queryByText(text)).toBeNull();
   });
 
-  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => rte.props.onChange("ab"));
   await wait(() => {
     expect(within(form).queryByText(text)).toBeNull();
   });
@@ -96,7 +87,7 @@ it("validate max", async () => {
 
   const text = "Please enter at max 10 characters.";
 
-  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
   act(() => {
     form.props.onSubmit();
   });
@@ -105,12 +96,12 @@ it("validate max", async () => {
   });
 
   // Reset validation when erasing all content.
-  act(() => rte.props.onChange({ html: "" }));
+  act(() => rte.props.onChange(""));
   await wait(() => {
     expect(within(form).queryByText(text)).toBeNull();
   });
 
-  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
   await wait(() => {
     expect(within(form).queryByText(text)).toBeNull();
   });
@@ -119,9 +110,9 @@ it("validate max", async () => {
 it("show remaining characters", async () => {
   const { rte, form } = await createTestRenderer();
 
-  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => rte.props.onChange("abc"));
   within(form).getByText("7 characters remaining");
-  act(() => rte.props.onChange({ html: "abcdefghijkl" }));
+  act(() => rte.props.onChange("abcdefghijkl"));
   within(form).getByText("-2 characters remaining");
 });
 
@@ -161,10 +152,10 @@ it("update from server upon specific char count error", async () => {
       { muteNetworkErrors: true }
     );
 
-    act(() => rte.props.onChange({ html: "abc" }));
+    act(() => rte.props.onChange("abc"));
     waitForElement(() => within(form).getByText("7 characters remaining"));
 
-    act(() => rte.props.onChange({ html: "abcdefgh" }));
+    act(() => rte.props.onChange("abcdefgh"));
     waitForElement(() => within(form).getByText("2 characters remaining"));
 
     act(() => {
@@ -178,7 +169,7 @@ it("update from server upon specific char count error", async () => {
     // Body submit error should be displayed.
     await waitForElement(() => within(form).getByText(errorCode));
 
-    act(() => rte.props.onChange({ html: "abcde" }));
+    act(() => rte.props.onChange("abcde"));
     await wait(() => {
       // Body submit error should disappear when form gets dirty.
       expect(within(form).queryByText(errorCode)).toBeNull();

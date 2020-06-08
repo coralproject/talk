@@ -11,6 +11,7 @@ exports[`renders correctly 1`] = `
   onChange={[Function]}
   onSubmit={[Function]}
   parentUsername="Joe"
+  rteConfig={Object {}}
   rteRef={[Function]}
 />
 `;
@@ -26,6 +27,7 @@ exports[`renders when commenting has been disabled 1`] = `
   onChange={[Function]}
   onSubmit={[Function]}
   parentUsername="Joe"
+  rteConfig={Object {}}
   rteRef={[Function]}
 />
 `;
@@ -41,6 +43,7 @@ exports[`renders when story has been closed 1`] = `
   onChange={[Function]}
   onSubmit={[Function]}
   parentUsername="Joe"
+  rteConfig={Object {}}
   rteRef={[Function]}
 />
 `;
@@ -61,6 +64,7 @@ exports[`renders with initialValues 1`] = `
   onChange={[Function]}
   onSubmit={[Function]}
   parentUsername="Joe"
+  rteConfig={Object {}}
   rteRef={[Function]}
 />
 `;

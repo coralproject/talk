@@ -148,7 +148,7 @@ it("prevents admin lock out", async () => {
 
   // Let's disable local auth.
   act(() => {
-    within(container).getByLabelText("Enabled").props.onChange();
+    within(container).getByLabelText("Enabled").props.onChange(false);
   });
 
   // Send form
@@ -203,7 +203,8 @@ it("prevents stream lock out", async () => {
   try {
     window.confirm = stubCancel;
     // Let's disable stream target in local auth.
-    act(() => streamTarget.props.onChange());
+    act(() => streamTarget.props.onChange(false));
+    within(streamTarget).debug();
 
     // Send form
     await act(async () => await form.props.onSubmit());
@@ -215,9 +216,6 @@ it("prevents stream lock out", async () => {
     });
 
     window.confirm = stubContinue;
-    // Let's enable stream target in local auth.
-    act(() => streamTarget.props.onChange());
-
     // Send form
     await act(async () => await form.props.onSubmit());
 

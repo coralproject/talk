@@ -18,10 +18,14 @@ import {
   MessageIcon,
   RelativeTime,
 } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
-import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
+import {
+  getCommentBodyValidators,
+  getHTMLCharacterLength,
+} from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
-import RTE from "../../RTE";
+import RTEContainer from "../../RTE";
 import TopBarLeft from "../TopBarLeft";
 import Username from "../Username";
 
@@ -45,6 +49,7 @@ export interface EditCommentFormProps {
   expired?: boolean;
   min: number | null;
   max: number | null;
+  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
 const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
@@ -85,14 +90,13 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                       id="comments-editCommentForm-rte"
                       attrs={{ placeholder: true }}
                     >
-                      <RTE
-                        inputId={inputID}
-                        onChange={({ html }) =>
-                          input.onChange(normalizeRTEHTML(html))
-                        }
+                      <RTEContainer
+                        config={props.rteConfig}
+                        inputID={inputID}
+                        onChange={(html) => input.onChange(html)}
                         value={input.value}
                         placeholder="Edit comment"
-                        forwardRef={props.rteRef}
+                        ref={props.rteRef}
                         disabled={submitting || props.expired}
                       />
                     </Localized>
@@ -180,7 +184,9 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                                 color="primary"
                                 variant="filled"
                                 disabled={
-                                  submitting || !input.value || pristine
+                                  submitting ||
+                                  getHTMLCharacterLength(input.value) === 0 ||
+                                  pristine
                                 }
                                 type="submit"
                                 fullWidth={matches}

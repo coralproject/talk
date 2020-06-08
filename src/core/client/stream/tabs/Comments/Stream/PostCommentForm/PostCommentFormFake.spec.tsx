@@ -12,6 +12,7 @@ it("renders correctly", () => {
   const renderer = createRenderer();
   renderer.render(
     <PostCommentFormFakeN
+      rteConfig={{}}
       story={{}}
       draft=""
       onDraftChange={noop}

@@ -81,15 +81,15 @@ it("validate min", async () => {
 
   const text = "Please enter at least 3 characters.";
 
-  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => rte.props.onChange("ab"));
   act(() => form.props.onSubmit());
   within(form).getByText(text);
 
   // Reset validation when erasing all content.
-  act(() => rte.props.onChange({ html: "" }));
+  act(() => rte.props.onChange(""));
   expect(within(form).queryByText(text)).toBeNull();
 
-  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => rte.props.onChange("ab"));
   expect(within(form).queryByText(text)).toBeNull();
 });
 
@@ -98,25 +98,25 @@ it("validate max", async () => {
 
   const text = "Please enter at max 10 characters.";
 
-  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
   act(() => form.props.onSubmit());
   within(form).getByText(text);
 
   // Reset validation when erasing all content.
-  act(() => rte.props.onChange({ html: "" }));
+  act(() => rte.props.onChange(""));
   expect(within(form).queryByText(text)).toBeNull();
 
-  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
   expect(within(form).queryByText(text)).toBeNull();
 });
 
 it("show remaining characters", async () => {
   const { rte, form } = await createTestRenderer();
 
-  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => rte.props.onChange("abc"));
   waitForElement(() => within(form).getByText("7 characters remaining"));
 
-  act(() => rte.props.onChange({ html: "abcdefghijkl" }));
+  act(() => rte.props.onChange("abcdefghijkl"));
   waitForElement(() => within(form).getByText("-2 characters remaining"));
 });
 
@@ -156,10 +156,10 @@ it("update from server upon specific char count error", async () => {
       { muteNetworkErrors: true }
     );
 
-    act(() => rte.props.onChange({ html: "abc" }));
+    act(() => rte.props.onChange("abc"));
     waitForElement(() => within(form).getByText("7 characters remaining"));
 
-    act(() => rte.props.onChange({ html: "abcdefgh" }));
+    act(() => rte.props.onChange("abcdefgh"));
     waitForElement(() => within(form).getByText("2 characters remaining"));
 
     await act(async () => form.props.onSubmit());
@@ -168,7 +168,7 @@ it("update from server upon specific char count error", async () => {
     // Body submit error should be displayed.
     waitForElement(() => within(form).getByText(errorCode));
 
-    act(() => rte.props.onChange({ html: "abcde" }));
+    act(() => rte.props.onChange("abcde"));
 
     // Body submit error should disappear when form gets dirty.
     expect(within(form).queryByText(errorCode)).toBeNull();

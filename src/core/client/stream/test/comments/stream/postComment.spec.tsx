@@ -100,7 +100,7 @@ it("post a comment", async () => {
       },
     });
 
-    rte.props.onChange({ html: "<b>Hello world!</b>" });
+    rte.props.onChange("<b>Hello world!</b>");
 
     timekeeper.freeze(new Date(baseComment.createdAt));
     form.props.onSubmit();
@@ -150,7 +150,7 @@ const postACommentAndHandleNonPublishedComment = async (
       },
     });
 
-    rte.props.onChange({ html: "<b>Hello world!</b>" });
+    rte.props.onChange("<b>Hello world!</b>");
     form.props.onSubmit();
 
     // Test after server response.
@@ -172,7 +172,7 @@ it("post a comment and handle non-visible comment state (dismiss by click)", asy
 
 it("post a comment and handle non-visible comment state (dismiss by typing)", async () =>
   await postACommentAndHandleNonPublishedComment((form, rte) => {
-    rte.props.onChange({ html: "Typing..." });
+    rte.props.onChange("Typing...");
   }));
 
 it("post a comment and handle server error", async () => {
@@ -188,7 +188,7 @@ it("post a comment and handle server error", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "<b>Hello world!</b>" });
+    rte.props.onChange("<b>Hello world!</b>");
     form.props.onSubmit();
 
     // Look for internal error being displayed.
@@ -244,7 +244,7 @@ it("handle moderation nudge error", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "<b>Hello world!</b>" });
+    rte.props.onChange("<b>Hello world!</b>");
     form.props.onSubmit();
 
     // Look for internal error being displayed.
@@ -291,7 +291,7 @@ it("handle disabled commenting error", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "abc" });
+    rte.props.onChange("abc");
     form.props.onSubmit();
     await waitForElement(() => within(form).getByText("commenting disabled"));
 
@@ -319,7 +319,7 @@ it("handle story closed", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "abc" });
+    rte.props.onChange("abc");
     form.props.onSubmit();
 
     // Change the story that we return to be closed.

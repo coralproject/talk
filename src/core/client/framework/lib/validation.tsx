@@ -193,7 +193,7 @@ export const validateWholeNumber = createValidator(
  */
 export const validateWholeNumberGreaterThan = (x: number) =>
   createValidator(
-    (v) => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v > 0),
+    (v) => v === null || (Number.isInteger(parseFloat(v)) && v > x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN(x)
   );
 
@@ -202,7 +202,7 @@ export const validateWholeNumberGreaterThan = (x: number) =>
  */
 export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
   createValidator(
-    (v) => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
+    (v) => v === null || (Number.isInteger(parseFloat(v)) && v >= x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL(x)
   );
 

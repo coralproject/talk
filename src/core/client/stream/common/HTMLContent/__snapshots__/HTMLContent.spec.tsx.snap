@@ -23,3 +23,9 @@ exports[`sanitizes evil html 1`] = `
   }
 />
 `;
+
+exports[`transform spoiler tags 1`] = `
+"
+        <span class=\\"coral-rte-spoiler\\" onmousedown=\\"javascript: event.preventDefault()\\" onclick=\\"handleCoralSpoilerButton(this, event)\\" onkeydown=\\"handleCoralSpoilerButton(this, event)\\" role=\\"button\\" title=\\"Reveal spoiler\\" tabindex=\\"0\\"><span aria-hidden=\\"true\\">Spoiler</span></span>
+      "
+`;

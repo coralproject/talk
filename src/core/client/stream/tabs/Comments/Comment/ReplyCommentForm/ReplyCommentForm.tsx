@@ -23,10 +23,14 @@ import {
   HorizontalGutter,
   MatchMedia,
 } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
-import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
+import {
+  getCommentBodyValidators,
+  getHTMLCharacterLength,
+} from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
-import RTE from "../../RTE";
+import RTEContainer from "../../RTE";
 import ReplyTo from "./ReplyTo";
 
 interface FormProps {
@@ -46,6 +50,7 @@ export interface ReplyCommentFormProps {
   max: number | null;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
+  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
 const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
@@ -88,15 +93,14 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                         id="comments-replyCommentForm-rte"
                         attrs={{ placeholder: true }}
                       >
-                        <RTE
-                          inputId={inputID}
+                        <RTEContainer
+                          config={props.rteConfig}
+                          inputID={inputID}
                           onFocus={onFocus}
-                          onChange={({ html }) =>
-                            input.onChange(normalizeRTEHTML(html))
-                          }
+                          onChange={(html) => input.onChange(html)}
                           value={input.value}
                           placeholder="Write a reply"
-                          forwardRef={props.rteRef}
+                          ref={props.rteRef}
                           disabled={submitting || props.disabled}
                         />
                       </Localized>
@@ -157,7 +161,9 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                             color="primary"
                             variant="filled"
                             disabled={
-                              submitting || !input.value || props.disabled
+                              submitting ||
+                              getHTMLCharacterLength(input.value) === 0 ||
+                              props.disabled
                             }
                             type="submit"
                             className={CLASSES.createReplyComment.submit}

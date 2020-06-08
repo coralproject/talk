@@ -98,9 +98,9 @@ it("post a reply", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-3",
+        inputID: "comments-replyCommentForm-rte-comment-with-deepest-replies-3",
       })
-      .props.onChange({ html: "<b>Hello world!</b>" })
+      .props.onChange("<b>Hello world!</b>")
   );
 
   timekeeper.freeze(new Date(baseComment.createdAt));
