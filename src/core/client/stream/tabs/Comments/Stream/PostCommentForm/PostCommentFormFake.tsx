@@ -9,7 +9,7 @@ import CLASSES from "coral-stream/classes";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
-import RTE from "../../RTE";
+import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 
 import styles from "./PostCommentFormFake.css";
@@ -26,6 +26,7 @@ interface Props {
   draft: string;
   onDraftChange: (draft: string) => void;
   onSignIn: () => void;
+  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
 const PostCommentFormFake: FunctionComponent<Props> = (props) => {
@@ -56,7 +57,8 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
             }
             attrs={{ placeholder: true }}
           >
-            <RTE
+            <RTEContainer
+              config={props.rteConfig}
               placeholder={isQA ? "Post a question" : "Post a comment"}
               value={props.draft}
               onChange={onChange}

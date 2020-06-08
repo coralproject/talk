@@ -134,6 +134,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     return (
       <EditCommentForm
         id={this.props.comment.id}
+        rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
         initialValues={this.intitialValues}
         onCancel={this.handleOnCancelOrClose}
@@ -188,6 +189,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               enabled
               min
               max
+            }
+            rte {
+              ...RTEContainer_config
             }
           }
         `,

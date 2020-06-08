@@ -55,6 +55,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: false,
           message: "",
         },
+        rte: {},
       },
     },
     add

@@ -18,7 +18,7 @@ import {
   getHTMLCharacterLength,
 } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
-import RTE from "../../RTE";
+import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
@@ -47,6 +47,7 @@ interface Props {
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
+  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
 const PostCommentForm: FunctionComponent<Props> = (props) => {
@@ -111,8 +112,9 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                         }
                         attrs={{ placeholder: true }}
                       >
-                        <RTE
+                        <RTEContainer
                           inputID="comments-postCommentForm-field"
+                          config={props.rteConfig}
                           onFocus={onFocus}
                           onChange={(html) => input.onChange(html)}
                           contentClassName={

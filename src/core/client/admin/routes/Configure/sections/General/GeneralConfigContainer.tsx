@@ -18,6 +18,7 @@ import CommentLengthConfig from "./CommentLengthConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
 import LocaleConfig from "./LocaleConfig";
 import ReactionConfigContainer from "./ReactionConfigContainer";
+import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
 import StaffConfig from "./StaffConfig";
 
@@ -44,6 +45,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <SitewideCommentingConfig disabled={submitting} />
       <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <GuidelinesConfig disabled={submitting} />
+      <RTEConfig disabled={submitting} />
       <CommentLengthConfig disabled={submitting} />
       <CommentEditingConfig disabled={submitting} />
       <ClosingCommentStreamsConfig disabled={submitting} />
@@ -67,6 +69,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SitewideCommentingConfig_formValues @relay(mask: false)
       ...ReactionConfig_formValues @relay(mask: false)
       ...StaffConfig_formValues @relay(mask: false)
+      ...RTEConfig_formValues @relay(mask: false)
 
       ...ReactionConfigContainer_settings
     }

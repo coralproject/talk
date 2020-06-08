@@ -6,7 +6,11 @@ import {
   GetPhrasesRegExpOptions,
   markHTMLNode,
 } from "coral-admin/helpers";
-import createSanitize, { Sanitize } from "coral-common/helpers/createSanitize";
+import {
+  ALL_FEATURES,
+  createSanitize,
+  Sanitize,
+} from "coral-common/helpers/sanitize";
 
 import styles from "./CommentContent.css";
 
@@ -18,10 +22,15 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
   return (highlight: boolean) => {
     if (!sanitizers) {
       sanitizers = {
-        default: createSanitize(window),
+        default: createSanitize(window, {
+          // Allow all RTE features to be displayed.
+          features: ALL_FEATURES,
+        }),
         highlight: createSanitize(window, {
           // We need normalized text nodes to mark nodes for suspect/banned words.
           normalize: true,
+          // Allow all RTE features to be displayed.
+          features: ALL_FEATURES,
           config: {
             FORBID_TAGS: highlight
               ? ["b", "strong", "i", "em", "s", "span"]

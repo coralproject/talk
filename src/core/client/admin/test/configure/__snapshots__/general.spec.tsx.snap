@@ -561,6 +561,163 @@ here:
                 <legend
                   className="Header-root"
                 >
+                  Rich-text comments
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Give your community more ways to express themselves beyond plain text with rich-text formatting.
+                </p>
+                <fieldset
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Rich-text comments
+                  </label>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="rte.enabled-true"
+                        name="rte.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="rte.enabled-true"
+                      >
+                        <span>
+                          On - bold, italics, block quotes, and bulletted lists
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="rte.enabled-false"
+                        name="rte.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="rte.enabled-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Additional rich-text options
+                  </label>
+                  <div
+                    className="CheckBox-root"
+                  >
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      disabled={false}
+                      id="rte.strikethrough"
+                      name="rte.strikethrough"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value={false}
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="rte.strikethrough"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        Strikethrough
+                      </span>
+                    </label>
+                  </div>
+                  <div>
+                    <div
+                      className="CheckBox-root"
+                    >
+                      <input
+                        checked={false}
+                        className="CheckBox-input"
+                        disabled={false}
+                        id="rte.spoiler"
+                        name="rte.spoiler"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="checkbox"
+                        value={false}
+                      />
+                      <label
+                        className="CheckBox-label"
+                        htmlFor="rte.spoiler"
+                      >
+                        <span
+                          className="CheckBox-labelSpan"
+                        >
+                          Spoiler
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="RTEConfig-spoilerDesc"
+                    >
+                      Words and phrases formatted as Spoiler are hidden behind a
+dark background until the reader chooses to reveal the text.
+                    </div>
+                  </div>
+                </fieldset>
+              </fieldset>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
                   Comment length
                 </legend>
               </div>
