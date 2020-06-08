@@ -63,6 +63,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
     return (
       <ReportCommentForm
         id={comment.id}
+        data-testid="report-comment-form"
         onSubmit={onSubmit}
         onCancel={onClose}
       />

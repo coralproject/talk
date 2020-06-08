@@ -97,6 +97,7 @@ it("close popup", async () => {
   act(() =>
     within(form).getByText("Cancel", { exact: false }).props.onClick({})
   );
+});
 
 it("render popup expanded", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
@@ -107,9 +108,7 @@ it("render popup expanded", async () => {
   const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
-  const popover = within(testRenderer.root).getByID(
-    button.props["aria-controls"]
-  );
+  const popover = within(testRenderer.root).getByTestID("report-comment-form");
 
   const radioButton = within(popover).getByLabelText(
     "This comment is offensive"

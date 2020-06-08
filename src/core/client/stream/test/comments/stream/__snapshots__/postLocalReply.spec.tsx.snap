@@ -328,11 +328,11 @@ exports[`post a reply: open reply form 1`] = `
                  
               </span>
               <span
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text coral coral-createReplyComment-replyToText"
+                className="ReplyTo-text coral coral-createReplyComment-replyToText"
               >
-                Replying to: 
+                Replying to 
                 <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username coral coral-createReplyComment-replyToUsername"
+                  className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
                 >
                   Markus
                 </span>
@@ -340,16 +340,16 @@ exports[`post a reply: open reply form 1`] = `
             </div>
             <div>
               <div
-                className="$root content placeholder toolbar"
+                className="$root content placeholder toolbar container"
                 onBlur={[Function]}
                 onFocus={[Function]}
               >
                 <div
-                  className="RTE.module-contentEditableContainer"
+                  className="RTE.module-contentEditableContainer coral coral-rte-container"
                 >
                   <div
                     aria-placeholder="Write a reply"
-                    className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                    className="RTE.module-contentEditable coral coral-rte-content ReplyCommentForm-rteContent RTE-content"
                     id="comments-replyCommentForm-rte-comment-with-deepest-replies-3"
                   />
                   <div
@@ -427,9 +427,9 @@ exports[`post a reply: open reply form 1`] = `
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
         >
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined coral coral-createReplyComment-cancel"
-            data-color="regular"
-            data-variant="outlined"
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-createReplyComment-cancel"
+            data-color="mono"
+            data-variant="outline"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -442,9 +442,9 @@ exports[`post a reply: open reply form 1`] = `
             Cancel
           </button>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled coral coral-createReplyComment-submit"
-            data-color="primary"
-            data-variant="filled"
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createReplyComment-submit"
+            data-color="stream"
+            data-variant="regular"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}

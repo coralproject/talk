@@ -122,7 +122,7 @@ exports[`renders comment stream 1`] = `
                   onFocus={[Function]}
                 >
                   <div
-                    className="RTE.module-contentEditableContainer"
+                    className="RTE.module-contentEditableContainer coral coral-rte-container"
                   >
                     <div
                       aria-placeholder="Post a comment"
@@ -218,22 +218,63 @@ exports[`renders comment stream 1`] = `
           className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
         >
           <div
-            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRowReverse"
+            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
           >
+            <ul
+              className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
+              role="tablist"
+            >
+              <li
+                className="Tab-root"
+                id="tab-ALL_COMMENTS"
+                role="presentation"
+              >
+                <button
+                  aria-controls="tabPane-ALL_COMMENTS"
+                  aria-selected={true}
+                  className="BaseButton-root Tab-button Tab-streamSecondary Tab-active coral-tabBarSecondary-tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  role="tab"
+                  type="button"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+                  >
+                    <span>
+                      All Comments
+                    </span>
+                    <span
+                      className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                    >
+                      <span
+                        className="Counter-text"
+                      >
+                        2
+                      </span>
+                    </span>
+                  </div>
+                </button>
+              </li>
+            </ul>
             <div
               className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
             >
               <label
-                className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+                className="SortMenu-label"
                 htmlFor="coral-comments-sortMenu"
               >
-                Sort By
+                Sort by
               </label>
               <span
                 className="SelectField-root"
               >
                 <select
-                  className="SelectField-select undefined"
+                  className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
                   id="coral-comments-sortMenu"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -254,7 +295,7 @@ exports[`renders comment stream 1`] = `
                   <option
                     value="REPLIES_DESC"
                   >
-                    Most Replies
+                    Most replies
                   </option>
                   <option
                     value="REACTION_DESC"
@@ -264,7 +305,7 @@ exports[`renders comment stream 1`] = `
                 </select>
                 <span
                   aria-hidden={true}
-                  className="SelectField-afterWrapper undefined"
+                  className="SelectField-afterWrapper"
                 >
                   <i
                     aria-hidden="true"
@@ -275,47 +316,6 @@ exports[`renders comment stream 1`] = `
                 </span>
               </span>
             </div>
-            <ul
-              className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
-              role="tablist"
-            >
-              <li
-                className="Tab-root"
-                id="tab-ALL_COMMENTS"
-                role="presentation"
-              >
-                <button
-                  aria-controls="tabPane-ALL_COMMENTS"
-                  aria-selected={true}
-                  className="BaseButton-root Tab-button Tab-secondary Tab-active coral-tabBarSecondary-tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  role="tab"
-                  type="button"
-                >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
-                  >
-                    <span>
-                      All Comments
-                    </span>
-                    <span
-                      className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
-                    >
-                      <span
-                        className="Counter-text"
-                      >
-                        2
-                      </span>
-                    </span>
-                  </div>
-                </button>
-              </li>
-            </ul>
           </div>
           <section
             aria-labelledby="tab-ALL_COMMENTS"

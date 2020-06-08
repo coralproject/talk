@@ -645,11 +645,11 @@ here:
                     Additional rich-text options
                   </label>
                   <div
-                    className="CheckBox-root"
+                    className="CheckBox-root CheckBox-default"
                   >
                     <input
                       checked={false}
-                      className="CheckBox-input"
+                      className="CheckBox-input CheckBox-default"
                       disabled={false}
                       id="rte.strikethrough"
                       name="rte.strikethrough"
@@ -660,7 +660,7 @@ here:
                       value={false}
                     />
                     <label
-                      className="CheckBox-label"
+                      className="CheckBox-label CheckBox-default"
                       htmlFor="rte.strikethrough"
                     >
                       <span
@@ -672,11 +672,11 @@ here:
                   </div>
                   <div>
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="rte.spoiler"
                         name="rte.spoiler"
@@ -687,7 +687,7 @@ here:
                         value={false}
                       />
                       <label
-                        className="CheckBox-label"
+                        className="CheckBox-label CheckBox-default"
                         htmlFor="rte.spoiler"
                       >
                         <span

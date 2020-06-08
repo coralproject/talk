@@ -341,7 +341,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE.module-contentEditableContainer"
+              className="RTE.module-contentEditableContainer coral coral-rte-container"
             >
               <div
                 aria-placeholder="Edit comment"
@@ -530,7 +530,7 @@ exports[`edit a comment: edit form 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE.module-contentEditableContainer"
+              className="RTE.module-contentEditableContainer coral coral-rte-container"
             >
               <div
                 aria-placeholder="Edit comment"
@@ -719,7 +719,7 @@ exports[`edit a comment: optimistic response 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE.module-contentEditableContainer  RTE.module-contentEditableContainerDisabled"
+              className="RTE.module-contentEditableContainer coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
             >
               <div
                 aria-placeholder="Edit comment"
@@ -1763,7 +1763,7 @@ exports[`shows expiry message: edit time expired 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE.module-contentEditableContainer  RTE.module-contentEditableContainerDisabled"
+              className="RTE.module-contentEditableContainer coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
             >
               <div
                 aria-placeholder="Edit comment"
