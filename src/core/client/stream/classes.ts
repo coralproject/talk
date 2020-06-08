@@ -280,6 +280,16 @@ const CLASSES = {
     reacted: "coral coral-reacted",
 
     /**
+     * collapseToggle is the button to collapse and expand the display of a comment.
+     */
+    collapseToggle: {
+      $root: "coral coral-comment-collapse-toggle",
+      icon: "coral coral-comment-collapse-toggle-icon",
+      indent: "coral coral-comment-collapse-toggle-indent",
+      collapsed: "coral coral-comment-collapse-toggle-collapsed",
+    },
+
+    /**
      * topBar is the uppper bar of the comment.
      */
     topBar: {

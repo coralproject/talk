@@ -3,3 +3,21 @@
   user-select: none;
   pointer-events: none;
 }
+
+.toggleButton {
+  padding: calc(var(--v2-spacing-1) / 2) var(--v2-spacing-1) var(--v2-spacing-1);
+
+  &.mouseHover,
+  &:hover {
+    background: var(--v2-colors-grey-100);
+    border-radius: var(--v2-border-radius);
+  }
+}
+
+.open {
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.icon {
+  color: var(--v2-colors-grey-400);
+}

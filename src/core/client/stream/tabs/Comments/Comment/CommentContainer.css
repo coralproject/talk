@@ -6,10 +6,10 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 }
 
 .answeredTag {
-  color: #03AB61;
-  background: #E6FAF1;
+  color: #03ab61;
+  background: #e6faf1;
 
-  border-color: #03AB61;
+  border-color: #03ab61;
   border-style: solid;
   border-radius: 2px;
   border-width: 1px;
@@ -43,4 +43,8 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 
 .actionButton {
   padding: var(--v2-spacing-1);
+}
+
+.staticUsername {
+  color: var(--v2-colors-mono-100);
 }

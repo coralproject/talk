@@ -1,6 +1,7 @@
 $commentTimestampColor: var(--v2-colors-grey-500);
 
 .root {
+  flex: 1;
 }
 
 .highlight {

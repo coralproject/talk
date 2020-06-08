@@ -23,13 +23,7 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Tag,
-} from "coral-ui/components/v2";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -37,9 +31,11 @@ import { CommentContainer_story as StoryData } from "coral-stream/__generated__/
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
 import { isPublished } from "../helpers";
+import AnsweredTag from "./AnsweredTag";
 import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
+import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import CaretContainer, {
   RejectedTombstoneContainer,
@@ -50,7 +46,7 @@ import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportFlowContainer, { ReportButton } from "./ReportFlow";
 import ShowConversationLink from "./ShowConversationLink";
-import { UsernameWithPopoverContainer } from "./Username";
+import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
 import styles from "./CommentContainer.css";
@@ -80,6 +76,8 @@ interface Props {
   hideReportButton?: boolean;
   hideModerationCarat?: boolean;
   onRemoveAnswered?: () => void;
+  collapsed?: boolean;
+  toggleCollapsed?: () => void;
 }
 
 interface State {
@@ -219,6 +217,7 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
       className,
       hideAnsweredTag,
+      collapsed,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
@@ -252,25 +251,10 @@ export class CommentContainer extends Component<Props, State> {
     const commentTags = (
       <>
         {hasFeaturedTag && !isQA && (
-          <Tag
-            className={CLASSES.comment.topBar.featuredTag}
-            color="streamBlue"
-            variant="pill"
-          >
-            <Localized id="comments-featuredTag">
-              <span>Featured</span>
-            </Localized>
-          </Tag>
+          <FeaturedTag collapsed={this.props.collapsed} />
         )}
         {hasAnsweredTag && isQA && (
-          <Tag variant="regular" color="primary" className={styles.answeredTag}>
-            <Flex alignItems="center">
-              <Icon size="xs" className={styles.tagIcon}>
-                check
-              </Icon>
-              <Localized id="qa-answered-tag">answered</Localized>
-            </Flex>
-          </Tag>
+          <AnsweredTag collapsed={this.props.collapsed} />
         )}
       </>
     );
@@ -326,15 +310,40 @@ export class CommentContainer extends Component<Props, State> {
           {!comment.deleted && (
             <IndentedComment
               indentLevel={indentLevel}
+              collapsed={collapsed}
               body={comment.body}
               createdAt={comment.createdAt}
               blur={comment.pending || false}
               showEditedMarker={comment.editing.edited}
               highlight={highlight}
+              toggleCollapsed={this.props.toggleCollapsed}
               parentAuthorName={
                 comment.parent &&
                 comment.parent.author &&
                 comment.parent.author.username
+              }
+              staticUsername={
+                comment.author && (
+                  <>
+                    <UsernameContainer
+                      className={cn(
+                        styles.staticUsername,
+                        CLASSES.comment.topBar.username
+                      )}
+                      comment={comment}
+                    />
+                    <UserTagsContainer
+                      className={CLASSES.comment.topBar.userTag}
+                      story={story}
+                      comment={comment}
+                      settings={settings}
+                    />
+                    <UserBadgesContainer
+                      className={CLASSES.comment.topBar.userBadge}
+                      comment={comment}
+                    />
+                  </>
+                )
               }
               username={
                 comment.author && (
@@ -357,6 +366,7 @@ export class CommentContainer extends Component<Props, State> {
                   </>
                 )
               }
+              staticTopBarRight={commentTags}
               topBarRight={
                 <Flex alignItems="center" itemGutter>
                   {commentTags}
@@ -581,6 +591,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...AuthorBadgesContainer_comment
             ...UserTagsContainer_comment
             ...UsernameWithPopoverContainer_comment
+            ...UsernameContainer_comment
           }
         `,
         settings: graphql`

@@ -41,6 +41,8 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comments-collapse-toggle =
+  .aria-label = Collapse comment thread
 comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community

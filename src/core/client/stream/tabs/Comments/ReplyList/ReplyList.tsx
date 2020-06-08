@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
@@ -7,8 +8,11 @@ import CLASSES from "coral-stream/classes";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
+import CollapsableComment from "../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import Indent from "../Indent";
+
+import styles from "./ReplyList.css";
 
 export interface ReplyListProps {
   story: PropTypesOf<typeof CommentContainer>["story"];
@@ -45,6 +49,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
+      className={styles.root}
     >
       {props.comments.map((comment) => (
         <FadeInTransition
@@ -57,19 +62,33 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
             singleConversationView={props.singleConversationView}
           >
             <HorizontalGutter key={comment.id}>
-              <CommentContainer
-                key={comment.id}
-                viewer={props.viewer}
-                comment={comment}
-                story={props.story}
-                settings={props.settings}
-                indentLevel={props.indentLevel}
-                localReply={props.localReply}
-                disableReplies={props.disableReplies}
-                showConversationLink={!!comment.showConversationLink}
-                onRemoveAnswered={props.onRemoveAnswered}
-              />
-              {comment.replyListElement}
+              <CollapsableComment>
+                {({ collapsed, toggleCollapsed }) => (
+                  <>
+                    <CommentContainer
+                      key={comment.id}
+                      viewer={props.viewer}
+                      comment={comment}
+                      story={props.story}
+                      collapsed={collapsed}
+                      settings={props.settings}
+                      indentLevel={props.indentLevel}
+                      localReply={props.localReply}
+                      disableReplies={props.disableReplies}
+                      showConversationLink={!!comment.showConversationLink}
+                      onRemoveAnswered={props.onRemoveAnswered}
+                      toggleCollapsed={toggleCollapsed}
+                    />
+                    <div
+                      className={cn({
+                        [styles.hiddenReplies]: collapsed,
+                      })}
+                    >
+                      {comment.replyListElement}
+                    </div>
+                  </>
+                )}
+              </CollapsableComment>
             </HorizontalGutter>
           </IgnoredTombstoneOrHideContainer>
         </FadeInTransition>
