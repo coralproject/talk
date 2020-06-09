@@ -1,12 +1,12 @@
 import { Environment } from "relay-runtime";
-import {
-  createFetch,
-  FetchVariables,
-} from "coral-framework/lib/relay";
+import { createFetch, FetchVariables } from "coral-framework/lib/relay";
+
+export const GIF_RESULTS_LIMIT = 8;
 
 type QueryTypes = {
   variables: {
     query: string;
+    page: number;
   };
 };
 
@@ -28,13 +28,23 @@ export interface GifResult {
   images: {
     original_still: GifResultImage;
     original: GifResultImageAnimated;
+    fixed_width_small: GifResultImageAnimated;
+    fixed_width: GifResultImageAnimated;
+    fixed_height_small: GifResultImageAnimated;
   };
+}
+
+export interface GifSearchPagination {
+  count: number;
+  offset: number;
+  total_count: number;
 }
 
 interface GifSearchResp {
   ok: boolean;
   data: {
     data: GifResult[];
+    pagination: GifSearchPagination;
   };
 }
 
@@ -51,6 +61,7 @@ export const GifSearchFetch = createFetch(
   ) => {
     const params = new URLSearchParams();
     params.set("query", variables.query);
+    params.set("offset", `${variables.page * GIF_RESULTS_LIMIT}`);
     const url = `/remote-media/gifs?${params.toString()}`;
     return rest.fetch<Resp>(url, {
       method: "GET",

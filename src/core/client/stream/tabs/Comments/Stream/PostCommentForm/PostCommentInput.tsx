@@ -1,10 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import RTEContainer from "../../RTE";
-import { PropTypesOf } from "coral-framework/types";
-import GifSelector from "../GifSelector";
 
+import { PropTypesOf } from "coral-framework/types";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
+
+import RTEContainer from "../../RTE";
+import GifSelector from "../GifSelector";
+import { GifResult } from "../GifSelector/GifSearchFetch";
 
 import styles from "./PostCommentInput.css";
 
@@ -23,6 +25,17 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
+  const [selectedGif, setSelectedGif] = useState<GifResult | null>(null);
+  const onRemoveGif = useCallback(() => {
+    setSelectedGif(null);
+  }, []);
+  const onGifSelect = useCallback(
+    (gif: GifResult) => {
+      setSelectedGif(gif);
+      setShowGifSelector(false);
+    },
+    [selectedGif, showGifSelector]
+  );
   return (
     <div className={styles.root}>
       <Localized
@@ -53,7 +66,13 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
           }
         />
       </Localized>
-      {showGifSelector && <GifSelector />}
+      {showGifSelector && <GifSelector onGifSelect={onGifSelect} />}
+      {selectedGif && (
+        <div>
+          <Button onClick={onRemoveGif}>Remove</Button>
+          <img src={selectedGif.images.original.url} />
+        </div>
+      )}
     </div>
   );
 };

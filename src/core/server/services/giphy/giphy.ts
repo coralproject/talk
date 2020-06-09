@@ -33,12 +33,17 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
   }
 }
 
-export async function searchGiphy(query: string, locale: LanguageCode) {
+export async function searchGiphy(
+  query: string,
+  offset: string,
+  locale: LanguageCode
+) {
   const language = convertLanguage(locale);
   const url = new URL(GIPHY_SEARCH);
   url.searchParams.set("api_key", API_KEY);
   url.searchParams.set("limit", "8");
   url.searchParams.set("lang", language);
+  url.searchParams.set("offset", offset);
   url.searchParams.set("q", query);
 
   try {

@@ -14,10 +14,18 @@ export const gifSearchHandler: RequestHandler = async (
     return next(new Error("search query required"));
   }
 
-  const coral = req.coral!;
+  if (!req.query.query) {
+    return next(new Error("search query required"));
+  }
+
+  const coral = req.coral;
   const tenant = coral.tenant!;
   try {
-    const results = await searchGiphy(req.query.query, tenant.locale);
+    const results = await searchGiphy(
+      req.query.query,
+      req.query.offset || "0",
+      tenant.locale
+    );
     res.json({ results });
   } catch (err) {
     next(err);
