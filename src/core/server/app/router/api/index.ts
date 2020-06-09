@@ -21,6 +21,7 @@ import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
+import { createRemoteMediaRouter } from "./remoteMedia";
 
 export interface RouterOptions {
   /**
