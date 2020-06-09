@@ -21,6 +21,19 @@ general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-configure = Configure
 
+general-tabBar-aria-comments =
+  .aria-label = Comments
+  .title = Comments
+general-tabBar-aria-qa =
+  .aria-label = Q&A
+  .title = Q&A
+general-tabBar-aria-myProfile =
+  .aria-label = My Profile
+  .title = My Profile
+general-tabBar-aria-configure =
+  .aria-label = Configure
+  .title = My Profile
+
 ## Comment Count
 
 comment-count-text =

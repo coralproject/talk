@@ -35,7 +35,11 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             })}
             tabID="COMMENTS"
             variant="streamPrimary"
-            ariaLabel={props.mode === GQLSTORY_MODE.QA ? "Q&A" : "Comments"}
+            localizationId={
+              props.mode === GQLSTORY_MODE.QA
+                ? "general-tabBar-aria-qa"
+                : "general-tabBar-aria-comments"
+            }
           >
             {matches ? (
               props.mode === GQLSTORY_MODE.QA ? (
@@ -49,12 +53,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               )
             ) : (
               <div>
-                <Icon
-                  size="lg"
-                  aria-label={
-                    props.mode === GQLSTORY_MODE.QA ? "Q&A" : "Comments"
-                  }
-                >
+                <Icon size="lg">
                   {props.mode === GQLSTORY_MODE.QA ? "live_help" : "forum"}
                 </Icon>
                 {props.mode === GQLSTORY_MODE.QA ? (
@@ -69,6 +68,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               </div>
             )}
           </Tab>
+
           {props.showProfileTab && (
             <Tab
               className={cn(CLASSES.tabBar.myProfile, {
@@ -77,7 +77,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="PROFILE"
               variant="streamPrimary"
-              ariaLabel="My Profile"
+              localizationId="general-tabBar-aria-myProfile"
             >
               {matches ? (
                 <Localized id="general-tabBar-myProfileTab">
@@ -85,9 +85,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 </Localized>
               ) : (
                 <div>
-                  <Icon size="lg" aria-label="My Profile">
-                    account_circle
-                  </Icon>
+                  <Icon size="lg">account_circle</Icon>
                   <Localized id="general-tabBar-myProfileTab">
                     <div className={styles.smallText}>My Profile</div>
                   </Localized>
@@ -102,7 +100,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="CONFIGURE"
               variant="streamPrimary"
-              ariaLabel="Configure"
+              localizationId="general-tabBar-aria-configure"
             >
               {matches ? (
                 <Localized id="general-tabBar-configure">
@@ -110,9 +108,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 </Localized>
               ) : (
                 <div>
-                  <Icon size="lg" aria-label="Configure">
-                    settings
-                  </Icon>
+                  <Icon size="lg">settings</Icon>
                   <Localized id="general-tabBar-configure">
                     <div className={styles.smallText}>Configure</div>
                   </Localized>
