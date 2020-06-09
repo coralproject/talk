@@ -26,6 +26,7 @@ import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
+import PostCommentInput from "./PostCommentInput";
 
 import styles from "./PostCommentForm.css";
 
@@ -109,29 +110,15 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                           </AriaInfo>
                         </Localized>
                       )}
-                      <Localized
-                        id={
-                          isQA
-                            ? "qa-postQuestionForm-rte"
-                            : "comments-postCommentForm-rte"
-                        }
-                        attrs={{ placeholder: true }}
-                      >
-                        <RTEContainer
-                          inputID="comments-postCommentForm-field"
-                          config={props.rteConfig}
-                          onFocus={onFocus}
-                          onChange={(html) => input.onChange(html)}
-                          contentClassName={
-                            props.showMessageBox
-                              ? styles.rteBorderless
-                              : undefined
-                          }
-                          value={input.value}
-                          placeholder="Post a comment"
-                          disabled={submitting || props.disabled}
-                        />
-                      </Localized>
+                      <PostCommentInput
+                        isQA={isQA}
+                        rteConfig={props.rteConfig}
+                        onFocus={onFocus}
+                        onChange={(html: string) => input.onChange(html)}
+                        showMessageBox={props.showMessageBox}
+                        value={input.value}
+                        disabled={submitting || props.disabled}
+                      />
                       {props.disabled ? (
                         <>
                           {props.disabledMessage && (

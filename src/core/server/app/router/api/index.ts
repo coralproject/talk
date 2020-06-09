@@ -19,9 +19,9 @@ import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
 import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
+import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
-import { createRemoteMediaRouter } from "./remoteMedia";
 
 export interface RouterOptions {
   /**
@@ -71,6 +71,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     roleMiddleware(STAFF_ROLES),
     createDashboardRouter(app)
   );
+  router.use("/remote-media", createRemoteMediaRouter(app));
 
   // General API error handler.
   router.use(notFoundMiddleware);

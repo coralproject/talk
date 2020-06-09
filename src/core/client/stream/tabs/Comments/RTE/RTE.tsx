@@ -131,6 +131,8 @@ interface Props {
   forwardRef?: Ref<CoralRTE>;
 
   features?: RTEFeatures;
+
+  toolbarButtons?: React.ReactElement;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -227,6 +229,9 @@ const RTE: FunctionComponent<Props> = (props) => {
           <Spoiler>Spoiler</Spoiler>
         </Localized>
       );
+    }
+    if (props.toolbarButtons) {
+      x.push(props.toolbarButtons);
     }
     return x;
   }, [features]);
