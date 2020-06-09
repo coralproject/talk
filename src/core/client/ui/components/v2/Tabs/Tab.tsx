@@ -106,7 +106,7 @@ class Tab extends React.Component<TabProps> {
             aria-controls={`tabPane-${tabID}`}
             role="tab"
             aria-selected={active}
-            aria-label={ariaLabel ? ariaLabel : ""}
+            aria-label={ariaLabel}
             onClick={this.handleTabClick}
           >
             {children}
