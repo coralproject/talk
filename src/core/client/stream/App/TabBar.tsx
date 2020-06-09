@@ -20,23 +20,24 @@ export interface Props {
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
   return (
-    <TabBar
-      className={CLASSES.tabBar.$root}
-      activeTab={props.activeTab}
-      onTabClick={props.onTabClick}
-      variant="streamPrimary"
-    >
-      <Tab
-        className={cn(CLASSES.tabBar.comments, {
-          [CLASSES.tabBar.activeTab]: props.activeTab === "COMMENTS",
-        })}
-        tabID="COMMENTS"
-        variant="streamPrimary"
-        ariaLabel={props.mode === GQLSTORY_MODE.QA ? "Q&A" : "Comments"}
-      >
-        <MatchMedia gteWidth="sm">
-          {(matches) =>
-            matches ? (
+    <MatchMedia gteWidth="sm">
+      {(matches) => (
+        <TabBar
+          className={CLASSES.tabBar.$root}
+          activeTab={props.activeTab}
+          onTabClick={props.onTabClick}
+          variant="streamPrimary"
+        >
+          <Tab
+            className={cn(CLASSES.tabBar.comments, {
+              [CLASSES.tabBar.activeTab]: props.activeTab === "COMMENTS",
+              [styles.smallTab]: !matches,
+            })}
+            tabID="COMMENTS"
+            variant="streamPrimary"
+            ariaLabel={props.mode === GQLSTORY_MODE.QA ? "Q&A" : "Comments"}
+          >
+            {matches ? (
               props.mode === GQLSTORY_MODE.QA ? (
                 <Localized id="general-tabBar-qaTab">
                   <span>Q&A</span>
@@ -66,22 +67,19 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                   </Localized>
                 )}
               </div>
-            )
-          }
-        </MatchMedia>
-      </Tab>
-      {props.showProfileTab && (
-        <Tab
-          className={cn(CLASSES.tabBar.myProfile, {
-            [CLASSES.tabBar.activeTab]: props.activeTab === "PROFILE",
-          })}
-          tabID="PROFILE"
-          variant="streamPrimary"
-          ariaLabel="My Profile"
-        >
-          <MatchMedia gteWidth="sm">
-            {(matches) =>
-              matches ? (
+            )}
+          </Tab>
+          {props.showProfileTab && (
+            <Tab
+              className={cn(CLASSES.tabBar.myProfile, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "PROFILE",
+                [styles.smallTab]: !matches,
+              })}
+              tabID="PROFILE"
+              variant="streamPrimary"
+              ariaLabel="My Profile"
+            >
+              {matches ? (
                 <Localized id="general-tabBar-myProfileTab">
                   <span>My Profile</span>
                 </Localized>
@@ -94,21 +92,19 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                     <div className={styles.smallText}>My Profile</div>
                   </Localized>
                 </div>
-              )
-            }
-          </MatchMedia>
-        </Tab>
-      )}
-      {props.showConfigureTab && (
-        <Tab
-          className={CLASSES.tabBar.configure}
-          tabID="CONFIGURE"
-          variant="streamPrimary"
-          ariaLabel="Configure"
-        >
-          <MatchMedia gteWidth="sm">
-            {(matches) =>
-              matches ? (
+              )}
+            </Tab>
+          )}
+          {props.showConfigureTab && (
+            <Tab
+              className={cn(CLASSES.tabBar.configure, {
+                [styles.smallTab]: !matches,
+              })}
+              tabID="CONFIGURE"
+              variant="streamPrimary"
+              ariaLabel="Configure"
+            >
+              {matches ? (
                 <Localized id="general-tabBar-configure">
                   <span>Configure</span>
                 </Localized>
@@ -121,12 +117,12 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                     <div className={styles.smallText}>Configure</div>
                   </Localized>
                 </div>
-              )
-            }
-          </MatchMedia>
-        </Tab>
+              )}
+            </Tab>
+          )}
+        </TabBar>
       )}
-    </TabBar>
+    </MatchMedia>
   );
 };
 
