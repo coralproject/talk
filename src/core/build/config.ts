@@ -77,6 +77,7 @@ export type Config = typeof config;
 
 export const createClientEnv = (c: Config) => ({
   NODE_ENV: c.get("env"),
+  WEBPACK: "true",
 });
 
 // Setup the base configuration.

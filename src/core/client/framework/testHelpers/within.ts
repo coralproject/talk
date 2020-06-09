@@ -16,6 +16,12 @@ import {
 } from "./byTestID";
 import { getAllByText, getByText, queryAllByText, queryByText } from "./byText";
 import {
+  getAllByTitle,
+  getByTitle,
+  queryAllByTitle,
+  queryByTitle,
+} from "./byTitle";
+import {
   getAllByType,
   getByType,
   getParentByType,
@@ -70,6 +76,10 @@ export default function within(container: ReactTestInstance) {
     queryByType: applyContainer(container, queryByType),
     queryParentByType: applyContainer(container, queryParentByType),
     queryAllByType: applyContainer(container, queryAllByType),
+    getByTitle: applyContainer(container, getByTitle),
+    getAllByTitle: applyContainer(container, getAllByTitle),
+    queryByTitle: applyContainer(container, queryByTitle),
+    queryAllByTitle: applyContainer(container, queryAllByTitle),
     toJSON: applyContainer(container, toJSON),
     toHTML: applyContainer(container, toHTML),
     /**

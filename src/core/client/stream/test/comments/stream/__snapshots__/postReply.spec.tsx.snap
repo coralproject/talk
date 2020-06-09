@@ -277,40 +277,25 @@ exports[`post a reply: open reply form 1`] = `
                 onFocus={[Function]}
               >
                 <div
-                  className="RTE-contentEditableContainer"
+                  className="RTE.module-contentEditableContainer"
                 >
                   <div
                     aria-placeholder="Write a reply"
-                    className="RTE-contentEditable coral coral-rte-content RTE-content"
-                    contentEditable={true}
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "",
-                      }
-                    }
-                    disabled={false}
+                    className="RTE.module-contentEditable coral coral-rte-content RTE-content"
                     id="comments-replyCommentForm-rte-comment-0"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onCut={[Function]}
-                    onFocus={[Function]}
-                    onInput={[Function]}
-                    onKeyDown={[Function]}
-                    onPaste={[Function]}
-                    onSelect={[Function]}
                   />
                   <div
                     aria-hidden="true"
-                    className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
+                    className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
                   >
                     Write a reply
                   </div>
                 </div>
                 <div
-                  className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                  className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
                 >
                   <button
-                    className="Button-button"
+                    className="Button.module-button"
                     disabled={false}
                     onClick={[Function]}
                     title="Bold"
@@ -324,7 +309,7 @@ exports[`post a reply: open reply form 1`] = `
                     </i>
                   </button>
                   <button
-                    className="Button-button"
+                    className="Button.module-button"
                     disabled={false}
                     onClick={[Function]}
                     title="Italic"
@@ -338,7 +323,7 @@ exports[`post a reply: open reply form 1`] = `
                     </i>
                   </button>
                   <button
-                    className="Button-button"
+                    className="Button.module-button"
                     disabled={false}
                     onClick={[Function]}
                     title="Blockquote"
@@ -349,6 +334,20 @@ exports[`post a reply: open reply form 1`] = `
                       className="Icon-root Icon-md"
                     >
                       format_quote
+                    </i>
+                  </button>
+                  <button
+                    className="Button.module-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bulleted List"
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_list_bulleted
                     </i>
                   </button>
                 </div>

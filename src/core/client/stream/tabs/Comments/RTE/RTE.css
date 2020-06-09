@@ -1,11 +1,21 @@
 .content {
   composes: root from "~coral-stream/shared/htmlContent.css";
   border: 1px solid var(--palette-grey-main);
+
+  & :global(.coral-rte-spoiler) {
+    background-color: black;
+    color: white;
+    padding: 0 2px;
+    cursor: text;
+  }
 }
 
 .toolbar {
   background-color: var(--palette-common-white);
   border: 1px solid var(--palette-grey-main);
+}
+.toolbarHidden {
+  display: none;
 }
 
 .placeholder {

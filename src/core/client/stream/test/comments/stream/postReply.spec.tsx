@@ -115,7 +115,7 @@ it("post a reply", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
-  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => rte.props.onChange("<b>Hello world!</b>"));
 
   timekeeper.freeze(new Date(baseComment.createdAt));
   act(() => {
@@ -170,7 +170,7 @@ it("post a reply and handle non-visible comment state", async () => {
   });
 
   // Write reply .
-  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => rte.props.onChange("<b>Hello world!</b>"));
   act(() => {
     form.props.onSubmit();
   });
@@ -199,7 +199,7 @@ it("post a reply and handle server error", async () => {
   );
 
   // Write reply .
-  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => rte.props.onChange("<b>Hello world!</b>"));
 
   act(() => {
     form.props.onSubmit();
@@ -261,7 +261,7 @@ it("handle moderation nudge error", async () => {
     { muteNetworkErrors: true }
   );
 
-  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => rte.props.onChange("<b>Hello world!</b>"));
   act(() => {
     form.props.onSubmit();
   });
@@ -302,7 +302,7 @@ it("handle disabled commenting error", async () => {
     { muteNetworkErrors: true }
   );
 
-  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => rte.props.onChange("abc"));
   act(() => {
     form.props.onSubmit();
   });
@@ -342,7 +342,7 @@ it("handle story closed error", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "abc" });
+    rte.props.onChange("abc");
     form.props.onSubmit();
 
     // Change the story that we return to be closed.

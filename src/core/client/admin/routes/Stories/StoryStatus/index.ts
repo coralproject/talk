@@ -1,4 +1,4 @@
 export {
   default,
-  default as StoryStatusChangeContainer,
-} from "./StoryStatusChangeContainer";
+  default as StoryStatusContainer,
+} from "./StoryStatusContainer";

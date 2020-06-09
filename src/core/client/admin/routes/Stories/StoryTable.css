@@ -10,14 +10,19 @@ $tableHeaderAltTextColor: var(--v2-colors-mono-100);
   width: 14%;
 }
 .reportedCountColumn {
-  width: 9%;
+  width: 8%;
 }
 .pendingCountColumn {
-  width: 9%;
+  width: 8%;
 }
 .totalCountColumn {
-  width: 9%;
+  width: 8%;
 }
+
+.actionsColumn {
+  width: 8%;
+}
+
 .clickToModerate {
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-semi-bold);

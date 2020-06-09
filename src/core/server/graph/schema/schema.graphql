@@ -1508,6 +1508,22 @@ type Site {
   createdAt: Time!
 }
 
+type RTEConfiguration {
+  """
+  enabled when true turns on basic RTE features including
+  bold, italic, quote, and bullet list.
+  """
+  enabled: Boolean!
+  """
+  strikethrough when true turns on the strikethrough feature.
+  """
+  strikethrough: Boolean!
+  """
+  spoiler when true turns on the spoiler feature.
+  """
+  spoiler: Boolean!
+}
+
 """
 Settings stores the global settings for a given Tenant.
 """
@@ -1669,6 +1685,11 @@ type Settings {
   multisite is whether multiple sites exist for this tenant.
   """
   multisite: Boolean!
+
+  """
+  rte is the configuration of the Rich-Text-Editor.
+  """
+  rte: RTEConfiguration!
 }
 
 ################################################################################
@@ -4138,6 +4159,26 @@ input NewCommentersConfigurationInput {
   approvedCommentsThreshold: Int
 }
 
+
+"""
+RTEConfigurationInput specifies the configuration for the rte.
+"""
+input RTEConfigurationInput {
+  """
+  enabled when true turns on basic RTE features including
+  bold, italic, quote, and bullet list.
+  """
+  enabled: Boolean!
+  """
+  strikethrough when true turns on the strikethrough feature.
+  """
+  strikethrough: Boolean!
+  """
+  spoiler when true turns on the spoiler feature.
+  """
+  spoiler: Boolean!
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -4257,7 +4298,13 @@ input SettingsInput {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfigurationInput
+
+  """
+  rte is the configuration of the Rich-Text-Editor.
+  """
+  rte: RTEConfigurationInput
 }
+
 
 """
 UpdateSettingsInput provides the input for the updateSettings Mutation.

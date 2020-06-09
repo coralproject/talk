@@ -11,6 +11,7 @@ import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLPerspectiveExternalIntegration,
+  GQLRTEConfiguration,
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -221,4 +222,12 @@ export type Settings = GlobalModerationSettings &
      * newCommenters is the configuration for how new commenters comments are treated.
      */
     newCommenters: NewCommentersConfiguration;
+
+    rte?: GQLRTEConfiguration;
   };
+
+export const defaultRTEConfiguration: GQLRTEConfiguration = {
+  enabled: true,
+  spoiler: false,
+  strikethrough: false,
+};

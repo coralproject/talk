@@ -68,6 +68,9 @@ const StoryTable: FunctionComponent<Props> = (props) => (
             <Localized id="stories-column-status">
               <TableCell className={styles.statusColumn}>Status</TableCell>
             </Localized>
+            <Localized id="stories-column-actions">
+              <TableCell className={styles.actionsColumn}>Actions</TableCell>
+            </Localized>
           </TableRow>
         </TableHead>
         <TableBody>

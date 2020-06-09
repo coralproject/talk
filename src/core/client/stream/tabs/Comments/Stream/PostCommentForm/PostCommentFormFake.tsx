@@ -9,7 +9,7 @@ import CLASSES from "coral-stream/classes";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
-import RTE from "../../RTE";
+import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 
 import styles from "./PostCommentFormFake.css";
@@ -26,6 +26,7 @@ interface Props {
   draft: string;
   onDraftChange: (draft: string) => void;
   onSignIn: () => void;
+  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
 const PostCommentFormFake: FunctionComponent<Props> = (props) => {
@@ -33,10 +34,9 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
-  const onChange = useCallback(
-    (data: { html: string; text: string }) => props.onDraftChange(data.html),
-    [props.onDraftChange]
-  );
+  const onChange = useCallback((html: string) => props.onDraftChange(html), [
+    props.onDraftChange,
+  ]);
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   return (
@@ -57,7 +57,8 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
             }
             attrs={{ placeholder: true }}
           >
-            <RTE
+            <RTEContainer
+              config={props.rteConfig}
               placeholder={isQA ? "Post a question" : "Post a comment"}
               value={props.draft}
               onChange={onChange}

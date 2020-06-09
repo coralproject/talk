@@ -306,34 +306,19 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE-contentEditableContainer"
+              className="RTE.module-contentEditableContainer"
             >
               <div
                 aria-placeholder="Edit comment"
-                className="RTE-contentEditable coral coral-rte-content RTE-content"
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "I like yoghurt",
-                  }
-                }
-                disabled={false}
+                className="RTE.module-contentEditable coral coral-rte-content RTE-content"
                 id="comments-editCommentForm-rte-comment-with-replies"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
               />
             </div>
             <div
-              className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+              className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
             >
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Bold"
@@ -347,7 +332,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Italic"
@@ -361,7 +346,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Blockquote"
@@ -372,6 +357,20 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                   className="Icon-root Icon-md"
                 >
                   format_quote
+                </i>
+              </button>
+              <button
+                className="Button.module-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bulleted List"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_list_bulleted
                 </i>
               </button>
             </div>
@@ -496,34 +495,19 @@ exports[`edit a comment: edit form 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE-contentEditableContainer"
+              className="RTE.module-contentEditableContainer"
             >
               <div
                 aria-placeholder="Edit comment"
-                className="RTE-contentEditable coral coral-rte-content RTE-content"
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "I like yoghurt",
-                  }
-                }
-                disabled={false}
+                className="RTE.module-contentEditable coral coral-rte-content RTE-content"
                 id="comments-editCommentForm-rte-comment-with-replies"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
               />
             </div>
             <div
-              className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+              className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
             >
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Bold"
@@ -537,7 +521,7 @@ exports[`edit a comment: edit form 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Italic"
@@ -551,7 +535,7 @@ exports[`edit a comment: edit form 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Blockquote"
@@ -562,6 +546,20 @@ exports[`edit a comment: edit form 1`] = `
                   className="Icon-root Icon-md"
                 >
                   format_quote
+                </i>
+              </button>
+              <button
+                className="Button.module-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bulleted List"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_list_bulleted
                 </i>
               </button>
             </div>
@@ -686,34 +684,19 @@ exports[`edit a comment: optimistic response 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE-contentEditableContainer"
+              className="RTE.module-contentEditableContainer  RTE.module-contentEditableContainerDisabled"
             >
               <div
                 aria-placeholder="Edit comment"
-                className="RTE-contentEditable coral coral-rte-content RTE-content  RTE-contentEditableDisabled"
-                contentEditable={false}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Edited!",
-                  }
-                }
-                disabled={true}
+                className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
                 id="comments-editCommentForm-rte-comment-with-replies"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
               />
             </div>
             <div
-              className="coral coral-rte-toolbar RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+              className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
             >
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Bold"
@@ -727,7 +710,7 @@ exports[`edit a comment: optimistic response 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Italic"
@@ -741,7 +724,7 @@ exports[`edit a comment: optimistic response 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Blockquote"
@@ -752,6 +735,20 @@ exports[`edit a comment: optimistic response 1`] = `
                   className="Icon-root Icon-md"
                 >
                   format_quote
+                </i>
+              </button>
+              <button
+                className="Button.module-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bulleted List"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_list_bulleted
                 </i>
               </button>
             </div>
@@ -1626,34 +1623,19 @@ exports[`shows expiry message: edit time expired 1`] = `
             onFocus={[Function]}
           >
             <div
-              className="RTE-contentEditableContainer"
+              className="RTE.module-contentEditableContainer  RTE.module-contentEditableContainerDisabled"
             >
               <div
                 aria-placeholder="Edit comment"
-                className="RTE-contentEditable coral coral-rte-content RTE-content  RTE-contentEditableDisabled"
-                contentEditable={false}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "I like yoghurt",
-                  }
-                }
-                disabled={true}
+                className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
                 id="comments-editCommentForm-rte-comment-with-replies"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
               />
             </div>
             <div
-              className="coral coral-rte-toolbar RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+              className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
             >
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Bold"
@@ -1667,7 +1649,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Italic"
@@ -1681,7 +1663,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                 </i>
               </button>
               <button
-                className="Button-button"
+                className="Button.module-button"
                 disabled={false}
                 onClick={[Function]}
                 title="Blockquote"
@@ -1692,6 +1674,20 @@ exports[`shows expiry message: edit time expired 1`] = `
                   className="Icon-root Icon-md"
                 >
                   format_quote
+                </i>
+              </button>
+              <button
+                className="Button.module-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bulleted List"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_list_bulleted
                 </i>
               </button>
             </div>

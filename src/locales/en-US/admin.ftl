@@ -475,6 +475,17 @@ stories-column-site = Site
 site-table-siteName = Site name
 stories-filter-sites = Site
 
+stories-column-actions = Actions
+stories-column-rescrape = Re-scrape
+
+stories-actionsButton =
+  .aria-label = Select action
+stories-actions-popover =
+  .description = A dropdown to select story actions
+stories-actions-rescrape = Re-scrape
+stories-actions-close = Close story
+stories-actions-open = Open story
+
 ### Sections
 
 moderate-section-selector-allSections = All Sections
@@ -1175,6 +1186,17 @@ configure-general-staff-label = Badge text
 configure-general-staff-input =
   .placeholder = E.g. Staff
 configure-general-staff-preview = Preview
+
+configure-general-rte-title = Rich-text comments
+configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.
+configure-general-rte-richTextComments = Rich-text comments
+configure-general-rte-onBasicFeatures = On - bold, italics, block quotes, and bulletted lists
+configure-general-rte-additional = Additional rich-text options
+configure-general-rte-strikethrough = Strikethrough
+configure-general-rte-spoiler = Spoiler
+configure-general-rte-spoilerDesc =
+  Words and phrases formatted as Spoiler are hidden behind a
+  dark background until the reader chooses to reveal the text.
 
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =

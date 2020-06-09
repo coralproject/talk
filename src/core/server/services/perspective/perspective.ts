@@ -52,7 +52,7 @@ type Request =
       locale: LanguageCode;
       body: {
         /**
-         * text is htmlStripped version of the comment text.
+         * text respresentation of the comment html body.
          */
         text: string;
         doNotStore: boolean;
@@ -64,7 +64,7 @@ type Request =
       locale: LanguageCode;
       body: {
         /**
-         * text is htmlStripped version of the comment text.
+         * text respresentation of the comment html body.
          */
         text: string;
         commentID: string;

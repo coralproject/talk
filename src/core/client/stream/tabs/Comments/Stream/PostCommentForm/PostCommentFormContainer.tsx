@@ -130,7 +130,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           storyID: this.props.story.id,
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
-          ...input,
+          body: input.body,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -211,6 +211,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     if (!this.props.viewer) {
       return (
         <PostCommentFormFake
+          rteConfig={this.props.settings.rte}
           draft={this.state.notLoggedInDraft}
           onDraftChange={this.handleDraftChange}
           story={this.props.story}
@@ -231,6 +232,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
+        rteConfig={this.props.settings.rte}
         min={
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.min) ||
@@ -284,6 +286,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
               }
               closeCommenting {
                 message
+              }
+              rte {
+                ...RTEContainer_config
               }
             }
           `,

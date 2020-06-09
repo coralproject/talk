@@ -13,6 +13,7 @@ const failPatterns: PatternMap = {
     "You called act(async () => ...) without await",
   "OptimisticResponse warnings":
     "`optimisticResponse` to match structure of server response",
+  "Missing translation": "en-US translation for key",
 };
 
 /**
@@ -32,21 +33,37 @@ const originalError = global.console.error;
 const originalWarn = global.console.warn;
 const originalLog = global.console.log;
 
+function argToString(arg: any): string {
+  if (typeof arg === "string") {
+    return arg;
+  }
+  if (arg.toString !== undefined) {
+    return arg.toString();
+  }
+  try {
+    return JSON.stringify(arg);
+  } catch {
+    return "";
+  }
+}
+
 function getMatchingPatterns(patterns: PatternMap, args: any[]) {
-  const str = args
-    .map((a) => (typeof a === "string" ? a : JSON.stringify(a)))
-    .join(" ");
-  const matchedPatterns: string[] = [];
-  Object.keys(patterns).forEach((k) => {
-    const matching =
-      typeof patterns[k] === "string"
-        ? str.includes(patterns[k] as string)
-        : str.match(patterns[k]);
-    if (matching !== false && matching !== null) {
-      matchedPatterns.push(k);
-    }
-  });
-  return matchedPatterns;
+  try {
+    const str = args.map((a) => argToString(a)).join(" ");
+    const matchedPatterns: string[] = [];
+    Object.keys(patterns).forEach((k) => {
+      const matching =
+        typeof patterns[k] === "string"
+          ? str.includes(patterns[k] as string)
+          : str.match(patterns[k]);
+      if (matching !== false && matching !== null) {
+        matchedPatterns.push(k);
+      }
+    });
+    return matchedPatterns;
+  } catch {
+    return [];
+  }
 }
 
 function createMockImplementation(originalFunction: (...args: any[]) => void) {

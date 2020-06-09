@@ -18,7 +18,7 @@ import {
 } from "../../fixtures";
 import create from "./create";
 
-function createTestRenderer(
+async function createTestRenderer(
   resolver: any = {},
   options: { muteNetworkErrors?: boolean; status?: string } = {}
 ) {
@@ -84,7 +84,7 @@ afterEach(() => {
 });
 
 it("edit a comment", async () => {
-  const testRenderer = createTestRenderer();
+  const testRenderer = await createTestRenderer();
 
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
@@ -101,9 +101,9 @@ it("edit a comment", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
-      .props.onChange({ html: "Edited!" })
+      .props.onChange("Edited!")
   );
 
   act(() => {
@@ -125,7 +125,10 @@ it("edit a comment", async () => {
 });
 
 it("edit a comment and handle non-published comment state", async () => {
-  const testRenderer = createTestRenderer({}, { status: "SYSTEM_WITHHELD" });
+  const testRenderer = await createTestRenderer(
+    {},
+    { status: "SYSTEM_WITHHELD" }
+  );
 
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
@@ -137,9 +140,9 @@ it("edit a comment and handle non-published comment state", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
-      .props.onChange({ html: "Edited!" })
+      .props.onChange("Edited!")
   );
 
   act(() => {
@@ -171,7 +174,7 @@ it("edit a comment and handle non-published comment state", async () => {
 });
 
 it("cancel edit", async () => {
-  const testRenderer = createTestRenderer();
+  const testRenderer = await createTestRenderer();
 
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
@@ -187,7 +190,7 @@ it("cancel edit", async () => {
 });
 
 it("shows expiry message", async () => {
-  const testRenderer = createTestRenderer();
+  const testRenderer = await createTestRenderer();
 
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
@@ -210,7 +213,7 @@ it("shows expiry message", async () => {
 });
 
 it("edit a comment and handle server error", async () => {
-  const testRenderer = createTestRenderer(
+  const testRenderer = await createTestRenderer(
     {
       Mutation: {
         editComment: sinon.stub().callsFake(() => {
@@ -232,9 +235,9 @@ it("edit a comment and handle server error", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputID: `comments-editCommentForm-rte-${commentWithReplies.id}`,
       })
-      .props.onChange({ html: "Edited!" })
+      .props.onChange("Edited!")
   );
 
   act(() => {

@@ -1,3 +1,4 @@
+import { defaultRTEConfiguration } from "coral-server/models/settings";
 import {
   retrieveAnnouncementIfEnabled,
   Tenant,
@@ -29,4 +30,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return sites.edges.length > 1;
   },
   webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
+  rte: ({ rte = defaultRTEConfiguration }) => rte,
 };

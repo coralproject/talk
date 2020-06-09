@@ -110,7 +110,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
                   <TextFieldAdornment>Characters</TextFieldAdornment>
                 </Localized>
               }
-              placeholder={"No limit"}
+              placeholder="No limit"
               textAlignCenter
             />
           </Localized>
