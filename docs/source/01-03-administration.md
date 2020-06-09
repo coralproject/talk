@@ -5,9 +5,37 @@ permalink: /v5/administration/
 
 Upon completing the installation setup wizard, you will be able to login to Coral with the ADMIN user you created during setup. 
 
+## Moderation queues
+All moderation queues are sorted by Most Recent at the top. 
+
+### Reported
+This is the most urgent queue – these are comments that are still on the page, might be a problem, and you haven't made a moderation decision about them yet. These comments have either been Reported by a user, or reported by the system because they contain suspect words or phrases. 
+
+### Pending
+These are comments that have been held back by the system for some reason. These are the reasons that comments are held back in Pending:
+
+* The article or site is set to pre-moderate all comments (except for Staff/Moderator/Admin/Expert comments)
+* The commenter has been manually set to 'Always Pre-moderate' by a moderator
+* The comment has been ruled as 'Likely to be toxic' by the AI (optional)
+* The commenter's recent behavior has included a higher percentage of rejected comment than the threshhold you set in Configure ('Recent History') (optional)
+* The commenter has entered an identical comment twice in a row, anywhere on the site
+* The site is set to hold back for review the first comments by new commenters (optional)
+* The comment is marked as likely to spam by our spam detection system (optional)
+
 Users who login with the ADMIN role are able to access the Configure tab, and from here change settings that control the functionality of your Coral instance.
 
-## General
+### Unmoderated
+These are comments of any kind - Reported, Published, Pending - that a moderator hasn't yet accepted or rejected.
+
+### Approved
+These are comments that a moderator has already approved. The name of the moderator is included on the card. 
+
+### Rejected
+These are comments that a moderator has already rejected. The name of the moderator is included on the card. 
+
+There is also a clock icon in the top right of the page. When you click the icon, you will see a list of the comments that you have recently moderated, with links to review your decision.
+
+## Configure Menu Settings
 
 ### Language
 You can set the default language Coral uses in **Admin** > **Configure** > **General**.
