@@ -28,12 +28,12 @@ const MyCommentsContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <div className={styles.downloadComments}>
-        {settings.accountFeatures.downloadComments && (
+      {settings.accountFeatures.downloadComments && (
+        <div className={styles.downloadComments}>
           <DownloadCommentsContainer viewer={viewer} />
-        )}
-        <HorizontalRule></HorizontalRule>
-      </div>
+          <HorizontalRule></HorizontalRule>
+        </div>
+      )}
       <HorizontalGutter spacing={6}>
         <CommentHistoryContainer
           settings={settings}
