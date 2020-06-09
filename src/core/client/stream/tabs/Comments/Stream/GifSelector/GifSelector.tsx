@@ -1,19 +1,27 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEvent,
   FunctionComponent,
   useCallback,
-  useState,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 import { useFetch } from "coral-framework/lib/relay";
-import { BaseButton, Button, ButtonIcon, Flex } from "coral-ui/components/v2";
+import {
+  BaseButton,
+  Button,
+  ButtonIcon,
+  Flex,
+  HorizontalGutter,
+  InputLabel,
+  TextField,
+} from "coral-ui/components/v2";
 
-import { GifResult, GifSearchFetch, GIF_RESULTS_LIMIT } from "./GifSearchFetch";
+import { GIF_RESULTS_LIMIT, GifResult, GifSearchFetch } from "./GifSearchFetch";
 
-// import styles from "./GifSelector.css";
+import styles from "./GifSelector.css";
 
 interface Props {
   onGifSelect: (gif: GifResult) => void;
@@ -27,17 +35,17 @@ const GifSelector: FunctionComponent<Props> = (props) => {
   const [hasNextPage, setHasNextPage] = useState(false);
   const onSearchFieldChange = useCallback(
     (evt: ChangeEvent<HTMLInputElement>) => {
-      const query = evt.target.value;
-      setQuery(query);
+      setQuery(evt.target.value);
     },
     []
   );
   const searchInput = useRef<HTMLInputElement>(null);
   useEffect(() => {
+    // TODO: why doesn't this work?
     if (searchInput && searchInput.current) {
       searchInput.current.focus();
     }
-  }, [searchInput]);
+  }, []);
   useEffect(() => {
     async function search() {
       if (query && query.length > 1) {
@@ -67,27 +75,72 @@ const GifSelector: FunctionComponent<Props> = (props) => {
     props.onGifSelect(gif);
   }, []);
   return (
-    <div>
-      <input ref={searchInput} value={query} onChange={onSearchFieldChange} />
-      <Flex wrap={true}>
-        {results.map((result) => (
-          <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
-            <img src={result.images.fixed_height_small.url} />
-          </BaseButton>
-        ))}
-      </Flex>
-      {results.length > 0 && page > 0 && (
-        <Button onClick={prevPage}>
-          <ButtonIcon>left</ButtonIcon>
-          Previous
-        </Button>
-      )}
-      {results.length > 0 && hasNextPage && (
-        <Button onClick={nextPage}>
-          <ButtonIcon>right</ButtonIcon>
-          Next
-        </Button>
-      )}
+    <div className={styles.root}>
+      <HorizontalGutter>
+        <HorizontalGutter>
+          <Localized id="comments-postComment-gifSearch">
+            <InputLabel>Search for a gif</InputLabel>
+          </Localized>
+          <TextField
+            className={styles.input}
+            ref={searchInput}
+            value={query}
+            onChange={onSearchFieldChange}
+            fullWidth
+            variant="seamlessAdornment"
+            color="streamBlue"
+            adornment={
+              <Button color="stream" className={styles.searchButton}>
+                <ButtonIcon>search</ButtonIcon>
+              </Button>
+            }
+          />
+        </HorizontalGutter>
+        {results.length > 0 && (
+          <Flex wrap={true}>
+            {results.map((result) => (
+              <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
+                <img
+                  src={result.images.fixed_height_small.url}
+                  alt={result.title}
+                />
+              </BaseButton>
+            ))}
+          </Flex>
+        )}
+        {results.length > 0 && (
+          <Flex
+            justifyContent={
+              results.length > 0 && hasNextPage && page > 0
+                ? "space-between"
+                : "flex-end"
+            }
+          >
+            {results.length > 0 && page > 0 && (
+              <Button
+                onClick={prevPage}
+                variant="outline"
+                color="stream"
+                iconLeft
+              >
+                <ButtonIcon>keyboard_arrow_left</ButtonIcon>
+                Previous
+              </Button>
+            )}
+            {results.length > 0 && hasNextPage && (
+              <Button
+                onClick={nextPage}
+                variant="outline"
+                color="stream"
+                iconRight
+              >
+                Next
+                <ButtonIcon>keyboard_arrow_right</ButtonIcon>
+              </Button>
+            )}
+          </Flex>
+        )}
+      </HorizontalGutter>
     </div>
   );
 };

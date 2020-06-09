@@ -5,7 +5,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 
 import RTEContainer from "../../RTE";
-import GifSelector from "../GifSelector";
+import GifSelector, { GifPreview } from "../GifSelector";
 import { GifResult } from "../GifSelector/GifSearchFetch";
 
 import styles from "./PostCommentInput.css";
@@ -53,13 +53,18 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
           onChange={props.onChange}
           contentClassName={
             undefined
-            /*props.showMessageBox ? styles.rteBorderless : undefined*/
+            /* props.showMessageBox ? styles.rteBorderless : undefined*/
           }
           value={props.value}
           placeholder="Post a comment"
           disabled={props.disabled}
           toolbarButtons={
-            <Button onClick={onGifButtonClick} iconLeft>
+            <Button
+              color="mono"
+              variant="flat"
+              onClick={onGifButtonClick}
+              iconLeft
+            >
               <ButtonIcon>add</ButtonIcon>
               GIF
             </Button>
@@ -68,10 +73,11 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
       </Localized>
       {showGifSelector && <GifSelector onGifSelect={onGifSelect} />}
       {selectedGif && (
-        <div>
-          <Button onClick={onRemoveGif}>Remove</Button>
-          <img src={selectedGif.images.original.url} />
-        </div>
+        <GifPreview
+          onRemove={onRemoveGif}
+          title={selectedGif.title}
+          url={selectedGif.images.original.url}
+        />
       )}
     </div>
   );

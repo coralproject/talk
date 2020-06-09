@@ -3,10 +3,12 @@ import React, {
   AllHTMLAttributes,
   ChangeEvent,
   EventHandler,
+  Ref,
   FunctionComponent,
+  forwardRef,
 } from "react";
 
-import { withStyles } from "coral-ui/hocs";
+import { withStyles, withForwardRef } from "coral-ui/hocs";
 
 import styles from "./TextField.css";
 
@@ -78,6 +80,7 @@ export interface TextFieldProps {
   adornment?: React.ReactNode;
 
   variant?: "regular" | "seamlessAdornment";
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props) => {
@@ -114,6 +117,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => {
   return (
     <div className={rootClassName}>
       <input
+        ref={forwardRef}
         className={inputClassName}
         placeholder={placeholder}
         value={value}
@@ -130,5 +134,5 @@ TextField.defaultProps = {
   type: "text",
 } as Partial<TextFieldProps>;
 
-const enhanced = withStyles(styles)(TextField);
+const enhanced = withForwardRef(withStyles(styles)(TextField));
 export default enhanced;

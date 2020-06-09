@@ -25,8 +25,8 @@ import {
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
-import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 import PostCommentInput from "./PostCommentInput";
+import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
 
