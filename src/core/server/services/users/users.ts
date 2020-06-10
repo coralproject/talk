@@ -8,6 +8,7 @@ import {
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
+import { SSO_USERNAME_REGEX } from "coral-common/helpers";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -631,7 +632,7 @@ export async function updateUsernameByID(
   createdBy: User
 ) {
   // Validate the username.
-  validateUsername(username);
+  validateUsername(username, SSO_USERNAME_REGEX);
 
   return updateUserUsername(mongo, tenant.id, userID, username, createdBy.id);
 }

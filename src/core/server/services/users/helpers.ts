@@ -5,7 +5,6 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/helpers/validate";
-
 import {
   EmailExceedsMaxLengthError,
   EmailInvalidFormatError,
@@ -22,10 +21,12 @@ import {
  *
  * @param username the username to be tested
  */
-export function validateUsername(username: string) {
+export function validateUsername(username: string, userNameRegex?: RegExp) {
   // TODO: replace these static regex/length with database options in the Tenant eventually
 
-  if (!USERNAME_REGEX.test(username)) {
+  if (userNameRegex && !userNameRegex.test(username)) {
+    throw new UsernameContainsInvalidCharactersError();
+  } else if (!userNameRegex && !USERNAME_REGEX.test(username)) {
     throw new UsernameContainsInvalidCharactersError();
   }
 
