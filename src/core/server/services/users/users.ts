@@ -630,9 +630,6 @@ export async function updateUsernameByID(
   username: string,
   createdBy: User
 ) {
-  // Validate the username.
-  validateUsername(username);
-
   return updateUserUsername(mongo, tenant.id, userID, username, createdBy.id);
 }
 
