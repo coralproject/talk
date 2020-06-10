@@ -36,6 +36,7 @@ import {
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
+  AnalyticsCoralEventListener,
   NotifierCoralEventListener,
   PerspectiveCoralEventListener,
   SlackCoralEventListener,
@@ -64,10 +65,10 @@ class Server {
   private parentApp: Express;
 
   // schema is the GraphQL Schema that relates to the given Tenant.
-  private schema: GraphQLSchema;
+  private readonly schema: GraphQLSchema;
 
   // config exposes application specific configuration.
-  public config: Config;
+  public readonly config: Config;
 
   // httpServer is the running instance of the HTTP server that will bind to
   // the requested port.
@@ -102,10 +103,10 @@ class Server {
   private processing = false;
 
   // i18n is the server reference to the i18n framework.
-  private i18n: I18n;
+  private readonly i18n: I18n;
 
   // signingConfig is the server reference to the signing configuration.
-  private signingConfig: JWTSigningConfig;
+  private readonly signingConfig: JWTSigningConfig;
 
   // persistedQueryCache is the cache of persisted queries used by the GraphQL
   // server to handle persisted queries.
@@ -216,6 +217,7 @@ class Server {
 
     // Setup the broker.
     this.broker = new CoralEventListenerBroker();
+    this.broker.register(new AnalyticsCoralEventListener(this.config));
     this.broker.register(new NotifierCoralEventListener(this.tasks.notifier));
     this.broker.register(new SlackCoralEventListener());
     this.broker.register(new SubscriptionCoralEventListener());

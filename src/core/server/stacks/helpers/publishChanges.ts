@@ -37,6 +37,7 @@ export default async function publishChanges(
       input.after.status,
       input.after.id,
       input.commentRevisionID,
+      input.after.storyID,
       input.moderatorID || null
     );
 

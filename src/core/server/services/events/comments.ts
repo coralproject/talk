@@ -2,12 +2,15 @@ import {
   CommentCreatedCoralEvent,
   CommentEnteredModerationQueueCoralEvent,
   CommentFeaturedCoralEvent,
+  CommentFlagCreatedCoralEvent,
   CommentLeftModerationQueueCoralEvent,
+  CommentReactionCreatedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
   CommentStatusUpdatedCoralEvent,
 } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
+import { CommentAction } from "coral-server/models/action/comment";
 import {
   Comment,
   CommentModerationQueueCounts,
@@ -26,6 +29,7 @@ export async function publishCommentStatusChanges(
   newStatus: GQLCOMMENT_STATUS,
   commentID: string,
   commentRevisionID: string,
+  storyID: string,
   moderatorID: string | null
 ) {
   if (oldStatus !== newStatus) {
@@ -34,6 +38,7 @@ export async function publishCommentStatusChanges(
       oldStatus,
       commentID,
       commentRevisionID,
+      storyID,
       moderatorID,
     });
   }
@@ -41,12 +46,13 @@ export async function publishCommentStatusChanges(
 
 export async function publishCommentReplyCreated(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "id" | "status" | "ancestorIDs">
+  comment: Pick<Comment, "id" | "status" | "storyID" | "ancestorIDs">
 ) {
   if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentReplyCreatedCoralEvent.publish(broker, {
       ancestorIDs: comment.ancestorIDs,
       commentID: comment.id,
+      storyID: comment.storyID,
     });
   }
 }
@@ -71,6 +77,46 @@ export async function publishCommentReleased(
     await CommentReleasedCoralEvent.publish(broker, {
       commentID: comment.id,
       storyID: comment.storyID,
+    });
+  }
+}
+
+export async function publishCommentReactionCreated(
+  broker: CoralEventPublisherBroker,
+  comment: Pick<Comment, "id" | "storyID" | "siteID" | "parentID">,
+  commentRevisionID: string,
+  { userID }: Pick<CommentAction, "userID">
+) {
+  // We only publish reaction created events for reactions created by users.
+  if (userID) {
+    await CommentReactionCreatedCoralEvent.publish(broker, {
+      commentID: comment.id,
+      commentRevisionID,
+      commentParentID: comment.parentID,
+      actionUserID: userID,
+      storyID: comment.storyID,
+      siteID: comment.siteID,
+    });
+  }
+}
+
+export async function publishCommentFlagCreated(
+  broker: CoralEventPublisherBroker,
+  comment: Pick<Comment, "id" | "storyID" | "siteID" | "parentID">,
+  commentRevisionID: string,
+  { userID, reason }: Pick<CommentAction, "reason" | "userID">
+) {
+  // We only publish flag created events for flags created by the system with
+  // a reason.
+  if (userID && reason) {
+    await CommentFlagCreatedCoralEvent.publish(broker, {
+      commentID: comment.id,
+      commentRevisionID,
+      commentParentID: comment.parentID,
+      actionUserID: userID,
+      flagReason: reason,
+      storyID: comment.storyID,
+      siteID: comment.siteID,
     });
   }
 }

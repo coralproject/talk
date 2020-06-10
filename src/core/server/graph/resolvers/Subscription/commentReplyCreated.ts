@@ -10,6 +10,7 @@ import {
 export interface CommentReplyCreatedInput extends SubscriptionPayload {
   ancestorIDs: string[];
   commentID: string;
+  storyID: string;
 }
 
 export type CommentReplyCreatedSubscription = SubscriptionType<
