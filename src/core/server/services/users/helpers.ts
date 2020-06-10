@@ -21,12 +21,10 @@ import {
  *
  * @param username the username to be tested
  */
-export function validateUsername(username: string, userNameRegex?: RegExp) {
+export function validateUsername(username: string) {
   // TODO: replace these static regex/length with database options in the Tenant eventually
 
-  if (userNameRegex && !userNameRegex.test(username)) {
-    throw new UsernameContainsInvalidCharactersError();
-  } else if (!userNameRegex && !USERNAME_REGEX.test(username)) {
+  if (!USERNAME_REGEX.test(username)) {
     throw new UsernameContainsInvalidCharactersError();
   }
 
