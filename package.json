@@ -95,7 +95,7 @@
     "graphql-extensions": "^0.11.0",
     "graphql-fields": "2.0.3",
     "graphql-import": "^0.7.1",
-    "graphql-playground-html": "^1.6.13",
+    "graphql-playground-html": "^1.6.22",
     "graphql-redis-subscriptions": "^2.2.1",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.7",
