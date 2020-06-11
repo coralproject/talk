@@ -64,6 +64,7 @@
     "@fluent/dom": "^0.6.0",
     "@hapi/joi": "^17.1.1",
     "@metascraper/helpers": "^5.11.6",
+    "@rudderstack/rudder-sdk-node": "0.0.2",
     "abort-controller": "^3.0.0",
     "akismet-api": "^5.0.0",
     "apollo-server-express": "^2.11.0",

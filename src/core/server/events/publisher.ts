@@ -21,6 +21,11 @@ export abstract class CoralEventListener<T extends CoralEventPayload = any> {
   public abstract readonly name: string;
 
   /**
+   * disabled if true will disable the event listener from handling requests.
+   */
+  public abstract readonly disabled?: boolean;
+
+  /**
    * events is the array of event types that this listener should listen for.
    */
   public abstract readonly events: CoralEventType[];
@@ -106,6 +111,11 @@ export default class CoralEventListenerBroker {
         { listenerName: listener.name },
         "listener was registered without any events"
       );
+      return;
+    }
+
+    if (listener.disabled) {
+      logger.warn({ listenerName: listener.name }, "listener was disabled");
       return;
     }
 

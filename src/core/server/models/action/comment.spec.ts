@@ -1,4 +1,3 @@
-import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/schema/__generated__/types";
 import {
   ACTION_TYPE,
   CommentAction,
@@ -8,6 +7,8 @@ import {
   filterDuplicateActions,
   validateAction,
 } from "coral-server/models/action/comment";
+
+import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/schema/__generated__/types";
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {
