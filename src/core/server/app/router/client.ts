@@ -46,6 +46,11 @@ export interface ClientTargetHandlerOptions {
   defaultLocale: LanguageCode;
 
   /**
+   * viewTemplate is the html template to use.
+   */
+  viewTemplate?: string;
+
+  /**
    * mongo is used when trying to infer a site from the request.
    */
   mongo: Db;
@@ -107,6 +112,7 @@ const clientHandler = ({
   enableCustomCSS,
   enableCustomCSSQuery,
   defaultLocale,
+  viewTemplate = "client",
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
@@ -125,10 +131,7 @@ const clientHandler = ({
   });
 };
 
-export function mountClientRoutes(
-  router: Router,
-  { tenantCache, ...options }: MountClientRouteOptions
-) {
+function loadEntrypoints(manifestFile: string) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
   const manifest = path.join(
@@ -140,12 +143,30 @@ export function mountClientRoutes(
     "..",
     "dist",
     "static",
-    "asset-manifest.json"
+    manifestFile
   );
-  const entrypoints = Entrypoints.fromFile(manifest);
+  return Entrypoints.fromFile(manifest);
+}
+
+export function mountClientRoutes(
+  router: Router,
+  { tenantCache, ...options }: MountClientRouteOptions
+) {
+  const manifest = "asset-manifest.json";
+  const entrypoints = loadEntrypoints(manifest);
   if (!entrypoints) {
     logger.error(
       { manifest },
+      "could not load the generated manifest, client routes will remain un-mounted"
+    );
+    return;
+  }
+
+  const embedManifest = "embed-asset-manifest.json";
+  const embedEntrypoints = loadEntrypoints(embedManifest);
+  if (!embedEntrypoints) {
+    logger.error(
+      { manifest: embedManifest },
       "could not load the generated manifest, client routes will remain un-mounted"
     );
     return;
@@ -160,6 +181,15 @@ export function mountClientRoutes(
   );
 
   // Add the embed targets.
+  router.use(
+    "/embed/stream/amp",
+    createClientTargetRouter({
+      ...options,
+      cacheDuration: false,
+      entrypoint: embedEntrypoints.get("main"),
+      viewTemplate: "amp",
+    })
+  );
   router.use(
     "/embed/stream",
     createClientTargetRouter({

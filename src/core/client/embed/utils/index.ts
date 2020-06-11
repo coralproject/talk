@@ -1,2 +1,2 @@
 export { default as prefixStorage } from "./prefixStorage";
-export { default as InMemoryStorage } from "./inMemoryStorage";
+export { default as coerceStorage } from "./coerceStorage";
