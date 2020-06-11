@@ -196,6 +196,9 @@ function configureApplicationViews(options: AppOptions) {
     // caching.
     watch: options.config.get("env") === "development",
     noCache: options.config.get("env") === "development",
+    // Trim whitespace in templates.
+    trimBlocks: true,
+    lstripBlocks: true,
   });
 
   // assign the nunjucks engine to .njk and .html files.
