@@ -101,10 +101,12 @@ export class WordList {
     // create a sandbox to run this script in
     const sandbox = {
       result: null,
+      list,
+      testString,
     };
     const context = vm.createContext(sandbox);
     const source = `
-      result = ${list}.test("${testString}");
+      result = list.test(testString);
     `;
     const script = new vm.Script(source);
 
@@ -122,7 +124,7 @@ export class WordList {
     }
 
     const state = util.inspect(sandbox);
-    const result = state === "{ result: true }";
+    const result = state.startsWith("{\n  result: true,");
 
     logger.info(
       { tenantID: options.id, listName, took: timer() },
