@@ -1,12 +1,22 @@
+import util from "util";
+import vm from "vm";
+
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
+const REGEX_MATCH_TIMEOUT = 100; // milliseconds
+
 interface Lists {
   banned: RegExp | false;
   suspect: RegExp | false;
+}
+
+interface TestResult {
+  result: boolean;
+  timedOut: boolean;
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
@@ -80,19 +90,45 @@ export class WordList {
     listName: keyof Lists,
     testString: string,
     cache = true
-  ): boolean {
+  ): TestResult {
     const list = this.lists(options, cache)[listName];
     if (!list) {
-      return false;
+      return { result: false, timedOut: false };
     }
 
     const timer = createTimer();
-    const result = list.test(testString);
+
+    // create a sandbox to run this script in
+    const sandbox = {
+      result: null,
+    };
+    const context = vm.createContext(sandbox);
+    const source = `
+      result = ${list}.test("${testString}");
+    `;
+    const script = new vm.Script(source);
+
+    // try and evaluate within the script vm sandbox and
+    // timeout if we take too long
+    try {
+      script.runInContext(context, { timeout: REGEX_MATCH_TIMEOUT });
+    } catch (e) {
+      logger.info(
+        { tenantID: options.id, listName, took: timer() },
+        "word list phrase test timed out"
+      );
+
+      return { result: false, timedOut: true };
+    }
+
+    const state = util.inspect(sandbox);
+    const result = state === "{ result: true }";
+
     logger.info(
       { tenantID: options.id, listName, took: timer() },
       "word list phrase test complete"
     );
 
-    return result;
+    return { result, timedOut: false };
   }
 }

@@ -29,10 +29,21 @@ export const wordList: IntermediateModerationPhase = ({
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordList, then reject it, otherwise if the moderation setting is
   // premod, set it to `premod`.
-  if (list.test(tenant, "banned", bodyText)) {
+  const banned = list.test(tenant, "banned", bodyText);
+  if (banned.result) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
+      actions: [
+        {
+          actionType: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+        },
+      ],
+    };
+  } else if (banned.timedOut) {
+    return {
+      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           actionType: ACTION_TYPE.FLAG,
@@ -48,8 +59,19 @@ export const wordList: IntermediateModerationPhase = ({
 
   // If the wordList has matched the suspect word filter and we haven't disabled
   // auto-flagging suspect words, then we should flag the comment!
-  if (list.test(tenant, "suspect", bodyText)) {
+  const suspect = list.test(tenant, "suspect", bodyText);
+  if (suspect.result) {
     return {
+      actions: [
+        {
+          actionType: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
+        },
+      ],
+    };
+  } else if (suspect.timedOut) {
+    return {
+      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           actionType: ACTION_TYPE.FLAG,
