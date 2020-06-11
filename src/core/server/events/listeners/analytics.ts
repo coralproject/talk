@@ -3,6 +3,7 @@ import Analytics, { Event } from "@rudderstack/rudder-sdk-node";
 import { Config } from "coral-server/config";
 import GraphContext from "coral-server/graph/context";
 import { relativeTo } from "coral-server/helpers";
+import logger from "coral-server/logger";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
@@ -186,8 +187,8 @@ export class AnalyticsCoralEventListener
       }
 
       // Create the event payload.
-      const payload = await this.create(ctx, event);
-      if (!payload) {
+      const details = await this.create(ctx, event);
+      if (!details) {
         return;
       }
 
@@ -199,17 +200,22 @@ export class AnalyticsCoralEventListener
         tenant: { id: tenantID, domain: tenantDomain },
       } = ctx;
 
-      // Send the event payload to analytics.
-      return this.analytics.track({
-        event: payload.event,
+      // Assemble the track payload.
+      const payload: Event = {
+        event: details.event,
         userId,
         properties: {
-          ...payload.properties,
+          ...details.properties,
           tenantID,
           tenantDomain,
         },
         timestamp: event.createdAt,
-      });
+      };
+
+      logger.debug({ payload }, "sending analytics event");
+
+      // Send the event payload to analytics.
+      return this.analytics.track(payload);
     };
   };
 }

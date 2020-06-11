@@ -260,13 +260,13 @@ const config = convict({
     env: "DISABLE_JOB_PROCESSORS",
   },
   analytics_frontend_key: {
-    doc: "Analytics write key from RudderStack for the Node server.",
+    doc: "Analytics write key from RudderStack for the Javascript client.",
     format: String,
     default: "",
     env: "ANALYTICS_FRONTEND_KEY",
   },
   analytics_backend_key: {
-    doc: "Analytics write key from RudderStack for the Javascript client.",
+    doc: "Analytics write key from RudderStack for the Node server.",
     format: String,
     default: "",
     env: "ANALYTICS_BACKEND_KEY",
