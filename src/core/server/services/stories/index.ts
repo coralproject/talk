@@ -34,11 +34,6 @@ import {
   removeStory,
   retrieveManyStories,
   retrieveStory,
-<<<<<<< HEAD
-  retrieveStorySections,
-  retrieveTopCommentedStoriesToday,
-=======
->>>>>>> feat: redis/mongo refactor
   setStoryMode,
   Story,
   updateStory,
@@ -47,16 +42,13 @@ import {
   updateStorySettings,
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
 
-import {
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
-} from "coral-server/graph/schema/__generated__/types";
+import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 export type FindStory = FindStoryInput;
 
