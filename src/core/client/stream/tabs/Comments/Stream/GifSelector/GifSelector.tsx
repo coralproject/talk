@@ -20,6 +20,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { GIF_RESULTS_LIMIT, GifResult, GifSearchFetch } from "./GifSearchFetch";
+import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GifSelector.css";
 
@@ -97,16 +98,19 @@ const GifSelector: FunctionComponent<Props> = (props) => {
           />
         </HorizontalGutter>
         {results.length > 0 && (
-          <Flex wrap={true}>
-            {results.map((result) => (
-              <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
-                <img
-                  src={result.images.fixed_height_small.url}
-                  alt={result.title}
-                />
-              </BaseButton>
-            ))}
-          </Flex>
+          <>
+            <Flex wrap={true}>
+              {results.map((result) => (
+                <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
+                  <img
+                    src={result.images.fixed_height_small.url}
+                    alt={result.title}
+                  />
+                </BaseButton>
+              ))}
+            </Flex>
+            <GiphyAttribution />
+          </>
         )}
         {results.length > 0 && (
           <Flex
@@ -139,6 +143,14 @@ const GifSelector: FunctionComponent<Props> = (props) => {
               </Button>
             )}
           </Flex>
+        )}
+        {results.length === 0 && query.length > 0 && (
+          <Localized
+            id="comments-postComment-gifSearch-no-results"
+            $query={query}
+          >
+            <p className={styles.noResults}>No results found for "{query}" </p>
+          </Localized>
         )}
       </HorizontalGutter>
     </div>

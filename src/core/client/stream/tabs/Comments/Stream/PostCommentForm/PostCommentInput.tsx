@@ -61,7 +61,7 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
           toolbarButtons={
             <Button
               color="mono"
-              variant="flat"
+              variant={showGifSelector ? "regular" : "flat"}
               onClick={onGifButtonClick}
               iconLeft
             >

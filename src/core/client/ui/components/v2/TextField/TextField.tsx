@@ -3,12 +3,10 @@ import React, {
   AllHTMLAttributes,
   ChangeEvent,
   EventHandler,
-  Ref,
   FunctionComponent,
-  forwardRef,
 } from "react";
 
-import { withStyles, withForwardRef } from "coral-ui/hocs";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./TextField.css";
 
@@ -33,7 +31,7 @@ export interface TextFieldProps {
   /**
    * Color of the TextField
    */
-  color?: "regular" | "streamBlue" | "error" | "dark";
+  color?: "regular" | "error" | "dark";
   /*
    * If set renders a full width button
    */
@@ -80,7 +78,6 @@ export interface TextFieldProps {
   adornment?: React.ReactNode;
 
   variant?: "regular" | "seamlessAdornment";
-  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props) => {
@@ -108,7 +105,6 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => {
   const inputClassName = cn(classes.input, {
     [classes.colorRegular]: color === "regular",
     [classes.colorError]: color === "error",
-    [classes.colorStreamBlue]: color === "streamBlue",
     [classes.colorDark]: color === "dark",
     [classes.textAlignCenter]: textAlignCenter,
     [classes.seamlessAdornment]: variant === "seamlessAdornment",
@@ -117,7 +113,6 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => {
   return (
     <div className={rootClassName}>
       <input
-        ref={forwardRef}
         className={inputClassName}
         placeholder={placeholder}
         value={value}
@@ -134,5 +129,5 @@ TextField.defaultProps = {
   type: "text",
 } as Partial<TextFieldProps>;
 
-const enhanced = withForwardRef(withStyles(styles)(TextField));
+const enhanced = withStyles(styles)(TextField);
 export default enhanced;
