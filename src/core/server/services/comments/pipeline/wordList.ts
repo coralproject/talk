@@ -1,26 +1,40 @@
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
+import createTesterWithTimeout, {
+  TestWithTimeout,
+} from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
 interface Lists {
-  banned: RegExp | false;
-  suspect: RegExp | false;
+  banned: TestWithTimeout | false;
+  suspect: TestWithTimeout | false;
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
 
 export class WordList {
+  /**
+   * cache is a weak map of word list options to word lists. It's a weak map
+   * so when the tenant document is updated and the old tenant is discarded, the
+   * list will also be discarded without explicit syncing by the garbage
+   * collection system.
+   */
   private readonly cache = new WeakMap<Options, Lists>();
 
-  private generate(locale: LanguageCode, list: string[]) {
+  private generate(locale: LanguageCode, list: string[], timeout: number) {
     // If a word list has no entries, then we can make a simple tester.
     if (list.length === 0) {
       return false;
     }
 
-    return createWordListRegExp(locale, list);
+    // Generate the regular expression for this list.
+    const regexp = createWordListRegExp(locale, list);
+
+    // Create a managed regular expression from the provided regular expression
+    // so we can time it out if it takes too long!
+    return createTesterWithTimeout(regexp, timeout);
   }
 
   /**
@@ -28,10 +42,10 @@ export class WordList {
    *
    * @param options options used to generate Lists
    */
-  private create(options: Options): Lists {
+  private create(options: Options, timeout: number): Lists {
     return {
-      banned: this.generate(options.locale, options.wordList.banned),
-      suspect: this.generate(options.locale, options.wordList.suspect),
+      banned: this.generate(options.locale, options.wordList.banned, timeout),
+      suspect: this.generate(options.locale, options.wordList.suspect, timeout),
     };
   }
 
@@ -41,11 +55,11 @@ export class WordList {
    *
    * @param options the options object that is also used as the cache key
    */
-  private lists(options: Options, cache: boolean): Lists {
+  private lists(options: Options, cache: boolean, timeout: number): Lists {
     // If the request isn't supposed to use the cache, then just return a new
     // one.
     if (!cache) {
-      return this.create(options);
+      return this.create(options, timeout);
     }
 
     // As this is supposed to be cached, try to get it from the cache, or create
@@ -53,7 +67,7 @@ export class WordList {
     let lists = this.cache.get(options);
     if (!lists) {
       const timer = createTimer();
-      lists = this.create(options);
+      lists = this.create(options, timeout);
       logger.info(
         { tenantID: options.id, took: timer() },
         "regenerated word list cache"
@@ -78,20 +92,30 @@ export class WordList {
   public test(
     options: Options,
     listName: keyof Lists,
+    timeout: number,
     testString: string,
     cache = true
-  ): boolean {
-    const list = this.lists(options, cache)[listName];
-    if (!list) {
+  ): boolean | null {
+    const test = this.lists(options, cache, timeout)[listName];
+    if (!test) {
       return false;
     }
 
     const timer = createTimer();
-    const result = list.test(testString);
-    logger.info(
-      { tenantID: options.id, listName, took: timer() },
-      "word list phrase test complete"
-    );
+
+    // Test the string against the list and timeout if it takes too long.
+    const result = test(testString);
+    if (result === null) {
+      logger.info(
+        { tenantID: options.id, listName, took: timer(), testString },
+        "word list phrase test timed out"
+      );
+    } else {
+      logger.info(
+        { tenantID: options.id, listName, took: timer() },
+        "word list phrase test complete"
+      );
+    }
 
     return result;
   }

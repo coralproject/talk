@@ -259,6 +259,13 @@ const config = convict({
     default: false,
     env: "DISABLE_JOB_PROCESSORS",
   },
+  word_list_timeout: {
+    doc:
+      "The word list timeout (in ms) that should be used to limit the amount of time the process is frozen processing a word list comparison",
+    format: "ms",
+    default: "100",
+    env: "WORD_LIST_TIMEOUT",
+  },
   analytics_frontend_key: {
     doc: "Analytics write key from RudderStack for the Javascript client.",
     format: String,
