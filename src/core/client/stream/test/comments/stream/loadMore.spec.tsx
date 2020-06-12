@@ -130,7 +130,9 @@ it("loads more comments", async () => {
   expect(await within(streamLog).axe()).toHaveNoViolations();
 
   // Get amount of comments before.
-  const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;
+  const commentsBefore = within(streamLog).getAllByTestID(
+    /^comment[-]comment[-]/
+  ).length;
 
   await act(async () => {
     within(streamLog).getByText("Load More").props.onClick();
@@ -141,7 +143,7 @@ it("loads more comments", async () => {
     expect(within(streamLog).queryByText("Load More")).toBeNull()
   );
 
-  expect(within(streamLog).getAllByTestID(/^comment-/).length).toBe(
+  expect(within(streamLog).getAllByTestID(/^comment[-]comment[-]/).length).toBe(
     commentsBefore + 1
   );
 });

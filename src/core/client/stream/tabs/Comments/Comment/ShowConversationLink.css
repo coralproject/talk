@@ -1,0 +1,24 @@
+$commentsConversationLinkColor: var(--v2-colors-stream-blue-500);
+$commentsConversationLinkColorHovered: var(--v2-colors-stream-blue-700);
+$commentsConversationLinkColorActive: var(--v2-colors-stream-blue-800);
+
+.conversationLink {
+  &.colorRegular {
+    color: $commentsConversationLinkColor;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $commentsConversationLinkColorHovered;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: $commentsConversationLinkColorActive;
+      }
+    }
+  }
+}

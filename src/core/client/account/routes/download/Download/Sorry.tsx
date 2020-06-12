@@ -1,22 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { CallOut, Flex, Icon } from "coral-ui/components";
-
-import styles from "./Sorry.css";
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 const Sorry: FunctionComponent = () => {
   return (
-    <CallOut color="error" fullWidth className={styles.callout}>
-      <Flex>
-        <Icon size="md" className={styles.icon}>
-          error
-        </Icon>
+    <CallOut
+      color="negative"
+      icon={<Icon>error</Icon>}
+      titleWeight="semiBold"
+      title={
         <Localized id="download-landingPage-sorry">
           Your download link is invalid.
         </Localized>
-      </Flex>
-    </CallOut>
+      }
+    />
   );
 };
 

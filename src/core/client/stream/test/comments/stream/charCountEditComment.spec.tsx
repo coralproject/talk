@@ -62,7 +62,7 @@ async function createTestRenderer(
 
   // Open edit form.
   act(() => {
-    within(comment).getByText("Edit").props.onClick();
+    within(comment).getByTestID("comment-edit-button").props.onClick();
   });
 
   // Wait for edit RTE to initialize.

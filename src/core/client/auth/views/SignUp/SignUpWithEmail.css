@@ -1,0 +1,11 @@
+.icon {
+  margin-right: var(--v2-spacing-2);
+}
+
+.field {
+  margin-bottom: var(--v2-spacing-3);
+}
+
+.actions {
+  padding-top: var(--v2-spacing-2);
+}

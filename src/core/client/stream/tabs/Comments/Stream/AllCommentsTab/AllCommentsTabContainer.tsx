@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -25,6 +26,7 @@ import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllComm
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import { CommentContainer } from "../../Comment";
+import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
@@ -178,20 +180,36 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
               comment={comment}
             >
               <FadeInTransition active={Boolean(comment.enteredLive)}>
-                <HorizontalGutter>
-                  <CommentContainer
-                    viewer={props.viewer}
-                    settings={props.settings}
-                    comment={comment}
-                    story={props.story}
-                  />
-                  <ReplyListContainer
-                    settings={props.settings}
-                    viewer={props.viewer}
-                    comment={comment}
-                    story={props.story}
-                  />
-                </HorizontalGutter>
+                <CollapsableComment>
+                  {({ collapsed, toggleCollapsed }) => (
+                    <HorizontalGutter
+                      className={cn({
+                        [styles.borderedComment]: !collapsed,
+                      })}
+                    >
+                      <CommentContainer
+                        collapsed={collapsed}
+                        viewer={props.viewer}
+                        settings={props.settings}
+                        comment={comment}
+                        story={props.story}
+                        toggleCollapsed={toggleCollapsed}
+                      />
+                      <div
+                        className={cn({
+                          [styles.hiddenReplies]: collapsed,
+                        })}
+                      >
+                        <ReplyListContainer
+                          settings={props.settings}
+                          viewer={props.viewer}
+                          comment={comment}
+                          story={props.story}
+                        />
+                      </div>
+                    </HorizontalGutter>
+                  )}
+                </CollapsableComment>
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
           ))}

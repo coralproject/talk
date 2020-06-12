@@ -6,12 +6,21 @@ exports[`renders correctly 1`] = `
 >
   <ForwardRef(forwardRef)
     anchor={true}
-    color="primary"
+    className="ShowConversationLink-conversationLink"
+    classes={
+      Object {
+        "active": "ShowConversationLink-active",
+        "colorRegular": "ShowConversationLink-colorRegular",
+        "disabled": undefined,
+        "mouseHover": "ShowConversationLink-mouseHover",
+      }
+    }
+    color="regular"
     href="http://localhost/comment"
     id="id"
     onClick={[Function]}
     target="_parent"
-    variant="underlined"
+    variant="textUnderlined"
   >
     Read More of this Conversation &gt;
   </ForwardRef(forwardRef)>

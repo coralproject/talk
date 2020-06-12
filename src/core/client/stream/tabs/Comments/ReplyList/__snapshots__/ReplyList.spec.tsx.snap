@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
+  className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"
@@ -21,32 +22,9 @@ exports[`renders correctly 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-1",
-            }
-          }
-          disableReplies={false}
-          indentLevel={1}
-          key="comment-1"
-          localReply={false}
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={false}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>
@@ -66,33 +44,9 @@ exports[`renders correctly 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-2",
-              "showConversationLink": true,
-            }
-          }
-          disableReplies={false}
-          indentLevel={1}
-          key="comment-2"
-          localReply={false}
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={true}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>
@@ -101,6 +55,7 @@ exports[`renders correctly 1`] = `
 
 exports[`when there is more disables load more button 1`] = `
 <ForwardRef(forwardRef)
+  className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"
@@ -120,30 +75,9 @@ exports[`when there is more disables load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-1",
-            }
-          }
-          indentLevel={1}
-          key="comment-1"
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={false}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>
@@ -162,30 +96,9 @@ exports[`when there is more disables load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-2",
-            }
-          }
-          indentLevel={1}
-          key="comment-2"
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={false}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>
@@ -214,6 +127,7 @@ exports[`when there is more disables load more button 1`] = `
 
 exports[`when there is more renders a load more button 1`] = `
 <ForwardRef(forwardRef)
+  className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"
@@ -233,30 +147,9 @@ exports[`when there is more renders a load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-1",
-            }
-          }
-          indentLevel={1}
-          key="comment-1"
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={false}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>
@@ -275,30 +168,9 @@ exports[`when there is more renders a load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
-          comment={
-            Object {
-              "id": "comment-2",
-            }
-          }
-          indentLevel={1}
-          key="comment-2"
-          settings={
-            Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
-              },
-            }
-          }
-          showConversationLink={false}
-          story={
-            Object {
-              "id": "story-id",
-            }
-          }
-          viewer={null}
-        />
+        <CollapsableComment>
+          <Component />
+        </CollapsableComment>
       </ForwardRef(forwardRef)>
     </Relay(IgnoredTombstoneOrHideContainer)>
   </FadeInTransition>

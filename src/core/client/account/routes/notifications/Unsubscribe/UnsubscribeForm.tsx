@@ -5,14 +5,11 @@ import { Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
-import {
-  Button,
-  CallOut,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import UnsubscribeNotificationsMutation from "./UnsubscribeNotificationsMutation";
+
+import styles from "./Unsubscribe.css";
 
 interface Props {
   token: string;
@@ -42,30 +39,34 @@ const UnsubscribeForm: React.FunctionComponent<Props> = ({
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, submitError }) => (
           <form onSubmit={handleSubmit}>
-            <HorizontalGutter>
+            <div>
+              <Localized id="unsubscribe-unsubscribeFromEmails">
+                <div className={styles.title}>
+                  Unsubscribe from email notifications
+                </div>
+              </Localized>
               <Localized id="unsubscribe-clickToConfirm">
-                <Typography variant="heading1">
+                <div className={styles.description}>
                   Click below to confirm that you want to unsubscribe from all
                   notifications.
-                </Typography>
+                </div>
               </Localized>
-              {submitError && (
-                <CallOut color="error" fullWidth>
-                  {submitError}
-                </CallOut>
-              )}
-              <Localized id="unsubscribe-confirm">
+              {submitError && <CallOut color="negative" title={submitError} />}
+              <Localized id="unsubscribe-submit-unsubscribe">
                 <Button
                   type="submit"
                   variant="filled"
+                  paddingSize="medium"
                   color="primary"
                   disabled={submitting}
+                  upperCase
                   fullWidth
+                  className={styles.submit}
                 >
-                  Confirm
+                  Unsubscribe
                 </Button>
               </Localized>
-            </HorizontalGutter>
+            </div>
           </form>
         )}
       </Form>

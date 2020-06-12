@@ -2,11 +2,12 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { HorizontalRule } from "coral-ui/components/v2";
 
+import ModerateStreamContainer from "../../common/ModerateStream/ModerateStreamContainer";
+import { AddMessageContainer } from "./AddMessage";
 import ConfigureStreamContainer from "./ConfigureStream";
-import HorizontalRule from "./HorizontalRule";
-import ModerateStreamContainer from "./ModerateStreamContainer";
+import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 import { QAConfigContainer } from "./Q&A";
 
@@ -18,24 +19,23 @@ export interface Props {
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"] &
-    PropTypesOf<typeof QAConfigContainer>["story"];
+    PropTypesOf<typeof QAConfigContainer>["story"] &
+    PropTypesOf<typeof LiveUpdatesConfigContainer>["story"] &
+    PropTypesOf<typeof AddMessageContainer>["story"];
 }
 
 const Configure: FunctionComponent<Props> = (props) => {
   return (
     <div>
-      <HorizontalGutter size="double">
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-        <ModerateStreamContainer
-          settings={props.settings}
-          story={props.story}
-        />
-        <HorizontalRule />
-        <ConfigureStreamContainer story={props.story} />
-        <QAConfigContainer story={props.story} settings={props.settings} />
-        <HorizontalRule />
-        <OpenOrCloseStreamContainer story={props.story} />
-      </HorizontalGutter>
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <ConfigureStreamContainer story={props.story} />
+      <HorizontalRule />
+      <AddMessageContainer story={props.story} />
+      <QAConfigContainer story={props.story} settings={props.settings} />
+      <HorizontalRule />
+      <LiveUpdatesConfigContainer story={props.story} />
+      <HorizontalRule />
+      <OpenOrCloseStreamContainer story={props.story} />
     </div>
   );
 };

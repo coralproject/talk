@@ -5,7 +5,8 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Box, Button, Flex, Typography } from "coral-ui/components";
+import { Box, Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
 
@@ -33,23 +34,24 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
         id="comments-userIgnorePopover-ignoreUser"
         $username={user.username}
       >
-        <Typography variant="heading3" mb={2}>
-          Ignore {user.username}?
-        </Typography>
+        <div className={styles.title}>Ignore {user.username}?</div>
       </Localized>
       <Localized id="comments-userIgnorePopover-description">
-        <Typography variant="detail" mb={3}>
+        <div className={styles.description}>
           When you ignore a commenter, all comments they wrote on the site will
           be hidden from you. You can undo this later from My Profile.
-        </Typography>
+        </div>
       </Localized>
       <Flex justifyContent="flex-end" itemGutter="half">
         <Localized id="comments-userIgnorePopover-cancel">
           <Button
             className={CLASSES.ignoreUserPopover.cancelButton}
             variant="outlined"
-            size="small"
+            fontSize="extraSmall"
+            paddingSize="extraSmall"
             onClick={onDismiss}
+            color="secondary"
+            upperCase
           >
             Cancel
           </Button>
@@ -58,8 +60,11 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
           <Button
             className={CLASSES.ignoreUserPopover.ignoreButton}
             variant="filled"
-            size="small"
+            fontSize="extraSmall"
+            paddingSize="extraSmall"
             onClick={onIgnore}
+            color="primary"
+            upperCase
           >
             Ignore
           </Button>

@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./OpenStream.css";
 
@@ -15,29 +14,26 @@ interface Props {
 const OpenStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.openCommentStream.$root}>
     <Localized id="configure-openStream-title">
-      <Typography variant="heading2" className={styles.heading}>
-        Open Stream
-      </Typography>
+      <div className={styles.heading}>Open Stream</div>
     </Localized>
-    <Flex alignItems="flex-start" itemGutter>
-      <Localized id="configure-openStream-description">
-        <Typography>
-          This comment stream is currently closed. By opening this comment
-          stream new comments may be submitted and displayed
-        </Typography>
-      </Localized>
-      <Localized id="configure-openStream-openStream">
-        <Button
-          variant="outlined"
-          color="error"
-          className={cn(styles.button, CLASSES.openCommentStream.openButton)}
-          onClick={onClick}
-          disabled={disableButton}
-        >
-          Open Stream
-        </Button>
-      </Localized>
-    </Flex>
+    <Localized id="configure-openStream-description">
+      <div className={styles.description}>
+        This comment stream is currently closed. By opening this comment stream
+        new comments may be submitted and displayed
+      </div>
+    </Localized>
+    <Localized id="configure-openStream-openStream">
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={CLASSES.openCommentStream.openButton}
+        onClick={onClick}
+        disabled={disableButton}
+        upperCase
+      >
+        Open Stream
+      </Button>
+    </Localized>
   </div>
 );
 

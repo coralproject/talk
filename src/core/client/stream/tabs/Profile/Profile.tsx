@@ -15,7 +15,7 @@ import {
   TabBar,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
@@ -75,14 +75,16 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <DeletionRequestCalloutContainer viewer={props.viewer} />
       <TabBar
-        variant="secondary"
+        variant="streamSecondary"
         activeTab={local.profileTab}
         onTabClick={onTabClick}
         className={CLASSES.tabBarMyProfile.$root}
       >
         <Tab
           tabID="MY_COMMENTS"
+          variant="streamSecondary"
           className={cn(CLASSES.tabBarMyProfile.myComments, {
             [CLASSES.tabBarMyProfile.active]:
               local.profileTab === "MY_COMMENTS",
@@ -94,6 +96,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         </Tab>
         <Tab
           tabID="PREFERENCES"
+          variant="streamSecondary"
           className={cn(CLASSES.tabBarMyProfile.preferences, {
             [CLASSES.tabBarMyProfile.active]:
               local.profileTab === "PREFERENCES",
@@ -106,6 +109,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         {showAccountTab && (
           <Tab
             tabID="ACCOUNT"
+            variant="streamSecondary"
             className={cn(CLASSES.tabBarMyProfile.settings, {
               [CLASSES.tabBarMyProfile.active]: local.profileTab === "ACCOUNT",
             })}
@@ -139,7 +143,6 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
               viewer={props.viewer}
               settings={props.settings}
             />
-            <DeletionRequestCalloutContainer viewer={props.viewer} />
           </TabPane>
         )}
       </TabContent>

@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "coral-ui/components";
-import Icon from "coral-ui/components/Icon";
+import { Flex } from "coral-ui/components/v2";
 import BaseButton, { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
+import Icon from "coral-ui/components/v2/Icon";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./Button.css";

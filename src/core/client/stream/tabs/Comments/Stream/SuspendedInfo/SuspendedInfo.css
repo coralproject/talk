@@ -1,0 +1,12 @@
+.icon {
+  color: var(--v2-colors-mono-500);
+}
+
+.description {
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.until {
+  margin-bottom: var(--v2-spacing-2);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}

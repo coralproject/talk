@@ -27,8 +27,8 @@ const PremodLinksConfig: FunctionComponent<Props> = ({ disabled }) => (
         id={input.name}
         disabled={disabled}
         title={
-          <Localized id="configure-premodLink-title">
-            <span>Pre-Moderate Comments Containing Links</span>
+          <Localized id="configure-premodLink-commentsContainingLinks">
+            <span>Pre-moderate comments containing links</span>
           </Localized>
         }
       >

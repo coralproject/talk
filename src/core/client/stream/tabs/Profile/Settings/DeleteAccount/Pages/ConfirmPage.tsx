@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -13,18 +13,16 @@ import {
   validateDeleteConfirmation,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
-  Button,
-  CallOut,
   Flex,
   FormField,
   HorizontalGutter,
+  Icon,
   InputLabel,
   PasswordField,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 import RequestAccountDeletionMutation from "./RequestAccountDeletionMutation";
@@ -97,31 +95,42 @@ const ConfirmPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(sharedStyles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-account-deleteAccount-pages-confirmHeader">
-          <Typography variant="header2" className={sharedStyles.headerText}>
-            Confirm account deletion?
-          </Typography>
-        </Localized>
+        <div className={sharedStyles.headerContent}>
+          <Localized id="profile-account-deleteAccount-pages-sharedHeader">
+            <div
+              className={cn(
+                sharedStyles.subHeaderText,
+                CLASSES.deleteMyAccountModal.subHeaderText
+              )}
+            >
+              Delete my account
+            </div>
+          </Localized>
+          <Localized id="profile-account-deleteAccount-pages-confirmSubHeader">
+            <div
+              className={cn(
+                sharedStyles.headerText,
+                CLASSES.deleteMyAccountModal.headerText
+              )}
+            >
+              Are you sure?
+            </div>
+          </Localized>
+        </div>
       </Flex>
-      <div className={sharedStyles.body}>
+      <div className={cn(sharedStyles.body, CLASSES.deleteMyAccountModal.body)}>
         <PageStepBar step={step} />
 
-        <Localized id="profile-account-deleteAccount-pages-confirmDescHeader">
-          <Typography
-            variant="bodyCopyBold"
-            className={sharedStyles.sectionHeader}
-          >
-            Are you sure you want to delete your account?
-          </Typography>
-        </Localized>
         <Localized id="profile-account-deleteAccount-confirmDescContent">
-          <Typography
-            variant="bodyCopy"
-            className={sharedStyles.sectionContent}
+          <div
+            className={cn(
+              sharedStyles.sectionContent,
+              CLASSES.deleteMyAccountModal.sectionContent
+            )}
           >
             To confirm you would like to delete your account please type in the
             following phrase into the text box below:
-          </Typography>
+          </div>
         </Localized>
 
         <Form onSubmit={onSubmit}>
@@ -148,6 +157,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     readOnly
                     value="delete"
                     aria-label=""
+                    className={styles.input}
                   />
                 </Localized>
                 <FormField>
@@ -161,9 +171,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPhraseLabel">
-                          <InputLabel
-                            container={<label htmlFor={input.name} />}
-                          >
+                          <InputLabel htmlFor={input.name}>
                             To confirm, type phrase below:
                           </InputLabel>
                         </Localized>
@@ -173,10 +181,15 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           id={input.name}
                           data-testid="confirm-page-confirmation"
                           disabled={submitting}
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <FieldValidationMessage fullWidth meta={meta} />
+                        <div className={styles.validationMessage}>
+                          <ValidationMessage
+                            meta={meta}
+                            className={CLASSES.validationMessage}
+                          />
+                        </div>
                       </FormField>
                     )}
                   </Field>
@@ -186,9 +199,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPasswordLabel">
-                          <InputLabel
-                            container={<label htmlFor={input.name} />}
-                          >
+                          <InputLabel htmlFor={input.name}>
                             Enter your password:
                           </InputLabel>
                         </Localized>
@@ -198,19 +209,27 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           id={input.name}
                           data-testid="confirm-page-password"
                           disabled={submitting}
-                          color={colorFromMeta(meta)}
+                          color={streamColorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <FieldValidationMessage fullWidth meta={meta} />
+                        <div className={styles.validationMessage}>
+                          <ValidationMessage
+                            meta={meta}
+                            className={CLASSES.validationMessage}
+                          />
+                        </div>
                       </FormField>
                     )}
                   </Field>
                 </FormField>
 
                 {submitError && (
-                  <CallOut color="error" fullWidth>
-                    {submitError}
-                  </CallOut>
+                  <CallOut
+                    color="negative"
+                    icon={<Icon size="sm">error</Icon>}
+                    titleWeight="semiBold"
+                    title={submitError}
+                  />
                 )}
               </HorizontalGutter>
               <div className={styles.controls}>
@@ -219,6 +238,8 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     <Localized id="profile-account-deleteAccount-pages-cancel">
                       <Button
                         variant="outlined"
+                        color="secondary"
+                        upperCase
                         className={cn(
                           sharedStyles.cancelButton,
                           CLASSES.deleteMyAccountModal.cancelButton
@@ -230,14 +251,14 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     </Localized>
                     <Localized id="profile-account-deleteAccount-pages-deleteButton">
                       <Button
-                        color="error"
+                        color="secondary"
                         variant="filled"
                         type="submit"
+                        upperCase
                         disabled={preventSubmit(formProps)}
-                        className={cn(
-                          sharedStyles.deleteButton,
+                        className={
                           CLASSES.deleteMyAccountModal.deleteMyAccountButton
-                        )}
+                        }
                       >
                         Delete my account
                       </Button>

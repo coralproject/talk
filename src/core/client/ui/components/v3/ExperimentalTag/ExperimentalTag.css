@@ -1,0 +1,22 @@
+.root {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+
+  border-radius: var(--v2-round-corners);
+
+  background-color: var(--v2-colors-stream-blue-100);
+  color: var(--v2-colors-stream-blue-500);
+
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
+  padding-left: var(--v2-spacing-2);
+  padding-right: var(--v2-spacing-2);
+
+  margin-right: var(--v2-spacing-1);
+}
+
+.button {
+  color: var(--v2-colors-mono-100);
+}

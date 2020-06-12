@@ -3,11 +3,11 @@
 exports[`renders correctly 1`] = `
 <div>
   <RTE
-    className="$root content placeholder toolbar custom"
+    className="$root content placeholder toolbar container custom"
     classNameDisabled=""
     contentClassName="coral coral-rte-content RTE-content"
     contentClassNameDisabled=""
-    contentContainerClassName=""
+    contentContainerClassName="coral coral-rte-container"
     contentContainerClassNameDisabled=""
     features={Array []}
     placeholder="Post a comment"

@@ -600,7 +600,7 @@
       &.mouseHover {
         color: var(--palette-error-main);
         & > span {
-          text-decoration: underline;
+          text-decoration: variantOutlined;
         }
       }
       &.active,

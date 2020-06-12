@@ -1,4 +1,13 @@
-.stream > *:not(:first-child):not(button) {
-  border-top: 1px solid var(--palette-divider);
-  padding-top: var(--spacing-3)
+.stream > *(:first-child):not(button) {
+  border-top: 0 !important;
+  /* border-bottom: 1px solid var(--palette-divider);
+  padding-top: var(--spacing-3); */
+}
+
+.borderedComment {
+  border-bottom: 1px solid var(--palette-divider);
+}
+
+.hiddenReplies {
+  display: none;
 }

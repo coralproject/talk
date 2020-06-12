@@ -40,6 +40,8 @@ export interface CheckBoxProps {
    */
   light?: boolean;
 
+  variant?: "default" | "streamBlue";
+
   // These handlers are passed down by the `withKeyboardFocus` HOC.
   onFocus: EventHandler<FocusEvent<HTMLElement>>;
   onBlur: EventHandler<FocusEvent<HTMLElement>>;
@@ -58,16 +60,27 @@ class CheckBox extends Component<CheckBoxProps> {
       light,
       children,
       keyboardFocus,
+      variant = "default",
       ...rest
     } = this.props;
 
-    const rootClassName = cn(classes.root, className);
+    const rootClassName = cn(
+      classes.root,
+      {
+        [classes.default]: variant === "default",
+        [classes.streamBlue]: variant === "streamBlue",
+      },
+      className
+    );
     const finalID = id || this.state.randomID;
 
     return (
       <div className={rootClassName}>
         <input
-          className={classes.input}
+          className={cn(classes.input, {
+            [classes.default]: variant === "default",
+            [classes.streamBlue]: variant === "streamBlue",
+          })}
           type="checkbox"
           id={finalID}
           {...rest}
@@ -76,6 +89,8 @@ class CheckBox extends Component<CheckBoxProps> {
           className={cn(classes.label, {
             [classes.labelLight]: light,
             [classes.focus]: keyboardFocus,
+            [classes.default]: variant === "default",
+            [classes.streamBlue]: variant === "streamBlue",
           })}
           htmlFor={finalID}
         >

@@ -1,14 +1,33 @@
-.variantRegular {
-  &:not(.disabled) {
-    &.colorRegular {
-      background-color: #3b5998;
-      &.mouseHover {
-        background-color: #4467b0;
-      }
-      &:active,
-      &.active {
-        background-color: #6583c3;
-      }
-    }
+.icon {
+  margin-right: var(--v2-spacing-2);
+
+  height: 1rem;
+  overflow: hidden;
+}
+
+.button {
+  border-style: solid;
+  border-width: 1px;
+
+  color: var(--v2-colors-pure-white);
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    background-color: #3B5998;
+    border-color: #3B5998;
+  }
+
+  &:hover, &.mouseHover {
+    background-color: #4467b0;
+    border-color: #4467b0;
+  }
+  &:active, &.active {
+    background-color: #6583c3;
+    border-color: #6583c3;
+  }
+  &.disabled {
+    color: var(--v2-colors-grey-400);
+    background-color: var(--v2-colors-grey-200);
+    border-color: var(--v2-colors-grey-200);
   }
 }

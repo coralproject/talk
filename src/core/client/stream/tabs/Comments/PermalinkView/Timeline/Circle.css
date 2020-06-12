@@ -7,11 +7,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  left: calc(-1 * var(--mini-unit) - var(--mini-unit) - 1px);
-  background-color: var(--palette-common-white);
-  width: calc(2 * var(--mini-unit));
+  left: calc(-1 * var(--v2-spacing-2) - var(--v2-spacing-2) - 1px);
+  background-color: var(--v2-colors-pure-white);
+  width: calc(2 * var(--v2-spacing-2));
   height: 23px;
-  color: var(--palette-grey-main);
+  color: var(--v2-colors-grey-500);
 }
 
 .end {
@@ -24,8 +24,8 @@
 }
 
 .circle {
-  width: var(--mini-unit);
-  height: var(--mini-unit);
+  width: var(--v2-spacing-2);
+  height: var(--v2-spacing-2);
   fill: currentColor;
   stroke: currentColor;
 }

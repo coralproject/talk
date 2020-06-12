@@ -90,6 +90,11 @@ interface Props {
   className?: string;
 
   /**
+   * className for the container.
+   */
+  containerClassName?: string;
+
+  /**
    * className for the content area.
    */
   contentClassName?: string;
@@ -103,6 +108,7 @@ interface Props {
    * className for the toolbar.
    */
   toolbarClassName?: string;
+
   /*
    * If set renders a full width button
    */
@@ -136,6 +142,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     disabled,
     defaultValue,
     forwardRef,
+    containerClassName,
     contentClassName,
     placeholderClassName,
     toolbarClassName,
@@ -244,6 +251,10 @@ const RTE: FunctionComponent<Props> = (props) => {
           {
             [styles.toolbarHidden]: featureElements.length === 0,
           }
+        )}
+        contentContainerClassName={cn(
+          CLASSES.rte.container,
+          containerClassName
         )}
         onChange={onChange}
         value={value || defaultValue || "<div><br></div>"}

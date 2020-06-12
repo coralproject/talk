@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Card, Flex, Spinner } from "coral-ui/components";
+import { Card, Flex, Spinner } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import ExpertSearchItem from "./ExpertSearchItem";
 

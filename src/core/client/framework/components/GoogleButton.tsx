@@ -1,7 +1,10 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button } from "coral-ui/components/v2";
+import CLASSES from "coral-stream/classes";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./GoogleButton.css";
 
@@ -12,8 +15,8 @@ interface Props {
 
 const googleIcon = (
   <svg
-    width="18"
-    height="18"
+    width="14"
+    height="14"
     viewBox="0 0 18 18"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -27,14 +30,19 @@ const googleIcon = (
 
 const GoogleButton: FunctionComponent<Props> = (props) => (
   <Button
-    classes={styles}
-    variant="regular"
-    size="large"
+    className={cn(CLASSES.login.googleButton, styles.button)}
+    variant="filled"
+    color="none"
+    fontSize="small"
+    paddingSize="small"
+    upperCase
     fullWidth
     onClick={props.onClick}
   >
-    {googleIcon}
-    <span>{props.children}</span>
+    <Flex alignItems="center" justifyContent="center">
+      <div className={styles.icon}>{googleIcon}</div>
+      <span>{props.children}</span>
+    </Flex>
   </Button>
 );
 

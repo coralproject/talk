@@ -22,7 +22,7 @@ import {
   Flex,
   HorizontalGutter,
   MatchMedia,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import {
@@ -32,6 +32,8 @@ import {
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
 import ReplyTo from "./ReplyTo";
+
+import styles from "./ReplyCommentForm.css";
 
 interface FormProps {
   body: string;
@@ -102,13 +104,14 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                           placeholder="Write a reply"
                           ref={props.rteRef}
                           disabled={submitting || props.disabled}
+                          contentClassName={styles.rteContent}
                         />
                       </Localized>
                     </div>
                     {props.disabled ? (
                       <>
                         {props.disabledMessage && (
-                          <ValidationMessage fullWidth>
+                          <ValidationMessage>
                             {props.disabledMessage}
                           </ValidationMessage>
                         )}
@@ -119,14 +122,12 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                           (meta.error ||
                             (meta.submitError &&
                               !meta.dirtySinceLastSubmit)) && (
-                            <ValidationMessage fullWidth>
+                            <ValidationMessage>
                               {meta.error || meta.submitError}
                             </ValidationMessage>
                           )}
                         {submitError && (
-                          <ValidationMessage fullWidth>
-                            {submitError}
-                          </ValidationMessage>
+                          <ValidationMessage>{submitError}</ValidationMessage>
                         )}
                         {props.max && (
                           <RemainingCharactersContainer
@@ -147,7 +148,8 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                       >
                         <Localized id="comments-replyCommentForm-cancel">
                           <Button
-                            variant="outlined"
+                            color="mono"
+                            variant="outline"
                             disabled={submitting}
                             onClick={props.onCancel}
                             className={CLASSES.createReplyComment.cancel}
@@ -158,8 +160,8 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                         </Localized>
                         <Localized id="comments-replyCommentForm-submit">
                           <Button
-                            color="primary"
-                            variant="filled"
+                            color="stream"
+                            variant="regular"
                             disabled={
                               submitting ||
                               getHTMLCharacterLength(input.value) === 0 ||

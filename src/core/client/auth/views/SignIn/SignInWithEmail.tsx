@@ -1,27 +1,26 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import EmailField from "coral-auth/components/EmailField";
-import { PasswordField } from "coral-framework/components";
 import {
-  colorFromMeta,
   FormError,
   OnSubmit,
-  ValidationMessage,
+  streamColorFromMeta,
 } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
 import {
-  Button,
-  ButtonIcon,
-  CallOut,
   Flex,
   FormField,
-  HorizontalGutter,
+  Icon,
   InputLabel,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+  PasswordField,
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
+
+import styles from "./SignInWithEmail.css";
 
 interface FormProps {
   email: string;
@@ -41,14 +40,17 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="full">
-            {submitError && (
-              <CallOut color="error" fullWidth>
-                {submitError}
-              </CallOut>
-            )}
-
+          {submitError && (
+            <CallOut
+              className={CLASSES.login.error}
+              color="negative"
+              title={submitError}
+            />
+          )}
+          <div className={cn(CLASSES.login.field, styles.field)}>
             <EmailField disabled={submitting} />
+          </div>
+          <div className={cn(CLASSES.login.field, styles.field)}>
             <Field name="password" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>
@@ -63,41 +65,60 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                       {...input}
                       id={input.name}
                       placeholder="Password"
-                      color={colorFromMeta(meta)}
+                      color={streamColorFromMeta(meta)}
                       disabled={submitting}
                       fullWidth
                     />
                   </Localized>
-                  <ValidationMessage meta={meta} fullWidth />
+                  <ValidationMessage meta={meta} />
                   <Flex justifyContent="flex-end">
-                    <Typography variant="bodyCopy">
-                      <Localized id="signIn-forgotYourPassword">
-                        <TextLink
-                          onClick={props.onGotoForgotPassword}
-                          href={props.forgotPasswordHref}
-                        >
+                    <div
+                      className={cn(
+                        CLASSES.login.signInWithEmail.forgotPassword,
+                        styles.forgotPassword
+                      )}
+                    >
+                      <Button
+                        variant="flat"
+                        color="primary"
+                        fontSize="none"
+                        fontWeight="semiBold"
+                        paddingSize="none"
+                        onClick={props.onGotoForgotPassword}
+                        href={props.forgotPasswordHref}
+                        underline
+                      >
+                        <Localized id="signIn-forgotYourPassword">
                           Forgot your password?
-                        </TextLink>
-                      </Localized>
-                    </Typography>
+                        </Localized>
+                      </Button>
+                    </div>
                   </Flex>
                 </FormField>
               )}
             </Field>
+          </div>
+          <div className={styles.actions}>
             <Button
               variant="filled"
-              color="brand"
-              size="large"
+              color="primary"
+              fontSize="small"
+              paddingSize="small"
               type="submit"
               disabled={submitting}
               fullWidth
+              upperCase
             >
-              <ButtonIcon size="md">email</ButtonIcon>
-              <Localized id="signIn-signInWithEmail">
-                <span>Sign in with Email</span>
-              </Localized>
+              <Flex alignItems="center" justifyContent="center">
+                <Icon size="md" className={styles.icon}>
+                  email
+                </Icon>
+                <Localized id="signIn-signInWithEmail">
+                  <span>Sign in with Email</span>
+                </Localized>
+              </Flex>
             </Button>
-          </HorizontalGutter>
+          </div>
         </form>
       )}
     </Form>

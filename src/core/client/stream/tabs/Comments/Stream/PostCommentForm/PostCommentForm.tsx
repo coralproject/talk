@@ -11,7 +11,12 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { CreateCommentFocusEvent } from "coral-stream/events";
-import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
+import {
+  AriaInfo,
+  Button,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import {
   getCommentBodyValidators,
@@ -130,7 +135,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                       {props.disabled ? (
                         <>
                           {props.disabledMessage && (
-                            <ValidationMessage fullWidth>
+                            <ValidationMessage>
                               {props.disabledMessage}
                             </ValidationMessage>
                           )}
@@ -141,14 +146,12 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                             (meta.error ||
                               (meta.submitError &&
                                 !meta.dirtySinceLastSubmit)) && (
-                              <ValidationMessage fullWidth>
+                              <ValidationMessage>
                                 {meta.error || meta.submitError}
                               </ValidationMessage>
                             )}
                           {submitError && (
-                            <ValidationMessage fullWidth>
-                              {submitError}
-                            </ValidationMessage>
+                            <ValidationMessage>{submitError}</ValidationMessage>
                           )}
                           <PostCommentSubmitStatusContainer
                             status={props.submitStatus}
@@ -165,8 +168,8 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                     <Flex direction="column" alignItems="flex-end">
                       <Localized id="comments-postCommentForm-submit">
                         <Button
-                          color="primary"
-                          variant="filled"
+                          color="stream"
+                          variant="regular"
                           className={CLASSES.createComment.submit}
                           disabled={
                             submitting ||

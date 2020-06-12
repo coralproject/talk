@@ -1,14 +1,26 @@
-.variantRegular {
-  &:not(.disabled) {
-    &.colorRegular {
-      background-color: #0d5b8f;
-      &.mouseHover {
-        background-color: #106fae;
-      }
-      &:active,
-      &.active {
-        background-color: #1383cd;
-      }
-    }
+.button {
+  border-style: solid;
+  border-width: 1px;
+
+  color: var(--v2-colors-pure-white);
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    background-color: var(--v2-colors-grey-500);
+    border-color: var(--v2-colors-grey-500);
+  }
+
+  &:hover, &.mouseHover {
+    background-color: var(--v2-colors-grey-400);
+    border-color: var(--v2-colors-grey-400);
+  }
+  &:active, &.active {
+    background-color: var(--v2-colors-grey-300);
+    border-color: var(--v2-colors-grey-300);
+  }
+  &.disabled {
+    color: var(--v2-colors-grey-400);
+    background-color: var(--v2-colors-grey-200);
+    border-color: var(--v2-colors-grey-200);
   }
 }

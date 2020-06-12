@@ -15,13 +15,11 @@ exports[`renders correctly 1`] = `
     Username={<Username />}
     id="comments-inReplyTo"
   >
-    <ForwardRef(forwardRef)
+    <span
       className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
-      container="span"
-      variant="timestamp"
     >
       In reply to &lt;Username&gt;&lt;/Username&gt;
-    </ForwardRef(forwardRef)>
+    </span>
   </Localized>
 </ForwardRef(forwardRef)>
 `;

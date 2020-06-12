@@ -2,13 +2,14 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { streamColorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
-import { FormField, InputLabel, TextField } from "coral-ui/components";
+import { FormField, InputLabel, TextField } from "coral-ui/components/v2";
+import { ValidationMessage } from "coral-ui/components/v3";
 
 interface Props {
   disabled: boolean;
@@ -30,12 +31,12 @@ const EmailField: FunctionComponent<Props> = (props) => (
             id={input.name}
             placeholder="Email Address"
             type="email"
-            color={colorFromMeta(meta)}
+            color={streamColorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
           />
         </Localized>
-        <ValidationMessage meta={meta} fullWidth />
+        <ValidationMessage meta={meta} />
       </FormField>
     )}
   </Field>

@@ -1,13 +1,17 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button } from "coral-ui/components/v2";
+import CLASSES from "coral-stream/classes";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./FacebookButton.css";
 
 interface Props {
   onClick: PropTypesOf<typeof Button>["onClick"];
   children: React.ReactNode;
+  className?: string;
 }
 
 const facebookIcon = (
@@ -27,14 +31,19 @@ const facebookIcon = (
 
 const FacebookButton: FunctionComponent<Props> = (props) => (
   <Button
-    classes={styles}
-    variant="regular"
-    size="large"
+    className={cn(CLASSES.login.facebookButton, styles.button)}
+    variant="filled"
+    color="none"
+    fontSize="small"
+    paddingSize="small"
+    upperCase
     fullWidth
     onClick={props.onClick}
   >
-    {facebookIcon}
-    <span>{props.children}</span>
+    <Flex alignItems="center" justifyContent="center">
+      <div className={styles.icon}>{facebookIcon}</div>
+      <span>{props.children}</span>
+    </Flex>
   </Button>
 );
 

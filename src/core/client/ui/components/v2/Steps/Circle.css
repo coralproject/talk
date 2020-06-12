@@ -1,0 +1,23 @@
+.root {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: var(--v2-colors-pure-white);
+  border: 2px solid var(--v2-colors-grey-400);
+  box-sizing: border-box;
+  border-radius: 100%;
+  z-index: 1;
+}
+
+.active,
+.completed {
+  background-color: var(--v2-colors-green-400);
+  border-color: var(--v2-colors-green-400);
+}
+
+.icon {
+  color: var(--v2-colors-pure-white);
+  font-weight: bold;
+  margin-top: -8px;
+  margin-left: 1px;
+}

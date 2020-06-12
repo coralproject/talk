@@ -3,10 +3,11 @@ $input-border: var(--v2-colors-grey-500);
 $input-background: var(--v2-colors-pure-white);
 $input-placeholder: var(--v2-colors-mono-100);
 $input-regular-focused-border: var(--v2-colors-teal-500);
+$input-streamBlue-focused-border: var(--v2-colors-stream-blue-500);
 $input-disabled-background: var(--v2-colors-white-500);
 $input-disabled-value: var(--v2-colors-grey-400);
 $input-disabled-border: var(--v2-colors-grey-400);
-$input-error-border: var(--v2-palette-error-darkest);
+$input-error-border: var(--v2-colors-red-500);
 $input-dark-focused-border: var(--v2-colors-blue-500);
 
 .root {
@@ -26,7 +27,7 @@ $input-dark-focused-border: var(--v2-colors-blue-500);
   padding: var(--v2-spacing-2);
   box-sizing: border-box;
   background-color: $input-background;
-  border-radius: var(--round-corners);
+  border-radius: var(--v2-round-corners);
   width: 100%;
   align-self: stretch;
   margin-top: 0;
@@ -61,6 +62,14 @@ $input-dark-focused-border: var(--v2-colors-blue-500);
   &:focus {
     border: 1px solid $input-regular-focused-border;
     box-shadow: inset 0px 0px 0px 1px $input-regular-focused-border;
+  }
+}
+
+.colorStreamBlue {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-streamBlue-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-streamBlue-focused-border;
   }
 }
 

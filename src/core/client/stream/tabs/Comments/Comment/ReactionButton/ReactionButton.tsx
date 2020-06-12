@@ -2,8 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
-import { Button, Icon, MatchMedia } from "coral-ui/components";
-import { ButtonProps } from "coral-ui/components/Button";
+import { Button, Icon, MatchMedia } from "coral-ui/components/v2";
+import { ButtonProps } from "coral-ui/components/v2/Button";
 
 import styles from "./ReactionButton.css";
 
@@ -21,37 +21,40 @@ interface ReactionButtonProps {
   isQA?: boolean;
 }
 
-class ReactionButton extends React.Component<ReactionButtonProps> {
-  public render() {
-    const { totalReactions, reacted, readOnly, className } = this.props;
-    return (
-      <Button
-        variant="textUnderlined"
-        size="small"
-        onClick={this.props.onClick}
-        disabled={readOnly}
-        color="primary"
-        className={cn(
-          { [styles.readOnly]: readOnly },
-          className,
-          styles.button
-        )}
-      >
-        <MatchMedia gtWidth="xs">
-          {this.props.isQA ? (
-            <Icon>arrow_upward</Icon>
-          ) : (
-            <Icon>
-              {reacted
-                ? this.props.iconActive
-                  ? this.props.iconActive
-                  : this.props.icon
-                : this.props.icon}
-            </Icon>
-          )}
-        </MatchMedia>
-        {this.props.isQA ? (
-          <span>
+function render(props: ReactionButtonProps) {
+  const {
+    totalReactions,
+    reacted,
+    readOnly,
+    className,
+    onClick,
+    labelActive,
+    label,
+    icon,
+    iconActive,
+  } = props;
+
+  return (
+    <Button
+      variant="text"
+      size="regular"
+      onClick={onClick}
+      disabled={readOnly}
+      color="mono"
+      className={cn({ [styles.readOnly]: readOnly }, className, styles.button)}
+      aria-label={reacted ? labelActive : label}
+      data-testid={"comment-reaction-button"}
+    >
+      {props.isQA ? (
+        <Icon>arrow_upward</Icon>
+      ) : (
+        <Icon className={reacted ? styles.reacted : ""}>
+          {reacted ? (iconActive ? iconActive : icon) : icon}
+        </Icon>
+      )}
+      <MatchMedia gtWidth="xs">
+        {props.isQA ? (
+          <span className={reacted ? styles.reacted : ""}>
             {reacted ? (
               <Localized id="qa-reaction-voted">Voted</Localized>
             ) : (
@@ -59,11 +62,35 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
             )}
           </span>
         ) : (
-          <span>{reacted ? this.props.labelActive : this.props.label}</span>
+          <span className={reacted ? styles.reacted : ""}>
+            {reacted ? labelActive : label}
+          </span>
         )}
-        {!!totalReactions && <span>{totalReactions}</span>}
-      </Button>
-    );
+      </MatchMedia>
+
+      {!!totalReactions && (
+        <span className={reacted ? styles.reacted : ""}>{totalReactions}</span>
+      )}
+    </Button>
+  );
+}
+
+class ReactionButton extends React.Component<ReactionButtonProps> {
+  public render() {
+    const { reacted, isQA } = this.props;
+
+    if (isQA) {
+      return (
+        <Localized
+          id={reacted ? "qa-reaction-aria-voted" : "qa-reaction-aria-vote"}
+          attrs={{ "aria-label": true }}
+        >
+          {render(this.props)}
+        </Localized>
+      );
+    }
+
+    return <>{render(this.props)}</>;
   }
 }
 

@@ -1,6 +1,0 @@
-.variantGhost {
-  &.colorRegular {
-    color: var(--palette-error-main);
-    opacity: 1;
-  }
-}

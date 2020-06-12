@@ -7,8 +7,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import { Flex, Icon, Typography } from "coral-ui/components";
-import { Button } from "coral-ui/components/Button";
+import { Flex, Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
@@ -63,26 +63,20 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         scheduledDeletionDate={viewer.scheduledDeletionDate}
         organizationEmail={settings.organization.contactEmail}
       />
-      <Flex
-        justifyContent="space-between"
-        alignItems="flex-start"
-        data-testid="profile-account-deleteAccount"
-      >
-        <div className={styles.content}>
-          <Localized id="profile-account-deleteAccount-title">
-            <Typography
-              variant="heading2"
-              color="textDark"
-              className={styles.title}
-            >
-              Delete My Account
-            </Typography>
+      <div data-testid="profile-account-deleteAccount">
+        <div className={cn(styles.content, CLASSES.deleteMyAccount.content)}>
+          <Localized id="profile-account-deleteAccount-deleteMyAccount">
+            <div className={cn(styles.title, CLASSES.deleteMyAccount.title)}>
+              Delete my account
+            </div>
           </Localized>
           <Localized id="profile-account-deleteAccount-description">
-            <Typography variant="bodyCopy" className={styles.section}>
+            <div
+              className={cn(styles.section, CLASSES.deleteMyAccount.section)}
+            >
               Deleting your account will permanently erase your profile and
               remove all your comments from this site.
-            </Typography>
+            </div>
           </Localized>
           {deletionDate && (
             <>
@@ -90,24 +84,30 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 id="profile-account-deleteAccount-cancelDelete-description"
                 $date={deletionDate}
               >
-                <Typography variant="bodyCopy" className={styles.section}>
+                <div
+                  className={cn(
+                    styles.section,
+                    CLASSES.deleteMyAccount.section
+                  )}
+                >
                   You have already submitted a request to delete your account.
                   Your account will be deleted on {deletionDate}. You may cancel
                   the request until that time.
-                </Typography>
+                </div>
               </Localized>
               <Button
                 variant="filled"
-                size="small"
                 onClick={cancelDeletion}
                 className={CLASSES.deleteMyAccount.cancelRequestButton}
               >
-                <Icon size="sm" className={styles.icon}>
-                  block
-                </Icon>
-                <Localized id="profile-account-deleteAccount-cancelDelete">
-                  <span>Cancel account deletion request</span>
-                </Localized>
+                <Flex alignItems="center">
+                  <Icon size="sm" className={styles.icon}>
+                    block
+                  </Icon>
+                  <Localized id="profile-account-deleteAccount-cancelDelete">
+                    <span>Cancel account deletion request</span>
+                  </Localized>
+                </Flex>
               </Button>
             </>
           )}
@@ -116,17 +116,21 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         {!deletionDate && (
           <Localized id="profile-account-deleteAccount-request">
             <Button
-              color="primary"
-              variant="outlineFilled"
-              size="small"
-              className={CLASSES.deleteMyAccount.requestButton}
+              color="negative"
+              variant="filled"
+              className={cn(
+                styles.requestButton,
+                CLASSES.deleteMyAccount.requestButton
+              )}
               onClick={showPopover}
+              data-testid="deleteAccount-request"
+              upperCase
             >
               Request
             </Button>
           </Localized>
         )}
-      </Flex>
+      </div>
     </div>
   );
 };

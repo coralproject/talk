@@ -67,7 +67,7 @@ it("shows error when submitting empty form", async () => {
 it("checks for invalid email", async () => {
   const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   act(() => {
     emailAddressField.props.onChange({ target: { value: "invalid-email" } });
   });
@@ -82,7 +82,7 @@ it("checks for invalid email", async () => {
 it("accepts valid email", async () => {
   const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   act(() => {
     emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
   });
@@ -196,7 +196,7 @@ it("accepts correct password", async () => {
 it("shows server error", async () => {
   const { context, main, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
@@ -246,7 +246,7 @@ it("submits form successfully", async () => {
   const { context, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const accessToken = createAccessToken();
-  const emailAddressField = getByLabelText("Email Address");
+  const emailAddressField = getByLabelText("Email address");
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(

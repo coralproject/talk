@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./ExpertSearchItem.css";
 
@@ -24,7 +25,12 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
 
   return (
     <Flex alignItems="center" key={id}>
-      <Button onClick={onClick} className={styles.button}>
+      <Button
+        onClick={onClick}
+        className={styles.button}
+        variant="none"
+        color="none"
+      >
         <div className={styles.usernameEmail}>
           {username && <span className={styles.username}>{username}</span>}
           {email && (

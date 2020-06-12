@@ -167,7 +167,7 @@ const postACommentAndHandleNonPublishedComment = async (
 
 it("post a comment and handle non-visible comment state (dismiss by click)", async () =>
   await postACommentAndHandleNonPublishedComment((form, rte) => {
-    within(form).getByText("Dismiss").props.onClick();
+    within(form).getByTestID("callout-close-button").props.onClick();
   }));
 
 it("post a comment and handle non-visible comment state (dismiss by typing)", async () =>

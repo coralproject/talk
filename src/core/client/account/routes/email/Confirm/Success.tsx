@@ -1,20 +1,18 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import styles from "./Confirm.css";
 
 const Success: React.FunctionComponent = () => {
   return (
-    <HorizontalGutter size="double">
+    <div>
       <Localized id="confirmEmail-successfullyConfirmed">
-        <Typography variant="heading1">Email successfully confirmed</Typography>
+        <div className={styles.title}>Email successfully confirmed</div>
       </Localized>
       <Localized id="confirmEmail-youMayClose">
-        <Typography variant="bodyCopy">
-          You may now close this window.
-        </Typography>
+        <div className={styles.description}>You may now close this window.</div>
       </Localized>
-    </HorizontalGutter>
+    </div>
   );
 };
 

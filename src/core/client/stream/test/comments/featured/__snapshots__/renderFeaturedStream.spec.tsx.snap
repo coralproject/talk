@@ -11,7 +11,7 @@ exports[`renders comment stream 1`] = `
       Navigation
     </h2>
     <ul
-      className="TabBar-root TabBar-primary coral coral-tabBar"
+      className="TabBar-root TabBar-streamPrimary coral coral-tabBar"
       role="tablist"
     >
       <li
@@ -21,8 +21,9 @@ exports[`renders comment stream 1`] = `
       >
         <button
           aria-controls="tabPane-COMMENTS"
+          aria-label="Comments"
           aria-selected={true}
-          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active"
+          className="BaseButton-root Tab-button Tab-streamPrimary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active TabBar-smallTab"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -30,11 +31,22 @@ exports[`renders comment stream 1`] = `
           onMouseOver={[Function]}
           onTouchEnd={[Function]}
           role="tab"
+          title="Comments"
           type="button"
         >
-          <span>
-            Comments
-          </span>
+          <div>
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-lg"
+            >
+              forum
+            </i>
+            <div
+              className="TabBar-smallText"
+            >
+              Comments
+            </div>
+          </div>
         </button>
       </li>
     </ul>
@@ -51,36 +63,50 @@ exports[`renders comment stream 1`] = `
         className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
       >
         <div
-          className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+          className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifySpaceBetween Flex-alignFlexStart"
         >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
-            data-color="primary"
-            data-variant="underlined"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+          <div
+            className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
           >
-            Sign in
-          </button>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
-            data-color="primary"
-            data-variant="outlined"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Register
-          </button>
+            <span
+              className="UserBoxUnauthenticated-joinText"
+            >
+              Join the conversation
+            </span>
+            <div
+              className="UserBoxUnauthenticated-actions"
+            >
+              <button
+                className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Register
+              </button>
+              <button
+                className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Sign in
+              </button>
+            </div>
+          </div>
+          <div
+            className="StreamContainer-moderateStream"
+          />
         </div>
         <div
           className="coral coral-createComment"
@@ -91,12 +117,12 @@ exports[`renders comment stream 1`] = `
             <div>
               <div>
                 <div
-                  className="$root content placeholder toolbar"
+                  className="$root content placeholder toolbar container"
                   onBlur={[Function]}
                   onFocus={[Function]}
                 >
                   <div
-                    className="RTE.module-contentEditableContainer"
+                    className="RTE.module-contentEditableContainer coral coral-rte-container"
                   >
                     <div
                       aria-placeholder="Post a comment"
@@ -192,79 +218,24 @@ exports[`renders comment stream 1`] = `
           className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
         >
           <div
-            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRowReverse"
+            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
           >
-            <div
-              className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
-            >
-              <label
-                className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-                htmlFor="coral-comments-sortMenu"
-              >
-                Sort By
-              </label>
-              <span
-                className="SelectField-root"
-              >
-                <select
-                  className="SelectField-select undefined"
-                  id="coral-comments-sortMenu"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  value="CREATED_AT_DESC"
-                >
-                  <option
-                    value="CREATED_AT_DESC"
-                  >
-                    Newest
-                  </option>
-                  <option
-                    value="CREATED_AT_ASC"
-                  >
-                    Oldest
-                  </option>
-                  <option
-                    value="REPLIES_DESC"
-                  >
-                    Most Replies
-                  </option>
-                  <option
-                    value="REACTION_DESC"
-                  >
-                    Most Respected
-                  </option>
-                </select>
-                <span
-                  aria-hidden={true}
-                  className="SelectField-afterWrapper undefined"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    expand_more
-                  </i>
-                </span>
-              </span>
-            </div>
             <ul
-              className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
+              className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
               role="tablist"
             >
               <div
                 className="StreamContainer-featuredCommentsTabContainer"
               >
                 <li
-                  className="Tab-root"
+                  className="Tab-root StreamContainer-featureTabRoot"
                   id="tab-FEATURED_COMMENTS"
                   role="presentation"
                 >
                   <button
                     aria-controls="tabPane-FEATURED_COMMENTS"
                     aria-selected={true}
-                    className="BaseButton-root Tab-button Tab-secondary StreamContainer-featuredCommentsTabButton Tab-active StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab coral-tabBarSecondary-tab-active"
+                    className="BaseButton-root Tab-button Tab-streamSecondary Tab-active StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab coral-tabBarSecondary-tab-active"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -281,7 +252,7 @@ exports[`renders comment stream 1`] = `
                         Featured
                       </span>
                       <span
-                        className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
+                        className="Counter-root Counter-colorInherit Counter-sizeSmall"
                         data-testid="comments-featuredCount"
                       >
                         <span
@@ -298,18 +269,19 @@ exports[`renders comment stream 1`] = `
                 >
                   <button
                     aria-label="Toggle featured comments tooltip"
-                    className="BaseButton-root TooltipButton-button"
+                    className="BaseButton-root FeaturedCommentTooltip-button"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     onTouchEnd={[Function]}
+                    title="Toggle featured comments tooltip"
                     type="button"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm Icon-colorPrimary"
+                      className="Icon-root Icon-sm Icon-colorStream"
                     >
                       info
                     </i>
@@ -330,7 +302,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   aria-controls="tabPane-ALL_COMMENTS"
                   aria-selected={false}
-                  className="BaseButton-root Tab-button Tab-secondary StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+                  className="BaseButton-root Tab-button Tab-streamSecondary StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -347,7 +319,7 @@ exports[`renders comment stream 1`] = `
                       All Comments
                     </span>
                     <span
-                      className="Counter-root Counter-colorGrey Counter-sizeSmall coral coral-counter"
+                      className="Counter-root Counter-colorGrey Counter-sizeSmall"
                     >
                       <span
                         className="Counter-text"
@@ -359,6 +331,61 @@ exports[`renders comment stream 1`] = `
                 </button>
               </li>
             </ul>
+            <div
+              className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+            >
+              <label
+                className="SortMenu-label"
+                htmlFor="coral-comments-sortMenu"
+              >
+                Sort by
+              </label>
+              <span
+                className="SelectField-root"
+              >
+                <select
+                  className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+                  id="coral-comments-sortMenu"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  value="CREATED_AT_DESC"
+                >
+                  <option
+                    value="CREATED_AT_DESC"
+                  >
+                    Newest
+                  </option>
+                  <option
+                    value="CREATED_AT_ASC"
+                  >
+                    Oldest
+                  </option>
+                  <option
+                    value="REPLIES_DESC"
+                  >
+                    Most replies
+                  </option>
+                  <option
+                    value="REACTION_DESC"
+                  >
+                    Most Respected
+                  </option>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    expand_more
+                  </i>
+                </span>
+              </span>
+            </div>
           </div>
           <section
             aria-labelledby="tab-FEATURED_COMMENTS"
@@ -378,7 +405,7 @@ exports[`renders comment stream 1`] = `
                 data-testid="featuredComment-comment-0"
               >
                 <div
-                  className="HTMLContent-root coral coral-content coral-featuredComment-content"
+                  className="HTMLContent-root FeaturedCommentContainer-body coral coral-content coral-featuredComment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "Joining Too",
@@ -403,7 +430,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
+                        className="Username-root FeaturedCommentContainer-username"
                       >
                         Markus
                       </span>
@@ -456,9 +483,11 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="primary"
-                    data-variant="textUnderlined"
+                    aria-label="Respect"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
+                    data-color="mono"
+                    data-testid="comment-reaction-button"
+                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -468,26 +497,39 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <span>
-                      Respect
-                    </span>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      thumb_up
+                    </i>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
-                    <div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
                       <a
-                        className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
+                        onBlur={[Function]}
                         onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        <span>
-                          Go to Conversation
-                        </span>
-                        <span
-                          className="FeaturedCommentContainer-gotoArrow"
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
                         >
-                          &gt;
+                          forum
+                        </i>
+                        <span>
+                          Go to conversation
                         </span>
                       </a>
                     </div>
@@ -499,7 +541,7 @@ exports[`renders comment stream 1`] = `
                 data-testid="featuredComment-comment-1"
               >
                 <div
-                  className="HTMLContent-root coral coral-content coral-featuredComment-content"
+                  className="HTMLContent-root FeaturedCommentContainer-body coral coral-content coral-featuredComment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "What's up?",
@@ -524,7 +566,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
+                        className="Username-root FeaturedCommentContainer-username"
                       >
                         Lukas
                       </span>
@@ -577,9 +619,11 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="primary"
-                    data-variant="textUnderlined"
+                    aria-label="Respect"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
+                    data-color="mono"
+                    data-testid="comment-reaction-button"
+                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -589,26 +633,39 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <span>
-                      Respect
-                    </span>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      thumb_up
+                    </i>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
                   >
-                    <div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
                       <a
-                        className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"
+                        onBlur={[Function]}
                         onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        <span>
-                          Go to Conversation
-                        </span>
-                        <span
-                          className="FeaturedCommentContainer-gotoArrow"
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
                         >
-                          &gt;
+                          forum
+                        </i>
+                        <span>
+                          Go to conversation
                         </span>
                       </a>
                     </div>

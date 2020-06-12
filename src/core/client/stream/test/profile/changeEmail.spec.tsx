@@ -74,7 +74,7 @@ describe("change email form", () => {
     const changeEmail = await waitForElement(() =>
       within(testRenderer.root).getByTestID("profile-changeEmail")
     );
-    const editButton = within(changeEmail).getByText("Edit");
+    const editButton = within(changeEmail).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
@@ -86,7 +86,9 @@ describe("change email form", () => {
     within(changeEmail).getAllByText("This field is required", {
       exact: false,
     });
-    const button = within(changeEmail).getByText("Save");
+    const button = within(changeEmail).getByText("Save changes", {
+      exact: false,
+    });
     expect(button.props.disabled).toBeTruthy();
   });
 
@@ -94,7 +96,7 @@ describe("change email form", () => {
     const changeEmail = await waitForElement(() =>
       within(testRenderer.root).getByTestID("profile-changeEmail")
     );
-    const editButton = within(changeEmail).getByText("Edit");
+    const editButton = within(changeEmail).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
@@ -109,7 +111,9 @@ describe("change email form", () => {
     within(changeEmail).getByText("This field is required", {
       exact: false,
     });
-    const button = within(changeEmail).getByText("Save");
+    const button = within(changeEmail).getByText("Save changes", {
+      exact: false,
+    });
     expect(button.props.disabled).toBeTruthy();
   });
 
@@ -117,7 +121,7 @@ describe("change email form", () => {
     const changeEmail = await waitForElement(() =>
       within(testRenderer.root).getByTestID("profile-changeEmail")
     );
-    const editButton = within(changeEmail).getByText("Edit");
+    const editButton = within(changeEmail).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });

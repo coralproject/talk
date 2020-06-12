@@ -33,8 +33,8 @@ const PremodConfig: FunctionComponent<Props> = ({ disabled }) => (
         id={input.name}
         disabled={disabled}
         title={
-          <Localized id="configure-premod-title">
-            <span>Pre-Moderation</span>
+          <Localized id="configure-premod-premoderateAllComments">
+            <span>Pre-moderate all comments</span>
           </Localized>
         }
       >

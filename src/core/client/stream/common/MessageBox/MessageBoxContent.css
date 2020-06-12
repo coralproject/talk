@@ -1,4 +1,8 @@
+$commentsMessageBoxColor: var(--v2-colors-pure-white);
+
 .root {
   composes: root from "~coral-stream/shared/htmlContent.css";
-  color: var(--palette-text-light);
+
+  color: $commentsMessageBoxColor;
+  font-weight: var(--v2-font-weight-primary-semi-bold);
 }

@@ -30,11 +30,21 @@ exports[`has more disables load more 1`] = `
     <ForwardRef(forwardRef)
       aria-controls="coral-profile-commentHistory-log"
       className="coral coral-loadMoreButton coral-myComments-loadMoreButton"
+      classes={
+        Object {
+          "active": "CommentHistory-active",
+          "colorRegular": "CommentHistory-colorRegular",
+          "disabled": "CommentHistory-disabled",
+          "mouseHover": "CommentHistory-mouseHover",
+          "variantOutline": "CommentHistory-loadMore",
+        }
+      }
+      color="regular"
       disabled={true}
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outlineFilled"
+      variant="outline"
     >
       Load More
     </ForwardRef(forwardRef)>
@@ -72,11 +82,21 @@ exports[`has more renders correctly 1`] = `
     <ForwardRef(forwardRef)
       aria-controls="coral-profile-commentHistory-log"
       className="coral coral-loadMoreButton coral-myComments-loadMoreButton"
+      classes={
+        Object {
+          "active": "CommentHistory-active",
+          "colorRegular": "CommentHistory-colorRegular",
+          "disabled": "CommentHistory-disabled",
+          "mouseHover": "CommentHistory-mouseHover",
+          "variantOutline": "CommentHistory-loadMore",
+        }
+      }
+      color="regular"
       disabled={false}
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outlineFilled"
+      variant="outline"
     >
       Load More
     </ForwardRef(forwardRef)>

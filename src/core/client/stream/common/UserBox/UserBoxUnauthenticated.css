@@ -1,3 +1,19 @@
 .joinText {
-  margin-right: var(--mini-unit);
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-4);
+
+  color: var(--v2-colors-mono-500);
+
+  margin-right: var(--v2-spacing-3);
+  margin-bottom: var(--v2-spacing-3);
+}
+
+.actions {
+  margin-bottom: var(--v2-spacing-3);
+}
+
+.register {
+  margin-right: var(--v2-spacing-1);
 }
