@@ -84,7 +84,6 @@ const GifSelector: FunctionComponent<Props> = (props) => {
           </Localized>
           <TextField
             className={styles.input}
-            ref={searchInput}
             value={query}
             onChange={onSearchFieldChange}
             fullWidth
@@ -103,7 +102,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
               {results.map((result) => (
                 <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
                   <img
-                    src={result.images.fixed_height_small.url}
+                    src={result.images.fixed_width_small.url}
                     alt={result.title}
                   />
                 </BaseButton>

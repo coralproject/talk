@@ -195,7 +195,7 @@ export default async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata, tags } = result;
+  const { actions, body, status, metadata, tags, media } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
@@ -231,6 +231,7 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
+      media,
     },
     now
   );

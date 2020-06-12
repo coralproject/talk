@@ -18,6 +18,8 @@ interface Props {
   isQA?: boolean;
   value?: string;
   disabled?: boolean;
+  onSetGif: (gif: GifResult | null) => void;
+  gif: GifResult | null;
 }
 
 const PostCommentInput: FunctionComponent<Props> = (props) => {
@@ -25,16 +27,15 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
-  const [selectedGif, setSelectedGif] = useState<GifResult | null>(null);
   const onRemoveGif = useCallback(() => {
-    setSelectedGif(null);
+    props.onSetGif(null);
   }, []);
   const onGifSelect = useCallback(
     (gif: GifResult) => {
-      setSelectedGif(gif);
+      props.onSetGif(gif);
       setShowGifSelector(false);
     },
-    [selectedGif, showGifSelector]
+    [props.onSetGif, showGifSelector]
   );
   return (
     <div className={styles.root}>
@@ -72,11 +73,11 @@ const PostCommentInput: FunctionComponent<Props> = (props) => {
         />
       </Localized>
       {showGifSelector && <GifSelector onGifSelect={onGifSelect} />}
-      {selectedGif && (
+      {props.gif && (
         <GifPreview
           onRemove={onRemoveGif}
-          title={selectedGif.title}
-          url={selectedGif.images.original.url}
+          title={props.gif.title}
+          url={props.gif.images.original.url}
         />
       )}
     </div>

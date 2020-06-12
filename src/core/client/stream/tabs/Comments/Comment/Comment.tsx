@@ -12,6 +12,13 @@ import TopBarLeft from "./TopBarLeft";
 
 import styles from "./Comment.css";
 
+interface CommentMedia {
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 export interface CommentProps {
   className?: string;
   username: React.ReactNode;
@@ -24,6 +31,7 @@ export interface CommentProps {
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
   collapsed?: boolean;
+  media: CommentMedia[];
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -68,6 +76,11 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}
         </HTMLContent>
+        {props.media.map((item) => (
+          <div key={item.url}>
+            <img src={item.url} alt={item.alt} />
+          </div>
+        ))}
         {props.footer}
       </HorizontalGutter>
     </HorizontalGutter>

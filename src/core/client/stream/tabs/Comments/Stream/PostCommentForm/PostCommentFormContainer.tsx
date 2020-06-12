@@ -132,6 +132,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
           body: input.body,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {

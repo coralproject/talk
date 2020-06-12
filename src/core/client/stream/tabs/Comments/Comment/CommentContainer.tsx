@@ -319,6 +319,7 @@ export class CommentContainer extends Component<Props, State> {
               showEditedMarker={comment.editing.edited}
               highlight={highlight}
               toggleCollapsed={this.props.toggleCollapsed}
+              media={comment.media || []}
               parentAuthorName={
                 comment.parent &&
                 comment.parent.author &&
@@ -584,6 +585,12 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             viewerActionPresence {
               dontAgree
               flag
+            }
+            media {
+              url
+              width
+              height
+              alt
             }
             ...ReplyCommentFormContainer_comment
             ...EditCommentFormContainer_comment

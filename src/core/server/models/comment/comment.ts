@@ -37,6 +37,7 @@ import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
 import { CommentEmbed, Revision } from "./revision";
+import { CommentMedia } from "./media";
 import { CommentTag } from "./tag";
 
 /**
@@ -133,7 +134,11 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
+
+  media?: CommentMedia[];
 }
+
+export type CreateCommentMediaInput = Omit<CommentMedia, "id">;
 
 export type CreateCommentInput = Omit<
   Comment,
@@ -145,10 +150,13 @@ export type CreateCommentInput = Omit<
   | "actionCounts"
   | "revisions"
   | "deletedAt"
+  | "media"
 > &
   Required<Pick<Revision, "body">> &
   Pick<Revision, "metadata"> &
-  Partial<Pick<Comment, "actionCounts" | "siteID">>;
+  Partial<Pick<Comment, "actionCounts" | "siteID">> & {
+    media?: CreateCommentMediaInput[];
+  };
 
 function formatLink(source: GQLEMBED_SOURCE, link: string): CommentEmbed {
   return {
@@ -183,7 +191,7 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, ...rest } = input;
+  const { body, actionCounts = {}, metadata, media, ...rest } = input;
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -214,6 +222,7 @@ export async function createComment(
     ...rest,
     // ActionCounts because they may be passed in!
     actionCounts,
+    media: media ? media.map((m) => ({ ...m, id: uuid.v4() })) : [],
   };
 
   // Insert it into the database.

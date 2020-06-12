@@ -51,7 +51,11 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.broker,
         ctx.tenant,
         ctx.user!,
-        { authorID: ctx.user!.id, ...comment },
+        {
+          authorID: ctx.user!.id,
+          ...comment,
+          media: comment.media ? [comment.media] : [],
+        },
         nudge,
         ctx.now,
         ctx.req

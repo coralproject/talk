@@ -184,6 +184,7 @@ async function commit(
             storyID: input.storyID,
             body: input.body,
             nudge: input.nudge,
+            media: input.media,
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -229,6 +230,7 @@ async function commit(
                   edges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
+                media: [],
                 story: {
                   id: input.storyID,
                   settings: {

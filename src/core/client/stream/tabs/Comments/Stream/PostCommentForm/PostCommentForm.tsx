@@ -1,12 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi, FormState } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { GQLSTORY_MODE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_MEDIA_PROVIDER,
+  GQLSTORY_MODE,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -24,14 +27,26 @@ import {
 } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
+import { GifResult } from "../GifSelector/GifSearchFetch";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentInput from "./PostCommentInput";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
 
+interface MediaProps {
+  provider: GQLCOMMENT_MEDIA_PROVIDER;
+  url: string;
+  width: number;
+  height: number;
+  remote_id: string;
+  mimetype: string;
+  alt: string;
+}
+
 interface FormProps {
   body: string;
+  media?: MediaProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -63,6 +78,26 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   }, [emitFocusEvent]);
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
+  const [selectedGif, setSelectedGif] = useState<GifResult | null>(null);
+
+  const onSubmit = useCallback(
+    (values, form) => {
+      if (selectedGif) {
+        values.media = {
+          provider: "GIPHY",
+          url: selectedGif.images.original.url,
+          alt: selectedGif.title,
+          width: parseInt(selectedGif.images.original.width, 10),
+          height: parseInt(selectedGif.images.original.height, 10),
+          remote_id: selectedGif.id,
+          mimetype: "image/gif",
+        };
+        setSelectedGif(null);
+      }
+      props.onSubmit(values, form);
+    },
+    [props.onSubmit, selectedGif]
+  );
   return (
     <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
@@ -71,7 +106,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
-      <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
+      <Form onSubmit={onSubmit} initialValues={props.initialValues}>
         {({ handleSubmit, submitting, submitError, form }) => (
           <form
             autoComplete="off"
@@ -117,6 +152,8 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                         onChange={(html: string) => input.onChange(html)}
                         showMessageBox={props.showMessageBox}
                         value={input.value}
+                        onSetGif={setSelectedGif}
+                        gif={selectedGif}
                         disabled={submitting || props.disabled}
                       />
                       {props.disabled ? (
