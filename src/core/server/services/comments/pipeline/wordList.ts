@@ -112,7 +112,7 @@ export class WordList {
     const result = test(testString);
     if (result === null) {
       logger.info(
-        { tenantID: options.id, listName, took: timer() },
+        { tenantID: options.id, listName, took: timer(), testString },
         "word list phrase test timed out"
       );
     } else {
