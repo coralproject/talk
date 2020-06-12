@@ -163,7 +163,14 @@ export class PostCommentFormContainer extends Component<Props, State> {
     state,
     form
   ) => {
-    if (this.state.submitStatus && state.dirty) {
+    if (
+      this.state.submitStatus &&
+      state.dirty &&
+      // This is required because the body is somehow being "dirtied" once the
+      // form has been reinitialized.
+      // FIXME: (wyattjoh) discover why when a comment is submitted, it eventually sets this as the body afterwards
+      state.values.body !== "<div><br></div>"
+    ) {
       this.setState({ submitStatus: null });
     }
     if (state.values.body) {
