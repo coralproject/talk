@@ -268,6 +268,7 @@ export async function createTenant(
     embeds: {
       twitter: false,
       youtube: false,
+      giphy: false,
     },
   };
 

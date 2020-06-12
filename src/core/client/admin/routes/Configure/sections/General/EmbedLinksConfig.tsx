@@ -18,6 +18,7 @@ graphql`
     embeds {
       twitter
       youtube
+      giphy
     }
   }
 `;
@@ -58,6 +59,25 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <OnOffField
           name="embeds.youtube"
+          disabled={disabled}
+          onLabel={
+            <Localized id="configure-general-embedLinks-On">
+              <span>On</span>
+            </Localized>
+          }
+          offLabel={
+            <Localized id="configure-general-embedLinks-Off">
+              <span>Off</span>
+            </Localized>
+          }
+        />
+      </FormField>
+      <FormField>
+        <Localized id="configure-general-embedLinks-enableGiphyEmbeds">
+          <Label component="legend">Enable Giphy embeds</Label>
+        </Localized>
+        <OnOffField
+          name="embeds.giphy"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">

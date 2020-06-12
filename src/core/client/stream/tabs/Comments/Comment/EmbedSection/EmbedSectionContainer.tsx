@@ -32,6 +32,10 @@ const getEmbed = (
     return <YouTubeEmbed url={url} key={index} />;
   }
 
+  if (type === GQLEMBED_SOURCE.GIPHY && settings.embeds.giphy) {
+    return <img src={url} />;
+  }
+
   return null;
 };
 
@@ -105,6 +109,7 @@ const enhanced = withFragmentContainer<Props>({
       embeds {
         twitter
         youtube
+        giphy
       }
     }
   `,

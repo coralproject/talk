@@ -1292,6 +1292,11 @@ type EmbedConfiguration {
   youtube when true will enable youtube link embeds in the stream.
   """
   youtube: Boolean!
+
+  """
+  giphy
+  """
+  giphy: Boolean!
 }
 
 ################################################################################
@@ -2573,6 +2578,11 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
+enum OEMBED_EMBED_SOURCE {
+  YOUTUBE
+  TWITTER
+}
+
 enum EMBED_SOURCE {
   """
   YOUTUBE represents a youtube link source.
@@ -2583,6 +2593,8 @@ enum EMBED_SOURCE {
   TWITTER represents a twitter link source.
   """
   TWITTER
+
+  GIPHY
 }
 
 type CommentEmbed {
@@ -2595,6 +2607,11 @@ type CommentEmbed {
   type represents which source the link comes from.
   """
   source: EMBED_SOURCE!
+
+  """
+  oembed indicates wheter link supports oemebed
+  """
+  oembed: Boolean!
 }
 
 type CommentRevision {
@@ -2697,20 +2714,6 @@ type CommentTagCounts {
   UNANSWERED is the count of Comment's with the UNANSWERED tag.
   """
   UNANSWERED: Int!
-}
-
-enum COMMENT_MEDIA_PROVIDER {
-  GIPHY
-}
-
-type CommentMedia {
-  url: String!
-  width: Int!
-  height: Int!
-  mimetype: String!
-  alt: String!
-  remote_id: String!
-  provider: COMMENT_MEDIA_PROVIDER!
 }
 
 """
@@ -2863,8 +2866,6 @@ type Comment {
   site is the Site referenced by the Story for this Comment.
   """
   site: Site!
-
-  media: [CommentMedia!]
 }
 
 type PageInfo {
@@ -3532,7 +3533,7 @@ input CreateCommentInput {
   """
   clientMutationId: String!
 
-  media: CreateCommentMediaInput
+  embed: CreateCommentEmbedInput
 }
 
 """
@@ -3551,14 +3552,10 @@ type CreateCommentPayload {
   clientMutationId: String!
 }
 
-input CreateCommentMediaInput {
-  provider: COMMENT_MEDIA_PROVIDER!
+input CreateCommentEmbedInput {
+  source: EMBED_SOURCE!
   url: String!
-  width: Int!
-  height: Int!
-  mimetype: String!
   alt: String!
-  remote_id: String!
 }
 
 ##################
@@ -3601,7 +3598,7 @@ input CreateCommentReplyInput {
   """
   clientMutationId: String!
 
-  media: CreateCommentMediaInput
+  embed: CreateCommentEmbedInput
 }
 
 """
@@ -4296,6 +4293,8 @@ input EmbedConfigurationInput {
   youtube
   """
   youtube: Boolean!
+
+  giphy: Boolean!
 }
 
 """

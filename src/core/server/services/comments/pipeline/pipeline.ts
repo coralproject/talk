@@ -7,9 +7,9 @@ import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
   CreateCommentInput,
-  CreateCommentMediaInput,
   RevisionMetadata,
 } from "coral-server/models/comment";
+import { CommentEmbed } from "coral-server/models/comment/revision";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -57,7 +57,7 @@ export interface PhaseResult {
    */
   tags: GQLTAG[];
 
-  media?: CreateCommentMediaInput[];
+  embed?: CommentEmbed;
 }
 
 export interface ModerationPhaseContextInput {
@@ -108,7 +108,7 @@ export const compose = (
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
-    media: context.comment.media,
+    embed: context.comment.embed,
     actions: [],
     metadata: {
       // Merge in the passed comment metadata.
@@ -130,7 +130,7 @@ export const compose = (
       ...context,
       comment: {
         ...context.comment,
-        media: final.media,
+        embed: final.embed,
         body: final.body,
       },
       tags: final.tags,

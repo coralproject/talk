@@ -6,4 +6,5 @@ import {
 export const EmbedConfiguration: GQLEmbedConfigurationTypeResolver<GQLEmbedConfiguration> = {
   twitter: ({ twitter }) => (twitter ? twitter : false),
   youtube: ({ youtube }) => (youtube ? youtube : false),
+  giphy: ({ giphy }) => (giphy ? giphy : false),
 };

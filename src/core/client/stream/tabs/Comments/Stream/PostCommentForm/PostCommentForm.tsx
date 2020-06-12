@@ -6,10 +6,7 @@ import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import {
-  GQLCOMMENT_MEDIA_PROVIDER,
-  GQLSTORY_MODE,
-} from "coral-framework/schema";
+import { GQLEMBED_SOURCE, GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -35,18 +32,14 @@ import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer
 import styles from "./PostCommentForm.css";
 
 interface MediaProps {
-  provider: GQLCOMMENT_MEDIA_PROVIDER;
+  source: GQLEMBED_SOURCE;
   url: string;
-  width: number;
-  height: number;
-  remote_id: string;
-  mimetype: string;
   alt: string;
 }
 
 interface FormProps {
   body: string;
-  media?: MediaProps;
+  embed?: MediaProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -83,14 +76,10 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   const onSubmit = useCallback(
     (values, form) => {
       if (selectedGif) {
-        values.media = {
-          provider: "GIPHY",
+        values.embed = {
+          source: "GIPHY",
           url: selectedGif.images.original.url,
           alt: selectedGif.title,
-          width: parseInt(selectedGif.images.original.width, 10),
-          height: parseInt(selectedGif.images.original.height, 10),
-          remote_id: selectedGif.id,
-          mimetype: "image/gif",
         };
         setSelectedGif(null);
       }

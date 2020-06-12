@@ -54,7 +54,7 @@ export const Comments = (ctx: GraphContext) => ({
         {
           authorID: ctx.user!.id,
           ...comment,
-          media: comment.media ? [comment.media] : [],
+          embed: comment.embed,
         },
         nudge,
         ctx.now,

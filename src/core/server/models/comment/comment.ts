@@ -37,7 +37,6 @@ import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
 import { CommentEmbed, Revision } from "./revision";
-import { CommentMedia } from "./media";
 import { CommentTag } from "./tag";
 
 /**
@@ -134,11 +133,7 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
-
-  media?: CommentMedia[];
 }
-
-export type CreateCommentMediaInput = Omit<CommentMedia, "id">;
 
 export type CreateCommentInput = Omit<
   Comment,
@@ -150,12 +145,12 @@ export type CreateCommentInput = Omit<
   | "actionCounts"
   | "revisions"
   | "deletedAt"
-  | "media"
+  | "embed"
 > &
   Required<Pick<Revision, "body">> &
   Pick<Revision, "metadata"> &
   Partial<Pick<Comment, "actionCounts" | "siteID">> & {
-    media?: CreateCommentMediaInput[];
+    embed?: CommentEmbed;
   };
 
 function formatLink(source: GQLEMBED_SOURCE, link: string): CommentEmbed {
@@ -191,7 +186,12 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, media, ...rest } = input;
+  const { body, actionCounts = {}, metadata, embed, ...rest } = input;
+
+  const embeds = findEmbeds(body);
+  if (embed) {
+    embeds.push(embed);
+  }
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -200,7 +200,7 @@ export async function createComment(
     actionCounts,
     metadata,
     createdAt: now,
-    embeds: findEmbeds(body),
+    embeds,
   };
 
   // default are the properties set by the application when a new comment is
@@ -222,7 +222,6 @@ export async function createComment(
     ...rest,
     // ActionCounts because they may be passed in!
     actionCounts,
-    media: media ? media.map((m) => ({ ...m, id: uuid.v4() })) : [],
   };
 
   // Insert it into the database.
@@ -264,7 +263,9 @@ export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
    */
   lastEditableCommentCreatedAt: Date;
 } & Required<Pick<Revision, "body" | "metadata">> &
-  Partial<Pick<Comment, "actionCounts">>;
+  Partial<Pick<Comment, "actionCounts">> & {
+    embed?: CommentEmbed;
+  };
 
 // Only comments with the following status's can be edited.
 const EDITABLE_STATUSES = [
@@ -335,9 +336,14 @@ export async function editComment(
     status,
     authorID,
     metadata,
+    embed,
     actionCounts = {},
   } = input;
 
+  const embeds = findEmbeds(body);
+  if (embed) {
+    embeds.push(embed);
+  }
   // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
@@ -345,7 +351,7 @@ export async function editComment(
     actionCounts,
     metadata,
     createdAt: now,
-    embeds: findEmbeds(body),
+    embeds,
   };
 
   const update: Record<string, any> = {
