@@ -57,3 +57,7 @@
 .colorSuccess {
   color: var(--v2-colors-green-500);
 }
+
+.colorStream {
+  color: var(--v2-colors-stream-blue-500);
+}

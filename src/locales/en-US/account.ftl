@@ -3,6 +3,10 @@
 account-tokenNotFound =
   The specified link is invalid, check to see if it was copied correctly.
 
+## Not Found
+
+notFound = Not Found
+
 ## Password Reset
 
 resetPassword-resetPassword = Reset Password
@@ -22,7 +26,9 @@ resetPassword-missingResetToken = The Reset Token seems to be missing.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Email Confirmation
+confirmEmail-emailConfirmation =
+confirmEmail-confirmYourEmailAddress =
+  Confirm your email address
 confirmEmail-confirmEmail = Confirm email
 confirmEmail-pleaseClickToConfirm = Click below to confirm your email address.
 confirmEmail-oopsSorry = Oops Sorry!
@@ -33,7 +39,7 @@ confirmEmail-youMayClose =
 
 ## Download
 
-download-landingPage-title = Download Your Comment History
+download-landingPage-title = Download your comment history
 download-landingPage-description =
   Your comment history will be downloaded into a .zip file. After your
   comment history is unzipped you will have a comma separated value (or .csv)
@@ -50,12 +56,20 @@ download-landingPage-contentsText =
 download-landingPage-contentsStoryUrl =
   The URL on the article or story where the comment appears
 download-landingPage-downloadComments =
-  Download My Comment History
+download-landingPage-download = Download
 download-landingPage-sorry = Your download link is invalid.
 
 ## Unsubscribe
 
+unsubscribe-confirm =
+unsubscribe-successfullyUnsubscribed =
+
+unsubscribe-unsubscribeFromEmails = Unsubscribe from email notifications
 unsubscribe-oopsSorry = Oops Sorry!
-unsubscribe-successfullyUnsubscribed = You are now unsubscribed from all notifications
-unsubscribe-clickToConfirm = Click below to confirm that you want to unsubscribe from all notifications.
-unsubscribe-confirm = Confirm
+unsubscribe-clickToConfirm =
+  Click below to confirm that you want to unsubscribe from all notifications.
+unsubscribe-submit-unsubscribe = Unsubscribe
+unsubscribe-unsubscribedSuccessfully =
+  Unsubscribed successfully from email notifications
+unsubscribe-youMayNowClose =
+  You may now close this window

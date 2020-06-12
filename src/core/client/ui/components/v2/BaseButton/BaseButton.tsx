@@ -89,6 +89,15 @@ const BaseButton: FunctionComponent<Props> = ({
     type = "button";
   }
 
+  /**
+   * Added as a security workaround as per:
+   *
+   * https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
+   */
+  if (rest.target === "_blank") {
+    rest.rel = "noopener noreferrer";
+  }
+
   const rootClassName = cn(classes.root, className, {
     [classes.keyboardFocus]: keyboardFocus,
     [classes.mouseHover]: mouseHover,

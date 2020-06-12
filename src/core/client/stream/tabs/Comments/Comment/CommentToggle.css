@@ -1,0 +1,27 @@
+.root {
+  padding: var(--v2-spacing-2);
+  width: 100%;
+  background: var(--v2-colors-grey-100);
+
+  &.mouseHover,
+  &:hover {
+    background: var(--v2-colors-grey-200);
+  }
+}
+
+.icon {
+  color: var(--v2-colors-grey-500);
+}
+
+.timestamp {
+  font-family: var(--v2-font-family-primary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+  color: var(--v2-colors-grey-500);
+}
+
+.inner {
+  flex: 1;
+}

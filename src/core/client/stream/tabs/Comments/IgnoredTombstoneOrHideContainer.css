@@ -1,0 +1,33 @@
+.showCommentButton {
+  margin-top: var(--v2-spacing-3);
+}
+
+.outlined {
+  &.colorSecondary {
+    border-style: solid;
+    border-width: 1px;
+
+    &:not(.disabled),
+    &:not(:disabled) {
+      background-color: transparent;
+      border-color: var(--v2-colors-grey-500);
+      color: var(--v2-colors-grey-500);
+    }
+
+    &:hover, &.mouseHover {
+      background-color: var(--v2-colors-grey-500);
+      border-color: var(--v2-colors-grey-500);
+      color: var(--v2-colors-pure-white);
+    }
+    &:active, &.active {
+      background-color: var(--v2-colors-grey-600);
+      border-color: var(--v2-colors-grey-600);
+      color: var(--v2-colors-pure-white);
+    }
+    &.disabled {
+      background-color: var(--v2-colors-pure-white);
+      border-color: var(--v2-colors-grey-400);
+      color: var(--v2-colors-grey-400);
+    }
+  }
+}

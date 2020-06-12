@@ -2,18 +2,18 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="CheckBox-root custom"
+  className="CheckBox-root CheckBox-default custom"
 >
   <input
     checked={true}
-    className="CheckBox-input"
+    className="CheckBox-input CheckBox-default"
     id="checkboxID"
     onBlur={[Function]}
     onFocus={[Function]}
     type="checkbox"
   />
   <label
-    className="CheckBox-label"
+    className="CheckBox-label CheckBox-default"
     htmlFor="checkboxID"
   >
     <span

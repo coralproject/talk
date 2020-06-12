@@ -27,6 +27,11 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
 
   if (!options.disableClientRoutes) {
     mountClientRoutes(router, {
+      analytics: {
+        key: app.config.get("analytics_frontend_key"),
+        url: app.config.get("analytics_data_plane_url"),
+        sdk: app.config.get("analytics_frontend_sdk_url"),
+      },
       defaultLocale: app.config.get("default_locale") as LanguageCode,
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".

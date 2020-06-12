@@ -2,13 +2,36 @@
   width: initial;
 }
 
-.userBoxText {
-  font-size: var(--font-size-4);
+.text {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+
+  color: var(--v2-colors-mono-100);
+
+  padding-bottom: var(--v2-spacing-1);
+}
+
+.username {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-4);
+
+  color: var(--v2-colors-mono-900);
+
+  padding-right: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
+}
+
+.signOut {
+  display: flex;
+  align-items: center;
 }
 
 .userBoxButton {
-  font-size: var(--font-size-4);
-  padding: 0;
-  font-weight: var(--font-weight-regular);
-  letter-spacing: normal;
+  line-height: var(--v2-line-height-2);
+
+  padding-left: var(--v2-spacing-1);
 }

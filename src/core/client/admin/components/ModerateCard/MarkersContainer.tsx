@@ -99,6 +99,19 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE && (
+        <Marker key={keyCounter++} color="reported">
+          <Localized id="moderate-marker-abusive">
+            <span>Abusive</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE}
+          </MarkerCount>
+        </Marker>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-spam">
@@ -159,6 +172,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_BANNED_WORD
               COMMENT_DETECTED_SUSPECT_WORD
               COMMENT_REPORTED_OFFENSIVE
+              COMMENT_REPORTED_ABUSIVE
               COMMENT_REPORTED_SPAM
               COMMENT_DETECTED_NEW_COMMENTER
               COMMENT_DETECTED_REPEAT_POST

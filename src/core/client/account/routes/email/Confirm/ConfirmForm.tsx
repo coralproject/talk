@@ -5,9 +5,11 @@ import { Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
-import { Button, HorizontalGutter, Typography } from "coral-ui/components";
+import { Button } from "coral-ui/components/v3";
 
 import ConfirmMutation from "./ConfirmMutation";
+
+import styles from "./Confirm.css";
 
 interface Props {
   token: string;
@@ -33,18 +35,18 @@ const ConfirmForm: React.FunctionComponent<Props> = ({ onSuccess, token }) => {
     <Form onSubmit={onSubmit}>
       {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="double">
-            <HorizontalGutter>
-              <Localized id="confirmEmail-emailConfirmation">
-                <Typography variant="heading1">Email Confirmation</Typography>
+          <div>
+            <div>
+              <Localized id="confirmEmail-confirmYourEmailAddress">
+                <div className={styles.title}>Confirm your email address</div>
               </Localized>
               <Localized id="confirmEmail-pleaseClickToConfirm">
-                <Typography variant="bodyCopy">
+                <div className={styles.description}>
                   Click below to confirm your email address.
-                </Typography>
+                </div>
               </Localized>
-            </HorizontalGutter>
-            <HorizontalGutter>
+            </div>
+            <div>
               <Localized id="confirmEmail-confirmEmail">
                 <Button
                   type="submit"
@@ -52,12 +54,14 @@ const ConfirmForm: React.FunctionComponent<Props> = ({ onSuccess, token }) => {
                   color="primary"
                   disabled={submitting}
                   fullWidth
+                  upperCase
+                  className={styles.submit}
                 >
                   Confirm email
                 </Button>
               </Localized>
-            </HorizontalGutter>
-          </HorizontalGutter>
+            </div>
+          </div>
         </form>
       )}
     </Form>

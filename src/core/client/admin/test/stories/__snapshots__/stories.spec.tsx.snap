@@ -87,7 +87,7 @@ exports[`renders empty stories 1`] = `
             >
               <select
                 aria-label="Search by status"
-                className="SelectField-select"
+                className="SelectField-select SelectField-selectFont SelectField-selectColor"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -472,7 +472,7 @@ exports[`renders stories 1`] = `
             >
               <select
                 aria-label="Search by status"
-                className="SelectField-select"
+                className="SelectField-select SelectField-selectFont SelectField-selectColor"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}

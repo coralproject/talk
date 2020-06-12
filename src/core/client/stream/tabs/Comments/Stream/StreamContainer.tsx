@@ -8,7 +8,6 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
-import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import { COMMENTS_ORDER_BY } from "coral-stream/constants";
 import {
@@ -16,13 +15,15 @@ import {
   SetCommentsTabEvent,
 } from "coral-stream/events";
 import {
+  Counter,
   Flex,
   HorizontalGutter,
+  MatchMedia,
   Tab,
   TabBar,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
@@ -33,6 +34,7 @@ import {
   StreamContainerLocal,
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
+import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
 import AnsweredComments from "./AnsweredCommentsTab";
@@ -71,7 +73,8 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
     <Tab
       {...props}
       classes={{
-        secondary: styles.featuredCommentsTabButton,
+        root: styles.featureTabRoot,
+        secondary: styles.featureTabRoot,
       }}
       className={cn(
         styles.fixedTab,
@@ -79,6 +82,7 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
         styles.featuredCommentsTab,
         { [CLASSES.tabBarComments.activeTab]: props.active }
       )}
+      variant="streamSecondary"
     />
     <FeaturedCommentTooltip
       active={props.active}
@@ -174,7 +178,17 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         })}
         size="double"
       >
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        <Flex alignItems="flex-start" justifyContent="space-between" wrap>
+          <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+          <div className={styles.moderateStream}>
+            <ModerateStreamContainer
+              settings={props.settings}
+              story={props.story}
+              viewer={props.viewer}
+            />
+          </div>
+        </Flex>
+
         <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
@@ -199,20 +213,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
-            direction="row-reverse"
+            direction="row"
             alignItems="flex-end"
             justifyContent="space-between"
             className={styles.tabBarRow}
           >
-            <SortMenu
-              className={styles.sortMenu}
-              orderBy={local.commentsOrderBy}
-              onChange={onChangeOrder}
-              reactionSortLabel={props.settings.reaction.sortLabel}
-              isQA={isQA}
-            />
             <TabBar
-              variant="secondary"
+              variant="streamSecondary"
               activeTab={local.commentsTab}
               onTabClick={onChangeTab}
               className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
@@ -235,7 +242,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       size="sm"
                       color={
                         local.commentsTab === "FEATURED_COMMENTS"
-                          ? "primary"
+                          ? "inherit"
                           : "grey"
                       }
                     >
@@ -258,6 +265,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     },
                     CLASSES.tabBarComments.allComments
                   )}
+                  variant="streamSecondary"
                 >
                   <Flex alignItems="center" spacing={1}>
                     <Localized id="qa-unansweredTab">
@@ -267,7 +275,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       size="sm"
                       color={
                         local.commentsTab === "UNANSWERED_COMMENTS"
-                          ? "primary"
+                          ? "inherit"
                           : "grey"
                       }
                     >
@@ -286,6 +294,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   },
                   CLASSES.tabBarComments.allComments
                 )}
+                variant="streamSecondary"
               >
                 <Flex alignItems="center" spacing={1}>
                   {isQA ? (
@@ -301,7 +310,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   <Counter
                     size="sm"
                     color={
-                      local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
+                      local.commentsTab === "ALL_COMMENTS" ? "inherit" : "grey"
                     }
                   >
                     <Localized
@@ -314,7 +323,35 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 </Flex>
               </Tab>
             </TabBar>
+            <MatchMedia ltWidth="sm">
+              {(matches) => {
+                return !matches ? (
+                  <SortMenu
+                    className={styles.sortMenu}
+                    orderBy={local.commentsOrderBy}
+                    onChange={onChangeOrder}
+                    reactionSortLabel={props.settings.reaction.sortLabel}
+                    showLabel
+                    isQA={isQA}
+                  />
+                ) : null;
+              }}
+            </MatchMedia>
           </Flex>
+          <MatchMedia ltWidth="sm">
+            {(matches) => {
+              return matches ? (
+                <SortMenu
+                  className={styles.sortMenu}
+                  orderBy={local.commentsOrderBy}
+                  onChange={onChangeOrder}
+                  reactionSortLabel={props.settings.reaction.sortLabel}
+                  fullWidth
+                  isQA={isQA}
+                />
+              ) : null;
+            }}
+          </MatchMedia>
           <TabContent activeTab={local.commentsTab}>
             {isQA ? (
               <TabPane
@@ -359,6 +396,7 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
+      ...ModerateStreamContainer_story
       id
       url
       settings {
@@ -381,6 +419,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PostCommentFormContainer_viewer
       ...SuspendedInfoContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
+      ...ModerateStreamContainer_viewer
       status {
         current
       }
@@ -396,6 +435,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CommunityGuidelinesContainer_settings
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
+      ...ModerateStreamContainer_settings
     }
   `,
 })(StreamContainer);

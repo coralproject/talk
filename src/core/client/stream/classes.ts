@@ -38,6 +38,7 @@ const CLASSES = {
     content: "coral coral-rte-content",
     placeholder: "coral coral-rte-placeholder",
     toolbar: "coral coral-rte-toolbar",
+    container: "coral coral-rte-container",
   },
 
   /**
@@ -277,6 +278,16 @@ const CLASSES = {
      * The no of reactions is appended: e.g. `coral-reacted-1`.
      */
     reacted: "coral coral-reacted",
+
+    /**
+     * collapseToggle is the button to collapse and expand the display of a comment.
+     */
+    collapseToggle: {
+      $root: "coral coral-comment-collapse-toggle",
+      icon: "coral coral-comment-collapse-toggle-icon",
+      indent: "coral coral-comment-collapse-toggle-indent",
+      collapsed: "coral coral-comment-collapse-toggle-collapsed",
+    },
 
     /**
      * topBar is the uppper bar of the comment.
@@ -703,15 +714,25 @@ const CLASSES = {
    * myUsername is the username part of my profile.
    */
   myUsername: {
+    title: "coral coral-myUsername-title",
     username: "coral coral-myUsername",
     editButton: "coral coral-myUsername-editButton",
+    change: "coral coral-myUsername-change",
+    tooSoon: "coral-myUsername-tooSoon",
     form: {
       $root: "coral coral-changeMyUsername",
+      heading: "coral coral-changeMyUsername-heading",
+      description: "coral coral-changeMyUsername-description",
+      label: "coral coral-changeMyUsername-label",
       username: "coral coral-changeMyUsername-username",
       cancelButton: "coral coral-changeMyUsername-cancelButton",
       saveButton: "coral coral-changeMyUsername-saveButton",
       closeButton: "coral coral-changeMyUsername-closeButton",
-      errorMessage: "coral coral-changeMyEmail-errorMessage",
+      footer: "coral coral-changeMyUsername-footer",
+      errorMessage:
+        "coral coral-changeMyUsername-errorMessage coral-changeMyEmail-errorMessage",
+      successMessage: "coral coral-changeMyUsername-successMessage",
+      successCallOut: "coral coral-changeMyUsername-successCallOut",
     },
   },
 
@@ -720,11 +741,15 @@ const CLASSES = {
    */
   myEmail: {
     email: "coral coral-myEmail",
+    title: "coral coral-myEmail-title",
     unverified: "coral coral-myEmail-unverified",
     editButton: "coral coral-myEmail-editButton",
     form: {
       $root: "coral coral-changeMyEmail",
-      currentEmail: "coral coral-changeMyEmail-currentEmail",
+      header: "coral coral-changeMyEmail-header",
+      footer: "coral coral-changeMyEmail-footer",
+      currentEmail: "coral coral-myEmail-currentEmail",
+      desc: "coral coral-changeMyEmail-desc",
       cancelButton: "coral coral-changeMyEmail-cancelButton",
       saveButton: "coral coral-changeMyEmail-saveButton",
       errorMessage: "coral coral-changeMyEmail-errorMessage",
@@ -736,6 +761,9 @@ const CLASSES = {
    */
   verifyEmail: {
     $root: "coral coral-verifyEmail",
+    container: "coral coral-verifyEmail-container",
+    content: "coral coral-verifyEmail-content",
+    title: "coral coral-verifyEmail-title",
     resendButton: "coral coral-verifyEmail-resendButton",
     resentMessage: "coral coral-verifyEmail-resentMessage",
   },
@@ -786,6 +814,7 @@ const CLASSES = {
    */
   ignoredCommenters: {
     $root: "coral coral-ignoredCommenters",
+    list: "coral coral-ignoredCommenters-list",
     manageButton: "coral coral-ignoredComments-manageButton",
     username: "coral coral-ignoredCommenters-username",
     stopIgnoreButton: "coral coral-ignoredCommenters-stopIgnoreButton",
@@ -796,12 +825,15 @@ const CLASSES = {
    */
   myPassword: {
     $root: "coral coral-myPassword",
+    title: "coral coral-myPassword-title",
     editButton: "coral coral-myPassword-editButton",
     form: {
       $root: "coral coral-changePassword",
+      footer: "coral coral-changePassword-footer",
       cancelButton: "coral coral-changePassword-cancelButton",
       forgotButton: "coral coral-changePassword-forgotButton",
       changeButton: "coral coral-changePassword-changeButton",
+      successMessageContainer: "coral coral-changePassword-successContainer",
       successMessage: "coral coral-changePassword-successMessage",
       errorMessage: "coral coral-changePassword-errorMessage",
     },
@@ -816,6 +848,7 @@ const CLASSES = {
     requestButton: "coral coral-downloadCommentHistory-requestButton",
     recentRequest: "coral coral-downloadCommentHistory-recentRequest",
     requestLater: "coral coral-downloadCommentHistory-requestLater",
+    requestError: "coral coral-downloadCommentHistory-requestError",
   },
 
   /**
@@ -823,6 +856,9 @@ const CLASSES = {
    */
   deleteMyAccount: {
     $root: "coral coral-deleteMyAccount",
+    title: "coral coral-deleteMyAccount-title",
+    section: "coral coral-deleteMyAccount-section",
+    content: "coral coral-deleteMyAccount-content",
     requestButton: "coral coral-deleteMyAccount-requestButton",
     cancelRequestButton: "coral coral-deleteMyAccount-cancelRequestButton",
   },
@@ -833,8 +869,10 @@ const CLASSES = {
    */
   pendingAccountDeletion: {
     $root: "coral coral-pendingAccountDeletion",
+    container: "coral coral-pendingAccountDeletion-container",
     cancelRequestButton:
       "coral coral-pendingAccountDeletion-cancelRequestButton",
+    icon: "coral coral-pendingAccountDeletion-cancelRequestIcon",
   },
 
   /**
@@ -843,9 +881,15 @@ const CLASSES = {
   deleteMyAccountModal: {
     $root: "coral coral-deleteMyAccountModal",
     header: "coral coral-deleteMyAccountModal-header",
+    headerText: "coral coral-deleteMyAccountModal-headerText",
+    subHeaderText: "coral coral-deleteMyAccountModal-subHeaderText",
+    body: "coral coral-deleteMyAccountModal-body",
+    sectionContent: "coral coral-deleteMyAccountModal-sectionContent",
+    sectionHeader: "coral coral-deleteMyAccountModal-sectionHeader",
     cancelButton: "coral coral-deleteMyAccountModal-cancelButton",
     proceedButton: "coral coral-deleteMyAccountModal-proceedButton",
     doneButton: "coral coral-deleteMyAccountModal-doneButton",
+    stepBar: "coral coral-deleteMyAccountModal-stepBar",
     deleteMyAccountButton: "coral coral-deleteMyAccount-deleteMyAccountButton",
   },
 
@@ -874,6 +918,7 @@ const CLASSES = {
     $root: "coral coral-configureCommentStream",
     applyButton: "coral coral-configureCommentStream-applyButton",
     errorMessage: "coral coral-configureCommentStream-errorMessage",
+    successMessage: "coral coral-configureCommentStream-successMessage",
   },
 
   /**
@@ -906,6 +951,32 @@ const CLASSES = {
    * validation message that shows up on form errors.
    */
   validationMessage: "coral-validation-message",
+
+  login: {
+    signIn: {
+      noAccount: "coral coral-login-signIn-noAccount",
+    },
+    signUp: {
+      alreadyHaveAccount: "coral coral-login-signUp-alreadyHaveAccount",
+    },
+    signInWithEmail: {
+      forgotPassword: "coral coral-login-signInWithEmail-forgotPassword",
+    },
+    bar: "coral coral-login-bar",
+    title: "coral coral-login-title",
+    header: "coral coral-login-header",
+    subBar: "coral coral-login-subBar",
+    orSeparator: "coral coral-login-orSeparator",
+    description: "coral coral-login-description",
+    field: "coral coral-login-field",
+    errorContainer: "coral coral-login-errorContainer",
+    error: "coral coral-login-error",
+    facebookButton: "coral coral-login-facebookButton",
+    googleButton: "coral coral-login-googleButton",
+    oidcButton: "coral coral-login-oidcButton",
+  },
+
+  moderateStream: "coral coral-general-moderateStreamLink",
 };
 
 export default CLASSES;

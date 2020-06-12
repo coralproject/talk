@@ -6,6 +6,7 @@ import styles from "./Main.css";
 export interface MainProps {
   className?: string;
   children: React.ReactNode;
+  id?: string;
 }
 
 const Main: FunctionComponent<MainProps> = ({

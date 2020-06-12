@@ -23,6 +23,7 @@ export interface CommentProps {
   highlight?: boolean;
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
+  collapsed?: boolean;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -45,7 +46,9 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             {props.userTags}
           </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
-            <Timestamp className={CLASSES.comment.topBar.timestamp}>
+            <Timestamp
+              className={cn(styles.timestamp, CLASSES.comment.topBar.timestamp)}
+            >
               {props.createdAt}
             </Timestamp>
             {props.showEditedMarker && (
@@ -55,12 +58,12 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
+
       {props.parentAuthorName && (
         <div className={styles.subBar}>
           <InReplyTo username={props.parentAuthorName} />
         </div>
       )}
-
       <HorizontalGutter size="oneAndAHalf">
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}

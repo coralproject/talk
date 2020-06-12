@@ -69,7 +69,7 @@ it("renders app with comment stream", async () => {
   let streamLog = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  const selectField = within(testRenderer.root).getByLabelText("Sort By");
+  const selectField = within(testRenderer.root).getByLabelText("Sort by");
   const oldestOption = within(selectField).getByText("Oldest");
 
   await act(async () => {

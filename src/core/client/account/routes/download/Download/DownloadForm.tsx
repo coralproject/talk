@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Button, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./DownloadForm.css";
 
@@ -25,15 +26,16 @@ const DownloadForm: FunctionComponent<Props> = ({ token }) => {
         onSubmit={onSubmit}
       >
         <input name="token" type="hidden" value={token} />
-        <Localized id="download-landingPage-downloadComments">
+        <Localized id="download-landingPage-download">
           <Button
             type="submit"
             variant="filled"
             color="primary"
+            paddingSize="medium"
             disabled={submitted}
-            className={styles.downloadButton}
+            upperCase
           >
-            Download My Comment History
+            Download
           </Button>
         </Localized>
       </form>

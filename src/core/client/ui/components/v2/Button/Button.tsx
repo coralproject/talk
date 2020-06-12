@@ -25,10 +25,16 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   size?: "regular" | "large";
 
   /** Color of the button */
-  color?: "regular" | "alert" | "mono" | "alt" | "dark";
+  color?: "regular" | "alert" | "mono" | "alt" | "dark" | "stream";
 
   /** Variant of the button */
-  variant?: "regular" | "flat" | "outline" | "text";
+  variant?:
+    | "regular"
+    | "flat"
+    | "outline"
+    | "text"
+    | "underlined"
+    | "textUnderlined";
 
   /* button is attached to the LEFT of an input element */
   adornmentLeft?: boolean;
@@ -100,10 +106,13 @@ export class Button extends React.Component<Props> {
         [classes.colorAlt]: color === "alt",
         [classes.colorMono]: color === "mono",
         [classes.colorDark]: color === "dark",
+        [classes.colorStream]: color === "stream",
         [classes.variantRegular]: variant === "regular",
         [classes.variantFlat]: variant === "flat",
         [classes.variantOutline]: variant === "outline",
         [classes.variantText]: variant === "text",
+        [classes.variantUnderlined]: variant === "underlined",
+        [classes.variantTextUnderlined]: variant === "textUnderlined",
         [classes.uppercase]: uppercase,
         [classes.fullWidth]: fullWidth,
         [classes.active]: active,

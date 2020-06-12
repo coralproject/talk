@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, HorizontalGutter, Icon, Typography } from "coral-ui/components";
+import { Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import styles from "./DownloadDescription.css";
 
@@ -10,84 +10,72 @@ const DownloadDescription: FunctionComponent = () => {
   return (
     <HorizontalGutter size="double">
       <Localized id="download-landingPage-title">
-        <h1 className={styles.title}>Download Your Comment History</h1>
+        <h1 className={styles.title}>Download your comment history</h1>
       </Localized>
       <div className={styles.content}>
         <div className={styles.section}>
           <Localized id="download-landingPage-description">
-            <Typography variant="bodyCopy" className={styles.sectionText}>
+            <div className={styles.sectionText}>
               Your comment history will be downloaded into a .zip file. After
               your comment history is unzipped you will have a comma separated
               value (or .csv) file that you can easily import into your favorite
               spreadsheet application.
-            </Typography>
+            </div>
           </Localized>
         </div>
 
         <div className={styles.section}>
           <Localized id="download-landingPage-contentsDescription">
-            <Typography variant="bodyCopy" className={styles.sectionText}>
+            <div className={styles.sectionText}>
               For each of your comments the following information is included:
-            </Typography>
+            </div>
           </Localized>
           <ul className={styles.list}>
             <li>
-              <Flex alignItems="center">
-                <Icon size="lg" className={styles.bullet}>
+              <Flex alignItems="flex-start">
+                <Icon size="md" className={styles.bullet}>
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsDate">
-                  <Typography
-                    variant="bodyCopy"
-                    className={cn(styles.sectionText, styles.listContent)}
-                  >
+                  <div className={cn(styles.sectionText, styles.listContent)}>
                     When you wrote the comment
-                  </Typography>
+                  </div>
                 </Localized>
               </Flex>
             </li>
             <li>
-              <Flex alignItems="center">
-                <Icon size="lg" className={styles.bullet}>
+              <Flex alignItems="flex-start">
+                <Icon size="md" className={styles.bullet}>
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsUrl">
-                  <Typography
-                    variant="bodyCopy"
-                    className={cn(styles.sectionText, styles.listContent)}
-                  >
+                  <div className={cn(styles.sectionText, styles.listContent)}>
                     The permalink URL for the comment
-                  </Typography>
+                  </div>
                 </Localized>
               </Flex>
             </li>
             <li>
-              <Flex alignItems="center">
-                <Icon size="lg" className={styles.bullet}>
+              <Flex alignItems="flex-start">
+                <Icon size="md" className={styles.bullet}>
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsText">
-                  <Typography
-                    variant="bodyCopy"
-                    className={cn(styles.sectionText, styles.listContent)}
-                  >
+                  <div className={cn(styles.sectionText, styles.listContent)}>
                     The comment text
-                  </Typography>
+                  </div>
                 </Localized>
               </Flex>
             </li>
             <li>
-              <Flex alignItems="center">
-                <Icon size="lg" className={styles.bullet}>
+              <Flex alignItems="flex-start">
+                <Icon size="md" className={styles.bullet}>
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsStoryUrl">
-                  <Typography
-                    variant="bodyCopy"
-                    className={cn(styles.sectionText, styles.listContent)}
-                  >
+                  <div className={cn(styles.sectionText, styles.listContent)}>
                     The URL on the article or story where the comment appears
-                  </Typography>
+                  </div>
                 </Localized>
               </Flex>
             </li>

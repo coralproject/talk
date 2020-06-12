@@ -14,8 +14,8 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import { Button, Flex, Icon, Typography } from "coral-ui/components";
-import { TextField as SearchTextField } from "coral-ui/components/v2";
+import { Flex, Icon, TextField } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
 import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
@@ -26,11 +26,19 @@ import ExpertSearchList from "./ExpertSearchList";
 import RemoveExpertMutation from "./RemoveExpertMutation";
 
 import styles from "./ExpertSelectionContainer.css";
+import NoLongerAnExpert from "./NoLongerAnExpert";
 
 interface Props {
   storyID: string;
   query: QueryData | null;
   relay: RelayPaginationProp;
+}
+
+interface ExpertListItem {
+  id: string;
+  username: string | null;
+  email: string | null;
+  removed?: boolean;
 }
 
 function computeUsers(query: QueryData | null) {
@@ -59,6 +67,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
 }) => {
   const users = computeUsers(query);
   const experts = computeExperts(query);
+  const [removedExperts, setRemovedExperts] = useState(
+    new Array<ExpertListItem>()
+  );
 
   const searchRootRef = React.createRef<HTMLDivElement>();
 
@@ -115,13 +126,22 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     [addExpertMutation, clearSearchFilter]
   );
   const onRemoveExpert = useCallback(
-    (id: string) => {
+    (id: string, username: string | null, email: string | null) => {
       removeExpertMutation({
         storyID,
         userID: id,
       });
+      setRemovedExperts([
+        ...removedExperts,
+        {
+          id,
+          username,
+          email,
+          removed: true,
+        },
+      ]);
     },
-    [removeExpertMutation]
+    [removeExpertMutation, removedExperts, setRemovedExperts]
   );
 
   const onSubmitSearch = useCallback(() => {
@@ -153,31 +173,56 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     [onSubmitSearch, clearSearchFilter]
   );
 
+  const expertsList = [
+    ...experts.map((e) => {
+      return {
+        id: e.id,
+        username: e.username,
+        email: e.email,
+        removed: false,
+      };
+    }),
+    ...removedExperts,
+  ].sort((a, b) => {
+    if (!a.username) {
+      return -1;
+    }
+    if (!b.username) {
+      return 1;
+    }
+
+    return a.username.localeCompare(b.username);
+  });
+
   return (
     <>
-      <Typography variant="heading3" container="div">
+      <div className={styles.subHeading}>
         <Localized id="configure-experts-title">
           <span>Add an Expert</span>
         </Localized>
-      </Typography>
-      <Localized id="configure-experts-filter-description">
-        <Typography
-          variant="detail"
-          color="textSecondary"
-          className={styles.description}
-        >
-          Adds an Expert Badge to comments by registered users, only on this
-          page. New users must first sign up and open the comments on a page to
-          create their account.
-        </Typography>
-      </Localized>
+      </div>
+      <div className={styles.description}>
+        <Localized id="configure-experts-filter-description">
+          <span>
+            Adds an Expert Badge to comments by registered users, only on this
+            page. New users must first sign up and open the comments on a page
+            to create their account.
+          </span>
+        </Localized>
+      </div>
+
+      <div className={styles.expertSearchTitle}>
+        <Localized id="configure-experts-search-title">
+          <span>Search for an expert</span>
+        </Localized>
+      </div>
       <div className={styles.searchRoot} ref={searchRootRef}>
         <Flex>
           <Localized
             id="configure-experts-filter-searchField"
             attrs={{ placeholder: true, "aria-label": true }}
           >
-            <SearchTextField
+            <TextField
               color="regular"
               placeholder="Search by email or username"
               aria-label="Search by email or username"
@@ -215,32 +260,39 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           disableLoadMore={isLoadingMore}
           onLoadMore={loadMore}
         />
-        <Typography
-          variant="heading3"
-          container="div"
-          className={styles.expertListTitle}
-        >
+        <div className={styles.expertListTitle}>
           <Localized id="configure-experts-assigned-title">
             <span>Experts</span>
           </Localized>
-        </Typography>
-        {experts.length > 0 ? (
+        </div>
+        {expertsList.length > 0 ? (
           <ul className={styles.list}>
-            {experts.map((u) => (
-              <ExpertListItem
-                key={u.id}
-                id={u.id}
-                username={u.username}
-                email={u.email}
-                onClickRemove={onRemoveExpert}
-              />
-            ))}
+            {expertsList.map((u) => {
+              if (u.removed) {
+                return (
+                  <NoLongerAnExpert
+                    key={`${u.id}-removed`}
+                    username={u.username}
+                  />
+                );
+              } else {
+                return (
+                  <ExpertListItem
+                    key={u.id}
+                    id={u.id}
+                    username={u.username}
+                    email={u.email}
+                    onClickRemove={onRemoveExpert}
+                  />
+                );
+              }
+            })}
           </ul>
         ) : (
           <Localized id="configure-experts-none-yet">
-            <Typography color="textSecondary">
+            <div className={styles.noExperts}>
               There are currently no experts for this Q&A.
-            </Typography>
+            </div>
           </Localized>
         )}
       </div>

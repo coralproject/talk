@@ -1,0 +1,16 @@
+.actions {
+  margin-top: var(--v2-spacing-3);
+}
+
+.cancel {
+  margin-right: var(--v2-spacing-2);
+}
+
+.messagesVisible {
+  margin-top: var(--v2-spacing-2);
+  margin-bottom: var(--v2-spacing-6);
+}
+
+.messagesHidden {
+  margin-bottom: var(--v2-spacing-6);
+}

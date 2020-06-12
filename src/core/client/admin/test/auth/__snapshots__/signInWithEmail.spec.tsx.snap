@@ -14,12 +14,12 @@ exports[`accepts correct password 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="email"
         >
           Email Address
-        </div>
+        </label>
         <div
           className="TextField-root TextField-fullWidth"
         >
@@ -58,12 +58,12 @@ exports[`accepts correct password 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="password"
         >
           Password
-        </div>
+        </label>
         <div
           className="PasswordField-fullWidth PasswordField-root"
         >
@@ -157,12 +157,12 @@ exports[`accepts valid email 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="email"
         >
           Email Address
-        </div>
+        </label>
         <div
           className="TextField-root TextField-fullWidth"
         >
@@ -188,12 +188,12 @@ exports[`accepts valid email 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="password"
         >
           Password
-        </div>
+        </label>
         <div
           className="PasswordField-fullWidth PasswordField-root"
         >
@@ -300,12 +300,12 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="email"
         >
           Email Address
-        </div>
+        </label>
         <div
           className="TextField-root TextField-fullWidth"
         >
@@ -344,12 +344,12 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="password"
         >
           Password
-        </div>
+        </label>
         <div
           className="PasswordField-fullWidth PasswordField-root"
         >
@@ -491,12 +491,12 @@ exports[`renders sign in form 1`] = `
                 <div
                   className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
-                  <div
+                  <label
                     className="InputLabel-root"
                     htmlFor="email"
                   >
                     Email Address
-                  </div>
+                  </label>
                   <div
                     className="TextField-root TextField-fullWidth"
                   >
@@ -522,12 +522,12 @@ exports[`renders sign in form 1`] = `
                 <div
                   className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
-                  <div
+                  <label
                     className="InputLabel-root"
                     htmlFor="password"
                   >
                     Password
-                  </div>
+                  </label>
                   <div
                     className="PasswordField-fullWidth PasswordField-root"
                   >
@@ -635,12 +635,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="email"
         >
           Email Address
-        </div>
+        </label>
         <div
           className="TextField-root TextField-fullWidth"
         >
@@ -679,12 +679,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="password"
         >
           Password
-        </div>
+        </label>
         <div
           className="PasswordField-fullWidth PasswordField-root"
         >
@@ -800,12 +800,12 @@ exports[`shows server error 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="email"
         >
           Email Address
-        </div>
+        </label>
         <div
           className="TextField-root TextField-fullWidth"
         >
@@ -831,12 +831,12 @@ exports[`shows server error 1`] = `
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <div
+        <label
           className="InputLabel-root"
           htmlFor="password"
         >
           Password
-        </div>
+        </label>
         <div
           className="PasswordField-fullWidth PasswordField-root"
         >

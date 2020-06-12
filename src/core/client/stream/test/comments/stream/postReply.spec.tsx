@@ -50,9 +50,7 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  const replyButton = within(comment).getByText("Reply", {
-    selector: "button",
-  });
+  const replyButton = within(comment).getByTestID("comment-reply-button");
 
   act(() => replyButton.props.onClick());
 
@@ -180,7 +178,9 @@ it("post a reply and handle non-visible comment state", async () => {
       within(comment).getByText("will be reviewed", { exact: false })
     );
   });
-  act(() => within(comment).getByText("Dismiss").props.onClick());
+  act(() =>
+    within(comment).getByTestID("callout-close-button").props.onClick()
+  );
   expect(
     within(comment).queryByText("will be reviewed", { exact: false })
   ).toBeNull();

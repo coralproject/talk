@@ -1,0 +1,14 @@
+.or {
+  font-family: var(--v2-font-family-secondary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+
+  color: var(--v2-colors-mono-500);
+
+  margin-top: var(--v2-spacing-3);
+  margin-bottom: var(--v2-spacing-3);
+
+  text-align: center;
+}

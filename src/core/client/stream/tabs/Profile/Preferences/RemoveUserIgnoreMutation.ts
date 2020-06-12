@@ -1,7 +1,6 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { getViewer } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -40,21 +39,6 @@ const RemoveUserIgnoreMutation = createMutation(
               ...input,
               clientMutationId: (clientMutationId++).toString(),
             },
-          },
-          updater: (store) => {
-            const viewer = getViewer(environment)!;
-            const viewerProxy = store.get(viewer.id)!;
-            const removeIgnoredUserRecords = viewerProxy.getLinkedRecords(
-              "ignoredUsers"
-            );
-            if (removeIgnoredUserRecords) {
-              viewerProxy.setLinkedRecords(
-                removeIgnoredUserRecords.filter(
-                  (r) => r.getValue("id") !== input.userID
-                ),
-                "ignoredUsers"
-              );
-            }
           },
         }
       );

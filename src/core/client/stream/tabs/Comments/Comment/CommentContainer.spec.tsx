@@ -50,6 +50,10 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         tags: [],
         lastViewerAction: null,
         deleted: false,
+        viewerActionPresence: {
+          dontAgree: false,
+          flag: false,
+        },
       },
       settings: {
         disableCommenting: {
@@ -62,6 +66,8 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       localReply: false,
       disableReplies: false,
       onRemoveAnswered: undefined,
+      collapsed: undefined,
+      toggleCollapsed: noop as any,
     },
     add
   );

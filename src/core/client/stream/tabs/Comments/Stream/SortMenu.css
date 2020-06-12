@@ -1,18 +1,23 @@
-.mobileSelect {
-  /* This adds left padding to Chrome on windows.. */
-  padding: 3px;
-  font-size: 16px;
-  line-height: 0;
-  height: 24px;
-  width: 24px;
-  /* Make the native select invisible */
-  opacity: 0;
+.label {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+
+  color: var(--v2-colors-mono-500);
 }
-.mobileAfterWrapper {
-  height: 24px;
-  width: 24px;
-  right: 0px;
-  border: 1px solid var(--palette-text-primary);
-  box-sizing: border-box;
-  border-radius: var(--round-corners);
+
+.selectFont {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+}
+
+.selectColor {
+  color: var(--v2-colors-mono-500);
+}
+
+.fullWidth {
+  width: 100%;
 }

@@ -7,3 +7,8 @@
 .button {
   padding-left: 0;
 }
+
+.reacted {
+  color: var(--v2-colors-stream-blue-500);
+  font-weight: var(--v2-font-weight-primary-bold);
+}

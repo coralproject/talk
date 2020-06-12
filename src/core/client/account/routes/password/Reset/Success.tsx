@@ -1,21 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import styles from "./Reset.css";
 
 const Success: React.FunctionComponent = () => {
   return (
-    <HorizontalGutter size="double">
+    <div>
       <Localized id="resetPassword-successfullyReset">
-        <Typography variant="heading1">Password successfully reset</Typography>
+        <div className={styles.title}>Password successfully reset</div>
       </Localized>
       <Localized id="resetPassword-youMayClose">
-        <Typography variant="bodyCopy">
+        <div className={styles.description}>
           You may now close this window and sign in to your account with your
           new password.
-        </Typography>
+        </div>
       </Localized>
-    </HorizontalGutter>
+    </div>
   );
 };
 

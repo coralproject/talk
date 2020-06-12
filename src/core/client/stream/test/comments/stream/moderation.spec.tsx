@@ -62,18 +62,32 @@ async function createTestRenderer(
   };
 }
 
-it("render go to moderate link", async () => {
+it("render moderation view link", async () => {
   const { testRenderer } = await createTestRenderer();
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
   caretButton.props.onClick();
-  const link = within(comment).getByText("Go to Moderate", {
+  const link = within(comment).getByText("Moderation view", {
     selector: "a",
     exact: false,
   });
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
+});
+
+it("render moderate story link", async () => {
+  const { testRenderer } = await createTestRenderer();
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+  const link = within(comment).getByText("Moderate story", {
+    selector: "a",
+    exact: false,
+  });
+  expect(link.props.href).toBe(`/admin/moderate/reported/stories/${story.id}`);
 });
 
 it("feature and unfeature comment", async () => {
@@ -131,7 +145,7 @@ it("feature and unfeature comment", async () => {
   act(() => {
     caretButton.props.onClick();
   });
-  const UnfeatureButton = within(comment).getByText("Un-Feature", {
+  const UnfeatureButton = within(comment).getByText("Un-feature", {
     selector: "button",
   });
   await act(async () => {
@@ -203,14 +217,16 @@ it("reject comment", async () => {
   const rejectButton = within(comment).getByText("Reject", {
     selector: "button",
   });
-  rejectButton.props.onClick();
+  act(() => {
+    rejectButton.props.onClick();
+  });
   await waitForElement(() =>
     within(tabPane).getByText("You have rejected this comment", {
       exact: false,
     })
   );
   const link = within(tabPane).getByText(
-    "Go to Moderate to review this decision",
+    "Go to moderate to review this decision",
     {
       selector: "a",
       exact: false,

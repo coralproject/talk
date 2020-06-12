@@ -1,5 +1,4 @@
 import express, { Router } from "express";
-import { minify } from "html-minifier";
 import { Db } from "mongodb";
 import path from "path";
 
@@ -15,6 +14,29 @@ import { RequestHandler } from "coral-server/types/express";
 import Entrypoints, { Entrypoint } from "../helpers/entrypoints";
 
 export interface ClientTargetHandlerOptions {
+  /**
+   * analytics contains configuration for frontend analytics from RudderStack.
+   */
+  analytics: {
+    /**
+     * key is the Write Key for the frontend integration.
+     */
+    key: string;
+
+    /**
+     * url is the URL to the data plane for your RudderStack deployment.
+     */
+    url: string;
+
+    /**
+     * sdk is the URL to the JS SDK for the RudderStack deployment.
+     */
+    sdk: string;
+  };
+
+  /**
+   * defaultLocale is the configured fallback locale for this installation.
+   */
   defaultLocale: LanguageCode;
 
   /**
@@ -62,6 +84,11 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
 }
 
 interface MountClientRouteOptions {
+  analytics: {
+    key: string;
+    url: string;
+    sdk: string;
+  };
   defaultLocale: LanguageCode;
   tenantCache: TenantCache;
   staticURI: string;
@@ -69,6 +96,7 @@ interface MountClientRouteOptions {
 }
 
 const clientHandler = ({
+  analytics,
   staticURI,
   entrypoint,
   enableCustomCSS,
@@ -85,28 +113,19 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
-  res.render(
-    "client",
-    { staticURI, entrypoint, enableCustomCSS, locale, config },
-    (err, html) => {
-      if (err) {
-        return next(err);
-      }
-
-      // Send back the HTML minified.
-      res.send(
-        minify(html, {
-          removeComments: true,
-          collapseWhitespace: true,
-        })
-      );
-    }
-  );
+  res.render("client", {
+    analytics,
+    staticURI,
+    entrypoint,
+    enableCustomCSS,
+    locale,
+    config,
+  });
 };
 
 export function mountClientRoutes(
   router: Router,
-  { staticURI, tenantCache, defaultLocale, mongo }: MountClientRouteOptions
+  { tenantCache, ...options }: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
@@ -141,31 +160,25 @@ export function mountClientRoutes(
   router.use(
     "/embed/stream",
     createClientTargetRouter({
-      staticURI,
+      ...options,
       enableCustomCSS: true,
       entrypoint: entrypoints.get("stream"),
-      defaultLocale,
-      mongo,
     })
   );
   router.use(
     "/embed/auth/callback",
     createClientTargetRouter({
-      staticURI,
+      ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("authCallback"),
-      defaultLocale,
-      mongo,
     })
   );
   router.use(
     "/embed/auth",
     createClientTargetRouter({
-      staticURI,
+      ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("auth"),
-      defaultLocale,
-      mongo,
     })
   );
 
@@ -175,11 +188,9 @@ export function mountClientRoutes(
     // If we aren't already installed, redirect the user to the install page.
     installedMiddleware(),
     createClientTargetRouter({
-      staticURI,
+      ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("account"),
-      defaultLocale,
-      mongo,
     })
   );
   // Add the standalone targets.
@@ -188,11 +199,9 @@ export function mountClientRoutes(
     // If we aren't already installed, redirect the user to the install page.
     installedMiddleware(),
     createClientTargetRouter({
-      staticURI,
+      ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("admin"),
-      defaultLocale,
-      mongo,
     })
   );
   router.use(
@@ -203,11 +212,9 @@ export function mountClientRoutes(
       redirectURL: "/admin",
     }),
     createClientTargetRouter({
-      staticURI,
+      ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("install"),
-      defaultLocale,
-      mongo,
     })
   );
 

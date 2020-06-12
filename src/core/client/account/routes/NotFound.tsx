@@ -1,12 +1,15 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+
+import styles from "./NotFound.css";
 
 const NotFound: FunctionComponent = () => (
   <HorizontalGutter container="main">
-    <Typography variant="heading3" container="h1">
-      Not Found
-    </Typography>
+    <Localized id="notFound">
+      <div className={styles.content}>Not Found</div>
+    </Localized>
   </HorizontalGutter>
 );
 

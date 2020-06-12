@@ -1,6 +1,5 @@
 .root {
-  margin-left: var(--v2-spacing-1);
-  margin-bottom: var(--v2-spacing-1);
+  margin-bottom: var(--v2-spacing-2);
 
   display: flex;
   flex-direction: row;
@@ -8,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
 
-  max-width: 80%;
+  width: 100%;
 }
 
 .usernameEmail {
@@ -16,30 +15,35 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  margin-bottom: var(--v2-spacing-1);
 }
 
 .username {
-  color: var(--palette-text-dark);
-  font-size: calc(16rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: 1.375em;
-  letter-spacing: 0.0125em;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
 
   margin-right: var(--v2-spacing-1);
 }
 
 .email {
-  color: var(--palette-text-primary);
-  font-size: calc(16rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
-  line-height: 1.375em;
-  letter-spacing: 0.0125em;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
 
-  margin-bottom: var(--v2-spacing-1);
+  color: var(--v2-colors-mono-500);
+}
+
+.removeIcon {
+  margin-right: var(--v2-spacing-1);
 }
 
 .removeButton {
-  padding: var(--v2-spacing-1);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
 }

@@ -6,13 +6,7 @@ import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
-import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import styles from "./HistoryComment.css";
 
@@ -44,17 +38,11 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
     >
       <div className={CLASSES.myComment.commentOn}>
         <Localized id="profile-historyComment-comment-on">
-          <Typography variant="detail" className={styles.commentOn}>
-            Comment on:
-          </Typography>
+          <span className={styles.commentOn}>Comment on:</span>
         </Localized>
-        <Typography
-          variant="heading4"
-          color="textDark"
-          className={CLASSES.myComment.story}
-        >
+        <div className={cn(styles.storyTitle, CLASSES.myComment.story)}>
           {props.story.metadata ? props.story.metadata.title : "N/A"}
-        </Typography>
+        </div>
       </div>
       <div>
         <Timestamp className={CLASSES.myComment.timestamp}>
@@ -65,15 +53,20 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
             <InReplyTo username={props.parentAuthorName} />
           </div>
         )}
-        <Typography variant="bodyCopy" container="div">
+        <div className={styles.content}>
           {props.body && (
             <HTMLContent className={CLASSES.myComment.content}>
               {props.body}
             </HTMLContent>
           )}
-        </Typography>
+        </div>
       </div>
-      <Flex direction="row" alignItems="center" itemGutter="double">
+      <Flex
+        direction="row"
+        alignItems="center"
+        itemGutter="double"
+        className={styles.footer}
+      >
         {!!props.reactionCount && (
           <div className={cn(styles.reactions, CLASSES.myComment.reactions)}>
             <Icon className={styles.icon}>{props.reactionSettings.icon}</Icon>
@@ -93,19 +86,36 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
             </Localized>
           </div>
         )}
-        <Localized id="profile-historyComment-viewConversation">
-          <TextLink
-            target="_parent"
-            href={props.conversationURL}
-            onClick={props.onGotoConversation}
-            className={cn(
-              styles.viewConversation,
-              CLASSES.myComment.viewConversationButton
-            )}
-          >
-            View Conversation
-          </TextLink>
-        </Localized>
+        <Button
+          target="_parent"
+          href={props.conversationURL}
+          onClick={props.onGotoConversation}
+          className={cn(
+            styles.viewConversation,
+            CLASSES.myComment.viewConversationButton
+          )}
+          variant="textUnderlined"
+          uppercase={false}
+          color="regular"
+          size="regular"
+          classes={{
+            variantTextUnderlined: styles.variantTextUnderlined,
+            colorRegular: styles.colorRegular,
+            mouseHover: styles.mouseHover,
+            active: styles.active,
+            disabled: styles.disabled,
+            sizeRegular: styles.sizeRegular,
+          }}
+        >
+          <Flex justifyContent="center">
+            <Icon className={styles.viewConversationIcon} size="sm">
+              open_in_new
+            </Icon>
+            <Localized id="profile-historyComment-viewConversation">
+              View Conversation
+            </Localized>
+          </Flex>
+        </Button>
       </Flex>
     </HorizontalGutter>
   );

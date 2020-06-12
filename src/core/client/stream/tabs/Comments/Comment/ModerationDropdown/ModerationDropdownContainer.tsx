@@ -10,7 +10,7 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { ShowModerationPopoverEvent } from "coral-stream/events";
-import { Dropdown } from "coral-ui/components";
+import { Dropdown } from "coral-ui/components/v2";
 
 import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
 import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";

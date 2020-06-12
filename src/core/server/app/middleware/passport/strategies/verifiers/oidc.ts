@@ -16,10 +16,7 @@ import {
 
 export { OIDCIDToken } from "../oidc";
 
-export type OIDCVerifierOptions = Pick<
-  AppOptions,
-  "mongo" | "redis" | "tenantCache"
->;
+export type OIDCVerifierOptions = Pick<AppOptions, "mongo" | "tenantCache">;
 
 export class OIDCVerifier implements Verifier<OIDCIDToken> {
   private mongo: Db;

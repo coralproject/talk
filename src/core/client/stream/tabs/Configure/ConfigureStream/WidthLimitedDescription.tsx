@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { CheckBox, Typography } from "coral-ui/components";
+import { CheckBox } from "coral-ui/components/v2";
 
 import styles from "./WidthLimitedDescription.css";
 
@@ -10,11 +10,7 @@ export interface Props extends Omit<PropTypesOf<typeof CheckBox>, "children"> {
 }
 
 const WidthLimitedDescription: FunctionComponent<Props> = (props) => {
-  return (
-    <Typography variant="detail" color="textSecondary" className={styles.root}>
-      {props.children}
-    </Typography>
-  );
+  return <div className={styles.root}>{props.children}</div>;
 };
 
 export default WidthLimitedDescription;

@@ -7,14 +7,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import {
-  Button,
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
@@ -50,39 +44,47 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <CallOut
-      color="error"
-      className={cn(styles.callout, CLASSES.pendingAccountDeletion.$root)}
-      fullWidth
+    <div
+      className={cn(styles.container, CLASSES.pendingAccountDeletion.container)}
     >
-      <HorizontalGutter>
-        <Flex>
-          <Icon size="md" className={styles.icon}>
-            report_problem
+      <CallOut
+        color="negative"
+        borderPosition="top"
+        className={CLASSES.pendingAccountDeletion.$root}
+        icon={
+          <Icon size="sm" className={CLASSES.pendingAccountDeletion.icon}>
+            timer
           </Icon>
+        }
+        iconColor="none"
+        title={
           <Localized
             id="profile-accountDeletion-deletionDesc"
             $date={deletionDate}
           >
-            <Typography variant="bodyCopy">
+            <div>
               Your account is scheduled to be deleted on {deletionDate}.
-            </Typography>
+            </div>
           </Localized>
-        </Flex>
-      </HorizontalGutter>
-      <HorizontalGutter className={styles.action}>
-        <Localized id="profile-accountDeletion-cancelDeletion">
+        }
+      >
+        <Localized id="profile-accountDeletion-cancelAccountDeletion">
           <Button
-            className={CLASSES.pendingAccountDeletion.cancelRequestButton}
-            variant="underlined"
-            color="primary"
+            className={cn(
+              styles.cancelButton,
+              CLASSES.pendingAccountDeletion.cancelRequestButton
+            )}
+            variant="filled"
+            color="secondary"
+            paddingSize="none"
+            upperCase
             onClick={cancelDeletion}
           >
-            Cancel account deletion request
+            Cancel account deletion
           </Button>
         </Localized>
-      </HorizontalGutter>
-    </CallOut>
+      </CallOut>
+    </div>
   );
 };
 

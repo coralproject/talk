@@ -4,6 +4,7 @@ import { CommentNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   ACTION_TYPE,
+  CommentAction,
   CreateActionInput,
   createActions,
   encodeActionCounts,
@@ -28,6 +29,10 @@ import {
 } from "coral-server/stacks/helpers";
 
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
+import {
+  publishCommentFlagCreated,
+  publishCommentReactionCreated,
+} from "../events";
 
 export type CreateAction = CreateActionInput;
 
@@ -72,6 +77,11 @@ export async function addCommentActionCounts(
   return updatedComment;
 }
 
+interface AddCommentAction {
+  comment: Readonly<Comment>;
+  action?: CommentAction;
+}
+
 async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
@@ -79,7 +89,7 @@ async function addCommentAction(
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID">,
   now = new Date()
-): Promise<Readonly<Comment>> {
+): Promise<AddCommentAction> {
   const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
   if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
@@ -95,6 +105,9 @@ async function addCommentAction(
   // Update the actions for the comment.
   const commentActions = await addCommentActions(mongo, tenant, [action], now);
   if (commentActions.length > 0) {
+    // Get the comment action.
+    const [commentAction] = commentActions;
+
     // Compute the action counts.
     const actionCounts = encodeActionCounts(...commentActions);
 
@@ -122,10 +135,10 @@ async function addCommentAction(
       commentRevisionID: input.commentRevisionID,
     });
 
-    return updatedComment;
+    return { comment: updatedComment, action: commentAction };
   }
 
-  return oldComment;
+  return { comment: oldComment };
 }
 
 export async function removeCommentAction(
@@ -218,7 +231,7 @@ export async function createReaction(
   input: CreateCommentReaction,
   now = new Date()
 ) {
-  return addCommentAction(
+  const { comment, action } = await addCommentAction(
     mongo,
     redis,
     broker,
@@ -231,6 +244,17 @@ export async function createReaction(
     },
     now
   );
+  if (action) {
+    // A comment reaction was created! Publish it.
+    publishCommentReactionCreated(
+      broker,
+      comment,
+      input.commentRevisionID,
+      action
+    );
+  }
+
+  return comment;
 }
 
 export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
@@ -264,7 +288,7 @@ export async function createDontAgree(
   input: CreateCommentDontAgree,
   now = new Date()
 ) {
-  return addCommentAction(
+  const { comment } = await addCommentAction(
     mongo,
     redis,
     broker,
@@ -278,6 +302,8 @@ export async function createDontAgree(
     },
     now
   );
+
+  return comment;
 }
 
 export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
@@ -313,7 +339,7 @@ export async function createFlag(
   input: CreateCommentFlag,
   now = new Date()
 ) {
-  return addCommentAction(
+  const { comment, action } = await addCommentAction(
     mongo,
     redis,
     broker,
@@ -328,4 +354,10 @@ export async function createFlag(
     },
     now
   );
+  if (action) {
+    // A action was created! Publish the event.
+    publishCommentFlagCreated(broker, comment, input.commentRevisionID, action);
+  }
+
+  return comment;
 }

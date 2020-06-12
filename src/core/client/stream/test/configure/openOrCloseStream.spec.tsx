@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { waitForElement, within } from "coral-framework/testHelpers";
+import { act, waitForElement, within } from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
@@ -50,12 +50,12 @@ it("close stream", async () => {
     },
   });
 
-  const button = within(tabPane).getByText("Close Stream", {
+  const closeButton = within(tabPane).getByText("Close Stream", {
     selector: "button",
   });
-  button.props.onClick();
-
-  expect(button.props.disabled).toBe(true);
+  await act(async () => {
+    closeButton.props.onClick();
+  });
 
   // Stream should then appear closed.
   await waitForElement(() =>
@@ -88,7 +88,10 @@ it("opens stream", async () => {
   const button = within(tabPane).getByText("Open Stream", {
     selector: "button",
   });
-  button.props.onClick();
+
+  await act(async () => {
+    button.props.onClick();
+  });
 
   // Stream should then appear open.
   await waitForElement(() =>

@@ -1,0 +1,7 @@
+.hiddenReplies {
+  display: none;
+}
+
+.root {
+  padding-bottom: var(--v2-spacing-1);
+}

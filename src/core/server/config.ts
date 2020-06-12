@@ -266,6 +266,30 @@ const config = convict({
     default: "100",
     env: "WORD_LIST_TIMEOUT",
   },
+  analytics_frontend_key: {
+    doc: "Analytics write key from RudderStack for the Javascript client.",
+    format: String,
+    default: "",
+    env: "ANALYTICS_FRONTEND_KEY",
+  },
+  analytics_backend_key: {
+    doc: "Analytics write key from RudderStack for the Node server.",
+    format: String,
+    default: "",
+    env: "ANALYTICS_BACKEND_KEY",
+  },
+  analytics_frontend_sdk_url: {
+    doc: "Analytics URL to the RudderStack Frontend JS SDK. Defaults to the ",
+    format: "url",
+    default: "https://cdn.rudderlabs.com/v1/rudder-analytics.min.js",
+    env: "ANALYTICS_FRONTEND_SDK_URL",
+  },
+  analytics_data_plane_url: {
+    doc: "Analytics URL to the RudderStack data plane instance.",
+    format: "optional-url",
+    default: "",
+    env: "ANALYTICS_DATA_PLANE_URL",
+  },
 });
 
 export type Config = typeof config;

@@ -179,7 +179,7 @@ exports[`renders configure general 1`] = `
                     className="SelectField-root"
                   >
                     <select
-                      className="SelectField-select"
+                      className="SelectField-select SelectField-selectFont SelectField-selectColor"
                       disabled={false}
                       id="configure-locale-locale"
                       name="locale"
@@ -645,11 +645,11 @@ here:
                     Additional rich-text options
                   </label>
                   <div
-                    className="CheckBox-root"
+                    className="CheckBox-root CheckBox-default"
                   >
                     <input
                       checked={false}
-                      className="CheckBox-input"
+                      className="CheckBox-input CheckBox-default"
                       disabled={false}
                       id="rte.strikethrough"
                       name="rte.strikethrough"
@@ -660,7 +660,7 @@ here:
                       value={false}
                     />
                     <label
-                      className="CheckBox-label"
+                      className="CheckBox-label CheckBox-default"
                       htmlFor="rte.strikethrough"
                     >
                       <span
@@ -672,11 +672,11 @@ here:
                   </div>
                   <div>
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="rte.spoiler"
                         name="rte.spoiler"
@@ -687,7 +687,7 @@ here:
                         value={false}
                       />
                       <label
-                        className="CheckBox-label"
+                        className="CheckBox-label CheckBox-default"
                         htmlFor="rte.spoiler"
                       >
                         <span
@@ -945,7 +945,7 @@ moderation panel.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
                         disabled={false}
                         name="editCommentWindowLength-unit"
                         onBlur={[Function]}
@@ -1105,7 +1105,7 @@ moderation panel.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
                         disabled={false}
                         name="closeCommenting.timeout-unit"
                         onBlur={[Function]}
@@ -1257,9 +1257,11 @@ each other's comments.
                       Preview
                     </p>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="primary"
-                      data-variant="textUnderlined"
+                      aria-label="Reaction"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="mono"
+                      data-testid="comment-reaction-button"
+                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1269,9 +1271,12 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span>
-                        Reaction
-                      </span>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        icon
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -1316,9 +1321,11 @@ each other's comments.
                       Preview
                     </p>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="primary"
-                      data-variant="textUnderlined"
+                      aria-label="reacted"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="mono"
+                      data-testid="comment-reaction-button"
+                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1328,9 +1335,12 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span>
-                        reacted
-                      </span>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReactionButton-reacted"
+                      >
+                        icon
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -1386,7 +1396,7 @@ each other's comments.
                         className="SelectField-root"
                       >
                         <select
-                          className="SelectField-select"
+                          className="SelectField-select SelectField-selectFont SelectField-selectColor"
                           onBlur={[Function]}
                           onFocus={[Function]}
                         >

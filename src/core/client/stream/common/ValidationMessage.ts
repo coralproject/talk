@@ -2,7 +2,7 @@ import cn from "classnames";
 import { withProps } from "recompose";
 
 import CLASSES from "coral-stream/classes";
-import { ValidationMessage } from "coral-ui/components";
+import { ValidationMessage } from "coral-ui/components/v3";
 import { PropTypesOf } from "coral-ui/types";
 
 /**

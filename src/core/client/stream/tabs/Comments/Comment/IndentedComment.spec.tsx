@@ -9,7 +9,9 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof IndentedComment> = {
     indentLevel: 1,
     username: "Marvin",
+    staticUsername: "Marvin",
     body: "Woof",
+    staticTopBarRight: "",
     createdAt: "1995-12-17T03:24:00.000Z",
   };
   const renderer = createRenderer();

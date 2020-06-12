@@ -1,0 +1,11 @@
+.content {
+  font-family: var(--v2-font-family-secondary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-6);
+  line-height: var(--v2-line-height-7);
+
+  color: var(--v2-colors-mono-500);
+
+  text-align: center;
+}

@@ -4,25 +4,19 @@ import React, { useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validatePassword,
 } from "coral-framework/lib/validation";
-import {
-  Button,
-  CallOut,
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  PasswordField,
-  Typography,
-} from "coral-ui/components";
+import { FormField, PasswordField } from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import ResetPasswordMutation from "./ResetPasswordMutation";
+
+import styles from "./Reset.css";
 
 interface Props {
   token: string;
@@ -60,22 +54,20 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, submitError }) => (
           <form autoComplete="off" onSubmit={handleSubmit}>
-            <HorizontalGutter size="double">
-              <HorizontalGutter>
+            <div>
+              <div>
                 <Localized id="resetPassword-resetYourPassword">
-                  <Typography variant="heading1">
-                    Reset your password
-                  </Typography>
+                  <div className={styles.title}>Reset your password</div>
                 </Localized>
                 <Localized id="resetPassword-pleaseEnterNewPassword">
-                  <Typography variant="bodyCopy">
+                  <div className={styles.description}>
                     Please enter a new password to use to sign in to your
                     account. Make sure it is unique and be sure to keep it
                     secure.
-                  </Typography>
+                  </div>
                 </Localized>
-              </HorizontalGutter>
-              <HorizontalGutter>
+              </div>
+              <div>
                 <Field
                   name="password"
                   validate={composeValidators(required, validatePassword)}
@@ -83,15 +75,17 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
                   {({ input, meta }) => (
                     <FormField>
                       <Localized id="resetPassword-passwordLabel">
-                        <InputLabel htmlFor={input.name}>Password</InputLabel>
+                        <label className={styles.label} htmlFor={input.name}>
+                          Password
+                        </label>
                       </Localized>
                       <Localized
                         id="resetPassword-passwordDescription"
                         $minLength={8}
                       >
-                        <InputDescription>
+                        <div className={styles.labelDescription}>
                           {"Must be at least {$minLength} characters"}
-                        </InputDescription>
+                        </div>
                       </Localized>
                       <Localized
                         id="resetPassword-passwordTextField"
@@ -107,28 +101,29 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
                           {...input}
                         />
                       </Localized>
-                      <ValidationMessage meta={meta} fullWidth />
+                      <ValidationMessage meta={meta} />
                     </FormField>
                   )}
                 </Field>
                 {submitError && (
-                  <CallOut color="error" fullWidth>
-                    {submitError}
-                  </CallOut>
+                  <CallOut color="negative" title={submitError} />
                 )}
                 <Localized id="resetPassword-resetPassword">
                   <Button
                     type="submit"
                     variant="filled"
                     color="primary"
+                    paddingSize="medium"
                     disabled={submitting}
+                    upperCase
                     fullWidth
+                    className={styles.submit}
                   >
                     Reset Password
                   </Button>
                 </Localized>
-              </HorizontalGutter>
-            </HorizontalGutter>
+              </div>
+            </div>
           </form>
         )}
       </Form>

@@ -1,9 +1,14 @@
-import React from "react";
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
+
+import styles from "./OpenOrCloseStreamContainer.css";
 
 import {
   CloseStoryMutation,
@@ -19,41 +24,74 @@ interface Props {
   closeStory: CloseStoryMutation;
 }
 
-interface State {
-  waitingForResponse: boolean;
-}
+const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
+  story,
+  openStory,
+  closeStory,
+}) => {
+  const [waiting, setWaiting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-class OpenOrCloseStreamContainer extends React.Component<Props, State> {
-  public state: State = {
-    waitingForResponse: false,
-  };
-
-  private handleOnClick = async () => {
-    if (!this.state.waitingForResponse) {
-      this.setState({ waitingForResponse: true });
-      if (this.props.story.isClosed) {
-        await this.props.openStory({ id: this.props.story.id });
+  const onClick = useCallback(async () => {
+    if (!waiting) {
+      setWaiting(true);
+      if (story.isClosed) {
+        openStory({ id: story.id });
       } else {
-        await this.props.closeStory({ id: this.props.story.id });
+        closeStory({ id: story.id });
       }
-      this.setState({ waitingForResponse: false });
+      setWaiting(false);
+      setShowSuccess(true);
     }
-  };
+  }, [waiting, setWaiting, story, openStory, closeStory, setShowSuccess]);
+  const onCloseSuccess = useCallback(() => {
+    setShowSuccess(false);
+  }, [setShowSuccess]);
 
-  public render() {
-    return this.props.story.isClosed ? (
-      <OpenStream
-        onClick={this.handleOnClick}
-        disableButton={this.state.waitingForResponse}
-      />
-    ) : (
-      <CloseStream
-        onClick={this.handleOnClick}
-        disableButton={this.state.waitingForResponse}
-      />
-    );
-  }
-}
+  return story.isClosed ? (
+    <>
+      <OpenStream onClick={onClick} disableButton={waiting} />
+      <div
+        className={showSuccess ? styles.calloutVisible : styles.calloutHidden}
+      >
+        {showSuccess && (
+          <CallOut
+            color="positive"
+            icon={<Icon size="sm">check_circle</Icon>}
+            title={
+              <Localized id="configure-openStream-theStreamIsNowClosed">
+                The stream is now closed
+              </Localized>
+            }
+            onClose={onCloseSuccess}
+            visible={showSuccess}
+          />
+        )}
+      </div>
+    </>
+  ) : (
+    <>
+      <CloseStream onClick={onClick} disableButton={waiting} />
+      <div
+        className={showSuccess ? styles.calloutVisible : styles.calloutHidden}
+      >
+        {showSuccess && (
+          <CallOut
+            color="positive"
+            icon={<Icon size="sm">check_circle</Icon>}
+            title={
+              <Localized id="configure-closeStream-theStreamIsNowOpen">
+                The stream is now open
+              </Localized>
+            }
+            onClose={onCloseSuccess}
+            visible={showSuccess}
+          />
+        )}
+      </div>
+    </>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   story: graphql`

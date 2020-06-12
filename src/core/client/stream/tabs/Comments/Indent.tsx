@@ -10,6 +10,7 @@ export interface IndentProps {
   level?: number;
   noBorder?: boolean;
   children: React.ReactNode;
+  collapsed?: boolean;
 }
 
 const levels = [
@@ -35,6 +36,8 @@ const Indent: FunctionComponent<IndentProps> = (props) => {
       <div
         className={cn(getLevelClassName(props.level), {
           [styles.noBorder]: props.noBorder,
+          [styles.collapsed]: props.collapsed,
+          [styles.open]: !props.collapsed,
         })}
       >
         {props.children}

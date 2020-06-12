@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./CloseStream.css";
 
@@ -14,31 +13,28 @@ interface Props {
 
 const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.closeCommentStream.$root}>
-    <Localized id="configure-closeStream-title">
-      <Typography variant="heading2" className={styles.heading}>
-        Close Comment Stream
-      </Typography>
+    <Localized id="configure-closeStream-closeCommentStream">
+      <div className={styles.heading}>Close comment stream</div>
     </Localized>
-    <Flex alignItems="flex-start" itemGutter>
-      <Localized id="configure-closeStream-description">
-        <Typography>
-          This comment stream is currently open. By closing this comment stream,
-          no new comments may be submitted and all previously submitted comments
-          will still be displayed.
-        </Typography>
-      </Localized>
-      <Localized id="configure-closeStream-closeStream">
-        <Button
-          variant="outlined"
-          color="error"
-          className={cn(styles.button, CLASSES.closeCommentStream.closeButton)}
-          onClick={onClick}
-          disabled={disableButton}
-        >
-          Close Stream
-        </Button>
-      </Localized>
-    </Flex>
+    <Localized id="configure-closeStream-description">
+      <div className={styles.description}>
+        This comment stream is currently open. By closing this comment stream,
+        no new comments may be submitted and all previously submitted comments
+        will still be displayed.
+      </div>
+    </Localized>
+    <Localized id="configure-closeStream-closeStream">
+      <Button
+        variant="filled"
+        color="negative"
+        className={CLASSES.closeCommentStream.closeButton}
+        onClick={onClick}
+        disabled={disableButton}
+        upperCase
+      >
+        Close Stream
+      </Button>
+    </Localized>
   </div>
 );
 

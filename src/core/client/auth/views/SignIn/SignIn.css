@@ -1,0 +1,49 @@
+.bar {
+  background-color: var(--v2-colors-grey-600);
+  padding: var(--v2-spacing-4);
+
+  text-align: center;
+}
+
+.title {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-6);
+  line-height: var(--v2-line-height-9);
+
+  color: var(--v2-colors-pure-white);
+}
+
+.header {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-6);
+
+  color: var(--v2-colors-pure-white);
+}
+
+.subBar {
+  background-color: var(--v2-colors-grey-100);
+  padding: var(--v2-spacing-3);
+
+  text-align: center;
+}
+
+.noAccount {
+  display: flex;
+
+  justify-content: center;
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+
+  color: var(--v2-colors-mono-500);
+}
+
+.signUp {
+  margin-top: 1px;
+  margin-left: var(--v2-spacing-1);
+}

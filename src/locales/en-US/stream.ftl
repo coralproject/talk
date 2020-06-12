@@ -2,19 +2,37 @@
 
 ## General
 
+general-moderate = Moderate
+
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
-
+general-userBoxAuthenticated-signedIn =
+  Signed in as
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
+
+general-userBox-youHaveBeenSuccessfullySignedOut =
+  You have been successfully signed out
 
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-configure = Configure
+
+general-tabBar-aria-comments =
+  .aria-label = Comments
+  .title = Comments
+general-tabBar-aria-qa =
+  .aria-label = Q&A
+  .title = Q&A
+general-tabBar-aria-myProfile =
+  .aria-label = My Profile
+  .title = My Profile
+general-tabBar-aria-configure =
+  .aria-label = Configure
+  .title = My Profile
 
 ## Comment Count
 
@@ -34,7 +52,10 @@ comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
+  .title = Toggle featured comments tooltip
 
+comments-collapse-toggle =
+  .aria-label = Collapse comment thread
 comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community
@@ -63,7 +84,9 @@ comments-permalinkPopover =
 comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
-comments-permalinkView-viewFullDiscussion = View Full Discussion
+comments-permalinkButton =
+  .aria-label = Share
+comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
 comments-rte-bold =
@@ -99,6 +122,8 @@ comments-postCommentForm-userScheduledForDeletion-warning =
   Commenting is disabled when your account is scheduled for deletion.
 
 comments-replyButton-reply = Reply
+comments-replyButton =
+  .aria-label = Reply
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
@@ -123,18 +148,24 @@ comments-showConversationLink-readMore = Read More of this Conversation >
 comments-conversationThread-showMoreOfThisConversation =
   Show More of This Conversation
 
-comments-permalinkView-currentViewing = You are currently viewing a
-comments-permalinkView-singleConversation = SINGLE CONVERSATION
+comments-permalinkView-currentViewing =
+comments-permalinkView-singleConversation =
+comments-permalinkView-youAreCurrentlyViewing =
+  You are currently viewing a single conversation
 comments-inReplyTo = In reply to <Username></Username>
-comments-replyTo = Replying to: <Username></Username>
+comments-replyingTo = Replying to <Username></Username>
 
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
+comments-reportButton-aria-report =
+  .aria-label = Report
+comments-reportButton-aria-reported =
+  .aria-label = Reported
 
-comments-sortMenu-sortBy = Sort By
+comments-sortMenu-sortBy = Sort by
 comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-mostReplies = Most replies
 
 comments-userPopover =
   .description = A popover with more user information
@@ -160,19 +191,22 @@ comments-userBanPopover-ban = Ban
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment
 comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-Feature
+comments-moderationDropdown-unfeature = Un-feature
 comments-moderationDropdown-approve = Approve
 comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
 comments-moderationDropdown-ban = Ban User
 comments-moderationDropdown-banned = Banned
-comments-moderationDropdown-goToModerate = Go to Moderate
+comments-moderationDropdown-goToModerate =
+comments-moderationDropdown-moderationView = Moderation view
+comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
-comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+comments-rejectedTombstone-title = You have rejected this comment.
+comments-rejectedTombstone-moderateLink =
+  Go to moderate to review this decision
 
 comments-featuredTag = Featured
 
@@ -200,13 +234,17 @@ qa-postQuestionForm-rte =
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
-qa-sortMenu-mostVoted = Most Voted
+qa-sortMenu-mostVoted = Most voted
 
 qa-answered-tag = answered
 qa-expert-tag = expert
 
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
+qa-reaction-aria-vote =
+  .aria-label = Vote
+qa-reaction-voted =
+  .aria-label = Voted
 
 qa-unansweredTab-doneAnswering = Done
 
@@ -217,6 +255,7 @@ qa-answeredTooltip-answeredComments =
   Questions are answered by a Q&A expert.
 qa-answeredTooltip-toggleButton =
   .aria-label = Toggle answered questions tooltip
+  .title = Toggle answered questions tooltip
 
 ### Account Deletion Stream
 
@@ -229,9 +268,11 @@ comments-stream-deleteAccount-callOut-cancelDesc =
   you may cancel your request to delete your account before { $date }.
 comments-stream-deleteAccount-callOut-cancel =
   Cancel account deletion request
+comments-stream-deleteAccount-callOut-cancelAccountDeletion =
+  Cancel account deletion
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
+comments-featured-gotoConversation = Go to conversation
 comments-featured-replies = Replies
 
 ## Profile Tab
@@ -241,14 +282,14 @@ profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
 profile-preferencesTab = Preferences
 
-accountSettings-manage-account = Manage your account
-
 ### Account Deletion
 
 profile-accountDeletion-deletionDesc =
   Your account is scheduled to be deleted on { $date }.
 profile-accountDeletion-cancelDeletion =
   Cancel account deletion request
+profile-accountDeletion-cancelAccountDeletion =
+  Cancel account deletion
 
 ### Comment History
 profile-historyComment-viewConversation = View Conversation
@@ -271,8 +312,11 @@ profile-account-ignoredCommenters-description =
   be able to see your comments.
 profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
 profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
+profile-account-ignoredCommenters-youAreNoLonger =
+  You are no longer ignoring
 profile-account-ignoredCommenters-manage = Manage
 profile-account-ignoredCommenters-cancel = Cancel
+profile-account-ignoredCommenters-close = Close
 
 profile-account-changePassword-cancel = Cancel
 profile-account-changePassword = Change Password
@@ -294,13 +338,22 @@ profile-account-download-comments-request-icon =
   .title = Request comment history
 profile-account-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
+profile-account-download-comments-yourMostRecentRequest =
+  Your most recent request was within the last 14 days. You may
+  request to download your comments again on: { $timeStamp }
 profile-account-download-comments-requested =
   Request submitted. You can submit another request in { framework-timeago-time }.
+profile-account-download-comments-requestSubmitted =
+  Your request has been successfully submitted. You may request to
+  download your comment history again in { framework-timeago-time }.
+profile-account-download-comments-error =
+  We were unable to complete your download request.
 profile-account-download-comments-request-button = Request
 
 ## Delete Account
 
 profile-account-deleteAccount-title = Delete My Account
+profile-account-deleteAccount-deleteMyAccount = Delete my account
 profile-account-deleteAccount-description =
   Deleting your account will permanently erase your profile and remove
   all your comments from this site.
@@ -321,6 +374,8 @@ profile-account-deleteAccount-pages-done = Done
 profile-account-deleteAccount-pages-phrase =
   .aria-label = Phrase
 
+profile-account-deleteAccount-pages-sharedHeader = Delete my account
+
 profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-account-deleteAccount-pages-descriptionText =
   You are attempting to delete your account. This means:
@@ -332,6 +387,7 @@ profile-account-deleteAccount-pages-emailRemoved =
   Your email address is removed from our system
 
 profile-account-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-account-deleteAccount-pages-whenSubHeader = When?
 profile-account-deleteAccount-pages-whenSec1Header =
   When will my account be deleted?
 profile-account-deleteAccount-pages-whenSec1Content =
@@ -343,6 +399,7 @@ profile-account-deleteAccount-pages-whenSec2Content =
   reply to comments, or select reactions.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-account-deleteAccount-pages-downloadSubHeader = Download my comments
 profile-account-deleteAccount-pages-downloadCommentsDesc =
   Before your account is deleted, we recommend you download your comment
   history for your records. After your account is deleted, you will be
@@ -351,6 +408,7 @@ profile-account-deleteAccount-pages-downloadCommentsPath =
   My Profile > Download My Comment History
 
 profile-account-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-account-deleteAccount-pages-confirmSubHeader = Are you sure?
 profile-account-deleteAccount-pages-confirmDescHeader =
   Are you sure you want to delete your account?
 profile-account-deleteAccount-confirmDescContent =
@@ -362,6 +420,7 @@ profile-account-deleteAccount-pages-confirmPasswordLabel =
   Enter your password:
 
 profile-account-deleteAccount-pages-completeHeader = Account deletion requested
+profile-account-deleteAccount-pages-completeSubHeader = Request submitted
 profile-account-deleteAccount-pages-completeDescript =
   Your request has been submitted and a confirmation has been sent to the email
   address associated with your account.
@@ -376,6 +435,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
 profile-account-changePassword-edit = Edit
+profile-account-changePassword-change = Change
 
 
 ## Notifications
@@ -402,12 +462,15 @@ comments-reportPopover-reportThisComment = Report This Comment
 comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
 
 comments-reportPopover-reasonOffensive = This comment is offensive
+comments-reportPopover-reasonAbusive = This is abusive behaviour
 comments-reportPopover-reasonIDisagree = I disagree with this comment
 comments-reportPopover-reasonSpam = This looks like an ad or marketing
 comments-reportPopover-reasonOther = Other
 
+comments-reportPopover-additionalInformation =
+  Additional information <optional>Optional</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Please leave any additional information that may be helpful to our moderators.
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
 comments-reportPopover-cancel = Cancel
@@ -434,7 +497,9 @@ configure-configureQuery-storyNotFound = Story not found
 profile-changeUsername-username = Username
 profile-changeUsername-success = Your username has been successfully updated
 profile-changeUsername-edit = Edit
+profile-changeUsername-change = Change
 profile-changeUsername-heading = Edit your username
+profile-changeUsername-heading-changeYourUsername = Change your username
 profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. <strong>Usernames can be changed once every { framework-timeago-time }.</strong>
 profile-changeUsername-desc-text = Change the username that will appear on all of your past and future comments. Usernames can be changed once every { framework-timeago-time }.
 profile-changeUsername-current = Current username
@@ -442,71 +507,120 @@ profile-changeUsername-newUsername-label = New username
 profile-changeUsername-confirmNewUsername-label = Confirm new username
 profile-changeUsername-cancel = Cancel
 profile-changeUsername-save = Save
-profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
+profile-changeUsername-saveChanges = Save Changes
+profile-changeUsername-recentChange = Your username has been changed in the last . You may change your username again on { $nextUpdate }.
+profile-changeUsername-youChangedYourUsernameWithin =
+  You changed your username within the last { framework-timeago-time }. You may change your username again on: { $nextUpdate }.
 profile-changeUsername-close = Close
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
+configure-stream-title =
 configure-stream-title-configureThisStream =
-  Configure this Stream
-configure-stream-apply = Apply
+  Configure this stream
+configure-stream-apply =
+configure-stream-update = Update
+configure-stream-streamHasBeenUpdated =
+  This stream has been updated
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title =
+configure-premod-premoderateAllComments = Pre-moderate all comments
 configure-premod-description =
   Moderators must approve any comment before it is published to this story.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title =
+configure-premodLink-commentsContainingLinks =
+  Pre-moderate comments containing links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title =
+configure-enableLiveUpdates-title = Enable live updates
 configure-liveUpdates-description =
-  When enabled, the comments will be updated instantly
-  as new comments and replies are submitted, instead of
-  requiring a page refresh. You can disable this in the
-  unusual situation of an article getting so much traffic that the comments are loading slowly.
+configure-enableLiveUpdates-description =
+  When enabled, the comments will be updated instantly as new comments and
+  replies are submitted, instead of requiring a page refresh. You can
+  disable this in the unusual situation of an article getting so much
+  traffic that the comments are loading slowly.
+configure-enableLiveUpdates-enable = Enable
 
-configure-messageBox-title = Enable Message Box for this Story
+configure-disableLiveUpdates-title = Disable live updates
+configure-disableLiveUpdates-description =
+  When disabled, new comments and replies will no longer instantly update
+  as they are submitted. Commenters will need to refresh the page to see
+  new comments. We recommend this in the unusual situation of a story
+  getting so much traffic that the comments are loading slowly.
+configure-disableLiveUpdates-disable = Disable
+
+configure-liveUpdates-disabledSuccess = Live updates are now disabled
+configure-liveUpdates-enabledSuccess = Live updates are now enabled
+
+configure-messageBox-title =
+configure-addMessage-title =
+  Add a message or question
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers.
-  Use this to suggest a discussion topic, ask a question or make
-  announcements relating to the comments on this story.
+configure-addMessage-description =
+  Add a message to the top of the comment box for your readers. Use this
+  to pose a topic, ask a question or make announcements relating to this
+  story.
+configure-addMessage-addMessage = Add message
+configure-addMessage-removed = Message has been removed
+config-addMessage-messageHasBeenAdded =
+  The message has been added to the comment box
+configure-addMessage-remove = Remove
+configure-addMessage-submitUpdate = Update
+configure-addMessage-cancel = Cancel
+configure-addMessage-submitAdd = Add message
+
 configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-selectAnIcon = Select an icon
 configure-messageBox-iconConversation = Conversation
 configure-messageBox-iconDate = Date
 configure-messageBox-iconHelp = Help
 configure-messageBox-iconWarning = Warning
-configure-messageBox-iconChatBubble = Chat Bubble
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+configure-messageBox-iconChatBubble = Chat bubble
+configure-messageBox-noIcon = No icon
+configure-messageBox-writeAMessage = Write a message
 
-configure-closeStream-title = Close Comment Stream
+configure-closeStream-title =
+configure-closeStream-closeCommentStream =
+  Close comment stream
 configure-closeStream-description =
   This comment stream is currently open. By closing this comment stream,
   no new comments may be submitted and all previously submitted comments
   will still be displayed.
 configure-closeStream-closeStream = Close Stream
+configure-closeStream-theStreamIsNowOpen = The stream is now open
 
 configure-openStream-title = Open Stream
 configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
+configure-openStream-theStreamIsNowClosed = The stream is now closed
 
-configure-moderateThisStream = Moderate this stream
+configure-moderateThisStream =
 
-configure-enableQA-title = Switch to Q&A Format
+qa-experimental-tag-tooltip-content =
+  The Q&A format is currently in active development. Please contact
+  us with any feedback or requests.
+
+configure-enableQA-title =
+configure-enableQA-switchToQA =
+  Switch to Q&A format
 configure-enableQA-description =
   The Q&A format allows community members to submit questions for chosen
   experts to answer.
 configure-enableQA-enableQA = Switch to Q&A
+configure-enableQA-streamIsNowComments =
+  This stream is now in comments format
 
 configure-disableQA-title = Configure this Q&A
 configure-disableQA-description =
   The Q&A format allows community members to submit questions for chosen
   experts to answer.
 configure-disableQA-disableQA = Switch to Comments
+configure-disableQA-streamIsNowQA =
+  This stream is now in Q&A format
 
 configure-experts-title = Add an Expert
 configure-experts-filter-searchField =
@@ -519,24 +633,33 @@ configure-experts-filter-description =
   page. New users must first sign up and open the comments on a page
   to create their account.
 configure-experts-search-none-found = No users were found with that email or username
+configure-experts-
 configure-experts-remove-button = Remove
 configure-experts-load-more = Load More
 configure-experts-none-yet = There are currently no experts for this Q&A.
+configure-experts-search-title = Search for an expert
 configure-experts-assigned-title = Experts
-
+configure-experts-noLongerAnExpert = is no longer an expert
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
 
-suspendInfo-heading = Your account has been temporarily suspended from commenting.
+suspendInfo-heading =
+suspendInfo-heading-yourAccountHasBeen =
+  Your account has been temporarily suspended from commenting
 suspendInfo-info =
+suspendInfo-description-inAccordanceWith =
   In accordance with { $organization }'s community guidelines your
   account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments. Please rejoin the
-  conversation on { $until }
+  be able to comment, respect or report comments.
+suspendInfo-until-pleaseRejoinThe =
+  Please rejoin the conversation on { $until }
 
 profile-changeEmail-unverified = (Unverified)
+profile-changeEmail-current = (current)
 profile-changeEmail-edit = Edit
+profile-changeEmail-change = Change
 profile-changeEmail-please-verify = Verify your email address
 profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
@@ -544,12 +667,16 @@ profile-changeEmail-please-verify-details =
   to sign in to your account or to receive notifications.
 profile-changeEmail-resend = Resend verification
 profile-changeEmail-heading = Edit your email address
+profile-changeEmail-changeYourEmailAddress =
+  Change your email address
 profile-changeEmail-desc = Change the email address used for signing in and for receiving communication about your account.
-profile-changeEmail-current = Current email
 profile-changeEmail-newEmail-label = New email address
 profile-changeEmail-password = Password
 profile-changeEmail-password-input =
   .placeholder = Password
 profile-changeEmail-cancel = Cancel
 profile-changeEmail-submit = Save
+profile-changeEmail-saveChanges = Save changes
 profile-changeEmail-email = Email
+profile-changeEmail-title = Email address
+profile-changeEmail-success = Your email has been successfully updated

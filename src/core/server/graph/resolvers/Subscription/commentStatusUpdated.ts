@@ -16,6 +16,7 @@ export interface CommentStatusUpdatedInput extends SubscriptionPayload {
   moderatorID: string | null;
   commentID: string;
   commentRevisionID: string;
+  storyID: string;
 }
 
 export type CommentStatusUpdatedSubscription = SubscriptionType<
