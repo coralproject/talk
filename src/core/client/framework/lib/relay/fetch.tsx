@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+import { isUndefined } from "lodash";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
   compose,
@@ -68,6 +69,34 @@ export function useFetch<V, R>(
     }) as any,
     [context]
   );
+}
+
+export function useImmediateFetch<V extends {}, R>(
+  fetch: Fetch<any, V, Promise<R>>,
+  variables: V,
+  refetch?: string
+): [R | null, boolean] {
+  const fetcher = useFetch(fetch);
+  const [state, setState] = useState<R | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function doTheFetch() {
+      setState(null);
+      setLoading(true);
+      const value = await fetcher(variables);
+
+      // TODO: Maybe we don't need this timeout?
+      setTimeout(() => {
+        setState(value);
+        setLoading(false);
+      }, 100 + 50 * Math.random());
+    }
+
+    doTheFetch();
+  }, Object.values(variables).concat(isUndefined(refetch) ? [] : [refetch]));
+
+  return [state, loading];
 }
 
 /**

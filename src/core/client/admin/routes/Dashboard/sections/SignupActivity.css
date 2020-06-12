@@ -1,0 +1,9 @@
+.heading {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+}
+
+.chart {
+  font-family: var(--v2-font-family-primary);
+}

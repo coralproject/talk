@@ -7,6 +7,7 @@ import NavigationLink from "./NavigationLink";
 
 interface Props {
   showConfigure: boolean;
+  showDashboard: boolean;
 }
 
 const Navigation: FunctionComponent<Props> = (props) => (
@@ -23,6 +24,11 @@ const Navigation: FunctionComponent<Props> = (props) => (
     {props.showConfigure && (
       <Localized id="navigation-configure">
         <NavigationLink to="/admin/configure">Configure</NavigationLink>
+      </Localized>
+    )}
+    {props.showDashboard && (
+      <Localized id="navigation-dashboard">
+        <NavigationLink to="/admin/dashboard">Dashboard</NavigationLink>
       </Localized>
     )}
   </AppBarNavigation>

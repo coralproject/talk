@@ -121,6 +121,10 @@ async function retrieveConnection(
   return resolveConnection(query, input, (_, index) => index + skip + 1);
 }
 
+export async function countTenantSites(mongo: Db, tenantID: string) {
+  return collection(mongo).find({ tenantID }).count();
+}
+
 export async function retrieveSiteConnection(
   mongo: Db,
   tenantID: string,

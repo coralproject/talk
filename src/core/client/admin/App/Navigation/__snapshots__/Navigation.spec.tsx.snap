@@ -38,5 +38,14 @@ exports[`renders correctly 1`] = `
       Configure
     </NavigationLink>
   </Localized>
+  <Localized
+    id="navigation-dashboard"
+  >
+    <NavigationLink
+      to="/admin/dashboard"
+    >
+      Dashboard
+    </NavigationLink>
+  </Localized>
 </withPropsOnChange(Navigation)>
 `;

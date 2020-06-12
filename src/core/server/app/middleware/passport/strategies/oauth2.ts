@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
-import { Strategy as BaseStrategy, StrategyCreated } from "passport";
+import { Profile, Strategy as BaseStrategy, StrategyCreated } from "passport";
+import { VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { Config } from "coral-server/config";
@@ -12,8 +13,6 @@ import {
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
-import { Profile } from "passport";
-import { VerifyCallback } from "passport-oauth2";
 
 interface OAuth2Integration {
   enabled: boolean;

@@ -29,6 +29,7 @@ navigation-moderate = Moderate
 navigation-community = Community
 navigation-stories = Stories
 navigation-configure = Configure
+navigation-dashboard = Dashboard
 
 ## User Menu
 userMenu-signOut = Sign Out
@@ -1254,3 +1255,28 @@ hotkeysModal-shortcuts-ban = Ban comment author
 hotkeysModal-shortcuts-zen = Toggle single-comment view
 
 authcheck-network-error = A network error occurred. Please refresh the page.
+
+dashboard-heading-last-updated = Last updated:
+
+dashboard-today-heading = Today's activity
+dashboard-today-new-comments = New comments
+dashboard-alltime-new-comments = All time total
+dashboard-today-rejections = Rejection rate
+dashboard-alltime-rejections = All time average
+dashboard-today-staff-comments = Staff comments
+dashboard-alltime-staff-comments = All time total
+dashboard-today-signups = New community members
+dashboard-alltime-signups = Total members
+dashboard-today-bans = Banned members
+dashboard-alltime-bans = Total banned members
+
+dashboard-top-stories-today-heading = Today's most commented stories
+dashboard-top-stories-table-header-story = Story
+dashboard-top-stories-table-header-comments = Comments
+dashboard-top-stories-no-comments = No comments today
+
+dashboard-commenters-activity-heading = New community members this week
+
+dashboard-comment-activity-heading = Hourly comment activity
+dashboard-comment-activity-tooltip-comments = Comments
+dashboard-comment-activity-legend = All-time average

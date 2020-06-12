@@ -21,6 +21,9 @@ class NavigationContainer extends React.Component<Props> {
   public render() {
     return (
       <Navigation
+        showDashboard={
+          !!this.props.viewer && can(this.props.viewer, Ability.VIEW_STATISTICS)
+        }
         showConfigure={
           !!this.props.viewer &&
           can(this.props.viewer, Ability.CHANGE_CONFIGURATION)
