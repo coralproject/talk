@@ -16,6 +16,7 @@ const list = new WordList();
 
 // This phase checks the comment against the wordList.
 export const wordList: IntermediateModerationPhase = ({
+  config,
   tenant,
   comment,
   bodyText,
@@ -25,8 +26,11 @@ export const wordList: IntermediateModerationPhase = ({
     return;
   }
 
+  // Get the timeout to use.
+  const timeout = (config.get("word_list_timeout") as unknown) as number;
+
   // Test the comment for banned words.
-  const banned = list.test(tenant, "banned", bodyText);
+  const banned = list.test(tenant, "banned", timeout, bodyText);
   if (banned) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
@@ -50,7 +54,7 @@ export const wordList: IntermediateModerationPhase = ({
   }
 
   // Test the comment for suspect words.
-  const suspect = list.test(tenant, "suspect", bodyText);
+  const suspect = list.test(tenant, "suspect", timeout, bodyText);
   if (suspect) {
     return {
       actions: [

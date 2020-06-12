@@ -7,12 +7,6 @@ import createTesterWithTimeout, {
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
-/**
- * REGEX_MATCH_TIMEOUT is the amount of milliseconds that a given word list can
- * take before it times out.
- */
-const REGEX_MATCH_TIMEOUT = 200;
-
 interface Lists {
   banned: TestWithTimeout | false;
   suspect: TestWithTimeout | false;
@@ -29,7 +23,7 @@ export class WordList {
    */
   private readonly cache = new WeakMap<Options, Lists>();
 
-  private generate(locale: LanguageCode, list: string[]) {
+  private generate(locale: LanguageCode, list: string[], timeout: number) {
     // If a word list has no entries, then we can make a simple tester.
     if (list.length === 0) {
       return false;
@@ -40,7 +34,7 @@ export class WordList {
 
     // Create a managed regular expression from the provided regular expression
     // so we can time it out if it takes too long!
-    return createTesterWithTimeout(regexp, REGEX_MATCH_TIMEOUT);
+    return createTesterWithTimeout(regexp, timeout);
   }
 
   /**
@@ -48,10 +42,10 @@ export class WordList {
    *
    * @param options options used to generate Lists
    */
-  private create(options: Options): Lists {
+  private create(options: Options, timeout: number): Lists {
     return {
-      banned: this.generate(options.locale, options.wordList.banned),
-      suspect: this.generate(options.locale, options.wordList.suspect),
+      banned: this.generate(options.locale, options.wordList.banned, timeout),
+      suspect: this.generate(options.locale, options.wordList.suspect, timeout),
     };
   }
 
@@ -61,11 +55,11 @@ export class WordList {
    *
    * @param options the options object that is also used as the cache key
    */
-  private lists(options: Options, cache: boolean): Lists {
+  private lists(options: Options, cache: boolean, timeout: number): Lists {
     // If the request isn't supposed to use the cache, then just return a new
     // one.
     if (!cache) {
-      return this.create(options);
+      return this.create(options, timeout);
     }
 
     // As this is supposed to be cached, try to get it from the cache, or create
@@ -73,7 +67,7 @@ export class WordList {
     let lists = this.cache.get(options);
     if (!lists) {
       const timer = createTimer();
-      lists = this.create(options);
+      lists = this.create(options, timeout);
       logger.info(
         { tenantID: options.id, took: timer() },
         "regenerated word list cache"
@@ -98,10 +92,11 @@ export class WordList {
   public test(
     options: Options,
     listName: keyof Lists,
+    timeout: number,
     testString: string,
     cache = true
   ): boolean | null {
-    const test = this.lists(options, cache)[listName];
+    const test = this.lists(options, cache, timeout)[listName];
     if (!test) {
       return false;
     }
