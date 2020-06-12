@@ -2,16 +2,23 @@ import vm from "vm";
 
 import logger from "coral-server/logger";
 
-export type ManagedRegExp = (
-  testString: string,
-  timeout: number
-) => boolean | null;
+export type TestWithTimeout = (testString: string) => boolean | null;
 
-export default function createManagedRegExp(regexp: RegExp): ManagedRegExp {
+/**
+ * createTesterWithTimeout will create a tester that after the timeout, will
+ * return null instead of a boolean.
+ *
+ * @param regexp the regular expression to wrap
+ * @param timeout the timeout to use
+ */
+export default function createTesterWithTimeout(
+  regexp: RegExp,
+  timeout: number
+): TestWithTimeout {
   // Create the script we're executing as a part of this regex test operation.
   const script = new vm.Script("regexp.test(testString)");
 
-  return (testString: string, timeout: number) => {
+  return (testString: string) => {
     let result: boolean;
 
     try {

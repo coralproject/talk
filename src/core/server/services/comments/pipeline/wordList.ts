@@ -1,9 +1,9 @@
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
-import createManagedRegExp, {
-  ManagedRegExp,
-} from "coral-server/helpers/createManagedRegExp";
+import createTesterWithTimeout, {
+  TestWithTimeout,
+} from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
@@ -14,8 +14,8 @@ import { Tenant } from "coral-server/models/tenant";
 const REGEX_MATCH_TIMEOUT = 200;
 
 interface Lists {
-  banned: ManagedRegExp | false;
-  suspect: ManagedRegExp | false;
+  banned: TestWithTimeout | false;
+  suspect: TestWithTimeout | false;
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
@@ -40,7 +40,7 @@ export class WordList {
 
     // Create a managed regular expression from the provided regular expression
     // so we can time it out if it takes too long!
-    return createManagedRegExp(regexp);
+    return createTesterWithTimeout(regexp, REGEX_MATCH_TIMEOUT);
   }
 
   /**
@@ -101,15 +101,15 @@ export class WordList {
     testString: string,
     cache = true
   ): boolean | null {
-    const list = this.lists(options, cache)[listName];
-    if (!list) {
+    const test = this.lists(options, cache)[listName];
+    if (!test) {
       return false;
     }
 
     const timer = createTimer();
 
     // Test the string against the list and timeout if it takes too long.
-    const result = list(testString, REGEX_MATCH_TIMEOUT);
+    const result = test(testString);
     if (result === null) {
       logger.info(
         { tenantID: options.id, listName, took: timer() },
