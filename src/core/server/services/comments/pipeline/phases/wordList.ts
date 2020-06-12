@@ -25,13 +25,9 @@ export const wordList: IntermediateModerationPhase = ({
     return;
   }
 
-  // Decide the status based on whether or not the current story/settings
-  // has pre-mod enabled or not. If the comment was rejected based on the
-  // wordList, then reject it, otherwise if the moderation setting is
-  // premod, set it to `premod`.
+  // Test the comment for banned words.
   const banned = list.test(tenant, "banned", bodyText);
-  if (banned.result) {
-    // Add the flag related to Trust to the comment.
+  if (banned) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
@@ -41,7 +37,7 @@ export const wordList: IntermediateModerationPhase = ({
         },
       ],
     };
-  } else if (banned.timedOut) {
+  } else if (banned === null) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
@@ -53,14 +49,9 @@ export const wordList: IntermediateModerationPhase = ({
     };
   }
 
-  // If the comment has a suspect word or a link, we need to add a
-  // flag to it to indicate that it needs to be looked at.
-  // Otherwise just return the new comment.
-
-  // If the wordList has matched the suspect word filter and we haven't disabled
-  // auto-flagging suspect words, then we should flag the comment!
+  // Test the comment for suspect words.
   const suspect = list.test(tenant, "suspect", bodyText);
-  if (suspect.result) {
+  if (suspect) {
     return {
       actions: [
         {
@@ -69,7 +60,7 @@ export const wordList: IntermediateModerationPhase = ({
         },
       ],
     };
-  } else if (suspect.timedOut) {
+  } else if (suspect === null) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [

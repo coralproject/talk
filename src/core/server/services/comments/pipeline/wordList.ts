@@ -1,27 +1,32 @@
-import util from "util";
-import vm from "vm";
-
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
+import createManagedRegExp, {
+  ManagedRegExp,
+} from "coral-server/helpers/createManagedRegExp";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
-const REGEX_MATCH_TIMEOUT = 100; // milliseconds
+/**
+ * REGEX_MATCH_TIMEOUT is the amount of milliseconds that a given word list can
+ * take before it times out.
+ */
+const REGEX_MATCH_TIMEOUT = 200;
 
 interface Lists {
-  banned: RegExp | false;
-  suspect: RegExp | false;
-}
-
-interface TestResult {
-  result: boolean;
-  timedOut: boolean;
+  banned: ManagedRegExp | false;
+  suspect: ManagedRegExp | false;
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
 
 export class WordList {
+  /**
+   * cache is a weak map of word list options to word lists. It's a weak map
+   * so when the tenant document is updated and the old tenant is discarded, the
+   * list will also be discarded without explicit syncing by the garbage
+   * collection system.
+   */
   private readonly cache = new WeakMap<Options, Lists>();
 
   private generate(locale: LanguageCode, list: string[]) {
@@ -30,7 +35,12 @@ export class WordList {
       return false;
     }
 
-    return createWordListRegExp(locale, list);
+    // Generate the regular expression for this list.
+    const regexp = createWordListRegExp(locale, list);
+
+    // Create a managed regular expression from the provided regular expression
+    // so we can time it out if it takes too long!
+    return createManagedRegExp(regexp);
   }
 
   /**
@@ -90,47 +100,28 @@ export class WordList {
     listName: keyof Lists,
     testString: string,
     cache = true
-  ): TestResult {
+  ): boolean | null {
     const list = this.lists(options, cache)[listName];
     if (!list) {
-      return { result: false, timedOut: false };
+      return false;
     }
 
     const timer = createTimer();
 
-    // create a sandbox to run this script in
-    const sandbox = {
-      result: null,
-      list,
-      testString,
-    };
-    const context = vm.createContext(sandbox);
-    const source = `
-      result = list.test(testString);
-    `;
-    const script = new vm.Script(source);
-
-    // try and evaluate within the script vm sandbox and
-    // timeout if we take too long
-    try {
-      script.runInContext(context, { timeout: REGEX_MATCH_TIMEOUT });
-    } catch (e) {
+    // Test the string against the list and timeout if it takes too long.
+    const result = list(testString, REGEX_MATCH_TIMEOUT);
+    if (result === null) {
       logger.info(
         { tenantID: options.id, listName, took: timer() },
         "word list phrase test timed out"
       );
-
-      return { result: false, timedOut: true };
+    } else {
+      logger.info(
+        { tenantID: options.id, listName, took: timer() },
+        "word list phrase test complete"
+      );
     }
 
-    const state = util.inspect(sandbox);
-    const result = state.startsWith("{\n  result: true,");
-
-    logger.info(
-      { tenantID: options.id, listName, took: timer() },
-      "word list phrase test complete"
-    );
-
-    return { result, timedOut: false };
+    return result;
   }
 }
