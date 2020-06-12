@@ -18,17 +18,23 @@ export default function createTesterWithTimeout(
   // Create the script we're executing as a part of this regex test operation.
   const script = new vm.Script("regexp.test(testString)");
 
+  // Create a null context object to isolate it with primitives.
+  const sandbox = Object.create(null);
+  sandbox.regexp = regexp;
+  sandbox.testString = "";
+
+  // Turn the sandbox into a context.
+  const ctx = vm.createContext(sandbox);
+
   return (testString: string) => {
     let result: boolean;
 
     try {
-      // Create a null context object to isolate it with primitives.
-      const ctx = Object.create(null);
-      ctx.regexp = regexp;
-      ctx.testString = testString;
+      // Set the testString to the one we're evaluating for this context.
+      sandbox.testString = testString;
 
       // Run the operation in this context.
-      result = script.runInNewContext(ctx, { timeout });
+      result = script.runInContext(ctx, { timeout });
     } catch (err) {
       if (err.code === "ERR_SCRIPT_EXECUTION_TIMEOUT") {
         return null;
