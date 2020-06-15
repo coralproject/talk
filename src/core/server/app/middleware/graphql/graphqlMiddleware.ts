@@ -50,7 +50,7 @@ const graphqlMiddleware = (
   ];
 
   // Create a new baseOptions that will be merged into the new options.
-  const baseOptions: Omit<GraphQLOptions, "schema"> = {
+  const baseOptions: Omit<GraphQLOptions, "schema" | "schemaHash"> = {
     // Disable the debug mode, as we already add in our logging function.
     debug: false,
     extensions,

@@ -85,6 +85,8 @@ export class WordList {
    *
    * @param options the options object that is also used as the cache key
    * @param listName the list to test against
+   * @param timeout the length of time that the test should wait for before
+   *                aborting
    * @param testString the string to test to see if they match anything on the
    *                   list
    * @param cache when true, will re-use the cached testers based on the lists
