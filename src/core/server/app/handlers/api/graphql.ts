@@ -1,3 +1,5 @@
+import { generateSchemaHash } from "apollo-server-core/dist/utils/schemaHash";
+
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
 import { graphqlMiddleware } from "coral-server/app/middleware/graphql";
@@ -28,8 +30,11 @@ export const graphQLHandler = ({
   config,
   metrics,
   ...options
-}: GraphMiddlewareOptions): RequestHandler =>
-  graphqlMiddleware(
+}: GraphMiddlewareOptions): RequestHandler => {
+  // Generate the schema hash.
+  const schemaHash = generateSchemaHash(schema);
+
+  return graphqlMiddleware(
     config,
     async (req: Request) => {
       if (!req.coral) {
@@ -73,8 +78,10 @@ export const graphQLHandler = ({
 
       return {
         schema,
+        schemaHash,
         context: new GraphContext(opts),
       };
     },
     metrics
   );
+};
