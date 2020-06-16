@@ -276,6 +276,15 @@ comments-stream-deleteAccount-callOut-cancelAccountDeletion =
 comments-embedLinks-showEmbeds = Show embeds
 comments-embedLinks-hideEmbeds = Hide embeds
 
+comments-embedLinks-show-giphy = Show gif
+comments-embedLinks-hide-giphy = Hide gif
+
+comments-embedLinks-show-youtube = Show video
+comments-embedLinks-hide-youtube = Hide video
+
+comments-embedLinks-show-twitter = Show tweet
+comments-embedLinks-hide-twitter = Hide tweet
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to conversation
 comments-featured-replies = Replies

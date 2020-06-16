@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLEMBED_SOURCE } from "coral-framework/schema";
 import { TwitterEmbed, YouTubeEmbed } from "coral-stream/common/OEmbed";
-import { Button } from "coral-ui/components/v2";
+import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
 import {
   EMBED_SOURCE,
@@ -19,17 +19,16 @@ interface Props {
 }
 
 const getEmbed = (
-  index: number,
   url: string,
   type: EMBED_SOURCE,
   settings: EmbedSectionContainer_settings
 ) => {
   if (type === GQLEMBED_SOURCE.TWITTER && settings.embeds.twitter) {
-    return <TwitterEmbed url={url} key={index} />;
+    return <TwitterEmbed url={url} />;
   }
 
   if (type === GQLEMBED_SOURCE.YOUTUBE && settings.embeds.youtube) {
-    return <YouTubeEmbed url={url} key={index} />;
+    return <YouTubeEmbed url={url} />;
   }
 
   if (type === GQLEMBED_SOURCE.GIPHY && settings.embeds.giphy) {
@@ -59,37 +58,109 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
     return null;
   }
 
-  const onlyTwitter = revision.embeds.every(
-    (l) => l.source === GQLEMBED_SOURCE.TWITTER
-  );
-  const onlyYoutube = revision.embeds.every(
-    (l) => l.source === GQLEMBED_SOURCE.YOUTUBE
-  );
+  const embed = revision.embeds[0];
 
-  if (!embedSettings.twitter && onlyTwitter) {
-    return null;
-  }
-  if (!embedSettings.youtube && onlyYoutube) {
+  if (
+    (embed.source === GQLEMBED_SOURCE.TWITTER && !embedSettings.twitter) ||
+    (embed.source === GQLEMBED_SOURCE.YOUTUBE && !embedSettings.youtube) ||
+    (embed.source === GQLEMBED_SOURCE.GIPHY && !embedSettings.giphy)
+  ) {
     return null;
   }
 
   if (!expanded) {
-    return (
-      <Localized id="comments-embedLinks-showEmbeds">
-        <Button onClick={onToggleExpand}>Show embeds</Button>
-      </Localized>
-    );
+    if (embed.source === GQLEMBED_SOURCE.TWITTER) {
+      return (
+        <Button
+          iconLeft
+          variant="outline"
+          color="stream"
+          onClick={onToggleExpand}
+          size="small"
+        >
+          <ButtonIcon>add</ButtonIcon>
+          <Localized id="comments-embedLinks-show-twitter">
+            Show tweet
+          </Localized>
+        </Button>
+      );
+    } else if (embed.source === GQLEMBED_SOURCE.GIPHY) {
+      return (
+        <Button
+          iconLeft
+          variant="outline"
+          color="stream"
+          size="small"
+          onClick={onToggleExpand}
+        >
+          <ButtonIcon>add</ButtonIcon>
+          <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
+        </Button>
+      );
+    } else if (embed.source === GQLEMBED_SOURCE.YOUTUBE) {
+      return (
+        <Button
+          iconLeft
+          size="small"
+          variant="outline"
+          color="stream"
+          onClick={onToggleExpand}
+        >
+          <ButtonIcon>add</ButtonIcon>
+          <Localized id="comments-embedLinks-show-youtube">
+            Show video
+          </Localized>
+        </Button>
+      );
+    }
   }
 
   return (
-    <>
-      <Localized id="comments-embedLinks-hideEmbeds">
-        <Button onClick={onToggleExpand}>Hide embeds</Button>
-      </Localized>
-      {revision.embeds.map((link, index) =>
-        getEmbed(index, link.url, link.source, settings)
-      )}
-    </>
+    <HorizontalGutter>
+      <div>
+        {embed.source === GQLEMBED_SOURCE.TWITTER && (
+          <Button
+            variant="outline"
+            color="stream"
+            onClick={onToggleExpand}
+            size="small"
+            iconLeft
+          >
+            <ButtonIcon>remove</ButtonIcon>
+            <Localized id="comments-embedLinks-hide-twitter">
+              Hide tweet
+            </Localized>
+          </Button>
+        )}
+        {embed.source === GQLEMBED_SOURCE.GIPHY && (
+          <Button
+            variant="outline"
+            color="stream"
+            size="small"
+            onClick={onToggleExpand}
+            iconLeft
+          >
+            <ButtonIcon>remove</ButtonIcon>
+            <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
+          </Button>
+        )}
+        {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
+          <Button
+            variant="outline"
+            color="stream"
+            size="small"
+            onClick={onToggleExpand}
+            iconLeft
+          >
+            <ButtonIcon>remove</ButtonIcon>
+            <Localized id="comments-embedLinks-hide-youtube">
+              Hide video
+            </Localized>
+          </Button>
+        )}
+      </div>
+      {getEmbed(embed.url, embed.source, settings)}
+    </HorizontalGutter>
   );
 };
 

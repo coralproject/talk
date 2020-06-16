@@ -31,7 +31,7 @@ export interface CommentProps {
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
   collapsed?: boolean;
-  media: CommentMedia[];
+  embeds?: React.ReactNode;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -76,11 +76,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}
         </HTMLContent>
-        {props.media.map((item) => (
-          <div key={item.url}>
-            <img src={item.url} alt={item.alt} />
-          </div>
-        ))}
+        {props.embeds}
         {props.footer}
       </HorizontalGutter>
     </HorizontalGutter>

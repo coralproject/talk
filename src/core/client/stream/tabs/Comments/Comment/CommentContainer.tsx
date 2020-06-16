@@ -402,6 +402,9 @@ export class CommentContainer extends Component<Props, State> {
                   )}
                 </Flex>
               }
+              embeds={
+                <EmbedSectionContainer comment={comment} settings={settings} />
+              }
               footer={
                 <>
                   <Flex

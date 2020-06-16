@@ -176,6 +176,18 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
   box-sizing: border-box;
 }
 
+.sizeSmall {
+  font-size: var(--v2-font-size-1);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-1) var(--v2-spacing-2);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-2);
+      padding-right: var(--v2-spacing-2);
+    }
+  }
+}
+
 .sizeRegular {
   font-size: var(--v2-font-size-1);
   &:not(.variantText) {

@@ -68,9 +68,9 @@ const oEmbed: FunctionComponent<Props> = ({
 
   return (
     <div className={styles.root}>
-      <TextLink href={url} className={styles.link} target="_blank">
+      {/* <TextLink href={url} className={styles.link} target="_blank">
         {url}
-      </TextLink>
+      </TextLink> */}
       <iframe
         ref={iframeRef}
         title="oEmbed"
