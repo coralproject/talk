@@ -67,7 +67,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yarn global add node-gyp &&
+            yarn global add node-gyp@6.1.0 &&
             yarn install --frozen-lockfile
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
