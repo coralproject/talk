@@ -20,7 +20,8 @@ ARG REVISION_HASH
 ENV REVISION_HASH=${REVISION_HASH}
 
 # Install app dependencies and build static assets.
-RUN yarn global add node-gyp && \
+# Pin node-gyp@6.1.0 as newer versions do not build on Node 8.
+RUN yarn global add node-gyp@6.1.0 && \
     yarn install --frozen-lockfile && \
     yarn build && \
     yarn cache clean
