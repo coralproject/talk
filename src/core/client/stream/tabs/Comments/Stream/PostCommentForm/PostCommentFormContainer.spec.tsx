@@ -8,6 +8,7 @@ import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { act, removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
 
+import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
@@ -126,7 +127,7 @@ it("creates a comment", async () => {
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
   const form = { initialize: noop };
   const formMock = sinon.mock(form);
-  formMock.expects("initialize").withArgs({}).once();
+  formMock.expects("initialize").withArgs({ body: RTE_RESET_VALUE }).once();
 
   const props = createDefaultProps({
     createComment: createCommentStub,
