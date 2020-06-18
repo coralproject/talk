@@ -162,7 +162,7 @@ function createManagedCoralContextProvider(
     // This is called every time a user session starts or ends.
     private clearSession = async (nextAccessToken?: string) => {
       // Clear session storage.
-      this.state.context.sessionStorage.clear();
+      void this.state.context.sessionStorage.clear();
 
       // Pause subscriptions.
       subscriptionClient.pause();

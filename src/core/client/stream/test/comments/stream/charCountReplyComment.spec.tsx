@@ -114,10 +114,10 @@ it("show remaining characters", async () => {
   const { rte, form } = await createTestRenderer();
 
   act(() => rte.props.onChange("abc"));
-  waitForElement(() => within(form).getByText("7 characters remaining"));
+  await waitForElement(() => within(form).getByText("7 characters remaining"));
 
   act(() => rte.props.onChange("abcdefghijkl"));
-  waitForElement(() => within(form).getByText("-2 characters remaining"));
+  await waitForElement(() => within(form).getByText("-2 characters remaining"));
 });
 
 it("update from server upon specific char count error", async () => {
@@ -157,16 +157,22 @@ it("update from server upon specific char count error", async () => {
     );
 
     act(() => rte.props.onChange("abc"));
-    waitForElement(() => within(form).getByText("7 characters remaining"));
+    await waitForElement(() =>
+      within(form).getByText("7 characters remaining")
+    );
 
     act(() => rte.props.onChange("abcdefgh"));
-    waitForElement(() => within(form).getByText("2 characters remaining"));
+    await waitForElement(() =>
+      within(form).getByText("2 characters remaining")
+    );
 
     await act(async () => form.props.onSubmit());
-    waitForElement(() => within(form).getByText("-3 characters remaining"));
+    await waitForElement(() =>
+      within(form).getByText("-3 characters remaining")
+    );
 
     // Body submit error should be displayed.
-    waitForElement(() => within(form).getByText(errorCode));
+    await waitForElement(() => within(form).getByText(errorCode));
 
     act(() => rte.props.onChange("abcde"));
 

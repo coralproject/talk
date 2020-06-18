@@ -234,7 +234,7 @@ it("shows server error", async () => {
   expect(submitButton.props.disabled).toBe(true);
 
   await act(async () => {
-    wait(() => expect(submitButton.props.disabled).toBe(false));
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
 
   within(main).getByText("Server Error");

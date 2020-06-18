@@ -49,7 +49,10 @@ class StoryClosedTimeoutContainer extends React.Component<Props> {
 
   private handleClose = () => {
     this.timer = null;
-    this.props.setStoryClosed({ storyID: this.props.story.id, isClosed: true });
+    void this.props.setStoryClosed({
+      storyID: this.props.story.id,
+      isClosed: true,
+    });
   };
 
   public render() {

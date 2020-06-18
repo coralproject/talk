@@ -210,8 +210,8 @@ it("prevents stream lock out", async () => {
     await act(async () => await form.props.onSubmit());
 
     // Submit button should not be disabled because we canceled the submit.
-    wait(() => expect(saveChanges.props.disabled).toBe(true));
-    wait(() => {
+    await wait(() => expect(saveChanges.props.disabled).toBe(true));
+    await wait(() => {
       expect(stubCancel.calledOnce).toBe(true);
     });
 

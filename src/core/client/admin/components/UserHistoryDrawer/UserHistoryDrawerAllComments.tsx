@@ -33,7 +33,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
       return;
     }
 
-    loadMore();
+    void loadMore();
   }, [loadMore]);
 
   const hasMore = relay.hasMore();

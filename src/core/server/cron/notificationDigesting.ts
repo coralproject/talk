@@ -108,7 +108,7 @@ const processNotificationDigesting = (
       // TODO: sort the digest template elements by the digest order.
 
       // Add the email containing the digest information.
-      mailerQueue.add({
+      void mailerQueue.add({
         tenantID: tenant.id,
         message: {
           to: user.email!,

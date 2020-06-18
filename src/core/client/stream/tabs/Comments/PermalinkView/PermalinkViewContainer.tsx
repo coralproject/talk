@@ -36,7 +36,7 @@ class PermalinkViewContainer extends React.Component<
     ViewFullDiscussionEvent.emit(this.props.eventEmitter, {
       commentID: this.props.comment && this.props.comment.id,
     });
-    this.props.setCommentID({ id: null });
+    void this.props.setCommentID({ id: null });
     e.preventDefault();
   };
   private getShowAllCommentsHref() {

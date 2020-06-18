@@ -51,7 +51,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     if (!comment.revision) {
       return;
     }
-    approve({ commentID: comment.id, commentRevisionID: comment.revision.id });
+    void approve({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+    });
   }, [approve, comment]);
   const onReject = useCallback(async () => {
     if (!comment.revision) {
@@ -67,7 +70,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     if (!comment.revision) {
       return;
     }
-    feature({
+    void feature({
       storyID: story.id,
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -75,7 +78,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     onDismiss();
   }, [feature, onDismiss, story, comment]);
   const onUnfeature = useCallback(() => {
-    unfeature({
+    void unfeature({
       commentID: comment.id,
       storyID: story.id,
     });

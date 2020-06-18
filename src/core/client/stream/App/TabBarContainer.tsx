@@ -28,7 +28,7 @@ interface Props {
 
 export class TabBarContainer extends Component<Props> {
   private handleSetActiveTab = (tab: SetActiveTabInput["tab"]) => {
-    this.props.setActiveTab({ tab });
+    void this.props.setActiveTab({ tab });
   };
 
   public render() {

@@ -99,14 +99,14 @@ export default class LongRunningExecutor implements Executor {
   }
 
   // This is called before exiting.
-  public async onCleanup() {
+  public async onCleanup(): Promise<void> {
     this.restartDebounced.cancel();
     if (this.isRunning) {
       await this.kill();
     }
   }
 
-  public execute(filePath: string) {
+  public execute(filePath: string): void {
     if (this.isRunning) {
       this.restartDebounced();
       return;

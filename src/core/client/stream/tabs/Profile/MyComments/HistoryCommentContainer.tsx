@@ -28,7 +28,7 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
   const handleGotoConversation = useCallback(
     (e: React.MouseEvent) => {
       if (props.story.id === props.comment.story.id) {
-        props.setCommentID({ id: props.comment.id });
+        void props.setCommentID({ id: props.comment.id });
         emitViewConversationEvent({
           from: "COMMENT_HISTORY",
           commentID: props.comment.id,

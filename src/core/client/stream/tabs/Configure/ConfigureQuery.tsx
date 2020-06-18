@@ -19,7 +19,7 @@ const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(
     (x) => {
       // New css is loaded, take care of polyfilling those css vars for IE11.
-      polyfillCSSVarsForIE11();
+      void polyfillCSSVarsForIE11();
       return x;
     }
   );

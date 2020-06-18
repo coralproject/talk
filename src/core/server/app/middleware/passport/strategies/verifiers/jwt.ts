@@ -35,6 +35,7 @@ export const JWTTokenSchema = Joi.object().keys({
   pat: Joi.boolean(),
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isJWTToken(token: JWTToken | object): token is JWTToken {
   const { error } = JWTTokenSchema.validate(token, {
     allowUnknown: true,
@@ -59,6 +60,7 @@ export class JWTVerifier implements Verifier<JWTToken> {
     this.redis = redis;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public supports(token: JWTToken | object, tenant: Tenant): token is JWTToken {
     return isJWTToken(token) && token.iss === tenant.id;
   }

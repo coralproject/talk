@@ -58,7 +58,7 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
   );
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
-    viewNew({
+    void viewNew({
       queue: props.queueName,
       storyID: props.storyID || null,
       siteID: props.siteID || null,

@@ -44,7 +44,7 @@ const SignInContainer: FunctionComponent<Props> = ({
   useEffect(() => {
     return () => {
       // Clear the error when we unmount.
-      clearError();
+      void clearError();
     };
   }, [clearError, auth]);
 

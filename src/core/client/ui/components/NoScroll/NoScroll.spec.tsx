@@ -1,16 +1,18 @@
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 
+import { act } from "coral-framework/testHelpers";
+
 import NoScroll from "./NoScroll";
 
 it("renders correctly", () => {
   expect(document.body.className).toBe("");
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(<NoScroll active />);
   });
   expect(document.body.className).toBe("NoScroll-noScroll");
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.update(<NoScroll />);
   });
   expect(document.body.className).toBe("");
@@ -19,7 +21,7 @@ it("renders correctly", () => {
 it("renders correctly with multiple instances", () => {
   expect(document.body.className).toBe("");
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(
       <>
         <NoScroll active />
@@ -29,7 +31,7 @@ it("renders correctly with multiple instances", () => {
     );
   });
   expect(document.body.className).toBe("NoScroll-noScroll");
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.update(
       <>
         <NoScroll />
@@ -39,7 +41,7 @@ it("renders correctly with multiple instances", () => {
     );
   });
   expect(document.body.className).toBe("NoScroll-noScroll");
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.update(
       <>
         <NoScroll />

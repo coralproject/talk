@@ -144,7 +144,7 @@ export class CommentContainer extends Component<Props, State> {
         };
       });
     } else {
-      this.props.showAuthPopup({ view: "SIGN_IN" });
+      void this.props.showAuthPopup({ view: "SIGN_IN" });
     }
   };
 
@@ -157,7 +157,7 @@ export class CommentContainer extends Component<Props, State> {
         showEditDialog: true,
       }));
     } else {
-      this.props.showAuthPopup({ view: "SIGN_IN" });
+      void this.props.showAuthPopup({ view: "SIGN_IN" });
     }
   };
 
@@ -189,7 +189,7 @@ export class CommentContainer extends Component<Props, State> {
       from: "COMMENT_STREAM",
     });
     e.preventDefault();
-    this.props.setCommentID({ id: this.props.comment.id });
+    void this.props.setCommentID({ id: this.props.comment.id });
     return false;
   };
 

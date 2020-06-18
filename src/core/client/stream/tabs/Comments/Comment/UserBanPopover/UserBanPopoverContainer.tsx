@@ -35,7 +35,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const { localeBundles } = useCoralContext();
 
   const onBan = useCallback(() => {
-    banUser({
+    void banUser({
       userID: user.id,
       commentID: comment.id,
       rejectExistingComments: false,
@@ -47,7 +47,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       ),
     });
     if (!rejected && comment.revision) {
-      reject({
+      void reject({
         commentID: comment.id,
         commentRevisionID: comment.revision.id,
         storyID: story.id,

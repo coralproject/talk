@@ -16,7 +16,7 @@ export class OnPostMessageSetAccessToken extends Component<Props> {
     super(props);
     // Auth popup will use this to handle a successful login.
     props.postMessage.on("setAccessToken", (accessToken: string) => {
-      props.setAccessToken({ accessToken });
+      void props.setAccessToken({ accessToken });
       SignedInEvent.emit(props.eventEmitter);
     });
   }

@@ -44,7 +44,7 @@ const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
         target="_parent"
         anchor
       >
-        Read More of this Conversation >
+        Read More of this Conversation &gt;
       </Button>
     </Localized>
   );

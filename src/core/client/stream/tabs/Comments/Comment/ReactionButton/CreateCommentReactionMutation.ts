@@ -71,7 +71,7 @@ async function commit(
               },
               actionCounts: {
                 reaction: {
-                  total: currentCount + 1,
+                  total: (currentCount as number) + 1,
                 },
               },
             } as any,

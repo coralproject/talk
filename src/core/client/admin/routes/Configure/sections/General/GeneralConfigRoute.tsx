@@ -35,7 +35,7 @@ class GeneralConfigRoute extends React.Component<Props> {
 const enhanced = withRouteConfig<Props>({
   getQuery: () => {
     // Start prefetching markdown editor.
-    loadMarkdownEditor();
+    void loadMarkdownEditor();
 
     // Fetch graphql data.
     return graphql`

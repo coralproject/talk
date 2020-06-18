@@ -38,7 +38,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onCreate = useCallback((values) => {
     try {
       setSubmitError(null);
-      createAnnouncement(values);
+      void createAnnouncement(values);
       setShowForm(false);
     } catch (error) {
       setSubmitError(error.message);
@@ -47,7 +47,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onDelete = useCallback(() => {
     try {
       setSubmitError(null);
-      deleteAnnouncement();
+      void deleteAnnouncement();
     } catch (error) {
       setSubmitError(error.message);
       setShowForm(false);

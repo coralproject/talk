@@ -23,13 +23,13 @@ const StoryActionsContainer: FunctionComponent<Props> = (props) => {
   const closeStory = useMutation(CloseStoryMutation);
   const openStory = useMutation(OpenStoryMutation);
   const onRescrape = useCallback(() => {
-    rescrape({ id: props.story.id });
+    void rescrape({ id: props.story.id });
   }, [props.story.id]);
   const onClose = useCallback(() => {
-    closeStory({ id: props.story.id });
+    void closeStory({ id: props.story.id });
   }, [props.story.id]);
   const onOpen = useCallback(() => {
-    openStory({ id: props.story.id });
+    void openStory({ id: props.story.id });
   }, [props.story.id]);
   const canChangeStatus = can(props.viewer, Ability.CHANGE_STORY_STATUS);
   return (

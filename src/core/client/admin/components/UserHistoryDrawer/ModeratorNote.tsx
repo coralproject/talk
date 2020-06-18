@@ -22,7 +22,7 @@ const ModeratorNote: FunctionComponent<Props> = ({
 }) => {
   const deleteNote = useCallback(() => {
     if (onDelete) {
-      onDelete(id);
+      void onDelete(id);
     }
   }, [id]);
   return (

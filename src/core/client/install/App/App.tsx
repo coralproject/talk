@@ -33,7 +33,7 @@ const App: FunctionComponent = () => {
       }
     }
 
-    check();
+    void check();
   }, []);
 
   return (

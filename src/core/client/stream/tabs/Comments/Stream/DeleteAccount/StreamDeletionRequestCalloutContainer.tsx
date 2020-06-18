@@ -39,7 +39,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
 
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
-    cancelAccountDeletion();
+    void cancelAccountDeletion();
   }, [cancelAccountDeletion]);
 
   const deletionDate = viewer.scheduledDeletionDate

@@ -32,7 +32,7 @@ class RestrictedContainer extends Component<Props> {
     await this.props.signOut();
     // Wait for new context to propagate.
     await timeout();
-    this.props.setRedirectPath({
+    void this.props.setRedirectPath({
       path: location.pathname + location.search + location.hash,
     });
   };

@@ -133,7 +133,8 @@ function createMessageTranslator(i18n: I18n) {
     }
 
     // Translate the bundle.
-    await loc.translateFragment(dom.window.document);
+    // TODO: don't cast to any.
+    await loc.translateFragment(dom.window.document as any);
 
     // Grab the rendered HTML from the dom, and juice them.
     if (!dom.window.document.documentElement) {

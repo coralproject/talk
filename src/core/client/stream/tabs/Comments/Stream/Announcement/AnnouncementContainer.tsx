@@ -32,7 +32,7 @@ export const AnnouncementContainer: FunctionComponent<Props> = ({
         }
       }
     }
-    getDismissedStatus();
+    void getDismissedStatus();
   }, [settings]);
   const dismissAnnouncement = useCallback(async () => {
     if (settings.announcement) {

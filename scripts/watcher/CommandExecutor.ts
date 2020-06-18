@@ -76,7 +76,7 @@ export default class CommandExecutor implements Executor {
     });
   }
 
-  public execute(filePath: string) {
+  public execute(filePath: string): void {
     this.spawnProcessPotentiallyDebounced();
   }
 }

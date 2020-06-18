@@ -24,9 +24,9 @@ afterEach(() => {
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
-it("Sets comment id", () => {
+it("Sets comment id", async () => {
   const id = "comment1-id";
-  commit(environment, { id }, {} as any);
+  await commit(environment, { id }, {} as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   expect(parseQuery(location.search).commentID).toEqual(id);
 });
@@ -38,7 +38,7 @@ it("Should call setCommentID in pym", async () => {
       sendMessage: sinon.mock().once().withArgs("setCommentID", id),
     },
   };
-  commit(environment, { id }, context as any);
+  await commit(environment, { id }, context as any);
   await timeout();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   context.pym.sendMessage.verify();
@@ -50,7 +50,7 @@ it("Should call setCommentID in pym with empty id", async () => {
       sendMessage: sinon.mock().once().withArgs("setCommentID", ""),
     },
   };
-  commit(environment, { id: null }, context as any);
+  await commit(environment, { id: null }, context as any);
   await timeout();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
   expect(parseQuery(location.search).commentID).toBeUndefined();

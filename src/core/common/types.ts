@@ -20,6 +20,7 @@ export type Promiseable<T> = Promise<T> | T;
 
 export type Nullable<T> = { [P in keyof T]: T[P] | null };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type DeepWritableObject<T> = T extends object
   ? {
       -readonly [P in keyof T]: T[P] extends Array<infer U> | undefined
@@ -34,6 +35,7 @@ export type DeepWritable<T> = T extends Array<infer U> | ReadonlyArray<infer U>
   ? Array<DeepWritableObject<U>>
   : DeepWritableObject<T>;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type DeepNullable<T> = T extends object
   ? {
       [P in keyof T]: T[P] extends Array<infer U> | undefined
@@ -47,6 +49,7 @@ export type DeepNullable<T> = T extends object
 /**
  * Like Partial, but recurses down the object marking each field as Partial.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type DeepPartial<T> = T extends object
   ? {
       [P in keyof T]?: T[P] extends Array<infer U> | undefined
@@ -61,6 +64,7 @@ export type DeepPartial<T> = T extends object
  * FirstDeepPartial is like DeepPartial but applies only to the first parameters
  * on the object.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type FirstDeepPartial<T> = T extends object
   ? {
       [P in keyof T]: DeepPartial<T[P]>;

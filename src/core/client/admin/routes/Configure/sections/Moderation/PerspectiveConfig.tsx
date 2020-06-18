@@ -108,7 +108,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Localized
             id="configure-moderation-perspective-toxicityThresholdDescription"
-            $default={TOXICITY_THRESHOLD_DEFAULT + "%"}
+            $default={TOXICITY_THRESHOLD_DEFAULT.toString() + "%"}
           >
             <HelperText>
               This value can be set a percentage between 0 and 100. This number

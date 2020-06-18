@@ -20,14 +20,14 @@ beforeAll(() => {
   });
 });
 
-it("sets state", () => {
-  commit(environment, { open: true, focus: false });
+it("sets state", async () => {
+  await commit(environment, { open: true, focus: false });
   expect(source.get(AUTH_POPUP_ID)!.open).toEqual(true);
   expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(false);
 });
 
-it("sets state", () => {
-  commit(environment, {
+it("sets state", async () => {
+  await commit(environment, {
     open: false,
     focus: true,
     href: "https://coralproject.net",
@@ -37,16 +37,16 @@ it("sets state", () => {
   expect(source.get(AUTH_POPUP_ID)!.href).toEqual("https://coralproject.net");
 });
 
-it("keep previous state", () => {
-  commit(environment, { open: false, focus: true });
-  commit(environment, {});
+it("keep previous state", async () => {
+  await commit(environment, { open: false, focus: true });
+  await commit(environment, {});
   expect(source.get(AUTH_POPUP_ID)!.open).toEqual(false);
   expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(true);
 });
 
-it("change only one", () => {
-  commit(environment, { open: false, focus: true });
-  commit(environment, { open: true });
+it("change only one", async () => {
+  await commit(environment, { open: false, focus: true });
+  await commit(environment, { open: true });
   expect(source.get(AUTH_POPUP_ID)!.open).toEqual(true);
   expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(true);
 });

@@ -25,7 +25,7 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
 }) => {
   const ignoreUser = useMutation(IgnoreUserMutation);
   const onIgnore = useCallback(() => {
-    ignoreUser({ userID: user.id });
+    void ignoreUser({ userID: user.id });
     onDismiss();
   }, [user.id, ignoreUser]);
   return (

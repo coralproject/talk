@@ -67,7 +67,7 @@ it("validate min", async () => {
   act(() => rte.props.onChange("ab"));
   act(() => form.props.onSubmit());
   await act(async () => {
-    waitForElement(() => within(form).getByText(text));
+    await waitForElement(() => within(form).getByText(text));
   });
 
   // Reset validation when erasing all content.
@@ -153,10 +153,14 @@ it("update from server upon specific char count error", async () => {
     );
 
     act(() => rte.props.onChange("abc"));
-    waitForElement(() => within(form).getByText("7 characters remaining"));
+    await waitForElement(() =>
+      within(form).getByText("7 characters remaining")
+    );
 
     act(() => rte.props.onChange("abcdefgh"));
-    waitForElement(() => within(form).getByText("2 characters remaining"));
+    await waitForElement(() =>
+      within(form).getByText("2 characters remaining")
+    );
 
     act(() => {
       form.props.onSubmit();

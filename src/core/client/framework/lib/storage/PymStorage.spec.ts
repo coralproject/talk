@@ -18,7 +18,7 @@ class PymStub {
 }
 
 describe("PymStorage", () => {
-  it("should set item", () => {
+  it("should set item", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.setItem("test", "value");
@@ -28,10 +28,10 @@ describe("PymStorage", () => {
     expect(method).toBe("setItem");
     expect(parameters).toEqual({ key: "test", value: "value" });
     pym.listeners["pymStorage.localStorage.response"](JSON.stringify({ id }));
-    expect(promise).resolves.toBeUndefined();
+    await expect(promise).resolves.toBeUndefined();
   });
 
-  it("should remove item", () => {
+  it("should remove item", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.removeItem("test");
@@ -41,10 +41,10 @@ describe("PymStorage", () => {
     expect(method).toBe("removeItem");
     expect(parameters).toEqual({ key: "test" });
     pym.listeners["pymStorage.localStorage.response"](JSON.stringify({ id }));
-    expect(promise).resolves.toBeUndefined();
+    await expect(promise).resolves.toBeUndefined();
   });
 
-  it("should get item", () => {
+  it("should get item", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.getItem("test");
@@ -56,10 +56,10 @@ describe("PymStorage", () => {
     pym.listeners["pymStorage.localStorage.response"](
       JSON.stringify({ id, result: "value" })
     );
-    expect(promise).resolves.toBe("value");
+    await expect(promise).resolves.toBe("value");
   });
 
-  it("should get length", () => {
+  it("should get length", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.length;
@@ -71,10 +71,10 @@ describe("PymStorage", () => {
     pym.listeners["pymStorage.localStorage.response"](
       JSON.stringify({ id, result: 3 })
     );
-    expect(promise).resolves.toBe(3);
+    await expect(promise).resolves.toBe(3);
   });
 
-  it("should get key", () => {
+  it("should get key", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.key(2);
@@ -86,10 +86,10 @@ describe("PymStorage", () => {
     pym.listeners["pymStorage.localStorage.response"](
       JSON.stringify({ id, result: "myKey" })
     );
-    expect(promise).resolves.toBe("myKey");
+    await expect(promise).resolves.toBe("myKey");
   });
 
-  it("should clear", () => {
+  it("should clear", async () => {
     const pym = new PymStub("localStorage");
     const storage = createPymStorage(pym as any, "localStorage");
     const promise = storage.clear();
@@ -99,11 +99,11 @@ describe("PymStorage", () => {
     expect(method).toBe("clear");
     expect(parameters).toEqual({});
     pym.listeners["pymStorage.localStorage.response"](JSON.stringify({ id }));
-    expect(promise).resolves.toBeUndefined();
+    await expect(promise).resolves.toBeUndefined();
   });
 
   describe("on error", () => {
-    it("should reject set item", () => {
+    it("should reject set item", async () => {
       const pym = new PymStub("localStorage");
       const storage = createPymStorage(pym as any, "localStorage");
       const promise = storage.setItem("test", "value");
@@ -113,9 +113,9 @@ describe("PymStorage", () => {
       pym.listeners["pymStorage.localStorage.error"](
         JSON.stringify({ id, error: "error" })
       );
-      expect(promise).rejects.toThrow(new Error("error"));
+      await expect(promise).rejects.toThrow(new Error("error"));
     });
-    it("should reject remove item", () => {
+    it("should reject remove item", async () => {
       const pym = new PymStub("localStorage");
       const storage = createPymStorage(pym as any, "localStorage");
       const promise = storage.removeItem("test");
@@ -125,9 +125,9 @@ describe("PymStorage", () => {
       pym.listeners["pymStorage.localStorage.error"](
         JSON.stringify({ id, error: "error" })
       );
-      expect(promise).rejects.toThrow(new Error("error"));
+      await expect(promise).rejects.toThrow(new Error("error"));
     });
-    it("should reject get item", () => {
+    it("should reject get item", async () => {
       const pym = new PymStub("localStorage");
       const storage = createPymStorage(pym as any, "localStorage");
       const promise = storage.getItem("test");
@@ -137,7 +137,7 @@ describe("PymStorage", () => {
       pym.listeners["pymStorage.localStorage.error"](
         JSON.stringify({ id, error: "error" })
       );
-      expect(promise).rejects.toThrow(new Error("error"));
+      await expect(promise).rejects.toThrow(new Error("error"));
     });
   });
 });

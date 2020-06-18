@@ -210,7 +210,10 @@ export async function updateSharedCommentCounts(
     const args = flattenDeep(Object.entries(moderationQueueQueues));
 
     // Add the command to the pipeline.
-    pipeline.mhincrby(commentCountsModerationQueueQueuesKey(tenantID), ...args);
+    void pipeline.mhincrby(
+      commentCountsModerationQueueQueuesKey(tenantID),
+      ...args
+    );
   }
 
   // Execute the pipeline.

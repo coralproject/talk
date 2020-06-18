@@ -8,6 +8,7 @@ import {
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { OmitRefType } from "coral-framework/types";
 
 import { OIDCConfig_formValues } from "coral-admin/__generated__/OIDCConfig_formValues.graphql";
 import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
@@ -19,7 +20,9 @@ interface Props {
   auth: AuthData;
   disabled?: boolean;
   discoverOIDCConfiguration: FetchProp<typeof DiscoverOIDCConfigurationFetch>;
-  form: FormApi<{ auth: AuthData & OIDCConfig_formValues }>;
+  form: FormApi<{
+    auth: OmitRefType<AuthData> & OmitRefType<OIDCConfig_formValues>;
+  }>;
 }
 
 interface State {

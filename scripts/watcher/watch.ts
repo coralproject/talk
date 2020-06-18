@@ -7,6 +7,7 @@ import { Config, configSchema, Options, WatchConfig, Watcher } from "./types";
 
 // Polyfill the asyncIterator symbol.
 if (Symbol.asyncIterator === undefined) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   (Symbol as any).asyncIterator = Symbol.for("asyncIterator");
 }
 
@@ -68,6 +69,7 @@ function filterOnly(
   const resolved = sets ? resolveSets(sets, only) : only;
   const unknown = resolved.filter((r) => !(r in watchers));
   if (unknown.length) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Watcher Configuration or Set for ${unknown} not found`);
   }
   return pickBy(watchers, (value, key) => {
@@ -80,7 +82,10 @@ function filterOnly(
   }) as Config["watchers"];
 }
 
-export default async function watch(config: Config, options: Options = {}) {
+export default async function watch(
+  config: Config,
+  options: Options = {}
+): Promise<void> {
   Joi.assert(config, configSchema);
   const watcher: Watcher = config.backend || new SaneWatcher();
   const rootDir = config.rootDir || process.cwd();

@@ -1,4 +1,3 @@
-import TestRenderer from "react-test-renderer";
 import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
@@ -427,7 +426,7 @@ it("suspend user", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -435,7 +434,7 @@ it("suspend user", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
@@ -443,7 +442,7 @@ it("suspend user", async () => {
     exact: false,
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Suspended");
@@ -490,7 +489,7 @@ it("remove user suspension", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -498,7 +497,7 @@ it("remove user suspension", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup)
       .getByText("Remove suspension", { selector: "button" })
       .props.onClick();
@@ -539,7 +538,7 @@ it("suspend user with custom timeout", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -547,7 +546,7 @@ it("suspend user with custom timeout", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
@@ -557,11 +556,11 @@ it("suspend user with custom timeout", async () => {
 
   const changedDuration = within(modal).getByID("duration-604800");
 
-  TestRenderer.act(() => {
+  act(() => {
     changedDuration.props.onChange(changedDuration.props.value.toString());
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Suspended");
@@ -599,7 +598,7 @@ it("suspend user with custom message", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -607,7 +606,7 @@ it("suspend user with custom message", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup).getByText("Suspend", { selector: "button" }).props.onClick();
   });
 
@@ -617,17 +616,17 @@ it("suspend user with custom message", async () => {
 
   const toggleEdit = within(modal).getByID("suspendModal-editMessage");
 
-  TestRenderer.act(() => {
+  act(() => {
     toggleEdit.props.onChange(true);
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal)
       .getByID("suspendModal-message")
       .props.onChange("YOU WERE SUSPENDED FOR BEHAVING BADLY");
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
 
@@ -665,7 +664,7 @@ it("ban user", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -673,7 +672,7 @@ it("ban user", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup).getByText("Ban", { selector: "button" }).props.onClick();
   });
 
@@ -684,7 +683,7 @@ it("ban user", async () => {
     }
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Banned");
@@ -722,7 +721,7 @@ it("ban user with custom message", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -730,7 +729,7 @@ it("ban user with custom message", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup).getByText("Ban", { selector: "button" }).props.onClick();
   });
 
@@ -743,17 +742,17 @@ it("ban user with custom message", async () => {
 
   const toggleMessage = within(modal).getByID("banModal-showMessage");
 
-  TestRenderer.act(() => {
+  act(() => {
     toggleMessage.props.onChange(true);
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal)
       .getByID("banModal-message")
       .props.onChange("YOU WERE BANNED FOR BREAKING THE RULES");
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
   within(userRow).getByText("Banned");
@@ -802,7 +801,7 @@ it("remove user ban", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
@@ -810,7 +809,7 @@ it("remove user ban", async () => {
     "A dropdown to change the user status"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup)
       .getByText("Remove ban", { selector: "button" })
       .props.onClick();

@@ -50,7 +50,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         from: "FEATURED_COMMENTS",
         commentID: comment.id,
       });
-      setCommentID({ id: comment.id });
+      void setCommentID({ id: comment.id });
       return false;
     },
     [setCommentID, comment]

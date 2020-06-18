@@ -14,7 +14,7 @@ import {
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
-import { createUUIDGenerator } from "coral-framework/testHelpers";
+import { act, createUUIDGenerator } from "coral-framework/testHelpers";
 
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
@@ -35,8 +35,8 @@ export interface Resolvers<Q extends Resolver<any, any> = any, M = any> {
 }
 
 export interface TestResolvers<T extends Resolvers = any> {
-  Query?: { [P in keyof Required<T>["Query"]]: () => any };
-  Mutation?: { [P in keyof Required<T>["Mutation"]]: () => any };
+  Query?: { [P in keyof Required<T>["Query"]]?: () => any };
+  Mutation?: { [P in keyof Required<T>["Mutation"]]?: () => any };
 }
 
 function createNodeMock(element: React.ReactElement<any>) {
@@ -111,7 +111,7 @@ export default function createTestRenderer<
   };
 
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(
       <CoralContextProvider value={context}>{element}</CoralContextProvider>,
       { createNodeMock }

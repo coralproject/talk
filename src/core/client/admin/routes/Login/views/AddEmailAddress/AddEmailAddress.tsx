@@ -31,7 +31,7 @@ const AddEmailAddress: FunctionComponent = () => {
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           if (error.code === "DUPLICATE_EMAIL") {
-            setDuplicateEmail({ duplicateEmail: input.email });
+            void setDuplicateEmail({ duplicateEmail: input.email });
             setView({ view: "LINK_ACCOUNT" });
             return;
           }

@@ -16,6 +16,6 @@ export function getRequestedFields<T>(info: GraphQLResolveInfo) {
 }
 
 export function reconstructTenantURLResolver<T = any>(path: string) {
-  return (parent: T, args: {}, ctx: GraphContext) =>
+  return (parent: T, args: unknown, ctx: GraphContext) =>
     reconstructTenantURL(ctx.config, ctx.tenant, ctx.req, path);
 }
