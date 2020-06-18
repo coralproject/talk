@@ -4,6 +4,7 @@ import { approve } from "./approve";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
+import { attachedEmbed } from "./embed";
 import { external } from "./external";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
@@ -43,4 +44,5 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   premodUser,
   premodNewCommenter,
   external,
+  attachedEmbed,
 ];

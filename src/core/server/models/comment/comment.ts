@@ -145,12 +145,11 @@ export type CreateCommentInput = Omit<
   | "actionCounts"
   | "revisions"
   | "deletedAt"
-  | "embed"
 > &
   Required<Pick<Revision, "body">> &
   Pick<Revision, "metadata"> &
   Partial<Pick<Comment, "actionCounts" | "siteID">> & {
-    embed?: CommentEmbed;
+    embeds: CommentEmbed[];
   };
 
 function formatLink(source: GQLEMBED_SOURCE, link: string): CommentEmbed {
@@ -160,7 +159,7 @@ function formatLink(source: GQLEMBED_SOURCE, link: string): CommentEmbed {
   };
 }
 
-function findEmbeds(body: string): CommentEmbed[] {
+export function findEmbedLinks(body: string): CommentEmbed[] {
   const youtubeRegex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[a-zA-z0-9]{1,12}|youtu\.be\/[a-zA-z0-9]{1,12})/g;
   const twitterRegex = /(https?:\/\/)?(www\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g;
 
@@ -186,12 +185,7 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, embed, ...rest } = input;
-
-  const embeds = findEmbeds(body);
-  if (embed) {
-    embeds.push(embed);
-  }
+  const { body, actionCounts = {}, metadata, embeds, ...rest } = input;
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -264,7 +258,7 @@ export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
   lastEditableCommentCreatedAt: Date;
 } & Required<Pick<Revision, "body" | "metadata">> &
   Partial<Pick<Comment, "actionCounts">> & {
-    embed?: CommentEmbed;
+    embeds?: CommentEmbed[];
   };
 
 // Only comments with the following status's can be edited.
@@ -336,14 +330,14 @@ export async function editComment(
     status,
     authorID,
     metadata,
-    embed,
+    embeds,
     actionCounts = {},
   } = input;
 
-  const embeds = findEmbeds(body);
-  if (embed) {
-    embeds.push(embed);
-  }
+  // const embeds = findEmbeds(body);
+  // if (embed) {
+  //   embeds.push(embed);
+  // }
   // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
@@ -351,7 +345,7 @@ export async function editComment(
     actionCounts,
     metadata,
     createdAt: now,
-    embeds,
+    embeds: embeds || [],
   };
 
   const update: Record<string, any> = {

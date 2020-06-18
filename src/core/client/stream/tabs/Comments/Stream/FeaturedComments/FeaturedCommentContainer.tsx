@@ -15,7 +15,7 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon, HorizontalGutter } from "coral-ui/components/v2";
+import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";

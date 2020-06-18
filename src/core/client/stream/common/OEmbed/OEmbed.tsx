@@ -5,7 +5,7 @@ import React, {
   useState,
 } from "react";
 
-import { TextLink } from "coral-ui/components/v2";
+// import { TextLink } from "coral-ui/components/v2";
 
 import styles from "./OEmbed.css";
 

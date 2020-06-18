@@ -26,6 +26,7 @@ import styles from "./GifSelector.css";
 
 interface Props {
   onGifSelect: (gif: GifResult) => void;
+  value: GifResult | null;
 }
 
 const GifSelector: FunctionComponent<Props> = (props) => {

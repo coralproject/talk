@@ -14,19 +14,16 @@ import { CreateCommentFocusEvent } from "coral-stream/events";
 import {
   AriaInfo,
   Button,
+  ButtonIcon,
   Flex,
   HorizontalGutter,
 } from "coral-ui/components/v2";
 
-import {
-  getCommentBodyValidators,
-  getHTMLCharacterLength,
-} from "../../helpers";
+import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
-import { GifResult } from "../GifSelector/GifSearchFetch";
+import GifSelector, { GifPreview } from "../GifSelector";
 import MessageBoxContainer from "../MessageBoxContainer";
-import PostCommentInput from "./PostCommentInput";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
@@ -71,21 +68,21 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   }, [emitFocusEvent]);
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
-  const [selectedGif, setSelectedGif] = useState<GifResult | null>(null);
+  const [showGifSelector, setShowGifSelector] = useState(false);
+  const onGifButtonClick = useCallback(() => {
+    setShowGifSelector(!showGifSelector);
+  }, [showGifSelector]);
 
   const onSubmit = useCallback(
     (values, form) => {
-      if (selectedGif) {
-        values.embed = {
-          source: "GIPHY",
-          url: selectedGif.images.original.url,
-          alt: selectedGif.title,
-        };
-        setSelectedGif(null);
+      if (values.embed && values.embed.url) {
+        values.embed.source = "GIPHY";
+      } else {
+        delete values.embed;
       }
       props.onSubmit(values, form);
     },
-    [props.onSubmit, selectedGif]
+    [props.onSubmit]
   );
   return (
     <div className={CLASSES.createComment.$root}>
@@ -96,108 +93,180 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         />
       )}
       <Form onSubmit={onSubmit} initialValues={props.initialValues}>
-        {({ handleSubmit, submitting, submitError, form }) => (
+        {({
+          handleSubmit,
+          submitting,
+          submitError,
+          form,
+          values,
+          invalid,
+          ...rest
+        }) => (
           <form
             autoComplete="off"
             onSubmit={handleSubmit}
             id="comments-postCommentForm-form"
           >
-            <FormSpy
-              onChange={(state) =>
-                props.onChange && props.onChange(state, form)
-              }
-            />
             <HorizontalGutter>
-              <Field
-                name="body"
-                validate={getCommentBodyValidators(props.min, props.max)}
-              >
-                {({ input, meta }) => (
-                  <>
-                    <HorizontalGutter size="half">
-                      {isQA ? (
-                        <Localized id="qa-postQuestionForm-rteLabel">
-                          <AriaInfo
-                            component="label"
-                            htmlFor="comments-postCommentForm-field"
+              <FormSpy
+                onChange={(state) =>
+                  props.onChange && props.onChange(state, form)
+                }
+              />
+              <div className={styles.commentFormBox}>
+                <Field
+                  name="body"
+                  validate={getCommentBodyValidators(
+                    props.min,
+                    props.max,
+                    !(
+                      values.embed &&
+                      values.embed.url &&
+                      values.embed.url.length > 0
+                    )
+                  )}
+                  key={
+                    values.embed && values.embed.url
+                      ? values.embed.url.length
+                      : 0
+                  }
+                >
+                  {({ input, meta }) => (
+                    <>
+                      <HorizontalGutter size="half">
+                        {isQA ? (
+                          <Localized id="qa-postQuestionForm-rteLabel">
+                            <AriaInfo
+                              component="label"
+                              htmlFor="comments-postCommentForm-field"
+                            >
+                              Post a question
+                            </AriaInfo>
+                          </Localized>
+                        ) : (
+                          <Localized id="comments-postCommentForm-rteLabel">
+                            <AriaInfo
+                              component="label"
+                              htmlFor="comments-postCommentForm-field"
+                            >
+                              Post a comment
+                            </AriaInfo>
+                          </Localized>
+                        )}
+                        <div>
+                          <Localized
+                            id={
+                              isQA
+                                ? "qa-postQuestionForm-rte"
+                                : "comments-postCommentForm-rte"
+                            }
+                            attrs={{ placeholder: true }}
                           >
-                            Post a question
-                          </AriaInfo>
-                        </Localized>
-                      ) : (
-                        <Localized id="comments-postCommentForm-rteLabel">
-                          <AriaInfo
-                            component="label"
-                            htmlFor="comments-postCommentForm-field"
-                          >
-                            Post a comment
-                          </AriaInfo>
-                        </Localized>
-                      )}
-                      <PostCommentInput
-                        isQA={isQA}
-                        rteConfig={props.rteConfig}
-                        onFocus={onFocus}
-                        onChange={(html: string) => input.onChange(html)}
-                        showMessageBox={props.showMessageBox}
-                        value={input.value}
-                        onSetGif={setSelectedGif}
-                        gif={selectedGif}
-                        disabled={submitting || props.disabled}
-                      />
-                      {props.disabled ? (
-                        <>
-                          {props.disabledMessage && (
-                            <ValidationMessage>
-                              {props.disabledMessage}
-                            </ValidationMessage>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {meta.touched &&
-                            (meta.error ||
-                              (meta.submitError &&
-                                !meta.dirtySinceLastSubmit)) && (
+                            <RTEContainer
+                              inputID="comments-postCommentForm-field"
+                              config={props.rteConfig}
+                              onFocus={onFocus}
+                              onChange={(html: string) => input.onChange(html)}
+                              contentClassName={
+                                undefined
+                                /* props.showMessageBox ? styles.rteBorderless : undefined*/
+                              }
+                              value={input.value}
+                              placeholder="Post a comment"
+                              disabled={submitting || props.disabled}
+                              toolbarButtons={
+                                <Button
+                                  color="mono"
+                                  variant={showGifSelector ? "regular" : "flat"}
+                                  onClick={onGifButtonClick}
+                                  iconLeft
+                                >
+                                  <ButtonIcon>add</ButtonIcon>
+                                  GIF
+                                </Button>
+                              }
+                            />
+                          </Localized>
+                        </div>
+                        {props.disabled ? (
+                          <>
+                            {props.disabledMessage && (
                               <ValidationMessage>
-                                {meta.error || meta.submitError}
+                                {props.disabledMessage}
                               </ValidationMessage>
                             )}
-                          {submitError && (
-                            <ValidationMessage>{submitError}</ValidationMessage>
-                          )}
-                          <PostCommentSubmitStatusContainer
-                            status={props.submitStatus}
-                          />
-                          {props.max && (
-                            <RemainingCharactersContainer
-                              value={input.value}
-                              max={props.max}
+                          </>
+                        ) : (
+                          <>
+                            {meta.touched &&
+                              (meta.error ||
+                                (meta.submitError &&
+                                  !meta.dirtySinceLastSubmit)) && (
+                                <ValidationMessage>
+                                  {meta.error || meta.submitError}
+                                </ValidationMessage>
+                              )}
+                            {submitError && (
+                              <ValidationMessage>
+                                {submitError}
+                              </ValidationMessage>
+                            )}
+                            <PostCommentSubmitStatusContainer
+                              status={props.submitStatus}
                             />
-                          )}
+                            {props.max && (
+                              <RemainingCharactersContainer
+                                value={input.value}
+                                max={props.max}
+                              />
+                            )}
+                          </>
+                        )}
+                      </HorizontalGutter>
+                    </>
+                  )}
+                </Field>
+                <Field name="embed.url">
+                  {(fieldProps) => (
+                    <div>
+                      {showGifSelector && (
+                        <>
+                          <GifSelector
+                            onGifSelect={(gif) => {
+                              fieldProps.input.onChange(
+                                gif.images.original.url
+                              );
+                              setShowGifSelector(false);
+                            }}
+                            value={fieldProps.input.value}
+                          />
                         </>
                       )}
-                    </HorizontalGutter>
-                    <Flex direction="column" alignItems="flex-end">
-                      <Localized id="comments-postCommentForm-submit">
-                        <Button
-                          color="stream"
-                          variant="regular"
-                          className={CLASSES.createComment.submit}
-                          disabled={
-                            submitting ||
-                            getHTMLCharacterLength(input.value) === 0 ||
-                            props.disabled
-                          }
-                          type="submit"
-                        >
-                          Submit
-                        </Button>
-                      </Localized>
-                    </Flex>
-                  </>
-                )}
-              </Field>
+                      {fieldProps.input.value &&
+                        fieldProps.input.value.length > 0 && (
+                          <GifPreview
+                            url={fieldProps.input.value}
+                            onRemove={() => fieldProps.input.onChange(null)}
+                            title=""
+                          />
+                        )}
+                    </div>
+                  )}
+                </Field>
+              </div>
+              <Flex direction="column" alignItems="flex-end">
+                <Localized id="comments-postCommentForm-submit">
+                  <Button
+                    color="stream"
+                    variant="regular"
+                    className={CLASSES.createComment.submit}
+                    disabled={submitting || props.disabled || invalid}
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Localized>
+              </Flex>
             </HorizontalGutter>
           </form>
         )}

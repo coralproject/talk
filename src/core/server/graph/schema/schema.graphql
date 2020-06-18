@@ -3555,7 +3555,6 @@ type CreateCommentPayload {
 input CreateCommentEmbedInput {
   source: EMBED_SOURCE!
   url: String!
-  alt: String!
 }
 
 ##################

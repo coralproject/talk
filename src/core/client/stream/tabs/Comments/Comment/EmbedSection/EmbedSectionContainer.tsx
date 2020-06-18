@@ -13,6 +13,8 @@ import {
 } from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
 import { EmbedSectionContainer_settings } from "coral-stream/__generated__/EmbedSectionContainer_settings.graphql";
 
+import styles from "./EmbedSectionContainer.css";
+
 interface Props {
   comment: EmbedSectionContainer_comment;
   settings: EmbedSectionContainer_settings;
@@ -32,7 +34,7 @@ const getEmbed = (
   }
 
   if (type === GQLEMBED_SOURCE.GIPHY && settings.embeds.giphy) {
-    return <img src={url} />;
+    return <img src={url} alt="" />;
   }
 
   return null;
@@ -69,95 +71,59 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
   }
 
   if (!expanded) {
-    if (embed.source === GQLEMBED_SOURCE.TWITTER) {
-      return (
-        <Button
-          iconLeft
-          variant="outline"
-          color="stream"
-          onClick={onToggleExpand}
-          size="small"
-        >
-          <ButtonIcon>add</ButtonIcon>
+    return (
+      <Button
+        iconLeft
+        variant="outline"
+        color="stream"
+        onClick={onToggleExpand}
+        size="small"
+        className={styles.button}
+      >
+        <ButtonIcon>add</ButtonIcon>
+        {embed.source === GQLEMBED_SOURCE.TWITTER && (
           <Localized id="comments-embedLinks-show-twitter">
             Show tweet
           </Localized>
-        </Button>
-      );
-    } else if (embed.source === GQLEMBED_SOURCE.GIPHY) {
-      return (
-        <Button
-          iconLeft
-          variant="outline"
-          color="stream"
-          size="small"
-          onClick={onToggleExpand}
-        >
-          <ButtonIcon>add</ButtonIcon>
-          <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
-        </Button>
-      );
-    } else if (embed.source === GQLEMBED_SOURCE.YOUTUBE) {
-      return (
-        <Button
-          iconLeft
-          size="small"
-          variant="outline"
-          color="stream"
-          onClick={onToggleExpand}
-        >
-          <ButtonIcon>add</ButtonIcon>
+        )}
+        {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
           <Localized id="comments-embedLinks-show-youtube">
             Show video
           </Localized>
-        </Button>
-      );
-    }
+        )}
+        {embed.source === GQLEMBED_SOURCE.GIPHY && (
+          <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
+        )}
+      </Button>
+    );
   }
 
   return (
     <HorizontalGutter>
       <div>
-        {embed.source === GQLEMBED_SOURCE.TWITTER && (
-          <Button
-            variant="outline"
-            color="stream"
-            onClick={onToggleExpand}
-            size="small"
-            iconLeft
-          >
-            <ButtonIcon>remove</ButtonIcon>
+        <Button
+          variant="outline"
+          color="stream"
+          onClick={onToggleExpand}
+          size="small"
+          iconLeft
+          className={styles.button}
+        >
+          <ButtonIcon>remove</ButtonIcon>
+          {embed.source === GQLEMBED_SOURCE.TWITTER && (
             <Localized id="comments-embedLinks-hide-twitter">
               Hide tweet
             </Localized>
-          </Button>
-        )}
-        {embed.source === GQLEMBED_SOURCE.GIPHY && (
-          <Button
-            variant="outline"
-            color="stream"
-            size="small"
-            onClick={onToggleExpand}
-            iconLeft
-          >
-            <ButtonIcon>remove</ButtonIcon>
+          )}
+          {embed.source === GQLEMBED_SOURCE.GIPHY && (
             <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
-          </Button>
-        )}
-        {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
-          <Button
-            variant="outline"
-            color="stream"
-            size="small"
-            onClick={onToggleExpand}
-            iconLeft
-          >
-            <ButtonIcon>remove</ButtonIcon>
+          )}
+          {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
             <Localized id="comments-embedLinks-hide-youtube">
               Hide video
             </Localized>
-          </Button>
-        )}
+          )}
+        </Button>
       </div>
       {getEmbed(embed.url, embed.source, settings)}
     </HorizontalGutter>

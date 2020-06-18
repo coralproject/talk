@@ -57,7 +57,7 @@ export interface PhaseResult {
    */
   tags: GQLTAG[];
 
-  embed?: CommentEmbed;
+  embeds?: CommentEmbed[];
 }
 
 export interface ModerationPhaseContextInput {
@@ -108,7 +108,7 @@ export const compose = (
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
-    embed: context.comment.embed,
+    embeds: context.comment.embeds,
     actions: [],
     metadata: {
       // Merge in the passed comment metadata.
@@ -130,7 +130,7 @@ export const compose = (
       ...context,
       comment: {
         ...context.comment,
-        embed: final.embed,
+        embeds: final.embeds,
         body: final.body,
       },
       tags: final.tags,

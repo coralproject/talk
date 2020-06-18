@@ -182,7 +182,7 @@ async function commit(
         variables: {
           input: {
             storyID: input.storyID,
-            body: input.body,
+            body: input.body || "",
             nudge: input.nudge,
             embed: input.embed,
             clientMutationId: clientMutationId.toString(),
@@ -208,7 +208,7 @@ async function commit(
                   embeds: [],
                 },
                 parent: null,
-                body: input.body,
+                body: input.body || "",
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
                   edited: false,

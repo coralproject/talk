@@ -18,6 +18,7 @@ import {
   Comment,
   createComment,
   CreateCommentInput,
+  findEmbedLinks,
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "coral-server/models/comment";
@@ -195,7 +196,7 @@ export default async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata, tags, embed } = result;
+  const { actions, body, status, metadata, tags, embeds } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
@@ -231,7 +232,7 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
-      embed,
+      embeds: [...(embeds || []), ...findEmbedLinks(body)],
     },
     now
   );

@@ -12,6 +12,7 @@ import {
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
+  comment,
 }): IntermediatePhaseResult | void => {
   const length = bodyText.length;
   let min: number | null = null;
@@ -28,10 +29,16 @@ export const commentLength: IntermediateModerationPhase = ({
     // Comment body should have at least 1 character.
     min = 1;
   }
-  if (length < min) {
-    throw new CommentBodyTooShortError(min);
-  }
-  if (max && length > max) {
-    throw new CommentBodyExceedsMaxLengthError(max);
+
+  const embed =
+    comment.embeds && comment.embeds.length > 0 ? comment.embeds[0] : null;
+
+  if (!(embed && embed.source === "GIPHY" && tenant.embeds.giphy)) {
+    if (length < min) {
+      throw new CommentBodyTooShortError(min);
+    }
+    if (max && length > max) {
+      throw new CommentBodyExceedsMaxLengthError(max);
+    }
   }
 };

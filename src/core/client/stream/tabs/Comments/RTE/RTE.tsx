@@ -260,6 +260,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           }
         )}
         contentContainerClassName={cn(
+          styles.container,
           CLASSES.rte.container,
           containerClassName
         )}

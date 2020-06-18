@@ -12,13 +12,6 @@ import TopBarLeft from "./TopBarLeft";
 
 import styles from "./Comment.css";
 
-interface CommentMedia {
-  url: string;
-  width: number;
-  height: number;
-  alt: string;
-}
-
 export interface CommentProps {
   className?: string;
   username: React.ReactNode;

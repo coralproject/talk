@@ -75,7 +75,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
             </div>
             <Field
               name="body"
-              validate={getCommentBodyValidators(props.min, props.max)}
+              validate={getCommentBodyValidators(props.min, props.max, true)}
             >
               {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (

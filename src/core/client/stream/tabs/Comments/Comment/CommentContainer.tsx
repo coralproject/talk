@@ -319,7 +319,6 @@ export class CommentContainer extends Component<Props, State> {
               showEditedMarker={comment.editing.edited}
               highlight={highlight}
               toggleCollapsed={this.props.toggleCollapsed}
-              media={comment.media || []}
               parentAuthorName={
                 comment.parent &&
                 comment.parent.author &&

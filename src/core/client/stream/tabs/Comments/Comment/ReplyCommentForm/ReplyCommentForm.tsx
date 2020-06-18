@@ -76,7 +76,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
           <HorizontalGutter>
             <Field
               name="body"
-              validate={getCommentBodyValidators(props.min, props.max)}
+              validate={getCommentBodyValidators(props.min, props.max, true)}
             >
               {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (

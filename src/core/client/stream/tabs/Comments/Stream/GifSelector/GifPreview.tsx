@@ -11,6 +11,9 @@ interface Props {
 }
 
 const GifPreview: FunctionComponent<Props> = ({ onRemove, url, title }) => {
+  if (!url) {
+    return null;
+  }
   return (
     <div className={styles.root}>
       <div className={styles.imageWrapper}>
