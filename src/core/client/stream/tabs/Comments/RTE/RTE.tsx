@@ -24,6 +24,8 @@ import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RTE.css";
 
+export const RTE_RESET_VALUE = "<div><br></div>";
+
 interface RTEFeatures {
   bold?: boolean;
   italic?: boolean;

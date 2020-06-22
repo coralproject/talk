@@ -34,6 +34,7 @@ import {
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
+import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -134,7 +135,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         })
       );
       if (submitStatus !== "RETRY") {
-        form.initialize({});
+        form.initialize({ body: RTE_RESET_VALUE });
       }
       this.setState({ submitStatus, nudge: true });
     } catch (error) {
@@ -163,14 +164,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     state,
     form
   ) => {
-    if (
-      this.state.submitStatus &&
-      state.dirty &&
-      // This is required because the body is somehow being "dirtied" once the
-      // form has been reinitialized.
-      // FIXME: (wyattjoh) discover why when a comment is submitted, it eventually sets this as the body afterwards
-      state.values.body !== "<div><br></div>"
-    ) {
+    if (this.state.submitStatus && state.dirty) {
       this.setState({ submitStatus: null });
     }
     if (state.values.body) {
@@ -181,7 +175,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
 
     // Reset errors whenever user clears the form.
     if (state.touched && state.touched.body && !state.values.body) {
-      form.reset({});
+      form.reset({ body: RTE_RESET_VALUE });
     }
   };
 

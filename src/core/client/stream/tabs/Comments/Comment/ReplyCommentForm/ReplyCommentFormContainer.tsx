@@ -26,6 +26,7 @@ import {
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
+import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import {
   CreateCommentReplyMutation,
@@ -155,7 +156,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
     // Reset errors whenever user clears the form.
     if (state.touched && state.touched.body && !state.values.body) {
-      form.reset({});
+      form.reset({ body: RTE_RESET_VALUE });
     }
   };
 
