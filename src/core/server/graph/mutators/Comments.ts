@@ -32,6 +32,7 @@ import {
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { validateUserModerationScopes } from "./helpers";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: GraphContext) => ({
@@ -155,11 +156,14 @@ export const Comments = (ctx: GraphContext) => ({
       },
       ctx.now
     ),
-  feature: ({
+  feature: async ({
     commentID,
     commentRevisionID,
-  }: WithoutMutationID<GQLFeatureCommentInput>) =>
-    addTag(
+  }: WithoutMutationID<GQLFeatureCommentInput>) => {
+    // Validate that this user is allowed to moderate this comment.
+    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+
+    const comment = await addTag(
       ctx.mongo,
       ctx.tenant,
       commentID,
@@ -167,28 +171,33 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.user!,
       GQLTAG.FEATURED,
       ctx.now
-    )
-      .then((comment) =>
-        comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? approveComment(
-              ctx.mongo,
-              ctx.redis,
-              ctx.broker,
-              ctx.tenant,
-              commentID,
-              commentRevisionID,
-              ctx.user!.id,
-              ctx.now
-            )
-          : comment
-      )
-      .then((comment) => {
-        // Publish that the comment was featured.
-        void publishCommentFeatured(ctx.broker, comment);
+    );
 
-        // Return it to the next step.
-        return comment;
-      }),
-  unfeature: ({ commentID }: WithoutMutationID<GQLUnfeatureCommentInput>) =>
-    removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED),
+    if (comment.status !== GQLCOMMENT_STATUS.APPROVED) {
+      await approveComment(
+        ctx.mongo,
+        ctx.redis,
+        ctx.broker,
+        ctx.tenant,
+        commentID,
+        commentRevisionID,
+        ctx.user!.id,
+        ctx.now
+      );
+    }
+
+    // Publish that the comment was featured.
+    await publishCommentFeatured(ctx.broker, comment);
+
+    // Return it to the next step.
+    return comment;
+  },
+  unfeature: async ({
+    commentID,
+  }: WithoutMutationID<GQLUnfeatureCommentInput>) => {
+    // Validate that this user is allowed to moderate this comment.
+    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+
+    return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+  },
 });

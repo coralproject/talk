@@ -16,6 +16,7 @@ import {
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
+import { canModerate } from "coral-server/models/user/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
@@ -53,6 +54,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
+  // We know the user is provided because this edge is authenticated.
+  canModerate: (c, input, ctx) => canModerate(ctx.user!, { siteID: c.siteID }),
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),

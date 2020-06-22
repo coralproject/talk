@@ -42,6 +42,7 @@ import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Settings } from "./Settings";
 import { SigningSecret } from "./SigningSecret";
+import { Site } from "./Site";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
 import { Story } from "./Story";
@@ -51,6 +52,7 @@ import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { User } from "./User";
+import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
@@ -95,6 +97,7 @@ const Resolvers: GQLResolver = {
   RejectCommentPayload,
   SSOAuthIntegration,
   SigningSecret,
+  Site,
   Story,
   StorySettings,
   Subscription,
@@ -103,6 +106,7 @@ const Resolvers: GQLResolver = {
   Tag,
   Time,
   User,
+  UserModerationScopes,
   Queue,
   Queues,
   UsernameHistory,

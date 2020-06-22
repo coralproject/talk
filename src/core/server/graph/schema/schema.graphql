@@ -1511,6 +1511,12 @@ type Site {
   allowedOrigins: [String!]!
 
   """
+  canModerate when true indicates that the current user can moderate comments
+  left on this Site.
+  """
+  canModerate: Boolean! @auth(roles: [ADMIN, MODERATOR])
+
+  """
   createdAt is when the site was created.
   """
   createdAt: Time!
@@ -2123,6 +2129,18 @@ type UserNotificationSettings {
 }
 
 """
+UserModerationScopes describes the scopes for moderation. These only apply when
+the user has a MODERATOR role.
+"""
+type UserModerationScopes {
+  """
+  sites (when not null) list the sites that the user is only allowed to moderate
+  on. When null, it means that the user is allowed to moderate on all sites.
+  """
+  sites: [Site!]
+}
+
+"""
 User is someone that leaves Comments, and logs in.
 """
 type User {
@@ -2317,6 +2335,13 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  moderationScopes describes the scopes for moderation. These only apply when
+  the user has a MODERATOR role.
+  """
+  moderationScopes: UserModerationScopes
+    @auth(userIDField: "id", roles: [ADMIN, MODERATOR])
 
   """
   ssoURL is the url for managing sso account
@@ -2747,6 +2772,11 @@ type Comment {
   deleted is whether the comment has been deleted.
   """
   deleted: Boolean
+
+  """
+  canModerate returns true if the current user can moderate this Comment.
+  """
+  canModerate: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   site is the Site referenced by the Story for this Comment.
@@ -4167,7 +4197,6 @@ input NewCommentersConfigurationInput {
   approvedCommentsThreshold: Int
 }
 
-
 """
 RTEConfigurationInput specifies the configuration for the rte.
 """
@@ -4312,7 +4341,6 @@ input SettingsInput {
   """
   rte: RTEConfigurationInput
 }
-
 
 """
 UpdateSettingsInput provides the input for the updateSettings Mutation.
@@ -6039,12 +6067,58 @@ type UpdateUserAvatarPayload {
 }
 
 ##################
+# updateUserModerationScopes
+##################
+
+"""
+ModerationScopesInput describes the different scopes that a given moderator
+could be assigned.
+"""
+input ModerationScopesInput {
+  """
+  siteIDs is an array of ID's that should be the list of sites that a moderator
+  is limited to. If none are passed, it will remove the scoping for this User.
+  """
+  siteIDs: [String!]
+}
+
+input UpdateUserModerationScopesInput {
+  """
+  userID is the ID of the User that should have their role updated.
+  """
+  userID: ID!
+
+  """
+  moderationScopes defines the scopes that a given moderator should be limited
+  to when
+  """
+  moderationScopes: ModerationScopesInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserModerationScopesPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # updateUserRole
 ##################
 
 input UpdateUserRoleInput {
   """
-  userID is the ID of the User that should have their avatar updated.
+  userID is the ID of the User that should have their role updated.
   """
   userID: ID!
 
@@ -7009,6 +7083,15 @@ type Mutation {
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
     @auth(roles: [ADMIN])
+
+  """
+  updateUserModerationScopes will update the moderation scopes for a given user.
+  This is used to limit the scopes for which a given moderator can moderate if
+  they also have the moderator role.
+  """
+  updateUserModerationScopes(
+    input: UpdateUserModerationScopesInput!
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
 
   """
   banUser will ban a specific User from interacting with Comments.

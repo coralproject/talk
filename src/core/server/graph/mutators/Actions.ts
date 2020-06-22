@@ -5,10 +5,14 @@ import {
   GQLApproveCommentInput,
   GQLRejectCommentInput,
 } from "../schema/__generated__/types";
+import { validateUserModerationScopes } from "./helpers";
 
 export const Actions = (ctx: GraphContext) => ({
-  approveComment: (input: GQLApproveCommentInput) =>
-    approveComment(
+  approveComment: async (input: GQLApproveCommentInput) => {
+    // Validate that this user is allowed to moderate this comment.
+    await validateUserModerationScopes(ctx, ctx.user!, input);
+
+    return approveComment(
       ctx.mongo,
       ctx.redis,
       ctx.broker,
@@ -17,9 +21,13 @@ export const Actions = (ctx: GraphContext) => ({
       input.commentRevisionID,
       ctx.user!.id,
       ctx.now
-    ),
-  rejectComment: (input: GQLRejectCommentInput) =>
-    rejectComment(
+    );
+  },
+  rejectComment: async (input: GQLRejectCommentInput) => {
+    // Validate that this user is allowed to moderate this comment.
+    await validateUserModerationScopes(ctx, ctx.user!, input);
+
+    return rejectComment(
       ctx.mongo,
       ctx.redis,
       ctx.broker,
@@ -28,5 +36,6 @@ export const Actions = (ctx: GraphContext) => ({
       input.commentRevisionID,
       ctx.user!.id,
       ctx.now
-    ),
+    );
+  },
 });

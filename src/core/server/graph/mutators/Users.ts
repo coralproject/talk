@@ -1,7 +1,9 @@
 import { ERROR_CODES } from "coral-common/errors";
+import { UserForbiddenError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
+import { canModerateUnscoped } from "coral-server/models/user/helpers";
 import {
   addModeratorNote,
   ban,
@@ -25,6 +27,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
+  updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
   updateRole,
@@ -34,6 +37,7 @@ import {
 import { invite } from "coral-server/services/users/auth/invite";
 import { deleteUser } from "coral-server/services/users/delete";
 
+import { GQLUpdateUserModerationScopesInput } from "core/client/framework/schema/__generated__/types";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
@@ -208,6 +212,16 @@ export const Users = (ctx: GraphContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  updateUserModerationScopes: async (
+    input: GQLUpdateUserModerationScopesInput
+  ) =>
+    updateModerationScopes(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.moderationScopes
+    ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
       ctx.mongo,
@@ -225,18 +239,34 @@ export const Users = (ctx: GraphContext) => ({
       input.id,
       ctx.user!
     ),
-  ban: async (input: GQLBanUserInput) =>
-    ban(
+  ban: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+  }: GQLBanUserInput) => {
+    // Only global moderators or administrators can reject all existing comments
+    // that may span sites.
+    if (rejectExistingComments && !canModerateUnscoped(ctx.user!)) {
+      throw new UserForbiddenError(
+        "user does not have permission reject all comments",
+        "Mutation.banUser",
+        "mutation",
+        ctx.user!.id
+      );
+    }
+
+    return ban(
       ctx.mongo,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,
       ctx.user!,
-      input.userID,
-      input.message,
-      input.rejectExistingComments || false,
+      userID,
+      message,
+      rejectExistingComments,
       ctx.now
-    ),
+    );
+  },
   premodUser: async (input: GQLPremodUserInput) =>
     premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
