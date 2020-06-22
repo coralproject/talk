@@ -5,11 +5,6 @@ import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
  */
 const ACCESS_TOKEN_KEY = "coral:v1:accessToken";
 
-/**
- * storage is the Storage used to retrieve/update/delete access tokens on.
- */
-const storage = localStorage;
-
 export interface AuthState {
   /**
    * accessToken is the access token issued by the server.
@@ -46,7 +41,7 @@ function parseAccessToken(accessToken: string) {
 export function retrieveAccessToken() {
   try {
     // Get the access token from storage.
-    const accessToken = storage.getItem(ACCESS_TOKEN_KEY);
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!accessToken) {
       // Looks like the access token wasn't in storage.
       return;
@@ -66,7 +61,7 @@ export function retrieveAccessToken() {
 export function storeAccessToken(accessToken: string) {
   try {
     // Update the access token in storage.
-    storage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   } catch (err) {
     // TODO: (wyattjoh) add error reporting around this error
     // eslint-disable-next-line no-console
@@ -79,7 +74,7 @@ export function storeAccessToken(accessToken: string) {
 
 export function deleteAccessToken() {
   try {
-    storage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
   } catch (err) {
     // TODO: (wyattjoh) add error reporting around this error
     // eslint-disable-next-line no-console
