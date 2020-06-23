@@ -119,7 +119,7 @@
     "metascraper-description": "^5.11.6",
     "metascraper-image": "^5.11.6",
     "metascraper-title": "^5.11.6",
-    "mongodb": "^3.5.5",
+    "mongodb": "^3.5.9",
     "mongodb-core": "^3.2.7",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.0",
