@@ -43,10 +43,6 @@ The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing
 
 The signing algorithm to use for signing JWT's. (Default `HS256`).
 
-## `CONCURRENCY`
-
-The number of worker nodes to spawn to handle web traffic, this should be tied to the number of CPU's available. (Default `os.cpus().length`)
-
 ## `LOCALE`
 
 Specify the default locale to use for all requests without a locale specified. (Default `en-US`)
@@ -81,12 +77,11 @@ instance for at least the next 60 days.
 
 When `true`, disables subscriptions for the comment stream for all stories across all tenants (Default `false`)
 
-## `DISABLE_MONGODB_AUTOINDEXING`
+## `DISABLE_LIVE_UPDATES_TIMEOUT`
 
-When `true`, Coral will not perform indexing operations when it starts up. This can be desired when you've already installed Coral on the target MongoDB, but want to improve start performance.
-
-**You should not use this parameter unless you know what you're doing! Upgrades may introduce additional indexes that the application relies on.**
-(Default `false`)
+Stories that have not received a comment within this time frame will pause live
+live updates automatically. Once a single comment is received on these stories,
+live updates will be re-enabled until the story sits idle for the timeout value.
 
 ## `DISABLE_RATE_LIMITERS`
 
@@ -102,19 +97,25 @@ When `true`, it will enable the `/graphiql` even in production, **use with care*
 
 ## `METRICS_USERNAME`
 
-The username for _Basic Authentication_ at the `/metrics` and `/cluster_metrics` endpoint.
+The username for _Basic Authentication_ at the `/metrics` endpoint. If not
+provided with `METRICS_PASSWORD`, no authentication will be added to this route.
 
 ## `METRICS_PASSWORD`
 
-The password for _Basic Authentication_ at the `/metrics` and `/cluster_metrics` endpoint.
+The password for _Basic Authentication_ at the `/metrics` endpoint. If not
+provided with `METRICS_USERNAME`, no authentication will be added to this route.
 
-## `CLUSTER_METRICS_PORT`
+## `METRICS_PORT`
 
-If `CONCURRENCY` is more than `1`, the metrics are provided at this port under `/cluster_metrics`. (Default `3001`)
+Metrics are provided at this port under `/metrics`. (Default `9000`)
 
 ## `SCRAPE_TIMEOUT`
 
-The request timeout (in ms) for scraping operations (Default `10 seconds`)
+The request timeout (in ms) for scraping operations. (Default `10 seconds`)
+
+## `SCRAPE_MAX_RESPONSE_SIZE`
+
+The maximum size (in bytes) to allow for scraping responses. (Default `10e6`)
 
 ## `STATIC_URI`
 
@@ -128,4 +129,9 @@ of this configuration variable as it pertains to your setup.
 
 ## `WEBSOCKET_KEEP_ALIVE_TIMEOUT`
 
-A duration in a parsable format (e.g. `30 seconds`, `1 minute`) that should be used to send keep alive messages through the websocket to keep the socket alive (Default `30 seconds`)
+A duration in a parsable format (e.g. `30 seconds`, `1 minute`) that should be used to send keep alive messages through the websocket to keep the socket alive. (Default `30 seconds`)
+
+## `WORD_LIST_TIMEOUT`
+
+The word list timeout (in ms) that should be used to limit the amount of time
+the process is frozen processing a word list comparison. (Default `100`)
