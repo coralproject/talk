@@ -3,14 +3,18 @@ import { DOMLocalization } from "@fluent/dom/compat";
 import Joi from "@hapi/joi";
 import { Job } from "bull";
 import createDOMPurify from "dompurify";
+import {
+  Message,
+  MessageAttachment,
+  SMTPClient,
+  SMTPConnectionOptions,
+} from "emailjs";
 import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
-import { createTransport } from "nodemailer";
-import { Options } from "nodemailer/lib/smtp-connection";
 
 import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
@@ -51,12 +55,16 @@ const MailerDataSchema = Joi.object().keys({
   tenantID: Joi.string(),
 });
 
-interface Message {
-  from: string;
-  to: string;
-  html: string;
-  text: string;
-  subject: string;
+function send(client: SMTPClient, message: Message): Promise<Message> {
+  return new Promise((resolve, reject) => {
+    client.send(message, (err, msg) => {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve(msg);
+    });
+  });
 }
 
 /**
@@ -150,6 +158,18 @@ function createMessageTranslator(i18n: I18n) {
     // Juice the HTML to inline resources.
     const html = await juiceHTML(dom.serialize());
 
+    // Wrap the html in an email attachment as an alternative representation of
+    // the email message. This is casted "as MessageAttachment" following the
+    // test example here:
+    //
+    // https://github.com/eleith/emailjs/blob/0781d02cbf7de0d55b417d00ae7f5ab1283bf527/test/message.ts#L166-L169
+    //
+    // TODO: (wyattjoh) tracking issue here https://github.com/eleith/emailjs/issues/254
+    const attachment = {
+      data: html,
+      alternative: true,
+    } as MessageAttachment;
+
     // Get the translated subject.
     const subject = translate(
       bundle,
@@ -162,13 +182,13 @@ function createMessageTranslator(i18n: I18n) {
     const text = htmlToText.fromString(html);
 
     // Prepare the message payload.
-    return {
+    return new Message({
       from: fromAddress,
       to: data.message.to,
-      html,
       text,
       subject,
-    };
+      attachment,
+    });
   };
 }
 
@@ -177,9 +197,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
   // Create the cache adapter that will handle invalidating the email transport
   // when the tenant experiences a change.
-  const cache = new TenantCacheAdapter<ReturnType<typeof createTransport>>(
-    tenantCache
-  );
+  const cache = new TenantCacheAdapter<SMTPClient>(tenantCache);
 
   // Create the message translator function.
   const translateMessage = createMessageTranslator(i18n);
@@ -268,23 +286,21 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     if (!transport) {
       try {
         // Create the new transport options.
-        const opts: Options = {
+        const opts: Partial<SMTPConnectionOptions> = {
           host: smtp.host,
           port: smtp.port,
-          secure: smtp.secure,
+          tls: smtp.secure,
         };
         if (smtp.authentication && smtp.username && smtp.password) {
           // If authentication details are provided, add them to the transport
           // configuration.
-          opts.auth = {
-            type: "login",
-            user: smtp.username,
-            pass: smtp.password,
-          };
+          opts.user = smtp.username;
+          opts.password = smtp.password;
+          opts.authentication = ["LOGIN"];
         }
 
         // Create the transport based on the smtp uri.
-        transport = createTransport(opts);
+        transport = new SMTPClient(opts);
       } catch (e) {
         throw new WrappedInternalError(e, "could not create email transport");
       }
@@ -303,7 +319,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
     try {
       // Send the mail message.
-      await transport.sendMail(message);
+      await send(transport, message);
     } catch (e) {
       throw new WrappedInternalError(e, "could not send email");
     }
