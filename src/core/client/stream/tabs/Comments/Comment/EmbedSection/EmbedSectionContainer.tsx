@@ -4,14 +4,12 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLEMBED_SOURCE } from "coral-framework/schema";
-import { TwitterEmbed, YouTubeEmbed } from "coral-stream/common/OEmbed";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
-import {
-  EMBED_SOURCE,
-  EmbedSectionContainer_comment,
-} from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
+import { EmbedSectionContainer_comment } from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
 import { EmbedSectionContainer_settings } from "coral-stream/__generated__/EmbedSectionContainer_settings.graphql";
+
+import { Embed } from "coral-stream/common/OEmbed";
 
 import styles from "./EmbedSectionContainer.css";
 
@@ -19,26 +17,6 @@ interface Props {
   comment: EmbedSectionContainer_comment;
   settings: EmbedSectionContainer_settings;
 }
-
-const getEmbed = (
-  url: string,
-  type: EMBED_SOURCE,
-  settings: EmbedSectionContainer_settings
-) => {
-  if (type === GQLEMBED_SOURCE.TWITTER && settings.embeds.twitter) {
-    return <TwitterEmbed url={url} />;
-  }
-
-  if (type === GQLEMBED_SOURCE.YOUTUBE && settings.embeds.youtube) {
-    return <YouTubeEmbed url={url} />;
-  }
-
-  if (type === GQLEMBED_SOURCE.GIPHY && settings.embeds.giphy) {
-    return <img src={url} alt="" />;
-  }
-
-  return null;
-};
 
 const EmbedSectionContainer: FunctionComponent<Props> = ({
   comment,
@@ -125,7 +103,11 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
           )}
         </Button>
       </div>
-      {getEmbed(embed.url, embed.source, settings)}
+      <Embed
+        url={embed.url}
+        type={embed.source as GQLEMBED_SOURCE}
+        settings={settings.embeds}
+      />
     </HorizontalGutter>
   );
 };

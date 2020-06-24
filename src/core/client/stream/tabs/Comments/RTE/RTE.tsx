@@ -133,6 +133,8 @@ interface Props {
   features?: RTEFeatures;
 
   toolbarButtons?: React.ReactElement;
+
+  onWillPaste?: (event: PasteEvent) => void;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -153,6 +155,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     onFocus,
     onBlur,
     features,
+    onWillPaste,
     ...rest
   } = props;
 
@@ -273,6 +276,8 @@ const RTE: FunctionComponent<Props> = (props) => {
         toolbarPosition="bottom"
         onBlur={onBlur}
         onFocus={onFocus}
+        onWillPaste={onWillPaste}
+        // onWillPaste={(event) => {}}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         {...rest}
       />

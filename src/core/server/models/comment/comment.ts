@@ -29,7 +29,6 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
-  GQLEMBED_SOURCE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -151,32 +150,6 @@ export type CreateCommentInput = Omit<
   Partial<Pick<Comment, "actionCounts" | "siteID">> & {
     embeds: CommentEmbed[];
   };
-
-function formatLink(source: GQLEMBED_SOURCE, link: string): CommentEmbed {
-  return {
-    url: link,
-    source,
-  };
-}
-
-export function findEmbedLinks(body: string): CommentEmbed[] {
-  const youtubeRegex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[a-zA-z0-9]{1,12}|youtu\.be\/[a-zA-z0-9]{1,12})/g;
-  const twitterRegex = /(https?:\/\/)?(www\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g;
-
-  const foundYouTubeLinks = new Set(body.match(youtubeRegex) || []);
-  const foundTwitterLinks = new Set(body.match(twitterRegex) || []);
-
-  const embeds = [
-    ...[...foundYouTubeLinks].map((l) =>
-      formatLink(GQLEMBED_SOURCE.YOUTUBE, l)
-    ),
-    ...[...foundTwitterLinks].map((l) =>
-      formatLink(GQLEMBED_SOURCE.TWITTER, l)
-    ),
-  ];
-
-  return embeds;
-}
 
 export async function createComment(
   mongo: Db,

@@ -4,6 +4,7 @@ import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
+import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { GQLEMBED_SOURCE, GQLSTORY_MODE } from "coral-framework/schema";
@@ -24,9 +25,21 @@ import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
 import GifSelector, { GifPreview } from "../GifSelector";
 import MessageBoxContainer from "../MessageBoxContainer";
+import EmbedConfirmation from "./EmbedConfirmation";
+import EmbedPreview from "./EmbedPreview";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
+
+export interface PasteEvent {
+  fragment: DocumentFragment;
+  preventDefault: () => void;
+  defaultPrevented: boolean;
+}
+
+type FoundEmbedLink = EmbedLink & {
+  confirmed: boolean;
+};
 
 interface MediaProps {
   source: GQLEMBED_SOURCE;
@@ -72,18 +85,63 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
+  const [embedLink, setEmbedLink] = useState<FoundEmbedLink | null>(null);
 
   const onSubmit = useCallback(
     (values, form) => {
       if (values.embed && values.embed.url) {
         values.embed.source = "GIPHY";
+      } else if (embedLink && embedLink.confirmed) {
+        const linksInText = findEmbedLinks(values.body);
+        if (
+          linksInText.length > 0 &&
+          linksInText.find((value) => value.url === embedLink.url)
+        ) {
+          values.embed = {
+            url: embedLink.url,
+            source: embedLink.source,
+          };
+        }
       } else {
         delete values.embed;
       }
       props.onSubmit(values, form);
+      setEmbedLink(null);
     },
-    [props.onSubmit]
+    [props.onSubmit, embedLink]
   );
+
+  const onPaste = useCallback((event: PasteEvent) => {
+    const children = event.fragment.children;
+    let link = null;
+    for (let i = 0; i < children.length; i++) {
+      const item = children.item(i);
+      if (item && item.textContent) {
+        const links = findEmbedLinks(item.textContent);
+        if (links.length > 0) {
+          link = links[0];
+          break;
+        }
+      }
+    }
+    if (link) {
+      setEmbedLink({ ...link, confirmed: false });
+    }
+  }, []);
+
+  const confirmEmbedLink = useCallback(() => {
+    if (embedLink) {
+      setEmbedLink({
+        ...embedLink,
+        confirmed: true,
+      });
+    }
+  }, [embedLink]);
+
+  const removeEmbedLink = useCallback(() => {
+    setEmbedLink(null);
+  }, [embedLink]);
+
   return (
     <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
@@ -166,7 +224,10 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                               inputID="comments-postCommentForm-field"
                               config={props.rteConfig}
                               onFocus={onFocus}
-                              onChange={(html: string) => input.onChange(html)}
+                              onWillPaste={onPaste}
+                              onChange={(html: string) => {
+                                input.onChange(html);
+                              }}
                               contentClassName={
                                 undefined
                                 /* props.showMessageBox ? styles.rteBorderless : undefined*/
@@ -253,6 +314,16 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                     </div>
                   )}
                 </Field>
+                {embedLink && (
+                  <EmbedConfirmation
+                    embed={embedLink}
+                    onConfirm={confirmEmbedLink}
+                    onRemove={removeEmbedLink}
+                  />
+                )}
+                {embedLink && embedLink.confirmed && (
+                  <EmbedPreview onRemove={removeEmbedLink} embed={embedLink} />
+                )}
               </div>
               <Flex direction="column" alignItems="flex-end">
                 <Localized id="comments-postCommentForm-submit">

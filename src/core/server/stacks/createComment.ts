@@ -1,6 +1,7 @@
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
+// import { findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
@@ -18,7 +19,6 @@ import {
   Comment,
   createComment,
   CreateCommentInput,
-  findEmbedLinks,
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "coral-server/models/comment";
@@ -232,7 +232,8 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
-      embeds: [...(embeds || []), ...findEmbedLinks(body)],
+      embeds: embeds || [],
+      // embeds: [...(embeds || []), ...findEmbedLinks(body)],
     },
     now
   );
