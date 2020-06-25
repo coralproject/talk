@@ -361,7 +361,7 @@
     "ts-jest": "26.1.1",
     "ts-loader": "^7.0.5",
     "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.0.0-pre.49",
+    "ts-node-dev": "1.0.0-pre.44",
     "tsconfig-paths": "^3.9.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^6.1.2",
@@ -381,6 +381,9 @@
     "whatwg-fetch": "^3.0.0"
   },
   "dependencies-pins-documentation": {
+    "ts-node-dev@1.0.0-pre.44": [
+      "Newer versions unbearibly slow"
+    ],
     "ts-jest@25.4.0": [
       "Newer versions require every definition file to be included",
       "in tsconfig.json in the `files` field. This is cumbersome and",
