@@ -1,3 +1,4 @@
+import { resolveStoryMode } from "coral-server/models/story";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -11,10 +12,10 @@ import {
 export const tagUnansweredQuestions: IntermediateModerationPhase = ({
   comment,
   story,
-  now,
+  tenant,
 }): IntermediatePhaseResult | void => {
   // We only show unanswered tags in Q&A.
-  if (story.settings.mode !== GQLSTORY_MODE.QA) {
+  if (resolveStoryMode(story.settings, tenant) !== GQLSTORY_MODE.QA) {
     return;
   }
 

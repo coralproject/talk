@@ -1,7 +1,6 @@
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
-
 import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
@@ -28,6 +27,7 @@ import {
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import {
+  resolveStoryMode,
   retrieveStory,
   Story,
   updateStoryLastCommentedAt,
@@ -71,7 +71,7 @@ const markCommentAsAnswered = async (
   now: Date
 ) => {
   // We only process this if we're in Q&A mode.
-  if (story.settings.mode !== GQLSTORY_MODE.QA) {
+  if (resolveStoryMode(story.settings, tenant) !== GQLSTORY_MODE.QA) {
     return;
   }
 
