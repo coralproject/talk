@@ -1,4 +1,5 @@
 import { getDepth } from "coral-server/models/comment";
+import { resolveStoryMode } from "coral-server/models/story";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -12,11 +13,12 @@ import {
 export const tagExpertAnswers: IntermediateModerationPhase = ({
   author,
   story,
+  tenant,
   comment,
 }): IntermediatePhaseResult | void => {
   if (
     // If we're in Q&A mode...
-    story.settings.mode === GQLSTORY_MODE.QA &&
+    resolveStoryMode(story.settings, tenant) === GQLSTORY_MODE.QA &&
     // And we have experts for this story...
     story.settings.expertIDs &&
     // And the author is in expert list...
