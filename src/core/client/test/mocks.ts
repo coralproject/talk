@@ -5,7 +5,8 @@ jest.mock("react-transition-group", () => ({
 }));
 
 jest.mock("react-dom", () => ({
-  ...jest.requireActual("react-dom"),
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  ...(jest.requireActual("react-dom") as any),
   createPortal: (node: any) => node,
 }));
 

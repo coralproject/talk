@@ -204,13 +204,12 @@ it("prevents stream lock out", async () => {
     window.confirm = stubCancel;
     // Let's disable stream target in local auth.
     act(() => streamTarget.props.onChange(false));
-    within(streamTarget).debug();
 
     // Send form
     await act(async () => await form.props.onSubmit());
 
     // Submit button should not be disabled because we canceled the submit.
-    await wait(() => expect(saveChanges.props.disabled).toBe(true));
+    await wait(() => expect(saveChanges.props.disabled).toBe(false));
     await wait(() => {
       expect(stubCancel.calledOnce).toBe(true);
     });
