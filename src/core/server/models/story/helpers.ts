@@ -2,9 +2,14 @@ import { DateTime } from "luxon";
 import { URL } from "url";
 
 import { parseQuery, stringifyQuery } from "coral-common/utils";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 
-import { Story } from ".";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
+
+import { Story } from "./story";
 
 /**
  * getURLWithCommentID returns the url with the comment id.
@@ -60,4 +65,20 @@ export function getStoryClosedAt(
   }
 
   return null;
+}
+
+export function resolveStoryMode(
+  storySettings: Story["settings"],
+  tenant: Pick<Tenant, "featureFlags">
+) {
+  if (storySettings.mode) {
+    return storySettings.mode;
+  }
+
+  // FEATURE_FLAG:DEFAULT_QA_STORY_MODE
+  if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.DEFAULT_QA_STORY_MODE)) {
+    return GQLSTORY_MODE.QA;
+  }
+
+  return GQLSTORY_MODE.COMMENTS;
 }
