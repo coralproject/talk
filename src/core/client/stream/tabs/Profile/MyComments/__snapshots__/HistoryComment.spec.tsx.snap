@@ -63,6 +63,7 @@ exports[`renders correctly 1`] = `
       </Localized>
     </div>
     <ForwardRef(forwardRef)
+      anchor={true}
       className="HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
       classes={
         Object {

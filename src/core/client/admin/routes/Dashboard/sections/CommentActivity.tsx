@@ -117,7 +117,7 @@ const CommentActivity: FunctionComponent<Props> = ({
           </ResponsiveContainer>
           <Flex alignItems="center" justifyContent="center">
             <Localized id="dashboard-comment-activity-legend">
-              <p className={styles.legend}>All-time average</p>
+              <p className={styles.legend}>Average last 3 days</p>
             </Localized>
           </Flex>
         </>

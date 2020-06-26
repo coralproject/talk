@@ -1281,4 +1281,4 @@ dashboard-commenters-activity-heading = New community members this week
 
 dashboard-comment-activity-heading = Hourly comment activity
 dashboard-comment-activity-tooltip-comments = Comments
-dashboard-comment-activity-legend = All-time average
+dashboard-comment-activity-legend = Average last 3 days
