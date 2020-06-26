@@ -86,7 +86,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
             </Localized>
           }
         >
-          {offensive.map((flag, i) => (
+          {abusive.map((flag, i) => (
             <FlagDetailsEntry
               key={i}
               onClick={() =>
