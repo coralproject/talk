@@ -65,7 +65,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.init();
+    void this.init();
   }
 
   private handleRTERef = (rte: CoralRTE | null) => {
@@ -91,7 +91,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
   }
 
   private handleOnCancelOrDismiss = () => {
-    this.props.sessionStorage.removeItem(this.contextKey);
+    void this.props.sessionStorage.removeItem(this.contextKey);
     if (this.props.onClose) {
       this.props.onClose();
     }
@@ -119,7 +119,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         })
       );
       if (submitStatus !== "RETRY") {
-        this.props.sessionStorage.removeItem(this.contextKey);
+        void this.props.sessionStorage.removeItem(this.contextKey);
         if (submitStatus === "APPROVED" && this.props.onClose) {
           this.props.onClose();
           return;
@@ -150,9 +150,12 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
 
   private handleOnChange: ReplyCommentFormProps["onChange"] = (state, form) => {
     if (state.values.body) {
-      this.props.sessionStorage.setItem(this.contextKey, state.values.body);
+      void this.props.sessionStorage.setItem(
+        this.contextKey,
+        state.values.body
+      );
     } else {
-      this.props.sessionStorage.removeItem(this.contextKey);
+      void this.props.sessionStorage.removeItem(this.contextKey);
     }
     // Reset errors whenever user clears the form.
     if (state.touched && state.touched.body && !state.values.body) {

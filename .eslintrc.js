@@ -1,7 +1,7 @@
 const typescriptEslintRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended")
-  .default.overrides[0];
-const typescriptRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/recommended.json");
-const typescriptRecommendedTypeChecking = require("@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.json");
+  .overrides[0];
+const typescriptRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/recommended.js");
+const typescriptRecommendedTypeChecking = require("@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.js");
 const typescriptEslintPrettier = require("eslint-config-prettier/@typescript-eslint");
 const react = require("eslint-plugin-react").configs.recommended;
 const jsxA11y = require("eslint-plugin-jsx-a11y").configs.recommended;
@@ -41,12 +41,21 @@ const typescriptOverrides = {
         "error",
         { default: "array-simple", readonly: "generic" },
       ],
-      "@typescript-eslint/ban-types": "error",
+      "@typescript-eslint/ban-types": [
+        "error",
+        {
+          types: {
+            "{}": false,
+            object: false,
+            extendDefaults: true,
+          },
+        },
+      ],
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/consistent-type-assertions": "error",
       "@typescript-eslint/consistent-type-definitions": "error",
-      "@typescript-eslint/class-name-casing": "error",
       "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/explicit-member-accessibility": [
         "error",
         {
@@ -56,7 +65,6 @@ const typescriptOverrides = {
         },
       ],
       "@typescript-eslint/indent": "off",
-      "@typescript-eslint/interface-name-prefix": "error",
       "@typescript-eslint/member-delimiter-style": "off",
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-interface": "error",
@@ -64,7 +72,6 @@ const typescriptOverrides = {
       "@typescript-eslint/no-misused-new": "error",
       "@typescript-eslint/no-namespace": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-parameter-properties": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { args: "none", ignoreRestSiblings: true },
@@ -89,7 +96,14 @@ const typescriptOverrides = {
   ),
 };
 
-let typescriptTypeCheckingOverrides = {
+const jestTypeCheckingOverrides = {
+  files: ["test/**/*.ts", "test/**/*.tsx"],
+  rules: {
+    "@typescript-eslint/no-floating-promises": "off",
+  },
+};
+
+const typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
     project: [
@@ -116,12 +130,18 @@ let typescriptTypeCheckingOverrides = {
         },
       },
     ],
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
     // 28.11.19: (cvle) Disabled because behavior of regexp.exec seems different than str.match?
     "@typescript-eslint/prefer-regexp-exec": "off",
     "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
   }),
+  overrides: [jestTypeCheckingOverrides],
 };
 
 const jestOverrides = {
@@ -169,6 +189,7 @@ module.exports = {
     "eol-last": "off",
     eqeqeq: "error",
     "guard-for-in": "error",
+    "jsdoc/check-param-names": "off",
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-returns": "off",
     "jsdoc/require-param": "off",

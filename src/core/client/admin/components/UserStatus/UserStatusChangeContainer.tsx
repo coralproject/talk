@@ -48,7 +48,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
     if (!user.status.ban.active) {
       return;
     }
-    removeUserBan({ userID: user.id });
+    void removeUserBan({ userID: user.id });
   }, [user, removeUserBan]);
   const handleSuspend = useCallback(() => {
     if (user.status.suspension.active) {
@@ -60,7 +60,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
     if (!user.status.suspension.active) {
       return;
     }
-    removeUserSuspension({ userID: user.id });
+    void removeUserSuspension({ userID: user.id });
   }, [user, removeUserSuspension]);
 
   const handlePremod = useCallback(() => {
@@ -71,7 +71,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
   }, [user, setShowPremod]);
 
   const handlePremodConfirm = useCallback(() => {
-    premodUser({ userID: user.id });
+    void premodUser({ userID: user.id });
     setShowPremod(false);
   }, [premodUser, user, setShowPremod]);
 
@@ -83,7 +83,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
     if (!user.status.premod.active) {
       return;
     }
-    removeUserPremod({ userID: user.id });
+    void removeUserPremod({ userID: user.id });
   }, [user, premodUser]);
 
   const handleSuspendModalClose = useCallback(() => {
@@ -97,7 +97,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
 
   const handleSuspendConfirm = useCallback(
     (timeout, message) => {
-      suspendUser({
+      void suspendUser({
         userID: user.id,
         timeout,
         message,
@@ -109,7 +109,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
 
   const handleBanConfirm = useCallback(
     (rejectExistingComments, message) => {
-      banUser({ userID: user.id, message, rejectExistingComments });
+      void banUser({ userID: user.id, message, rejectExistingComments });
       setShowBanned(false);
     },
     [user, setShowBanned]

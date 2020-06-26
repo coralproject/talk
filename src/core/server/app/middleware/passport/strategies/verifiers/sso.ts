@@ -60,6 +60,7 @@ export interface SSOToken {
   user: SSOUserProfile;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isSSOToken(token: SSOToken | object): token is SSOToken {
   const { error } = SSOTokenSchema.validate(token, { allowUnknown: true });
   return isNil(error);
@@ -237,6 +238,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
   }
 
   public supports(
+    // eslint-disable-next-line @typescript-eslint/ban-types
     token: SSOToken | object,
     tenant: Tenant,
     kid?: string
@@ -304,7 +306,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
       // succeeded! Mark the key as used last now and break out. We should do
       // this in the nextTick because it's not important to have it recorded at
       // the same time.
-      updateLastUsedAtKID(this.redis, tenant.id, key.kid, now);
+      void updateLastUsedAtKID(this.redis, tenant.id, key.kid, now);
 
       // TODO: [CORL-754] (wyattjoh) reintroduce when we amend the front-end to display the kid
       // if (!kid) {

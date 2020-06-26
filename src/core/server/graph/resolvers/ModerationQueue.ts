@@ -19,7 +19,7 @@ export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInpu
   id: ({ selector, connection: { filter } }) => {
     // NOTE: (wyattjoh) when the queues change shape in the future, investigate adding more dynamicness to this id generation
     if (filter && filter.storyID) {
-      return selector + "::storyID:" + filter.storyID;
+      return selector + "::storyID:" + (filter.storyID as string);
     }
 
     return selector;

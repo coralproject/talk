@@ -80,7 +80,10 @@ function filterOnly(
   }) as Config["watchers"];
 }
 
-export default async function watch(config: Config, options: Options = {}) {
+export default async function watch(
+  config: Config,
+  options: Options = {}
+): Promise<void> {
   Joi.assert(config, configSchema);
   const watcher: Watcher = config.backend || new SaneWatcher();
   const rootDir = config.rootDir || process.cwd();

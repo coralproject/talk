@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+
 import dotenv from "dotenv";
 
 // Apply all the configuration provided in the .env file if it isn't already in

@@ -27,7 +27,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
 
   const cancelDeletionMutation = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
-    cancelDeletionMutation();
+    void cancelDeletionMutation();
   }, [cancelDeletionMutation]);
 
   const { locales } = useCoralContext();

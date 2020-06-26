@@ -25,7 +25,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = (props) => {
       if (role === props.user.role) {
         return;
       }
-      updateUserRole({ userID: props.user.id, role });
+      void updateUserRole({ userID: props.user.id, role });
     },
     [props.user.id, props.user.role, updateUserRole]
   );

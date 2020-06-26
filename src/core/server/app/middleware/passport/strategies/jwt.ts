@@ -27,6 +27,7 @@ export type JWTStrategyOptions = Pick<
 /**
  * Token is the various forms of the Token that can be verified.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
 
 /**
@@ -49,6 +50,7 @@ export interface Verifier<T = Token> {
    * supports will perform type checking and ensure that the given Tenant
    * supports the requested verification type.
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   supports: (token: T | object, tenant: Tenant, kid?: string) => token is T;
 }
 

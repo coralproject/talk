@@ -30,16 +30,16 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({
   const setAuthPopupState = useMutation(SetAuthPopupStateMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const onResetPassword = useCallback(() => {
-    showAuthPopup({ view: "FORGOT_PASSWORD" });
+    void showAuthPopup({ view: "FORGOT_PASSWORD" });
   }, [showAuthPopup]);
   const onFocus = useCallback(() => {
-    setAuthPopupState({ focus: true });
+    void setAuthPopupState({ focus: true });
   }, [setAuthPopupState]);
   const onBlur = useCallback(() => {
-    setAuthPopupState({ focus: true });
+    void setAuthPopupState({ focus: true });
   }, [setAuthPopupState]);
   const onClose = useCallback(() => {
-    setAuthPopupState({ open: false });
+    void setAuthPopupState({ open: false });
   }, [setAuthPopupState]);
 
   if (

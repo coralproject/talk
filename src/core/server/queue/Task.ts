@@ -80,7 +80,7 @@ export default class Task<T extends TenantResource, U = any> {
    * job requests.
    */
   public process() {
-    this.queue.process(async (job: Job<T>) => {
+    void this.queue.process(async (job: Job<T>) => {
       const log = this.log.child(
         { jobID: job.id, attemptsMade: job.attemptsMade },
         true

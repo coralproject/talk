@@ -75,7 +75,7 @@ function handleAccountCompletion(props: Props) {
       return false;
     }
     // all set, complete account.
-    completeAccount({ accessToken: accessToken! });
+    void completeAccount({ accessToken: accessToken! });
 
     // account completed.
     return true;

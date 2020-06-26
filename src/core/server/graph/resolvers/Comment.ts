@@ -82,7 +82,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
 
     const children = await ctx.loaders.Comments.visible.loadMany(childIDs);
     return children.reduce(
-      (sum: any, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
+      (sum: number, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
       0
     );
   },

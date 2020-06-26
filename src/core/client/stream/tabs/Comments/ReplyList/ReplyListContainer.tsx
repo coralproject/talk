@@ -107,7 +107,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const onViewNew = useCallback(() => {
-    viewNew({ commentID: props.comment.id });
+    void viewNew({ commentID: props.comment.id });
   }, [props.comment.id, viewNew]);
 
   const viewNewCount =

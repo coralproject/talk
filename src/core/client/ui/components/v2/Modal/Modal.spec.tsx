@@ -3,6 +3,8 @@ import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
+import { act } from "coral-framework/testHelpers";
+
 import Modal from "./Modal";
 
 const createNodeMock = () => ({
@@ -12,7 +14,7 @@ const createNodeMock = () => ({
 it("renders correctly", () => {
   expect(document.body.lastChild).toBeNull();
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(
       <Modal>
         <div>Test</div>
@@ -22,7 +24,7 @@ it("renders correctly", () => {
   });
   expect(testRenderer!.toJSON()).toBeNull();
   expect(document.body.lastChild).toBeNull();
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.update(
       <Modal open>
         <div>Test</div>
@@ -33,7 +35,7 @@ it("renders correctly", () => {
   expect(document.body.lastElementChild!.getAttribute("data-portal")).toBe(
     "modal"
   );
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.unmount();
   });
   expect(document.body.lastChild).toBeNull();
@@ -45,7 +47,7 @@ it("relays backdrop click events", () => {
   const onClose = sinon.stub();
   expect(document.body.lastChild).toBeNull();
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(
       <Modal open onBackdropClick={onBackdropClick} onClose={onClose}>
         <div>Test</div>
@@ -56,7 +58,7 @@ it("relays backdrop click events", () => {
   testRenderer!.root
     .findByProps({ "data-testid": "backdrop" })
     .props.onClick(event);
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.unmount();
   });
   expect(onBackdropClick.called).toBe(true);
@@ -70,7 +72,7 @@ it("relays esc events", () => {
   const onClose = sinon.stub();
   expect(document.body.lastChild).toBeNull();
   let testRenderer: ReactTestRenderer;
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer = TestRenderer.create(
       <Modal open onEscapeKeyDown={onEscapeKeyDown} onClose={onClose}>
         <div>Test</div>
@@ -81,7 +83,7 @@ it("relays esc events", () => {
   const el = testRenderer!.root.find((i) => i.props.onKeyDown);
   el.props.onKeyDown(escEvent);
   el.props.onKeyDown(otherEvent);
-  TestRenderer.act(() => {
+  act(() => {
     testRenderer.unmount();
   });
   expect(onEscapeKeyDown.called).toBe(true);

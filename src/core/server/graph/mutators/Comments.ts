@@ -184,7 +184,7 @@ export const Comments = (ctx: GraphContext) => ({
       )
       .then((comment) => {
         // Publish that the comment was featured.
-        publishCommentFeatured(ctx.broker, comment);
+        void publishCommentFeatured(ctx.broker, comment);
 
         // Return it to the next step.
         return comment;

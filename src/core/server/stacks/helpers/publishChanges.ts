@@ -25,36 +25,43 @@ export default async function publishChanges(
   broker: CoralEventPublisherBroker,
   input: PublishChangesInput
 ) {
+  const promises: Promise<any>[] = [];
+
   // Publish changes.
-  publishModerationQueueChanges(broker, input.moderationQueue, input.after);
+  promises.push(
+    publishModerationQueueChanges(broker, input.moderationQueue, input.after)
+  );
 
   // If this was a change, and it has a "before" state for the comment, process
   // those updates too.
   if (input.before) {
-    publishCommentStatusChanges(
-      broker,
-      input.before.status,
-      input.after.status,
-      input.after.id,
-      input.commentRevisionID,
-      input.after.storyID,
-      input.moderatorID || null
+    promises.push(
+      publishCommentStatusChanges(
+        broker,
+        input.before.status,
+        input.after.status,
+        input.after.id,
+        input.commentRevisionID,
+        input.after.storyID,
+        input.moderatorID || null
+      )
     );
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
-      publishCommentReleased(broker, input.after);
+      promises.push(publishCommentReleased(broker, input.after));
     }
   } else {
     // This block is only hit if there is no before (if this is a new comment).
 
     // If this is a reply, publish it.
     if (input.after.parentID) {
-      publishCommentReplyCreated(broker, input.after);
+      promises.push(publishCommentReplyCreated(broker, input.after));
     }
 
     // If this comment is visible (and not a reply), publish it.
     if (!input.after.parentID && hasPublishedStatus(input.after)) {
-      publishCommentCreated(broker, input.after);
+      promises.push(publishCommentCreated(broker, input.after));
     }
   }
+  await Promise.all(promises);
 }

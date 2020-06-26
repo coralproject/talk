@@ -136,7 +136,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
     const { storyID, siteID, section } = parseModerationOptions(match);
 
-    featureComment({
+    void featureComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID,
@@ -146,7 +146,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [featureComment, comment, match]);
 
   const handleUnfeature = useCallback(() => {
-    unfeatureComment({
+    void unfeatureComment({
       commentID: comment.id,
       storyID: match.params.storyID,
     });

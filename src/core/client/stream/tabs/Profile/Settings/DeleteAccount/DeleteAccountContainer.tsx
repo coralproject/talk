@@ -38,7 +38,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
   }, [setDeletePopoverVisible]);
 
   const cancelDeletion = useCallback(() => {
-    cancelAccountDeletion();
+    void cancelAccountDeletion();
   }, [cancelAccountDeletion]);
 
   const { locales } = useCoralContext();

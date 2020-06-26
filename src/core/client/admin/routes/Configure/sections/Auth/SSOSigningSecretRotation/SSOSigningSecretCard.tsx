@@ -87,30 +87,30 @@ const SSOSigningSecretCard: FunctionComponent<Props> = ({
     (rotation: string) => {
       switch (rotation) {
         case RotateOptions.NOW:
-          rotateSSOSigningSecret({ inactiveIn: 0 });
+          void rotateSSOSigningSecret({ inactiveIn: 0 });
           break;
         case RotateOptions.IN1DAY:
-          rotateSSOSigningSecret({ inactiveIn: 24 * 60 * 60 });
+          void rotateSSOSigningSecret({ inactiveIn: 24 * 60 * 60 });
           break;
         case RotateOptions.IN1WEEK:
-          rotateSSOSigningSecret({ inactiveIn: 7 * 24 * 60 * 60 });
+          void rotateSSOSigningSecret({ inactiveIn: 7 * 24 * 60 * 60 });
           break;
         case RotateOptions.IN30DAYS:
-          rotateSSOSigningSecret({ inactiveIn: 30 * 24 * 60 * 60 });
+          void rotateSSOSigningSecret({ inactiveIn: 30 * 24 * 60 * 60 });
           break;
         default:
-          rotateSSOSigningSecret({ inactiveIn: 0 });
+          void rotateSSOSigningSecret({ inactiveIn: 0 });
       }
     },
     [rotateSSOSigningSecret]
   );
   const onDeactivate = useCallback(() => {
-    deactivateSSOSigningSecret({
+    void deactivateSSOSigningSecret({
       kid: id,
     });
   }, [deactivateSSOSigningSecret, id]);
   const onDelete = useCallback(() => {
-    deleteSSOSigningSecret({
+    void deleteSSOSigningSecret({
       kid: id,
     });
   }, [deleteSSOSigningSecret, id]);

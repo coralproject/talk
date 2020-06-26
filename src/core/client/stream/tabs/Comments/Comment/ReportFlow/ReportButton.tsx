@@ -50,7 +50,7 @@ const ReportButton: FunctionComponent<Props> = ({
   }, [comment]);
 
   const signIn = useCallback(() => {
-    showAuthPopup({ view: "SIGN_IN" });
+    void showAuthPopup({ view: "SIGN_IN" });
   }, [showAuthPopup]);
 
   if (isReported) {

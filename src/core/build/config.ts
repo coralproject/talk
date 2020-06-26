@@ -1,4 +1,5 @@
 import convict from "convict";
+import os from "os";
 
 import { LOCALES } from "../common/helpers/i18n/locales";
 
@@ -67,7 +68,7 @@ const config = convict({
   maxCores: {
     doc: "Set maximum of available cores",
     format: "nat",
-    default: require("os").cpus().length,
+    default: os.cpus().length,
     env: "WEBPACK_MAX_CORES",
     arg: "maxCores",
   },

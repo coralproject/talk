@@ -144,7 +144,7 @@ export default class TenantCache {
       subscriber.on("message", this.onMessage);
 
       // Subscribe to tenant notifications.
-      subscriber.subscribe(TENANT_CACHE_CHANNEL);
+      void subscriber.subscribe(TENANT_CACHE_CHANNEL);
     }
   }
 

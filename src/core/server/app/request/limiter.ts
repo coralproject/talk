@@ -65,7 +65,7 @@ export class Limiter {
     // if this is new or has no expiry
     if (tries === 1 || expiry === -1) {
       // then expire it after the timeout
-      this.redis.expire(key, this.ttl);
+      void this.redis.expire(key, this.ttl);
     }
 
     if (tries > this.max) {

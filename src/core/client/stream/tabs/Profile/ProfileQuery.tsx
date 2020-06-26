@@ -19,7 +19,7 @@ import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQu
 const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */).then((x) => {
     // New css is loaded, take care of polyfilling those css vars for IE11.
-    polyfillCSSVarsForIE11();
+    void polyfillCSSVarsForIE11();
     return x;
   });
 // (cvle) For some reason without `setTimeout` this request will block other requests.

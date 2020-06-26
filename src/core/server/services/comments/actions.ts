@@ -246,7 +246,7 @@ export async function createReaction(
   );
   if (action) {
     // A comment reaction was created! Publish it.
-    publishCommentReactionCreated(
+    void publishCommentReactionCreated(
       broker,
       comment,
       input.commentRevisionID,
@@ -356,7 +356,12 @@ export async function createFlag(
   );
   if (action) {
     // A action was created! Publish the event.
-    publishCommentFlagCreated(broker, comment, input.commentRevisionID, action);
+    void publishCommentFlagCreated(
+      broker,
+      comment,
+      input.commentRevisionID,
+      action
+    );
   }
 
   return comment;

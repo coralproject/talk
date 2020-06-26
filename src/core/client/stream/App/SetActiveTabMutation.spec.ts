@@ -16,12 +16,12 @@ beforeAll(() => {
   });
 });
 
-it("Sets activeTab", () => {
+it("Sets activeTab", async () => {
   const tab = "COMMENTS";
   const eventEmitter = new EventEmitter2();
   const mock = sinon.mock(eventEmitter);
   mock.expects("emit").withArgs("setMainTab", { tab });
-  commit(environment, { tab }, { eventEmitter });
+  await commit(environment, { tab }, { eventEmitter });
   expect(source.get(LOCAL_ID)!.activeTab).toEqual(tab);
   mock.verify();
 });

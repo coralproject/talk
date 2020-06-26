@@ -93,7 +93,7 @@ export function useImmediateFetch<V extends {}, R>(
       }, 100 + 50 * Math.random());
     }
 
-    doTheFetch();
+    void doTheFetch();
   }, Object.values(variables).concat(isUndefined(refetch) ? [] : [refetch]));
 
   return [state, loading];

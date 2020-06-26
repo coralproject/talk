@@ -84,6 +84,7 @@ export interface StrategyItem {
   jwksClient?: JwksClient;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   const { error } = OIDCIDTokenSchema.validate(token, {
     // OIDC ID tokens may contain many other fields we haven't seen.. We Just

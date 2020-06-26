@@ -23,9 +23,9 @@ import { Request, RequestHandler } from "coral-server/types/express";
 
 function getMetricsOptions(req: Request) {
   // Get the current Tenant on the request.
-  const { id: tenantID } = req.coral?.tenant!;
+  const { id: tenantID } = req.coral!.tenant!;
 
-  const now = req.coral?.now!;
+  const now = req.coral!.now;
 
   // To set a fixed date for the date, uncomment the line below.
   // const now = DateTime.utc(2020, 5, 5, 12, 30).toJSDate();

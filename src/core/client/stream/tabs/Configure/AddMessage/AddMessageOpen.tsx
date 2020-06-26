@@ -43,7 +43,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
         return;
       }
 
-      updateMutation({
+      void updateMutation({
         id: storyID,
         settings: {
           messageBox: {
@@ -58,7 +58,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
     [updateMutation, setShowSuccess]
   );
   const onRemoveClicked = useCallback(() => {
-    updateMutation({
+    void updateMutation({
       id: storyID,
       settings: {
         messageBox: { icon: "", content: "", enabled: false },

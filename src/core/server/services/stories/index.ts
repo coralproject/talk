@@ -95,7 +95,7 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
-    StoryCreatedCoralEvent.publish(broker, {
+    void StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
       siteID: story.siteID,
@@ -224,7 +224,7 @@ export async function create(
     story = await scrape(mongo, config, tenant.id, story.id, storyURL);
   }
 
-  StoryCreatedCoralEvent.publish(broker, {
+  void StoryCreatedCoralEvent.publish(broker, {
     storyID: story.id,
     storyURL: story.url,
     siteID: site.id,

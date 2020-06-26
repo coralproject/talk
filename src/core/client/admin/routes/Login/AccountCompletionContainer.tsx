@@ -70,7 +70,7 @@ function handleAccountCompletion(props: Props) {
       }
     } else {
       // all set, complete account.
-      props
+      void props
         .completeAccount({ accessToken: props.local.accessToken! })
         .then(() => {
           props.router.replace(props.local.redirectPath || "/admin");

@@ -35,4 +35,4 @@ async function main() {
   ReactDOM.render(<Index />, document.getElementById("app"));
 }
 
-main();
+void main();

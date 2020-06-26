@@ -92,7 +92,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     // Restore comment draft, if available.
     this.state.notLoggedInDraft = preserveNotLoggedInDraft;
     preserveNotLoggedInDraft = "";
-    this.init();
+    void this.init();
   }
 
   public componentWillUnmount() {
@@ -168,9 +168,9 @@ export class PostCommentFormContainer extends Component<Props, State> {
       this.setState({ submitStatus: null });
     }
     if (state.values.body) {
-      this.props.sessionStorage.setItem(contextKey, state.values.body);
+      void this.props.sessionStorage.setItem(contextKey, state.values.body);
     } else {
-      this.props.sessionStorage.removeItem(contextKey);
+      void this.props.sessionStorage.removeItem(contextKey);
     }
 
     // Reset errors whenever user clears the form.

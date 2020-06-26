@@ -27,6 +27,7 @@ it("validates a jwt token", async () => {
   const tokenString = await signTokenString(config, user, tenant, {}, now);
 
   // Verify that the token conforms to the JWT token schema.
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const token = jwt.decode(tokenString) as object;
 
   expect(isJWTToken(token)).toBeTruthy();

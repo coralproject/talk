@@ -22,7 +22,7 @@ const useHandleIncompleteAccount = () => {
       ) {
         // eslint-disable-next-line
         console.log("Coral: User account is incomplete. Perform logout.")
-        signOut();
+        void signOut();
         return true;
       }
       return false;
