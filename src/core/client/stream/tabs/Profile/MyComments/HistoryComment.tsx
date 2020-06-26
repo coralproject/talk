@@ -87,6 +87,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
           </div>
         )}
         <Button
+          anchor
           target="_parent"
           href={props.conversationURL}
           onClick={props.onGotoConversation}

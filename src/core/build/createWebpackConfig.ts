@@ -109,10 +109,10 @@ export default function createWebpackConfig(
     ...ifBuild(
       new MiniCssExtractPlugin({
         filename: isProduction
-          ? "assets/css/[name].[hash].css"
+          ? "assets/css/[name].[contenthash].css"
           : "assets/css/[name].css",
         chunkFilename: isProduction
-          ? "assets/css/[id].[hash].css"
+          ? "assets/css/[id].[contenthash].css"
           : "assets/css/[id].css",
       }),
       isProduction &&
@@ -217,10 +217,10 @@ export default function createWebpackConfig(
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
-        ? "assets/js/[name].[chunkhash].js"
+        ? "assets/js/[name].[contenthash].js"
         : "assets/js/[name].js",
       chunkFilename: isProduction
-        ? "assets/js/[name].[chunkhash].chunk.js"
+        ? "assets/js/[name].[contenthash].chunk.js"
         : "assets/js/[name].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
@@ -351,7 +351,7 @@ export default function createWebpackConfig(
               options: {
                 limit: 10000,
                 name: isProduction
-                  ? "assets/media/[name].[hash].[ext]"
+                  ? "assets/media/[name].[contenthash].[ext]"
                   : "assets/media/[name].[ext]",
               },
             },
@@ -468,7 +468,7 @@ export default function createWebpackConfig(
                   loader: require.resolve("css-loader"),
                   options: {
                     modules: {
-                      localIdentName: "[name]-[local]-[hash:base64:5]",
+                      localIdentName: "[name]-[local]-[contenthash]",
                     },
                     importLoaders: 1,
                     sourceMap: !disableSourcemaps,
@@ -499,7 +499,7 @@ export default function createWebpackConfig(
               loader: require.resolve("file-loader"),
               options: {
                 name: isProduction
-                  ? "assets/media/[name].[hash:8].[ext]"
+                  ? "assets/media/[name].[contenthash].[ext]"
                   : "assets/media/[name].[ext]",
               },
             },

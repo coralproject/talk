@@ -27,6 +27,7 @@ import {
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import {
+  resolveStoryMode,
   retrieveStory,
   Story,
   updateStoryLastCommentedAt,
@@ -70,7 +71,7 @@ const markCommentAsAnswered = async (
   now: Date
 ) => {
   // We only process this if we're in Q&A mode.
-  if (story.settings.mode !== GQLSTORY_MODE.QA) {
+  if (resolveStoryMode(story.settings, tenant) !== GQLSTORY_MODE.QA) {
     return;
   }
 

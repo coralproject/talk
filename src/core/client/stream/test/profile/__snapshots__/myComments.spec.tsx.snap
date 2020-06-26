@@ -59,7 +59,7 @@ exports[`renders profile 1`] = `
     <div
       className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
-      <button
+      <a
         className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
         data-color="regular"
         data-variant="textUnderlined"
@@ -84,7 +84,7 @@ exports[`renders profile 1`] = `
           </i>
           View Conversation
         </div>
-      </button>
+      </a>
     </div>
   </div>
   <div
@@ -140,7 +140,7 @@ exports[`renders profile 1`] = `
     <div
       className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
-      <button
+      <a
         className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
         data-color="regular"
         data-variant="textUnderlined"
@@ -165,7 +165,7 @@ exports[`renders profile 1`] = `
           </i>
           View Conversation
         </div>
-      </button>
+      </a>
     </div>
   </div>
   <button
