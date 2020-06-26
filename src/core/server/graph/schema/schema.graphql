@@ -46,10 +46,13 @@ is used without options, it simply requires a logged in user. `permit` can be
 used to allow specific `USER_AUTH_CONDITIONS` that normally (if present) would
 deny access to any edge associated with the `@auth` directive. If a User has
 only some of the conditions listed, they will pass, but if they have at least
-one more that isn't in the list, the request will be denied.
+one more that isn't in the list, the request will be denied. If `unscoped` is
+provided and is `true`, it will require that the user does not have any
+moderation scopes applied to their account (such as a site moderator).
 """
 directive @auth(
   roles: [USER_ROLE!]
+  unscoped: Boolean
   userIDField: String
   permit: [USER_AUTH_CONDITIONS!]
 ) on FIELD_DEFINITION
@@ -7097,13 +7100,13 @@ type Mutation {
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   removeUserBan will remove an active ban from a User if they have one.
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   suspendUser will suspend a specific User from interacting with Comments.

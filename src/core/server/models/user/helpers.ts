@@ -60,7 +60,7 @@ export function canModerateUnscoped(
   return true;
 }
 
-interface ModerationScope {
+export interface ModerationScopeResource {
   siteID?: string;
 }
 
@@ -73,7 +73,7 @@ interface ModerationScope {
  */
 export function canModerate(
   user: Pick<User, "role" | "moderationScopes">,
-  { siteID }: ModerationScope
+  { siteID }: ModerationScopeResource
 ) {
   // You can't possibly moderate if you don't at least have a moderator
   // compatible role.

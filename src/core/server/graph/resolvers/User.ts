@@ -1,12 +1,14 @@
 import { GraphQLResolveInfo } from "graphql";
 
 import GraphContext from "coral-server/graph/context";
-import {
-  GQLUser,
-  GQLUserTypeResolver,
-} from "coral-server/graph/schema/__generated__/types";
 import * as user from "coral-server/models/user";
 import { roleIsStaff } from "coral-server/models/user/helpers";
+
+import {
+  GQLUser,
+  GQLUSER_ROLE,
+  GQLUserTypeResolver,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { RecentCommentHistoryInput } from "./RecentCommentHistory";
 import { UserStatusInput } from "./UserStatus";
@@ -45,6 +47,10 @@ export const User: GQLUserTypeResolver<user.User> = {
     ...status,
     userID: id,
   }),
+  moderationScopes: ({ role, moderationScopes }) =>
+    // Moderation scopes only apply to users that have the moderator role. For
+    // all other users return null for moderation scopes.
+    role === GQLUSER_ROLE.MODERATOR ? moderationScopes : null,
   ignoredUsers: ({ ignoredUsers }, input, ctx, info) =>
     maybeLoadOnlyIgnoredUserID(ctx, info, ignoredUsers),
   ignoreable: ({ role }) => !roleIsStaff(role),

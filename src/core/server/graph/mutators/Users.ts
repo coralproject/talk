@@ -1,9 +1,7 @@
 import { ERROR_CODES } from "coral-common/errors";
-import { UserForbiddenError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
-import { canModerateUnscoped } from "coral-server/models/user/helpers";
 import {
   addModeratorNote,
   ban,
@@ -37,7 +35,6 @@ import {
 import { invite } from "coral-server/services/users/auth/invite";
 import { deleteUser } from "coral-server/services/users/delete";
 
-import { GQLUpdateUserModerationScopesInput } from "core/client/framework/schema/__generated__/types";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
@@ -65,10 +62,11 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUserModerationScopesInput,
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
-} from "../schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { WithoutMutationID } from "./util";
 
@@ -243,19 +241,8 @@ export const Users = (ctx: GraphContext) => ({
     userID,
     message,
     rejectExistingComments = false,
-  }: GQLBanUserInput) => {
-    // Only global moderators or administrators can reject all existing comments
-    // that may span sites.
-    if (rejectExistingComments && !canModerateUnscoped(ctx.user!)) {
-      throw new UserForbiddenError(
-        "user does not have permission reject all comments",
-        "Mutation.banUser",
-        "mutation",
-        ctx.user!.id
-      );
-    }
-
-    return ban(
+  }: GQLBanUserInput) =>
+    ban(
       ctx.mongo,
       ctx.mailerQueue,
       ctx.rejectorQueue,
@@ -265,8 +252,7 @@ export const Users = (ctx: GraphContext) => ({
       message,
       rejectExistingComments,
       ctx.now
-    );
-  },
+    ),
   premodUser: async (input: GQLPremodUserInput) =>
     premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>

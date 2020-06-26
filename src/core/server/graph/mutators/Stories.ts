@@ -31,6 +31,7 @@ import {
   GQLUpdateStoryModeInput,
   GQLUpdateStorySettingsInput,
 } from "coral-server/graph/schema/__generated__/types";
+import { validateUserModerationScopes } from "./helpers";
 
 export const Stories = (ctx: GraphContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
@@ -66,10 +67,18 @@ export const Stories = (ctx: GraphContext) => ({
     input: GQLUpdateStorySettingsInput
   ): Promise<Readonly<Story> | null> =>
     updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings, ctx.now),
-  close: (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> =>
-    close(ctx.mongo, ctx.tenant, input.id, ctx.now),
-  open: (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> =>
-    open(ctx.mongo, ctx.tenant, input.id, ctx.now),
+  close: async (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> => {
+    // Validate that this user is allowed to close this story.
+    await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
+
+    return close(ctx.mongo, ctx.tenant, input.id, ctx.now);
+  },
+  open: async (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> => {
+    // Validate that this user is allowed to open this story.
+    await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
+
+    return open(ctx.mongo, ctx.tenant, input.id, ctx.now);
+  },
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
     merge(ctx.mongo, ctx.tenant, input.destinationID, input.sourceIDs),
   remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
