@@ -72,7 +72,7 @@ comments-replyButton-reply = Responder
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Envira
+comments-replyCommentForm-submit = Enviar
 comments-replyCommentForm-cancel = Cancelar
 comments-replyCommentForm-rteLabel = Escribir una repuesta
 comments-replyCommentForm-rte =
