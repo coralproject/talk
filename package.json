@@ -365,7 +365,7 @@
     "tsconfig-paths": "^3.9.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^6.1.2",
-    "typed-css-modules": "^0.6.3",
+    "typed-css-modules": "^0.6.4",
     "typeface-manuale": "^1.1.4",
     "typeface-nunito": "^1.1.3",
     "typeface-open-sans": "^0.0.75",
