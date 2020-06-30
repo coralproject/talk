@@ -23,6 +23,7 @@ const oEmbed: FunctionComponent<Props> = ({
   showLink = true,
 }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
+  const divRef = React.createRef<HTMLDivElement>();
   const step = 300;
   const [loaded, setLoaded] = useState(false);
   const cleanUrl = encodeURIComponent(url);
@@ -36,12 +37,21 @@ const oEmbed: FunctionComponent<Props> = ({
     let timer = 0;
 
     const resize = () => {
-      if (!iframeRef.current || !iframeRef.current.contentWindow) {
+      if (
+        !iframeRef.current ||
+        !iframeRef.current.contentWindow ||
+        !divRef.current
+      ) {
         return;
       }
 
-      iframeRef.current.style.height =
-        iframeRef.current.contentWindow.document.body.scrollHeight + "px";
+      const height = iframeRef.current.contentWindow.document.body.scrollHeight;
+      // const width = iframeRef.current.contentWindow.document.body.scrollWidth;
+      // const aspectRatio = height / width;
+      // console.log(width, height, aspectRatio);
+      // divRef.current.style.paddingBottom = aspectRatio * 100 + "%";
+
+      iframeRef.current.style.height = height + "px";
 
       timer += step;
 
@@ -71,13 +81,17 @@ const oEmbed: FunctionComponent<Props> = ({
       {/* <TextLink href={url} className={styles.link} target="_blank">
         {url}
       </TextLink> */}
-      <iframe
-        ref={iframeRef}
-        title="oEmbed"
-        src={`/api/oembed?type=${type}&url=${cleanUrl}`}
-        onLoad={onLoad}
-        className={styles.frame}
-      />
+      <div className={styles.scalableEmbed} ref={divRef}>
+        <iframe
+          frameBorder="0"
+          allowFullScreen
+          ref={iframeRef}
+          title="oEmbed"
+          src={`/api/oembed?type=${type}&url=${cleanUrl}`}
+          onLoad={onLoad}
+          className={styles.frame}
+        />
+      </div>
     </div>
   );
 };

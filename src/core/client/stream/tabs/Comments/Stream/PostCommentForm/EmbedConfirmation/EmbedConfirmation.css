@@ -7,13 +7,8 @@
   padding: var(--v2-spacing-2) 0;
 }
 
-.twitterIcon {
-  width: 14px;
-  height: 12px;
-}
-
 .prompt {
-  margin-top: 0;
+  margin: 0;
   font-weight: var(--v2-font-weight-primary-semi-bold);
 }
 

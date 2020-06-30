@@ -27,6 +27,7 @@ import {
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
+import EmbedContainer from "./EmbedContainer";
 import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
@@ -44,7 +45,8 @@ interface Props {
     username: string | null;
   } | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"] &
-    PropTypesOf<typeof CommentAuthorContainer>["comment"];
+    PropTypesOf<typeof CommentAuthorContainer>["comment"] &
+    PropTypesOf<typeof EmbedContainer>["comment"];
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
@@ -245,6 +247,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             >
               {commentBody}
             </CommentContent>
+            <EmbedContainer comment={comment} />
             {onConversationClick && (
               <div className={styles.viewContext}>
                 <Button iconLeft variant="text" onClick={onConversationClick}>

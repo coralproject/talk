@@ -3,15 +3,63 @@ import {
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
 
-export const attachedEmbed = ({
+import { findEmbedLinks } from "coral-common/utils/findEmbedLinks";
+import { GQLEMBED_SOURCE } from "coral-server/graph/schema/__generated__/types";
+import { fetchFromGiphy } from "coral-server/services/giphy";
+
+const GIPHY_ALLOWED_RATINGS = ["g"];
+
+export const attachedEmbed = async ({
   comment,
   tenant,
   now,
 }: Pick<
   ModerationPhaseContext,
   "comment" | "tenant" | "now"
->): IntermediatePhaseResult | void => {
+>): Promise<IntermediatePhaseResult | void> => {
+  if (comment.embeds && comment.embeds.length > 0) {
+    const [embed] = comment.embeds;
+
+    if (embed.source === GQLEMBED_SOURCE.GIPHY) {
+      if (tenant.embeds.giphy) {
+        // GIPHY embed
+        // ensure gif exists and is appropriate rating
+        if (embed.id) {
+          try {
+            const data = await fetchFromGiphy(embed.id);
+            if (
+              data &&
+              data.rating &&
+              GIPHY_ALLOWED_RATINGS.includes(data.rating)
+            ) {
+              return {
+                embeds: [embed],
+              };
+            }
+          } catch (err) {
+            throw new Error("Cannot attach gif");
+          }
+        }
+      }
+    } else if (
+      embed.source === GQLEMBED_SOURCE.TWITTER ||
+      embed.source === GQLEMBED_SOURCE.YOUTUBE
+    ) {
+      // TWITTER or YOUTUBE embed
+      // ensure matches body contents
+      const foundLinks = findEmbedLinks(comment.body);
+      const matchingLink = foundLinks.find((link) => {
+        return link.url === embed.url && link.source === embed.source;
+      });
+      if (matchingLink) {
+        return {
+          embeds: [matchingLink],
+        };
+      }
+    }
+  }
+
   return {
-    embeds: comment.embeds,
+    embeds: [],
   };
 };

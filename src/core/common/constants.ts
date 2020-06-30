@@ -39,6 +39,8 @@ export const TOXICITY_ENDPOINT_DEFAULT =
 
 export const GIPHY_SEARCH = "https://api.giphy.com/v1/gifs/search";
 
+export const GIPHY_FETCH = "https://api.giphy.com/v1/gifs";
+
 /**
  * DOWNLOAD_LIMIT_TIMEFRAME_DURATION is the number of seconds that a given
  * download may be made within.

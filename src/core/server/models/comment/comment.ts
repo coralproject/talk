@@ -307,11 +307,6 @@ export async function editComment(
     actionCounts = {},
   } = input;
 
-  // const embeds = findEmbeds(body);
-  // if (embed) {
-  //   embeds.push(embed);
-  // }
-  // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
     body,

@@ -26,7 +26,6 @@ import RTEContainer from "../../RTE";
 import GifSelector, { GifPreview } from "../GifSelector";
 import MessageBoxContainer from "../MessageBoxContainer";
 import EmbedConfirmation from "./EmbedConfirmation";
-import EmbedPreview from "./EmbedPreview";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
@@ -39,6 +38,7 @@ export interface PasteEvent {
 
 type FoundEmbedLink = EmbedLink & {
   confirmed: boolean;
+  id?: string;
 };
 
 interface MediaProps {
@@ -100,6 +100,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           values.embed = {
             url: embedLink.url,
             source: embedLink.source,
+            id: embedLink.id,
           };
         }
       } else {
@@ -320,9 +321,6 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                     onConfirm={confirmEmbedLink}
                     onRemove={removeEmbedLink}
                   />
-                )}
-                {embedLink && embedLink.confirmed && (
-                  <EmbedPreview onRemove={removeEmbedLink} embed={embedLink} />
                 )}
               </div>
               <Flex direction="column" alignItems="flex-end">

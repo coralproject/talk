@@ -1,6 +1,6 @@
 import { URL } from "url";
 
-import { GIPHY_SEARCH } from "coral-common/constants";
+import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { createFetch } from "coral-server/services/fetch";
 
@@ -64,6 +64,32 @@ export async function searchGiphy(
       status: res.status,
       data,
     };
+  } catch (err) {
+    // Ensure that the API key doesn't get leaked to the logs by accident.
+    if (err.message) {
+      err.message = err.message.replace(
+        url.searchParams.toString(),
+        "[Sensitive]"
+      );
+    }
+
+    // Rethrow the error.
+    throw err;
+  }
+}
+
+export async function fetchFromGiphy(id: string) {
+  const url = new URL(`${GIPHY_FETCH}/${id}`);
+  try {
+    const res = await fetch(url.toString());
+
+    if (!res.ok) {
+      throw new Error("unable to fetch");
+    }
+
+    // Parse the JSON body and send back the result!
+    const result = await res.json();
+    return result.data;
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {

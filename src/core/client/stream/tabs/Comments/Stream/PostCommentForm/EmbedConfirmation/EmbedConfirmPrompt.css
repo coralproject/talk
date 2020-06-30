@@ -1,0 +1,58 @@
+.root {
+  @media (min-width: $breakpoints-xs) {
+    display: flex;
+  }
+}
+
+.prompt {
+  margin: 0;
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
+.buttons {
+  @media (max-width: $breakpoints-xs) {
+    justify-content: space-between;
+  }
+}
+
+.promptButton {
+  @media (max-width: $breakpoints-xs) {
+    flex: 1;
+  }
+  @media (min-width: $breakpoints-xs) {
+    padding-top: var(--v2-spacing-1) !important;
+    padding-bottom: var(--v2-spacing-1) !important;
+  }
+}
+
+.promptContainer {
+  /* @media (max-width: $breakpoints-xs) {
+    flex: 1;
+  } */
+}
+
+.xsFlex {
+  @media (max-width: $breakpoints-xs) {
+    display: flex;
+  }
+}
+
+.buttons {
+}
+
+.break {
+}
+
+.icon {
+  @media (max-width: $breakpoints-xs) {
+  }
+  margin-right: var(--v2-spacing-2);
+}
+
+.url {
+  color: var(--v2-colors-mono-100);
+  margin: 0;
+
+  @media (min-width: $breakpoints-xs) {
+  }
+}

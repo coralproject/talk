@@ -1,0 +1,16 @@
+.root {
+  flex: 1;
+}
+
+.url {
+  color: var(--v2-colors-stream-blue-500);
+  margin: 0;
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
+.removeButton {
+  flex: 1;
+  display: block;
+  width: 100%;
+  margin-top: var(--v2-spacing-1);
+}

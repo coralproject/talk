@@ -1,5 +1,8 @@
 .root {
-  width: 100%;
+  /* width: 100%;
+  left: 0;
+  position: relative;
+  height: auto; */
 }
 
 .link {
@@ -7,10 +10,19 @@
   color: var(--palette-primary-main);
 }
 
+.scalableEmbed {
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
 .frame {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  border: none;
-  /* cancel out default margin on iframe body */
-  margin-top: calc(-1 * var(--v2-spacing-2));
-  margin-left: calc(-1 * var(--v2-spacing-2));
+  height: 100%;
+  border: 0;
 }

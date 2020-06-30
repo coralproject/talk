@@ -6,7 +6,9 @@ const fetchURL = (url: string, type: string) => {
     return `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
   }
   if (type === "youtube") {
-    return `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
+    return `https://www.youtube.com/oembed?url=${encodeURIComponent(
+      url
+    )}&maxWidth=240`;
   }
 
   return "";

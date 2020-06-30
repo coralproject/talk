@@ -51,6 +51,8 @@ export interface CommentEmbed {
    * type represents which source the link comes from.
    */
   source: GQLEMBED_SOURCE;
+
+  id?: string;
 }
 
 /**
