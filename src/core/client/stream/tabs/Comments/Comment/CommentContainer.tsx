@@ -35,7 +35,6 @@ import AnsweredTag from "./AnsweredTag";
 import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
-import FeaturedTag from "./FeaturedTag";
 import EmbedSectionContainer from "./EmbedSection/EmbedSectionContainer";
 import IndentedComment from "./IndentedComment";
 import CaretContainer, {

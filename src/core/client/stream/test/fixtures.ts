@@ -115,6 +115,11 @@ export const settings = createFixture<GQLSettings>({
     strikethrough: false,
     spoiler: false,
   },
+  embeds: {
+    twitter: true,
+    youtube: true,
+    giphy: true,
+  },
 });
 
 export const site = createFixture<GQLSite>({

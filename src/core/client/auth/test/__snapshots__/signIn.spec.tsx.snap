@@ -25,7 +25,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           className="TextField-root TextField-fullWidth"
         >
           <input
-            className="TextField-input TextField-colorStreamBlue"
+            className="TextField-input"
             disabled={false}
             id="email"
             name="email"
@@ -395,7 +395,7 @@ exports[`renders sign in view 1`] = `
                 className="TextField-root TextField-fullWidth"
               >
                 <input
-                  className="TextField-input TextField-colorStreamBlue"
+                  className="TextField-input"
                   disabled={false}
                   id="email"
                   name="email"

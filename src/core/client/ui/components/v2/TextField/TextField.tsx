@@ -31,7 +31,8 @@ export interface TextFieldProps {
   /**
    * Color of the TextField
    */
-  color?: "regular" | "error" | "dark";
+  color?: "regular" | "streamBlue" | "error" | "dark";
+
   /*
    * If set renders a full width button
    */

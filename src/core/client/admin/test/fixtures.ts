@@ -193,11 +193,21 @@ export const settings = createFixture<GQLSettings>({
     strikethrough: false,
     spoiler: false,
   },
+  embeds: {
+    twitter: true,
+    youtube: true,
+    giphy: true,
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
+    embeds: {
+      twitter: true,
+      youtube: true,
+      giphy: true,
+    },
     auth: {
       sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {

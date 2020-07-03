@@ -76,6 +76,12 @@ const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
   }
 );
 
+export interface PasteEvent {
+  fragment: DocumentFragment;
+  preventDefault: () => void;
+  defaultPrevented: boolean;
+}
+
 interface Props {
   inputID?: string;
   /**

@@ -54,7 +54,7 @@ type FoundEmbedLink = EmbedLink & {
 
 interface FormProps {
   body: string;
-  embed?: EmbedLink;
+  embed: EmbedLink | null;
 }
 
 export interface EditCommentFormProps {
@@ -129,10 +129,14 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
   }, []);
   const onSubmit = useCallback(
     (values, form) => {
-      if (values.embed && values.embed.url && embedType === "GIPHY") {
+      if (
+        values.embed &&
+        values.embed.url &&
+        embedType === GQLEMBED_SOURCE.GIPHY
+      ) {
         values.embed = {
           ...values.embed,
-          source: "GIPHY",
+          source: GQLEMBED_SOURCE.GIPHY,
         };
       } else if (embedLink && embedLink.confirmed) {
         const linksInText = findEmbedLinks(values.body);
@@ -149,7 +153,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
       } else {
         delete values.embed;
       }
-      props.onSubmit(values, form);
+      void props.onSubmit(values, form);
       setEmbedLink(null);
     },
     [props.onSubmit, embedLink]
