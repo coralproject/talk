@@ -116,6 +116,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           local: this.props.localReply,
           nudge: this.state.nudge,
           body: input.body,
+          embed: input.embed,
         })
       );
       if (submitStatus !== "RETRY") {

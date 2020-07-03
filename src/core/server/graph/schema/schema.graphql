@@ -3639,6 +3639,7 @@ input EditCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+  embed: CreateCommentEmbedInput
 }
 
 """

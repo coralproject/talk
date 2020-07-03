@@ -102,7 +102,13 @@ export default async function edit(
   }
 
   // Run the comment through the moderation phases.
-  const { body, status, metadata, actions } = await processForModeration({
+  const {
+    body,
+    status,
+    metadata,
+    actions,
+    embeds,
+  } = await processForModeration({
     log,
     mongo,
     redis,
@@ -139,6 +145,7 @@ export default async function edit(
       metadata,
       actionCounts,
       lastEditableCommentCreatedAt,
+      embeds: embeds || [],
     },
     now
   );

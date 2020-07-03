@@ -69,7 +69,7 @@ export const Comments = (ctx: GraphContext) => ({
         "input.storyID": [ERROR_CODES.STORY_NOT_FOUND],
       }
     ),
-  edit: ({ commentID, body }: GQLEditCommentInput) =>
+  edit: ({ commentID, body, embed }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
       editComment(
         ctx.mongo,
@@ -81,6 +81,7 @@ export const Comments = (ctx: GraphContext) => ({
         {
           id: commentID,
           body,
+          embeds: embed ? [embed] : [],
         },
         ctx.now,
         ctx.req

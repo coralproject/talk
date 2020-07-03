@@ -233,7 +233,6 @@ export default async function create(
       metadata,
       actionCounts,
       embeds: embeds || [],
-      // embeds: [...(embeds || []), ...findEmbedLinks(body)],
     },
     now
   );

@@ -20,12 +20,12 @@ import {
   HorizontalGutter,
 } from "coral-ui/components/v2";
 
+import EmbedConfirmation from "../../Comment/EmbedConfirmation";
+import GifSelector, { GifPreview } from "../../GifSelector";
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
-import GifSelector, { GifPreview } from "../GifSelector";
 import MessageBoxContainer from "../MessageBoxContainer";
-import EmbedConfirmation from "./EmbedConfirmation";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
@@ -82,6 +82,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   const [showGifSelector, setShowGifSelector] = useState(false);
+  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE | null>(null);
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
@@ -89,7 +90,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
 
   const onSubmit = useCallback(
     (values, form) => {
-      if (values.embed && values.embed.url) {
+      if (values.embed && values.embed.url && embedType === "GIPHY") {
         values.embed.source = "GIPHY";
       } else if (embedLink && embedLink.confirmed) {
         const linksInText = findEmbedLinks(values.body);
@@ -127,6 +128,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
     }
     if (link) {
       setEmbedLink({ ...link, confirmed: false });
+      setEmbedType(link.source);
     }
   }, []);
 
@@ -141,6 +143,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
 
   const removeEmbedLink = useCallback(() => {
     setEmbedLink(null);
+    setEmbedType(null);
   }, [embedLink]);
 
   return (
@@ -304,7 +307,8 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                           />
                         </>
                       )}
-                      {fieldProps.input.value &&
+                      {embedType === GQLEMBED_SOURCE.GIPHY &&
+                        fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <GifPreview
                             url={fieldProps.input.value}
@@ -312,16 +316,20 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                             title=""
                           />
                         )}
+                      {embedLink && (
+                        <EmbedConfirmation
+                          embed={embedLink}
+                          onConfirm={confirmEmbedLink}
+                          onRemove={() => {
+                            fieldProps.input.onChange(null);
+                            removeEmbedLink();
+                            setEmbedType(null);
+                          }}
+                        />
+                      )}
                     </div>
                   )}
                 </Field>
-                {embedLink && (
-                  <EmbedConfirmation
-                    embed={embedLink}
-                    onConfirm={confirmEmbedLink}
-                    onRemove={removeEmbedLink}
-                  />
-                )}
               </div>
               <Flex direction="column" alignItems="flex-end">
                 <Localized id="comments-postCommentForm-submit">

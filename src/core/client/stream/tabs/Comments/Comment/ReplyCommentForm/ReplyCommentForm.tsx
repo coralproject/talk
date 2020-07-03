@@ -8,35 +8,50 @@ import React, {
   MouseEvent,
   Ref,
   useCallback,
+  useState,
 } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
+import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
+import { GQLEMBED_SOURCE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { ReplyCommentFocusEvent } from "coral-stream/events";
 import {
   AriaInfo,
   Button,
+  ButtonIcon,
   Flex,
   HorizontalGutter,
   MatchMedia,
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
-import {
-  getCommentBodyValidators,
-  getHTMLCharacterLength,
-} from "../../helpers";
+import GifSelector, { GifPreview } from "../../GifSelector";
+import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
+import EmbedConfirmation from "../EmbedConfirmation";
 import ReplyTo from "./ReplyTo";
 
 import styles from "./ReplyCommentForm.css";
 
+export interface PasteEvent {
+  fragment: DocumentFragment;
+  preventDefault: () => void;
+  defaultPrevented: boolean;
+}
+
+type FoundEmbedLink = EmbedLink & {
+  confirmed: boolean;
+  id?: string;
+};
+
 interface FormProps {
   body: string;
+  embed?: EmbedLink;
 }
 
 export interface ReplyCommentFormProps {
@@ -61,9 +76,70 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
+  const [showGifSelector, setShowGifSelector] = useState(false);
+  const onGifButtonClick = useCallback(() => {
+    setShowGifSelector(!showGifSelector);
+  }, [showGifSelector]);
+  const [embedLink, setEmbedLink] = useState<FoundEmbedLink | null>(null);
+  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE | null>(null);
+  const confirmEmbedLink = useCallback(() => {
+    if (embedLink) {
+      setEmbedLink({
+        ...embedLink,
+        confirmed: true,
+      });
+    }
+  }, [embedLink]);
+
+  const removeEmbedLink = useCallback(() => {
+    setEmbedLink(null);
+    setEmbedType(null);
+  }, [embedLink]);
+  const onPaste = useCallback((event: PasteEvent) => {
+    const children = event.fragment.children;
+    let link = null;
+    for (let i = 0; i < children.length; i++) {
+      const item = children.item(i);
+      if (item && item.textContent) {
+        const links = findEmbedLinks(item.textContent);
+        if (links.length > 0) {
+          link = links[0];
+          break;
+        }
+      }
+    }
+    if (link) {
+      setEmbedType(link.source);
+      setEmbedLink({ ...link, confirmed: false });
+    }
+  }, []);
+  const onSubmit = useCallback(
+    (values, form) => {
+      if (values.embed && values.embed.url && embedType === "GIPHY") {
+        values.embed.source = "GIPHY";
+      } else if (embedLink && embedLink.confirmed) {
+        const linksInText = findEmbedLinks(values.body);
+        if (
+          linksInText.length > 0 &&
+          linksInText.find((value) => value.url === embedLink.url)
+        ) {
+          values.embed = {
+            url: embedLink.url,
+            source: embedLink.source,
+            id: embedLink.id,
+          };
+        }
+      } else {
+        delete values.embed;
+      }
+      props.onSubmit(values, form);
+      setEmbedLink(null);
+    },
+    [props.onSubmit, embedLink]
+  );
   return (
-    <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-      {({ handleSubmit, submitting, form, submitError }) => (
+    <Form onSubmit={onSubmit} initialValues={props.initialValues}>
+      {({ handleSubmit, submitting, form, submitError, invalid }) => (
         <form
           className={cn(props.className, CLASSES.createReplyComment.$root)}
           autoComplete="off"
@@ -74,112 +150,161 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
             onChange={(state) => props.onChange && props.onChange(state, form)}
           />
           <HorizontalGutter>
-            <Field
-              name="body"
-              validate={getCommentBodyValidators(props.min, props.max, true)}
-            >
-              {/* FIXME: (wyattjoh) reorganize this */}
-              {({ input, meta }) => (
-                <>
-                  <HorizontalGutter size="half">
-                    <div>
-                      <Localized id="comments-replyCommentForm-rteLabel">
-                        <AriaInfo component="label" htmlFor={inputID}>
-                          Write a reply
-                        </AriaInfo>
-                      </Localized>
-                      {props.parentUsername && (
-                        <ReplyTo username={props.parentUsername} />
-                      )}
-                      <Localized
-                        id="comments-replyCommentForm-rte"
-                        attrs={{ placeholder: true }}
-                      >
-                        <RTEContainer
-                          config={props.rteConfig}
-                          inputID={inputID}
-                          onFocus={onFocus}
-                          onChange={(html) => input.onChange(html)}
-                          value={input.value}
-                          placeholder="Write a reply"
-                          ref={props.rteRef}
-                          disabled={submitting || props.disabled}
-                          contentClassName={styles.rteContent}
-                        />
-                      </Localized>
-                    </div>
-                    {props.disabled ? (
-                      <>
-                        {props.disabledMessage && (
-                          <ValidationMessage>
-                            {props.disabledMessage}
-                          </ValidationMessage>
+            <div className={styles.commentFormBox}>
+              <Field
+                name="body"
+                validate={getCommentBodyValidators(props.min, props.max, true)}
+              >
+                {/* FIXME: (wyattjoh) reorganize this */}
+                {({ input, meta }) => (
+                  <>
+                    <HorizontalGutter size="half">
+                      <div>
+                        <Localized id="comments-replyCommentForm-rteLabel">
+                          <AriaInfo component="label" htmlFor={inputID}>
+                            Write a reply
+                          </AriaInfo>
+                        </Localized>
+                        {props.parentUsername && (
+                          <ReplyTo username={props.parentUsername} />
                         )}
-                      </>
-                    ) : (
-                      <>
-                        {meta.touched &&
-                          (meta.error ||
-                            (meta.submitError &&
-                              !meta.dirtySinceLastSubmit)) && (
+                        <Localized
+                          id="comments-replyCommentForm-rte"
+                          attrs={{ placeholder: true }}
+                        >
+                          <RTEContainer
+                            config={props.rteConfig}
+                            inputID={inputID}
+                            onFocus={onFocus}
+                            onChange={(html) => input.onChange(html)}
+                            value={input.value}
+                            placeholder="Write a reply"
+                            onWillPaste={onPaste}
+                            ref={props.rteRef}
+                            disabled={submitting || props.disabled}
+                            contentClassName={styles.rteContent}
+                            toolbarButtons={
+                              <Button
+                                color="mono"
+                                variant={showGifSelector ? "regular" : "flat"}
+                                onClick={onGifButtonClick}
+                                iconLeft
+                              >
+                                <ButtonIcon>add</ButtonIcon>
+                                GIF
+                              </Button>
+                            }
+                          />
+                        </Localized>
+                      </div>
+                      {props.disabled ? (
+                        <>
+                          {props.disabledMessage && (
                             <ValidationMessage>
-                              {meta.error || meta.submitError}
+                              {props.disabledMessage}
                             </ValidationMessage>
                           )}
-                        {submitError && (
-                          <ValidationMessage>{submitError}</ValidationMessage>
-                        )}
-                        {props.max && (
-                          <RemainingCharactersContainer
-                            value={input.value}
-                            max={props.max}
-                          />
-                        )}
-                      </>
+                        </>
+                      ) : (
+                        <>
+                          {meta.touched &&
+                            (meta.error ||
+                              (meta.submitError &&
+                                !meta.dirtySinceLastSubmit)) && (
+                              <ValidationMessage>
+                                {meta.error || meta.submitError}
+                              </ValidationMessage>
+                            )}
+                          {submitError && (
+                            <ValidationMessage>{submitError}</ValidationMessage>
+                          )}
+                          {props.max && (
+                            <RemainingCharactersContainer
+                              value={input.value}
+                              max={props.max}
+                            />
+                          )}
+                        </>
+                      )}
+                    </HorizontalGutter>
+                  </>
+                )}
+              </Field>
+              <Field name="embed.url">
+                {(fieldProps) => (
+                  <div>
+                    {showGifSelector && (
+                      <GifSelector
+                        onGifSelect={(gif) => {
+                          fieldProps.input.onChange(gif.images.original.url);
+                          setEmbedType(GQLEMBED_SOURCE.GIPHY);
+                          setShowGifSelector(false);
+                        }}
+                        value={fieldProps.input.value}
+                      />
                     )}
-                  </HorizontalGutter>
+                    {embedType === GQLEMBED_SOURCE.GIPHY &&
+                      fieldProps.input.value &&
+                      fieldProps.input.value.length > 0 && (
+                        <GifPreview
+                          url={fieldProps.input.value}
+                          onRemove={() => {
+                            fieldProps.input.onChange(null);
+                            setEmbedType(null);
+                          }}
+                          title=""
+                        />
+                      )}
+                    {embedLink && (
+                      <EmbedConfirmation
+                        embed={embedLink}
+                        onConfirm={confirmEmbedLink}
+                        onRemove={() => {
+                          fieldProps.input.onChange(null);
+                          removeEmbedLink();
+                          setEmbedType(null);
+                        }}
+                      />
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
 
-                  <MatchMedia ltWidth="sm">
-                    {(matches) => (
-                      <Flex
-                        direction="row"
-                        justifyContent="flex-end"
-                        itemGutter="half"
-                      >
-                        <Localized id="comments-replyCommentForm-cancel">
-                          <Button
-                            color="mono"
-                            variant="outline"
-                            disabled={submitting}
-                            onClick={props.onCancel}
-                            className={CLASSES.createReplyComment.cancel}
-                            fullWidth={matches}
-                          >
-                            Cancel
-                          </Button>
-                        </Localized>
-                        <Localized id="comments-replyCommentForm-submit">
-                          <Button
-                            color="stream"
-                            variant="regular"
-                            disabled={
-                              submitting ||
-                              getHTMLCharacterLength(input.value) === 0 ||
-                              props.disabled
-                            }
-                            type="submit"
-                            className={CLASSES.createReplyComment.submit}
-                            fullWidth={matches}
-                          >
-                            Submit
-                          </Button>
-                        </Localized>
-                      </Flex>
-                    )}
-                  </MatchMedia>
-                </>
+            <MatchMedia ltWidth="sm">
+              {(matches) => (
+                <Flex
+                  direction="row"
+                  justifyContent="flex-end"
+                  itemGutter="half"
+                >
+                  <Localized id="comments-replyCommentForm-cancel">
+                    <Button
+                      color="mono"
+                      variant="outline"
+                      disabled={submitting}
+                      onClick={props.onCancel}
+                      className={CLASSES.createReplyComment.cancel}
+                      fullWidth={matches}
+                    >
+                      Cancel
+                    </Button>
+                  </Localized>
+                  <Localized id="comments-replyCommentForm-submit">
+                    <Button
+                      color="stream"
+                      variant="regular"
+                      disabled={submitting || invalid || props.disabled}
+                      type="submit"
+                      className={CLASSES.createReplyComment.submit}
+                      fullWidth={matches}
+                    >
+                      Submit
+                    </Button>
+                  </Localized>
+                </Flex>
               )}
-            </Field>
+            </MatchMedia>
           </HorizontalGutter>
         </form>
       )}

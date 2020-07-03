@@ -1,8 +1,3 @@
-.rteContent {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 $commentsBorder: var(--v2-colors-grey-300);
 
 .commentFormBox {

@@ -198,6 +198,7 @@ async function commit(
             body: input.body,
             nudge: input.nudge,
             clientMutationId: clientMutationId.toString(),
+            embed: input.embed,
           },
         },
         optimisticResponse: {

@@ -65,15 +65,28 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
               Cancel
             </Button>
           </Localized>
-          <Localized id="comments-postComment-confirmEmbed-add">
-            <Button
-              color="mono"
-              onClick={onConfirm}
-              className={styles.promptButton}
-            >
-              Add video
-            </Button>
-          </Localized>
+          {embed.source === "TWITTER" && (
+            <Localized id="comments-postComment-confirmEmbed-add-tweet">
+              <Button
+                color="mono"
+                onClick={onConfirm}
+                className={styles.promptButton}
+              >
+                Add tweet
+              </Button>
+            </Localized>
+          )}
+          {embed.source === "YOUTUBE" && (
+            <Localized id="comments-postComment-confirmEmbed-add-video">
+              <Button
+                color="mono"
+                onClick={onConfirm}
+                className={styles.promptButton}
+              >
+                Add video
+              </Button>
+            </Localized>
+          )}
         </Flex>
       </HorizontalGutter>
     </div>

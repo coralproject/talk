@@ -307,6 +307,9 @@ export async function editComment(
     actionCounts = {},
   } = input;
 
+  /* eslint-disable-next-line */
+  console.log(embeds);
+
   const revision: Revision = {
     id: uuid.v4(),
     body,

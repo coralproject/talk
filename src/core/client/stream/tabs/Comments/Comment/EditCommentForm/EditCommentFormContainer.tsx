@@ -48,7 +48,15 @@ interface State {
 
 export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
-  private intitialValues = { body: this.props.comment.body || "" };
+  private intitialValues = {
+    body: this.props.comment.body || "",
+    embed:
+      this.props.comment.revision &&
+      this.props.comment.revision.embeds &&
+      this.props.comment.revision.embeds.length > 0
+        ? this.props.comment.revision.embeds[0]
+        : null,
+  };
 
   public state: State = {
     initialized: false,
@@ -98,6 +106,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         await this.props.editComment({
           commentID: this.props.comment.id,
           body: input.body,
+          embed: input.embed,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -170,6 +179,12 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             id
             body
             createdAt
+            revision {
+              embeds {
+                url
+                source
+              }
+            }
             author {
               username
             }

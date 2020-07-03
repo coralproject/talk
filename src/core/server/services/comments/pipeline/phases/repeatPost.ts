@@ -21,6 +21,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
   nudge,
   redis,
   log,
+  action,
 }): Promise<IntermediatePhaseResult | void> => {
   if (!bodyText) {
     return;
@@ -36,7 +37,8 @@ export const repeatPost: IntermediateModerationPhase = async ({
       tenant,
       author
     );
-    if (!lastComment) {
+
+    if (!lastComment || action === "EDIT") {
       // The last comment can't been found or none was written within the
       // time frame.
       return;
