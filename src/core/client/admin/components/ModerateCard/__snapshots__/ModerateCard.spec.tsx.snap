@@ -61,6 +61,9 @@ exports[`renders approved correctly 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -198,6 +201,9 @@ exports[`renders correctly 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -335,6 +341,9 @@ exports[`renders dangling correctly 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -472,6 +481,9 @@ exports[`renders rejected correctly 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -618,6 +630,9 @@ exports[`renders reply correctly 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -755,6 +770,9 @@ exports[`renders story info 1`] = `
         >
           content
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
@@ -938,6 +956,9 @@ exports[`renders tombstoned when comment is deleted 1`] = `
             </div>
           </Localized>
         </CommentContent>
+        <Relay(EmbedContainer)
+          comment={Object {}}
+        />
         <div
           className="ModerateCard-viewContext"
         >
