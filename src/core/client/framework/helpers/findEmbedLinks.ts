@@ -1,4 +1,4 @@
-import { GQLEMBED_SOURCE_RL } from "../../client/framework/schema";
+import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 
 export interface EmbedLink {
   url: string;

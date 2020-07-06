@@ -12,7 +12,10 @@ import React, {
 } from "react";
 import { Field, Form } from "react-final-form";
 
-import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
+import {
+  EmbedLink,
+  findEmbedLinks,
+} from "coral-framework/helpers/findEmbedLinks";
 import { OnSubmit } from "coral-framework/lib/form";
 import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";

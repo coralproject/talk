@@ -3,8 +3,7 @@ import {
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
 
-import { findEmbedLinks } from "coral-common/utils/findEmbedLinks";
-import { GQLEMBED_SOURCE } from "coral-server/graph/schema/__generated__/types";
+import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
 import { fetchFromGiphy } from "coral-server/services/giphy";
 
 const GIPHY_ALLOWED_RATINGS = ["g"];
@@ -53,7 +52,7 @@ export const attachedEmbed = async ({
           embeds: [
             {
               url: matchingLink.url,
-              source: matchingLink.source as GQLEMBED_SOURCE,
+              source: matchingLink.source,
             },
           ],
         };

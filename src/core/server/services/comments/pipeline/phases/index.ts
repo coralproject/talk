@@ -25,6 +25,7 @@ import { wordList } from "./wordList";
  * The moderation phases to apply for each comment being processed.
  */
 export const moderationPhases: IntermediateModerationPhase[] = [
+  attachedEmbed,
   commentLength,
   storyClosed,
   commentingDisabled,
@@ -44,5 +45,4 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   premodUser,
   premodNewCommenter,
   external,
-  attachedEmbed,
 ];

@@ -4,7 +4,10 @@ import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
-import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
+import {
+  EmbedLink,
+  findEmbedLinks,
+} from "coral-framework/helpers/findEmbedLinks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { GQLEMBED_SOURCE_RL, GQLSTORY_MODE } from "coral-framework/schema";
