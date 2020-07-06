@@ -55,7 +55,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use(
     "/graphql",
     authenticate(options.passport),
-    jsonMiddleware,
+    jsonMiddleware(app.config.get("max_request_size")),
     persistedQueryMiddleware(app),
     graphQLHandler(app)
   );

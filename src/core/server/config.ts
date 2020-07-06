@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import bytes from "bytes";
 import convict from "convict";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
@@ -53,6 +54,16 @@ convict.addFormat({
     Joi.assert(val, Joi.number().positive().integer().required());
   },
   coerce: (val: string): number => ms(val),
+});
+
+// Add a custom format that is a number of bytes parsed with `bytes`. This
+// allows more compact representations of values (10mb instead of 10e6).
+convict.addFormat({
+  name: "bytes",
+  validate: (val: number) => {
+    Joi.assert(val, Joi.number().positive().integer().required());
+  },
+  coerce: (val: string): number => bytes(val),
 });
 
 const algorithms = [
@@ -188,7 +199,7 @@ const config = convict({
     doc:
       "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
     format: "ms",
-    default: "30 seconds",
+    default: ms("30 seconds"),
     env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
   },
   disable_tenant_caching: {
@@ -209,7 +220,7 @@ const config = convict({
     doc:
       "Disables subscriptions for the comment stream for all stories across all tenants where a comment has not been left within the timeout",
     format: "ms",
-    default: "2 weeks",
+    default: ms("2 weeks"),
     env: "DISABLE_LIVE_UPDATES_TIMEOUT",
   },
   disable_client_routes: {
@@ -228,22 +239,27 @@ const config = convict({
   },
   scrape_max_response_size: {
     doc: "The maximum size (in bytes) to allow for scraping responses.",
-    format: Number,
-    default: 10e6,
+    format: "bytes",
+    default: bytes("10mb"),
     env: "SCRAPE_MAX_RESPONSE_SIZE",
-    arg: "scrapeMaxResponseSize",
+  },
+  max_request_size: {
+    doc: "The maximum size (in bytes) to allow for post bodies to accept.",
+    format: "bytes",
+    default: bytes("500kb"),
+    env: "MAX_REQUEST_SIZE",
   },
   scrape_timeout: {
     doc: "The request timeout (in ms) for scraping operations.",
     format: "ms",
-    default: "10 seconds",
+    default: ms("10 seconds"),
     env: "SCRAPE_TIMEOUT",
   },
   perspective_timeout: {
     doc:
       "The request timeout (in ms) for perspective comment checking operations.",
     format: "ms",
-    default: "800 milliseconds",
+    default: ms("800 milliseconds"),
     env: "PERSPECTIVE_TIMEOUT",
   },
   force_ssl: {
@@ -263,7 +279,7 @@ const config = convict({
     doc:
       "The word list timeout (in ms) that should be used to limit the amount of time the process is frozen processing a word list comparison",
     format: "ms",
-    default: "100",
+    default: ms("100ms"),
     env: "WORD_LIST_TIMEOUT",
   },
   analytics_frontend_key: {

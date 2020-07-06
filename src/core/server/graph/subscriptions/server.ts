@@ -259,11 +259,7 @@ export function createSubscriptionServer(
   schema: GraphQLSchema,
   options: Options
 ) {
-  // This typecast is needed because the custom `ms` format does not return the
-  // desired `number` type even though that's the only type it can output.
-  const keepAlive = (options.config.get(
-    "websocket_keep_alive_timeout"
-  ) as unknown) as number;
+  const keepAlive = options.config.get("websocket_keep_alive_timeout");
 
   return SubscriptionServer.create(
     {

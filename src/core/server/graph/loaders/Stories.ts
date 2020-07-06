@@ -210,12 +210,9 @@ export default (ctx: GraphContext) => ({
     }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader(
     createManyBatchLoadFn((url: string) =>
-      // This typecast is needed because the custom `ms` format does not return
-      // the desired `number` type even though that's the only type it can
-      // output.
       scraper.scrape({
         url,
-        timeout: (ctx.config.get("scrape_timeout") as unknown) as number,
+        timeout: ctx.config.get("scrape_timeout"),
         size: ctx.config.get("scrape_max_response_size"),
         customUserAgent: ctx.tenant.stories.scraping.customUserAgent,
         proxyURL: ctx.tenant.stories.scraping.proxyURL,

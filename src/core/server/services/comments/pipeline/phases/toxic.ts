@@ -73,9 +73,8 @@ export const toxic: IntermediateModerationPhase = async ({
     );
   }
 
-  // This typecast is needed because the custom `ms` format does not return the
-  // desired `number` type even though that's the only type it can output.
-  const timeout = (config.get("perspective_timeout") as unknown) as number;
+  // Get the timeout value.
+  const timeout = config.get("perspective_timeout");
 
   try {
     // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
