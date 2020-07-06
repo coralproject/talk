@@ -15,7 +15,7 @@ import { Field, Form, FormSpy } from "react-final-form";
 import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
-import { GQLEMBED_SOURCE } from "coral-framework/schema";
+import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { ReplyCommentFocusEvent } from "coral-stream/events";
@@ -81,7 +81,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
   const [embedLink, setEmbedLink] = useState<FoundEmbedLink | null>(null);
-  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE | null>(null);
+  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE_RL | null>(null);
   const confirmEmbedLink = useCallback(() => {
     if (embedLink) {
       setEmbedLink({
@@ -132,8 +132,8 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
       } else {
         delete values.embed;
       }
-      props.onSubmit(values, form);
       setEmbedLink(null);
+      return props.onSubmit(values, form);
     },
     [props.onSubmit, embedLink]
   );
@@ -237,13 +237,13 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                       <GifSelector
                         onGifSelect={(gif) => {
                           fieldProps.input.onChange(gif.images.original.url);
-                          setEmbedType(GQLEMBED_SOURCE.GIPHY);
+                          setEmbedType("GIPHY");
                           setShowGifSelector(false);
                         }}
                         value={fieldProps.input.value}
                       />
                     )}
-                    {embedType === GQLEMBED_SOURCE.GIPHY &&
+                    {embedType === "GIPHY" &&
                       fieldProps.input.value &&
                       fieldProps.input.value.length > 0 && (
                         <GifPreview

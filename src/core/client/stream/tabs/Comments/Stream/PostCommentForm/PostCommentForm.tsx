@@ -7,7 +7,7 @@ import { Field, Form, FormSpy } from "react-final-form";
 import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { GQLEMBED_SOURCE, GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLEMBED_SOURCE_RL, GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -42,7 +42,7 @@ type FoundEmbedLink = EmbedLink & {
 };
 
 interface MediaProps {
-  source: GQLEMBED_SOURCE;
+  source: GQLEMBED_SOURCE_RL;
   url: string;
   alt: string;
 }
@@ -82,7 +82,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
   const isQA =
     props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   const [showGifSelector, setShowGifSelector] = useState(false);
-  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE | null>(null);
+  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE_RL | null>(null);
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
@@ -107,8 +107,8 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
       } else {
         delete values.embed;
       }
-      props.onSubmit(values, form);
       setEmbedLink(null);
+      return props.onSubmit(values, form);
     },
     [props.onSubmit, embedLink]
   );
@@ -307,7 +307,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                           />
                         </>
                       )}
-                      {embedType === GQLEMBED_SOURCE.GIPHY &&
+                      {embedType === "GIPHY" &&
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <GifPreview

@@ -3,7 +3,6 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLEMBED_SOURCE } from "coral-framework/schema";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
 import { EmbedSectionContainer_comment } from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
@@ -41,9 +40,9 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
   const embed = revision.embeds[0];
 
   if (
-    (embed.source === GQLEMBED_SOURCE.TWITTER && !embedSettings.twitter) ||
-    (embed.source === GQLEMBED_SOURCE.YOUTUBE && !embedSettings.youtube) ||
-    (embed.source === GQLEMBED_SOURCE.GIPHY && !embedSettings.giphy)
+    (embed.source === "TWITTER" && !embedSettings.twitter) ||
+    (embed.source === "YOUTUBE" && !embedSettings.youtube) ||
+    (embed.source === "GIPHY" && !embedSettings.giphy)
   ) {
     return null;
   }
@@ -59,17 +58,17 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
         className={styles.button}
       >
         <ButtonIcon>add</ButtonIcon>
-        {embed.source === GQLEMBED_SOURCE.TWITTER && (
+        {embed.source === "TWITTER" && (
           <Localized id="comments-embedLinks-show-twitter">
             Show tweet
           </Localized>
         )}
-        {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
+        {embed.source === "YOUTUBE" && (
           <Localized id="comments-embedLinks-show-youtube">
             Show video
           </Localized>
         )}
-        {embed.source === GQLEMBED_SOURCE.GIPHY && (
+        {embed.source === "GIPHY" && (
           <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
         )}
       </Button>
@@ -88,26 +87,22 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
           className={styles.button}
         >
           <ButtonIcon>remove</ButtonIcon>
-          {embed.source === GQLEMBED_SOURCE.TWITTER && (
+          {embed.source === "TWITTER" && (
             <Localized id="comments-embedLinks-hide-twitter">
               Hide tweet
             </Localized>
           )}
-          {embed.source === GQLEMBED_SOURCE.GIPHY && (
+          {embed.source === "GIPHY" && (
             <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
           )}
-          {embed.source === GQLEMBED_SOURCE.YOUTUBE && (
+          {embed.source === "YOUTUBE" && (
             <Localized id="comments-embedLinks-hide-youtube">
               Hide video
             </Localized>
           )}
         </Button>
       </div>
-      <Embed
-        url={embed.url}
-        type={embed.source as GQLEMBED_SOURCE}
-        settings={settings.embeds}
-      />
+      <Embed url={embed.url} type={embed.source} settings={settings.embeds} />
     </HorizontalGutter>
   );
 };

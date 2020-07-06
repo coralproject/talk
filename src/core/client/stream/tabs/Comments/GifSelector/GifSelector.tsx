@@ -61,7 +61,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
         return setResults(data);
       }
     }
-    search();
+    void search();
   }, [query, page]);
   const nextPage = useCallback(() => {
     setPage(page + 1);

@@ -14,7 +14,7 @@ import { Field, Form } from "react-final-form";
 
 import { EmbedLink, findEmbedLinks } from "coral-common/utils/findEmbedLinks";
 import { OnSubmit } from "coral-framework/lib/form";
-import { GQLEMBED_SOURCE } from "coral-framework/schema";
+import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -84,7 +84,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
   const [embedLink, setEmbedLink] = useState<FoundEmbedLink | null>(null);
-  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE | null>(null);
+  const [embedType, setEmbedType] = useState<GQLEMBED_SOURCE_RL | null>(null);
   const confirmEmbedLink = useCallback(() => {
     if (embedLink) {
       setEmbedLink({
@@ -129,14 +129,10 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
   }, []);
   const onSubmit = useCallback(
     (values, form) => {
-      if (
-        values.embed &&
-        values.embed.url &&
-        embedType === GQLEMBED_SOURCE.GIPHY
-      ) {
+      if (values.embed && values.embed.url && embedType === "GIPHY") {
         values.embed = {
           ...values.embed,
-          source: GQLEMBED_SOURCE.GIPHY,
+          source: "GIPHY",
         };
       } else if (embedLink && embedLink.confirmed) {
         const linksInText = findEmbedLinks(values.body);
@@ -153,8 +149,8 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
       } else {
         delete values.embed;
       }
-      void props.onSubmit(values, form);
       setEmbedLink(null);
+      return props.onSubmit(values, form);
     },
     [props.onSubmit, embedLink]
   );
@@ -249,6 +245,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                               <span>{"Edit: <time></time> remaining"}</span>
                             </Localized>
                           </Message>
+
                           {meta.touched &&
                             (meta.error ||
                               (meta.submitError &&
@@ -279,13 +276,13 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                       <GifSelector
                         onGifSelect={(gif) => {
                           fieldProps.input.onChange(gif.images.original.url);
-                          setEmbedType(GQLEMBED_SOURCE.GIPHY);
+                          setEmbedType("GIPHY");
                           setShowGifSelector(false);
                         }}
                         value={fieldProps.input.value}
                       />
                     )}
-                    {embedType === GQLEMBED_SOURCE.GIPHY &&
+                    {embedType === "GIPHY" &&
                       fieldProps.input.value &&
                       fieldProps.input.value.length > 0 && (
                         <GifPreview

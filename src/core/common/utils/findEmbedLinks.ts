@@ -1,11 +1,11 @@
-import { GQLEMBED_SOURCE } from "../../client/framework/schema/__generated__/types";
+import { GQLEMBED_SOURCE_RL } from "../../client/framework/schema";
 
 export interface EmbedLink {
   url: string;
-  source: GQLEMBED_SOURCE;
+  source: GQLEMBED_SOURCE_RL;
 }
 
-function formatLink(source: GQLEMBED_SOURCE, link: string): EmbedLink {
+function formatLink(source: GQLEMBED_SOURCE_RL, link: string): EmbedLink {
   return {
     url: link,
     source,
@@ -20,12 +20,8 @@ export function findEmbedLinks(body: string): EmbedLink[] {
   const foundTwitterLinks = new Set(body.match(twitterRegex) || []);
 
   const embeds = [
-    ...[...foundYouTubeLinks].map((l) =>
-      formatLink(GQLEMBED_SOURCE.YOUTUBE, l)
-    ),
-    ...[...foundTwitterLinks].map((l) =>
-      formatLink(GQLEMBED_SOURCE.TWITTER, l)
-    ),
+    ...[...foundYouTubeLinks].map((l) => formatLink("YOUTUBE", l)),
+    ...[...foundTwitterLinks].map((l) => formatLink("TWITTER", l)),
   ];
 
   return embeds;

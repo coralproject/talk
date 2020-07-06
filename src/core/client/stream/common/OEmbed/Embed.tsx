@@ -1,10 +1,10 @@
-import { GQLEMBED_SOURCE } from "coral-framework/schema";
+import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import { TwitterEmbed, YouTubeEmbed } from "coral-stream/common/OEmbed";
 import React, { FunctionComponent } from "react";
 
 interface Props {
   url: string;
-  type: GQLEMBED_SOURCE;
+  type: GQLEMBED_SOURCE_RL;
   settings: {
     twitter: boolean;
     giphy: boolean;
@@ -13,15 +13,15 @@ interface Props {
 }
 
 const Embed: FunctionComponent<Props> = ({ type, url, settings }) => {
-  if (type === GQLEMBED_SOURCE.TWITTER && settings.twitter) {
+  if (type === "TWITTER" && settings.twitter) {
     return <TwitterEmbed url={url} />;
   }
 
-  if (type === GQLEMBED_SOURCE.YOUTUBE && settings.youtube) {
+  if (type === "YOUTUBE" && settings.youtube) {
     return <YouTubeEmbed url={url} />;
   }
 
-  if (type === GQLEMBED_SOURCE.GIPHY && settings.giphy) {
+  if (type === "GIPHY" && settings.giphy) {
     return <img src={url} alt="" />;
   }
 

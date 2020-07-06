@@ -20,7 +20,7 @@ export const attachedEmbed = async ({
   if (comment.embeds && comment.embeds.length > 0) {
     const [embed] = comment.embeds;
 
-    if (embed.source === GQLEMBED_SOURCE.GIPHY) {
+    if (embed.source === "GIPHY") {
       if (tenant.embeds.giphy) {
         // GIPHY embed
         // ensure gif exists and is appropriate rating
@@ -41,10 +41,7 @@ export const attachedEmbed = async ({
           }
         }
       }
-    } else if (
-      embed.source === GQLEMBED_SOURCE.TWITTER ||
-      embed.source === GQLEMBED_SOURCE.YOUTUBE
-    ) {
+    } else if (embed.source === "TWITTER" || embed.source === "YOUTUBE") {
       // TWITTER or YOUTUBE embed
       // ensure matches body contents
       const foundLinks = findEmbedLinks(comment.body);
@@ -53,7 +50,12 @@ export const attachedEmbed = async ({
       });
       if (matchingLink) {
         return {
-          embeds: [matchingLink],
+          embeds: [
+            {
+              url: matchingLink.url,
+              source: matchingLink.source as GQLEMBED_SOURCE,
+            },
+          ],
         };
       }
     }

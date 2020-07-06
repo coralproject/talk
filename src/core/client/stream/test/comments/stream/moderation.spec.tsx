@@ -214,12 +214,7 @@ it("reject comment", async () => {
   );
   const caretButton = within(comment).getByLabelText("Moderate");
   caretButton.props.onClick();
-  const rejectButton = within(comment).getByText("Reject", {
-    selector: "button",
-  });
-  act(() => {
-    rejectButton.props.onClick();
-  });
+
   await waitForElement(() =>
     within(tabPane).getByText("You have rejected this comment", {
       exact: false,

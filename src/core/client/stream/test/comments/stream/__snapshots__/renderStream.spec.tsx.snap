@@ -122,7 +122,7 @@ exports[`renders comment stream 1`] = `
                   onFocus={[Function]}
                 >
                   <div
-                    className="RTE.module-contentEditableContainer coral coral-rte-container"
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                   >
                     <div
                       aria-placeholder="Post a comment"

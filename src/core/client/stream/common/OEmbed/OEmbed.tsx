@@ -51,7 +51,7 @@ const oEmbed: FunctionComponent<Props> = ({
       // console.log(width, height, aspectRatio);
       // divRef.current.style.paddingBottom = aspectRatio * 100 + "%";
 
-      iframeRef.current.style.height = height + "px";
+      iframeRef.current.style.height = height.toString() + "px";
 
       timer += step;
 

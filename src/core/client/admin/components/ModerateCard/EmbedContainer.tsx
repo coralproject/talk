@@ -13,7 +13,6 @@ interface Props {
 }
 
 const EmbedContainer: FunctionComponent<Props> = ({ comment }) => {
-  console.log(comment.revision);
   if (!comment || !comment.revision || !comment.revision.embeds) {
     return null;
   }
