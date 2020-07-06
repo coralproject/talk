@@ -184,15 +184,17 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                             disabled={submitting || props.disabled}
                             contentClassName={styles.rteContent}
                             toolbarButtons={
-                              <Button
-                                color="mono"
-                                variant={showGifSelector ? "regular" : "flat"}
-                                onClick={onGifButtonClick}
-                                iconLeft
-                              >
-                                <ButtonIcon>add</ButtonIcon>
-                                GIF
-                              </Button>
+                              <>
+                                <Button
+                                  color="mono"
+                                  variant={showGifSelector ? "regular" : "flat"}
+                                  onClick={onGifButtonClick}
+                                  iconLeft
+                                >
+                                  <ButtonIcon>add</ButtonIcon>
+                                  GIF
+                                </Button>
+                              </>
                             }
                           />
                         </Localized>

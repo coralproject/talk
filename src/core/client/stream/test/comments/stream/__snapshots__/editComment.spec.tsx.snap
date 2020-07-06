@@ -413,175 +413,14 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 </button>
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  ctrlKey="ctrl-"
                   data-color="mono"
                   data-variant="flat"
-                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   onTouchEnd={[Function]}
-                  squire={
-                    R {
-                      "_awaitingPaste": false,
-                      "_config": Object {
-                        "blockAttributes": null,
-                        "blockTag": "DIV",
-                        "classNames": Object {
-                          "colour": "colour",
-                          "fontFamily": "font",
-                          "fontSize": "size",
-                          "highlight": "highlight",
-                        },
-                        "isInsertedHTMLSanitized": true,
-                        "isSetHTMLSanitized": true,
-                        "leafNodeNames": Object {
-                          "BR": 1,
-                          "HR": 1,
-                          "IFRAME": 1,
-                          "IMG": 1,
-                          "INPUT": 1,
-                        },
-                        "sanitizeToDOMFragment": [Function],
-                        "tagAttributes": Object {
-                          "a": null,
-                          "blockquote": null,
-                          "li": null,
-                          "ol": null,
-                          "ul": null,
-                        },
-                        "undo": Object {
-                          "documentSizeThreshold": -1,
-                          "undoLimit": -1,
-                        },
-                        "willCutCopy": null,
-                      },
-                      "_doc": Document {
-                        "elementsFromPoint": [Function],
-                        "location": Location {
-                          "assign": [Function],
-                          "hash": "",
-                          "host": "localhost",
-                          "hostname": "localhost",
-                          "href": "http://localhost/",
-                          "origin": "http://localhost",
-                          "pathname": "/",
-                          "port": "",
-                          "protocol": "http:",
-                          "reload": [Function],
-                          "replace": [Function],
-                          "search": "",
-                          "toString": [Function],
-                        },
-                        Symbol(DOM SymbolTree): SymbolTreeNode {
-                          "cachedIndex": -1,
-                          "cachedIndexVersion": NaN,
-                          "childIndexCachedUpTo": null,
-                          "childrenVersion": 0,
-                          "firstChild": null,
-                          "lastChild": null,
-                          "nextSibling": null,
-                          "parent": null,
-                          "previousSibling": null,
-                        },
-                      },
-                      "_events": Object {
-                        "blur": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "copy": Array [
-                          [Function],
-                        ],
-                        "cut": Array [
-                          [Function],
-                        ],
-                        "drop": Array [
-                          [Function],
-                        ],
-                        "focus": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "input": Array [
-                          [Function],
-                        ],
-                        "keydown": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "keyup": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "mousedown": Array [
-                          [Function],
-                        ],
-                        "mouseup": Array [
-                          [Function],
-                        ],
-                        "paste": Array [
-                          [Function],
-                        ],
-                        "pathChange": Array [
-                          [Function],
-                        ],
-                        "touchstart": Array [
-                          [Function],
-                        ],
-                        "willPaste": Array [
-                          [Function],
-                        ],
-                      },
-                      "_hasZWS": false,
-                      "_ignoreAllChanges": false,
-                      "_ignoreChange": false,
-                      "_isFocused": false,
-                      "_isInUndoState": true,
-                      "_keyHandlers": Object {
-                        "ctrl-b": [Function],
-                        "ctrl-i": [Function],
-                        "ctrl-shift-5": null,
-                        "ctrl-shift-6": null,
-                        "ctrl-shift-7": null,
-                        "ctrl-shift-8": null,
-                        "ctrl-shift-9": null,
-                        "ctrl-shift-[": null,
-                        "ctrl-shift-]": null,
-                        "ctrl-shift-d": null,
-                        "ctrl-u": null,
-                      },
-                      "_lastAnchorNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastFocusNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastSelection": Range {},
-                      "_mutation": MutationObserver {},
-                      "_path": "DIV",
-                      "_restoreSelection": true,
-                      "_root": <div
-                        contenteditable="true"
-                      >
-                        <div>
-                          I like yoghurt
-                          <br />
-                        </div>
-                      </div>,
-                      "_undoIndex": 0,
-                      "_undoStack": Array [
-                        "<div><input id=\\"squire-selection-start\\" type=\\"hidden\\"><input id=\\"squire-selection-end\\" type=\\"hidden\\">I like yoghurt<br></div>",
-                      ],
-                      "_undoStackLength": 1,
-                      "_willUpdatePath": false,
-                      "_win": [Window],
-                    }
-                  }
                   type="button"
                 >
                   <i
@@ -788,175 +627,14 @@ exports[`edit a comment: edit form 1`] = `
                 </button>
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  ctrlKey="ctrl-"
                   data-color="mono"
                   data-variant="flat"
-                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   onTouchEnd={[Function]}
-                  squire={
-                    R {
-                      "_awaitingPaste": false,
-                      "_config": Object {
-                        "blockAttributes": null,
-                        "blockTag": "DIV",
-                        "classNames": Object {
-                          "colour": "colour",
-                          "fontFamily": "font",
-                          "fontSize": "size",
-                          "highlight": "highlight",
-                        },
-                        "isInsertedHTMLSanitized": true,
-                        "isSetHTMLSanitized": true,
-                        "leafNodeNames": Object {
-                          "BR": 1,
-                          "HR": 1,
-                          "IFRAME": 1,
-                          "IMG": 1,
-                          "INPUT": 1,
-                        },
-                        "sanitizeToDOMFragment": [Function],
-                        "tagAttributes": Object {
-                          "a": null,
-                          "blockquote": null,
-                          "li": null,
-                          "ol": null,
-                          "ul": null,
-                        },
-                        "undo": Object {
-                          "documentSizeThreshold": -1,
-                          "undoLimit": -1,
-                        },
-                        "willCutCopy": null,
-                      },
-                      "_doc": Document {
-                        "elementsFromPoint": [Function],
-                        "location": Location {
-                          "assign": [Function],
-                          "hash": "",
-                          "host": "localhost",
-                          "hostname": "localhost",
-                          "href": "http://localhost/",
-                          "origin": "http://localhost",
-                          "pathname": "/",
-                          "port": "",
-                          "protocol": "http:",
-                          "reload": [Function],
-                          "replace": [Function],
-                          "search": "",
-                          "toString": [Function],
-                        },
-                        Symbol(DOM SymbolTree): SymbolTreeNode {
-                          "cachedIndex": -1,
-                          "cachedIndexVersion": NaN,
-                          "childIndexCachedUpTo": null,
-                          "childrenVersion": 0,
-                          "firstChild": null,
-                          "lastChild": null,
-                          "nextSibling": null,
-                          "parent": null,
-                          "previousSibling": null,
-                        },
-                      },
-                      "_events": Object {
-                        "blur": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "copy": Array [
-                          [Function],
-                        ],
-                        "cut": Array [
-                          [Function],
-                        ],
-                        "drop": Array [
-                          [Function],
-                        ],
-                        "focus": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "input": Array [
-                          [Function],
-                        ],
-                        "keydown": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "keyup": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "mousedown": Array [
-                          [Function],
-                        ],
-                        "mouseup": Array [
-                          [Function],
-                        ],
-                        "paste": Array [
-                          [Function],
-                        ],
-                        "pathChange": Array [
-                          [Function],
-                        ],
-                        "touchstart": Array [
-                          [Function],
-                        ],
-                        "willPaste": Array [
-                          [Function],
-                        ],
-                      },
-                      "_hasZWS": false,
-                      "_ignoreAllChanges": false,
-                      "_ignoreChange": false,
-                      "_isFocused": false,
-                      "_isInUndoState": true,
-                      "_keyHandlers": Object {
-                        "ctrl-b": [Function],
-                        "ctrl-i": [Function],
-                        "ctrl-shift-5": null,
-                        "ctrl-shift-6": null,
-                        "ctrl-shift-7": null,
-                        "ctrl-shift-8": null,
-                        "ctrl-shift-9": null,
-                        "ctrl-shift-[": null,
-                        "ctrl-shift-]": null,
-                        "ctrl-shift-d": null,
-                        "ctrl-u": null,
-                      },
-                      "_lastAnchorNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastFocusNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastSelection": Range {},
-                      "_mutation": MutationObserver {},
-                      "_path": "DIV",
-                      "_restoreSelection": true,
-                      "_root": <div
-                        contenteditable="true"
-                      >
-                        <div>
-                          I like yoghurt
-                          <br />
-                        </div>
-                      </div>,
-                      "_undoIndex": 0,
-                      "_undoStack": Array [
-                        "<div><input id=\\"squire-selection-start\\" type=\\"hidden\\"><input id=\\"squire-selection-end\\" type=\\"hidden\\">I like yoghurt<br></div>",
-                      ],
-                      "_undoStackLength": 1,
-                      "_willUpdatePath": false,
-                      "_win": [Window],
-                    }
-                  }
                   type="button"
                 >
                   <i
@@ -1002,6 +680,220 @@ exports[`edit a comment: edit form 1`] = `
           data-color="mono"
           data-variant="outline"
           disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
+          data-color="stream"
+          data-variant="regular"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`edit a comment: optimistic response 1`] = `
+<div
+  data-testid="comment-comment-with-replies"
+>
+  <form
+    autoComplete="off"
+    className="coral coral-editComment"
+    onSubmit={[Function]}
+  >
+    <div
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    >
+      <div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+        >
+          <div>
+            <span
+              className="Username-root"
+            >
+              Markus
+            </span>
+          </div>
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
+        </div>
+      </div>
+      <div
+        className="EditCommentForm-commentFormBox"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+        >
+          <label
+            className="AriaInfo-root"
+            htmlFor="comments-editCommentForm-rte-comment-with-replies"
+          >
+            Edit comment
+          </label>
+          <div>
+            <div
+              className="$root content placeholder toolbar container "
+              onBlur={[Function]}
+              onFocus={[Function]}
+            >
+              <div
+                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+              >
+                <div
+                  aria-placeholder="Edit comment"
+                  className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
+                  id="comments-editCommentForm-rte-comment-with-replies"
+                />
+              </div>
+              <div
+                className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+              >
+                <button
+                  className="Button.module-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_bold
+                  </i>
+                </button>
+                <button
+                  className="Button.module-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_italic
+                  </i>
+                </button>
+                <button
+                  className="Button.module-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_quote
+                  </i>
+                </button>
+                <button
+                  className="Button.module-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bulleted List"
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_list_bulleted
+                  </i>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
+                  data-color="mono"
+                  data-variant="flat"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm ButtonIcon-root"
+                  >
+                    add
+                  </i>
+                  GIF
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              alarm
+            </i>
+            <span>
+              Edit: 
+              <time
+                className="RelativeTime-root"
+                dateTime="2018-07-06T18:24:30.000Z"
+                title="2018-07-06T18:24:30.000Z"
+              >
+                2018-07-06T18:24:30.000Z
+              </time>
+               remaining
+            </span>
+          </div>
+        </div>
+        <div />
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase Button-disabled coral coral-editComment-cancel"
+          data-color="mono"
+          data-variant="outline"
+          disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -1181,6 +1073,297 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "I like yoghurt",
+                  }
+                }
+              />
+              <div
+                className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
+              >
+                <div
+                  className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                >
+                  <button
+                    aria-label="Respect"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                    data-color="mono"
+                    data-testid="comment-reaction-button"
+                    data-variant="text"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      thumb_up
+                    </i>
+                  </button>
+                  <button
+                    aria-label="Reply"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
+                    data-active={false}
+                    data-color="mono"
+                    data-testid="comment-reply-button"
+                    data-variant="text"
+                    disabled={false}
+                    id="comments-commentContainer-replyButton-comment-with-replies"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      reply
+                    </i>
+                  </button>
+                  <div
+                    className="Popover-root"
+                  >
+                    <button
+                      aria-controls="permalink-popover-comment-with-replies"
+                      aria-label="Share"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
+                      data-active={false}
+                      data-color="mono"
+                      data-variant="text"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        share
+                      </i>
+                    </button>
+                    <div
+                      aria-hidden={true}
+                      aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                      id="permalink-popover-comment-with-replies"
+                      role="dialog"
+                    >
+                      <div
+                        className="AriaInfo-root"
+                        id="permalink-popover-comment-with-replies-ariainfo"
+                      >
+                        A dialog showing a permalink to the comment
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
+                >
+                  <button
+                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
+                    data-testid="comment-report-button"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReportButton-icon"
+                      >
+                        flag
+                      </i>
+                      Report
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`edit a comment: server response 1`] = `
+<div
+  className="coral coral-comment coral coral-reacted-0"
+  data-testid="comment-comment-with-replies"
+>
+  <div
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+  >
+    <div
+      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+    >
+      <div
+        className="coral coral-indent coral-indent-0 Indent-open"
+      >
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+        >
+          <button
+            aria-label="Collapse comment thread"
+            className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+            >
+              remove
+            </i>
+          </button>
+          <div
+            className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
+            role="article"
+          >
+            <div
+              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                >
+                  <div
+                    className="Popover-root"
+                  >
+                    <button
+                      aria-controls="username-popover-comment-with-replies"
+                      className="BaseButton-root coral coral-username coral-comment-username"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="Username-root"
+                      >
+                        Markus
+                      </span>
+                    </button>
+                    <div
+                      aria-hidden={true}
+                      aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                      id="username-popover-comment-with-replies"
+                      role="dialog"
+                    >
+                      <div
+                        className="AriaInfo-root"
+                        id="username-popover-comment-with-replies-ariainfo"
+                      >
+                        A popover with more user information
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  />
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                >
+                  <button
+                    className="BaseButton-root Timestamp-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <time
+                      className="RelativeTime-root Timestamp-text Comment-timestamp coral coral-timestamp coral-comment-timestamp"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
+                    >
+                      2018-07-06T18:24:00.000Z
+                    </time>
+                  </button>
+                  <div
+                    className="EditedMarker-root coral coral-comment-edited"
+                  >
+                    (
+                    <span>
+                      Edited
+                    </span>
+                    )
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                >
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
+                    data-color="regular"
+                    data-testid="comment-edit-button"
+                    data-variant="text"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <div
+                      className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                      >
+                        edit
+                      </i>
+                      Edit
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            >
+              <div
+                className="HTMLContent-root coral coral-content coral-comment-content"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Edited! (from server)",
                   }
                 }
               />
@@ -1726,176 +1909,15 @@ exports[`shows expiry message: edit time expired 1`] = `
                   </i>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-disabled Button-iconLeft"
-                  ctrlKey="ctrl-"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
                   data-color="mono"
                   data-variant="flat"
-                  disabled={true}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   onTouchEnd={[Function]}
-                  squire={
-                    R {
-                      "_awaitingPaste": false,
-                      "_config": Object {
-                        "blockAttributes": null,
-                        "blockTag": "DIV",
-                        "classNames": Object {
-                          "colour": "colour",
-                          "fontFamily": "font",
-                          "fontSize": "size",
-                          "highlight": "highlight",
-                        },
-                        "isInsertedHTMLSanitized": true,
-                        "isSetHTMLSanitized": true,
-                        "leafNodeNames": Object {
-                          "BR": 1,
-                          "HR": 1,
-                          "IFRAME": 1,
-                          "IMG": 1,
-                          "INPUT": 1,
-                        },
-                        "sanitizeToDOMFragment": [Function],
-                        "tagAttributes": Object {
-                          "a": null,
-                          "blockquote": null,
-                          "li": null,
-                          "ol": null,
-                          "ul": null,
-                        },
-                        "undo": Object {
-                          "documentSizeThreshold": -1,
-                          "undoLimit": -1,
-                        },
-                        "willCutCopy": null,
-                      },
-                      "_doc": Document {
-                        "elementsFromPoint": [Function],
-                        "location": Location {
-                          "assign": [Function],
-                          "hash": "",
-                          "host": "localhost",
-                          "hostname": "localhost",
-                          "href": "http://localhost/",
-                          "origin": "http://localhost",
-                          "pathname": "/",
-                          "port": "",
-                          "protocol": "http:",
-                          "reload": [Function],
-                          "replace": [Function],
-                          "search": "",
-                          "toString": [Function],
-                        },
-                        Symbol(DOM SymbolTree): SymbolTreeNode {
-                          "cachedIndex": -1,
-                          "cachedIndexVersion": NaN,
-                          "childIndexCachedUpTo": null,
-                          "childrenVersion": 0,
-                          "firstChild": null,
-                          "lastChild": null,
-                          "nextSibling": null,
-                          "parent": null,
-                          "previousSibling": null,
-                        },
-                      },
-                      "_events": Object {
-                        "blur": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "copy": Array [
-                          [Function],
-                        ],
-                        "cut": Array [
-                          [Function],
-                        ],
-                        "drop": Array [
-                          [Function],
-                        ],
-                        "focus": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "input": Array [
-                          [Function],
-                        ],
-                        "keydown": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "keyup": Array [
-                          [Function],
-                          [Function],
-                        ],
-                        "mousedown": Array [
-                          [Function],
-                        ],
-                        "mouseup": Array [
-                          [Function],
-                        ],
-                        "paste": Array [
-                          [Function],
-                        ],
-                        "pathChange": Array [
-                          [Function],
-                        ],
-                        "touchstart": Array [
-                          [Function],
-                        ],
-                        "willPaste": Array [
-                          [Function],
-                        ],
-                      },
-                      "_hasZWS": false,
-                      "_ignoreAllChanges": false,
-                      "_ignoreChange": false,
-                      "_isFocused": false,
-                      "_isInUndoState": true,
-                      "_keyHandlers": Object {
-                        "ctrl-b": [Function],
-                        "ctrl-i": [Function],
-                        "ctrl-shift-5": null,
-                        "ctrl-shift-6": null,
-                        "ctrl-shift-7": null,
-                        "ctrl-shift-8": null,
-                        "ctrl-shift-9": null,
-                        "ctrl-shift-[": null,
-                        "ctrl-shift-]": null,
-                        "ctrl-shift-d": null,
-                        "ctrl-u": null,
-                      },
-                      "_lastAnchorNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastFocusNode": <div>
-                        I like yoghurt
-                        <br />
-                      </div>,
-                      "_lastSelection": Range {},
-                      "_mutation": MutationObserver {},
-                      "_path": "DIV",
-                      "_restoreSelection": true,
-                      "_root": <div
-                        contenteditable="false"
-                      >
-                        <div>
-                          I like yoghurt
-                          <br />
-                        </div>
-                      </div>,
-                      "_undoIndex": 0,
-                      "_undoStack": Array [
-                        "<div><input id=\\"squire-selection-start\\" type=\\"hidden\\"><input id=\\"squire-selection-end\\" type=\\"hidden\\">I like yoghurt<br></div>",
-                      ],
-                      "_undoStackLength": 1,
-                      "_willUpdatePath": false,
-                      "_win": [Window],
-                    }
-                  }
                   type="button"
                 >
                   <i

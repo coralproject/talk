@@ -133,6 +133,7 @@ it("creates a comment", async () => {
       parentRevisionID: "revision-id",
       nudge: true,
       local: undefined,
+      embed: undefined,
       ...input,
     })
   ).toBeTruthy();

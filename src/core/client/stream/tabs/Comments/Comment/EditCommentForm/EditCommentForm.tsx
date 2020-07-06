@@ -208,15 +208,17 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
                           onWillPaste={onPaste}
                           disabled={submitting || props.expired}
                           toolbarButtons={
-                            <Button
-                              color="mono"
-                              variant={showGifSelector ? "regular" : "flat"}
-                              onClick={onGifButtonClick}
-                              iconLeft
-                            >
-                              <ButtonIcon>add</ButtonIcon>
-                              GIF
-                            </Button>
+                            <>
+                              <Button
+                                color="mono"
+                                variant={showGifSelector ? "regular" : "flat"}
+                                onClick={onGifButtonClick}
+                                iconLeft
+                              >
+                                <ButtonIcon>add</ButtonIcon>
+                                GIF
+                              </Button>
+                            </>
                           }
                         />
                       </Localized>

@@ -240,15 +240,19 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                               placeholder="Post a comment"
                               disabled={submitting || props.disabled}
                               toolbarButtons={
-                                <Button
-                                  color="mono"
-                                  variant={showGifSelector ? "regular" : "flat"}
-                                  onClick={onGifButtonClick}
-                                  iconLeft
-                                >
-                                  <ButtonIcon>add</ButtonIcon>
-                                  GIF
-                                </Button>
+                                <>
+                                  <Button
+                                    color="mono"
+                                    variant={
+                                      showGifSelector ? "regular" : "flat"
+                                    }
+                                    onClick={onGifButtonClick}
+                                    iconLeft
+                                  >
+                                    <ButtonIcon>add</ButtonIcon>
+                                    GIF
+                                  </Button>
+                                </>
                               }
                             />
                           </Localized>
@@ -298,6 +302,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                         <>
                           <GifSelector
                             onGifSelect={(gif) => {
+                              setEmbedType("GIPHY");
                               fieldProps.input.onChange(
                                 gif.images.original.url
                               );

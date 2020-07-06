@@ -1647,7 +1647,7 @@ appears on the comment stream and in the admin interface.
                   <legend
                     className="Label-root"
                   >
-                    {???}
+                    Enable Giphy Embeds
                   </legend>
                   <div>
                     <div

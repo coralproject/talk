@@ -36,6 +36,7 @@ import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import EmbedSectionContainer from "./EmbedSection/EmbedSectionContainer";
+import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import CaretContainer, {
   RejectedTombstoneContainer,
@@ -487,7 +488,6 @@ export class CommentContainer extends Component<Props, State> {
               onClose={this.onCloseReportFlow}
             />
           )}
-          <EmbedSectionContainer comment={comment} settings={settings} />
           {showReplyDialog && !comment.deleted && (
             <ReplyCommentFormContainer
               settings={settings}

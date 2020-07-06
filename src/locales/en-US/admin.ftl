@@ -390,6 +390,7 @@ configure-general-sitewideCommenting-messageExplanation =
 configure-general-embedLinks-title = Embed links
 configure-general-embedLinks-enableTwitterEmbeds = Enable Twitter embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Enable YouTube embeds
+configure-general-embedLinks-enableGiphyEmbeds = Enable Giphy Embeds
 
 configure-general-embedLinks-On = On
 configure-general-embedLinks-Off = Off

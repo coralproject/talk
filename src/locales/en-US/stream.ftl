@@ -72,6 +72,18 @@ comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
+comments-postCommentForm-gifSeach = Search for a gif
+comments-postComment-gifSearch-no-results = No results found for {$query}
+comments-postComment-gifSearch-powered-by-giphy =
+  .alt = Powered by giphy
+
+comments-postComment-confirmEmbed-youtube = Add this YouTube video to the end of your comment?
+comments-postComment-confirmEmbed-twitter = Add this tweet video to the end of your comment?
+comments-postComment-confirmEmbed-cancel = Cancel
+comments-postComment-confirmEmbed-add-tweet = Add tweet
+comments-postComment-confirmEmbed-add-video = Add video
+comments-postComment-confirmEmbed-remove = Remove
+
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment

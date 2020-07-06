@@ -160,6 +160,7 @@ it("creates a comment", async () => {
           nudge: true,
           commentsOrderBy: "CREATED_AT_ASC",
           ...input,
+          embed: undefined,
         })
       ).toBeTruthy()
     );
