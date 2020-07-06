@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { Icon } from "coral-ui/components/v2";
 
-import { EmbedLink } from "coral-common/utils/findEmbedLinks";
+import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
 import styles from "./EmbedConfirmationIcon.css";
 import twitterImg from "./twitter.png";
 

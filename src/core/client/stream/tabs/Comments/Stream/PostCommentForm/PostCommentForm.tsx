@@ -113,7 +113,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
       setEmbedLink(null);
       return props.onSubmit(values, form);
     },
-    [props.onSubmit, embedLink]
+    [props.onSubmit, embedLink, embedType]
   );
 
   const onPaste = useCallback((event: PasteEvent) => {
@@ -157,6 +157,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
+      <h1>{embedType}</h1>
       <Form onSubmit={onSubmit} initialValues={props.initialValues}>
         {({
           handleSubmit,

@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-common/utils/findEmbedLinks";
+import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
 import { Embed } from "coral-stream/common/OEmbed";
 import {
   Button,
