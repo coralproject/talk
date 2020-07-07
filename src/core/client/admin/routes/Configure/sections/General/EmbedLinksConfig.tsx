@@ -1,8 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { Field, FormSpy } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { FieldSet, FormField, Label } from "coral-ui/components/v2";
+import {
+  FieldSet,
+  FormField,
+  Label,
+  RadioButton,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -19,6 +25,7 @@ graphql`
       twitter
       youtube
       giphy
+      giphyMaxRating
     }
   }
 `;
@@ -90,6 +97,74 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
             </Localized>
           }
         />
+      </FormField>
+      <FormField>
+        <Localized id="configure-general-embedLinks-giphyMaxRating">
+          <Label component="legend">
+            Maximum allowed rating for Giphy embeds
+          </Label>
+        </Localized>
+        <FormSpy subscription={{ values: true }}>
+          {(props) => {
+            const ratingDisabled = !props.values.embeds.giphy;
+            return (
+              <>
+                <Field name="embeds.giphyMaxRating" type="radio" value="G">
+                  {({ input }) => (
+                    <Localized id="configure-general-embedLinks-giphyMaxRating-g">
+                      <RadioButton
+                        {...input}
+                        id="G"
+                        disabled={ratingDisabled || disabled}
+                      >
+                        G
+                      </RadioButton>
+                    </Localized>
+                  )}
+                </Field>
+                <Field name="embeds.giphyMaxRating" type="radio" value="PG">
+                  {({ input }) => (
+                    <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
+                      <RadioButton
+                        {...input}
+                        id="PG"
+                        disabled={ratingDisabled || disabled}
+                      >
+                        PG
+                      </RadioButton>
+                    </Localized>
+                  )}
+                </Field>
+                <Field name="embeds.giphyMaxRating" type="radio" value="PG13">
+                  {({ input }) => (
+                    <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
+                      <RadioButton
+                        {...input}
+                        id="PG13"
+                        disabled={ratingDisabled || disabled}
+                      >
+                        PG-13
+                      </RadioButton>
+                    </Localized>
+                  )}
+                </Field>
+                <Field name="embeds.giphyMaxRating" type="radio" value="R">
+                  {({ input }) => (
+                    <Localized id="configure-general-embedLinks-giphyMaxRating-r">
+                      <RadioButton
+                        {...input}
+                        id="r"
+                        disabled={ratingDisabled || disabled}
+                      >
+                        R
+                      </RadioButton>
+                    </Localized>
+                  )}
+                </Field>
+              </>
+            );
+          }}
+        </FormSpy>
       </FormField>
     </ConfigBox>
   );

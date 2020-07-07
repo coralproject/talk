@@ -24,6 +24,7 @@ export const gifSearchHandler: RequestHandler = async (
     const results = await searchGiphy(
       req.query.query,
       req.query.offset || "0",
+      tenant.embeds.giphyMaxRating,
       tenant.locale
     );
     res.json({ results });

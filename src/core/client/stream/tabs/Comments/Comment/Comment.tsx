@@ -66,9 +66,11 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         </div>
       )}
       <HorizontalGutter size="oneAndAHalf">
-        <HTMLContent className={CLASSES.comment.content}>
-          {props.body || ""}
-        </HTMLContent>
+        {props.body && props.body.length > 0 && (
+          <HTMLContent className={CLASSES.comment.content}>
+            {props.body || ""}
+          </HTMLContent>
+        )}
         {props.embeds}
         {props.footer}
       </HorizontalGutter>

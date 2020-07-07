@@ -4,11 +4,27 @@ import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { createFetch } from "coral-server/services/fetch";
 
+import { GQLGIPHY_RATING } from "coral-server/graph/schema/__generated__/types";
+
 const API_KEY = process.env.GIPHY_KEY || "";
 
 const fetch = createFetch({ name: "giphy" });
 
 type GiphyLanguage = "en" | "es" | "fr" | "de" | "pt";
+
+export function ratingIsAllowed(rating: string, maxRating: GQLGIPHY_RATING) {
+  const ratingsOrder = [
+    GQLGIPHY_RATING.G,
+    GQLGIPHY_RATING.PG,
+    GQLGIPHY_RATING.PG13,
+    GQLGIPHY_RATING.R,
+  ];
+  return (
+    ratingsOrder.includes(rating as GQLGIPHY_RATING) &&
+    ratingsOrder.indexOf(rating as GQLGIPHY_RATING) <=
+      ratingsOrder.indexOf(maxRating)
+  );
+}
 
 /**
  * convertLanguage returns the language code for the related Perspective API
@@ -36,6 +52,7 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
 export async function searchGiphy(
   query: string,
   offset: string,
+  rating: GQLGIPHY_RATING,
   locale: LanguageCode
 ) {
   const language = convertLanguage(locale);
@@ -44,7 +61,7 @@ export async function searchGiphy(
   url.searchParams.set("limit", "8");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
-  url.searchParams.set("rating", "g");
+  url.searchParams.set("rating", rating);
   url.searchParams.set("q", query);
 
   try {

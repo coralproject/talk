@@ -240,14 +240,12 @@ const ModerateCard: FunctionComponent<Props> = ({
             )}
           </div>
           <div className={styles.contentArea}>
-            <CommentContent
-              highlight={highlight}
-              phrases={phrases}
-              className={styles.content}
-            >
-              {commentBody}
-            </CommentContent>
-            <EmbedContainer comment={comment} />
+            <div className={styles.content}>
+              <CommentContent highlight={highlight} phrases={phrases}>
+                {commentBody}
+              </CommentContent>
+              <EmbedContainer comment={comment} />
+            </div>
             {onConversationClick && (
               <div className={styles.viewContext}>
                 <Button iconLeft variant="text" onClick={onConversationClick}>

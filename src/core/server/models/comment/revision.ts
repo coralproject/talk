@@ -58,6 +58,8 @@ export interface CommentEmbed {
    */
   source: GQLEMBED_SOURCE;
 
+  title?: string;
+
   remote_id?: string;
 
   media?: CommentEmbedMedia;

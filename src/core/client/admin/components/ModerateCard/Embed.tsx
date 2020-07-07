@@ -1,14 +1,18 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { BaseButton } from "coral-ui/components/v2";
+import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+
+import styles from "./Embed.css";
 
 interface Props {
   url: string;
   type: string;
   still: string | null;
+  title: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({ url, type, still }) => {
+const Embed: FunctionComponent<Props> = ({ url, type, still, title }) => {
   const cleanUrl = encodeURIComponent(url);
   const [showAnimated, setShowAnimated] = useState(false);
   const toggleImage = useCallback(() => {
@@ -16,11 +20,28 @@ const Embed: FunctionComponent<Props> = ({ url, type, still }) => {
   }, [showAnimated]);
   if (type === "GIPHY") {
     return (
-      <div>
-        <BaseButton onClick={toggleImage}>
-          {!showAnimated && still && <img src={still} alt="gif" />}
-        </BaseButton>
-        {showAnimated && <img src={url} alt="gif" />}
+      <div className={styles.gifEmbed}>
+        {!showAnimated && still && (
+          <BaseButton onClick={toggleImage} className={styles.gifToggle}>
+            <img src={still} className={styles.image} alt={title || ""} />
+            <Flex
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              className={styles.gifToggleTrigger}
+            >
+              <Icon size="xl" className={styles.playIcon}>
+                play_circle_outline
+              </Icon>
+              <Localized id="moderate-comment-play-tif">
+                <p className={styles.playText}>Play gif</p>
+              </Localized>
+            </Flex>
+          </BaseButton>
+        )}
+        {showAnimated && (
+          <img src={url} alt={title || ""} className={styles.image} />
+        )}
       </div>
     );
   } else if (type === "YOUTUBE" || type === "TWITTER") {

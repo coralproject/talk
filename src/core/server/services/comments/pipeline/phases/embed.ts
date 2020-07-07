@@ -4,9 +4,7 @@ import {
 } from "coral-server/services/comments/pipeline";
 
 import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
-import { fetchFromGiphy } from "coral-server/services/giphy";
-
-const GIPHY_ALLOWED_RATINGS = ["g"];
+import { fetchFromGiphy, ratingIsAllowed } from "coral-server/services/giphy";
 
 export const attachedEmbed = async ({
   comment,
@@ -26,7 +24,7 @@ export const attachedEmbed = async ({
         if (
           data &&
           data.rating &&
-          GIPHY_ALLOWED_RATINGS.includes(data.rating)
+          ratingIsAllowed(data.rating, tenant.embeds.giphyMaxRating)
         ) {
           return {
             embeds: [
@@ -34,6 +32,7 @@ export const attachedEmbed = async ({
                 url: embed.url,
                 source: embed.source,
                 remote_id: embed.remote_id,
+                title: data.title,
                 media: {
                   original: data.url,
                   still: data.images.original_still.url,

@@ -21,6 +21,7 @@ import { tenants as collection } from "coral-server/services/mongodb/collections
 import {
   GQLAnnouncement,
   GQLFEATURE_FLAG,
+  GQLGIPHY_RATING,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLWEBHOOK_EVENT_NAME,
@@ -269,6 +270,7 @@ export async function createTenant(
       twitter: false,
       youtube: false,
       giphy: false,
+      giphyMaxRating: GQLGIPHY_RATING.G,
     },
   };
 

@@ -1278,6 +1278,13 @@ type StoryMessageBox {
   content: String
 }
 
+enum GIPHY_RATING {
+  G
+  PG
+  PG13
+  R
+}
+
 ################################################################################
 ## Embed Links
 ################################################################################
@@ -1297,6 +1304,8 @@ type EmbedConfiguration {
   giphy
   """
   giphy: Boolean!
+
+  giphyMaxRating: GIPHY_RATING!
 }
 
 ################################################################################
@@ -2612,6 +2621,8 @@ type CommentEmbed {
   remote_id: String
 
   media: CommentEmbedMedia
+
+  title: String
 }
 
 type CommentRevision {
@@ -4296,6 +4307,8 @@ input EmbedConfigurationInput {
   youtube: Boolean!
 
   giphy: Boolean!
+
+  giphyMaxRating: GIPHY_RATING!
 }
 
 """
