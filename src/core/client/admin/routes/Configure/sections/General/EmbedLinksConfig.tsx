@@ -3,10 +3,12 @@ import React, { FunctionComponent } from "react";
 import { Field, FormSpy } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { colorFromMeta } from "coral-framework/lib/form";
 import {
   FieldSet,
   FormField,
   Label,
+  PasswordField,
   RadioButton,
 } from "coral-ui/components/v2";
 
@@ -26,6 +28,7 @@ graphql`
       youtube
       giphy
       giphyMaxRating
+      giphyAPIKey
     }
   }
 `;
@@ -98,24 +101,24 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           }
         />
       </FormField>
-      <FormField>
-        <Localized id="configure-general-embedLinks-giphyMaxRating">
-          <Label component="legend">
-            Maximum allowed rating for Giphy embeds
-          </Label>
-        </Localized>
-        <FormSpy subscription={{ values: true }}>
-          {(props) => {
-            const ratingDisabled = !props.values.embeds.giphy;
-            return (
-              <>
+      <FormSpy subscription={{ values: true }}>
+        {(props) => {
+          const giphyDisabled = !props.values.embeds.giphy;
+          return (
+            <>
+              <FormField>
+                <Localized id="configure-general-embedLinks-giphyMaxRating">
+                  <Label component="legend">
+                    Maximum allowed rating for Giphy embeds
+                  </Label>
+                </Localized>
                 <Field name="embeds.giphyMaxRating" type="radio" value="G">
                   {({ input }) => (
                     <Localized id="configure-general-embedLinks-giphyMaxRating-g">
                       <RadioButton
                         {...input}
                         id="G"
-                        disabled={ratingDisabled || disabled}
+                        disabled={giphyDisabled || disabled}
                       >
                         G
                       </RadioButton>
@@ -128,7 +131,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                       <RadioButton
                         {...input}
                         id="PG"
-                        disabled={ratingDisabled || disabled}
+                        disabled={giphyDisabled || disabled}
                       >
                         PG
                       </RadioButton>
@@ -141,7 +144,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                       <RadioButton
                         {...input}
                         id="PG13"
-                        disabled={ratingDisabled || disabled}
+                        disabled={giphyDisabled || disabled}
                       >
                         PG-13
                       </RadioButton>
@@ -154,18 +157,37 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                       <RadioButton
                         {...input}
                         id="r"
-                        disabled={ratingDisabled || disabled}
+                        disabled={giphyDisabled || disabled}
                       >
                         R
                       </RadioButton>
                     </Localized>
                   )}
                 </Field>
-              </>
-            );
-          }}
-        </FormSpy>
-      </FormField>
+              </FormField>
+              <FormField>
+                <Localized id="configure-general-embedLinks-giphyAPIKey">
+                  <Label>Giphy API Key</Label>
+                </Localized>
+                <Field name="embeds.giphyAPIKey">
+                  {({ input, meta }) => (
+                    <PasswordField
+                      {...input}
+                      disabled={giphyDisabled || disabled}
+                      autoComplete="new-password"
+                      // TODO: (wyattjoh) figure out how to add translations to these props
+                      hidePasswordTitle="Hide API Key"
+                      showPasswordTitle="Show API Key"
+                      color={colorFromMeta(meta)}
+                      fullWidth
+                    />
+                  )}
+                </Field>
+              </FormField>
+            </>
+          );
+        }}
+      </FormSpy>
     </ConfigBox>
   );
 };
