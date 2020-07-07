@@ -6,8 +6,6 @@ import { createFetch } from "coral-server/services/fetch";
 
 import { GQLGIPHY_RATING } from "coral-server/graph/schema/__generated__/types";
 
-const API_KEY = process.env.GIPHY_KEY || "";
-
 const fetch = createFetch({ name: "giphy" });
 
 type GiphyLanguage = "en" | "es" | "fr" | "de" | "pt";
@@ -53,11 +51,12 @@ export async function searchGiphy(
   query: string,
   offset: string,
   rating: GQLGIPHY_RATING,
+  apiKey: string,
   locale: LanguageCode
 ) {
   const language = convertLanguage(locale);
   const url = new URL(GIPHY_SEARCH);
-  url.searchParams.set("api_key", API_KEY);
+  url.searchParams.set("api_key", apiKey);
   url.searchParams.set("limit", "8");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
@@ -96,9 +95,9 @@ export async function searchGiphy(
   }
 }
 
-export async function fetchFromGiphy(id: string) {
+export async function fetchFromGiphy(id: string, apiKey: string) {
   const url = new URL(`${GIPHY_FETCH}/${id}`);
-  url.searchParams.set("api_key", API_KEY);
+  url.searchParams.set("api_key", apiKey);
   try {
     const res = await fetch(url.toString());
 

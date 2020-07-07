@@ -20,11 +20,16 @@ export const gifSearchHandler: RequestHandler = async (
 
   const coral = req.coral;
   const tenant = coral.tenant!;
+  if (!tenant.embeds.giphyAPIKey) {
+    return next(new Error("Must configure API key"));
+  }
+
   try {
     const results = await searchGiphy(
       req.query.query,
       req.query.offset || "0",
       tenant.embeds.giphyMaxRating,
+      tenant.embeds.giphyAPIKey,
       tenant.locale
     );
     res.json({ results });

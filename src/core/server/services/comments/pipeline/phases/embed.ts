@@ -17,9 +17,17 @@ export const attachedEmbed = async ({
   if (comment.embeds && comment.embeds.length > 0) {
     const [embed] = comment.embeds;
 
-    if (embed.source === "GIPHY" && tenant.embeds.giphy && embed.remote_id) {
+    if (
+      tenant.embeds.giphy &&
+      tenant.embeds.giphyAPIKey &&
+      embed.source === "GIPHY" &&
+      embed.remote_id
+    ) {
       try {
-        const data = await fetchFromGiphy(embed.remote_id);
+        const data = await fetchFromGiphy(
+          embed.remote_id,
+          tenant.embeds.giphyAPIKey
+        );
         /* eslint-disable-next-line */
         if (
           data &&
