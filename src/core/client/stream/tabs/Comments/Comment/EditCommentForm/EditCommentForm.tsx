@@ -146,7 +146,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
           values.embed = {
             url: embedLink.url,
             source: embedLink.source,
-            id: embedLink.id,
+            remote_id: embedLink.id,
           };
         }
       } else {

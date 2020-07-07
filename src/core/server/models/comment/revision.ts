@@ -37,6 +37,12 @@ export interface RevisionMetadata {
   nudge?: boolean;
 }
 
+export interface CommentEmbedMedia {
+  original: string;
+  still?: string;
+  video?: string;
+}
+
 /**
  * CommentEmbed stores the source and url of any links
  * that were detected as embeddable content in the comment body.
@@ -52,7 +58,9 @@ export interface CommentEmbed {
    */
   source: GQLEMBED_SOURCE;
 
-  id?: string;
+  remote_id?: string;
+
+  media?: CommentEmbedMedia;
 }
 
 /**

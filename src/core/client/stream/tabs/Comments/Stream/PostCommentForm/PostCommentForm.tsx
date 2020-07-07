@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { FormApi, FormState } from "final-form";
+import { FormApi, FormState, MutableState } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
@@ -77,6 +77,14 @@ interface Props {
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
+const setFieldValue = (
+  [name, value]: [string, string],
+  state: MutableState<any>
+) => {
+  const field = state.fields[name];
+  field.change(value);
+};
+
 const PostCommentForm: FunctionComponent<Props> = (props) => {
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
@@ -104,7 +112,6 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           values.embed = {
             url: embedLink.url,
             source: embedLink.source,
-            id: embedLink.id,
           };
         }
       } else {
@@ -157,8 +164,11 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
-      <h1>{embedType}</h1>
-      <Form onSubmit={onSubmit} initialValues={props.initialValues}>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={props.initialValues}
+        mutators={{ setFieldValue }}
+      >
         {({
           handleSubmit,
           submitting,
@@ -299,6 +309,12 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                     </>
                   )}
                 </Field>
+                <Field name="embed.source">
+                  {() => <input type="hidden" />}
+                </Field>
+                <Field name="embed.remote_id">
+                  {() => <input type="hidden" />}
+                </Field>
                 <Field name="embed.url">
                   {(fieldProps) => (
                     <div>
@@ -307,6 +323,14 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                           <GifSelector
                             onGifSelect={(gif) => {
                               setEmbedType("GIPHY");
+                              form.mutators.setFieldValue(
+                                "embed.source",
+                                "GIPHY"
+                              );
+                              form.mutators.setFieldValue(
+                                "embed.remote_id",
+                                gif.id
+                              );
                               fieldProps.input.onChange(
                                 gif.images.original.url
                               );

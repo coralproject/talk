@@ -19,7 +19,12 @@ const EmbedContainer: FunctionComponent<Props> = ({ comment }) => {
   return (
     <>
       {comment.revision.embeds.map((embed) => (
-        <Embed url={embed.url} key={embed.url} type={embed.source} />
+        <Embed
+          url={embed.url}
+          key={embed.url}
+          type={embed.source}
+          still={embed.media ? embed.media.still : null}
+        />
       ))}
     </>
   );
@@ -32,6 +37,10 @@ const enhanced = withFragmentContainer<Props>({
         embeds {
           url
           source
+          media {
+            original
+            still
+          }
         }
       }
     }

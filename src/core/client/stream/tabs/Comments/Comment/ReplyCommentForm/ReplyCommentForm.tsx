@@ -129,7 +129,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
           values.embed = {
             url: embedLink.url,
             source: embedLink.source,
-            id: embedLink.id,
+            remote_id: embedLink.id,
           };
         }
       } else {

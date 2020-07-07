@@ -2578,11 +2578,6 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
-enum OEMBED_EMBED_SOURCE {
-  YOUTUBE
-  TWITTER
-}
-
 enum EMBED_SOURCE {
   """
   YOUTUBE represents a youtube link source.
@@ -2597,6 +2592,12 @@ enum EMBED_SOURCE {
   GIPHY
 }
 
+type CommentEmbedMedia {
+  original: String!
+  still: String
+  video: String
+}
+
 type CommentEmbed {
   """
   url represents the actual linked content for the embed.
@@ -2608,10 +2609,9 @@ type CommentEmbed {
   """
   source: EMBED_SOURCE!
 
-  """
-  oembed indicates wheter link supports oemebed
-  """
-  oembed: Boolean!
+  remote_id: String
+
+  media: CommentEmbedMedia
 }
 
 type CommentRevision {
@@ -3555,7 +3555,7 @@ type CreateCommentPayload {
 input CreateCommentEmbedInput {
   source: EMBED_SOURCE!
   url: String!
-  id: String
+  remote_id: String
 }
 
 ##################

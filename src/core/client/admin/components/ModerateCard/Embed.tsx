@@ -1,14 +1,28 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
+
+import { BaseButton } from "coral-ui/components/v2";
 
 interface Props {
   url: string;
   type: string;
+  still: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({ url, type }) => {
+const Embed: FunctionComponent<Props> = ({ url, type, still }) => {
   const cleanUrl = encodeURIComponent(url);
+  const [showAnimated, setShowAnimated] = useState(false);
+  const toggleImage = useCallback(() => {
+    setShowAnimated(!showAnimated);
+  }, [showAnimated]);
   if (type === "GIPHY") {
-    return <img src={url} alt="gif" />;
+    return (
+      <div>
+        <BaseButton onClick={toggleImage}>
+          {!showAnimated && still && <img src={still} alt="gif" />}
+        </BaseButton>
+        {showAnimated && <img src={url} alt="gif" />}
+      </div>
+    );
   } else if (type === "YOUTUBE" || type === "TWITTER") {
     return (
       <div>

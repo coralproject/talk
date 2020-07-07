@@ -44,6 +44,7 @@ export async function searchGiphy(
   url.searchParams.set("limit", "8");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
+  url.searchParams.set("rating", "g");
   url.searchParams.set("q", query);
 
   try {
@@ -80,6 +81,7 @@ export async function searchGiphy(
 
 export async function fetchFromGiphy(id: string) {
   const url = new URL(`${GIPHY_FETCH}/${id}`);
+  url.searchParams.set("api_key", API_KEY);
   try {
     const res = await fetch(url.toString());
 

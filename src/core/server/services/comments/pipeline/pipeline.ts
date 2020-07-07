@@ -130,13 +130,13 @@ export const compose = (
       ...context,
       comment: {
         ...context.comment,
-        embeds: final.embeds,
         body: final.body,
       },
       tags: final.tags,
       bodyText,
       metadata: final.metadata,
     });
+    /* eslint-disable-next-line */
     if (result) {
       // Merge the results in. If we're finished, break now!
       const finished = mergePhaseResult(result, final);
