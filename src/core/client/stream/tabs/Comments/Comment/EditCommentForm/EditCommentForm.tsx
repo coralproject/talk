@@ -33,6 +33,7 @@ export interface EditCommentFormProps {
   min: number | null;
   max: number | null;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
+  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
 }
 
 const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
@@ -60,6 +61,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         onCancel={props.onCancel}
         editableUntil={props.editableUntil}
         classNameRoot="editComment"
+        embedConfig={props.embedConfig}
         expired={props.expired}
         action="UPDATE"
         disabledMessage={

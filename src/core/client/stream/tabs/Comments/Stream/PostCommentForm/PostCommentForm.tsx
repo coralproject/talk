@@ -48,6 +48,7 @@ interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
+  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
 }
 
 const PostCommentForm: FunctionComponent<Props> = (props) => {
@@ -74,6 +75,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         disabled={props.disabled}
         disabledMessage={props.disabledMessage}
         rteConfig={props.rteConfig}
+        embedConfig={props.embedConfig}
         onFocus={onFocus}
         action="CREATE"
         classNameRoot="createComment"

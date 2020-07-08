@@ -237,6 +237,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           onSubmit={this.handleOnSubmit}
           onChange={this.handleOnChange}
           initialValues={this.state.initialValues}
+          embedConfig={this.props.settings.embeds}
           rteConfig={this.props.settings.rte}
           min={
             (this.props.settings.charCount.enabled &&
@@ -292,6 +293,11 @@ const enhanced = withContext(({ sessionStorage }) => ({
               }
               closeCommenting {
                 message
+              }
+              embeds {
+                twitter
+                youtube
+                giphy
               }
               rte {
                 ...RTEContainer_config

@@ -184,6 +184,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
+        embedConfig={this.props.settings.embeds}
         initialValues={this.state.initialValues}
         onCancel={this.handleOnCancelOrDismiss}
         rteRef={this.handleRTERef}
@@ -234,6 +235,11 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             }
             closeCommenting {
               message
+            }
+            embeds {
+              twitter
+              youtube
+              giphy
             }
             rte {
               ...RTEContainer_config

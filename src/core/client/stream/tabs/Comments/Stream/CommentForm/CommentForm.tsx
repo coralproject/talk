@@ -64,6 +64,12 @@ interface FormSubmitProps extends FormProps, FormError {}
 
 type FormAction = "CREATE" | "UPDATE";
 
+interface EmbedConfig {
+  giphy: boolean;
+  twitter: boolean;
+  youtube: boolean;
+}
+
 interface Props {
   onSubmit: OnSubmit<FormSubmitProps>;
   onChange?: (state: FormState<any>, form: FormApi) => void;
@@ -82,6 +88,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
+  embedConfig: EmbedConfig;
 }
 
 const setFieldValue = (
@@ -130,7 +137,11 @@ const CommentForm: FunctionComponent<Props> = (props) => {
         }
       }
     }
-    if (link) {
+    if (
+      link &&
+      ((link.source === "TWITTER" && props.embedConfig.twitter) ||
+        (link.source === "YOUTUBE" && props.embedConfig.youtube))
+    ) {
       setEmbedLink({ ...link });
     }
   }, []);
@@ -220,19 +231,23 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               disabled={submitting || props.disabled}
                               ref={props.rteRef || null}
                               toolbarButtons={
-                                <>
-                                  <Button
-                                    color="mono"
-                                    variant={
-                                      showGifSelector ? "regular" : "flat"
-                                    }
-                                    onClick={onGifButtonClick}
-                                    iconLeft
-                                  >
-                                    <ButtonIcon>add</ButtonIcon>
-                                    GIF
-                                  </Button>
-                                </>
+                                props.embedConfig.giphy ? (
+                                  <>
+                                    <Button
+                                      color="mono"
+                                      variant={
+                                        showGifSelector ? "regular" : "flat"
+                                      }
+                                      onClick={onGifButtonClick}
+                                      iconLeft
+                                    >
+                                      <ButtonIcon>add</ButtonIcon>
+                                      GIF
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )
                               }
                             />
                           </Localized>

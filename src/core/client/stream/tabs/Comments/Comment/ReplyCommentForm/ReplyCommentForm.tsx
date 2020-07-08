@@ -37,6 +37,7 @@ export interface ReplyCommentFormProps {
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
+  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
 }
 
 const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
@@ -59,6 +60,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         onFocus={onFocus}
         action="CREATE"
         onCancel={props.onCancel}
+        embedConfig={props.embedConfig}
         bodyLabel={
           <>
             <Localized id="comments-replyCommentForm-rteLabel">

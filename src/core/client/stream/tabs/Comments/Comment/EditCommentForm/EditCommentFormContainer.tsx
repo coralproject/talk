@@ -153,6 +153,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         createdAt={this.props.comment.createdAt}
         editableUntil={this.props.comment.editing.editableUntil!}
         expired={this.state.expired}
+        embedConfig={this.props.settings.embeds}
         min={
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.min) ||
@@ -204,6 +205,11 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               enabled
               min
               max
+            }
+            embeds {
+              twitter
+              youtube
+              giphy
             }
             rte {
               ...RTEContainer_config
