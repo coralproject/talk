@@ -28,7 +28,6 @@ export const attachedEmbed = async ({
           embed.remote_id,
           tenant.embeds.giphyAPIKey
         );
-        /* eslint-disable-next-line */
         if (
           data &&
           data.rating &&

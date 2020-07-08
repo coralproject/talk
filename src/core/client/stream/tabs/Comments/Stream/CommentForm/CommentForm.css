@@ -1,0 +1,18 @@
+$commentsBorder: var(--v2-colors-grey-300);
+
+.messageBox {
+  margin-bottom: -1px;
+}
+
+.commentFormBox {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--v2-round-corners);
+}
+
+.poweredBy {
+  margin-top: calc(-0.5 * var(--mini-unit));
+}
+
+.rteBorderless {
+  border-top-width: 0;
+}

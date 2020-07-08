@@ -33,6 +33,8 @@ export default function getCommentBodyValdiators(
   const validators = [required];
   if (min) {
     validators.push(validateMinLength(min, getHTMLCharacterLength));
+  } else {
+    validators.push(validateMinLength(1, getHTMLCharacterLength));
   }
   if (max) {
     validators.push(validateMaxLength(max, getHTMLCharacterLength));

@@ -174,8 +174,6 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     <PasswordField
                       {...input}
                       disabled={giphyDisabled || disabled}
-                      autoComplete="new-password"
-                      // TODO: (wyattjoh) figure out how to add translations to these props
                       hidePasswordTitle="Hide API Key"
                       showPasswordTitle="Show API Key"
                       color={colorFromMeta(meta)}

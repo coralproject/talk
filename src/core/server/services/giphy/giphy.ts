@@ -17,10 +17,10 @@ export function ratingIsAllowed(rating: string, maxRating: GQLGIPHY_RATING) {
     GQLGIPHY_RATING.PG13,
     GQLGIPHY_RATING.R,
   ];
+  const compareRating = rating.toUpperCase() as GQLGIPHY_RATING;
   return (
-    ratingsOrder.includes(rating as GQLGIPHY_RATING) &&
-    ratingsOrder.indexOf(rating as GQLGIPHY_RATING) <=
-      ratingsOrder.indexOf(maxRating)
+    ratingsOrder.includes(compareRating) &&
+    ratingsOrder.indexOf(compareRating) <= ratingsOrder.indexOf(maxRating)
   );
 }
 

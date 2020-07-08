@@ -35,6 +35,7 @@ import {
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
+import CommentForm from "../CommentForm";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -60,7 +61,7 @@ interface Props {
 interface State {
   /** nudge will turn on the nudging behavior on the server */
   nudge: boolean;
-  initialValues?: PropTypesOf<typeof PostCommentForm>["initialValues"];
+  initialValues?: PropTypesOf<typeof CommentForm>["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
   submitStatus: SubmitStatus | null;
@@ -118,9 +119,10 @@ export class PostCommentFormContainer extends Component<Props, State> {
     }
   };
 
-  private handleOnSubmit: PropTypesOf<
-    typeof PostCommentForm
-  >["onSubmit"] = async (input, form) => {
+  private handleOnSubmit: PropTypesOf<typeof CommentForm>["onSubmit"] = async (
+    input,
+    form
+  ) => {
     try {
       if (this.props.tab === "FEATURED_COMMENTS") {
         this.props.onChangeTab("ALL_COMMENTS");
@@ -161,7 +163,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     return;
   };
 
-  private handleOnChange: PropTypesOf<typeof PostCommentForm>["onChange"] = (
+  private handleOnChange: PropTypesOf<typeof CommentForm>["onChange"] = (
     state,
     form
   ) => {
@@ -229,41 +231,43 @@ export class PostCommentFormContainer extends Component<Props, State> {
     );
 
     return (
-      <PostCommentForm
-        story={this.props.story}
-        onSubmit={this.handleOnSubmit}
-        onChange={this.handleOnChange}
-        initialValues={this.state.initialValues}
-        rteConfig={this.props.settings.rte}
-        min={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.min) ||
-          null
-        }
-        max={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.max) ||
-          null
-        }
-        disabled={
-          this.props.settings.disableCommenting.enabled ||
-          this.props.story.isClosed ||
-          scheduledForDeletion
-        }
-        disabledMessage={
-          (this.props.settings.disableCommenting.enabled &&
-            this.props.settings.disableCommenting.message) ||
-          (this.props.viewer.scheduledDeletionDate && (
-            <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
-              Commenting is disabled when your account is scheduled for
-              deletion.
-            </Localized>
-          )) ||
-          this.props.settings.closeCommenting.message
-        }
-        submitStatus={this.state.submitStatus}
-        showMessageBox={this.props.story.settings.messageBox.enabled}
-      />
+      <>
+        <PostCommentForm
+          story={this.props.story}
+          onSubmit={this.handleOnSubmit}
+          onChange={this.handleOnChange}
+          initialValues={this.state.initialValues}
+          rteConfig={this.props.settings.rte}
+          min={
+            (this.props.settings.charCount.enabled &&
+              this.props.settings.charCount.min) ||
+            null
+          }
+          max={
+            (this.props.settings.charCount.enabled &&
+              this.props.settings.charCount.max) ||
+            null
+          }
+          disabled={
+            this.props.settings.disableCommenting.enabled ||
+            this.props.story.isClosed ||
+            scheduledForDeletion
+          }
+          disabledMessage={
+            (this.props.settings.disableCommenting.enabled &&
+              this.props.settings.disableCommenting.message) ||
+            (this.props.viewer.scheduledDeletionDate && (
+              <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
+                Commenting is disabled when your account is scheduled for
+                deletion.
+              </Localized>
+            )) ||
+            this.props.settings.closeCommenting.message
+          }
+          submitStatus={this.state.submitStatus}
+          showMessageBox={this.props.story.settings.messageBox.enabled}
+        />
+      </>
     );
   }
 }

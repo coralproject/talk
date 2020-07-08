@@ -38,11 +38,11 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
           </MatchMedia>
           <div className={styles.promptContainer}>
             {embed.source === "YOUTUBE" && (
-              <Localized id="comments-postComment-confirmEmbed-youtube">
-                <p className={styles.prompt}>
+              <p className={styles.prompt}>
+                <Localized id="comments-postComment-confirmEmbed-youtube">
                   Add this YouTube video to the end of your comment?
-                </p>
-              </Localized>
+                </Localized>
+              </p>
             )}
             {embed.source === "TWITTER" && (
               <Localized id="comments-postComment-confirmEmbed-twitter">
