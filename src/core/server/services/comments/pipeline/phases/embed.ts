@@ -5,6 +5,7 @@ import {
 
 import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
 import { fetchFromGiphy, ratingIsAllowed } from "coral-server/services/giphy";
+import { fetchOembedResponse } from "coral-server/services/oembed";
 
 export const attachedEmbed = async ({
   comment,
@@ -40,6 +41,8 @@ export const attachedEmbed = async ({
                 source: embed.source,
                 remote_id: embed.remote_id,
                 title: data.title,
+                width: data.images.original.width,
+                height: data.images.origina.height,
                 media: {
                   original: data.url,
                   still: data.images.original_still.url,
@@ -60,14 +63,24 @@ export const attachedEmbed = async ({
         return link.url === embed.url && link.source === embed.source;
       });
       if (matchingLink) {
-        return {
-          embeds: [
-            {
-              url: matchingLink.url,
-              source: matchingLink.source,
-            },
-          ],
-        };
+        const response = await fetchOembedResponse(
+          embed.url,
+          embed.source.toLowerCase()
+        );
+
+        if (response.ok) {
+          const json = await response.json();
+          return {
+            embeds: [
+              {
+                url: matchingLink.url,
+                source: matchingLink.source,
+                width: json.width,
+                height: json.height,
+              },
+            ],
+          };
+        }
       }
     }
   }

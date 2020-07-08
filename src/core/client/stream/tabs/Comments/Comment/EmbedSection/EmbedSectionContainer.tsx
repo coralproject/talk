@@ -102,7 +102,13 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
           )}
         </Button>
       </div>
-      <Embed url={embed.url} type={embed.source} settings={settings.embeds} />
+      <Embed
+        url={embed.url}
+        type={embed.source}
+        settings={settings.embeds}
+        width={embed.width}
+        height={embed.height}
+      />
     </HorizontalGutter>
   );
 };
@@ -114,6 +120,8 @@ const enhanced = withFragmentContainer<Props>({
         embeds {
           url
           source
+          width
+          height
         }
       }
     }

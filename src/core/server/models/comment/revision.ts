@@ -63,6 +63,8 @@ export interface CommentEmbed {
   remote_id?: string;
 
   media?: CommentEmbedMedia;
+  height?: string;
+  width?: string;
 }
 
 /**

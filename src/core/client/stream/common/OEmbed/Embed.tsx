@@ -5,6 +5,8 @@ import React, { FunctionComponent } from "react";
 interface Props {
   url: string;
   type: GQLEMBED_SOURCE_RL;
+  width?: string | null;
+  height?: string | null;
   settings: {
     twitter: boolean;
     giphy: boolean;
@@ -12,13 +14,19 @@ interface Props {
   };
 }
 
-const Embed: FunctionComponent<Props> = ({ type, url, settings }) => {
+const Embed: FunctionComponent<Props> = ({
+  type,
+  url,
+  settings,
+  width,
+  height,
+}) => {
   if (type === "TWITTER" && settings.twitter) {
-    return <TwitterEmbed url={url} />;
+    return <TwitterEmbed url={url} width={width} />;
   }
 
   if (type === "YOUTUBE" && settings.youtube) {
-    return <YouTubeEmbed url={url} />;
+    return <YouTubeEmbed url={url} width={width} height={height} />;
   }
 
   if (type === "GIPHY" && settings.giphy) {

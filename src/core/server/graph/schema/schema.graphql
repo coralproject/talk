@@ -2625,6 +2625,10 @@ type CommentEmbed {
   media: CommentEmbedMedia
 
   title: String
+
+  width: String
+
+  height: String
 }
 
 type CommentRevision {

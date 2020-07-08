@@ -77,10 +77,35 @@ export const oembedHandler = (): RequestHandler => {
       }
 
       const json = await response.json();
+      let style = "";
+      if (json.width && json.height) {
+        style = `
+          .container {
+            overflow: hidden;
+            position: relative;
+            padding-bottom: ${
+              (parseInt(json.height, 10) / parseInt(json.width, 10)) * 100
+            }%;
+          }
+          .container iframe {
+            border: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+          }
+        `;
+      }
+
       res.status(200);
       res.send(
         `<html>
+          <style>
+          ${style}
+          </style>
             <body>
+              <div class="container">
               ${json.html}
             </body>
           <html>`
