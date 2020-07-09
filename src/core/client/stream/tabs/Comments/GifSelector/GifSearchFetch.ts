@@ -32,6 +32,7 @@ export interface GifResult {
     fixed_width_small: GifResultImageAnimated;
     fixed_width: GifResultImageAnimated;
     fixed_height_small: GifResultImageAnimated;
+    fixed_height_downsampled: GifResultImageAnimated;
   };
 }
 

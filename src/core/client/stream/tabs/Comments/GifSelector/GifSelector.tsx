@@ -108,7 +108,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
                     className={styles.result}
                   >
                     <img
-                      src={result.images.fixed_height_small.url}
+                      src={result.images.fixed_height_downsampled.url}
                       alt={result.title}
                       className={styles.resultImg}
                     />
@@ -125,7 +125,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
                       onClick={() => onGifSelect(result)}
                     >
                       <img
-                        src={result.images.fixed_height_small.url}
+                        src={result.images.fixed_height_downsampled.url}
                         alt={result.title}
                         className={styles.resultImg}
                       />
