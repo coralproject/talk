@@ -1,4 +1,10 @@
-import React, { FunctionComponent, HTMLProps, useCallback } from "react";
+import React, {
+  FunctionComponent,
+  HTMLProps,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import styles from "./OEmbed.css";
 
@@ -22,6 +28,7 @@ const oEmbed: FunctionComponent<Props> = ({
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const containerRef = React.createRef<HTMLDivElement>();
   const cleanUrl = encodeURIComponent(url);
+  const [maxWidth, setMaxWidth] = useState<number | null>(null);
   const attrs: HTMLProps<HTMLIFrameElement> = {};
   if (width) {
     attrs.width = width;
@@ -29,6 +36,12 @@ const oEmbed: FunctionComponent<Props> = ({
   if (height) {
     attrs.height = height;
   }
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setMaxWidth(containerRef.current.offsetWidth);
+    }
+  }, [containerRef.current, maxWidth]);
 
   const onLoad = useCallback(() => {
     if (width && height) {
@@ -38,6 +51,9 @@ const oEmbed: FunctionComponent<Props> = ({
 
     let iterations = 0;
     resizeInterval = setInterval(() => {
+      if (iterations > 10 && resizeInterval) {
+        clearInterval(resizeInterval);
+      }
       if (!iframeRef.current || !iframeRef.current.contentWindow) {
         return;
       }
@@ -63,25 +79,24 @@ const oEmbed: FunctionComponent<Props> = ({
         containerRef.current.style.paddingBottom = paddingBottom;
       }
       iterations = iterations + 1;
-      if (iterations > 10 && resizeInterval) {
-        clearInterval(resizeInterval);
-      }
     }, 100);
-  }, [iframeRef.current, width, height]);
+  }, [iframeRef, iframeRef.current, containerRef.current, width, height]);
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <iframe
-        frameBorder="0"
-        allowFullScreen
-        scrolling="no"
-        ref={iframeRef}
-        title="oEmbed"
-        src={`/api/oembed?type=${type}&url=${cleanUrl}`}
-        onLoad={onLoad}
-        className={styles.frame}
-        {...attrs}
-      />
+      {maxWidth && (
+        <iframe
+          frameBorder="0"
+          allowFullScreen
+          scrolling="no"
+          ref={iframeRef}
+          title="oEmbed"
+          src={`/api/oembed?type=${type}&url=${cleanUrl}&maxWidth=${maxWidth}`}
+          onLoad={onLoad}
+          className={styles.frame}
+          {...attrs}
+        />
+      )}
     </div>
   );
 };

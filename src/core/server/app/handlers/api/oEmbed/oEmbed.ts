@@ -1,14 +1,15 @@
 import { createFetch } from "coral-server/services/fetch";
-import { RequestHandler } from "coral-server/types/express";
+import { Request, RequestHandler } from "coral-server/types/express";
 
-const fetchURL = (url: string, type: string) => {
+const fetchURL = (url: string, type: string, query: Request["query"]) => {
   if (type === "twitter") {
-    return `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
+    const suffix = query.maxWidth ? `&maxWidth=${query.maxWidth}` : "";
+    return `https://publish.twitter.com/oembed?url=${encodeURIComponent(
+      url
+    )}${suffix}`;
   }
   if (type === "youtube") {
-    return `https://www.youtube.com/oembed?url=${encodeURIComponent(
-      url
-    )}&maxWidth=240`;
+    return `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
   }
 
   return "";
@@ -59,7 +60,7 @@ export const oembedHandler = (): RequestHandler => {
         return;
       }
 
-      const response = await fetch(fetchURL(url, type));
+      const response = await fetch(fetchURL(url, type, req.query));
 
       if (!response.ok && response.status === 404) {
         res.status(404);
@@ -83,7 +84,7 @@ export const oembedHandler = (): RequestHandler => {
           }
       `;
       if (json.width && json.height) {
-        style = `
+        style += `
           .container {
             overflow: hidden;
             position: relative;
