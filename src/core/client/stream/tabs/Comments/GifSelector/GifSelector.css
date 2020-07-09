@@ -17,3 +17,16 @@
   font-size: var(--v2-font-size-3);
   color: var(--v2-colors-mono-100);
 }
+
+.results {
+  overflow: hidden;
+}
+
+.result {
+  /* flex: 1; */
+  min-width: 0;
+}
+
+.resultImg {
+  display: block;
+}

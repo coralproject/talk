@@ -2,7 +2,7 @@ import { Environment } from "relay-runtime";
 
 import { createFetch, FetchVariables } from "coral-framework/lib/relay";
 
-export const GIF_RESULTS_LIMIT = 8;
+export const GIF_RESULTS_LIMIT = 10;
 
 interface QueryTypes {
   variables: {

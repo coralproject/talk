@@ -57,7 +57,7 @@ export async function searchGiphy(
   const language = convertLanguage(locale);
   const url = new URL(GIPHY_SEARCH);
   url.searchParams.set("api_key", apiKey);
-  url.searchParams.set("limit", "8");
+  url.searchParams.set("limit", "10");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
   url.searchParams.set("rating", rating);

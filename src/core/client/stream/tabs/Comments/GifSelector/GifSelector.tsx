@@ -99,16 +99,40 @@ const GifSelector: FunctionComponent<Props> = (props) => {
         </HorizontalGutter>
         {results.length > 0 && (
           <>
-            <Flex wrap={true}>
-              {results.map((result) => (
-                <BaseButton key={result.id} onClick={() => onGifSelect(result)}>
-                  <img
-                    src={result.images.fixed_width_small.url}
-                    alt={result.title}
-                  />
-                </BaseButton>
-              ))}
-            </Flex>
+            <div>
+              <Flex className={styles.results} justifyContent="space-evenly">
+                {results.slice(0, results.length / 2).map((result) => (
+                  <BaseButton
+                    key={result.id}
+                    onClick={() => onGifSelect(result)}
+                    className={styles.result}
+                  >
+                    <img
+                      src={result.images.fixed_height_small.url}
+                      alt={result.title}
+                      className={styles.resultImg}
+                    />
+                  </BaseButton>
+                ))}
+              </Flex>
+              <Flex className={styles.results} justifyContent="space-evenly">
+                {results
+                  .slice(results.length / 2, results.length)
+                  .map((result) => (
+                    <BaseButton
+                      className={styles.result}
+                      key={result.id}
+                      onClick={() => onGifSelect(result)}
+                    >
+                      <img
+                        src={result.images.fixed_height_small.url}
+                        alt={result.title}
+                        className={styles.resultImg}
+                      />
+                    </BaseButton>
+                  ))}
+              </Flex>
+            </div>
             <GiphyAttribution />
           </>
         )}
