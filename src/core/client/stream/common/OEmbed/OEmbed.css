@@ -26,3 +26,10 @@
   height: 100%;
   border: 0;
 }
+
+.container {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}

@@ -77,7 +77,11 @@ export const oembedHandler = (): RequestHandler => {
       }
 
       const json = await response.json();
-      let style = "";
+      let style = `
+          body {
+            margin: 0;
+          }
+      `;
       if (json.width && json.height) {
         style = `
           .container {
@@ -107,6 +111,7 @@ export const oembedHandler = (): RequestHandler => {
             <body>
               <div class="container">
               ${json.html}
+              </div>
             </body>
           <html>`
       );

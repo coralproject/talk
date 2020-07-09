@@ -1,5 +1,7 @@
 import React, { FunctionComponent, HTMLProps, useCallback } from "react";
 
+import styles from "./OEmbed.css";
+
 interface Props {
   url: string;
   type: string;
@@ -18,6 +20,7 @@ const oEmbed: FunctionComponent<Props> = ({
   height,
 }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
+  const containerRef = React.createRef<HTMLDivElement>();
   const cleanUrl = encodeURIComponent(url);
   const attrs: HTMLProps<HTMLIFrameElement> = {};
   if (width) {
@@ -38,31 +41,48 @@ const oEmbed: FunctionComponent<Props> = ({
       if (!iframeRef.current || !iframeRef.current.contentWindow) {
         return;
       }
+      let calculatedWidth = width;
+      let calculatedHeight = height;
       if (!width) {
-        iframeRef.current.width = `${iframeRef.current.contentWindow.document.body.scrollWidth}px`;
+        calculatedWidth = `${iframeRef.current.contentWindow.document.body.scrollWidth}`;
+        iframeRef.current.width = `${calculatedWidth}px`;
       }
       if (!height) {
-        iframeRef.current.height = `${iframeRef.current.contentWindow.document.body.scrollHeight}px`;
+        calculatedHeight = `${iframeRef.current.contentWindow.document.body.scrollHeight}`;
+        iframeRef.current.height = `${calculatedHeight}px`;
+      }
+      if (
+        containerRef &&
+        containerRef.current &&
+        calculatedWidth &&
+        calculatedHeight
+      ) {
+        const paddingBottom = `${
+          (parseInt(calculatedHeight, 10) / parseInt(calculatedWidth, 10)) * 100
+        }%`;
+        containerRef.current.style.paddingBottom = paddingBottom;
       }
       iterations = iterations + 1;
       if (iterations > 10 && resizeInterval) {
         clearInterval(resizeInterval);
       }
-    }, 500);
+    }, 100);
   }, [iframeRef.current, width, height]);
 
   return (
-    <iframe
-      frameBorder="0"
-      allowFullScreen
-      scrolling="no"
-      ref={iframeRef}
-      title="oEmbed"
-      src={`/api/oembed?type=${type}&url=${cleanUrl}`}
-      onLoad={onLoad}
-      className={className}
-      {...attrs}
-    />
+    <div className={styles.container} ref={containerRef}>
+      <iframe
+        frameBorder="0"
+        allowFullScreen
+        scrolling="no"
+        ref={iframeRef}
+        title="oEmbed"
+        src={`/api/oembed?type=${type}&url=${cleanUrl}`}
+        onLoad={onLoad}
+        className={styles.frame}
+        {...attrs}
+      />
+    </div>
   );
 };
 
