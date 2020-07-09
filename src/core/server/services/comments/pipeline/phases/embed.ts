@@ -10,10 +10,9 @@ import { fetchOembedResponse } from "coral-server/services/oembed";
 export const attachedEmbed = async ({
   comment,
   tenant,
-  now,
 }: Pick<
   ModerationPhaseContext,
-  "comment" | "tenant" | "now"
+  "comment" | "tenant"
 >): Promise<IntermediatePhaseResult | void> => {
   if (comment.embeds && comment.embeds.length > 0) {
     const [embed] = comment.embeds;
@@ -42,7 +41,7 @@ export const attachedEmbed = async ({
                 remote_id: embed.remote_id,
                 title: data.title,
                 width: data.images.original.width,
-                height: data.images.origina.height,
+                height: data.images.original.height,
                 media: {
                   original: data.url,
                   still: data.images.original_still.url,

@@ -80,6 +80,8 @@ export interface ModerationPhaseContext extends ModerationPhaseContextInput {
    * bodyText is a text version of the comment body.
    */
   bodyText: string;
+
+  embeds?: CommentEmbed[];
 }
 
 export type RootModerationPhase = (
@@ -132,6 +134,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
+      embeds: final.embeds,
       tags: final.tags,
       bodyText,
       metadata: final.metadata,

@@ -13,6 +13,7 @@ export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
   comment,
+  embeds,
 }): IntermediatePhaseResult | void => {
   const length = bodyText.length;
   let min: number | null = null;
@@ -30,8 +31,7 @@ export const commentLength: IntermediateModerationPhase = ({
     min = 1;
   }
 
-  const embed =
-    comment.embeds && comment.embeds.length > 0 ? comment.embeds[0] : null;
+  const embed = embeds && embeds.length > 0 ? embeds[0] : null;
 
   if (!(embed && embed.source === "GIPHY" && tenant.embeds.giphy)) {
     if (length < min) {

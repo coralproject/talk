@@ -22,8 +22,10 @@ export const repeatPost: IntermediateModerationPhase = async ({
   redis,
   log,
   action,
+  comment,
+  embeds,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!bodyText) {
+  if (!bodyText && (!embeds || embeds.length === 0)) {
     return;
   }
 
@@ -44,16 +46,29 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    const revision = getHTMLPlainText(
-      getLatestRevision(lastComment).body
-    ).trim();
+    const revision = getLatestRevision(lastComment);
+
+    const revisionText = getHTMLPlainText(revision.body).trim();
     const compareTo = bodyText.trim();
 
-    // Calculate the comment similarity. At the moment, we only do a string
-    // comparison, so it's either completely equal (they match) or the
-    // similarity can't be determined (null). This gives us room in the future
-    // to include a percentage matching.
-    const similarity = revision === compareTo ? 1 : null;
+    let similarity = null;
+
+    if (bodyText && compareTo.length > 0) {
+      // Calculate the comment similarity. At the moment, we only do a string
+      // comparison, so it's either completely equal (they match) or the
+      // similarity can't be determined (null). This gives us room in the future
+      // to include a percentage matching.
+      similarity = revisionText === compareTo ? 1 : null;
+    } else if (embeds && embeds.length > 0 && revision.embeds.length > 0) {
+      const [newEmbed] = embeds;
+      const [compareEmbed] = revision.embeds;
+      similarity =
+        newEmbed.source === "GIPHY" &&
+        compareEmbed.source === "GIPHY" &&
+        newEmbed.url === compareEmbed.url
+          ? 1
+          : null;
+    }
 
     if (similarity) {
       log.trace({ similarity }, "comment contains repeat content");

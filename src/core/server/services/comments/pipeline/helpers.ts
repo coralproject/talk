@@ -1,3 +1,5 @@
+import { isUndefined } from "lodash";
+
 import { PhaseResult } from "./pipeline";
 
 export function mergePhaseResult(
@@ -19,7 +21,7 @@ export function mergePhaseResult(
   }
 
   // If the result modified the comment body, we should replace it.
-  if (result.body) {
+  if (!isUndefined(result.body)) {
     final.body = result.body;
   }
 
