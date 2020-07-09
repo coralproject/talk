@@ -1,0 +1,7 @@
+.ratingDesc {
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  color: var(--v2-colors-grey-500);
+  padding-left: 26px;
+}
