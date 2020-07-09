@@ -80,11 +80,8 @@ export class PerspectiveCoralEventListener
       // Reconstruct the Tenant URL.
       const tenantURL = reconstructTenantURL(ctx.config, ctx.tenant);
 
-      // This typecast is needed because the custom `ms` format does not return the
-      // desired `number` type even though that's the only type it can output.
-      const timeout = (ctx.config.get(
-        "perspective_timeout"
-      ) as unknown) as number;
+      // Get the timeout value.
+      const timeout = ctx.config.get("perspective_timeout");
 
       // Get the response from perspective.
       const result = await sendToPerspective(

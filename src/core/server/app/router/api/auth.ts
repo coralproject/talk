@@ -1,3 +1,4 @@
+import bytes from "bytes";
 import express from "express";
 
 import { AppOptions } from "coral-server/app";
@@ -21,6 +22,9 @@ import { RouterOptions } from "coral-server/app/router/types";
 
 import { createAPIRouter } from "./helpers";
 
+// REQUEST_MAX is the maximum request size for routes on this router.
+const REQUEST_MAX = bytes("100kb");
+
 function wrapPath(
   app: AppOptions,
   { passport }: Pick<RouterOptions, "passport">,
@@ -43,21 +47,25 @@ export function createNewAuthRouter(
   // Mount the Local Authentication handlers.
   router.post(
     "/local",
-    jsonMiddleware,
+    jsonMiddleware(REQUEST_MAX),
     wrapAuthn(passport, app.signingConfig, "local")
   );
 
-  router.post("/local/signup", jsonMiddleware, signupHandler(app));
+  router.post("/local/signup", jsonMiddleware(REQUEST_MAX), signupHandler(app));
   router.get("/local/forgot", forgotCheckHandler(app));
-  router.put("/local/forgot", jsonMiddleware, forgotResetHandler(app));
-  router.post("/local/forgot", jsonMiddleware, forgotHandler(app));
+  router.put(
+    "/local/forgot",
+    jsonMiddleware(REQUEST_MAX),
+    forgotResetHandler(app)
+  );
+  router.post("/local/forgot", jsonMiddleware(REQUEST_MAX), forgotHandler(app));
 
   // Mount the link handler.
   router.post(
     "/link",
     authenticate(passport),
     loggedInMiddleware,
-    jsonMiddleware,
+    jsonMiddleware(REQUEST_MAX),
     linkHandler(app)
   );
 

@@ -27,7 +27,7 @@ export const wordList: IntermediateModerationPhase = ({
   }
 
   // Get the timeout to use.
-  const timeout = (config.get("word_list_timeout") as unknown) as number;
+  const timeout = config.get("word_list_timeout");
 
   // Test the comment for banned words.
   const banned = list.test(tenant, "banned", timeout, bodyText);

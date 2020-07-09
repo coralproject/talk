@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import bytes from "bytes";
 
 import { AppOptions } from "coral-server/app";
 import {
@@ -18,6 +19,9 @@ import { RouterOptions } from "coral-server/app/router/types";
 
 import { createAPIRouter } from "./helpers";
 
+// REQUEST_MAX is the maximum request size for routes on this router.
+const REQUEST_MAX = bytes("100kb");
+
 export function createNewAccountRouter(
   app: AppOptions,
   { passport }: Pick<RouterOptions, "passport">
@@ -26,7 +30,7 @@ export function createNewAccountRouter(
 
   router.post(
     "/confirm",
-    jsonMiddleware,
+    jsonMiddleware(REQUEST_MAX),
     authenticate(passport),
     confirmRequestHandler(app)
   );
@@ -34,7 +38,7 @@ export function createNewAccountRouter(
   router.put("/confirm", confirmHandler(app));
 
   router.get("/invite", inviteCheckHandler(app));
-  router.put("/invite", jsonMiddleware, inviteHandler(app));
+  router.put("/invite", jsonMiddleware(REQUEST_MAX), inviteHandler(app));
 
   router.get("/notifications/unsubscribe", unsubscribeCheckHandler(app));
   router.delete("/notifications/unsubscribe", unsubscribeHandler(app));
