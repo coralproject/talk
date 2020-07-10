@@ -461,7 +461,7 @@ exports[`post a reply: open reply form 1`] = `
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-createReplyComment-cancel"
                 data-color="mono"
                 data-variant="outline"
                 disabled={false}

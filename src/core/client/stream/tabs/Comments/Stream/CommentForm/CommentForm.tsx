@@ -207,17 +207,19 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               ref={props.rteRef || null}
                               toolbarButtons={
                                 props.embedConfig.giphy ? (
-                                  <Button
-                                    color="mono"
-                                    variant={
-                                      showGifSelector ? "regular" : "flat"
-                                    }
-                                    onClick={onGifButtonClick}
-                                    iconLeft
-                                  >
-                                    <ButtonIcon>add</ButtonIcon>
-                                    GIF
-                                  </Button>
+                                  <>
+                                    <Button
+                                      color="mono"
+                                      variant={
+                                        showGifSelector ? "regular" : "flat"
+                                      }
+                                      onClick={onGifButtonClick}
+                                      iconLeft
+                                    >
+                                      <ButtonIcon>add</ButtonIcon>
+                                      GIF
+                                    </Button>
+                                  </>
                                 ) : null
                               }
                             />

@@ -11,7 +11,9 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)
     className="PostCommentFormFake-root"
   >
-    <div>
+    <div
+      className="PostCommentFormFake-rteContainer"
+    >
       <Localized
         attrs={
           Object {

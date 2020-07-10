@@ -8,7 +8,6 @@ import {
   createSinonStub,
   waitForElement,
   within,
-  // toHTML,
 } from "coral-framework/testHelpers";
 
 import {

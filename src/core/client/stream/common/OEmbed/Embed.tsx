@@ -7,8 +7,8 @@ interface Props {
   type: GQLEMBED_SOURCE_RL;
   width?: string | null;
   height?: string | null;
-  video: string | null;
-  title: string | null;
+  video?: string | null;
+  title?: string | null;
   settings: {
     twitter: boolean;
     giphy: boolean;
@@ -33,8 +33,8 @@ const Embed: FunctionComponent<Props> = ({
     return <YouTubeEmbed url={url} width={width} height={height} />;
   }
 
-  if (type === "GIPHY" && settings.giphy && video) {
-    return (
+  if (type === "GIPHY" && settings.giphy) {
+    return video ? (
       <video
         width={width || undefined}
         height={height || undefined}
@@ -43,6 +43,8 @@ const Embed: FunctionComponent<Props> = ({
       >
         <source src={video} type="video/mp4" />
       </video>
+    ) : (
+      <img src={url} alt={title || ""} />
     );
   }
 
