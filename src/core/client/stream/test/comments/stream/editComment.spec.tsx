@@ -8,6 +8,7 @@ import {
   createSinonStub,
   waitForElement,
   within,
+  // toHTML,
 } from "coral-framework/testHelpers";
 
 import {
@@ -105,7 +106,6 @@ it("edit a comment", async () => {
       })
       .props.onChange("Edited!")
   );
-
   act(() => {
     within(comment).getByType("form").props.onSubmit();
   });
@@ -208,7 +208,7 @@ it("shows expiry message", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  act(() => within(comment).getByText("Close").props.onClick());
+  act(() => within(comment).getByText("Cancel").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });
 

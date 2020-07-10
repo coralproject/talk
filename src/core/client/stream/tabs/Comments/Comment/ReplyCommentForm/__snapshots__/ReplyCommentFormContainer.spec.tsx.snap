@@ -4,6 +4,13 @@ exports[`renders correctly 1`] = `
 <ReplyCommentForm
   disabled={false}
   disabledMessage="closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   id="comment-id"
   max={100}
   min={3}
@@ -20,6 +27,13 @@ exports[`renders when commenting has been disabled 1`] = `
 <ReplyCommentForm
   disabled={true}
   disabledMessage="commenting disabled"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   id="comment-id"
   max={100}
   min={3}
@@ -36,6 +50,13 @@ exports[`renders when story has been closed 1`] = `
 <ReplyCommentForm
   disabled={true}
   disabledMessage="story closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   id="comment-id"
   max={100}
   min={3}
@@ -52,6 +73,13 @@ exports[`renders with initialValues 1`] = `
 <ReplyCommentForm
   disabled={false}
   disabledMessage="closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   id="comment-id"
   initialValues={
     Object {

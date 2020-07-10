@@ -286,153 +286,168 @@ exports[`edit a comment and handle server error: edit form 1`] = `
 <div
   data-testid="comment-comment-with-replies"
 >
-  <form
-    autoComplete="off"
-    className="coral coral-editComment"
-    onSubmit={[Function]}
-  >
-    <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-full"
-    >
-      <div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-        >
-          <div>
-            <span
-              className="Username-root"
-            >
-              Markus
-            </span>
-          </div>
-          <button
-            className="BaseButton-root Timestamp-root"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            <time
-              className="RelativeTime-root Timestamp-text"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </button>
-        </div>
-      </div>
+  <div>
+    <div>
       <div
-        className="EditCommentForm-commentFormBox"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+      >
+        <div>
+          <span
+            className="Username-root"
+          >
+            Markus
+          </span>
+        </div>
+        <button
+          className="BaseButton-root Timestamp-root"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <time
+            className="RelativeTime-root Timestamp-text"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </button>
+      </div>
+    </div>
+    <div
+      className="coral coral-editComment"
+    >
+      <form
+        autoComplete="off"
+        id="comments-postCommentForm-form"
+        onSubmit={[Function]}
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-editCommentForm-rte-comment-with-replies"
+          <div
+            className="CommentForm-commentFormBox"
           >
-            Edit comment
-          </label>
-          <div>
             <div
-              className="$root content placeholder toolbar container"
-              onBlur={[Function]}
-              onFocus={[Function]}
+              className="Box-root HorizontalGutter-root HorizontalGutter-half"
             >
-              <div
-                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-editCommentForm-rte-comment-with-replies"
               >
-                <div
-                  aria-placeholder="Edit comment"
-                  className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                  id="comments-editCommentForm-rte-comment-with-replies"
-                />
-              </div>
-              <div
-                className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-              >
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                Edit comment
+              </label>
+              <div>
+                <div>
+                  <div
+                    className="$root content placeholder toolbar container"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
                   >
-                    format_bold
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_italic
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_quote
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bulleted List"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_list_bulleted
-                  </i>
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  data-color="mono"
-                  data-variant="flat"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
-                  >
-                    add
-                  </i>
-                  GIF
-                </button>
+                    <div
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                    >
+                      <div
+                        aria-placeholder="Edit comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        id="comments-editCommentForm-rte-comment-with-replies"
+                      />
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
+                        data-color="mono"
+                        data-variant="flat"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ButtonIcon-root"
+                        >
+                          add
+                        </i>
+                        GIF
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <input
+              type="hidden"
+            />
+            <input
+              type="hidden"
+            />
+            <div />
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -455,44 +470,43 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                remaining
             </span>
           </div>
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
+              data-color="mono"
+              data-variant="outline"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
+              data-color="stream"
+              data-variant="regular"
+              disabled={true}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
-        <div />
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
-      >
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-          data-color="mono"
-          data-variant="outline"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-          data-color="stream"
-          data-variant="regular"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Save Changes
-        </button>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
@@ -500,153 +514,168 @@ exports[`edit a comment: edit form 1`] = `
 <div
   data-testid="comment-comment-with-replies"
 >
-  <form
-    autoComplete="off"
-    className="coral coral-editComment"
-    onSubmit={[Function]}
-  >
-    <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-full"
-    >
-      <div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-        >
-          <div>
-            <span
-              className="Username-root"
-            >
-              Markus
-            </span>
-          </div>
-          <button
-            className="BaseButton-root Timestamp-root"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            <time
-              className="RelativeTime-root Timestamp-text"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </button>
-        </div>
-      </div>
+  <div>
+    <div>
       <div
-        className="EditCommentForm-commentFormBox"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+      >
+        <div>
+          <span
+            className="Username-root"
+          >
+            Markus
+          </span>
+        </div>
+        <button
+          className="BaseButton-root Timestamp-root"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <time
+            className="RelativeTime-root Timestamp-text"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </button>
+      </div>
+    </div>
+    <div
+      className="coral coral-editComment"
+    >
+      <form
+        autoComplete="off"
+        id="comments-postCommentForm-form"
+        onSubmit={[Function]}
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-editCommentForm-rte-comment-with-replies"
+          <div
+            className="CommentForm-commentFormBox"
           >
-            Edit comment
-          </label>
-          <div>
             <div
-              className="$root content placeholder toolbar container"
-              onBlur={[Function]}
-              onFocus={[Function]}
+              className="Box-root HorizontalGutter-root HorizontalGutter-half"
             >
-              <div
-                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-editCommentForm-rte-comment-with-replies"
               >
-                <div
-                  aria-placeholder="Edit comment"
-                  className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                  id="comments-editCommentForm-rte-comment-with-replies"
-                />
-              </div>
-              <div
-                className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-              >
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                Edit comment
+              </label>
+              <div>
+                <div>
+                  <div
+                    className="$root content placeholder toolbar container"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
                   >
-                    format_bold
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_italic
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_quote
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bulleted List"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_list_bulleted
-                  </i>
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  data-color="mono"
-                  data-variant="flat"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
-                  >
-                    add
-                  </i>
-                  GIF
-                </button>
+                    <div
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                    >
+                      <div
+                        aria-placeholder="Edit comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        id="comments-editCommentForm-rte-comment-with-replies"
+                      />
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
+                        data-color="mono"
+                        data-variant="flat"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ButtonIcon-root"
+                        >
+                          add
+                        </i>
+                        GIF
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <input
+              type="hidden"
+            />
+            <input
+              type="hidden"
+            />
+            <div />
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -669,17 +698,64 @@ exports[`edit a comment: edit form 1`] = `
                remaining
             </span>
           </div>
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
+              data-color="mono"
+              data-variant="outline"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
+              data-color="stream"
+              data-variant="regular"
+              disabled={true}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
-        <div />
-      </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`edit a comment: optimistic response 1`] = `
+<div
+  data-testid="comment-comment-with-replies"
+>
+  <div>
+    <div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
       >
+        <div>
+          <span
+            className="Username-root"
+          >
+            Markus
+          </span>
+        </div>
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-          data-color="mono"
-          data-variant="outline"
-          disabled={false}
+          className="BaseButton-root Timestamp-root"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -688,179 +764,146 @@ exports[`edit a comment: edit form 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          Cancel
-        </button>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-          data-color="stream"
-          data-variant="regular"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Save Changes
+          <time
+            className="RelativeTime-root Timestamp-text"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
         </button>
       </div>
     </div>
-  </form>
-</div>
-`;
-
-exports[`edit a comment: optimistic response 1`] = `
-<div
-  data-testid="comment-comment-with-replies"
->
-  <form
-    autoComplete="off"
-    className="coral coral-editComment"
-    onSubmit={[Function]}
-  >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-full"
+      className="coral coral-editComment"
     >
-      <div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-        >
-          <div>
-            <span
-              className="Username-root"
-            >
-              Markus
-            </span>
-          </div>
-          <button
-            className="BaseButton-root Timestamp-root"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            <time
-              className="RelativeTime-root Timestamp-text"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </button>
-        </div>
-      </div>
-      <div
-        className="EditCommentForm-commentFormBox"
+      <form
+        autoComplete="off"
+        id="comments-postCommentForm-form"
+        onSubmit={[Function]}
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-editCommentForm-rte-comment-with-replies"
+          <div
+            className="CommentForm-commentFormBox"
           >
-            Edit comment
-          </label>
-          <div>
             <div
-              className="$root content placeholder toolbar container "
-              onBlur={[Function]}
-              onFocus={[Function]}
+              className="Box-root HorizontalGutter-root HorizontalGutter-half"
             >
-              <div
-                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-editCommentForm-rte-comment-with-replies"
               >
-                <div
-                  aria-placeholder="Edit comment"
-                  className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
-                  id="comments-editCommentForm-rte-comment-with-replies"
-                />
-              </div>
-              <div
-                className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
-              >
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                Edit comment
+              </label>
+              <div>
+                <div>
+                  <div
+                    className="$root content placeholder toolbar container "
+                    onBlur={[Function]}
+                    onFocus={[Function]}
                   >
-                    format_bold
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_italic
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_quote
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bulleted List"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_list_bulleted
-                  </i>
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  data-color="mono"
-                  data-variant="flat"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
-                  >
-                    add
-                  </i>
-                  GIF
-                </button>
+                    <div
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+                    >
+                      <div
+                        aria-placeholder="Edit comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
+                        id="comments-editCommentForm-rte-comment-with-replies"
+                      />
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
+                        data-color="mono"
+                        data-variant="flat"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ButtonIcon-root"
+                        >
+                          add
+                        </i>
+                        GIF
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <input
+              type="hidden"
+            />
+            <input
+              type="hidden"
+            />
+            <div />
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -883,44 +926,43 @@ exports[`edit a comment: optimistic response 1`] = `
                remaining
             </span>
           </div>
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase Button-disabled coral coral-editComment-cancel"
+              data-color="mono"
+              data-variant="outline"
+              disabled={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
+              data-color="stream"
+              data-variant="regular"
+              disabled={true}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
-        <div />
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
-      >
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase Button-disabled coral coral-editComment-cancel"
-          data-color="mono"
-          data-variant="outline"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-          data-color="stream"
-          data-variant="regular"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Save Changes
-        </button>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
@@ -1783,156 +1825,171 @@ exports[`shows expiry message: edit time expired 1`] = `
 <div
   data-testid="comment-comment-with-replies"
 >
-  <form
-    autoComplete="off"
-    className="coral coral-editComment"
-    onSubmit={[Function]}
-  >
-    <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-full"
-    >
-      <div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-        >
-          <div>
-            <span
-              className="Username-root"
-            >
-              Markus
-            </span>
-          </div>
-          <button
-            className="BaseButton-root Timestamp-root"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            <time
-              className="RelativeTime-root Timestamp-text"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </button>
-        </div>
-      </div>
+  <div>
+    <div>
       <div
-        className="EditCommentForm-commentFormBox"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+      >
+        <div>
+          <span
+            className="Username-root"
+          >
+            Markus
+          </span>
+        </div>
+        <button
+          className="BaseButton-root Timestamp-root"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <time
+            className="RelativeTime-root Timestamp-text"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </button>
+      </div>
+    </div>
+    <div
+      className="coral coral-editComment"
+    >
+      <form
+        autoComplete="off"
+        id="comments-postCommentForm-form"
+        onSubmit={[Function]}
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-editCommentForm-rte-comment-with-replies"
+          <div
+            className="CommentForm-commentFormBox"
           >
-            Edit comment
-          </label>
-          <div>
             <div
-              className="$root content placeholder toolbar container "
-              onBlur={[Function]}
-              onFocus={[Function]}
+              className="Box-root HorizontalGutter-root HorizontalGutter-half"
             >
-              <div
-                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-editCommentForm-rte-comment-with-replies"
               >
-                <div
-                  aria-placeholder="Edit comment"
-                  className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
-                  id="comments-editCommentForm-rte-comment-with-replies"
-                />
-              </div>
-              <div
-                className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
-              >
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                Edit comment
+              </label>
+              <div>
+                <div>
+                  <div
+                    className="$root content placeholder toolbar container "
+                    onBlur={[Function]}
+                    onFocus={[Function]}
                   >
-                    format_bold
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_italic
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_quote
-                  </i>
-                </button>
-                <button
-                  className="Button.module-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bulleted List"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_list_bulleted
-                  </i>
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                  data-color="mono"
-                  data-variant="flat"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
-                  >
-                    add
-                  </i>
-                  GIF
-                </button>
+                    <div
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+                    >
+                      <div
+                        aria-placeholder="Edit comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content  RTE.module-contentEditableDisabled"
+                        id="comments-editCommentForm-rte-comment-with-replies"
+                      />
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
+                        data-color="mono"
+                        data-variant="flat"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ButtonIcon-root"
+                        >
+                          add
+                        </i>
+                        GIF
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <input
+              type="hidden"
+            />
+            <input
+              type="hidden"
+            />
+            <div />
           </div>
           <div
-            className="ValidationMessage-root coral coral-editComment-expiredTime coral-validation-message"
+            className="ValidationMessage-root coral-validation-message"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -1943,34 +2000,61 @@ exports[`shows expiry message: edit time expired 1`] = `
               >
                 error
               </i>
-              <span>
-                Edit time has expired. You can no longer edit this comment. Why not post another one?
-              </span>
+              <div
+                className="ValidationMessage-root coral coral-editComment-expiredTime coral-validation-message"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm ValidationMessage-icon"
+                  >
+                    error
+                  </i>
+                  <span>
+                    Edit time has expired. You can no longer edit this comment. Why not post another one?
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
+              data-color="mono"
+              data-variant="outline"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
+              data-color="stream"
+              data-variant="regular"
+              disabled={true}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
-        <div />
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
-      >
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutline Button-uppercase coral coral-editComment-close"
-          data-color="regular"
-          data-variant="outline"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Close
-        </button>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 `;

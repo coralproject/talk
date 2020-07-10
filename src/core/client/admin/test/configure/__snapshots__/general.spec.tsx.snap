@@ -1512,7 +1512,7 @@ appears on the comment stream and in the admin interface.
                 <legend
                   className="Header-root"
                 >
-                  Embed links
+                  Embeded media
                 </legend>
               </div>
               <div />
@@ -1523,13 +1523,18 @@ appears on the comment stream and in the admin interface.
               <fieldset
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
+                </p>
                 <div
                   className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
                   <legend
                     className="Label-root"
                   >
-                    Enable Twitter embeds
+                    Allow Twitter embeds
                   </legend>
                   <div>
                     <div
@@ -1552,7 +1557,7 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.twitter-true"
                       >
                         <span>
-                          On
+                          Yes
                         </span>
                       </label>
                     </div>
@@ -1576,7 +1581,7 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.twitter-false"
                       >
                         <span>
-                          Off
+                          No
                         </span>
                       </label>
                     </div>
@@ -1588,7 +1593,7 @@ appears on the comment stream and in the admin interface.
                   <legend
                     className="Label-root"
                   >
-                    Enable YouTube embeds
+                    Allow YouTube embeds
                   </legend>
                   <div>
                     <div
@@ -1611,7 +1616,7 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.youtube-true"
                       >
                         <span>
-                          On
+                          Yes
                         </span>
                       </label>
                     </div>
@@ -1635,7 +1640,7 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.youtube-false"
                       >
                         <span>
-                          Off
+                          No
                         </span>
                       </label>
                     </div>
@@ -1647,7 +1652,7 @@ appears on the comment stream and in the admin interface.
                   <legend
                     className="Label-root"
                   >
-                    Enable Giphy Embeds
+                    Allow GIFs from GIPHY
                   </legend>
                   <div>
                     <div
@@ -1670,7 +1675,7 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.giphy-true"
                       >
                         <span>
-                          On
+                          Yes
                         </span>
                       </label>
                     </div>
@@ -1694,9 +1699,197 @@ appears on the comment stream and in the admin interface.
                         htmlFor="embeds.giphy-false"
                       >
                         <span>
-                          Off
+                          No
                         </span>
                       </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    GIF content rating
+                  </legend>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Select the maximum content rating for the GIFs that will appear in commenters’ search results
+                  </p>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={true}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="G"
+                      name="embeds.giphyMaxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="G"
+                    />
+                    <label
+                      className="RadioButton-label RadioButton-labelChecked"
+                      htmlFor="G"
+                    >
+                      G
+                    </label>
+                  </div>
+                  <div
+                    className="EmbedLinksConfig-ratingDesc"
+                  >
+                    Content that is appropriate for all ages
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="PG"
+                      name="embeds.giphyMaxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="PG"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="PG"
+                    >
+                      PG
+                    </label>
+                  </div>
+                  <div
+                    className="EmbedLinksConfig-ratingDesc"
+                  >
+                    Content that is generally safe for everyone, but parental guidance for children is advised.
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="PG13"
+                      name="embeds.giphyMaxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="PG13"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="PG13"
+                    >
+                      PG-13
+                    </label>
+                  </div>
+                  <div
+                    className="EmbedLinksConfig-ratingDesc"
+                  >
+                    Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="r"
+                      name="embeds.giphyMaxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="R"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="r"
+                    >
+                      R
+                    </label>
+                  </div>
+                  <div
+                    className="EmbedLinksConfig-ratingDesc"
+                  >
+                    Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
+                  </div>
+                </div>
+                <h3
+                  className="Subheader-root"
+                >
+                  Configuration
+                </h3>
+                <p
+                  className="HelperText-root"
+                >
+                  For additional information on GIPHY’s API please visit: 
+                  <a
+                    className="ExternalLink-root"
+                    href="https://developers.giphy.com/docs/api"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://developers.giphy.com/docs/api
+                  </a>
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    GIPHY API key
+                  </label>
+                  <div
+                    className="PasswordField-fullWidth PasswordField-root"
+                  >
+                    <div
+                      className="PasswordField-wrapper"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                        data-testid="password-field"
+                        disabled={false}
+                        name="embeds.giphyAPIKey"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="password"
+                        value=""
+                      />
+                      <div
+                        className="PasswordField-icon"
+                        onClick={[Function]}
+                        onKeyUp={[Function]}
+                        role="button"
+                        tabIndex={0}
+                        title="Show API Key"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm"
+                        >
+                          visibility
+                        </i>
+                      </div>
                     </div>
                   </div>
                 </div>

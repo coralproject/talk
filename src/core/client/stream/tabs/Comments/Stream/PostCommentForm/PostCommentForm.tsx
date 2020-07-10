@@ -75,10 +75,13 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         disabled={props.disabled}
         disabledMessage={props.disabledMessage}
         rteConfig={props.rteConfig}
+        placeHolderId="comments-postCommentForm-rte"
+        placeholder="Post a comment"
         embedConfig={props.embedConfig}
         onFocus={onFocus}
         action="CREATE"
         classNameRoot="createComment"
+        bodyInputID="comments-postCommentForm-field"
         bodyLabel={
           isQA ? (
             <Localized id="qa-postQuestionForm-rteLabel">

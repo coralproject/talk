@@ -68,6 +68,10 @@ comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
 
+comments-commentForm-cancel = Cancel
+comments-commentForm-saveChanges = Save changes
+comments-commentForm-submit = Submit
+
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies

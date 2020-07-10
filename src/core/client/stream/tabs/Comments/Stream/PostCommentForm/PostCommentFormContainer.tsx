@@ -231,44 +231,42 @@ export class PostCommentFormContainer extends Component<Props, State> {
     );
 
     return (
-      <>
-        <PostCommentForm
-          story={this.props.story}
-          onSubmit={this.handleOnSubmit}
-          onChange={this.handleOnChange}
-          initialValues={this.state.initialValues}
-          embedConfig={this.props.settings.embeds}
-          rteConfig={this.props.settings.rte}
-          min={
-            (this.props.settings.charCount.enabled &&
-              this.props.settings.charCount.min) ||
-            null
-          }
-          max={
-            (this.props.settings.charCount.enabled &&
-              this.props.settings.charCount.max) ||
-            null
-          }
-          disabled={
-            this.props.settings.disableCommenting.enabled ||
-            this.props.story.isClosed ||
-            scheduledForDeletion
-          }
-          disabledMessage={
-            (this.props.settings.disableCommenting.enabled &&
-              this.props.settings.disableCommenting.message) ||
-            (this.props.viewer.scheduledDeletionDate && (
-              <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
-                Commenting is disabled when your account is scheduled for
-                deletion.
-              </Localized>
-            )) ||
-            this.props.settings.closeCommenting.message
-          }
-          submitStatus={this.state.submitStatus}
-          showMessageBox={this.props.story.settings.messageBox.enabled}
-        />
-      </>
+      <PostCommentForm
+        story={this.props.story}
+        onSubmit={this.handleOnSubmit}
+        onChange={this.handleOnChange}
+        initialValues={this.state.initialValues}
+        embedConfig={this.props.settings.embeds}
+        rteConfig={this.props.settings.rte}
+        min={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.min) ||
+          null
+        }
+        max={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.max) ||
+          null
+        }
+        disabled={
+          this.props.settings.disableCommenting.enabled ||
+          this.props.story.isClosed ||
+          scheduledForDeletion
+        }
+        disabledMessage={
+          (this.props.settings.disableCommenting.enabled &&
+            this.props.settings.disableCommenting.message) ||
+          (this.props.viewer.scheduledDeletionDate && (
+            <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
+              Commenting is disabled when your account is scheduled for
+              deletion.
+            </Localized>
+          )) ||
+          this.props.settings.closeCommenting.message
+        }
+        submitStatus={this.state.submitStatus}
+        showMessageBox={this.props.story.settings.messageBox.enabled}
+      />
     );
   }
 }

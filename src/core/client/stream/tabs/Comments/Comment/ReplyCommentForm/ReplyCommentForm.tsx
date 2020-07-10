@@ -61,6 +61,9 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         action="CREATE"
         onCancel={props.onCancel}
         embedConfig={props.embedConfig}
+        placeHolderId="comments-replyCommentForm-rte"
+        placeholder="Write a reply"
+        bodyInputID={inputID}
         bodyLabel={
           <>
             <Localized id="comments-replyCommentForm-rteLabel">

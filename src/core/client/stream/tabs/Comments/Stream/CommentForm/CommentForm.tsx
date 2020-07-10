@@ -89,6 +89,9 @@ interface Props {
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
   embedConfig: EmbedConfig;
+  placeholder: string;
+  placeHolderId: string;
+  bodyInputID: string;
 }
 
 const setFieldValue = (
@@ -105,24 +108,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
   const [embedLink, setEmbedLink] = useState<EmbedLink | null>(null);
-
-  const onSubmit = useCallback(
-    (values, form) => {
-      if (
-        values.embed &&
-        (!values.embed.source ||
-          !values.embed.url ||
-          values.embed.url.length < 1)
-      ) {
-        delete values.embed;
-      }
-      if (!values.body) {
-        values.body = "";
-      }
-      return props.onSubmit(values, form);
-    },
-    [props.onSubmit, embedLink]
-  );
 
   const onPaste = useCallback((event: PasteEvent) => {
     const children = event.fragment.children;
@@ -160,7 +145,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
   return (
     <div className={CLASSES[props.classNameRoot].$root}>
       <Form
-        onSubmit={onSubmit}
+        onSubmit={props.onSubmit}
         initialValues={props.initialValues}
         mutators={{ setFieldValue }}
       >
@@ -211,23 +196,19 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         <div>
                           {/* TODO: placeholder for QA */}
                           <Localized
-                            id={"comments-postCommentForm-rte"}
+                            id={props.placeHolderId}
                             attrs={{ placeholder: true }}
                           >
                             <RTEContainer
-                              inputID="comments-postCommentForm-field"
+                              inputID={props.bodyInputID}
                               config={props.rteConfig}
                               onFocus={props.onFocus}
                               onWillPaste={onPaste}
                               onChange={(html: string) => {
                                 input.onChange(html);
                               }}
-                              contentClassName={
-                                undefined
-                                /* props.showMessageBox ? styles.rteBorderless : undefined*/
-                              }
                               value={input.value}
-                              placeholder="Post a comment"
+                              placeholder={props.placeholder}
                               disabled={submitting || props.disabled}
                               ref={props.rteRef || null}
                               toolbarButtons={
@@ -331,16 +312,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   )}
                 </Field>
               </div>
-              {props.expired && (
-                <Localized id="comments-editCommentForm-editTimeExpired">
-                  <ValidationMessage
-                    className={CLASSES.editComment.expiredTime}
-                  >
-                    Edit time has expired. You can no longer edit this comment.
-                    Why not post another one?
-                  </ValidationMessage>
-                </Localized>
-              )}
               {!props.expired && props.editableUntil && (
                 <Message
                   className={CLASSES.editComment.remainingTime}
@@ -388,7 +359,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         (error ||
                           (localSubmitError && !dirtySinceLastSubmit)) && (
                           <ValidationMessage>
-                            {error || submitError}
+                            {error || localSubmitError}
                           </ValidationMessage>
                         )}
                       {props.max && (
@@ -404,7 +375,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               {submitError && (
                 <ValidationMessage>{submitError}</ValidationMessage>
               )}
-              {props.submitStatus}
               <Flex justifyContent="flex-end" spacing={1}>
                 <MatchMedia ltWidth="sm">
                   {(matches) => (
@@ -451,6 +421,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   )}
                 </MatchMedia>
               </Flex>
+              {props.submitStatus}
             </HorizontalGutter>
           </form>
         )}

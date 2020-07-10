@@ -57,6 +57,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         min={props.min}
         max={props.max}
         disabled={props.expired}
+        bodyInputID={inputID}
         initialValues={props.initialValues}
         onCancel={props.onCancel}
         editableUntil={props.editableUntil}
@@ -64,6 +65,8 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         embedConfig={props.embedConfig}
         expired={props.expired}
         action="UPDATE"
+        placeholder="Edit comment"
+        placeHolderId="comments-editCommentForm-rte"
         disabledMessage={
           <Localized id="comments-editCommentForm-editTimeExpired">
             <ValidationMessage className={CLASSES.editComment.expiredTime}>

@@ -404,13 +404,14 @@ configure-general-embedLinks-giphyMaxRating-g-desc = Content that is appropriate
 configure-general-embedLinks-giphyMaxRating-pg = PG
 configure-general-embedLinks-giphyMaxRating-pg-desc = Content that is generally safe for everyone, but parental guidance for children is advised.
 configure-general-embedLinks-giphyMaxRating-pg13 = PG-13
-configure-general-embedLinks-giphyMaxRating-pg13 = Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
+configure-general-embedLinks-giphyMaxRating-pg13-desc = Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
 configure-general-embedLinks-giphyMaxRating-r = R
 configure-general-embedLinks-giphyMaxRating-r-desc = Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
 
 configure-general-embedLinks-configuration = Configuration
 configure-general-embedLinks-configuration-desc =
   For additional information on GIPHY’s API please visit: <externalLink>https://developers.giphy.com/docs/api</externalLink>
+configure-general-embedLinks-giphyAPIKey = GIPHY API key
 
 
 #### Configure Announcements

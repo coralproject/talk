@@ -4,6 +4,13 @@ exports[`renders correctly 1`] = `
 <PostCommentForm
   disabled={false}
   disabledMessage="closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   initialValues={
     Object {
       "body": "",
@@ -60,6 +67,13 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
 <PostCommentForm
   disabled={true}
   disabledMessage="commenting disabled"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   initialValues={
     Object {
       "body": "",
@@ -116,6 +130,13 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
 <PostCommentForm
   disabled={true}
   disabledMessage="story closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   initialValues={
     Object {
       "body": "",
@@ -159,6 +180,13 @@ exports[`renders when user is scheduled to be deleted 1`] = `
       Commenting is disabled when your account is scheduled for deletion.
     </Localized>
   }
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   initialValues={
     Object {
       "body": "",
@@ -196,6 +224,13 @@ exports[`renders with initialValues 1`] = `
 <PostCommentForm
   disabled={false}
   disabledMessage="closed"
+  embedConfig={
+    Object {
+      "giphy": true,
+      "twitter": true,
+      "youtube": true,
+    }
+  }
   initialValues={
     Object {
       "body": "Hello World!",

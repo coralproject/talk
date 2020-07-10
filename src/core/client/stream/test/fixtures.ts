@@ -12,6 +12,7 @@ import {
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
+  GQLGIPHY_RATING,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -119,6 +120,8 @@ export const settings = createFixture<GQLSettings>({
     twitter: true,
     youtube: true,
     giphy: true,
+    giphyMaxRating: GQLGIPHY_RATING.G,
+    giphyAPIKey: "",
   },
 });
 
