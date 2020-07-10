@@ -17,7 +17,10 @@ import {
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
-import { canModerate } from "coral-server/models/user/helpers";
+import {
+  canModerate,
+  hasModeratorRole,
+} from "coral-server/models/user/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
@@ -56,15 +59,18 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
-  // We know the user is provided because this edge is authenticated.
   canModerate: (c, input, ctx) => {
-    // If the feature flag for site moderators is not turned on return true
-    // always as this route is protected already against role mismatches.
-    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-      return true;
+    if (!ctx.user) {
+      return false;
     }
 
-    return canModerate(ctx.user!, { siteID: c.siteID });
+    // If the feature flag for site moderators is not turned on return based on
+    // the users role.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      return hasModeratorRole(ctx.user);
+    }
+
+    return canModerate(ctx.user, { siteID: c.siteID });
   },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>

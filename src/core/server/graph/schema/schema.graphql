@@ -1523,7 +1523,7 @@ type Site {
   canModerate when true indicates that the current user can moderate comments
   left on this Site.
   """
-  canModerate: Boolean! @auth(roles: [ADMIN, MODERATOR])
+  canModerate: Boolean!
 
   """
   createdAt is when the site was created.
@@ -2791,7 +2791,7 @@ type Comment {
   """
   canModerate returns true if the current user can moderate this Comment.
   """
-  canModerate: Boolean! @auth(roles: [ADMIN, MODERATOR])
+  canModerate: Boolean!
 
   """
   site is the Site referenced by the Story for this Comment.
@@ -3131,7 +3131,7 @@ type Story {
   canModerate returns true if the current user can moderate comments on this
   Story.
   """
-  canModerate: Boolean! @auth(roles: [ADMIN, MODERATOR])
+  canModerate: Boolean!
 
   """
   site is the site associated with the story

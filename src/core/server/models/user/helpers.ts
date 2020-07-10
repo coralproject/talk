@@ -33,7 +33,7 @@ function roleIsModerator(role: GQLUSER_ROLE) {
   return false;
 }
 
-function hasModeratorRole(user: Pick<User, "role">) {
+export function hasModeratorRole(user: Pick<User, "role">) {
   return roleIsModerator(user.role);
 }
 
