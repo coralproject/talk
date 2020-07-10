@@ -87,7 +87,7 @@ comments-postComment-confirmEmbed-cancel = Cancel
 comments-postComment-confirmEmbed-add-tweet = Add tweet
 comments-postComment-confirmEmbed-add-video = Add video
 comments-postComment-confirmEmbed-remove = Remove
-
+comments-commentForm-gifPreview-remove = Remove
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment

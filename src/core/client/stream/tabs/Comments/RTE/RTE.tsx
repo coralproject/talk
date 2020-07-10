@@ -283,7 +283,6 @@ const RTE: FunctionComponent<Props> = (props) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onWillPaste={onWillPaste}
-        // onWillPaste={(event) => {}}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         {...rest}
       />
