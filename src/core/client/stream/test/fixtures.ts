@@ -2,6 +2,7 @@ import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
+  GQLGIPHY_RATING,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLSite,
@@ -12,7 +13,6 @@ import {
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
-  GQLGIPHY_RATING,
 } from "coral-framework/schema";
 import {
   createFixture,

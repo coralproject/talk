@@ -82,6 +82,9 @@ export const oembedHandler = (): RequestHandler => {
           body {
             margin: 0;
           }
+          .container * {
+            margin: 0!important;
+          }
       `;
       if (json.width && json.height) {
         style += `

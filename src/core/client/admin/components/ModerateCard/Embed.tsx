@@ -10,9 +10,18 @@ interface Props {
   type: string;
   still: string | null;
   title: string | null;
+  width: string | null;
+  height: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({ url, type, still, title }) => {
+const Embed: FunctionComponent<Props> = ({
+  url,
+  type,
+  still,
+  title,
+  width,
+  height,
+}) => {
   const cleanUrl = encodeURIComponent(url);
   const [showAnimated, setShowAnimated] = useState(false);
   const toggleImage = useCallback(() => {
@@ -20,7 +29,7 @@ const Embed: FunctionComponent<Props> = ({ url, type, still, title }) => {
   }, [showAnimated]);
   if (type === "GIPHY") {
     return (
-      <div className={styles.gifEmbed}>
+      <div className={styles.embed}>
         {!showAnimated && still && (
           <BaseButton onClick={toggleImage} className={styles.gifToggle}>
             <img src={still} className={styles.image} alt={title || ""} />
@@ -48,9 +57,11 @@ const Embed: FunctionComponent<Props> = ({ url, type, still, title }) => {
     );
   } else if (type === "YOUTUBE" || type === "TWITTER") {
     return (
-      <div>
+      <div className={styles.embed}>
         <iframe
           frameBorder="0"
+          width={width || 450}
+          height={height || 250}
           allowFullScreen
           title="oEmbed"
           src={`/api/oembed?type=${type.toLowerCase()}&url=${cleanUrl}`}
