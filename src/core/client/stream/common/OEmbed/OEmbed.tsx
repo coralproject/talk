@@ -47,10 +47,10 @@ const oEmbed: FunctionComponent<Props> = ({
     if (width && height) {
       return;
     }
-    let resizeInterval: NodeJS.Timeout | null = null;
+    let resizeInterval: number | null = null;
 
     let iterations = 0;
-    resizeInterval = setInterval(() => {
+    resizeInterval = window.setInterval(() => {
       if (iterations > 10 && resizeInterval) {
         clearInterval(resizeInterval);
       }
