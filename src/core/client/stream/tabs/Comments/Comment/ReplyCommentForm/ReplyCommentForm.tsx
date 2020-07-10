@@ -1,6 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
-// import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import React, {
   EventHandler,
@@ -12,7 +11,6 @@ import React, {
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
-// import CLASSES from "coral-stream/classes";
 import { ReplyCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
@@ -20,8 +18,6 @@ import { PropTypesOf } from "coral-ui/types";
 import RTEContainer from "../../RTE";
 import CommentForm from "../../Stream/CommentForm";
 import ReplyTo from "./ReplyTo";
-
-// import styles from "./ReplyCommentForm.css";
 
 export interface ReplyCommentFormProps {
   id: string;

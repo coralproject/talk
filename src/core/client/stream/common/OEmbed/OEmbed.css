@@ -1,21 +1,9 @@
 .root {
-  /* width: 100%;
-  left: 0;
-  position: relative;
-  height: auto; */
 }
 
 .link {
   margin-left: var(--v2-spacing-2);
   color: var(--palette-primary-main);
-}
-
-.scalableEmbed {
-  padding-bottom: 56.25%;
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
 }
 
 .frame {

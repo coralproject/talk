@@ -1,6 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
-// import cn from "classnames";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 
 import { OnSubmit } from "coral-framework/lib/form";
@@ -13,8 +12,6 @@ import { PropTypesOf } from "coral-ui/types";
 import CommentForm from "../../Stream/CommentForm";
 import TopBarLeft from "../TopBarLeft";
 import Username from "../Username";
-
-// import styles from "./EditCommentForm.css";
 
 export interface EditCommentFormProps {
   id: string;
