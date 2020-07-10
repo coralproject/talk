@@ -48,7 +48,7 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
         />
       )}
       <HorizontalGutter className={styles.root}>
-        <div>
+        <div className={styles.rteContainer}>
           <Localized
             id={
               isQA
