@@ -108,6 +108,8 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
         settings={settings.embeds}
         width={embed.width}
         height={embed.height}
+        title={embed.title}
+        video={embed.media ? embed.media.video : null}
       />
     </HorizontalGutter>
   );
@@ -122,6 +124,10 @@ const enhanced = withFragmentContainer<Props>({
           source
           width
           height
+          title
+          media {
+            video
+          }
         }
       }
     }

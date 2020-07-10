@@ -92,6 +92,8 @@ const typescriptOverrides = {
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",
       "no-empty-function": "off",
+      // (tessalt) disabled because video elements are only used to display gifs, which have no audio
+      "jsx-a11y/media-has-caption": "off",
     }
   ),
 };
