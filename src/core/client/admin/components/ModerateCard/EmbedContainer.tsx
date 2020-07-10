@@ -27,6 +27,7 @@ const EmbedContainer: FunctionComponent<Props> = ({ comment }) => {
           still={embed.media ? embed.media.still : null}
           width={embed.width}
           height={embed.height}
+          video={embed.media ? embed.media.video : null}
         />
       ))}
     </>
@@ -46,6 +47,7 @@ const enhanced = withFragmentContainer<Props>({
           media {
             original
             still
+            video
           }
         }
       }

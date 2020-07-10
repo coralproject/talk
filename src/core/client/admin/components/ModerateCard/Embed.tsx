@@ -12,6 +12,7 @@ interface Props {
   title: string | null;
   width: string | null;
   height: string | null;
+  video: string | null;
 }
 
 const Embed: FunctionComponent<Props> = ({
@@ -21,6 +22,7 @@ const Embed: FunctionComponent<Props> = ({
   title,
   width,
   height,
+  video,
 }) => {
   const cleanUrl = encodeURIComponent(url);
   const [showAnimated, setShowAnimated] = useState(false);
@@ -48,9 +50,16 @@ const Embed: FunctionComponent<Props> = ({
             </Flex>
           </BaseButton>
         )}
-        {showAnimated && (
+        {showAnimated && video && (
           <BaseButton onClick={toggleImage}>
-            <img src={url} alt={title || ""} className={styles.image} />
+            <video
+              width={width || undefined}
+              height={height || undefined}
+              autoPlay
+              loop
+            >
+              <source src={video} type="video/mp4" />
+            </video>
           </BaseButton>
         )}
       </div>
