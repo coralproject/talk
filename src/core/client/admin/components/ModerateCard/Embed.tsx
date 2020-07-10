@@ -40,7 +40,9 @@ const Embed: FunctionComponent<Props> = ({ url, type, still, title }) => {
           </BaseButton>
         )}
         {showAnimated && (
-          <img src={url} alt={title || ""} className={styles.image} />
+          <BaseButton onClick={toggleImage}>
+            <img src={url} alt={title || ""} className={styles.image} />
+          </BaseButton>
         )}
       </div>
     );
