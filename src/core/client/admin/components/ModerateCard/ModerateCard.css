@@ -120,10 +120,6 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
   text-transform: uppercase;
 }
 
-.storyTitle {
-  color: $moderateCardStoryTitleColor;
-}
-
 .commentOn {
   font-size: var(--v2-font-size-2);
   font-family: var(--v2-font-family-primary);
@@ -136,6 +132,7 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 }
 
 .storyTitle {
+  color: $moderateCardStoryTitleColor;
   font-weight: var(--v2-font-weight-primary-semi-bold);
 }
 
@@ -148,10 +145,6 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 .miniButton {
   width: 40px;
   height: 40px;
-}
-
-.deleted {
-  background: var(--v2-palette-grey-lightest);
 }
 
 .timestamp {
@@ -186,6 +179,7 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 }
 
 .deleted {
+  background: var(--v2-palette-grey-lightest);
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-2);

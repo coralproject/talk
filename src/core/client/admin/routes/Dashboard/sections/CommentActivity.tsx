@@ -12,11 +12,10 @@ import {
   YAxis,
 } from "recharts";
 
-import { Flex } from "coral-ui/components/v2";
-
 import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
-import { useUIContext } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 
 import { DashboardBox, DashboardComponentHeading, Loader } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
@@ -31,7 +30,6 @@ import CommentActivityTooltip from "./CommentActivityTooltip";
 import styles from "./CommentActivity.css";
 
 interface Props {
-  locales?: string[];
   siteID: string;
   lastUpdated: string;
 }
@@ -41,18 +39,16 @@ const HourlyCommentsMetricsFetch = createDashboardFetch<TimeSeriesMetricsJSON>(
   "/dashboard/hourly/comments"
 );
 
-const CommentActivity: FunctionComponent<Props> = ({
-  locales: localesFromProps,
-  siteID,
-  lastUpdated,
-}) => {
+const CommentActivity: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
   const [hourly, loading] = useImmediateFetch(
     HourlyCommentsMetricsFetch,
     { siteID },
     lastUpdated
   );
-  const { locales: localesFromContext } = useUIContext();
-  const locales = localesFromProps || localesFromContext || ["en-US"];
+  const formatter = useDateTimeFormatter({
+    hour: "numeric",
+    hour12: true,
+  });
   return (
     <DashboardBox>
       <Localized id="dashboard-comment-activity-heading">
@@ -81,16 +77,9 @@ const CommentActivity: FunctionComponent<Props> = ({
                 tick={{ fontSize: 12, fontWeight: 600 }}
                 tickLine={false}
                 dy={6}
-                tickFormatter={(unixTime: number) => {
-                  const formatter = new Intl.DateTimeFormat(locales, {
-                    hour: "numeric",
-                    hour12: true,
-                  });
-                  return formatter
-                    .format(new Date(unixTime))
-                    .toLowerCase()
-                    .replace(" ", "");
-                }}
+                tickFormatter={(unixTime: number) =>
+                  formatter(unixTime).toLowerCase().replace(" ", "")
+                }
               />
               <YAxis
                 allowDecimals={false}
@@ -110,7 +99,7 @@ const CommentActivity: FunctionComponent<Props> = ({
               />
               <Tooltip
                 content={(tooltipProps: TooltipProps) => (
-                  <CommentActivityTooltip {...tooltipProps} locales={locales} />
+                  <CommentActivityTooltip {...tooltipProps} />
                 )}
               />
             </LineChart>

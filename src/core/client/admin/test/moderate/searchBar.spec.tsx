@@ -270,6 +270,8 @@ describe("specified story", () => {
     moderateAllOptions.props.onClick({ button: 0, preventDefault: noop });
 
     // Expect a routing request was made to the right url.
-    expect(transitionControl.history[0].pathname).toBe("/admin/moderate");
+    expect(transitionControl.history[0].pathname).toBe(
+      "/admin/moderate/sites/site-1"
+    );
   });
 });

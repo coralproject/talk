@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
+import { UserRowContainer_query as QueryData } from "coral-admin/__generated__/UserRowContainer_query.graphql";
 import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
 import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
 import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
@@ -14,24 +15,29 @@ interface Props {
   user: UserData;
   viewer: ViewerData;
   settings: SettingsData;
+  query: QueryData;
   onUsernameClicked?: (userID: string) => void;
 }
 
 const UserRowContainer: FunctionComponent<Props> = (props) => {
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
   return (
     <UserRow
       user={props.user}
       settings={props.settings}
       viewer={props.viewer}
+      query={props.query}
       userID={props.user.id}
       username={props.user.username}
       email={props.user.email}
-      memberSince={new Intl.DateTimeFormat(locales, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      }).format(new Date(props.user.createdAt))}
+      memberSince={formatter(props.user.createdAt)}
       onUsernameClicked={props.onUsernameClicked}
       deletedAt={props.user.deletedAt}
     />
@@ -41,12 +47,14 @@ const UserRowContainer: FunctionComponent<Props> = (props) => {
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment UserRowContainer_viewer on User {
+      ...UserStatusChangeContainer_viewer
       ...UserRoleChangeContainer_viewer
     }
   `,
   settings: graphql`
     fragment UserRowContainer_settings on Settings {
       ...UserStatusChangeContainer_settings
+      ...UserRoleChangeContainer_settings
     }
   `,
   user: graphql`
@@ -58,6 +66,11 @@ const enhanced = withFragmentContainer<Props>({
       email
       createdAt
       deletedAt
+    }
+  `,
+  query: graphql`
+    fragment UserRowContainer_query on Query {
+      ...UserRoleChangeContainer_query
     }
   `,
 })(UserRowContainer);

@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -18,16 +18,6 @@ interface Props {
   viewer: StreamDeletionRequestCalloutContainer_viewer;
 }
 
-const formatter = (locales: string[], date: Date) =>
-  Intl.DateTimeFormat(locales, {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  }).format(date);
-
 const subtractSeconds = (date: Date, seconds: number) => {
   return new Date(date.getTime() - seconds * 1000);
 };
@@ -35,26 +25,40 @@ const subtractSeconds = (date: Date, seconds: number) => {
 const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
     void cancelAccountDeletion();
   }, [cancelAccountDeletion]);
 
-  const deletionDate = viewer.scheduledDeletionDate
-    ? formatter(locales, new Date(viewer.scheduledDeletionDate))
-    : null;
+  const deletionDate = useMemo(
+    () =>
+      viewer.scheduledDeletionDate
+        ? formatter(viewer.scheduledDeletionDate)
+        : null,
+    [viewer, formatter]
+  );
 
-  const requestDate = viewer.scheduledDeletionDate
-    ? formatter(
-        locales,
-        subtractSeconds(
-          new Date(viewer.scheduledDeletionDate),
-          SCHEDULED_DELETION_WINDOW_DURATION
-        )
-      )
-    : null;
+  const requestDate = useMemo(
+    () =>
+      viewer.scheduledDeletionDate
+        ? formatter(
+            subtractSeconds(
+              new Date(viewer.scheduledDeletionDate),
+              SCHEDULED_DELETION_WINDOW_DURATION
+            )
+          )
+        : null,
+    [viewer, formatter]
+  );
 
   return (
     <>

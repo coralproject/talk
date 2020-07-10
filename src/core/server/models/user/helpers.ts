@@ -5,7 +5,13 @@ import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 import { MODERATOR_ROLES, STAFF_ROLES } from "./constants";
-import { LocalProfile, Profile, SSOProfile, User } from "./user";
+import {
+  LocalProfile,
+  Profile,
+  SSOProfile,
+  User,
+  UserModerationScopes,
+} from "./user";
 
 export function roleIsStaff(role: GQLUSER_ROLE) {
   if (STAFF_ROLES.includes(role)) {
@@ -31,6 +37,14 @@ function hasModeratorRole(user: Pick<User, "role">) {
   return roleIsModerator(user.role);
 }
 
+export function isModerationScoped(moderationScopes?: UserModerationScopes) {
+  return (
+    !!moderationScopes &&
+    !!moderationScopes.siteIDs &&
+    moderationScopes.siteIDs.length > 0
+  );
+}
+
 /**
  * canModerateUnscoped will check if a given user is unscoped (without any
  * restrictions) on their moderation capacity.
@@ -51,8 +65,7 @@ export function canModerateUnscoped(
   // moderator.
   if (
     user.role === GQLUSER_ROLE.MODERATOR &&
-    user.moderationScopes &&
-    user.moderationScopes.siteIDs
+    isModerationScoped(user.moderationScopes)
   ) {
     return false;
   }

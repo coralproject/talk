@@ -75,11 +75,6 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     comment: await ctx.mutators.Comments.unfeature(input),
     clientMutationId,
   }),
-  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
-  regenerateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.regenerateSSOKey(),
-    clientMutationId: input.clientMutationId,
-  }),
   rotateSSOSigningSecret: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.rotateSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,

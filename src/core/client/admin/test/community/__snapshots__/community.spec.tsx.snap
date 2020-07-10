@@ -291,7 +291,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018
+              07/06/2018, 6:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -356,7 +356,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018
+              07/06/2018, 6:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -454,7 +454,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018
+              07/06/2018, 6:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -552,7 +552,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018
+              07/06/2018, 6:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -574,7 +574,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <span
-                    className="UserRoleText-root UserRoleText-commenter"
+                    className="UserRoleText-root"
                   >
                     Commenter
                   </span>

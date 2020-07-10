@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { DateTime } from "luxon";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import {
   FormField,
   FormFieldFooter,
@@ -22,19 +22,20 @@ const Announcement: FunctionComponent<Props> = ({
   createdAt,
   duration,
 }) => {
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const formattedDate = useMemo(() => {
     const disableAt = DateTime.fromISO(createdAt)
       .plus({ seconds: duration })
       .toJSDate();
-    return new Intl.DateTimeFormat(locales, {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(disableAt));
-  }, [createdAt, duration]);
+
+    return formatter(disableAt);
+  }, [createdAt, duration, formatter]);
   return (
     <FormField>
       <FormFieldHeader>

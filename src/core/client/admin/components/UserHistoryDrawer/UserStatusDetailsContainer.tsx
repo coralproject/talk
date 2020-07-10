@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   BaseButton,
@@ -33,9 +33,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
     return user.status.suspension.history.find((item) => item.active);
   }, [user]);
 
-  const { locales } = useCoralContext();
-
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -55,12 +53,12 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                 <div>
                   <Localized
                     id="userDetails-banned-on"
-                    $timestamp={formatter.format(new Date(activeBan.createdAt))}
+                    $timestamp={formatter(activeBan.createdAt)}
                     strong={<strong />}
                   >
                     <p className={styles.root}>
                       <strong>Banned on </strong>{" "}
-                      {formatter.format(new Date(activeBan.createdAt))}
+                      {formatter(activeBan.createdAt)}
                     </p>
                   </Localized>
                   {activeBan.createdBy && (
@@ -94,25 +92,21 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   <Localized
                     id="userDetails-suspension-start"
                     strong={<strong />}
-                    $timestamp={formatter.format(
-                      new Date(activeSuspension.from.start)
-                    )}
+                    $timestamp={formatter(activeSuspension.from.start)}
                   >
                     <p className={styles.root}>
                       <strong>Start: </strong>
-                      {formatter.format(new Date(activeSuspension.from.start))}
+                      {formatter(activeSuspension.from.start)}
                     </p>
                   </Localized>
                   <Localized
                     strong={<strong />}
-                    $timestamp={formatter.format(
-                      new Date(activeSuspension.from.finish)
-                    )}
+                    $timestamp={formatter(activeSuspension.from.finish)}
                     id="userDetails-suspension-finish"
                   >
                     <p className={styles.root}>
                       <strong>End: </strong>
-                      {formatter.format(new Date(activeSuspension.from.finish))}
+                      {formatter(activeSuspension.from.finish)}
                     </p>
                   </Localized>
                 </div>

@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import CLASSES from "coral-stream/classes";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -28,17 +28,17 @@ const CompletionPage: FunctionComponent<Props> = ({
     onClose();
   }, [onClose]);
 
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
   const formattedDate = scheduledDeletionDate
-    ? Intl.DateTimeFormat(locales, {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }).format(new Date(scheduledDeletionDate))
+    ? formatter(scheduledDeletionDate)
     : "";
 
   return (

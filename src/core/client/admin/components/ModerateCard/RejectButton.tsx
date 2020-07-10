@@ -9,10 +9,12 @@ import styles from "./RejectButton.css";
 
 interface Props extends Omit<PropTypesOf<typeof BaseButton>, "ref"> {
   invert?: boolean;
+  readOnly?: boolean;
 }
 
 const RejectButton: FunctionComponent<Props> = ({
   invert,
+  readOnly,
   className,
   ...rest
 }) => (
@@ -21,6 +23,7 @@ const RejectButton: FunctionComponent<Props> = ({
       {...rest}
       className={cn(className, styles.root, {
         [styles.invert]: invert,
+        [styles.readOnly]: readOnly,
       })}
       aria-label="Reject"
     >

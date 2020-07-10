@@ -10,11 +10,12 @@ import {
   CheckBox,
   Flex,
   HorizontalGutter,
+  Label,
   RadioButton,
   Textarea,
 } from "coral-ui/components/v2";
 
-import styles from "./SuspendModal.css";
+import styles from "./SuspendForm.css";
 
 interface Props {
   username: string | null;
@@ -120,7 +121,7 @@ const SuspendForm: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <HorizontalGutter spacing={1}>
                 <Localized id="community-suspendModal-selectDuration">
-                  <p className={styles.subTitle}>Select suspension length</p>
+                  <Label>Select suspension length</Label>
                 </Localized>
 
                 <div>

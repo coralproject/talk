@@ -9,10 +9,12 @@ import styles from "./ApproveButton.css";
 
 interface Props extends Omit<PropTypesOf<typeof BaseButton>, "ref"> {
   invert?: boolean;
+  readOnly?: boolean;
 }
 
 const ApproveButton: FunctionComponent<Props> = ({
   invert,
+  readOnly,
   className,
   ...rest
 }) => (
@@ -21,6 +23,7 @@ const ApproveButton: FunctionComponent<Props> = ({
       {...rest}
       className={cn(className, styles.root, {
         [styles.invert]: invert,
+        [styles.readOnly]: readOnly,
       })}
       aria-label="Approve"
     >

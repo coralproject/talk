@@ -6,13 +6,11 @@ import { ScaledUnit } from "coral-common/helpers/i18n";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
+import ModalBodyText from "../ModalBodyText";
+import ModalHeader from "../ModalHeader";
+import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import ChangeStatusModalHeader from "./ChangeStatusModalHeader";
-import ModalHeaderUsername from "./ModalHeaderUsername";
-
 import SuspendForm from "./SuspendForm";
-
-import styles from "./SuspendModal.css";
 
 interface Props {
   username: string | null;
@@ -63,10 +61,10 @@ const SuspendModal: FunctionComponent<Props> = ({
                 strong={<ModalHeaderUsername />}
                 $duration={successDuration}
               >
-                <ChangeStatusModalHeader>
+                <ModalHeader>
                   <ModalHeaderUsername>{username}</ModalHeaderUsername> has been
                   suspended for <strong>{successDuration}</strong>
-                </ChangeStatusModalHeader>
+                </ModalHeader>
               </Localized>
 
               <Flex justifyContent="flex-end" itemGutter="half">
@@ -85,19 +83,19 @@ const SuspendModal: FunctionComponent<Props> = ({
                 strong={<ModalHeaderUsername />}
                 $username={username || <NotAvailable />}
               >
-                <ChangeStatusModalHeader id="suspendModal-title">
+                <ModalHeader id="suspendModal-title">
                   Suspend{" "}
                   <ModalHeaderUsername>
                     {username || <NotAvailable />}
                   </ModalHeaderUsername>
                   ?
-                </ChangeStatusModalHeader>
+                </ModalHeader>
               </Localized>
               <Localized id="community-suspendModal-consequence">
-                <div className={styles.bodyText}>
+                <ModalBodyText>
                   While suspended, this user will no longer be able to comment,
                   use reactions, or report comments.
-                </div>
+                </ModalBodyText>
               </Localized>
 
               <SuspendForm

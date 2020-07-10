@@ -1,9 +1,0 @@
-$role-field-text: var(--v2-colors-mono-500);
-
-.legend {
-  font-size: var(--v2-font-size-3);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  line-height: var(--v2-line-height-body-short);
-  color: $role-field-text;
-}

@@ -7,9 +7,7 @@ import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./UserRoleText.css";
 
-interface Props {
-  children: PropTypesOf<typeof TranslatedRole>["children"];
-}
+type Props = Omit<PropTypesOf<typeof TranslatedRole>, "container">;
 
 const UserRoleText: FunctionComponent<Props> = (props) => (
   <TranslatedRole
@@ -20,9 +18,8 @@ const UserRoleText: FunctionComponent<Props> = (props) => (
         })}
       />
     }
-  >
-    {props.children}
-  </TranslatedRole>
+    {...props}
+  />
 );
 
 export default UserRoleText;

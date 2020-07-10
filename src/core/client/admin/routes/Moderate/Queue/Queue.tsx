@@ -19,6 +19,7 @@ interface Props {
     { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]
   >;
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
+  viewer: PropTypesOf<typeof ModerateCardContainer>["viewer"];
   onLoadMore: () => void;
   onViewNew?: () => void;
   hasLoadMore: boolean;
@@ -32,6 +33,7 @@ interface Props {
 const Queue: FunctionComponent<Props> = ({
   settings,
   comments,
+  viewer,
   hasLoadMore: hasMore,
   disableLoadMore,
   onLoadMore,
@@ -134,6 +136,7 @@ const Queue: FunctionComponent<Props> = ({
           <ModerateCardContainer
             key={comment.id}
             settings={settings}
+            viewer={viewer}
             comment={comment}
             danglingLogic={danglingLogic}
             showStoryInfo={Boolean(allStories)}

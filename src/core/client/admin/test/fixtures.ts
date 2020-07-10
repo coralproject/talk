@@ -275,6 +275,7 @@ export const site = createFixture<GQLSite>({
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
   allowedOrigins: ["http://test-site.com"],
+  canModerate: true,
 });
 
 export const sites = createFixtures<GQLSite>([
@@ -283,12 +284,14 @@ export const sites = createFixtures<GQLSite>([
     id: "site-1",
     createdAt: "2018-07-06T18:24:00.000Z",
     allowedOrigins: ["http://test-site.com"],
+    canModerate: true,
   },
   {
     name: "Second Site",
     id: "site-2",
     createdAt: "2018-09-06T18:24:00.000Z",
     allowedOrigins: ["http://test-2-site.com"],
+    canModerate: true,
   },
 ]);
 
@@ -533,6 +536,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[0],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -563,6 +567,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -593,6 +598,7 @@ export const stories = createFixtures<GQLStory>([
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -632,6 +638,7 @@ export const baseComment = createFixture<GQLComment>({
       createdAt: "2018-07-06T18:24:00.000Z",
     },
   ],
+  canModerate: true,
   revision: {
     actionCounts: {
       flag: {

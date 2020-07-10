@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
@@ -48,7 +48,6 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       </span>
     </Localized>
   );
-  const { locales } = useCoralContext();
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
     const history: HistoryRecord[] = [];
@@ -137,7 +136,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     // Sort the history so that it's in the right order.
     return history.sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [user]);
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -167,7 +166,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           {combinedHistory.map((history, index) => (
             <TableRow key={index} className={styles.row}>
               <TableCell className={styles.date}>
-                {formatter.format(history.date)}
+                {formatter(history.date)}
               </TableCell>
               <TableCell className={styles.action}>
                 <AccountHistoryAction {...history} />

@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -13,17 +13,15 @@ interface Props {
 }
 
 const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
-  const { locales } = useCoralContext();
-  const untilDate = useMemo(() => {
-    const formatter = new Intl.DateTimeFormat(locales, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-    });
-    return formatter.format(new Date(until));
-  }, [locales, until]);
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+  const untilDate = useMemo(() => formatter(until), [formatter, until]);
+
   return (
     <CallOut
       color="negative"

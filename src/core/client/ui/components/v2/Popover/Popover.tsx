@@ -40,7 +40,13 @@ interface ChildrenRenderProps {
 }
 
 interface PopoverProps {
-  body: (props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>;
+  /**
+   * body supports render props from the body or a react node itself.
+   */
+  body:
+    | ((props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>)
+    | React.ReactNode
+    | React.ReactElement<any>;
   children: (props: ChildrenRenderProps) => React.ReactNode;
   description?: string;
   id: string;

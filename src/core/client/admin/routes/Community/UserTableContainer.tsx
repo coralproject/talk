@@ -54,6 +54,7 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
         <UserTable
           viewer={props.query && props.query.viewer}
           settings={props.query && props.query.settings}
+          query={props.query}
           loading={!props.query || isRefetching}
           users={users}
           onLoadMore={loadMore}
@@ -105,6 +106,7 @@ const enhanced = withPaginationContainer<
             }
           }
         }
+        ...UserRowContainer_query
       }
     `,
   },

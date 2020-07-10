@@ -14,7 +14,7 @@ import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constan
 import { reduceSeconds } from "coral-common/helpers/i18n";
 import TIME from "coral-common/time";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { streamColorFromMeta } from "coral-framework/lib/form";
@@ -150,9 +150,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     [updateUsername]
   );
 
-  const { locales } = useCoralContext();
-
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -224,18 +222,13 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             $value={FREQUENCYSCALED.scaled}
             $unit={FREQUENCYSCALED.unit}
             $nextUpdate={
-              canChangeUsernameDate
-                ? formatter.format(canChangeUsernameDate)
-                : null
+              canChangeUsernameDate ? formatter(canChangeUsernameDate) : null
             }
           >
             <div className={cn(styles.tooSoon, CLASSES.myUsername.tooSoon)}>
               You changed your username within the last {FREQUENCYSCALED.scaled}{" "}
               {FREQUENCYSCALED.unit}. You may change your username again on:{" "}
-              {canChangeUsernameDate
-                ? formatter.format(canChangeUsernameDate)
-                : null}
-              .
+              {canChangeUsernameDate ? formatter(canChangeUsernameDate) : null}.
             </div>
           </Localized>
         </div>

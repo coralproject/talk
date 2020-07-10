@@ -2,6 +2,7 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -25,6 +26,7 @@ import {
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
+  GQLFEATURE_FLAG,
   GQLFeatureCommentInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
@@ -160,8 +162,11 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
     commentRevisionID,
   }: WithoutMutationID<GQLFeatureCommentInput>) => {
-    // Validate that this user is allowed to moderate this comment.
-    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+    // Validate that this user is allowed to moderate this comment if the
+    // feature flag is enabled.
+    if (hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+    }
 
     const comment = await addTag(
       ctx.mongo,
@@ -195,8 +200,11 @@ export const Comments = (ctx: GraphContext) => ({
   unfeature: async ({
     commentID,
   }: WithoutMutationID<GQLUnfeatureCommentInput>) => {
-    // Validate that this user is allowed to moderate this comment.
-    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+    // Validate that this user is allowed to moderate this comment if the
+    // feature flag is enabled.
+    if (hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      await validateUserModerationScopes(ctx, ctx.user!, { commentID });
+    }
 
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
   },

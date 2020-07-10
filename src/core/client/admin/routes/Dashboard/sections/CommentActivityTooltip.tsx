@@ -2,28 +2,27 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { TooltipProps } from "recharts";
 
+import { useDateTimeFormatter } from "coral-framework/hooks";
+
 import styles from "./CommentActivityTooltip.css";
 
-type Props = TooltipProps & {
-  locales: string[];
-};
+type Props = TooltipProps;
 
 const CommentActivityTooltip: FunctionComponent<Props> = ({
   active,
   payload,
   label,
-  locales,
 }) => {
+  const formatter = useDateTimeFormatter({
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const formattedLabel = useMemo(() => {
     if (label) {
-      const formatter = new Intl.DateTimeFormat(locales, {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      return formatter.format(new Date(label)).toLowerCase();
+      return formatter(label).toLowerCase();
     }
     return "";
-  }, [label]);
+  }, [label, formatter]);
   if (active) {
     return (
       <div className={styles.root}>

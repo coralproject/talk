@@ -1,5 +1,10 @@
 import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -11,18 +16,20 @@ import {
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { getModerationLink } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
-  MutationProp,
-  withFragmentContainer,
-  withMutation,
-} from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
   ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 
 import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
@@ -31,13 +38,9 @@ import ModeratedByContainer from "./ModeratedByContainer";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
+  viewer: ModerateCardContainer_viewer;
   comment: ModerateCardContainer_comment;
   settings: ModerateCardContainer_settings;
-  approveComment: MutationProp<typeof ApproveCommentMutation>;
-  rejectComment: MutationProp<typeof RejectCommentMutation>;
-  featureComment: MutationProp<typeof FeatureCommentMutation>;
-  unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
-  banUser: MutationProp<typeof BanCommentUserMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
@@ -71,14 +74,11 @@ function isFeatured(comment: ModerateCardContainer_comment) {
 const ModerateCardContainer: FunctionComponent<Props> = ({
   comment,
   settings,
+  viewer,
   danglingLogic,
   showStoryInfo,
   match,
   router,
-  approveComment,
-  rejectComment,
-  featureComment,
-  unfeatureComment,
   mini,
   hideUsername,
   selected,
@@ -87,12 +87,33 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onUsernameClicked: usernameClicked,
   onConversationClicked: conversationClicked,
   onSetSelected: setSelected,
-  banUser,
   loadNext,
 }) => {
+  const approveComment = useMutation(ApproveCommentMutation);
+  const rejectComment = useMutation(RejectCommentMutation);
+  const featureComment = useMutation(FeatureCommentMutation);
+  const unfeatureComment = useMutation(UnfeatureCommentMutation);
+  const banUser = useMutation(BanCommentUserMutation);
+
+  const scoped = useMemo(
+    () =>
+      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+      !!viewer.moderationScopes?.scoped,
+    [settings, viewer]
+  );
+
+  const readOnly = useMemo(() => scoped && !comment.canModerate, [
+    scoped,
+    comment,
+  ]);
+
   const [showBanModal, setShowBanModal] = useState(false);
   const handleApprove = useCallback(async () => {
     if (!comment.revision) {
+      return;
+    }
+
+    if (readOnly) {
       return;
     }
 
@@ -108,10 +129,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [approveComment, comment, match]);
+  }, [approveComment, comment, match, readOnly]);
 
   const handleReject = useCallback(async () => {
     if (!comment.revision) {
+      return;
+    }
+
+    if (readOnly) {
       return;
     }
 
@@ -127,10 +152,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [rejectComment, comment, match]);
+  }, [rejectComment, comment, match, readOnly]);
 
   const handleFeature = useCallback(() => {
     if (!comment.revision) {
+      return;
+    }
+
+    if (readOnly) {
       return;
     }
 
@@ -143,24 +172,31 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       siteID,
       section,
     });
-  }, [featureComment, comment, match]);
+  }, [featureComment, comment, match, readOnly]);
 
   const handleUnfeature = useCallback(() => {
+    if (readOnly) {
+      return;
+    }
+
     void unfeatureComment({
       commentID: comment.id,
       storyID: match.params.storyID,
     });
-  }, [unfeatureComment, comment, match]);
+  }, [unfeatureComment, comment, match, readOnly]);
 
   const onFeature = useCallback(() => {
-    const featured = isFeatured(comment);
+    if (readOnly) {
+      return;
+    }
 
+    const featured = isFeatured(comment);
     if (featured) {
       handleUnfeature();
     } else {
       handleFeature();
     }
-  }, [comment]);
+  }, [comment, readOnly, handleFeature, handleUnfeature]);
 
   const onUsernameClicked = useCallback(
     (id?: string) => {
@@ -197,7 +233,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanModalClose = useCallback(() => {
     setShowBanModal(false);
-  }, []);
+  }, [setShowBanModal]);
 
   const openBanModal = useCallback(() => {
     if (
@@ -206,8 +242,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     ) {
       return;
     }
+
     setShowBanModal(true);
-  }, [comment]);
+  }, [comment, setShowBanModal]);
 
   const handleBanConfirm = useCallback(
     async (rejectExistingComments: boolean, message: string) => {
@@ -220,17 +257,22 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       }
       setShowBanModal(false);
     },
-    [comment]
+    [comment, banUser, setShowBanModal]
   );
 
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
-  const highlight = comment.revision
-    ? comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD +
-        comment.revision.actionCounts.flag.reasons
-          .COMMENT_DETECTED_SUSPECT_WORD >
-      0
-    : false;
+  const highlight = useMemo(
+    () =>
+      comment.revision
+        ? comment.revision.actionCounts.flag.reasons
+            .COMMENT_DETECTED_BANNED_WORD +
+            comment.revision.actionCounts.flag.reasons
+              .COMMENT_DETECTED_SUSPECT_WORD >
+          0
+        : false,
+    [comment]
+  );
 
   return (
     <>
@@ -284,6 +326,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           hideUsername={hideUsername}
           deleted={comment.deleted ? comment.deleted : false}
           edited={comment.editing.edited}
+          readOnly={readOnly}
           isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
         />
       </FadeInTransition>
@@ -341,6 +384,7 @@ const enhanced = withFragmentContainer<Props>({
           username
         }
       }
+      canModerate
       story {
         id
         metadata {
@@ -374,18 +418,13 @@ const enhanced = withFragmentContainer<Props>({
       ...MarkersContainer_settings
     }
   `,
-})(
-  withRouter(
-    withMutation(BanCommentUserMutation)(
-      withMutation(ApproveCommentMutation)(
-        withMutation(RejectCommentMutation)(
-          withMutation(FeatureCommentMutation)(
-            withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
-          )
-        )
-      )
-    )
-  )
-);
+  viewer: graphql`
+    fragment ModerateCardContainer_viewer on User {
+      moderationScopes {
+        scoped
+      }
+    }
+  `,
+})(withRouter(ModerateCardContainer));
 
 export default enhanced;
