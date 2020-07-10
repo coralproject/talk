@@ -139,7 +139,6 @@ export const compose = (
       bodyText,
       metadata: final.metadata,
     });
-    /* eslint-disable-next-line */
     if (result) {
       // Merge the results in. If we're finished, break now!
       const finished = mergePhaseResult(result, final);
