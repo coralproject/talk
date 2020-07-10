@@ -61,7 +61,6 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         classNameRoot="editComment"
         embedConfig={props.embedConfig}
         expired={props.expired}
-        action="UPDATE"
         placeholder="Edit comment"
         placeHolderId="comments-editCommentForm-rte"
         disabledMessage={

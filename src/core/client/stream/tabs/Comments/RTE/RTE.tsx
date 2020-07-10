@@ -138,7 +138,7 @@ interface Props {
 
   features?: RTEFeatures;
 
-  toolbarButtons?: React.ReactElement;
+  toolbarButtons?: React.ReactElement | null;
 
   onWillPaste?: (event: PasteEvent) => void;
 }

@@ -1,6 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
-// import cn from "classnames";
 import { FormApi, FormState, MutableState } from "final-form";
 import React, {
   EventHandler,
@@ -62,8 +61,6 @@ interface FormProps {
 
 interface FormSubmitProps extends FormProps, FormError {}
 
-type FormAction = "CREATE" | "UPDATE";
-
 interface EmbedConfig {
   giphy: boolean;
   twitter: boolean;
@@ -83,7 +80,6 @@ interface Props {
   onFocus?: () => void;
   rteRef?: Ref<CoralRTE>;
   onCancel?: EventHandler<MouseEvent<any>>;
-  action: FormAction;
   editableUntil?: string;
   expired?: boolean;
   submitStatus?: React.ReactNode;
@@ -158,7 +154,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
           values,
           invalid,
           pristine,
-          ...rest
         }) => (
           <form
             autoComplete="off"
@@ -194,7 +189,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       <HorizontalGutter size="half">
                         {props.bodyLabel}
                         <div>
-                          {/* TODO: placeholder for QA */}
                           <Localized
                             id={props.placeHolderId}
                             attrs={{ placeholder: true }}
@@ -213,22 +207,18 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               ref={props.rteRef || null}
                               toolbarButtons={
                                 props.embedConfig.giphy ? (
-                                  <>
-                                    <Button
-                                      color="mono"
-                                      variant={
-                                        showGifSelector ? "regular" : "flat"
-                                      }
-                                      onClick={onGifButtonClick}
-                                      iconLeft
-                                    >
-                                      <ButtonIcon>add</ButtonIcon>
-                                      GIF
-                                    </Button>
-                                  </>
-                                ) : (
-                                  <></>
-                                )
+                                  <Button
+                                    color="mono"
+                                    variant={
+                                      showGifSelector ? "regular" : "flat"
+                                    }
+                                    onClick={onGifButtonClick}
+                                    iconLeft
+                                  >
+                                    <ButtonIcon>add</ButtonIcon>
+                                    GIF
+                                  </Button>
+                                ) : null
                               }
                             />
                           </Localized>
@@ -381,14 +371,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     <>
                       {props.onCancel && (
                         <Localized id="comments-commentForm-cancel">
-                          {/* todo: classnames */}
                           <Button
                             color="mono"
                             variant="outline"
                             disabled={submitting}
                             onClick={props.onCancel}
                             fullWidth={matches}
-                            className={CLASSES.editComment.cancel}
+                            className={CLASSES[props.classNameRoot].cancel}
                           >
                             Cancel
                           </Button>

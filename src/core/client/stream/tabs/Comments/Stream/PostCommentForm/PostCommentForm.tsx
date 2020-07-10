@@ -79,7 +79,6 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         placeholder="Post a comment"
         embedConfig={props.embedConfig}
         onFocus={onFocus}
-        action="CREATE"
         classNameRoot="createComment"
         bodyInputID="comments-postCommentForm-field"
         bodyLabel={

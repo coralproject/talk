@@ -54,7 +54,6 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         classNameRoot="createReplyComment"
         disabledMessage={props.disabledMessage}
         onFocus={onFocus}
-        action="CREATE"
         onCancel={props.onCancel}
         embedConfig={props.embedConfig}
         placeHolderId="comments-replyCommentForm-rte"
