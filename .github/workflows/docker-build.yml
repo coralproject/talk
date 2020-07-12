@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ feature/test-build-rus ]
+    branches: [ master ]
     
 jobs:
   build:
