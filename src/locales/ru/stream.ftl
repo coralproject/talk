@@ -19,11 +19,11 @@ general-tabBar-configure = Конфигурирование
 ## Comment Count
 
 comment-count-text =
-  { $count  ->
-    [one] Comment
-    *[other] Comments
+  { $count ->
+    [one] Комментарий
+    [few] Комментария
+    *[many] Комментариев
   }
-
 ## Comments Tab
 
 comments-allCommentsTab = Все сообщения
