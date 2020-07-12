@@ -21,6 +21,3 @@ jobs:
         tags: $(date +%s)
         # Always attempt to pull a newer version of the image
         always_pull: true
-		
-		  
-		  
