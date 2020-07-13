@@ -18,6 +18,6 @@ jobs:
         # Docker repository to tag the image with
         repository: ilyatt/coral-talk
         # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
-        tags: rus1
+        tags: 6.3.0-rus
         # Always attempt to pull a newer version of the image
         always_pull: true
