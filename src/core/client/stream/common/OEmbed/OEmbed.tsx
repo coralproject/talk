@@ -18,6 +18,10 @@ interface Props {
   height?: string | null;
 }
 
+function calculateBottomPadding(width: string, height: string) {
+  return `${(parseInt(height, 10) / parseInt(width, 10)) * 100}%`;
+}
+
 const oEmbed: FunctionComponent<Props> = ({
   url,
   type,
@@ -44,7 +48,11 @@ const oEmbed: FunctionComponent<Props> = ({
   }, [containerRef.current, maxWidth]);
 
   const onLoad = useCallback(() => {
-    if (width && height) {
+    if (width && height && containerRef && containerRef.current) {
+      containerRef.current.style.paddingBottom = calculateBottomPadding(
+        width,
+        height
+      );
       return;
     }
     let resizeInterval: number | null = null;
@@ -73,10 +81,10 @@ const oEmbed: FunctionComponent<Props> = ({
         calculatedWidth &&
         calculatedHeight
       ) {
-        const paddingBottom = `${
-          (parseInt(calculatedHeight, 10) / parseInt(calculatedWidth, 10)) * 100
-        }%`;
-        containerRef.current.style.paddingBottom = paddingBottom;
+        containerRef.current.style.paddingBottom = calculateBottomPadding(
+          calculatedWidth,
+          calculatedHeight
+        );
       }
       iterations = iterations + 1;
     }, 100);
