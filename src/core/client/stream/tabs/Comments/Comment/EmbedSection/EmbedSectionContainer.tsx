@@ -32,6 +32,7 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
     !revision ||
     !revision.embeds ||
     revision.embeds.length <= 0 ||
+    !embedSettings ||
     (!embedSettings.twitter && !embedSettings.youtube)
   ) {
     return null;
@@ -40,6 +41,7 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
   const embed = revision.embeds[0];
 
   if (
+    !embedSettings ||
     (embed.source === "TWITTER" && !embedSettings.twitter) ||
     (embed.source === "YOUTUBE" && !embedSettings.youtube) ||
     (embed.source === "GIPHY" && !embedSettings.giphy)
@@ -135,9 +137,15 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmbedSectionContainer_settings on Settings {
       embeds {
-        twitter
-        youtube
-        giphy
+        twitter {
+          enabled
+        }
+        youtube {
+          enabled
+        }
+        giphy {
+          enabled
+        }
       }
     }
   `,

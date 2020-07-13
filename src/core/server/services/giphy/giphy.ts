@@ -2,26 +2,24 @@ import { URL } from "url";
 
 import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
+import { Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 
-import { GQLGIPHY_RATING } from "coral-server/graph/schema/__generated__/types";
-
+const RATINGS_ORDER = ["G", "PG", "PG13", "R"];
 const fetch = createFetch({ name: "giphy" });
 
 type GiphyLanguage = "en" | "es" | "fr" | "de" | "pt";
 
-export function ratingIsAllowed(rating: string, maxRating: GQLGIPHY_RATING) {
-  const ratingsOrder = [
-    GQLGIPHY_RATING.G,
-    GQLGIPHY_RATING.PG,
-    GQLGIPHY_RATING.PG13,
-    GQLGIPHY_RATING.R,
-  ];
-  const compareRating = rating.toUpperCase() as GQLGIPHY_RATING;
-  return (
-    ratingsOrder.includes(compareRating) &&
-    ratingsOrder.indexOf(compareRating) <= ratingsOrder.indexOf(maxRating)
-  );
+export function ratingIsAllowed(rating: string, tenant: Tenant) {
+  const compareRating = rating.toUpperCase();
+  if (tenant.embeds && tenant.embeds.giphy && tenant.embeds.giphy.maxRating) {
+    return (
+      RATINGS_ORDER.includes(compareRating) &&
+      RATINGS_ORDER.indexOf(compareRating) <=
+        RATINGS_ORDER.indexOf(tenant.embeds.giphy.maxRating)
+    );
+  }
+  return false;
 }
 
 /**
@@ -50,17 +48,24 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
 export async function searchGiphy(
   query: string,
   offset: string,
-  rating: GQLGIPHY_RATING,
-  apiKey: string,
-  locale: LanguageCode
+  tenant: Tenant
 ) {
-  const language = convertLanguage(locale);
+  if (
+    !tenant.embeds ||
+    !tenant.embeds.giphy ||
+    !tenant.embeds.giphy.enabled ||
+    !tenant.embeds.giphy.APIKey ||
+    !tenant.embeds.giphy.maxRating
+  ) {
+    throw new Error("Must configure GIPHY integration with API key");
+  }
+  const language = convertLanguage(tenant.locale);
   const url = new URL(GIPHY_SEARCH);
-  url.searchParams.set("api_key", apiKey);
+  url.searchParams.set("api_key", tenant.embeds.giphy.APIKey);
   url.searchParams.set("limit", "10");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
-  url.searchParams.set("rating", rating);
+  url.searchParams.set("rating", tenant.embeds.giphy.maxRating);
   url.searchParams.set("q", query);
 
   try {
@@ -95,9 +100,18 @@ export async function searchGiphy(
   }
 }
 
-export async function fetchFromGiphy(id: string, apiKey: string) {
+export async function retrieveFromGiphy(id: string, tenant: Tenant) {
   const url = new URL(`${GIPHY_FETCH}/${id}`);
-  url.searchParams.set("api_key", apiKey);
+  if (
+    !tenant.embeds ||
+    !tenant.embeds.giphy ||
+    !tenant.embeds.giphy.enabled ||
+    !tenant.embeds.giphy.APIKey ||
+    !tenant.embeds.giphy.maxRating
+  ) {
+    throw new Error("Must configure GIPHY integration with API key");
+  }
+  url.searchParams.set("api_key", tenant.embeds.giphy.APIKey);
   try {
     const res = await fetch(url.toString());
 
@@ -105,7 +119,6 @@ export async function fetchFromGiphy(id: string, apiKey: string) {
       throw new Error("unable to fetch");
     }
 
-    // Parse the JSON body and send back the result!
     const result = await res.json();
     return result.data;
   } catch (err) {

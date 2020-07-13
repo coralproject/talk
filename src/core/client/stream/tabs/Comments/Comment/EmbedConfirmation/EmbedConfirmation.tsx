@@ -5,6 +5,17 @@ import EmbedConfirmPrompt from "./EmbedConfirmPrompt";
 import EmbedPreview from "./EmbedPreview";
 
 import styles from "./EmbedConfirmation.css";
+interface EmbedConfig {
+  giphy: {
+    enabled: boolean;
+  };
+  twitter: {
+    enabled: boolean;
+  };
+  youtube: {
+    enabled: boolean;
+  };
+}
 
 interface Props {
   embed: EmbedLink & {
@@ -12,11 +23,13 @@ interface Props {
   };
   onConfirm: () => void;
   onRemove: () => void;
+  config: EmbedConfig;
 }
 
 const EmbedConfirmation: FunctionComponent<Props> = ({
   embed,
   onConfirm,
+  config,
   onRemove,
 }) => {
   return (
@@ -28,7 +41,9 @@ const EmbedConfirmation: FunctionComponent<Props> = ({
           onRemove={onRemove}
         />
       )}
-      {embed.confirmed && <EmbedPreview embed={embed} onRemove={onRemove} />}
+      {embed.confirmed && (
+        <EmbedPreview embed={embed} onRemove={onRemove} config={config} />
+      )}
     </div>
   );
 };

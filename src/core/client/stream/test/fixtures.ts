@@ -2,7 +2,6 @@ import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
-  GQLGIPHY_RATING,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLSite,
@@ -115,13 +114,6 @@ export const settings = createFixture<GQLSettings>({
     enabled: true,
     strikethrough: false,
     spoiler: false,
-  },
-  embeds: {
-    twitter: true,
-    youtube: true,
-    giphy: true,
-    giphyMaxRating: GQLGIPHY_RATING.G,
-    giphyAPIKey: "",
   },
 });
 

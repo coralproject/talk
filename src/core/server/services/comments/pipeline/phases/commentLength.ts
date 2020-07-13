@@ -4,6 +4,7 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
+import { supportsEmbedType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -33,7 +34,9 @@ export const commentLength: IntermediateModerationPhase = ({
 
   const embed = embeds && embeds.length > 0 ? embeds[0] : null;
 
-  if (!(embed && embed.source === "GIPHY" && tenant.embeds.giphy)) {
+  if (
+    !(embed && embed.source === "GIPHY" && supportsEmbedType(tenant, "giphy"))
+  ) {
     if (length < min) {
       throw new CommentBodyTooShortError(min);
     }

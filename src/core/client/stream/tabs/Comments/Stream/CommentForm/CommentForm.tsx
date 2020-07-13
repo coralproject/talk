@@ -62,9 +62,15 @@ interface FormProps {
 interface FormSubmitProps extends FormProps, FormError {}
 
 interface EmbedConfig {
-  giphy: boolean;
-  twitter: boolean;
-  youtube: boolean;
+  giphy: {
+    enabled: boolean;
+  };
+  twitter: {
+    enabled: boolean;
+  };
+  youtube: {
+    enabled: boolean;
+  };
 }
 
 interface Props {
@@ -84,7 +90,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  embedConfig: EmbedConfig;
+  embedConfig: EmbedConfig | null;
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
@@ -120,8 +126,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     }
     if (
       link &&
-      ((link.source === "TWITTER" && props.embedConfig.twitter) ||
-        (link.source === "YOUTUBE" && props.embedConfig.youtube))
+      props.embedConfig &&
+      ((link.source === "TWITTER" &&
+        props.embedConfig.twitter &&
+        props.embedConfig.twitter.enabled) ||
+        (link.source === "YOUTUBE" &&
+          props.embedConfig.youtube &&
+          props.embedConfig.youtube.enabled))
     ) {
       setEmbedLink({ ...link });
     }
@@ -206,7 +217,9 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               disabled={submitting || props.disabled}
                               ref={props.rteRef || null}
                               toolbarButtons={
-                                props.embedConfig.giphy ? (
+                                props.embedConfig &&
+                                props.embedConfig.giphy &&
+                                props.embedConfig.giphy.enabled ? (
                                   <>
                                     <Button
                                       color="mono"
@@ -286,6 +299,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <EmbedPreview
+                            config={props.embedConfig}
                             embed={{
                               url: fieldProps.input.value,
                               source: values.embed.source,

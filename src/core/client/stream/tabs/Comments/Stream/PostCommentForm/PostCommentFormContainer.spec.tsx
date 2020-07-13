@@ -42,9 +42,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           max: 100,
         },
         embeds: {
-          giphy: true,
-          twitter: true,
-          youtube: true,
+          giphy: { enabled: false },
+          twitter: { enabled: false },
+          youtube: { enabled: false },
         },
         closeCommenting: {
           message: "closed",

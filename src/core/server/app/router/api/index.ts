@@ -3,7 +3,7 @@ import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
 import { graphQLHandler } from "coral-server/app/handlers";
-import { oembedHandler } from "coral-server/app/handlers/api/oEmbed/oEmbed";
+import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";

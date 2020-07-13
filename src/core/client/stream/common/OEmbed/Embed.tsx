@@ -10,10 +10,16 @@ interface Props {
   video?: string | null;
   title?: string | null;
   settings: {
-    twitter: boolean;
-    giphy: boolean;
-    youtube: boolean;
-  };
+    twitter: {
+      enabled: boolean;
+    };
+    giphy: {
+      enabled: boolean;
+    };
+    youtube: {
+      enabled: boolean;
+    };
+  } | null;
 }
 
 const Embed: FunctionComponent<Props> = ({
@@ -25,6 +31,9 @@ const Embed: FunctionComponent<Props> = ({
   width,
   height,
 }) => {
+  if (!settings) {
+    return null;
+  }
   if (type === "TWITTER" && settings.twitter) {
     return <TwitterEmbed url={url} width={width} />;
   }

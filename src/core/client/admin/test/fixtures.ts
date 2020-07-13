@@ -10,7 +10,6 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
-  GQLGIPHY_RATING,
   GQLMODERATION_MODE,
   GQLModerationQueues,
   GQLSettings,
@@ -194,23 +193,11 @@ export const settings = createFixture<GQLSettings>({
     strikethrough: false,
     spoiler: false,
   },
-  embeds: {
-    twitter: true,
-    youtube: true,
-    giphy: true,
-    giphyMaxRating: GQLGIPHY_RATING.G,
-    giphyAPIKey: "",
-  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
-    embeds: {
-      twitter: true,
-      youtube: true,
-      giphy: true,
-    },
     auth: {
       sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {

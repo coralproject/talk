@@ -1,7 +1,11 @@
 import { createFetch } from "coral-server/services/fetch";
 import { Request, RequestHandler } from "coral-server/types/express";
 
-const fetchURL = (url: string, type: string, query: Request["query"]) => {
+const fetchURL = (
+  url: string,
+  type: "twitter" | "youtube",
+  query: Request["query"]
+) => {
   if (type === "twitter") {
     const suffix = query.maxWidth ? `&maxWidth=${query.maxWidth}` : "";
     return `https://publish.twitter.com/oembed?url=${encodeURIComponent(
@@ -26,12 +30,11 @@ const createNotFoundMessage = (type: string) => {
   return null;
 };
 
+const fetch = createFetch({ name: "oembed-fetch" });
+
 export const oembedHandler = (): RequestHandler => {
   // TODO: add some kind of rate limiting or spam protection
   // on this endpoint
-
-  const fetch = createFetch({ name: "twitter-fetch" });
-
   return async (req, res, next) => {
     // Tenant is guaranteed at this point.
     const coral = req.coral!;
@@ -51,15 +54,25 @@ export const oembedHandler = (): RequestHandler => {
         return;
       }
 
-      if (type === "youtube" && !tenant.embeds.youtube) {
-        res.sendStatus(400);
-        return;
-      }
-      if (type === "twitter" && !tenant.embeds.twitter) {
+      if (
+        type === "youtube" &&
+        (!tenant.embeds ||
+          !tenant.embeds.youtube ||
+          !tenant.embeds.youtube.enabled)
+      ) {
         res.sendStatus(400);
         return;
       }
 
+      if (
+        type === "twitter" &&
+        (!tenant.embeds ||
+          !tenant.embeds.twitter ||
+          !tenant.embeds.twitter.enabled)
+      ) {
+        res.sendStatus(400);
+        return;
+      }
       const response = await fetch(fetchURL(url, type, req.query));
 
       if (!response.ok && response.status === 404) {

@@ -21,7 +21,6 @@ import { tenants as collection } from "coral-server/services/mongodb/collections
 import {
   GQLAnnouncement,
   GQLFEATURE_FLAG,
-  GQLGIPHY_RATING,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLWEBHOOK_EVENT_NAME,
@@ -266,12 +265,6 @@ export async function createTenant(
       channels: [],
     },
     rte: defaultRTEConfiguration,
-    embeds: {
-      twitter: false,
-      youtube: false,
-      giphy: false,
-      giphyMaxRating: GQLGIPHY_RATING.G,
-    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -474,4 +467,25 @@ export function retrieveAnnouncementIfEnabled(
     };
   }
   return null;
+}
+
+export function supportsEmbedType(
+  tenant: Tenant,
+  embedType: "twitter" | "youtube" | "giphy"
+) {
+  if (!tenant.embeds) {
+    return false;
+  }
+  if (embedType === "twitter") {
+    return tenant.embeds.twitter && tenant.embeds.twitter.enabled;
+  } else if (embedType === "youtube") {
+    return tenant.embeds.youtube && tenant.embeds.youtube.enabled;
+  } else if (embedType === "giphy") {
+    return (
+      tenant.embeds.giphy &&
+      tenant.embeds.giphy.enabled &&
+      tenant.embeds.giphy.APIKey
+    );
+  }
+  return false;
 }

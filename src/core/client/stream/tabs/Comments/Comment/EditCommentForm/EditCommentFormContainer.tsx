@@ -207,9 +207,15 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               max
             }
             embeds {
-              twitter
-              youtube
-              giphy
+              twitter {
+                enabled
+              }
+              youtube {
+                enabled
+              }
+              giphy {
+                enabled
+              }
             }
             rte {
               ...RTEContainer_config

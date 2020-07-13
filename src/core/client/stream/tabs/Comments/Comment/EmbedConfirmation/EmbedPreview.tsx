@@ -14,13 +14,29 @@ import {
 import EmbedConfirmationIcon from "./EmbedConfirmationIcon";
 
 import styles from "./EmbedPreview.css";
+interface EmbedConfig {
+  giphy: {
+    enabled: boolean;
+  };
+  twitter: {
+    enabled: boolean;
+  };
+  youtube: {
+    enabled: boolean;
+  };
+}
 
 interface Props {
   embed: EmbedLink;
   onRemove: () => void;
+  config: EmbedConfig | null;
 }
 
-const EmbedPreview: FunctionComponent<Props> = ({ embed, onRemove }) => {
+const EmbedPreview: FunctionComponent<Props> = ({
+  embed,
+  onRemove,
+  config,
+}) => {
   return (
     <div>
       <HorizontalGutter spacing={3} className={styles.root}>
@@ -49,15 +65,7 @@ const EmbedPreview: FunctionComponent<Props> = ({ embed, onRemove }) => {
             </MatchMedia>
           </Flex>
         </div>
-        <Embed
-          type={embed.source}
-          url={embed.url}
-          settings={{
-            twitter: true,
-            giphy: true,
-            youtube: true,
-          }}
-        />
+        <Embed type={embed.source} url={embed.url} settings={config} />
       </HorizontalGutter>
       <MatchMedia ltWidth="xs">
         <Localized id="comments-postComment-confirmEmbed-remove">

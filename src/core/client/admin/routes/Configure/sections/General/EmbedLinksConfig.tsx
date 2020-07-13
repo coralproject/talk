@@ -30,11 +30,15 @@ interface Props {
 graphql`
   fragment EmbedLinksConfig_formValues on Settings {
     embeds {
-      twitter
-      youtube
-      giphy
-      giphyMaxRating
-      giphyAPIKey
+      twitter {
+        enabled
+      }
+      youtube {
+        enabled
+      }
+      giphy {
+        enabled
+      }
     }
   }
 `;
@@ -60,7 +64,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Allow Twitter embeds</Label>
         </Localized>
         <OnOffField
-          name="embeds.twitter"
+          name="embeds.twitter.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -80,7 +84,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Enable YouTube embeds</Label>
         </Localized>
         <OnOffField
-          name="embeds.youtube"
+          name="embeds.youtube.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -99,7 +103,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Allow GIFs from GIPHY</Label>
         </Localized>
         <OnOffField
-          name="embeds.giphy"
+          name="embeds.giphy.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -115,7 +119,10 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
       <FormSpy subscription={{ values: true }}>
         {(props) => {
-          const giphyDisabled = !props.values.embeds.giphy;
+          const giphyDisabled =
+            !props.values.embeds ||
+            !props.values.embeds.giphy ||
+            !props.values.embeds.giphy.enabled;
           return (
             <>
               <FormField>
@@ -128,7 +135,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     appear in commenters’ search results
                   </HelperText>
                 </Localized>
-                <Field name="embeds.giphyMaxRating" type="radio" value="G">
+                <Field name="embeds.giphy.maxRating" type="radio" value="G">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-g">
@@ -149,7 +156,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphyMaxRating" type="radio" value="PG">
+                <Field name="embeds.giphy.maxRating" type="radio" value="PG">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
@@ -170,7 +177,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphyMaxRating" type="radio" value="PG13">
+                <Field name="embeds.giphy.maxRating" type="radio" value="PG13">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
@@ -193,7 +200,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphyMaxRating" type="radio" value="R">
+                <Field name="embeds.giphy.maxRating" type="radio" value="R">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-r">
@@ -236,7 +243,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 <Localized id="configure-general-embedLinks-giphyAPIKey">
                   <Label>GIPHY API Key</Label>
                 </Localized>
-                <Field name="embeds.giphyAPIKey">
+                <Field name="embeds.giphy.APIKey">
                   {({ input, meta }) => (
                     <PasswordField
                       {...input}

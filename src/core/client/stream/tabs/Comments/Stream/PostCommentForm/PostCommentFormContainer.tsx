@@ -293,9 +293,15 @@ const enhanced = withContext(({ sessionStorage }) => ({
                 message
               }
               embeds {
-                twitter
-                youtube
-                giphy
+                twitter {
+                  enabled
+                }
+                youtube {
+                  enabled
+                }
+                giphy {
+                  enabled
+                }
               }
               rte {
                 ...RTEContainer_config

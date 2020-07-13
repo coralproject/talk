@@ -1278,36 +1278,56 @@ type StoryMessageBox {
   content: String
 }
 
-enum GIPHY_RATING {
-  G
-  PG
-  PG13
-  R
-}
-
 ################################################################################
 ## Embed Links
 ################################################################################
 
-type EmbedConfiguration {
+type GiphyEmbedConfiguration {
   """
-  twitter when true will enable twitter link embeds in the stream.
+  whether gif search via giphy and giphy embeds are enabled
   """
-  twitter: Boolean!
+  enabled: Boolean!
 
   """
-  youtube when true will enable youtube link embeds in the stream.
+  maximum allowed rating for gifs, g, pg, pg-13, r
   """
-  youtube: Boolean!
+  maxRating: String
+
+  """
+  GIPHY API key
+  """
+  APIKey: String @auth(roles: [ADMIN])
+}
+
+type TwitterEmbedConfiguration {
+  """
+  whether tweet embeds in comments are enabled
+  """
+  enabled: Boolean!
+}
+
+type YoutubeEmbedConfiguration {
+  """
+  whether youtube embeds in comments are enabled
+  """
+  enabled: Boolean!
+}
+
+type EmbedConfiguration {
+  """
+  twitter
+  """
+  twitter: TwitterEmbedConfiguration!
+
+  """
+  youtube
+  """
+  youtube: YoutubeEmbedConfiguration!
 
   """
   giphy
   """
-  giphy: Boolean!
-
-  giphyMaxRating: GIPHY_RATING!
-
-  giphyAPIKey: String @auth(roles: [ADMIN])
+  giphy: GiphyEmbedConfiguration!
 }
 
 ################################################################################
@@ -1724,7 +1744,7 @@ type Settings {
   embeds stores the configuration around embedding links
   in the stream.
   """
-  embeds: EmbedConfiguration!
+  embeds: EmbedConfiguration
 
   """
   featureFlags provides the enabled feature flags.
@@ -4298,25 +4318,52 @@ input SlackConfigurationInput {
   channels: [SlackChannelConfigurationInput!]
 }
 
-"""
+input TwitterEmbedConfigurationInput {
+  """
+  whether twitter embeds are enabled
+  """
+  enabled: Boolean
+}
 
-"""
+input YoutubeEmbedConfigurationInput {
+  """
+  whether youtube embeds are enabled
+  """
+  enabled: Boolean
+}
+
+input GiphyEmbedConfigurationInput {
+  """
+  whether gif search via giphy and giphy embeds are enabled
+  """
+  enabled: Boolean
+
+  """
+  maximum allowed rating for gifs, g, pg, pg-13, r
+  """
+  maxRating: String!
+
+  """
+  GIPHY API key
+  """
+  APIKey: String
+}
+
 input EmbedConfigurationInput {
   """
   twitter
   """
-  twitter: Boolean!
+  twitter: TwitterEmbedConfigurationInput
 
   """
   youtube
   """
-  youtube: Boolean!
+  youtube: YoutubeEmbedConfigurationInput
 
-  giphy: Boolean!
-
-  giphyMaxRating: GIPHY_RATING!
-
-  giphyAPIKey: String
+  """
+  giphy
+  """
+  giphy: GiphyEmbedConfigurationInput
 }
 
 """

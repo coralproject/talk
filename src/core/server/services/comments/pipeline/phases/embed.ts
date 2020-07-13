@@ -1,10 +1,15 @@
+import { supportsEmbedType } from "coral-server/models/tenant";
+
 import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
 
 import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
-import { fetchFromGiphy, ratingIsAllowed } from "coral-server/services/giphy";
+import {
+  ratingIsAllowed,
+  retrieveFromGiphy,
+} from "coral-server/services/giphy";
 import { fetchOembedResponse } from "coral-server/services/oembed";
 
 export const attachedEmbed = async ({
@@ -16,23 +21,18 @@ export const attachedEmbed = async ({
 >): Promise<IntermediatePhaseResult | void> => {
   if (comment.embeds && comment.embeds.length > 0) {
     const [embed] = comment.embeds;
+    if (!tenant.embeds) {
+      return;
+    }
 
     if (
-      tenant.embeds.giphy &&
-      tenant.embeds.giphyAPIKey &&
+      supportsEmbedType(tenant, "giphy") &&
       embed.source === "GIPHY" &&
       embed.remote_id
     ) {
       try {
-        const data = await fetchFromGiphy(
-          embed.remote_id,
-          tenant.embeds.giphyAPIKey
-        );
-        if (
-          data &&
-          data.rating &&
-          ratingIsAllowed(data.rating, tenant.embeds.giphyMaxRating)
-        ) {
+        const data = await retrieveFromGiphy(embed.remote_id, tenant);
+        if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
           return {
             embeds: [
               {
