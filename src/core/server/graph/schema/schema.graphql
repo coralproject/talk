@@ -1307,7 +1307,7 @@ type EmbedConfiguration {
 
   giphyMaxRating: GIPHY_RATING!
 
-  giphyAPIKey: String
+  giphyAPIKey: String @auth(roles: [ADMIN])
 }
 
 ################################################################################
