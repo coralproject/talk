@@ -69,6 +69,7 @@ exports[`hide reply button 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -201,6 +202,7 @@ exports[`hide reply button 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -333,6 +335,7 @@ exports[`hide reply button 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -458,6 +461,7 @@ exports[`renders body only 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -590,6 +594,7 @@ exports[`renders body only 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -722,6 +727,7 @@ exports[`renders body only 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -847,6 +853,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -979,6 +986,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -1111,6 +1119,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -1236,6 +1245,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": true,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -1368,6 +1378,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": true,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -1500,6 +1511,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": true,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -1629,6 +1641,7 @@ exports[`renders in reply to 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -1773,6 +1786,7 @@ exports[`renders in reply to 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -1917,6 +1931,7 @@ exports[`renders in reply to 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -2046,6 +2061,7 @@ exports[`renders username and body 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -2178,6 +2194,7 @@ exports[`renders username and body 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -2310,6 +2327,7 @@ exports[`renders username and body 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -2444,6 +2462,7 @@ exports[`shows conversation link 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "canModerate": false,
                     "isClosed": false,
                     "settings": Object {
                       "mode": "COMMENTS",
@@ -2582,6 +2601,7 @@ exports[`shows conversation link 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
@@ -2714,6 +2734,7 @@ exports[`shows conversation link 1`] = `
             }
             story={
               Object {
+                "canModerate": false,
                 "isClosed": false,
                 "settings": Object {
                   "mode": "COMMENTS",
