@@ -13,7 +13,7 @@ framework-shortNumber-100000 = 000 тыс
 framework-shortNumber-1000000 = 0.0 млн
 framework-shortNumber-10000000 = 00 млн
 framework-shortNumber-100000000 = 000 млн
-framework-shortNumber-1000000000 = 0.0 млр
+framework-shortNumber-1000000000 = 0.0 млрд
 
 ## Validation
 
