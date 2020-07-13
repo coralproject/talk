@@ -829,11 +829,13 @@ moderate-marker-offensive = Offensive
 moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
+moderate-marker-other = Other
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>

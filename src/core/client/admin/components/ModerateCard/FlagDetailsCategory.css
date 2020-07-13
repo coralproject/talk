@@ -1,8 +1,8 @@
 $moderateCardFlagsCategoryColor: var(--v2-colors-mono-500);
 
 .category {
-  font-size: var(--v2-font-size-4);
-  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-body-short);
   color: $moderateCardFlagsCategoryColor;
