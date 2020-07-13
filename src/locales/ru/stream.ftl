@@ -2,19 +2,39 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Join the conversation
-general-userBoxUnauthenticated-signIn = Sign in
-general-userBoxUnauthenticated-register = Register
+general-moderate = Модерирование
+
+general-userBoxUnauthenticated-joinTheConversation = Присоединиться к обсуждению
+general-userBoxUnauthenticated-signIn = Войти
+general-userBoxUnauthenticated-register = Зарегистрироваться
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
+  Вы зашли как: <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Вы зашли как
 
 general-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
+  Это не Вы? <button>Выйти</button>
 
-general-tabBar-commentsTab = Сообщения
+general-userBox-youHaveBeenSuccessfullySignedOut =
+  Вы успешно вышли из системы
+
+general-tabBar-commentsTab = Комментарии
 general-tabBar-myProfileTab = Профиль
 general-tabBar-configure = Конфигурирование
+
+general-tabBar-aria-comments =
+  .aria-label = Комментарии
+  .title = Комментарии
+general-tabBar-aria-qa =
+  .aria-label = Вопрос/Ответ
+  .title = Вопрос/Ответ
+general-tabBar-aria-myProfile =
+  .aria-label = Профиль
+  .title = Профиль
+general-tabBar-aria-configure =
+  .aria-label = Конфигурирование
+  .title = Конфигурирование
 
 ## Comment Count
 
@@ -34,8 +54,10 @@ comments-featuredCommentTooltip-how = Как сделать комментари
 comments-featuredCommentTooltip-handSelectedComments =
   Некоторые комментарии выбраются модератором, как важные для прочтения.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Toggle featured comments tooltip
-
+  .aria-label = Тултип переключателя важных комментариев
+  .title = Тултип переключателя важных комментариев
+comments-collapse-toggle =
+  .aria-label = Свернуть ветку комментариев
 comments-bannedInfo-bannedFromCommenting = Ваш аккаунт заблокирован для комментирования.
 comments-bannedInfo-violatedCommunityGuidelines =
   Кто-то, имеющий доступ к Вашей учетной записи, нарушил правила сервиса. 
@@ -60,10 +82,12 @@ comments-viewNew =
 comments-loadMore = Загрузить еще
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
+  .description = Диалоговое окно для показа ссылки на комментарий
 comments-permalinkPopover-permalinkToComment =
-  .aria-label = Permalink to comment
+  .aria-label = Ссылка на комментарий
 comments-permalinkButton-share = Поделиться
+comments-permalinkButton =
+  .aria-label = Поделиться
 comments-permalinkView-viewFullDiscussion = Показать все
 comments-permalinkView-commentRemovedOrDoesNotExist = Этот комментарий был удален, либо его не существует.
 
@@ -75,6 +99,14 @@ comments-rte-italic =
 
 comments-rte-blockquote =
   .title = Сноска
+
+comments-rte-bulletedList =
+  .title = Маркированный список
+
+comments-rte-strikethrough =
+  .title = Зачеркнутый
+
+comments-rte-spoiler = Спойлер
 
 comments-remainingCharacters = { $remaining ->
     [one] Остался {$remaining} символ
@@ -96,6 +128,8 @@ comments-postCommentForm-userScheduledForDeletion-warning =
   Комментирование отключено, т.к. Ваша учетная запись запланирована для удаления.
 
 comments-replyButton-reply = Ответить
+comments-replyButton =
+  .aria-label = Ответить
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
@@ -120,433 +154,541 @@ comments-showConversationLink-readMore = Смотреть еще >
 comments-conversationThread-showMoreOfThisConversation =
   Смотреть еще
 
-comments-permalinkView-currentViewing = You are currently viewing a
+comments-permalinkView-currentViewing = Вы смотрите
 comments-permalinkView-singleConversation = SINGLE CONVERSATION
-comments-inReplyTo = In reply to <Username></Username>
-comments-replyTo = Replying to: <Username></Username>
+comments-permalinkView-youAreCurrentlyViewing =
+  Вы просматриваете единичное обсуждение
+comments-inReplyTo = Ответ для <Username></Username>
+comments-replyingTo = Ответить: <Username></Username>
 
-comments-reportButton-report = Report
-comments-reportButton-reported = Reported
+comments-reportButton-report = Сообщить
+comments-reportButton-reported = Сообщено
+comments-reportButton-aria-report =
+  .aria-label = Сообщить
+comments-reportButton-aria-reported =
+  .aria-label = Сообщено
 
-comments-sortMenu-sortBy = Sort By
-comments-sortMenu-newest = Newest
-comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-sortBy = Сортировать по
+comments-sortMenu-newest = Новые
+comments-sortMenu-oldest = Старые
+comments-sortMenu-mostReplies = Популярные
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignore
+  .description = Больше информации о пользователе
+comments-userPopover-memberSince = Участник с: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Игнорировать
 
-comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-ignoreUser = Игнорировать {$username}?
 comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they
-  wrote on the site will be hidden from you. You can
-  undo this later from My Profile.
-comments-userIgnorePopover-ignore = Ignore
-comments-userIgnorePopover-cancel = Cancel
+  При игнорировании, все комментарии данного пользователя будут скрыты. 
+  Вы можете отменить игнорирование во вкладке "Профиль"
+comments-userIgnorePopover-ignore = Игнорировать
+comments-userIgnorePopover-cancel = Отменить
 
-comments-userBanPopover-title = Ban {$username}?
+comments-userBanPopover-title = Забанить {$username}?
 comments-userBanPopover-description =
-  Once banned, this user will no longer be able
-  to comment, use reactions, or report comments.
-  This comment will also be rejected.
-comments-userBanPopover-cancel = Cancel
-comments-userBanPopover-ban = Ban
+  После того, как пользователь будет забанен, он больше не сможет 
+  добавлять, отвечать и оценивать комментарии. Так же, текущий комментарий будет отклонен.
+comments-userBanPopover-cancel = Отменить
+comments-userBanPopover-ban = Забанить
 
 comments-moderationDropdown-popover =
-  .description = A popover menu to moderate the comment
-comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-Feature
-comments-moderationDropdown-approve = Approve
-comments-moderationDropdown-approved = Approved
-comments-moderationDropdown-reject = Reject
-comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-ban = Ban User
-comments-moderationDropdown-banned = Banned
-comments-moderationDropdown-goToModerate = Go to Moderate
+  .description = Всплывающее меню для модерации этого комментария.
+comments-moderationDropdown-feature = Важное
+comments-moderationDropdown-unfeature = Не важное
+comments-moderationDropdown-approve = Подтвердить
+comments-moderationDropdown-approved = Подтверждено
+comments-moderationDropdown-reject = Отклонить
+comments-moderationDropdown-rejected = Отклонено
+comments-moderationDropdown-ban = Забанить пользователя
+comments-moderationDropdown-banned = Забанен
+comments-moderationDropdown-goToModerate = Перейти к модерированию
+comments-moderationDropdown-moderationView = Перейти к модерированию
+comments-moderationDropdown-moderateStory = Модерация раздела
 comments-moderationDropdown-caretButton =
-  .aria-label = Moderate
+  .aria-label = Модерирование
 
-comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+comments-rejectedTombstone = Вы отклонили этот комментарий.
+comments-rejectedTombstone-moderateLink =
+  Перейдите к модерированию, что бы увидеть причину.
 
-comments-featuredTag = Featured
+comments-featuredTag = Важное
 
 ### Q&A
 
-general-tabBar-qaTab = Q&A
+general-tabBar-qaTab = Вопрос/ответ
 
-qa-answeredTab = Answered
-qa-unansweredTab = Unanswered
-qa-allCommentsTab = All
+qa-answeredTab = Отвечено
+qa-unansweredTab = Не отвечено
+qa-allCommentsTab = Все
 
 qa-noQuestionsAtAll =
-  There are no questions on this story.
+  Нет вопросов для этого раздела
 qa-noQuestionsYet =
-  There are no questions yet. Why don't you ask one?
+  Вопросов пока нет. Пожалуйста, задайте свой!
 qa-viewNew =
   { $count ->
-    [1] View {$count} New Question
-    *[other] View {$count} New Questions
+    [one] Показать {$count} новый вопрос
+    [few] Показать {$count} новых вопроса
+    *[many] Показать {$count} новых вопросов
   }
-
-qa-postQuestionForm-rteLabel = Post a question
+  
+qa-postQuestionForm-rteLabel = Задать вопрос
 qa-postQuestionForm-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
-qa-sortMenu-mostVoted = Most Voted
+qa-sortMenu-mostVoted = Самые популярные
 
 qa-answered-tag = answered
 qa-expert-tag = expert
 
-qa-reaction-vote = Vote
-qa-reaction-voted = Voted
+qa-reaction-vote = Голосовать
+qa-reaction-voted = Проголосовано
+qa-reaction-aria-vote =
+  .aria-label = Голосовать
+qa-reaction-voted =
+  .aria-label = Проголосовано
 
-qa-unansweredTab-doneAnswering = Done
+qa-unansweredTab-doneAnswering = Завершено
 
 qa-expert-email = ({ $email })
 
-qa-answeredTooltip-how = How is a question answered?
+qa-answeredTooltip-how = Подходит ли ответ?
 qa-answeredTooltip-answeredComments =
-  Questions are answered by a Q&A expert.
+  На вопросы отвечает специалист поддержки.
 qa-answeredTooltip-toggleButton =
-  .aria-label = Toggle answered questions tooltip
+  .aria-label = Переключатель подсказок ответов на вопросы
 
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
-  Account deletion requested
+  Запрошено удаление аккаунта
 comments-stream-deleteAccount-callOut-receivedDesc =
-  A request to delete your account was received on { $date }.
+  Запрос на удаление Вашего аккаунта получен: { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  If you would like to continue leaving comments, replies or reactions,
-  you may cancel your request to delete your account before { $date }.
+  Если Вы хотите продолжить добавлять, отвечать и оценивать 
+  комментарии - Вы должны отменить запрос на 
+  удаление Вашего аккаунта до { $date }.
 comments-stream-deleteAccount-callOut-cancel =
-  Cancel account deletion request
+  Отменить запрос на удаление аккаунта
+comments-stream-deleteAccount-callOut-cancelAccountDeletion =
+  Отменить удаление аккаунта
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
-comments-featured-replies = Replies
+comments-featured-gotoConversation = Перейти к обсуждению
+comments-featured-replies = Ответы
 
 ## Profile Tab
 
-profile-myCommentsTab = My Comments
-profile-myCommentsTab-comments = My comments
-profile-accountTab = Account
-profile-preferencesTab = Preferences
+profile-myCommentsTab = Мои комментарии
+profile-myCommentsTab-comments = Мои комментарии
+profile-accountTab = Аккаунт
+profile-preferencesTab = Настройки
 
-accountSettings-manage-account = Manage your account
+accountSettings-manage-account = Настройте свой аккаунт
 
 ### Account Deletion
 
 profile-accountDeletion-deletionDesc =
-  Your account is scheduled to be deleted on { $date }.
+  Ваш аккаунт запланирован к удалению { $date }.
 profile-accountDeletion-cancelDeletion =
-  Cancel account deletion request
+  Отменить запрос на удаление аккаунта
+profile-accountDeletion-cancelAccountDeletion =
+  Отменить удаление аккаунта
 
 ### Comment History
-profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
-profile-historyComment-commentHistory = Comment History
-profile-historyComment-story = Story: {$title}
-profile-historyComment-comment-on = Comment on:
-profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-storyNotFound = Story not found
-profile-commentHistory-loadMore = Load More
-profile-commentHistory-empty = You have not written any comments
-profile-commentHistory-empty-subheading = A history of your comments will appear here
+profile-historyComment-viewConversation = Перейти к обсуждению
+profile-historyComment-replies = Ответов: {$replyCount}
+profile-historyComment-commentHistory = История комментария
+profile-historyComment-story = Раздел: {$title}
+profile-historyComment-comment-on = Комментировать:
+profile-profileQuery-errorLoadingProfile = Ошибка при загрузке профиля
+profile-profileQuery-storyNotFound = Раздел не найден
+profile-commentHistory-loadMore = Показать еще
+profile-commentHistory-empty = Вы не написали ни одного комментария
+profile-commentHistory-empty-subheading = История Ваших комментариев появится здесь
 
 ### Account
-profile-account-ignoredCommenters = Ignored Commenters
+profile-account-ignoredCommenters = Игнорируемые участники
 profile-account-ignoredCommenters-description =
-  You can Ignore other commenters by clicking on their username
-  and selecting Ignore. When you ignore someone, all of their
-  comments are hidden from you. Commenters you Ignore will still
-  be able to see your comments.
-profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
-profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
-profile-account-ignoredCommenters-manage = Manage
-profile-account-ignoredCommenters-cancel = Cancel
+  Вы можете добавить участника в "Игнорируемые" нажав на его ник, и выбрав "Игнорировать". 
+  При игнорировании, все комментарии этого участника будут скрыты от Вас. 
+  При этом, Ваши комментарии все еще будут видны игнорируемому участнику.
+profile-account-ignoredCommenters-empty = Список игнорируемых участников пуст.
+profile-account-ignoredCommenters-stopIgnoring = Перестать игнорировать
+profile-account-ignoredCommenters-youAreNoLonger =
+  Вы больше не игнорируете
+profile-account-ignoredCommenters-manage = Управление
+profile-account-ignoredCommenters-cancel = Отмена
+profile-account-ignoredCommenters-close = Закрыть
 
-profile-account-changePassword-cancel = Cancel
-profile-account-changePassword = Change Password
-profile-account-changePassword-oldPassword = Old Password
-profile-account-changePassword-forgotPassword = Forgot your password?
-profile-account-changePassword-newPassword = New Password
-profile-account-changePassword-button = Change Password
+profile-account-changePassword-cancel = Отмена
+profile-account-changePassword = Изменить пароль
+profile-account-changePassword-oldPassword = Старый пароль
+profile-account-changePassword-forgotPassword = Забыли свой пароль?
+profile-account-changePassword-newPassword = Новый пароль
+profile-account-changePassword-button = Изменить пароль
 profile-account-changePassword-updated =
-  Your password has been updated
-profile-account-changePassword-password = Password
+  Пароль был изменен
+profile-account-changePassword-password = Пароль
 
-profile-account-download-comments-title = Download my comment history
+profile-account-download-comments-title = Скачать историю моих комментариев
 profile-account-download-comments-description =
-  You will receive an email with a link to download your comment history.
-  You can make <strong>one download request every 14 days.</strong>
+  Вы получите email со ссылкой для загрузки истории Ваших комментариев.
+  Вы можете выполнять скачивание<strong>не чаще одного раза в 14 дней</strong>
 profile-account-download-comments-request =
-  Request comment history
+  Запрос истории комментариев
 profile-account-download-comments-request-icon =
-  .title = Request comment history
+  .title = Запрос истории комментариев
 profile-account-download-comments-recentRequest =
-  Your most recent request: { $timeStamp }
+  Ваш предыдущий запрос: { $timeStamp }
+profile-account-download-comments-yourMostRecentRequest =
+  С момента Вашего предыдущего запроса прошло менее 14 дней. 
+  Следующая попытка: {$ timeStamp}
 profile-account-download-comments-requested =
-  Request submitted. You can submit another request in { framework-timeago-time }.
-profile-account-download-comments-request-button = Request
+  Запрос отправлен. Вы можете отправить следующий запрос через { framework-timeago-time }.
+profile-account-download-comments-requestSubmitted =
+  Ваш запрос был успешно отправлен. Вы можете повторить загрузку 
+  истории комментариев через {framework-timeago-time}.
+profile-account-download-comments-error =
+  We were unable to complete your download request.
+profile-account-download-comments-request-button = Запрос
 
 ## Delete Account
 
-profile-account-deleteAccount-title = Delete My Account
+profile-account-deleteAccount-title = Удалить мой аккаунт
+profile-account-deleteAccount-deleteMyAccount = Удалить мой аккаунт
 profile-account-deleteAccount-description =
-  Deleting your account will permanently erase your profile and remove
-  all your comments from this site.
-profile-account-deleteAccount-requestDelete = Request account deletion
+  Удаление Вашей учетной записи навсегда удалит ваш профиль, 
+  и удалит все Ваши комментарии с этого сайта.
+profile-account-deleteAccount-requestDelete = Запросить удаление аккаунта
 
 profile-account-deleteAccount-cancelDelete-description =
-  You have already submitted a request to delete your account.
-  Your account will be deleted on { $date }.
-  You may cancel the request until that time.
-profile-account-deleteAccount-cancelDelete = Cancel account deletion request
+  Вы уже отправили запрос на удаление своей учетной записи.
+  Ваша учетная запись будет удалена {$ date}.
+  Вы можете отменить запрос до этого времени.
+profile-account-deleteAccount-cancelDelete = Отменить запрос на удаление аккаунта
 
-profile-account-deleteAccount-request = Request
-profile-account-deleteAccount-cancel = Cancel
-profile-account-deleteAccount-pages-deleteButton = Delete my account
-profile-account-deleteAccount-pages-cancel = Cancel
-profile-account-deleteAccount-pages-proceed = Proceed
-profile-account-deleteAccount-pages-done = Done
+profile-account-deleteAccount-request = Запрос
+profile-account-deleteAccount-cancel = Отмена
+profile-account-deleteAccount-pages-deleteButton = Удалить мой аккаунт
+profile-account-deleteAccount-pages-cancel = Отменить 
+profile-account-deleteAccount-pages-proceed = Продолжить
+profile-account-deleteAccount-pages-done = Завершено
 profile-account-deleteAccount-pages-phrase =
-  .aria-label = Phrase
+  .aria-label = Фраза
 
-profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
+profile-account-deleteAccount-pages-sharedHeader = Удалить мой аккаунт
+
+profile-account-deleteAccount-pages-descriptionHeader = Удалить аккаунт?
 profile-account-deleteAccount-pages-descriptionText =
-  You are attempting to delete your account. This means:
+  Вы пытаетесь удалить свой аккаунт. Это означает:
 profile-account-deleteAccount-pages-allCommentsRemoved =
-  All of your comments are removed from this site
+  Все Ваши комментарии будут удалены с этого сайта
 profile-account-deleteAccount-pages-allCommentsDeleted =
-  All of your comments are deleted from our database
+  Все Ваши комментарии будут удалены с из базы данных
 profile-account-deleteAccount-pages-emailRemoved =
-  Your email address is removed from our system
+  Ваш email будет удален из нашей системы
 
-profile-account-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-account-deleteAccount-pages-whenHeader = Удаление моего аккаунта: когда?
+profile-account-deleteAccount-pages-whenSubHeader = Когда?
 profile-account-deleteAccount-pages-whenSec1Header =
-  When will my account be deleted?
+  Когда мой аккаунт будет удален?
 profile-account-deleteAccount-pages-whenSec1Content =
-  Your account will be deleted 24 hours after your request has been submitted.
+  Ваш аккаунт будет удален через 24 часа после отправки запроса.
 profile-account-deleteAccount-pages-whenSec2Header =
-  Can I still write comments until my account is deleted?
+  Могу ли я писать комментарии, пока учетная запись еще не удалена?
 profile-account-deleteAccount-pages-whenSec2Content =
-  No. Once you've requested account deletion, you can no longer write comments,
-  reply to comments, or select reactions.
+  Нет. Как только вы запросили удаление аккаунта, Вы больше 
+  не можете добавлять, отвечать и оценивать комментарии.
 
-profile-account-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-account-deleteAccount-pages-downloadCommentHeader = Скачать комментарии?
+profile-account-deleteAccount-pages-downloadSubHeader = Скачать комментарии?
 profile-account-deleteAccount-pages-downloadCommentsDesc =
-  Before your account is deleted, we recommend you download your comment
-  history for your records. After your account is deleted, you will be
-  unable to request your comment history.
+  Перед удалением учетной записи, рекомендуется скачать историю комментариев. 
+  После удаления учетной записи восстановить комментарии будет невозможно.
 profile-account-deleteAccount-pages-downloadCommentsPath =
-  My Profile > Download My Comment History
+  Профиль > Скачать историю моих комментариев
 
-profile-account-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-account-deleteAccount-pages-confirmHeader = Подтвердить удаление аккаунта?
+profile-account-deleteAccount-pages-confirmSubHeader = Вы уверены?
 profile-account-deleteAccount-pages-confirmDescHeader =
-  Are you sure you want to delete your account?
+  Вы уверены, что хотите удалить свой аккаунт?
 profile-account-deleteAccount-confirmDescContent =
-  To confirm you would like to delete your account please type in the following
-  phrase into the text box below:
+  Чтобы подтвердить, что Вы хотите удалить свою учетную запись, введите следующую
+  фразу в текстовое поле ниже:
 profile-account-deleteAccount-pages-confirmPhraseLabel =
-  To confirm, type phrase below:
+  Для подтверждения, введите фразу ниже:
 profile-account-deleteAccount-pages-confirmPasswordLabel =
-  Enter your password:
+  Введите пароль:
 
-profile-account-deleteAccount-pages-completeHeader = Account deletion requested
+profile-account-deleteAccount-pages-completeHeader = Запрошено удаление аккаунта
+profile-account-deleteAccount-pages-completeSubHeader = Запрос отправлен
 profile-account-deleteAccount-pages-completeDescript =
-  Your request has been submitted and a confirmation has been sent to the email
-  address associated with your account.
+  Ваш запрос отправлен. На адрес электронной почты, связанный с Вашей 
+  учетной записью, было отправлено подтверждение.
 profile-account-deleteAccount-pages-completeTimeHeader =
-  Your account will be deleted on: { $date }
-profile-account-deleteAccount-pages-completeChangeYourMindHeader = Changed your mind?
+  Ваша учетная запись будет удалена: { $date }
+profile-account-deleteAccount-pages-completeChangeYourMindHeader = Передумали?
 profile-account-deleteAccount-pages-completeSignIntoYourAccount =
-  Simply sign in to your account again before this time and select
-  <strong>Cancel Account Deletion Request</strong>.
-profile-account-deleteAccount-pages-completeTellUsWhy = Tell us why.
+  Просто войдите в свою учетную запись до указанного времени и выберите
+  <strong>Отменить запрос на удаление аккаунта </strong>.
+profile-account-deleteAccount-pages-completeTellUsWhy = Пожалуйста, опишите причину удаления.
 profile-account-deleteAccount-pages-completeWhyDeleteAccount =
-  We'd like to know why you chose to delete your account. Send us feedback on
-  our comment system by emailing { $email }.
-profile-account-changePassword-edit = Edit
+  Расскажите нам, почему Вы решили удалить свой аккаунт. 
+  Это поможет сделать сервис лучше! Отправить свой отзыв можно сюда: { $email }.
+profile-account-changePassword-edit = Редактировать
+profile-account-changePassword-change = Изменить
 
 
 ## Notifications
-profile-notificationsTab = Notifications
-profile-account-notifications-emailNotifications = E-Mail Notifications
-profile-account-notifications-emailNotifications = Email Notifications
-profile-account-notifications-receiveWhen = Receive notifications when:
-profile-account-notifications-onReply = My comment receives a reply
-profile-account-notifications-onFeatured = My comment is featured
-profile-account-notifications-onStaffReplies = A staff member replies to my comment
-profile-account-notifications-onModeration = My pending comment has been reviewed
-profile-account-notifications-sendNotifications = Send Notifications:
-profile-account-notifications-sendNotifications-immediately = Immediately
-profile-account-notifications-sendNotifications-daily = Daily
-profile-account-notifications-sendNotifications-hourly = Hourly
-profile-account-notifications-updated = Your notification settings have been updated
-profile-account-notifications-button = Update Notification Settings
-profile-account-notifications-button-update = Update
+profile-notificationsTab = Уведомления
+profile-account-notifications-emailNotifications = E-Mail уведомления
+profile-account-notifications-emailNotifications = Email уведомления
+profile-account-notifications-receiveWhen = Я хочу получать уведомления, когда:
+profile-account-notifications-onReply = Поступает ответ на мой комментарий
+profile-account-notifications-onFeatured = Мой комментарий отмечают как "важный"
+profile-account-notifications-onStaffReplies = Администратор отвечает на мой комментарий
+profile-account-notifications-onModeration = Мой комментарий проходит модерацию
+profile-account-notifications-sendNotifications = Отправлять уведомления:
+profile-account-notifications-sendNotifications-immediately = Сразу
+profile-account-notifications-sendNotifications-daily = Ежедневно
+profile-account-notifications-sendNotifications-hourly = Каждый час
+profile-account-notifications-updated = Ваши настройки уведомлений были обновлены
+profile-account-notifications-button = Обновить настройки уведомлений
+profile-account-notifications-button-update = Обновить
 
 ## Report Comment Popover
 comments-reportPopover =
-  .description = A dialog for reporting comments
-comments-reportPopover-reportThisComment = Report This Comment
-comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+  .description = Диалог для отправки комментариев
+comments-reportPopover-reportThisComment = Сообщить об этом комментарии
+comments-reportPopover-whyAreYouReporting = Почему Вы хотите сообщить об этом комментарии?
 
-comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonIDisagree = I disagree with this comment
-comments-reportPopover-reasonSpam = This looks like an ad or marketing
-comments-reportPopover-reasonOther = Other
+comments-reportPopover-reasonOffensive = Этот комментарий оскорбительный
+comments-reportPopover-reasonAbusive = Это оскорбительное поведение
+comments-reportPopover-reasonIDisagree = Я не согласен с этим комментарием
+comments-reportPopover-reasonSpam = Это похоже на рекламу или маркетинг
+comments-reportPopover-reasonOther = Другое
 
+comments-reportPopover-additionalInformation =
+  Дополнительная информация <optional>Необязательно</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Пожалуйста, оставьте любую дополнительную информацию, которая может быть полезна нашим модераторам. (По желанию)
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
-comments-reportPopover-cancel = Cancel
-comments-reportPopover-submit = Submit
+comments-reportPopover-maxCharacters = Максимум символов: { $maxCharacters }
+comments-reportPopover-cancel = Отменить
+comments-reportPopover-submit = Отправить
 
-comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-thankYou = Спасибо!
 comments-reportPopover-receivedMessage =
-  We’ve received your message. Reports from members like you keep the community safe.
+  Мы получили Ваше сообщение. Благодаря Вам, сообщество становится безопаснее!
 
-comments-reportPopover-dismiss = Dismiss
+comments-reportPopover-dismiss = Отклонить
 
 ## Submit Status
-comments-submitStatus-dismiss = Dismiss
+comments-submitStatus-dismiss = Отклонить
 comments-submitStatus-submittedAndWillBeReviewed =
-  Your comment has been submitted and will be reviewed by a moderator
+  Ваш комментарий отправлен и будет рассмотрен модератором
 comments-submitStatus-submittedAndRejected =
-  This comment has been rejected for violating our guidelines
+  Этот комментарий был отклонен из-за нарушения правил
 
 # Configure
-configure-configureQuery-errorLoadingProfile = Error loading configure
-configure-configureQuery-storyNotFound = Story not found
+configure-configureQuery-errorLoadingProfile = Ошибка загрузки конфигурации
+configure-configureQuery-storyNotFound = Раздел не найден
 
 ## Change username
-profile-changeUsername-username = Username
-profile-changeUsername-success = Your username has been successfully updated
-profile-changeUsername-edit = Edit
-profile-changeUsername-heading = Edit your username
-profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. <strong>Usernames can be changed once every { framework-timeago-time }.</strong>
-profile-changeUsername-desc-text = Change the username that will appear on all of your past and future comments. Usernames can be changed once every { framework-timeago-time }.
-profile-changeUsername-current = Current username
-profile-changeUsername-newUsername-label = New username
-profile-changeUsername-confirmNewUsername-label = Confirm new username
-profile-changeUsername-cancel = Cancel
-profile-changeUsername-save = Save
-profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
-profile-changeUsername-close = Close
+profile-changeUsername-username = Ник
+profile-changeUsername-success = Ваш ник успешно обновлен
+profile-changeUsername-edit = Редактировать
+profile-changeUsername-change = Изменить
+profile-changeUsername-heading = Редактировать ник
+profile-changeUsername-heading-changeYourUsername = Изменить ник
+profile-changeUsername-desc = Измените ник, который будет отображаться во всех Ваших прошлых и будущих комментариях. <strong>Ник можно менять не чаще чем {framework-timeago-time}.</strong> 
+profile-changeUsername-desc-text = Измените ник, который будет отображаться во всех Ваших прошлых и будущих комментариях. Ник можно менять не чаще чем {framework-timeago-time}.
+profile-changeUsername-current = Текущий ник
+profile-changeUsername-newUsername-label = Новый ник
+profile-changeUsername-confirmNewUsername-label = Подтвердить новый ник
+profile-changeUsername-cancel = Отменить
+profile-changeUsername-save = Сохранить
+profile-changeUsername-saveChanges = Сохранить изменения
+profile-changeUsername-recentChange = Вы уже изменяли свой ник за последние {framework-timeago-time}. Вы можете снова изменить его: {$ nextUpdate}
+profile-changeUsername-youChangedYourUsernameWithin =
+  Вы уже изменяли свой ник за последние {framework-timeago-time}. Вы можете снова изменить его: {$ nextUpdate}
+profile-changeUsername-close = Закрыть
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
+configure-stream-title = Настройка текущего раздела комментариев
 configure-stream-title-configureThisStream =
-  Configure this Stream
-configure-stream-apply = Apply
+  Настройка текущего раздела
+configure-stream-apply = Применить
+configure-stream-update = Обновить
+configure-stream-streamHasBeenUpdated =
+  Раздел обновлен
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title = Включить премодерацию
+configure-premod-premoderateAllComments = Пре-модерация всех комментариев
 configure-premod-description =
-  Moderators must approve any comment before it is published to this story.
+  Модераторы должны будут одобрить любой комментарий, прежде чем он будет опубликован в этом разделе.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title = Премодерация комментариев, включающих ссылки
+configure-premodLink-commentsContainingLinks =
+  Премодерация комментариев, включающих ссылки
 configure-premodLink-description =
-  Moderators must approve any comment that contains a link before it is published to this story.
+  Модераторы должны будут одобрить любой комментарий, содержащий ссылку, прежде чем он будет опубликован в этом разделе.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title = Включить моментальные обновления для этого раздела
+configure-enableLiveUpdates-title = Включить моментальные обновления
 configure-liveUpdates-description =
-  When enabled, the comments will be updated instantly
-  as new comments and replies are submitted, instead of
-  requiring a page refresh. You can disable this in the
-  unusual situation of an article getting so much traffic that the comments are loading slowly.
+  Когда эта опция включена, комментарии будут обновляться мгновенно, 
+  по мере отправки новых комментариев и ответов, вместо того, чтобы 
+  требовать обновления страницы. Вы можете отключить это в нестандартной 
+  ситуации, когда раздел получает столько трафика, что новые
+  комментарии загружаются медленно.
+configure-enableLiveUpdates-description =
+  Когда эта опция включена, комментарии будут обновляться мгновенно, 
+  по мере отправки новых комментариев и ответов, вместо того, чтобы 
+  требовать обновления страницы. Вы можете отключить это в нестандартной 
+  ситуации, когда количество комментариев очень большое, и их 
+  мгновенная подгрузка значительно нагружает страницу
+configure-enableLiveUpdates-enable = Включить
 
-configure-messageBox-title = Enable Message Box for this Story
+configure-disableLiveUpdates-title = Выключить моментальные обновления
+configure-disableLiveUpdates-description =
+  Когда эта опция выключена, комментарии и ответы больше не будут 
+  обновляться сразу после их отправки. Участники должны будут обновить страницу, 
+  чтобы увидеть новые комментарии. Мы рекомендуем это в нестандартной
+  ситуации, когда количество комментариев очень большое, и их 
+  мгновенная подгрузка значительно нагружает страницу
+configure-disableLiveUpdates-disable = Отключить
+
+configure-liveUpdates-disabledSuccess = Мгновенное обновление отключено
+configure-liveUpdates-enabledSuccess = Мгновенное обновление включено
+
+configure-messageBox-title = Включить закрепляемое сообщение для этого раздела
+configure-addMessage-title =
+  Включить закрепляемое сообщение для этого раздела
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers.
-  Use this to suggest a discussion topic, ask a question or make
-  announcements relating to the comments on this story.
-configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
-configure-messageBox-iconConversation = Conversation
-configure-messageBox-iconDate = Date
-configure-messageBox-iconHelp = Help
-configure-messageBox-iconWarning = Warning
-configure-messageBox-iconChatBubble = Chat Bubble
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+  Добавьте сообщение в верхнюю часть комментариев. Это можно использовать для того, 
+  что бы предложить тему для обсуждения, сделать объявление, и т.д. 
+configure-addMessage-description =
+  Добавьте сообщение в верхнюю часть комментариев. Это можно использовать для того, 
+  что бы предложить тему для обсуждения, сделать объявление, и т.д.
+configure-addMessage-addMessage = Добавить сообщение
+configure-addMessage-removed = Сообщение было удалено
+config-addMessage-messageHasBeenAdded =
+  Сообщение было добавлено
+configure-addMessage-remove = Удалить
+configure-addMessage-submitUpdate = Обновить
+configure-addMessage-cancel = Отменить
+configure-addMessage-submitAdd = Добавить сообщение
 
-configure-closeStream-title = Close Comment Stream
+configure-messageBox-preview = Предпросмотр
+configure-messageBox-selectAnIcon = Выбрать иконку
+configure-messageBox-iconConversation = Обсуждение
+configure-messageBox-iconDate = Дата
+configure-messageBox-iconHelp = Помощь
+configure-messageBox-iconWarning = Предупреждение
+configure-messageBox-iconChatBubble = Иконка чата
+configure-messageBox-noIcon = Без иконки
+configure-messageBox-writeAMessage = Написать сообщение
+
+configure-closeStream-title = Отключить комментирование в разделе
+configure-closeStream-closeCommentStream =
+  Отключить комментирование в разделе
 configure-closeStream-description =
-  This comment stream is currently open. By closing this comment stream,
-  no new comments may be submitted and all previously submitted comments
-  will still be displayed.
-configure-closeStream-closeStream = Close Stream
+  Комментарии в этом разделе в настоящее время включены. Отключив их,
+  новые комментарии не смогут быть добавлены, но все ранее 
+  отправленные комментарии будут отображаться.
+configure-closeStream-closeStream = Отключить
+configure-closeStream-theStreamIsNowOpen = Комментирование в разделе включено
 
-configure-openStream-title = Open Stream
+configure-openStream-title = Включить комментирование в разделе
 configure-openStream-description =
-  This comment stream is currently closed. By opening this comment
-  stream new comments may be submitted and displayed.
-configure-openStream-openStream = Open Stream
+  Комментарии в этом разделе в настоящее время отключены. Включив их, 
+  можно будет отправлять новые комментарии.
+configure-openStream-openStream = Включить
+configure-openStream-theStreamIsNowClosed = Комментирование в разделе отключено
 
-configure-moderateThisStream = Moderate this stream
+configure-moderateThisStream = Модерировать этот раздел
 
-configure-enableQA-title = Switch to Q&A Format
+qa-experimental-tag-tooltip-content =
+  Формат вопросов/ответов в настоящее время находится в активной разработке. 
+  Пожалуйста, сообщайте нам о любых проблемах при использовании данного функционала.
+
+configure-enableQA-title = Переключиться в формат вопросов/ответов
+configure-enableQA-switchToQA =
+  Переключиться в формат вопросов/ответов
 configure-enableQA-description =
-  The Q&A format allows community members to submit questions for chosen
-  experts to answer.
-configure-enableQA-enableQA = Switch to Q&A
+  Формат вопросов и ответов позволяет участникам задавать вопросы, 
+  на которые будут отвечать специалисты.
+configure-enableQA-enableQA = Переключиться на вопросы/ответы
+configure-enableQA-streamIsNowComments =
+  Теперь раздел переведен в формат комментирования
 
-configure-disableQA-title = Configure this Q&A
+configure-disableQA-title = Переключиться в формат комментирования
 configure-disableQA-description =
-  The Q&A format allows community members to submit questions for chosen
-  experts to answer.
-configure-disableQA-disableQA = Switch to Comments
+  Формат вопросов и ответов позволяет участникам задавать вопросы, 
+  на которые будут отвечать специалисты.
+configure-disableQA-disableQA = Переключиться на комментарии
+configure-disableQA-streamIsNowQA =
+  Теперь раздел переведен в формат "вопрос/ответ"
 
-configure-experts-title = Add an Expert
+configure-experts-title = Добавить специалиста
 configure-experts-filter-searchField =
-  .placeholder = Search by email or username
-  .aria-label = Search by email or username
+  .placeholder = Поиск по email или по нику
+  .aria-label = Поиск по email или по нику
 configure-experts-filter-searchButton =
-  .aria-label = Search
+  .aria-label = Поиск
 configure-experts-filter-description =
-  Adds an Expert Badge to comments by registered users, only on this
-  page. New users must first sign up and open the comments on a page
-  to create their account.
-configure-experts-search-none-found = No users were found with that email or username
-configure-experts-remove-button = Remove
-configure-experts-load-more = Load More
-configure-experts-none-yet = There are currently no experts for this Q&A.
-configure-experts-assigned-title = Experts
-
-comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+  Добавляет значок специалиста для комментариев зарегистрированных пользователей, 
+  только для этого раздела. Новые пользователи должны сначала зарегистрироваться 
+  и открыть комментарии в разделе, чтобы создать свою учетную запись.
+configure-experts-search-none-found = Пользователи с таким email или ником не найдены
+configure-experts-remove-button = Удалить
+configure-experts-load-more = Загрузить еще
+configure-experts-none-yet = В настоящее время нет специалистов по этому вопросу.
+configure-experts-search-title = Поиск специалиста
+configure-experts-assigned-title = Специалисты
+configure-experts-noLongerAnExpert = больше не специалист
+comments-tombstone-ignore = Этот комментарий скрыт, потому что вы проигнорировали {$username}
+comments-tombstone-showComment = Посмотреть комментарий
 comments-tombstone-deleted =
-  This comment is no longer available. The commenter has deleted their account.
+  Этот комментарий больше не доступен. Участник удалил свою учетную запись.
 
-suspendInfo-heading = Your account has been temporarily suspended from commenting.
+suspendInfo-heading = Для Вашего аккаунта временно приостановелно комментирование.
+suspendInfo-heading-yourAccountHasBeen =
+  Для Вашего аккаунта временно приостановелно комментирование.
 suspendInfo-info =
-  In accordance with { $organization }'s community guidelines your
-  account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments. Please rejoin the
-  conversation on { $until }
+suspendInfo-description-inAccordanceWith =
+  В соответствии с правилами сообщества {$organization} Ваша учетная запись была 
+  временно заблокирована. Во время блокировки Вы не можете 
+  добавлять, отвечать и оценивать комментарии.
+suspendInfo-until-pleaseRejoinThe =
+  Пожалуйста, присоединяйтесь к разговору позже: { $until }
 
-profile-changeEmail-unverified = (Unverified)
-profile-changeEmail-edit = Edit
-profile-changeEmail-please-verify = Verify your email address
+profile-changeEmail-unverified = (Непроверенный)
+profile-changeEmail-current = (Текущий)
+profile-changeEmail-edit = Редактировать
+profile-changeEmail-change = Изменить
+profile-changeEmail-please-verify = Проверьте свой email
 profile-changeEmail-please-verify-details =
-  An email has been sent to { $email } to verify your account.
-  You must verify your new email address before it can be used
-  to sign in to your account or to receive notifications.
-profile-changeEmail-resend = Resend verification
-profile-changeEmail-heading = Edit your email address
-profile-changeEmail-desc = Change the email address used for signing in and for receiving communication about your account.
-profile-changeEmail-current = Current email
-profile-changeEmail-newEmail-label = New email address
-profile-changeEmail-password = Password
+  На {$ email} было отправлено подтверждение. 
+  Вы должны подтвердить свой новый email, прежде чем его можно будет использовать для 
+  входа в свою учетную запись или для получения уведомлений.
+profile-changeEmail-resend = Отправить подтверждение еще раз
+profile-changeEmail-heading = Редактирование email-адреса
+profile-changeEmail-changeYourEmailAddress =
+  Изменить email-адрес
+profile-changeEmail-desc = Изменить email-адрес, используемый для входа и получения сообщений.
+profile-changeEmail-newEmail-label = Новый email-адрес
+profile-changeEmail-password = Пароль
 profile-changeEmail-password-input =
-  .placeholder = Password
-profile-changeEmail-cancel = Cancel
-profile-changeEmail-submit = Save
+  .placeholder = Пароль
+profile-changeEmail-cancel = Отменить
+profile-changeEmail-submit = Сохранить
+profile-changeEmail-saveChanges = Сохранить изменения
 profile-changeEmail-email = Email
+profile-changeEmail-title = Email-адрес
+profile-changeEmail-success = Ваш email-адрес был успешно обновлен
