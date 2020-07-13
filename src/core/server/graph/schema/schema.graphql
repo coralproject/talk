@@ -46,10 +46,13 @@ is used without options, it simply requires a logged in user. `permit` can be
 used to allow specific `USER_AUTH_CONDITIONS` that normally (if present) would
 deny access to any edge associated with the `@auth` directive. If a User has
 only some of the conditions listed, they will pass, but if they have at least
-one more that isn't in the list, the request will be denied.
+one more that isn't in the list, the request will be denied. If `unscoped` is
+provided and is `true`, it will require that the user does not have any
+moderation scopes applied to their account (such as a site moderator).
 """
 directive @auth(
   roles: [USER_ROLE!]
+  unscoped: Boolean
   userIDField: String
   permit: [USER_AUTH_CONDITIONS!]
 ) on FIELD_DEFINITION
@@ -387,6 +390,12 @@ enum FEATURE_FLAG {
   DEFAULT_QA_STORY_MODE will set the story mode to QA by default.
   """
   DEFAULT_QA_STORY_MODE
+
+  """
+  SITE_MODERATOR will enable the enhanced Site Moderator role by assigning a new
+  modeartion scope to a user.
+  """
+  SITE_MODERATOR
 }
 
 # The moderation mode of the site.
@@ -1511,6 +1520,12 @@ type Site {
   allowedOrigins: [String!]!
 
   """
+  canModerate when true indicates that the current user can moderate comments
+  left on this Site.
+  """
+  canModerate: Boolean!
+
+  """
   createdAt is when the site was created.
   """
   createdAt: Time!
@@ -2123,6 +2138,24 @@ type UserNotificationSettings {
 }
 
 """
+UserModerationScopes describes the scopes for moderation. These only apply when
+the user has a MODERATOR role.
+"""
+type UserModerationScopes {
+  """
+  scoped returns true when the moderator has a scoped moderation role, and
+  cannot moderate organization wide.
+  """
+  scoped: Boolean!
+
+  """
+  sites (when not null) list the sites that the user is only allowed to moderate
+  on. When null, it means that the user is allowed to moderate on all sites.
+  """
+  sites: [Site!]
+}
+
+"""
 User is someone that leaves Comments, and logs in.
 """
 type User {
@@ -2317,6 +2350,13 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  moderationScopes describes the scopes for moderation. These only apply when
+  the user has a MODERATOR role.
+  """
+  moderationScopes: UserModerationScopes
+    @auth(userIDField: "id", roles: [ADMIN, MODERATOR])
 
   """
   ssoURL is the url for managing sso account
@@ -2749,6 +2789,11 @@ type Comment {
   deleted: Boolean
 
   """
+  canModerate returns true if the current user can moderate this Comment.
+  """
+  canModerate: Boolean!
+
+  """
   site is the Site referenced by the Story for this Comment.
   """
   site: Site!
@@ -3081,6 +3126,12 @@ type Story {
   lastCommentedAt is the last time someone commented on this story.
   """
   lastCommentedAt: Time @auth(roles: [ADMIN])
+
+  """
+  canModerate returns true if the current user can moderate comments on this
+  Story.
+  """
+  canModerate: Boolean!
 
   """
   site is the site associated with the story
@@ -4167,7 +4218,6 @@ input NewCommentersConfigurationInput {
   approvedCommentsThreshold: Int
 }
 
-
 """
 RTEConfigurationInput specifies the configuration for the rte.
 """
@@ -4312,7 +4362,6 @@ input SettingsInput {
   """
   rte: RTEConfigurationInput
 }
-
 
 """
 UpdateSettingsInput provides the input for the updateSettings Mutation.
@@ -4514,29 +4563,6 @@ type CreateCommentFlagPayload {
   comment is the Comment that the Flag was created on.
   """
   comment: Comment
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-## regenerateSSOKey
-##################
-
-input RegenerateSSOKeyInput {
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type RegenerateSSOKeyPayload {
-  """
-  settings is the Settings that the SSO secret was regenerated on.
-  """
-  settings: Settings
 
   """
   clientMutationId is required for Relay support.
@@ -6039,12 +6065,58 @@ type UpdateUserAvatarPayload {
 }
 
 ##################
+# updateUserModerationScopes
+##################
+
+"""
+ModerationScopesInput describes the different scopes that a given moderator
+could be assigned.
+"""
+input ModerationScopesInput {
+  """
+  siteIDs is an array of ID's that should be the list of sites that a moderator
+  is limited to. If none are passed, it will remove the scoping for this User.
+  """
+  siteIDs: [String!]
+}
+
+input UpdateUserModerationScopesInput {
+  """
+  userID is the ID of the User that should have their role updated.
+  """
+  userID: ID!
+
+  """
+  moderationScopes defines the scopes that a given moderator should be limited
+  to when
+  """
+  moderationScopes: ModerationScopesInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserModerationScopesPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # updateUserRole
 ##################
 
 input UpdateUserRoleInput {
   """
-  userID is the ID of the User that should have their avatar updated.
+  userID is the ID of the User that should have their role updated.
   """
   userID: ID!
 
@@ -6740,16 +6812,6 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  regenerateSSOKey will regenerate the SSO secret used to sign secrets. This will
-  invalidate any existing user sessions.
-
-  DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
-  """
-  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
-    @auth(roles: [ADMIN])
-    @deprecated(reason: "deprecated in favour of `rotateSSOSigningSecret`")
-
-  """
   rotateSSOSigningSecret can be used to rotate a given active SigningSecret.
   """
   rotateSSOSigningSecret(
@@ -7011,16 +7073,25 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
+  updateUserModerationScopes will update the moderation scopes for a given user.
+  This is used to limit the scopes for which a given moderator can moderate if
+  they also have the moderator role.
+  """
+  updateUserModerationScopes(
+    input: UpdateUserModerationScopesInput!
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+
+  """
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   removeUserBan will remove an active ban from a User if they have one.
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   suspendUser will suspend a specific User from interacting with Comments.
@@ -7230,8 +7301,7 @@ type Mutation {
   """
   testSMTP sends a test email.
   """
-  testSMTP(input: TestSMTPInput!): TestSMTPPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
 }
 
 ##################

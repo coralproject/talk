@@ -104,12 +104,13 @@ function getStoryDetails(
 }
 
 function getContextOptionsWhenModeratingAll(
-  onClickOrEnter: ListBoxOptionClickOrEnterHandler
+  onClickOrEnter: ListBoxOptionClickOrEnterHandler,
+  siteID: string | null
 ): SearchBarOptions {
   return [
     {
       element: (
-        <Option href="/admin/moderate">
+        <Option href={getModerationLink({ siteID })}>
           <GoToAriaInfo />
           <Localized id="moderate-searchBar-allStories">
             <span>All stories</span>
@@ -125,7 +126,8 @@ function getContextOptionsWhenModeratingAll(
 function getContextOptionsWhenModeratingStory(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
   settings: SettingsData | null,
-  story: ModerationQueuesData | null
+  story: ModerationQueuesData | null,
+  siteID: string | null
 ): SearchBarOptions {
   if (story === null || settings === null) {
     return [];
@@ -144,7 +146,13 @@ function getContextOptionsWhenModeratingStory(
       group: "CONTEXT",
     },
     {
-      element: <ModerateAllOption href="/admin/moderate" />,
+      element: (
+        <ModerateAllOption
+          href={getModerationLink({
+            siteID: siteID || (story && story.site.id),
+          })}
+        />
+      ),
       onClickOrEnter,
       group: "CONTEXT",
     },
@@ -269,11 +277,12 @@ function useSearchOptions(
 const ModerateSearchBarContainer: React.FunctionComponent<Props> = (props) => {
   const linkNavHandler = useLinkNavHandler(props.router);
   const contextOptions: PropTypesOf<typeof Bar>["options"] = props.allStories
-    ? getContextOptionsWhenModeratingAll(linkNavHandler)
+    ? getContextOptionsWhenModeratingAll(linkNavHandler, props.siteID)
     : getContextOptionsWhenModeratingStory(
         linkNavHandler,
         props.settings,
-        props.story
+        props.story,
+        props.siteID
       );
 
   const [searchOptions, onSearch] = useSearchOptions(

@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { StoryRowContainer_story as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
@@ -16,12 +16,31 @@ interface Props {
 }
 
 const StoryRowContainer: FunctionComponent<Props> = (props) => {
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour12: true,
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
   const title = props.story.metadata && props.story.metadata.title;
   const author = props.story.metadata && props.story.metadata.author;
-  const publishedAt = props.story.metadata && props.story.metadata.publishedAt;
+  const publishedAt = useMemo(() => {
+    if (!props.story.metadata || !props.story.metadata.publishedAt) {
+      return null;
+    }
+
+    return formatter(props.story.metadata.publishedAt);
+  }, [props.story, formatter]);
+
+  // A story is readOnly if the viewer can't moderate it.
+  const readOnly = !props.story.canModerate;
+
   return (
     <StoryRow
+      readOnly={readOnly}
       storyID={props.story.id}
       title={title}
       author={author}
@@ -33,18 +52,7 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
       totalCount={props.story.commentCounts.totalPublished}
       reportedCount={props.story.moderationQueues.reported.count}
       pendingCount={props.story.moderationQueues.pending.count}
-      publishDate={
-        publishedAt
-          ? new Intl.DateTimeFormat(locales, {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour12: true,
-              hour: "numeric",
-              minute: "2-digit",
-            }).format(new Date(publishedAt))
-          : null
-      }
+      publishDate={publishedAt}
     />
   );
 };
@@ -79,6 +87,7 @@ const enhanced = withFragmentContainer<Props>({
         name
         id
       }
+      canModerate
       isClosed
       ...StoryActionsContainer_story
       ...StoryStatusContainer_story

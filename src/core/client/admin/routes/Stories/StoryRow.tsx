@@ -21,6 +21,7 @@ interface Props {
   storyID: string;
   title: string | null;
   author: string | null;
+  readOnly: boolean;
   publishDate: string | null;
   story: PropTypesOf<typeof StoryActionsContainer>["story"] &
     PropTypesOf<typeof StoryStatusContainer>["story"];
@@ -38,12 +39,16 @@ const UserRow: FunctionComponent<Props> = (props) => (
     <TableCell className={styles.titleColumn}>
       <HorizontalGutter>
         <p>
-          <Link
-            to={getModerationLink({ storyID: props.storyID })}
-            as={TextLink}
-          >
-            {props.title || <NotAvailable />}
-          </Link>
+          {!props.readOnly ? (
+            <Link
+              to={getModerationLink({ storyID: props.storyID })}
+              as={TextLink}
+            >
+              {props.title || <NotAvailable />}
+            </Link>
+          ) : (
+            props.title || <NotAvailable />
+          )}
         </p>
         {(props.author || props.publishDate) && (
           <p className={styles.meta}>
@@ -78,7 +83,9 @@ const UserRow: FunctionComponent<Props> = (props) => (
       <StoryStatusContainer story={props.story} />
     </TableCell>
     <TableCell className={styles.actionsColumn}>
-      <StoryActionsContainer story={props.story} viewer={props.viewer} />
+      {!props.readOnly && (
+        <StoryActionsContainer story={props.story} viewer={props.viewer} />
+      )}
     </TableCell>
   </TableRow>
 );

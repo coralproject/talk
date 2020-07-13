@@ -122,6 +122,7 @@ export const site = createFixture<GQLSite>({
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
   allowedOrigins: ["http://test-site.com"],
+  canModerate: true,
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -297,6 +298,7 @@ export const baseStory = createFixture<GQLStory>({
     mode: GQLSTORY_MODE.COMMENTS,
     experts: [],
   },
+  canModerate: true,
   site,
 });
 

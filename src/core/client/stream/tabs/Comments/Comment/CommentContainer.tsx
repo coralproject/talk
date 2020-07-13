@@ -271,6 +271,7 @@ export class CommentContainer extends Component<Props, State> {
     );
     const showCaret =
       this.props.viewer &&
+      this.props.story.canModerate &&
       can(this.props.viewer, Ability.MODERATE) &&
       !this.props.hideModerationCarat;
 
@@ -537,6 +538,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           fragment CommentContainer_story on Story {
             url
             isClosed
+            canModerate
             settings {
               mode
             }

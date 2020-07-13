@@ -120,6 +120,7 @@ export function createStory(createComments = true) {
       metadata: {
         title: uuid(),
       },
+      canModerate: true,
       isClosed: false,
       commentCounts: {
         totalPublished: 0,

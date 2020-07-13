@@ -1,10 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
 import { SectionFilter } from "coral-common/section";
@@ -22,6 +17,7 @@ import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
 import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
@@ -36,20 +32,31 @@ interface Props {
   queueName: GQLMODERATION_QUEUE;
   queue: QueueRoute_queue | null;
   settings: QueueRoute_settings | null;
+  viewer: QueueRoute_viewer | null;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string | null;
   siteID?: string | null;
   section?: SectionFilter | null;
-  count?: string;
 }
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].includes(status);
 
-export const QueueRoute: FunctionComponent<Props> = (props) => {
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+export const QueueRoute: FunctionComponent<Props> = ({
+  isLoading,
+  queueName,
+  queue,
+  settings,
+  viewer,
+  relay,
+  emptyElement,
+  storyID = null,
+  siteID = null,
+  section,
+}) => {
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
   );
@@ -59,56 +66,62 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
     void viewNew({
-      queue: props.queueName,
-      storyID: props.storyID || null,
-      siteID: props.siteID || null,
-      section: props.section,
+      queue: queueName,
+      storyID,
+      siteID,
+      section,
     });
-  }, [props.queueName, props.storyID, props.siteID, viewNew]);
+  }, [queueName, storyID, siteID, viewNew]);
+
+  // Handle subscribing and unsubscribing to the subscriptions.
   useEffect(() => {
     const vars = {
-      queue: props.queueName,
-      storyID: props.storyID || null,
-      siteID: props.siteID || null,
-      section: props.section,
+      queue: queueName,
+      storyID,
+      siteID,
+      section,
     };
+
     const disposable = combineDisposables(
       subscribeToQueueCommentEntered(vars),
       subscribeToQueueCommentLeft(vars)
     );
+
     return () => {
       disposable.dispose();
     };
   }, [
-    props.storyID,
-    props.siteID,
-    props.section,
-    props.queueName,
+    storyID,
+    siteID,
+    section,
+    queueName,
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
   ]);
-  const comments = useMemo(
-    () => props.queue?.comments.edges.map((edge) => edge.node),
-    [props.queue?.comments.edges]
-  );
-  if (props.isLoading) {
+
+  // It's never the case really that the query has loaded but queue or settings
+  // is null, but this was to appease the type system.
+  if (isLoading || !queue || !settings || !viewer) {
     return <LoadingQueue />;
   }
+
+  const comments = queue.comments.edges.map((edge) => edge.node);
+
   const viewNewCount =
-    (props.queue!.comments.viewNewEdges &&
-      props.queue!.comments.viewNewEdges.length) ||
-    0;
+    (queue.comments.viewNewEdges && queue.comments.viewNewEdges.length) || 0;
+
   return (
     <IntersectionProvider>
       <Queue
-        comments={comments!}
-        settings={props.settings!}
+        comments={comments}
+        settings={settings}
+        viewer={viewer}
         onLoadMore={loadMore}
-        hasLoadMore={props.relay.hasMore()}
+        hasLoadMore={relay.hasMore()}
         disableLoadMore={isLoadingMore}
         danglingLogic={danglingLogic}
-        emptyElement={props.emptyElement}
-        allStories={!props.storyID}
+        emptyElement={emptyElement}
+        allStories={!storyID}
         viewNewCount={viewNewCount}
         onViewNew={onViewNew}
       />
@@ -135,13 +148,14 @@ const createQueueRoute = (
 
       const { storyID, siteID, section } = parseModerationOptions(match);
 
-      if (!data || !data.moderationQueues) {
+      if (!data) {
         return (
           <Component
             isLoading
             queueName={queueName}
             queue={null}
             settings={null}
+            viewer={null}
             emptyElement={emptyElement}
             storyID={storyID}
             siteID={siteID}
@@ -149,6 +163,7 @@ const createQueueRoute = (
           />
         );
       }
+
       const queue =
         data.moderationQueues[Object.keys(data.moderationQueues)[0]];
 
@@ -158,6 +173,7 @@ const createQueueRoute = (
           queueName={queueName}
           queue={queue}
           settings={data.settings}
+          viewer={data.viewer}
           emptyElement={emptyElement}
           storyID={storyID}
           siteID={siteID}
@@ -196,6 +212,11 @@ const createQueueRoute = (
         settings: graphql`
           fragment QueueRoute_settings on Settings {
             ...ModerateCardContainer_settings
+          }
+        `,
+        viewer: graphql`
+          fragment QueueRoute_viewer on User {
+            ...ModerateCardContainer_viewer
           }
         `,
       },
@@ -243,6 +264,9 @@ export const PendingQueueRoute = createQueueRoute(
       settings {
         ...QueueRoute_settings
       }
+      viewer {
+        ...QueueRoute_viewer
+      }
     }
   `,
   graphql`
@@ -286,6 +310,9 @@ export const ReportedQueueRoute = createQueueRoute(
       settings {
         ...QueueRoute_settings
       }
+      viewer {
+        ...QueueRoute_viewer
+      }
     }
   `,
   graphql`
@@ -328,6 +355,9 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       }
       settings {
         ...QueueRoute_settings
+      }
+      viewer {
+        ...QueueRoute_viewer
       }
     }
   `,

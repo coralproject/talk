@@ -10,6 +10,8 @@ storyStatus-closed = Closed
 ## Roles
 role-admin = Admin
 role-moderator = Moderator
+role-siteModerator = Site Moderator
+role-organizationModerator = Organization Moderator
 role-staff = Staff
 role-commenter = Commenter
 
@@ -1077,6 +1079,15 @@ community-premodModal-consequence =
   All their comments will go to the Pending queue until you remove this status.
 community-premodModal-cancel = Cancel
 community-premodModal-premodUser = Yes, always pre-moderate
+
+community-siteModeratorModal-assignSites =
+  Assign sites for <strong>{ $username }</strong>
+community-siteModeratorModal-assignSitesDescription =
+  Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
+community-siteModeratorModal-cancel = Cancel
+community-siteModeratorModal-assign = Assign
+community-siteModeratorModal-selectSites = Select sites to moderate
+community-siteModeratorModal-noSites = No sites
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:

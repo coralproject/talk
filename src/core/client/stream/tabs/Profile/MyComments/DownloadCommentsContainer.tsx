@@ -6,7 +6,7 @@ import { graphql } from "react-relay";
 import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/constants";
 import { reduceSeconds } from "coral-common/helpers/i18n";
 import TIME from "coral-common/time";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
@@ -34,8 +34,16 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
       setShowErrorMessage(true);
     }
   }, [requestComments, setShowSuccessMessage, setShowErrorMessage]);
+  const formatter = useDateTimeFormatter({
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour12: true,
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
 
-  const { locales } = useCoralContext();
   const lastDownloadedAt = viewer.lastDownloadedAt
     ? new Date(viewer.lastDownloadedAt)
     : null;
@@ -45,15 +53,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const canDownload =
     !lastDownloadedAt || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME_DURATION;
   const tilCanDownload = DOWNLOAD_LIMIT_TIMEFRAME_DURATION - sinceLastDownload;
-  const formatter = new Intl.DateTimeFormat(locales, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour12: true,
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short",
-  });
+
   const { scaled, unit } = reduceSeconds(tilCanDownload, [
     TIME.DAY,
     TIME.HOUR,
@@ -98,7 +98,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           {lastDownloadedAt && !showSuccessMessage && (
             <Localized
               id="profile-account-download-comments-yourMostRecentRequest"
-              $timeStamp={formatter.format(lastDownloadedAt)}
+              $timeStamp={formatter(lastDownloadedAt)}
             >
               <div
                 className={cn(
@@ -108,7 +108,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               >
                 Your most recent request was within the last 14 days. You may
                 request to download your comments again on:{" "}
-                {formatter.format(lastDownloadedAt)}.
+                {formatter(lastDownloadedAt)}.
               </div>
             </Localized>
           )}

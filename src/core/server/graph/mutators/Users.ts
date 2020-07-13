@@ -25,6 +25,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
+  updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
   updateRole,
@@ -61,10 +62,11 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUserModerationScopesInput,
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
-} from "../schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { WithoutMutationID } from "./util";
 
@@ -208,6 +210,16 @@ export const Users = (ctx: GraphContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  updateUserModerationScopes: async (
+    input: GQLUpdateUserModerationScopesInput
+  ) =>
+    updateModerationScopes(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.moderationScopes
+    ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
       ctx.mongo,
@@ -225,16 +237,20 @@ export const Users = (ctx: GraphContext) => ({
       input.id,
       ctx.user!
     ),
-  ban: async (input: GQLBanUserInput) =>
+  ban: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+  }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,
       ctx.user!,
-      input.userID,
-      input.message,
-      input.rejectExistingComments || false,
+      userID,
+      message,
+      rejectExistingComments,
       ctx.now
     ),
   premodUser: async (input: GQLPremodUserInput) =>

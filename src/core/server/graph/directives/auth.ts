@@ -12,6 +12,7 @@ import {
   consolidateUserSuspensionStatus,
   User,
 } from "coral-server/models/user";
+import { canModerateUnscoped } from "coral-server/models/user/helpers";
 
 import {
   GQLUSER_AUTH_CONDITIONS,
@@ -27,6 +28,7 @@ export interface AuthDirectiveArgs {
   roles?: GQLUSER_ROLE[];
   userIDField?: string;
   permit?: GQLUSER_AUTH_CONDITIONS[];
+  unscoped?: boolean;
 }
 
 function calculateAuthConditions(
@@ -68,7 +70,7 @@ const auth: DirectiveResolverFn<
 > = (
   next,
   src,
-  { roles, userIDField, permit }: AuthDirectiveArgs,
+  { roles, userIDField, permit, unscoped = false }: AuthDirectiveArgs,
   { user, now },
   info
 ) => {
@@ -115,7 +117,22 @@ const auth: DirectiveResolverFn<
         info.operation.operation,
         user.id,
         permit,
-        conditions
+        conditions,
+        unscoped
+      );
+    }
+
+    // If the unscoped check is enabled, then ensure that the user can moderate
+    // unscoped.
+    if (unscoped && !canModerateUnscoped(user)) {
+      throw new UserForbiddenError(
+        "user cannot access unscoped resource as they are scoped",
+        calculateLocationKey(info),
+        info.operation.operation,
+        user.id,
+        permit,
+        conditions,
+        unscoped
       );
     }
 
@@ -141,7 +158,10 @@ const auth: DirectiveResolverFn<
     "user does not have permission to access the resource",
     calculateLocationKey(info),
     info.operation.operation,
-    user ? user.id : undefined
+    user ? user.id : undefined,
+    permit,
+    undefined,
+    unscoped
   );
 };
 

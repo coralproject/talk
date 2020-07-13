@@ -414,12 +414,21 @@ export class UserForbiddenError extends CoralError {
     operation: string,
     userID?: string,
     permit?: GQLUSER_AUTH_CONDITIONS[],
-    conditions?: GQLUSER_AUTH_CONDITIONS[]
+    conditions?: GQLUSER_AUTH_CONDITIONS[],
+    unscoped?: boolean
   ) {
     super({
       code: ERROR_CODES.USER_NOT_ENTITLED,
       context: {
-        pvt: { reason, userID, resource, operation, conditions, permit },
+        pvt: {
+          reason,
+          userID,
+          resource,
+          operation,
+          conditions,
+          permit,
+          unscoped,
+        },
       },
       status: 403,
     });

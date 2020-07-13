@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useMemo } from "react";
 
+import { useDateTimeFormatter } from "coral-framework/hooks";
+
 import {
   CHART_COLOR_MONO_100,
   CHART_COLOR_MONO_500,
@@ -12,7 +14,6 @@ interface TickPayload {
 
 interface Props {
   x: number;
-  locales: string[];
   y: number;
   payload: TickPayload;
   isToday: boolean;
@@ -22,22 +23,22 @@ const SignupActivityTick: FunctionComponent<Props> = ({
   x,
   y,
   payload,
-  locales,
   isToday,
 }) => {
-  const date = useMemo(() => {
-    const formatter = new Intl.DateTimeFormat(locales, {
-      day: "numeric",
-      month: "numeric",
-    });
-    return formatter.format(new Date(payload.value));
-  }, [payload.value]);
-  const dayOfWeek = useMemo(() => {
-    const formatter = new Intl.DateTimeFormat(locales, {
-      weekday: "short",
-    });
-    return formatter.format(new Date(payload.value));
-  }, [payload.value]);
+  const dateFormatter = useDateTimeFormatter({
+    day: "numeric",
+    month: "numeric",
+  });
+  const date = useMemo(() => dateFormatter(payload.value), [
+    payload.value,
+    dateFormatter,
+  ]);
+  const dayOfWeekFormatter = useDateTimeFormatter({
+    weekday: "short",
+  });
+  const dayOfWeek = useMemo(() => dayOfWeekFormatter(payload.value), [
+    payload.value,
+  ]);
   return (
     <g transform={`translate(${x},${y})`}>
       <text

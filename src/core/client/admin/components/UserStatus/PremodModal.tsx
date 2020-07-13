@@ -4,11 +4,10 @@ import React, { FunctionComponent } from "react";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
+import ModalBodyText from "../ModalBodyText";
+import ModalHeader from "../ModalHeader";
+import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import ChangeStatusModalHeader from "./ChangeStatusModalHeader";
-import ModalHeaderUsername from "./ModalHeaderUsername";
-
-import styles from "./PremodModal.css";
 
 interface Props {
   username: string | null;
@@ -36,19 +35,19 @@ const PremodModal: FunctionComponent<Props> = ({
             strong={<ModalHeaderUsername />}
             $username={username || <NotAvailable />}
           >
-            <ChangeStatusModalHeader id="PremodModal-title">
+            <ModalHeader id="PremodModal-title">
               Are you sure you want to always premoderate{" "}
               <ModalHeaderUsername>
                 {username || <NotAvailable />}
               </ModalHeaderUsername>
               ?
-            </ChangeStatusModalHeader>
+            </ModalHeader>
           </Localized>
           <Localized id="community-premodModal-consequence">
-            <div className={styles.bodyText}>
+            <ModalBodyText>
               Note: Always premoderating this user will place all of their
               comments in the Pre-Moderate queue.
-            </div>
+            </ModalBodyText>
           </Localized>
           <Flex justifyContent="flex-end" itemGutter>
             <Localized id="community-premodModal-cancel">

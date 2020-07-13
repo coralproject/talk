@@ -26,12 +26,15 @@ const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
           settings {
             ...UserHistoryDrawerRejectedComments_settings
           }
+          viewer {
+            ...UserHistoryDrawerRejectedComments_viewer
+          }
         }
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
-        if (!props) {
+        if (!props || !props.viewer) {
           return (
             <div className={styles.root}>
               <Spinner />
@@ -54,6 +57,7 @@ const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
         return (
           <UserHistoryDrawerRejectedComments
             settings={props.settings}
+            viewer={props.viewer}
             user={props.user}
           />
         );

@@ -16,8 +16,19 @@ $moderateCardButtonOutlineRejectColor: var(--v2-colors-red-500);
   }
 }
 
+.readOnly {
+  background-color: transparent;
+  border-color: var(--v2-colors-grey-300);
+  color: var(--v2-colors-grey-300);
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
 .invert {
   background-color: $moderateCardButtonOutlineRejectColor;
+  border-color: $moderateCardButtonOutlineRejectColor;
   color: var(--v2-colors-pure-white);
 }
 

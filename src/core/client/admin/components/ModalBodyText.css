@@ -1,9 +1,9 @@
-$premod-modal-text: var(--v2-colors-mono-500);
+$modal-body-text: var(--v2-colors-mono-500);
 
-.bodyText {
+.root {
   font-size: var(--v2-font-size-3);
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   line-height: var(--v2-line-height-body-short);
-  color: $premod-modal-text;
+  color: $modal-body-text;
 }

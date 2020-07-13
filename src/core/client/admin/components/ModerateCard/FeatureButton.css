@@ -24,8 +24,7 @@
   }
 
   &:disabled {
-    cursor: default;
-
+    cursor: not-allowed;
     background-color: transparent;
     border-color: var(--v2-colors-grey-300);
     color: var(--v2-colors-grey-300);

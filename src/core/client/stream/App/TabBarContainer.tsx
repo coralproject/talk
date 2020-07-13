@@ -35,6 +35,7 @@ export class TabBarContainer extends Component<Props> {
     const {
       local: { activeTab },
       viewer,
+      story,
     } = this.props;
 
     return (
@@ -47,7 +48,10 @@ export class TabBarContainer extends Component<Props> {
         activeTab={activeTab}
         showProfileTab={Boolean(viewer)}
         showConfigureTab={
-          !!viewer && can(viewer, Ability.CHANGE_STORY_CONFIGURATION)
+          !!viewer &&
+          !!story &&
+          story.canModerate &&
+          can(viewer, Ability.CHANGE_STORY_CONFIGURATION)
         }
         onTabClick={this.handleSetActiveTab}
       />
@@ -71,6 +75,7 @@ const enhanced = withSetActiveTabMutation(
       `,
       story: graphql`
         fragment TabBarContainer_story on Story {
+          canModerate
           settings {
             mode
           }

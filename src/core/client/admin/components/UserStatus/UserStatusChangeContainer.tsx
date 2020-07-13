@@ -4,8 +4,9 @@ import { graphql } from "react-relay";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
@@ -20,14 +21,20 @@ import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
 
 interface Props {
-  user: UserData;
+  settings: UserStatusChangeContainer_settings;
+  user: UserStatusChangeContainer_user;
+  viewer: UserStatusChangeContainer_viewer;
   fullWidth?: boolean;
-  settings: SettingsData;
   bordered?: boolean;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
-  const { user, settings, fullWidth, bordered } = props;
+const UserStatusChangeContainer: FunctionComponent<Props> = ({
+  user,
+  settings,
+  fullWidth,
+  bordered,
+  viewer,
+}) => {
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
@@ -119,11 +126,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
     return <UserStatusContainer user={user} />;
   }
 
+  const scoped = !!viewer.moderationScopes?.scoped;
+
   return (
     <>
       <UserStatusChange
-        onBan={handleBan}
-        onRemoveBan={handleRemoveBan}
+        onBan={!scoped && handleBan}
+        onRemoveBan={!scoped && handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
@@ -150,12 +159,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
         onClose={hidePremod}
         onConfirm={handlePremodConfirm}
       />
-      <BanModal
-        username={user.username}
-        open={showBanned}
-        onClose={handleBanModalClose}
-        onConfirm={handleBanConfirm}
-      />
+      {!scoped && (
+        <BanModal
+          username={user.username}
+          open={showBanned}
+          onClose={handleBanModalClose}
+          onConfirm={handleBanConfirm}
+        />
+      )}
     </>
   );
 };
@@ -184,6 +195,13 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserStatusChangeContainer_settings on Settings {
       organization {
         name
+      }
+    }
+  `,
+  viewer: graphql`
+    fragment UserStatusChangeContainer_viewer on User {
+      moderationScopes {
+        scoped
       }
     }
   `,

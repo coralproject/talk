@@ -1,9 +1,11 @@
-import { Match, RouteProps, Router, withRouter } from "found";
-import React from "react";
+import { Match, Router, withRouter } from "found";
+import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { withRouteConfig } from "coral-framework/lib/router";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Spinner } from "coral-ui/components/v2";
 
 import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
@@ -16,64 +18,134 @@ interface RouteParams {
 }
 
 interface Props {
-  data: ModerateContainerQueryResponse;
+  data: ModerateContainerQueryResponse | null;
   router: Router;
   match: Match & { params: RouteParams };
 }
 
-class ModerateContainer extends React.Component<Props> {
-  public static routeConfig: RouteProps;
+const queueNames: QUEUE_NAME[] = [
+  "reported",
+  "pending",
+  "unmoderated",
+  "approved",
+  "rejected",
+];
 
-  public render() {
-    const allStories = !this.props.match.params.storyID;
-    // TODO: (tessalt) get active route in a better way
-    const queueName = [
+const ModerateContainer: FunctionComponent<Props> = ({
+  data,
+  match,
+  router,
+  children,
+}) => {
+  const allStories = !match.params.storyID;
+  const queueName = useMemo(
+    () =>
+      // TODO: (tessalt) get active route in a better way
+      queueNames.find((name) => match.location.pathname.includes(name)) ||
       "default",
-      "reported",
-      "pending",
-      "unmoderated",
-      "approved",
-      "rejected",
-    ].find((name) => {
-      return this.props.match.location.pathname.includes(name);
-    });
-    const { section } = parseModerationOptions(this.props.match);
+    [match.location.pathname]
+  );
 
-    if (!this.props.data) {
-      return (
-        <Moderate
-          moderationQueues={null}
-          story={null}
-          settings={null}
-          siteID={null}
-          section={section}
-          query={this.props.data}
-          routeParams={this.props.match.params}
-          queueName={queueName || "default"}
-          allStories={allStories}
-        >
-          <Spinner />
-        </Moderate>
-      );
+  // This guard is used to ensure that the current viewer has permission to
+  // moderate on this site. It's injected here because we get the result from
+  // relay here for the site that is referenced if this is supposed to moderate
+  // a story.
+  useEffect(() => {
+    // Wait for the data and viewer to become available.
+    if (!data || !data.viewer) {
+      return;
     }
 
+    // If the feature flag isn't enabled, we don't need to do anything!
+    if (!data.settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      return;
+    }
+
+    // If the viewer isn't moderation scoped, nothing we need to do!
+    if (
+      !data.viewer.moderationScopes?.scoped ||
+      !data.viewer.moderationScopes.sites
+    ) {
+      return;
+    }
+
+    // Grab a reference for the following function to make the type checker
+    // happy.
+    const sites = data.viewer.moderationScopes.sites;
+    const redirect = () =>
+      router.push(
+        getModerationLink({
+          queue: queueName as QUEUE_NAME,
+          // We'll grab the first site in the moderation scopes (a user can only
+          // be scoped if there is at least one site).
+          siteID: sites[0].id,
+        })
+      );
+
+    // If we've loaded a specific story, we'll have the site on that story too,
+    // so check if we're allowed to moderate it.
+    if (data.story && !data.story.site.canModerate) {
+      redirect();
+      return;
+    }
+
+    // Get some options from the router.
+    const { siteID } = parseModerationOptions(match);
+
+    // If the viewer is moderation scoped, they cannot moderate under all sites.
+    if (!siteID) {
+      redirect();
+      return;
+    }
+
+    // Check to see if the user is allowed to moderate on this site given that
+    // they are already scoped. If the current site ID is not found, redirect
+    // them!
+    if (!sites.some(({ id }) => id === siteID)) {
+      redirect();
+      return;
+    }
+  }, [router, match, data]);
+
+  // Get some options for the moderate cards.
+  const { section } = parseModerationOptions(match);
+
+  if (!data) {
     return (
       <Moderate
-        moderationQueues={this.props.data.moderationQueues}
-        story={this.props.data.story || null}
-        siteID={this.props.data.story ? this.props.data.story.site.id : null}
+        moderationQueues={null}
+        story={null}
+        settings={null}
+        siteID={null}
         section={section}
-        routeParams={this.props.match.params}
-        query={this.props.data}
+        query={data}
+        viewer={null}
+        routeParams={match.params}
+        queueName={queueName}
         allStories={allStories}
-        settings={this.props.data.settings}
-        queueName={queueName || "default"}
       >
-        {this.props.children}
+        <Spinner />
       </Moderate>
     );
   }
-}
+
+  return (
+    <Moderate
+      moderationQueues={data.moderationQueues}
+      story={data.story || null}
+      siteID={data.story?.site.id || null}
+      section={section}
+      routeParams={match.params}
+      query={data}
+      viewer={data.viewer}
+      allStories={allStories}
+      settings={data.settings}
+      queueName={queueName}
+    >
+      {children}
+    </Moderate>
+  );
+};
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
@@ -83,21 +155,42 @@ const enhanced = withRouteConfig<Props>({
       $siteID: ID
       $section: SectionFilter
     ) {
+      ...SiteSelectorContainer_query
+      ...SectionSelectorContainer_query
+
       settings {
         ...ModerateSearchBarContainer_settings
+        ...SiteSelectorContainer_settings
+
+        featureFlags
       }
+
       story(id: $storyID) @include(if: $includeStory) {
         ...ModerateNavigationContainer_story
         ...ModerateSearchBarContainer_story
+
         site {
           id
+          canModerate
         }
       }
+
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         ...ModerateNavigationContainer_moderationQueues
       }
-      ...SiteSelectorContainer_query
-      ...SectionSelectorContainer_query
+
+      viewer {
+        ...SiteSelectorContainer_viewer
+
+        id
+        role
+        moderationScopes {
+          scoped
+          sites {
+            id
+          }
+        }
+      }
     }
   `,
   cacheConfig: { force: true },
@@ -108,8 +201,7 @@ const enhanced = withRouteConfig<Props>({
       storyID,
       siteID,
       section,
-      includeStory: Boolean(storyID),
-      includeSite: Boolean(siteID),
+      includeStory: !!storyID,
     };
   },
 })(withRouter(ModerateContainer));

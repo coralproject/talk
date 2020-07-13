@@ -12,30 +12,6 @@ import {
 
 import { TenantCache } from "./cache";
 
-/**
- * regenerateSSOKey will regenerate the Single Sign-On key for the specified
- * Tenant and notify all other Tenant's connected that the Tenant was updated.
- *
- * DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
- */
-export async function regenerateSSOKey(
-  mongo: Db,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  now: Date
-) {
-  // Regeneration is the same as rotating but with a specific 30 day window.
-  return rotateSSOSigningSecret(
-    mongo,
-    redis,
-    cache,
-    tenant,
-    30 * 24 * 60 * 60,
-    now
-  );
-}
-
 export async function rotateSSOSigningSecret(
   mongo: Db,
   redis: Redis,
