@@ -32,6 +32,7 @@ interface Props {
 const GifSelector: FunctionComponent<Props> = (props) => {
   const gifSearchFetch = useFetch(GifSearchFetch);
   const [results, setResults] = useState<GifResult[]>([]);
+  const [searchError, setSearchError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -51,14 +52,19 @@ const GifSelector: FunctionComponent<Props> = (props) => {
   useEffect(() => {
     async function search() {
       if (query && query.length > 1) {
-        const res = await gifSearchFetch({ query, page });
-        const { pagination, data } = res.results.data;
-        if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
-          setHasNextPage(true);
-        } else {
-          setHasNextPage(false);
+        try {
+          const res = await gifSearchFetch({ query, page });
+          const { pagination, data } = res.results.data;
+          if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
+            setHasNextPage(true);
+          } else {
+            setHasNextPage(false);
+          }
+          setSearchError(null);
+          return setResults(data);
+        } catch (error) {
+          setSearchError(error.message);
         }
-        return setResults(data);
       }
     }
     void search();
@@ -168,7 +174,8 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             )}
           </Flex>
         )}
-        {results.length === 0 && query.length > 0 && (
+        {searchError && <p className={styles.error}>{searchError}</p>}
+        {!searchError && results.length === 0 && query.length > 0 && (
           <Localized
             id="comments-postComment-gifSearch-no-results"
             $query={query}
