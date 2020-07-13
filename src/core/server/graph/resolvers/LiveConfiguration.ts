@@ -18,11 +18,9 @@ export const LiveConfiguration: GQLLiveConfigurationTypeResolver<LiveConfigurati
       return false;
     }
 
-    // This typecast is needed because the custom `ms` format does not return the
-    // desired `number` type even though that's the only type it can output.
-    const disableLiveUpdatesTimeout = (ctx.config.get(
+    const disableLiveUpdatesTimeout = ctx.config.get(
       "disable_live_updates_timeout"
-    ) as unknown) as number;
+    );
     if (disableLiveUpdatesTimeout > 0) {
       // If one of these is available, use it to determine the time since the
       // last comment.
