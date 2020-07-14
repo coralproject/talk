@@ -6,13 +6,13 @@ import { createFetch } from "coral-server/services/fetch";
 
 const OEmbedResponseSchema = Joi.object().keys({
   width: Joi.number().optional(),
-  height: Joi.number().optional(),
+  height: Joi.number().optional().allow(null),
   html: Joi.string().optional(),
 });
 
 interface OEmbedResponse {
   width?: number;
-  height?: number;
+  height?: number | null;
   html: string;
 }
 
