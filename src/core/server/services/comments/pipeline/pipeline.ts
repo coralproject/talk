@@ -68,14 +68,13 @@ export interface ModerationPhaseContextInput {
   comment: RequireProperty<
     Partial<Omit<CreateCommentInput, "media">>,
     "body" | "ancestorIDs"
-  > & {
-    media?: CommentMedia;
-  };
+  >;
   author: User;
   now: Date;
   action: "NEW" | "EDIT";
   nudge?: boolean;
   req?: Request;
+  media?: CommentMedia;
 }
 
 export interface ModerationPhaseContext extends ModerationPhaseContextInput {
@@ -83,8 +82,6 @@ export interface ModerationPhaseContext extends ModerationPhaseContextInput {
    * bodyText is a text version of the comment body.
    */
   bodyText: string;
-
-  media?: CommentMedia;
 }
 
 export type RootModerationPhase = (
@@ -136,6 +133,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
+      media: final.media,
       tags: final.tags,
       bodyText,
       metadata: final.metadata,

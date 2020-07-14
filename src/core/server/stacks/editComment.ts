@@ -114,7 +114,7 @@ export default async function edit(
   let media = originalStaleRevision.media;
   if (input.media) {
     // TODO: (wyattjoh) check to see if the media is the same.
-    media = await attachMedia(input.media, input.body, tenant);
+    media = await attachMedia(tenant, input.media, input.body);
   }
 
   // Run the comment through the moderation phases.
@@ -130,8 +130,8 @@ export default async function edit(
       ...originalStaleComment,
       ...input,
       authorID: author.id,
-      media,
     },
+    media,
     author,
     req,
     now,

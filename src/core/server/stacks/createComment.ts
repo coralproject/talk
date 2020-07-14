@@ -182,7 +182,7 @@ export default async function create(
 
   let media: CommentMedia | undefined;
   if (input.media) {
-    media = await attachMedia(input.media, input.body, tenant);
+    media = await attachMedia(tenant, input.media, input.body);
   }
 
   let result: PhaseResult;
@@ -197,10 +197,11 @@ export default async function create(
       tenant,
       story,
       nudge,
-      comment: { ...input, ancestorIDs, media },
+      comment: { ...input, ancestorIDs },
       author,
       req,
       now,
+      media,
     });
   } catch (err) {
     if (
