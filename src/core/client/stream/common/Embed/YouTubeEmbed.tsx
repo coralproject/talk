@@ -4,8 +4,8 @@ import OEmbed from "./OEmbed";
 
 interface Props {
   url: string;
-  width?: string | null;
-  height?: string | null;
+  width?: number | null;
+  height?: number | null;
 }
 
 const YouTubeEmbed: FunctionComponent<Props> = ({ url, width, height }) => {

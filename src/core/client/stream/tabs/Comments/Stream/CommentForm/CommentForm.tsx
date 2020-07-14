@@ -13,7 +13,6 @@ import { Field, Form, FormSpy } from "react-final-form";
 
 import { EmbedLink, findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -45,15 +44,15 @@ export interface PasteEvent {
   defaultPrevented: boolean;
 }
 
-interface MediaProps {
-  source: GQLEMBED_SOURCE_RL;
+interface EmbedProps {
+  type: "giphy" | "twitter" | "youtube";
   url: string;
-  alt: string;
+  remoteID: string | null;
 }
 
 interface FormProps {
   body: string;
-  embed?: MediaProps;
+  embed?: EmbedProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -139,7 +138,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     (setField: (name: string, value: string) => void) => {
       if (embedLink) {
         setField("embed.url", embedLink.url);
-        setField("embed.source", embedLink.type);
+        setField("embed.type", embedLink.type);
         setEmbedLink(null);
       }
     },
@@ -239,10 +238,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     </>
                   )}
                 </Field>
-                <Field name="embed.source">
-                  {() => <input type="hidden" />}
-                </Field>
-                <Field name="embed.remote_id">
+                <Field name="embed.type">{() => <input type="hidden" />}</Field>
+                <Field name="embed.remoteID">
                   {() => <input type="hidden" />}
                 </Field>
                 <Field name="embed.url">
@@ -253,11 +250,11 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           <GifSelector
                             onGifSelect={(gif) => {
                               form.mutators.setFieldValue(
-                                "embed.source",
-                                "GIPHY"
+                                "embed.type",
+                                "giphy"
                               );
                               form.mutators.setFieldValue(
-                                "embed.remote_id",
+                                "embed.remoteID",
                                 gif.id
                               );
                               fieldProps.input.onChange(
@@ -270,7 +267,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         </>
                       )}
                       {values.embed &&
-                        values.embed.source === "GIPHY" &&
+                        values.embed.type === "giphy" &&
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <GifPreview
@@ -291,21 +288,21 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         />
                       )}
                       {values.embed &&
-                        (values.embed.source === "YOUTUBE" ||
-                          values.embed.source === "TWITTER") &&
+                        (values.embed.type === "youtube" ||
+                          values.embed.type === "twitter") &&
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <EmbedPreview
                             config={props.embedConfig}
                             embed={{
                               url: fieldProps.input.value,
-                              source: values.embed.source,
+                              type: values.embed.type,
                             }}
                             onRemove={() => {
                               fieldProps.input.onChange(null);
-                              form.mutators.setFieldValue("embed.source", null);
+                              form.mutators.setFieldValue("embed.type", null);
                               form.mutators.setFieldValue(
-                                "embed.remote_id",
+                                "embed.remoteID",
                                 null
                               );
                             }}

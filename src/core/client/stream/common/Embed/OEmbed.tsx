@@ -14,8 +14,8 @@ interface Props {
   loadTimeout?: number;
   showLink?: boolean;
   className?: string;
-  width?: string | null;
-  height?: string | null;
+  width?: number | null;
+  height?: number | null;
 }
 
 function calculateBottomPadding(width: string, height: string) {
@@ -49,10 +49,7 @@ const oEmbed: FunctionComponent<Props> = ({
 
   const onLoad = useCallback(() => {
     if (width && height && containerRef && containerRef.current) {
-      containerRef.current.style.paddingBottom = calculateBottomPadding(
-        width,
-        height
-      );
+      containerRef.current.style.paddingBottom = `${(height / width) * 100}%`;
       return;
     }
     let resizeInterval: number | null = null;
@@ -65,8 +62,8 @@ const oEmbed: FunctionComponent<Props> = ({
       if (!iframeRef.current || !iframeRef.current.contentWindow) {
         return;
       }
-      let calculatedWidth = width;
-      let calculatedHeight = height;
+      let calculatedWidth = `${width}`;
+      let calculatedHeight = `${height}`;
       if (!width) {
         calculatedWidth = `${iframeRef.current.contentWindow.document.body.scrollWidth}`;
         iframeRef.current.width = `${calculatedWidth}px`;

@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
+import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
 import {
   Button,
   Flex,
@@ -37,14 +37,14 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
             </div>
           </MatchMedia>
           <div className={styles.promptContainer}>
-            {embed.source === "YOUTUBE" && (
+            {embed.type === "youtube" && (
               <p className={styles.prompt}>
                 <Localized id="comments-postComment-confirmEmbed-youtube">
                   Add this YouTube video to the end of your comment?
                 </Localized>
               </p>
             )}
-            {embed.source === "TWITTER" && (
+            {embed.type === "twitter" && (
               <Localized id="comments-postComment-confirmEmbed-twitter">
                 <p className={styles.prompt}>
                   Add this tweet to the end of your comment?
@@ -65,7 +65,7 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
               Cancel
             </Button>
           </Localized>
-          {embed.source === "TWITTER" && (
+          {embed.type === "twitter" && (
             <Localized id="comments-postComment-confirmEmbed-add-tweet">
               <Button
                 color="mono"
@@ -76,7 +76,7 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
               </Button>
             </Localized>
           )}
-          {embed.source === "YOUTUBE" && (
+          {embed.type === "youtube" && (
             <Localized id="comments-postComment-confirmEmbed-add-video">
               <Button
                 color="mono"

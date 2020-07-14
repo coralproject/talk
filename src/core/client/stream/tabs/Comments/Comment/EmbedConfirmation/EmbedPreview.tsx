@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
-import { Embed } from "coral-stream/common/OEmbed";
+import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
+import { TwitterEmbed, YouTubeEmbed } from "coral-stream/common/Embed";
 import {
   Button,
   ButtonIcon,
@@ -65,7 +65,8 @@ const EmbedPreview: FunctionComponent<Props> = ({
             </MatchMedia>
           </Flex>
         </div>
-        <Embed type={embed.source} url={embed.url} settings={config} />
+        {embed.type === "twitter" && <TwitterEmbed url={embed.url} />}
+        {embed.type === "youtube" && <YouTubeEmbed url={embed.url} />}
       </HorizontalGutter>
       <MatchMedia ltWidth="xs">
         <Localized id="comments-postComment-confirmEmbed-remove">

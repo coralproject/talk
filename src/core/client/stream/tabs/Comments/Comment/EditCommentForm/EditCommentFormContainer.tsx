@@ -50,12 +50,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
   private intitialValues = {
     body: this.props.comment.body || "",
-    embed:
-      this.props.comment.revision &&
-      this.props.comment.revision.embeds &&
-      this.props.comment.revision.embeds.length > 0
-        ? this.props.comment.revision.embeds[0]
-        : null,
+    embed: this.props.comment.revision && this.props.comment.revision.embed,
   };
 
   public state: State = {
@@ -168,6 +163,8 @@ export class EditCommentFormContainer extends Component<Props, State> {
     );
   }
 }
+
+// TODO (tessalt) check revision
 const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
@@ -181,10 +178,26 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             body
             createdAt
             revision {
+              id
               embed {
                 __typename
-                url
-                source
+                ... on GiphyEmbed {
+                  url
+                  title
+                  width
+                  height
+                  still
+                  video
+                }
+                ... on TwitterEmbed {
+                  url
+                  width
+                }
+                ... on YoutubeEmbed {
+                  url
+                  width
+                  height
+                }
               }
             }
             author {

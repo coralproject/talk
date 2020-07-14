@@ -3,12 +3,15 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  GiphyEmbed,
+  TwitterEmbed,
+  YouTubeEmbed,
+} from "coral-stream/common/Embed";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
 import { EmbedSectionContainer_comment } from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
 import { EmbedSectionContainer_settings } from "coral-stream/__generated__/EmbedSectionContainer_settings.graphql";
-
-import { Embed } from "coral-stream/common/OEmbed";
 
 import styles from "./EmbedSectionContainer.css";
 
@@ -25,26 +28,23 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
   const { embeds: embedSettings } = settings;
   const [expanded, setExpanded] = useState(false);
   const onToggleExpand = useCallback(() => {
-    setExpanded(!expanded);
-  }, [expanded, setExpanded]);
+    setExpanded((v) => !v);
+  }, []);
 
-  if (
-    !revision ||
-    !revision.embeds ||
-    revision.embeds.length <= 0 ||
-    !embedSettings ||
-    (!embedSettings.twitter && !embedSettings.youtube)
-  ) {
+  if (!revision || !revision.embed || !embedSettings) {
     return null;
   }
 
-  const embed = revision.embeds[0];
+  const { embed } = revision;
 
   if (
     !embedSettings ||
-    (embed.source === "TWITTER" && !embedSettings.twitter) ||
-    (embed.source === "YOUTUBE" && !embedSettings.youtube) ||
-    (embed.source === "GIPHY" && !embedSettings.giphy)
+    (embed.__typename === "TwitterEmbed" &&
+      (!embedSettings.twitter || !embedSettings.twitter.enabled)) ||
+    (embed.__typename === "YoutubeEmbed" &&
+      (!embedSettings.youtube || !embedSettings.youtube.enabled)) ||
+    (embed.__typename === "GiphyEmbed" &&
+      (!embedSettings.giphy || !embedSettings.giphy.enabled))
   ) {
     return null;
   }
@@ -60,17 +60,17 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
         className={styles.button}
       >
         <ButtonIcon>add</ButtonIcon>
-        {embed.source === "TWITTER" && (
+        {embed.__typename === "TwitterEmbed" && (
           <Localized id="comments-embedLinks-show-twitter">
             Show tweet
           </Localized>
         )}
-        {embed.source === "YOUTUBE" && (
+        {embed.__typename === "YoutubeEmbed" && (
           <Localized id="comments-embedLinks-show-youtube">
             Show video
           </Localized>
         )}
-        {embed.source === "GIPHY" && (
+        {embed.__typename === "GiphyEmbed" && (
           <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
         )}
       </Button>
@@ -89,30 +89,40 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
           className={styles.button}
         >
           <ButtonIcon>remove</ButtonIcon>
-          {embed.source === "TWITTER" && (
+          {embed.__typename === "TwitterEmbed" && (
             <Localized id="comments-embedLinks-hide-twitter">
               Hide tweet
             </Localized>
           )}
-          {embed.source === "GIPHY" && (
+          {embed.__typename === "GiphyEmbed" && (
             <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
           )}
-          {embed.source === "YOUTUBE" && (
+          {embed.__typename === "YoutubeEmbed" && (
             <Localized id="comments-embedLinks-hide-youtube">
               Hide video
             </Localized>
           )}
         </Button>
       </div>
-      <Embed
-        url={embed.url}
-        type={embed.source}
-        settings={settings.embeds}
-        width={embed.width}
-        height={embed.height}
-        title={embed.title}
-        video={embed.media ? embed.media.video : null}
-      />
+      {embed.__typename === "TwitterEmbed" && (
+        <TwitterEmbed url={embed.url} width={embed.width} />
+      )}
+      {embed.__typename === "YoutubeEmbed" && (
+        <YouTubeEmbed
+          url={embed.url}
+          width={embed.width}
+          height={embed.height}
+        />
+      )}
+      {embed.__typename === "GiphyEmbed" && (
+        <GiphyEmbed
+          url={embed.url}
+          width={embed.width}
+          height={embed.height}
+          title={embed.title}
+          video={embed.video}
+        />
+      )}
     </HorizontalGutter>
   );
 };
@@ -123,14 +133,23 @@ const enhanced = withFragmentContainer<Props>({
       revision {
         embed {
           __typename
-          url
-          source
-          width
-          height
-          title
-          still
-          video
-          original
+          ... on GiphyEmbed {
+            url
+            title
+            width
+            height
+            still
+            video
+          }
+          ... on TwitterEmbed {
+            url
+            width
+          }
+          ... on YoutubeEmbed {
+            url
+            width
+            height
+          }
         }
       }
     }

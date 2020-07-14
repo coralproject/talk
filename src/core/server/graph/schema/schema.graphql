@@ -2628,7 +2628,6 @@ type GiphyEmbed {
   original: String!
   still: String!
   video: String!
-  remoteID: String!
   width: Int
   height: Int
   title: String
@@ -2637,7 +2636,6 @@ type GiphyEmbed {
 type TwitterEmbed {
   url: String!
   width: Int
-  height: Int
 }
 
 type YoutubeEmbed {

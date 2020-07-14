@@ -2,12 +2,18 @@ export interface GiphyGifImage {
   url: string;
   width: string;
   height: string;
+}
+
+export interface GiphyGifOrignalImage {
+  url: string;
+  width: string;
+  height: string;
   mp4: string;
   still: string;
 }
 
 export interface GiphyGifImages {
-  original: GiphyGifImage;
+  original: GiphyGifOrignalImage;
   fixed_height_downsampled: GiphyGifImage;
   original_still: GiphyGifImage;
 }

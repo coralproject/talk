@@ -3,15 +3,18 @@ import React, { FunctionComponent } from "react";
 import { Field, FormSpy } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { colorFromMeta } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
   FormFieldDescription,
   HelperText,
   Label,
-  PasswordField,
   RadioButton,
 } from "coral-ui/components/v2";
 
@@ -19,12 +22,16 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
+import APIKeyField from "../Moderation/APIKeyField";
 
 import styles from "./EmbedLinksConfig.css";
 
 interface Props {
   disabled: boolean;
 }
+
+const giphyIsEnabled: Condition = (value, values) =>
+  Boolean(values.embeds && values.embeds.giphy.enabled);
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -38,6 +45,8 @@ graphql`
       }
       giphy {
         enabled
+        maxRating
+        APIKey
       }
     }
   }
@@ -135,7 +144,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     appear in commenters’ search results
                   </HelperText>
                 </Localized>
-                <Field name="embeds.giphy.maxRating" type="radio" value="G">
+                <Field name="embeds.giphy.maxRating" type="radio" value="g">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-g">
@@ -156,7 +165,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="PG">
+                <Field name="embeds.giphy.maxRating" type="radio" value="pg">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
@@ -177,7 +186,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="PG13">
+                <Field name="embeds.giphy.maxRating" type="radio" value="pg13">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
@@ -200,7 +209,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="R">
+                <Field name="embeds.giphy.maxRating" type="radio" value="r">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-r">
@@ -245,13 +254,10 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 </Localized>
                 <Field name="embeds.giphy.APIKey">
                   {({ input, meta }) => (
-                    <PasswordField
+                    <APIKeyField
                       {...input}
                       disabled={giphyDisabled || disabled}
-                      hidePasswordTitle="Hide API Key"
-                      showPasswordTitle="Show API Key"
-                      color={colorFromMeta(meta)}
-                      fullWidth
+                      validate={validateWhen(giphyIsEnabled, required)}
                     />
                   )}
                 </Field>

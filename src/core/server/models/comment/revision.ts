@@ -46,7 +46,6 @@ export interface RevisionMetadata {
 export interface GiphyEmbed {
   type: "giphy";
   url: string;
-  remoteID: string;
   original?: string;
   still?: string;
   video?: string;
@@ -59,7 +58,6 @@ export interface TwitterEmbed {
   type: "twitter";
   url: string;
   width?: number;
-  height?: number;
 }
 
 export interface YoutubeEmbed {
@@ -123,7 +121,6 @@ async function attachGiphyEmbed(
     if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
       return {
         url,
-        remoteID,
         type: "giphy",
         title: data.title,
         width: parseInt(data.images.original.width, 10),
@@ -140,6 +137,7 @@ async function attachGiphyEmbed(
   }
 }
 
+// TODO (tessalt): move to services
 export async function attachEmbed(
   input: CreateCommentEmbedInput | null,
   body: string,

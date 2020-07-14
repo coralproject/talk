@@ -10,7 +10,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 
-const RATINGS_ORDER = ["G", "PG", "PG13", "R"];
+const RATINGS_ORDER = ["g", "pg", "pg13", "r"];
 const fetch = createFetch({ name: "giphy" });
 
 type GiphyLanguage = "en" | "es" | "fr" | "de" | "pt";
@@ -19,14 +19,19 @@ const GiphyGifImageSchema = Joi.object().keys({
   url: Joi.string().required(),
   width: Joi.string().required(),
   height: Joi.string().required(),
+});
+
+const GiphyGifOriginalImageSchema = Joi.object().keys({
+  url: Joi.string().required(),
+  width: Joi.string().required(),
+  height: Joi.string().required(),
   mp4: Joi.string().required(),
-  still: Joi.string().required(),
 });
 
 const GiphyGifImagesSchema = Joi.object().keys({
-  original: GiphyGifImageSchema,
-  fixed_height_downsampled: GiphyGifImageSchema,
-  orignal_still: GiphyGifImageSchema,
+  original: GiphyGifOriginalImageSchema.required(),
+  fixed_height_downsampled: GiphyGifImageSchema.required(),
+  original_still: GiphyGifImageSchema.required(),
 });
 
 const GiphyGifSchema = Joi.object().keys({
@@ -50,7 +55,7 @@ const GiphyRetrieveResponseSchema = Joi.object().keys({
 });
 
 export function ratingIsAllowed(rating: string, tenant: Tenant) {
-  const compareRating = rating.toUpperCase();
+  const compareRating = rating.toLowerCase();
   if (tenant.embeds && tenant.embeds.giphy && tenant.embeds.giphy.maxRating) {
     return (
       RATINGS_ORDER.includes(compareRating) &&
@@ -134,7 +139,8 @@ export async function searchGiphy(
 
     // Parse the JSON body and send back the result!
     const data = await res.json();
-    return validateRetrieveResponse(data);
+
+    return validateSearchResponse(data);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
@@ -186,7 +192,7 @@ export async function retrieveFromGiphy(id: string, tenant: Tenant) {
 
     const result = await res.json();
 
-    return validateRetrieveResponse(result.data);
+    return validateRetrieveResponse(result);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {

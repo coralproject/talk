@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { GQLEMBED_SOURCE_RL, GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { CreateCommentFocusEvent } from "coral-stream/events";
@@ -17,15 +17,15 @@ import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer
 
 import styles from "./PostCommentForm.css";
 
-interface MediaProps {
-  source: GQLEMBED_SOURCE_RL;
+interface EmbedProps {
+  type: "twitter" | "youtube" | "giphy";
   url: string;
-  alt: string;
+  remoteID: string | null;
 }
 
 interface FormProps {
   body: string;
-  embed?: MediaProps;
+  embed?: EmbedProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
