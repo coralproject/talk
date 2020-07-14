@@ -12,9 +12,9 @@ import {
 } from "coral-server/models/action/comment";
 import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
-  CreateCommentEmbedInput,
   editComment,
   EditCommentInput,
+  getLatestRevision,
   retrieveComment,
   validateEditable,
 } from "coral-server/models/comment";
@@ -25,7 +25,10 @@ import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
-import { attachEmbed } from "coral-server/services/comments/embed";
+import {
+  attachMedia,
+  CreateCommentMediaInput,
+} from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
@@ -51,9 +54,9 @@ function getLastCommentEditableUntilDate(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata" | "embed"
+  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata" | "media"
 > & {
-  embed?: CreateCommentEmbedInput;
+  media?: CreateCommentMediaInput;
 };
 
 export default async function edit(
@@ -80,6 +83,9 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
+  // Get the original stale revision.
+  const originalStaleRevision = getLatestRevision(originalStaleComment);
+
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
   // get the maximum value for the `createdAt` time that would be permitted
@@ -105,34 +111,31 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
-  // TODO (tessalt) do we need to do this if it hasn't changed?
-  const commentEmbed = await attachEmbed(
-    input.embed || null,
-    input.body,
-    tenant
-  );
+  let media = originalStaleRevision.media;
+  if (input.media) {
+    // TODO: (wyattjoh) check to see if the media is the same.
+    media = await attachMedia(input.media, input.body, tenant);
+  }
 
   // Run the comment through the moderation phases.
-  const { body, status, metadata, actions, embed } = await processForModeration(
-    {
-      log,
-      mongo,
-      redis,
-      config,
-      action: "EDIT",
-      tenant,
-      story,
-      comment: {
-        ...originalStaleComment,
-        ...input,
-        authorID: author.id,
-        embed: commentEmbed,
-      },
-      author,
-      req,
-      now,
-    }
-  );
+  const { body, status, metadata, actions } = await processForModeration({
+    log,
+    mongo,
+    redis,
+    config,
+    action: "EDIT",
+    tenant,
+    story,
+    comment: {
+      ...originalStaleComment,
+      ...input,
+      authorID: author.id,
+      media,
+    },
+    author,
+    req,
+    now,
+  });
 
   let actionCounts: EncodedCommentActionCounts = {};
   if (actions.length > 0) {
@@ -153,7 +156,7 @@ export default async function edit(
       metadata,
       actionCounts,
       lastEditableCommentCreatedAt,
-      embed: embed || null,
+      media,
     },
     now
   );

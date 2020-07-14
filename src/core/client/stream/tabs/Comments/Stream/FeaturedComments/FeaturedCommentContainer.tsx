@@ -24,7 +24,7 @@ import { FeaturedCommentContainer_story as StoryData } from "coral-stream/__gene
 import { FeaturedCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
 
 import { UserTagsContainer } from "../../Comment";
-import EmbedSectionContainer from "../../Comment/EmbedSection";
+import MediaSectionContainer from "../../Comment/MediaSection";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 
@@ -68,7 +68,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         >
           {comment.body || ""}
         </HTMLContent>
-        <EmbedSectionContainer comment={comment} settings={settings} />
+        <MediaSectionContainer comment={comment} settings={settings} />
       </HorizontalGutter>
       <Flex
         direction="row"
@@ -194,7 +194,7 @@ const enhanced = withSetCommentIDMutation(
         replyCount
         ...UsernameWithPopoverContainer_comment
         ...ReactionButtonContainer_comment
-        ...EmbedSectionContainer_comment
+        ...MediaSectionContainer_comment
         ...UserTagsContainer_comment
       }
     `,
@@ -202,7 +202,7 @@ const enhanced = withSetCommentIDMutation(
       fragment FeaturedCommentContainer_settings on Settings {
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
-        ...EmbedSectionContainer_settings
+        ...MediaSectionContainer_settings
       }
     `,
   })(FeaturedCommentContainer)

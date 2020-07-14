@@ -50,7 +50,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
   private intitialValues = {
     body: this.props.comment.body || "",
-    embed: this.props.comment.revision && this.props.comment.revision.embed,
+    media: this.props.comment.revision && this.props.comment.revision.media,
   };
 
   public state: State = {
@@ -101,7 +101,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         await this.props.editComment({
           commentID: this.props.comment.id,
           body: input.body,
-          embed: input.embed,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -148,7 +148,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         createdAt={this.props.comment.createdAt}
         editableUntil={this.props.comment.editing.editableUntil!}
         expired={this.state.expired}
-        embedConfig={this.props.settings.embeds}
+        mediaConfig={this.props.settings.media}
         min={
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.min) ||
@@ -178,9 +178,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             createdAt
             revision {
               id
-              embed {
+              media {
                 __typename
-                ... on GiphyEmbed {
+                ... on GiphyMedia {
                   url
                   title
                   width
@@ -188,11 +188,11 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
                   still
                   video
                 }
-                ... on TwitterEmbed {
+                ... on TwitterMedia {
                   url
                   width
                 }
-                ... on YoutubeEmbed {
+                ... on YouTubeMedia {
                   url
                   width
                   height
@@ -219,7 +219,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               min
               max
             }
-            embeds {
+            media {
               twitter {
                 enabled
               }

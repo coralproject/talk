@@ -30,7 +30,7 @@ export interface EditCommentFormProps {
   min: number | null;
   max: number | null;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
-  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
+  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
 }
 
 const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
@@ -59,7 +59,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         onCancel={props.onCancel}
         editableUntil={props.editableUntil}
         classNameRoot="editComment"
-        embedConfig={props.embedConfig}
+        mediaConfig={props.mediaConfig}
         expired={props.expired}
         placeholder="Edit comment"
         placeHolderId="comments-editCommentForm-rte"

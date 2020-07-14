@@ -41,7 +41,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           min: 3,
           max: 100,
         },
-        embeds: {
+        media: {
           giphy: { enabled: false },
           twitter: { enabled: false },
           youtube: { enabled: false },
@@ -161,11 +161,11 @@ it("creates a comment", async () => {
     await wait(() =>
       expect(
         createCommentStub.calledWith({
+          ...input,
           storyID,
           nudge: true,
           commentsOrderBy: "CREATED_AT_ASC",
-          ...input,
-          embed: undefined,
+          media: undefined,
         })
       ).toBeTruthy()
     );

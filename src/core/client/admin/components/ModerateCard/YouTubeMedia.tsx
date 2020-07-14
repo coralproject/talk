@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import styles from "./Embed.css";
+import styles from "./Media.css";
 
 interface Props {
   url: string;
@@ -8,7 +8,7 @@ interface Props {
   height: number | null;
 }
 
-const Embed: FunctionComponent<Props> = ({ url, width, height }) => {
+const YouTubeMedia: FunctionComponent<Props> = ({ url, width, height }) => {
   const cleanUrl = encodeURIComponent(url);
   return (
     <div className={styles.embed}>
@@ -23,4 +23,4 @@ const Embed: FunctionComponent<Props> = ({ url, width, height }) => {
   );
 };
 
-export default Embed;
+export default YouTubeMedia;

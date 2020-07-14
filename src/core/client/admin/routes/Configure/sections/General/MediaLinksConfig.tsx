@@ -24,19 +24,19 @@ import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
 import APIKeyField from "../Moderation/APIKeyField";
 
-import styles from "./EmbedLinksConfig.css";
+import styles from "./MediaLinksConfig.css";
 
 interface Props {
   disabled: boolean;
 }
 
 const giphyIsEnabled: Condition = (value, values) =>
-  Boolean(values.embeds && values.embeds.giphy.enabled);
+  Boolean(values.media && values.media.giphy.enabled);
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment EmbedLinksConfig_formValues on Settings {
-    embeds {
+  fragment MediaLinksConfig_formValues on Settings {
+    media {
       twitter {
         enabled
       }
@@ -46,13 +46,13 @@ graphql`
       giphy {
         enabled
         maxRating
-        APIKey
+        key
       }
     }
   }
 `;
 
-const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
+const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <ConfigBox
       title={
@@ -70,10 +70,10 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       </Localized>
       <FormField>
         <Localized id="configure-general-embedLinks-enableTwitterEmbeds">
-          <Label component="legend">Allow Twitter embeds</Label>
+          <Label component="legend">Allow Twitter media</Label>
         </Localized>
         <OnOffField
-          name="embeds.twitter.enabled"
+          name="media.twitter.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -90,10 +90,10 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
 
       <FormField>
         <Localized id="configure-general-embedLinks-enableYouTubeEmbeds">
-          <Label component="legend">Enable YouTube embeds</Label>
+          <Label component="legend">Enable YouTube media</Label>
         </Localized>
         <OnOffField
-          name="embeds.youtube.enabled"
+          name="media.youtube.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -112,7 +112,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Allow GIFs from GIPHY</Label>
         </Localized>
         <OnOffField
-          name="embeds.giphy.enabled"
+          name="media.giphy.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -129,9 +129,9 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormSpy subscription={{ values: true }}>
         {(props) => {
           const giphyDisabled =
-            !props.values.embeds ||
-            !props.values.embeds.giphy ||
-            !props.values.embeds.giphy.enabled;
+            !props.values.media ||
+            !props.values.media.giphy ||
+            !props.values.media.giphy.enabled;
           return (
             <>
               <FormField>
@@ -144,7 +144,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     appear in commenters’ search results
                   </HelperText>
                 </Localized>
-                <Field name="embeds.giphy.maxRating" type="radio" value="g">
+                <Field name="media.giphy.maxRating" type="radio" value="g">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-g">
@@ -165,7 +165,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="pg">
+                <Field name="media.giphy.maxRating" type="radio" value="pg">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
@@ -186,7 +186,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="pg13">
+                <Field name="media.giphy.maxRating" type="radio" value="pg13">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
@@ -209,7 +209,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="embeds.giphy.maxRating" type="radio" value="r">
+                <Field name="media.giphy.maxRating" type="radio" value="r">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-r">
@@ -252,7 +252,7 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 <Localized id="configure-general-embedLinks-giphyAPIKey">
                   <Label>GIPHY API Key</Label>
                 </Localized>
-                <Field name="embeds.giphy.APIKey">
+                <Field name="media.giphy.key">
                   {({ input, meta }) => (
                     <APIKeyField
                       {...input}
@@ -270,4 +270,4 @@ const EmbedLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default EmbedLinksConfig;
+export default MediaLinksConfig;

@@ -17,7 +17,7 @@ import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer
 
 import styles from "./PostCommentForm.css";
 
-interface EmbedProps {
+interface MediaProps {
   type: "twitter" | "youtube" | "giphy";
   url: string;
   remoteID: string | null;
@@ -25,7 +25,7 @@ interface EmbedProps {
 
 interface FormProps {
   body: string;
-  embed?: EmbedProps;
+  media?: MediaProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -48,7 +48,7 @@ interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
-  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
+  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
 }
 
 const PostCommentForm: FunctionComponent<Props> = (props) => {
@@ -77,7 +77,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         rteConfig={props.rteConfig}
         placeHolderId="comments-postCommentForm-rte"
         placeholder="Post a comment"
-        embedConfig={props.embedConfig}
+        mediaConfig={props.mediaConfig}
         onFocus={onFocus}
         classNameRoot="createComment"
         bodyInputID="comments-postCommentForm-field"

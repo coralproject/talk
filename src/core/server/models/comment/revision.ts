@@ -35,7 +35,7 @@ export interface RevisionMetadata {
   nudge?: boolean;
 }
 
-export interface GiphyEmbed {
+export interface GiphyMedia {
   type: "giphy";
   id: string;
   url: string;
@@ -47,20 +47,20 @@ export interface GiphyEmbed {
   title?: string;
 }
 
-export interface TwitterEmbed {
+export interface TwitterMedia {
   type: "twitter";
   url: string;
   width?: number;
 }
 
-export interface YoutubeEmbed {
+export interface YoutubeMedia {
   type: "youtube";
   url: string;
   width?: number;
   height?: number;
 }
 
-export type CommentEmbed = GiphyEmbed | TwitterEmbed | YoutubeEmbed;
+export type CommentMedia = GiphyMedia | TwitterMedia | YoutubeMedia;
 
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
@@ -93,13 +93,7 @@ export interface Revision {
   createdAt: Date;
 
   /**
-   * embeds are the embedded link content found in the comment body.
+   * media is the optional media object attached to this revision.
    */
-  embed?: CommentEmbed | null;
-}
-
-export interface CreateCommentEmbedInput {
-  url: string;
-  remoteID?: string;
-  type: "giphy" | "twitter" | "youtube";
+  media?: CommentMedia;
 }

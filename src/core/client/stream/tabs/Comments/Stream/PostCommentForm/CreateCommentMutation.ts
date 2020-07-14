@@ -184,7 +184,7 @@ async function commit(
             storyID: input.storyID,
             body: input.body || "",
             nudge: input.nudge,
-            embed: input.embed,
+            media: input.media,
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -205,7 +205,7 @@ async function commit(
                 },
                 revision: {
                   id: uuidGenerator(),
-                  embed: null,
+                  media: null,
                 },
                 parent: null,
                 body: input.body || "",

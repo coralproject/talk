@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
-import styles from "./Embed.css";
+import styles from "./Media.css";
 
 interface Props {
   url: string;
@@ -15,7 +15,7 @@ interface Props {
   video: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({
+const Media: FunctionComponent<Props> = ({
   url,
   type,
   still,
@@ -81,4 +81,4 @@ const Embed: FunctionComponent<Props> = ({
   return null;
 };
 
-export default Embed;
+export default Media;

@@ -48,7 +48,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           min: 3,
           max: 100,
         },
-        embeds: {
+        media: {
           giphy: { enabled: false },
           twitter: { enabled: false },
           youtube: { enabled: false },
@@ -138,7 +138,7 @@ it("creates a comment", async () => {
       parentRevisionID: "revision-id",
       nudge: true,
       local: undefined,
-      embed: undefined,
+      media: undefined,
       ...input,
     })
   ).toBeTruthy();

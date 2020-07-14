@@ -16,8 +16,8 @@ import {
 } from "coral-server/models/action/comment";
 import {
   Comment,
+  CommentMedia,
   createComment,
-  CreateCommentEmbedInput,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
   retrieveComment,
@@ -35,11 +35,15 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { attachEmbed, removeTag } from "coral-server/services/comments";
+import { removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
+import {
+  attachMedia,
+  CreateCommentMediaInput,
+} from "coral-server/services/comments/media";
 import {
   PhaseResult,
   processForModeration,
@@ -64,9 +68,9 @@ export type CreateComment = Omit<
   | "actionCounts"
   | "tags"
   | "siteID"
-  | "embed"
+  | "media"
 > & {
-  embed?: CreateCommentEmbedInput;
+  media?: CreateCommentMediaInput;
 };
 
 const markCommentAsAnswered = async (
@@ -176,11 +180,10 @@ export default async function create(
     );
   }
 
-  const commentEmbed = await attachEmbed(
-    input.embed || null,
-    input.body,
-    tenant
-  );
+  let media: CommentMedia | undefined;
+  if (input.media) {
+    media = await attachMedia(input.media, input.body, tenant);
+  }
 
   let result: PhaseResult;
   try {
@@ -194,7 +197,7 @@ export default async function create(
       tenant,
       story,
       nudge,
-      comment: { ...input, ancestorIDs, embed: commentEmbed },
+      comment: { ...input, ancestorIDs, media },
       author,
       req,
       now,
@@ -210,7 +213,7 @@ export default async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata, tags, embed } = result;
+  const { actions, body, status, metadata, tags } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
@@ -246,7 +249,7 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
-      embed: embed || null,
+      media,
     },
     now
   );

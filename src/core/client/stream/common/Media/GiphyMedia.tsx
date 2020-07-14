@@ -8,7 +8,7 @@ interface Props {
   title?: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({
+const GiphyMedia: FunctionComponent<Props> = ({
   url,
   title,
   video,
@@ -29,4 +29,4 @@ const Embed: FunctionComponent<Props> = ({
   );
 };
 
-export default Embed;
+export default GiphyMedia;

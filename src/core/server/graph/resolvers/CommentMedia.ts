@@ -1,21 +1,21 @@
-import { GQLCommentEmbedTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLCommentMediaTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as comment from "coral-server/models/comment";
 
-const resolveType: GQLCommentEmbedTypeResolver<comment.CommentEmbed> = (
+const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
   embed
 ) => {
   switch (embed.type) {
     case "giphy":
-      return "GiphyEmbed";
+      return "GiphyMedia";
     case "youtube":
-      return "YoutubeEmbed";
+      return "YouTubeMedia";
     case "twitter":
-      return "TwitterEmbed";
+      return "TwitterMedia";
     default:
       // TODO: replace with better error.
       throw new Error("invalid embed type");
   }
 };
-export const CommentEmbed = {
+export const CommentMedia = {
   __resolveType: resolveType,
 };

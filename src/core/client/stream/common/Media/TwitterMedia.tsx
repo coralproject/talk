@@ -7,8 +7,8 @@ interface Props {
   width?: number | null;
 }
 
-const TwitterEmbed: FunctionComponent<Props> = ({ url, width }) => {
+const TwitterMedia: FunctionComponent<Props> = ({ url, width }) => {
   return <OEmbed url={url} type="twitter" />;
 };
 
-export default TwitterEmbed;
+export default TwitterMedia;

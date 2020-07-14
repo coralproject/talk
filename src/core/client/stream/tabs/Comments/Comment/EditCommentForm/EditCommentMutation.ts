@@ -26,9 +26,9 @@ const mutation = graphql`
         status
         revision {
           id
-          embed {
+          media {
             __typename
-            ... on GiphyEmbed {
+            ... on GiphyMedia {
               url
               title
               width
@@ -36,11 +36,11 @@ const mutation = graphql`
               still
               video
             }
-            ... on TwitterEmbed {
+            ... on TwitterMedia {
               url
               width
             }
-            ... on YoutubeEmbed {
+            ... on YouTubeMedia {
               url
               width
               height
@@ -74,7 +74,7 @@ async function commit(
         mutation,
         variables: {
           input: {
-            ...pick(input, ["commentID", "body", "embed"]),
+            ...pick(input, ["commentID", "body", "media"]),
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -86,7 +86,7 @@ async function commit(
               status: lookup<GQLComment>(environment, input.commentID)!.status,
               revision: {
                 id: uuidGenerator(),
-                embed: null,
+                media: null,
               },
               editing: {
                 edited: true,

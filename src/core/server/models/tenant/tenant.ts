@@ -469,22 +469,22 @@ export function retrieveAnnouncementIfEnabled(
   return null;
 }
 
-export function supportsEmbedType(
+export function supportsMediaType(
   tenant: Tenant,
-  embedType: "twitter" | "youtube" | "giphy"
-) {
-  if (!tenant.embeds) {
+  type: "twitter" | "youtube" | "giphy"
+): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
+  if (!tenant.media) {
     return false;
   }
-  if (embedType === "twitter") {
-    return tenant.embeds.twitter && tenant.embeds.twitter.enabled;
-  } else if (embedType === "youtube") {
-    return tenant.embeds.youtube && tenant.embeds.youtube.enabled;
-  } else if (embedType === "giphy") {
+  if (type === "twitter") {
+    return tenant.media.twitter && tenant.media.twitter.enabled;
+  } else if (type === "youtube") {
+    return tenant.media.youtube && tenant.media.youtube.enabled;
+  } else if (type === "giphy") {
     return (
-      tenant.embeds.giphy &&
-      tenant.embeds.giphy.enabled &&
-      tenant.embeds.giphy.APIKey
+      tenant.media.giphy &&
+      tenant.media.giphy.enabled &&
+      !!tenant.media.giphy.key
     );
   }
   return false;

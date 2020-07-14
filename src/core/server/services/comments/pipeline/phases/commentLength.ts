@@ -4,7 +4,7 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
-import { supportsEmbedType } from "coral-server/models/tenant";
+import { supportsMediaType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -13,8 +13,7 @@ import {
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
-  comment,
-  embed,
+  media,
 }): IntermediatePhaseResult | void => {
   const length = bodyText.length;
   let min: number | null = null;
@@ -32,13 +31,13 @@ export const commentLength: IntermediateModerationPhase = ({
     min = 1;
   }
 
-  if (
-    !(embed && embed.type === "giphy" && supportsEmbedType(tenant, "giphy"))
-  ) {
+  // If the Giphy support is enabled, we don't need to check for a minimum!
+  if (!supportsMediaType(tenant, "giphy") || !media || media.type !== "giphy") {
     if (length < min) {
       throw new CommentBodyTooShortError(min);
     }
   }
+
   if (max && length > max) {
     throw new CommentBodyExceedsMaxLengthError(max);
   }

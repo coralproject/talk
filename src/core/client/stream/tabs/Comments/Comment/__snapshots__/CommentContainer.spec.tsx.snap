@@ -10,48 +10,6 @@ exports[`hide reply button 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -163,6 +121,48 @@ exports[`hide reply button 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -437,48 +437,6 @@ exports[`renders body only 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": null,
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -597,6 +555,48 @@ exports[`renders body only 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": null,
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -871,48 +871,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": true,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -1031,6 +989,48 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": true,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -1305,48 +1305,6 @@ exports[`renders disabled reply when story is closed 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -1465,6 +1423,48 @@ exports[`renders disabled reply when story is closed 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -1739,52 +1739,6 @@ exports[`renders in reply to 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": Object {
-                "author": Object {
-                  "username": "ParentAuthor",
-                },
-              },
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -1911,6 +1865,52 @@ exports[`renders in reply to 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": Object {
+                "author": Object {
+                  "username": "ParentAuthor",
+                },
+              },
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName="ParentAuthor"
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -2209,48 +2209,6 @@ exports[`renders username and body 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -2369,6 +2327,48 @@ exports[`renders username and body 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -2652,48 +2652,6 @@ exports[`shows conversation link 1`] = `
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
-      embeds={
-        <Relay(EmbedSectionContainer)
-          comment={
-            Object {
-              "actionCounts": Object {
-                "reaction": Object {
-                  "total": 0,
-                },
-              },
-              "author": Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
-              },
-              "body": "Woof",
-              "createdAt": "1995-12-17T03:24:00.000Z",
-              "deleted": false,
-              "editing": Object {
-                "editableUntil": "1995-12-17T03:24:30.000Z",
-                "edited": false,
-              },
-              "id": "comment-id",
-              "lastViewerAction": null,
-              "parent": null,
-              "pending": false,
-              "status": "NONE",
-              "tags": Array [],
-              "viewerActionPresence": Object {
-                "dontAgree": false,
-                "flag": false,
-              },
-            }
-          }
-          settings={
-            Object {
-              "disableCommenting": Object {
-                "enabled": false,
-              },
-            }
-          }
-        />
-      }
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
@@ -2818,6 +2776,48 @@ exports[`shows conversation link 1`] = `
         </React.Fragment>
       }
       indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+            }
+          }
+        />
+      }
       parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}

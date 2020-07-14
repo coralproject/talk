@@ -2,7 +2,6 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
-import { CreateCommentEmbedInput } from "coral-server/models/comment";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
@@ -12,6 +11,7 @@ import {
   removeDontAgree,
   removeReaction,
 } from "coral-server/services/comments/actions";
+import { CreateCommentMediaInput } from "coral-server/services/comments/media";
 import { publishCommentFeatured } from "coral-server/services/events";
 import {
   approveComment,
@@ -42,6 +42,7 @@ export const Comments = (ctx: GraphContext) => ({
   create: ({
     clientMutationId,
     nudge = false,
+    media,
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
@@ -53,9 +54,10 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.tenant,
         ctx.user!,
         {
-          authorID: ctx.user!.id,
           ...comment,
-          embed: comment.embed as CreateCommentEmbedInput,
+          authorID: ctx.user!.id,
+          // TODO: (wyattjoh) check this type to get it to match.
+          media: media as CreateCommentMediaInput,
         },
         nudge,
         ctx.now,
@@ -70,7 +72,7 @@ export const Comments = (ctx: GraphContext) => ({
         "input.storyID": [ERROR_CODES.STORY_NOT_FOUND],
       }
     ),
-  edit: ({ commentID, body, embed }: GQLEditCommentInput) =>
+  edit: ({ commentID, body, media }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
       editComment(
         ctx.mongo,
@@ -82,7 +84,8 @@ export const Comments = (ctx: GraphContext) => ({
         {
           id: commentID,
           body,
-          embed: (embed as CreateCommentEmbedInput) || null,
+          // TODO: (wyattjoh) check this type to get it to match.
+          media: media as CreateCommentMediaInput,
         },
         ctx.now,
         ctx.req

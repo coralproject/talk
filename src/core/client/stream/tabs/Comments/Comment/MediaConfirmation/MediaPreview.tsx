@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
-import { TwitterEmbed, YouTubeEmbed } from "coral-stream/common/Embed";
+import { MediaLink } from "coral-common/helpers/findMediaLinks";
+import { TwitterMedia, YouTubeMedia } from "coral-stream/common/Media";
 import {
   Button,
   ButtonIcon,
@@ -11,10 +11,10 @@ import {
   MatchMedia,
 } from "coral-ui/components/v2";
 
-import EmbedConfirmationIcon from "./EmbedConfirmationIcon";
+import MediaConfirmationIcon from "./MediaConfirmationIcon";
 
-import styles from "./EmbedPreview.css";
-interface EmbedConfig {
+import styles from "./MediaPreview.css";
+interface MediaConfig {
   giphy: {
     enabled: boolean;
   };
@@ -27,13 +27,13 @@ interface EmbedConfig {
 }
 
 interface Props {
-  embed: EmbedLink;
+  media: MediaLink;
   onRemove: () => void;
-  config: EmbedConfig | null;
+  config: MediaConfig | null;
 }
 
-const EmbedPreview: FunctionComponent<Props> = ({
-  embed,
+const MediaPreview: FunctionComponent<Props> = ({
+  media,
   onRemove,
   config,
 }) => {
@@ -44,19 +44,19 @@ const EmbedPreview: FunctionComponent<Props> = ({
           <Flex justifyContent="space-between">
             <Flex spacing={2}>
               <div className={styles.icon}>
-                <EmbedConfirmationIcon embed={embed} />
+                <MediaConfirmationIcon media={media} />
               </div>
               <a
-                href={embed.url}
+                href={media.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.url}
               >
-                {embed.url}
+                {media.url}
               </a>
             </Flex>
             <MatchMedia gteWidth="xs">
-              <Localized id="comments-postComment-confirmEmbed-remove">
+              <Localized id="comments-postComment-confirmMedia-remove">
                 <Button onClick={onRemove} color="mono" variant="text" iconLeft>
                   <ButtonIcon>close</ButtonIcon>
                   Remove
@@ -65,11 +65,11 @@ const EmbedPreview: FunctionComponent<Props> = ({
             </MatchMedia>
           </Flex>
         </div>
-        {embed.type === "twitter" && <TwitterEmbed url={embed.url} />}
-        {embed.type === "youtube" && <YouTubeEmbed url={embed.url} />}
+        {media.type === "twitter" && <TwitterMedia url={media.url} />}
+        {media.type === "youtube" && <YouTubeMedia url={media.url} />}
       </HorizontalGutter>
       <MatchMedia ltWidth="xs">
-        <Localized id="comments-postComment-confirmEmbed-remove">
+        <Localized id="comments-postComment-confirmMedia-remove">
           <Button
             onClick={onRemove}
             color="mono"
@@ -87,4 +87,4 @@ const EmbedPreview: FunctionComponent<Props> = ({
   );
 };
 
-export default EmbedPreview;
+export default MediaPreview;

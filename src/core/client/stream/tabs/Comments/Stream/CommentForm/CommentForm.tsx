@@ -11,7 +11,7 @@ import React, {
 } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
-import { EmbedLink, findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
+import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
@@ -28,9 +28,9 @@ import {
 } from "coral-ui/components/v2";
 
 import {
-  EmbedConfirmPrompt,
-  EmbedPreview,
-} from "../../Comment/EmbedConfirmation";
+  MediaConfirmPrompt,
+  MediaPreview,
+} from "../../Comment/MediaConfirmation";
 import GifSelector, { GifPreview } from "../../GifSelector";
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -44,7 +44,7 @@ export interface PasteEvent {
   defaultPrevented: boolean;
 }
 
-interface EmbedProps {
+interface MediaProps {
   type: "giphy" | "twitter" | "youtube";
   url: string;
   remoteID: string | null;
@@ -52,12 +52,12 @@ interface EmbedProps {
 
 interface FormProps {
   body: string;
-  embed?: EmbedProps;
+  media?: MediaProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
 
-interface EmbedConfig {
+interface MediaConfig {
   giphy: {
     enabled: boolean;
   };
@@ -86,7 +86,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  embedConfig: EmbedConfig | null;
+  mediaConfig: MediaConfig | null;
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
@@ -105,7 +105,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
   const onGifButtonClick = useCallback(() => {
     setShowGifSelector(!showGifSelector);
   }, [showGifSelector]);
-  const [embedLink, setEmbedLink] = useState<EmbedLink | null>(null);
+  const [mediaLink, setMediaLink] = useState<MediaLink | null>(null);
 
   const onPaste = useCallback((event: PasteEvent) => {
     const children = event.fragment.children;
@@ -113,7 +113,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     for (let i = 0; i < children.length; i++) {
       const item = children.item(i);
       if (item && item.textContent) {
-        const links = findEmbedLinks(item.textContent);
+        const links = findMediaLinks(item.textContent);
         if (links.length > 0) {
           link = links[0];
           break;
@@ -122,27 +122,27 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     }
     if (
       link &&
-      props.embedConfig &&
+      props.mediaConfig &&
       ((link.type === "twitter" &&
-        props.embedConfig.twitter &&
-        props.embedConfig.twitter.enabled) ||
+        props.mediaConfig.twitter &&
+        props.mediaConfig.twitter.enabled) ||
         (link.type === "youtube" &&
-          props.embedConfig.youtube &&
-          props.embedConfig.youtube.enabled))
+          props.mediaConfig.youtube &&
+          props.mediaConfig.youtube.enabled))
     ) {
-      setEmbedLink({ ...link });
+      setMediaLink({ ...link });
     }
   }, []);
 
-  const confirmEmbedLink = useCallback(
+  const confirmMediaLink = useCallback(
     (setField: (name: string, value: string) => void) => {
-      if (embedLink) {
-        setField("embed.url", embedLink.url);
-        setField("embed.type", embedLink.type);
-        setEmbedLink(null);
+      if (mediaLink) {
+        setField("media.url", mediaLink.url);
+        setField("media.type", mediaLink.type);
+        setMediaLink(null);
       }
     },
-    [embedLink]
+    [mediaLink]
   );
 
   return (
@@ -180,14 +180,14 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     props.min,
                     props.max,
                     !(
-                      values.embed &&
-                      values.embed.url &&
-                      values.embed.url.length > 0
+                      values.media &&
+                      values.media.url &&
+                      values.media.url.length > 0
                     )
                   )}
                   key={
-                    values.embed && values.embed.url
-                      ? values.embed.url.length
+                    values.media && values.media.url
+                      ? values.media.url.length
                       : 0
                   }
                 >
@@ -213,9 +213,9 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               disabled={submitting || props.disabled}
                               ref={props.rteRef || null}
                               toolbarButtons={
-                                props.embedConfig &&
-                                props.embedConfig.giphy &&
-                                props.embedConfig.giphy.enabled ? (
+                                props.mediaConfig &&
+                                props.mediaConfig.giphy &&
+                                props.mediaConfig.giphy.enabled ? (
                                   <>
                                     <Button
                                       color="mono"
@@ -238,11 +238,11 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     </>
                   )}
                 </Field>
-                <Field name="embed.type">{() => <input type="hidden" />}</Field>
-                <Field name="embed.remoteID">
+                <Field name="media.type">{() => <input type="hidden" />}</Field>
+                <Field name="media.remoteID">
                   {() => <input type="hidden" />}
                 </Field>
-                <Field name="embed.url">
+                <Field name="media.url">
                   {(fieldProps) => (
                     <div>
                       {showGifSelector && (
@@ -250,11 +250,11 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           <GifSelector
                             onGifSelect={(gif) => {
                               form.mutators.setFieldValue(
-                                "embed.type",
+                                "media.type",
                                 "giphy"
                               );
                               form.mutators.setFieldValue(
-                                "embed.remoteID",
+                                "media.remoteID",
                                 gif.id
                               );
                               fieldProps.input.onChange(
@@ -266,8 +266,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           />
                         </>
                       )}
-                      {values.embed &&
-                        values.embed.type === "giphy" &&
+                      {values.media &&
+                        values.media.type === "giphy" &&
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
                           <GifPreview
@@ -276,33 +276,33 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             title=""
                           />
                         )}
-                      {embedLink && (
-                        <EmbedConfirmPrompt
-                          embed={embedLink}
+                      {mediaLink && (
+                        <MediaConfirmPrompt
+                          media={mediaLink}
                           onConfirm={() =>
-                            confirmEmbedLink(form.mutators.setFieldValue)
+                            confirmMediaLink(form.mutators.setFieldValue)
                           }
                           onRemove={() => {
-                            setEmbedLink(null);
+                            setMediaLink(null);
                           }}
                         />
                       )}
-                      {values.embed &&
-                        (values.embed.type === "youtube" ||
-                          values.embed.type === "twitter") &&
+                      {values.media &&
+                        (values.media.type === "youtube" ||
+                          values.media.type === "twitter") &&
                         fieldProps.input.value &&
                         fieldProps.input.value.length > 0 && (
-                          <EmbedPreview
-                            config={props.embedConfig}
-                            embed={{
+                          <MediaPreview
+                            config={props.mediaConfig}
+                            media={{
                               url: fieldProps.input.value,
-                              type: values.embed.type,
+                              type: values.media.type,
                             }}
                             onRemove={() => {
                               fieldProps.input.onChange(null);
-                              form.mutators.setFieldValue("embed.type", null);
+                              form.mutators.setFieldValue("media.type", null);
                               form.mutators.setFieldValue(
-                                "embed.remoteID",
+                                "media.remoteID",
                                 null
                               );
                             }}

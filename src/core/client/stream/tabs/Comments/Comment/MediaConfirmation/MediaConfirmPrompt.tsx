@@ -1,24 +1,24 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
+import { MediaLink } from "coral-common/helpers/findMediaLinks";
 import {
   Button,
   Flex,
   HorizontalGutter,
   MatchMedia,
 } from "coral-ui/components/v2";
-import EmbedConfirmationIcon from "./EmbedConfirmationIcon";
-import styles from "./EmbedConfirmPrompt.css";
+import MediaConfirmationIcon from "./MediaConfirmationIcon";
+import styles from "./MediaConfirmPrompt.css";
 
 interface Props {
-  embed: EmbedLink;
+  media: MediaLink;
   onConfirm: () => void;
   onRemove: () => void;
 }
 
-const EmbedConfirmPrompt: FunctionComponent<Props> = ({
-  embed,
+const MediaConfirmPrompt: FunctionComponent<Props> = ({
+  media,
   onConfirm,
   onRemove,
 }) => {
@@ -26,36 +26,36 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
     <div className={styles.root}>
       <MatchMedia gtWidth="xs">
         <div className={styles.icon}>
-          <EmbedConfirmationIcon embed={embed} />
+          <MediaConfirmationIcon media={media} />
         </div>
       </MatchMedia>
       <HorizontalGutter spacing={3}>
         <div className={styles.xsFlex}>
           <MatchMedia lteWidth="xs">
             <div className={styles.icon}>
-              <EmbedConfirmationIcon embed={embed} />
+              <MediaConfirmationIcon media={media} />
             </div>
           </MatchMedia>
           <div className={styles.promptContainer}>
-            {embed.type === "youtube" && (
+            {media.type === "youtube" && (
               <p className={styles.prompt}>
-                <Localized id="comments-postComment-confirmEmbed-youtube">
+                <Localized id="comments-postComment-confirmMedia-youtube">
                   Add this YouTube video to the end of your comment?
                 </Localized>
               </p>
             )}
-            {embed.type === "twitter" && (
-              <Localized id="comments-postComment-confirmEmbed-twitter">
+            {media.type === "twitter" && (
+              <Localized id="comments-postComment-confirmMedia-twitter">
                 <p className={styles.prompt}>
                   Add this tweet to the end of your comment?
                 </p>
               </Localized>
             )}
-            <p className={styles.url}>{embed.url}</p>
+            <p className={styles.url}>{media.url}</p>
           </div>
         </div>
         <Flex spacing={2} className={styles.buttons}>
-          <Localized id="comments-postComment-confirmEmbed-cancel">
+          <Localized id="comments-postComment-confirmMedia-cancel">
             <Button
               color="mono"
               variant="outline"
@@ -65,8 +65,8 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
               Cancel
             </Button>
           </Localized>
-          {embed.type === "twitter" && (
-            <Localized id="comments-postComment-confirmEmbed-add-tweet">
+          {media.type === "twitter" && (
+            <Localized id="comments-postComment-confirmMedia-add-tweet">
               <Button
                 color="mono"
                 onClick={onConfirm}
@@ -76,8 +76,8 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
               </Button>
             </Localized>
           )}
-          {embed.type === "youtube" && (
-            <Localized id="comments-postComment-confirmEmbed-add-video">
+          {media.type === "youtube" && (
+            <Localized id="comments-postComment-confirmMedia-add-video">
               <Button
                 color="mono"
                 onClick={onConfirm}
@@ -93,4 +93,4 @@ const EmbedConfirmPrompt: FunctionComponent<Props> = ({
   );
 };
 
-export default EmbedConfirmPrompt;
+export default MediaConfirmPrompt;

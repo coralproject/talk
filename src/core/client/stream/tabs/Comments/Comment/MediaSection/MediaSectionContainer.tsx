@@ -4,47 +4,46 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
-  GiphyEmbed,
-  TwitterEmbed,
-  YouTubeEmbed,
-} from "coral-stream/common/Embed";
+  GiphyMedia,
+  TwitterMedia,
+  YouTubeMedia,
+} from "coral-stream/common/Media";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
-import { EmbedSectionContainer_comment } from "coral-stream/__generated__/EmbedSectionContainer_comment.graphql";
-import { EmbedSectionContainer_settings } from "coral-stream/__generated__/EmbedSectionContainer_settings.graphql";
+import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
+import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
 
-import styles from "./EmbedSectionContainer.css";
+import styles from "./MediaSectionContainer.css";
 
 interface Props {
-  comment: EmbedSectionContainer_comment;
-  settings: EmbedSectionContainer_settings;
+  comment: MediaSectionContainer_comment;
+  settings: MediaSectionContainer_settings;
 }
 
-const EmbedSectionContainer: FunctionComponent<Props> = ({
+const MediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
   const { revision } = comment;
-  const { embeds: embedSettings } = settings;
   const [expanded, setExpanded] = useState(false);
   const onToggleExpand = useCallback(() => {
     setExpanded((v) => !v);
   }, []);
 
-  if (!revision || !revision.embed || !embedSettings) {
+  if (!revision || !revision.media || !settings.media) {
     return null;
   }
 
-  const { embed } = revision;
+  const { media } = revision;
 
   if (
-    !embedSettings ||
-    (embed.__typename === "TwitterEmbed" &&
-      (!embedSettings.twitter || !embedSettings.twitter.enabled)) ||
-    (embed.__typename === "YoutubeEmbed" &&
-      (!embedSettings.youtube || !embedSettings.youtube.enabled)) ||
-    (embed.__typename === "GiphyEmbed" &&
-      (!embedSettings.giphy || !embedSettings.giphy.enabled))
+    !settings.media ||
+    (media.__typename === "TwitterMedia" &&
+      (!settings.media.twitter || !settings.media.twitter.enabled)) ||
+    (media.__typename === "YouTubeMedia" &&
+      (!settings.media.youtube || !settings.media.youtube.enabled)) ||
+    (media.__typename === "GiphyMedia" &&
+      (!settings.media.giphy || !settings.media.giphy.enabled))
   ) {
     return null;
   }
@@ -60,17 +59,17 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
         className={styles.button}
       >
         <ButtonIcon>add</ButtonIcon>
-        {embed.__typename === "TwitterEmbed" && (
+        {media.__typename === "TwitterMedia" && (
           <Localized id="comments-embedLinks-show-twitter">
             Show tweet
           </Localized>
         )}
-        {embed.__typename === "YoutubeEmbed" && (
+        {media.__typename === "YouTubeMedia" && (
           <Localized id="comments-embedLinks-show-youtube">
             Show video
           </Localized>
         )}
-        {embed.__typename === "GiphyEmbed" && (
+        {media.__typename === "GiphyMedia" && (
           <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
         )}
       </Button>
@@ -89,38 +88,38 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
           className={styles.button}
         >
           <ButtonIcon>remove</ButtonIcon>
-          {embed.__typename === "TwitterEmbed" && (
+          {media.__typename === "TwitterMedia" && (
             <Localized id="comments-embedLinks-hide-twitter">
               Hide tweet
             </Localized>
           )}
-          {embed.__typename === "GiphyEmbed" && (
+          {media.__typename === "GiphyMedia" && (
             <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
           )}
-          {embed.__typename === "YoutubeEmbed" && (
+          {media.__typename === "YouTubeMedia" && (
             <Localized id="comments-embedLinks-hide-youtube">
               Hide video
             </Localized>
           )}
         </Button>
       </div>
-      {embed.__typename === "TwitterEmbed" && (
-        <TwitterEmbed url={embed.url} width={embed.width} />
+      {media.__typename === "TwitterMedia" && (
+        <TwitterMedia url={media.url} width={media.width} />
       )}
-      {embed.__typename === "YoutubeEmbed" && (
-        <YouTubeEmbed
-          url={embed.url}
-          width={embed.width}
-          height={embed.height}
+      {media.__typename === "YouTubeMedia" && (
+        <YouTubeMedia
+          url={media.url}
+          width={media.width}
+          height={media.height}
         />
       )}
-      {embed.__typename === "GiphyEmbed" && (
-        <GiphyEmbed
-          url={embed.url}
-          width={embed.width}
-          height={embed.height}
-          title={embed.title}
-          video={embed.video}
+      {media.__typename === "GiphyMedia" && (
+        <GiphyMedia
+          url={media.url}
+          width={media.width}
+          height={media.height}
+          title={media.title}
+          video={media.video}
         />
       )}
     </HorizontalGutter>
@@ -129,11 +128,11 @@ const EmbedSectionContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
-    fragment EmbedSectionContainer_comment on Comment {
+    fragment MediaSectionContainer_comment on Comment {
       revision {
-        embed {
+        media {
           __typename
-          ... on GiphyEmbed {
+          ... on GiphyMedia {
             url
             title
             width
@@ -141,11 +140,11 @@ const enhanced = withFragmentContainer<Props>({
             still
             video
           }
-          ... on TwitterEmbed {
+          ... on TwitterMedia {
             url
             width
           }
-          ... on YoutubeEmbed {
+          ... on YouTubeMedia {
             url
             width
             height
@@ -155,8 +154,8 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   settings: graphql`
-    fragment EmbedSectionContainer_settings on Settings {
-      embeds {
+    fragment MediaSectionContainer_settings on Settings {
+      media {
         twitter {
           enabled
         }
@@ -169,6 +168,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(EmbedSectionContainer);
+})(MediaSectionContainer);
 
 export default enhanced;

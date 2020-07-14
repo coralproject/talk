@@ -404,7 +404,7 @@ const enhanced = withFragmentContainer<Props>({
       ...MarkersContainer_comment
       ...ModeratedByContainer_comment
       ...CommentAuthorContainer_comment
-      ...EmbedContainer_comment
+      ...MediaContainer_comment
     }
   `,
   settings: graphql`

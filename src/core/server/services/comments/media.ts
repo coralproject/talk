@@ -1,21 +1,18 @@
-import { findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
+import { findMediaLinks } from "coral-common/helpers/findMediaLinks";
 import { WrappedInternalError } from "coral-server/errors";
-import {
-  CreateCommentEmbedInput,
-  GiphyEmbed,
-} from "coral-server/models/comment";
-import { supportsEmbedType, Tenant } from "coral-server/models/tenant";
+import { GiphyMedia } from "coral-server/models/comment";
+import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import {
   ratingIsAllowed,
   retrieveFromGiphy,
 } from "coral-server/services/giphy";
 import { fetchOembedResponse } from "coral-server/services/oembed";
 
-async function attachGiphyEmbed(
+async function attachGiphyMedia(
   id: string,
   url: string,
   tenant: Tenant
-): Promise<GiphyEmbed | null> {
+): Promise<GiphyMedia | undefined> {
   try {
     const { data } = await retrieveFromGiphy(id, tenant);
     if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
@@ -31,29 +28,32 @@ async function attachGiphyEmbed(
         video: data.images.original.mp4,
       };
     } else {
-      return null;
+      return;
     }
   } catch (error) {
-    throw new WrappedInternalError(error, "Cannot attach gif");
+    throw new WrappedInternalError(error, "cannot attach gif");
   }
 }
 
-export async function attachEmbed(
-  input: CreateCommentEmbedInput | null,
+export interface CreateCommentMediaInput {
+  type: "giphy" | "twitter" | "youtube";
+  url: string;
+  remoteID?: string;
+}
+
+export async function attachMedia(
+  input: CreateCommentMediaInput,
   body: string,
   tenant: Tenant
 ) {
-  if (!input) {
-    return null;
-  }
   if (
+    supportsMediaType(tenant, "giphy") &&
     input.type === "giphy" &&
-    supportsEmbedType(tenant, "giphy") &&
     input.remoteID
   ) {
-    return attachGiphyEmbed(input.remoteID, input.url, tenant);
+    return attachGiphyMedia(input.remoteID, input.url, tenant);
   } else if (input.type === "twitter" || input.type === "youtube") {
-    const foundLinks = findEmbedLinks(body);
+    const foundLinks = findMediaLinks(body);
     const matchingLink = foundLinks.find((link) => {
       return link.url === input.url;
     });
@@ -71,5 +71,6 @@ export async function attachEmbed(
       }
     }
   }
-  return null;
+
+  return;
 }

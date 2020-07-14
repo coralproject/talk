@@ -4,7 +4,9 @@ exports[`renders correctly 1`] = `
 <ReplyCommentForm
   disabled={false}
   disabledMessage="closed"
-  embedConfig={
+  id="comment-id"
+  max={100}
+  mediaConfig={
     Object {
       "giphy": Object {
         "enabled": false,
@@ -17,8 +19,6 @@ exports[`renders correctly 1`] = `
       },
     }
   }
-  id="comment-id"
-  max={100}
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -33,7 +33,9 @@ exports[`renders when commenting has been disabled 1`] = `
 <ReplyCommentForm
   disabled={true}
   disabledMessage="commenting disabled"
-  embedConfig={
+  id="comment-id"
+  max={100}
+  mediaConfig={
     Object {
       "giphy": Object {
         "enabled": false,
@@ -46,8 +48,6 @@ exports[`renders when commenting has been disabled 1`] = `
       },
     }
   }
-  id="comment-id"
-  max={100}
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -62,7 +62,9 @@ exports[`renders when story has been closed 1`] = `
 <ReplyCommentForm
   disabled={true}
   disabledMessage="story closed"
-  embedConfig={
+  id="comment-id"
+  max={100}
+  mediaConfig={
     Object {
       "giphy": Object {
         "enabled": false,
@@ -75,8 +77,6 @@ exports[`renders when story has been closed 1`] = `
       },
     }
   }
-  id="comment-id"
-  max={100}
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -91,7 +91,14 @@ exports[`renders with initialValues 1`] = `
 <ReplyCommentForm
   disabled={false}
   disabledMessage="closed"
-  embedConfig={
+  id="comment-id"
+  initialValues={
+    Object {
+      "body": "Hello World!",
+    }
+  }
+  max={100}
+  mediaConfig={
     Object {
       "giphy": Object {
         "enabled": false,
@@ -104,13 +111,6 @@ exports[`renders with initialValues 1`] = `
       },
     }
   }
-  id="comment-id"
-  initialValues={
-    Object {
-      "body": "Hello World!",
-    }
-  }
-  max={100}
   min={3}
   onCancel={[Function]}
   onChange={[Function]}

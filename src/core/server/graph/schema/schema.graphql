@@ -1282,52 +1282,52 @@ type StoryMessageBox {
 ## Embed Links
 ################################################################################
 
-type GiphyEmbedConfiguration {
+type GiphyMediaConfiguration {
   """
-  whether gif search via giphy and giphy embeds are enabled
+  enabled is true when gif search via giphy and giphy media objects are enabled.
   """
   enabled: Boolean!
 
   """
-  maximum allowed rating for gifs, g, pg, pg-13, r
+  maximum allowed rating for gifs, g, pg, pg-13, r.
   """
   maxRating: String
 
   """
-  GIPHY API key
+  key is the API key for Giphy.
   """
-  APIKey: String @auth(roles: [ADMIN])
+  key: String @auth(roles: [ADMIN])
 }
 
-type TwitterEmbedConfiguration {
+type TwitterMediaConfiguration {
   """
-  whether tweet embeds in comments are enabled
+  enabled is true when twitter media objects are enabled.
   """
   enabled: Boolean!
 }
 
-type YoutubeEmbedConfiguration {
+type YouTubeMediaConfiguration {
   """
-  whether youtube embeds in comments are enabled
+  enabled is true when youtube media objects are enabled.
   """
   enabled: Boolean!
 }
 
-type EmbedConfiguration {
+type MediaConfiguration {
   """
   twitter
   """
-  twitter: TwitterEmbedConfiguration!
+  twitter: TwitterMediaConfiguration!
 
   """
   youtube
   """
-  youtube: YoutubeEmbedConfiguration!
+  youtube: YouTubeMediaConfiguration!
 
   """
   giphy
   """
-  giphy: GiphyEmbedConfiguration!
+  giphy: GiphyMediaConfiguration!
 }
 
 ################################################################################
@@ -1741,10 +1741,9 @@ type Settings {
   stories: StoryConfiguration! @auth(roles: [ADMIN])
 
   """
-  embeds stores the configuration around embedding links
-  in the stream.
+  media is the configuration media content attached to Comment's.
   """
-  embeds: EmbedConfiguration
+  media: MediaConfiguration
 
   """
   featureFlags provides the enabled feature flags.
@@ -2623,7 +2622,7 @@ enum EMBED_SOURCE {
   GIPHY
 }
 
-type GiphyEmbed {
+type GiphyMedia {
   url: String!
   original: String!
   still: String!
@@ -2633,18 +2632,18 @@ type GiphyEmbed {
   title: String
 }
 
-type TwitterEmbed {
+type TwitterMedia {
   url: String!
   width: Int
 }
 
-type YoutubeEmbed {
+type YouTubeMedia {
   url: String!
   width: Int
   height: Int
 }
 
-union CommentEmbed = GiphyEmbed | TwitterEmbed | YoutubeEmbed
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia
 
 type CommentRevision {
   """
@@ -2671,10 +2670,9 @@ type CommentRevision {
   body: String
 
   """
-  embeds is the collection of links that were identified as supported
-  embedded content in the comment body
+  media is the optional media object attached to this revision.
   """
-  embed: CommentEmbed
+  media: CommentMedia
 
   """
   metadata stores details on a CommentRevision.
@@ -3565,7 +3563,10 @@ input CreateCommentInput {
   """
   clientMutationId: String!
 
-  embed: CreateCommentEmbedInput
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3584,7 +3585,7 @@ type CreateCommentPayload {
   clientMutationId: String!
 }
 
-input CreateCommentEmbedInput {
+input CreateCommentMediaInput {
   type: String!
   url: String!
   remoteID: String
@@ -3630,7 +3631,10 @@ input CreateCommentReplyInput {
   """
   clientMutationId: String!
 
-  embed: CreateCommentEmbedInput
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3671,7 +3675,11 @@ input EditCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
-  embed: CreateCommentEmbedInput
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -4313,23 +4321,23 @@ input SlackConfigurationInput {
   channels: [SlackChannelConfigurationInput!]
 }
 
-input TwitterEmbedConfigurationInput {
+input TwitterMediaConfigurationInput {
   """
-  whether twitter embeds are enabled
-  """
-  enabled: Boolean
-}
-
-input YoutubeEmbedConfigurationInput {
-  """
-  whether youtube embeds are enabled
+  enabled is true when twitter media objects are enabled.
   """
   enabled: Boolean
 }
 
-input GiphyEmbedConfigurationInput {
+input YouTubeMediaConfigurationInput {
   """
-  whether gif search via giphy and giphy embeds are enabled
+  enabled is true when youtube media objects are enabled.
+  """
+  enabled: Boolean
+}
+
+input GiphyMediaConfigurationInput {
+  """
+  enabled is true when gif search via giphy and giphy media objects are enabled.
   """
   enabled: Boolean
 
@@ -4339,26 +4347,26 @@ input GiphyEmbedConfigurationInput {
   maxRating: String!
 
   """
-  GIPHY API key
+  key is the API key for Giphy.
   """
-  APIKey: String
+  key: String
 }
 
-input EmbedConfigurationInput {
+input MediaConfigurationInput {
   """
   twitter
   """
-  twitter: TwitterEmbedConfigurationInput
+  twitter: TwitterMediaConfigurationInput
 
   """
   youtube
   """
-  youtube: YoutubeEmbedConfigurationInput
+  youtube: YouTubeMediaConfigurationInput
 
   """
   giphy
   """
-  giphy: GiphyEmbedConfigurationInput
+  giphy: GiphyMediaConfigurationInput
 }
 
 """
@@ -4523,9 +4531,9 @@ input SettingsInput {
   rte: RTEConfigurationInput
 
   """
-  embeds is the configuration for whether link content is embedded in the stream.
+  media is the configuration media content attached to Comment's.
   """
-  embeds: EmbedConfigurationInput
+  media: MediaConfigurationInput
 }
 
 """

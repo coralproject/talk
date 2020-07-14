@@ -14,14 +14,13 @@ import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
+import { CommentMedia } from "./CommentMedia";
 import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
-import { CommentEmbed } from "./Embed";
-import { EmbedConfiguration } from "./EmbedConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
@@ -29,6 +28,7 @@ import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
+import { MediaConfiguration } from "./MediaConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { ModeratorNote } from "./ModeratorNote";
@@ -71,6 +71,7 @@ const Resolvers: GQLResolver = {
   CommentCreatedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
+  CommentMedia,
   CommentModerationAction,
   CommentReleasedPayload,
   CommentReplyCreatedPayload,
@@ -86,6 +87,7 @@ const Resolvers: GQLResolver = {
   Invite,
   LiveConfiguration,
   Locale,
+  MediaConfiguration,
   ModerationQueue,
   ModerationQueues,
   ModeratorNote,
@@ -94,13 +96,16 @@ const Resolvers: GQLResolver = {
   PremodStatus,
   PremodStatusHistory,
   Profile,
-  CommentEmbed,
   Query,
+  Queue,
+  Queues,
   RecentCommentHistory,
   RejectCommentPayload,
-  SSOAuthIntegration,
+  Settings,
   SigningSecret,
   Site,
+  SlackConfiguration,
+  SSOAuthIntegration,
   Story,
   StorySettings,
   Subscription,
@@ -110,15 +115,10 @@ const Resolvers: GQLResolver = {
   Time,
   User,
   UserModerationScopes,
-  Queue,
-  Queues,
   UsernameHistory,
   UsernameStatus,
   UserStatus,
-  Settings,
-  SlackConfiguration,
   WebhookEndpoint,
-  EmbedConfiguration,
 };
 
 export default Resolvers;

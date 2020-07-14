@@ -56,9 +56,9 @@ export const oembedHandler = (): RequestHandler => {
 
       if (
         type === "youtube" &&
-        (!tenant.embeds ||
-          !tenant.embeds.youtube ||
-          !tenant.embeds.youtube.enabled)
+        (!tenant.media ||
+          !tenant.media.youtube ||
+          !tenant.media.youtube.enabled)
       ) {
         res.sendStatus(400);
         return;
@@ -66,9 +66,9 @@ export const oembedHandler = (): RequestHandler => {
 
       if (
         type === "twitter" &&
-        (!tenant.embeds ||
-          !tenant.embeds.twitter ||
-          !tenant.embeds.twitter.enabled)
+        (!tenant.media ||
+          !tenant.media.twitter ||
+          !tenant.media.twitter.enabled)
       ) {
         res.sendStatus(400);
         return;

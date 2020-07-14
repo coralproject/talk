@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from "react";
 
-import styles from "./Embed.css";
+import styles from "./Media.css";
 
 interface Props {
   url: string;
   width: number | null;
 }
 
-const Embed: FunctionComponent<Props> = ({ url, width }) => {
+const TwitterMedia: FunctionComponent<Props> = ({ url, width }) => {
   const cleanUrl = encodeURIComponent(url);
   return (
     <div className={styles.embed}>
@@ -22,4 +22,4 @@ const Embed: FunctionComponent<Props> = ({ url, width }) => {
   );
 };
 
-export default Embed;
+export default TwitterMedia;

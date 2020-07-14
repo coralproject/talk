@@ -33,7 +33,7 @@ export interface ReplyCommentFormProps {
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
-  embedConfig: PropTypesOf<typeof CommentForm>["embedConfig"];
+  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
 }
 
 const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
@@ -55,7 +55,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         disabledMessage={props.disabledMessage}
         onFocus={onFocus}
         onCancel={props.onCancel}
-        embedConfig={props.embedConfig}
+        mediaConfig={props.mediaConfig}
         placeHolderId="comments-replyCommentForm-rte"
         placeholder="Write a reply"
         bodyInputID={inputID}

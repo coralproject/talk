@@ -116,7 +116,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           local: this.props.localReply,
           nudge: this.state.nudge,
           body: input.body,
-          embed: input.embed,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -184,7 +184,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
-        embedConfig={this.props.settings.embeds}
+        mediaConfig={this.props.settings.media}
         initialValues={this.state.initialValues}
         onCancel={this.handleOnCancelOrDismiss}
         rteRef={this.handleRTERef}
@@ -236,7 +236,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             closeCommenting {
               message
             }
-            embeds {
+            media {
               twitter {
                 enabled
               }

@@ -31,18 +31,19 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   },
   webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
   rte: ({ rte = defaultRTEConfiguration }) => rte,
-  embeds: ({ embeds }) => {
-    if (!embeds) {
+  media: ({ media }) => {
+    if (!media) {
       return {
         twitter: { enabled: false },
         youtube: { enabled: false },
         giphy: { enabled: false },
       };
     }
+
     return {
-      twitter: embeds.twitter || { enabled: false },
-      youtube: embeds.youtube || { enabled: false },
-      giphy: embeds.giphy || { enabled: false, maxRating: "g" },
+      twitter: media.twitter || { enabled: false },
+      youtube: media.youtube || { enabled: false },
+      giphy: media.giphy || { enabled: false, maxRating: "g" },
     };
   },
 };

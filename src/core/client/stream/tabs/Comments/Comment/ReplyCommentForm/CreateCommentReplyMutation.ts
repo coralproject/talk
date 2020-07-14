@@ -198,7 +198,7 @@ async function commit(
             body: input.body,
             nudge: input.nudge,
             clientMutationId: clientMutationId.toString(),
-            embed: input.embed,
+            media: input.media,
           },
         },
         optimisticResponse: {
@@ -219,7 +219,7 @@ async function commit(
                 body: input.body,
                 revision: {
                   id: uuidGenerator(),
-                  embed: null,
+                  media: null,
                 },
                 parent: {
                   id: parentComment.id,

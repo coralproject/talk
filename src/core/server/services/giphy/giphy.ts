@@ -7,7 +7,7 @@ import {
   GiphyGifRetrieveResponse,
   GiphyGifSearchResponse,
 } from "coral-common/rest/external/giphy";
-import { Tenant } from "coral-server/models/tenant";
+import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 
 const RATINGS_ORDER = ["g", "pg", "pg13", "r"];
@@ -56,11 +56,11 @@ const GiphyRetrieveResponseSchema = Joi.object().keys({
 
 export function ratingIsAllowed(rating: string, tenant: Tenant) {
   const compareRating = rating.toLowerCase();
-  if (tenant.embeds && tenant.embeds.giphy && tenant.embeds.giphy.maxRating) {
+  if (tenant.media && tenant.media.giphy && tenant.media.giphy.maxRating) {
     return (
       RATINGS_ORDER.includes(compareRating) &&
       RATINGS_ORDER.indexOf(compareRating) <=
-        RATINGS_ORDER.indexOf(tenant.embeds.giphy.maxRating)
+        RATINGS_ORDER.indexOf(tenant.media.giphy.maxRating)
     );
   }
   return false;
@@ -108,22 +108,17 @@ export async function searchGiphy(
   offset: string,
   tenant: Tenant
 ) {
-  if (
-    !tenant.embeds ||
-    !tenant.embeds.giphy ||
-    !tenant.embeds.giphy.enabled ||
-    !tenant.embeds.giphy.APIKey ||
-    !tenant.embeds.giphy.maxRating
-  ) {
+  if (!supportsMediaType(tenant, "giphy")) {
     throw new Error("Must configure GIPHY integration with API key");
   }
+
   const language = convertLanguage(tenant.locale);
   const url = new URL(GIPHY_SEARCH);
-  url.searchParams.set("api_key", tenant.embeds.giphy.APIKey);
+  url.searchParams.set("api_key", tenant.media.giphy.key!);
   url.searchParams.set("limit", "10");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
-  url.searchParams.set("rating", tenant.embeds.giphy.maxRating);
+  url.searchParams.set("rating", tenant.media.giphy.maxRating!);
   url.searchParams.set("q", query);
 
   try {
@@ -172,17 +167,12 @@ export function validateRetrieveResponse(
 }
 
 export async function retrieveFromGiphy(id: string, tenant: Tenant) {
-  const url = new URL(`${GIPHY_FETCH}/${id}`);
-  if (
-    !tenant.embeds ||
-    !tenant.embeds.giphy ||
-    !tenant.embeds.giphy.enabled ||
-    !tenant.embeds.giphy.APIKey ||
-    !tenant.embeds.giphy.maxRating
-  ) {
+  if (!supportsMediaType(tenant, "giphy")) {
     throw new Error("Must configure GIPHY integration with API key");
   }
-  url.searchParams.set("api_key", tenant.embeds.giphy.APIKey);
+
+  const url = new URL(`${GIPHY_FETCH}/${id}`);
+  url.searchParams.set("api_key", tenant.media.giphy.key!);
   try {
     const res = await fetch(url.toString());
 

@@ -134,7 +134,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
           body: input.body,
-          embed: input.embed,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -236,7 +236,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
-        embedConfig={this.props.settings.embeds}
+        mediaConfig={this.props.settings.media}
         rteConfig={this.props.settings.rte}
         min={
           (this.props.settings.charCount.enabled &&
@@ -292,7 +292,7 @@ const enhanced = withContext(({ sessionStorage }) => ({
               closeCommenting {
                 message
               }
-              embeds {
+              media {
                 twitter {
                   enabled
                 }

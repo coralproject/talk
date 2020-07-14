@@ -8,8 +8,8 @@ interface Props {
   height?: number | null;
 }
 
-const YouTubeEmbed: FunctionComponent<Props> = ({ url, width, height }) => {
+const YouTubeMedia: FunctionComponent<Props> = ({ url, width, height }) => {
   return <OEmbed url={url} width={width} height={height} type="youtube" />;
 };
 
-export default YouTubeEmbed;
+export default YouTubeMedia;

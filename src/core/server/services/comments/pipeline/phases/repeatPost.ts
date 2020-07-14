@@ -2,7 +2,7 @@ import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
-import { supportsEmbedType } from "coral-server/models/tenant";
+import { supportsMediaType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -22,9 +22,9 @@ export const repeatPost: IntermediateModerationPhase = async ({
   nudge,
   redis,
   log,
-  embed,
+  media,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!bodyText && !embed) {
+  if (!bodyText && !media) {
     return;
   }
 
@@ -53,25 +53,25 @@ export const repeatPost: IntermediateModerationPhase = async ({
     if (lastCommentBodyText !== bodyText) {
       // Body text is not the same, can't be a repeat post!
       similarity = false;
-    } else if (supportsEmbedType(tenant, "giphy")) {
-      // Giphy is enabled. If the embeds are the same, then this is a repeat
+    } else if (supportsMediaType(tenant, "giphy")) {
+      // Giphy is enabled. If the medias are the same, then this is a repeat
       // comment otherwise they are not.
       if (
         // Check to see if the last comment revision has a Giphy Media
         // object.
-        lastCommentRevision.embed &&
-        lastCommentRevision.embed.type === "giphy" &&
+        lastCommentRevision.media &&
+        lastCommentRevision.media.type === "giphy" &&
         // Check to see if the current comment revision has a Giphy Media
         // object.
-        embed &&
-        embed.type === "giphy" &&
-        // Check to see if the embed id's are the same.
-        lastCommentRevision.embed.id === embed.id
+        media &&
+        media.type === "giphy" &&
+        // Check to see if the media id's are the same.
+        lastCommentRevision.media.id === media.id
       ) {
-        // Comment body text was the same and the embed was the same.
+        // Comment body text was the same and the media was the same.
         similarity = true;
       } else {
-        // Comment body text was the same but the embed was different.
+        // Comment body text was the same but the media was different.
         similarity = false;
       }
     } else {

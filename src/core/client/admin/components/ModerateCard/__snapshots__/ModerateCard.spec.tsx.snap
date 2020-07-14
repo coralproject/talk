@@ -63,7 +63,7 @@ exports[`renders approved correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -206,7 +206,7 @@ exports[`renders correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -349,7 +349,7 @@ exports[`renders dangling correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -492,7 +492,7 @@ exports[`renders rejected correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -644,7 +644,7 @@ exports[`renders reply correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -787,7 +787,7 @@ exports[`renders story info 1`] = `
           >
             content
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>
@@ -976,7 +976,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
               </div>
             </Localized>
           </CommentContent>
-          <Relay(EmbedContainer)
+          <Relay(MediaContainer)
             comment={Object {}}
           />
         </div>

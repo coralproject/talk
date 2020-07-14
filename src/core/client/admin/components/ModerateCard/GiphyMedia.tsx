@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
-import styles from "./Embed.css";
+import styles from "./Media.css";
 
 interface Props {
   still: string | null;
@@ -13,7 +13,7 @@ interface Props {
   video: string | null;
 }
 
-const Embed: FunctionComponent<Props> = ({
+const GiphyMedia: FunctionComponent<Props> = ({
   still,
   title,
   width,
@@ -60,4 +60,4 @@ const Embed: FunctionComponent<Props> = ({
   );
 };
 
-export default Embed;
+export default GiphyMedia;
