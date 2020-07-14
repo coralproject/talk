@@ -40,8 +40,8 @@ $callout-regular-border: var(--palette-grey-300);
 }
 
 .colorSuccess {
-  background-color: var(--palette-success-lightest);
-  border-color: var(--palette-success-light);
+  background-color: var(--palette-positive-100);
+  border-color: var(--palette-positive-300);
   color: var(--palette-text-500);
 }
 
