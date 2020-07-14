@@ -164,7 +164,6 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 }
 
-// TODO (tessalt) check revision
 const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,

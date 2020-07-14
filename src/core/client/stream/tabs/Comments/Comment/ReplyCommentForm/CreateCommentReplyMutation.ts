@@ -219,7 +219,7 @@ async function commit(
                 body: input.body,
                 revision: {
                   id: uuidGenerator(),
-                  embeds: input.embed ? [input.embed] : [],
+                  embed: null,
                 },
                 parent: {
                   id: parentComment.id,

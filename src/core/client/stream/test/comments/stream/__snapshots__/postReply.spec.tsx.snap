@@ -380,26 +380,6 @@ exports[`post a reply: open reply form 1`] = `
                             format_list_bulleted
                           </i>
                         </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase Button-iconLeft"
-                          data-color="mono"
-                          data-variant="flat"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm ButtonIcon-root"
-                          >
-                            add
-                          </i>
-                          GIF
-                        </button>
                       </div>
                     </div>
                   </div>

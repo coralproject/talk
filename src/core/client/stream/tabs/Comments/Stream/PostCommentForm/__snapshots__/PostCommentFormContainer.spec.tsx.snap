@@ -6,9 +6,15 @@ exports[`renders correctly 1`] = `
   disabledMessage="closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   initialValues={
@@ -69,9 +75,15 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
   disabledMessage="commenting disabled"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   initialValues={
@@ -132,9 +144,15 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
   disabledMessage="story closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   initialValues={
@@ -182,9 +200,15 @@ exports[`renders when user is scheduled to be deleted 1`] = `
   }
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   initialValues={
@@ -226,9 +250,15 @@ exports[`renders with initialValues 1`] = `
   disabledMessage="closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   initialValues={

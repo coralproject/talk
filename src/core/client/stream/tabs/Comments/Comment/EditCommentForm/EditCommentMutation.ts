@@ -17,7 +17,6 @@ import { EditCommentEvent } from "coral-stream/events";
 
 export type EditCommentInput = MutationInput<MutationTypes>;
 
-// TODO (tessalt): check revision
 const mutation = graphql`
   mutation EditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
@@ -27,6 +26,26 @@ const mutation = graphql`
         status
         revision {
           id
+          embed {
+            __typename
+            ... on GiphyEmbed {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on TwitterEmbed {
+              url
+              width
+            }
+            ... on YoutubeEmbed {
+              url
+              width
+              height
+            }
+          }
         }
         editing {
           edited
@@ -67,6 +86,7 @@ async function commit(
               status: lookup<GQLComment>(environment, input.commentID)!.status,
               revision: {
                 id: uuidGenerator(),
+                embed: null,
               },
               editing: {
                 edited: true,

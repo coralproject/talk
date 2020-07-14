@@ -46,7 +46,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    // TODO (tessalt): ignore embed similarity if text is different?
+    // TODO (wyattjoh): ignore embed similarity if text is different?
 
     const revision = getLatestRevision(lastComment);
 

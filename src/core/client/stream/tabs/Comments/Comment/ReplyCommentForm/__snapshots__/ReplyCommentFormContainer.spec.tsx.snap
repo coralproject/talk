@@ -6,9 +6,15 @@ exports[`renders correctly 1`] = `
   disabledMessage="closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   id="comment-id"
@@ -29,9 +35,15 @@ exports[`renders when commenting has been disabled 1`] = `
   disabledMessage="commenting disabled"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   id="comment-id"
@@ -52,9 +64,15 @@ exports[`renders when story has been closed 1`] = `
   disabledMessage="story closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   id="comment-id"
@@ -75,9 +93,15 @@ exports[`renders with initialValues 1`] = `
   disabledMessage="closed"
   embedConfig={
     Object {
-      "giphy": true,
-      "twitter": true,
-      "youtube": true,
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
     }
   }
   id="comment-id"

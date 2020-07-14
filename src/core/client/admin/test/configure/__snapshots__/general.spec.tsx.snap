@@ -1541,11 +1541,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={true}
+                        checked={false}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.twitter-true"
-                        name="embeds.twitter"
+                        id="embeds.twitter.enabled-true"
+                        name="embeds.twitter.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1553,8 +1553,8 @@ appears on the comment stream and in the admin interface.
                         value="true"
                       />
                       <label
-                        className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="embeds.twitter-true"
+                        className="RadioButton-label"
+                        htmlFor="embeds.twitter.enabled-true"
                       >
                         <span>
                           Yes
@@ -1565,11 +1565,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={false}
+                        checked={true}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.twitter-false"
-                        name="embeds.twitter"
+                        id="embeds.twitter.enabled-false"
+                        name="embeds.twitter.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1577,8 +1577,8 @@ appears on the comment stream and in the admin interface.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
-                        htmlFor="embeds.twitter-false"
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="embeds.twitter.enabled-false"
                       >
                         <span>
                           No
@@ -1600,11 +1600,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={true}
+                        checked={false}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.youtube-true"
-                        name="embeds.youtube"
+                        id="embeds.youtube.enabled-true"
+                        name="embeds.youtube.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1612,8 +1612,8 @@ appears on the comment stream and in the admin interface.
                         value="true"
                       />
                       <label
-                        className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="embeds.youtube-true"
+                        className="RadioButton-label"
+                        htmlFor="embeds.youtube.enabled-true"
                       >
                         <span>
                           Yes
@@ -1624,11 +1624,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={false}
+                        checked={true}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.youtube-false"
-                        name="embeds.youtube"
+                        id="embeds.youtube.enabled-false"
+                        name="embeds.youtube.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1636,8 +1636,8 @@ appears on the comment stream and in the admin interface.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
-                        htmlFor="embeds.youtube-false"
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="embeds.youtube.enabled-false"
                       >
                         <span>
                           No
@@ -1659,11 +1659,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={true}
+                        checked={false}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.giphy-true"
-                        name="embeds.giphy"
+                        id="embeds.giphy.enabled-true"
+                        name="embeds.giphy.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1671,8 +1671,8 @@ appears on the comment stream and in the admin interface.
                         value="true"
                       />
                       <label
-                        className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="embeds.giphy-true"
+                        className="RadioButton-label"
+                        htmlFor="embeds.giphy.enabled-true"
                       >
                         <span>
                           Yes
@@ -1683,11 +1683,11 @@ appears on the comment stream and in the admin interface.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={false}
+                        checked={true}
                         className="RadioButton-input"
                         disabled={false}
-                        id="embeds.giphy-false"
-                        name="embeds.giphy"
+                        id="embeds.giphy.enabled-false"
+                        name="embeds.giphy.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1695,8 +1695,8 @@ appears on the comment stream and in the admin interface.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
-                        htmlFor="embeds.giphy-false"
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="embeds.giphy.enabled-false"
                       >
                         <span>
                           No
@@ -1722,19 +1722,19 @@ appears on the comment stream and in the admin interface.
                     className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                   >
                     <input
-                      checked={true}
+                      checked={false}
                       className="RadioButton-input"
-                      disabled={false}
+                      disabled={true}
                       id="G"
-                      name="embeds.giphyMaxRating"
+                      name="embeds.giphy.maxRating"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       type="radio"
-                      value="G"
+                      value="g"
                     />
                     <label
-                      className="RadioButton-label RadioButton-labelChecked"
+                      className="RadioButton-label"
                       htmlFor="G"
                     >
                       G
@@ -1751,14 +1751,14 @@ appears on the comment stream and in the admin interface.
                     <input
                       checked={false}
                       className="RadioButton-input"
-                      disabled={false}
+                      disabled={true}
                       id="PG"
-                      name="embeds.giphyMaxRating"
+                      name="embeds.giphy.maxRating"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       type="radio"
-                      value="PG"
+                      value="pg"
                     />
                     <label
                       className="RadioButton-label"
@@ -1778,14 +1778,14 @@ appears on the comment stream and in the admin interface.
                     <input
                       checked={false}
                       className="RadioButton-input"
-                      disabled={false}
+                      disabled={true}
                       id="PG13"
-                      name="embeds.giphyMaxRating"
+                      name="embeds.giphy.maxRating"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       type="radio"
-                      value="PG13"
+                      value="pg13"
                     />
                     <label
                       className="RadioButton-label"
@@ -1805,14 +1805,14 @@ appears on the comment stream and in the admin interface.
                     <input
                       checked={false}
                       className="RadioButton-input"
-                      disabled={false}
+                      disabled={true}
                       id="r"
-                      name="embeds.giphyMaxRating"
+                      name="embeds.giphy.maxRating"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       type="radio"
-                      value="R"
+                      value="r"
                     />
                     <label
                       className="RadioButton-label"
@@ -1854,41 +1854,52 @@ appears on the comment stream and in the admin interface.
                     GIPHY API key
                   </label>
                   <div
-                    className="PasswordField-fullWidth PasswordField-root"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
-                    <div
-                      className="PasswordField-wrapper"
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-moderation-embeds.giphy.APIKey"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
-                        data-testid="password-field"
-                        disabled={false}
-                        name="embeds.giphyAPIKey"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="password"
-                        value=""
-                      />
+                      API key
+                    </label>
+                    <div
+                      className="PasswordField-fullWidth PasswordField-root"
+                    >
                       <div
-                        className="PasswordField-icon"
-                        onClick={[Function]}
-                        onKeyUp={[Function]}
-                        role="button"
-                        tabIndex={0}
-                        title="Show API Key"
+                        className="PasswordField-wrapper"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-sm"
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="new-password"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
+                          disabled={true}
+                          id="configure-moderation-embeds.giphy.APIKey"
+                          name="embeds.giphy.APIKey"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          onKeyUp={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Show API Key"
                         >
-                          visibility
-                        </i>
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </i>
+                        </div>
                       </div>
                     </div>
                   </div>

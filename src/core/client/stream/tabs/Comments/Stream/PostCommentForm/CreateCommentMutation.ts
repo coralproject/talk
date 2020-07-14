@@ -205,7 +205,7 @@ async function commit(
                 },
                 revision: {
                   id: uuidGenerator(),
-                  embeds: [],
+                  embed: null,
                 },
                 parent: null,
                 body: input.body || "",
