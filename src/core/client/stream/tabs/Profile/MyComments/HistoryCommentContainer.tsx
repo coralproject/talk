@@ -14,6 +14,7 @@ import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__g
 import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
 import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 
+import MediaSectionContainer from "../../Comments/Comment/MediaSection";
 import HistoryComment from "./HistoryComment";
 
 interface Props {
@@ -54,6 +55,12 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
         props.comment.id
       )}
       onGotoConversation={handleGotoConversation}
+      media={
+        <MediaSectionContainer
+          comment={props.comment}
+          settings={props.settings}
+        />
+      }
     />
   );
 };
@@ -71,6 +78,7 @@ const enhanced = withSetCommentIDMutation(
           label
           icon
         }
+        ...MediaSectionContainer_settings
       }
     `,
     comment: graphql`
@@ -79,6 +87,7 @@ const enhanced = withSetCommentIDMutation(
         body
         createdAt
         replyCount
+        ...MediaSectionContainer_comment
         parent {
           author {
             username

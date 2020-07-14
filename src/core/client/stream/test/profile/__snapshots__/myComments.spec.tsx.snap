@@ -44,16 +44,20 @@ exports[`renders profile 1`] = `
         </time>
       </button>
       <div
-        className="HistoryComment-content"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HTMLContent-root coral coral-myComment-content"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Joining Too",
+          className="HistoryComment-content"
+        >
+          <div
+            className="HTMLContent-root coral coral-myComment-content"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Joining Too",
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
     </div>
     <div
@@ -125,16 +129,20 @@ exports[`renders profile 1`] = `
         </time>
       </button>
       <div
-        className="HistoryComment-content"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HTMLContent-root coral coral-myComment-content"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "What's up?",
+          className="HistoryComment-content"
+        >
+          <div
+            className="HTMLContent-root coral coral-myComment-content"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "What's up?",
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
     </div>
     <div
