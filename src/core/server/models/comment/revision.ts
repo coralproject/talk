@@ -56,6 +56,7 @@ export interface TwitterMedia {
 export interface YouTubeMedia {
   type: "youtube";
   url: string;
+  still: string;
   width?: number;
   height?: number;
 }

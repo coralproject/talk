@@ -76,14 +76,29 @@ async function attachOEmbedMedia(
     }
 
     // Extract the response.
-    const { width, height } = res;
+    const { width, height, thumbnail_url } = res;
 
-    // Return the formed oEmbed Media.
+    // If the type is YouTube, ensure that the thumbnail url is provided.
+    if (type === "youtube") {
+      if (!thumbnail_url) {
+        return;
+      }
+
+      // Return the formed YouTubeMedia.
+      return {
+        type: "youtube",
+        url,
+        still: thumbnail_url,
+        width,
+        height,
+      };
+    }
+
+    // Return the formed TwitterMedia.
     return {
-      type,
+      type: "twitter",
       url,
       width,
-      height,
     };
   } catch (err) {
     throw new WrappedInternalError(err, "cannot attach oEmbed Media");
