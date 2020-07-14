@@ -23,7 +23,7 @@ export const gifSearchHandler: RequestHandler = async (
       req.query.offset || "0",
       tenant
     );
-    res.json({ results });
+    res.json(results);
   } catch (err) {
     next(err);
   }

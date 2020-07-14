@@ -119,15 +119,15 @@ async function attachGiphyEmbed(
   tenant: Tenant
 ): Promise<GiphyEmbed | null> {
   try {
-    const data = await retrieveFromGiphy(remoteID, tenant);
+    const { data } = await retrieveFromGiphy(remoteID, tenant);
     if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
       return {
         url,
         remoteID,
         type: "giphy",
         title: data.title,
-        width: data.images.original.width,
-        height: data.images.original.height,
+        width: parseInt(data.images.original.width, 10),
+        height: parseInt(data.images.original.height, 10),
         original: data.url,
         still: data.images.original_still.url,
         video: data.images.original.mp4,

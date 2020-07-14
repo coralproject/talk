@@ -1,7 +1,12 @@
+import Joi from "@hapi/joi";
 import { URL } from "url";
 
 import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
+import {
+  GiphyGifRetrieveResponse,
+  GiphyGifSearchResponse,
+} from "coral-common/rest/external/giphy";
 import { Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 
@@ -9,6 +14,40 @@ const RATINGS_ORDER = ["G", "PG", "PG13", "R"];
 const fetch = createFetch({ name: "giphy" });
 
 type GiphyLanguage = "en" | "es" | "fr" | "de" | "pt";
+
+const GiphyGifImageSchema = Joi.object().keys({
+  url: Joi.string().required(),
+  width: Joi.string().required(),
+  height: Joi.string().required(),
+  mp4: Joi.string().required(),
+  still: Joi.string().required(),
+});
+
+const GiphyGifImagesSchema = Joi.object().keys({
+  original: GiphyGifImageSchema,
+  fixed_height_downsampled: GiphyGifImageSchema,
+  orignal_still: GiphyGifImageSchema,
+});
+
+const GiphyGifSchema = Joi.object().keys({
+  id: Joi.string().required(),
+  url: Joi.string().required(),
+  rating: Joi.string().required(),
+  images: GiphyGifImagesSchema,
+});
+
+const GiphySearchResponseSchema = Joi.object().keys({
+  data: Joi.array().items(GiphyGifSchema),
+  pagination: Joi.object().keys({
+    offset: Joi.number().required(),
+    total_count: Joi.number().required(),
+    count: Joi.number().required(),
+  }),
+});
+
+const GiphyRetrieveResponseSchema = Joi.object().keys({
+  data: GiphyGifSchema.required(),
+});
 
 export function ratingIsAllowed(rating: string, tenant: Tenant) {
   const compareRating = rating.toUpperCase();
@@ -43,6 +82,20 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
     default:
       return "en";
   }
+}
+
+export function validateSearchResponse(body: object): GiphyGifSearchResponse {
+  const { value, error: err } = GiphySearchResponseSchema.validate(body, {
+    stripUnknown: true,
+    presence: "optional",
+    abortEarly: false,
+  });
+
+  if (err) {
+    throw err;
+  }
+
+  return value;
 }
 
 export async function searchGiphy(
@@ -81,11 +134,7 @@ export async function searchGiphy(
 
     // Parse the JSON body and send back the result!
     const data = await res.json();
-    return {
-      ok: res.ok,
-      status: res.status,
-      data,
-    };
+    return validateRetrieveResponse(data);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
@@ -98,6 +147,22 @@ export async function searchGiphy(
     // Rethrow the error.
     throw err;
   }
+}
+
+export function validateRetrieveResponse(
+  body: object
+): GiphyGifRetrieveResponse {
+  const { value, error: err } = GiphyRetrieveResponseSchema.validate(body, {
+    stripUnknown: true,
+    presence: "optional",
+    abortEarly: false,
+  });
+
+  if (err) {
+    throw err;
+  }
+
+  return value;
 }
 
 export async function retrieveFromGiphy(id: string, tenant: Tenant) {
@@ -120,7 +185,8 @@ export async function retrieveFromGiphy(id: string, tenant: Tenant) {
     }
 
     const result = await res.json();
-    return result.data;
+
+    return validateRetrieveResponse(result.data);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {

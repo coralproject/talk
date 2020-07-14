@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 
+import { GiphyGif } from "coral-common/rest/external/giphy";
 import { useFetch } from "coral-framework/lib/relay";
 import {
   BaseButton,
@@ -19,19 +20,19 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { GIF_RESULTS_LIMIT, GifResult, GifSearchFetch } from "./GifSearchFetch";
+import { GIF_RESULTS_LIMIT, GifSearchFetch } from "./GifSearchFetch";
 import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GifSelector.css";
 
 interface Props {
-  onGifSelect: (gif: GifResult) => void;
-  value: GifResult | null;
+  onGifSelect: (gif: GiphyGif) => void;
+  value: GiphyGif | null;
 }
 
 const GifSelector: FunctionComponent<Props> = (props) => {
   const gifSearchFetch = useFetch(GifSearchFetch);
-  const [results, setResults] = useState<GifResult[]>([]);
+  const [results, setResults] = useState<GiphyGif[]>([]);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
@@ -54,7 +55,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
       if (query && query.length > 1) {
         try {
           const res = await gifSearchFetch({ query, page });
-          const { pagination, data } = res.results.data;
+          const { pagination, data } = res;
           if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
             setHasNextPage(true);
           } else {
@@ -75,7 +76,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
   const prevPage = useCallback(() => {
     setPage(page - 1);
   }, [page]);
-  const onGifSelect = useCallback((gif: GifResult) => {
+  const onGifSelect = useCallback((gif: GiphyGif) => {
     setResults([]);
     setPage(0);
     setHasNextPage(false);
