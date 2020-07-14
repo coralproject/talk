@@ -26,6 +26,16 @@ $moderateCardButtonOutlineApproveColor: var(--palette-positive-500);
   }
 }
 
+.readOnly {
+  background-color: transparent;
+  border-color: $colors-grey-300;
+  color: $colors-grey-300;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
 .invert {
   background-color: $moderateCardButtonOutlineApproveColor;
   border-color: $moderateCardButtonOutlineApproveColor;

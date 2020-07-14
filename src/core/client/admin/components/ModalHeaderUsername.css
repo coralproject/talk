@@ -1,4 +1,4 @@
-$status-modal-username: var(--palette-text-900);
+$status-modal-username: $colors-mono-900;
 
 .root {
   font-weight: var(--font-weight-secondary-bold);
