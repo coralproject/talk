@@ -1,6 +1,11 @@
+import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
-
-import { GQLEMBED_SOURCE } from "coral-server/graph/schema/__generated__/types";
+import { supportsEmbedType, Tenant } from "coral-server/models/tenant";
+import {
+  ratingIsAllowed,
+  retrieveFromGiphy,
+} from "coral-server/services/giphy";
+import { fetchOembedResponse } from "coral-server/services/oembed";
 
 export interface RevisionMetadata {
   /**
@@ -37,35 +42,33 @@ export interface RevisionMetadata {
   nudge?: boolean;
 }
 
-export interface CommentEmbedMedia {
-  original: string;
+export interface GiphyEmbed {
+  type: "giphy";
+  url: string;
+  remoteID: string;
+  original?: string;
   still?: string;
   video?: string;
-}
-
-/**
- * CommentEmbed stores the source and url of any links
- * that were detected as embeddable content in the comment body.
- */
-export interface CommentEmbed {
-  /**
-   * url represents the actual linked content for the embed.
-   */
-  url: string;
-
-  /**
-   * type represents which source the link comes from.
-   */
-  source: GQLEMBED_SOURCE;
-
+  width?: number;
+  height?: number;
   title?: string;
-
-  remote_id?: string;
-
-  media?: CommentEmbedMedia;
-  height?: string;
-  width?: string;
 }
+
+export interface TwitterEmbed {
+  type: "twitter";
+  url: string;
+  width?: number;
+  height?: number;
+}
+
+export interface YoutubeEmbed {
+  type: "youtube";
+  url: string;
+  width?: number;
+  height?: number;
+}
+
+export type CommentEmbed = GiphyEmbed | TwitterEmbed | YoutubeEmbed;
 
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
@@ -100,5 +103,74 @@ export interface Revision {
   /**
    * embeds are the embedded link content found in the comment body.
    */
-  embeds: CommentEmbed[];
+  embed?: CommentEmbed | null;
+}
+
+export interface CreateCommentEmbedInput {
+  url: string;
+  remoteID?: string;
+  type: "giphy" | "twitter" | "youtube";
+}
+
+async function attachGiphyEmbed(
+  remoteID: string,
+  url: string,
+  tenant: Tenant
+): Promise<GiphyEmbed | null> {
+  try {
+    const data = await retrieveFromGiphy(remoteID, tenant);
+    if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
+      return {
+        url,
+        remoteID,
+        type: "giphy",
+        title: data.title,
+        width: data.images.original.width,
+        height: data.images.original.height,
+        original: data.url,
+        still: data.images.original_still.url,
+        video: data.images.original.mp4,
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    throw new Error("Cannot attach gif");
+  }
+}
+
+export async function attachEmbed(
+  input: CreateCommentEmbedInput | null,
+  body: string,
+  tenant: Tenant
+) {
+  if (!input) {
+    return null;
+  }
+  if (
+    input.type === "giphy" &&
+    supportsEmbedType(tenant, "giphy") &&
+    input.remoteID
+  ) {
+    return attachGiphyEmbed(input.remoteID, input.url, tenant);
+  } else if (input.type === "twitter" || input.type === "youtube") {
+    const foundLinks = findEmbedLinks(body);
+    const matchingLink = foundLinks.find((link) => {
+      return link.url === input.url;
+    });
+    if (matchingLink) {
+      const response = await fetchOembedResponse(input.url, input.type);
+
+      if (response.ok) {
+        const json = await response.json();
+        return {
+          type: input.type,
+          url: matchingLink.url,
+          width: json.width,
+          height: json.height,
+        };
+      }
+    }
+  }
+  return null;
 }

@@ -121,15 +121,16 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment EmbedSectionContainer_comment on Comment {
       revision {
-        embeds {
+        embed {
+          __typename
           url
           source
           width
           height
           title
-          media {
-            video
-          }
+          still
+          video
+          original
         }
       }
     }

@@ -2,6 +2,7 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { CreateCommentEmbedInput } from "coral-server/models/comment";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
@@ -54,7 +55,7 @@ export const Comments = (ctx: GraphContext) => ({
         {
           authorID: ctx.user!.id,
           ...comment,
-          embeds: comment.embed ? [comment.embed] : [],
+          embed: comment.embed as CreateCommentEmbedInput,
         },
         nudge,
         ctx.now,
@@ -81,7 +82,7 @@ export const Comments = (ctx: GraphContext) => ({
         {
           id: commentID,
           body,
-          embeds: embed ? [embed] : [],
+          embed: (embed as CreateCommentEmbedInput) || null,
         },
         ctx.now,
         ctx.req

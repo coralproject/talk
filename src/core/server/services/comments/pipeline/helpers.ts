@@ -25,8 +25,8 @@ export function mergePhaseResult(
     final.body = result.body;
   }
 
-  if (result.embeds) {
-    final.embeds = result.embeds;
+  if (result.embed) {
+    final.embed = result.embed;
   }
 
   // If the result added any tags, we should push it into the existing tags.

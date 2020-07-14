@@ -23,9 +23,9 @@ export const repeatPost: IntermediateModerationPhase = async ({
   log,
   action,
   comment,
-  embeds,
+  embed,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!bodyText && (!embeds || embeds.length === 0)) {
+  if (!bodyText && !embed) {
     return;
   }
 
@@ -53,19 +53,18 @@ export const repeatPost: IntermediateModerationPhase = async ({
 
     let similarity = null;
 
-    if (bodyText && compareTo.length > 0) {
+    if (compareTo && revisionText) {
       // Calculate the comment similarity. At the moment, we only do a string
       // comparison, so it's either completely equal (they match) or the
       // similarity can't be determined (null). This gives us room in the future
       // to include a percentage matching.
       similarity = revisionText === compareTo ? 1 : null;
-    } else if (embeds && embeds.length > 0 && revision.embeds.length > 0) {
-      const [newEmbed] = embeds;
-      const [compareEmbed] = revision.embeds;
+    } else if (embed && revision.embed) {
+      const compareEmbed = revision.embed;
       similarity =
-        newEmbed.source === "GIPHY" &&
-        compareEmbed.source === "GIPHY" &&
-        newEmbed.url === compareEmbed.url
+        embed.type === "giphy" &&
+        compareEmbed.type === "giphy" &&
+        embed.url === compareEmbed.url
           ? 1
           : null;
     }

@@ -20,6 +20,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { CommentEmbed } from "./Embed";
 import { EmbedConfiguration } from "./EmbedConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
@@ -93,6 +94,7 @@ const Resolvers: GQLResolver = {
   PremodStatus,
   PremodStatusHistory,
   Profile,
+  CommentEmbed,
   Query,
   RecentCommentHistory,
   RejectCommentPayload,

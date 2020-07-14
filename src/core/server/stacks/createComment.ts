@@ -16,8 +16,10 @@ import {
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import {
+  attachEmbed,
   Comment,
   createComment,
+  CreateCommentEmbedInput,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
   retrieveComment,
@@ -58,8 +60,16 @@ import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags" | "siteID"
->;
+  | "status"
+  | "metadata"
+  | "ancestorIDs"
+  | "actionCounts"
+  | "tags"
+  | "siteID"
+  | "embed"
+> & {
+  embed?: CreateCommentEmbedInput;
+};
 
 const markCommentAsAnswered = async (
   mongo: Db,
@@ -168,6 +178,12 @@ export default async function create(
     );
   }
 
+  const commentEmbed = await attachEmbed(
+    input.embed || null,
+    input.body,
+    tenant
+  );
+
   let result: PhaseResult;
   try {
     // Run the comment through the moderation phases.
@@ -180,7 +196,7 @@ export default async function create(
       tenant,
       story,
       nudge,
-      comment: { ...input, ancestorIDs },
+      comment: { ...input, ancestorIDs, embed: commentEmbed },
       author,
       req,
       now,
@@ -196,7 +212,7 @@ export default async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata, tags, embeds } = result;
+  const { actions, body, status, metadata, tags, embed } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
@@ -232,7 +248,7 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
-      embeds: embeds || [],
+      embed: embed || null,
     },
     now
   );

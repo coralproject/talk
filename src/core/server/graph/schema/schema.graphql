@@ -2623,33 +2623,30 @@ enum EMBED_SOURCE {
   GIPHY
 }
 
-type CommentEmbedMedia {
-  original: String!
-  still: String
-  video: String
-}
-
-type CommentEmbed {
-  """
-  url represents the actual linked content for the embed.
-  """
+type GiphyEmbed {
   url: String!
-
-  """
-  type represents which source the link comes from.
-  """
-  source: EMBED_SOURCE!
-
-  remote_id: String
-
-  media: CommentEmbedMedia
-
+  original: String!
+  still: String!
+  video: String!
+  remoteID: String!
+  width: Int
+  height: Int
   title: String
-
-  width: String
-
-  height: String
 }
+
+type TwitterEmbed {
+  url: String!
+  width: Int
+  height: Int
+}
+
+type YoutubeEmbed {
+  url: String!
+  width: Int
+  height: Int
+}
+
+union CommentEmbed = GiphyEmbed | TwitterEmbed | YoutubeEmbed
 
 type CommentRevision {
   """
@@ -2679,7 +2676,7 @@ type CommentRevision {
   embeds is the collection of links that were identified as supported
   embedded content in the comment body
   """
-  embeds: [CommentEmbed!]
+  embed: CommentEmbed
 
   """
   metadata stores details on a CommentRevision.
@@ -3590,9 +3587,9 @@ type CreateCommentPayload {
 }
 
 input CreateCommentEmbedInput {
-  source: EMBED_SOURCE!
+  type: String!
   url: String!
-  remote_id: String
+  remoteID: String
 }
 
 ##################

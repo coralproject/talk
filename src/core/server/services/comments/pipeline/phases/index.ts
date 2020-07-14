@@ -4,7 +4,6 @@ import { approve } from "./approve";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
-import { attachedEmbed } from "./embed";
 import { external } from "./external";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
@@ -25,7 +24,6 @@ import { wordList } from "./wordList";
  * The moderation phases to apply for each comment being processed.
  */
 export const moderationPhases: IntermediateModerationPhase[] = [
-  attachedEmbed,
   commentLength,
   storyClosed,
   commentingDisabled,

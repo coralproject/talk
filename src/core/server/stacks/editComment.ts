@@ -12,6 +12,8 @@ import {
 } from "coral-server/models/action/comment";
 import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
+  attachEmbed,
+  CreateCommentEmbedInput,
   editComment,
   EditCommentInput,
   retrieveComment,
@@ -49,8 +51,10 @@ function getLastCommentEditableUntilDate(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata"
->;
+  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata" | "embed"
+> & {
+  embed?: CreateCommentEmbedInput;
+};
 
 export default async function edit(
   mongo: Db,
@@ -101,30 +105,34 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  // TODO (tessalt) do we need to do this if it hasn't changed?
+  const commentEmbed = await attachEmbed(
+    input.embed || null,
+    input.body,
+    tenant
+  );
+
   // Run the comment through the moderation phases.
-  const {
-    body,
-    status,
-    metadata,
-    actions,
-    embeds,
-  } = await processForModeration({
-    log,
-    mongo,
-    redis,
-    config,
-    action: "EDIT",
-    tenant,
-    story,
-    comment: {
-      ...originalStaleComment,
-      ...input,
-      authorID: author.id,
-    },
-    author,
-    req,
-    now,
-  });
+  const { body, status, metadata, actions, embed } = await processForModeration(
+    {
+      log,
+      mongo,
+      redis,
+      config,
+      action: "EDIT",
+      tenant,
+      story,
+      comment: {
+        ...originalStaleComment,
+        ...input,
+        authorID: author.id,
+        embed: commentEmbed,
+      },
+      author,
+      req,
+      now,
+    }
+  );
 
   let actionCounts: EncodedCommentActionCounts = {};
   if (actions.length > 0) {
@@ -145,7 +153,7 @@ export default async function edit(
       metadata,
       actionCounts,
       lastEditableCommentCreatedAt,
-      embeds: embeds || [],
+      embed: embed || null,
     },
     now
   );

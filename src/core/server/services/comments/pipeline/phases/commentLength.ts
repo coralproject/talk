@@ -14,7 +14,7 @@ export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
   comment,
-  embeds,
+  embed,
 }): IntermediatePhaseResult | void => {
   const length = bodyText.length;
   let min: number | null = null;
@@ -32,16 +32,14 @@ export const commentLength: IntermediateModerationPhase = ({
     min = 1;
   }
 
-  const embed = embeds && embeds.length > 0 ? embeds[0] : null;
-
   if (
-    !(embed && embed.source === "GIPHY" && supportsEmbedType(tenant, "giphy"))
+    !(embed && embed.type === "giphy" && supportsEmbedType(tenant, "giphy"))
   ) {
     if (length < min) {
       throw new CommentBodyTooShortError(min);
     }
-    if (max && length > max) {
-      throw new CommentBodyExceedsMaxLengthError(max);
-    }
+  }
+  if (max && length > max) {
+    throw new CommentBodyExceedsMaxLengthError(max);
   }
 };

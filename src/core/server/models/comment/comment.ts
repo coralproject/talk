@@ -35,7 +35,7 @@ import {
 import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
-import { CommentEmbed, Revision } from "./revision";
+import { Revision } from "./revision";
 import { CommentTag } from "./tag";
 
 /**
@@ -146,10 +146,8 @@ export type CreateCommentInput = Omit<
   | "deletedAt"
 > &
   Required<Pick<Revision, "body">> &
-  Pick<Revision, "metadata"> &
-  Partial<Pick<Comment, "actionCounts" | "siteID">> & {
-    embeds: CommentEmbed[];
-  };
+  Pick<Revision, "metadata" | "embed"> &
+  Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
 export async function createComment(
   mongo: Db,
@@ -158,7 +156,7 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, embeds, ...rest } = input;
+  const { body, actionCounts = {}, metadata, embed, ...rest } = input;
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -167,7 +165,7 @@ export async function createComment(
     actionCounts,
     metadata,
     createdAt: now,
-    embeds,
+    embed,
   };
 
   // default are the properties set by the application when a new comment is
@@ -229,10 +227,8 @@ export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
    * `editCommentWindowLength` property.
    */
   lastEditableCommentCreatedAt: Date;
-} & Required<Pick<Revision, "body" | "metadata">> &
-  Partial<Pick<Comment, "actionCounts">> & {
-    embeds?: CommentEmbed[];
-  };
+} & Required<Pick<Revision, "body" | "metadata" | "embed">> &
+  Partial<Pick<Comment, "actionCounts">>;
 
 // Only comments with the following status's can be edited.
 const EDITABLE_STATUSES = [
@@ -303,7 +299,7 @@ export async function editComment(
     status,
     authorID,
     metadata,
-    embeds,
+    embed,
     actionCounts = {},
   } = input;
 
@@ -313,7 +309,7 @@ export async function editComment(
     actionCounts,
     metadata,
     createdAt: now,
-    embeds: embeds || [],
+    embed,
   };
 
   const update: Record<string, any> = {

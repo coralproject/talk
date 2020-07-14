@@ -181,7 +181,8 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             body
             createdAt
             revision {
-              embeds {
+              embed {
+                __typename
                 url
                 source
               }

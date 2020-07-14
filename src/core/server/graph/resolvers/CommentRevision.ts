@@ -17,5 +17,5 @@ export const CommentRevision: Required<GQLCommentRevisionTypeResolver<
   // Defaults to an empty object if not set on the revision.
   metadata: (w) => w.revision.metadata || {},
   createdAt: (w) => w.revision.createdAt,
-  embeds: (w) => w.revision.embeds || [],
+  embed: (w) => w.revision.embed,
 };

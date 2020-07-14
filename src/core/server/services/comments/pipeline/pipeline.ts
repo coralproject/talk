@@ -57,7 +57,7 @@ export interface PhaseResult {
    */
   tags: GQLTAG[];
 
-  embeds?: CommentEmbed[];
+  embed?: CommentEmbed | null;
 }
 
 export interface ModerationPhaseContextInput {
@@ -67,7 +67,12 @@ export interface ModerationPhaseContextInput {
   log: Logger;
   story: Story;
   tenant: Tenant;
-  comment: RequireProperty<Partial<CreateCommentInput>, "body" | "ancestorIDs">;
+  comment: RequireProperty<
+    Partial<Omit<CreateCommentInput, "embed">>,
+    "body" | "ancestorIDs"
+  > & {
+    embed: CommentEmbed | null;
+  };
   author: User;
   now: Date;
   action: "NEW" | "EDIT";
@@ -81,7 +86,7 @@ export interface ModerationPhaseContext extends ModerationPhaseContextInput {
    */
   bodyText: string;
 
-  embeds?: CommentEmbed[];
+  embed?: CommentEmbed | null;
 }
 
 export type RootModerationPhase = (
@@ -110,7 +115,7 @@ export const compose = (
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
-    embeds: context.comment.embeds,
+    embed: context.comment.embed,
     actions: [],
     metadata: {
       // Merge in the passed comment metadata.
@@ -134,7 +139,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
-      embeds: final.embeds,
+      embed: final.embed,
       tags: final.tags,
       bodyText,
       metadata: final.metadata,
