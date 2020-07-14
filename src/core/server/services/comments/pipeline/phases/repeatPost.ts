@@ -40,11 +40,13 @@ export const repeatPost: IntermediateModerationPhase = async ({
       author
     );
 
-    if (!lastComment || action === "EDIT") {
+    if (!lastComment) {
       // The last comment can't been found or none was written within the
       // time frame.
       return;
     }
+
+    // TODO (tessalt): ignore embed similarity if text is different?
 
     const revision = getLatestRevision(lastComment);
 
