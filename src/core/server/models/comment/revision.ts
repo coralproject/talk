@@ -1,7 +1,7 @@
 import { findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
+import { WrappedInternalError } from "coral-server/errors";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { supportsEmbedType, Tenant } from "coral-server/models/tenant";
-import { WrappedInternalError } from "coral-server/errors";
 import {
   ratingIsAllowed,
   retrieveFromGiphy,
