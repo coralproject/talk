@@ -1,6 +1,6 @@
 import { createFetch } from "coral-server/services/fetch";
 
-const fetchURL = (url: string, type: string) => {
+const fetchURL = (url: string, type: "twitter" | "youtube") => {
   if (type === "twitter") {
     return `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
   }
@@ -11,8 +11,8 @@ const fetchURL = (url: string, type: string) => {
   return "";
 };
 
-export function fetchOembedResponse(url: string, type: string) {
-  const fetch = createFetch({ name: "oembed-fetch" });
+const fetch = createFetch({ name: "oembed-fetch" });
 
+export function fetchOembedResponse(url: string, type: "twitter" | "youtube") {
   return fetch(fetchURL(url, type));
 }
