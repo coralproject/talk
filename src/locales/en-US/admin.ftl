@@ -898,6 +898,7 @@ moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
 moderate-comment-moderatedBy = Moderated By
 moderate-comment-moderatedBySystem = System
+moderate-comment-play-gif = Play GIF
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

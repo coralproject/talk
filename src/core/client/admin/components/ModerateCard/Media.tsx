@@ -44,8 +44,8 @@ const Media: FunctionComponent<Props> = ({
               <Icon size="xl" className={styles.playIcon}>
                 play_circle_outline
               </Icon>
-              <Localized id="moderate-comment-play-tif">
-                <p className={styles.playText}>Play gif</p>
+              <Localized id="moderate-comment-play-gif">
+                <p className={styles.playText}>Play GIF</p>
               </Localized>
             </Flex>
           </BaseButton>
