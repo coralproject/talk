@@ -1,6 +1,7 @@
 import { findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { supportsEmbedType, Tenant } from "coral-server/models/tenant";
+import { WrappedInternalError } from "coral-server/errors";
 import {
   ratingIsAllowed,
   retrieveFromGiphy,
@@ -135,7 +136,7 @@ async function attachGiphyEmbed(
       return null;
     }
   } catch (error) {
-    throw new Error("Cannot attach gif");
+    throw new WrappedInternalError(error, "Cannot attach gif");
   }
 }
 
