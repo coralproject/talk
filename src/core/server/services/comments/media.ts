@@ -25,7 +25,7 @@ async function attachGiphyMedia(
     }
 
     // Check to see if the rating is allowed.
-    if (!data.rating || ratingIsAllowed(data.rating, tenant)) {
+    if (!data.rating || !ratingIsAllowed(data.rating, tenant)) {
       return;
     }
 

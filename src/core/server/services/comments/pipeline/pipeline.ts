@@ -133,7 +133,6 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
-      media: final.media,
       tags: final.tags,
       bodyText,
       metadata: final.metadata,
