@@ -53,14 +53,14 @@ export interface TwitterMedia {
   width?: number;
 }
 
-export interface YoutubeMedia {
+export interface YouTubeMedia {
   type: "youtube";
   url: string;
   width?: number;
   height?: number;
 }
 
-export type CommentMedia = GiphyMedia | TwitterMedia | YoutubeMedia;
+export type CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia;
 
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to

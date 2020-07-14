@@ -1,81 +1,55 @@
-import { createFetch } from "coral-server/services/fetch";
-import { Request, RequestHandler } from "coral-server/types/express";
+import Joi from "@hapi/joi";
+import { stripIndent } from "common-tags";
 
-const fetchURL = (
-  url: string,
-  type: "twitter" | "youtube",
-  query: Request["query"]
-) => {
-  if (type === "twitter") {
-    const suffix = query.maxWidth ? `&maxWidth=${query.maxWidth}` : "";
-    return `https://publish.twitter.com/oembed?url=${encodeURIComponent(
-      url
-    )}${suffix}`;
-  }
-  if (type === "youtube") {
-    return `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
-  }
+import { validate } from "coral-server/app/request/body";
+import { supportsMediaType } from "coral-server/models/tenant";
+import { fetchOEmbedResponse } from "coral-server/services/oembed";
+import { RequestHandler } from "coral-server/types/express";
 
-  return "";
+const createNotFoundMessage = (type: "twitter" | "youtube") => {
+  switch (type) {
+    case "twitter":
+      return "Tweet could not be found. Perhaps it was deleted?";
+    case "youtube":
+      return "YouTube video could not be found. Perhaps it was deleted?";
+    default:
+      throw new Error(`invalid type provided: ${type}`);
+  }
 };
 
-const createNotFoundMessage = (type: string) => {
-  if (type === "twitter") {
-    return "Tweet could not be found. Perhaps it was deleted?";
-  }
-  if (type === "youtube") {
-    return "YouTube video could not be found. Perhaps it was deleted?";
-  }
+const OEmbedQuerySchema = Joi.object().keys({
+  url: Joi.string().uri().required(),
+  type: Joi.string().allow("twitter", "youtube").only(),
+  maxWidth: Joi.number().optional(),
+});
 
-  return null;
-};
-
-const fetch = createFetch({ name: "oembed-fetch" });
+interface OEmbedQuery {
+  type: "twitter" | "youtube";
+  url: string;
+  maxWidth?: number;
+}
 
 export const oembedHandler = (): RequestHandler => {
   // TODO: add some kind of rate limiting or spam protection
-  // on this endpoint
   return async (req, res, next) => {
     // Tenant is guaranteed at this point.
     const coral = req.coral!;
     const tenant = coral.tenant!;
 
     try {
-      const url = req.query.url;
-      const type = req.query.type;
+      const { type, url, maxWidth }: OEmbedQuery = validate(
+        OEmbedQuerySchema,
+        req.query
+      );
 
-      if (!url || !type) {
+      if (!supportsMediaType(tenant, type)) {
         res.sendStatus(400);
         return;
       }
 
-      if (type !== "youtube" && type !== "twitter") {
-        res.sendStatus(400);
-        return;
-      }
-
-      if (
-        type === "youtube" &&
-        (!tenant.media ||
-          !tenant.media.youtube ||
-          !tenant.media.youtube.enabled)
-      ) {
-        res.sendStatus(400);
-        return;
-      }
-
-      if (
-        type === "twitter" &&
-        (!tenant.media ||
-          !tenant.media.twitter ||
-          !tenant.media.twitter.enabled)
-      ) {
-        res.sendStatus(400);
-        return;
-      }
-      const response = await fetch(fetchURL(url, type, req.query));
-
-      if (!response.ok && response.status === 404) {
+      // Get the oEmbed response.
+      const response = await fetchOEmbedResponse(type, url, maxWidth);
+      if (response === null || !response.html) {
         res.status(404);
         res.send(
           `<html>
@@ -85,12 +59,11 @@ export const oembedHandler = (): RequestHandler => {
           <html>`
         );
         return;
-      } else if (!response.ok) {
-        next(new Error("unable to retrieve embed"));
-        return;
       }
 
-      const json = await response.json();
+      const { width, height, html } = response;
+
+      // Compile the style to be used for the embed.
       let style = `
           body {
             margin: 0;
@@ -99,14 +72,12 @@ export const oembedHandler = (): RequestHandler => {
             margin: 0!important;
           }
       `;
-      if (json.width && json.height) {
+      if (width && height) {
         style += `
           .container {
             overflow: hidden;
             position: relative;
-            padding-bottom: ${
-              (parseInt(json.height, 10) / parseInt(json.width, 10)) * 100
-            }%;
+            padding-bottom: ${(height / width) * 100}%;
           }
           .container iframe {
             border: 0;
@@ -119,15 +90,15 @@ export const oembedHandler = (): RequestHandler => {
         `;
       }
 
-      res.status(200);
+      // Send back the HTML for the oEmbed.
       res.send(
-        `<html>
+        stripIndent`<html>
           <style>
-          ${style}
+            ${style}
           </style>
             <body>
               <div class="container">
-              ${json.html}
+                ${html}
               </div>
             </body>
           <html>`

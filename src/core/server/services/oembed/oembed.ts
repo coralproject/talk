@@ -1,18 +1,65 @@
+import Joi from "@hapi/joi";
+
+import { InternalError } from "coral-server/errors";
+import { validateSchema } from "coral-server/helpers";
 import { createFetch } from "coral-server/services/fetch";
 
-const fetchURL = (url: string, type: "twitter" | "youtube") => {
-  if (type === "twitter") {
-    return `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
+const OEmbedResponseSchema = Joi.object().keys({
+  width: Joi.number().optional(),
+  height: Joi.number().optional(),
+  html: Joi.string().optional(),
+});
+
+interface OEmbedResponse {
+  width?: number;
+  height?: number;
+  html: string;
+}
+
+const fetch = createFetch({ name: "oEmbed-fetch" });
+
+export async function fetchOEmbedResponse(
+  type: "twitter" | "youtube",
+  url: string,
+  maxWidth?: number
+) {
+  let uri: string;
+
+  switch (type) {
+    case "youtube": {
+      uri = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
+
+      if (maxWidth) {
+        uri += `maxWidth=${encodeURIComponent(maxWidth)}`;
+      }
+
+      break;
+    }
+    case "twitter": {
+      uri = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
+
+      break;
+    }
+    default:
+      throw new Error(`invalid oEmbed type: ${type}`);
   }
-  if (type === "youtube") {
-    return `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
+
+  const res = await fetch(uri);
+  if (!res.ok) {
+    if (res.status === 404) {
+      return null;
+    }
+
+    throw new InternalError("response from oEmbed was not ok", {
+      type,
+      uri,
+      status: res.status,
+    });
   }
 
-  return "";
-};
+  // Parse the json from the oEmbed response.
+  const json = await res.json();
 
-const fetch = createFetch({ name: "oembed-fetch" });
-
-export function fetchOembedResponse(url: string, type: "twitter" | "youtube") {
-  return fetch(fetchURL(url, type));
+  // Validate and return the response.
+  return validateSchema<OEmbedResponse>(OEmbedResponseSchema, json);
 }

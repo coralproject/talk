@@ -3587,8 +3587,8 @@ type CreateCommentPayload {
 
 input CreateCommentMediaInput {
   type: String!
+  id: String
   url: String!
-  remoteID: String
 }
 
 ##################

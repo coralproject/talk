@@ -20,7 +20,7 @@ import styles from "./PostCommentForm.css";
 interface MediaProps {
   type: "twitter" | "youtube" | "giphy";
   url: string;
-  remoteID: string | null;
+  id: string | null;
 }
 
 interface FormProps {

@@ -7,6 +7,8 @@ import {
   GiphyGifRetrieveResponse,
   GiphyGifSearchResponse,
 } from "coral-common/rest/external/giphy";
+import { InternalError } from "coral-server/errors";
+import { validateSchema } from "coral-server/helpers";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 
@@ -89,27 +91,13 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
   }
 }
 
-export function validateSearchResponse(body: object): GiphyGifSearchResponse {
-  const { value, error: err } = GiphySearchResponseSchema.validate(body, {
-    stripUnknown: true,
-    presence: "optional",
-    abortEarly: false,
-  });
-
-  if (err) {
-    throw err;
-  }
-
-  return value;
-}
-
 export async function searchGiphy(
   query: string,
   offset: string,
   tenant: Tenant
-) {
+): Promise<GiphyGifSearchResponse> {
   if (!supportsMediaType(tenant, "giphy")) {
-    throw new Error("Must configure GIPHY integration with API key");
+    throw new InternalError("Giphy was not enabled");
   }
 
   const language = convertLanguage(tenant.locale);
@@ -123,19 +111,15 @@ export async function searchGiphy(
 
   try {
     const res = await fetch(url.toString());
-
     if (!res.ok) {
-      return {
-        ok: res.ok,
+      throw new InternalError("response from Giphy was not ok", {
         status: res.status,
-        data: null,
-      };
+      });
     }
 
     // Parse the JSON body and send back the result!
     const data = await res.json();
-
-    return validateSearchResponse(data);
+    return validateSchema(GiphySearchResponseSchema, data);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
@@ -150,39 +134,28 @@ export async function searchGiphy(
   }
 }
 
-export function validateRetrieveResponse(
-  body: object
-): GiphyGifRetrieveResponse {
-  const { value, error: err } = GiphyRetrieveResponseSchema.validate(body, {
-    stripUnknown: true,
-    presence: "optional",
-    abortEarly: false,
-  });
-
-  if (err) {
-    throw err;
-  }
-
-  return value;
-}
-
-export async function retrieveFromGiphy(id: string, tenant: Tenant) {
+export async function retrieveFromGiphy(
+  tenant: Tenant,
+  id: string
+): Promise<GiphyGifRetrieveResponse> {
   if (!supportsMediaType(tenant, "giphy")) {
-    throw new Error("Must configure GIPHY integration with API key");
+    throw new InternalError("Giphy was not enabled");
   }
 
   const url = new URL(`${GIPHY_FETCH}/${id}`);
   url.searchParams.set("api_key", tenant.media.giphy.key!);
+
   try {
     const res = await fetch(url.toString());
-
     if (!res.ok) {
-      throw new Error("unable to fetch");
+      throw new InternalError("response from Giphy was not ok", {
+        status: res.status,
+      });
     }
 
-    const result = await res.json();
-
-    return validateRetrieveResponse(result);
+    // Parse the JSON body and send back the result!
+    const data = await res.json();
+    return validateSchema(GiphyRetrieveResponseSchema, data);
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {

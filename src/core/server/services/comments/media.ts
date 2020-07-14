@@ -1,76 +1,123 @@
 import { findMediaLinks } from "coral-common/helpers/findMediaLinks";
 import { WrappedInternalError } from "coral-server/errors";
-import { GiphyMedia } from "coral-server/models/comment";
+import {
+  GiphyMedia,
+  TwitterMedia,
+  YouTubeMedia,
+} from "coral-server/models/comment";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import {
   ratingIsAllowed,
   retrieveFromGiphy,
 } from "coral-server/services/giphy";
-import { fetchOembedResponse } from "coral-server/services/oembed";
+import { fetchOEmbedResponse } from "coral-server/services/oembed";
 
 async function attachGiphyMedia(
+  tenant: Tenant,
   id: string,
-  url: string,
-  tenant: Tenant
+  url: string
 ): Promise<GiphyMedia | undefined> {
   try {
-    const { data } = await retrieveFromGiphy(id, tenant);
-    if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
-      return {
-        type: "giphy",
-        id,
-        url,
-        title: data.title,
-        width: parseInt(data.images.original.width, 10),
-        height: parseInt(data.images.original.height, 10),
-        original: data.url,
-        still: data.images.original_still.url,
-        video: data.images.original.mp4,
-      };
-    } else {
+    // Get the response from Giphy.
+    const { data } = await retrieveFromGiphy(tenant, id);
+    if (!data) {
       return;
     }
-  } catch (error) {
-    throw new WrappedInternalError(error, "cannot attach gif");
+
+    // Check to see if the rating is allowed.
+    if (!data.rating || ratingIsAllowed(data.rating, tenant)) {
+      return;
+    }
+
+    // Parse some of the parameters.
+    const width = parseInt(data.images.original.width, 10);
+    const height = parseInt(data.images.original.height, 10);
+
+    // Return the formed Giphy Media.
+    return {
+      type: "giphy",
+      id,
+      url,
+      title: data.title,
+      width,
+      height,
+      original: data.url,
+      still: data.images.original_still.url,
+      video: data.images.original.mp4,
+    };
+  } catch (err) {
+    throw new WrappedInternalError(err, "cannot attach Giphy Media");
+  }
+}
+
+async function attachOEmbedMedia(
+  type: "twitter" | "youtube",
+  url: string,
+  body: string
+): Promise<YouTubeMedia | TwitterMedia | undefined> {
+  // Find all the media links in the body.
+  const links = findMediaLinks(body);
+  if (!links) {
+    return;
+  }
+
+  // Ensure that the link that we're attaching matches the link found in the
+  // body.
+  const found = links.find((link) => link.type === type && link.url === url);
+  if (!found) {
+    return;
+  }
+
+  try {
+    // Get the oEmbed response to save.
+    const res = await fetchOEmbedResponse(type, url);
+    if (!res) {
+      return;
+    }
+
+    // Extract the response.
+    const { width, height } = res;
+
+    // Return the formed oEmbed Media.
+    return {
+      type,
+      url,
+      width,
+      height,
+    };
+  } catch (err) {
+    throw new WrappedInternalError(err, "cannot attach oEmbed Media");
   }
 }
 
 export interface CreateCommentMediaInput {
   type: "giphy" | "twitter" | "youtube";
   url: string;
-  remoteID?: string;
+  id?: string;
 }
 
 export async function attachMedia(
+  tenant: Tenant,
   input: CreateCommentMediaInput,
-  body: string,
-  tenant: Tenant
+  body: string
 ) {
-  if (
-    supportsMediaType(tenant, "giphy") &&
-    input.type === "giphy" &&
-    input.remoteID
-  ) {
-    return attachGiphyMedia(input.remoteID, input.url, tenant);
-  } else if (input.type === "twitter" || input.type === "youtube") {
-    const foundLinks = findMediaLinks(body);
-    const matchingLink = foundLinks.find((link) => {
-      return link.url === input.url;
-    });
-    if (matchingLink) {
-      const response = await fetchOembedResponse(input.url, input.type);
-
-      if (response.ok) {
-        const json = await response.json();
-        return {
-          type: input.type,
-          url: matchingLink.url,
-          width: json.width,
-          height: json.height,
-        };
-      }
-    }
+  if (!supportsMediaType(tenant, input.type)) {
+    return;
   }
 
-  return;
+  switch (input.type) {
+    case "giphy":
+      if (!input.id) {
+        throw new Error(
+          "id is required when attaching a GiphyMedia object to a comment"
+        );
+      }
+
+      return attachGiphyMedia(tenant, input.id, input.url);
+    case "twitter":
+    case "youtube":
+      return attachOEmbedMedia(input.type, input.url, body);
+    default:
+      throw new Error("invalid media type");
+  }
 }

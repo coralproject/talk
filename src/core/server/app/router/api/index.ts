@@ -4,6 +4,7 @@ import passport from "passport";
 import { AppOptions } from "coral-server/app";
 import { graphQLHandler } from "coral-server/app/handlers";
 import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
+import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
@@ -53,7 +54,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
 
-  router.get("/oembed", oembedHandler());
+  router.get("/oembed", cspSiteMiddleware(app), oembedHandler());
 
   // Configure the GraphQL route.
   router.use(

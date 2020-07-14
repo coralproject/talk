@@ -47,7 +47,7 @@ export interface PasteEvent {
 interface MediaProps {
   type: "giphy" | "twitter" | "youtube";
   url: string;
-  remoteID: string | null;
+  id: string | null;
 }
 
 interface FormProps {
@@ -239,9 +239,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   )}
                 </Field>
                 <Field name="media.type">{() => <input type="hidden" />}</Field>
-                <Field name="media.remoteID">
-                  {() => <input type="hidden" />}
-                </Field>
+                <Field name="media.id">{() => <input type="hidden" />}</Field>
                 <Field name="media.url">
                   {(fieldProps) => (
                     <div>
@@ -253,10 +251,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                 "media.type",
                                 "giphy"
                               );
-                              form.mutators.setFieldValue(
-                                "media.remoteID",
-                                gif.id
-                              );
+                              form.mutators.setFieldValue("media.id", gif.id);
                               fieldProps.input.onChange(
                                 gif.images.original.url
                               );
@@ -301,10 +296,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             onRemove={() => {
                               fieldProps.input.onChange(null);
                               form.mutators.setFieldValue("media.type", null);
-                              form.mutators.setFieldValue(
-                                "media.remoteID",
-                                null
-                              );
+                              form.mutators.setFieldValue("media.id", null);
                             }}
                           />
                         )}
