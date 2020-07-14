@@ -80,7 +80,7 @@ async function attachOEmbedMedia(
 
     // If the type is YouTube, ensure that the thumbnail url is provided.
     if (type === "youtube") {
-      if (!thumbnail_url) {
+      if (!thumbnail_url || height === null) {
         return;
       }
 
