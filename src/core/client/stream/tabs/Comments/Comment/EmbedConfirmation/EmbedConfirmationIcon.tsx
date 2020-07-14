@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { Icon } from "coral-ui/components/v2";
 
-import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
+import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
 import styles from "./EmbedConfirmationIcon.css";
 import twitterImg from "./twitter.png";
 
@@ -13,8 +13,8 @@ interface Props {
 const EmbedConfirmationIcon: FunctionComponent<Props> = ({ embed }) => {
   return (
     <>
-      {embed.source === "YOUTUBE" && <Icon>ondemand_video</Icon>}
-      {embed.source === "TWITTER" && (
+      {embed.type === "youtube" && <Icon>ondemand_video</Icon>}
+      {embed.type === "twitter" && (
         <img className={styles.twitterIcon} src={twitterImg} alt="twitter" />
       )}
     </>

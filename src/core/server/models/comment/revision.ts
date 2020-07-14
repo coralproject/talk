@@ -1,4 +1,4 @@
-import { findEmbedLinks } from "coral-server/app/helpers/findEmbedLinks";
+import { findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { supportsEmbedType, Tenant } from "coral-server/models/tenant";
 import {

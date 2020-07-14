@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { EmbedLink } from "coral-framework/helpers/findEmbedLinks";
+import { EmbedLink } from "coral-common/helpers/findEmbedLinks";
 import EmbedConfirmPrompt from "./EmbedConfirmPrompt";
 import EmbedPreview from "./EmbedPreview";
 

@@ -11,10 +11,7 @@ import React, {
 } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
-import {
-  EmbedLink,
-  findEmbedLinks,
-} from "coral-framework/helpers/findEmbedLinks";
+import { EmbedLink, findEmbedLinks } from "coral-common/helpers/findEmbedLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { GQLEMBED_SOURCE_RL } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
@@ -127,10 +124,10 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     if (
       link &&
       props.embedConfig &&
-      ((link.source === "TWITTER" &&
+      ((link.type === "twitter" &&
         props.embedConfig.twitter &&
         props.embedConfig.twitter.enabled) ||
-        (link.source === "YOUTUBE" &&
+        (link.type === "youtube" &&
           props.embedConfig.youtube &&
           props.embedConfig.youtube.enabled))
     ) {
@@ -142,7 +139,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     (setField: (name: string, value: string) => void) => {
       if (embedLink) {
         setField("embed.url", embedLink.url);
-        setField("embed.source", embedLink.source);
+        setField("embed.source", embedLink.type);
         setEmbedLink(null);
       }
     },
