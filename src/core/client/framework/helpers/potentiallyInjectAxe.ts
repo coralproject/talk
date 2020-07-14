@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
+
 import { getBrowserInfo } from "../lib/browserInfo";
 import { areWeInIframe } from "../utils";
 

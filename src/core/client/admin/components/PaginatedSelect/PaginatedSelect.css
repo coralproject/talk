@@ -1,5 +1,5 @@
 .root {
-  margin-top: var(--v2-spacing-2);
+  margin-top: var(--spacing-2);
 }
 
 .dropdown {
@@ -15,18 +15,18 @@
 }
 
 .button {
-  color: var(--v2-colors-mono-500) !important;
+  color: var(--palette-text-500) !important;
   border-width: 0;
   width: calc(20 * var(--mini-unit));
-  margin-right: calc(var(--v2-spacing-1) / 2);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-min);
+  margin-right: calc(var(--spacing-1) / 2);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-min);
   justify-content: space-between;
 }
 
 .buttonIconLeft {
   width: 20px;
-  margin-right: calc(var(--v2-spacing-1) / 2);
+  margin-right: calc(var(--spacing-1) / 2);
 }
 
 .buttonIconRight {

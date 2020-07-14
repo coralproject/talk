@@ -1,5 +1,5 @@
 .root {
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 
   display: flex;
   flex-direction: row;
@@ -16,34 +16,34 @@
   flex-wrap: wrap;
   justify-content: space-between;
 
-  margin-bottom: var(--v2-spacing-1);
+  margin-bottom: var(--spacing-1);
 }
 
 .username {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .email {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 }
 
 .removeIcon {
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .removeButton {
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-2);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
 }

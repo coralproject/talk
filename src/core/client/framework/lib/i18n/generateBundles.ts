@@ -1,7 +1,7 @@
 import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
-import { LocalesData } from "./locales";
 
 import * as functions from "./functions";
+import { LocalesData } from "./locales";
 
 // Don't warn in production.
 let decorateWarnMissing = (bundle: FluentBundle) => bundle;

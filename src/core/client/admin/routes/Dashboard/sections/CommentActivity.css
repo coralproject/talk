@@ -1,11 +1,11 @@
 .heading {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
 }
 
 .chart {
-  font-family: var(--v2-font-family-primary);
+  font-family: var(--font-family-primary);
 }
 
 .loader {
@@ -13,16 +13,16 @@
 }
 
 .legend {
-  color: var(--v2-colors-coral-500);
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  color: $colors-coral-500;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
   margin-bottom: 0;
   position: relative;
-  padding-left: var(--v2-spacing-6);
+  padding-left: var(--spacing-6);
   &:before {
     width: 24px;
     height: 1px;
-    background: var(--v2-colors-coral-500);
+    background: $colors-coral-500;
     content: "";
     position: absolute;
     left: 0;

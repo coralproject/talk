@@ -1,9 +1,9 @@
-$moderateCardButtonOutlineApproveColor: var(--v2-colors-green-500);
+$moderateCardButtonOutlineApproveColor: var(--palette-positive-500);
 
 .root {
   border: 1px solid $moderateCardButtonOutlineApproveColor;
   box-sizing: border-box;
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
   width: 65px;
   height: 50px;
   display: flex;
@@ -12,16 +12,27 @@ $moderateCardButtonOutlineApproveColor: var(--v2-colors-green-500);
   color: $moderateCardButtonOutlineApproveColor;
   &:not(:disabled):active {
     background-color: $moderateCardButtonOutlineApproveColor;
-    color: var(--v2-colors-pure-white);
+    color: var(--palette-text-000);
+  }
+}
+
+.readOnly {
+  background-color: transparent;
+  border-color: $colors-grey-300);
+  color: $colors-grey-300);
+
+  &:hover {
+    cursor: not-allowed;
   }
 }
 
 .invert {
   background-color: $moderateCardButtonOutlineApproveColor;
-  color: var(--v2-colors-pure-white);
+  border-color: $moderateCardButtonOutlineApproveColor;
+  color: var(--palette-text-000);
 }
 
 .icon {
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
   color: inherit;
 }

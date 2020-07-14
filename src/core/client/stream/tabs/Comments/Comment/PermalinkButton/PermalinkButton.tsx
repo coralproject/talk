@@ -2,14 +2,17 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import {
-  Button,
   ClickOutside,
+  Flex,
   Icon,
   MatchMedia,
   Popover,
 } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PermalinkPopover from "./PermalinkPopover";
+
+import styles from "./PermalinkButton.css";
 
 interface PermalinkProps {
   commentID: string;
@@ -53,18 +56,21 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
               onClick={toggleVisibility}
               aria-controls={popoverID}
               ref={ref}
-              variant="text"
               active={visible}
-              size="regular"
-              color="mono"
-              className={className}
+              variant="flat"
+              color="secondary"
+              fontSize="small"
+              fontWeight="semiBold"
+              paddingSize="extraSmall"
             >
-              <Icon>share</Icon>
-              <MatchMedia gtWidth="xs">
-                <Localized id="comments-permalinkButton-share">
-                  <span>Share</span>
-                </Localized>
-              </MatchMedia>
+              <Flex alignItems="center" container="span">
+                <Icon className={styles.icon}>share</Icon>
+                <MatchMedia gtWidth="xs">
+                  <Localized id="comments-permalinkButton-share">
+                    <span>Share</span>
+                  </Localized>
+                </MatchMedia>
+              </Flex>
             </Button>
           </Localized>
         )}

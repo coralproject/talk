@@ -2,7 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  parseInteger,
+} from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -97,6 +101,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
                           required,
                           validateWholeNumberGreaterThan(0)
                         )}
+                        parse={parseInteger}
                       >
                         {({ input, meta }) => (
                           <>

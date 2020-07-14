@@ -8,30 +8,29 @@
 
   padding-left: 0;
   padding-right: 0;
-  padding-top: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
 
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .loadMore {
-  margin-top: var(--v2-spacing-1);
+  margin-top: var(--spacing-1);
 
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
 
   width: 100%;
 }
 
 .noneFound {
   width: 100%;
-  padding-top: var(--v2-spacing-2);
+  padding-top: var(--spacing-2);
 
   text-align: center;
 
-  color: var(--palette-text-dark);
-  font-size: calc(16rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  color: var(--palette-text-900);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
   line-height: 1.375em;
-  letter-spacing: 0.0125em;
 }

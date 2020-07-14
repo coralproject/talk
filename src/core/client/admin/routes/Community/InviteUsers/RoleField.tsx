@@ -3,9 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
-import { FieldSet, RadioButton } from "coral-ui/components/v2";
-
-import styles from "./RoleField.css";
+import { FieldSet, Label, RadioButton } from "coral-ui/components/v2";
 
 interface Props {
   disabled: boolean;
@@ -14,7 +12,7 @@ interface Props {
 const RoleField: FunctionComponent<Props> = ({ disabled }) => (
   <FieldSet>
     <Localized id="community-invite-inviteAsLabel">
-      <legend className={styles.legend}>Invite as:</legend>
+      <Label>Invite as:</Label>
     </Localized>
     <div>
       <Field name="role" type="radio" value={GQLUSER_ROLE.STAFF}>

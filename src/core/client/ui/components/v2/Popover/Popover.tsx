@@ -3,12 +3,12 @@ import React from "react";
 import { Manager, Popper, Reference } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
+import { AriaInfo } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-import { AriaInfo } from "coral-ui/components";
-
 import Arrow from "./Arrow";
+
 import styles from "./Popover.css";
 
 type Placement =
@@ -40,7 +40,13 @@ interface ChildrenRenderProps {
 }
 
 interface PopoverProps {
-  body: (props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>;
+  /**
+   * body supports render props from the body or a react node itself.
+   */
+  body:
+    | ((props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>)
+    | React.ReactNode
+    | React.ReactElement<any>;
   children: (props: ChildrenRenderProps) => React.ReactNode;
   description?: string;
   id: string;

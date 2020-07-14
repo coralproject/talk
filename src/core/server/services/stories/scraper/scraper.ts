@@ -189,9 +189,7 @@ export async function scrape(
     storyURL = retrievedStory.url;
   }
 
-  // This typecast is needed because the custom `ms` format does not return the
-  // desired `number` type even though that's the only type it can output.
-  const timeout = (config.get("scrape_timeout") as unknown) as number;
+  const timeout = config.get("scrape_timeout");
   const size = config.get("scrape_max_response_size");
 
   // Get the metadata from the scraped html.

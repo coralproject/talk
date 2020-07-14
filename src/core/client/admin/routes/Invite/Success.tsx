@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 
 import { parseAccessTokenClaims } from "coral-framework/lib/auth/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter, Typography } from "coral-ui/components/v2";
 
 import styles from "./Success.css";
 

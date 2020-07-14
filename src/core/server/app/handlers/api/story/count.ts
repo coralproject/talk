@@ -1,14 +1,11 @@
-// import createDOMPurify from "dompurify";
-// import { JSDOM } from "jsdom";
-
 import { AppOptions } from "coral-server/app";
 import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
 import { translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler } from "coral-server/types/express";
 
-const NUMBER_CLASSNAME = "coral-count-number";
-const TEXT_CLASSNAME = "coral-count-text";
+const NUMBER_CLASS_NAME = "coral-count-number";
+const TEXT_CLASS_NAME = "coral-count-text";
 
 export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache" | "i18n">;
 
@@ -36,18 +33,18 @@ export const countHandler = ({
     let html = "";
     if (req.query.notext === "true") {
       // We only need the count without the text.
-      html = `<span class="${NUMBER_CLASSNAME}">${count}</span>`;
+      html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
     } else {
       // Use translated string.
       const bundle = i18n.getBundle(tenant.locale);
       html = translate(
         bundle,
-        `<span class="${NUMBER_CLASSNAME}">${count}</span> <span class="${TEXT_CLASSNAME}">Comments</span>`,
+        `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
         "comment-count",
         {
           number: count,
-          numberClass: NUMBER_CLASSNAME,
-          textClass: TEXT_CLASSNAME,
+          numberClass: NUMBER_CLASS_NAME,
+          textClass: TEXT_CLASS_NAME,
         }
       );
     }

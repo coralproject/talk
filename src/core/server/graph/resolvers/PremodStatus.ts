@@ -1,5 +1,6 @@
-import { GQLPremodStatusTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as user from "coral-server/models/user";
+
+import { GQLPremodStatusTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export type PremodStatusInput = user.ConsolidatedPremodStatus & {
   userID: string;

@@ -2,7 +2,6 @@ import DataLoader from "dataloader";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 import logger, { Logger } from "coral-server/logger";
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";
@@ -15,6 +14,8 @@ import {
 } from "coral-server/models/user";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 

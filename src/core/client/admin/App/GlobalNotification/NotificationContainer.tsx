@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+
 import useNotification from "./useNotification";
 
 const NotificationContainer: FunctionComponent<{}> = () => {

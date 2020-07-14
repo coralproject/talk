@@ -8,26 +8,26 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  right: var(--v2-spacing-2);
+  right: var(--spacing-2);
   height: 100%;
   user-select: none;
   pointer-events: none;
 }
 
 .keyboardFocus:focus {
-  outline: 1px solid var(--v2-palette-input-focused-border);
-  border: 1px solid var(--v2-palette-input-focused-border);
+  outline: 1px solid $colors-teal-500;
+  border: 1px solid $colors-teal-500;
 }
 
 .selectFont {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
 }
 
 .selectColor {
-  color: var(--v2-palette-input-value);
+  color: var(--palette-text-500);
 }
 
 .select {
@@ -48,14 +48,15 @@
   }
 
   &:disabled {
-    background-color: var(--v2-palette-input-disabled-background);
+    background-color: var(--palette-background-input-disabled);
+    color: var(--palette-text-input-disabled);
   }
 
   border-radius: var(--round-corners);
-  background-color: var(--v2-palette-input-background);
-  border: 1px solid var(--v2-palette-input-border);
-  padding: calc(var(--v2-spacing-2) - 2px) var(--v2-spacing-6)
-    calc(var(--v2-spacing-2) - 2px) var(--v2-spacing-2);
+  background-color: var(--palette-background-input);
+  border: 1px solid var(--palette-grey-500);
+  padding: calc(var(--spacing-2) - 2px) var(--spacing-6)
+    calc(var(--spacing-2) - 2px) var(--spacing-2);
 
   &::-ms-expand {
     display: none;
@@ -67,5 +68,5 @@
 }
 
 .afterWrapperDisabled {
-  color: var(--v2-palette-input-value);
+  color: var(--palette-text-500);
 }

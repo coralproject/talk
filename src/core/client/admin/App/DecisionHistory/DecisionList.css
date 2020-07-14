@@ -1,4 +1,4 @@
-$decisionHistoryBorderColor: var(--v2-colors-grey-300);
+$decisionHistoryBorderColor: var(--palette-grey-300);
 
 .root {
   margin: 0;

@@ -1,5 +1,6 @@
-import logger from "coral-server/logger";
 import fs from "fs";
+
+import logger from "coral-server/logger";
 
 export interface Asset {
   src: string;

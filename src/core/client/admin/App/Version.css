@@ -1,6 +1,6 @@
 .version {
-  font-size: calc(10rem / var(--rem-base));
-  color: var(--palette-text-secondary);
+  font-size: 0.625rem;
+  color: var(--palette-text-100);
   text-align: center;
   padding-bottom: var(--spacing-3);
 }

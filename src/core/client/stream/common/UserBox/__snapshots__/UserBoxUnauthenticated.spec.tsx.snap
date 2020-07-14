@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
     <Localized
       id="general-userBoxUnauthenticated-register"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         className="UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
         color="primary"
         fontSize="extraSmall"
@@ -31,12 +31,12 @@ exports[`renders correctly 1`] = `
         variant="filled"
       >
         Register
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
     <Localized
       id="general-userBoxUnauthenticated-signIn"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         className="coral coral-viewerBox-signInButton"
         color="primary"
         fontSize="extraSmall"
@@ -46,7 +46,7 @@ exports[`renders correctly 1`] = `
         variant="outlined"
       >
         Sign in
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </div>
 </ForwardRef(forwardRef)>
@@ -73,7 +73,7 @@ exports[`renders correctly hides showRegisterButton 1`] = `
     <Localized
       id="general-userBoxUnauthenticated-signIn"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         className="coral coral-viewerBox-signInButton"
         color="primary"
         fontSize="extraSmall"
@@ -83,7 +83,7 @@ exports[`renders correctly hides showRegisterButton 1`] = `
         variant="outlined"
       >
         Sign in
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </div>
 </ForwardRef(forwardRef)>

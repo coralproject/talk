@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
 import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
@@ -11,8 +11,8 @@ import ChangeEmailContainer from "./ChangeEmail";
 import ChangePasswordContainer from "./ChangePasswordContainer";
 import ChangeUsernameContainer from "./ChangeUsername";
 import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
-// import DownloadCommentsContainer from "../CommentHistory/DownloadCommentsContainer";
 
+// import DownloadCommentsContainer from "../CommentHistory/DownloadCommentsContainer";
 import styles from "./AccountSettingsContainer.css";
 
 interface Props {

@@ -1,7 +1,7 @@
 import logger from "coral-server/logger";
 import { createFetch } from "coral-server/services/fetch";
 
-import SlackPublishEvent, { Trigger } from "./publishEvent";
+import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 
 import {
   CommentCreatedCoralEventPayload,
@@ -13,8 +13,8 @@ import {
   CoralEventPublisherFactory,
 } from "../../publisher";
 import { CoralEventType } from "../../types";
+import SlackPublishEvent, { Trigger } from "./publishEvent";
 
-import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 type SlackCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload
   | CommentEnteredModerationQueueCoralEventPayload

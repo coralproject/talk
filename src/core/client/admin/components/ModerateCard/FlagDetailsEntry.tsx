@@ -19,18 +19,10 @@ const FlagDetailsEntry: FunctionComponent<Props> = ({
     <div>
       {onClick && (
         <BaseButton className={styles.flagger} onClick={onClick}>
-          <span className={styles.user}>
-            {user}
-            {details && ":"}
-          </span>
+          <span className={styles.user}>{user}</span>
         </BaseButton>
       )}
-      {!onClick && (
-        <span className={styles.user}>
-          {user}
-          {details && ":"}
-        </span>
-      )}
+      {!onClick && <span className={styles.user}>{user}</span>}
       {details && <span className={styles.details}>{details}</span>}
     </div>
   );

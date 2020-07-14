@@ -6,7 +6,7 @@ import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
-import { Delay, Flex, Spinner } from "coral-ui/components";
+import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 
 import { InviteRouteQueryResponse } from "coral-admin/__generated__/InviteRouteQuery.graphql";
 

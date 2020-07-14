@@ -1,0 +1,20 @@
+$status-modal-text: var(--palette-text-500);
+$modal-text: var(--palette-text-500);
+
+.root {
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-6);
+  color: $status-modal-text;
+  margin: 0;
+}
+
+.root {
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-title);
+  color: $modal-text;
+  margin: 0;
+}

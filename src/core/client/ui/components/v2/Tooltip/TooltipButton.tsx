@@ -2,10 +2,9 @@ import cn from "classnames";
 import React, { ButtonHTMLAttributes, FunctionComponent, Ref } from "react";
 
 import { BaseButton, Icon } from "coral-ui/components/v2";
+import { IconColor } from "coral-ui/components/v2/Icon/Icon";
 import { withForwardRef } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
-
-import { IconColor } from "coral-ui/components/v2/Icon/Icon";
 
 import styles from "./TooltipButton.css";
 

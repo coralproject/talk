@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 
 import styles from "./CompleteAccountBox.css";
 
@@ -19,17 +19,10 @@ const CompleteAccountBox: FunctionComponent<Props> = ({
       <Flex justifyContent="center">
         <div className={styles.container}>
           <div className={styles.header}>
-            <Typography
-              align="center"
-              variant="heading3"
-              color="textLight"
-              className={styles.heading3}
-            >
+            <div className={styles.heading3}>
               Finish Setting Up Your Account
-            </Typography>
-            <Typography align="center" variant="heading1" color="textLight">
-              {title}
-            </Typography>
+            </div>
+            <div className={styles.title}>{title}</div>
           </div>
           <div className={styles.main}>
             <div {...rest}>{children}</div>

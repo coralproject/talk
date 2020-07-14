@@ -12,7 +12,7 @@ import {
   Flex,
   HorizontalGutter,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import InviteCompleteMutation from "./InviteCompleteMutation";
 import SetPasswordField from "./SetPasswordField";
@@ -102,8 +102,8 @@ const InviteCompleteForm: React.FunctionComponent<Props> = ({
               <Localized id="invite-createAccount">
                 <Button
                   type="submit"
-                  variant="filled"
-                  color="brand"
+                  variant="regular"
+                  color="regular"
                   disabled={submitting}
                   fullWidth
                 >

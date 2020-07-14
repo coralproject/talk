@@ -1,8 +1,9 @@
+import { ACTION_TYPE } from "coral-server/models/action/comment";
+
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
-import { ACTION_TYPE } from "coral-server/models/action/comment";
 
 import { compose, ModerationPhaseContext } from "./pipeline";
 

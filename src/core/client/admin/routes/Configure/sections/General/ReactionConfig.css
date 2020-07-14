@@ -4,5 +4,5 @@
 
 .reactionButton {
   cursor: not-allowed !important;
-  color: var(--palette-grey-main) !important;
+  color: var(--palette-grey-500) !important;
 }

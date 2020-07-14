@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import Spinner from "coral-stream/common/Spinner";
-import { Flex } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components/v2";
 
 interface Props {
   children: React.ReactNode;

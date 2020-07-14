@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Spacing } from "coral-ui/theme/variables";
+import { Spacing } from "coral-ui/theme/sharedVariables";
 
 import styles from "./Box.css";
 

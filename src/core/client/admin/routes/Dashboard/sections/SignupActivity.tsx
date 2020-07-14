@@ -12,7 +12,6 @@ import {
 
 import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
-import { useUIContext } from "coral-ui/components";
 
 import { DashboardBox, DashboardComponentHeading, Loader } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
@@ -27,7 +26,6 @@ import SignupActivityTick from "./SignupActivityTick";
 import styles from "./SignupActivity.css";
 
 interface Props {
-  locales?: string[];
   siteID: string;
   lastUpdated: string;
 }
@@ -37,7 +35,6 @@ const DailySignupMetrics = createDashboardFetch<TimeSeriesMetricsJSON>(
 );
 
 const CommenterActivity: FunctionComponent<Props> = ({
-  locales: localesFromProps,
   siteID,
   lastUpdated,
 }) => {
@@ -46,8 +43,7 @@ const CommenterActivity: FunctionComponent<Props> = ({
     { siteID },
     lastUpdated
   );
-  const { locales: localesFromContext } = useUIContext();
-  const locales = localesFromProps || localesFromContext || ["en-US"];
+
   return (
     <DashboardBox>
       <Localized id="dashboard-commenters-activity-heading">
@@ -77,7 +73,6 @@ const CommenterActivity: FunctionComponent<Props> = ({
                     daily.series &&
                     daily.series.length - 1 === props.index
                   }
-                  locales={locales}
                   {...props}
                 />
               )}

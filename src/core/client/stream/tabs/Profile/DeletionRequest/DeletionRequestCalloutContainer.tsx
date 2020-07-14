@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -21,27 +21,31 @@ interface Props {
 const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
-  if (!viewer.scheduledDeletionDate) {
-    return null;
-  }
-
   const cancelDeletionMutation = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
     void cancelDeletionMutation();
   }, [cancelDeletionMutation]);
 
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
-  const deletionDate = viewer.scheduledDeletionDate
-    ? Intl.DateTimeFormat(locales, {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }).format(new Date(viewer.scheduledDeletionDate))
-    : null;
+  const deletionDate = useMemo(
+    () =>
+      viewer.scheduledDeletionDate
+        ? formatter(viewer.scheduledDeletionDate)
+        : null,
+    [viewer, formatter]
+  );
+
+  if (!viewer.scheduledDeletionDate) {
+    return null;
+  }
 
   return (
     <div

@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Box } from "coral-ui/components";
+import { Box } from "coral-ui/components/v2";
 
 import CompletionPage from "./Pages/CompletionPage";
 import ConfirmPage from "./Pages/ConfirmPage";

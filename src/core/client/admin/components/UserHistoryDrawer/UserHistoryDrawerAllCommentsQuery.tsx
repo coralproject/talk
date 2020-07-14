@@ -28,12 +28,15 @@ const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
           settings {
             ...UserHistoryDrawerAllComments_settings
           }
+          viewer {
+            ...UserHistoryDrawerAllComments_viewer
+          }
         }
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
-        if (!props) {
+        if (!props || !props.viewer) {
           return (
             <div className={styles.root}>
               <Spinner />
@@ -56,6 +59,7 @@ const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
         return (
           <UserHistoryDrawerAllComments
             settings={props.settings}
+            viewer={props.viewer}
             user={props.user}
           />
         );

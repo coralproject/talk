@@ -26,7 +26,7 @@ interface Props {
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   local: { accessToken },
   settings,
-  story: { id },
+  story: { id, canModerate },
   viewer,
 }) => {
   const href = useMemo(() => {
@@ -42,7 +42,7 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
     return link;
   }, [accessToken, settings, id]);
 
-  if (!viewer || !can(viewer, Ability.MODERATE)) {
+  if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
     return null;
   }
 
@@ -80,6 +80,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ModerateStreamContainer_story on Story {
       id
+      canModerate
     }
   `,
   viewer: graphql`

@@ -9,8 +9,12 @@
   margin: 0;
 }
 .text {
-  composes: heading3 from "~coral-ui/shared/typography.css";
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-5);
   position: relative;
-  background-color: var(--palette-common-white);
+  background-color: var(--palette-grey-100);
+  color: var(--palette-text-100);
   padding: 0 var(--mini-unit);
 }

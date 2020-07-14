@@ -4,8 +4,14 @@ import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-import { STAFF_ROLES } from "./constants";
-import { LocalProfile, Profile, SSOProfile, User } from "./user";
+import { MODERATOR_ROLES, STAFF_ROLES } from "./constants";
+import {
+  LocalProfile,
+  Profile,
+  SSOProfile,
+  User,
+  UserModerationScopes,
+} from "./user";
 
 export function roleIsStaff(role: GQLUSER_ROLE) {
   if (STAFF_ROLES.includes(role)) {
@@ -17,6 +23,92 @@ export function roleIsStaff(role: GQLUSER_ROLE) {
 
 export function hasStaffRole(user: Pick<User, "role">) {
   return roleIsStaff(user.role);
+}
+
+function roleIsModerator(role: GQLUSER_ROLE) {
+  if (MODERATOR_ROLES.includes(role)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function hasModeratorRole(user: Pick<User, "role">) {
+  return roleIsModerator(user.role);
+}
+
+export function isModerationScoped(moderationScopes?: UserModerationScopes) {
+  return (
+    !!moderationScopes &&
+    !!moderationScopes.siteIDs &&
+    moderationScopes.siteIDs.length > 0
+  );
+}
+
+/**
+ * canModerateUnscoped will check if a given user is unscoped (without any
+ * restrictions) on their moderation capacity.
+ *
+ * @param user the user being checked for moderation scopes
+ */
+export function canModerateUnscoped(
+  user: Pick<User, "role" | "moderationScopes">
+) {
+  // You can't possibly be a global moderator if you don't at least have a
+  // moderator compatible role.
+  if (!hasModeratorRole(user)) {
+    return false;
+  }
+
+  // If you specifically have a moderator role, then if there is a siteID
+  // restricting which sites you can moderate on, then you are not a global
+  // moderator.
+  if (
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    isModerationScoped(user.moderationScopes)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+export interface ModerationScopeResource {
+  siteID?: string;
+}
+
+/**
+ * canModerate checks against the moderation scopes to determine if the current
+ * user can moderate the given scope.
+ *
+ * @param user the user to check moderation scopes on
+ * @param scopes the scopes to check against
+ */
+export function canModerate(
+  user: Pick<User, "role" | "moderationScopes">,
+  { siteID }: ModerationScopeResource
+) {
+  // You can't possibly moderate if you don't at least have a moderator
+  // compatible role.
+  if (!hasModeratorRole(user)) {
+    return false;
+  }
+
+  // If the user is a moderator, then if the user is scoped to only moderate
+  // specific sites, then ensure they can moderate _this_ siteID.
+  if (
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    user.moderationScopes &&
+    siteID &&
+    user.moderationScopes.siteIDs &&
+    !user.moderationScopes.siteIDs.includes(siteID)
+  ) {
+    return false;
+  }
+
+  // The moderator does not have any scopes that prevent them from moderating
+  // this comment.
+  return true;
 }
 
 export function getUserProfile(

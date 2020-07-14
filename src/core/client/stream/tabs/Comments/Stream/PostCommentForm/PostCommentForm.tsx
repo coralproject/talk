@@ -9,14 +9,15 @@ import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import {
   AriaInfo,
   Button,
   Flex,
   HorizontalGutter,
+  Icon,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import {
   getCommentBodyValidators,
@@ -135,9 +136,12 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                       {props.disabled ? (
                         <>
                           {props.disabledMessage && (
-                            <ValidationMessage>
-                              {props.disabledMessage}
-                            </ValidationMessage>
+                            <CallOut
+                              color="mono"
+                              icon={<Icon size="sm">feedback</Icon>}
+                              titleWeight="semiBold"
+                              title={props.disabledMessage}
+                            />
                           )}
                         </>
                       ) : (
@@ -146,12 +150,23 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                             (meta.error ||
                               (meta.submitError &&
                                 !meta.dirtySinceLastSubmit)) && (
-                              <ValidationMessage>
-                                {meta.error || meta.submitError}
-                              </ValidationMessage>
+                              <CallOut
+                                color="negative"
+                                icon={<Icon size="sm">error</Icon>}
+                                titleWeight="semiBold"
+                                title={meta.error || meta.submitError}
+                              />
                             )}
                           {submitError && (
-                            <ValidationMessage>{submitError}</ValidationMessage>
+                            <CallOut
+                              color="warning"
+                              icon={
+                                <Icon className={styles.warnIcon}>warning</Icon>
+                              }
+                              iconColor="none"
+                              titleWeight="semiBold"
+                              title={submitError}
+                            />
                           )}
                           <PostCommentSubmitStatusContainer
                             status={props.submitStatus}

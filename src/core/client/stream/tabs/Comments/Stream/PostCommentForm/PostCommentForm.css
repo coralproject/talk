@@ -8,4 +8,10 @@
 
 .rteBorderless {
   border-top-width: 0;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.warnIcon {
+  color: var(--palette-text-500);
 }

@@ -1,5 +1,6 @@
-import { GQLSuspensionStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as user from "coral-server/models/user";
+
+import { GQLSuspensionStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export const SuspensionStatusHistory: Required<GQLSuspensionStatusHistoryTypeResolver<
   user.SuspensionStatusHistory

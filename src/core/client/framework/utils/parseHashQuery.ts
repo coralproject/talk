@@ -1,5 +1,4 @@
 import { parseQuery } from "coral-common/utils";
-
 import startsWith from "coral-common/utils/startsWith";
 
 export default function parseQueryHash(

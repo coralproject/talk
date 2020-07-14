@@ -6,6 +6,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
 } from "react";
 
@@ -71,6 +72,12 @@ interface Props {
    */
   dangling?: boolean;
   deleted?: boolean;
+
+  /**
+   * If set to true, it means that this comment cannot be moderated by the
+   * current user.
+   */
+  readOnly?: boolean;
   edited: boolean;
   selectPrev?: () => void;
   selectNext?: () => void;
@@ -108,6 +115,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   mini = false,
   hideUsername = false,
   deleted = false,
+  readOnly = false,
   edited,
   selectNext,
   selectPrev,
@@ -115,6 +123,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   isQA,
 }) => {
   const div = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (selected) {
       if (selectNext) {
@@ -143,31 +152,39 @@ const ModerateCard: FunctionComponent<Props> = ({
     }
 
     return noop;
-  }, [selected, id]);
+  }, [selected, id, selectNext, selectPrev, onBan, onApprove, onReject]);
 
   useEffect(() => {
     if (selected && div && div.current) {
       div.current.focus();
     }
-  }, [selected]);
-  const commentBody = deleted ? (
-    <Localized id="moderate-comment-deleted-body">
-      <div className={styles.deleted}>
-        This comment is no longer available. The commenter has deleted their
-        account.
-      </div>
-    </Localized>
-  ) : (
-    body
+  }, [selected, div]);
+
+  const commentBody = useMemo(
+    () =>
+      deleted ? (
+        <Localized id="moderate-comment-deleted-body">
+          <div className={styles.deleted}>
+            This comment is no longer available. The commenter has deleted their
+            account.
+          </div>
+        </Localized>
+      ) : (
+        body
+      ),
+    [deleted, body]
   );
+
   const commentAuthorClick = useCallback(() => {
     onUsernameClick();
   }, [onUsernameClick]);
+
   const commentParentAuthorClick = useCallback(() => {
     if (inReplyTo) {
       onUsernameClick(inReplyTo.id);
     }
   }, [onUsernameClick, inReplyTo]);
+
   return (
     <Card
       className={cn(
@@ -209,7 +226,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}
-                enabled={!deleted && !isQA}
+                enabled={!deleted && !isQA && !readOnly}
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
@@ -304,14 +321,24 @@ const ModerateCard: FunctionComponent<Props> = ({
             <RejectButton
               onClick={onReject}
               invert={status === "rejected"}
-              disabled={status === "rejected" || dangling || deleted}
-              className={cn({ [styles.miniButton]: mini })}
+              disabled={
+                status === "rejected" || dangling || deleted || readOnly
+              }
+              readOnly={readOnly}
+              className={cn({
+                [styles.miniButton]: mini,
+              })}
             />
             <ApproveButton
               onClick={onApprove}
               invert={status === "approved"}
-              disabled={status === "approved" || dangling || deleted}
-              className={cn({ [styles.miniButton]: mini })}
+              disabled={
+                status === "approved" || dangling || deleted || readOnly
+              }
+              readOnly={readOnly}
+              className={cn({
+                [styles.miniButton]: mini,
+              })}
             />
           </Flex>
           {moderatedBy}

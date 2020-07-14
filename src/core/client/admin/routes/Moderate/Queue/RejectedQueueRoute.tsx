@@ -36,11 +36,16 @@ export class RejectedQueueRoute extends React.Component<
   };
 
   public render() {
+    if (!this.props.query.viewer) {
+      return null;
+    }
+
     const comments = this.props.query.comments.edges.map((edge) => edge.node);
     return (
       <IntersectionProvider>
         <Queue
           settings={this.props.query.settings}
+          viewer={this.props.query.viewer}
           comments={comments}
           onLoadMore={this.loadMore}
           hasLoadMore={this.props.relay.hasMore()}
@@ -110,6 +115,9 @@ const enhanced = (withPaginationContainer<
         }
         settings {
           ...ModerateCardContainer_settings
+        }
+        viewer {
+          ...ModerateCardContainer_viewer
         }
       }
     `,

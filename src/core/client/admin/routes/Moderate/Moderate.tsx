@@ -30,13 +30,17 @@ interface Props {
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
   query: PropTypesOf<typeof SiteSelectorContainer>["query"] &
     PropTypesOf<typeof SectionSelectorContainer>["query"];
+  viewer: PropTypesOf<typeof SiteSelectorContainer>["viewer"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
   siteID: string | null;
   section?: SectionFilter | null;
-  settings: PropTypesOf<typeof ModerateSearchBarContainer>["settings"] | null;
+  settings:
+    | (PropTypesOf<typeof ModerateSearchBarContainer>["settings"] &
+        PropTypesOf<typeof SiteSelectorContainer>["settings"])
+    | null;
   children?: React.ReactNode;
   queueName: string;
   routeParams: RouteParams;
@@ -46,6 +50,7 @@ const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
   query,
+  viewer,
   allStories,
   children,
   queueName,
@@ -71,6 +76,7 @@ const Moderate: FunctionComponent<Props> = ({
       key.unbind(HOTKEYS.GUIDE);
     };
   }, []);
+
   return (
     <div data-testid="moderate-container">
       <ModerateSearchBarContainer
@@ -82,6 +88,8 @@ const Moderate: FunctionComponent<Props> = ({
           <SiteSelectorContainer
             queueName={queueName}
             query={query}
+            settings={settings}
+            viewer={viewer}
             siteID={routeParams.siteID || siteID || null}
           />
         }

@@ -1,11 +1,12 @@
 import RTE from "@coralproject/rte";
+import { ReactTestInstance } from "react-test-renderer";
+
 import {
   act,
   findParentWithType,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import { ReactTestInstance } from "react-test-renderer";
 
 /**
  * waitForRTE returns an promise that resolves to the instance of `RTE`.

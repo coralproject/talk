@@ -11,7 +11,7 @@ import {
 import InviteForm from "./InviteUsersForm";
 import Success from "./Success";
 
-import * as styles from "./InviteUsersModal.css";
+import styles from "./InviteUsersModal.css";
 
 interface Props {
   onHide: () => void;

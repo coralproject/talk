@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 import { rewrite } from "env-rewrite";
+import express from "express";
 import sourceMapSupport from "source-map-support";
+
+import createCoral from "./core";
+import logger from "./core/server/logger";
 
 // Configure the source map support so stack traces will reference the source
 // files rather than the transpiled code.
@@ -27,11 +31,6 @@ dotenv.config();
 process.on("unhandledRejection", (err) => {
   throw err;
 });
-
-import express from "express";
-
-import createCoral from "./core";
-import logger from "./core/server/logger";
 
 // Create the app that will serve as the mounting point for the Coral Server.
 const parent = express();

@@ -1,6 +1,7 @@
-import { LOCALES } from "coral-common/helpers/i18n";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
+
+import { LOCALES } from "coral-common/helpers/i18n";
 
 function assertSupportLocale(locale: string) {
   if (!LOCALES.includes(locale as any)) {

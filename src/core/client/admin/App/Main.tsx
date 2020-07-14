@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { LogoHorizontal } from "coral-ui/components";
+import { LogoHorizontal } from "coral-ui/components/v2";
 import { AppBar, Begin, Divider, End } from "coral-ui/components/v2/AppBar";
 
 import { DecisionHistoryButton } from "./DecisionHistory";

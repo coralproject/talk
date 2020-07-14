@@ -23,8 +23,7 @@ import {
   HorizontalGutter,
   InputLabel,
   PasswordField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { LinkAccountContainer_viewer } from "coral-admin/__generated__/LinkAccountContainer_viewer.graphql";
 import { LinkAccountContainerLocal } from "coral-admin/__generated__/LinkAccountContainerLocal.graphql";
@@ -94,11 +93,11 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
                   $email={duplicateEmail}
                   strong={<strong />}
                 >
-                  <Typography variant="bodyCopy">
+                  <div>
                     The email <strong>{duplicateEmail}</strong> is already
                     associated with an account. If you would like to link these
                     enter your password.
-                  </Typography>
+                  </div>
                 </Localized>
                 {submitError && (
                   <CallOut color="error" fullWidth>
@@ -130,8 +129,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
                 </Field>
                 <Localized id="linkAccount-linkAccountButton">
                   <Button
-                    variant="filled"
-                    color="primary"
+                    variant="regular"
+                    color="regular"
                     size="large"
                     type="submit"
                     fullWidth
@@ -147,7 +146,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
         <OrSeparator />
         <Localized id="linkAccount-useDifferentEmail">
           <Button
-            variant="filled"
+            color="mono"
+            variant="regular"
             size="large"
             type="submit"
             fullWidth

@@ -3,9 +3,9 @@
 }
 
 .annotation {
-  color: var(--v2-palette-input-label);
-  font-size: var(--v2-font-size-3);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-title);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-4);
 }

@@ -1,6 +1,6 @@
 import { VError } from "verror";
 
-import { CoralError, DuplicateUserError, WrappedInternalError } from ".";
+import { CoralError, DuplicateUserError, WrappedInternalError } from "./";
 
 it("has the right inheritance chain", () => {
   const err = new DuplicateUserError();

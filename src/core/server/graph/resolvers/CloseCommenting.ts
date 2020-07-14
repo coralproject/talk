@@ -1,6 +1,7 @@
-import { GQLCloseCommentingTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as settings from "coral-server/models/settings";
 import { translate } from "coral-server/services/i18n";
+
+import { GQLCloseCommentingTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export const CloseCommenting: GQLCloseCommentingTypeResolver<settings.CloseCommenting> = {
   message: (closeCommenting, input, ctx) => {

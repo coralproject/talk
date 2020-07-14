@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -6,30 +6,57 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
-import { SiteSelectorContainer_query as QueryData } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
+import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
+import { SiteSelectorContainer_settings } from "coral-admin/__generated__/SiteSelectorContainer_settings.graphql";
+import { SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
 import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
 
 import SiteSelector from "./SiteSelector";
 
 interface Props {
-  query: QueryData | null;
+  query: SiteSelectorContainer_query | null;
+  viewer: SiteSelectorContainer_viewer | null;
+  settings: SiteSelectorContainer_settings | null;
   relay: RelayPaginationProp;
   queueName: string;
   siteID: string | null;
 }
 
 const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
-  const sites = props.query
-    ? props.query.sites.edges.map((edge) => edge.node)
-    : [];
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
     SiteSelectorContainerPaginationQueryVariables
   >(props.relay);
+  const { sites, scoped } = useMemo(() => {
+    // If the viewer is moderation scoped, then only provide those sites.
+    if (
+      props.settings &&
+      props.settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+      props.viewer &&
+      props.viewer.moderationScopes?.scoped &&
+      props.viewer.moderationScopes.sites
+    ) {
+      return { scoped: true, sites: props.viewer.moderationScopes.sites };
+    }
+
+    // As the moderation is not scoped, return the sites from the query instead.
+
+    if (props.query) {
+      return {
+        scoped: false,
+        sites: props.query.sites.edges.map((edge) => edge.node),
+      };
+    }
+
+    return { scoped: false, sites: [] };
+  }, [props.query, props.viewer, props.settings]);
+
   return (
     <SiteSelector
       loading={!props.query || isRefetching}
+      scoped={scoped}
       sites={sites}
       onLoadMore={loadMore}
       hasMore={!isRefetching && props.relay.hasMore()}
@@ -65,6 +92,22 @@ const enhanced = withPaginationContainer<
         }
       }
     `,
+    viewer: graphql`
+      fragment SiteSelectorContainer_viewer on User {
+        moderationScopes {
+          scoped
+          sites {
+            id
+            ...SiteSelectorSite_site
+          }
+        }
+      }
+    `,
+    settings: graphql`
+      fragment SiteSelectorContainer_settings on Settings {
+        featureFlags
+      }
+    `,
   },
   {
     direction: "forward",
@@ -97,4 +140,5 @@ const enhanced = withPaginationContainer<
     `,
   }
 )(SiteSelectorContainer);
+
 export default enhanced;

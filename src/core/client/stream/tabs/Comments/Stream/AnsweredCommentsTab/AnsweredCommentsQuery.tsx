@@ -7,8 +7,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
-import { Delay, Flex } from "coral-ui/components";
+import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 
 import { AnsweredCommentsQuery as QueryTypes } from "coral-stream/__generated__/AnsweredCommentsQuery.graphql";
 import { AnsweredCommentsQueryLocal as Local } from "coral-stream/__generated__/AnsweredCommentsQueryLocal.graphql";

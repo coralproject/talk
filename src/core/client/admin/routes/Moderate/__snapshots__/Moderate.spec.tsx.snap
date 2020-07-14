@@ -22,7 +22,13 @@ exports[`renders correctly 1`] = `
       <Relay(SiteSelectorContainer)
         query=""
         queueName=""
+        settings={
+          Object {
+            "multisite": false,
+          }
+        }
         siteID={null}
+        viewer={null}
       />
     }
     story={Object {}}

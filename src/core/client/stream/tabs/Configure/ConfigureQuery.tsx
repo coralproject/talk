@@ -9,8 +9,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
-import { Delay } from "coral-ui/components";
+import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";

@@ -1,0 +1,5 @@
+.base {
+  & path {
+    fill: var(--palette-positive-500)
+  }
+}

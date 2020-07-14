@@ -1,0 +1,18 @@
+$premod-modal-text: var(--palette-text-500);
+$modal-body-text: var(--palette-text-500);
+
+.bodyText {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: var(--line-height-body-short);
+  color: $premod-modal-text;
+}
+
+.root {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: var(--line-height-body-short);
+  color: $modal-body-text;
+}

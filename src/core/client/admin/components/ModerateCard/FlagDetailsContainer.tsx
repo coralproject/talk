@@ -1,19 +1,60 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import NotAvailable from "coral-admin/components/NotAvailable";
 import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { FlagDetailsContainer_comment } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
+import {
+  COMMENT_FLAG_REASON,
+  FlagDetailsContainer_comment,
+} from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
 import { FlagDetailsContainer_settings } from "coral-admin/__generated__/FlagDetailsContainer_settings.graphql";
 
+import FlagDetails from "./FlagDetails";
 import FlagDetailsCategory from "./FlagDetailsCategory";
-import FlagDetailsEntry from "./FlagDetailsEntry";
 import ToxicityLabel from "./ToxicityLabel";
+
+import styles from "./FlagDetailsContainer.css";
+
+interface Reasons<T> {
+  offensive: T[];
+  abusive: T[];
+  spam: T[];
+  other: T[];
+}
+
+function reduceReasons<
+  T extends { readonly reason: COMMENT_FLAG_REASON | null }
+>(nodes: ReadonlyArray<T>) {
+  const initialValue: Reasons<T> = {
+    offensive: [],
+    abusive: [],
+    spam: [],
+    other: [],
+  };
+
+  return nodes.reduce((reasons, node) => {
+    switch (node.reason) {
+      case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE:
+        reasons.offensive.push(node);
+        break;
+      case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE:
+        reasons.abusive.push(node);
+        break;
+      case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM:
+        reasons.spam.push(node);
+        break;
+      case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER:
+        reasons.other.push(node);
+        break;
+    }
+
+    return reasons;
+  }, initialValue);
+}
 
 interface Props {
   comment: FlagDetailsContainer_comment;
@@ -26,21 +67,16 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   onUsernameClick,
   settings,
 }) => {
-  const metadata = comment.revision ? comment.revision.metadata : null;
-  const nodes = comment.flags.nodes;
+  const { offensive, abusive, spam, other } = useMemo(
+    () => reduceReasons(comment.flags.nodes),
+    [comment.flags.nodes]
+  );
 
-  const offensive = nodes.filter(
-    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE
-  );
-  const abusive = nodes.filter(
-    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE
-  );
-  const spam = nodes.filter(
-    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM
-  );
+  const metadata = comment.revision ? comment.revision.metadata : null;
 
   return (
     <HorizontalGutter size="oneAndAHalf">
+      <hr className={styles.detailsDivider} />
       {metadata && metadata.perspective && (
         <FlagDetailsCategory
           category={
@@ -58,66 +94,42 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
           />
         </FlagDetailsCategory>
       )}
-      {offensive.length > 0 && (
-        <FlagDetailsCategory
-          category={
-            <Localized id="moderate-flagDetails-offensive">
-              <span>Offensive</span>
-            </Localized>
-          }
-        >
-          {offensive.map((flag, i) => (
-            <FlagDetailsEntry
-              key={i}
-              onClick={() =>
-                flag.flagger ? onUsernameClick(flag.flagger.id) : null
-              }
-              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
-              details={flag.additionalDetails}
-            />
-          ))}
-        </FlagDetailsCategory>
-      )}
-      {abusive.length > 0 && (
-        <FlagDetailsCategory
-          category={
-            <Localized id="moderate-flagDetails-abusive">
-              <span>Abusive</span>
-            </Localized>
-          }
-        >
-          {abusive.map((flag, i) => (
-            <FlagDetailsEntry
-              key={i}
-              onClick={() =>
-                flag.flagger ? onUsernameClick(flag.flagger.id) : null
-              }
-              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
-              details={flag.additionalDetails}
-            />
-          ))}
-        </FlagDetailsCategory>
-      )}
-      {spam.length > 0 && (
-        <FlagDetailsCategory
-          category={
-            <Localized id="moderate-flagDetails-spam">
-              <span>Spam</span>
-            </Localized>
-          }
-        >
-          {spam.map((flag, i) => (
-            <FlagDetailsEntry
-              onClick={() =>
-                flag.flagger ? onUsernameClick(flag.flagger.id) : null
-              }
-              key={i}
-              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
-              details={flag.additionalDetails}
-            />
-          ))}
-        </FlagDetailsCategory>
-      )}
+      <FlagDetails
+        category={
+          <Localized id="moderate-flagDetails-offensive">
+            <span>Offensive</span>
+          </Localized>
+        }
+        nodes={offensive}
+        onUsernameClick={onUsernameClick}
+      />
+      <FlagDetails
+        category={
+          <Localized id="moderate-flagDetails-abusive">
+            <span>Abusive</span>
+          </Localized>
+        }
+        nodes={abusive}
+        onUsernameClick={onUsernameClick}
+      />
+      <FlagDetails
+        category={
+          <Localized id="moderate-flagDetails-spam">
+            <span>Spam</span>
+          </Localized>
+        }
+        nodes={spam}
+        onUsernameClick={onUsernameClick}
+      />
+      <FlagDetails
+        category={
+          <Localized id="moderate-flagDetails-other">
+            <span>Other</span>
+          </Localized>
+        }
+        nodes={other}
+        onUsernameClick={onUsernameClick}
+      />
     </HorizontalGutter>
   );
 };

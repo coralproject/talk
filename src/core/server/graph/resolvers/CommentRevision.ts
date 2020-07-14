@@ -1,6 +1,7 @@
-import { GQLCommentRevisionTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import { Comment, Revision } from "coral-server/models/comment";
+
+import { GQLCommentRevisionTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export interface WrappedCommentRevision {
   revision: Revision;

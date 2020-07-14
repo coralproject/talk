@@ -23,10 +23,10 @@ import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/_
 import AddExpertMutation from "./AddExpertMutation";
 import ExpertListItem from "./ExpertListItem";
 import ExpertSearchList from "./ExpertSearchList";
+import NoLongerAnExpert from "./NoLongerAnExpert";
 import RemoveExpertMutation from "./RemoveExpertMutation";
 
 import styles from "./ExpertSelectionContainer.css";
-import NoLongerAnExpert from "./NoLongerAnExpert";
 
 interface Props {
   storyID: string;

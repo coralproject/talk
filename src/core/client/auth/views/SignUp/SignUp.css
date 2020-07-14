@@ -1,31 +1,31 @@
 .bar {
-  background-color: var(--v2-colors-grey-600);
-  padding: var(--v2-spacing-4);
+  background-color: var(--palette-grey-600);
+  padding: var(--spacing-4);
 
   text-align: center;
 }
 
 .title {
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-6);
-  line-height: var(--v2-line-height-9);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: var(--line-height-9);
 
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
 }
 
 .header {
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-4);
-  line-height: var(--v2-line-height-6);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-4);
+  line-height: var(--line-height-6);
 
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
 }
 
 .subBar {
-  background-color: var(--v2-colors-grey-100);
-  padding: var(--v2-spacing-3);
+  background-color: var(--palette-grey-100);
+  padding: var(--spacing-3);
 
   text-align: center;
 }
@@ -35,15 +35,15 @@
 
   justify-content: center;
 
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 }
 
 .signIn {
   margin-top: 1px;
-  margin-left: var(--v2-spacing-1);
+  margin-left: var(--spacing-1);
 }

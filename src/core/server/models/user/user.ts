@@ -363,6 +363,14 @@ export interface UserCommentCounts {
   status: CommentStatusCounts;
 }
 
+export interface UserModerationScopes {
+  /**
+   * siteIDs is the array of site ID's that this User can moderate. If not
+   * provided the user can moderate all sites.
+   */
+  siteIDs?: string[];
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -431,6 +439,12 @@ export interface User extends TenantResource {
    * role is the current role of the User.
    */
   role: GQLUSER_ROLE;
+
+  /**
+   * moderationScopes describes the scopes for moderation. These only apply when
+   * the user has a MODERATOR role.
+   */
+  moderationScopes?: UserModerationScopes;
 
   /**
    * notifications stores the notification settings for the given User.
@@ -730,6 +744,28 @@ export async function updateUserRole(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
+export async function updateUserModerationScopes(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  moderationScopes: UserModerationScopes
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    { $set: { moderationScopes } },
     {
       // False to return the updated document instead of the original
       // document.

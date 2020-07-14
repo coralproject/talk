@@ -7,7 +7,7 @@ import {
   HorizontalGutter,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";

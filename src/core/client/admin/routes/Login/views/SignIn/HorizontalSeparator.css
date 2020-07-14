@@ -13,9 +13,9 @@
   background-color: #f5f5f5;
   padding: 0 var(--mini-unit);
 
-  font-size: var(--v2-font-size-4);
-  font-weight: var(--v2-font-weight-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-title);
-  color: var(--v2-colors-mono-100);
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-5);
+  color: var(--palette-text-100);
 }

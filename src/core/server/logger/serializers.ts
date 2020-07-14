@@ -1,9 +1,9 @@
 import { stdSerializers } from "bunyan";
 import { GraphQLError } from "graphql";
 import StackUtils from "stack-utils";
+import VError from "verror";
 
 import { CoralError, CoralErrorContext } from "coral-server/errors";
-import VError from "verror";
 
 interface SerializedError {
   id?: string;

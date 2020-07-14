@@ -1,9 +1,9 @@
 .root {
   display: block;
 
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
-  color: var(--v2-colors-mono-500);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  color: var(--palette-text-500);
 }

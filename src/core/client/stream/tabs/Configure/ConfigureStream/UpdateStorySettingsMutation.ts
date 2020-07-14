@@ -8,9 +8,9 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
+import { UpdateStorySettingsEvent } from "coral-stream/events";
 
 import { UpdateStorySettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateStorySettingsMutation.graphql";
-import { UpdateStorySettingsEvent } from "coral-stream/events";
 
 export type UpdateStorySettingsInput = MutationInput<MutationTypes>;
 

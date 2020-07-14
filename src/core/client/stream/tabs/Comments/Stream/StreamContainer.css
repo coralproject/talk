@@ -4,15 +4,15 @@
 
 .tabBarContainer {
   position: relative;
-  padding-top: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
 
-  font-family: var(--v2-font-family-primary);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
 }
 
 .sortMenu {
   /* same as tab bottom padding */
-  padding-bottom: calc(var(--v2-spacing-2) + 3px);
+  padding-bottom: calc(var(--spacing-2) + 3px);
 }
 
 .fixedTab {
@@ -26,7 +26,7 @@
   list-style: none;
   margin-right: 0px;
 
-  font-family: var(--v2-font-family-primary);
+  font-family: var(--font-family-primary);
 }
 
 .featuredCommentsTabContainer {
@@ -37,8 +37,8 @@
 }
 
 .featuredCommentsInfo {
-  margin-left: calc(-1 * var(--v2-spacing-1));
-  margin-right: var(--v2-spacing-3);
+  margin-left: calc(-1 * var(--spacing-1));
+  margin-right: var(--spacing-3);
   margin-bottom: 5px;
 }
 
@@ -52,10 +52,10 @@
 }
 
 .tabBarRow {
-  border-bottom: 1px solid var(--v2-palette-divider);
+  border-bottom: 1px solid var(--palette-divider);
 }
 
 .moderateStream {
-  margin-top: var(--v2-spacing-1);
-  margin-bottom: var(--v2-spacing-2);
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
 }

@@ -14,15 +14,16 @@ import { Field, Form, FormSpy } from "react-final-form";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
-import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { ReplyCommentFocusEvent } from "coral-stream/events";
 import {
   AriaInfo,
   Button,
   Flex,
   HorizontalGutter,
+  Icon,
   MatchMedia,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 import { PropTypesOf } from "coral-ui/types";
 
 import {
@@ -111,9 +112,12 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                     {props.disabled ? (
                       <>
                         {props.disabledMessage && (
-                          <ValidationMessage>
-                            {props.disabledMessage}
-                          </ValidationMessage>
+                          <CallOut
+                            color="mono"
+                            icon={<Icon size="sm">feedback</Icon>}
+                            titleWeight="semiBold"
+                            title={props.disabledMessage}
+                          />
                         )}
                       </>
                     ) : (
@@ -122,12 +126,23 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
                           (meta.error ||
                             (meta.submitError &&
                               !meta.dirtySinceLastSubmit)) && (
-                            <ValidationMessage>
-                              {meta.error || meta.submitError}
-                            </ValidationMessage>
+                            <CallOut
+                              color="negative"
+                              icon={<Icon size="sm">error</Icon>}
+                              titleWeight="semiBold"
+                              title={meta.error || meta.submitError}
+                            />
                           )}
                         {submitError && (
-                          <ValidationMessage>{submitError}</ValidationMessage>
+                          <CallOut
+                            color="warning"
+                            icon={
+                              <Icon className={styles.warnIcon}>warning</Icon>
+                            }
+                            iconColor="none"
+                            titleWeight="semiBold"
+                            title={submitError}
+                          />
                         )}
                         {props.max && (
                           <RemainingCharactersContainer

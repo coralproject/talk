@@ -23,6 +23,7 @@ import styles from "./UserTable.css";
 interface Props {
   viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
   settings: PropTypesOf<typeof UserRowContainer>["settings"] | null;
+  query: PropTypesOf<typeof UserRowContainer>["query"] | null;
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -33,9 +34,12 @@ interface Props {
 const UserTable: FunctionComponent<Props> = ({
   viewer,
   settings,
+  query,
   ...props
 }) => {
-  const [userDrawerUserID, setUserDrawerUserID] = useState("");
+  const [userDrawerUserID, setUserDrawerUserID] = useState<string | undefined>(
+    undefined
+  );
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
 
   const onShowUserDrawer = useCallback(
@@ -48,73 +52,72 @@ const UserTable: FunctionComponent<Props> = ({
 
   const onHideUserDrawer = useCallback(() => {
     setUserDrawerVisible(false);
-    setUserDrawerUserID("");
+    setUserDrawerUserID(undefined);
   }, [setUserDrawerUserID, setUserDrawerVisible]);
+
   return (
-    <>
-      <HorizontalGutter size="double">
-        <Table fullWidth>
-          <TableHead>
-            <TableRow>
-              <Localized id="community-column-username">
-                <TableCell className={styles.usernameColumn}>
-                  Username
-                </TableCell>
-              </Localized>
-              <Localized id="community-column-email">
-                <TableCell className={styles.emailColumn}>
-                  Email Address
-                </TableCell>
-              </Localized>
-              <Localized id="community-column-memberSince">
-                <TableCell className={styles.memberSinceColumn}>
-                  Member Since
-                </TableCell>
-              </Localized>
-              <Localized id="community-column-role">
-                <TableCell className={styles.roleColumn}>Role</TableCell>
-              </Localized>
-              <Localized id="community-column-status">
-                <TableCell className={styles.statusColumn}>Status</TableCell>
-              </Localized>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!props.loading &&
-              settings &&
-              viewer &&
-              props.users.map((u) => (
-                <UserRowContainer
-                  key={u.id}
-                  user={u}
-                  settings={settings}
-                  viewer={viewer}
-                  onUsernameClicked={onShowUserDrawer}
-                />
-              ))}
-          </TableBody>
-        </Table>
-        {!props.loading && props.users.length === 0 && <EmptyMessage />}
-        {props.loading && (
-          <Flex justifyContent="center">
-            <Spinner />
-          </Flex>
-        )}
-        {props.hasMore && (
-          <Flex justifyContent="center">
-            <AutoLoadMore
-              disableLoadMore={props.disableLoadMore}
-              onLoadMore={props.onLoadMore}
-            />
-          </Flex>
-        )}
-        <UserHistoryDrawer
-          userID={userDrawerUserID}
-          open={userDrawerVisible}
-          onClose={onHideUserDrawer}
-        />
-      </HorizontalGutter>
-    </>
+    <HorizontalGutter size="double">
+      <Table fullWidth>
+        <TableHead>
+          <TableRow>
+            <Localized id="community-column-username">
+              <TableCell className={styles.usernameColumn}>Username</TableCell>
+            </Localized>
+            <Localized id="community-column-email">
+              <TableCell className={styles.emailColumn}>
+                Email Address
+              </TableCell>
+            </Localized>
+            <Localized id="community-column-memberSince">
+              <TableCell className={styles.memberSinceColumn}>
+                Member Since
+              </TableCell>
+            </Localized>
+            <Localized id="community-column-role">
+              <TableCell className={styles.roleColumn}>Role</TableCell>
+            </Localized>
+            <Localized id="community-column-status">
+              <TableCell className={styles.statusColumn}>Status</TableCell>
+            </Localized>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {!props.loading &&
+            settings &&
+            viewer &&
+            query &&
+            props.users.map((user) => (
+              <UserRowContainer
+                key={user.id}
+                user={user}
+                settings={settings}
+                viewer={viewer}
+                query={query}
+                onUsernameClicked={onShowUserDrawer}
+              />
+            ))}
+        </TableBody>
+      </Table>
+      {!props.loading && props.users.length === 0 && <EmptyMessage />}
+      {props.loading && (
+        <Flex justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
+      {props.hasMore && (
+        <Flex justifyContent="center">
+          <AutoLoadMore
+            disableLoadMore={props.disableLoadMore}
+            onLoadMore={props.onLoadMore}
+          />
+        </Flex>
+      )}
+      <UserHistoryDrawer
+        userID={userDrawerUserID}
+        open={userDrawerVisible}
+        onClose={onHideUserDrawer}
+      />
+    </HorizontalGutter>
   );
 };
 

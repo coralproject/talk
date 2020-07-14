@@ -2,8 +2,14 @@ import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
+import { hasFeatureFlag } from "coral-server/models/tenant";
+import {
+  canModerate,
+  hasModeratorRole,
+} from "coral-server/models/user/helpers";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
   GQLTAG,
@@ -21,6 +27,20 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     story.isStoryClosed(ctx.tenant, s, ctx.now)
       ? GQLSTORY_STATUS.CLOSED
       : GQLSTORY_STATUS.OPEN,
+  canModerate: (s, input, ctx) => {
+    if (!ctx.user) {
+      return false;
+    }
+
+    // If the feature flag for site moderators is not turned on return based on
+    // the users role.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      return hasModeratorRole(ctx.user);
+    }
+
+    // We know the user is provided because this edge is authenticated.
+    return canModerate(ctx.user, { siteID: s.siteID });
+  },
   isClosed: (s, input, ctx) => story.isStoryClosed(ctx.tenant, s, ctx.now),
   closedAt: (s, input, ctx) => story.getStoryClosedAt(ctx.tenant, s) || null,
   commentActionCounts: (s) => decodeActionCounts(s.commentCounts.action),

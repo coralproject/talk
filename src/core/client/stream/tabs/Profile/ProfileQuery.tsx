@@ -9,9 +9,8 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
-import { CallOut, Delay } from "coral-ui/components";
+import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";

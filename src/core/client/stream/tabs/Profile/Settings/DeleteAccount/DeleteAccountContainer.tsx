@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -41,17 +41,17 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
     void cancelAccountDeletion();
   }, [cancelAccountDeletion]);
 
-  const { locales } = useCoralContext();
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
   const deletionDate = viewer.scheduledDeletionDate
-    ? Intl.DateTimeFormat(locales, {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }).format(new Date(viewer.scheduledDeletionDate))
+    ? formatter(viewer.scheduledDeletionDate)
     : null;
 
   return (

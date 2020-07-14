@@ -29,6 +29,7 @@ import {
   disabledLocalRegistration,
   emptyCommunityUsers,
   settings,
+  siteConnection,
   users,
 } from "../fixtures";
 
@@ -52,6 +53,7 @@ const createTestRenderer = async (
             return communityUsers;
           },
           viewer: () => viewer,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers
@@ -249,7 +251,6 @@ it("change user role", async () => {
     within(popup).getByText("Staff", { selector: "button" }).props.onClick();
   });
 
-  within(userRow).getByText("Staff");
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 

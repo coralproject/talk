@@ -275,6 +275,7 @@ export const site = createFixture<GQLSite>({
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
   allowedOrigins: ["http://test-site.com"],
+  canModerate: true,
 });
 
 export const sites = createFixtures<GQLSite>([
@@ -283,12 +284,14 @@ export const sites = createFixtures<GQLSite>([
     id: "site-1",
     createdAt: "2018-07-06T18:24:00.000Z",
     allowedOrigins: ["http://test-site.com"],
+    canModerate: true,
   },
   {
     name: "Second Site",
     id: "site-2",
     createdAt: "2018-09-06T18:24:00.000Z",
     allowedOrigins: ["http://test-2-site.com"],
+    canModerate: true,
   },
 ]);
 
@@ -533,6 +536,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[0],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -563,6 +567,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -593,6 +598,7 @@ export const stories = createFixtures<GQLStory>([
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -632,21 +638,23 @@ export const baseComment = createFixture<GQLComment>({
       createdAt: "2018-07-06T18:24:00.000Z",
     },
   ],
+  canModerate: true,
   revision: {
     actionCounts: {
       flag: {
         reasons: {
-          COMMENT_DETECTED_TOXIC: 0,
-          COMMENT_DETECTED_SPAM: 0,
-          COMMENT_DETECTED_RECENT_HISTORY: 0,
-          COMMENT_DETECTED_LINKS: 0,
-          COMMENT_DETECTED_BANNED_WORD: 0,
-          COMMENT_DETECTED_SUSPECT_WORD: 0,
+          COMMENT_REPORTED_SPAM: 0,
+          COMMENT_REPORTED_OTHER: 0,
           COMMENT_REPORTED_OFFENSIVE: 0,
           COMMENT_REPORTED_ABUSIVE: 0,
-          COMMENT_REPORTED_SPAM: 0,
-          COMMENT_DETECTED_NEW_COMMENTER: 0,
+          COMMENT_DETECTED_TOXIC: 0,
+          COMMENT_DETECTED_SUSPECT_WORD: 0,
+          COMMENT_DETECTED_SPAM: 0,
           COMMENT_DETECTED_REPEAT_POST: 0,
+          COMMENT_DETECTED_RECENT_HISTORY: 0,
+          COMMENT_DETECTED_NEW_COMMENTER: 0,
+          COMMENT_DETECTED_LINKS: 0,
+          COMMENT_DETECTED_BANNED_WORD: 0,
         },
       },
     },

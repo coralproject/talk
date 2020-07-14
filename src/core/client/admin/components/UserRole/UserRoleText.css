@@ -1,12 +1,12 @@
-$tableBodyTextColor: var(--v2-colors-mono-500);
+$tableBodyTextColor: var(--palette-text-500);
 
 .root {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
   color: $tableBodyTextColor;
 }
 
 .commenter {
   color: $tableBodyTextColor;
-  font-weight: var(--v2-font-weight-primary-regular);
+  font-weight: var(--font-weight-primary-regular);
 }

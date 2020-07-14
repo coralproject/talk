@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Modal } from "coral-ui/components";
-import { Card } from "coral-ui/components/v2";
+import { Card, Modal } from "coral-ui/components/v2";
 
 import UserHistoryDrawerQuery from "./UserHistoryDrawerQuery";
 

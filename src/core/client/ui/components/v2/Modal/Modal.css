@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  z-index: var(--zindex-modal);
+  z-index: $zindex-modal;
 }
 
 .scroll {

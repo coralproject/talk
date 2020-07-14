@@ -1,6 +1,6 @@
-import urls from "./urls";
-
 import { SectionFilter } from "coral-common/section";
+
+import urls from "./urls";
 
 export type QUEUE_NAME =
   | "reported"

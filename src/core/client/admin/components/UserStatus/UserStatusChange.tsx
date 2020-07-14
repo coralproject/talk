@@ -14,8 +14,20 @@ import {
 import styles from "./UserStatusChange.css";
 
 interface Props {
-  onBan: () => void;
-  onRemoveBan: () => void;
+  /**
+   * onBan when set to false disables the controls associated with banning a
+   * user. Otherwise the provided function is called when the control is
+   * clicked.
+   */
+  onBan: false | (() => void);
+
+  /**
+   * onRemoveBan when set to false disables the controls associated with
+   * banning a user. Otherwise the provided function is called when the control
+   * is clicked.
+   */
+  onRemoveBan: false | (() => void);
+
   onSuspend: () => void;
   onRemoveSuspension: () => void;
   onPremod: () => void;
@@ -54,9 +66,12 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-removeUserBan">
                 <DropdownButton
                   className={styles.dropdownButton}
+                  disabled={!onRemoveBan}
                   onClick={() => {
-                    onRemoveBan();
-                    toggleVisibility();
+                    if (onRemoveBan) {
+                      onRemoveBan();
+                      toggleVisibility();
+                    }
                   }}
                 >
                   Remove ban
@@ -66,9 +81,12 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-ban">
                 <DropdownButton
                   className={styles.dropdownButton}
+                  disabled={!onBan}
                   onClick={() => {
-                    onBan();
-                    toggleVisibility();
+                    if (onBan) {
+                      onBan();
+                      toggleVisibility();
+                    }
                   }}
                 >
                   Ban

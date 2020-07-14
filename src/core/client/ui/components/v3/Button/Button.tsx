@@ -1,10 +1,10 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React from "react";
+import React, { Ref } from "react";
 
 import { BaseButton } from "coral-ui/components/v2";
 import { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
-import { withStyles } from "coral-ui/hocs";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./Button.css";
 
@@ -25,10 +25,14 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   color?: "primary" | "secondary" | "positive" | "negative" | "none";
   variant?: "filled" | "outlined" | "flat" | "none";
 
+  active?: boolean;
   upperCase?: boolean;
   underline?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLButtonElement>;
 }
 
 export class Button extends React.Component<Props> {
@@ -50,6 +54,8 @@ export class Button extends React.Component<Props> {
       underline = false,
       fullWidth = false,
       href,
+      forwardRef,
+      active,
       ...rest
     } = this.props;
 
@@ -60,6 +66,7 @@ export class Button extends React.Component<Props> {
         [classes.filled]: variant === "filled",
         [classes.outlined]: variant === "outlined",
         [classes.flat]: variant === "flat",
+        [classes.active]: active,
         [classes.fontSizeExtraSmall]: fontSize === "extraSmall",
         [classes.fontSizeSmall]: fontSize === "small",
         [classes.fontSizeMedium]: fontSize === "medium",
@@ -105,6 +112,7 @@ export class Button extends React.Component<Props> {
         to={to}
         href={href}
         anchor={href ? true : false}
+        ref={forwardRef}
         {...rest}
       >
         {children}
@@ -113,6 +121,6 @@ export class Button extends React.Component<Props> {
   }
 }
 
-const enhanced = withStyles(styles)(Button);
+const enhanced = withForwardRef(withStyles(styles)(Button));
 
 export default enhanced;

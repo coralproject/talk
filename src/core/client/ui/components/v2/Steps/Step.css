@@ -3,12 +3,12 @@
 }
 
 .text {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
   position: absolute;
   top: 26px;

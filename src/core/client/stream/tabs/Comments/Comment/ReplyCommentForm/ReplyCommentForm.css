@@ -2,3 +2,7 @@
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
+
+.warnIcon {
+  color: var(--palette-text-500);
+}
