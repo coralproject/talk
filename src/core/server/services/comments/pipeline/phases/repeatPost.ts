@@ -2,6 +2,7 @@ import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
+import { supportsEmbedType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -21,8 +22,6 @@ export const repeatPost: IntermediateModerationPhase = async ({
   nudge,
   redis,
   log,
-  action,
-  comment,
   embed,
 }): Promise<IntermediatePhaseResult | void> => {
   if (!bodyText && !embed) {
@@ -39,40 +38,49 @@ export const repeatPost: IntermediateModerationPhase = async ({
       tenant,
       author
     );
-
     if (!lastComment) {
       // The last comment can't been found or none was written within the
       // time frame.
       return;
     }
 
-    // TODO (wyattjoh): ignore embed similarity if text is different?
+    const lastCommentRevision = getLatestRevision(lastComment);
+    const lastCommentBodyText = getHTMLPlainText(lastCommentRevision.body);
 
-    const revision = getLatestRevision(lastComment);
+    let similarity: null | boolean = null;
 
-    const revisionText = getHTMLPlainText(revision.body).trim();
-    const compareTo = bodyText.trim();
-
-    let similarity = null;
-
-    if (compareTo && revisionText) {
-      // Calculate the comment similarity. At the moment, we only do a string
-      // comparison, so it's either completely equal (they match) or the
-      // similarity can't be determined (null). This gives us room in the future
-      // to include a percentage matching.
-      similarity = revisionText === compareTo ? 1 : null;
-    } else if (embed && revision.embed) {
-      const compareEmbed = revision.embed;
-      similarity =
+    // Check to see if the comment text is the same on both comments.
+    if (lastCommentBodyText !== bodyText) {
+      // Body text is not the same, can't be a repeat post!
+      similarity = false;
+    } else if (supportsEmbedType(tenant, "giphy")) {
+      // Giphy is enabled. If the embeds are the same, then this is a repeat
+      // comment otherwise they are not.
+      if (
+        // Check to see if the last comment revision has a Giphy Media
+        // object.
+        lastCommentRevision.embed &&
+        lastCommentRevision.embed.type === "giphy" &&
+        // Check to see if the current comment revision has a Giphy Media
+        // object.
+        embed &&
         embed.type === "giphy" &&
-        compareEmbed.type === "giphy" &&
-        embed.url === compareEmbed.url
-          ? 1
-          : null;
+        // Check to see if the embed id's are the same.
+        lastCommentRevision.embed.id === embed.id
+      ) {
+        // Comment body text was the same and the embed was the same.
+        similarity = true;
+      } else {
+        // Comment body text was the same but the embed was different.
+        similarity = false;
+      }
+    } else {
+      // Body text was the same and Giphy support was not enabled.
+      similarity = false;
     }
 
     if (similarity) {
-      log.trace({ similarity }, "comment contains repeat content");
+      log.trace({ similarity }, "comment content is repeated");
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
@@ -91,7 +99,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
       };
     }
 
-    log.trace({ similarity }, "comment is not repeated");
+    log.trace({ similarity }, "comment content is not repeated");
   } catch (err) {
     // Rethrow any RepeatPostError.
     if (err instanceof RepeatPostCommentError) {

@@ -12,16 +12,17 @@ import {
 import { fetchOembedResponse } from "coral-server/services/oembed";
 
 async function attachGiphyEmbed(
-  remoteID: string,
+  id: string,
   url: string,
   tenant: Tenant
 ): Promise<GiphyEmbed | null> {
   try {
-    const { data } = await retrieveFromGiphy(remoteID, tenant);
+    const { data } = await retrieveFromGiphy(id, tenant);
     if (data && data.rating && ratingIsAllowed(data.rating, tenant)) {
       return {
-        url,
         type: "giphy",
+        id,
+        url,
         title: data.title,
         width: parseInt(data.images.original.width, 10),
         height: parseInt(data.images.original.height, 10),

@@ -37,6 +37,7 @@ export interface RevisionMetadata {
 
 export interface GiphyEmbed {
   type: "giphy";
+  id: string;
   url: string;
   original?: string;
   still?: string;
