@@ -31,6 +31,7 @@ export interface ReplyCommentFormProps {
   min: number | null;
   max: number | null;
   disabled?: boolean;
+  siteID: string;
   disabledMessage?: React.ReactNode;
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
@@ -46,6 +47,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   return (
     <div>
       <CommentForm
+        siteID={props.siteID}
         onSubmit={props.onSubmit}
         initialValues={props.initialValues}
         min={props.min}

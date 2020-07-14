@@ -13,6 +13,7 @@ interface RequestQuery {
   parentUrl?: string;
   storyURL?: string;
   storyID?: string;
+  siteID?: string;
 }
 
 async function retrieveSiteFromEmbed(
@@ -34,7 +35,13 @@ async function retrieveSiteFromEmbed(
     storyURL = "",
     storyID = "",
     parentUrl = "",
+    siteID = "",
   }: RequestQuery = req.query;
+
+  // If the siteID is available, use that.
+  if (siteID) {
+    return retrieveSite(mongo, tenant.id, siteID);
+  }
 
   // If the storyURL is available, we can lookup the site directly based on it.
   if (storyURL) {

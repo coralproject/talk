@@ -39,6 +39,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         revision: {
           id: "revision-id",
         },
+        site: {
+          id: "site-id",
+        },
       },
       sessionStorage: createPromisifiedStorage(),
       autofocus: false,

@@ -31,6 +31,7 @@ export interface EditCommentFormProps {
   max: number | null;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
+  siteID: string;
 }
 
 const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
@@ -50,6 +51,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
       </div>
 
       <CommentForm
+        siteID={props.siteID}
         onSubmit={props.onSubmit}
         min={props.min}
         max={props.max}

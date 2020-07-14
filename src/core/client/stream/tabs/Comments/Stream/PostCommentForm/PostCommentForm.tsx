@@ -46,6 +46,7 @@ interface Props {
   disabledMessage?: React.ReactNode;
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showMessageBox?: boolean;
+  siteID: string;
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
@@ -67,6 +68,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         />
       )}
       <CommentForm
+        siteID={props.siteID}
         onSubmit={props.onSubmit}
         onChange={props.onChange}
         min={props.min}

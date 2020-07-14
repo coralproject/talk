@@ -5,9 +5,10 @@ import styles from "./Media.css";
 interface Props {
   url: string;
   width: number | null;
+  siteID: string;
 }
 
-const TwitterMedia: FunctionComponent<Props> = ({ url, width }) => {
+const TwitterMedia: FunctionComponent<Props> = ({ url, width, siteID }) => {
   const cleanUrl = encodeURIComponent(url);
   return (
     <div className={styles.embed}>
@@ -16,7 +17,7 @@ const TwitterMedia: FunctionComponent<Props> = ({ url, width }) => {
         width={width || 450}
         allowFullScreen
         title="oEmbed"
-        src={`/api/oembed?type=twitter&url=${cleanUrl}`}
+        src={`/api/oembed?type=twitter&url=${cleanUrl}&siteID=${siteID}`}
       />
     </div>
   );

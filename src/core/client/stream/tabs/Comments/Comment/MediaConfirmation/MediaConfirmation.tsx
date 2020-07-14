@@ -5,6 +5,7 @@ import MediaConfirmPrompt from "./MediaConfirmPrompt";
 import MediaPreview from "./MediaPreview";
 
 import styles from "./MediaConfirmation.css";
+
 interface MediaConfig {
   giphy: {
     enabled: boolean;
@@ -24,6 +25,7 @@ interface Props {
   onConfirm: () => void;
   onRemove: () => void;
   config: MediaConfig;
+  siteID: string;
 }
 
 const MediaConfirmation: FunctionComponent<Props> = ({
@@ -31,6 +33,7 @@ const MediaConfirmation: FunctionComponent<Props> = ({
   onConfirm,
   config,
   onRemove,
+  siteID,
 }) => {
   return (
     <div className={styles.root}>
@@ -42,7 +45,12 @@ const MediaConfirmation: FunctionComponent<Props> = ({
         />
       )}
       {media.confirmed && (
-        <MediaPreview media={media} onRemove={onRemove} config={config} />
+        <MediaPreview
+          media={media}
+          onRemove={onRemove}
+          config={config}
+          siteID={siteID}
+        />
       )}
     </div>
   );

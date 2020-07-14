@@ -30,7 +30,7 @@ export async function fetchOEmbedResponse(
       uri = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}`;
 
       if (maxWidth) {
-        uri += `maxWidth=${encodeURIComponent(maxWidth)}`;
+        uri += `&maxWidth=${encodeURIComponent(maxWidth)}`;
       }
 
       break;

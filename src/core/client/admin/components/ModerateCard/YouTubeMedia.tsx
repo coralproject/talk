@@ -6,9 +6,15 @@ interface Props {
   url: string;
   width: number | null;
   height: number | null;
+  siteID: string;
 }
 
-const YouTubeMedia: FunctionComponent<Props> = ({ url, width, height }) => {
+const YouTubeMedia: FunctionComponent<Props> = ({
+  url,
+  width,
+  height,
+  siteID,
+}) => {
   const cleanUrl = encodeURIComponent(url);
   return (
     <div className={styles.embed}>
@@ -17,7 +23,7 @@ const YouTubeMedia: FunctionComponent<Props> = ({ url, width, height }) => {
         width={width || 450}
         allowFullScreen
         title="oEmbed"
-        src={`/api/oembed?type=youtube&url=${cleanUrl}`}
+        src={`/api/oembed?type=youtube&url=${cleanUrl}&siteID=${siteID}`}
       />
     </div>
   );

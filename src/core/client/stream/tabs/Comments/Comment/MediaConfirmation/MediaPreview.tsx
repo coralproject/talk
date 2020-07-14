@@ -30,12 +30,14 @@ interface Props {
   media: MediaLink;
   onRemove: () => void;
   config: MediaConfig | null;
+  siteID: string;
 }
 
 const MediaPreview: FunctionComponent<Props> = ({
   media,
   onRemove,
   config,
+  siteID,
 }) => {
   return (
     <div>
@@ -65,8 +67,12 @@ const MediaPreview: FunctionComponent<Props> = ({
             </MatchMedia>
           </Flex>
         </div>
-        {media.type === "twitter" && <TwitterMedia url={media.url} />}
-        {media.type === "youtube" && <YouTubeMedia url={media.url} />}
+        {media.type === "twitter" && (
+          <TwitterMedia url={media.url} siteID={siteID} />
+        )}
+        {media.type === "youtube" && (
+          <YouTubeMedia url={media.url} siteID={siteID} />
+        )}
       </HorizontalGutter>
       <MatchMedia ltWidth="xs">
         <Localized id="comments-postComment-confirmMedia-remove">

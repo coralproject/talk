@@ -232,6 +232,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
 
     return (
       <PostCommentForm
+        siteID={this.props.story.site.id}
         story={this.props.story}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
@@ -313,6 +314,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
               id
               isClosed
               ...MessageBoxContainer_story
+              site {
+                id
+              }
               settings {
                 messageBox {
                   enabled

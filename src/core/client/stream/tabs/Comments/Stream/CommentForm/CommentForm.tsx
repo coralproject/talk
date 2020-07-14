@@ -90,6 +90,7 @@ interface Props {
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
+  siteID: string;
 }
 
 const setFieldValue = (
@@ -293,6 +294,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               url: fieldProps.input.value,
                               type: values.media.type,
                             }}
+                            siteID={props.siteID}
                             onRemove={() => {
                               fieldProps.input.onChange(null);
                               form.mutators.setFieldValue("media.type", null);

@@ -180,6 +180,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
     return (
       <ReplyCommentForm
+        siteID={this.props.comment.site.id}
         id={this.props.comment.id}
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
@@ -261,6 +262,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
         comment: graphql`
           fragment ReplyCommentFormContainer_comment on Comment {
             id
+            site {
+              id
+            }
             author {
               username
             }

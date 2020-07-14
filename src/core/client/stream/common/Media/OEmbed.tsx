@@ -16,6 +16,7 @@ interface Props {
   className?: string;
   width?: number | null;
   height?: number | null;
+  siteID: string;
 }
 
 function calculateBottomPadding(width: string, height: string) {
@@ -28,6 +29,7 @@ const oEmbed: FunctionComponent<Props> = ({
   className,
   width,
   height,
+  siteID,
 }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const containerRef = React.createRef<HTMLDivElement>();
@@ -96,7 +98,7 @@ const oEmbed: FunctionComponent<Props> = ({
           scrolling="no"
           ref={iframeRef}
           title="oEmbed"
-          src={`/api/oembed?type=${type}&url=${cleanUrl}&maxWidth=${maxWidth}`}
+          src={`/api/oembed?type=${type}&url=${cleanUrl}&maxWidth=${maxWidth}&siteID=${siteID}`}
           onLoad={onLoad}
           className={styles.frame}
           {...attrs}

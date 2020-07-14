@@ -27,6 +27,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       story: {
         id: "story-id",
         isClosed: false,
+        site: {
+          id: "site-id",
+        },
         settings: {
           messageBox: {
             enabled: false,

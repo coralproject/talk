@@ -33,6 +33,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
         <TwitterMedia
           url={comment.revision.media.url}
           width={comment.revision.media.width}
+          siteID={comment.site.id}
         />
       )}
       {comment.revision.media.__typename === "YouTubeMedia" && (
@@ -40,6 +41,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
           url={comment.revision.media.url}
           width={comment.revision.media.width}
           height={comment.revision.media.height}
+          siteID={comment.site.id}
         />
       )}
     </>
@@ -49,6 +51,9 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment MediaContainer_comment on Comment {
+      site {
+        id
+      }
       revision {
         media {
           __typename

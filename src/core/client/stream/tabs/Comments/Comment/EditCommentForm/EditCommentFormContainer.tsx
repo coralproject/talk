@@ -137,6 +137,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     }
     return (
       <EditCommentForm
+        siteID={this.props.comment.site.id}
         id={this.props.comment.id}
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
@@ -204,6 +205,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             }
             editing {
               editableUntil
+            }
+            site {
+              id
             }
           }
         `,
