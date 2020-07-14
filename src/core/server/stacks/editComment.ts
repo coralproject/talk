@@ -12,7 +12,6 @@ import {
 } from "coral-server/models/action/comment";
 import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
-  attachEmbed,
   CreateCommentEmbedInput,
   editComment,
   EditCommentInput,
@@ -26,6 +25,7 @@ import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
+import { attachEmbed } from "coral-server/services/comments/embed";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";

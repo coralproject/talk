@@ -15,7 +15,6 @@ import {
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import {
-  attachEmbed,
   Comment,
   createComment,
   CreateCommentEmbedInput,
@@ -36,7 +35,7 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { removeTag } from "coral-server/services/comments";
+import { attachEmbed, removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
