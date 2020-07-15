@@ -95,7 +95,7 @@ it("approves single comment", async () => {
     });
     return {
       comment: {
-        id: comment.id,
+        ...comment,
         status: GQLCOMMENT_STATUS.APPROVED,
         statusHistory: {
           edges: [
@@ -148,9 +148,8 @@ it("rejects single comment", async () => {
     });
     return {
       comment: {
-        id: comment.id,
+        ...comment,
         status: GQLCOMMENT_STATUS.REJECTED,
-        author: comment.author,
         statusHistory: {
           edges: [
             {
