@@ -1,5 +1,4 @@
 import Joi from "@hapi/joi";
-import { stripIndent } from "common-tags";
 
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
@@ -92,7 +91,7 @@ export const oembedHandler = (): RequestHandler => {
 
       // Send back the HTML for the oEmbed.
       res.send(
-        stripIndent`<html>
+        `<html>
           <style>
             ${style}
           </style>
