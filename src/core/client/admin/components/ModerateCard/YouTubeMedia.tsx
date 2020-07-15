@@ -50,7 +50,8 @@ const YouTubeMedia: FunctionComponent<Props> = ({
       {showAnimated && (
         <iframe
           frameBorder="0"
-          width={width || 450}
+          width={width || 480}
+          height={height || 270}
           allowFullScreen
           title="oEmbed"
           src={`/api/oembed?type=youtube&url=${cleanUrl}&siteID=${siteID}`}
