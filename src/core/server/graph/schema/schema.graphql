@@ -1315,17 +1315,17 @@ type YouTubeMediaConfiguration {
 
 type MediaConfiguration {
   """
-  twitter
+  twitter is the configuration for Twitter support.
   """
   twitter: TwitterMediaConfiguration!
 
   """
-  youtube
+  youtube is the configuration for YouTube support.
   """
   youtube: YouTubeMediaConfiguration!
 
   """
-  giphy
+  giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfiguration!
 }
@@ -1760,7 +1760,11 @@ type Settings {
   """
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
 
+  """
+  announcement is the currently active Announcement.
+  """
   announcement: Announcement
+
   """
   multisite is whether multiple sites exist for this tenant.
   """
@@ -2608,43 +2612,94 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
-enum EMBED_SOURCE {
-  """
-  YOUTUBE represents a youtube link source.
-  """
-  YOUTUBE
-
-  """
-  TWITTER represents a twitter link source.
-  """
-  TWITTER
-
-  GIPHY
-}
-
+"""
+GiphyMedia is a particular GIF that is provided by the Giphy platform.
+"""
 type GiphyMedia {
+  """
+  url is the URL to a image of the GIF.
+  """
   url: String!
+
+  """
+  original is the URL to a image of the GIF.
+  """
   original: String!
+
+  """
+  still is a thumbnail preview of the GIF.
+  """
   still: String!
+
+  """
+  video is a URL to the mp4 video of the GIF.
+  """
   video: String!
+
+  """
+  width is the width of the GIF in pixels.
+  """
   width: Int
+
+  """
+  height is the height of the GIF in pixels.
+  """
   height: Int
+
+  """
+  title is the title of the GIF.
+  """
   title: String
 }
 
+"""
+TwitterMedia is a specific Twitter Tweet.
+"""
 type TwitterMedia {
+  """
+  url is the URL of a Twitter tweet.
+  """
   url: String!
+
+  """
+  width is the width of the Twitter tweet in pixels.
+  """
   width: Int
 }
 
+"""
+YouTubeMedia is a specific YouTube video.
+"""
 type YouTubeMedia {
+  """
+  url is the URL of a YouTube video.
+  """
   url: String!
+
+  """
+  still is the thumbnail of the YouTube video.
+  """
   still: String!
+
+  """
+  title is the title of the YouTube video.
+  """
   title: String
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
   width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
   height: Int
 }
 
+"""
+CommentMedia is the various media types that can be attached to a Comment.
+"""
 union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia
 
 type CommentRevision {
@@ -3587,9 +3642,24 @@ type CreateCommentPayload {
   clientMutationId: String!
 }
 
+"""
+CreateCommentMediaInput is used for creating media to be attached to a Comment.
+"""
 input CreateCommentMediaInput {
+  """
+  type specifies the type of media that can be attached. Valid values for this
+  are: `giphy`, `twitter`, and `youtube`.
+  """
   type: String!
+
+  """
+  id refers to a foreign id for the specific media provider.
+  """
   id: String
+
+  """
+  url is the URL to the media resource.
+  """
   url: String!
 }
 
@@ -4356,17 +4426,17 @@ input GiphyMediaConfigurationInput {
 
 input MediaConfigurationInput {
   """
-  twitter
+  twitter is the configuration for Twitter support.
   """
   twitter: TwitterMediaConfigurationInput
 
   """
-  youtube
+  youtube is the configuration for YouTube support.
   """
   youtube: YouTubeMediaConfigurationInput
 
   """
-  giphy
+  giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfigurationInput
 }
