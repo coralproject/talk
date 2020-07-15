@@ -386,6 +386,36 @@ configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
+#### Embed Links
+configure-general-embedLinks-title = Embeded media
+configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
+configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
+configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
+configure-general-embedLinks-enableGiphyEmbeds = Allow GIFs from GIPHY
+
+configure-general-embedLinks-On = Yes
+configure-general-embedLinks-Off = No
+
+configure-general-embedLinks-giphyMaxRating = GIF content rating
+configure-general-embedLinks-giphyMaxRating-desc = Select the maximum content rating for the GIFs that will appear in commenters’ search results
+
+configure-general-embedLinks-giphyMaxRating-g = G
+configure-general-embedLinks-giphyMaxRating-g-desc = Content that is appropriate for all ages
+configure-general-embedLinks-giphyMaxRating-pg = PG
+configure-general-embedLinks-giphyMaxRating-pg-desc = Content that is generally safe for everyone, but parental guidance for children is advised.
+configure-general-embedLinks-giphyMaxRating-pg13 = PG-13
+configure-general-embedLinks-giphyMaxRating-pg13-desc = Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
+configure-general-embedLinks-giphyMaxRating-r = R
+configure-general-embedLinks-giphyMaxRating-r-desc = Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
+
+configure-general-embedLinks-configuration = Configuration
+configure-general-embedLinks-configuration-desc =
+  For additional information on GIPHY’s API please visit: <externalLink>https://developers.giphy.com/docs/api</externalLink>
+configure-general-embedLinks-giphyAPIKey = GIPHY API key
+
+
+#### Configure Announcements
+
 configure-general-announcements-title = Community announcement
 configure-general-announcements-description =
   Add a temporary announcement that will appear at the top of all of your organization’s comment streams for a specific amount of time.
@@ -868,6 +898,8 @@ moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
 moderate-comment-moderatedBy = Moderated By
 moderate-comment-moderatedBySystem = System
+moderate-comment-play-gif = Play GIF
+moderate-comment-load-video = Load Video
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

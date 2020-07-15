@@ -24,6 +24,7 @@ export interface CommentProps {
   parentAuthorName?: string | null;
   userTags?: React.ReactNode;
   collapsed?: boolean;
+  media?: React.ReactNode;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -68,6 +69,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}
         </HTMLContent>
+        {props.media}
         {props.footer}
       </HorizontalGutter>
     </HorizontalGutter>

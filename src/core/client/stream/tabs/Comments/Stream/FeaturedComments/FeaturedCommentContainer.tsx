@@ -15,7 +15,7 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon } from "coral-ui/components/v2";
+import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
@@ -24,6 +24,7 @@ import { FeaturedCommentContainer_story as StoryData } from "coral-stream/__gene
 import { FeaturedCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
 
 import { UserTagsContainer } from "../../Comment";
+import MediaSectionContainer from "../../Comment/MediaSection";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 
@@ -61,13 +62,18 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       className={cn(CLASSES.featuredComment.$root, styles.root)}
       data-testid={`featuredComment-${comment.id}`}
     >
-      <HTMLContent className={cn(styles.body, CLASSES.featuredComment.content)}>
-        {comment.body || ""}
-      </HTMLContent>
+      <HorizontalGutter>
+        <HTMLContent
+          className={cn(styles.body, CLASSES.featuredComment.content)}
+        >
+          {comment.body || ""}
+        </HTMLContent>
+        <MediaSectionContainer comment={comment} settings={settings} />
+      </HorizontalGutter>
       <Flex
         direction="row"
         alignItems="center"
-        mt={4}
+        mt={3}
         className={CLASSES.featuredComment.authorBar.$root}
       >
         {comment.author && (
@@ -188,6 +194,7 @@ const enhanced = withSetCommentIDMutation(
         replyCount
         ...UsernameWithPopoverContainer_comment
         ...ReactionButtonContainer_comment
+        ...MediaSectionContainer_comment
         ...UserTagsContainer_comment
       }
     `,
@@ -195,6 +202,7 @@ const enhanced = withSetCommentIDMutation(
       fragment FeaturedCommentContainer_settings on Settings {
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
+        ...MediaSectionContainer_settings
       }
     `,
   })(FeaturedCommentContainer)

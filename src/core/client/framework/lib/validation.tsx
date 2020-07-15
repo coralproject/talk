@@ -288,6 +288,18 @@ export function validateWhen<T = any, V = any>(
   };
 }
 
+export function validateWhenOtherwise<T = any, V = any>(
+  condition: Condition<T, V>,
+  truthy: Validator<T, V>,
+  falsy: Validator<T, V>
+): Validator<T, V> {
+  return (value, values) => {
+    return condition(value, values)
+      ? truthy(value, values)
+      : falsy(value, values);
+  };
+}
+
 /**
  * Use custom message for validator.
  */

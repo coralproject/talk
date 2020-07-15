@@ -35,6 +35,35 @@ export interface RevisionMetadata {
   nudge?: boolean;
 }
 
+export interface GiphyMedia {
+  type: "giphy";
+  id: string;
+  url: string;
+  original: string;
+  still: string;
+  video: string;
+  width?: number;
+  height?: number;
+  title?: string;
+}
+
+export interface TwitterMedia {
+  type: "twitter";
+  url: string;
+  width?: number;
+}
+
+export interface YouTubeMedia {
+  type: "youtube";
+  url: string;
+  still: string;
+  title?: string;
+  width?: number;
+  height?: number;
+}
+
+export type CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia;
+
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
  * a Revision, as can moderation actions.
@@ -64,4 +93,9 @@ export interface Revision {
    * createdAt is the date that this revision was created at.
    */
   createdAt: Date;
+
+  /**
+   * media is the optional media object attached to this revision.
+   */
+  media?: CommentMedia;
 }

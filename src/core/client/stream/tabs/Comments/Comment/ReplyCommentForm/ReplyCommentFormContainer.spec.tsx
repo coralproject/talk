@@ -39,6 +39,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         revision: {
           id: "revision-id",
         },
+        site: {
+          id: "site-id",
+        },
       },
       sessionStorage: createPromisifiedStorage(),
       autofocus: false,
@@ -47,6 +50,11 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: true,
           min: 3,
           max: 100,
+        },
+        media: {
+          giphy: { enabled: false },
+          twitter: { enabled: false },
+          youtube: { enabled: false },
         },
         closeCommenting: {
           message: "closed",
@@ -133,6 +141,7 @@ it("creates a comment", async () => {
       parentRevisionID: "revision-id",
       nudge: true,
       local: undefined,
+      media: undefined,
       ...input,
     })
   ).toBeTruthy();

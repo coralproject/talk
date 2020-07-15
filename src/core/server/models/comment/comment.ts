@@ -146,7 +146,7 @@ export type CreateCommentInput = Omit<
   | "deletedAt"
 > &
   Required<Pick<Revision, "body">> &
-  Pick<Revision, "metadata"> &
+  Pick<Revision, "metadata" | "media"> &
   Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
 export async function createComment(
@@ -156,7 +156,7 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, ...rest } = input;
+  const { body, actionCounts = {}, metadata, media, ...rest } = input;
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -165,6 +165,7 @@ export async function createComment(
     actionCounts,
     metadata,
     createdAt: now,
+    media,
   };
 
   // default are the properties set by the application when a new comment is
@@ -227,6 +228,7 @@ export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
    */
   lastEditableCommentCreatedAt: Date;
 } & Required<Pick<Revision, "body" | "metadata">> &
+  Pick<Revision, "media"> &
   Partial<Pick<Comment, "actionCounts">>;
 
 // Only comments with the following status's can be edited.
@@ -298,16 +300,17 @@ export async function editComment(
     status,
     authorID,
     metadata,
+    media,
     actionCounts = {},
   } = input;
 
-  // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
     body,
     actionCounts,
     metadata,
     createdAt: now,
+    media,
   };
 
   const update: Record<string, any> = {

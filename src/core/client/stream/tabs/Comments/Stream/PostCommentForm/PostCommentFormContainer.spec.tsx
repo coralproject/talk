@@ -27,6 +27,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       story: {
         id: "story-id",
         isClosed: false,
+        site: {
+          id: "site-id",
+        },
         settings: {
           messageBox: {
             enabled: false,
@@ -40,6 +43,11 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: true,
           min: 3,
           max: 100,
+        },
+        media: {
+          giphy: { enabled: false },
+          twitter: { enabled: false },
+          youtube: { enabled: false },
         },
         closeCommenting: {
           message: "closed",
@@ -156,10 +164,11 @@ it("creates a comment", async () => {
     await wait(() =>
       expect(
         createCommentStub.calledWith({
+          ...input,
           storyID,
           nudge: true,
           commentsOrderBy: "CREATED_AT_ASC",
-          ...input,
+          media: undefined,
         })
       ).toBeTruthy()
     );

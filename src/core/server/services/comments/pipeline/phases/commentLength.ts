@@ -4,6 +4,7 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
+import { supportsMediaType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -12,6 +13,7 @@ import {
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
+  media,
 }): IntermediatePhaseResult | void => {
   const length = bodyText.length;
   let min: number | null = null;
@@ -28,9 +30,14 @@ export const commentLength: IntermediateModerationPhase = ({
     // Comment body should have at least 1 character.
     min = 1;
   }
-  if (length < min) {
-    throw new CommentBodyTooShortError(min);
+
+  // If the Giphy support is enabled, we don't need to check for a minimum!
+  if (!supportsMediaType(tenant, "giphy") || !media || media.type !== "giphy") {
+    if (length < min) {
+      throw new CommentBodyTooShortError(min);
+    }
   }
+
   if (max && length > max) {
     throw new CommentBodyExceedsMaxLengthError(max);
   }

@@ -11,6 +11,7 @@ import {
   removeDontAgree,
   removeReaction,
 } from "coral-server/services/comments/actions";
+import { CreateCommentMediaInput } from "coral-server/services/comments/media";
 import { publishCommentFeatured } from "coral-server/services/events";
 import {
   approveComment,
@@ -41,6 +42,7 @@ export const Comments = (ctx: GraphContext) => ({
   create: ({
     clientMutationId,
     nudge = false,
+    media,
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
@@ -51,7 +53,12 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.broker,
         ctx.tenant,
         ctx.user!,
-        { authorID: ctx.user!.id, ...comment },
+        {
+          ...comment,
+          authorID: ctx.user!.id,
+          // TODO: (wyattjoh) check this type to get it to match.
+          media: media as CreateCommentMediaInput,
+        },
         nudge,
         ctx.now,
         ctx.req
@@ -65,7 +72,7 @@ export const Comments = (ctx: GraphContext) => ({
         "input.storyID": [ERROR_CODES.STORY_NOT_FOUND],
       }
     ),
-  edit: ({ commentID, body }: GQLEditCommentInput) =>
+  edit: ({ commentID, body, media }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
       editComment(
         ctx.mongo,
@@ -77,6 +84,8 @@ export const Comments = (ctx: GraphContext) => ({
         {
           id: commentID,
           body,
+          // TODO: (wyattjoh) check this type to get it to match.
+          media: media as CreateCommentMediaInput,
         },
         ctx.now,
         ctx.req

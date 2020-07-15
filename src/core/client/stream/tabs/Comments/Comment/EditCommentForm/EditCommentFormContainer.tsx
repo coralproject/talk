@@ -48,7 +48,10 @@ interface State {
 
 export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
-  private intitialValues = { body: this.props.comment.body || "" };
+  private intitialValues = {
+    body: this.props.comment.body || "",
+    media: this.props.comment.revision && this.props.comment.revision.media,
+  };
 
   public state: State = {
     initialized: false,
@@ -98,6 +101,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         await this.props.editComment({
           commentID: this.props.comment.id,
           body: input.body,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -133,6 +137,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     }
     return (
       <EditCommentForm
+        siteID={this.props.comment.site.id}
         id={this.props.comment.id}
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
@@ -144,6 +149,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         createdAt={this.props.comment.createdAt}
         editableUntil={this.props.comment.editing.editableUntil!}
         expired={this.state.expired}
+        mediaConfig={this.props.settings.media}
         min={
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.min) ||
@@ -158,6 +164,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     );
   }
 }
+
 const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
@@ -170,11 +177,37 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             id
             body
             createdAt
+            revision {
+              id
+              media {
+                __typename
+                ... on GiphyMedia {
+                  url
+                  title
+                  width
+                  height
+                  still
+                  video
+                }
+                ... on TwitterMedia {
+                  url
+                  width
+                }
+                ... on YouTubeMedia {
+                  url
+                  width
+                  height
+                }
+              }
+            }
             author {
               username
             }
             editing {
               editableUntil
+            }
+            site {
+              id
             }
           }
         `,
@@ -189,6 +222,17 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               enabled
               min
               max
+            }
+            media {
+              twitter {
+                enabled
+              }
+              youtube {
+                enabled
+              }
+              giphy {
+                enabled
+              }
             }
             rte {
               ...RTEContainer_config

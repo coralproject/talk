@@ -28,6 +28,7 @@ $input-dark-focused-border: $colors-teal-900;
   box-sizing: border-box;
   background-color: $input-background;
   border-radius: var(--round-corners);
+  border-style: solid;
   width: 100%;
   align-self: stretch;
   margin-top: 0;

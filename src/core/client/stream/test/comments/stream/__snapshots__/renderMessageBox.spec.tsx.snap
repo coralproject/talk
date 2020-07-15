@@ -330,127 +330,137 @@ exports[`renders message box when logged in 1`] = `
           }
         />
       </div>
-      <form
-        autoComplete="off"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
+      <div
+        className="coral coral-createComment"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+        <form
+          autoComplete="off"
+          id="comments-postCommentForm-form"
+          onSubmit={[Function]}
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-postCommentForm-field"
+            <div
+              className="CommentForm-commentFormBox"
             >
-              Post a comment
-            </label>
-            <div>
               <div
-                className="$root content placeholder toolbar container"
-                onBlur={[Function]}
-                onFocus={[Function]}
+                className="Box-root HorizontalGutter-root HorizontalGutter-half"
               >
-                <div
-                  className="RTE.module-contentEditableContainer coral coral-rte-container"
+                <label
+                  className="AriaInfo-root"
+                  htmlFor="comments-postCommentForm-field"
                 >
-                  <div
-                    aria-placeholder="Post a comment"
-                    className="RTE.module-contentEditable coral coral-rte-content PostCommentForm-rteBorderless RTE-content"
-                    id="comments-postCommentForm-field"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
-                  >
-                    Post a comment
+                  Post a comment
+                </label>
+                <div>
+                  <div>
+                    <div
+                      className="$root content placeholder toolbar container"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                    >
+                      <div
+                        className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                      >
+                        <div
+                          aria-placeholder="Post a comment"
+                          className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                          id="comments-postCommentForm-field"
+                        />
+                        <div
+                          aria-hidden="true"
+                          className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                        >
+                          Post a comment
+                        </div>
+                      </div>
+                      <div
+                        className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      >
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Bold"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_bold
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Italic"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_italic
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Blockquote"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_quote
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Bulleted List"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_list_bulleted
+                          </i>
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div
-                  className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-                >
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_bold
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bulleted List"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_list_bulleted
-                    </i>
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="Box-root Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createComment-submit"
-              data-color="stream"
-              data-variant="regular"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
+            <div
+              className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
-              Submit
-            </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createComment-submit"
+                data-color="stream"
+                data-variant="regular"
+                disabled={true}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
     <div
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
@@ -666,7 +676,9 @@ exports[`renders message box when not logged in 1`] = `
       <div
         className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
-        <div>
+        <div
+          className="PostCommentFormFake-rteContainer"
+        >
           <div>
             <div
               className="$root content placeholder toolbar container"
@@ -674,7 +686,7 @@ exports[`renders message box when not logged in 1`] = `
               onFocus={[Function]}
             >
               <div
-                className="RTE.module-contentEditableContainer coral coral-rte-container"
+                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
               >
                 <div
                   aria-placeholder="Post a comment"

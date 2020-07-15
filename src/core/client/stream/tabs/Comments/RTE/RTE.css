@@ -2,13 +2,14 @@ $commentsRTEBorder: var(--palette-grey-300);
 $commentsRTEContentBackground: var(--palette-background-input);
 $commentsRTEPlaceholder: var(--palette-text-placeholder);
 
+.container {
+  background-color: transparent;
+}
+
 .content {
   composes: root from "~coral-stream/shared/htmlContent.css";
 
-  border: 1px solid $commentsRTEBorder;
-  border-bottom-width: 0px;
-  border-top-left-radius: var(--round-corners);
-  border-top-right-radius: var(--round-corners);
+  border: 0;
 
   & :global(.coral-rte-spoiler) {
     background-color: black;
@@ -20,12 +21,10 @@ $commentsRTEPlaceholder: var(--palette-text-placeholder);
 
 .toolbar {
   background-color: $commentsRTEContentBackground;
-  border: 1px solid $commentsRTEBorder;
 
-  border-top-width: 0px;
-  border-bottom-left-radius: var(--round-corners);
-  border-bottom-right-radius: var(--round-corners);
+  border: 0;
 }
+
 .toolbarHidden {
   display: none;
 }

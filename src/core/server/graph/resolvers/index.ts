@@ -14,6 +14,7 @@ import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
+import { CommentMedia } from "./CommentMedia";
 import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
@@ -27,6 +28,7 @@ import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
+import { MediaConfiguration } from "./MediaConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { ModeratorNote } from "./ModeratorNote";
@@ -69,6 +71,7 @@ const Resolvers: GQLResolver = {
   CommentCreatedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
+  CommentMedia,
   CommentModerationAction,
   CommentReleasedPayload,
   CommentReplyCreatedPayload,
@@ -84,6 +87,7 @@ const Resolvers: GQLResolver = {
   Invite,
   LiveConfiguration,
   Locale,
+  MediaConfiguration,
   ModerationQueue,
   ModerationQueues,
   ModeratorNote,
@@ -93,11 +97,15 @@ const Resolvers: GQLResolver = {
   PremodStatusHistory,
   Profile,
   Query,
+  Queue,
+  Queues,
   RecentCommentHistory,
   RejectCommentPayload,
-  SSOAuthIntegration,
+  Settings,
   SigningSecret,
   Site,
+  SlackConfiguration,
+  SSOAuthIntegration,
   Story,
   StorySettings,
   Subscription,
@@ -107,13 +115,9 @@ const Resolvers: GQLResolver = {
   Time,
   User,
   UserModerationScopes,
-  Queue,
-  Queues,
   UsernameHistory,
   UsernameStatus,
   UserStatus,
-  Settings,
-  SlackConfiguration,
   WebhookEndpoint,
 };
 

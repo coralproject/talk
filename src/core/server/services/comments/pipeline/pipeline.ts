@@ -9,6 +9,7 @@ import {
   CreateCommentInput,
   RevisionMetadata,
 } from "coral-server/models/comment";
+import { CommentMedia } from "coral-server/models/comment/revision";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -64,12 +65,16 @@ export interface ModerationPhaseContextInput {
   log: Logger;
   story: Story;
   tenant: Tenant;
-  comment: RequireProperty<Partial<CreateCommentInput>, "body" | "ancestorIDs">;
+  comment: RequireProperty<
+    Partial<Omit<CreateCommentInput, "media">>,
+    "body" | "ancestorIDs"
+  >;
   author: User;
   now: Date;
   action: "NEW" | "EDIT";
   nudge?: boolean;
   req?: Request;
+  media?: CommentMedia;
 }
 
 export interface ModerationPhaseContext extends ModerationPhaseContextInput {

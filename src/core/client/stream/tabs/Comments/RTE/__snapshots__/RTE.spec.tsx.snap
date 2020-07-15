@@ -6,8 +6,13 @@ exports[`renders correctly 1`] = `
     className="$root content placeholder toolbar container custom"
     classNameDisabled=""
     contentClassName="coral coral-rte-content RTE-content"
+<<<<<<< HEAD
     contentClassNameDisabled="RTE-disabled"
     contentContainerClassName="coral coral-rte-container"
+=======
+    contentClassNameDisabled=""
+    contentContainerClassName="RTE-container coral coral-rte-container"
+>>>>>>> origin/master
     contentContainerClassNameDisabled=""
     features={Array []}
     placeholder="Post a comment"

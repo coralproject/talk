@@ -88,13 +88,17 @@ exports[`approves comment in reported queue: dangling 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -354,13 +358,17 @@ exports[`rejects comment in reported queue: dangling 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -617,13 +625,17 @@ exports[`renders reported queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
@@ -867,13 +879,17 @@ exports[`renders reported queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Don't fool with me",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Don't fool with me",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
@@ -1133,13 +1149,17 @@ exports[`renders reported queue with comments 2`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
@@ -1383,13 +1403,17 @@ exports[`renders reported queue with comments 2`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Don't fool with me",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Don't fool with me",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
@@ -1639,13 +1663,17 @@ exports[`renders reported queue with comments and load more 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I think I deserve better",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I think I deserve better",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >

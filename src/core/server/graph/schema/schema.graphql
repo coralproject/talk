@@ -1279,6 +1279,58 @@ type StoryMessageBox {
 }
 
 ################################################################################
+## Embed Links
+################################################################################
+
+type GiphyMediaConfiguration {
+  """
+  enabled is true when gif search via giphy and giphy media objects are enabled.
+  """
+  enabled: Boolean!
+
+  """
+  maximum allowed rating for gifs, g, pg, pg-13, r.
+  """
+  maxRating: String
+
+  """
+  key is the API key for Giphy.
+  """
+  key: String @auth(roles: [ADMIN])
+}
+
+type TwitterMediaConfiguration {
+  """
+  enabled is true when twitter media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type YouTubeMediaConfiguration {
+  """
+  enabled is true when youtube media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type MediaConfiguration {
+  """
+  twitter is the configuration for Twitter support.
+  """
+  twitter: TwitterMediaConfiguration!
+
+  """
+  youtube is the configuration for YouTube support.
+  """
+  youtube: YouTubeMediaConfiguration!
+
+  """
+  giphy is the configuration for Giphy support.
+  """
+  giphy: GiphyMediaConfiguration!
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -1689,6 +1741,11 @@ type Settings {
   stories: StoryConfiguration! @auth(roles: [ADMIN])
 
   """
+  media is the configuration media content attached to Comment's.
+  """
+  media: MediaConfiguration
+
+  """
   featureFlags provides the enabled feature flags.
   """
   featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN, MODERATOR])
@@ -1703,7 +1760,11 @@ type Settings {
   """
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
 
+  """
+  announcement is the currently active Announcement.
+  """
   announcement: Announcement
+
   """
   multisite is whether multiple sites exist for this tenant.
   """
@@ -2551,6 +2612,96 @@ type CommentRevisionMetadata {
   perspective: CommentRevisionPerspectiveMetadata
 }
 
+"""
+GiphyMedia is a particular GIF that is provided by the Giphy platform.
+"""
+type GiphyMedia {
+  """
+  url is the URL to a image of the GIF.
+  """
+  url: String!
+
+  """
+  original is the URL to a image of the GIF.
+  """
+  original: String!
+
+  """
+  still is a thumbnail preview of the GIF.
+  """
+  still: String!
+
+  """
+  video is a URL to the mp4 video of the GIF.
+  """
+  video: String!
+
+  """
+  width is the width of the GIF in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the GIF in pixels.
+  """
+  height: Int
+
+  """
+  title is the title of the GIF.
+  """
+  title: String
+}
+
+"""
+TwitterMedia is a specific Twitter Tweet.
+"""
+type TwitterMedia {
+  """
+  url is the URL of a Twitter tweet.
+  """
+  url: String!
+
+  """
+  width is the width of the Twitter tweet in pixels.
+  """
+  width: Int
+}
+
+"""
+YouTubeMedia is a specific YouTube video.
+"""
+type YouTubeMedia {
+  """
+  url is the URL of a YouTube video.
+  """
+  url: String!
+
+  """
+  still is the thumbnail of the YouTube video.
+  """
+  still: String!
+
+  """
+  title is the title of the YouTube video.
+  """
+  title: String
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
+  height: Int
+}
+
+"""
+CommentMedia is the various media types that can be attached to a Comment.
+"""
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia
+
 type CommentRevision {
   """
   id is the identifier of the CommentRevision.
@@ -2574,6 +2725,11 @@ type CommentRevision {
   body text was deleted.
   """
   body: String
+
+  """
+  media is the optional media object attached to this revision.
+  """
+  media: CommentMedia
 
   """
   metadata stores details on a CommentRevision.
@@ -3463,6 +3619,11 @@ input CreateCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3479,6 +3640,27 @@ type CreateCommentPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+}
+
+"""
+CreateCommentMediaInput is used for creating media to be attached to a Comment.
+"""
+input CreateCommentMediaInput {
+  """
+  type specifies the type of media that can be attached. Valid values for this
+  are: `giphy`, `twitter`, and `youtube`.
+  """
+  type: String!
+
+  """
+  id refers to a foreign id for the specific media provider.
+  """
+  id: String
+
+  """
+  url is the URL to the media resource.
+  """
+  url: String!
 }
 
 ##################
@@ -3520,6 +3702,11 @@ input CreateCommentReplyInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3560,6 +3747,11 @@ input EditCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -4201,6 +4393,54 @@ input SlackConfigurationInput {
   channels: [SlackChannelConfigurationInput!]
 }
 
+input TwitterMediaConfigurationInput {
+  """
+  enabled is true when twitter media objects are enabled.
+  """
+  enabled: Boolean
+}
+
+input YouTubeMediaConfigurationInput {
+  """
+  enabled is true when youtube media objects are enabled.
+  """
+  enabled: Boolean
+}
+
+input GiphyMediaConfigurationInput {
+  """
+  enabled is true when gif search via giphy and giphy media objects are enabled.
+  """
+  enabled: Boolean
+
+  """
+  maximum allowed rating for gifs, g, pg, pg-13, r
+  """
+  maxRating: String!
+
+  """
+  key is the API key for Giphy.
+  """
+  key: String
+}
+
+input MediaConfigurationInput {
+  """
+  twitter is the configuration for Twitter support.
+  """
+  twitter: TwitterMediaConfigurationInput
+
+  """
+  youtube is the configuration for YouTube support.
+  """
+  youtube: YouTubeMediaConfigurationInput
+
+  """
+  giphy is the configuration for Giphy support.
+  """
+  giphy: GiphyMediaConfigurationInput
+}
+
 """
 NewCommenterConfigurationInput specifies the features that apply to new commenters
 """
@@ -4361,6 +4601,11 @@ input SettingsInput {
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfigurationInput
+
+  """
+  media is the configuration media content attached to Comment's.
+  """
+  media: MediaConfigurationInput
 }
 
 """

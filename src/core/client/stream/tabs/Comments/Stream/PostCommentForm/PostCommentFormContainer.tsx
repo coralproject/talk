@@ -35,6 +35,7 @@ import {
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
+import CommentForm from "../CommentForm";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -60,7 +61,7 @@ interface Props {
 interface State {
   /** nudge will turn on the nudging behavior on the server */
   nudge: boolean;
-  initialValues?: PropTypesOf<typeof PostCommentForm>["initialValues"];
+  initialValues?: PropTypesOf<typeof CommentForm>["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
   submitStatus: SubmitStatus | null;
@@ -118,9 +119,10 @@ export class PostCommentFormContainer extends Component<Props, State> {
     }
   };
 
-  private handleOnSubmit: PropTypesOf<
-    typeof PostCommentForm
-  >["onSubmit"] = async (input, form) => {
+  private handleOnSubmit: PropTypesOf<typeof CommentForm>["onSubmit"] = async (
+    input,
+    form
+  ) => {
     try {
       if (this.props.tab === "FEATURED_COMMENTS") {
         this.props.onChangeTab("ALL_COMMENTS");
@@ -132,6 +134,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
           body: input.body,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -160,7 +163,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     return;
   };
 
-  private handleOnChange: PropTypesOf<typeof PostCommentForm>["onChange"] = (
+  private handleOnChange: PropTypesOf<typeof CommentForm>["onChange"] = (
     state,
     form
   ) => {
@@ -229,10 +232,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
 
     return (
       <PostCommentForm
+        siteID={this.props.story.site.id}
         story={this.props.story}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
+        mediaConfig={this.props.settings.media}
         rteConfig={this.props.settings.rte}
         min={
           (this.props.settings.charCount.enabled &&
@@ -288,6 +293,17 @@ const enhanced = withContext(({ sessionStorage }) => ({
               closeCommenting {
                 message
               }
+              media {
+                twitter {
+                  enabled
+                }
+                youtube {
+                  enabled
+                }
+                giphy {
+                  enabled
+                }
+              }
               rte {
                 ...RTEContainer_config
               }
@@ -298,6 +314,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
               id
               isClosed
               ...MessageBoxContainer_story
+              site {
+                id
+              }
               settings {
                 messageBox {
                   enabled

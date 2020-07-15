@@ -37,6 +37,7 @@ import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
+import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   RejectedTombstoneContainer,
 } from "./ModerationDropdown";
@@ -400,6 +401,9 @@ export class CommentContainer extends Component<Props, State> {
                   )}
                 </Flex>
               }
+              media={
+                <MediaSectionContainer comment={comment} settings={settings} />
+              }
               footer={
                 <>
                   <Flex
@@ -594,6 +598,8 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...UserTagsContainer_comment
             ...UsernameWithPopoverContainer_comment
             ...UsernameContainer_comment
+            ...MediaSectionContainer_comment
+            ...UsernameContainer_comment
           }
         `,
         settings: graphql`
@@ -605,6 +611,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...ReplyCommentFormContainer_settings
             ...EditCommentFormContainer_settings
             ...UserTagsContainer_settings
+            ...MediaSectionContainer_settings
           }
         `,
       })(CommentContainer)

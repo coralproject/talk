@@ -95,6 +95,9 @@ export function createComment() {
           total: 0,
         },
       },
+      site: {
+        id: uuid(),
+      },
       tags: [],
     })
   );
@@ -129,6 +132,7 @@ export function createStory(createComments = true) {
           UNANSWERED: 0,
         },
       },
+      site: { id: uuid() },
       settings: {
         moderation: GQLMODERATION_MODE.POST,
         premodLinksEnable: false,

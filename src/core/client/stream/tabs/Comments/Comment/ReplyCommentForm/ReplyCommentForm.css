@@ -1,3 +1,5 @@
+$commentsBorder: var(--palette-grey-300);
+
 .rteContent {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -5,4 +7,9 @@
 
 .warnIcon {
   color: var(--palette-text-500);
+}
+
+.commentFormBox {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--round-corners);
 }

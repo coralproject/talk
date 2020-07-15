@@ -6,6 +6,19 @@ exports[`renders correctly 1`] = `
   disabledMessage="closed"
   id="comment-id"
   max={100}
+  mediaConfig={
+    Object {
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -13,6 +26,7 @@ exports[`renders correctly 1`] = `
   parentUsername="Joe"
   rteConfig={Object {}}
   rteRef={[Function]}
+  siteID="site-id"
 />
 `;
 
@@ -22,6 +36,19 @@ exports[`renders when commenting has been disabled 1`] = `
   disabledMessage="commenting disabled"
   id="comment-id"
   max={100}
+  mediaConfig={
+    Object {
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -29,6 +56,7 @@ exports[`renders when commenting has been disabled 1`] = `
   parentUsername="Joe"
   rteConfig={Object {}}
   rteRef={[Function]}
+  siteID="site-id"
 />
 `;
 
@@ -38,6 +66,19 @@ exports[`renders when story has been closed 1`] = `
   disabledMessage="story closed"
   id="comment-id"
   max={100}
+  mediaConfig={
+    Object {
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -45,6 +86,7 @@ exports[`renders when story has been closed 1`] = `
   parentUsername="Joe"
   rteConfig={Object {}}
   rteRef={[Function]}
+  siteID="site-id"
 />
 `;
 
@@ -59,6 +101,19 @@ exports[`renders with initialValues 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onCancel={[Function]}
   onChange={[Function]}
@@ -66,5 +121,6 @@ exports[`renders with initialValues 1`] = `
   parentUsername="Joe"
   rteConfig={Object {}}
   rteRef={[Function]}
+  siteID="site-id"
 />
 `;

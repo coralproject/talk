@@ -1,4 +1,10 @@
+$commentsBorder: var(--palette-grey-300);
 .root {
+}
+
+.rteContainer {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--round-corners);
 }
 
 .messageBox {

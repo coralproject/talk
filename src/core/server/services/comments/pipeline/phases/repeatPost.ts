@@ -2,6 +2,7 @@ import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
+import { supportsMediaType } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -21,8 +22,9 @@ export const repeatPost: IntermediateModerationPhase = async ({
   nudge,
   redis,
   log,
+  media,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!bodyText) {
+  if (!bodyText && !media) {
     return;
   }
 
@@ -42,19 +44,43 @@ export const repeatPost: IntermediateModerationPhase = async ({
       return;
     }
 
-    const revision = getHTMLPlainText(
-      getLatestRevision(lastComment).body
-    ).trim();
-    const compareTo = bodyText.trim();
+    const lastCommentRevision = getLatestRevision(lastComment);
+    const lastCommentBodyText = getHTMLPlainText(lastCommentRevision.body);
 
-    // Calculate the comment similarity. At the moment, we only do a string
-    // comparison, so it's either completely equal (they match) or the
-    // similarity can't be determined (null). This gives us room in the future
-    // to include a percentage matching.
-    const similarity = revision === compareTo ? 1 : null;
+    let similarity: null | boolean = null;
+
+    // Check to see if the comment text is the same on both comments.
+    if (lastCommentBodyText !== bodyText) {
+      // Body text is not the same, can't be a repeat post!
+      similarity = false;
+    } else if (supportsMediaType(tenant, "giphy")) {
+      // Giphy is enabled. If the medias are the same, then this is a repeat
+      // comment otherwise they are not.
+      if (
+        // Check to see if the last comment revision has a Giphy Media
+        // object.
+        lastCommentRevision.media &&
+        lastCommentRevision.media.type === "giphy" &&
+        // Check to see if the current comment revision has a Giphy Media
+        // object.
+        media &&
+        media.type === "giphy" &&
+        // Check to see if the media id's are the same.
+        lastCommentRevision.media.id === media.id
+      ) {
+        // Comment body text was the same and the media was the same.
+        similarity = true;
+      } else {
+        // Comment body text was the same but the media was different.
+        similarity = false;
+      }
+    } else {
+      // Body text was the same and Giphy support was not enabled.
+      similarity = false;
+    }
 
     if (similarity) {
-      log.trace({ similarity }, "comment contains repeat content");
+      log.trace({ similarity }, "comment content is repeated");
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
@@ -73,7 +99,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
       };
     }
 
-    log.trace({ similarity }, "comment is not repeated");
+    log.trace({ similarity }, "comment content is not repeated");
   } catch (err) {
     // Rethrow any RepeatPostError.
     if (err instanceof RepeatPostCommentError) {

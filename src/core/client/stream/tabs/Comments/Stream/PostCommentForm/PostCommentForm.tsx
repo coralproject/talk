@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
-import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
@@ -10,28 +9,23 @@ import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { CreateCommentFocusEvent } from "coral-stream/events";
-import {
-  AriaInfo,
-  Button,
-  Flex,
-  HorizontalGutter,
-  Icon,
-} from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
+import { AriaInfo } from "coral-ui/components/v2";
 
-import {
-  getCommentBodyValidators,
-  getHTMLCharacterLength,
-} from "../../helpers";
-import RemainingCharactersContainer from "../../RemainingCharacters";
-import RTEContainer from "../../RTE";
+import CommentForm from "../CommentForm";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
 import styles from "./PostCommentForm.css";
 
+interface MediaProps {
+  type: "twitter" | "youtube" | "giphy";
+  url: string;
+  id: string | null;
+}
+
 interface FormProps {
   body: string;
+  media?: MediaProps;
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -45,24 +39,26 @@ interface StorySettings {
 interface Props {
   onSubmit: OnSubmit<FormSubmitProps>;
   onChange?: (state: FormState<any>, form: FormApi) => void;
-  initialValues?: FormProps;
+  initialValues?: any;
   min: number | null;
   max: number | null;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showMessageBox?: boolean;
+  siteID: string;
   story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
-  rteConfig: PropTypesOf<typeof RTEContainer>["config"];
+  rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
+  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
 }
 
 const PostCommentForm: FunctionComponent<Props> = (props) => {
+  const isQA =
+    props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
-  const isQA =
-    props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   return (
     <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
@@ -71,139 +67,47 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
-      <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-        {({ handleSubmit, submitting, submitError, form }) => (
-          <form
-            autoComplete="off"
-            onSubmit={handleSubmit}
-            id="comments-postCommentForm-form"
-          >
-            <FormSpy
-              onChange={(state) =>
-                props.onChange && props.onChange(state, form)
-              }
-            />
-            <HorizontalGutter>
-              <Field
-                name="body"
-                validate={getCommentBodyValidators(props.min, props.max)}
+      <CommentForm
+        siteID={props.siteID}
+        onSubmit={props.onSubmit}
+        onChange={props.onChange}
+        min={props.min}
+        initialValues={props.initialValues}
+        max={props.max}
+        disabled={props.disabled}
+        disabledMessage={props.disabledMessage}
+        rteConfig={props.rteConfig}
+        placeHolderId="comments-postCommentForm-rte"
+        placeholder="Post a comment"
+        mediaConfig={props.mediaConfig}
+        onFocus={onFocus}
+        classNameRoot="createComment"
+        bodyInputID="comments-postCommentForm-field"
+        bodyLabel={
+          isQA ? (
+            <Localized id="qa-postQuestionForm-rteLabel">
+              <AriaInfo
+                component="label"
+                htmlFor="comments-postCommentForm-field"
               >
-                {({ input, meta }) => (
-                  <>
-                    <HorizontalGutter size="half">
-                      {isQA ? (
-                        <Localized id="qa-postQuestionForm-rteLabel">
-                          <AriaInfo
-                            component="label"
-                            htmlFor="comments-postCommentForm-field"
-                          >
-                            Post a question
-                          </AriaInfo>
-                        </Localized>
-                      ) : (
-                        <Localized id="comments-postCommentForm-rteLabel">
-                          <AriaInfo
-                            component="label"
-                            htmlFor="comments-postCommentForm-field"
-                          >
-                            Post a comment
-                          </AriaInfo>
-                        </Localized>
-                      )}
-                      <Localized
-                        id={
-                          isQA
-                            ? "qa-postQuestionForm-rte"
-                            : "comments-postCommentForm-rte"
-                        }
-                        attrs={{ placeholder: true }}
-                      >
-                        <RTEContainer
-                          inputID="comments-postCommentForm-field"
-                          config={props.rteConfig}
-                          onFocus={onFocus}
-                          onChange={(html) => input.onChange(html)}
-                          contentClassName={
-                            props.showMessageBox
-                              ? styles.rteBorderless
-                              : undefined
-                          }
-                          value={input.value}
-                          placeholder="Post a comment"
-                          disabled={submitting || props.disabled}
-                        />
-                      </Localized>
-                      {props.disabled ? (
-                        <>
-                          {props.disabledMessage && (
-                            <CallOut
-                              color="mono"
-                              icon={<Icon size="sm">feedback</Icon>}
-                              titleWeight="semiBold"
-                              title={props.disabledMessage}
-                            />
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {meta.touched &&
-                            (meta.error ||
-                              (meta.submitError &&
-                                !meta.dirtySinceLastSubmit)) && (
-                              <CallOut
-                                color="negative"
-                                icon={<Icon size="sm">error</Icon>}
-                                titleWeight="semiBold"
-                                title={meta.error || meta.submitError}
-                              />
-                            )}
-                          {submitError && (
-                            <CallOut
-                              color="warning"
-                              icon={
-                                <Icon className={styles.warnIcon}>warning</Icon>
-                              }
-                              iconColor="none"
-                              titleWeight="semiBold"
-                              title={submitError}
-                            />
-                          )}
-                          <PostCommentSubmitStatusContainer
-                            status={props.submitStatus}
-                          />
-                          {props.max && (
-                            <RemainingCharactersContainer
-                              value={input.value}
-                              max={props.max}
-                            />
-                          )}
-                        </>
-                      )}
-                    </HorizontalGutter>
-                    <Flex direction="column" alignItems="flex-end">
-                      <Localized id="comments-postCommentForm-submit">
-                        <Button
-                          color="stream"
-                          variant="regular"
-                          className={CLASSES.createComment.submit}
-                          disabled={
-                            submitting ||
-                            getHTMLCharacterLength(input.value) === 0 ||
-                            props.disabled
-                          }
-                          type="submit"
-                        >
-                          Submit
-                        </Button>
-                      </Localized>
-                    </Flex>
-                  </>
-                )}
-              </Field>
-            </HorizontalGutter>
-          </form>
-        )}
-      </Form>
+                Post a question
+              </AriaInfo>
+            </Localized>
+          ) : (
+            <Localized id="comments-postCommentForm-rteLabel">
+              <AriaInfo
+                component="label"
+                htmlFor="comments-postCommentForm-field"
+              >
+                Post a comment
+              </AriaInfo>
+            </Localized>
+          )
+        }
+        submitStatus={
+          <PostCommentSubmitStatusContainer status={props.submitStatus} />
+        }
+      />
     </div>
   );
 };
