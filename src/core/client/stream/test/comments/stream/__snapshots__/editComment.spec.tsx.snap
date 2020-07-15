@@ -432,7 +432,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               alarm
             </i>
             <span>
-              Edit:
+              Edit: 
               <time
                 className="RelativeTime-root"
                 dateTime="2018-07-06T18:24:30.000Z"
@@ -633,7 +633,7 @@ exports[`edit a comment: edit form 1`] = `
               alarm
             </i>
             <span>
-              Edit:
+              Edit: 
               <time
                 className="RelativeTime-root"
                 dateTime="2018-07-06T18:24:30.000Z"

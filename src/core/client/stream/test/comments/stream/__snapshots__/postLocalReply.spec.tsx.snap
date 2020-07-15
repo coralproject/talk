@@ -133,7 +133,7 @@ exports[`post a reply: open reply form 1`] = `
                 <span
                   className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                 >
-                  In reply to
+                  In reply to 
                   <span
                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                   >
@@ -335,7 +335,7 @@ exports[`post a reply: open reply form 1`] = `
                   <span
                     className="ReplyTo-text coral coral-createReplyComment-replyToText"
                   >
-                    Replying to
+                    Replying to 
                     <span
                       className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
                     >
@@ -639,7 +639,7 @@ exports[`post a reply: optimistic response 1`] = `
                     <span
                       className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                     >
-                      In reply to
+                      In reply to 
                       <span
                         className="InReplyTo-username coral coral-comment-inReplyToUsername"
                       >
@@ -1178,7 +1178,7 @@ exports[`renders comment stream 1`] = `
                           <span
                             className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
-                            In reply to
+                            In reply to 
                             <span
                               className="InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
@@ -1470,7 +1470,7 @@ exports[`renders comment stream 1`] = `
                                 <span
                                   className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                                 >
-                                  In reply to
+                                  In reply to 
                                   <span
                                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                   >
@@ -1762,7 +1762,7 @@ exports[`renders comment stream 1`] = `
                                       <span
                                         className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                                       >
-                                        In reply to
+                                        In reply to 
                                         <span
                                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                         >
