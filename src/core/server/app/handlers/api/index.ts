@@ -7,3 +7,4 @@ export * from "./version";
 export * from "./dashboard";
 export * from "./user";
 export * from "./story";
+export * from "./remoteMedia";

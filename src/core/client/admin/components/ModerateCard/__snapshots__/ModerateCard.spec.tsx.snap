@@ -42,25 +42,31 @@ exports[`renders approved correctly 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -179,25 +185,31 @@ exports[`renders correctly 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -316,25 +328,31 @@ exports[`renders dangling correctly 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -453,25 +471,31 @@ exports[`renders rejected correctly 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -599,25 +623,31 @@ exports[`renders reply correctly 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -736,25 +766,31 @@ exports[`renders story info 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          content
-        </CommentContent>
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
+          >
+            content
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
@@ -911,33 +947,39 @@ exports[`renders tombstoned when comment is deleted 1`] = `
       <div
         className="ModerateCard-contentArea"
       >
-        <CommentContent
+        <div
           className="ModerateCard-content"
-          highlight={false}
-          phrases={
-            Object {
-              "locale": "en-US",
-              "wordList": Object {
-                "banned": Array [
-                  "banned",
-                ],
-                "suspect": Array [
-                  "suspect",
-                ],
-              },
-            }
-          }
         >
-          <Localized
-            id="moderate-comment-deleted-body"
+          <CommentContent
+            highlight={false}
+            phrases={
+              Object {
+                "locale": "en-US",
+                "wordList": Object {
+                  "banned": Array [
+                    "banned",
+                  ],
+                  "suspect": Array [
+                    "suspect",
+                  ],
+                },
+              }
+            }
           >
-            <div
-              className="ModerateCard-deleted"
+            <Localized
+              id="moderate-comment-deleted-body"
             >
-              This comment is no longer available. The commenter has deleted their account.
-            </div>
-          </Localized>
-        </CommentContent>
+              <div
+                className="ModerateCard-deleted"
+              >
+                This comment is no longer available. The commenter has deleted their account.
+              </div>
+            </Localized>
+          </CommentContent>
+          <Relay(MediaContainer)
+            comment={Object {}}
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >

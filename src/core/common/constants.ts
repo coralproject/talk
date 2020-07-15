@@ -37,6 +37,10 @@ export const TOXICITY_MODEL_DEFAULT = "TOXICITY";
 export const TOXICITY_ENDPOINT_DEFAULT =
   "https://commentanalyzer.googleapis.com/v1alpha1";
 
+export const GIPHY_SEARCH = "https://api.giphy.com/v1/gifs/search";
+
+export const GIPHY_FETCH = "https://api.giphy.com/v1/gifs";
+
 /**
  * DOWNLOAD_LIMIT_TIMEFRAME_DURATION is the number of seconds that a given
  * download may be made within.

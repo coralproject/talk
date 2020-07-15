@@ -3,6 +3,8 @@ import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
 import { graphQLHandler } from "coral-server/app/handlers";
+import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
+import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
@@ -18,6 +20,7 @@ import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
 import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
+import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
 
@@ -51,6 +54,8 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
 
+  router.get("/oembed", cspSiteMiddleware(app), oembedHandler());
+
   // Configure the GraphQL route.
   router.use(
     "/graphql",
@@ -66,6 +71,12 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     loggedInMiddleware,
     roleMiddleware(STAFF_ROLES),
     createDashboardRouter(app)
+  );
+  router.use(
+    "/remote-media",
+    authenticate(options.passport),
+    loggedInMiddleware,
+    createRemoteMediaRouter(app)
   );
 
   // General API error handler.

@@ -116,6 +116,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           local: this.props.localReply,
           nudge: this.state.nudge,
           body: input.body,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -179,10 +180,12 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
     return (
       <ReplyCommentForm
+        siteID={this.props.comment.site.id}
         id={this.props.comment.id}
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
+        mediaConfig={this.props.settings.media}
         initialValues={this.state.initialValues}
         onCancel={this.handleOnCancelOrDismiss}
         rteRef={this.handleRTERef}
@@ -234,6 +237,17 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             closeCommenting {
               message
             }
+            media {
+              twitter {
+                enabled
+              }
+              youtube {
+                enabled
+              }
+              giphy {
+                enabled
+              }
+            }
             rte {
               ...RTEContainer_config
             }
@@ -248,6 +262,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
         comment: graphql`
           fragment ReplyCommentFormContainer_comment on Comment {
             id
+            site {
+              id
+            }
             author {
               username
             }

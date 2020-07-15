@@ -14,6 +14,7 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
+  getLatestRevision,
   retrieveComment,
   validateEditable,
 } from "coral-server/models/comment";
@@ -24,6 +25,10 @@ import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
+import {
+  attachMedia,
+  CreateCommentMediaInput,
+} from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
@@ -49,8 +54,10 @@ function getLastCommentEditableUntilDate(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata"
->;
+  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata" | "media"
+> & {
+  media?: CreateCommentMediaInput;
+};
 
 export default async function edit(
   mongo: Db,
@@ -75,6 +82,9 @@ export default async function edit(
   if (!originalStaleComment) {
     throw new CommentNotFoundError(input.id);
   }
+
+  // Get the original stale revision.
+  const originalStaleRevision = getLatestRevision(originalStaleComment);
 
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
@@ -101,6 +111,12 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  let media = originalStaleRevision.media;
+  if (input.media) {
+    // TODO: (wyattjoh) check to see if the media is the same.
+    media = await attachMedia(tenant, input.media, input.body);
+  }
+
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
     log,
@@ -115,6 +131,7 @@ export default async function edit(
       ...input,
       authorID: author.id,
     },
+    media,
     author,
     req,
     now,
@@ -139,6 +156,7 @@ export default async function edit(
       metadata,
       actionCounts,
       lastEditableCommentCreatedAt,
+      media,
     },
     now
   );

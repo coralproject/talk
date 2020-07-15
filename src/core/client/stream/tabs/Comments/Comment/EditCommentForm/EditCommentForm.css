@@ -1,0 +1,6 @@
+$commentsBorder: var(--v2-colors-grey-300);
+
+.commentFormBox {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--v2-round-corners);
+}

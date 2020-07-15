@@ -13,6 +13,11 @@ const config = {
 
 export const linkify: IntermediateModerationPhase = async ({
   comment,
-}): Promise<IntermediatePhaseResult | void> => ({
-  body: linkifyjs(comment.body, config),
-});
+  bodyText,
+}): Promise<IntermediatePhaseResult | void> => {
+  if (bodyText.trim().length > 0) {
+    return {
+      body: linkifyjs(comment.body, config),
+    };
+  }
+};

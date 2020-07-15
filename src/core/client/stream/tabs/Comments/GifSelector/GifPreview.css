@@ -1,0 +1,17 @@
+.root {
+  padding: var(--v2-spacing-2);
+  padding-top: 0;
+}
+
+.imageWrapper {
+  padding-top: var(--v2-spacing-2);
+  border-top: 1px solid var(--v2-colors-grey-200);
+  position: relative;
+  display: inline-block;
+}
+
+.button {
+  position: absolute;
+  top: 16px;
+  right: 8px;
+}

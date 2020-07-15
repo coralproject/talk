@@ -26,6 +26,26 @@ const mutation = graphql`
         status
         revision {
           id
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on TwitterMedia {
+              url
+              width
+            }
+            ... on YouTubeMedia {
+              url
+              width
+              height
+            }
+          }
         }
         editing {
           edited
@@ -54,7 +74,7 @@ async function commit(
         mutation,
         variables: {
           input: {
-            ...pick(input, ["commentID", "body"]),
+            ...pick(input, ["commentID", "body", "media"]),
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -66,6 +86,7 @@ async function commit(
               status: lookup<GQLComment>(environment, input.commentID)!.status,
               revision: {
                 id: uuidGenerator(),
+                media: null,
               },
               editing: {
                 edited: true,

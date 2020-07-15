@@ -1,0 +1,7 @@
+$commentsRTEBorder: var(--v2-colors-grey-300);
+$commentsRTEContentBackground: var(--v2-colors-pure-white);
+
+.root {
+  border: 1px solid $commentsRTEBorder;
+  border-radius: var(--v2-round-corners);
+}

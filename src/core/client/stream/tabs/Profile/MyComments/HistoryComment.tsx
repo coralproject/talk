@@ -28,6 +28,7 @@ export interface HistoryCommentProps {
   };
   conversationURL: string;
   onGotoConversation: (e: React.MouseEvent) => void;
+  media: React.ReactNode;
 }
 
 const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
@@ -53,13 +54,16 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
             <InReplyTo username={props.parentAuthorName} />
           </div>
         )}
-        <div className={styles.content}>
-          {props.body && (
-            <HTMLContent className={CLASSES.myComment.content}>
-              {props.body}
-            </HTMLContent>
-          )}
-        </div>
+        <HorizontalGutter>
+          <div className={styles.content}>
+            {props.body && (
+              <HTMLContent className={CLASSES.myComment.content}>
+                {props.body}
+              </HTMLContent>
+            )}
+          </div>
+          {props.media}
+        </HorizontalGutter>
       </div>
       <Flex
         direction="row"

@@ -29,6 +29,7 @@ import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
 import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
+import MediaContainer from "./MediaContainer";
 import RejectButton from "./RejectButton";
 
 import styles from "./ModerateCard.css";
@@ -44,7 +45,8 @@ interface Props {
     username: string | null;
   } | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"] &
-    PropTypesOf<typeof CommentAuthorContainer>["comment"];
+    PropTypesOf<typeof CommentAuthorContainer>["comment"] &
+    PropTypesOf<typeof MediaContainer>["comment"];
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
@@ -238,13 +240,12 @@ const ModerateCard: FunctionComponent<Props> = ({
             )}
           </div>
           <div className={styles.contentArea}>
-            <CommentContent
-              highlight={highlight}
-              phrases={phrases}
-              className={styles.content}
-            >
-              {commentBody}
-            </CommentContent>
+            <div className={styles.content}>
+              <CommentContent highlight={highlight} phrases={phrases}>
+                {commentBody}
+              </CommentContent>
+              <MediaContainer comment={comment} />
+            </div>
             {onConversationClick && (
               <div className={styles.viewContext}>
                 <Button iconLeft variant="text" onClick={onConversationClick}>

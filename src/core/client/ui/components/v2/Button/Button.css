@@ -62,30 +62,35 @@ $button-outline-mono-foreground: var(--v2-colors-grey-500);
 $button-outline-alert-foreground: var(--v2-colors-red-500);
 $button-outline-alt-foreground: var(--v2-colors-green-500);
 $button-outline-dark-foreground: var(--v2-colors-blue-500);
+$button-outline-stream-foreground: var(--v2-colors-stream-blue-500);
 
 $button-outline-regular-border: var(--v2-colors-teal-600);
 $button-outline-mono-border: var(--v2-colors-grey-500);
 $button-outline-alert-border: var(--v2-colors-red-500);
 $button-outline-alt-border: var(--v2-colors-green-500);
 $button-outline-dark-border: var(--v2-colors-blue-500);
+$button-outline-stream-border: var(--v2-colors-stream-blue-500);
 
 $button-outline-regular-background-hover: var(--v2-colors-teal-600);
 $button-outline-mono-background-hover: var(--v2-colors-grey-500);
 $button-outline-alert-background-hover: var(--v2-colors-red-500);
 $button-outline-alt-background-hover: var(--v2-colors-green-500);
 $button-outline-dark-background-hover: var(--v2-colors-blue-500);
+$button-outline-stream-background-hover: var(--v2-colors-stream-blue-500);
 
 $button-outline-regular-background-active: var(--v2-colors-teal-800);
 $button-outline-mono-background-active: var(--v2-colors-grey-700);
 $button-outline-alert-background-active: var(--v2-colors-red-700);
 $button-outline-alt-background-active: var(--v2-colors-green-700);
 $button-outline-dark-background-active: var(--v2-colors-blue-700);
+$button-outline-stream-background-active: var(--v2-colors-stream-blue-500);
 
 $button-outline-regular-border-active: var(--v2-colors-teal-800);
 $button-outline-mono-border-active: var(--v2-colors-grey-700);
 $button-outline-alert-border-active: var(--v2-colors-red-700);
 $button-outline-alt-border-active: var(--v2-colors-green-700);
 $button-outline-dark-border-active: var(--v2-colors-blue-700);
+$button-outline-stream-border-active: var(--v2-colors-stream-blue-500);
 
 /* text button */
 $button-text-background: transparent;
@@ -96,18 +101,21 @@ $button-text-mono-foreground: var(--v2-colors-grey-500);
 $button-text-alert-foreground: var(--v2-colors-red-500);
 $button-text-alt-foreground: var(--v2-colors-green-500);
 $button-text-dark-foreground: var(--v2-colors-blue-500);
+$button-text-stream-foreground: var(--v2-colors-stream-blue-500);
 
 $button-text-regular-foreground-hover: var(--v2-colors-teal-700);
 $button-text-mono-foreground-hover: var(--v2-colors-grey-600);
 $button-text-alert-foreground-hover: var(--v2-colors-red-600);
 $button-text-alt-foreground-hover: var(--v2-colors-green-600);
 $button-text-dark-foreground-hover: var(--v2-colors-blue-600);
+$button-text-stream-foreground-hover: var(--v2-colors-stream-blue-700);
 
 $button-text-regular-foreground-active: var(--v2-colors-teal-800);
 $button-text-mono-foreground-active: var(--v2-colors-grey-700);
 $button-text-alert-foreground-active: var(--v2-colors-red-700);
 $button-text-alt-foreground-active: var(--v2-colors-green-700);
 $button-text-dark-foreground-active: var(--v2-colors-blue-700);
+$button-text-stream-foreground-active: var(--v2-colors-stream-blue-700);
 
 /* Class Definitions */
 
@@ -169,6 +177,18 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
   display: flex;
   width: 100%;
   box-sizing: border-box;
+}
+
+.sizeSmall {
+  font-size: var(--v2-font-size-1);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-1) var(--v2-spacing-2);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-2);
+      padding-right: var(--v2-spacing-2);
+    }
+  }
 }
 
 .sizeRegular {
@@ -382,6 +402,10 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       color: $button-outline-regular-foreground;
       border-color: $button-outline-regular-border;
     }
+    &.colorStream {
+      color: $button-outline-stream-foreground;
+      border-color: $button-outline-stream-border;
+    }
     &.colorMono {
       color: $button-outline-mono-foreground;
       border-color: $button-outline-mono-border;
@@ -408,6 +432,9 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       &.colorRegular {
         background-color: $button-outline-regular-background-hover;
       }
+      &.colorStream {
+        background-color: $button-outline-stream-background-hover;
+      }
       &.colorMono {
         background-color: $button-outline-mono-background-hover;
       }
@@ -428,6 +455,10 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       &.colorRegular {
         background-color: $button-outline-regular-background-active;
         border-color: $button-outline-regular-border-active;
+      }
+      &.colorStream {
+        background-color: $button-outline-stream-background-active;
+        border-color: $button-outline-stream-border-active;
       }
       &.colorMono {
         background-color: $button-outline-mono-background-active;
@@ -515,6 +546,18 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       &:active,
       &.active {
         color: $button-text-dark-foreground-active;
+      }
+    }
+
+    &.colorStream {
+      color: $button-text-stream-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-stream-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-stream-foreground-active;
       }
     }
   }

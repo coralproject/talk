@@ -114,7 +114,9 @@ exports[`renders comment stream 1`] = `
           <div
             className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
           >
-            <div>
+            <div
+              className="PostCommentFormFake-rteContainer"
+            >
               <div>
                 <div
                   className="$root content placeholder toolbar container"
@@ -122,7 +124,7 @@ exports[`renders comment stream 1`] = `
                   onFocus={[Function]}
                 >
                   <div
-                    className="RTE.module-contentEditableContainer coral coral-rte-container"
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                   >
                     <div
                       aria-placeholder="Post a comment"

@@ -252,168 +252,177 @@ exports[`post a reply: open reply form 1`] = `
         </div>
       </div>
     </div>
-    <form
-      autoComplete="off"
-      className="coral coral-createReplyComment"
-      id="comments-replyCommentForm-form-comment-0"
-      onSubmit={[Function]}
-    >
+    <div>
       <div
-        className="Box-root HorizontalGutter-root HorizontalGutter-full"
+        className="coral coral-createReplyComment"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-half"
+        <form
+          autoComplete="off"
+          id="comments-postCommentForm-form"
+          onSubmit={[Function]}
         >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-replyCommentForm-rte-comment-0"
-            >
-              Write a reply
-            </label>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
             <div
-              className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
+              className="CommentForm-commentFormBox"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm"
-              >
-                reply
-              </i>
-              <span>
-                 
-              </span>
-              <span
-                className="ReplyTo-text coral coral-createReplyComment-replyToText"
-              >
-                Replying to 
-                <span
-                  className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
-                >
-                  Markus
-                </span>
-              </span>
-            </div>
-            <div>
               <div
-                className="$root content placeholder toolbar container"
-                onBlur={[Function]}
-                onFocus={[Function]}
+                className="Box-root HorizontalGutter-root HorizontalGutter-half"
               >
-                <div
-                  className="RTE.module-contentEditableContainer coral coral-rte-container"
+                <label
+                  className="AriaInfo-root"
+                  htmlFor="comments-replyCommentForm-rte-comment-0"
                 >
-                  <div
-                    aria-placeholder="Write a reply"
-                    className="RTE.module-contentEditable coral coral-rte-content ReplyCommentForm-rteContent RTE-content"
-                    id="comments-replyCommentForm-rte-comment-0"
-                  />
-                  <div
+                  Write a reply
+                </label>
+                <div
+                  className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
+                >
+                  <i
                     aria-hidden="true"
-                    className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                    className="Icon-root Icon-sm"
                   >
-                    Write a reply
-                  </div>
+                    reply
+                  </i>
+                  <span>
+                     
+                  </span>
+                  <span
+                    className="ReplyTo-text coral coral-createReplyComment-replyToText"
+                  >
+                    Replying to 
+                    <span
+                      className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
+                    >
+                      Markus
+                    </span>
+                  </span>
                 </div>
-                <div
-                  className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-                >
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
+                <div>
+                  <div>
+                    <div
+                      className="$root content placeholder toolbar container"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
                     >
-                      format_bold
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </i>
-                  </button>
-                  <button
-                    className="Button.module-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bulleted List"
-                    type="button"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_list_bulleted
-                    </i>
-                  </button>
+                      <div
+                        className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                      >
+                        <div
+                          aria-placeholder="Write a reply"
+                          className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                          id="comments-replyCommentForm-rte-comment-0"
+                        />
+                        <div
+                          aria-hidden="true"
+                          className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                        >
+                          Write a reply
+                        </div>
+                      </div>
+                      <div
+                        className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      >
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Bold"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_bold
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Italic"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_italic
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Blockquote"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_quote
+                          </i>
+                        </button>
+                        <button
+                          className="Button.module-button"
+                          disabled={false}
+                          onClick={[Function]}
+                          title="Bulleted List"
+                          type="button"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-md"
+                          >
+                            format_list_bulleted
+                          </i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div
+              className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-createReplyComment-cancel"
+                data-color="mono"
+                data-variant="outline"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Cancel
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createReplyComment-submit"
+                data-color="stream"
+                data-variant="regular"
+                disabled={true}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
           </div>
-        </div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-createReplyComment-cancel"
-            data-color="mono"
-            data-variant="outline"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Cancel
-          </button>
-          <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createReplyComment-submit"
-            data-color="stream"
-            data-variant="regular"
-            disabled={true}
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 `;

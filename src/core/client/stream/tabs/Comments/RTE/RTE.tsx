@@ -76,6 +76,12 @@ const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
   }
 );
 
+export interface PasteEvent {
+  fragment: DocumentFragment;
+  preventDefault: () => void;
+  defaultPrevented: boolean;
+}
+
 interface Props {
   inputID?: string;
   /**
@@ -131,6 +137,10 @@ interface Props {
   forwardRef?: Ref<CoralRTE>;
 
   features?: RTEFeatures;
+
+  toolbarButtons?: React.ReactElement | null;
+
+  onWillPaste?: (event: PasteEvent) => void;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -151,6 +161,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     onFocus,
     onBlur,
     features,
+    onWillPaste,
     ...rest
   } = props;
 
@@ -228,6 +239,9 @@ const RTE: FunctionComponent<Props> = (props) => {
         </Localized>
       );
     }
+    if (props.toolbarButtons) {
+      x.push(props.toolbarButtons);
+    }
     return x;
   }, [features]);
 
@@ -255,6 +269,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           }
         )}
         contentContainerClassName={cn(
+          styles.container,
           CLASSES.rte.container,
           containerClassName
         )}
@@ -267,6 +282,7 @@ const RTE: FunctionComponent<Props> = (props) => {
         toolbarPosition="bottom"
         onBlur={onBlur}
         onFocus={onFocus}
+        onWillPaste={onWillPaste}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         {...rest}
       />

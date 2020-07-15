@@ -1502,6 +1502,411 @@ appears on the comment stream and in the admin interface.
               </fieldset>
             </div>
           </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
+                  Embeded media
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Allow Twitter embeds
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.twitter.enabled-true"
+                        name="media.twitter.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="media.twitter.enabled-true"
+                      >
+                        <span>
+                          Yes
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.twitter.enabled-false"
+                        name="media.twitter.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="media.twitter.enabled-false"
+                      >
+                        <span>
+                          No
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Allow YouTube embeds
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.youtube.enabled-true"
+                        name="media.youtube.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="media.youtube.enabled-true"
+                      >
+                        <span>
+                          Yes
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.youtube.enabled-false"
+                        name="media.youtube.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="media.youtube.enabled-false"
+                      >
+                        <span>
+                          No
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Allow GIFs from GIPHY
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.giphy.enabled-true"
+                        name="media.giphy.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="media.giphy.enabled-true"
+                      >
+                        <span>
+                          Yes
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.giphy.enabled-false"
+                        name="media.giphy.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="media.giphy.enabled-false"
+                      >
+                        <span>
+                          No
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    GIF content rating
+                  </legend>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Select the maximum content rating for the GIFs that will appear in commenters’ search results
+                  </p>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={true}
+                      id="G"
+                      name="media.giphy.maxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="g"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="G"
+                    >
+                      G
+                    </label>
+                  </div>
+                  <div
+                    className="MediaLinksConfig-ratingDesc"
+                  >
+                    Content that is appropriate for all ages
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={true}
+                      id="PG"
+                      name="media.giphy.maxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="pg"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="PG"
+                    >
+                      PG
+                    </label>
+                  </div>
+                  <div
+                    className="MediaLinksConfig-ratingDesc"
+                  >
+                    Content that is generally safe for everyone, but parental guidance for children is advised.
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={true}
+                      id="PG13"
+                      name="media.giphy.maxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="pg13"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="PG13"
+                    >
+                      PG-13
+                    </label>
+                  </div>
+                  <div
+                    className="MediaLinksConfig-ratingDesc"
+                  >
+                    Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={true}
+                      id="r"
+                      name="media.giphy.maxRating"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value="r"
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="r"
+                    >
+                      R
+                    </label>
+                  </div>
+                  <div
+                    className="MediaLinksConfig-ratingDesc"
+                  >
+                    Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
+                  </div>
+                </div>
+                <h3
+                  className="Subheader-root"
+                >
+                  Configuration
+                </h3>
+                <p
+                  className="HelperText-root"
+                >
+                  For additional information on GIPHY’s API please visit: 
+                  <a
+                    className="ExternalLink-root"
+                    href="https://developers.giphy.com/docs/api"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://developers.giphy.com/docs/api
+                  </a>
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    GIPHY API key
+                  </label>
+                  <div
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                  >
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-moderation-media.giphy.key"
+                    >
+                      API key
+                    </label>
+                    <div
+                      className="PasswordField-fullWidth PasswordField-root"
+                    >
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="new-password"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
+                          disabled={true}
+                          id="configure-moderation-media.giphy.key"
+                          name="media.giphy.key"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          onKeyUp={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Show API Key"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>

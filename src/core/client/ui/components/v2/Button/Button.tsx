@@ -22,7 +22,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
 
   /** Size of the button */
-  size?: "regular" | "large";
+  size?: "small" | "regular" | "large";
 
   /** Color of the button */
   color?: "regular" | "alert" | "mono" | "alt" | "dark" | "stream";
@@ -99,6 +99,7 @@ export class Button extends React.Component<Props> {
     const rootClassName = cn(
       classes.root,
       {
+        [classes.sizeSmall]: size === "small",
         [classes.sizeRegular]: size === "regular",
         [classes.sizeLarge]: size === "large",
         [classes.colorRegular]: color === "regular",

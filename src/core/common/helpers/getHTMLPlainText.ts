@@ -12,7 +12,9 @@ export default function getHTMLPlainText(html: string): string {
   let textContent: string;
 
   if (process.env.WEBPACK !== "true") {
-    // textContent is not fully implemented in JSDOM, so we use `striptags` inste ad.
+    // textContent is not fully implemented in JSDOM, so we use `striptags`
+    // instead.
+
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     textContent = require("striptags")(htmlWithNewLine);
   } else {
@@ -20,5 +22,7 @@ export default function getHTMLPlainText(html: string): string {
     divElement.innerHTML = htmlWithNewLine;
     textContent = divElement.textContent || "";
   }
-  return textContent.trimRight();
+
+  // Trim the text content.
+  return textContent.trim();
 }

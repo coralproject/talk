@@ -175,6 +175,10 @@ const CLASSES = {
      * dismissButton is the button to dismiss the in review message.
      */
     dismissButton: "coral coral-createComment-dismissButton",
+    /**
+     * cancel is the button for cancelling the post.
+     */
+    cancel: "coral coral-createComment-cancel",
   },
 
   /**

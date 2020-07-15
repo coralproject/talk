@@ -29,15 +29,17 @@ exports[`renders correctly 1`] = `
     >
       2018-07-06T18:24:00.000Z
     </TimeStamp>
-    <div
-      className="HistoryComment-content"
-    >
-      <HTMLContent
-        className="coral coral-myComment-content"
+    <ForwardRef(forwardRef)>
+      <div
+        className="HistoryComment-content"
       >
-        Hello World
-      </HTMLContent>
-    </div>
+        <HTMLContent
+          className="coral coral-myComment-content"
+        >
+          Hello World
+        </HTMLContent>
+      </div>
+    </ForwardRef(forwardRef)>
   </div>
   <ForwardRef(forwardRef)
     alignItems="center"

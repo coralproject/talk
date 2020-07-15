@@ -68,10 +68,27 @@ comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
 
+comments-commentForm-cancel = Cancel
+comments-commentForm-saveChanges = Save changes
+comments-commentForm-submit = Submit
+
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
+comments-postCommentForm-gifSeach = Search for a GIF
+comments-postComment-gifSearch-loading = Loading...
+comments-postComment-gifSearch-no-results = No results found for {$query}
+comments-postComment-gifSearch-powered-by-giphy =
+  .alt = Powered by giphy
+
+comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-cancel = Cancel
+comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-video = Add video
+comments-postComment-confirmMedia-remove = Remove
+comments-commentForm-gifPreview-remove = Remove
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment
@@ -270,6 +287,20 @@ comments-stream-deleteAccount-callOut-cancel =
   Cancel account deletion request
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancel account deletion
+
+### Embed Links
+
+comments-embedLinks-showEmbeds = Show embeds
+comments-embedLinks-hideEmbeds = Hide embeds
+
+comments-embedLinks-show-giphy = Show GIF
+comments-embedLinks-hide-giphy = Hide GIF
+
+comments-embedLinks-show-youtube = Show video
+comments-embedLinks-hide-youtube = Hide video
+
+comments-embedLinks-show-twitter = Show Tweet
+comments-embedLinks-hide-twitter = Hide Tweet
 
 ### Featured Comments
 comments-featured-gotoConversation = Go to conversation
