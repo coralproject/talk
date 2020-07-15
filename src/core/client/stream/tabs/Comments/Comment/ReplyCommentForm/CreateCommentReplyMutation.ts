@@ -253,6 +253,9 @@ async function commit(
                     },
                   },
                 },
+                site: {
+                  id: uuidGenerator(),
+                },
                 replies: {
                   edges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },

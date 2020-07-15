@@ -27,7 +27,6 @@ import styles from "./GifSelector.css";
 
 interface Props {
   onGifSelect: (gif: GiphyGif) => void;
-  value: GiphyGif | null;
 }
 
 const GifSelector: FunctionComponent<Props> = (props) => {
@@ -37,6 +36,9 @@ const GifSelector: FunctionComponent<Props> = (props) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSearchFieldChange = useCallback(
     (evt: ChangeEvent<HTMLInputElement>) => {
       setQuery(evt.target.value);
@@ -44,32 +46,54 @@ const GifSelector: FunctionComponent<Props> = (props) => {
     []
   );
   const searchInput = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     // TODO: why doesn't this work?
     if (searchInput && searchInput.current) {
       searchInput.current.focus();
     }
   }, []);
+
   useEffect(() => {
     async function search() {
-      if (query && query.length > 1) {
-        try {
-          const res = await gifSearchFetch({ query, page });
-          const { pagination, data } = res;
-          if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
-            setHasNextPage(true);
-          } else {
-            setHasNextPage(false);
-          }
-          setSearchError(null);
-          return setResults(data);
-        } catch (error) {
-          setSearchError(error.message);
+      try {
+        const res = await gifSearchFetch({ query, page });
+        const { pagination, data } = res;
+        if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
+          setHasNextPage(true);
+        } else {
+          setHasNextPage(false);
         }
+        setSearchError(null);
+        setResults(data);
+      } catch (error) {
+        setSearchError(error.message);
       }
+
+      setIsLoading(false);
     }
-    void search();
-  }, [query, page]);
+
+    let timeout: NodeJS.Timeout | null = null;
+
+    if (query && query.length > 1) {
+      setIsLoading(true);
+
+      timeout = setTimeout(() => {
+        timeout = null;
+        void search();
+      }, 200);
+    } else {
+      setPage(0);
+      setResults([]);
+      setIsLoading(false);
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [query, page, setResults, setIsLoading, setPage]);
   const nextPage = useCallback(() => {
     setPage(page + 1);
   }, [page]);
@@ -88,7 +112,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
       <HorizontalGutter>
         <HorizontalGutter>
           <Localized id="comments-postComment-gifSearch">
-            <InputLabel>Search for a gif</InputLabel>
+            <InputLabel>Search for a GIF</InputLabel>
           </Localized>
           <TextField
             className={styles.input}
@@ -104,6 +128,11 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             }
           />
         </HorizontalGutter>
+        {isLoading && (
+          <Localized id="comments-postComment-gifSearch-loading">
+            <p className={styles.loading}>Loading...</p>
+          </Localized>
+        )}
         {results.length > 0 && (
           <>
             <div>
@@ -176,14 +205,19 @@ const GifSelector: FunctionComponent<Props> = (props) => {
           </Flex>
         )}
         {searchError && <p className={styles.error}>{searchError}</p>}
-        {!searchError && results.length === 0 && query.length > 0 && (
-          <Localized
-            id="comments-postComment-gifSearch-no-results"
-            $query={query}
-          >
-            <p className={styles.noResults}>No results found for "{query}" </p>
-          </Localized>
-        )}
+        {!isLoading &&
+          !searchError &&
+          results.length === 0 &&
+          query.length > 1 && (
+            <Localized
+              id="comments-postComment-gifSearch-no-results"
+              $query={query}
+            >
+              <p className={styles.noResults}>
+                No results found for "{query}"{" "}
+              </p>
+            </Localized>
+          )}
       </HorizontalGutter>
     </div>
   );

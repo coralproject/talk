@@ -39,6 +39,7 @@ const GiphyGifImagesSchema = Joi.object().keys({
 const GiphyGifSchema = Joi.object().keys({
   id: Joi.string().required(),
   url: Joi.string().required(),
+  title: Joi.string().optional().allow(""),
   rating: Joi.string().required(),
   images: GiphyGifImagesSchema,
 });

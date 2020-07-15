@@ -61,7 +61,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         <ButtonIcon>add</ButtonIcon>
         {media.__typename === "TwitterMedia" && (
           <Localized id="comments-embedLinks-show-twitter">
-            Show tweet
+            Show Tweet
           </Localized>
         )}
         {media.__typename === "YouTubeMedia" && (
@@ -70,7 +70,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
         {media.__typename === "GiphyMedia" && (
-          <Localized id="comments-embedLinks-show-giphy">Show gif</Localized>
+          <Localized id="comments-embedLinks-show-giphy">Show GIF</Localized>
         )}
       </Button>
     );
@@ -90,11 +90,11 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           <ButtonIcon>remove</ButtonIcon>
           {media.__typename === "TwitterMedia" && (
             <Localized id="comments-embedLinks-hide-twitter">
-              Hide tweet
+              Hide Tweet
             </Localized>
           )}
           {media.__typename === "GiphyMedia" && (
-            <Localized id="comments-embedLinks-hide-giphy">Hide gif</Localized>
+            <Localized id="comments-embedLinks-hide-giphy">Hide GIF</Localized>
           )}
           {media.__typename === "YouTubeMedia" && (
             <Localized id="comments-embedLinks-hide-youtube">

@@ -27,13 +27,13 @@ const GiphyMedia: FunctionComponent<Props> = ({
   return (
     <div className={styles.embed}>
       {!showAnimated && still && (
-        <BaseButton onClick={toggleImage} className={styles.gifToggle}>
+        <BaseButton onClick={toggleImage} className={styles.toggle}>
           <img src={still} className={styles.image} alt={title || ""} />
           <Flex
             direction="column"
             alignItems="center"
             justifyContent="center"
-            className={styles.gifToggleTrigger}
+            className={styles.toggleTrigger}
           >
             <Icon size="xl" className={styles.playIcon}>
               play_circle_outline

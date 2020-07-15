@@ -39,9 +39,9 @@ export interface GiphyMedia {
   type: "giphy";
   id: string;
   url: string;
-  original?: string;
-  still?: string;
-  video?: string;
+  original: string;
+  still: string;
+  video: string;
   width?: number;
   height?: number;
   title?: string;
@@ -57,6 +57,7 @@ export interface YouTubeMedia {
   type: "youtube";
   url: string;
   still: string;
+  title?: string;
   width?: number;
   height?: number;
 }

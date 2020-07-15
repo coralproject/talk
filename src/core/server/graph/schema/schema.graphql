@@ -2639,6 +2639,8 @@ type TwitterMedia {
 
 type YouTubeMedia {
   url: String!
+  still: String!
+  title: String
   width: Int
   height: Int
 }

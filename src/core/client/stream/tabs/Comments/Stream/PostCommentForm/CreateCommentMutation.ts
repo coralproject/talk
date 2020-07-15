@@ -203,6 +203,9 @@ async function commit(
                   badges: viewer.badges,
                   ignoreable: false,
                 },
+                site: {
+                  id: uuidGenerator(),
+                },
                 revision: {
                   id: uuidGenerator(),
                   media: null,

@@ -1,8 +1,22 @@
 type MediaType = "twitter" | "youtube";
 
 export interface MediaLink {
-  url: string;
   type: MediaType;
+  url: string;
+}
+
+export function isMediaLink<T extends {}>(
+  link: T | MediaLink
+): link is MediaLink {
+  if (
+    ((link as MediaLink).type === "twitter" ||
+      (link as MediaLink).type === "youtube") &&
+    (link as MediaLink).url
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 function formatLink(type: MediaType, link: string): MediaLink {

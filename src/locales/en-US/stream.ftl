@@ -76,17 +76,18 @@ comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
-comments-postCommentForm-gifSeach = Search for a gif
+comments-postCommentForm-gifSeach = Search for a GIF
+comments-postComment-gifSearch-loading = Loading...
 comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Powered by giphy
 
-comments-postComment-confirmEmbed-youtube = Add this YouTube video to the end of your comment?
-comments-postComment-confirmEmbed-twitter = Add this tweet video to the end of your comment?
-comments-postComment-confirmEmbed-cancel = Cancel
-comments-postComment-confirmEmbed-add-tweet = Add tweet
-comments-postComment-confirmEmbed-add-video = Add video
-comments-postComment-confirmEmbed-remove = Remove
+comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-cancel = Cancel
+comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-video = Add video
+comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
 comments-viewNew =
   { $count ->
@@ -292,14 +293,14 @@ comments-stream-deleteAccount-callOut-cancelAccountDeletion =
 comments-embedLinks-showEmbeds = Show embeds
 comments-embedLinks-hideEmbeds = Hide embeds
 
-comments-embedLinks-show-giphy = Show gif
-comments-embedLinks-hide-giphy = Hide gif
+comments-embedLinks-show-giphy = Show GIF
+comments-embedLinks-hide-giphy = Hide GIF
 
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video
 
-comments-embedLinks-show-twitter = Show tweet
-comments-embedLinks-hide-twitter = Hide tweet
+comments-embedLinks-show-twitter = Show Tweet
+comments-embedLinks-hide-twitter = Hide Tweet
 
 ### Featured Comments
 comments-featured-gotoConversation = Go to conversation

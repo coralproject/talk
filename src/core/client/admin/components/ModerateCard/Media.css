@@ -2,11 +2,11 @@
   margin: var(--v2-spacing-2) 0;
 }
 
-.gifToggle {
+.toggle {
   position: relative;
 }
 
-.gifToggleTrigger {
+.toggleTrigger {
   position: absolute;
   left: 0;
   right: 0;

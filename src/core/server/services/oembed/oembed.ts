@@ -8,12 +8,14 @@ const OEmbedResponseSchema = Joi.object().keys({
   width: Joi.number().optional(),
   height: Joi.number().optional().allow(null),
   thumbnail_url: Joi.string().optional(),
+  title: Joi.string().optional(),
   html: Joi.string().optional(),
 });
 
 interface OEmbedResponse {
   width?: number;
   height?: number | null;
+  title?: string;
   thumbnail_url?: string;
   html: string;
 }

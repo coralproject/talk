@@ -1,20 +1,30 @@
-import { VALIDATION_REQUIRED } from "coral-framework/lib/messages";
 import {
   composeValidators,
-  createValidator,
+  Condition,
   required,
   validateMaxLength,
   validateMinLength,
+  validateWhenOtherwise,
+  Validator,
 } from "coral-framework/lib/validation";
 
 import getHTMLCharacterLength from "./getHTMLCharacterLength";
 
-export const validateRequiredIfNoEmbed = createValidator((v, values) => {
-  if (values.embed && values.embed.url && values.embed.url.length > 0) {
-    return false;
+const hasGIFAttached: Condition = (value, values) =>
+  !!values.media && values.media.type === "giphy" && !!values.media.url;
+
+function getLengthValidators(min: number | null, max: number | null) {
+  const validators: Validator[] = [];
+  if (min) {
+    validators.push(required, validateMinLength(min, getHTMLCharacterLength));
   }
-  return v !== "" && v !== null && v !== undefined;
-}, VALIDATION_REQUIRED());
+
+  if (max) {
+    validators.push(validateMaxLength(max, getHTMLCharacterLength));
+  }
+
+  return composeValidators(...validators);
+}
 
 /**
  * getBodyValidators will return validators based on given min & max parameters.
@@ -24,20 +34,11 @@ export const validateRequiredIfNoEmbed = createValidator((v, values) => {
  */
 export default function getCommentBodyValdiators(
   min: number | null,
-  max: number | null,
-  validateRequired: boolean
+  max: number | null
 ) {
-  if (!validateRequired) {
-    return () => {};
-  }
-  const validators = [required];
-  if (min) {
-    validators.push(validateMinLength(min, getHTMLCharacterLength));
-  } else {
-    validators.push(validateMinLength(1, getHTMLCharacterLength));
-  }
-  if (max) {
-    validators.push(validateMaxLength(max, getHTMLCharacterLength));
-  }
-  return composeValidators(...validators);
+  return validateWhenOtherwise(
+    hasGIFAttached,
+    getLengthValidators(null, max),
+    getLengthValidators(min || 1, max)
+  );
 }

@@ -42,6 +42,8 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
           width={comment.revision.media.width}
           height={comment.revision.media.height}
           siteID={comment.site.id}
+          still={comment.revision.media.still}
+          title={comment.revision.media.title}
         />
       )}
     </>
@@ -71,6 +73,8 @@ const enhanced = withFragmentContainer<Props>({
           }
           ... on YouTubeMedia {
             url
+            still
+            title
             width
             height
           }

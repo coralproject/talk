@@ -72,7 +72,12 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     roleMiddleware(STAFF_ROLES),
     createDashboardRouter(app)
   );
-  router.use("/remote-media", createRemoteMediaRouter(app));
+  router.use(
+    "/remote-media",
+    authenticate(options.passport),
+    loggedInMiddleware,
+    createRemoteMediaRouter(app)
+  );
 
   // General API error handler.
   router.use(notFoundMiddleware);

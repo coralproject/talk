@@ -321,6 +321,7 @@ export const baseComment = createFixture<GQLComment>({
       total: 0,
     },
   },
+  site: { id: "site-0" },
   story: baseStory,
   parent: undefined,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },

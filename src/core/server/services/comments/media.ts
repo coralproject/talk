@@ -76,11 +76,11 @@ async function attachOEmbedMedia(
     }
 
     // Extract the response.
-    const { width, height, thumbnail_url } = res;
+    const { width, height, thumbnail_url, title } = res;
 
     // If the type is YouTube, ensure that the thumbnail url is provided.
     if (type === "youtube") {
-      if (!thumbnail_url || height === null) {
+      if (height === null || !thumbnail_url) {
         return;
       }
 
@@ -91,6 +91,7 @@ async function attachOEmbedMedia(
         still: thumbnail_url,
         width,
         height,
+        title,
       };
     }
 

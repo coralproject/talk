@@ -1,6 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
-import { FormApi, FormState, MutableState } from "final-form";
+import { FormApi, FormState } from "final-form";
 import React, {
   EventHandler,
   FunctionComponent,
@@ -12,6 +12,7 @@ import React, {
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
+import { useToggleState } from "coral-framework/hooks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
@@ -27,14 +28,10 @@ import {
   RelativeTime,
 } from "coral-ui/components/v2";
 
-import {
-  MediaConfirmPrompt,
-  MediaPreview,
-} from "../../Comment/MediaConfirmation";
-import GifSelector, { GifPreview } from "../../GifSelector";
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
+import MediaField from "./MediaField";
 
 import styles from "./CommentForm.css";
 
@@ -57,18 +54,6 @@ interface FormProps {
 
 interface FormSubmitProps extends FormProps, FormError {}
 
-interface MediaConfig {
-  giphy: {
-    enabled: boolean;
-  };
-  twitter: {
-    enabled: boolean;
-  };
-  youtube: {
-    enabled: boolean;
-  };
-}
-
 interface Props {
   onSubmit: OnSubmit<FormSubmitProps>;
   onChange?: (state: FormState<any>, form: FormApi) => void;
@@ -86,81 +71,62 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  mediaConfig: MediaConfig | null;
+  mediaConfig: PropTypesOf<typeof MediaField>["config"] | null;
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
   siteID: string;
 }
 
-const setFieldValue = (
-  [name, value]: [string, string],
-  state: MutableState<any>
-) => {
-  const field = state.fields[name];
-  field.change(value);
-};
-
 const CommentForm: FunctionComponent<Props> = (props) => {
-  const [showGifSelector, setShowGifSelector] = useState(false);
-  const onGifButtonClick = useCallback(() => {
-    setShowGifSelector(!showGifSelector);
-  }, [showGifSelector]);
-  const [mediaLink, setMediaLink] = useState<MediaLink | null>(null);
+  const [showGifSelector, , toggleGIFSelector] = useToggleState();
+  const [media, setMedia] = useState<MediaLink | null>(null);
+  const onSubmit = useCallback(
+    (values: FormSubmitProps, form: FormApi) => {
+      // Unset the media.
+      setMedia(null);
 
-  const onPaste = useCallback((event: PasteEvent) => {
-    const children = event.fragment.children;
-    let link = null;
-    for (let i = 0; i < children.length; i++) {
-      const item = children.item(i);
-      if (item && item.textContent) {
-        const links = findMediaLinks(item.textContent);
-        if (links.length > 0) {
-          link = links[0];
-          break;
+      // Submit the form.
+      return props.onSubmit(values, form);
+    },
+    [props.onSubmit, setMedia]
+  );
+
+  const onPaste = useCallback(
+    (event: PasteEvent) => {
+      const children = event.fragment.children;
+      let link = null;
+      for (let i = 0; i < children.length; i++) {
+        const item = children.item(i);
+        if (item && item.textContent) {
+          const links = findMediaLinks(item.textContent);
+          if (links.length > 0) {
+            link = links[0];
+            break;
+          }
         }
       }
-    }
-    if (
-      link &&
-      props.mediaConfig &&
-      ((link.type === "twitter" &&
-        props.mediaConfig.twitter &&
-        props.mediaConfig.twitter.enabled) ||
-        (link.type === "youtube" &&
-          props.mediaConfig.youtube &&
-          props.mediaConfig.youtube.enabled))
-    ) {
-      setMediaLink({ ...link });
-    }
-  }, []);
-
-  const confirmMediaLink = useCallback(
-    (setField: (name: string, value: string) => void) => {
-      if (mediaLink) {
-        setField("media.url", mediaLink.url);
-        setField("media.type", mediaLink.type);
-        setMediaLink(null);
+      if (
+        link &&
+        props.mediaConfig &&
+        ((link.type === "twitter" && props.mediaConfig.twitter.enabled) ||
+          (link.type === "youtube" && props.mediaConfig.youtube.enabled))
+      ) {
+        setMedia({ ...link });
       }
     },
-    [mediaLink]
+    [setMedia, props.mediaConfig]
   );
 
   return (
     <div className={CLASSES[props.classNameRoot].$root}>
-      <Form
-        onSubmit={props.onSubmit}
-        initialValues={props.initialValues}
-        mutators={{ setFieldValue }}
-      >
+      <Form onSubmit={onSubmit} initialValues={props.initialValues}>
         {({
           handleSubmit,
           submitting,
           submitError,
           hasValidationErrors,
           form,
-          values,
-          invalid,
           pristine,
         }) => (
           <form
@@ -177,22 +143,9 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               <div className={styles.commentFormBox}>
                 <Field
                   name="body"
-                  validate={getCommentBodyValidators(
-                    props.min,
-                    props.max,
-                    !(
-                      values.media &&
-                      values.media.url &&
-                      values.media.url.length > 0
-                    )
-                  )}
-                  key={
-                    values.media && values.media.url
-                      ? values.media.url.length
-                      : 0
-                  }
+                  validate={getCommentBodyValidators(props.min, props.max)}
                 >
-                  {({ input, meta }) => (
+                  {({ input }) => (
                     <>
                       <HorizontalGutter size="half">
                         {props.bodyLabel}
@@ -215,7 +168,6 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               ref={props.rteRef || null}
                               toolbarButtons={
                                 props.mediaConfig &&
-                                props.mediaConfig.giphy &&
                                 props.mediaConfig.giphy.enabled ? (
                                   <>
                                     <Button
@@ -223,7 +175,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                       variant={
                                         showGifSelector ? "regular" : "flat"
                                       }
-                                      onClick={onGifButtonClick}
+                                      onClick={toggleGIFSelector}
                                       iconLeft
                                     >
                                       <ButtonIcon>add</ButtonIcon>
@@ -239,72 +191,16 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.type">{() => <input type="hidden" />}</Field>
-                <Field name="media.id">{() => <input type="hidden" />}</Field>
-                <Field name="media.url">
-                  {(fieldProps) => (
-                    <div>
-                      {showGifSelector && (
-                        <>
-                          <GifSelector
-                            onGifSelect={(gif) => {
-                              form.mutators.setFieldValue(
-                                "media.type",
-                                "giphy"
-                              );
-                              form.mutators.setFieldValue("media.id", gif.id);
-                              fieldProps.input.onChange(
-                                gif.images.original.url
-                              );
-                              setShowGifSelector(false);
-                            }}
-                            value={fieldProps.input.value}
-                          />
-                        </>
-                      )}
-                      {values.media &&
-                        values.media.type === "giphy" &&
-                        fieldProps.input.value &&
-                        fieldProps.input.value.length > 0 && (
-                          <GifPreview
-                            url={fieldProps.input.value}
-                            onRemove={() => fieldProps.input.onChange(null)}
-                            title=""
-                          />
-                        )}
-                      {mediaLink && (
-                        <MediaConfirmPrompt
-                          media={mediaLink}
-                          onConfirm={() =>
-                            confirmMediaLink(form.mutators.setFieldValue)
-                          }
-                          onRemove={() => {
-                            setMediaLink(null);
-                          }}
-                        />
-                      )}
-                      {values.media &&
-                        (values.media.type === "youtube" ||
-                          values.media.type === "twitter") &&
-                        fieldProps.input.value &&
-                        fieldProps.input.value.length > 0 && (
-                          <MediaPreview
-                            config={props.mediaConfig}
-                            media={{
-                              url: fieldProps.input.value,
-                              type: values.media.type,
-                            }}
-                            siteID={props.siteID}
-                            onRemove={() => {
-                              fieldProps.input.onChange(null);
-                              form.mutators.setFieldValue("media.type", null);
-                              form.mutators.setFieldValue("media.id", null);
-                            }}
-                          />
-                        )}
-                    </div>
-                  )}
-                </Field>
+                {props.mediaConfig && (
+                  <MediaField
+                    config={props.mediaConfig}
+                    siteID={props.siteID}
+                    media={media}
+                    setMedia={setMedia}
+                    showGIFSelector={showGifSelector}
+                    toggleGIFSelector={toggleGIFSelector}
+                  />
+                )}
               </div>
               {!props.expired && props.editableUntil && (
                 <Message
