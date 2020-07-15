@@ -1,35 +1,35 @@
 .status {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
 
   border-radius: 2px;
-  padding-left: var(--v2-spacing-1);
-  padding-right: var(--v2-spacing-1);
+  padding-left: var(--spacing-1);
+  padding-right: var(--spacing-1);
 }
 
 .active {
-  background-color: var(--v2-colors-green-500);
-  color: var(--v2-colors-pure-white);
+  background-color: var(--palette-success-500);
+  color: var(--palette-text-000);
 }
 
 .expiring {
-  background-color: var(--v2-colors-yellow-500);
-  color: var(--v2-colors-mono-500);
+  background-color: var(--palette-warning-500);
+  color: var(--palette-text-500);
 
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
 }
 
 .expired {
-  background-color: var(--v2-colors-red-500);
-  color: var(--v2-colors-pure-white);
+  background-color: var(--palette-error-500);
+  color: var(--palette-text-000);
 
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
 }
 
 .icon {
-  padding-right: var(--v2-spacing-1);
+  padding-right: var(--spacing-1);
 }

@@ -2,7 +2,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Icon } from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./Announcement.css";
 
@@ -22,7 +23,12 @@ const Announcement: FunctionComponent<Props> = (props) => {
           <span className={styles.text}>{props.children}</span>
         </Flex>
         <div>
-          <Button color="light" onClick={props.onClose}>
+          <Button
+            variant="none"
+            color="none"
+            onClick={props.onClose}
+            className={styles.closeButton}
+          >
             <Icon>close</Icon>
           </Button>
         </div>

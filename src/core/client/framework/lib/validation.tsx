@@ -299,3 +299,13 @@ export function validateWhenOtherwise<T = any, V = any>(
       : falsy(value, values);
   };
 }
+
+/**
+ * Use custom message for validator.
+ */
+export const customMessage = <T, V>(
+  validator: Validator<T, V>,
+  msg: ReactNode
+): Validator<T, V> => {
+  return (v: T, values: V) => (validator(v, values) ? msg : undefined);
+};

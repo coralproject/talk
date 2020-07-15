@@ -1,8 +1,8 @@
 .header {
-  background: var(--v2-colors-grey-600);
+  background: var(--palette-grey-600);
 
-  border-top-left-radius: var(--v2-round-corners);
-  border-top-right-radius: var(--v2-round-corners);
+  border-top-left-radius: var(--round-corners);
+  border-top-right-radius: var(--round-corners);
 
   min-height: 88px;
 }
@@ -12,52 +12,52 @@
 }
 
 .headerText {
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-6);
-  line-height: var(--v2-line-height-8);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: var(--line-height-8);
 
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
 }
 
 .subHeaderText {
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-4);
-  line-height: var(--v2-line-height-6);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-4);
+  line-height: var(--line-height-6);
 
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
 }
 
 .body {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
-  background: var(--v2-colors-pure-white);
+  background: $colors-pure-white;
 
-  padding: var(--v2-spacing-5) var(--v2-spacing-5) var(--v2-spacing-5) var(--v2-spacing-5);
+  padding: var(--spacing-5) var(--spacing-5) var(--spacing-5) var(--spacing-5);
 
-  border-bottom-left-radius: var(--v2-round-corners);
-  border-bottom-right-radius: var(--v2-round-corners);
+  border-bottom-left-radius: var(--round-corners);
+  border-bottom-right-radius: var(--round-corners);
 }
 
 .sectionHeader {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .sectionContent {
-  margin-bottom: var(--v2-spacing-3);
+  margin-bottom: var(--spacing-3);
 }
 
 .ul {
@@ -71,7 +71,7 @@
 
 .ul li {
   padding-left: 1.3em;
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .ul li:before {
@@ -98,13 +98,13 @@
 }
 
 .cancelButton {
-  margin-right: var(--v2-spacing-2);
+  margin-right: var(--spacing-2);
 
   float: right;
 }
 
 .proceedButton {
-  border: 1px solid var(--palette-primary-main);
+  border: 1px solid var(--palette-primary-500);
 
   float: right;
 }

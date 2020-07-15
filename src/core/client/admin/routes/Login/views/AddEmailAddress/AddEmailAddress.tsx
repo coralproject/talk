@@ -5,12 +5,7 @@ import { Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
-import {
-  Button,
-  CallOut,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
 import SetAuthViewMutation from "../../SetAuthViewMutation";
@@ -56,10 +51,10 @@ const AddEmailAddress: FunctionComponent = () => {
           <form autoComplete="off" onSubmit={handleSubmit}>
             <HorizontalGutter size="oneAndAHalf">
               <Localized id="addEmailAddress-whatItIs">
-                <Typography variant="bodyCopy">
+                <div>
                   For your added security, we require users to add an email
                   address to their accounts. Your email address will be used to:
-                </Typography>
+                </div>
               </Localized>
               {submitError && (
                 <CallOut color="error" fullWidth>
@@ -70,8 +65,8 @@ const AddEmailAddress: FunctionComponent = () => {
               <ConfirmEmailField disabled={submitting} />
               <Localized id="addEmailAddress-addEmailAddressButton">
                 <Button
-                  variant="filled"
-                  color="primary"
+                  variant="regular"
+                  color="regular"
                   size="large"
                   type="submit"
                   fullWidth

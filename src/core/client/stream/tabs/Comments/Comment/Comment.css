@@ -1,11 +1,11 @@
-$commentTimestampColor: var(--v2-colors-grey-500);
+$commentTimestampColor: var(--palette-grey-500);
 
 .root {
   flex: 1;
 }
 
 .highlight {
-  background-color: var(--palette-primary-lightest);
+  background-color: var(--palette-primary-100);
   padding: var(--mini-unit);
 }
 .subBar {
@@ -16,10 +16,10 @@ $commentTimestampColor: var(--v2-colors-grey-500);
 }
 
 .timestamp {
-  font-family: var(--v2-font-family-primary);
+  font-family: var(--font-family-primary);
   font-style: normal;
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-3);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
   color: $commentTimestampColor;
 }

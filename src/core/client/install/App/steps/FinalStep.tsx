@@ -3,7 +3,7 @@ import { Link } from "found";
 import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Button, Flex, Typography } from "coral-ui/components/v2";
 
 class FinalStep extends Component {
   public render() {
@@ -23,8 +23,8 @@ class FinalStep extends Component {
           <Localized id="install-finalStep-goToAdmin">
             <Button
               anchor
-              color="primary"
-              variant="filled"
+              color="regular"
+              variant="regular"
               href={urls.admin.moderate}
             >
               Go to Admin

@@ -43,7 +43,7 @@ exports[`renders correctly 1`] = `
     <Localized
       id="signUp-accountAvailableSignIn"
       textlink={
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignUp-signIn"
           color="primary"
           fontFamily="secondary"
@@ -62,7 +62,7 @@ exports[`renders correctly 1`] = `
       >
         Already have an account?
          
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignUp-signIn"
           color="primary"
           fontFamily="secondary"
@@ -75,7 +75,7 @@ exports[`renders correctly 1`] = `
           variant="flat"
         >
           Sign In
-        </withPropsOnChange(Button)>
+        </ForwardRef(forwardRef)>
       </div>
     </Localized>
   </div>

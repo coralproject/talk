@@ -1,10 +1,10 @@
-$commentsBorder: var(--v2-colors-grey-300);
+$commentsBorder: var(--palette-grey-300);
 .root {
 }
 
 .rteContainer {
   border: 1px solid $commentsBorder;
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
 }
 
 .messageBox {
@@ -12,7 +12,12 @@ $commentsBorder: var(--v2-colors-grey-300);
 }
 
 .textarea {
-  composes: bodyCopy from "~coral-ui/shared/typography.css";
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-comment-body);
+  color: var(--palette-text-500);
+
   display: block;
   height: 150px;
   width: 100%;

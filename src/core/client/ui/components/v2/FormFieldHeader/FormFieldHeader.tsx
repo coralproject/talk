@@ -1,10 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent, ReactNode } from "react";
 
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
-
-import HorizontalGutter from "coral-ui/components/HorizontalGutter";
 
 import styles from "./FormFieldHeader.css";
 

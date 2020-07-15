@@ -1,6 +1,6 @@
-$single-moderate-background: var(--v2-colors-grey-100);
-$single-moderate-bar: var(--v2-colors-blue-500);
-$single-moderate-bar-text: var(--v2-colors-pure-white);
+$single-moderate-background: var(--palette-grey-100);
+$single-moderate-bar: $colors-teal-900;
+$single-moderate-bar-text: var(--palette-text-000);
 
 .background {
   position: fixed;
@@ -27,17 +27,17 @@ $single-moderate-bar-text: var(--v2-colors-pure-white);
 .subBarBegin {
   position: absolute;
   left: 0;
-  font-family: var(--v2-font-family-primary);
+  font-family: var(--font-family-primary);
   text-decoration: none;
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
   text-transform: uppercase;
   color: $single-moderate-bar-text;
 }
 
 .subBarTitle {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-3);
   text-transform: uppercase;
   color: $single-moderate-bar-text;

@@ -1,8 +1,8 @@
 .calloutVisible {
-  margin-top: var(--v2-spacing-3);
-  margin-bottom: var(--v2-spacing-3);
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
 }
 
 .calloutHidden {
-  margin-bottom: var(--v2-spacing-6);
+  margin-bottom: var(--spacing-6);
 }

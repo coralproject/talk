@@ -7,9 +7,9 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+import { ChangeUsernameEvent } from "coral-stream/events";
 
 import { UpdateUsernameMutation as MutationTypes } from "coral-stream/__generated__/UpdateUsernameMutation.graphql";
-import { ChangeUsernameEvent } from "coral-stream/events";
 
 let clientMutationId = 0;
 

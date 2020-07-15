@@ -1,8 +1,8 @@
 .container {
   width: 385px;
-  background-color: var(--v2-colors-grey-100);
-  border: 1px solid var(--v2-colors-grey-300);
+  background-color: var(--palette-grey-100);
+  border: 1px solid var(--palette-grey-300);
   margin-top: 70px;
-  padding: var(--v2-spacing-6);
+  padding: var(--spacing-6);
   box-sizing: border-box;
 }

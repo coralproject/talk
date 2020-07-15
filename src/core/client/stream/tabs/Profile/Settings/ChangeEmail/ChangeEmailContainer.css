@@ -1,77 +1,77 @@
 .title {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-4);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-900);
+  color: var(--palette-text-900);
 
-  margin-top: var(--v2-spacing-4);
-  margin-bottom: var(--v2-spacing-1);
+  margin-top: var(--spacing-4);
+  margin-bottom: var(--spacing-1);
 }
 
 .changeButton {
-  padding-bottom: var(--v2-spacing-4);
+  padding-bottom: var(--spacing-4);
 }
 
 .changeButtonMessage {
-  padding-bottom: var(--v2-spacing-1);
+  padding-bottom: var(--spacing-1);
 }
 
 .successMessage {
-  padding-bottom: var(--v2-spacing-3);
+  padding-bottom: var(--spacing-3);
 }
 
 .currentEmail {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
-  margin-bottom: var(--v2-spacing-3);
+  margin-bottom: var(--spacing-3);
 }
 
 .header {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-900);
+  color: var(--palette-text-900);
 
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .description {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 }
 
 .footer {
-  margin-top: var(--v2-spacing-4);
-  margin-bottom: var(--v2-spacing-4);
+  margin-top: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
 }
 
 .footerButton {
-  margin-right: var(--v2-spacing-2);
+  margin-right: var(--spacing-2);
 }
 
 .verifyContainer {
-  padding-bottom: var(--v2-spacing-2);
+  padding-bottom: var(--spacing-2);
 }
 
 .verifyContent {
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .verifyTitle {
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .resendButton {

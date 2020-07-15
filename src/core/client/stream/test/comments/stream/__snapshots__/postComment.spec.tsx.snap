@@ -160,10 +160,8 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   <button
                     aria-label="Respect"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                    data-color="mono"
+                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
-                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -173,20 +171,21 @@ exports[`post a comment: optimistic response 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                    <span
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      thumb_up
-                    </i>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReactionButton-icon"
+                      >
+                        thumb_up
+                      </i>
+                    </span>
                   </button>
                   <button
                     aria-label="Reply"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                    data-active={false}
-                    data-color="mono"
+                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
-                    data-variant="text"
                     disabled={false}
                     id="comments-commentContainer-replyButton-uuid-0"
                     onBlur={[Function]}
@@ -197,12 +196,16 @@ exports[`post a comment: optimistic response 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                    <span
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      reply
-                    </i>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReplyButton-icon"
+                      >
+                        reply
+                      </i>
+                    </span>
                   </button>
                   <div
                     className="Popover-root"
@@ -210,10 +213,8 @@ exports[`post a comment: optimistic response 1`] = `
                     <button
                       aria-controls="permalink-popover-uuid-0"
                       aria-label="Share"
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                      data-active={false}
-                      data-color="mono"
-                      data-variant="text"
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -222,12 +223,16 @@ exports[`post a comment: optimistic response 1`] = `
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
+                      <span
+                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
-                        share
-                      </i>
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm PermalinkButton-icon"
+                        >
+                          share
+                        </i>
+                      </span>
                     </button>
                     <div
                       aria-hidden={true}
@@ -259,7 +264,7 @@ exports[`post a comment: optimistic response 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <div
+                    <span
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <i
@@ -269,7 +274,7 @@ exports[`post a comment: optimistic response 1`] = `
                         flag
                       </i>
                       Report
-                    </div>
+                    </span>
                   </button>
                 </div>
               </div>

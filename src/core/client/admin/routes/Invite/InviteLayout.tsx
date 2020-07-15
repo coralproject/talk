@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
 import Version from "coral-admin/App/Version";
-import { AppBar, Flex, LogoHorizontal } from "coral-ui/components";
-import { Begin } from "coral-ui/components/AppBar";
+import { AppBar, Flex, LogoHorizontal } from "coral-ui/components/v2";
+import { Begin } from "coral-ui/components/v2/AppBar";
 
 import styles from "./InviteLayout.css";
 

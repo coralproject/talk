@@ -15,7 +15,8 @@ import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
+import { Box, CallOut, HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
 import { UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
@@ -202,7 +203,8 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMoreAndEmit}
-              variant="outlineFilled"
+              variant="outlined"
+              color="secondary"
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"

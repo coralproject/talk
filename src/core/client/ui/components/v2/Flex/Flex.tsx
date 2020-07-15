@@ -3,7 +3,7 @@ import React, { FunctionComponent, Ref } from "react";
 
 import { pascalCase } from "coral-common/utils";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Spacing } from "coral-ui/theme/variables";
+import { Spacing } from "coral-ui/theme/sharedVariables";
 import { PropTypesOf } from "coral-ui/types";
 
 /** Needs to be loaded after styles, because Box styles have priority */

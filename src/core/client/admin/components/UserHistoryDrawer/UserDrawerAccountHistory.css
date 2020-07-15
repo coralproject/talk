@@ -1,7 +1,7 @@
 .tableHeader {
   border-width: 0px;
   border-style: none;
-  background-color: var(--palette-grey-lightest);
+  background-color: var(--palette-grey-200);
 }
 
 .row:first-child:hover {

@@ -1,7 +1,8 @@
-import ModerateCardContainer from "coral-admin/components/ModerateCard";
-import { PropTypesOf } from "coral-ui/types";
 import React, { FunctionComponent, ReactNode } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+import ModerateCardContainer from "coral-admin/components/ModerateCard";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./QueueWrapper.css";
 

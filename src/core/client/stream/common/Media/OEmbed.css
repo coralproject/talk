@@ -2,8 +2,8 @@
 }
 
 .link {
-  margin-left: var(--v2-spacing-2);
-  color: var(--palette-primary-main);
+  margin-left: var(--spacing-2);
+  color: var(--palette-primary-500);
 }
 
 .frame {

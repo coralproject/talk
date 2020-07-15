@@ -201,9 +201,8 @@ exports[`renders comment stream 1`] = `
               </div>
             </div>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth coral coral-createComment-signIn"
-              data-color="primary"
-              data-variant="filled"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-fullWidth coral coral-createComment-signIn"
+              disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -490,10 +489,8 @@ exports[`renders comment stream 1`] = `
                 >
                   <button
                     aria-label="Respect"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="mono"
+                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
-                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -503,12 +500,16 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                    <span
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      thumb_up
-                    </i>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReactionButton-icon"
+                      >
+                        thumb_up
+                      </i>
+                    </span>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -630,10 +631,8 @@ exports[`renders comment stream 1`] = `
                 >
                   <button
                     aria-label="Respect"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="mono"
+                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
-                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -643,12 +642,16 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                    <span
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      thumb_up
-                    </i>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReactionButton-icon"
+                      >
+                        thumb_up
+                      </i>
+                    </span>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"

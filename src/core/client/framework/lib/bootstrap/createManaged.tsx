@@ -17,7 +17,7 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
-import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
+import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import {
   AccessTokenProvider,

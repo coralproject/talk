@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
-import { Flex, Spinner } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components/v2";
 
 import { ExpertSelectionQuery as QueryTypes } from "coral-stream/__generated__/ExpertSelectionQuery.graphql";
 

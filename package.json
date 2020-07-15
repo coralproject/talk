@@ -28,6 +28,7 @@
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
+    "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' README.md CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
@@ -424,6 +425,9 @@
     ],
     "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
       "npm run docs:events -- --verify"
+    ],
+    "{src/core/client/ui/theme/sharedVariables.ts,src/core/client/ui/theme/streamVariables.ts,scripts/generateCSSVariablesDocs.ts,CSS_VARIABLES.md}": [
+      "npm run docs:css-variables -- --verify"
     ],
     "{README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
       "npm run doctoc"

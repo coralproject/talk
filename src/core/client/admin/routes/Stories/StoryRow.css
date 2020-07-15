@@ -10,11 +10,11 @@
 }
 
 .meta {
-  color: var(--v2-colors-mono-100);
+  color: var(--palette-text-100);
 }
 
 .authorName {
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
 }
 
 .reportedCountColumn,
@@ -25,5 +25,5 @@
 }
 
 .boldColumn {
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
 }

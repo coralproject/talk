@@ -2,8 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
-import { Button, Icon, MatchMedia } from "coral-ui/components/v2";
-import { ButtonProps } from "coral-ui/components/v2/Button";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReactionButton.css";
 
@@ -17,7 +17,6 @@ interface ReactionButtonProps {
   iconActive: string | null;
   readOnly?: boolean;
   className?: string;
-  color?: typeof styles & ButtonProps["color"];
   isQA?: boolean;
 }
 
@@ -36,41 +35,48 @@ function render(props: ReactionButtonProps) {
 
   return (
     <Button
-      variant="text"
-      size="regular"
       onClick={onClick}
       disabled={readOnly}
-      color="mono"
       className={cn({ [styles.readOnly]: readOnly }, className, styles.button)}
       aria-label={reacted ? labelActive : label}
       data-testid={"comment-reaction-button"}
+      variant="flat"
+      color="secondary"
+      fontSize="small"
+      fontWeight="semiBold"
+      paddingSize="extraSmall"
     >
-      {props.isQA ? (
-        <Icon>arrow_upward</Icon>
-      ) : (
-        <Icon className={reacted ? styles.reacted : ""}>
-          {reacted ? (iconActive ? iconActive : icon) : icon}
-        </Icon>
-      )}
-      <MatchMedia gtWidth="xs">
+      <Flex alignItems="center" container="span">
         {props.isQA ? (
-          <span className={reacted ? styles.reacted : ""}>
-            {reacted ? (
-              <Localized id="qa-reaction-voted">Voted</Localized>
-            ) : (
-              <Localized id="qa-reaction-vote">Vote</Localized>
-            )}
-          </span>
+          <Icon className={styles.icon}>arrow_upward</Icon>
         ) : (
-          <span className={reacted ? styles.reacted : ""}>
-            {reacted ? labelActive : label}
+          <Icon className={cn(styles.icon, { [styles.reacted]: reacted })}>
+            {reacted ? (iconActive ? iconActive : icon) : icon}
+          </Icon>
+        )}
+        <MatchMedia gtWidth="xs">
+          {props.isQA ? (
+            <span className={reacted ? styles.reacted : ""}>
+              {reacted ? (
+                <Localized id="qa-reaction-voted">Voted</Localized>
+              ) : (
+                <Localized id="qa-reaction-vote">Vote</Localized>
+              )}
+            </span>
+          ) : (
+            <span className={reacted ? styles.reacted : ""}>
+              {reacted ? labelActive : label}
+            </span>
+          )}
+        </MatchMedia>
+        {!!totalReactions && (
+          <span
+            className={cn(styles.totalReactions, { [styles.reacted]: reacted })}
+          >
+            {totalReactions}
           </span>
         )}
-      </MatchMedia>
-
-      {!!totalReactions && (
-        <span className={reacted ? styles.reacted : ""}>{totalReactions}</span>
-      )}
+      </Flex>
     </Button>
   );
 }

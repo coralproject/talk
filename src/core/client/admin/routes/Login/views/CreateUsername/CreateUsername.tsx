@@ -3,12 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import {
-  Button,
-  CallOut,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
 import UsernameField from "./UsernameField";
@@ -37,10 +32,10 @@ const CreateUsername: FunctionComponent<CreateUsernameForm> = (props) => {
           <form autoComplete="off" onSubmit={handleSubmit}>
             <HorizontalGutter size="oneAndAHalf">
               <Localized id="createUsername-whatItIs">
-                <Typography variant="bodyCopy">
+                <div>
                   Your username is an identifier that will appear on all of your
                   comments.
-                </Typography>
+                </div>
               </Localized>
               {submitError && (
                 <CallOut color="error" fullWidth>
@@ -50,8 +45,8 @@ const CreateUsername: FunctionComponent<CreateUsernameForm> = (props) => {
               <UsernameField disabled={submitting} />
               <Localized id="createUsername-createUsernameButton">
                 <Button
-                  variant="filled"
-                  color="primary"
+                  variant="regular"
+                  color="regular"
                   size="large"
                   type="submit"
                   fullWidth

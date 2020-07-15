@@ -10,7 +10,8 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
-import { Button, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
 import { FeaturedCommentsContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
@@ -71,6 +72,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMoreAndEmit}
+              color="secondary"
               variant="outlined"
               fullWidth
               disabled={isLoadingMore}

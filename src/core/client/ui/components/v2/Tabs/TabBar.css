@@ -1,6 +1,6 @@
-$moderateCardTabDefaultColor: var(--v2-colors-grey-100);
-$moderateCardTabPrimaryColor: var(--v2-colors-grey-300);
-$moderateCardTabSecondaryColor: var(--v2-palette-divider);
+$moderateCardTabDefaultColor: var(--palette-grey-100);
+$moderateCardTabPrimaryColor: var(--palette-grey-300);
+$moderateCardTabSecondaryColor: var(--palette-divider);
 
 .root {
   display: flex;

@@ -1,11 +1,11 @@
-$commentsModerationBannedColor: var(--v2-colors-red-500);
+$commentsModerationBannedColor: var(--palette-error-500);
 
 .label {
-  color: var(--v2-colors-mono-500);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-3);
+  color: var(--palette-text-500);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
 
   text-align: left;
 }
@@ -15,7 +15,7 @@ $commentsModerationBannedColor: var(--v2-colors-red-500);
     opacity: 1.0;
   }
   color: $commentsModerationBannedColor;
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--font-weight-primary-bold);
 }
 
 .banIcon {
@@ -30,5 +30,5 @@ $commentsModerationBannedColor: var(--v2-colors-red-500);
 }
 
 .mouseHover {
-  background-color: var(--v2-colors-stream-blue-100);
+  background-color: var(--palette-primary-100);
 }

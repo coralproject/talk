@@ -1,5 +1,6 @@
 .button {
   height: calc(4 * var(--mini-unit));
+  background: var(--palette-background-input);
 }
 
 .buttonText {

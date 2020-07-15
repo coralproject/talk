@@ -1,8 +1,8 @@
-$commenterActionEditColor: var(--v2-colors-stream-blue-500);
-$commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
+$commenterActionEditColor: var(--palette-primary-500);
+$commenterActionEditColorActive: var(--palette-primary-300);
 
 .tagIcon {
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .answeredTag {
@@ -34,7 +34,7 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 }
 
 .editIcon {
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .actionBar {
@@ -42,9 +42,9 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 }
 
 .actionButton {
-  padding: var(--v2-spacing-1);
+  padding: var(--spacing-1);
 }
 
 .staticUsername {
-  color: var(--v2-colors-mono-100);
+  color: var(--palette-text-100);
 }

@@ -1,18 +1,18 @@
-$moderateCardTimestampColor: var(--v2-colors-mono-100);
-$moderateCardEditedColor: var(--v2-colors-mono-100);
-$moderateCardAuthorStatusColor: var(--v2-colors-mono-100);
-$moderateCardDecisionColor: var(--v2-colors-mono-500);
-$moderateCardStoryTitleColor: var(--v2-colors-mono-500);
-$moderateCardUsernameBackgroundHover: var(--v2-colors-grey-200);
-$moderateCardLinkTextColor: var(--v2-colors-teal-700);
+$moderateCardTimestampColor: var(--palette-text-100);
+$moderateCardEditedColor: var(--palette-text-100);
+$moderateCardAuthorStatusColor: var(--palette-text-100);
+$moderateCardDecisionColor: var(--palette-text-500);
+$moderateCardStoryTitleColor: var(--palette-text-500);
+$moderateCardUsernameBackgroundHover: var(--palette-grey-200);
+$moderateCardLinkTextColor: $colors-teal-700;
 
 .topBar {
   position: relative;
-  margin-bottom: var(--v2-spacing-1);
+  margin-bottom: var(--spacing-1);
 }
 
 .topBarMini {
-  margin-bottom: var(--v2-spacing-4);
+  margin-bottom: var(--spacing-4);
 }
 
 .inReplyTo {
@@ -25,7 +25,7 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 .mainContainer {
   flex-grow: 1;
 
-  margin-right: calc(2 * var(--v2-spacing-5));
+  margin-right: calc(2 * var(--spacing-5));
 }
 
 .contentArea {
@@ -52,7 +52,7 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
     No reply to field, so we align below the fattest element
     which is the feature button.
   */
-  padding-top: calc(var(--v2-font-size-2) + 7px + var(--v2-spacing-4));
+  padding-top: calc(var(--font-size-2) + 7px + var(--spacing-4));
 }
 
 .asideMiniWithReplyTo {
@@ -60,14 +60,14 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
     We have reply to field, so we align below the fattest
     element plus the reply to field.
   */
-  padding-top: calc(2 * var(--v2-font-size-2) + 5px + var(--v2-spacing-4));
+  padding-top: calc(2 * var(--font-size-2) + 5px + var(--spacing-4));
 }
 
 .decision {
   color: $moderateCardDecisionColor;
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-family: var(--v2-font-family-primary);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
   line-height: 1.14;
   text-transform: uppercase;
 }
@@ -75,13 +75,13 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 .separator {
   position: absolute;
   top: 0;
-  right: calc(-1 * var(--v2-spacing-5));
+  right: calc(-1 * var(--spacing-5));
   bottom: 0;
   width: 2px;
 }
 
 .ruledSeparator {
-  border-right: 1px solid var(--v2-colors-grey-400);
+  border-right: 1px solid var(--palette-grey-400);
 }
 
 .root {
@@ -93,53 +93,53 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 }
 
 .dangling {
-  background-color: var(--v2-palette-grey-lightest);
+  background-color: var(--palette-grey-200);
   box-shadow: none;
 }
 
 .link {
-  font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
   color: $moderateCardLinkTextColor;
   text-transform: uppercase;
 }
 
 .viewContext {
-  padding-bottom: var(--v2-spacing-1);
+  padding-bottom: var(--spacing-1);
 }
 
 .storyLabel {
-  color: var(--v2-palette-grey-main);
-  font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
-  margin-bottom: var(--v2-spacing-1);
+  color: var(--palette-grey-500);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  margin-bottom: var(--spacing-1);
   text-transform: uppercase;
 }
 
 .commentOn {
-  font-size: var(--v2-font-size-2);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
-  margin-bottom: var(--v2-spacing-1);
+  font-size: var(--font-size-2);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  margin-bottom: var(--spacing-1);
 }
 
 .siteName {
-  font-weight: var(--v2-font-weight-primary-regular);
+  font-weight: var(--font-weight-primary-regular);
 }
 
 .storyTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
   color: $moderateCardStoryTitleColor;
-  font-weight: var(--v2-font-weight-primary-semi-bold);
 }
 
 .borderless {
   border-width: 0px;
   box-shadow: none;
-  padding: var(--v2-spacing-2) 0;
+  padding: var(--spacing-2) 0;
 }
 
 .miniButton {
@@ -149,19 +149,19 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 
 .timestamp {
   color: $moderateCardTimestampColor;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-1);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-3);
 }
 
 .edited {
   color: $moderateCardEditedColor;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-1);
-  line-height: var(--v2-line-height-reset);
-  padding-left: var(--v2-spacing-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-3);
+  padding-left: var(--spacing-2);
 }
 
 .selected {
@@ -171,17 +171,17 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 .authorStatus {
   padding-right: var(--spacing-2);
   color: $moderateCardAuthorStatusColor;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-1);
-  line-height: var(--v2-line-height-reset);
-  padding-left: var(--v2-spacing-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-3);
+  padding-left: var(--spacing-2);
 }
 
 .deleted {
-  background: var(--v2-palette-grey-lightest);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-body-short);
+  background: var(--palette-grey-200);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-4);
 }

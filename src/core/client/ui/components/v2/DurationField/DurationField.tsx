@@ -9,7 +9,7 @@ import React, {
 } from "react";
 
 import TIME from "coral-common/time";
-import { Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 
 import { Option, SelectField } from "../SelectField";
 import TextField, { TextFieldProps } from "../TextField";

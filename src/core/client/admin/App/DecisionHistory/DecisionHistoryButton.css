@@ -3,6 +3,6 @@
 }
 
 .historyIcon {
-  color: var(--v2-palette-text-secondary);
+  color: var(--palette-text-100);
   margin-right: 10px;
 }

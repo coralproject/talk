@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "coral-ui/components";
+import { Flex, Typography } from "coral-ui/components/v2";
 
 import styles from "./Header.css";
 

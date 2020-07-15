@@ -107,6 +107,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => {
     [classes.colorRegular]: color === "regular",
     [classes.colorError]: color === "error",
     [classes.colorDark]: color === "dark",
+    [classes.colorStreamBlue]: color === "streamBlue",
     [classes.textAlignCenter]: textAlignCenter,
     [classes.seamlessAdornment]: variant === "seamlessAdornment",
   });

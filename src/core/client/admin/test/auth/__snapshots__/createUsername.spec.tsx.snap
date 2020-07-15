@@ -8,25 +8,23 @@ exports[`checks for invalid username 1`] = `
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
+    <div>
       Your username is an identifier that will appear on all of your comments.
-    </p>
+    </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="InputDescription-root"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -58,9 +56,9 @@ exports[`checks for invalid username 1`] = `
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -89,18 +87,18 @@ exports[`renders createUsername view 1`] = `
         <div
           className="CompleteAccountBox-header"
         >
-          <h1
-            className="Box-root Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
+          <div
+            className="CompleteAccountBox-heading3"
           >
             Finish Setting Up Your Account
-          </h1>
-          <h1
-            className="Box-root Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
+          </div>
+          <div
+            className="CompleteAccountBox-title"
           >
             <span>
               Create Username
             </span>
-          </h1>
+          </div>
         </div>
         <div
           className="CompleteAccountBox-main"
@@ -113,25 +111,23 @@ exports[`renders createUsername view 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
               >
-                <p
-                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                >
+                <div>
                   Your username is an identifier that will appear on all of your comments.
-                </p>
+                </div>
                 <div
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
                   <label
-                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    className="InputLabel-root"
                     htmlFor="username"
                   >
                     Username
                   </label>
-                  <p
-                    className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                  <div
+                    className="InputDescription-root"
                   >
                     You may use “_” and “.” Spaces not permitted.
-                  </p>
+                  </div>
                   <div
                     className="TextField-root TextField-fullWidth"
                   >
@@ -150,9 +146,9 @@ exports[`renders createUsername view 1`] = `
                   </div>
                 </div>
                 <button
-                  className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-                  data-color="primary"
-                  data-variant="filled"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+                  data-color="regular"
+                  data-variant="regular"
                   disabled={false}
                   onBlur={[Function]}
                   onFocus={[Function]}
@@ -181,25 +177,23 @@ exports[`shows error when submitting empty form 1`] = `
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
+    <div>
       Your username is an identifier that will appear on all of your comments.
-    </p>
+    </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="InputDescription-root"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -231,9 +225,9 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -256,11 +250,9 @@ exports[`shows server error 1`] = `
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
+    <div>
       Your username is an identifier that will appear on all of your comments.
-    </p>
+    </div>
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
@@ -277,19 +269,19 @@ GraphQL request:4:3
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="InputDescription-root"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -308,9 +300,9 @@ GraphQL request:4:3
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -333,25 +325,23 @@ exports[`successfully sets username 1`] = `
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
-    <p
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
+    <div>
       Your username is an identifier that will appear on all of your comments.
-    </p>
+    </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
     >
       <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
-      <p
-        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+      <div
+        className="InputDescription-root"
       >
         You may use “_” and “.” Spaces not permitted.
-      </p>
+      </div>
       <div
         className="TextField-root TextField-fullWidth"
       >
@@ -370,9 +360,9 @@ exports[`successfully sets username 1`] = `
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-      data-color="primary"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

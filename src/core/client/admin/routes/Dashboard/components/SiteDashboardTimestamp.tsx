@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import { AbsoluteTime } from "coral-ui/components";
+import { AbsoluteTime } from "coral-ui/components/v2";
 
 import styles from "./SiteDashboardTimestamp.css";
 

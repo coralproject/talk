@@ -3,6 +3,6 @@
 }
 
 .button {
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
 }

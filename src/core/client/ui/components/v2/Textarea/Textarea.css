@@ -1,25 +1,26 @@
 .root {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-body-short);
-  padding: var(--v2-spacing-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-field-description);
+  padding: var(--spacing-2);
   box-sizing: border-box;
   border-radius: var(--round-corners);
-  color: var(--v2-palette-input-value);
-  background-color: var(--v2-palette-input-background);
-  border: 1px solid var(--v2-palette-input-border);
+  color: var(--palette-text-500);
+  background-color: var(--palette-background-input);
+  border: 1px solid var(--palette-grey-500);
   &:read-only {
-    background-color: var(--v2-palette-input-disabled-background);
+    background-color: var(--palette-background-input-disabled);
   }
   &:disabled {
-    background-color: var(--v2-palette-input-disabled-background);
-    border-color: var(--v2-palette-input-disabled-foreground);
+    background-color: var(--palette-background-input-disabled);
+    border-color: var(--palette-text-input-disabled);
+    color: var(--palette-text-input-disabled);
   }
   &:focus {
     outline: none;
-    border: 1px solid var(--v2-palette-input-focused-border);
-    box-shadow: inset 0px 0px 0px 1px var(--v2-palette-input-focused-border);
+    border: 1px solid $colors-teal-500;
+    box-shadow: inset 0px 0px 0px 1px $colors-teal-500;
   }
 }
 

@@ -4,7 +4,7 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 
 import { PropTypesOf } from "coral-framework/types";
-import { UIContext, UIContextProps } from "coral-ui/components";
+import { UIContext, UIContextProps } from "coral-ui/components/v2";
 
 import SortMenu from "./SortMenu";
 

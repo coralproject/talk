@@ -1,5 +1,5 @@
-$tableBodyTextColor: var(--v2-colors-mono-500);
-$tableHeaderTextColor: var(--v2-colors-mono-500);
+$tableBodyTextColor: var(--palette-text-500);
+$tableHeaderTextColor: var(--palette-text-500);
 
 .root {
   /* acts like min-width in a cell */
@@ -10,19 +10,19 @@ $tableHeaderTextColor: var(--v2-colors-mono-500);
 }
 
 .header {
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
   color: $tableHeaderTextColor;
-  padding: var(--v2-spacing-3);
+  padding: var(--spacing-3);
 }
 
 .body {
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-title);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
   color: $tableBodyTextColor;
 }
 

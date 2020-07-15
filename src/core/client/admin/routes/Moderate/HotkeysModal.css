@@ -1,11 +1,11 @@
-$hotkeys-modal-text: var(--v2-colors-mono-500);
-$hotkeys-modal-snippet-background: var(--v2-colors-white-500);
-$hotkeys-modal-snippet-border: var(--v2-colors-grey-400);
+$hotkeys-modal-text: var(--palette-text-500);
+$hotkeys-modal-snippet-background: $colors-white-500;
+$hotkeys-modal-snippet-border: var(--palette-grey-400);
 
 .root {
   min-width: 475px;
-  padding: var(--v2-spacing-2) var(--v2-spacing-3) var(--v2-spacing-6)
-    var(--v2-spacing-3);
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-6)
+    var(--spacing-3);
 }
 
 .hotKeyContainer {
@@ -13,28 +13,28 @@ $hotkeys-modal-snippet-border: var(--v2-colors-grey-400);
 }
 
 .title {
-  font-size: var(--v2-font-size-5);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  line-height: var(--v2-line-height-title);
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  line-height: var(--line-height-6);
   color: $hotkeys-modal-text;
   margin: 0;
 }
 
 .subTitle {
-  font-size: var(--v2-font-size-4);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  line-height: var(--v2-line-height-title);
+  font-size: var(--font-size-4);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-5);
   color: $hotkeys-modal-text;
   margin: 0;
 }
 
 .hotKeyAction {
-  font-size: var(--v2-font-size-3);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  line-height: var(--v2-line-height-body-short);
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: var(--line-height-field-description);
   color: $hotkeys-modal-text;
   margin: 0;
 }
@@ -43,10 +43,10 @@ $hotkeys-modal-snippet-border: var(--v2-colors-grey-400);
   background-color: $hotkeys-modal-snippet-background;
   border: 1px solid $hotkeys-modal-snippet-border;
   color: $hotkeys-modal-text;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
   border-radius: 3px;
-  padding: var(--v2-spacing-1);
+  padding: var(--spacing-1);
   display: inline-block;
   line-height: 1;
 }

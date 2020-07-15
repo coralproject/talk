@@ -1,21 +1,21 @@
-$tag-color-primary: var(--v2-palette-primary-main);
-$tag-color-primary-light: var(--v2-palette-primary-lightest);
-$tag-color-grey: var(--v2-palette-grey-main);
-$tag-color-grey-light: var(--v2-palette-grey-light);
-$tag-color-error: var(--v2-palette-error-main);
-$tag-color-error-light: var(--v2-palette-error-lightest);
-$tag-color-dark: var(--v2-palette-primary-darkest);
-$tag-color-dark-light: var(--v2-palette-primary-lightest);
-$tag-text-color: var(--v2-palette-text-light);
-$tag-pill-bg: var(--v2-colors-pure-white);
+$tag-color-primary: $colors-teal-700;
+$tag-color-primary-light: $colors-teal-100;
+$tag-color-grey: var(--palette-grey-500);
+$tag-color-grey-light: var(--palette-grey-100);
+$tag-color-error: var(--palette-error-500);
+$tag-color-error-light: var(--palette-error-100);
+$tag-color-dark: $colors-teal-900;
+$tag-color-dark-light: $colors-teal-100;
+$tag-text-color: var(--palette-text-000);
+$tag-pill-bg: inherit;
 
 .root {
-  font-size: var(--v2-font-size-2);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
   color: $tag-text-color;
-  line-height: var(--v2-line-height-reset);
-  padding: var(--v2-spacing-1);
+  line-height: var(--line-height-3);
+  padding: var(--spacing-1);
   white-space: nowrap;
   border-radius: 2px;
   display: inline-block;
@@ -38,7 +38,7 @@ $tag-pill-bg: var(--v2-colors-pure-white);
 }
 
 .colorStreamBlue {
-  background-color: var(--v2-colors-stream-blue-500);
+  background-color: var(--palette-primary-500);
 }
 
 .variantPill {
@@ -62,8 +62,8 @@ $tag-pill-bg: var(--v2-colors-pure-white);
     color: $tag-color-dark;
   }
   &.colorStreamBlue {
-    border: 1px solid var(--v2-colors-stream-blue-500);
-    color: var(--v2-colors-stream-blue-500);
+    border: 1px solid var(--palette-primary-500);
+    color: var(--palette-primary-500);
   }
 }
 

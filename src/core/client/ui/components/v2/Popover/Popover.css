@@ -1,7 +1,7 @@
-$popoverBorderColor: var(--v2-colors-grey-400);
-$popoverBackgroundColor: var(--v2-colors-pure-white);
-$popoverDarkBackgroundColor: var(--v2-colors-grey-500);
-$popoverDarkBorderColor: var(--v2-colors-grey-500);
+$popoverBorderColor: var(--palette-grey-400);
+$popoverBackgroundColor: var(--palette-background-popover);
+$popoverDarkBackgroundColor: var(--palette-background-tooltip);
+$popoverDarkBorderColor: var(--palette-background-tooltip);
 
 .root {
 }
@@ -10,9 +10,9 @@ $popoverDarkBorderColor: var(--v2-colors-grey-500);
   background: $popoverBackgroundColor;
   border: 1px solid $popoverBorderColor;
   box-sizing: border-box;
-  box-shadow: var(--elevation-main);
+  box-shadow: var(--shadow-popover);
   border-radius: var(--round-corners);
-  z-index: var(--zindex-popover);
+  z-index: $zindex-popover;
   margin: 2px;
 }
 

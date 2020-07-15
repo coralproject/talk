@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Button)
+<ForwardRef(forwardRef)
   className="coral coral-login-googleButton GoogleButton-button"
   color="none"
   fontSize="small"
@@ -35,5 +35,5 @@ exports[`renders correctly 1`] = `
       Login with Google
     </span>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Button)>
+</ForwardRef(forwardRef)>
 `;

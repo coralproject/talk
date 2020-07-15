@@ -7,7 +7,8 @@ import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { CreateCommentFocusEvent } from "coral-stream/events";
-import { Button, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import RTEContainer from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";

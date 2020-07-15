@@ -4,15 +4,6 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
-import {
-  GQLActionPresence,
-  GQLCOMMENT_FLAG_DETECTED_REASON,
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_FLAG_REPORTED_REASON,
-  GQLDontAgreeActionCounts,
-  GQLFlagActionCounts,
-  GQLReactionActionCounts,
-} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -23,6 +14,16 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { commentActions as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLActionPresence,
+  GQLCOMMENT_FLAG_DETECTED_REASON,
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLDontAgreeActionCounts,
+  GQLFlagActionCounts,
+  GQLReactionActionCounts,
+} from "coral-server/graph/schema/__generated__/types";
 
 export enum ACTION_TYPE {
   /**

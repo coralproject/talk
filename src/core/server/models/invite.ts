@@ -2,9 +2,10 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { TenantResource } from "coral-server/models/tenant";
 import { invites as collection } from "coral-server/services/mongodb/collections";
+
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export interface Invite extends TenantResource {
   readonly id: string;

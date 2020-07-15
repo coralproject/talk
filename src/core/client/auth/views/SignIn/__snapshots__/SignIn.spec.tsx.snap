@@ -43,7 +43,7 @@ exports[`renders correctly 1`] = `
     <Localized
       id="signIn-noAccountSignUp"
       textlink={
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignIn-signUp"
           color="primary"
           fontFamily="secondary"
@@ -61,7 +61,7 @@ exports[`renders correctly 1`] = `
         className="coral coral-login-signIn-noAccount SignIn-noAccount"
       >
         Don't have an account?
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignIn-signUp"
           color="primary"
           fontFamily="secondary"
@@ -74,7 +74,7 @@ exports[`renders correctly 1`] = `
           variant="flat"
         >
           Sign Up
-        </withPropsOnChange(Button)>
+        </ForwardRef(forwardRef)>
       </div>
     </Localized>
   </div>
@@ -141,7 +141,7 @@ exports[`renders error 1`] = `
     <Localized
       id="signIn-noAccountSignUp"
       textlink={
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignIn-signUp"
           color="primary"
           fontFamily="secondary"
@@ -159,7 +159,7 @@ exports[`renders error 1`] = `
         className="coral coral-login-signIn-noAccount SignIn-noAccount"
       >
         Don't have an account?
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           className="SignIn-signUp"
           color="primary"
           fontFamily="secondary"
@@ -172,7 +172,7 @@ exports[`renders error 1`] = `
           variant="flat"
         >
           Sign Up
-        </withPropsOnChange(Button)>
+        </ForwardRef(forwardRef)>
       </div>
     </Localized>
   </div>

@@ -1,6 +1,6 @@
-$commentsReplyToBackground: var(--v2-colors-grey-500);
-$commentsReplyToColor: var(--v2-colors-pure-white);
-$commentsReplyToBorderColor: var(--v2-colors-grey-500);
+$commentsReplyToBackground: var(--palette-grey-500);
+$commentsReplyToColor: var(--palette-text-000);
+$commentsReplyToBorderColor: var(--palette-grey-500);
 
 .root {
   padding: calc(0.5 * var(--mini-unit));
@@ -11,24 +11,24 @@ $commentsReplyToBorderColor: var(--v2-colors-grey-500);
   background-color: $commentsReplyToBackground;
   color: $commentsReplyToColor;
 
-  border-top-left-radius: var(--v2-round-corners);
-  border-top-right-radius: var(--v2-round-corners);
+  border-top-left-radius: var(--round-corners);
+  border-top-right-radius: var(--round-corners);
 }
 
 .text {
   color: $commentsReplyToColor;
 
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
 }
 
 .username {
   color: $commentsReplyToColor;
 
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-2);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
 }

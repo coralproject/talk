@@ -22,10 +22,10 @@
 
 .usernameButton {
   padding: 0px;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  line-height: var(--v2-line-height-reset);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-3);
+  font-size: var(--font-size-2);
 }
 
 .username {
@@ -35,5 +35,5 @@
 .deleted {
   display: inline-block;
   padding-left: var(--spacing-2);
-  color: var(--palette-warning-main);
+  color: #DC8400;
 }

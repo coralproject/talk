@@ -1,4 +1,4 @@
-$dropdownDividerBorderColor: var(--v2-colors-grey-300);
+$dropdownDividerBorderColor: var(--palette-grey-300);
 
 .root {
   border: 0;

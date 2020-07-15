@@ -6,7 +6,7 @@ import {
   purgeMetadata,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 

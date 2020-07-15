@@ -11,9 +11,9 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment } from "coral-framework/schema";
+import { CreateCommentReactionEvent } from "coral-stream/events";
 
 import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
-import { CreateCommentReactionEvent } from "coral-stream/events";
 
 export type CreateCommentReactionInput = MutationInput<MutationTypes>;
 

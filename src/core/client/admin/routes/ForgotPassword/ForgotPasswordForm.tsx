@@ -20,7 +20,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import ForgotPasswordMutation from "./ForgotPasswordMutation";
 
@@ -98,8 +98,6 @@ const ForgotPasswordForm: FunctionComponent<Props> = (props) => {
                 </Field>
                 <Localized id="forgotPassword-sendEmailButton">
                   <Button
-                    variant="filled"
-                    color="primary"
                     size="large"
                     fullWidth
                     type="submit"

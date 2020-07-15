@@ -1,7 +1,7 @@
 .root {
   height: 100%;
-  font-size: var(--v2-font-size-1);
-  line-height: var(--v2-line-height-reset);
-  color: var(--v2-colors-mono-100);
-  padding: 0 var(--v2-spacing-1);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-3);
+  color: var(--palette-text-100);
+  padding: 0 var(--spacing-1);
 }

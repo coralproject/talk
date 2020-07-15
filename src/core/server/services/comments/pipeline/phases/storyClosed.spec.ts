@@ -1,7 +1,8 @@
 import { DateTime } from "luxon";
 
 import { storyClosed } from "coral-server/services/comments/pipeline/phases/storyClosed";
-import { ModerationPhaseContext } from "..";
+
+import { ModerationPhaseContext } from "../";
 
 describe("storyClosed", () => {
   it("throws an error when the story is closed", () => {

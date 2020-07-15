@@ -17,7 +17,8 @@ import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, Button, HorizontalGutter } from "coral-ui/components";
+import { Box, HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -217,7 +218,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMoreAndEmit}
-              variant="outlineFilled"
+              color="secondary"
+              variant="outlined"
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"

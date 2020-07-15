@@ -1,13 +1,13 @@
 .root {
-  background-color: var(--v2-colors-grey-200);
+  background-color: var(--palette-grey-200);
 
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-3);
-  color: var(--v2-colors-mono-500);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
+  color: var(--palette-text-500);
 
-  padding: var(--v2-spacing-4);
+  padding: var(--spacing-4);
 
   text-align: center;
 }

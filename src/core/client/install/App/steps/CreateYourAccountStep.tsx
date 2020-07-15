@@ -24,7 +24,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import BackButton from "./BackButton";
 import NextButton from "./NextButton";
@@ -79,9 +79,7 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-email">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Email
-                      </InputLabel>
+                      <InputLabel htmlFor={input.name}>Email</InputLabel>
                     </Localized>
                     <Localized
                       id="install-createYourAccount-emailTextField"
@@ -111,9 +109,7 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-username">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Username
-                      </InputLabel>
+                      <InputLabel htmlFor={input.name}>Username</InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-usernameDescription">
                       <InputDescription>
@@ -148,9 +144,7 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-password">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Password
-                      </InputLabel>
+                      <InputLabel htmlFor={input.name}>Password</InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-passwordDescription">
                       <InputDescription>
@@ -183,7 +177,7 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-confirmPassword">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Confirm password
                       </InputLabel>
                     </Localized>

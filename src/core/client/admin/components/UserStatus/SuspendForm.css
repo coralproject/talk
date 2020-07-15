@@ -1,3 +1,5 @@
+$suspend-modal-text: var(--palette-text-500);
+
 .radioButton {
   margin: 0 var(--spacing-1) 0 0 !important;
 }
@@ -11,6 +13,15 @@
 
 .header {
   margin: 0 0 var(--spacing-3) 0 !important;
+}
+
+.subTitle {
+  font-size: var(--font-size-4);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-5);
+  color: $suspend-modal-text;
+  margin: 0;
 }
 
 .footer {

@@ -20,7 +20,9 @@ export default {
   appPublicPath: resolveSrc("core/build/publicPath.js"),
   appLocales: resolveSrc("locales"),
   appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),
-  appThemeVariablesCSS: resolveSrc("core/client/ui/theme/variables.css"),
+  appSassLikeVariables: resolveSrc("core/client/ui/theme/sassLikeVariables.ts"),
+  appThemeStreamCSS: resolveSrc("core/client/ui/theme/stream.css"),
+  appThemeAdminCSS: resolveSrc("core/client/ui/theme/admin.css"),
   appThemeMixinsCSS: resolveSrc("core/client/ui/theme/mixins.css"),
 
   appStreamHTML: resolveSrc("core/client/stream/index.html"),

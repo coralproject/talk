@@ -504,6 +504,7 @@ comments-reportPopover-pleaseLeaveAdditionalInformation =
   Please leave any additional information that may be helpful to our moderators.
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
+comments-reportPopover-restrictToMaxCharacters = Please restrict your report to { $maxCharacters } characters
 comments-reportPopover-cancel = Cancel
 comments-reportPopover-submit = Submit
 

@@ -1,8 +1,8 @@
 .messagesVisible {
-  margin-top: var(--v2-spacing-2);
-  margin-bottom: var(--v2-spacing-6);
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-6);
 }
 
 .messagesHidden {
-  margin-bottom: var(--v2-spacing-6);
+  margin-bottom: var(--spacing-6);
 }

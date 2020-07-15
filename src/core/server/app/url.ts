@@ -1,7 +1,8 @@
+import { URL } from "url";
+
 import { Config } from "coral-server/config";
 import { Tenant } from "coral-server/models/tenant";
 import { Request } from "coral-server/types/express";
-import { URL } from "url";
 
 export function reconstructURL(req: Request, path = "/"): string {
   const scheme = req.secure ? "https" : "http";

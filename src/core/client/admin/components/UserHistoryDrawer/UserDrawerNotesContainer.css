@@ -3,7 +3,7 @@
 
 .textArea {
   width: 100%;
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .textArea:focus {
@@ -11,6 +11,6 @@
 }
 
 .form {
-  padding: var(--v2-spacing-2) 0;
-  margin-bottom: var(--v2-spacing-4);
+  padding: var(--spacing-2) 0;
+  margin-bottom: var(--spacing-4);
 }

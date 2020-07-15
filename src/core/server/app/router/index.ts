@@ -2,7 +2,6 @@ import express, { Router } from "express";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
-
 import playground from "coral-server/app/middleware/playground";
 import { RouterOptions } from "coral-server/app/router/types";
 import logger from "coral-server/logger";

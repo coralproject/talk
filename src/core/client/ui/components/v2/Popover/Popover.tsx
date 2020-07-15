@@ -3,12 +3,12 @@ import React from "react";
 import { Manager, Popper, Reference } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
+import { AriaInfo } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-import { AriaInfo } from "coral-ui/components";
-
 import Arrow from "./Arrow";
+
 import styles from "./Popover.css";
 
 type Placement =

@@ -1,25 +1,25 @@
-$commentsModerationApprovedColor: var(--v2-colors-green-500);
-$commentsModerationRejectedColor: var(--v2-colors-red-500);
-$commentsModerationFeaturedColor: var(--v2-colors-stream-blue-500);
+$commentsModerationApprovedColor: var(--palette-success-500);
+$commentsModerationRejectedColor: var(--palette-error-500);
+$commentsModerationFeaturedColor: var(--palette-primary-500);
 
 .label {
-  color: var(--v2-colors-mono-500);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-3);
+  color: var(--palette-text-500);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
 
   text-align: left;
 }
 
 .featured {
   color: $commentsModerationFeaturedColor;
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--font-weight-primary-bold);
 }
 
 .approved {
   color: $commentsModerationApprovedColor;
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--font-weight-primary-bold);
   &:disabled {
     opacity: 1.0;
   }
@@ -32,7 +32,7 @@ $commentsModerationFeaturedColor: var(--v2-colors-stream-blue-500);
 
 .rejected {
   color: $commentsModerationRejectedColor;
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--font-weight-primary-bold);
   &:disabled {
     opacity: 1.0;
   }
@@ -44,21 +44,21 @@ $commentsModerationFeaturedColor: var(--v2-colors-stream-blue-500);
 }
 
 .link {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
 
-  color: var(--v2-colors-stream-blue-500);
+  color: var(--palette-primary-500);
 
   text-decoration: underline;
 }
 
 .mouseHover {
-  background-color: var(--v2-colors-stream-blue-100);
+  background-color: var(--palette-primary-100);
 }
 
 .linkIcon {
   padding-top: 1px;
-  color: var(--v2-colors-stream-blue-500);
+  color: var(--palette-primary-500);
 }
