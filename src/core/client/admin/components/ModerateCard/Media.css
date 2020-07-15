@@ -1,5 +1,10 @@
 .embed {
   margin: var(--spacing-2) 0;
+
+  max-width: 100%;
+  & > iframe {
+    max-width: 100%;
+  }
 }
 
 .toggle {
@@ -30,4 +35,5 @@
 
 .image {
   display: block;
+  max-width: 100%;
 }
