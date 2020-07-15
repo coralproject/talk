@@ -98,8 +98,6 @@ const ForgotPasswordForm: FunctionComponent<Props> = (props) => {
                 </Field>
                 <Localized id="forgotPassword-sendEmailButton">
                   <Button
-                    variant="regular"
-                    color="regular"
                     size="large"
                     fullWidth
                     type="submit"

@@ -1,7 +1,7 @@
 $recent-history-title: var(--palette-text-500);
 $recent-history-subtitle: var(--palette-text-100);
 $recent-history-info: var(--palette-text-500);
-$recent-history-triggered: var(--palette-negative-500);
+$recent-history-triggered: var(--palette-error-500);
 
 .title {
   text-transform: uppercase;

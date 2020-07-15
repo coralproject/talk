@@ -11,8 +11,8 @@
 
 .active,
 .completed {
-  background-color: var(--palette-positive-400);
-  border-color: var(--palette-positive-400);
+  background-color: var(--palette-success-400);
+  border-color: var(--palette-success-400);
 }
 
 .icon {

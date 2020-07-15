@@ -9,7 +9,7 @@
 }
 
 .url {
-  color: var(--v2-colors-stream-blue-500);
+  color: var(--palette-primary-500);
   margin: 0;
   font-weight: var(--font-weight-primary-semi-bold);
 }

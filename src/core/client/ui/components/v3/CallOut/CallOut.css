@@ -60,10 +60,10 @@
     color: var(--palette-text-500);
   }
   &.positive {
-    color: var(--palette-positive-500);
+    color: var(--palette-success-500);
   }
   &.negative {
-    color: var(--palette-negative-500);
+    color: var(--palette-error-500);
   }
   &.primary {
     color: var(--palette-primary-500);
@@ -80,8 +80,8 @@
 }
 
 .positive {
-  background-color: var(--palette-positive-100);
-  border-color: var(--palette-positive-500);
+  background-color: var(--palette-success-100);
+  border-color: var(--palette-success-500);
   color: var(--palette-text-500);
 }
 

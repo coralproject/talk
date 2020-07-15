@@ -1,4 +1,4 @@
-$markerReportedColor: var(--palette-negative-500);
+$markerReportedColor: var(--palette-error-500);
 $markerPendingColor: $colors-teal-700;
 
 .root {

@@ -1,5 +1,5 @@
-$commentsModerationApprovedColor: var(--palette-positive-500);
-$commentsModerationRejectedColor: var(--palette-negative-500);
+$commentsModerationApprovedColor: var(--palette-success-500);
+$commentsModerationRejectedColor: var(--palette-error-500);
 $commentsModerationFeaturedColor: var(--palette-primary-500);
 
 .label {

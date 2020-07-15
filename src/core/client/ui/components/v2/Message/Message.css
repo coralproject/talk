@@ -1,4 +1,4 @@
-$messageErrorBackgroundColor: var(--palette-negative-500);
+$messageErrorBackgroundColor: var(--palette-error-500);
 $messageErrorForegroundColor: var(--palette-text-000);
 
 .root {

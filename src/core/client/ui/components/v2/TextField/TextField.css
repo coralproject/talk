@@ -7,7 +7,7 @@ $input-streamBlue-focused-border: var(--palette-primary-500);
 $input-disabled-background: var(--palette-background-input-disabled);
 $input-disabled-value: var(--palette-text-input-disabled);
 $input-disabled-border: var(--palette-grey-400);
-$input-error-border: var(--palette-negative-500);
+$input-error-border: var(--palette-error-500);
 $input-dark-focused-border: $colors-teal-900;
 
 .root {

@@ -155,17 +155,17 @@
 
     &:not(.disabled),
     &:not(:disabled) {
-      background-color: var(--palette-negative-500);
-      border-color: var(--palette-negative-500);
+      background-color: var(--palette-error-500);
+      border-color: var(--palette-error-500);
     }
 
     &:hover, &.mouseHover {
-      background-color: var(--palette-negative-600);
-      border-color: var(--palette-negative-600);
+      background-color: var(--palette-error-600);
+      border-color: var(--palette-error-600);
     }
     &:active, &.active {
-      background-color: var(--palette-negative-700);
-      border-color: var(--palette-negative-700);
+      background-color: var(--palette-error-700);
+      border-color: var(--palette-error-700);
     }
     &.disabled {
       color: var(--palette-grey-400);
@@ -179,17 +179,17 @@
 
     &:not(.disabled),
     &:not(:disabled) {
-      background-color: var(--palette-positive-500);
-      border-color: var(--palette-positive-500);
+      background-color: var(--palette-success-500);
+      border-color: var(--palette-success-500);
     }
 
     &:hover, &.mouseHover {
-      background-color: var(--palette-positive-600);
-      border-color: var(--palette-positive-600);
+      background-color: var(--palette-success-600);
+      border-color: var(--palette-success-600);
     }
     &:active, &.active {
-      background-color: var(--palette-positive-700);
-      border-color: var(--palette-positive-700);
+      background-color: var(--palette-success-700);
+      border-color: var(--palette-success-700);
     }
     &.disabled {
       color: var(--palette-grey-400);
@@ -263,18 +263,18 @@
     &:not(.disabled),
     &:not(:disabled) {
       background-color: inherit;
-      border-color: var(--palette-negative-500);
-      color: var(--palette-negative-500);
+      border-color: var(--palette-error-500);
+      color: var(--palette-error-500);
     }
 
     &:hover, &.mouseHover {
-      background-color: var(--palette-negative-500);
-      border-color: var(--palette-negative-500);
+      background-color: var(--palette-error-500);
+      border-color: var(--palette-error-500);
       color: var(--palette-text-000);
     }
     &:active, &.active {
-      background-color: var(--palette-negative-600);
-      border-color: var(--palette-negative-600);
+      background-color: var(--palette-error-600);
+      border-color: var(--palette-error-600);
       color: var(--palette-text-000);
     }
     &.disabled {
@@ -291,18 +291,18 @@
     &:not(.disabled),
     &:not(:disabled) {
       background-color: inherit;
-      border-color: var(--palette-positive-500);
-      color: var(--palette-positive-500);
+      border-color: var(--palette-success-500);
+      color: var(--palette-success-500);
     }
 
     &:hover, &.mouseHover {
-      background-color: var(--palette-positive-500);
-      border-color: var(--palette-positive-500);
+      background-color: var(--palette-success-500);
+      border-color: var(--palette-success-500);
       color: var(--palette-text-000);
     }
     &:active, &.active {
-      background-color: var(--palette-positive-600);
-      border-color: var(--palette-positive-600);
+      background-color: var(--palette-success-600);
+      border-color: var(--palette-success-600);
       color: var(--palette-text-000);
     }
     &.disabled {
@@ -353,14 +353,14 @@
   &.colorNegative {
     &:not(.disabled),
     &:not(:disabled) {
-      color: var(--palette-negative-500);
+      color: var(--palette-error-500);
     }
 
     &:hover, &.mouseHover {
-      color: var(--palette-negative-600);
+      color: var(--palette-error-600);
     }
     &:active, &.active {
-      color: var(--palette-negative-700);
+      color: var(--palette-error-700);
     }
     &.disabled {
       color: var(--palette-grey-400);
@@ -370,14 +370,14 @@
   &.colorPositive{
     &:not(.disabled),
     &:not(:disabled) {
-      color: var(--palette-positive-500);
+      color: var(--palette-success-500);
     }
 
     &:hover, &.mouseHover {
-      color: var(--palette-positive-600);
+      color: var(--palette-success-600);
     }
     &:active, &.active {
-      color: var(--palette-positive-700);
+      color: var(--palette-success-700);
     }
     &.disabled {
       color: var(--palette-grey-400);

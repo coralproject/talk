@@ -1,4 +1,4 @@
-$commentsModerationBannedColor: var(--palette-negative-500);
+$commentsModerationBannedColor: var(--palette-error-500);
 
 .label {
   color: var(--palette-text-500);

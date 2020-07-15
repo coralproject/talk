@@ -12,5 +12,5 @@
 
 .tagIcon {
   margin-right: var(--spacing-1);
-  color: var(--palette-positive-500);
+  color: var(--palette-success-500);
 }

@@ -8,5 +8,5 @@
 }
 
 .completed {
-  border-color: var(--palette-positive-400);
+  border-color: var(--palette-success-400);
 }

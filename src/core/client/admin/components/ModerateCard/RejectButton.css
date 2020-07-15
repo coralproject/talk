@@ -1,4 +1,4 @@
-$moderateCardButtonOutlineRejectColor: var(--palette-negative-500);
+$moderateCardButtonOutlineRejectColor: var(--palette-error-500);
 
 .root {
   border: 1px solid $moderateCardButtonOutlineRejectColor;

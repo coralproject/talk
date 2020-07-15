@@ -45,7 +45,7 @@ $counterBadgeBackgroundAlertColor: var(--palette-grey-500);
 }
 
 .colorError {
-  background-color: var(--palette-negative-700);
+  background-color: var(--palette-error-700);
 }
 
 .colorEmphasis {

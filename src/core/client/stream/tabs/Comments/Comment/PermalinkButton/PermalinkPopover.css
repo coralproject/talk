@@ -32,6 +32,6 @@
 .copied {
   font-weight: var(--font-weight-primary-semi-bold);
 
-  background-color: var(--palette-positive-100);
-  color: var(--palette-positive-500);
+  background-color: var(--palette-success-100);
+  color: var(--palette-success-500);
 }

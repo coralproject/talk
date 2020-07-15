@@ -28,8 +28,8 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
     - <a href="#palette-background">palette-background</a>
     - <a href="#palette-text">palette-text</a>
     - <a href="#palette-grey">palette-grey</a>
-    - <a href="#palette-negative">palette-negative</a>
-    - <a href="#palette-positive">palette-positive</a>
+    - <a href="#palette-error">palette-error</a>
+    - <a href="#palette-success">palette-success</a>
     - <a href="#palette-warning">palette-warning</a>
   - <a href="#font-family">font-family</a>
   - <a href="#font-weight">font-weight</a>
@@ -126,49 +126,49 @@ Color palette that is used for grey shades.
 
 `--palette-grey-900: #132033;  /* Before 6.3.0: --palette-grey-darkest */`
 
-#### palette-negative
+#### palette-error
 
 Color palette that is used for indicating something negative and is usually red.
 
-`--palette-negative-100: #FCE5D9;  /* Before 6.3.0: --palette-error-lightest */`
+`--palette-error-100: #FCE5D9;  /* Before 6.3.0: --palette-error-lightest */`
 
-`--palette-negative-200: #FAC6B4;  /* Before 6.3.0: --palette-error-lighter */`
+`--palette-error-200: #FAC6B4;  /* Before 6.3.0: --palette-error-lighter */`
 
-`--palette-negative-300: #F29D8B;  /* Before 6.3.0: --palette-error-lighter */`
+`--palette-error-300: #F29D8B;  /* Before 6.3.0: --palette-error-lighter */`
 
-`--palette-negative-400: #E5766C;  /* Before 6.3.0: --palette-error-light */`
+`--palette-error-400: #E5766C;  /* Before 6.3.0: --palette-error-light */`
 
-`--palette-negative-500: #D53F3F;  /* Before 6.3.0: --palette-error-main */`
+`--palette-error-500: #D53F3F;  /* Before 6.3.0: --palette-error-main */`
 
-`--palette-negative-600: #B72E39;  /* Before 6.3.0: --palette-error-main */`
+`--palette-error-600: #B72E39;  /* Before 6.3.0: --palette-error-main */`
 
-`--palette-negative-700: #991F34;  /* Before 6.3.0: --palette-error-dark */`
+`--palette-error-700: #991F34;  /* Before 6.3.0: --palette-error-dark */`
 
-`--palette-negative-800: #7B142E;  /* Before 6.3.0: --palette-error-darkest */`
+`--palette-error-800: #7B142E;  /* Before 6.3.0: --palette-error-darkest */`
 
-`--palette-negative-900: #660C2B;  /* Before 6.3.0: --palette-error-darkest */`
+`--palette-error-900: #660C2B;  /* Before 6.3.0: --palette-error-darkest */`
 
-#### palette-positive
+#### palette-success
 
 Color palette that is used for indicating something positive and is usually green.
 
-`--palette-positive-100: #D8F9D5;  /* Before 6.3.0: --palette-success-lightest */`
+`--palette-success-100: #D8F9D5;  /* Before 6.3.0: --palette-success-lightest */`
 
-`--palette-positive-200: #ADF3AD;  /* Before 6.3.0: --palette-success-lighter */`
+`--palette-success-200: #ADF3AD;  /* Before 6.3.0: --palette-success-lighter */`
 
-`--palette-positive-300: #7CDB85;  /* Before 6.3.0: --palette-success-lighter */`
+`--palette-success-300: #7CDB85;  /* Before 6.3.0: --palette-success-lighter */`
 
-`--palette-positive-400: #54B767;  /* Before 6.3.0: --palette-success-light */`
+`--palette-success-400: #54B767;  /* Before 6.3.0: --palette-success-light */`
 
-`--palette-positive-500: #268742;  /* Before 6.3.0: --palette-success-main */`
+`--palette-success-500: #268742;  /* Before 6.3.0: --palette-success-main */`
 
-`--palette-positive-600: #1B743D;  /* Before 6.3.0: --palette-success-main */`
+`--palette-success-600: #1B743D;  /* Before 6.3.0: --palette-success-main */`
 
-`--palette-positive-700: #136138;  /* Before 6.3.0: --palette-success-dark */`
+`--palette-success-700: #136138;  /* Before 6.3.0: --palette-success-dark */`
 
-`--palette-positive-800: #0C4E32;  /* Before 6.3.0: --palette-success-darkest */`
+`--palette-success-800: #0C4E32;  /* Before 6.3.0: --palette-success-darkest */`
 
-`--palette-positive-900: #07402E;  /* Before 6.3.0: --palette-success-darkest */`
+`--palette-success-900: #07402E;  /* Before 6.3.0: --palette-success-darkest */`
 
 #### palette-warning
 

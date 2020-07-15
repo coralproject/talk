@@ -6,15 +6,15 @@
 }
 
 .success {
-  color: var(--palette-positive-500);
+  color: var(--palette-success-500);
 }
 
 .warning {
-  color: var(--palette-negative-500);
+  color: var(--palette-error-500);
   font-weight: var(--font-weight-primary-semi-bold);
 }
 
 .error {
-  color: var(--palette-negative-700);
+  color: var(--palette-error-700);
   font-weight: var(--font-weight-primary-semi-bold);
 }

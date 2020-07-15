@@ -10,7 +10,7 @@
 }
 
 .active {
-  background-color: var(--palette-positive-500);
+  background-color: var(--palette-success-500);
   color: var(--palette-text-000);
 }
 
@@ -23,7 +23,7 @@
 }
 
 .expired {
-  background-color: var(--palette-negative-500);
+  background-color: var(--palette-error-500);
   color: var(--palette-text-000);
 
   padding-top: var(--spacing-1);

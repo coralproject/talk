@@ -7,5 +7,5 @@ $tableBodyDisabledColor: var(--palette-text-100);
 
 .open {
   font-weight: var(--font-weight-primary-regular);
-  color: var(--palette-positive-500);
+  color: var(--palette-success-500);
 }

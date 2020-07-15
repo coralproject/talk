@@ -1,4 +1,4 @@
-$moderateCardCounterBadgeBackgroundAlert: var(--palette-negative-500);
+$moderateCardCounterBadgeBackgroundAlert: var(--palette-error-500);
 $moderateCardToxicityColor: var(--palette-text-500);
 
 .root {

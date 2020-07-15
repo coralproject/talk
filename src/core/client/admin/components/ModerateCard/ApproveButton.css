@@ -1,4 +1,4 @@
-$moderateCardButtonOutlineApproveColor: var(--palette-positive-500);
+$moderateCardButtonOutlineApproveColor: var(--palette-success-500);
 
 .root {
   border: 1px solid $moderateCardButtonOutlineApproveColor;

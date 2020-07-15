@@ -34,14 +34,14 @@ $callout-regular-border: var(--palette-grey-300);
 }
 
 .colorError {
-  background-color: var(--palette-negative-100);
-  border-color: var(--palette-negative-300);
+  background-color: var(--palette-error-100);
+  border-color: var(--palette-error-300);
   color: var(--palette-text-500);
 }
 
 .colorSuccess {
-  background-color: var(--palette-positive-100);
-  border-color: var(--palette-positive-300);
+  background-color: var(--palette-success-100);
+  border-color: var(--palette-success-300);
   color: var(--palette-text-500);
 }
 

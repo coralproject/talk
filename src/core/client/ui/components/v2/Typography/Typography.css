@@ -198,11 +198,11 @@
 }
 
 .colorError {
-  color: var(--palette-negative-500);
+  color: var(--palette-error-500);
 }
 
 .colorErrorDark {
-  color: var(--palette-negative-600);
+  color: var(--palette-error-600);
 }
 
 .colorWarning {
@@ -210,7 +210,7 @@
 }
 
 .colorSuccess {
-  color: var(--palette-positive-500);
+  color: var(--palette-success-500);
 }
 
 .inputLabel {

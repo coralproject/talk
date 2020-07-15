@@ -18,8 +18,8 @@
 }
 
 .redIcon {
-  background-color: var(--palette-negative-100);
-  color: var(--palette-negative-500);
+  background-color: var(--palette-error-100);
+  color: var(--palette-error-500);
 }
 
 .greyIcon {
