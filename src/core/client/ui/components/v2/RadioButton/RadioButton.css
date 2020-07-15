@@ -16,7 +16,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-body-short);
+  line-height: var(--line-height-field-description);
   align-items: center;
 }
 

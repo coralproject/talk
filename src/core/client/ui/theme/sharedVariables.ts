@@ -105,9 +105,8 @@ const variables = {
     iconXs: "0.75rem",
   },
   lineHeight: {
-    /* TODO (cvle) - better naming? */
-    bodyComment: "1.45rem",
-    bodyShort: "1.3rem",
+    commentBody: "1.45rem",
+    fieldDescription: "1.3rem",
     1: "0.75rem",
     2: "0.875rem",
     3: "1rem",
@@ -118,7 +117,7 @@ const variables = {
     8: "2rem",
   },
   /** Different shadows that are currently used in Coral. */
-  elevation: {
+  shadow: {
     popover: compat("1px 0px 4px rgba(0, 0, 0, 0.25)", "elevation-main"),
   },
   /** Different spacing units currenty used in Coral. */

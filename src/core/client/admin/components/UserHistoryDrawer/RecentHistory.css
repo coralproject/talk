@@ -9,7 +9,7 @@ $recent-history-triggered: var(--palette-error-500);
   font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-3);
   margin: 0;
-  line-height: var(--line-height-body-short);
+  line-height: var(--line-height-field-description);
   color: $recent-history-title;
 }
 

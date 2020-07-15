@@ -2,6 +2,6 @@
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-body-short);
+  line-height: var(--line-height-field-description);
   text-align: center;
 }

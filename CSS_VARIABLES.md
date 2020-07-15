@@ -37,7 +37,7 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
     - <a href="#font-weight-secondary">font-weight-secondary</a>
   - <a href="#font-size">font-size</a>
   - <a href="#line-height">line-height</a>
-  - <a href="#elevation">elevation</a>
+  - <a href="#shadow">shadow</a>
   - <a href="#spacing">spacing</a>
   - <a href="#mini-unit">mini-unit</a>
 
@@ -236,9 +236,9 @@ Different font weights with matching values for the fonts.
 
 ### line-height
 
-`--line-height-body-comment: 1.45rem;`
+`--line-height-comment-body: 1.45rem;`
 
-`--line-height-body-short: 1.3rem;`
+`--line-height-field-description: 1.3rem;`
 
 `--line-height-1: 0.75rem;`
 
@@ -256,11 +256,11 @@ Different font weights with matching values for the fonts.
 
 `--line-height-8: 2rem;`
 
-### elevation
+### shadow
 
 Different shadows that are currently used in Coral.
 
-`--elevation-popover: 1px 0px 4px rgba(0, 0, 0, 0.25);  /* Before 6.3.0: --elevation-main */`
+`--shadow-popover: 1px 0px 4px rgba(0, 0, 0, 0.25);  /* Before 6.3.0: --elevation-main */`
 
 ### spacing
 

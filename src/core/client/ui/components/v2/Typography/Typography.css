@@ -227,6 +227,6 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-body-comment);
+  line-height: var(--line-height-comment-body);
   color: var(--palette-text-500);
 }

@@ -10,7 +10,7 @@ $popoverDarkBorderColor: var(--palette-background-tooltip);
   background: $popoverBackgroundColor;
   border: 1px solid $popoverBorderColor;
   box-sizing: border-box;
-  box-shadow: var(--elevation-popover);
+  box-shadow: var(--shadow-popover);
   border-radius: var(--round-corners);
   z-index: $zindex-popover;
   margin: 2px;

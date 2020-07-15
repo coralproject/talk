@@ -1,7 +1,7 @@
 $tag-color-primary: $colors-teal-700;
 $tag-color-primary-light: $colors-teal-100;
 $tag-color-grey: var(--palette-grey-500);
-$tag-color-grey-light: var(--palette-grey-light);
+$tag-color-grey-light: var(--palette-grey-100);
 $tag-color-error: var(--palette-error-500);
 $tag-color-error-light: var(--palette-error-100);
 $tag-color-dark: $colors-teal-900;

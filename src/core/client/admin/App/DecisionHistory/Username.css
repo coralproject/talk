@@ -4,6 +4,6 @@ $moderateCardDecisionHistoryColor: var(--palette-text-900);
   color: $moderateCardDecisionHistoryColor;
   font-weight: var(--font-weight-secondary-bold);
   font-family: var(--font-family-secondary);
-  line-height: var(--line-height-body-short);
+  line-height: var(--line-height-field-description);
   font-size: var(--font-size-3);
 }
