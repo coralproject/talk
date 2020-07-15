@@ -1,44 +1,44 @@
-$recent-history-title: var(--v2-colors-mono-500);
-$recent-history-subtitle: var(--v2-colors-mono-100);
-$recent-history-info: var(--v2-colors-mono-500);
-$recent-history-triggered: var(--v2-palette-error-main);
+$recent-history-title: var(--palette-text-500);
+$recent-history-subtitle: var(--palette-text-100);
+$recent-history-info: var(--palette-text-500);
+$recent-history-triggered: var(--palette-error-500);
 
 .title {
   text-transform: uppercase;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-3);
   margin: 0;
-  line-height: var(--v2-line-height-body-short);
+  line-height: var(--line-height-field-description);
   color: $recent-history-title;
 }
 
 .subTitle {
   color: $recent-history-subtitle;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
   margin: 0;
-  line-height: var(--v2-line-height-body-short);
+  line-height: var(--line-height-4);
 }
 
 .info {
 }
 
 .amount {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-6);
-  line-height: var(--v2-line-height-reset);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-6);
+  line-height: var(--line-height-3);
+  line-height: var(--line-height-3);
   color: $recent-history-info;
   margin: 0;
 }
 
 .amountLabel {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
   color: $recent-history-info;
   margin: 0;
 }

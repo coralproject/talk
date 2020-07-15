@@ -83,7 +83,7 @@ const ReportButton: FunctionComponent<Props> = ({
       onClick={isLoggedIn ? onClickReport : signIn}
       data-testid="comment-report-button"
     >
-      <Flex alignItems="center">
+      <Flex alignItems="center" container="span">
         <Icon size="sm" className={styles.icon}>
           flag
         </Icon>

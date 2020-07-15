@@ -1,4 +1,4 @@
-$user-drawer-background: var(--v2-colors-pure-white);
+$user-drawer-background: $colors-pure-white;
 
 .root {
   position: fixed;

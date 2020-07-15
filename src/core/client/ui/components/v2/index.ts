@@ -15,6 +15,7 @@ export {
   UIContextProps,
   useUIContext,
 } from "./UIContext";
+export { BrandName, BrandMark, LogoHorizontal } from "./Brand";
 export { default as ClickOutside } from "./ClickOutside";
 export { default as Box } from "./Box";
 export { default as Button } from "./Button";
@@ -71,8 +72,12 @@ export {
   default as ValidationMessage,
   ValidationMessageProps,
 } from "./ValidationMessage";
-export { BrandName, BrandMark, LogoHorizontal } from "./Brand";
 export { default as InputLabel } from "./InputLabel";
 export { default as AppNotification } from "./AppNotification";
 export { default as HorizontalRule } from "./HorizontalRule";
 export { StepBar, Step } from "./Steps";
+export { default as CheckIcon } from "./CheckIcon";
+export { default as InputDescription } from "./InputDescription";
+export { default as Popup } from "./Popup";
+export { default as Typography } from "./Typography";
+export { TileSelector, Option as TileOption } from "./TileSelector";

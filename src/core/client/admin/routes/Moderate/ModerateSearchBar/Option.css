@@ -1,8 +1,8 @@
-@import "variables.css";
+@import "./variables.css";
 
 .root {
   &:not(:first-child) {
-    border-top: 1px solid var(--v2-palette-divider);
+    border-top: 1px solid var(--palette-divider);
   }
   &[aria-selected="true"] .container {
     @mixin outline;
@@ -19,23 +19,23 @@
 }
 
 .title {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
   color: $story-search-story-title;
 }
 
 .titleWithDetails {
-  font-size: var(--v2-font-size-3);
+  font-size: var(--font-size-3);
 }
 
 .details {
   padding-top: 8px;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
   color: $story-search-story-detail;
 }
 

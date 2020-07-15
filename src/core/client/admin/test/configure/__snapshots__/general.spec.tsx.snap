@@ -1258,10 +1258,8 @@ each other's comments.
                     </p>
                     <button
                       aria-label="Reaction"
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="mono"
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
                       data-testid="comment-reaction-button"
-                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1271,12 +1269,16 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
+                      <span
+                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
-                        icon
-                      </i>
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ReactionButton-icon"
+                        >
+                          icon
+                        </i>
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -1322,10 +1324,8 @@ each other's comments.
                     </p>
                     <button
                       aria-label="reacted"
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="mono"
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
                       data-testid="comment-reaction-button"
-                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1335,12 +1335,16 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-reacted"
+                      <span
+                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
-                        icon
-                      </i>
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm ReactionButton-icon ReactionButton-reacted"
+                        >
+                          icon
+                        </i>
+                      </span>
                     </button>
                   </div>
                 </div>

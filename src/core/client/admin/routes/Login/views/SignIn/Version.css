@@ -1,18 +1,18 @@
 .container {
   width: 385px;
-  background-color: var(--v2-colors-grey-100);
-  border: 1px solid var(--v2-colors-grey-300);
+  background-color: var(--palette-grey-100);
+  border: 1px solid var(--palette-grey-300);
   border-top: 0;
-  padding-top: var(--v2-spacing-3);
-  padding-bottom: var(--v2-spacing-3);
-  padding-left: var(--v2-spacing-6);
-  padding-right: var(--v2-spacing-6);
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
   box-sizing: border-box;
 
   text-align: center;
-  font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
-  color: var(--v2-colors-mono-100);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
+  color: var(--palette-text-100);
 }

@@ -2,10 +2,10 @@ import React, { FunctionComponent, ReactNode } from "react";
 import Responsive, { MediaQueryMatchers } from "react-responsive";
 
 import { UIContext } from "coral-ui/components/v2";
-import theme from "coral-ui/theme/variables2";
+import breakpoints from "coral-ui/theme/breakpoints";
 import { PropTypesOf } from "coral-ui/types";
 
-type Breakpoints = keyof typeof theme.breakpoints;
+type Breakpoints = keyof typeof breakpoints;
 
 interface Props {
   /** greater than or equal width. */
@@ -40,14 +40,14 @@ export const MatchMedia: FunctionComponent<Props> = (props) => {
     // react-responsive supports the speech prop.
     aural: speech,
     minWidth: gtWidth
-      ? theme.breakpoints[gtWidth] + 1
+      ? breakpoints[gtWidth] + 1
       : gteWidth
-      ? theme.breakpoints[gteWidth]
+      ? breakpoints[gteWidth]
       : undefined,
     maxWidth: ltWidth
-      ? theme.breakpoints[ltWidth] - 1
+      ? breakpoints[ltWidth] - 1
       : lteWidth
-      ? theme.breakpoints[lteWidth]
+      ? breakpoints[lteWidth]
       : undefined,
   };
   return <Responsive {...rest} {...mapped} />;

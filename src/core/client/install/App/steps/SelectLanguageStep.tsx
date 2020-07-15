@@ -14,7 +14,7 @@ import {
   HorizontalGutter,
   InputLabel,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import NextButton from "./NextButton";
 
@@ -73,9 +73,7 @@ const SelectLanguageStep: FunctionComponent<Props> = (props) => {
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="install-selectLanguage-language">
-                    <InputLabel container={<label htmlFor={input.name} />}>
-                      Language
-                    </InputLabel>
+                    <InputLabel htmlFor={input.name}>Language</InputLabel>
                   </Localized>
                   <LocaleField
                     disabled={submitting}

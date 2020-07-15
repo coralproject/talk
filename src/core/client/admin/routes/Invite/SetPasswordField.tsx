@@ -13,7 +13,7 @@ import {
   InputDescription,
   InputLabel,
   PasswordField,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 interface Props {
   disabled: boolean;

@@ -1,8 +1,8 @@
-$status-modal-username: var(--v2-colors-mono-900);
+$status-modal-username: $colors-mono-900;
 
 .root {
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
   color: $status-modal-username;
   font-size: 1.4rem;
 }

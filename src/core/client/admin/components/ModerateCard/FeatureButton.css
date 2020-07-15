@@ -3,7 +3,7 @@
   right: 0px;
   top: 2px;
 
-  border: 1px solid var(--v2-palette-grey-main);
+  border: 1px solid var(--palette-grey-500);
   box-sizing: border-box;
   border-radius: var(--round-corners);
   padding: 2px var(--spacing-2) 2px var(--spacing-2);
@@ -11,34 +11,34 @@
   justify-content: center;
   align-items: center;
 
-  color: var(--v2-palette-grey-main);
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-family: var(--v2-font-family-primary);
+  color: var(--palette-grey-500);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
   line-height: 1.2;
 
   &:active {
-    background-color: var(--v2-palette-primary-lightest);
-    border-color: var(--v2-palette-primary-main);
-    color: var(--v2-palette-primary-main);
+    background-color: $colors-teal-100;
+    border-color: $colors-teal-700;
+    color: $colors-teal-700;
   }
 
   &:disabled {
     cursor: not-allowed;
     background-color: transparent;
-    border-color: var(--v2-colors-grey-300);
-    color: var(--v2-colors-grey-300);
+    border-color: var(--palette-grey-300);
+    color: var(--palette-grey-300);
   }
 }
 
 .invert {
-  background-color: var(--v2-palette-primary-main);
-  border-color: var(--v2-palette-primary-main);
-  color: var(--v2-palette-text-light);
+  background-color: $colors-teal-700;
+  border-color: $colors-teal-700;
+  color: var(--palette-text-000);
 
   &:disabled {
-    color: var(--v2-colors-pure-white);
-    border-color: var(--v2-colors-grey-300);
-    background-color: var(--v2-colors-grey-300);
+    color: var(--palette-text-000);
+    border-color: var(--palette-grey-300);
+    background-color: var(--palette-grey-300);
   }
 }

@@ -7,9 +7,8 @@ import React, {
   KeyboardEvent,
 } from "react";
 
+import Icon from "coral-ui/components/v2/Icon";
 import { withStyles } from "coral-ui/hocs";
-
-import Icon from "coral-ui/components/Icon";
 
 import styles from "./PasswordField.css";
 

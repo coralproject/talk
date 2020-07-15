@@ -8,8 +8,6 @@ import { CallOut } from "coral-ui/components/v3";
 
 import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
 
-import styles from "./OpenOrCloseStreamContainer.css";
-
 import {
   CloseStoryMutation,
   withCloseStoryMutation,
@@ -17,6 +15,8 @@ import {
 import CloseStream from "./CloseStream";
 import { OpenStoryMutation, withOpenStoryMutation } from "./OpenStoryMutation";
 import OpenStream from "./OpenStream";
+
+import styles from "./OpenOrCloseStreamContainer.css";
 
 interface Props {
   story: StoryData;

@@ -27,7 +27,7 @@ exports[`renders comment not found 1`] = `
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         anchor={true}
         className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
@@ -40,7 +40,7 @@ exports[`renders comment not found 1`] = `
         variant="flat"
       >
         View full discussion
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </ForwardRef(forwardRef)>
   <withPropsOnChange(CallOut)>
@@ -80,7 +80,7 @@ exports[`renders correctly 1`] = `
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         anchor={true}
         className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
@@ -93,7 +93,7 @@ exports[`renders correctly 1`] = `
         variant="flat"
       >
         View full discussion
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)>

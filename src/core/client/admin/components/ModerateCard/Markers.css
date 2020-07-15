@@ -1,9 +1,10 @@
-$moderateCardDetailsHeaderColor: var(--v2-colors-mono-500);
+$moderateCardDetailsHeaderColor: var(--palette-text-500);
+$moderateCardDetailsDividerColor: var(--palette-grey-100);
 
 .detailsButton {
-  font-size: var(--v2-font-size-1);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--font-size-1);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
   line-height: 1.28;
   height: 100%;
   padding: 2px 0px;

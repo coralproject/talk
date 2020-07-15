@@ -3,12 +3,12 @@ import nunjucks, { Environment, ILoader } from "nunjucks";
 import path from "path";
 
 import { Config } from "coral-server/config";
+import { Tenant } from "coral-server/models/tenant";
 import {
   TenantCache,
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
 
-import { Tenant } from "coral-server/models/tenant";
 import { EmailTemplate } from "./templates";
 
 // templateDirectory is the directory containing the email templates.

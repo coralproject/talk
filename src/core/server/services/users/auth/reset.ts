@@ -4,6 +4,8 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
+import { constructTenantURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import {
   LocalProfileNotSetError,
   PasswordResetTokenExpired,
@@ -26,8 +28,6 @@ import {
   verifyJWT,
 } from "coral-server/services/jwt";
 
-import { constructTenantURL } from "coral-server/app/url";
-import { Config } from "coral-server/config";
 import { validatePassword } from "../helpers";
 
 export interface ResetToken extends Required<StandardClaims> {

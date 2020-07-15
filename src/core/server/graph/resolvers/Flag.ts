@@ -1,8 +1,9 @@
+import * as actions from "coral-server/models/action/comment";
+
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLFlagTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
-import * as actions from "coral-server/models/action/comment";
 
 export const Flag: GQLFlagTypeResolver<actions.CommentAction> = {
   reason: ({ id, reason }, args, ctx) => {

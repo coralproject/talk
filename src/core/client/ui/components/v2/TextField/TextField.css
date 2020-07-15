@@ -1,14 +1,14 @@
-$input-value: var(--v2-colors-mono-500);
-$input-border: var(--v2-colors-grey-500);
-$input-background: var(--v2-colors-pure-white);
-$input-placeholder: var(--v2-colors-mono-100);
-$input-regular-focused-border: var(--v2-colors-teal-500);
-$input-streamBlue-focused-border: var(--v2-colors-stream-blue-500);
-$input-disabled-background: var(--v2-colors-white-500);
-$input-disabled-value: var(--v2-colors-grey-400);
-$input-disabled-border: var(--v2-colors-grey-400);
-$input-error-border: var(--v2-colors-red-500);
-$input-dark-focused-border: var(--v2-colors-blue-500);
+$input-value: var(--palette-text-500);
+$input-border: var(--palette-grey-500);
+$input-background: var(--palette-background-input);
+$input-placeholder: var(--palette-text-placeholder);
+$input-regular-focused-border: $colors-teal-500;
+$input-streamBlue-focused-border: var(--palette-primary-500);
+$input-disabled-background: var(--palette-background-input-disabled);
+$input-disabled-value: var(--palette-text-input-disabled);
+$input-disabled-border: var(--palette-grey-400);
+$input-error-border: var(--palette-error-500);
+$input-dark-focused-border: $colors-teal-900;
 
 .root {
   display: flex;
@@ -18,16 +18,16 @@ $input-dark-focused-border: var(--v2-colors-blue-500);
 }
 
 .input {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
   position: relative;
   display: block;
-  padding: var(--v2-spacing-2);
+  padding: var(--spacing-2);
   box-sizing: border-box;
   background-color: $input-background;
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
   border-style: solid;
   width: 100%;
   align-self: stretch;
@@ -50,12 +50,12 @@ $input-dark-focused-border: var(--v2-colors-blue-500);
 }
 
 .adornment {
-  margin-left: var(--v2-spacing-2);
+  margin-left: var(--spacing-2);
 
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
 }
 
 .colorRegular {

@@ -8,7 +8,6 @@ import {
   UserForbiddenError,
   UserNotFoundError,
 } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { retrieveUser, User } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {
@@ -17,6 +16,8 @@ import {
   verifyConfirmTokenString,
 } from "coral-server/services/users/auth/confirm";
 import { RequestHandler } from "coral-server/types/express";
+
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export type ConfirmRequestOptions = Pick<
   AppOptions,

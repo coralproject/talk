@@ -1,11 +1,11 @@
-$moderateCardCounterBadgeBackgroundAlert: var(--v2-colors-red-500);
-$moderateCardToxicityColor: var(--v2-colors-mono-500);
+$moderateCardCounterBadgeBackgroundAlert: var(--palette-error-500);
+$moderateCardToxicityColor: var(--palette-text-500);
 
 .root {
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-body-short);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-4);
   color: $moderateCardToxicityColor;
 }
 

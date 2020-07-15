@@ -1,13 +1,15 @@
 .root {
-  font-family: var(--v2-font-family-primary);
+  font-family: var(--font-family-primary);
 
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-3);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
 
-  color: var(--v2-colors-red-500);
+  color: var(--palette-error-500);
 }
 
 .icon {
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
+
+  min-width: 16px;
 }

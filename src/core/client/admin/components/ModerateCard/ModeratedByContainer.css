@@ -1,20 +1,20 @@
-$moderated-by: var(--v2-colors-mono-100);
-$moderated-by-username: var(--v2-colors-mono-900);
+$moderated-by: var(--palette-text-100);
+$moderated-by-username: var(--palette-text-900);
 
 .moderatedBy {
-  font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
   color: $moderated-by;
   text-transform: uppercase;
 }
 
 .moderatedByUsername {
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-family: var(--v2-font-family-secondary);
-  line-height: var(--v2-line-height-reset);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  line-height: var(--line-height-3);
   color: $moderated-by-username;
   text-align: center;
   padding-top: 1px;

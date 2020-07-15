@@ -1,4 +1,4 @@
-$divider-border-color: var(--v2-colors-grey-300);
+$divider-border-color: var(--palette-grey-300);
 
 .root {
   border-top: 0;
@@ -7,17 +7,17 @@ $divider-border-color: var(--v2-colors-grey-300);
 }
 
 .spacing1 {
-  margin: var(--v2-spacing-1) 0;
+  margin: var(--spacing-1) 0;
 }
 
 .spacing2 {
-  margin: var(--v2-spacing-2) 0;
+  margin: var(--spacing-2) 0;
 }
 
 .spacing3 {
-  margin: var(--v2-spacing-3) 0;
+  margin: var(--spacing-3) 0;
 }
 
 .spacing4 {
-  margin: var(--v2-spacing-4) 0;
+  margin: var(--spacing-4) 0;
 }

@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { BaseButton } from "coral-ui/components/v2";
+
 import Username from "./Username";
 
 import styles from "./UsernameButton.css";

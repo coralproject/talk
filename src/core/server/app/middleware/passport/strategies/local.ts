@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
@@ -11,7 +12,6 @@ import {
   verifyUserPassword,
 } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
-import { Redis } from "ioredis";
 
 const verifyFactory = (
   mongo: Db,

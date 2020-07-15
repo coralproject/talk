@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useUIContext } from "coral-ui/components";
+import { useUIContext } from "coral-ui/components/v2";
 
 export default function useDateTimeFormat(options: Intl.DateTimeFormatOptions) {
   const { locales } = useUIContext();

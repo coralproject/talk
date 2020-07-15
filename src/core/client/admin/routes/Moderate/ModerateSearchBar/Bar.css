@@ -1,4 +1,4 @@
-@import "variables.css";
+@import "./variables.css";
 
 .root {
   height: calc(6 * var(--mini-unit));
@@ -31,5 +31,5 @@
 }
 
 .groupIcon {
-  margin-right: var(--v2-spacing-2);
+  margin-right: var(--spacing-2);
 }

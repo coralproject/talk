@@ -3,12 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import {
-  Button,
-  CallOut,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
 import SetPasswordField from "./SetPasswordField";
@@ -37,10 +32,10 @@ const CreatePassword: FunctionComponent<CreatePasswordForm> = (props) => {
           <form autoComplete="off" onSubmit={handleSubmit}>
             <HorizontalGutter size="oneAndAHalf">
               <Localized id="createPassword-whatItIs">
-                <Typography variant="bodyCopy">
+                <div>
                   To protect against unauthorized changes to your account, we
                   require users to create a password.
-                </Typography>
+                </div>
               </Localized>
               {submitError && (
                 <CallOut color="error" fullWidth>
@@ -50,8 +45,8 @@ const CreatePassword: FunctionComponent<CreatePasswordForm> = (props) => {
               <SetPasswordField disabled={submitting} />
               <Localized id="createPassword-createPasswordButton">
                 <Button
-                  variant="filled"
-                  color="primary"
+                  variant="regular"
+                  color="regular"
                   size="large"
                   type="submit"
                   fullWidth

@@ -7,9 +7,8 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
-import { Delay, Flex } from "coral-ui/components";
+import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";

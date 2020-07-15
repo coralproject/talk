@@ -1,13 +1,14 @@
 import { DeepPartial } from "coral-common/types";
-import {
-  GQLCOMMENT_STATUS,
-  GQLMODERATION_MODE,
-} from "coral-server/graph/schema/__generated__/types";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
+
+import {
+  GQLCOMMENT_STATUS,
+  GQLMODERATION_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 const testModerationMode = (settings: DeepPartial<GlobalModerationSettings>) =>
   settings.moderation === GQLMODERATION_MODE.PRE;

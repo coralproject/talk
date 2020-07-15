@@ -1,13 +1,13 @@
-$success-text: var(--v2-colors-mono-500);
+$success-text: var(--palette-text-500);
 
 .box {
   width: 100%;
 }
 .title {
-  font-size: var(--v2-font-size-5);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  line-height: var(--v2-line-height-title);
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: var(--line-height-6);
   color: $success-text;
   margin: 0;
 }

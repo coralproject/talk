@@ -1,7 +1,7 @@
-$user-drawer-background: var(--v2-colors-pure-white);
-$user-drawer-account-info: var(--v2-colors-mono-500);
-$user-drawer-divider: var(--v2-colors-grey-300);
-$user-drawer-status-label: var(--v2-colors-mono-500);
+$user-drawer-background: $colors-pure-white;
+$user-drawer-account-info: var(--palette-text-500);
+$user-drawer-divider: var(--palette-grey-300);
+$user-drawer-status-label: var(--palette-text-500);
 
 .comments {
   flex: auto;
@@ -26,20 +26,20 @@ $user-drawer-status-label: var(--v2-colors-mono-500);
 }
 
 .username {
-  font-family: var(--v2-font-family-secondary);
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-size: var(--v2-font-size-6);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: var(--line-height-3);
 }
 
 .userDetail {
 }
 
 .userDetailValue {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
   color: $user-drawer-account-info;
 }
 
@@ -58,12 +58,12 @@ $user-drawer-status-label: var(--v2-colors-mono-500);
 }
 
 .userStatusLabel {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-3);
   color: $user-drawer-status-label;
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .userStatusChange {

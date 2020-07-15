@@ -1,6 +1,6 @@
 .bar {
   height: calc(6 * var(--mini-unit));
-  background-color: var(--palette-text-primary);
+  background-color: var(--palette-text-500);
 }
 
 .centered {

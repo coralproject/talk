@@ -12,9 +12,15 @@ import {
   MessageBoxContent,
   MessageBoxIcon,
 } from "coral-stream/common/MessageBox";
-import Spinner from "coral-stream/common/Spinner";
-import { TileOption, TileSelector, Typography } from "coral-ui/components";
-import { AriaInfo, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  AriaInfo,
+  HorizontalGutter,
+  Icon,
+  Spinner,
+  TileOption,
+  TileSelector,
+  Typography,
+} from "coral-ui/components/v2";
 
 import styles from "./MessageBoxConfig.css";
 

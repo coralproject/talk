@@ -12,12 +12,12 @@
   display: inline-block;
   cursor: pointer;
   user-select: none;
-  padding-left: calc(var(--v2-spacing-3) + 14px);
-  color: var(--v2-palette-input-label);
-  font-size: var(--v2-font-size-3);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-reset);
+  padding-left: calc(var(--spacing-3) + 14px);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-3);
 }
 
 .labelSpan {
@@ -25,7 +25,7 @@
 }
 
 .labelLight {
-  color: var(--palette-text-light);
+  color: var(--palette-text-000);
 }
 
 /* Box. */
@@ -38,8 +38,8 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  background: var(--v2-palette-input-background);
-  border: 1px solid var(--v2-palette-input-label);
+  background: var(--palette-background-input);
+  border: 1px solid var(--palette-text-500);
   border-radius: 2px;
   box-sizing: border-box;
 }
@@ -52,17 +52,17 @@
 /* Box checked */
 
 input:checked.default + .label:before {
-  background: var(--v2-palette-primary-main);
-  border: 1px solid var(--v2-palette-primary-main);
+  background: $colors-teal-700;
+  border: 1px solid $colors-teal-700;
 }
 
 .input:checked.streamBlue + .label:before {
-  background: var(--v2-colors-stream-blue-500);
-  border: 1px solid var(--v2-colors-stream-blue-500);
+  background: var(--palette-primary-500);
+  border: 1px solid var(--palette-primary-500);
 }
 
 input:checked + .label {
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--font-weight-primary-bold);
 }
 
 /* Disabled state label. */
@@ -74,8 +74,8 @@ input:checked + .label {
 /* Disabled box. */
 .input:disabled + .label:before {
   box-shadow: none;
-  border: 1px solid var(--v2-palette-input-disabled-foreground);
-  background: var(--v2-palette-input-disabled-background);
+  border: 1px solid var(--palette-text-input-disabled);
+  background: var(--palette-background-input-disabled);
 }
 
 /* Checkmark. Could be replaced with an image */
@@ -86,7 +86,7 @@ input:checked + .label {
   top: 50%;
   margin-top: -1px;
   transform: translateY(-50%);
-  color: var(--v2-palette-input-background);
+  color: var(--palette-background-input);
   background: currentColor;
   width: 2px;
   height: 2px;
@@ -98,5 +98,5 @@ input:checked + .label {
 }
 
 .input:checked:disabled + .label:after {
-  color: var(--v2-palette-input-disabled-foreground);
+  color: var(--palette-text-input-disabled);
 }

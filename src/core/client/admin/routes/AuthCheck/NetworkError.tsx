@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Message } from "coral-ui/components";
+import { Message } from "coral-ui/components/v2";
 
 import styles from "./NetworkError.css";
 

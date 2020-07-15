@@ -5,8 +5,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import Spinner from "coral-stream/common/Spinner";
-import { DropdownButton, Icon } from "coral-ui/components/v2";
+import { DropdownButton, Icon, Spinner } from "coral-ui/components/v2";
 
 import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
 

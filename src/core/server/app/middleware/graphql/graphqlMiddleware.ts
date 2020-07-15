@@ -1,12 +1,11 @@
 import { GraphQLExtension, GraphQLOptions } from "apollo-server-express";
-import { Handler } from "express";
-import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
-
 // TODO: when https://github.com/apollographql/apollo-server/pull/1907 is merged, update this import path
 import {
   ExpressGraphQLOptionsFunction,
   graphqlExpress,
 } from "apollo-server-express/dist/expressApollo";
+import { Handler } from "express";
+import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
 
 import { Config } from "coral-server/config";
 import {

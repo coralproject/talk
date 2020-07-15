@@ -1,9 +1,9 @@
-$markerReportedColor: var(--v2-colors-red-500);
-$markerPendingColor: var(--v2-colors-teal-700);
+$markerReportedColor: var(--palette-error-500);
+$markerPendingColor: $colors-teal-700;
 
 .root {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
   font-size: 0.8125rem;
   letter-spacing: calc(-0.35em / 13);
 
@@ -26,7 +26,7 @@ $markerPendingColor: var(--v2-colors-teal-700);
 }
 
 .variantFilled {
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
   &.colorReported {
     background-color: $markerReportedColor;
     border-color: $markerReportedColor;

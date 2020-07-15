@@ -1,5 +1,5 @@
-$sub-bar-background: var(--v2-colors-pure-white);
-$sub-bar-border: var(--v2-colors-grey-300);
+$sub-bar-background: inherit;
+$sub-bar-border: var(--palette-grey-300);
 
 .root {
   background-color: $sub-bar-background;

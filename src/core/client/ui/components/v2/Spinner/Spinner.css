@@ -12,7 +12,7 @@
 }
 
 .path {
-  stroke: var(--v2-palette-primary-main);
+  stroke: var(--palette-primary-700);
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
   transform-origin: center;
@@ -21,10 +21,10 @@
 
 @keyframes colors {
   0% {
-    stroke: var(--v2-palette-primary-main);
+    stroke: var(--palette-primary-700);
   }
   100% {
-    stroke: var(--v2-palette-primary-light);
+    stroke: var(--palette-primary-300);
   }
 }
 

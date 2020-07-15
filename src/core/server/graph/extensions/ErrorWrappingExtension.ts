@@ -9,6 +9,7 @@ import {
   WrappedInternalError,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
+
 import { getOriginalError } from "./helpers";
 
 function hoistCoralErrorExtensions(

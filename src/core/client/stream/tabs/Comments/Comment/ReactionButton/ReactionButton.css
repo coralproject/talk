@@ -1,6 +1,6 @@
 .readOnly {
   cursor: not-allowed !important;
-  color: var(--palette-text-primary) !important;
+  color: var(--palette-text-500) !important;
   opacity: 1 !important;
 }
 
@@ -9,6 +9,14 @@
 }
 
 .reacted {
-  color: var(--v2-colors-stream-blue-500);
-  font-weight: var(--v2-font-weight-primary-bold);
+  color: var(--palette-primary-500);
+  font-weight: var(--font-weight-primary-bold);
+}
+
+.icon {
+  margin-right: var(--spacing-1);
+}
+
+.totalReactions {
+  margin-left: var(--spacing-1);
 }

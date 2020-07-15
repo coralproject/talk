@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { CommentNotFoundError } from "coral-server/errors";
-import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
 import {
   addCommentTag,
   removeCommentTag,
@@ -11,6 +10,8 @@ import {
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+
+import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
 
 /**
  * getCommentEditableUntilDate will return the date that the given comment is

@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 
 import { FieldMeta, hasError } from "coral-framework/lib/form/helpers";
+import { PropTypesOf } from "coral-framework/types";
+import { ValidationMessage as UIValidationMessage } from "coral-ui/components/v2";
 
-import { ValidationMessage as UIValidationMessage } from "coral-ui/components";
-import { ValidationMessageProps } from "coral-ui/components/ValidationMessage";
-
-interface Props extends Omit<ValidationMessageProps, "children"> {
+interface Props
+  extends Omit<PropTypesOf<typeof UIValidationMessage>, "children" | "ref"> {
   meta: FieldMeta;
 }
 

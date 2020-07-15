@@ -15,7 +15,7 @@ import {
   SelectField,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./DurationField.css";
 

@@ -1,5 +1,4 @@
 import { isUndefined, omitBy } from "lodash";
-
 import { Collection, Cursor, FilterQuery as MongoFilterQuery } from "mongodb";
 
 import { Writable } from "coral-common/types";

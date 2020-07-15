@@ -1,8 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
-import Icon, { IconProps } from "coral-ui/components/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
+
+import Icon, { IconProps } from "../Icon";
 
 import styles from "./MessageIcon.css";
 

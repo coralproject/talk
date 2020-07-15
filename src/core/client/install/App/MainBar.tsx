@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography } from "coral-ui/components";
+import { Typography } from "coral-ui/components/v2";
 
 import styles from "./MainBar.css";
 

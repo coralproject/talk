@@ -1,13 +1,11 @@
-$configureHeadingBackgroundColor: var(--v2-colors-blue-500);
-$configureHeadingForegroundColor: var(--v2-colors-pure-white);
+$configureHeadingForegroundColor: var(--palette-text-000);
 
 .root {
   border-style: none;
   margin: 0;
-  background: $configureHeadingBackgroundColor;
   color: $configureHeadingForegroundColor;
-  font-size: var(--v2-font-size-3);
-  font-weight: var(--v2-font-weight-primary-bold);
-  line-height: var(--v2-line-height-reset);
-  font-family: var(--v2-font-family-primary);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-bold);
+  line-height: var(--line-height-3);
+  font-family: var(--font-family-primary);
 }

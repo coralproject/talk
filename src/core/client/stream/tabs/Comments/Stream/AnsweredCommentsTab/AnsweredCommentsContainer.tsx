@@ -10,7 +10,8 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
-import { Button, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { AnsweredCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentsContainer_settings.graphql";
 import { AnsweredCommentsContainer_story as StoryData } from "coral-stream/__generated__/AnsweredCommentsContainer_story.graphql";
@@ -71,6 +72,7 @@ export const AnsweredCommentsContainer: FunctionComponent<Props> = (props) => {
           <Button
             onClick={loadMoreAndEmit}
             variant="outlined"
+            color="secondary"
             fullWidth
             disabled={isLoadingMore}
             aria-controls="comments-featuredComments-log"

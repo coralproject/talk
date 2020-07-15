@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Modal } from "coral-ui/components";
+import { Modal } from "coral-ui/components/v2";
 
 import ConversationModalQuery from "./ConversationModalQuery";
 

@@ -10,7 +10,7 @@ import { initLocalState } from "./local";
 import localesData from "./locales";
 
 // Import css variables.
-import "coral-ui/theme/variables.css";
+import "coral-ui/theme/admin.css";
 
 async function main() {
   await injectConditionalPolyfills();

@@ -1,9 +1,5 @@
 import { DateTime } from "luxon";
 
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-} from "coral-server/graph/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   calculateRejectionRate,
@@ -13,6 +9,11 @@ import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
+
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+} from "coral-server/graph/schema/__generated__/types";
 
 export const recentCommentHistory = async ({
   tenant,

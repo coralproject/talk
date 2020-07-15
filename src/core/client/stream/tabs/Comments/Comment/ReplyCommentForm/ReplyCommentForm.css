@@ -1,11 +1,15 @@
+$commentsBorder: var(--palette-grey-300);
+
 .rteContent {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
 
-$commentsBorder: var(--v2-colors-grey-300);
+.warnIcon {
+  color: var(--palette-text-500);
+}
 
 .commentFormBox {
   border: 1px solid $commentsBorder;
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
 }

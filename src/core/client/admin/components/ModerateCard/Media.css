@@ -1,5 +1,5 @@
 .embed {
-  margin: var(--v2-spacing-2) 0;
+  margin: var(--spacing-2) 0;
 }
 
 .toggle {
@@ -16,14 +16,14 @@
 }
 
 .playIcon {
-  color: var(--v2-colors-pure-white);
+  color: var(--palette-text-000);
 }
 
 .playText {
-  color: var(--v2-colors-pure-white);
-  font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-family: var(--v2-font-family-primary);
+  color: var(--palette-text-000);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
   text-transform: uppercase;
   margin: 0;
 }

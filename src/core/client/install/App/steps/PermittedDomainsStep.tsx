@@ -22,7 +22,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import BackButton from "./BackButton";
 
@@ -91,7 +91,7 @@ class PermittedDomainsStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Permitted Domains
                       </InputLabel>
                     </Localized>
@@ -121,9 +121,8 @@ class PermittedDomainsStep extends Component<Props> {
               <Flex direction="row-reverse" itemGutter>
                 <Localized id="install-permittedDomains-finishInstall">
                   <Button
-                    variant="filled"
-                    color="primary"
-                    size="large"
+                    variant="regular"
+                    color="regular"
                     type="submit"
                     disabled={submitting}
                   >

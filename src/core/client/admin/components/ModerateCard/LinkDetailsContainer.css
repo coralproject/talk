@@ -1,8 +1,8 @@
 .label {
-  font-size: calc(16rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
-  color: var(--palette-text-primary);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  color: var(--palette-text-500);
 }
 
 .buttonContainer {

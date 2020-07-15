@@ -1,14 +1,14 @@
 .smallTab {
-  padding-top: var(--v2-spacing-3);
-  padding-bottom: var(--v2-spacing-3);
-  padding-left: var(--v2-spacing-4);
-  padding-right: var(--v2-spacing-4);
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
 }
 
 .smallText {
-  font-family: var(--v2-font-family-secondary);
-  font-size: var(--v2-font-size-1);
-  line-height: var(--v2-line-height-1);
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-1);
 
-  padding-top: var(--v2-spacing-1);
+  padding-top: var(--spacing-1);
 }

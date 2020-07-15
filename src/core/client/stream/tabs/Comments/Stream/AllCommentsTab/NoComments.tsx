@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { GQLSTORY_MODE } from "coral-framework/schema";
-import { CallOut } from "coral-ui/components";
+import { CallOut } from "coral-ui/components/v2";
 
 interface Props {
   mode: "COMMENTS" | "QA" | "%future added value";

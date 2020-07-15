@@ -1,4 +1,5 @@
-@import "variables.css";
+
+@import "./variables.css";
 
 .root {
   &[aria-selected="true"] {
@@ -14,10 +15,10 @@
   background: $story-search-results-see-all-background;
   min-height: calc(3 * var(--mini-unit));
 
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-3);
-  line-height: var(--v2-line-height-reset);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
   color: $story-search-results-see-all-label;
 
   text-decoration: none;
@@ -29,7 +30,7 @@
 }
 
 .icon {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-primary-semi-bold);
   padding-left: calc(0.5 * var(--mini-unit));
   line-height: calc(16em / 13);
   margin-top: -2px;

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
 
 import styles from "./ListItem.css";
 

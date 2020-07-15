@@ -4,6 +4,6 @@
 
 .link {
   display: block;
-  font-size: calc(24rem / var(--rem-base));
-  font-family: var(--font-family-serif);
+  font-size: var(--font-size-6);
+  font-family: var(--font-family-primary);
 }

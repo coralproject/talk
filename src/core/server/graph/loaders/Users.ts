@@ -2,11 +2,6 @@ import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
 
 import Context from "coral-server/graph/context";
-import {
-  GQLUSER_ROLE,
-  GQLUSER_STATUS,
-  QueryToUsersArgs,
-} from "coral-server/graph/schema/__generated__/types";
 import { Connection } from "coral-server/models/helpers";
 import {
   retrieveManyUsers,
@@ -14,6 +9,12 @@ import {
   User,
   UserConnectionInput,
 } from "coral-server/models/user";
+
+import {
+  GQLUSER_ROLE,
+  GQLUSER_STATUS,
+  QueryToUsersArgs,
+} from "coral-server/graph/schema/__generated__/types";
 
 type UserConnectionFilterInput = UserConnectionInput["filter"];
 

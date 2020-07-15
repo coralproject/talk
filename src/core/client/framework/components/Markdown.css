@@ -1,29 +1,49 @@
 .root {
-  font-size: var(--v2-font-size-3);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-family: var(--v2-font-family-primary);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
   line-height: 1.375rem;
 
-  color: var(--v2-colors-mono-500);
+  color: var(--palette-text-500);
 
   b,
   strong {
-    font-weight: var(--v2-font-weight-primary-bold);
+    font-weight: var(--font-weight-primary-bold);
   }
   h1 {
-    @mixin heading1;
+    font-size: var(--font-size-6);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+    line-height: var(--line-height-6);
+    color: var(--palette-text-500);
   }
   h2 {
-    @mixin heading2;
+    font-size: var(--font-size-5);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+    line-height: var(--line-height-5);
+    color: var(--palette-text-500);
   }
   h3 {
-    @mixin heading3;
+    font-size: var(--font-size-4);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+    line-height: var(--line-height-4);
+    color: var(--palette-text-500);
   }
   h4 {
-    @mixin heading4;
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+    line-height: var(--line-height-3);
+    color: var(--palette-text-500);
   }
   h5 {
-    @mixin heading5;
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+    line-height: var(--line-height-2);
+    color: var(--palette-text-500);
   }
 
   *:first-child {
@@ -37,7 +57,7 @@
     padding: var(--mini-unit);
     margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
       var(--mini-unit);
-    border-radius: var(--v2-round-corners);
+    border-radius: var(--round-corners);
     &::after {
       content: none;
     }

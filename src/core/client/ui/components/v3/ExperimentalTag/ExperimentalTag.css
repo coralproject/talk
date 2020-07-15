@@ -1,22 +1,22 @@
 .root {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
 
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
 
-  background-color: var(--v2-colors-stream-blue-100);
-  color: var(--v2-colors-stream-blue-500);
+  background-color: var(--palette-primary-100);
+  color: var(--palette-primary-500);
 
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
-  padding-left: var(--v2-spacing-2);
-  padding-right: var(--v2-spacing-2);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-2);
 
-  margin-right: var(--v2-spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .button {
-  color: var(--v2-colors-mono-100);
+  color: var(--palette-text-100);
 }

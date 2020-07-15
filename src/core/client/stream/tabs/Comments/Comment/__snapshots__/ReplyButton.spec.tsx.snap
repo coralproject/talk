@@ -11,27 +11,36 @@ exports[`renders correctly 1`] = `
 >
   <ForwardRef(forwardRef)
     active={true}
-    color="mono"
+    color="secondary"
     data-testid="comment-reply-button"
+    fontSize="small"
+    fontWeight="semiBold"
     id="id"
     onClick={[Function]}
-    size="regular"
-    variant="text"
+    paddingSize="extraSmall"
+    variant="flat"
   >
-    <ForwardRef(forwardRef)>
-      reply
-    </ForwardRef(forwardRef)>
-    <MatchMediaWithContext
-      gtWidth="xs"
+    <ForwardRef(forwardRef)
+      alignItems="center"
+      container="span"
     >
-      <Localized
-        id="comments-replyButton-reply"
+      <ForwardRef(forwardRef)
+        className="ReplyButton-icon"
       >
-        <span>
-          Reply
-        </span>
-      </Localized>
-    </MatchMediaWithContext>
+        reply
+      </ForwardRef(forwardRef)>
+      <MatchMediaWithContext
+        gtWidth="xs"
+      >
+        <Localized
+          id="comments-replyButton-reply"
+        >
+          <span>
+            Reply
+          </span>
+        </Localized>
+      </MatchMediaWithContext>
+    </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
 </Localized>
 `;

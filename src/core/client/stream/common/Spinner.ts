@@ -2,7 +2,7 @@ import cn from "classnames";
 import { withProps } from "recompose";
 
 import CLASSES from "coral-stream/classes";
-import { Spinner } from "coral-ui/components";
+import { Spinner } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 /**
