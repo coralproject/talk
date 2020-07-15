@@ -102,16 +102,12 @@ export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
 };
 
 function generateContentSecurityPolicy(allowedOrigins: string[]) {
-  const directives: Record<string, any> = {};
-
   // Only the domains that are allowed by the tenant may embed Coral.
-  directives.frameAncestors =
-    allowedOrigins.length > 0 ? allowedOrigins : ["'none'"];
+  const frameAncestors =
+    allowedOrigins.length > 0 ? ["'self'", ...allowedOrigins] : ["'none'"];
 
-  // Build the directive.
-  const directive = builder({ directives });
-
-  return directive;
+  // Build and return the directive.
+  return builder({ directives: { frameAncestors } });
 }
 
 export function generateFrameOptions(req: Request, allowedOrigins: string[]) {
