@@ -73,7 +73,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
       setIsLoading(false);
     }
 
-    let timeout: NodeJS.Timeout | null = null;
+    let timeout: any | null = null;
 
     if (query && query.length > 1) {
       setIsLoading(true);
