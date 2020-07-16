@@ -23,8 +23,7 @@ const persistedQueryMiddleware = ({
   next
 ) => {
   try {
-    const tenant = req.coral?.tenant;
-    if (!tenant) {
+    if (!req.coral || !req.coral.tenant) {
       throw new Error("tenant was not set");
     }
 
@@ -41,10 +40,10 @@ const persistedQueryMiddleware = ({
         req.user?.role !== GQLUSER_ROLE.ADMIN &&
         // Check to see if this Tenant has permitted raw queries, otherwise they
         // cannot run un-persisted queries.
-        !hasFeatureFlag(tenant, GQLFEATURE_FLAG.PERMIT_RAW_QUERIES)
+        !hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.PERMIT_RAW_QUERIES)
       ) {
         throw new RawQueryNotAuthorized(
-          tenant.id,
+          req.coral.tenant.id,
           body?.query || null,
           req.user?.id || null
         );
