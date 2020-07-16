@@ -38,6 +38,8 @@ const Indent: FunctionComponent<IndentProps> = (props) => {
           [styles.noBorder]: props.noBorder,
           [styles.collapsed]: props.collapsed,
           [styles.open]: !props.collapsed,
+          [styles.openPadded]:
+            !props.collapsed && props.level ? props.level > 0 : false,
         })}
       >
         {props.children}

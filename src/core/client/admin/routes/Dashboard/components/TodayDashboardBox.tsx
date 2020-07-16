@@ -9,7 +9,7 @@ import Loader from "./Loader";
 import styles from "./TodayDashboardBox.css";
 
 interface Props {
-  icon: "forum" | "close" | "badge" | "person_add" | "block";
+  icon: "forum" | "close" | "recent_actors" | "person_add" | "block";
   loading: boolean;
 }
 
@@ -28,7 +28,7 @@ const TodayDashboardBox: FunctionComponent<Props> = ({
             className={cn(styles.icon, {
               [styles.tealIcon]: icon === "forum",
               [styles.redIcon]: icon === "close" || icon === "block",
-              [styles.greyIcon]: icon === "badge",
+              [styles.greyIcon]: icon === "recent_actors",
               [styles.blueIcon]: icon === "person_add",
             })}
           >
