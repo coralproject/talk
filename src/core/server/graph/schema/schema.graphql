@@ -396,6 +396,12 @@ enum FEATURE_FLAG {
   modeartion scope to a user.
   """
   SITE_MODERATOR
+
+  """
+  REDUCED_SECURITY_MODE when true will allow unpersisted queries to be executed
+  in production environments.
+  """
+  REDUCED_SECURITY_MODE
 }
 
 # The moderation mode of the site.
