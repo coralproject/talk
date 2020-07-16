@@ -30,25 +30,7 @@ const persistedQueryMiddleware = ({
     // Handle the payload if it is a persisted query.
     const body = req.method === "GET" ? req.query : req.body;
     const persisted = await getPersistedQuery(persistedQueryCache, body);
-    if (!persisted) {
-      if (
-        // Check to see if we currently require persisted queries for this
-        // cluster.
-        persistedQueriesRequired &&
-        // Check to see if this is from an ADMIN token which is allowed to run
-        // un-persisted queries.
-        req.user?.role !== GQLUSER_ROLE.ADMIN &&
-        // Check to see if this Tenant has permitted raw queries, otherwise they
-        // cannot run un-persisted queries.
-        !hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.REDUCED_SECURITY_MODE)
-      ) {
-        throw new RawQueryNotAuthorized(
-          req.coral.tenant.id,
-          body?.query || null,
-          req.user?.id || null
-        );
-      }
-    } else {
+    if (persisted) {
       // The query was found for this operation, replace the query with the one
       // provided.
       body.query = persisted.query;
@@ -56,9 +38,34 @@ const persistedQueryMiddleware = ({
       // Associate the persisted query with the request so it can be attached to
       // the context.
       req.coral.persisted = persisted;
+
+      return next();
     }
 
-    return next();
+    // If persisted queries are not required, then it's ok that we're not
+    // submitting a persisted query.
+    if (!persistedQueriesRequired) {
+      return next();
+    }
+
+    // If the feature flag for reduced security mode is enabled, then we will
+    // allow non-persisted queries.
+    if (
+      hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.REDUCED_SECURITY_MODE)
+    ) {
+      return next();
+    }
+
+    // If the user is an administrator, then permit the non-persisted query.
+    if (req.user?.role === GQLUSER_ROLE.ADMIN) {
+      return next();
+    }
+
+    throw new RawQueryNotAuthorized(
+      req.coral.tenant.id,
+      body.query || null,
+      req.user?.id || null
+    );
   } catch (err) {
     return next(err);
   }
