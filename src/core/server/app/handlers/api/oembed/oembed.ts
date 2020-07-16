@@ -1,8 +1,8 @@
 import Joi from "@hapi/joi";
 import { AppOptions } from "coral-server/app";
 
+import { translate } from "coral-server/services/i18n";
 import { validate } from "coral-server/app/request/body";
-import { EmbedNotFound } from "coral-server/errors";
 import { supportsMediaType } from "coral-server/models/tenant";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
 import { RequestHandler } from "coral-server/types/express";
@@ -51,7 +51,11 @@ export const oembedHandler = ({ i18n }: OembedHandler): RequestHandler => {
       const response = await fetchOEmbedResponse(type, url, maxWidth);
       if (response === null || !response.html) {
         const bundle = i18n.getBundle(tenant.locale);
-        const error = new EmbedNotFound().serializeExtensions(bundle);
+        const message = translate(
+          bundle,
+          "Requested media could not be found",
+          "commen-embedNotFound"
+        );
         res.status(404);
         res.send(
           `<html>
@@ -59,7 +63,7 @@ export const oembedHandler = ({ i18n }: OembedHandler): RequestHandler => {
               ${style}
             </style>
             <body>
-            ${error.message}
+            ${message}
             </body>
           <html>`
         );

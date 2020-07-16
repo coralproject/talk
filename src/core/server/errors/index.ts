@@ -786,9 +786,3 @@ export class ScrapeFailed extends CoralError {
     }
   }
 }
-
-export class EmbedNotFound extends CoralError {
-  constructor() {
-    super({ code: ERROR_CODES.EMBED_NOT_FOUND });
-  }
-}
