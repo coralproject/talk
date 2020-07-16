@@ -19,8 +19,8 @@ interface Props {
   siteID: string;
 }
 
-function calculateBottomPadding(width: string, height: string) {
-  return `${(parseInt(height, 10) / parseInt(width, 10)) * 100}%`;
+function calculateBottomPadding(width: number, height: number) {
+  return `${(height / width) * 100}%`;
 }
 
 const oEmbed: FunctionComponent<Props> = ({
@@ -51,28 +51,38 @@ const oEmbed: FunctionComponent<Props> = ({
 
   const onLoad = useCallback(() => {
     if (width && height && containerRef && containerRef.current) {
-      containerRef.current.style.paddingBottom = `${(height / width) * 100}%`;
+      containerRef.current.style.paddingBottom = calculateBottomPadding(
+        width,
+        height
+      );
       return;
     }
     let resizeInterval: number | null = null;
 
     let iterations = 0;
     resizeInterval = window.setInterval(() => {
-      if (iterations > 10 && resizeInterval) {
+      if (iterations > 100 && resizeInterval) {
         clearInterval(resizeInterval);
       }
+      iterations = iterations + 1;
       if (!iframeRef.current || !iframeRef.current.contentWindow) {
         return;
       }
-      let calculatedWidth = `${width}`;
-      let calculatedHeight = `${height}`;
+      let calculatedWidth = width;
+      let calculatedHeight = height;
       if (!width) {
-        calculatedWidth = `${iframeRef.current.contentWindow.document.body.scrollWidth}`;
-        iframeRef.current.width = `${calculatedWidth}px`;
+        calculatedWidth =
+          iframeRef.current.contentWindow.document.body.scrollWidth;
+        if (`${calculatedWidth}` !== iframeRef.current.width) {
+          iframeRef.current.width = `${calculatedWidth}px`;
+        }
       }
       if (!height) {
-        calculatedHeight = `${iframeRef.current.contentWindow.document.body.scrollHeight}`;
-        iframeRef.current.height = `${calculatedHeight}px`;
+        calculatedHeight =
+          iframeRef.current.contentWindow.document.body.scrollHeight;
+        if (`${calculatedHeight}` !== iframeRef.current.height) {
+          iframeRef.current.height = `${calculatedHeight}px`;
+        }
       }
       if (
         containerRef &&
@@ -85,7 +95,6 @@ const oEmbed: FunctionComponent<Props> = ({
           calculatedHeight
         );
       }
-      iterations = iterations + 1;
     }, 100);
   }, [iframeRef, iframeRef.current, containerRef.current, width, height]);
 
