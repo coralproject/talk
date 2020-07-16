@@ -115,6 +115,8 @@ export default async function edit(
   if (input.media) {
     // TODO: (wyattjoh) check to see if the media is the same.
     media = await attachMedia(tenant, input.media, input.body);
+  } else {
+    media = undefined;
   }
 
   // Run the comment through the moderation phases.
