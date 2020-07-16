@@ -89,7 +89,10 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="badge" loading={loading || totalLoading}>
+        <TodayDashboardBox
+          icon="recent_actors"
+          loading={loading || totalLoading}
+        >
           <TodayValue value={today?.comments.staff.toString()}>
             <Localized id="dashboard-today-staff-comments">
               Staff comments
