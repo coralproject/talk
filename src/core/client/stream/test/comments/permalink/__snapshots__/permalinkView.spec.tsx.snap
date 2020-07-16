@@ -913,7 +913,7 @@ exports[`renders permalink view 1`] = `
                   className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
-                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open"
+                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1205,7 +1205,7 @@ exports[`renders permalink view 1`] = `
                   className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
-                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open"
+                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
