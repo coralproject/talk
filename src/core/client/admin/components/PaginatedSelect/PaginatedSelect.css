@@ -22,6 +22,7 @@
   font-size: var(--font-size-3);
   line-height: var(--line-height-min);
   justify-content: space-between;
+  background: var(--palette-background-input);
 }
 
 .buttonIconLeft {
