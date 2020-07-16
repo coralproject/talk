@@ -14,9 +14,11 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
-  getLatestRevision,
+  GiphyMedia,
   retrieveComment,
+  TwitterMedia,
   validateEditable,
+  YouTubeMedia,
 } from "coral-server/models/comment";
 import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -83,9 +85,6 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
-  // Get the original stale revision.
-  const originalStaleRevision = getLatestRevision(originalStaleComment);
-
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
   // get the maximum value for the `createdAt` time that would be permitted
@@ -111,7 +110,7 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
-  let media = originalStaleRevision.media;
+  let media: GiphyMedia | TwitterMedia | YouTubeMedia | undefined;
   if (input.media) {
     // TODO: (wyattjoh) check to see if the media is the same.
     media = await attachMedia(tenant, input.media, input.body);

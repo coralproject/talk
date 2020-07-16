@@ -19,7 +19,7 @@ interface Props {
   setMedia: (media: MediaLink | null) => void;
 }
 
-interface Media {
+export interface Media {
   type: "giphy" | "twitter" | "youtube";
   url: string;
   id?: string;
@@ -38,9 +38,7 @@ interface MediaConfig {
 }
 
 const MediaField: FunctionComponent<Props> = (props) => {
-  const field = useField<Media | undefined>("media", {
-    initialValue: undefined,
-  });
+  const field = useField<Media | undefined>("media");
 
   const onGIFSelect = useCallback(
     (gif: GiphyGif) => {
@@ -92,7 +90,9 @@ const MediaField: FunctionComponent<Props> = (props) => {
             onRemove={onRemoveMedia}
           />
         ) : (
-          <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
+          !props.showGIFSelector && (
+            <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
+          )
         ))}
     </>
   );
