@@ -1,9 +1,9 @@
 import Joi from "@hapi/joi";
 import { AppOptions } from "coral-server/app";
 
-import { translate } from "coral-server/services/i18n";
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
+import { translate } from "coral-server/services/i18n";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
 import { RequestHandler } from "coral-server/types/express";
 
