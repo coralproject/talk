@@ -28,7 +28,13 @@ const GiphyMedia: FunctionComponent<Props> = ({
     <div className={styles.embed}>
       {!showAnimated && still && (
         <BaseButton onClick={toggleImage} className={styles.toggle}>
-          <img src={still} className={styles.image} alt={title || ""} />
+          <img
+            src={still}
+            className={styles.image}
+            width={width || undefined}
+            height={height || undefined}
+            alt={title || ""}
+          />
           <Flex
             direction="column"
             alignItems="center"
@@ -47,8 +53,10 @@ const GiphyMedia: FunctionComponent<Props> = ({
       {showAnimated && video && (
         <BaseButton onClick={toggleImage}>
           <video
+            className={styles.image}
             width={width || undefined}
             height={height || undefined}
+            title={title || ""}
             autoPlay
             loop
           >
