@@ -1,7 +1,10 @@
 import { Db } from "mongodb";
 
 import { CommentNotFoundError } from "coral-server/errors";
-import { CreateCommentModerationActionInput } from "coral-server/models/action/moderation/comment";
+import {
+  createCommentModerationAction,
+  CreateCommentModerationActionInput,
+} from "coral-server/models/action/moderation/comment";
 import {
   getLatestRevision,
   hasRevision,
@@ -56,6 +59,18 @@ export default async function moderate(
   );
   if (!result) {
     throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
+  }
+
+  // Create the moderation action in the audit log.
+  const action = await createCommentModerationAction(
+    mongo,
+    tenant.id,
+    input,
+    now
+  );
+  if (!action) {
+    // TODO: wrap in better error?
+    throw new Error("could not create moderation action");
   }
 
   return result;
