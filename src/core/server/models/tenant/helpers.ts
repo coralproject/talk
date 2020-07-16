@@ -43,7 +43,7 @@ export function hasFeatureFlag(
   tenant: Pick<Tenant, "featureFlags">,
   flag: GQLFEATURE_FLAG
 ) {
-  if (tenant.featureFlags && tenant.featureFlags.includes(flag)) {
+  if (tenant.featureFlags?.includes(flag)) {
     return true;
   }
 

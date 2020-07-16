@@ -396,6 +396,12 @@ enum FEATURE_FLAG {
   modeartion scope to a user.
   """
   SITE_MODERATOR
+
+  """
+  PERMIT_RAW_QUERIES when true will allow unpersisted queries to be executed in
+  production environments.
+  """
+  PERMIT_RAW_QUERIES
 }
 
 # The moderation mode of the site.
