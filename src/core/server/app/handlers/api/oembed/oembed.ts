@@ -1,20 +1,11 @@
 import Joi from "@hapi/joi";
+import { AppOptions } from "coral-server/app";
 
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
+import { translate } from "coral-server/services/i18n";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
 import { RequestHandler } from "coral-server/types/express";
-
-const createNotFoundMessage = (type: "twitter" | "youtube") => {
-  switch (type) {
-    case "twitter":
-      return "Tweet could not be found. Perhaps it was deleted?";
-    case "youtube":
-      return "YouTube video could not be found. Perhaps it was deleted?";
-    default:
-      throw new Error(`invalid type provided: ${type}`);
-  }
-};
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
@@ -28,7 +19,9 @@ interface OEmbedQuery {
   maxWidth?: number;
 }
 
-export const oembedHandler = (): RequestHandler => {
+export type OembedHandler = Pick<AppOptions, "i18n">;
+
+export const oembedHandler = ({ i18n }: OembedHandler): RequestHandler => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     // Tenant is guaranteed at this point.
@@ -46,14 +39,31 @@ export const oembedHandler = (): RequestHandler => {
         return;
       }
 
-      // Get the oEmbed response.
+      let style = `
+          body {
+            margin: 0;
+            font-family: sans-serif;
+          }
+          .container * {
+            margin: 0!important;
+          }
+      `;
       const response = await fetchOEmbedResponse(type, url, maxWidth);
       if (response === null || !response.html) {
+        const bundle = i18n.getBundle(tenant.locale);
+        const message = translate(
+          bundle,
+          "Requested media could not be found",
+          "common-embedNotFound"
+        );
         res.status(404);
         res.send(
           `<html>
+            <style>
+              ${style}
+            </style>
             <body>
-              ${createNotFoundMessage(type)}
+            ${message}
             </body>
           <html>`
         );
@@ -63,14 +73,6 @@ export const oembedHandler = (): RequestHandler => {
       const { width, height, html } = response;
 
       // Compile the style to be used for the embed.
-      let style = `
-          body {
-            margin: 0;
-          }
-          .container * {
-            margin: 0!important;
-          }
-      `;
       if (width && height) {
         style += `
           .container {

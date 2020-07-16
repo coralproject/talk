@@ -15,7 +15,6 @@ import CLASSES from "coral-stream/classes";
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
 import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
-
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
@@ -46,11 +45,36 @@ interface State {
   submitStatus: SubmitStatus | null;
 }
 
+function getMediaFromComment(comment: CommentData) {
+  if (!comment.revision || !comment.revision.media) {
+    return;
+  }
+  switch (comment.revision.media.__typename) {
+    case "YouTubeMedia":
+      return {
+        type: "youtube",
+        url: comment.revision.media.url,
+      };
+    case "GiphyMedia":
+      return {
+        type: "giphy",
+        url: comment.revision.media.url,
+      };
+    case "TwitterMedia":
+      return {
+        type: "twitter",
+        url: comment.revision.media.url,
+      };
+    default:
+      return;
+  }
+}
+
 export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
   private intitialValues = {
     body: this.props.comment.body || "",
-    media: this.props.comment.revision && this.props.comment.revision.media,
+    media: getMediaFromComment(this.props.comment),
   };
 
   public state: State = {
