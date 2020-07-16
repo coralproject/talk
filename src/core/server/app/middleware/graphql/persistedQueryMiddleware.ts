@@ -40,7 +40,7 @@ const persistedQueryMiddleware = ({
         req.user?.role !== GQLUSER_ROLE.ADMIN &&
         // Check to see if this Tenant has permitted raw queries, otherwise they
         // cannot run un-persisted queries.
-        !hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.PERMIT_RAW_QUERIES)
+        !hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.REDUCED_SECURITY_MODE)
       ) {
         throw new RawQueryNotAuthorized(
           req.coral.tenant.id,

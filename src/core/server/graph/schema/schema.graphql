@@ -398,10 +398,10 @@ enum FEATURE_FLAG {
   SITE_MODERATOR
 
   """
-  PERMIT_RAW_QUERIES when true will allow unpersisted queries to be executed in
-  production environments.
+  REDUCED_SECURITY_MODE when true will allow unpersisted queries to be executed
+  in production environments.
   """
-  PERMIT_RAW_QUERIES
+  REDUCED_SECURITY_MODE
 }
 
 # The moderation mode of the site.
