@@ -54,7 +54,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
 
-  router.get("/oembed", cspSiteMiddleware(app), oembedHandler());
+  router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
 
   // Configure the GraphQL route.
   router.use(
