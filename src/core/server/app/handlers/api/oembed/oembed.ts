@@ -54,7 +54,7 @@ export const oembedHandler = ({ i18n }: OembedHandler): RequestHandler => {
         const message = translate(
           bundle,
           "Requested media could not be found",
-          "commen-embedNotFound"
+          "common-embedNotFound"
         );
         res.status(404);
         res.send(
