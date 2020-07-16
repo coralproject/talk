@@ -245,7 +245,7 @@ it("approves comment in rejected queue", async () => {
     });
     return {
       comment: {
-        id: rejectedComments[0].id,
+        ...rejectedComments[0],
         status: GQLCOMMENT_STATUS.APPROVED,
         statusHistory: {
           edges: [

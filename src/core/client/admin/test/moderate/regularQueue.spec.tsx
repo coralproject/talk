@@ -375,7 +375,7 @@ it("approves comment in reported queue", async () => {
       });
       return {
         comment: {
-          id: reportedComments[0].id,
+          ...reportedComments[0],
           status: GQLCOMMENT_STATUS.APPROVED,
           statusHistory: {
             edges: [
@@ -473,7 +473,7 @@ it("rejects comment in reported queue", async () => {
       });
       return {
         comment: {
-          id: reportedComments[0].id,
+          ...reportedComments[0],
           status: GQLCOMMENT_STATUS.REJECTED,
           statusHistory: {
             edges: [

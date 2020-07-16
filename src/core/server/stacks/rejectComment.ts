@@ -37,6 +37,11 @@ const rejectComment = async (
     now
   );
 
+  // If the comment hasn't been updated, skip the rest of the steps.
+  if (!result.after) {
+    return result.before;
+  }
+
   // Update all the comment counts on stories and users.
   const counts = await updateAllCommentCounts(mongo, redis, {
     ...result,
