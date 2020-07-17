@@ -6,7 +6,7 @@ import { withRouteConfig } from "coral-framework/lib/router";
 
 import { SiteDashboardRouteQueryResponse } from "coral-admin/__generated__/SiteDashboardRouteQuery.graphql";
 
-import DashboardSiteSelectorContainer from "./DashboardContainer";
+import DashboardContainer from "./DashboardContainer";
 
 interface RouteParams {
   siteID: string;
@@ -20,12 +20,7 @@ interface Props {
 const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site) {
-    return (
-      <DashboardSiteSelectorContainer
-        query={data}
-        selectedSiteID={props.match.params.siteID}
-      />
-    );
+    return <DashboardContainer query={data} site={data.site} />;
   }
   return null;
 };

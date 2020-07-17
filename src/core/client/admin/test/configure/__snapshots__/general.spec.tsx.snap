@@ -1516,7 +1516,7 @@ appears on the comment stream and in the admin interface.
                 <legend
                   className="Header-root"
                 >
-                  Embeded media
+                  Embedded media
                 </legend>
               </div>
               <div />
