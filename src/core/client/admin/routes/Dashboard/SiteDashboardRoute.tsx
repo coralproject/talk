@@ -21,11 +21,7 @@ const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site) {
     return (
-      <DashboardSiteSelectorContainer
-        query={data}
-        selectedSiteID={props.match.params.siteID}
-        selectedSite={data.site}
-      />
+      <DashboardSiteSelectorContainer query={data} selectedSite={data.site} />
     );
   }
   return null;

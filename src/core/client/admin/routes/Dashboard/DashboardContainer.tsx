@@ -35,7 +35,6 @@ interface Site {
 interface Props {
   query: QueryData | null;
   relay: RelayPaginationProp;
-  selectedSiteID?: string;
   selectedSite?: Site | null;
 }
 const DashboardContainer: React.FunctionComponent<Props> = (props) => {
