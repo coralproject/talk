@@ -27,22 +27,24 @@ import DashboardSiteSelector from "./DashboardSiteSelector";
 
 import styles from "./DashboardContainer.css";
 
+interface Site {
+  name: string;
+  id: string;
+}
+
 interface Props {
   query: QueryData | null;
   relay: RelayPaginationProp;
-  selectedSiteID?: string;
+  site?: Site | null;
 }
 const DashboardContainer: React.FunctionComponent<Props> = (props) => {
+  if (!props.site) {
+    return null;
+  }
   const sites = props.query
     ? props.query.sites.edges.map((edge) => edge.node)
     : [];
-  const selectedSite = props.selectedSiteID
-    ? sites.find((s) => s.id === props.selectedSiteID)
-    : sites[0];
 
-  if (!selectedSite) {
-    return null;
-  }
   const [lastUpdated, setLastUpdated] = useState<string>(new Date().toString());
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
@@ -76,7 +78,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
         {({ toggleVisibility, ref, visible }) => (
           <BaseButton onClick={toggleVisibility} ref={ref}>
             <Flex>
-              <h2 className={styles.header}>{selectedSite.name}</h2>
+              <h2 className={styles.header}>{props.site && props.site.name}</h2>
               {
                 <ButtonIcon className={styles.icon} size="lg">
                   {visible ? "arrow_drop_up" : "arrow_drop_down"}
@@ -93,7 +95,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
           Refresh
         </Button>
       </Flex>
-      <Dashboard siteID={selectedSite.id} lastUpdated={lastUpdated} />
+      <Dashboard siteID={props.site.id} lastUpdated={lastUpdated} />
     </MainLayout>
   );
 };
