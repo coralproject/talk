@@ -20,7 +20,7 @@ interface Props {
 const SiteDashboardRoute: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
   if (data && data.site) {
-    return <DashboardContainer query={data} selectedSite={data.site} />;
+    return <DashboardContainer query={data} site={data.site} />;
   }
   return null;
 };

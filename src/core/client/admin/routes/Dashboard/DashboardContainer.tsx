@@ -35,10 +35,10 @@ interface Site {
 interface Props {
   query: QueryData | null;
   relay: RelayPaginationProp;
-  selectedSite?: Site | null;
+  site?: Site | null;
 }
 const DashboardContainer: React.FunctionComponent<Props> = (props) => {
-  if (!props.selectedSite) {
+  if (!props.site) {
     return null;
   }
   const sites = props.query
@@ -78,9 +78,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
         {({ toggleVisibility, ref, visible }) => (
           <BaseButton onClick={toggleVisibility} ref={ref}>
             <Flex>
-              <h2 className={styles.header}>
-                {props.selectedSite && props.selectedSite.name}
-              </h2>
+              <h2 className={styles.header}>{props.site && props.site.name}</h2>
               {
                 <ButtonIcon className={styles.icon} size="lg">
                   {visible ? "arrow_drop_up" : "arrow_drop_down"}
@@ -97,7 +95,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
           Refresh
         </Button>
       </Flex>
-      <Dashboard siteID={props.selectedSite.id} lastUpdated={lastUpdated} />
+      <Dashboard siteID={props.site.id} lastUpdated={lastUpdated} />
     </MainLayout>
   );
 };

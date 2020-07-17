@@ -16,10 +16,7 @@ const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
   }
 
   return (
-    <DashboardContainer
-      query={data}
-      selectedSite={data.firstSite.edges[0].node}
-    />
+    <DashboardContainer query={data} site={data.firstSite.edges[0].node} />
   );
 };
 
