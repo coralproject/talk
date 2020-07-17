@@ -5,7 +5,7 @@ import { withRouteConfig } from "coral-framework/lib/router";
 
 import { DashboardRouteQueryResponse } from "coral-admin/__generated__/DashboardRouteQuery.graphql";
 
-import DashboardSiteSelectorContainer from "./DashboardContainer";
+import DashboardContainer from "./DashboardContainer";
 
 interface Props {
   data: DashboardRouteQueryResponse | null;
@@ -16,7 +16,7 @@ const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
   }
 
   return (
-    <DashboardSiteSelectorContainer
+    <DashboardContainer
       query={data}
       selectedSite={data.firstSite.edges[0].node}
     />
