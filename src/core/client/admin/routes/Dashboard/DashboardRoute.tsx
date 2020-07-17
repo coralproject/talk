@@ -15,12 +15,25 @@ const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
     return null;
   }
 
-  return <DashboardSiteSelectorContainer query={data} />;
+  return (
+    <DashboardSiteSelectorContainer
+      query={data}
+      selectedSite={data.firstSite.edges[0].node}
+    />
+  );
 };
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query DashboardRouteQuery {
+      firstSite: sites(first: 1) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
       ...DashboardContainer_query
     }
   `,
