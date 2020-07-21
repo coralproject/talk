@@ -109,7 +109,7 @@ const clientHandler = ({
 
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
-  if (req.coral && req.coral.tenant) {
+  if (req.coral.tenant) {
     locale = req.coral.tenant.locale;
   }
 
@@ -148,6 +148,7 @@ export function mountClientRoutes(
     );
     return;
   }
+
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({

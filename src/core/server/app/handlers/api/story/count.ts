@@ -2,7 +2,7 @@ import { AppOptions } from "coral-server/app";
 import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
 import { translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
@@ -15,11 +15,13 @@ export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache" | "i18n">;
 export const countHandler = ({
   mongo,
   i18n,
-}: CountOptions): RequestHandler => async (req, res, next) => {
+}: CountOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
-    // Tenant is guaranteed at this point.
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
+    const { tenant } = req.coral;
 
     const story = await find(mongo, tenant, {
       id: req.query.id,

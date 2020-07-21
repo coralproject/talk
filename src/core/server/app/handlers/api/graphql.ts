@@ -4,7 +4,11 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
 import { graphqlMiddleware } from "coral-server/app/middleware/graphql";
 import GraphContext, { GraphContextOptions } from "coral-server/graph/context";
-import { Request, RequestHandler } from "coral-server/types/express";
+import {
+  Request,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<
   AppOptions,
@@ -30,27 +34,15 @@ export const graphQLHandler = ({
   config,
   metrics,
   ...options
-}: GraphMiddlewareOptions): RequestHandler => {
+}: GraphMiddlewareOptions): RequestHandler<TenantCoralRequest> => {
   // Generate the schema hash.
   const schemaHash = generateSchemaHash(schema);
 
   return graphqlMiddleware(
     config,
-    async (req: Request) => {
-      if (!req.coral) {
-        throw new Error("coral was not set");
-      }
-
+    async (req: Request<TenantCoralRequest>) => {
       // Pull out some useful properties from Coral.
-      const { id, now, tenant, cache, logger, persisted } = req.coral;
-
-      if (!cache) {
-        throw new Error("cache was not set");
-      }
-
-      if (!tenant) {
-        throw new Error("tenant was not set");
-      }
+      const { id, now, tenant, logger, persisted } = req.coral;
 
       // Create some new options to store the tenant context details inside.
       const opts: GraphContextOptions = {

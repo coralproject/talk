@@ -20,15 +20,11 @@ async function retrieveSiteFromEmbed(
   mongo: Db,
   req: Request
 ): Promise<Site | null> {
-  if (!req.coral || !req.coral.tenant) {
+  const { tenant } = req.coral;
+  if (!tenant) {
     // There is no tenant for the request, don't add any headers.
     return null;
   }
-
-  // Pull the tenant and the logger from the request.
-  const {
-    coral: { tenant },
-  } = req;
 
   // Attempt to detect the site based on the query parameters.
   const {
