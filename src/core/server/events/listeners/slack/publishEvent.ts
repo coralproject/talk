@@ -14,7 +14,12 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-export type Trigger = "reported" | "pending" | "featured" | "created";
+export type Trigger =
+  | "reported"
+  | "pending"
+  | "featured"
+  | "created"
+  | "staffCreated";
 
 export default class SlackPublishEvent {
   public comment: Comment;
@@ -33,15 +38,15 @@ export default class SlackPublishEvent {
     this.author = author;
   }
 
-  private getTrigger(): Trigger | "staffCreated" | null {
+  private getTriggers(): (Trigger | null)[] {
     if (
       this.actionType &&
       this.actionType === "created" &&
       this.authorIsStaff()
     ) {
-      return "staffCreated";
+      return ["staffCreated", "created"];
     }
-    return this.actionType;
+    return [this.actionType];
   }
 
   private authorIsStaff() {
@@ -56,34 +61,39 @@ export default class SlackPublishEvent {
   }
 
   public getMessage(): string {
-    switch (this.getTrigger()) {
-      case "created":
-        return "This comment has been created";
-      case "staffCreated":
-        return "This comment has been created by staff";
-      case "featured":
-        return "This comment has been featured";
-      case "pending":
-        return "This comment is pending";
-      case "reported":
-        return "This comment has been reported";
-      default:
-        throw new Error("invalid trigger");
+    const triggers = this.getTriggers();
+
+    if (triggers.includes("staffCreated")) {
+      return "This comment has been created by staff";
     }
+    if (triggers.includes("created")) {
+      return "This comment has been created";
+    }
+    if (triggers.includes("featured")) {
+      return "This comment has been featured";
+    }
+    if (triggers.includes("pending")) {
+      return "This comment is pending";
+    }
+    if (triggers.includes("reported")) {
+      return "This comment has been reported";
+    }
+
+    throw new Error("invalid trigger");
   }
 
   public shouldPublishToChannel({ triggers }: GQLSlackChannel) {
-    const trigger = this.getTrigger();
+    const triggerSet = this.getTriggers();
     return (
-      (triggers.allComments && trigger === "created") ||
-      (triggers.featuredComments && trigger === "featured") ||
-      (triggers.reportedComments && trigger === "reported") ||
-      (triggers.pendingComments && trigger === "pending") ||
-      (triggers.staffComments && trigger === "staffCreated")
+      (triggers.allComments && triggerSet.includes("created")) ||
+      (triggers.featuredComments && triggerSet.includes("featured")) ||
+      (triggers.reportedComments && triggerSet.includes("reported")) ||
+      (triggers.pendingComments && triggerSet.includes("pending")) ||
+      (triggers.staffComments && triggerSet.includes("staffCreated"))
     );
   }
 
-  public getBlocks({ loaders, config, tenant, req }: GraphContext) {
+  public getContent({ loaders, config, tenant, req }: GraphContext) {
     const storyTitle = getStoryTitle(this.story);
     const moderateLink = reconstructTenantURL(
       config,
@@ -94,32 +104,38 @@ export default class SlackPublishEvent {
     const commentLink = getURLWithCommentID(this.story.url, this.comment.id);
 
     const body = getHTMLPlainText(getLatestRevision(this.comment).body);
-    return [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `${this.getMessage()} on *<${this.story.url}|${storyTitle}>*`,
-        },
-      },
-      { type: "divider" },
-      {
-        type: "section",
-        text: {
-          type: "plain_text",
-          text: body,
-        },
-      },
-      {
-        type: "context",
-        elements: [
-          {
+    return {
+      text: body,
+      blocks: [
+        {
+          type: "section",
+          block_id: "title-block",
+          text: {
             type: "mrkdwn",
-            text: `Authored by *${this.author.username}* | <${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
+            text: `${this.getMessage()} on *<${this.story.url}|${storyTitle}>*`,
           },
-        ],
-      },
-      { type: "divider" },
-    ];
+        },
+        { type: "divider" },
+        {
+          type: "section",
+          block_id: "body-block",
+          text: {
+            type: "plain_text",
+            text: body,
+          },
+        },
+        {
+          type: "context",
+          block_id: "footer-block",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: `Authored by *${this.author.username}* | <${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
+            },
+          ],
+        },
+        { type: "divider" },
+      ],
+    };
   }
 }

@@ -387,7 +387,7 @@ configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
 #### Embed Links
-configure-general-embedLinks-title = Embeded media
+configure-general-embedLinks-title = Embedded media
 configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
 configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
