@@ -126,8 +126,7 @@ const clientHandler = ({
     enableCustomCSS,
     locale,
     config,
-    enableCustomCSSQuery,
-    customCSSURL: req.query.customCSSURL,
+    customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };
 
