@@ -120,6 +120,7 @@ const clientHandler = ({
     enableCustomCSS,
     locale,
     config,
+    streamCSSURL: req.query.streamCSSURL,
   });
 };
 

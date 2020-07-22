@@ -18,6 +18,7 @@ export interface Config {
   enableDeprecatedEvents?: boolean;
   /** Allow setting className of body tag inside iframe */
   bodyClassName?: string;
+  streamCSSURL?: string;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -41,5 +42,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     accessToken: config.accessToken,
     bodyClassName: config.bodyClassName,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
+    streamCSSURL: config.streamCSSURL,
   });
 }
