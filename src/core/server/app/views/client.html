@@ -13,7 +13,7 @@
   {% if enableCustomCSS and tenant and tenant.customCSSURL %}
     {{ macros.preload(tenant.customCSSURL, "style") }}
   {% endif %}
-  {% if customCSSURL %}
+  {% if enableCustomCSSQuery and customCSSURL %}
     {{ macros.preload(customCSSURL, "style") }}
   {% endif %}
   {% if analytics and analytics.key and analytics.url and analytics.sdk %}
