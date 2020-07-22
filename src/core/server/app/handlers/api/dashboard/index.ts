@@ -182,6 +182,7 @@ export const todayStoriesMetricsHandler = ({
       tenantID,
       siteID,
       tz,
+      20,
       now
     );
 
