@@ -35,6 +35,7 @@ export interface StreamEmbedConfig {
   accessToken?: string;
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
+  customCSSURL?: string;
 }
 
 export class StreamEmbed {
@@ -154,6 +155,7 @@ export class StreamEmbed {
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,
+      customCSSURL: this.config.customCSSURL,
     });
 
     const url = `${ensureNoEndSlash(this.config.rootURL)}${urls.embed.stream}${

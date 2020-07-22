@@ -54,6 +54,11 @@ export interface ClientTargetHandlerOptions {
    * available on the Tenant.
    */
   enableCustomCSS?: boolean;
+  /**
+   * enableCustomCSSQuery will insert the custom CSS into the template if it is
+   * passed through in a query string
+   */
+  enableCustomCSSQuery?: boolean;
 
   /**
    * cacheDuration is the cache duration that a given request should be cached for.
@@ -100,6 +105,7 @@ const clientHandler = ({
   staticURI,
   entrypoint,
   enableCustomCSS,
+  enableCustomCSSQuery,
   defaultLocale,
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
   // Provide configuration to the frontend in the HTML.
@@ -120,6 +126,7 @@ const clientHandler = ({
     enableCustomCSS,
     locale,
     config,
+    customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };
 
@@ -162,6 +169,7 @@ export function mountClientRoutes(
     createClientTargetRouter({
       ...options,
       enableCustomCSS: true,
+      enableCustomCSSQuery: true,
       entrypoint: entrypoints.get("stream"),
     })
   );
