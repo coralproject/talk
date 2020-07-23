@@ -278,6 +278,12 @@ const CLASSES = {
     $root: "coral coral-comment",
 
     /**
+     * highlight is attached to the comment container if the single
+     * conversation view is shown for this comment.
+     */
+    highlight: "coral coral-comment-highlight",
+
+    /**
      * reacted signifies the number of reactions of the comment.
      * The no of reactions is appended: e.g. `coral-reacted-1`.
      */
@@ -614,6 +620,7 @@ const CLASSES = {
     logoutButton: "coral coral-viewerBox-logoutButton",
     signInButton: "coral coral-viewerBox-signInButton",
     registerButton: "coral coral-viewerBox-registerButton",
+    username: "coral coral-viewerBox-username",
   },
 
   /**

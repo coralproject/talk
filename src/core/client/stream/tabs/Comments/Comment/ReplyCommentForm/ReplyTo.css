@@ -11,8 +11,8 @@ $commentsReplyToBorderColor: var(--palette-grey-500);
   background-color: $commentsReplyToBackground;
   color: $commentsReplyToColor;
 
-  border-top-left-radius: var(--round-corners);
-  border-top-right-radius: var(--round-corners);
+  border-top-left-radius: calc(var(--round-corners) - 1px);
+  border-top-right-radius: calc(var(--round-corners) - 1px);
 }
 
 .text {

@@ -72,6 +72,11 @@
 
 .verifyTitle {
   margin-bottom: var(--spacing-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-5);
+  color: var(--palette-text-900);
 }
 
 .resendButton {

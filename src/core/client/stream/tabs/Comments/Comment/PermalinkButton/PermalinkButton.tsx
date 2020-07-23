@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import {
   ClickOutside,
   Flex,
@@ -62,6 +63,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
               fontSize="small"
               fontWeight="semiBold"
               paddingSize="extraSmall"
+              className={CLASSES.comment.actionBar.shareButton}
             >
               <Flex alignItems="center" container="span">
                 <Icon className={styles.icon}>share</Icon>

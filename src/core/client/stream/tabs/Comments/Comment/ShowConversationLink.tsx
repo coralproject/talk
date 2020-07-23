@@ -23,6 +23,7 @@ const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
 ) => {
   const classesOverride = useMemo(
     () => ({
+      sizeRegular: styles.sizeRegular,
       colorRegular: styles.colorRegular,
       active: styles.active,
       mouseHover: styles.mouseHover,

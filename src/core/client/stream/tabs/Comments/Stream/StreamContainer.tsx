@@ -240,6 +240,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     <Counter
                       data-testid="comments-featuredCount"
                       size="sm"
+                      className={CLASSES.counter}
                       color={
                         local.commentsTab === "FEATURED_COMMENTS"
                           ? "inherit"
@@ -273,6 +274,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     </Localized>
                     <Counter
                       size="sm"
+                      className={CLASSES.counter}
                       color={
                         local.commentsTab === "UNANSWERED_COMMENTS"
                           ? "inherit"
@@ -309,6 +311,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
 
                   <Counter
                     size="sm"
+                    className={CLASSES.counter}
                     color={
                       local.commentsTab === "ALL_COMMENTS" ? "inherit" : "grey"
                     }

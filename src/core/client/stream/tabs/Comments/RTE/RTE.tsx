@@ -249,7 +249,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     <div>
       <CoralRTE
         inputID={inputID}
-        className={cn(CLASSES.rte, className)}
+        className={cn(CLASSES.rte.$root, className)}
         contentClassName={cn(
           CLASSES.rte.content,
           contentClassName,

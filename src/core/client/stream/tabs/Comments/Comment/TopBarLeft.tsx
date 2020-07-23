@@ -15,7 +15,7 @@ const TopBarLeft: FunctionComponent<TopBarLeftProps> = (props) => {
       {(matches) => (
         <Flex
           className={rootClassName}
-          alignItems={matches ? "flex-end" : "baseline"}
+          alignItems={matches ? "center" : "baseline"}
           direction={matches ? "row" : "column"}
           itemGutter={matches ? true : "half"}
         >

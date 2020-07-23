@@ -138,6 +138,7 @@ export class Button extends React.Component<Props> {
         data-color={color}
         to={to}
         data-active={active}
+        aria-pressed={active}
         {...rest}
       >
         {children}
