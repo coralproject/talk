@@ -192,17 +192,17 @@ Different font weights with matching values for the fonts.
 
 #### font-weight-primary
 
-`--font-weight-primary-bold: 700;  /* Before 6.3.0: --font-weight-sans-bold */`
+`--font-weight-primary-bold: 700;  /* Before 6.3.0: --font-weight-bold */`
 
-`--font-weight-primary-semi-bold: 600;  /* Before 6.3.0: --font-weight-sans-medium */`
+`--font-weight-primary-semi-bold: 600;  /* Before 6.3.0: --font-weight-medium */`
 
-`--font-weight-primary-regular: 300;  /* Before 6.3.0: --font-weight-sans-regular */`
+`--font-weight-primary-regular: 300;  /* Before 6.3.0: --font-weight-light */`
 
 #### font-weight-secondary
 
-`--font-weight-secondary-bold: 700;  /* Before 6.3.0: --font-weight-serif-bold */`
+`--font-weight-secondary-bold: 700;  /* Before 6.3.0: --font-weight-bold */`
 
-`--font-weight-secondary-regular: 300;  /* Before 6.3.0: --font-weight-serif-regular */`
+`--font-weight-secondary-regular: 300;  /* Before 6.3.0: --font-weight-light */`
 
 ### font-size
 
