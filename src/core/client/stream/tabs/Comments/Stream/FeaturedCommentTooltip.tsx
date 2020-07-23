@@ -64,7 +64,7 @@ export const FeaturedCommentTooltip: FunctionComponent<TooltipProps> = (
                 button: styles.button,
               }}
               active={props.active}
-              activeColor="stream"
+              activeColor="primary"
               ariaLabel="Toggle featured comments tooltip"
               aria-label="Toggle answered questions tooltip"
               title="Toggle answered questions tooltip"
