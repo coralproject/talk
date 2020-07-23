@@ -18,10 +18,10 @@ exports[`renders configure 1`] = `
         Signed in as
       </div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
+        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
       >
         <div
-          className="UserBoxAuthenticated-username"
+          className="coral coral-viewerBox-username UserBoxAuthenticated-username"
         >
           Moderator
         </div>

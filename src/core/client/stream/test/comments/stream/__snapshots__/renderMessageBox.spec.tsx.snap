@@ -157,7 +157,7 @@ exports[`renders message box when commenting disabled 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -277,10 +277,10 @@ exports[`renders message box when logged in 1`] = `
           Signed in as
         </div>
         <div
-          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
+          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
         >
           <div
-            className="UserBoxAuthenticated-username"
+            className="coral coral-viewerBox-username UserBoxAuthenticated-username"
           >
             Markus
           </div>
@@ -341,100 +341,96 @@ exports[`renders message box when logged in 1`] = `
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <div
-              className="CommentForm-commentFormBox"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+            <div>
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-postCommentForm-field"
               >
-                <label
-                  className="AriaInfo-root"
-                  htmlFor="comments-postCommentForm-field"
-                >
-                  Post a comment
-                </label>
+                Post a comment
+              </label>
+              <div
+                className="CommentForm-commentFormBox CommentForm-noTopBorder"
+              >
                 <div>
-                  <div>
+                  <div
+                    className="coral coral-rte"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                  >
                     <div
-                      className="$root content placeholder toolbar container"
-                      onBlur={[Function]}
-                      onFocus={[Function]}
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                     >
                       <div
-                        className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
-                      >
-                        <div
-                          aria-placeholder="Post a comment"
-                          className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                          id="comments-postCommentForm-field"
-                        />
-                        <div
-                          aria-hidden="true"
-                          className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
-                        >
-                          Post a comment
-                        </div>
-                      </div>
+                        aria-placeholder="Post a comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        id="comments-postCommentForm-field"
+                      />
                       <div
-                        className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                        aria-hidden="true"
+                        className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
                       >
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bold"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_bold
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Italic"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_italic
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Blockquote"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_quote
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bulleted List"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_list_bulleted
-                          </i>
-                        </button>
+                        Post a comment
                       </div>
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -497,7 +493,7 @@ exports[`renders message box when logged in 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -681,7 +677,7 @@ exports[`renders message box when not logged in 1`] = `
         >
           <div>
             <div
-              className="$root content placeholder toolbar container"
+              className="coral coral-rte"
               onBlur={[Function]}
               onFocus={[Function]}
             >
@@ -812,7 +808,7 @@ exports[`renders message box when not logged in 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -1056,7 +1052,7 @@ exports[`renders message box when story isClosed 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"

@@ -119,7 +119,7 @@ exports[`renders comment stream 1`] = `
             >
               <div>
                 <div
-                  className="$root content placeholder toolbar container"
+                  className="coral coral-rte"
                   onBlur={[Function]}
                   onFocus={[Function]}
                 >
@@ -250,7 +250,7 @@ exports[`renders comment stream 1`] = `
                       All Comments
                     </span>
                     <span
-                      className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                      className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                     >
                       <span
                         className="Counter-text"
@@ -467,6 +467,7 @@ exports[`renders comment stream 1`] = `
                                 >
                                   <button
                                     aria-label="Respect"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                     data-testid="comment-reaction-button"
                                     disabled={false}
@@ -491,6 +492,7 @@ exports[`renders comment stream 1`] = `
                                   </button>
                                   <button
                                     aria-label="Reply"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                     data-testid="comment-reply-button"
                                     disabled={false}
@@ -520,7 +522,8 @@ exports[`renders comment stream 1`] = `
                                     <button
                                       aria-controls="permalink-popover-comment-0"
                                       aria-label="Share"
-                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                                      aria-pressed={false}
+                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                                       disabled={false}
                                       onBlur={[Function]}
                                       onClick={[Function]}
@@ -560,6 +563,7 @@ exports[`renders comment stream 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
                                     disabled={false}
@@ -738,6 +742,7 @@ exports[`renders comment stream 1`] = `
                                 >
                                   <button
                                     aria-label="Respect"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                     data-testid="comment-reaction-button"
                                     disabled={false}
@@ -762,6 +767,7 @@ exports[`renders comment stream 1`] = `
                                   </button>
                                   <button
                                     aria-label="Reply"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                     data-testid="comment-reply-button"
                                     disabled={false}
@@ -791,7 +797,8 @@ exports[`renders comment stream 1`] = `
                                     <button
                                       aria-controls="permalink-popover-comment-from-staff-0"
                                       aria-label="Share"
-                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                                      aria-pressed={false}
+                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                                       disabled={false}
                                       onBlur={[Function]}
                                       onClick={[Function]}
@@ -831,6 +838,7 @@ exports[`renders comment stream 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
                                     disabled={false}

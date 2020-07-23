@@ -24,6 +24,7 @@ exports[`renders a medium sized, alert colored filled button with fullWidth 1`] 
 
 exports[`renders active state 1`] = `
 <ForwardRef(forwardRef)
+  aria-pressed={true}
   className="active"
   classes={Object {}}
   data-active={true}

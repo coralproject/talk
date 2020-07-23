@@ -1258,6 +1258,7 @@ each other's comments.
                     </p>
                     <button
                       aria-label="Reaction"
+                      aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
                       data-testid="comment-reaction-button"
                       disabled={true}
@@ -1324,7 +1325,8 @@ each other's comments.
                     </p>
                     <button
                       aria-label="reacted"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      aria-pressed={true}
+                      className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionButton-reacted ReactionConfig-reactionButton ReactionButton-button"
                       data-testid="comment-reaction-button"
                       disabled={true}
                       onBlur={[Function]}
@@ -1340,7 +1342,7 @@ each other's comments.
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm ReactionButton-icon ReactionButton-reacted"
+                          className="Icon-root Icon-sm ReactionButton-icon"
                         >
                           icon
                         </i>
