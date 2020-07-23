@@ -23,8 +23,22 @@ function getMessage(
     case "RETRY":
       throw new Error(`Invalid status ${status}`);
     case "REJECTED":
-    // TODO: Show a different message when rejected?
-    // falls through
+      return (
+        <CallOut
+          className={cn(inReviewClassName)}
+          color="negative"
+          icon={<Icon size="sm">error</Icon>}
+          onClose={onDismiss}
+          titleWeight="semiBold"
+          title={
+            <Localized id="comments-submitStatus-submittedAndRejected">
+              <span>
+                This comment has been rejected for violating our guidelines
+              </span>
+            </Localized>
+          }
+        />
+      );
     case "IN_REVIEW":
       return (
         <CallOut
