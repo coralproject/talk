@@ -1,5 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import React, {
   EventHandler,
@@ -76,6 +77,7 @@ interface Props {
   placeHolderId: string;
   bodyInputID: string;
   siteID: string;
+  topBorder?: boolean;
 }
 
 const CommentForm: FunctionComponent<Props> = (props) => {
@@ -140,67 +142,65 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   return props.onChange && props.onChange(state, form);
                 }}
               />
-              <div className={styles.commentFormBox}>
-                <Field
-                  name="body"
-                  validate={getCommentBodyValidators(props.min, props.max)}
+              <div>
+                {props.bodyLabel}
+                <div
+                  className={cn(styles.commentFormBox, {
+                    [styles.noTopBorder]: !props.topBorder,
+                  })}
                 >
-                  {({ input }) => (
-                    <>
-                      <HorizontalGutter size="half">
-                        {props.bodyLabel}
-                        <div>
-                          <Localized
-                            id={props.placeHolderId}
-                            attrs={{ placeholder: true }}
-                          >
-                            <RTEContainer
-                              inputID={props.bodyInputID}
-                              config={props.rteConfig}
-                              onFocus={props.onFocus}
-                              onWillPaste={onPaste}
-                              onChange={(html: string) => {
-                                input.onChange(html);
-                              }}
-                              value={input.value}
-                              placeholder={props.placeholder}
-                              disabled={submitting || props.disabled}
-                              ref={props.rteRef || null}
-                              toolbarButtons={
-                                props.mediaConfig &&
-                                props.mediaConfig.giphy.enabled ? (
-                                  <>
-                                    <Button
-                                      color="mono"
-                                      variant={
-                                        showGifSelector ? "regular" : "flat"
-                                      }
-                                      onClick={toggleGIFSelector}
-                                      iconLeft
-                                    >
-                                      <ButtonIcon>add</ButtonIcon>
-                                      GIF
-                                    </Button>
-                                  </>
-                                ) : null
-                              }
-                            />
-                          </Localized>
-                        </div>
-                      </HorizontalGutter>
-                    </>
+                  <Field
+                    name="body"
+                    validate={getCommentBodyValidators(props.min, props.max)}
+                  >
+                    {({ input }) => (
+                      <Localized
+                        id={props.placeHolderId}
+                        attrs={{ placeholder: true }}
+                      >
+                        <RTEContainer
+                          inputID={props.bodyInputID}
+                          config={props.rteConfig}
+                          onFocus={props.onFocus}
+                          onWillPaste={onPaste}
+                          onChange={(html: string) => {
+                            input.onChange(html);
+                          }}
+                          value={input.value}
+                          placeholder={props.placeholder}
+                          disabled={submitting || props.disabled}
+                          ref={props.rteRef || null}
+                          toolbarButtons={
+                            props.mediaConfig &&
+                            props.mediaConfig.giphy.enabled ? (
+                              <>
+                                <Button
+                                  color="mono"
+                                  variant={showGifSelector ? "regular" : "flat"}
+                                  onClick={toggleGIFSelector}
+                                  iconLeft
+                                >
+                                  <ButtonIcon>add</ButtonIcon>
+                                  GIF
+                                </Button>
+                              </>
+                            ) : null
+                          }
+                        />
+                      </Localized>
+                    )}
+                  </Field>
+                  {props.mediaConfig && (
+                    <MediaField
+                      config={props.mediaConfig}
+                      siteID={props.siteID}
+                      media={media}
+                      setMedia={setMedia}
+                      showGIFSelector={showGifSelector}
+                      toggleGIFSelector={toggleGIFSelector}
+                    />
                   )}
-                </Field>
-                {props.mediaConfig && (
-                  <MediaField
-                    config={props.mediaConfig}
-                    siteID={props.siteID}
-                    media={media}
-                    setMedia={setMedia}
-                    showGIFSelector={showGifSelector}
-                    toggleGIFSelector={toggleGIFSelector}
-                  />
-                )}
+                </div>
               </div>
               {!props.expired && props.editableUntil && (
                 <Message
@@ -317,6 +317,10 @@ const CommentForm: FunctionComponent<Props> = (props) => {
       </Form>
     </div>
   );
+};
+
+CommentForm.defaultProps = {
+  topBorder: true,
 };
 
 export default CommentForm;

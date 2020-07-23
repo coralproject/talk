@@ -107,6 +107,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         submitStatus={
           <PostCommentSubmitStatusContainer status={props.submitStatus} />
         }
+        topBorder={false}
       />
     </div>
   );

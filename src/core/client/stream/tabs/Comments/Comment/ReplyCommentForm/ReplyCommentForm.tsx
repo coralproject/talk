@@ -74,6 +74,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
           </>
         }
         rteConfig={props.rteConfig}
+        topBorder={false}
       />
     </div>
   );
