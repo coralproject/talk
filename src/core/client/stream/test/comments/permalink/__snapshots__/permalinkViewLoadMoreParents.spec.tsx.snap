@@ -292,7 +292,7 @@ exports[`renders conversation thread 1`] = `
       more_vert
     </i>
     <button
-      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
+      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
