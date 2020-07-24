@@ -429,7 +429,7 @@
     "{src/core/client/ui/theme/sharedVariables.ts,src/core/client/ui/theme/streamVariables.ts,scripts/generateCSSVariablesDocs.ts,CSS_VARIABLES.md}": [
       "npm run docs:css-variables -- --verify"
     ],
-    "{README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
+    "{CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
       "npm run doctoc"
     ]
   },
