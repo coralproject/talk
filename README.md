@@ -22,27 +22,27 @@ around your work.
 
 We offer hosting and support packages for Coral, as well as exclusive,
 customer-only features. [Contact us](https://coralproject.net/pricing/) for more
-information or [sign up for a webinar](https://coralproject.net) :calendar:.
+information or [sign up for a webinar](https://coralproject.net) 📆.
 
 ## Documentation
 
-If you're new to Coral, the [Coral documentation](https://docs.coralproject.net/) :books:
+If you're new to Coral, the [Coral documentation](https://docs.coralproject.net/) 📚
 is a great place to start running and developing with Coral.
 
 You’ve installed Coral, and you’re preparing to launch it on your site. The real
 community work starts now, before you go live. You have a unique opportunity
 pre-launch to set your community up for success. Read our
-[Community Guides](https://guides.coralproject.net/start-here/) :books: to learn more.
+[Community Guides](https://guides.coralproject.net/start-here/) 📚 to learn more.
 
 ## Support
 
 We can help you set up Coral, migrate your comments from another system,
 integrate your registration platform, pair with your programmers, and help you
-with bespoke installs. To learn more, [contact us](https://coralproject.net/pricing/) :mailbox:.
+with bespoke installs. To learn more, [contact us](https://coralproject.net/pricing/) 📫.
 
 ## Contributing
 
-Coral is a Apache-2.0 licensed open-source project built with :heart: by the Coral
+Coral is a Apache-2.0 licensed open-source project built with ❤️ by the Coral
 team, a part of [Vox Media](https://product.voxmedia.com/).
 
 If you are interested in contributing to Coral, check out our [Contributor's Guide](CONTRIBUTING.md).
