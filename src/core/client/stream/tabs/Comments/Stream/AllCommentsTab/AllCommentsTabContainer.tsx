@@ -165,7 +165,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
         role="log"
         aria-live="polite"
         size="oneAndAHalf"
-        className={styles.stream}
       >
         {comments.length <= 0 && (
           <NoComments

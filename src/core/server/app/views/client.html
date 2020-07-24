@@ -13,6 +13,9 @@
   {% if enableCustomCSS and tenant and tenant.customCSSURL %}
     {{ macros.preload(tenant.customCSSURL, "style") }}
   {% endif %}
+  {% if customCSSURL %}
+    {{ macros.preload(customCSSURL, "style") }}
+  {% endif %}
   {% if analytics and analytics.key and analytics.url and analytics.sdk %}
     {# If analytics is enabled and available, configure the rudderstack analytics to load #}
     <script type="text/javascript">
