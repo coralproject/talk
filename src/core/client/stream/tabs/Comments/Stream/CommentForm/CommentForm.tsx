@@ -17,17 +17,18 @@ import { useToggleState } from "coral-framework/hooks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
   Button,
   ButtonIcon,
   Flex,
   HorizontalGutter,
+  Icon,
   MatchMedia,
   Message,
   MessageIcon,
   RelativeTime,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -219,9 +220,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               {props.disabled ? (
                 <>
                   {props.disabledMessage && (
-                    <ValidationMessage>
-                      {props.disabledMessage}
-                    </ValidationMessage>
+                    <CallOut
+                      className={CLASSES.editComment.expiredTime}
+                      color="negative"
+                      title={props.disabledMessage}
+                      titleWeight="semiBold"
+                      icon={<Icon>error</Icon>}
+                    />
                   )}
                 </>
               ) : (
@@ -248,9 +253,12 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       {touched &&
                         (error ||
                           (localSubmitError && !dirtySinceLastSubmit)) && (
-                          <ValidationMessage>
-                            {error || localSubmitError}
-                          </ValidationMessage>
+                          <CallOut
+                            color="negative"
+                            title={error || localSubmitError}
+                            titleWeight="semiBold"
+                            icon={<Icon>error</Icon>}
+                          />
                         )}
                       {props.max && (
                         <RemainingCharactersContainer
@@ -263,7 +271,12 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                 </Field>
               )}
               {submitError && (
-                <ValidationMessage>{submitError}</ValidationMessage>
+                <CallOut
+                  color="negative"
+                  title={submitError}
+                  titleWeight="semiBold"
+                  icon={<Icon>error</Icon>}
+                />
               )}
               <Flex justifyContent="flex-end" spacing={1}>
                 <MatchMedia ltWidth="sm">
