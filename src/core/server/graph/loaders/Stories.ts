@@ -3,6 +3,7 @@ import { defaultTo } from "lodash";
 import { DateTime } from "luxon";
 
 import GraphContext from "coral-server/graph/context";
+import { retrieveTopStoryMetrics } from "coral-server/models/comment/metrics";
 import { Connection } from "coral-server/models/helpers";
 import { CloseCommenting } from "coral-server/models/settings";
 import {
@@ -24,6 +25,7 @@ import { scraper } from "coral-server/services/stories/scraper";
 import {
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
+  SiteToTopStoriesArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
@@ -208,6 +210,19 @@ export default (ctx: GraphContext) => ({
         ...queryFilter(query),
       },
     }).then(primeStoriesFromConnection(ctx)),
+  topStories: (siteID: string, { limit }: SiteToTopStoriesArgs) => {
+    // Find top active stories in the last 24 hours.
+    const start = DateTime.fromJSDate(ctx.now).minus({ hours: 24 }).toJSDate();
+
+    return retrieveTopStoryMetrics(
+      ctx.mongo,
+      ctx.tenant.id,
+      siteID,
+      defaultTo(limit, 5),
+      start,
+      ctx.now
+    );
+  },
   debugScrapeMetadata: new DataLoader(
     createManyBatchLoadFn((url: string) =>
       scraper.scrape({

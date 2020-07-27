@@ -1584,6 +1584,12 @@ type Site {
   canModerate: Boolean!
 
   """
+  topStories will return stories that have had the most comments within the last
+  24 hours on this Site.
+  """
+  topStories(limit: Int = 5 @constraint(max: 5)): [Story!]!
+
+  """
   createdAt is when the site was created.
   """
   createdAt: Time!
@@ -3518,6 +3524,8 @@ type Query {
   activeStories(limit: Int = 10 @constraint(max: 25)): [Story!]!
     @auth(roles: [ADMIN])
     @rate(max: 2, seconds: 1)
+
+
 
   """
   webhookEndpint will return a specific WebhookEndpoint if it exists.
