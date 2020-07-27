@@ -146,9 +146,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               <div>
                 {props.bodyLabel}
                 <div
-                  className={cn(styles.commentFormBox, {
-                    [styles.noTopBorder]: !props.topBorder,
-                  })}
+                  className={cn(
+                    styles.commentFormBox,
+                    {
+                      [styles.noTopBorder]: !props.topBorder,
+                    },
+                    CLASSES.commentForm
+                  )}
                 >
                   <Field
                     name="body"

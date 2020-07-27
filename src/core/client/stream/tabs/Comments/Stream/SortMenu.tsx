@@ -53,6 +53,7 @@ const SortMenu: FunctionComponent<Props> = (props) => {
           selectFont: styles.selectFont,
           selectColor: styles.selectColor,
         }}
+        className={CLASSES.sortMenu}
       >
         <Localized id="comments-sortMenu-newest">
           <Option value="CREATED_AT_DESC">Newest</Option>

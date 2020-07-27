@@ -31,6 +31,11 @@ const CLASSES = {
   counter: "coral coral-counter",
 
   /**
+   * commentForm is the border div around the RTE.
+   */
+  commentForm: "coral coral-commentForm",
+
+  /**
    * rte represents the rich-text-editor
    */
   rte: {

@@ -179,10 +179,10 @@ exports[`renders message box when commenting disabled 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -349,7 +349,7 @@ exports[`renders message box when logged in 1`] = `
                 Post a comment
               </label>
               <div
-                className="CommentForm-commentFormBox CommentForm-noTopBorder"
+                className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
               >
                 <div>
                   <div
@@ -515,10 +515,10 @@ exports[`renders message box when logged in 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -830,10 +830,10 @@ exports[`renders message box when not logged in 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -1074,10 +1074,10 @@ exports[`renders message box when story isClosed 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}

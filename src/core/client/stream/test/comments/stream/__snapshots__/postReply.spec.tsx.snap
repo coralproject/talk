@@ -304,7 +304,7 @@ exports[`post a reply: open reply form 1`] = `
                 </span>
               </div>
               <div
-                className="CommentForm-commentFormBox CommentForm-noTopBorder"
+                className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
               >
                 <div>
                   <div

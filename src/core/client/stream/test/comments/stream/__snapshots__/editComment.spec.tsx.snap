@@ -346,7 +346,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               Edit comment
             </label>
             <div
-              className="CommentForm-commentFormBox"
+              className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div>
                 <div
@@ -543,7 +543,7 @@ exports[`edit a comment: edit form 1`] = `
               Edit comment
             </label>
             <div
-              className="CommentForm-commentFormBox"
+              className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div>
                 <div
@@ -740,7 +740,7 @@ exports[`edit a comment: optimistic response 1`] = `
               Edit comment
             </label>
             <div
-              className="CommentForm-commentFormBox"
+              className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div>
                 <div
@@ -1819,7 +1819,7 @@ exports[`shows expiry message: edit time expired 1`] = `
               Edit comment
             </label>
             <div
-              className="CommentForm-commentFormBox"
+              className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div>
                 <div

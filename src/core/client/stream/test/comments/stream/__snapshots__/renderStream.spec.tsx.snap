@@ -272,10 +272,10 @@ exports[`renders comment stream 1`] = `
                 Sort by
               </label>
               <span
-                className="SelectField-root"
+                className="SelectField-root coral coral-sortMenu"
               >
                 <select
-                  className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+                  className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
                   id="coral-comments-sortMenu"
                   onBlur={[Function]}
                   onChange={[Function]}

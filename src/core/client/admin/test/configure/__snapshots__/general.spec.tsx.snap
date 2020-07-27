@@ -179,7 +179,7 @@ exports[`renders configure general 1`] = `
                     className="SelectField-root"
                   >
                     <select
-                      className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                      className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                       disabled={false}
                       id="configure-locale-locale"
                       name="locale"
@@ -945,7 +945,7 @@ moderation panel.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                         disabled={false}
                         name="editCommentWindowLength-unit"
                         onBlur={[Function]}
@@ -1105,7 +1105,7 @@ moderation panel.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                         disabled={false}
                         name="closeCommenting.timeout-unit"
                         onBlur={[Function]}
@@ -1402,7 +1402,7 @@ each other's comments.
                         className="SelectField-root"
                       >
                         <select
-                          className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                          className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                           onBlur={[Function]}
                           onFocus={[Function]}
                         >
