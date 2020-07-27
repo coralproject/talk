@@ -2343,6 +2343,13 @@ type User {
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
+  ongoingDiscussions are stories where the given user has written comments in
+  sorted by their last comment date.
+  """
+  ongoingDiscussions(limit: Int = 5 @constraint(max: 5)): [Story!]!
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+
+  """
   recentCommentHistory returns recent commenting history by the User.
   """
   recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
@@ -2435,6 +2442,7 @@ type User {
   ssoURL is the url for managing sso account
   """
   ssoURL: String
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
 }
 
 """
@@ -3524,8 +3532,6 @@ type Query {
   activeStories(limit: Int = 10 @constraint(max: 25)): [Story!]!
     @auth(roles: [ADMIN])
     @rate(max: 2, seconds: 1)
-
-
 
   """
   webhookEndpint will return a specific WebhookEndpoint if it exists.

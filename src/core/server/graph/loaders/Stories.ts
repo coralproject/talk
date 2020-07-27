@@ -3,6 +3,7 @@ import { defaultTo } from "lodash";
 import { DateTime } from "luxon";
 
 import GraphContext from "coral-server/graph/context";
+import { retrieveOngoingDiscussions } from "coral-server/models/comment";
 import { retrieveTopStoryMetrics } from "coral-server/models/comment/metrics";
 import { Connection } from "coral-server/models/helpers";
 import { CloseCommenting } from "coral-server/models/settings";
@@ -26,6 +27,7 @@ import {
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
   SiteToTopStoriesArgs,
+  UserToOngoingDiscussionsArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
@@ -223,6 +225,16 @@ export default (ctx: GraphContext) => ({
       ctx.now
     );
   },
+  ongoingDiscussions: (
+    authorID: string,
+    { limit }: UserToOngoingDiscussionsArgs
+  ) =>
+    retrieveOngoingDiscussions(
+      ctx.mongo,
+      ctx.tenant.id,
+      authorID,
+      defaultTo(limit, 5)
+    ),
   debugScrapeMetadata: new DataLoader(
     createManyBatchLoadFn((url: string) =>
       scraper.scrape({
