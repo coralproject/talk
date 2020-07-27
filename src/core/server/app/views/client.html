@@ -66,6 +66,9 @@
         {{ macros.css(tenant.customCSSURL) }}
       {% endif %}
     {% endif %}
+    {% if customCSSURL %}
+      {{ macros.css(customCSSURL)}}
+    {% endif %}
   {% endblock %}
 {% endif %}
 
