@@ -640,6 +640,7 @@ export const baseComment = createFixture<GQLComment>({
   ],
   canModerate: true,
   revision: {
+    media: undefined,
     actionCounts: {
       flag: {
         reasons: {
