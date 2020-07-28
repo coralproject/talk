@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { QueryRenderer } from "react-relay";
 import { OperationType } from "relay-runtime";
 
+import NetworkError from "coral-framework/components/NetworkError";
 import { PropTypesOf } from "coral-framework/types";
 
 import { CoralContextConsumer } from "../bootstrap/CoralContext";
@@ -33,7 +34,20 @@ class CoralQueryRenderer<
     return (
       <CoralContextConsumer>
         {({ relayEnvironment }) => (
-          <QueryRenderer environment={relayEnvironment} {...this.props} />
+          <QueryRenderer
+            environment={relayEnvironment}
+            {...this.props}
+            render={(args) => {
+              if (
+                args.error &&
+                args.error.name === "RRNLRetryMiddlewareError"
+              ) {
+                return <NetworkError />;
+              }
+
+              return this.props.render(args);
+            }}
+          />
         )}
       </CoralContextConsumer>
     );

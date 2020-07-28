@@ -782,7 +782,7 @@ exports[`post a reply: optimistic response 1`] = `
 exports[`renders comment stream 1`] = `
 <div
   aria-live="polite"
-  className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
+  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   data-testid="comments-allComments-log"
   id="comments-allComments-log"
   role="log"

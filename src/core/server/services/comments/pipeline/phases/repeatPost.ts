@@ -57,6 +57,13 @@ export const repeatPost: IntermediateModerationPhase = async ({
       // Giphy is enabled. If the medias are the same, then this is a repeat
       // comment otherwise they are not.
       if (
+        (!lastCommentRevision.media && !media) ||
+        (lastCommentRevision.media && !media)
+      ) {
+        // comment body was the same and neither comment has media OR the previous
+        // comment had media but the current one does not
+        similarity = true;
+      } else if (
         // Check to see if the last comment revision has a Giphy Media
         // object.
         lastCommentRevision.media &&
@@ -76,7 +83,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
       }
     } else {
       // Body text was the same and Giphy support was not enabled.
-      similarity = false;
+      similarity = true;
     }
 
     if (similarity) {
