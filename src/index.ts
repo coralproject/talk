@@ -1,10 +1,6 @@
 import dotenv from "dotenv";
 import { rewrite } from "env-rewrite";
-import express from "express";
 import sourceMapSupport from "source-map-support";
-
-import createCoral from "./core";
-import logger from "./core/server/logger";
 
 // Configure the source map support so stack traces will reference the source
 // files rather than the transpiled code.
@@ -24,6 +20,14 @@ rewrite();
 // Apply all the configuration provided in the .env file if it isn't already in
 // the environment.
 dotenv.config();
+
+// NOTE: It is required for the `dotenv` module to be configured before other
+// modules to ensure the rewriting takes place before those modules load!
+
+import express from "express";
+
+import createCoral from "./core";
+import logger from "./core/server/logger";
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will

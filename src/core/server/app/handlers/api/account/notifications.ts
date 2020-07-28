@@ -3,7 +3,7 @@ import { RequestLimiter } from "coral-server/app/request/limiter";
 import { updateUserNotificationSettings } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import { verifyUnsubscribeTokenString } from "coral-server/services/notifications/categories/unsubscribe";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 export type UnsubscribeCheckOptions = Pick<
   AppOptions,
@@ -15,7 +15,7 @@ export const unsubscribeCheckHandler = ({
   mongo,
   signingConfig,
   config,
-}: UnsubscribeCheckOptions): RequestHandler => {
+}: UnsubscribeCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -36,9 +36,7 @@ export const unsubscribeCheckHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
 
@@ -60,7 +58,7 @@ export const unsubscribeCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);
@@ -80,7 +78,7 @@ export const unsubscribeHandler = ({
   mongo,
   signingConfig,
   config,
-}: UnsubscribeOptions): RequestHandler => {
+}: UnsubscribeOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -101,9 +99,7 @@ export const unsubscribeHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Grab the token from the request.
       const tokenString = extractTokenFromRequest(req, true);
@@ -123,7 +119,7 @@ export const unsubscribeHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       // Unsubscribe the user from all notification types.

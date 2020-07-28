@@ -1,5 +1,5 @@
 import { AppOptions } from "coral-server/app";
-import { countHandler } from "coral-server/app/handlers";
+import { activeHandler, countHandler } from "coral-server/app/handlers";
 
 import { createAPIRouter } from "./helpers";
 
@@ -8,6 +8,7 @@ export function createStoryRouter(app: AppOptions) {
   const router = createAPIRouter({ cache: "2m" });
 
   router.get("/count.js", countHandler(app));
+  router.get("/active.js", activeHandler(app));
 
   return router;
 }

@@ -19,13 +19,17 @@ import {
   retrieveDailyUserMetrics,
   retrieveTodayUserMetrics,
 } from "coral-server/models/user/metrics";
-import { Request, RequestHandler } from "coral-server/types/express";
+import {
+  Request,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
-function getMetricsOptions(req: Request) {
+function getMetricsOptions(req: Request<TenantCoralRequest>) {
   // Get the current Tenant on the request.
-  const { id: tenantID } = req.coral!.tenant!;
+  const { id: tenantID } = req.coral.tenant;
 
-  const now = req.coral!.now;
+  const now = req.coral.now;
 
   // To set a fixed date for the date, uncomment the line below.
   // const now = DateTime.utc(2020, 5, 5, 12, 30).toJSDate();
@@ -46,7 +50,11 @@ function getMetricsOptions(req: Request) {
 
 export const todayMetricsHandler = ({
   mongo,
-}: AppOptions): RequestHandler => async (req, res, next) => {
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
     if (!siteID) {
@@ -71,7 +79,11 @@ export const todayMetricsHandler = ({
 
 export const totalMetricsHandler = ({
   mongo,
-}: AppOptions): RequestHandler => async (req, res, next) => {
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     const { tenantID, siteID } = getMetricsOptions(req);
     if (!siteID) {
@@ -105,7 +117,11 @@ export const totalMetricsHandler = ({
 
 export const hourlyCommentsMetricsHandler = ({
   mongo,
-}: AppOptions): RequestHandler => async (req, res, next) => {
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
     if (!siteID) {
@@ -130,7 +146,11 @@ export const hourlyCommentsMetricsHandler = ({
 
 export const dailyUsersMetricsHandler = ({
   mongo,
-}: AppOptions): RequestHandler => async (req, res, next) => {
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     const { tenantID, tz, now } = getMetricsOptions(req);
 
@@ -146,7 +166,11 @@ export const dailyUsersMetricsHandler = ({
 
 export const todayStoriesMetricsHandler = ({
   mongo,
-}: AppOptions): RequestHandler => async (req, res, next) => {
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     const { tenantID, siteID, tz, now } = getMetricsOptions(req);
     if (!siteID) {
@@ -158,6 +182,7 @@ export const todayStoriesMetricsHandler = ({
       tenantID,
       siteID,
       tz,
+      20,
       now
     );
 

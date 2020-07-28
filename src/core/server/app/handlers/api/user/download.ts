@@ -4,7 +4,7 @@ import {
   redeemDownloadToken,
   sendUserDownload,
 } from "coral-server/services/users/download";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 type AdminDownloadOptions = Pick<
   AppOptions,
@@ -15,11 +15,9 @@ export const userDownloadHandler = ({
   mongo,
   redis,
   signingConfig,
-}: AdminDownloadOptions): RequestHandler => {
+}: AdminDownloadOptions): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
+    const { tenant, now } = req.coral;
     const { token } = req.query;
 
     const { sub: userID } = decodeJWT(token);
@@ -37,7 +35,7 @@ export const userDownloadHandler = ({
         tenant,
         signingConfig,
         token,
-        coral.now
+        now
       );
 
       // Only load comments since this download token was issued.
