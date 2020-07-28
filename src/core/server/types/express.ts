@@ -1,5 +1,6 @@
 import { NextFunction, Request as ExpressRequest, Response } from "express";
 
+import { RequireProperty } from "coral-common/types";
 import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
@@ -9,7 +10,7 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 export interface CoralRequest {
   id: string;
   now: Date;
-  cache?: {
+  cache: {
     tenant: TenantCache;
   };
   tenant?: Tenant;
@@ -17,20 +18,22 @@ export interface CoralRequest {
   logger: Logger;
 }
 
-export interface Request extends ExpressRequest {
-  coral?: CoralRequest;
+export type TenantCoralRequest = RequireProperty<CoralRequest, "tenant">;
+
+export interface Request<T = CoralRequest> extends ExpressRequest {
+  coral: T;
   user?: User;
 }
 
-export type RequestHandler = (
-  req: Request,
+export type RequestHandler<T = CoralRequest> = (
+  req: Request<T>,
   res: Response,
   next: NextFunction
 ) => void;
 
 export type ErrorRequestHandler = (
   err: Error,
-  req: Request,
+  req: Request<CoralRequest>,
   res: Response,
   next: NextFunction
 ) => void;

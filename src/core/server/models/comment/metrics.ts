@@ -15,6 +15,8 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { PUBLISHED_STATUSES } from "./constants";
+
 export async function retrieveHourlyCommentMetrics(
   mongo: Db,
   tenantID: string,
@@ -145,20 +147,26 @@ export async function retrieveAverageCommentsMetric(
   return Math.floor(total / hours);
 }
 
-export async function retrieveTodayTopStoryMetrics(
+export async function retrieveTopStoryMetrics(
   mongo: Db,
   tenantID: string,
   siteID: string,
-  timezone: string,
+  limit: number,
+  start: Date,
   now: Date
 ) {
-  const start = DateTime.fromJSDate(now).setZone(timezone).startOf("day");
-  const end = DateTime.fromJSDate(now);
-
-  // Return the last 24 hours worth of comments.
   const results = await collection<Result>(mongo)
     .aggregate([
-      { $match: { tenantID, siteID, createdAt: { $gte: start, $lte: end } } },
+      {
+        $match: {
+          tenantID,
+          siteID,
+          createdAt: { $gte: start, $lte: now },
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+        },
+      },
       {
         $group: {
           _id: "$storyID",
@@ -166,10 +174,26 @@ export async function retrieveTodayTopStoryMetrics(
         },
       },
       { $sort: { count: -1 } },
-      // TODO: 17 was for visual treatment, feel free to change this!
-      { $limit: 17 },
+      { $limit: limit },
     ])
     .toArray();
 
   return results;
+}
+
+export async function retrieveTodayTopStoryMetrics(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  timezone: string,
+  limit: number,
+  now: Date
+) {
+  // Return the last day worth of comments.
+  const start = DateTime.fromJSDate(now)
+    .setZone(timezone)
+    .startOf("day")
+    .toJSDate();
+
+  return retrieveTopStoryMetrics(mongo, tenantID, siteID, limit, start, now);
 }

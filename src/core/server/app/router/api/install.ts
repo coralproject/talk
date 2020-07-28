@@ -15,17 +15,11 @@ export function createNewInstallRouter(app: AppOptions): Router {
   // Create a router.
   const router = createAPIRouter();
 
-  router.get(
-    "/",
-    tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }),
-    installCheckHandler(app)
-  );
-  router.post(
-    "/",
-    jsonMiddleware(REQUEST_MAX),
-    tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }),
-    installHandler(app)
-  );
+  // Allow the tenant to be passed on installations.
+  router.use(tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }));
+
+  router.get("/", installCheckHandler(app));
+  router.post("/", jsonMiddleware(REQUEST_MAX), installHandler(app));
 
   return router;
 }

@@ -13,7 +13,7 @@ import {
   extractTokenFromRequest,
   StandardHeader,
 } from "coral-server/services/jwt";
-import { Request } from "coral-server/types/express";
+import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 import { JWTToken, JWTVerifier } from "./verifiers/jwt";
 import { OIDCIDToken, OIDCVerifier } from "./verifiers/oidc";
@@ -123,7 +123,7 @@ export class JWTStrategy extends Strategy {
     this.verifiers = createVerifiers(options);
   }
 
-  public async authenticate(req: Request) {
+  public async authenticate(req: Request<TenantCoralRequest>) {
     // Get the token from the request.
     const token = extractTokenFromRequest(req);
     if (!token) {
@@ -132,7 +132,7 @@ export class JWTStrategy extends Strategy {
       return this.pass();
     }
 
-    const { now, tenant } = req.coral!;
+    const { now, tenant } = req.coral;
     if (!tenant) {
       return this.error(new TenantNotFoundError(req.hostname));
     }

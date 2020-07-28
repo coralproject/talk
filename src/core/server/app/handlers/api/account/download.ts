@@ -10,7 +10,7 @@ import {
   sendUserDownload,
   verifyDownloadTokenString,
 } from "coral-server/services/users/download";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const USER_ID_LIMITER_TTL = "1d";
 
@@ -32,7 +32,7 @@ export const accountDownloadHandler = ({
   redis,
   signingConfig,
   config,
-}: AccountDownloadOptions): RequestHandler => {
+}: AccountDownloadOptions): RequestHandler<TenantCoralRequest> => {
   const userIDLimiter = new RequestLimiter({
     redis,
     ttl: USER_ID_LIMITER_TTL,
@@ -43,9 +43,7 @@ export const accountDownloadHandler = ({
 
   return async (req, res, next) => {
     try {
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Get the fields from the body. Validate will throw an error if the body
       // does not conform to the specification.
@@ -71,7 +69,7 @@ export const accountDownloadHandler = ({
         tenant,
         signingConfig,
         token,
-        coral.now
+        now
       );
 
       // Only load comments since this download token was issued.
@@ -97,7 +95,7 @@ export const accountDownloadCheckHandler = ({
   redis,
   signingConfig,
   config,
-}: AccountDownloadCheckOptions): RequestHandler => {
+}: AccountDownloadCheckOptions): RequestHandler<TenantCoralRequest> => {
   const userIDLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -108,9 +106,7 @@ export const accountDownloadCheckHandler = ({
 
   return async (req, res, next) => {
     try {
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       const tokenString = extractTokenFromRequest(req, true);
       if (!tokenString) {
@@ -130,7 +126,7 @@ export const accountDownloadCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);
