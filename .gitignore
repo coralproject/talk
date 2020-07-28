@@ -20,5 +20,4 @@ yarn.lock
 dist
 *.css.d.ts
 __generated__
-README.md.orig
 persisted-queries.json
