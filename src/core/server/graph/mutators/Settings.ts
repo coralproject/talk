@@ -71,8 +71,11 @@ export const Settings = ({
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
-  createAnnouncement: (input: GQLCreateAnnouncementInput) =>
-    createAnnouncement(mongo, redis, tenantCache, tenant, input),
+  createAnnouncement: ({ content, duration }: GQLCreateAnnouncementInput) =>
+    createAnnouncement(mongo, redis, tenantCache, tenant, {
+      content,
+      duration,
+    }),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
   createWebhookEndpoint: (
