@@ -66,7 +66,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 </Typography>
               </Localized>
               <Localized id="install-addOrganization-description">
-                <Typography variant="bodyCopy" align="center">
+                <Typography variant="bodyCopy">
                   Please tell us the name of your organization. This will appear
                   in emails when inviting new team members.
                 </Typography>

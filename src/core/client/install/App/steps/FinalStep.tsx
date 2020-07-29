@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { Link } from "found";
 import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";
@@ -9,14 +8,10 @@ class FinalStep extends Component {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
-        <Localized
-          id="install-finalStep-description"
-          $url={<Link to={urls.admin.moderate}>{urls.admin.moderate}</Link>}
-        >
+        <Localized id="install-finalStep-description">
           <Typography variant="bodyCopy">
-            Thanks for installing Coral! We sent an email to verify your email
-            address. While you finish setting up the account, you can start
-            engaging with your readers now.
+            Continue to Coral Admin to complete the setup of your organization
+            and site.
           </Typography>
         </Localized>
         <Flex direction="row" itemGutter justifyContent="center">

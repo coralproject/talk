@@ -57,7 +57,7 @@ const SelectLanguageStep: FunctionComponent<Props> = (props) => {
             </Localized>
 
             <Localized id="install-selectLanguage-description">
-              <Typography variant="bodyCopy" align="center">
+              <Typography variant="bodyCopy">
                 Choose the language to be used during the installation process.
                 This will also be the default language for your Coral community.
               </Typography>
