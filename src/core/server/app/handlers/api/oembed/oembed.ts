@@ -5,7 +5,7 @@ import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
 import { translate } from "coral-server/services/i18n";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
@@ -21,12 +21,12 @@ interface OEmbedQuery {
 
 export type OembedHandler = Pick<AppOptions, "i18n">;
 
-export const oembedHandler = ({ i18n }: OembedHandler): RequestHandler => {
+export const oembedHandler = ({
+  i18n,
+}: OembedHandler): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
-    // Tenant is guaranteed at this point.
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
+    const { tenant } = req.coral;
 
     try {
       const { type, url, maxWidth }: OEmbedQuery = validate(

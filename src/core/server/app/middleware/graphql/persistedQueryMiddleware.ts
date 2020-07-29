@@ -2,7 +2,7 @@ import { AppOptions } from "coral-server/app";
 import { RawQueryNotAuthorized } from "coral-server/errors";
 import { getPersistedQuery } from "coral-server/graph/persisted";
 import { hasFeatureFlag } from "coral-server/models/tenant";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import {
   GQLFEATURE_FLAG,
@@ -17,16 +17,10 @@ type PersistedQueryMiddlewareOptions = Pick<
 const persistedQueryMiddleware = ({
   persistedQueriesRequired,
   persistedQueryCache,
-}: PersistedQueryMiddlewareOptions): RequestHandler => async (
-  req,
-  res,
-  next
-) => {
+}: PersistedQueryMiddlewareOptions): RequestHandler<
+  TenantCoralRequest
+> => async (req, res, next) => {
   try {
-    if (!req.coral || !req.coral.tenant) {
-      throw new Error("tenant was not set");
-    }
-
     // Handle the payload if it is a persisted query.
     const body = req.method === "GET" ? req.query : req.body;
     const persisted = await getPersistedQuery(persistedQueryCache, body);

@@ -6,7 +6,7 @@ import { RequestLimiter } from "coral-server/app/request/limiter";
 import { linkUsersAvailable } from "coral-server/models/tenant";
 import { signTokenString } from "coral-server/services/jwt";
 import { link } from "coral-server/services/users";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 export interface LinkBody {
   email: string;
@@ -28,7 +28,7 @@ export const linkHandler = ({
   mongo,
   signingConfig,
   config,
-}: LinkOptions): RequestHandler => {
+}: LinkOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -42,9 +42,7 @@ export const linkHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
       if (!linkUsersAvailable(tenant)) {
@@ -62,13 +60,7 @@ export const linkHandler = ({
 
       // Account linking is complete! Return the new access token for the
       // request.
-      const token = await signTokenString(
-        signingConfig,
-        user,
-        tenant,
-        {},
-        coral.now
-      );
+      const token = await signTokenString(signingConfig, user, tenant, {}, now);
 
       return res.json({ token });
     } catch (err) {

@@ -25,7 +25,11 @@ import {
   isInstalled,
 } from "coral-server/services/tenant";
 import { create, CreateUser } from "coral-server/services/users";
-import { Request, RequestHandler } from "coral-server/types/express";
+import {
+  CoralRequest,
+  Request,
+  RequestHandler,
+} from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -37,7 +41,7 @@ export type TenantInstallCheckHandlerOptions = Pick<
 export const installCheckHandler = ({
   config,
   redis,
-}: TenantInstallCheckHandlerOptions): RequestHandler => {
+}: TenantInstallCheckHandlerOptions): RequestHandler<CoralRequest> => {
   const { managementEnabled, signingConfig } = managementSigningConfig(config);
   const limiter = new RequestLimiter({
     redis,
@@ -52,21 +56,16 @@ export const installCheckHandler = ({
       // Limit based on the IP address.
       await limiter.test(req, req.ip);
 
-      if (!req.coral) {
-        return next(new Error("coral was not set"));
-      }
+      // Pull the tenant out.
+      const { tenant, cache } = req.coral;
 
-      if (!req.coral.cache) {
-        return next(new Error("cache was not set"));
-      }
-
-      if (req.coral.tenant) {
-        // There's already a Tenant on the request! No need to process further.
+      // If there's already a Tenant on the request! No need to process further.
+      if (tenant) {
         return next(new TenantInstalledAlreadyError());
       }
 
       // Check to see if the server already has a tenant installed.
-      const alreadyInstalled = await isInstalled(req.coral.cache.tenant);
+      const alreadyInstalled = await isInstalled(cache.tenant);
       if (!alreadyInstalled) {
         // No tenants are installed at all, we can of course proceed with the
         // install now.
@@ -274,7 +273,7 @@ async function checkForInstallationToken(
     const { token } = await verifyInstallationTokenString(
       signingConfig,
       accessToken,
-      req.coral!.now
+      req.coral.now
     );
 
     // Check to see that the domain on the token matches the hostname on

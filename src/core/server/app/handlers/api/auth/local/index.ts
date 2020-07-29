@@ -1,6 +1,6 @@
 import { AppOptions } from "coral-server/app";
 import { handleLogout } from "coral-server/app/middleware/passport";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 export * from "./forgot";
 export * from "./signup";
@@ -10,7 +10,11 @@ export type LogoutOptions = Pick<AppOptions, "redis">;
 
 export const logoutHandler = ({
   redis,
-}: LogoutOptions): RequestHandler => async (req, res, next) => {
+}: LogoutOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
   try {
     // Get the user on the request.
     const user = req.user;

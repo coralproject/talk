@@ -439,6 +439,7 @@ exports[`renders message box when logged in 1`] = `
                   </div>
                 </div>
               </div>
+              
             </div>
             <div
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"

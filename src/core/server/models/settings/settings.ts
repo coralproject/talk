@@ -8,6 +8,7 @@ import {
   GQLGoogleAuthIntegration,
   GQLLiveConfiguration,
   GQLLocalAuthIntegration,
+  GQLMediaConfiguration,
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLPerspectiveExternalIntegration,
@@ -185,7 +186,6 @@ export type Settings = GlobalModerationSettings &
     | "createdAt"
     | "slack"
     | "announcement"
-    | "media"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -225,6 +225,11 @@ export type Settings = GlobalModerationSettings &
     newCommenters: NewCommentersConfiguration;
 
     rte?: GQLRTEConfiguration;
+
+    /**
+     * media is the configuration media content attached to Comment's.
+     */
+    media?: GQLMediaConfiguration;
   };
 
 export const defaultRTEConfiguration: GQLRTEConfiguration = {

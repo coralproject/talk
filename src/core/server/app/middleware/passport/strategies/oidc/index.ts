@@ -29,7 +29,7 @@ import {
 } from "coral-server/services/tenant/cache";
 import { findOrCreate } from "coral-server/services/users";
 import { validateUsername } from "coral-server/services/users/helpers";
-import { Request } from "coral-server/types/express";
+import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -355,9 +355,8 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("no id_token in params"));
     }
 
-    // Grab the tenant out of the request, as we need some more details. Coral
-    // is guaranteed at this point.
-    const { now, tenant } = req.coral!;
+    // Grab the tenant out of the request, as we need some more details.
+    const { now, tenant } = req.coral;
     if (!tenant) {
       // TODO: return a better error.
       return done(new Error("tenant not found"));
@@ -416,12 +415,8 @@ export default class OIDCStrategy extends Strategy {
     );
   }
 
-  private lookupStrategy(req: Request): OAuth2Strategy {
-    const { tenant } = req.coral!;
-    if (!tenant) {
-      // TODO: return a better error.
-      throw new Error("tenant not found");
-    }
+  private lookupStrategy(req: Request<TenantCoralRequest>): OAuth2Strategy {
+    const { tenant } = req.coral;
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
@@ -445,7 +440,7 @@ export default class OIDCStrategy extends Strategy {
     return tenantIntegration.strategy;
   }
 
-  public authenticate(req: Request) {
+  public authenticate(req: Request<TenantCoralRequest>) {
     try {
       // Lookup the strategy.
       const strategy = this.lookupStrategy(req);

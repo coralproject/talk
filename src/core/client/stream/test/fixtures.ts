@@ -108,6 +108,11 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  media: {
+    twitter: { enabled: false },
+    youtube: { enabled: false },
+    giphy: { enabled: false },
+  },
   multisite: false,
   featureFlags: [],
   rte: {

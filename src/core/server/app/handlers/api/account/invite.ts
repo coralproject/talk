@@ -8,7 +8,7 @@ import {
   redeem,
   verifyInviteTokenString,
 } from "coral-server/services/users/auth/invite";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 export type InviteCheckOptions = Pick<
   AppOptions,
@@ -20,7 +20,7 @@ export const inviteCheckHandler = ({
   signingConfig,
   mongo,
   config,
-}: InviteCheckOptions): RequestHandler => {
+}: InviteCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -41,9 +41,7 @@ export const inviteCheckHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Grab the token from the request.
       const tokenString = extractTokenFromRequest(req, true);
@@ -62,7 +60,7 @@ export const inviteCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);
@@ -92,7 +90,7 @@ export const inviteHandler = ({
   mongo,
   signingConfig,
   config,
-}: InviteOptions): RequestHandler => {
+}: InviteOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -113,9 +111,7 @@ export const inviteHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Grab the token from the request.
       const tokenString = extractTokenFromRequest(req, true);
@@ -143,7 +139,7 @@ export const inviteHandler = ({
         signingConfig,
         tokenString,
         { username, password },
-        coral.now
+        now
       );
 
       return res.sendStatus(204);

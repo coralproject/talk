@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import { NextFunction, RequestHandler, Response } from "express";
+import { NextFunction, Response } from "express";
 import { Redis } from "ioredis";
 import jwt from "jsonwebtoken";
 import passport, { Authenticator } from "passport";
@@ -20,7 +20,11 @@ import {
   revokeJWT,
   signTokenString,
 } from "coral-server/services/jwt";
-import { Request } from "coral-server/types/express";
+import {
+  Request,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -67,7 +71,11 @@ const LogoutTokenSchema = Joi.object().keys({
   exp: Joi.number().optional(),
 });
 
-export async function handleLogout(redis: Redis, req: Request, res: Response) {
+export async function handleLogout(
+  redis: Redis,
+  req: Request<TenantCoralRequest>,
+  res: Response
+) {
   // Extract the token from the request.
   const token = extractTokenFromRequest(req);
   if (!token) {
@@ -75,8 +83,7 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     return res.sendStatus(204);
   }
 
-  // Coral is guaranteed at this point.
-  const { now } = req.coral!;
+  const { now } = req.coral;
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
@@ -103,25 +110,15 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
 export async function handleSuccessfulLogin(
   user: User,
   signingConfig: JWTSigningConfig,
-  req: Request,
+  req: Request<TenantCoralRequest>,
   res: Response,
   next: NextFunction
 ) {
   try {
-    // Coral is guaranteed at this point.
-    const coral = req.coral!;
-
-    // Tenant is guaranteed at this point.
-    const tenant = coral.tenant!;
+    const { tenant, now } = req.coral;
 
     // Grab the token.
-    const token = await signTokenString(
-      signingConfig,
-      user,
-      tenant,
-      {},
-      coral.now
-    );
+    const token = await signTokenString(signingConfig, user, tenant, {}, now);
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -175,7 +172,7 @@ export async function handleOAuth2Callback(
   err: Error | null,
   user: User | null,
   signingConfig: JWTSigningConfig,
-  req: Request,
+  req: Request<TenantCoralRequest>,
   res: Response
 ) {
   const path = "/embed/auth/callback";
@@ -189,9 +186,7 @@ export async function handleOAuth2Callback(
   }
 
   try {
-    // Tenant is guaranteed at this point.
-    const coral = req.coral!;
-    const tenant = coral.tenant!;
+    const { tenant, now } = req.coral;
 
     // Grab the token.
     const accessToken = await signTokenString(
@@ -199,7 +194,7 @@ export async function handleOAuth2Callback(
       user,
       tenant,
       {},
-      coral.now
+      now
     );
 
     // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
@@ -235,7 +230,7 @@ export const wrapOAuth2Authn = (
   signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler => (req: Request, res, next) =>
+): RequestHandler<TenantCoralRequest> => (req, res, next) =>
   authenticator.authenticate(
     name,
     { ...options, session: false },
@@ -262,7 +257,7 @@ export const wrapAuthn = (
   signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler => (req: Request, res, next) =>
+): RequestHandler<TenantCoralRequest> => (req, res, next) =>
   authenticator.authenticate(
     name,
     { ...options, session: false },
@@ -291,7 +286,7 @@ export const wrapAuthn = (
  */
 export const authenticate = (
   authenticator: passport.Authenticator
-): RequestHandler => (req, res, next) =>
+): RequestHandler<TenantCoralRequest> => (req, res, next) =>
   authenticator.authenticate(
     "jwt",
     { session: false },

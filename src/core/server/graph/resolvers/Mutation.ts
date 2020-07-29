@@ -251,9 +251,13 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     flags: await ctx.mutators.Settings.disableFeatureFlag(input.flag),
     clientMutationId: input.clientMutationId,
   }),
-  createAnnouncement: async (source, { input }, ctx) => ({
+  createAnnouncement: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
     settings: await ctx.mutators.Settings.createAnnouncement(input),
-    clientMutationId: input.clientMutationId,
+    clientMutationId,
   }),
   deleteAnnouncement: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.deleteAnnouncement(),

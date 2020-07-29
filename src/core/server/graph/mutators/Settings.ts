@@ -71,7 +71,7 @@ export const Settings = ({
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
-  createAnnouncement: (input: GQLCreateAnnouncementInput) =>
+  createAnnouncement: (input: WithoutMutationID<GQLCreateAnnouncementInput>) =>
     createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
