@@ -46,7 +46,7 @@ function render(props: ReactionButtonProps) {
       active={Boolean(reacted)}
       data-testid={"comment-reaction-button"}
       variant="flat"
-      color="secondary"
+      color={reacted ? "primary" : "secondary"}
       fontSize="small"
       fontWeight="semiBold"
       paddingSize="extraSmall"
