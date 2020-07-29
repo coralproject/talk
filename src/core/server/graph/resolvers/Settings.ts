@@ -31,19 +31,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   },
   webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
   rte: ({ rte = defaultRTEConfiguration }) => rte,
-  media: ({ media }) => {
-    if (!media) {
-      return {
-        twitter: { enabled: false },
-        youtube: { enabled: false },
-        giphy: { enabled: false },
-      };
-    }
-
-    return {
-      twitter: media.twitter || { enabled: false },
-      youtube: media.youtube || { enabled: false },
-      giphy: media.giphy || { enabled: false, maxRating: "g" },
-    };
-  },
+  media: ({ media = {} }) => media,
 };

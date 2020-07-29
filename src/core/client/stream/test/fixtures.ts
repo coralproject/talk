@@ -108,6 +108,11 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  media: {
+    twitter: { enabled: false },
+    youtube: { enabled: false },
+    giphy: { enabled: false },
+  },
   multisite: false,
   featureFlags: [],
   rte: {
@@ -307,6 +312,7 @@ export const baseComment = createFixture<GQLComment>({
   body: "Comment Body",
   revision: {
     id: "revision-0",
+    media: undefined,
   },
   status: GQLCOMMENT_STATUS.NONE,
   createdAt: "2018-07-06T18:24:00.000Z",
