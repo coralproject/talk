@@ -78,6 +78,7 @@ exports[`renders comment stream 1`] = `
             >
               <button
                 className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -91,6 +92,7 @@ exports[`renders comment stream 1`] = `
               </button>
               <button
                 className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+                data-variant="outlined"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -202,6 +204,7 @@ exports[`renders comment stream 1`] = `
             </div>
             <button
               className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-fullWidth coral coral-createComment-signIn"
+              data-variant="filled"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -271,6 +274,7 @@ exports[`renders comment stream 1`] = `
                   <button
                     aria-label="Toggle featured comments tooltip"
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary FeaturedCommentTooltip-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -493,6 +497,7 @@ exports[`renders comment stream 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -521,6 +526,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <a
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        data-variant="flat"
                         disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
                         onBlur={[Function]}
@@ -636,6 +642,7 @@ exports[`renders comment stream 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -664,6 +671,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <a
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
+                        data-variant="flat"
                         disabled={false}
                         href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"
                         onBlur={[Function]}

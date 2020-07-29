@@ -65,7 +65,6 @@ exports[`renders profile 1`] = `
     >
       <a
         className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
-        data-color="regular"
         data-variant="textUnderlined"
         href="http://localhost/stories/story-1?commentID=comment-0"
         onBlur={[Function]}
@@ -150,7 +149,6 @@ exports[`renders profile 1`] = `
     >
       <a
         className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
-        data-color="regular"
         data-variant="textUnderlined"
         href="http://localhost/stories/story-1?commentID=comment-1"
         onBlur={[Function]}
@@ -179,8 +177,7 @@ exports[`renders profile 1`] = `
   <button
     aria-controls="coral-profile-commentHistory-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular CommentHistory-colorRegular Button-variantOutline CommentHistory-loadMore Button-uppercase Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
-    data-color="regular"
-    data-variant="outline"
+    data-variant="outlined"
     disabled={false}
     id="coral-profile-commentHistory-loadMore"
     onBlur={[Function]}

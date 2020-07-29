@@ -115,7 +115,6 @@ exports[`cancel edit 1`] = `
                 >
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -163,6 +162,7 @@ exports[`cancel edit 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -188,6 +188,7 @@ exports[`cancel edit 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -217,6 +218,7 @@ exports[`cancel edit 1`] = `
                       aria-label="Share"
                       aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -259,6 +261,7 @@ exports[`cancel edit 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -453,8 +456,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -468,7 +470,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -650,8 +651,7 @@ exports[`edit a comment: edit form 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -665,7 +665,6 @@ exports[`edit a comment: edit form 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -847,8 +846,7 @@ exports[`edit a comment: optimistic response 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase Button-disabled coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={true}
               onBlur={[Function]}
               onClick={[Function]}
@@ -862,7 +860,6 @@ exports[`edit a comment: optimistic response 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -997,7 +994,6 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 >
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1045,6 +1041,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1070,6 +1067,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1099,6 +1097,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       aria-label="Share"
                       aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1141,6 +1140,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1297,7 +1297,6 @@ exports[`edit a comment: server response 1`] = `
                 >
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1345,6 +1344,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1370,6 +1370,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1399,6 +1400,7 @@ exports[`edit a comment: server response 1`] = `
                       aria-label="Share"
                       aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1441,6 +1443,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1588,7 +1591,6 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1636,6 +1638,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1661,6 +1664,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1690,6 +1694,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       aria-label="Share"
                       aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1732,6 +1737,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1935,8 +1941,7 @@ exports[`shows expiry message: edit time expired 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -1950,7 +1955,6 @@ exports[`shows expiry message: edit time expired 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}

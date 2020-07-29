@@ -61,7 +61,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
           <Button
             id={"coral-profile-commentHistory-loadMore"}
             onClick={props.onLoadMore}
-            variant="outline"
+            variant="outlined"
             color="regular"
             fullWidth
             disabled={props.disableLoadMore}

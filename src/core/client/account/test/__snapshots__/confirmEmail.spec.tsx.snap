@@ -36,6 +36,7 @@ exports[`renders form 1`] = `
             <div>
               <button
                 className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth Confirm-submit"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}

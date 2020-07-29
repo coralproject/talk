@@ -290,7 +290,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         <Localized id="comments-commentForm-cancel">
                           <Button
                             color="mono"
-                            variant="outline"
+                            variant="outlined"
                             disabled={submitting}
                             onClick={props.onCancel}
                             fullWidth={matches}

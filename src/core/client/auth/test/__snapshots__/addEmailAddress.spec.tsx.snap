@@ -161,6 +161,7 @@ Your email address will be used to:
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -353,6 +354,7 @@ Your email address will be used to:
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -531,6 +533,7 @@ Your email address will be used to:
           >
             <button
               className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+              data-variant="filled"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -727,6 +730,7 @@ Your email address will be used to:
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -925,6 +929,7 @@ GraphQL request:4:3
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
