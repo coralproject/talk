@@ -126,8 +126,6 @@ $tab-stream-default: var(--palette-text-500);
     color: var(--palette-primary-500);
     font-weight: var(--font-weight-secondary-bold);
 
-    border-top: 1px solid var(--palette-primary-500);
-
     overflow: visible;
   }
 }
