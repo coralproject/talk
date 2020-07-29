@@ -4,7 +4,7 @@ exports[`create and remove reaction: Respected 1`] = `
 <button
   aria-label="Respected"
   aria-pressed={true}
-  className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary ReactionButton-reacted CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
+  className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorPrimary ReactionButton-reacted CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
   data-testid="comment-reaction-button"
   disabled={false}
   onBlur={[Function]}

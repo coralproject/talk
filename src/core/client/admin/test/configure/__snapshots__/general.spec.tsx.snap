@@ -1326,7 +1326,7 @@ each other's comments.
                     <button
                       aria-label="reacted"
                       aria-pressed={true}
-                      className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary Button-disabled ReactionButton-readOnly ReactionButton-reacted ReactionConfig-reactionButton ReactionButton-button"
+                      className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorPrimary Button-disabled ReactionButton-readOnly ReactionButton-reacted ReactionConfig-reactionButton ReactionButton-button"
                       data-testid="comment-reaction-button"
                       disabled={true}
                       onBlur={[Function]}
