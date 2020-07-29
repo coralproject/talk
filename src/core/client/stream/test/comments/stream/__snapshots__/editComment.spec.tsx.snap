@@ -426,6 +426,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 </div>
               </div>
             </div>
+            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -627,6 +628,7 @@ exports[`edit a comment: edit form 1`] = `
                 </div>
               </div>
             </div>
+            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -828,6 +830,7 @@ exports[`edit a comment: optimistic response 1`] = `
                 </div>
               </div>
             </div>
+            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -1899,6 +1902,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                 </div>
               </div>
             </div>
+            
           </div>
           <div
             className="ValidationMessage-root coral-validation-message"

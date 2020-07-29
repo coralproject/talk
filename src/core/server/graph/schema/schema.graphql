@@ -1749,7 +1749,7 @@ type Settings {
   """
   media is the configuration media content attached to Comment's.
   """
-  media: MediaConfiguration
+  media: MediaConfiguration!
 
   """
   featureFlags provides the enabled feature flags.
@@ -4422,7 +4422,7 @@ input GiphyMediaConfigurationInput {
   """
   maximum allowed rating for gifs, g, pg, pg-13, r
   """
-  maxRating: String!
+  maxRating: String
 
   """
   key is the API key for Giphy.

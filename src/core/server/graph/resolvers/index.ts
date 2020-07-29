@@ -25,6 +25,7 @@ import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
+import { GiphyMediaConfiguration } from "./GiphyMediaConfiguration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
@@ -53,12 +54,14 @@ import { Subscription } from "./Subscription";
 import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
+import { TwitterMediaConfiguration } from "./TwitterMediaConfiguration";
 import { User } from "./User";
 import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
 import { WebhookEndpoint } from "./WebhookEndpoint";
+import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
 const Resolvers: GQLResolver = {
   ApproveCommentPayload,
@@ -83,6 +86,7 @@ const Resolvers: GQLResolver = {
   FacebookAuthIntegration,
   FeatureCommentPayload,
   Flag,
+  GiphyMediaConfiguration,
   GoogleAuthIntegration,
   Invite,
   LiveConfiguration,
@@ -112,6 +116,7 @@ const Resolvers: GQLResolver = {
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,
+  TwitterMediaConfiguration,
   Time,
   User,
   UserModerationScopes,
@@ -119,6 +124,7 @@ const Resolvers: GQLResolver = {
   UsernameStatus,
   UserStatus,
   WebhookEndpoint,
+  YouTubeMediaConfiguration,
 };
 
 export default Resolvers;

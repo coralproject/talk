@@ -434,6 +434,7 @@ exports[`post a reply: open reply form 1`] = `
                   </div>
                 </div>
               </div>
+              
             </div>
             <div
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
