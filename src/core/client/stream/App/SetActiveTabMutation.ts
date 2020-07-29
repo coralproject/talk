@@ -5,7 +5,7 @@ import { createMutationContainer, LOCAL_ID } from "coral-framework/lib/relay";
 import { SetMainTabEvent } from "coral-stream/events";
 
 export interface SetActiveTabInput {
-  tab: "COMMENTS" | "PROFILE" | "%future added value";
+  tab: "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 }
 
 export type SetActiveTabMutation = (input: SetActiveTabInput) => Promise<void>;

@@ -11,12 +11,13 @@ import {
 
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";
+import Discussions from "../tabs/Discussions";
 import Profile from "../tabs/Profile";
 import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
+type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
 export interface AppProps {
   activeTab: TabValue;
@@ -37,6 +38,13 @@ const App: FunctionComponent<AppProps> = (props) => {
             data-testid="current-tab-pane"
           >
             <Comments />
+          </TabPane>
+          <TabPane
+            className={CLASSES.discussionsTabPane.$root}
+            tabID="DISCUSSIONS"
+            data-testid="current-tab-pane"
+          >
+            <Discussions />
           </TabPane>
           <TabPane
             className={CLASSES.myProfileTabPane.$root}

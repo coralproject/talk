@@ -46,7 +46,8 @@ export class TabBarContainer extends Component<Props> {
             : GQLSTORY_MODE.COMMENTS
         }
         activeTab={activeTab}
-        showProfileTab={Boolean(viewer)}
+        showProfileTab={!!viewer}
+        showDiscussionsTab={!!viewer}
         showConfigureTab={
           !!viewer &&
           !!story &&

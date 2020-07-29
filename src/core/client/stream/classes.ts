@@ -60,6 +60,8 @@ const CLASSES = {
      */
     myProfile: "coral coral-tabBar-tab coral-tabBar-myProfile",
 
+    discussions: "coral coral-tabBar-tab coral-tabBar-discussions",
+
     /**
      * configure is the button for the "Configure" tab.
      */
@@ -712,6 +714,10 @@ const CLASSES = {
    */
   myProfileTabPane: {
     $root: "coral coral-myProfile",
+  },
+
+  discussionsTabPane: {
+    $root: "coral coral-discussions",
   },
 
   /**

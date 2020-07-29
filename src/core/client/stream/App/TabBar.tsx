@@ -8,12 +8,13 @@ import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
+type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
   onTabClick: (tab: TabValue) => void;
   showProfileTab: boolean;
+  showDiscussionsTab: boolean;
   showConfigureTab: boolean;
   mode: "%future added value" | "COMMENTS" | "QA" | null;
 }
@@ -69,6 +70,31 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             )}
           </Tab>
 
+          {props.showDiscussionsTab && (
+            <Tab
+              className={cn(CLASSES.tabBar.discussions, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "DISCUSSIONS",
+                [styles.smallTab]: !matches,
+              })}
+              tabID="DISCUSSIONS"
+              variant="streamPrimary"
+              localizationId="general-tabBar-aria-discussions"
+            >
+              {matches ? (
+                <Localized id="general-tabBar-discussionsTab">
+                  <span>Discussions</span>
+                </Localized>
+              ) : (
+                <div>
+                  <Icon size="lg">list_alt</Icon>
+                  <Localized id="general-tabBar-discussionsTab">
+                    <div className={styles.smallText}>Discussions</div>
+                  </Localized>
+                </div>
+              )}
+            </Tab>
+          )}
+
           {props.showProfileTab && (
             <Tab
               className={cn(CLASSES.tabBar.myProfile, {
@@ -93,6 +119,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               )}
             </Tab>
           )}
+
           {props.showConfigureTab && (
             <Tab
               className={cn(CLASSES.tabBar.configure, {
