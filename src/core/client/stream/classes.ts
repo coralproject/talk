@@ -987,6 +987,24 @@ const CLASSES = {
   },
 
   moderateStream: "coral coral-general-moderateStreamLink",
+
+  discussions: {
+    $root: "coral coral-discussions",
+    mostActiveDiscussions: "coral coral-mostActiveDiscussions",
+    myOngoingDiscussions: "coral coral-myOngoingDiscussions",
+    header: "coral coral-discussions-header",
+    subHeader: "coral coral-discussions-subHeader",
+    discussionsList: "coral coral-discussions-list",
+    story: {
+      $root: "coral coral-discussions-story",
+      header: "coral coral-discussions-story-header",
+      commentsCount: "coral coral-discussions-story-commentsCount",
+      commentsCountIcon: "coral coral-discussions-story-commentsCountIcon",
+      date: "coral coral-discussions-story-date",
+      siteName: "coral coral-discussions-story-siteName",
+    },
+    viewHistoryButton: "coral coral-discussions-viewHistoryButton",
+  },
 };
 
 export default CLASSES;

@@ -7,6 +7,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
@@ -33,7 +34,7 @@ const DiscussionsContainer: FunctionComponent<Props> = (props) => {
     []
   );
   return (
-    <HorizontalGutter spacing={3}>
+    <HorizontalGutter spacing={3} className={CLASSES.discussions.$root}>
       <UserBoxContainer settings={props.settings} viewer={props.viewer} />
       <MostActiveDiscussionsContainer site={props.story.site} />
       <MyOngoingDiscussionsContainer
@@ -42,7 +43,12 @@ const DiscussionsContainer: FunctionComponent<Props> = (props) => {
         settings={props.settings}
       />
       <Localized id="discussions-viewFullHistory">
-        <Button variant="outline" color="stream" onClick={onFullHistoryClick}>
+        <Button
+          variant="outline"
+          color="stream"
+          onClick={onFullHistoryClick}
+          className={CLASSES.discussions.viewHistoryButton}
+        >
           View full comment history
         </Button>
       </Localized>

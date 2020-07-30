@@ -1,8 +1,10 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 
 import { MyOngoingDiscussionsContainer_settings } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_settings.graphql";
 import { MyOngoingDiscussionsContainer_viewer } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_viewer.graphql";
@@ -24,7 +26,7 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
   currentSiteID,
 }) => {
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, CLASSES.discussions.myOngoingDiscussions)}>
       <DiscussionsHeader
         header={
           <Localized id="discussions-myOngoingDiscussions">
@@ -51,9 +53,9 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
           </p>
         </Localized>
       )}
-      <ul className={styles.list}>
+      <ul className={cn(styles.list, CLASSES.discussions.discussionsList)}>
         {viewer.ongoingDiscussions.map((story) => (
-          <li key={story.id}>
+          <li key={cn(story.id, CLASSES.discussions.story.$root)}>
             <StoryRowContainer story={story} currentSiteID={currentSiteID} />
           </li>
         ))}

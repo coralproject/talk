@@ -1,8 +1,10 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 
 import { MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
 
@@ -17,7 +19,7 @@ interface Props {
 
 const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, CLASSES.discussions.mostActiveDiscussions)}>
       <DiscussionsHeader
         header={
           <Localized id="discussions-mostActiveDiscussions">
@@ -37,9 +39,12 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
         }
         icon="show_chart"
       />
-      <ol className={styles.list}>
+      <ol className={cn(styles.list, CLASSES.discussions.discussionsList)}>
         {site.topStories.map((story) => (
-          <li className={styles.listItem} key={story.id}>
+          <li
+            className={cn(styles.listItem, CLASSES.discussions.story.$root)}
+            key={story.id}
+          >
             <StoryRowContainer story={story} currentSiteID={site.id} />
           </li>
         ))}

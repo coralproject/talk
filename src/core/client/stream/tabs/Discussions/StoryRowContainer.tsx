@@ -1,7 +1,9 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import {
   Flex,
   HorizontalGutter,
@@ -26,22 +28,41 @@ const StoryRowContainer: FunctionComponent<Props> = ({
     <a href={story.url} className={styles.root}>
       <HorizontalGutter spacing={1}>
         {currentSiteID !== story.site.id && (
-          <p className={styles.siteName}>{story.site.name}</p>
+          <p
+            className={cn(styles.siteName, CLASSES.discussions.story.siteName)}
+          >
+            {story.site.name}
+          </p>
         )}
         {story.metadata && story.metadata.title && (
-          <h3 className={styles.storyTitle}>{story.metadata.title}</h3>
+          <h3
+            className={cn(styles.storyTitle, CLASSES.discussions.story.header)}
+          >
+            {story.metadata.title}
+          </h3>
         )}
-        {(!story.metadata || !story.metadata.title) && <h3>N/A</h3>}
         <Flex spacing={3}>
           {story.metadata && story.metadata.publishedAt && (
             <RelativeTime
               date={story.metadata.publishedAt}
-              className={styles.time}
+              className={cn(styles.time, CLASSES.discussions.story.date)}
             />
           )}
           <Flex spacing={1} alignItems="center">
-            <Icon className={styles.commentsCountIcon}>mode_comment</Icon>
-            <span className={styles.commentsCount}>
+            <Icon
+              className={cn(
+                styles.commentsCountIcon,
+                CLASSES.discussions.story.commentsCountIcon
+              )}
+            >
+              mode_comment
+            </Icon>
+            <span
+              className={cn(
+                styles.commentsCount,
+                CLASSES.discussions.story.commentsCount
+              )}
+            >
               {story.commentCounts.totalPublished}
             </span>
           </Flex>
