@@ -38,10 +38,7 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
             id="discussions-myOngoingDiscussions-subhead"
             $orgName={settings.organization.name}
           >
-            <>
-              Ranked by the most comments received over the last 24 hours on{" "}
-              {settings.organization.name}
-            </>
+            <>Where you’ve commented across {settings.organization.name}</>
           </Localized>
         }
         icon="history"
