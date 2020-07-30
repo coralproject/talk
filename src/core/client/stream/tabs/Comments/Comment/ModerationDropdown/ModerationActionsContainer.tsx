@@ -90,7 +90,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author.id !== viewer.id;
+      : comment.author.id !== viewer.id && !viewer.moderationScopes?.scoped;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   return (
@@ -285,6 +285,9 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ModerationActionsContainer_viewer on User {
       id
+      moderationScopes {
+        scoped
+      }
     }
   `,
 })(ModerationActionsContainer);
