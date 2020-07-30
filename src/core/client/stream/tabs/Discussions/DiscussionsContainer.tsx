@@ -44,7 +44,7 @@ const DiscussionsContainer: FunctionComponent<Props> = (props) => {
       />
       <Localized id="discussions-viewFullHistory">
         <Button
-          variant="outline"
+          variant="outlined"
           color="stream"
           onClick={onFullHistoryClick}
           className={CLASSES.discussions.viewHistoryButton}
