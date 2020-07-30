@@ -8,11 +8,11 @@
 
 .headlineMain {
   font-size: var(--font-size-7);
-  line-height: var(--line-height-7);
+  line-height: 1;
 }
 
 .subHeadlineMain {
   font-size: var(--font-size-8);
-  line-height: var(--line-height-8);
+  line-height: 1;
   font-weight: var(--font-weight-primary-bold);
 }
