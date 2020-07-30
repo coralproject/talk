@@ -2,9 +2,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: 1.375rem;
-
-  color: var(--palette-text-500);
+  line-height: 1.375;
 
   b,
   strong {
@@ -14,36 +12,26 @@
     font-size: var(--font-size-6);
     font-weight: var(--font-weight-primary-semi-bold);
     font-family: var(--font-family-primary);
-    line-height: var(--line-height-6);
-    color: var(--palette-text-500);
   }
   h2 {
     font-size: var(--font-size-5);
     font-weight: var(--font-weight-primary-semi-bold);
     font-family: var(--font-family-primary);
-    line-height: var(--line-height-5);
-    color: var(--palette-text-500);
   }
   h3 {
     font-size: var(--font-size-4);
     font-weight: var(--font-weight-primary-semi-bold);
     font-family: var(--font-family-primary);
-    line-height: var(--line-height-4);
-    color: var(--palette-text-500);
   }
   h4 {
     font-size: var(--font-size-3);
     font-weight: var(--font-weight-primary-semi-bold);
     font-family: var(--font-family-primary);
-    line-height: var(--line-height-3);
-    color: var(--palette-text-500);
   }
   h5 {
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-primary-semi-bold);
     font-family: var(--font-family-primary);
-    line-height: var(--line-height-2);
-    color: var(--palette-text-500);
   }
 
   *:first-child {

@@ -3,7 +3,7 @@
   font-family: var(--font-family-primary);
   color: $colors-teal-700;
   font-size: var(--font-size-1);
-  line-height: var(--line-height-3);
+  line-height: 1.33;
   text-decoration: underline;
 }
 

@@ -8,7 +8,7 @@ $comment-link-active: $colors-teal-900;
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-comment-body);
+  line-height: 1.45;
   color: $comment-content;
   overflow-wrap: break-word;
 

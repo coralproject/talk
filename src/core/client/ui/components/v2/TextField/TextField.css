@@ -21,7 +21,7 @@ $input-dark-focused-border: $colors-teal-900;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
   position: relative;
   display: block;
   padding: var(--spacing-2);
@@ -55,7 +55,7 @@ $input-dark-focused-border: $colors-teal-900;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
 }
 
 .colorRegular {

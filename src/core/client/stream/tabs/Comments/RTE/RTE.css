@@ -35,7 +35,7 @@ $commentsRTEPlaceholder: var(--palette-text-placeholder);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-6);
+  line-height: 1.5;
   color: $commentsRTEPlaceholder;
 }
 

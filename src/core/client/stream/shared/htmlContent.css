@@ -7,7 +7,7 @@ $commentsLinkColorHovered: var(--palette-primary-700);
   font-style: normal;
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-comment-body);
+  line-height: 1.45;
   color: var(--palette-text-500);
 
   overflow-wrap: break-word;

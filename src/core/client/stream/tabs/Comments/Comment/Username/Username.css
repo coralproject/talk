@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: bold;
   font-size: var(--font-size-4);
-  line-height: var(--line-height-4);
+  line-height: 1;
 }
 
 .popover {

@@ -7,7 +7,7 @@ $counterBadgeBackgroundAlertColor: var(--palette-grey-500);
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1.14;
   letter-spacing: calc(0.2em / 14);
   border-radius: var(--round-corners);
   padding: 1px 3px 1px 3px;
@@ -17,7 +17,7 @@ $counterBadgeBackgroundAlertColor: var(--palette-grey-500);
 .sizeSmall {
   font-size: var(--font-size-1);
   padding: 2px 3px;
-  line-height: var(--line-height-3);
+  line-height: 1.33;
 }
 
 .text {

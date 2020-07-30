@@ -19,7 +19,7 @@ $suspend-modal-text: var(--palette-text-500);
   font-size: var(--font-size-4);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
-  line-height: var(--line-height-5);
+  line-height: 1.11;
   color: $suspend-modal-text;
   margin: 0;
 }

@@ -36,7 +36,6 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
     - <a href="#font-weight-primary">font-weight-primary</a>
     - <a href="#font-weight-secondary">font-weight-secondary</a>
   - <a href="#font-size">font-size</a>
-  - <a href="#line-height">line-height</a>
   - <a href="#shadow">shadow</a>
   - <a href="#spacing">spacing</a>
   - <a href="#mini-unit">mini-unit</a>
@@ -233,28 +232,6 @@ Different font weights with matching values for the fonts.
 `--font-size-icon-sm: 0.875rem;`
 
 `--font-size-icon-xs: 0.75rem;`
-
-### line-height
-
-`--line-height-comment-body: 1.45rem;`
-
-`--line-height-field-description: 1.3rem;`
-
-`--line-height-1: 0.75rem;`
-
-`--line-height-2: 0.875rem;`
-
-`--line-height-3: 1rem;`
-
-`--line-height-4: 1.125rem;`
-
-`--line-height-5: 1.25rem;`
-
-`--line-height-6: 1.5rem;`
-
-`--line-height-7: 1.75rem;`
-
-`--line-height-8: 2rem;`
 
 ### shadow
 

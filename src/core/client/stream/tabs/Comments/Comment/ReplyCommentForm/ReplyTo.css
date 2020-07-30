@@ -21,7 +21,7 @@ $commentsReplyToBorderColor: var(--palette-grey-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
-  line-height: var(--line-height-2);
+  line-height: 1;
 }
 
 .username {
@@ -30,5 +30,5 @@ $commentsReplyToBorderColor: var(--palette-grey-500);
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-2);
-  line-height: var(--line-height-2);
+  line-height: 1;
 }

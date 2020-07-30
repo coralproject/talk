@@ -7,7 +7,7 @@ $sideNavActiveColor: var(--palette-text-500);
   color: $sideNavItemColor;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-4);
-  line-height: var(--line-height-5);
+  line-height: 1.11;
   font-weight: var(--font-weight-primary-regular);
   display: inline-block;
   padding: var(--spacing-2) var(--spacing-2)

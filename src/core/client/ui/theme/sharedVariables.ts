@@ -104,18 +104,6 @@ const variables = {
     iconSm: "0.875rem",
     iconXs: "0.75rem",
   },
-  lineHeight: {
-    commentBody: "1.45rem",
-    fieldDescription: "1.3rem",
-    1: "0.75rem",
-    2: "0.875rem",
-    3: "1rem",
-    4: "1.125rem",
-    5: "1.25rem",
-    6: "1.5rem",
-    7: "1.75rem",
-    8: "2rem",
-  },
   /** Different shadows that are currently used in Coral. */
   shadow: {
     popover: compat("1px 0px 4px rgba(0, 0, 0, 0.25)", "elevation-main"),

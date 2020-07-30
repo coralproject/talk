@@ -3,7 +3,7 @@
   font-family: var(--font-family-secondary);
   color: var(--palette-text-100);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
 
   padding-bottom: var(--spacing-3);
 }

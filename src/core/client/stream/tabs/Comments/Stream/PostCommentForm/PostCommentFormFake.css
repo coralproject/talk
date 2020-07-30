@@ -15,7 +15,7 @@ $commentsBorder: var(--palette-grey-300);
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-comment-body);
+  line-height: 1.45;
   color: var(--palette-text-500);
 
   display: block;
