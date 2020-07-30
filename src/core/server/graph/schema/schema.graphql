@@ -402,6 +402,11 @@ enum FEATURE_FLAG {
   in production environments.
   """
   REDUCED_SECURITY_MODE
+
+  """
+  DISCUSSIONS will enable the discussions tab for the comment stream.
+  """
+  DISCUSSIONS
 }
 
 # The moderation mode of the site.
