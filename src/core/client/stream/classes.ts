@@ -570,7 +570,8 @@ const CLASSES = {
    */
   sharePopover: {
     $root: "coral coral-sharePopover",
-    copyButton: "coral coral-sharePopover-copyButotn",
+    copyButton:
+      "coral coral-sharePopover-copyButotn coral-sharePopover-copyButton",
   },
 
   /**
