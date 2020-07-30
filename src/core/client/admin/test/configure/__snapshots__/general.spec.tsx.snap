@@ -662,7 +662,7 @@ here:
                       htmlFor="rte.strikethrough"
                     >
                       <span
-                        className="CheckBox-labelSpan"
+                        className="CheckBox-labelSpan coral coral-checkbox-label"
                       >
                         Strikethrough
                       </span>
@@ -689,7 +689,7 @@ here:
                         htmlFor="rte.spoiler"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Spoiler
                         </span>

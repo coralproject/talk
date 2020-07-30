@@ -542,7 +542,7 @@ address from the site and the database.
                         htmlFor="auth.integrations.local.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -590,7 +590,7 @@ address from the site and the database.
                           htmlFor="auth.integrations.local.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -616,7 +616,7 @@ address from the site and the database.
                           htmlFor="auth.integrations.local.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -665,7 +665,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.local.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -714,7 +714,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.oidc.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -1109,7 +1109,7 @@ the remaining fields. You may also enter the information manually.
                           htmlFor="auth.integrations.oidc.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1135,7 +1135,7 @@ the remaining fields. You may also enter the information manually.
                           htmlFor="auth.integrations.oidc.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1184,7 +1184,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.oidc.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1233,7 +1233,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.sso.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -1507,7 +1507,7 @@ more about creating a JWT Token with
                           htmlFor="auth.integrations.sso.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1533,7 +1533,7 @@ more about creating a JWT Token with
                           htmlFor="auth.integrations.sso.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1582,7 +1582,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.sso.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1631,7 +1631,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.google.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -1827,7 +1827,7 @@ to create and set up a web application. For more information visit:
                           htmlFor="auth.integrations.google.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1853,7 +1853,7 @@ to create and set up a web application. For more information visit:
                           htmlFor="auth.integrations.google.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1902,7 +1902,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.google.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1951,7 +1951,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.facebook.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -2147,7 +2147,7 @@ For more information visit:
                           htmlFor="auth.integrations.facebook.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -2173,7 +2173,7 @@ For more information visit:
                           htmlFor="auth.integrations.facebook.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -2222,7 +2222,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.facebook.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>

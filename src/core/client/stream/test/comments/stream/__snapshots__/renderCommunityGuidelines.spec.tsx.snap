@@ -63,7 +63,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       className="CommunityGuidelines-root coral coral-guidelines"
     >
       <div
-        className="Markdown-root"
+        className="Markdown-root coral coral-guidelines-content"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<h2 id=\\"community-guidelines\\">Community Guidelines</h2>

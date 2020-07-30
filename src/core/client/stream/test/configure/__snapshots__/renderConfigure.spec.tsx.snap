@@ -81,7 +81,7 @@ exports[`renders configure 1`] = `
               htmlFor="moderation"
             >
               <span
-                className="CheckBox-labelSpan"
+                className="CheckBox-labelSpan coral coral-checkbox-label"
               >
                 <div
                   className="ToggleConfig-title"
@@ -124,7 +124,7 @@ exports[`renders configure 1`] = `
               htmlFor="premodLinksEnable"
             >
               <span
-                className="CheckBox-labelSpan"
+                className="CheckBox-labelSpan coral coral-checkbox-label"
               >
                 <div
                   className="ToggleConfig-title"

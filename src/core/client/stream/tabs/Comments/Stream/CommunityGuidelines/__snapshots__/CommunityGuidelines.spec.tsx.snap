@@ -4,7 +4,9 @@ exports[`renders correctly 1`] = `
 <div
   className="CommunityGuidelines-root coral coral-guidelines"
 >
-  <Markdown>
+  <Markdown
+    className="coral coral-guidelines-content"
+  >
     **bold**
   </Markdown>
 </div>

@@ -7,7 +7,10 @@ const CLASSES = {
   /**
    * guidlines represents the box containing the guidlines.
    */
-  guidelines: "coral coral-guidelines",
+  guidelines: {
+    container: "coral coral-guidelines",
+    content: "coral coral-guidelines-content",
+  },
 
   /**
    * guidlines represents the box containing the guidlines.
