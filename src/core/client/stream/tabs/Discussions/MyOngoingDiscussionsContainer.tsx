@@ -3,13 +3,14 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, Icon } from "coral-ui/components/v2";
 
 import { MyOngoingDiscussionsContainer_settings } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_settings.graphql";
 import { MyOngoingDiscussionsContainer_viewer } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_viewer.graphql";
 
-// import Discussions from "./Discussions";
+import DiscussionsHeader from "./DiscussionsHeader";
 import StoryRowContainer from "./StoryRowContainer";
+
+import styles from "./MyOngoingDiscussionsContainer.css";
 
 interface Props {
   viewer: MyOngoingDiscussionsContainer_viewer;
@@ -23,34 +24,33 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
   currentSiteID,
 }) => {
   return (
-    <div>
-      <div>
-        <Flex>
-          <Icon>history</Icon>
+    <div className={styles.root}>
+      <DiscussionsHeader
+        header={
           <Localized id="discussions-myOngoingDiscussions">
-            <h2>My ongoing discussions</h2>
+            My ongoing discussions
           </Localized>
-        </Flex>
-
-        <Localized
-          id="discussions-myOngoingDiscussions-subhead"
-          $orgName={settings.organization.name}
-        >
-          <p>
-            Ranked by the most comments received over the last 24 hours on{" "}
-            {settings.organization.name}
-          </p>
-        </Localized>
-        <ul>
-          {viewer.ongoingDiscussions.map((story) => (
-            <StoryRowContainer
-              story={story}
-              key={story.id}
-              currentSiteID={currentSiteID}
-            />
-          ))}
-        </ul>
-      </div>
+        }
+        subHeader={
+          <Localized
+            id="discussions-myOngoingDiscussions-subhead"
+            $orgName={settings.organization.name}
+          >
+            <>
+              Ranked by the most comments received over the last 24 hours on{" "}
+              {settings.organization.name}
+            </>
+          </Localized>
+        }
+        icon="history"
+      />
+      <ul className={styles.list}>
+        {viewer.ongoingDiscussions.map((story) => (
+          <li key={story.id}>
+            <StoryRowContainer story={story} currentSiteID={currentSiteID} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -1,0 +1,8 @@
+.root {
+  font-family: var(--font-family-primary);
+}
+
+.list {
+  margin-left: 0;
+  padding-left: 0;
+}
