@@ -3,7 +3,7 @@ title: Integrating on your site
 permalink: /v5/integrating/cms/
 ---
 
-With Coral setup and running locally you can find your **Embed code** under **Configure** > **Advanced** (logged in as an ADMIN). It should look something like this, but with your domain in place of `CORAL_DOMAIN_NAME`. You can test placing the comment stream embed on your page with this sample embed script:
+With Coral setup and running locally you can find your **Embed code** under **Configure** > **Organization** > **Site Details** (when logged in as an ADMIN). It should look something like this, but with your domain in place of `CORAL_DOMAIN_NAME`. You can test placing the comment stream embed on your page with this sample embed script:
 
 ```
 <div id="coral_thread"></div>
