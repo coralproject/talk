@@ -28,6 +28,9 @@ class TabBarQuery extends Component<Props> {
             story(id: $storyID, url: $storyURL) {
               ...TabBarContainer_story
             }
+            settings {
+              ...TabBarContainer_settings
+            }
           }
         `}
         variables={{
@@ -41,6 +44,7 @@ class TabBarQuery extends Component<Props> {
 
           return (
             <TabBarContainer
+              settings={(props && props.settings) || null}
               story={(props && props.story) || null}
               viewer={(props && props.viewer) || null}
             />

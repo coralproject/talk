@@ -19,6 +19,7 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
+general-tabBar-discussionsTab = Discussions
 general-tabBar-configure = Configure
 
 general-tabBar-aria-comments =
@@ -33,6 +34,9 @@ general-tabBar-aria-myProfile =
 general-tabBar-aria-configure =
   .aria-label = Configure
   .title = My Profile
+general-tabBar-aria-discussions =
+  .aria-label = Discussions
+  .title = Discussions
 
 ## Comment Count
 
@@ -544,6 +548,17 @@ profile-changeUsername-recentChange = Your username has been changed in the last
 profile-changeUsername-youChangedYourUsernameWithin =
   You changed your username within the last { framework-timeago-time }. You may change your username again on: { $nextUpdate }.
 profile-changeUsername-close = Close
+
+## Discussions tab
+
+discussions-mostActiveDiscussions = Most active discussions
+discussions-mostActiveDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $siteName }
+discussions-mostActiveDiscussions-empty = You haven’t participated in any discussions
+discussions-myOngoingDiscussions = My ongoing discussions
+discussions-myOngoingDiscussions-subhead = Where you’ve commented across { $orgName }
+discussions-viewFullHistory = View full comment history
+discussions-discussionsQuery-errorLoadingProfile = Error loading profile
+discussions-discussionsQuery-storyNotFound = Story not found
 
 ## Comment Stream
 configure-stream-title =

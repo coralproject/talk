@@ -1,0 +1,19 @@
+.root {
+  border-bottom: 2px solid var(--palette-grey-200);
+  padding-bottom: var(--spacing-2);
+  font-family: var(--font-family-primary);
+}
+
+.header {
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-4);
+  line-height: 1;
+  color: var(--palette-text-900);
+  margin: 0;
+}
+
+.subHeader {
+  color: var(--palette-text-100);
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+}

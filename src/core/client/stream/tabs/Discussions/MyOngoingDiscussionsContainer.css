@@ -1,0 +1,14 @@
+.root {
+  font-family: var(--font-family-primary);
+}
+
+.list {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.emptyList {
+  margin: var(--spacing-3) 0 0 0;
+  color: var(--palette-text-100);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
