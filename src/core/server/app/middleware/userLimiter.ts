@@ -22,8 +22,12 @@ export const userLimiterMiddleware = ({
   });
 
   return async (req, res, next) => {
+    if (!req.user) {
+      return next();
+    }
+
     limiter
-      .test(req, req.user!.id)
+      .test(req, req.user.id)
       .then(() => next())
       .catch((err) => next(err));
   };

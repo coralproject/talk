@@ -183,6 +183,11 @@ export const settings = createFixture<GQLSettings>({
     premodEnabled: false,
     approvedCommentsThreshold: 2,
   },
+  media: {
+    twitter: { enabled: false },
+    giphy: { enabled: false },
+    youtube: { enabled: false },
+  },
   slack: {
     channels: [],
   },
@@ -640,6 +645,7 @@ export const baseComment = createFixture<GQLComment>({
   ],
   canModerate: true,
   revision: {
+    media: undefined,
     actionCounts: {
       flag: {
         reasons: {

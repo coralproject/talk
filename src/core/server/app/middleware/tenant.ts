@@ -29,15 +29,11 @@ export const tenantMiddleware = ({
       req.coral = {
         id,
         now,
+        cache: {
+          // Attach the tenant cache to the request.
+          tenant: cache,
+        },
         logger: logger.child({ context: "http", contextID: id }, true),
-      };
-    }
-
-    // Set the Coral Tenant Cache on the request.
-    if (!req.coral.cache) {
-      req.coral.cache = {
-        // Attach the tenant cache to the request.
-        tenant: cache,
       };
     }
 

@@ -71,9 +71,9 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
     const { url, id, notext } = queryMap[ref];
 
     // Compile the arguments used to generate the
-    const args: Record<string, string | number | undefined> = {
-      url,
+    const args: Record<string, string | undefined> = {
       id,
+      url,
       notext: notext ? "true" : "false",
       ref,
     };

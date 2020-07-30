@@ -59,12 +59,13 @@ const GiphyRetrieveResponseSchema = Joi.object().keys({
 
 export function ratingIsAllowed(rating: string, tenant: Tenant) {
   const compareRating = rating.toLowerCase();
+  const maxRating = tenant.media?.giphy.maxRating || "g";
 
-  if (tenant.media?.giphy.maxRating && RATINGS_ORDER.includes(compareRating)) {
-    return (
-      RATINGS_ORDER.indexOf(compareRating) <=
-      RATINGS_ORDER.indexOf(tenant.media.giphy.maxRating)
-    );
+  const compareIndex = RATINGS_ORDER.indexOf(compareRating);
+  const maxIndex = RATINGS_ORDER.indexOf(maxRating);
+
+  if (compareIndex >= 0 && maxIndex >= 0) {
+    return compareIndex <= maxIndex;
   }
 
   return false;
