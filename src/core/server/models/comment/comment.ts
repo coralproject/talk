@@ -1075,6 +1075,8 @@ export async function retrieveOngoingDiscussions(
   authorID: string,
   limit: number
 ) {
+  const timer = createTimer();
+
   // NOTE: (wyattjoh) this operation technically might have an issue when
   // handling users that have commented across many stories because the $sort
   // and $limit stages do not coalesce. This means that the $group phase may
@@ -1092,15 +1094,19 @@ export async function retrieveOngoingDiscussions(
           authorID,
         },
       },
-      { $sort: { createdAt: 1 } },
+      { $sort: { createdAt: -1 } },
       {
         $group: {
           _id: "$storyID",
+          createdAt: { $first: "$createdAt" },
         },
       },
+      { $sort: { createdAt: -1 } },
       { $limit: limit },
     ])
     .toArray();
+
+  logger.info({ took: timer() }, "ongoing discussions query");
 
   return results;
 }
