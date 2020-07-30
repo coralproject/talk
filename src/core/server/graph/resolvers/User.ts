@@ -69,4 +69,16 @@ export const User: GQLUserTypeResolver<user.User> = {
   ignoreable: ({ role }) => !roleIsStaff(role),
   recentCommentHistory: ({ id }): RecentCommentHistoryInput => ({ userID: id }),
   profiles: ({ profiles = [] }) => profiles,
+  ongoingDiscussions: async ({ id }, input, ctx) => {
+    // Get the ongoing discussions from the loader.
+    const results = await ctx.loaders.Stories.ongoingDiscussions(id, input);
+
+    // If there isn't any ids, then return nothing!
+    if (results.length === 0) {
+      return [];
+    }
+
+    // Get the Stories!
+    return ctx.loaders.Stories.story.loadMany(results.map(({ _id }) => _id));
+  },
 };

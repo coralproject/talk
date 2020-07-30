@@ -1,0 +1,37 @@
+.root {
+  text-decoration: none;
+  font-family: var(--font-family-primary);
+  color: var(--palette-text-100);
+  margin-bottom: var(--spacing-4);
+  display: block;
+}
+
+.siteName {
+  text-transform: uppercase;
+  font-size: var(--font-size-1);
+  margin-bottom: 0;
+  font-weight: var(--font-weight-primary-bold);
+}
+
+.storyTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-3);
+  line-height: 1.125;
+}
+
+.commentsCount {
+  color: var(--palette-primary-500);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-1);
+}
+
+.commentsCountIcon {
+  color: var(--palette-primary-400);
+  font-size: var(--font-size-1);
+}
+
+.time {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+}

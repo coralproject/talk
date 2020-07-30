@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
 
+import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
-import { TabBarContainer_viewer as ViewerData } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
-import { TabBarContainerLocal as Local } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
+import { TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
+import { TabBarContainerLocal } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 
 import {
   SetActiveTabInput,
@@ -21,43 +22,54 @@ import TabBar from "./TabBar";
 
 interface Props {
   story: TabBarContainer_story | null;
-  viewer: ViewerData | null;
-  local: Local;
+  settings: TabBarContainer_settings | null;
+  viewer: TabBarContainer_viewer | null;
+  local: TabBarContainerLocal;
   setActiveTab: SetActiveTabMutation;
 }
 
-export class TabBarContainer extends Component<Props> {
-  private handleSetActiveTab = (tab: SetActiveTabInput["tab"]) => {
-    void this.props.setActiveTab({ tab });
-  };
+export const TabBarContainer: FunctionComponent<Props> = ({
+  local: { activeTab },
+  viewer,
+  story,
+  settings,
+  setActiveTab,
+}) => {
+  const handleSetActiveTab = useCallback(
+    (tab: SetActiveTabInput["tab"]) => {
+      void setActiveTab({ tab });
+    },
+    [setActiveTab]
+  );
 
-  public render() {
-    const {
-      local: { activeTab },
-      viewer,
-      story,
-    } = this.props;
+  const showDiscussionsTab = useMemo(
+    () =>
+      !!viewer &&
+      !!settings &&
+      settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+    [viewer, settings]
+  );
 
-    return (
-      <TabBar
-        mode={
-          this.props.story
-            ? this.props.story.settings.mode
-            : GQLSTORY_MODE.COMMENTS
-        }
-        activeTab={activeTab}
-        showProfileTab={Boolean(viewer)}
-        showConfigureTab={
-          !!viewer &&
-          !!story &&
-          story.canModerate &&
-          can(viewer, Ability.CHANGE_STORY_CONFIGURATION)
-        }
-        onTabClick={this.handleSetActiveTab}
-      />
-    );
-  }
-}
+  const showConfigureTab = useMemo(
+    () =>
+      !!viewer &&
+      !!story &&
+      story.canModerate &&
+      can(viewer, Ability.CHANGE_STORY_CONFIGURATION),
+    [viewer, story]
+  );
+
+  return (
+    <TabBar
+      mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+      activeTab={activeTab}
+      showProfileTab={!!viewer}
+      showDiscussionsTab={showDiscussionsTab}
+      showConfigureTab={showConfigureTab}
+      onTabClick={handleSetActiveTab}
+    />
+  );
+};
 
 const enhanced = withSetActiveTabMutation(
   withLocalStateContainer(
@@ -79,6 +91,11 @@ const enhanced = withSetActiveTabMutation(
           settings {
             mode
           }
+        }
+      `,
+      settings: graphql`
+        fragment TabBarContainer_settings on Settings {
+          featureFlags
         }
       `,
     })(TabBarContainer)
