@@ -44,6 +44,13 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
         }
         icon="history"
       />
+      {viewer.ongoingDiscussions.length === 0 && (
+        <Localized id="discussions-mostActiveDiscussions-empty">
+          <p className={styles.emptyList}>
+            You haven’t participated in any discussions
+          </p>
+        </Localized>
+      )}
       <ul className={styles.list}>
         {viewer.ongoingDiscussions.map((story) => (
           <li key={story.id}>

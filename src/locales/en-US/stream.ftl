@@ -553,6 +553,7 @@ profile-changeUsername-close = Close
 
 discussions-mostActiveDiscussions = Most active discussions
 discussions-mostActiveDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $siteName }
+discussions-mostActiveDiscussions-empty = You haven’t participated in any discussions
 discussions-myOngoingDiscussions = My ongoing discussions
 discussions-myOngoingDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $orgName }
 discussions-viewFullHistory = View full comment history
