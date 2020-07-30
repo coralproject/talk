@@ -557,6 +557,8 @@ discussions-mostActiveDiscussions-empty = You haven’t participated in any disc
 discussions-myOngoingDiscussions = My ongoing discussions
 discussions-myOngoingDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $orgName }
 discussions-viewFullHistory = View full comment history
+discussions-discussionsQuery-errorLoadingProfile = Error loading profile
+discussions-discussionsQuery-storyNotFound = Story not found
 
 ## Comment Stream
 configure-stream-title =
