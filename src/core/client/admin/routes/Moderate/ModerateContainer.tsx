@@ -84,8 +84,13 @@ const ModerateContainer: FunctionComponent<Props> = ({
 
     // If we've loaded a specific story, we'll have the site on that story too,
     // so check if we're allowed to moderate it.
-    if (data.story && !data.story.site.canModerate) {
-      redirect();
+    if (data.story) {
+      if (!data.story.site.canModerate) {
+        redirect();
+        return;
+      }
+
+      // The viewer can moderate this site on the story!
       return;
     }
 
