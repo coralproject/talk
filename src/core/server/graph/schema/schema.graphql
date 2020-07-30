@@ -1765,7 +1765,7 @@ type Settings {
   """
   featureFlags provides the enabled feature flags.
   """
-  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN, MODERATOR])
+  featureFlags: [FEATURE_FLAG!]!
 
   """
   createdAt is the time that the Settings was created at.
