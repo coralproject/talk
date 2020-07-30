@@ -13,6 +13,6 @@
   font-size: var(--font-size-1);
   font-weight: var(--font-weight-primary-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1.33;
   color: var(--palette-text-100);
 }

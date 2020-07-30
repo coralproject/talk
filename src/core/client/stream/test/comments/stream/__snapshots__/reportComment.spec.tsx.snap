@@ -191,6 +191,7 @@ exports[`render popup 1`] = `
       >
         <button
           className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-cancelButton ReportCommentForm-cancel"
+          data-variant="outlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -204,6 +205,7 @@ exports[`render popup 1`] = `
         </button>
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-reportPopover-submitButton"
+          data-variant="filled"
           disabled={true}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -411,6 +413,7 @@ exports[`render popup expanded 1`] = `
       >
         <button
           className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-cancelButton ReportCommentForm-cancel"
+          data-variant="outlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -424,6 +427,7 @@ exports[`render popup expanded 1`] = `
         </button>
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-reportPopover-submitButton"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -574,8 +578,10 @@ exports[`report comment as offensive 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -598,8 +604,10 @@ exports[`report comment as offensive 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-0"
                     onBlur={[Function]}
@@ -627,7 +635,9 @@ exports[`report comment as offensive 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-0"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}

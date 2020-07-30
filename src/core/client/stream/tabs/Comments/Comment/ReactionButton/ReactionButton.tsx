@@ -37,11 +37,16 @@ function render(props: ReactionButtonProps) {
     <Button
       onClick={onClick}
       disabled={readOnly}
-      className={cn({ [styles.readOnly]: readOnly }, className, styles.button)}
+      className={cn(
+        { [styles.readOnly]: readOnly, [styles.reacted]: reacted },
+        className,
+        styles.button
+      )}
       aria-label={reacted ? labelActive : label}
+      active={Boolean(reacted)}
       data-testid={"comment-reaction-button"}
       variant="flat"
-      color="secondary"
+      color={reacted ? "primary" : "secondary"}
       fontSize="small"
       fontWeight="semiBold"
       paddingSize="extraSmall"
@@ -50,13 +55,13 @@ function render(props: ReactionButtonProps) {
         {props.isQA ? (
           <Icon className={styles.icon}>arrow_upward</Icon>
         ) : (
-          <Icon className={cn(styles.icon, { [styles.reacted]: reacted })}>
+          <Icon className={styles.icon}>
             {reacted ? (iconActive ? iconActive : icon) : icon}
           </Icon>
         )}
         <MatchMedia gtWidth="xs">
           {props.isQA ? (
-            <span className={reacted ? styles.reacted : ""}>
+            <span>
               {reacted ? (
                 <Localized id="qa-reaction-voted">Voted</Localized>
               ) : (
@@ -64,17 +69,11 @@ function render(props: ReactionButtonProps) {
               )}
             </span>
           ) : (
-            <span className={reacted ? styles.reacted : ""}>
-              {reacted ? labelActive : label}
-            </span>
+            <span>{reacted ? labelActive : label}</span>
           )}
         </MatchMedia>
         {!!totalReactions && (
-          <span
-            className={cn(styles.totalReactions, { [styles.reacted]: reacted })}
-          >
-            {totalReactions}
-          </span>
+          <span className={styles.totalReactions}>{totalReactions}</span>
         )}
       </Flex>
     </Button>

@@ -113,6 +113,8 @@ export class Button extends React.Component<Props> {
         href={href}
         anchor={href ? true : false}
         ref={forwardRef}
+        aria-pressed={active}
+        data-variant={variant}
         {...rest}
       >
         {children}

@@ -7,7 +7,7 @@
   font-size: var(--font-size-6);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-6);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -15,7 +15,7 @@
   font-size: var(--font-size-5);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-5);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -23,7 +23,7 @@
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -31,7 +31,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -39,7 +39,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-2);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -47,7 +47,7 @@
   font-size: var(--font-size-6);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-6);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -55,7 +55,7 @@
   font-size: var(--font-size-5);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-5);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -63,7 +63,7 @@
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -71,7 +71,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -79,7 +79,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-2);
+  line-height: 1;
   color: var(--palette-text-500);
 }
 
@@ -87,7 +87,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
   color: var(--palette-text-500);
 }
 
@@ -95,7 +95,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
   color: var(--palette-text-500);
 }
 
@@ -103,7 +103,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
   color: var(--palette-text-500);
 }
 
@@ -111,7 +111,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1.14;
   color: var(--palette-text-100);
 }
 
@@ -119,7 +119,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.285;
   color: var(--palette-text-500);
 }
 
@@ -127,7 +127,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-5);
+  line-height: 1.25;
   color: var(--palette-text-500);
 }
 
@@ -135,7 +135,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.285;
   color: var(--palette-text-500);
 }
 
@@ -143,7 +143,7 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-4);
+  line-height: 1.285;
   color: var(--palette-text-100);
 }
 
@@ -217,7 +217,7 @@
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-primary-semi-bold);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 0.89;
   color: var(--palette-text-500);
 }
 
@@ -227,6 +227,6 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-comment-body);
+  line-height: 1.45;
   color: var(--palette-text-500);
 }

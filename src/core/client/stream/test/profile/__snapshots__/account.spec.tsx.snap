@@ -29,6 +29,7 @@ exports[`renders the empty settings pane 1`] = `
       >
         <button
           className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myUsername-editButton coral coral-myUsername-change"
+          data-variant="flat"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -115,6 +116,7 @@ to sign in to your account or to receive notifications.
                     </div>
                     <button
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -138,6 +140,7 @@ to sign in to your account or to receive notifications.
       >
         <button
           className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myEmail-editButton"
+          data-variant="flat"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -162,6 +165,7 @@ to sign in to your account or to receive notifications.
       </div>
       <button
         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangePassword-changeButton coral coral-myPassword-editButton"
+        data-variant="flat"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -198,6 +202,7 @@ all your comments from this site.
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorNegative Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
           data-testid="deleteAccount-request"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}

@@ -150,8 +150,10 @@ exports[`renders conversation thread 1`] = `
                         >
                           <button
                             aria-label="Respect"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -174,8 +176,10 @@ exports[`renders conversation thread 1`] = `
                           </button>
                           <button
                             aria-label="Reply"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
+                            data-variant="flat"
                             disabled={false}
                             id="comments-commentContainer-replyButton-comment-from-staff-0"
                             onBlur={[Function]}
@@ -203,7 +207,9 @@ exports[`renders conversation thread 1`] = `
                             <button
                               aria-controls="permalink-popover-comment-from-staff-0"
                               aria-label="Share"
-                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                              aria-pressed={false}
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -243,8 +249,10 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -288,7 +296,8 @@ exports[`renders conversation thread 1`] = `
       more_vert
     </i>
     <button
-      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
+      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-conversationThread-showMore"
+      data-variant="flat"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -351,7 +360,7 @@ exports[`renders conversation thread 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
                     role="article"
                   >
                     <div
@@ -449,8 +458,10 @@ exports[`renders conversation thread 1`] = `
                         >
                           <button
                             aria-label="Respect"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -473,8 +484,10 @@ exports[`renders conversation thread 1`] = `
                           </button>
                           <button
                             aria-label="Reply"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
+                            data-variant="flat"
                             disabled={false}
                             id="comments-commentContainer-replyButton-comment-0"
                             onBlur={[Function]}
@@ -502,7 +515,9 @@ exports[`renders conversation thread 1`] = `
                             <button
                               aria-controls="permalink-popover-comment-0"
                               aria-label="Share"
-                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                              aria-pressed={false}
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -542,8 +557,10 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -734,8 +751,10 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-label="Respect"
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                               data-testid="comment-reaction-button"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -758,8 +777,10 @@ exports[`shows more of this conversation 1`] = `
                             </button>
                             <button
                               aria-label="Reply"
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                               data-testid="comment-reply-button"
+                              data-variant="flat"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-1"
                               onBlur={[Function]}
@@ -787,7 +808,9 @@ exports[`shows more of this conversation 1`] = `
                               <button
                                 aria-controls="permalink-popover-comment-1"
                                 aria-label="Share"
-                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -827,8 +850,10 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1007,8 +1032,10 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-label="Respect"
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                               data-testid="comment-reaction-button"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1031,8 +1058,10 @@ exports[`shows more of this conversation 1`] = `
                             </button>
                             <button
                               aria-label="Reply"
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                               data-testid="comment-reply-button"
+                              data-variant="flat"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-from-staff-0"
                               onBlur={[Function]}
@@ -1060,7 +1089,9 @@ exports[`shows more of this conversation 1`] = `
                               <button
                                 aria-controls="permalink-popover-comment-from-staff-0"
                                 aria-label="Share"
-                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1100,8 +1131,10 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
+                              aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1173,7 +1206,7 @@ exports[`shows more of this conversation 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
                     role="article"
                   >
                     <div
@@ -1271,8 +1304,10 @@ exports[`shows more of this conversation 1`] = `
                         >
                           <button
                             aria-label="Respect"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -1295,8 +1330,10 @@ exports[`shows more of this conversation 1`] = `
                           </button>
                           <button
                             aria-label="Reply"
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
+                            data-variant="flat"
                             disabled={false}
                             id="comments-commentContainer-replyButton-comment-0"
                             onBlur={[Function]}
@@ -1324,7 +1361,9 @@ exports[`shows more of this conversation 1`] = `
                             <button
                               aria-controls="permalink-popover-comment-0"
                               aria-label="Share"
-                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                              aria-pressed={false}
+                              className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                              data-variant="flat"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1364,8 +1403,10 @@ exports[`shows more of this conversation 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
+                            aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"
+                            data-variant="flat"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}

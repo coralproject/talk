@@ -37,9 +37,11 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
       className={cn(styles.root, CLASSES.myComment.$root)}
       data-testid={`historyComment-${props.id}`}
     >
-      <div className={CLASSES.myComment.commentOn}>
+      <div>
         <Localized id="profile-historyComment-comment-on">
-          <span className={styles.commentOn}>Comment on:</span>
+          <span className={cn(CLASSES.myComment.commentOn, styles.commentOn)}>
+            Comment on:
+          </span>
         </Localized>
         <div className={cn(styles.storyTitle, CLASSES.myComment.story)}>
           {props.story.metadata ? props.story.metadata.title : "N/A"}

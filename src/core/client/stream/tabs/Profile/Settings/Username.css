@@ -3,5 +3,5 @@
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
 }

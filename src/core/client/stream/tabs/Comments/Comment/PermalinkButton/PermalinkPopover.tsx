@@ -66,6 +66,7 @@ const PermalinkPopover: FunctionComponent<Props> = ({
       <CopyToClipboard text={permalinkURL} onCopy={handleCopy}>
         <Button
           className={cn(
+            CLASSES.sharePopover.copyButton,
             styles.buttonRoot,
             copied ? styles.copied : styles.copy
           )}

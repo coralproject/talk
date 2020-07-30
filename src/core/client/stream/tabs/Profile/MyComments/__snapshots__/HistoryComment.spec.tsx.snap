@@ -5,14 +5,12 @@ exports[`renders correctly 1`] = `
   className="HistoryComment-root coral coral-myComment"
   data-testid="historyComment-comment-id"
 >
-  <div
-    className="coral coral-myComment-commentOn"
-  >
+  <div>
     <Localized
       id="profile-historyComment-comment-on"
     >
       <span
-        className="HistoryComment-commentOn"
+        className="coral coral-myComment-commentOn HistoryComment-commentOn"
       >
         Comment on:
       </span>

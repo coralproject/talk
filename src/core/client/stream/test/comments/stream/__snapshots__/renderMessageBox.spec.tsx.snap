@@ -27,6 +27,7 @@ exports[`renders message box when commenting disabled 1`] = `
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            data-variant="filled"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -40,6 +41,7 @@ exports[`renders message box when commenting disabled 1`] = `
           </button>
           <button
             className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            data-variant="outlined"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -157,7 +159,7 @@ exports[`renders message box when commenting disabled 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -179,10 +181,10 @@ exports[`renders message box when commenting disabled 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -277,10 +279,10 @@ exports[`renders message box when logged in 1`] = `
           Signed in as
         </div>
         <div
-          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
+          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
         >
           <div
-            className="UserBoxAuthenticated-username"
+            className="coral coral-viewerBox-username UserBoxAuthenticated-username"
           >
             Markus
           </div>
@@ -290,6 +292,7 @@ exports[`renders message box when logged in 1`] = `
             Not you? 
             <button
               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+              data-variant="flat"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -341,112 +344,107 @@ exports[`renders message box when logged in 1`] = `
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <div
-              className="CommentForm-commentFormBox"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+            <div>
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-postCommentForm-field"
               >
-                <label
-                  className="AriaInfo-root"
-                  htmlFor="comments-postCommentForm-field"
-                >
-                  Post a comment
-                </label>
+                Post a comment
+              </label>
+              <div
+                className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
+              >
                 <div>
-                  <div>
+                  <div
+                    className="coral coral-rte"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                  >
                     <div
-                      className="$root content placeholder toolbar container"
-                      onBlur={[Function]}
-                      onFocus={[Function]}
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                     >
                       <div
-                        className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
-                      >
-                        <div
-                          aria-placeholder="Post a comment"
-                          className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                          id="comments-postCommentForm-field"
-                        />
-                        <div
-                          aria-hidden="true"
-                          className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
-                        >
-                          Post a comment
-                        </div>
-                      </div>
+                        aria-placeholder="Post a comment"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        id="comments-postCommentForm-field"
+                      />
                       <div
-                        className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                        aria-hidden="true"
+                        className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
                       >
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bold"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_bold
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Italic"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_italic
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Blockquote"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_quote
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bulleted List"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_list_bulleted
-                          </i>
-                        </button>
+                        Post a comment
                       </div>
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
                     </div>
                   </div>
                 </div>
+                
               </div>
-              
             </div>
             <div
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createComment-submit"
-                data-color="stream"
                 data-variant="regular"
                 disabled={true}
                 onBlur={[Function]}
@@ -498,7 +496,7 @@ exports[`renders message box when logged in 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -520,10 +518,10 @@ exports[`renders message box when logged in 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -622,6 +620,7 @@ exports[`renders message box when not logged in 1`] = `
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            data-variant="filled"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -635,6 +634,7 @@ exports[`renders message box when not logged in 1`] = `
           </button>
           <button
             className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            data-variant="outlined"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -682,7 +682,7 @@ exports[`renders message box when not logged in 1`] = `
         >
           <div>
             <div
-              className="$root content placeholder toolbar container"
+              className="coral coral-rte"
               onBlur={[Function]}
               onFocus={[Function]}
             >
@@ -765,6 +765,7 @@ exports[`renders message box when not logged in 1`] = `
         </div>
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-fullWidth coral coral-createComment-signIn"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -813,7 +814,7 @@ exports[`renders message box when not logged in 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -835,10 +836,10 @@ exports[`renders message box when not logged in 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -937,6 +938,7 @@ exports[`renders message box when story isClosed 1`] = `
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+            data-variant="filled"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -950,6 +952,7 @@ exports[`renders message box when story isClosed 1`] = `
           </button>
           <button
             className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+            data-variant="outlined"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -1057,7 +1060,7 @@ exports[`renders message box when story isClosed 1`] = `
                   All Comments
                 </span>
                 <span
-                  className="Counter-root Counter-colorInherit Counter-sizeSmall"
+                  className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
                   <span
                     className="Counter-text"
@@ -1079,10 +1082,10 @@ exports[`renders message box when story isClosed 1`] = `
             Sort by
           </label>
           <span
-            className="SelectField-root"
+            className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}

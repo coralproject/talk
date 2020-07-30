@@ -50,7 +50,6 @@ exports[`renders community 1`] = `
                   <button
                     aria-label="Search"
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight UserTableFilter-adornment"
-                    data-color="dark"
                     data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -90,7 +89,7 @@ exports[`renders community 1`] = `
               >
                 <select
                   aria-label="Search by role"
-                  className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                  className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -147,7 +146,7 @@ exports[`renders community 1`] = `
               >
                 <select
                   aria-label="Search by user status"
-                  className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                  className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -200,7 +199,6 @@ exports[`renders community 1`] = `
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFlat Button-uppercase InviteUsers-button"
-          data-color="dark"
           data-testid="invite-users-button"
           data-variant="flat"
           onBlur={[Function]}
@@ -265,7 +263,6 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -330,7 +327,6 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -367,7 +363,6 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -428,7 +423,6 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -465,7 +459,6 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -526,7 +519,6 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -563,7 +555,6 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -609,7 +600,6 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change user status"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserStatusChange-button UserStatusChange-fullWidth"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -710,7 +700,6 @@ exports[`renders empty community 1`] = `
                   <button
                     aria-label="Search"
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight UserTableFilter-adornment"
-                    data-color="dark"
                     data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -750,7 +739,7 @@ exports[`renders empty community 1`] = `
               >
                 <select
                   aria-label="Search by role"
-                  className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                  className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -807,7 +796,7 @@ exports[`renders empty community 1`] = `
               >
                 <select
                   aria-label="Search by user status"
-                  className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                  className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -860,7 +849,6 @@ exports[`renders empty community 1`] = `
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFlat Button-uppercase InviteUsers-button"
-          data-color="dark"
           data-testid="invite-users-button"
           data-variant="flat"
           onBlur={[Function]}

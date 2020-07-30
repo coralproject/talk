@@ -114,8 +114,7 @@ exports[`cancel edit 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -127,7 +126,7 @@ exports[`cancel edit 1`] = `
                     type="button"
                   >
                     <div
-                      className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
                       <i
                         aria-hidden="true"
@@ -160,8 +159,10 @@ exports[`cancel edit 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -184,8 +185,10 @@ exports[`cancel edit 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -213,7 +216,9 @@ exports[`cancel edit 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-with-replies"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -253,8 +258,10 @@ exports[`cancel edit 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -334,99 +341,95 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="CommentForm-commentFormBox"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          <div>
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-editCommentForm-rte-comment-with-replies"
             >
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-editCommentForm-rte-comment-with-replies"
-              >
-                Edit comment
-              </label>
+              Edit comment
+            </label>
+            <div
+              className="CommentForm-commentFormBox coral coral-commentForm"
+            >
               <div>
-                <div>
+                <div
+                  className="coral coral-rte"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                >
                   <div
-                    className="$root content placeholder toolbar container"
-                    onBlur={[Function]}
-                    onFocus={[Function]}
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                   >
                     <div
-                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                      aria-placeholder="Edit comment"
+                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                      id="comments-editCommentForm-rte-comment-with-replies"
+                    />
+                  </div>
+                  <div
+                    className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                  >
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
                     >
-                      <div
-                        aria-placeholder="Edit comment"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                        id="comments-editCommentForm-rte-comment-with-replies"
-                      />
-                    </div>
-                    <div
-                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_bold
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
                     >
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bold"
-                        type="button"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_bold
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Italic"
-                        type="button"
+                        format_italic
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_italic
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Blockquote"
-                        type="button"
+                        format_quote
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bulleted List"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_quote
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bulleted List"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_list_bulleted
-                        </i>
-                      </button>
-                    </div>
+                        format_list_bulleted
+                      </i>
+                    </button>
                   </div>
                 </div>
               </div>
+              
             </div>
-            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -454,8 +457,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -469,7 +471,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -536,99 +537,95 @@ exports[`edit a comment: edit form 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="CommentForm-commentFormBox"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          <div>
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-editCommentForm-rte-comment-with-replies"
             >
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-editCommentForm-rte-comment-with-replies"
-              >
-                Edit comment
-              </label>
+              Edit comment
+            </label>
+            <div
+              className="CommentForm-commentFormBox coral coral-commentForm"
+            >
               <div>
-                <div>
+                <div
+                  className="coral coral-rte"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                >
                   <div
-                    className="$root content placeholder toolbar container"
-                    onBlur={[Function]}
-                    onFocus={[Function]}
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                   >
                     <div
-                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                      aria-placeholder="Edit comment"
+                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                      id="comments-editCommentForm-rte-comment-with-replies"
+                    />
+                  </div>
+                  <div
+                    className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                  >
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
                     >
-                      <div
-                        aria-placeholder="Edit comment"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                        id="comments-editCommentForm-rte-comment-with-replies"
-                      />
-                    </div>
-                    <div
-                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_bold
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
                     >
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bold"
-                        type="button"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_bold
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Italic"
-                        type="button"
+                        format_italic
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_italic
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Blockquote"
-                        type="button"
+                        format_quote
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bulleted List"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_quote
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bulleted List"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_list_bulleted
-                        </i>
-                      </button>
-                    </div>
+                        format_list_bulleted
+                      </i>
+                    </button>
                   </div>
                 </div>
               </div>
+              
             </div>
-            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -656,8 +653,7 @@ exports[`edit a comment: edit form 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -671,7 +667,6 @@ exports[`edit a comment: edit form 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -738,99 +733,95 @@ exports[`edit a comment: optimistic response 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="CommentForm-commentFormBox"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          <div>
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-editCommentForm-rte-comment-with-replies"
             >
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-editCommentForm-rte-comment-with-replies"
-              >
-                Edit comment
-              </label>
+              Edit comment
+            </label>
+            <div
+              className="CommentForm-commentFormBox coral coral-commentForm"
+            >
               <div>
-                <div>
+                <div
+                  className="coral coral-rte "
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                >
                   <div
-                    className="$root content placeholder toolbar container "
-                    onBlur={[Function]}
-                    onFocus={[Function]}
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
                   >
                     <div
-                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+                      aria-placeholder="Edit comment"
+                      className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
+                      id="comments-editCommentForm-rte-comment-with-replies"
+                    />
+                  </div>
+                  <div
+                    className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                  >
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
                     >
-                      <div
-                        aria-placeholder="Edit comment"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
-                        id="comments-editCommentForm-rte-comment-with-replies"
-                      />
-                    </div>
-                    <div
-                      className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_bold
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
                     >
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bold"
-                        type="button"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_bold
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Italic"
-                        type="button"
+                        format_italic
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_italic
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Blockquote"
-                        type="button"
+                        format_quote
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bulleted List"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_quote
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bulleted List"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_list_bulleted
-                        </i>
-                      </button>
-                    </div>
+                        format_list_bulleted
+                      </i>
+                    </button>
                   </div>
                 </div>
               </div>
+              
             </div>
-            
           </div>
           <div
             className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
@@ -858,8 +849,7 @@ exports[`edit a comment: optimistic response 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase Button-disabled coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={true}
               onBlur={[Function]}
               onClick={[Function]}
@@ -873,7 +863,6 @@ exports[`edit a comment: optimistic response 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}
@@ -1007,8 +996,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1020,7 +1008,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     type="button"
                   >
                     <div
-                      className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
                       <i
                         aria-hidden="true"
@@ -1053,8 +1041,10 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1077,8 +1067,10 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1106,7 +1098,9 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-with-replies"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1146,8 +1140,10 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1303,8 +1299,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1316,7 +1311,7 @@ exports[`edit a comment: server response 1`] = `
                     type="button"
                   >
                     <div
-                      className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
                       <i
                         aria-hidden="true"
@@ -1349,8 +1344,10 @@ exports[`edit a comment: server response 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1373,8 +1370,10 @@ exports[`edit a comment: server response 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1402,7 +1401,9 @@ exports[`edit a comment: server response 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-with-replies"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1442,8 +1443,10 @@ exports[`edit a comment: server response 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1590,8 +1593,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                    data-color="regular"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
                     data-testid="comment-edit-button"
                     data-variant="text"
                     onBlur={[Function]}
@@ -1603,7 +1605,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     type="button"
                   >
                     <div
-                      className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
                       <i
                         aria-hidden="true"
@@ -1636,8 +1638,10 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1660,8 +1664,10 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-replies"
                     onBlur={[Function]}
@@ -1689,7 +1695,9 @@ exports[`shows expiry message: edit form closed 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-with-replies"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1729,8 +1737,10 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1810,128 +1820,123 @@ exports[`shows expiry message: edit time expired 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="CommentForm-commentFormBox"
-          >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-half"
+          <div>
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-editCommentForm-rte-comment-with-replies"
             >
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-editCommentForm-rte-comment-with-replies"
-              >
-                Edit comment
-              </label>
+              Edit comment
+            </label>
+            <div
+              className="CommentForm-commentFormBox coral coral-commentForm"
+            >
               <div>
-                <div>
+                <div
+                  className="coral coral-rte "
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                >
                   <div
-                    className="$root content placeholder toolbar container "
-                    onBlur={[Function]}
-                    onFocus={[Function]}
+                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
                   >
                     <div
-                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container  RTE.module-contentEditableContainerDisabled"
+                      aria-placeholder="Edit comment"
+                      className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
+                      id="comments-editCommentForm-rte-comment-with-replies"
+                    />
+                  </div>
+                  <div
+                    className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                  >
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
                     >
-                      <div
-                        aria-placeholder="Edit comment"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
-                        id="comments-editCommentForm-rte-comment-with-replies"
-                      />
-                    </div>
-                    <div
-                      className="coral coral-rte-toolbar RTE-toolbar  RTE.module-toolbarDisabled RTE.module-toolbarBottom Toolbar.module-toolbar"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_bold
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
                     >
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bold"
-                        type="button"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_bold
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Italic"
-                        type="button"
+                        format_italic
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_italic
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Blockquote"
-                        type="button"
+                        format_quote
+                      </i>
+                    </button>
+                    <button
+                      className="Button.module-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bulleted List"
+                      type="button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_quote
-                        </i>
-                      </button>
-                      <button
-                        className="Button.module-button"
-                        disabled={false}
-                        onClick={[Function]}
-                        title="Bulleted List"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_list_bulleted
-                        </i>
-                      </button>
-                    </div>
+                        format_list_bulleted
+                      </i>
+                    </button>
                   </div>
                 </div>
               </div>
+              
             </div>
-            
           </div>
           <div
-            className="ValidationMessage-root coral-validation-message"
+            className="CallOut-root CallOut-negative CallOut-leftBorder coral coral-editComment-expiredTime"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm ValidationMessage-icon"
-              >
-                error
-              </i>
               <div
-                className="ValidationMessage-root coral coral-editComment-expiredTime coral-validation-message"
+                className="CallOut-icon CallOut-negative CallOut-leftIcon"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  error
+                </i>
+              </div>
+              <div
+                className="CallOut-content"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  className="CallOut-title CallOut-titleSemiBold"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm ValidationMessage-icon"
-                  >
-                    error
-                  </i>
-                  <span>
-                    Edit time has expired. You can no longer edit this comment. Why not post another one?
-                  </span>
+                  Edit time has expired. You can no longer edit this comment. Why not post another one?
                 </div>
+                <div
+                  className="CallOut-body"
+                />
               </div>
             </div>
           </div>
@@ -1940,8 +1945,7 @@ exports[`shows expiry message: edit time expired 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-editComment-cancel"
-              data-color="mono"
-              data-variant="outline"
+              data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -1955,7 +1959,6 @@ exports[`shows expiry message: edit time expired 1`] = `
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-editComment-submit"
-              data-color="stream"
               data-variant="regular"
               disabled={true}
               onBlur={[Function]}

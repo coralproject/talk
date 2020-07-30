@@ -13,6 +13,7 @@ exports[`renders correctly 1`] = `
         "colorRegular": "ShowConversationLink-colorRegular",
         "disabled": undefined,
         "mouseHover": "ShowConversationLink-mouseHover",
+        "sizeRegular": "ShowConversationLink-sizeRegular",
       }
     }
     color="regular"

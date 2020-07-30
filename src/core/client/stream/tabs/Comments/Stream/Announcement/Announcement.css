@@ -9,7 +9,7 @@
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
   color: var(--common-white)
 }
 

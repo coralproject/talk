@@ -104,7 +104,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
             <Localized id="conversation-modal-reply-show-replies">
               <Button
                 color="mono"
-                variant="outline"
+                variant="outlined"
                 onClick={onShowReplies}
                 fullWidth
               >

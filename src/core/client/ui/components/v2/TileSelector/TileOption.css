@@ -8,7 +8,6 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-5);
 
   display: inline-flex;
   align-items: center;
@@ -19,7 +18,7 @@
   border-radius: var(--round-corners);
   color: var(--palette-text-500);
   padding: var(--spacing-1);
-  line-height: var(--line-height-3);
+  line-height: 1;
   box-sizing: border-box;
   height: 100%;
 }

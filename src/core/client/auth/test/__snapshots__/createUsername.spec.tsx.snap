@@ -67,6 +67,7 @@ exports[`checks for invalid username 1`] = `
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -151,6 +152,7 @@ exports[`renders createUsername view 1`] = `
           >
             <button
               className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+              data-variant="filled"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -236,6 +238,7 @@ exports[`shows error when submitting empty form 1`] = `
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -340,6 +343,7 @@ GraphQL request:4:3
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -404,6 +408,7 @@ exports[`successfully sets username 1`] = `
   >
     <button
       className="BaseButton-root Button-base Button-filled Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

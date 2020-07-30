@@ -1,5 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import React, {
   EventHandler,
@@ -16,17 +17,18 @@ import { useToggleState } from "coral-framework/hooks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
   Button,
   ButtonIcon,
   Flex,
   HorizontalGutter,
+  Icon,
   MatchMedia,
   Message,
   MessageIcon,
   RelativeTime,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -76,6 +78,7 @@ interface Props {
   placeHolderId: string;
   bodyInputID: string;
   siteID: string;
+  topBorder?: boolean;
 }
 
 const CommentForm: FunctionComponent<Props> = (props) => {
@@ -140,67 +143,69 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   return props.onChange && props.onChange(state, form);
                 }}
               />
-              <div className={styles.commentFormBox}>
-                <Field
-                  name="body"
-                  validate={getCommentBodyValidators(props.min, props.max)}
-                >
-                  {({ input }) => (
-                    <>
-                      <HorizontalGutter size="half">
-                        {props.bodyLabel}
-                        <div>
-                          <Localized
-                            id={props.placeHolderId}
-                            attrs={{ placeholder: true }}
-                          >
-                            <RTEContainer
-                              inputID={props.bodyInputID}
-                              config={props.rteConfig}
-                              onFocus={props.onFocus}
-                              onWillPaste={onPaste}
-                              onChange={(html: string) => {
-                                input.onChange(html);
-                              }}
-                              value={input.value}
-                              placeholder={props.placeholder}
-                              disabled={submitting || props.disabled}
-                              ref={props.rteRef || null}
-                              toolbarButtons={
-                                props.mediaConfig &&
-                                props.mediaConfig.giphy.enabled ? (
-                                  <>
-                                    <Button
-                                      color="mono"
-                                      variant={
-                                        showGifSelector ? "regular" : "flat"
-                                      }
-                                      onClick={toggleGIFSelector}
-                                      iconLeft
-                                    >
-                                      <ButtonIcon>add</ButtonIcon>
-                                      GIF
-                                    </Button>
-                                  </>
-                                ) : null
-                              }
-                            />
-                          </Localized>
-                        </div>
-                      </HorizontalGutter>
-                    </>
+              <div>
+                {props.bodyLabel}
+                <div
+                  className={cn(
+                    styles.commentFormBox,
+                    {
+                      [styles.noTopBorder]: !props.topBorder,
+                    },
+                    CLASSES.commentForm
                   )}
-                </Field>
-                {props.mediaConfig && (
-                  <MediaField
-                    config={props.mediaConfig}
-                    siteID={props.siteID}
-                    media={media}
-                    setMedia={setMedia}
-                    showGIFSelector={showGifSelector}
-                    toggleGIFSelector={toggleGIFSelector}
-                  />
-                )}
+                >
+                  <Field
+                    name="body"
+                    validate={getCommentBodyValidators(props.min, props.max)}
+                  >
+                    {({ input }) => (
+                      <Localized
+                        id={props.placeHolderId}
+                        attrs={{ placeholder: true }}
+                      >
+                        <RTEContainer
+                          inputID={props.bodyInputID}
+                          config={props.rteConfig}
+                          onFocus={props.onFocus}
+                          onWillPaste={onPaste}
+                          onChange={(html: string) => {
+                            input.onChange(html);
+                          }}
+                          value={input.value}
+                          placeholder={props.placeholder}
+                          disabled={submitting || props.disabled}
+                          ref={props.rteRef || null}
+                          toolbarButtons={
+                            props.mediaConfig &&
+                            props.mediaConfig.giphy.enabled ? (
+                              <>
+                                <Button
+                                  color="mono"
+                                  variant={showGifSelector ? "regular" : "flat"}
+                                  onClick={toggleGIFSelector}
+                                  iconLeft
+                                >
+                                  <ButtonIcon>add</ButtonIcon>
+                                  GIF
+                                </Button>
+                              </>
+                            ) : null
+                          }
+                        />
+                      </Localized>
+                    )}
+                  </Field>
+                  {props.mediaConfig && (
+                    <MediaField
+                      config={props.mediaConfig}
+                      siteID={props.siteID}
+                      media={media}
+                      setMedia={setMedia}
+                      showGIFSelector={showGifSelector}
+                      toggleGIFSelector={toggleGIFSelector}
+                    />
+                  )}
+                </div>
               </div>
               {!props.expired && props.editableUntil && (
                 <Message
@@ -219,9 +224,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               {props.disabled ? (
                 <>
                   {props.disabledMessage && (
-                    <ValidationMessage>
-                      {props.disabledMessage}
-                    </ValidationMessage>
+                    <CallOut
+                      className={CLASSES.editComment.expiredTime}
+                      color="negative"
+                      title={props.disabledMessage}
+                      titleWeight="semiBold"
+                      icon={<Icon>error</Icon>}
+                    />
                   )}
                 </>
               ) : (
@@ -248,9 +257,12 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       {touched &&
                         (error ||
                           (localSubmitError && !dirtySinceLastSubmit)) && (
-                          <ValidationMessage>
-                            {error || localSubmitError}
-                          </ValidationMessage>
+                          <CallOut
+                            color="negative"
+                            title={error || localSubmitError}
+                            titleWeight="semiBold"
+                            icon={<Icon>error</Icon>}
+                          />
                         )}
                       {props.max && (
                         <RemainingCharactersContainer
@@ -263,7 +275,12 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                 </Field>
               )}
               {submitError && (
-                <ValidationMessage>{submitError}</ValidationMessage>
+                <CallOut
+                  color="negative"
+                  title={submitError}
+                  titleWeight="semiBold"
+                  icon={<Icon>error</Icon>}
+                />
               )}
               <Flex justifyContent="flex-end" spacing={1}>
                 <MatchMedia ltWidth="sm">
@@ -273,7 +290,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         <Localized id="comments-commentForm-cancel">
                           <Button
                             color="mono"
-                            variant="outline"
+                            variant="outlined"
                             disabled={submitting}
                             onClick={props.onCancel}
                             fullWidth={matches}
@@ -317,6 +334,10 @@ const CommentForm: FunctionComponent<Props> = (props) => {
       </Form>
     </div>
   );
+};
+
+CommentForm.defaultProps = {
+  topBorder: true,
 };
 
 export default CommentForm;

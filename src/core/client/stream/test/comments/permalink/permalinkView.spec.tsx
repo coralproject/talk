@@ -89,6 +89,7 @@ beforeEach(() => {
   }));
 });
 
+/* TODO (cvle) - flaky */
 it("renders permalink view", async () => {
   const tabPane = await waitForElement(() =>
     within(testRenderer.root).getByTestID("current-tab-pane")

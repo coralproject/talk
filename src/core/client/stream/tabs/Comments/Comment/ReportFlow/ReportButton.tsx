@@ -76,6 +76,7 @@ const ReportButton: FunctionComponent<Props> = ({
     <Button
       className={cn(CLASSES.comment.actionBar.reportButton)}
       variant={open ? "filled" : "flat"}
+      active={Boolean(open)}
       color="secondary"
       fontSize="small"
       fontWeight="semiBold"

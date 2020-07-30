@@ -7,7 +7,10 @@ const CLASSES = {
   /**
    * guidlines represents the box containing the guidlines.
    */
-  guidelines: "coral coral-guidelines",
+  guidelines: {
+    container: "coral coral-guidelines",
+    content: "coral coral-guidelines-content",
+  },
 
   /**
    * guidlines represents the box containing the guidlines.
@@ -29,6 +32,11 @@ const CLASSES = {
    * counter to show e.g. the amount of comments.
    */
   counter: "coral coral-counter",
+
+  /**
+   * commentForm is the border div around the RTE.
+   */
+  commentForm: "coral coral-commentForm",
 
   /**
    * rte represents the rich-text-editor
@@ -278,6 +286,12 @@ const CLASSES = {
      * $root represents the container containing a given Comment.
      */
     $root: "coral coral-comment",
+
+    /**
+     * highlight is attached to the comment container if the single
+     * conversation view is shown for this comment.
+     */
+    highlight: "coral coral-comment-highlight",
 
     /**
      * reacted signifies the number of reactions of the comment.
@@ -558,7 +572,8 @@ const CLASSES = {
    */
   sharePopover: {
     $root: "coral coral-sharePopover",
-    copyButton: "coral coral-sharePopover-copyButotn",
+    copyButton:
+      "coral coral-sharePopover-copyButotn coral-sharePopover-copyButton",
   },
 
   /**
@@ -616,6 +631,7 @@ const CLASSES = {
     logoutButton: "coral coral-viewerBox-logoutButton",
     signInButton: "coral coral-viewerBox-signInButton",
     registerButton: "coral coral-viewerBox-registerButton",
+    username: "coral coral-viewerBox-username",
   },
 
   /**

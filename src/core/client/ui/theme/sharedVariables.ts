@@ -79,13 +79,13 @@ const variables = {
   /** Different font weights with matching values for the fonts. */
   fontWeight: {
     primary: {
-      bold: compat("700", "font-weight-sans-bold"),
-      semiBold: compat("600", "font-weight-sans-medium"),
-      regular: compat("300", "font-weight-sans-regular"),
+      bold: compat("700", "font-weight-bold"),
+      semiBold: compat("600", "font-weight-medium"),
+      regular: compat("300", "font-weight-light"),
     },
     secondary: {
-      bold: compat("700", "font-weight-serif-bold"),
-      regular: compat("300", "font-weight-serif-regular"),
+      bold: compat("700", "font-weight-bold"),
+      regular: compat("300", "font-weight-light"),
     },
   },
   fontSize: {
@@ -103,18 +103,6 @@ const variables = {
     iconMd: "1.125rem",
     iconSm: "0.875rem",
     iconXs: "0.75rem",
-  },
-  lineHeight: {
-    commentBody: "1.45rem",
-    fieldDescription: "1.3rem",
-    1: "0.75rem",
-    2: "0.875rem",
-    3: "1rem",
-    4: "1.125rem",
-    5: "1.25rem",
-    6: "1.5rem",
-    7: "1.75rem",
-    8: "2rem",
   },
   /** Different shadows that are currently used in Coral. */
   shadow: {

@@ -9,7 +9,6 @@
 }
 
 .reacted {
-  color: var(--palette-primary-500);
   font-weight: var(--font-weight-primary-bold);
 }
 

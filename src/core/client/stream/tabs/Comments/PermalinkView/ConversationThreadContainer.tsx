@@ -115,7 +115,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
               disabled={isLoadingMore}
               variant="flat"
               fontSize="small"
-              paddingSize="medium"
+              paddingSize="small"
               color="secondary"
               upperCase
             >

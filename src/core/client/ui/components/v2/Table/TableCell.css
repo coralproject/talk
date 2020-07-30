@@ -11,18 +11,18 @@ $tableHeaderTextColor: var(--palette-text-500);
 
 .header {
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
   font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-2);
+    line-height: 1.14;
   color: $tableHeaderTextColor;
   padding: var(--spacing-3);
 }
 
 .body {
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-2);
+  line-height: 1.14;
   color: $tableBodyTextColor;
 }
 

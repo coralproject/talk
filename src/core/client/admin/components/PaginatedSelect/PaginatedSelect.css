@@ -20,7 +20,7 @@
   width: calc(20 * var(--mini-unit));
   margin-right: calc(var(--spacing-1) / 2);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-min);
+  line-height: 1.2;
   justify-content: space-between;
   background: var(--palette-background-input);
 }

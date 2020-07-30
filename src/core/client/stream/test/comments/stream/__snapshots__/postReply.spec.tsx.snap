@@ -134,8 +134,10 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -158,8 +160,10 @@ exports[`post a reply: open reply form 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={true}
                     className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-0"
                     onBlur={[Function]}
@@ -187,7 +191,9 @@ exports[`post a reply: open reply form 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-0"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -227,8 +233,10 @@ exports[`post a reply: open reply form 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -269,136 +277,131 @@ exports[`post a reply: open reply form 1`] = `
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <div
-              className="CommentForm-commentFormBox"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+            <div>
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-replyCommentForm-rte-comment-0"
               >
-                <label
-                  className="AriaInfo-root"
-                  htmlFor="comments-replyCommentForm-rte-comment-0"
+                Write a reply
+              </label>
+              <div
+                className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
                 >
-                  Write a reply
-                </label>
-                <div
-                  className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
+                  reply
+                </i>
+                <span>
+                   
+                </span>
+                <span
+                  className="ReplyTo-text coral coral-createReplyComment-replyToText"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
-                  >
-                    reply
-                  </i>
-                  <span>
-                     
-                  </span>
+                  Replying to 
                   <span
-                    className="ReplyTo-text coral coral-createReplyComment-replyToText"
+                    className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
                   >
-                    Replying to 
-                    <span
-                      className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
-                    >
-                      Markus
-                    </span>
+                    Markus
                   </span>
-                </div>
+                </span>
+              </div>
+              <div
+                className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
+              >
                 <div>
-                  <div>
+                  <div
+                    className="coral coral-rte"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                  >
                     <div
-                      className="$root content placeholder toolbar container"
-                      onBlur={[Function]}
-                      onFocus={[Function]}
+                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                     >
                       <div
-                        className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
-                      >
-                        <div
-                          aria-placeholder="Write a reply"
-                          className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                          id="comments-replyCommentForm-rte-comment-0"
-                        />
-                        <div
-                          aria-hidden="true"
-                          className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
-                        >
-                          Write a reply
-                        </div>
-                      </div>
+                        aria-placeholder="Write a reply"
+                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        id="comments-replyCommentForm-rte-comment-0"
+                      />
                       <div
-                        className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                        aria-hidden="true"
+                        className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
                       >
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bold"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_bold
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Italic"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_italic
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Blockquote"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_quote
-                          </i>
-                        </button>
-                        <button
-                          className="Button.module-button"
-                          disabled={false}
-                          onClick={[Function]}
-                          title="Bulleted List"
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-md"
-                          >
-                            format_list_bulleted
-                          </i>
-                        </button>
+                        Write a reply
                       </div>
+                    </div>
+                    <div
+                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                    >
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </i>
+                      </button>
+                      <button
+                        className="Button.module-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bulleted List"
+                        type="button"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_list_bulleted
+                        </i>
+                      </button>
                     </div>
                   </div>
                 </div>
+                
               </div>
-              
             </div>
             <div
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantOutline Button-uppercase coral coral-createReplyComment-cancel"
-                data-color="mono"
-                data-variant="outline"
+                data-variant="outlined"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -412,7 +415,6 @@ exports[`post a reply: open reply form 1`] = `
               </button>
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createReplyComment-submit"
-                data-color="stream"
                 data-variant="regular"
                 disabled={true}
                 onBlur={[Function]}
@@ -556,8 +558,7 @@ exports[`post a reply: optimistic response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase coral coral-comment-editButton"
-                        data-color="regular"
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
                         data-testid="comment-edit-button"
                         data-variant="text"
                         onBlur={[Function]}
@@ -569,7 +570,7 @@ exports[`post a reply: optimistic response 1`] = `
                         type="button"
                       >
                         <div
-                          className="Box-root Flex-root CommentContainer-editButton Flex-flex Flex-justifyCenter Flex-alignCenter"
+                          className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                         >
                           <i
                             aria-hidden="true"
@@ -629,8 +630,10 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-label="Respect"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-testid="comment-reaction-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -653,8 +656,10 @@ exports[`post a reply: optimistic response 1`] = `
                       </button>
                       <button
                         aria-label="Reply"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                         data-testid="comment-reply-button"
+                        data-variant="flat"
                         disabled={false}
                         id="comments-commentContainer-replyButton-uuid-0"
                         onBlur={[Function]}
@@ -682,7 +687,9 @@ exports[`post a reply: optimistic response 1`] = `
                         <button
                           aria-controls="permalink-popover-uuid-0"
                           aria-label="Share"
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                          aria-pressed={false}
+                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                          data-variant="flat"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -722,8 +729,10 @@ exports[`post a reply: optimistic response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}

@@ -24,6 +24,7 @@ exports[`renders permalink view with unknown comment 1`] = `
       >
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -37,6 +38,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         </button>
         <button
           className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+          data-variant="outlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -60,6 +62,7 @@ exports[`renders permalink view with unknown comment 1`] = `
       </div>
       <a
         className="BaseButton-root Button-base Button-flat Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeSmall Button-colorPrimary Button-underline coral coral-permalink-viewFullDiscussionButton"
+        data-variant="flat"
         disabled={false}
         href="http://localhost/"
         onBlur={[Function]}

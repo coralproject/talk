@@ -34,6 +34,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
       size="half"
       className={cn(styles.root, {
         [styles.highlight]: props.highlight,
+        [CLASSES.comment.highlight]: props.highlight,
       })}
     >
       <Flex

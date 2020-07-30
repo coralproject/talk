@@ -15,7 +15,7 @@
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-6);
-  line-height: var(--line-height-8);
+  line-height: 1.33;
 
   color: var(--palette-text-000);
 }
@@ -24,7 +24,7 @@
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-4);
-  line-height: var(--line-height-6);
+  line-height: 1.33;
 
   color: var(--palette-text-000);
 }
@@ -33,7 +33,7 @@
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-5);
+  line-height: 1.25;
 
   color: var(--palette-text-500);
 
@@ -49,7 +49,7 @@
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
-  line-height: var(--line-height-5);
+  line-height: 1.43;
 
   color: var(--palette-text-500);
 

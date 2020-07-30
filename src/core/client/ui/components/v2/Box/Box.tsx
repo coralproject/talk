@@ -147,7 +147,10 @@ const Box: FunctionComponent<Props> = (props) => {
 
   if (clone) {
     const child = React.Children.only(children) as ReactElement;
-    return React.cloneElement(child, innerProps);
+    return React.cloneElement(child, {
+      ...innerProps,
+      className: cn(child.props.className, innerProps.className),
+    });
   }
   if (React.isValidElement<any>(Container)) {
     return React.cloneElement(Container, { ...innerProps, children });

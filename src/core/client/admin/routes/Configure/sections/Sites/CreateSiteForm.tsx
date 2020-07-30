@@ -114,7 +114,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
               <Flex itemGutter justifyContent="flex-end">
                 <Localized id="configure-sites-site-form-cancel">
                   <Button
-                    variant="outline"
+                    variant="outlined"
                     size="large"
                     color="mono"
                     to="/admin/configure/organization"

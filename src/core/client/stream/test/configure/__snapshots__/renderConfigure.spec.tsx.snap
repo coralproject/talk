@@ -18,10 +18,10 @@ exports[`renders configure 1`] = `
         Signed in as
       </div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
+        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
       >
         <div
-          className="UserBoxAuthenticated-username"
+          className="coral coral-viewerBox-username UserBoxAuthenticated-username"
         >
           Moderator
         </div>
@@ -31,6 +31,7 @@ exports[`renders configure 1`] = `
           Not you? 
           <button
             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+            data-variant="flat"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -80,7 +81,7 @@ exports[`renders configure 1`] = `
               htmlFor="moderation"
             >
               <span
-                className="CheckBox-labelSpan"
+                className="CheckBox-labelSpan coral coral-checkbox-label"
               >
                 <div
                   className="ToggleConfig-title"
@@ -123,7 +124,7 @@ exports[`renders configure 1`] = `
               htmlFor="premodLinksEnable"
             >
               <span
-                className="CheckBox-labelSpan"
+                className="CheckBox-labelSpan coral coral-checkbox-label"
               >
                 <div
                   className="ToggleConfig-title"
@@ -149,6 +150,7 @@ exports[`renders configure 1`] = `
       <button
         className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
         data-testid="configure-stream-apply"
+        data-variant="filled"
         disabled={true}
         onBlur={[Function]}
         onFocus={[Function]}
@@ -185,6 +187,7 @@ story.
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
           data-testid="configure-addMessage"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -222,6 +225,7 @@ getting so much traffic that the comments are loading slowly.
       </div>
       <button
         className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+        data-variant="filled"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -257,6 +261,7 @@ will still be displayed.
       </div>
       <button
         className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorNegative Button-upperCase coral coral-closeCommentStream-closeButton"
+        data-variant="filled"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}

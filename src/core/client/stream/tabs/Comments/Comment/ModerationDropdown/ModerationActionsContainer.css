@@ -7,7 +7,7 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
 
   text-align: left;
 }
@@ -47,7 +47,7 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
 
   color: var(--palette-primary-500);
 

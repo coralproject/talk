@@ -112,7 +112,7 @@ $tab-stream-default: var(--palette-text-500);
   font-style: normal;
   font-weight: var(--font-weight-secondary-regular);
   font-size: var(--font-size-4);
-  line-height: var(--line-height-5);
+  line-height: 1.11;
 
   color: var(--palette-text-500);
 
@@ -125,8 +125,6 @@ $tab-stream-default: var(--palette-text-500);
 
     color: var(--palette-primary-500);
     font-weight: var(--font-weight-secondary-bold);
-
-    border-top: 1px solid var(--palette-primary-500);
 
     overflow: visible;
   }

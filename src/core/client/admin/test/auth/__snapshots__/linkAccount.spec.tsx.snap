@@ -104,7 +104,6 @@ link these enter your password.
                   </div>
                   <button
                     className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-                    data-color="regular"
                     data-variant="regular"
                     disabled={false}
                     onBlur={[Function]}
@@ -132,7 +131,6 @@ link these enter your password.
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantRegular Button-uppercase Button-fullWidth"
-                data-color="mono"
                 data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}

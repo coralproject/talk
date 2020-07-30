@@ -40,22 +40,22 @@
 
 .fontSizeExtraSmall {
   font-size: var(--font-size-1);
-  line-height: var(--line-height-3);
+  line-height: 1.33;
 }
 
 .fontSizeSmall {
   font-size: var(--font-size-2);
-  line-height: var(--line-height-3);
+  line-height: 1.14;
 }
 
 .fontSizeMedium {
   font-size: var(--font-size-2);
-  line-height: var(--line-height-3);
+  line-height: 1.14;
 }
 
 .fontSizeLarge {
   font-size: var(--font-size-3);
-  line-height: var(--line-height-3);
+  line-height: 1;
 }
 
 .textAlignLeft {

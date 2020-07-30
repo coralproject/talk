@@ -133,7 +133,7 @@ $button-text-stream-foreground-active: var(--palette-primary-700);
 
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);
-  line-height: var(--line-height-3);
+  line-height: 1;
 
   & > * {
     margin: 0 var(--spacing-1) 0 0;

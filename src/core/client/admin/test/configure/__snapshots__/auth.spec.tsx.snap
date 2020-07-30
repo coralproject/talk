@@ -123,7 +123,6 @@ exports[`renders configure auth 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeLarge Button-colorAlt Button-variantRegular Button-uppercase Button-disabled"
-            data-color="alt"
             data-testid="configure-sideBar-saveChanges"
             data-variant="regular"
             disabled={true}
@@ -461,7 +460,7 @@ address from the site and the database.
                     >
                       <select
                         aria-label="unit"
-                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor"
+                        className="SelectField-select DurationField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                         disabled={false}
                         name="auth.sessionDuration-unit"
                         onBlur={[Function]}
@@ -543,7 +542,7 @@ address from the site and the database.
                         htmlFor="auth.integrations.local.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -591,7 +590,7 @@ address from the site and the database.
                           htmlFor="auth.integrations.local.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -617,7 +616,7 @@ address from the site and the database.
                           htmlFor="auth.integrations.local.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -666,7 +665,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.local.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -715,7 +714,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.oidc.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -773,7 +772,6 @@ integration to register for a new account.
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase"
-                        data-color="mono"
                         data-variant="flat"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -964,7 +962,6 @@ the remaining fields. You may also enter the information manually.
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-disabled"
-                        data-color="regular"
                         data-variant="regular"
                         disabled={true}
                         id="configure-auth-oidc-discover"
@@ -1112,7 +1109,7 @@ the remaining fields. You may also enter the information manually.
                           htmlFor="auth.integrations.oidc.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1138,7 +1135,7 @@ the remaining fields. You may also enter the information manually.
                           htmlFor="auth.integrations.oidc.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1187,7 +1184,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.oidc.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1236,7 +1233,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.sso.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -1371,7 +1368,6 @@ more about creating a JWT Token with
                             </div>
                             <button
                               className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase"
-                              data-color="mono"
                               data-variant="flat"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1439,7 +1435,6 @@ more about creating a JWT Token with
                         >
                           <button
                             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-disabled"
-                            data-color="regular"
                             data-variant="regular"
                             disabled={true}
                             onBlur={[Function]}
@@ -1512,7 +1507,7 @@ more about creating a JWT Token with
                           htmlFor="auth.integrations.sso.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1538,7 +1533,7 @@ more about creating a JWT Token with
                           htmlFor="auth.integrations.sso.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1587,7 +1582,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.sso.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1636,7 +1631,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.google.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -1697,7 +1692,6 @@ to create and set up a web application. For more information visit:
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase"
-                        data-color="mono"
                         data-variant="flat"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -1833,7 +1827,7 @@ to create and set up a web application. For more information visit:
                           htmlFor="auth.integrations.google.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -1859,7 +1853,7 @@ to create and set up a web application. For more information visit:
                           htmlFor="auth.integrations.google.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -1908,7 +1902,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.google.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>
@@ -1957,7 +1951,7 @@ integration to register for a new account.
                         htmlFor="auth.integrations.facebook.enabled"
                       >
                         <span
-                          className="CheckBox-labelSpan"
+                          className="CheckBox-labelSpan coral coral-checkbox-label"
                         >
                           Enabled
                         </span>
@@ -2018,7 +2012,6 @@ For more information visit:
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-uppercase"
-                        data-color="mono"
                         data-variant="flat"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -2154,7 +2147,7 @@ For more information visit:
                           htmlFor="auth.integrations.facebook.targetFilter.admin"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Coral Admin
                           </span>
@@ -2180,7 +2173,7 @@ For more information visit:
                           htmlFor="auth.integrations.facebook.targetFilter.stream"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Comment Stream
                           </span>
@@ -2229,7 +2222,7 @@ integration to register for a new account.
                           htmlFor="auth.integrations.facebook.allowRegistration"
                         >
                           <span
-                            className="CheckBox-labelSpan"
+                            className="CheckBox-labelSpan coral coral-checkbox-label"
                           >
                             Allow Registration
                           </span>

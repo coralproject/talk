@@ -35,7 +35,7 @@ const ExperimentalTag: FunctionComponent<Props> = ({ classes, content }) => {
                 button: classes.button,
               }}
               active={visible}
-              activeColor="stream"
+              activeColor="primary"
               ariaLabel="Toggle experimental tooltip"
               aria-label="Toggle experimental tooltip"
               title="Toggle experimental tooltip"
