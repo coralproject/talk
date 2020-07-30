@@ -25,7 +25,7 @@ const StoryRowContainer: FunctionComponent<Props> = ({
   currentSiteID,
 }) => {
   return (
-    <a href={story.url} className={styles.root}>
+    <a href={story.url} className={styles.root} target="_parent">
       <HorizontalGutter spacing={1}>
         {currentSiteID !== story.site.id && (
           <p
