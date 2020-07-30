@@ -17,7 +17,7 @@
   font-weight: var(--font-weight-primary-semi-bold);
   color: var(--palette-text-500);
   font-size: var(--font-size-3);
-  line-height: var(--line-height-4);
+  line-height: 1.125;
 }
 
 .commentsCount {
