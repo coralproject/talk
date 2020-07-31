@@ -574,6 +574,11 @@ configure-moderation-perspective-defaultEndpoint =
 configure-moderation-perspective-accountNote =
   Para obter informações adicionais sobre como configurar o filtro de comentário tóxicos da Perspective API , visite:
   <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
+configure-moderation-perspective-proxy = Url do proxy para a Perspective API
+configure-moderation-perspective-proxy-detail =
+  Quando especificado, permite que requisições para a Perspective API utilizem o
+  proxy fornecido. Todas as requisições serão passados através do proxy conforme analisado
+  pelo pacote <externalLink>npm proxy-agent</externalLink>.
 
 configure-moderation-newCommenters-title = Nova aprovação do comentarista
 configure-moderation-newCommenters-enable = Habilitar nova aprovação do comentarista

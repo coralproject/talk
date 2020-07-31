@@ -930,6 +930,11 @@ type PerspectiveExternalIntegration {
   endpoint: String @auth(roles: [ADMIN])
 
   """
+  The proxy url that Coral should use to communicate with the perspective API.
+  """
+  proxyURL: String @auth(roles: [ADMIN])
+
+  """
   The key for the Perspective API integration.
   """
   key: String @auth(roles: [ADMIN])
@@ -4070,6 +4075,11 @@ input SettingsPerspectiveExternalIntegrationInput {
   The endpoint that Coral should use to communicate with the perspective API.
   """
   endpoint: String
+
+  """
+  The proxy used to communicate with the perspective API.
+  """
+  proxyURL: String
 
   """
   The key for the Perspective API integration.

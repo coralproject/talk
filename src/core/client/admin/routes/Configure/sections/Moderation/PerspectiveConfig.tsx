@@ -48,6 +48,7 @@ graphql`
       perspective {
         enabled
         endpoint
+        proxyURL
         key
         model
         threshold
@@ -302,6 +303,46 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               placeholder={TOXICITY_ENDPOINT_DEFAULT}
               spellCheck={false}
               fullWidth
+              meta={meta}
+            />
+          )}
+        </Field>
+      </FormField>
+      <FormField>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-perspective-proxy">
+            <Label htmlFor="configure-moderation-perspective-proxy-url">
+              Perspective proxy URL
+            </Label>
+          </Localized>
+          <Localized
+            id="configure-moderation-perspective-proxy-detail"
+            externalLink={
+              <ExternalLink href="https://www.npmjs.com/package/proxy-agent" />
+            }
+          >
+            <HelperText>
+              When specified, allows calls to Perspective API using the provided
+              proxy. All requests will then be passed through the appropriate
+              proxy as parsed by the npm proxy-agent package.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <Field
+          name="integrations.perspective.proxyURL"
+          parse={parseEmptyAsNull}
+          validate={validateURL}
+        >
+          {({ input, meta }) => (
+            <TextFieldWithValidation
+              {...input}
+              id="configure-moderation-perspective-proxy-url"
+              disabled={disabled}
+              fullWidth
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
               meta={meta}
             />
           )}

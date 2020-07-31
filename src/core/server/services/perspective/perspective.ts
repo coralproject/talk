@@ -4,7 +4,8 @@ import { URL } from "url";
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import { createFetch } from "coral-server/services/fetch";
+import { createFetch, FetchOptions } from "coral-server/services/fetch";
+import ProxyAgent from "proxy-agent";
 
 const fetch = createFetch({ name: "perspective" });
 
@@ -44,6 +45,7 @@ interface Options {
   endpoint?: string | null;
   key: string;
   timeout: number;
+  proxyURL?: string | null;
 }
 
 type Request =
@@ -124,7 +126,7 @@ function formatBody(req: Request): object {
 }
 
 export async function sendToPerspective(
-  { endpoint, key, timeout }: Options,
+  { endpoint, key, timeout, proxyURL }: Options,
   req: Request
 ) {
   // Prepare the URL to send the command to.
@@ -137,14 +139,23 @@ export async function sendToPerspective(
 
   try {
     // Create the request and send it.
-    const res = await fetch(url.toString(), {
+
+    const options: FetchOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       timeout,
       body,
-    });
+    };
+
+    if (proxyURL) {
+      options.agent = (new ProxyAgent(
+        proxyURL
+      ) as unknown) as FetchOptions["agent"];
+    }
+
+    const res = await fetch(url.toString(), options);
     if (!res.ok) {
       return {
         ok: res.ok,

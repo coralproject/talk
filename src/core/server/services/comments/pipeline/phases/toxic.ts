@@ -86,7 +86,12 @@ export const toxic: IntermediateModerationPhase = async ({
 
     // Get the response from perspective.
     const result = await sendToPerspective(
-      { key: integration.key, endpoint: integration.endpoint, timeout },
+      {
+        key: integration.key,
+        endpoint: integration.endpoint,
+        proxyURL: integration.proxyURL,
+        timeout,
+      },
       {
         operation: "comments:analyze",
         locale: tenant.locale,
