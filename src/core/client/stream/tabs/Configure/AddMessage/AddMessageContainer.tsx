@@ -55,7 +55,7 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
         >
           {removed && (
             <CallOut
-              color="positive"
+              color="success"
               icon={<Icon size="sm">check_circle</Icon>}
               title={
                 <Localized id="config-addMessage-removed">

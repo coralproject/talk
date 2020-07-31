@@ -40,7 +40,7 @@ const variables = {
       800: compat(colors.grey800, "palette-grey-darkest"),
       900: compat(colors.grey900, "palette-grey-darkest"),
     },
-    /** Color palette that is used for indicating something negative and is usually red. */
+    /** Color palette that is used for indicating something is error red. */
     error: {
       100: compat(colors.red100, "palette-error-lightest"),
       200: compat(colors.red200, "palette-error-lighter"),
@@ -52,7 +52,7 @@ const variables = {
       800: compat(colors.red800, "palette-error-darkest"),
       900: compat(colors.red900, "palette-error-darkest"),
     },
-    /** Color palette that is used for indicating something positive and is usually green. */
+    /** Color palette that is used for indicating something is success green. */
     success: {
       100: compat(colors.green100, "palette-success-lightest"),
       200: compat(colors.green200, "palette-success-lighter"),

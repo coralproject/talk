@@ -79,7 +79,7 @@ exports[`renders missing confirm token 1`] = `
             Oops Sorry!
           </div>
           <div
-            className="CallOut-root CallOut-negative CallOut-leftBorder"
+            className="CallOut-root CallOut-error CallOut-leftBorder"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"

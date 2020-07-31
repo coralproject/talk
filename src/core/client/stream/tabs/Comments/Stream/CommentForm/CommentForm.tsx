@@ -226,7 +226,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   {props.disabledMessage && (
                     <CallOut
                       className={CLASSES.editComment.expiredTime}
-                      color="negative"
+                      color="error"
                       title={props.disabledMessage}
                       titleWeight="semiBold"
                       icon={<Icon>error</Icon>}
@@ -258,7 +258,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         (error ||
                           (localSubmitError && !dirtySinceLastSubmit)) && (
                           <CallOut
-                            color="negative"
+                            color="error"
                             title={error || localSubmitError}
                             titleWeight="semiBold"
                             icon={<Icon>error</Icon>}
@@ -276,7 +276,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
               )}
               {submitError && (
                 <CallOut
-                  color="negative"
+                  color="error"
                   title={submitError}
                   titleWeight="semiBold"
                   icon={<Icon>error</Icon>}
