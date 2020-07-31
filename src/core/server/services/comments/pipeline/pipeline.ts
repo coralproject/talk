@@ -68,7 +68,12 @@ export interface ModerationPhaseContextInput {
   comment: RequireProperty<
     Partial<Omit<CreateCommentInput, "media">>,
     "body" | "ancestorIDs"
-  >;
+  > & {
+    /**
+     * id is used to provide the comment ID in the event this is a EDIT action.
+     */
+    id?: string;
+  };
   author: User;
   now: Date;
   action: "NEW" | "EDIT";

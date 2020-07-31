@@ -14,6 +14,7 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
+  getLatestRevision,
   GiphyMedia,
   retrieveComment,
   TwitterMedia,
@@ -110,8 +111,7 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
-  const lastRevision =
-    originalStaleComment.revisions[originalStaleComment.revisions.length - 1];
+  const lastRevision = getLatestRevision(originalStaleComment);
 
   let media: GiphyMedia | TwitterMedia | YouTubeMedia | undefined;
 
