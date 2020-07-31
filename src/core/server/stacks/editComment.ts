@@ -110,10 +110,24 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  const lastRevision =
+    originalStaleComment.revisions[originalStaleComment.revisions.length - 1];
+
   let media: GiphyMedia | TwitterMedia | YouTubeMedia | undefined;
-  if (input.media) {
-    // TODO: (wyattjoh) check to see if the media is the same.
+
+  // attach a new media object from input IF:
+  //   input.media is defined AND EITHER:
+  //      - previous revision has no media OR
+  //      - previous revision has media with a different URL
+  // otherwise, attach previous revision media if present
+
+  if (
+    input.media &&
+    (!lastRevision.media || lastRevision.media.url !== input.media.url)
+  ) {
     media = await attachMedia(tenant, input.media, input.body);
+  } else if (lastRevision.media) {
+    media = lastRevision.media;
   }
 
   // Run the comment through the moderation phases.
