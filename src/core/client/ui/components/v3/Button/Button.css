@@ -150,7 +150,7 @@
     }
   }
 
-  &.colorNegative {
+  &.colorError {
     color: var(--palette-text-000);
 
     &:not(.disabled),
@@ -174,7 +174,7 @@
     }
   }
 
-  &.colorPositive {
+  &.colorSuccess {
     color: var(--palette-text-000);
 
     &:not(.disabled),
@@ -256,7 +256,7 @@
     }
   }
 
-  &.colorNegative {
+  &.colorError {
     border-style: solid;
     border-width: 1px;
 
@@ -284,7 +284,7 @@
     }
   }
 
-  &.colorPositive {
+  &.colorSuccess {
     border-style: solid;
     border-width: 1px;
 
@@ -350,7 +350,7 @@
     }
   }
 
-  &.colorNegative {
+  &.colorError {
     &:not(.disabled),
     &:not(:disabled) {
       color: var(--palette-error-500);
@@ -367,7 +367,7 @@
     }
   }
 
-  &.colorPositive{
+  &.colorSuccess{
     &:not(.disabled),
     &:not(:disabled) {
       color: var(--palette-success-500);

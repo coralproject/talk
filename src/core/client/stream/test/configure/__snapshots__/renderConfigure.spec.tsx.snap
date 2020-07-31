@@ -260,7 +260,7 @@ no new comments may be submitted and all previously submitted comments
 will still be displayed.
       </div>
       <button
-        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorNegative Button-upperCase coral coral-closeCommentStream-closeButton"
+        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
         data-variant="filled"
         disabled={false}
         onBlur={[Function]}

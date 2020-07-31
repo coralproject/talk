@@ -69,7 +69,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
             {submitSucceeded && (
               <CallOut
                 className={CLASSES.configureCommentStream.successMessage}
-                color="positive"
+                color="success"
                 icon={<Icon size="sm">check_circle</Icon>}
                 title={
                   <Localized id="configure-stream-streamHasBeenUpdated">
@@ -81,7 +81,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
             {submitError && (
               <CallOut
                 className={CLASSES.configureCommentStream.errorMessage}
-                color="negative"
+                color="error"
                 icon={<Icon size="sm">error</Icon>}
                 title={submitError}
               />

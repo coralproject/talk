@@ -26,7 +26,7 @@ function getMessage(
       return (
         <CallOut
           className={cn(inReviewClassName)}
-          color="negative"
+          color="error"
           icon={<Icon size="sm">error</Icon>}
           onClose={onDismiss}
           titleWeight="semiBold"

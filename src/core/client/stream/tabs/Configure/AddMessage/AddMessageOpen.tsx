@@ -80,7 +80,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
       >
         {showSuccess && (
           <CallOut
-            color="positive"
+            color="success"
             icon={<Icon size="sm">check_circle</Icon>}
             title={
               <Localized id="config-addMessage-messageHasBeenAdded">
@@ -123,7 +123,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
                     CLASSES.configureCommentStream.applyButton,
                     styles.cancel
                   )}
-                  color="negative"
+                  color="error"
                   variant="outlined"
                   disabled={submitting}
                   upperCase

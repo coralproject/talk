@@ -51,7 +51,7 @@ const UnsubscribeForm: React.FunctionComponent<Props> = ({
                   notifications.
                 </div>
               </Localized>
-              {submitError && <CallOut color="negative" title={submitError} />}
+              {submitError && <CallOut color="error" title={submitError} />}
               <Localized id="unsubscribe-submit-unsubscribe">
                 <Button
                   type="submit"

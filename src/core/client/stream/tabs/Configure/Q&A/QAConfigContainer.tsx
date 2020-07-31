@@ -65,7 +65,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
       >
         {showSuccess && (
           <CallOut
-            color="positive"
+            color="success"
             icon={<Icon size="sm">check_circle</Icon>}
             titleWeight="semiBold"
             title={
@@ -88,7 +88,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
       >
         {showSuccess && (
           <CallOut
-            color="positive"
+            color="success"
             icon={<Icon size="sm">check_circle</Icon>}
             titleWeight="semiBold"
             title={

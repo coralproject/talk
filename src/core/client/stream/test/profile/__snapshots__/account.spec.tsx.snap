@@ -200,7 +200,7 @@ all your comments from this site.
           </div>
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorNegative Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
           data-testid="deleteAccount-request"
           data-variant="filled"
           disabled={false}

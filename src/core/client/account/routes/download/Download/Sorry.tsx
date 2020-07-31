@@ -7,7 +7,7 @@ import { CallOut } from "coral-ui/components/v3";
 const Sorry: FunctionComponent = () => {
   return (
     <CallOut
-      color="negative"
+      color="error"
       icon={<Icon>error</Icon>}
       titleWeight="semiBold"
       title={

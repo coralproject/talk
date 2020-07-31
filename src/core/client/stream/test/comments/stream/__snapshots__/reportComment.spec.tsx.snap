@@ -700,13 +700,13 @@ exports[`report comment as offensive 1`] = `
       </div>
     </div>
     <div
-      className="CallOut-root CallOut-positive CallOut-leftBorder"
+      className="CallOut-root CallOut-success CallOut-leftBorder"
     >
       <div
         className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
       >
         <div
-          className="CallOut-icon CallOut-positive CallOut-leftIcon"
+          className="CallOut-icon CallOut-success CallOut-leftIcon"
         >
           <i
             aria-hidden="true"

@@ -15,7 +15,7 @@ const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
   return (
     <CallOut
       className={CLASSES.createComment.rejected}
-      color="negative"
+      color="error"
       titleWeight="semiBold"
       icon={<Icon size="sm">error</Icon>}
       title={

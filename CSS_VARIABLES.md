@@ -127,7 +127,7 @@ Color palette that is used for grey shades.
 
 #### palette-error
 
-Color palette that is used for indicating something negative and is usually red.
+Color palette that is used for indicating something is error red.
 
 `--palette-error-100: #FCE5D9;  /* Before 6.3.0: --palette-error-lightest */`
 
@@ -149,7 +149,7 @@ Color palette that is used for indicating something negative and is usually red.
 
 #### palette-success
 
-Color palette that is used for indicating something positive and is usually green.
+Color palette that is used for indicating something is success green.
 
 `--palette-success-100: #D8F9D5;  /* Before 6.3.0: --palette-success-lightest */`
 
