@@ -9,7 +9,7 @@
 }
 
 .wrapper {
-  overflow-x: hidden;
+  overflow: hidden;
   /* adjust for button line-height being > 1 */
   margin-top: -2px;
 }
@@ -41,6 +41,6 @@
 }
 
 .buttonText {
-  overflow-x: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
 }

@@ -3,6 +3,6 @@
 }
 
 .buttonText {
-  overflow-x: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
