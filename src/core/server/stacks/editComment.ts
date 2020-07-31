@@ -14,6 +14,7 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
+  getLatestRevision,
   GiphyMedia,
   retrieveComment,
   TwitterMedia,
@@ -110,10 +111,22 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  const lastRevision = getLatestRevision(originalStaleComment);
+
   let media: GiphyMedia | TwitterMedia | YouTubeMedia | undefined;
+
+  // attach a new media object from input IF:
+  //   input.media is defined AND EITHER:
+  //      - previous revision has no media OR
+  //      - previous revision has media with a different URL
+  // otherwise, attach previous revision media if present
+
   if (input.media) {
-    // TODO: (wyattjoh) check to see if the media is the same.
-    media = await attachMedia(tenant, input.media, input.body);
+    if (!lastRevision.media || lastRevision.media.url !== input.media.url) {
+      media = await attachMedia(tenant, input.media, input.body);
+    } else if (lastRevision.media) {
+      media = lastRevision.media;
+    }
   }
 
   // Run the comment through the moderation phases.
