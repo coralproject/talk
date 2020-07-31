@@ -121,13 +121,12 @@ export default async function edit(
   //      - previous revision has media with a different URL
   // otherwise, attach previous revision media if present
 
-  if (
-    input.media &&
-    (!lastRevision.media || lastRevision.media.url !== input.media.url)
-  ) {
-    media = await attachMedia(tenant, input.media, input.body);
-  } else if (lastRevision.media) {
-    media = lastRevision.media;
+  if (input.media) {
+    if (!lastRevision.media || lastRevision.media.url !== input.media.url) {
+      media = await attachMedia(tenant, input.media, input.body);
+    } else if (lastRevision.media) {
+      media = lastRevision.media;
+    }
   }
 
   // Run the comment through the moderation phases.
