@@ -72,7 +72,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
 
   return (
     <CallOut
-      color="positive"
+      color="success"
       title={
         <Localized id="comments-reportPopover-thankYou">Thank you!</Localized>
       }

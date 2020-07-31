@@ -52,7 +52,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
       className={cn(styles.container, CLASSES.pendingAccountDeletion.container)}
     >
       <CallOut
-        color="negative"
+        color="error"
         borderPosition="top"
         className={CLASSES.pendingAccountDeletion.$root}
         icon={

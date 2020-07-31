@@ -105,9 +105,7 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
                     </FormField>
                   )}
                 </Field>
-                {submitError && (
-                  <CallOut color="negative" title={submitError} />
-                )}
+                {submitError && <CallOut color="error" title={submitError} />}
                 <Localized id="resetPassword-resetPassword">
                   <Button
                     type="submit"

@@ -22,7 +22,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   fontSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   textAlign?: "left" | "center" | "right";
   paddingSize?: "extraSmall" | "small" | "medium" | "large" | "none";
-  color?: "primary" | "secondary" | "positive" | "negative" | "none";
+  color?: "primary" | "secondary" | "success" | "error" | "none";
   variant?: "filled" | "outlined" | "flat" | "none";
 
   active?: boolean;
@@ -94,8 +94,8 @@ export class Button extends React.Component<Props> {
         [classes.paddingSizeLarge]: paddingSize === "large",
         [classes.colorPrimary]: color === "primary",
         [classes.colorSecondary]: color === "secondary",
-        [classes.colorPositive]: color === "positive",
-        [classes.colorNegative]: color === "negative",
+        [classes.colorSuccess]: color === "success",
+        [classes.colorError]: color === "error",
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
         [classes.underline]: underline,

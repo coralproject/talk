@@ -8,8 +8,8 @@ import styles from "./CallOut.css";
 
 type CallOutColor =
   | "mono"
-  | "positive"
-  | "negative"
+  | "success"
+  | "error"
   | "primary"
   | "warning"
   | "none";
@@ -54,8 +54,8 @@ const CallOut: FunctionComponent<Props> = ({
     classes.root,
     {
       [classes.mono]: color === "mono",
-      [classes.positive]: color === "positive",
-      [classes.negative]: color === "negative",
+      [classes.success]: color === "success",
+      [classes.error]: color === "error",
       [classes.primary]: color === "primary",
       [classes.warning]: color === "warning",
       [classes.leftBorder]: borderPosition === "leftSide",
@@ -66,8 +66,8 @@ const CallOut: FunctionComponent<Props> = ({
 
   const iconClasses = cn(classes.icon, {
     [classes.mono]: color === "mono" && iconColor === "inherit",
-    [classes.positive]: color === "positive" && iconColor === "inherit",
-    [classes.negative]: color === "negative" && iconColor === "inherit",
+    [classes.success]: color === "success" && iconColor === "inherit",
+    [classes.error]: color === "error" && iconColor === "inherit",
     [classes.primary]: color === "primary" && iconColor === "inherit",
     [classes.warning]: color === "warning" && iconColor === "inherit",
     [classes.leftIcon]: iconPosition === "left",

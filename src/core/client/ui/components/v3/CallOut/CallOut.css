@@ -59,10 +59,10 @@
   &.mono {
     color: var(--palette-text-500);
   }
-  &.positive {
+  &.success {
     color: var(--palette-success-500);
   }
-  &.negative {
+  &.error {
     color: var(--palette-error-500);
   }
   &.primary {
@@ -79,13 +79,13 @@
   color: var(--palette-text-500);
 }
 
-.positive {
+.success {
   background-color: var(--palette-success-100);
   border-color: var(--palette-success-500);
   color: var(--palette-text-500);
 }
 
-.negative {
+.error {
   background-color: $colors-stream-red-100;
   border-color: $colors-stream-red-500;
   color: var(--palette-text-500);

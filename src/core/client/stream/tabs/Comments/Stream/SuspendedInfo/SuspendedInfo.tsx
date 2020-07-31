@@ -24,7 +24,7 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
 
   return (
     <CallOut
-      color="negative"
+      color="error"
       iconColor="none"
       icon={
         <Icon size="sm" className={styles.icon}>

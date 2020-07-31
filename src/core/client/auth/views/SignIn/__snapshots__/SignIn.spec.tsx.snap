@@ -184,7 +184,7 @@ exports[`renders error 1`] = `
     >
       <withPropsOnChange(CallOut)
         className="coral coral-login-error"
-        color="negative"
+        color="error"
         title="Server Error"
       />
     </div>

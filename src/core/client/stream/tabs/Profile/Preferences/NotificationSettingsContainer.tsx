@@ -226,7 +226,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 <div className={styles.callOut}>
                   {submitError && showError && (
                     <CallOut
-                      color="negative"
+                      color="error"
                       onClose={closeError}
                       icon={<Icon size="sm">warning</Icon>}
                       titleWeight="semiBold"
@@ -235,7 +235,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                   )}
                   {submitSucceeded && showSuccess && (
                     <CallOut
-                      color="positive"
+                      color="success"
                       onClose={closeSuccess}
                       icon={<Icon size="sm">check_circle</Icon>}
                       titleWeight="semiBold"

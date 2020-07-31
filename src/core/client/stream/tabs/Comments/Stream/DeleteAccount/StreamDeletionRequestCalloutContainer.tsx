@@ -64,7 +64,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     <>
       {deletionDate && (
         <CallOut
-          color="negative"
+          color="error"
           className={CLASSES.pendingAccountDeletion.$root}
           borderPosition="top"
           iconColor="inherit"
