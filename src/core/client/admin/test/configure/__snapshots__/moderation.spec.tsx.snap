@@ -1063,6 +1063,51 @@ community model building purposes to improve the API over time.
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-moderation-perspective-proxy-url"
+                    >
+                      Perspective proxy URL
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      When specified, allows calls to Perspective API using the provided proxy.
+All requests will then be passed through the appropriate proxy as
+parsed by the npm proxy-agent package.
+                    </p>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                  >
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-moderation-perspective-proxy-url"
+                        name="integrations.perspective.proxyURL"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
               </fieldset>
             </div>
           </fieldset>

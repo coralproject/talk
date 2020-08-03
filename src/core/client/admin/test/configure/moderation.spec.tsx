@@ -245,6 +245,7 @@ it("change perspective settings", async () => {
                 model: null,
                 threshold: 0.1,
                 sendFeedback: false,
+                proxyURL: "https://proxy.valid.net",
               }
             );
             break;
@@ -278,6 +279,9 @@ it("change perspective settings", async () => {
   const endpointField = within(perspectiveContainer).getByLabelText(
     "Custom endpoint"
   );
+  const proxyURLField = within(perspectiveContainer).getByLabelText(
+    "Perspective proxy URL"
+  );
   const form = findParentWithType(perspectiveContainer, "form")!;
 
   // Let's turn it on.
@@ -302,6 +306,9 @@ it("change perspective settings", async () => {
   // Input malformed endpoint.
   act(() => endpointField.props.onChange("malformed url"));
 
+  // Input malformed proxy url
+  act(() => proxyURLField.props.onChange("malformed proxy url"));
+
   // Input malformed threshold.
   act(() => thresholdField.props.onChange("abc"));
 
@@ -311,7 +318,7 @@ it("change perspective settings", async () => {
   ).toBe(0);
   expect(
     within(perspectiveContainer).queryAllByText("Invalid URL").length
-  ).toBe(1);
+  ).toBe(2);
   expect(
     within(perspectiveContainer).queryAllByText(
       "Please enter a whole number between 0 and 100."
@@ -320,6 +327,9 @@ it("change perspective settings", async () => {
 
   // Input correct site.
   act(() => endpointField.props.onChange("https://custom-endpoint.net"));
+
+  // Input correct proxy URL
+  act(() => proxyURLField.props.onChange("https://proxy.valid.net"));
 
   // Input valid threshold.
   act(() => thresholdField.props.onChange(10));
@@ -380,6 +390,7 @@ it("change perspective send feedback setting", async () => {
     model: "TOXIC_MODEL",
     threshold: 0.1,
     sendFeedback: false,
+    proxyURL: "https://proxy.custom.net:3128",
   };
 
   const resolvers = createResolversStub<GQLResolver>({
@@ -393,6 +404,7 @@ it("change perspective send feedback setting", async () => {
           model: "TOXIC_MODEL",
           threshold: 0.1,
           sendFeedback: true,
+          proxyURL: "https://proxy.custom.net:3128",
         });
 
         return {
