@@ -67,7 +67,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             >
               <Flex alignItems="center" container="span">
                 <Icon className={styles.icon}>share</Icon>
-                <MatchMedia gtWidth="xs">
+                <MatchMedia gtWidth="sm">
                   <Localized id="comments-permalinkButton-share">
                     <span>Share</span>
                   </Localized>

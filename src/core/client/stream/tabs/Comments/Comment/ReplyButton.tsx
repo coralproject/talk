@@ -31,7 +31,7 @@ const ReplyButton: FunctionComponent<Props> = (props) => (
     >
       <Flex alignItems="center" container="span">
         <Icon className={styles.icon}>reply</Icon>
-        <MatchMedia gtWidth="xs">
+        <MatchMedia gtWidth="sm">
           <Localized id="comments-replyButton-reply">
             <span>Reply</span>
           </Localized>
