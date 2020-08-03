@@ -60,7 +60,7 @@ characters. Commenters will be alerted that they have gone over that number and 
 Set a limit on how long commenters have to edit their comments sitewide. Edited comments are marked as (Edited) on the comment stream and the moderation panel.
 
 #### **Closing comment streams**
-Set comment streams to close after a defined period of time after a story’s publication
+Set comment streams to close after a defined period of time after a story’s publication. When this feature is enabled, existing stories older than the defined period that have not been manually opened or closed will also be updated and set as closed. Manually opening or closing a story will permantenly override the auto-close functionality. 
 
 #### **Closed comment stream message**
 A message to appear when a story is closed for commenting.
