@@ -56,7 +56,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   );
 
   return (
-    <Modal open={open} onClose={onCancel}>
+    <Modal open={open} onClose={onCancel} disableScroll>
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           <Flex justifyContent="flex-end">
