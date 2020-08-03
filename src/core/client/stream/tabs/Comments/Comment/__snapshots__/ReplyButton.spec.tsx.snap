@@ -30,7 +30,7 @@ exports[`renders correctly 1`] = `
         reply
       </ForwardRef(forwardRef)>
       <MatchMediaWithContext
-        gtWidth="xs"
+        gtWidth="sm"
       >
         <Localized
           id="comments-replyButton-reply"
