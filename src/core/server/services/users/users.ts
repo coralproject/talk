@@ -138,44 +138,48 @@ export async function findOrCreate(
   // Validate the input.
   validateFindOrCreateUserInput(input, options);
 
-  let user: Readonly<User>;
-  let wasUpserted: boolean;
-
   try {
-    const result = await findOrCreateUser(mongo, tenant.id, input, now);
-    user = result.user;
-    wasUpserted = result.wasUpserted;
+    // Try to find or create the user.
+    const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+    return user;
   } catch (err) {
+    // If this error is related to a duplicate user error, we might have
+    // encountered a race related to the unique index. We should try once more
+    // to perform the operation.
+    if (err instanceof DuplicateUserError) {
+      // Retry the operation once more, if this operation fails, the error will
+      // exit this function.
+      const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+      return user;
+    }
+
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
     // the tenant has both local and another social profile enabled.
     if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
       // Pull the email address out of the input, and re-try creating the user
-      // given that.
+      // given that. We need to pull the verified property out because we don't
+      // want to have that embedded in the `...rest` object.
       const { email, emailVerified, ...rest } = input;
 
       // Create the user again this time, but associate the duplicate email to
       // the user account.
-      const result = await findOrCreateUser(
+      const { user } = await findOrCreateUser(
         mongo,
         tenant.id,
         { ...rest, duplicateEmail: email },
         now
       );
 
-      user = result.user;
-      wasUpserted = result.wasUpserted;
-    } else {
-      throw err;
+      return user;
     }
-  }
 
-  if (wasUpserted) {
-    // TODO: (wyattjoh) emit that a user was created
+    // The error wasn't related to a duplicate user or duplicate email error,
+    // so just re-throw that error again.
+    throw err;
   }
-
-  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-  return user;
 }
 
 export type CreateUser = FindOrCreateUserInput;
