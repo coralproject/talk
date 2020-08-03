@@ -831,7 +831,7 @@ Your email address will be used to:
       className="CallOut-root CallOut-error CallOut-leftBorder coral coral-login-error"
     >
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+        className="CallOut-container"
       >
         <div
           className="CallOut-icon CallOut-error CallOut-leftIcon"
