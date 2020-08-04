@@ -66,7 +66,7 @@ exports[`renders message box when commenting disabled 1`] = `
         className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+          className="CallOut-container"
         >
           <div
             className="CallOut-icon CallOut-mono CallOut-leftIcon"
@@ -990,7 +990,7 @@ exports[`renders message box when story isClosed 1`] = `
         className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+          className="CallOut-container"
         >
           <div
             className="CallOut-icon CallOut-mono CallOut-leftIcon"
