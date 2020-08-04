@@ -2,6 +2,7 @@ $commentTimestampColor: var(--palette-grey-500);
 
 .root {
   flex: 1;
+  overflow: hidden;
 }
 
 .highlight {
