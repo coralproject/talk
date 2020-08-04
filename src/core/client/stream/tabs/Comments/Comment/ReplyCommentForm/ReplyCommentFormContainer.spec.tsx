@@ -4,7 +4,8 @@ import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
 
-import { pureMerge, timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
+import { pureMerge } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
@@ -75,7 +76,7 @@ it("renders correctly", async () => {
 
   const renderer = createRenderer();
   renderer.render(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
@@ -89,7 +90,7 @@ it("renders with initialValues", async () => {
 
   const renderer = createRenderer();
   renderer.render(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
@@ -102,7 +103,7 @@ it("save values", async () => {
   );
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   wrapper.update();
   wrapper
     .first()
@@ -131,7 +132,7 @@ it("creates a comment", async () => {
   );
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   wrapper.update();
   wrapper.first().props().onSubmit(input, form);
   expect(
@@ -145,7 +146,7 @@ it("creates a comment", async () => {
       ...input,
     })
   ).toBeTruthy();
-  await timeout();
+  await waitFor();
   expect(onCloseStub.calledOnce).toBe(true);
 });
 
@@ -161,7 +162,7 @@ it("closes on cancel", async () => {
   );
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   wrapper.update();
   wrapper.findWhere((w) => !!w.prop("onCancel")).prop("onCancel")();
 
@@ -183,7 +184,7 @@ it("autofocuses", async () => {
   });
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   wrapper.update();
   wrapper
     .findWhere((n) => n.prop("rteRef"))
@@ -206,7 +207,7 @@ it("renders when story has been closed", async () => {
 
   const renderer = createRenderer();
   renderer.render(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
@@ -221,6 +222,6 @@ it("renders when commenting has been disabled", async () => {
   });
   const renderer = createRenderer();
   renderer.render(<ReplyCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

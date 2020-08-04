@@ -1,3 +1,4 @@
+import { setLongTimeout } from "long-settimeout";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -18,7 +19,7 @@ interface Props {
 function createTimeout(callback: () => void, closedAt: string) {
   const diff = new Date(closedAt).valueOf() - Date.now();
   if (diff > 0) {
-    return setTimeout(callback, diff);
+    return setLongTimeout(callback, diff);
   }
   return null;
 }
