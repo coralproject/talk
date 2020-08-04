@@ -3,6 +3,10 @@ $commentsConversationLinkColorHovered: var(--palette-primary-700);
 $commentsConversationLinkColorActive: var(--palette-primary-800);
 
 .conversationLink {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  text-align: left;
   &.sizeRegular {
     padding: 0;
   }

@@ -1,14 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import Responsive from "react-responsive";
 
 import CLASSES from "coral-stream/classes";
-import {
-  ClickOutside,
-  Flex,
-  Icon,
-  MatchMedia,
-  Popover,
-} from "coral-ui/components/v2";
+import { ClickOutside, Flex, Icon, Popover } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import PermalinkPopover from "./PermalinkPopover";
@@ -67,11 +62,11 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             >
               <Flex alignItems="center" container="span">
                 <Icon className={styles.icon}>share</Icon>
-                <MatchMedia gtWidth="xs">
+                <Responsive minWidth={400}>
                   <Localized id="comments-permalinkButton-share">
                     <span>Share</span>
                   </Localized>
-                </MatchMedia>
+                </Responsive>
               </Flex>
             </Button>
           </Localized>
