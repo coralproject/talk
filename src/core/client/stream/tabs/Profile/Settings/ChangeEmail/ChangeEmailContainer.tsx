@@ -81,7 +81,7 @@ interface FormProps {
   password: string;
 }
 
-const changeEmailContainer: FunctionComponent<Props> = ({
+const ChangeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
@@ -508,6 +508,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(changeEmailContainer);
+})(ChangeEmailContainer);
 
 export default enhanced;
