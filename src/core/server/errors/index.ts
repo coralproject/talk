@@ -252,8 +252,8 @@ export class StoryURLInvalidError extends CoralError {
 }
 
 export class DuplicateUserError extends CoralError {
-  constructor() {
-    super({ code: ERROR_CODES.DUPLICATE_USER });
+  constructor(cause?: Error) {
+    super({ cause, code: ERROR_CODES.DUPLICATE_USER });
   }
 }
 
