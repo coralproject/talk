@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -127,6 +128,7 @@ exports[`when has more replies renders hasMore 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -197,6 +199,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -267,6 +270,7 @@ exports[`when has more replies when showing all enable show all button after loa
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {

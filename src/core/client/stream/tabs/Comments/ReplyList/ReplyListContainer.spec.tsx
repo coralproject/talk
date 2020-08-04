@@ -32,6 +32,7 @@ it("renders correctly", () => {
         ],
         viewNewEdges: [],
       },
+      pending: null,
       lastViewerAction: null,
     },
     settings: {
@@ -66,6 +67,7 @@ it("renders correctly when replies are empty", () => {
       id: "comment-id",
       status: "NONE",
       replies: { edges: [], viewNewEdges: [] },
+      pending: null,
       lastViewerAction: null,
     },
     relay: {
@@ -107,6 +109,7 @@ describe("when has more replies", () => {
         ],
         viewNewEdges: [],
       },
+      pending: null,
       lastViewerAction: null,
     },
     settings: {

@@ -79,6 +79,11 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     CommentReplyCreatedSubscription
   );
   useEffect(() => {
+    // If the comment is pending, no need to subscribe the comment!
+    if (props.comment.pending) {
+      return;
+    }
+
     if (!props.story.settings.live.enabled) {
       return;
     }
@@ -89,10 +94,12 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     if (props.indentLevel !== 1) {
       return;
     }
+
     const disposable = subcribeToCommentReplyCreated({
       ancestorID: props.comment.id,
       liveDirectRepliesInsertion: props.liveDirectRepliesInsertion,
     });
+
     return () => {
       disposable.dispose();
     };
@@ -100,6 +107,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     subcribeToCommentReplyCreated,
     props.comment.id,
     props.indentLevel,
+    // TODO: (wyattjoh) investigate why this is here?
     props.relay.hasMore(),
     props.liveDirectRepliesInsertion,
     props.story.settings.live.enabled,
@@ -248,6 +256,7 @@ const ReplyListContainer3 = createReplyListContainer(
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -326,6 +335,7 @@ const ReplyListContainer2 = createReplyListContainer(
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -403,6 +413,7 @@ const ReplyListContainer1 = createReplyListContainer(
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
