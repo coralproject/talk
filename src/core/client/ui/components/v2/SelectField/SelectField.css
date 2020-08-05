@@ -15,8 +15,7 @@
 }
 
 .keyboardFocus:focus {
-  outline: 1px solid $colors-teal-500;
-  border: 1px solid $colors-teal-500;
+  @mixin outline;
 }
 
 .selectFont {
