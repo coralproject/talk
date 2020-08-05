@@ -19,13 +19,12 @@ const ReportFlowContainer: FunctionComponent<Props> = ({
   comment,
   onClose,
 }) => {
-  if (!viewer) {
-    return null;
-  }
-
   const onFormClose = useCallback(() => {
     onClose();
   }, [onClose]);
+  if (!viewer) {
+    return null;
+  }
 
   return <ReportCommentFormContainer comment={comment} onClose={onFormClose} />;
 };

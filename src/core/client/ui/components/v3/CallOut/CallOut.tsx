@@ -46,10 +46,6 @@ const CallOut: FunctionComponent<Props> = ({
   visible = true,
   onClose,
 }) => {
-  if (!visible) {
-    return null;
-  }
-
   const rootClasses = cn(
     classes.root,
     {
@@ -86,6 +82,9 @@ const CallOut: FunctionComponent<Props> = ({
 
     onClose();
   }, [onClose]);
+  if (!visible) {
+    return null;
+  }
 
   return (
     <div className={rootClasses}>
