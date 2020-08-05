@@ -1,5 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
-import { setLongTimeout } from "long-settimeout";
+import { clearLongTimeout, setLongTimeout } from "long-settimeout";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
@@ -93,7 +93,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    clearTimeout(this.expiredTimer);
+    clearLongTimeout(this.expiredTimer);
   }
 
   private updateWhenExpired() {
