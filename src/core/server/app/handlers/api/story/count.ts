@@ -83,6 +83,7 @@ export const countHandler = ({
       // Reference from the client that we'll just send back as it is.
       ref,
       html,
+      count,
     });
   } catch (err) {
     return next(err);
