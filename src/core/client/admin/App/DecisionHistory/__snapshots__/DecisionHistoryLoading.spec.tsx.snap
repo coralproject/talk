@@ -11,9 +11,7 @@ exports[`renders correctly 1`] = `
       className="DecisionHistoryLoading-container"
       justifyContent="center"
     >
-      <Delay
-        ms={500}
-      >
+      <Delay>
         <withPropsOnChange(Spinner)
           size="sm"
         />

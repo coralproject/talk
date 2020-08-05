@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { EventEmitter2 } from "eventemitter2";
+import { setLongTimeout } from "long-settimeout";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
@@ -179,7 +180,7 @@ export class CommentContainer extends Component<Props, State> {
       new Date(this.props.comment.editing.editableUntil!).getTime() -
       Date.now();
     if (ms > 0) {
-      return setTimeout(() => this.setState({ editable: false }), ms);
+      return setLongTimeout(() => this.setState({ editable: false }), ms);
     }
     return;
   }

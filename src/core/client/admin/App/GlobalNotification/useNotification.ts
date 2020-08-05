@@ -1,4 +1,5 @@
 import { useRouter } from "found";
+import { setLongTimeout } from "long-settimeout";
 import { ReactNode, useContext } from "react";
 
 import { NotificationContext } from "./GlobalNotificationContext";
@@ -17,7 +18,7 @@ function useNotification() {
   const setMessage = (message: ReactNode, timeout?: number) => {
     dispatch({ type: "SET_MESSAGE", message });
     if (timeout) {
-      setTimeout(() => {
+      setLongTimeout(() => {
         dispatch({ type: "CLEAR_MESSAGE" });
       }, timeout);
     }

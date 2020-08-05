@@ -637,7 +637,9 @@ export async function findOrCreateUser(
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
         throw new DuplicateEmailError(input.email!);
       }
-      throw new DuplicateUserError();
+
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;
@@ -666,7 +668,8 @@ export async function createUser(
         throw new DuplicateEmailError(input.email!);
       }
 
-      throw new DuplicateUserError();
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;

@@ -1,7 +1,8 @@
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
-import { parseQuery, timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
+import { parseQuery } from "coral-common/utils";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createRelayEnvironment } from "coral-framework/testHelpers";
 
@@ -39,7 +40,7 @@ it("Should call setCommentID in pym", async () => {
     },
   };
   await commit(environment, { id }, context as any);
-  await timeout();
+  await waitFor();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   context.pym.sendMessage.verify();
 });
@@ -51,7 +52,7 @@ it("Should call setCommentID in pym with empty id", async () => {
     },
   };
   await commit(environment, { id: null }, context as any);
-  await timeout();
+  await waitFor();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
   expect(parseQuery(location.search).commentID).toBeUndefined();
   context.pym.sendMessage.verify();
