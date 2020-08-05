@@ -58,6 +58,17 @@ const CommentReplyCreatedSubscription = createSubscription(
           return;
         }
         const comment = rootField.getLinkedRecord("comment")!;
+        const commentInStore = Boolean(
+          // We use store from environment here, because it does not contain the response data yet!
+          environment
+            .getStore()
+            .getSource()
+            .get(comment.getValue("id") as string)
+        );
+        if (commentInStore) {
+          return;
+        }
+
         comment.setValue(true, "enteredLive");
 
         const parentID = comment
