@@ -338,6 +338,11 @@ profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
 profile-commentHistory-empty-subheading = A history of your comments will appear here
 
+### Preferences
+
+profile-preferences-mediaPreferences = Media Preferences
+profile-preferences-alwaysShowMedia = Always show media
+
 ### Account
 profile-account-ignoredCommenters = Ignored Commenters
 profile-account-ignoredCommenters-description =

@@ -37,6 +37,7 @@ import {
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
+  GQLUpdateEmbedPreferencesInput,
   GQLUSER_ROLE,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
@@ -2298,6 +2299,45 @@ export async function updateUserNotificationSettings(
     {
       $set: dotize({
         notifications: settings,
+      }),
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type UpdateEmbedPreferencesInput = Partial<
+  GQLUpdateEmbedPreferencesInput
+>;
+
+export async function updateUserEmbedPreferences(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  settings: UpdateEmbedPreferencesInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: dotize({
+        embedPreferences: settings,
       }),
     },
     {

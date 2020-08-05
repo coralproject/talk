@@ -131,6 +131,7 @@ createComment.error
 - <a href="#signOut">signOut</a>
 - <a href="#signedIn">signedIn</a>
 - <a href="#unfeatureComment">unfeatureComment</a>
+- <a href="#updateEmbedPreferences">updateEmbedPreferences</a>
 - <a href="#updateNotificationSettings">updateNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
 - <a href="#viewConversation">viewConversation</a>
@@ -544,6 +545,17 @@ createComment.error
   ```ts
   {
       commentID: string;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="updateEmbedPreferences">**updateEmbedPreferences.success**, **updateEmbedPreferences.error**</a>: 
+  ```ts
+  {
+      unfurlEmbeds?: boolean | null | undefined;
       success: {};
       error: {
           message: string;

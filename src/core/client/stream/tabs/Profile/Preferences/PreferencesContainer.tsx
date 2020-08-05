@@ -6,6 +6,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
 
+import EmbedPreferencesContainer from "./EmbedPreferencesContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
 import NotificationSettingsContainer from "./NotificationSettingsContainer";
 
@@ -18,6 +19,7 @@ const PreferencesContainer: FunctionComponent<Props> = (props) => {
     <HorizontalGutter spacing={4}>
       <NotificationSettingsContainer viewer={props.viewer} />
       <IgnoreUserSettingsContainer viewer={props.viewer} />
+      <EmbedPreferencesContainer viewer={props.viewer} />
     </HorizontalGutter>
   );
 };
@@ -27,6 +29,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment PreferencesContainer_viewer on User {
       ...NotificationSettingsContainer_viewer
       ...IgnoreUserSettingsContainer_viewer
+      ...EmbedPreferencesContainer_viewer
     }
   `,
 })(PreferencesContainer);

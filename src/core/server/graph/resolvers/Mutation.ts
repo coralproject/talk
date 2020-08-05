@@ -31,6 +31,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateNotificationSettings(input),
     clientMutationId,
   }),
+  updateEmbedPreferences: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    user: await ctx.mutators.Users.updateEmbedPreferences(input),
+    clientMutationId,
+  }),
   updateSettings: async (
     source,
     { input: { clientMutationId, ...input } },

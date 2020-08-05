@@ -25,6 +25,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
+  updateEmbedPreferences,
   updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
@@ -58,6 +59,7 @@ import {
   GQLSetUsernameInput,
   GQLSuspendUserInput,
   GQLUpdateEmailInput,
+  GQLUpdateEmbedPreferencesInput,
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
@@ -206,6 +208,9 @@ export const Users = (ctx: GraphContext) => ({
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
   ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  updateEmbedPreferences: async (
+    input: WithoutMutationID<GQLUpdateEmbedPreferencesInput>
+  ) => updateEmbedPreferences(ctx.mongo, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>

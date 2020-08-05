@@ -18,14 +18,16 @@ import styles from "./MediaSectionContainer.css";
 interface Props {
   comment: MediaSectionContainer_comment;
   settings: MediaSectionContainer_settings;
+  defaultExpanded: boolean | null | undefined;
 }
 
 const MediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
+  defaultExpanded,
 }) => {
   const { revision } = comment;
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(defaultExpanded ? true : false);
   const onToggleExpand = useCallback(() => {
     setExpanded((v) => !v);
   }, []);
