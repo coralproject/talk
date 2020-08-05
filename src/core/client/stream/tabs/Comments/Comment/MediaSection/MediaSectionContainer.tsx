@@ -52,7 +52,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     return (
       <Button
         iconLeft
-        variant="outline"
+        variant="outlined"
         color="stream"
         onClick={onToggleExpand}
         size="small"
@@ -80,7 +80,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     <HorizontalGutter>
       <div>
         <Button
-          variant="outline"
+          variant="outlined"
           color="stream"
           onClick={onToggleExpand}
           size="small"

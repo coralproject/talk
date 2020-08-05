@@ -17,20 +17,23 @@ interface Props {
 }
 
 const AddSiteRoute: FunctionComponent<Props> = ({ data }) => {
+  const { setMessage, clearMessage } = useNotification();
+  const onSiteEdit = useCallback(
+    (name: string) => {
+      setMessage(
+        <Localized id="configure-sites-edit-success" $site={name}>
+          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+            Changes to {name} have been saved
+          </AppNotification>
+        </Localized>
+      );
+    },
+    [setMessage, clearMessage]
+  );
   if (!data || !data.site) {
     return null;
   }
   const { site } = data;
-  const { setMessage, clearMessage } = useNotification();
-  const onSiteEdit = useCallback((name: string) => {
-    setMessage(
-      <Localized id="configure-sites-edit-success" $site={name}>
-        <AppNotification icon="check_circle_outline" onClose={clearMessage}>
-          Changes to {name} have been saved
-        </AppNotification>
-      </Localized>
-    );
-  }, []);
   return (
     <ConfigBox
       title={

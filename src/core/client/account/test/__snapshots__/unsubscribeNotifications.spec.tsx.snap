@@ -35,6 +35,7 @@ exports[`renders form 1`] = `
               </div>
               <button
                 className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth Unsubscribe-submit"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}
@@ -77,10 +78,10 @@ exports[`renders missing confirm token 1`] = `
             Oops Sorry!
           </div>
           <div
-            className="CallOut-root CallOut-negative CallOut-leftBorder"
+            className="CallOut-root CallOut-error CallOut-leftBorder"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+              className="CallOut-container"
             >
               <div
                 className="CallOut-content"

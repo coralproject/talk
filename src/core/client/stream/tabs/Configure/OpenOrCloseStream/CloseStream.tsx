@@ -26,7 +26,7 @@ const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
     <Localized id="configure-closeStream-closeStream">
       <Button
         variant="filled"
-        color="negative"
+        color="error"
         className={CLASSES.closeCommentStream.closeButton}
         onClick={onClick}
         disabled={disableButton}

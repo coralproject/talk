@@ -78,7 +78,11 @@ const SelectField: FunctionComponent<SelectFieldProps> = (props) => {
 
   return (
     <span className={rootClassName}>
-      <select className={selectClassName} disabled={disabled} {...rest}>
+      <select
+        className={cn(selectClassName, "coral-selectField")}
+        disabled={disabled}
+        {...rest}
+      >
         {children}
       </select>
       <span className={afterWrapperClassName} aria-hidden>

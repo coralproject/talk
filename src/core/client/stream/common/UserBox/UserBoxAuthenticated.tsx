@@ -18,7 +18,9 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
   props
 ) => {
   const Username = () => (
-    <div className={styles.username}>{props.username}</div>
+    <div className={cn(CLASSES.viewerBox.username, styles.username)}>
+      {props.username}
+    </div>
   );
 
   return (
@@ -26,7 +28,7 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
       <Localized id="general-userBoxAuthenticated-signedIn">
         <div className={styles.text}>Signed in as</div>
       </Localized>
-      <Flex alignItems="center" wrap>
+      <Flex alignItems="flex-end" wrap>
         <Username />
         {props.showLogoutButton && (
           <Localized

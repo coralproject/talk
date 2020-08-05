@@ -1,7 +1,7 @@
 .root {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);
-  line-height: var(--line-height-min);
+  line-height: 1.2;
   padding: var(--spacing-2);
 }
 

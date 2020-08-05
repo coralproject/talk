@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   left: calc(-1 * var(--spacing-2) - var(--spacing-2) - 1px);
-  background-color: $colors-pure-white;
+  background-color: var(--palette-background-body);
   width: calc(2 * var(--spacing-2));
   height: 23px;
   color: var(--palette-grey-500);

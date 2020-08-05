@@ -12,8 +12,10 @@ interface Props {
 
 const CommunityGuidelines: FunctionComponent<Props> = (props) => {
   return (
-    <div className={cn(styles.root, CLASSES.guidelines)}>
-      <Markdown>{props.children}</Markdown>
+    <div className={cn(styles.root, CLASSES.guidelines.container)}>
+      <Markdown className={CLASSES.guidelines.content}>
+        {props.children}
+      </Markdown>
     </div>
   );
 };

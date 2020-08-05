@@ -16,6 +16,8 @@ import {
 
 export const repeatPost: IntermediateModerationPhase = async ({
   mongo,
+  comment,
+  action,
   bodyText,
   tenant,
   author,
@@ -41,6 +43,12 @@ export const repeatPost: IntermediateModerationPhase = async ({
     if (!lastComment) {
       // The last comment can't been found or none was written within the
       // time frame.
+      return;
+    }
+
+    if (action === "EDIT" && comment.id && comment.id === lastComment.id) {
+      // The last comment written is this comment because we're editing, so no
+      // need to compare against.
       return;
     }
 

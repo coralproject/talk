@@ -103,7 +103,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
                 <div className={cn(CLASSES.login.errorContainer, styles.error)}>
                   <CallOut
                     className={CLASSES.login.error}
-                    color="negative"
+                    color="error"
                     icon={<Icon size="sm">error</Icon>}
                     title={submitError}
                   />

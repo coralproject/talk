@@ -13,7 +13,7 @@ $commentsEmptyHistoryHeaderColor: var(--palette-text-500);
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-5);
-  line-height: var(--line-height-6);
+  line-height: 1.2;
   color: $commentsEmptyHistoryHeaderColor;
 }
 
@@ -21,7 +21,7 @@ $commentsEmptyHistoryHeaderColor: var(--palette-text-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  line-height: 1.375rem;
+  line-height: 1.375;
   color: $commentsEmptyHistoryHeaderColor;
 }
 

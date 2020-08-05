@@ -12,7 +12,7 @@ $messageErrorForegroundColor: var(--palette-text-000);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-2);
-  line-height: var(--line-height-3);
+  line-height: 1.14;
 }
 
 .colorGrey {

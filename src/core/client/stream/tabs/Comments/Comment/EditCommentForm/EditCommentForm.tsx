@@ -3,9 +3,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 
 import { OnSubmit } from "coral-framework/lib/form";
-import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
-import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -67,10 +65,8 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         placeHolderId="comments-editCommentForm-rte"
         disabledMessage={
           <Localized id="comments-editCommentForm-editTimeExpired">
-            <ValidationMessage className={CLASSES.editComment.expiredTime}>
-              Edit time has expired. You can no longer edit this comment. Why
-              not post another one?
-            </ValidationMessage>
+            Edit time has expired. You can no longer edit this comment. Why not
+            post another one?
           </Localized>
         }
         bodyLabel={

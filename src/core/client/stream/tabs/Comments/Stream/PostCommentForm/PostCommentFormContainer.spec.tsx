@@ -3,7 +3,8 @@ import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
-import { pureMerge, timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
+import { pureMerge } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { act, removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
@@ -110,7 +111,7 @@ it("save values", async () => {
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -151,7 +152,7 @@ it("creates a comment", async () => {
   });
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -190,7 +191,7 @@ it("renders when story has been closed (collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -211,7 +212,7 @@ it("renders when commenting has been disabled (collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -244,7 +245,7 @@ it("renders when story has been closed (non-collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.setProps(nextProps);
@@ -273,7 +274,7 @@ it("renders when commenting has been disabled (non-collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.setProps(nextProps);
@@ -291,7 +292,7 @@ it("renders when user is scheduled to be deleted", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   await act(async () => {
     await wait(() => expect(wrapper).toMatchSnapshot());

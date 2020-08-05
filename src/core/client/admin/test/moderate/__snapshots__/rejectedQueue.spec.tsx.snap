@@ -104,7 +104,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -188,7 +187,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 aria-controls="uuid-0"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -371,7 +369,6 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-                  data-color="regular"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -455,7 +452,6 @@ exports[`renders rejected queue with comments 1`] = `
                       aria-controls="uuid-0"
                       aria-expanded={false}
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                      data-color="mono"
                       data-variant="text"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -646,7 +642,6 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-                  data-color="regular"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -730,7 +725,6 @@ exports[`renders rejected queue with comments 1`] = `
                       aria-controls="uuid-1"
                       aria-expanded={false}
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                      data-color="mono"
                       data-variant="text"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -927,7 +921,6 @@ exports[`renders rejected queue with comments and load more 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1024,7 +1017,6 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 aria-controls="uuid-2"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}

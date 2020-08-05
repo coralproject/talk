@@ -161,8 +161,10 @@ exports[`renders deepest comment with link 1`] = `
                 >
                   <button
                     aria-label="Respect"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -185,8 +187,10 @@ exports[`renders deepest comment with link 1`] = `
                   </button>
                   <button
                     aria-label="Reply"
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                     data-testid="comment-reply-button"
+                    data-variant="flat"
                     disabled={false}
                     id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
                     onBlur={[Function]}
@@ -214,7 +218,9 @@ exports[`renders deepest comment with link 1`] = `
                     <button
                       aria-controls="permalink-popover-comment-with-deepest-replies-3"
                       aria-label="Share"
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                      aria-pressed={false}
+                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                      data-variant="flat"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -254,8 +260,10 @@ exports[`renders deepest comment with link 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
+                    data-variant="flat"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -280,8 +288,7 @@ exports[`renders deepest comment with link 1`] = `
                 </div>
               </div>
               <a
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular ShowConversationLink-colorRegular Button-variantTextUnderlined Button-uppercase ShowConversationLink-conversationLink coral coral-comment-readMoreOfConveration"
-                data-color="regular"
+                className="BaseButton-root Button-root Button-sizeRegular ShowConversationLink-sizeRegular Button-colorRegular ShowConversationLink-colorRegular Button-variantTextUnderlined Button-uppercase ShowConversationLink-conversationLink coral coral-comment-readMoreOfConveration"
                 data-variant="textUnderlined"
                 href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-3"
                 id="comments-commentContainer-showConversation-comment-with-deepest-replies-3"

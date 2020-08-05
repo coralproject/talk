@@ -22,7 +22,7 @@ const loadProfileContainer = () =>
     return x;
   });
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadProfileContainer = once(() => setTimeout(loadProfileContainer));
+const preloadProfileContainer = once(() => setTimeout(loadProfileContainer, 0));
 
 const LazyProfileContainer = React.lazy(loadProfileContainer);
 

@@ -14,7 +14,7 @@ exports[`renders correctly with logout button 1`] = `
     </div>
   </Localized>
   <ForwardRef(forwardRef)
-    alignItems="center"
+    alignItems="flex-end"
     wrap={true}
   >
     <Username />
@@ -57,7 +57,7 @@ exports[`renders correctly without logout button 1`] = `
     </div>
   </Localized>
   <ForwardRef(forwardRef)
-    alignItems="center"
+    alignItems="flex-end"
     wrap={true}
   >
     <Username />

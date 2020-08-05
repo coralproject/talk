@@ -1059,3 +1059,54 @@ export async function retrieveRecentStatusCounts(
   ]);
   return counts[0];
 }
+
+/**
+ * retrieveOngoingDiscussions will return the id's of stories where the user has
+ * participated in ordered by most recent where the comment's are published.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID of the Tenant for which to get story id's for
+ * @param authorID the User's ID for the discussions we want to find
+ * @param limit the maximum number of story id's we want to return.
+ */
+export async function retrieveOngoingDiscussions(
+  mongo: Db,
+  tenantID: string,
+  authorID: string,
+  limit: number
+) {
+  const timer = createTimer();
+
+  // NOTE: (wyattjoh) this operation technically might have an issue when
+  // handling users that have commented across many stories because the $sort
+  // and $limit stages do not coalesce. This means that the $group phase may
+  // have to collect _all_ the stories that a user has commented on (their id's
+  // at least) before limiting the result. This may change on different versions
+  // of MongoDB though.
+  const results = await collection<{ _id: string }>(mongo)
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+          authorID,
+        },
+      },
+      { $sort: { createdAt: -1 } },
+      {
+        $group: {
+          _id: "$storyID",
+          createdAt: { $first: "$createdAt" },
+        },
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: limit },
+    ])
+    .toArray();
+
+  logger.info({ took: timer() }, "ongoing discussions query");
+
+  return results;
+}

@@ -6,6 +6,6 @@ $configureHeadingForegroundColor: var(--palette-text-000);
   color: $configureHeadingForegroundColor;
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-bold);
-  line-height: var(--line-height-3);
+  line-height: 1;
   font-family: var(--font-family-primary);
 }

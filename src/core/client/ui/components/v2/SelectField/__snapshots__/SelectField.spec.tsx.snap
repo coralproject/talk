@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
 >
   <select
     autofocus={true}
-    className="SelectField-select SelectField-selectFont SelectField-selectColor"
+    className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
     disabled={true}
     id="selectID"
     name="selectName"

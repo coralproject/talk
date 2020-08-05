@@ -3,6 +3,13 @@ $commentsConversationLinkColorHovered: var(--palette-primary-700);
 $commentsConversationLinkColorActive: var(--palette-primary-800);
 
 .conversationLink {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  text-align: left;
+  &.sizeRegular {
+    padding: 0;
+  }
   &.colorRegular {
     color: $commentsConversationLinkColor;
   }
@@ -11,9 +18,6 @@ $commentsConversationLinkColorActive: var(--palette-primary-800);
     &.colorRegular {
       &.mouseHover {
         color: $commentsConversationLinkColorHovered;
-        & > span {
-          text-decoration: underline;
-        }
       }
       &.active,
       &:active {

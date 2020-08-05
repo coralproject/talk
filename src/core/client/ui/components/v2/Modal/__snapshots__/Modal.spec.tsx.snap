@@ -11,7 +11,7 @@ exports[`renders correctly 1`] = `
     onClick={[Function]}
   />
   <div
-    className="Modal-scroll"
+    className="Modal-baseScroll Modal-scroll"
     onKeyDown={[Function]}
     role="presentation"
   >

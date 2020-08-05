@@ -183,7 +183,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             {results.length > 0 && page > 0 && (
               <Button
                 onClick={prevPage}
-                variant="outline"
+                variant="outlined"
                 color="stream"
                 iconLeft
               >
@@ -194,7 +194,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             {results.length > 0 && hasNextPage && (
               <Button
                 onClick={nextPage}
-                variant="outline"
+                variant="outlined"
                 color="stream"
                 iconRight
               >

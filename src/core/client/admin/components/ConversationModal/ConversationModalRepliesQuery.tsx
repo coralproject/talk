@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
@@ -60,17 +60,13 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
           );
         }
 
-        const replies = useMemo(
-          () => props.comment!.replies.edges.map((edge) => edge.node),
-          [props.comment.replies]
-        );
         return (
           <div>
-            {replies.map((reply) => (
-              <div key={reply.id}>
+            {props.comment.replies.edges.map((reply) => (
+              <div key={reply.node.id}>
                 <ConversationModalCommentContainer
-                  key={reply.id}
-                  comment={reply}
+                  key={reply.node.id}
+                  comment={reply.node}
                   settings={props.settings}
                   isHighlighted={false}
                   isReply={true}

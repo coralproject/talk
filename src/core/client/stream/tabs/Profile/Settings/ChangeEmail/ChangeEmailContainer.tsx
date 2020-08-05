@@ -81,7 +81,7 @@ interface FormProps {
   password: string;
 }
 
-const changeEmailContainer: FunctionComponent<Props> = ({
+const ChangeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
@@ -293,7 +293,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
       {showSuccessMessage && (
         <div className={styles.successMessage}>
           <CallOut
-            color="positive"
+            color="success"
             onClose={onCloseSuccess}
             icon={<Icon size="sm">check_circle</Icon>}
             titleWeight="semiBold"
@@ -408,7 +408,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                   {submitError && (
                     <CallOut
                       className={CLASSES.myEmail.form.errorMessage}
-                      color="negative"
+                      color="error"
                       icon={<Icon size="sm">error</Icon>}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
@@ -508,6 +508,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(changeEmailContainer);
+})(ChangeEmailContainer);
 
 export default enhanced;

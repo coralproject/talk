@@ -9,7 +9,7 @@ $announcement-modal-text: var(--palette-text-500);
   font-size: var(--font-size-5);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
-  line-height: var(--line-height-6);
+  line-height: 1.2;
   color: $announcement-modal-text;
   margin: 0;
 }

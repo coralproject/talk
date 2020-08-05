@@ -36,7 +36,6 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
     - <a href="#font-weight-primary">font-weight-primary</a>
     - <a href="#font-weight-secondary">font-weight-secondary</a>
   - <a href="#font-size">font-size</a>
-  - <a href="#line-height">line-height</a>
   - <a href="#shadow">shadow</a>
   - <a href="#spacing">spacing</a>
   - <a href="#mini-unit">mini-unit</a>
@@ -128,7 +127,7 @@ Color palette that is used for grey shades.
 
 #### palette-error
 
-Color palette that is used for indicating something negative and is usually red.
+Color palette that is used for indicating something is error red.
 
 `--palette-error-100: #FCE5D9;  /* Before 6.3.0: --palette-error-lightest */`
 
@@ -150,7 +149,7 @@ Color palette that is used for indicating something negative and is usually red.
 
 #### palette-success
 
-Color palette that is used for indicating something positive and is usually green.
+Color palette that is used for indicating something is success green.
 
 `--palette-success-100: #D8F9D5;  /* Before 6.3.0: --palette-success-lightest */`
 
@@ -192,17 +191,17 @@ Different font weights with matching values for the fonts.
 
 #### font-weight-primary
 
-`--font-weight-primary-bold: 700;  /* Before 6.3.0: --font-weight-sans-bold */`
+`--font-weight-primary-bold: 700;  /* Before 6.3.0: --font-weight-bold */`
 
-`--font-weight-primary-semi-bold: 600;  /* Before 6.3.0: --font-weight-sans-medium */`
+`--font-weight-primary-semi-bold: 600;  /* Before 6.3.0: --font-weight-medium */`
 
-`--font-weight-primary-regular: 300;  /* Before 6.3.0: --font-weight-sans-regular */`
+`--font-weight-primary-regular: 300;  /* Before 6.3.0: --font-weight-light */`
 
 #### font-weight-secondary
 
-`--font-weight-secondary-bold: 700;  /* Before 6.3.0: --font-weight-serif-bold */`
+`--font-weight-secondary-bold: 700;  /* Before 6.3.0: --font-weight-bold */`
 
-`--font-weight-secondary-regular: 300;  /* Before 6.3.0: --font-weight-serif-regular */`
+`--font-weight-secondary-regular: 300;  /* Before 6.3.0: --font-weight-light */`
 
 ### font-size
 
@@ -233,28 +232,6 @@ Different font weights with matching values for the fonts.
 `--font-size-icon-sm: 0.875rem;`
 
 `--font-size-icon-xs: 0.75rem;`
-
-### line-height
-
-`--line-height-comment-body: 1.45rem;`
-
-`--line-height-field-description: 1.3rem;`
-
-`--line-height-1: 0.75rem;`
-
-`--line-height-2: 0.875rem;`
-
-`--line-height-3: 1rem;`
-
-`--line-height-4: 1.125rem;`
-
-`--line-height-5: 1.25rem;`
-
-`--line-height-6: 1.5rem;`
-
-`--line-height-7: 1.75rem;`
-
-`--line-height-8: 2rem;`
 
 ### shadow
 

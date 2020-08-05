@@ -9,7 +9,7 @@ $recent-history-triggered: var(--palette-error-500);
   font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-3);
   margin: 0;
-  line-height: var(--line-height-field-description);
+  line-height: 1.3;
   color: $recent-history-title;
 }
 
@@ -19,7 +19,7 @@ $recent-history-triggered: var(--palette-error-500);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-2);
   margin: 0;
-  line-height: var(--line-height-4);
+  line-height: 1.285;
 }
 
 .info {
@@ -29,8 +29,7 @@ $recent-history-triggered: var(--palette-error-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-6);
-  line-height: var(--line-height-3);
-  line-height: var(--line-height-3);
+  line-height: 0.67;
   color: $recent-history-info;
   margin: 0;
 }

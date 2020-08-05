@@ -23,7 +23,7 @@ function calculateBottomPadding(width: number, height: number) {
   return `${(height / width) * 100}%`;
 }
 
-const oEmbed: FunctionComponent<Props> = ({
+const OEmbed: FunctionComponent<Props> = ({
   url,
   type,
   className,
@@ -47,7 +47,7 @@ const oEmbed: FunctionComponent<Props> = ({
     if (containerRef.current) {
       setMaxWidth(containerRef.current.offsetWidth);
     }
-  }, [containerRef.current, maxWidth]);
+  }, [containerRef, maxWidth]);
 
   const onLoad = useCallback(() => {
     if (width && height && containerRef && containerRef.current) {
@@ -96,7 +96,7 @@ const oEmbed: FunctionComponent<Props> = ({
         );
       }
     }, 100);
-  }, [iframeRef, iframeRef.current, containerRef.current, width, height]);
+  }, [iframeRef, containerRef, width, height]);
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -117,4 +117,4 @@ const oEmbed: FunctionComponent<Props> = ({
   );
 };
 
-export default oEmbed;
+export default OEmbed;

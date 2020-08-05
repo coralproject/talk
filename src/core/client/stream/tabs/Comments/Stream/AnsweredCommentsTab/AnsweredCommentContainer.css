@@ -5,7 +5,7 @@
 
   border-left-width: 2px;
   border-left-style: solid;
-  border-left-color: #3498DB;
+  border-left-color: var(--palette-primary-400);
 
   margin-left: var(--spacing-2);
 }

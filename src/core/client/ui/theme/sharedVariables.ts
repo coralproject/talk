@@ -40,7 +40,7 @@ const variables = {
       800: compat(colors.grey800, "palette-grey-darkest"),
       900: compat(colors.grey900, "palette-grey-darkest"),
     },
-    /** Color palette that is used for indicating something negative and is usually red. */
+    /** Color palette that is used for indicating something is error red. */
     error: {
       100: compat(colors.red100, "palette-error-lightest"),
       200: compat(colors.red200, "palette-error-lighter"),
@@ -52,7 +52,7 @@ const variables = {
       800: compat(colors.red800, "palette-error-darkest"),
       900: compat(colors.red900, "palette-error-darkest"),
     },
-    /** Color palette that is used for indicating something positive and is usually green. */
+    /** Color palette that is used for indicating something is success green. */
     success: {
       100: compat(colors.green100, "palette-success-lightest"),
       200: compat(colors.green200, "palette-success-lighter"),
@@ -79,13 +79,13 @@ const variables = {
   /** Different font weights with matching values for the fonts. */
   fontWeight: {
     primary: {
-      bold: compat("700", "font-weight-sans-bold"),
-      semiBold: compat("600", "font-weight-sans-medium"),
-      regular: compat("300", "font-weight-sans-regular"),
+      bold: compat("700", "font-weight-bold"),
+      semiBold: compat("600", "font-weight-medium"),
+      regular: compat("300", "font-weight-light"),
     },
     secondary: {
-      bold: compat("700", "font-weight-serif-bold"),
-      regular: compat("300", "font-weight-serif-regular"),
+      bold: compat("700", "font-weight-bold"),
+      regular: compat("300", "font-weight-light"),
     },
   },
   fontSize: {
@@ -103,18 +103,6 @@ const variables = {
     iconMd: "1.125rem",
     iconSm: "0.875rem",
     iconXs: "0.75rem",
-  },
-  lineHeight: {
-    commentBody: "1.45rem",
-    fieldDescription: "1.3rem",
-    1: "0.75rem",
-    2: "0.875rem",
-    3: "1rem",
-    4: "1.125rem",
-    5: "1.25rem",
-    6: "1.5rem",
-    7: "1.75rem",
-    8: "2rem",
   },
   /** Different shadows that are currently used in Coral. */
   shadow: {

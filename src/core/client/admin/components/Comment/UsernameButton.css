@@ -5,7 +5,7 @@ $moderateCardUsernameBackgroundHover: var(--palette-grey-200);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--spacing-1));
 
-  line-height: var(--line-height-3);
+  line-height: 1;
 
   &:hover {
     background-color: $moderateCardUsernameBackgroundHover;

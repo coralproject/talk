@@ -402,6 +402,11 @@ enum FEATURE_FLAG {
   in production environments.
   """
   REDUCED_SECURITY_MODE
+
+  """
+  DISCUSSIONS will enable the discussions tab for the comment stream.
+  """
+  DISCUSSIONS
 }
 
 # The moderation mode of the site.
@@ -1584,6 +1589,12 @@ type Site {
   canModerate: Boolean!
 
   """
+  topStories will return stories that have had the most comments within the last
+  24 hours on this Site.
+  """
+  topStories(limit: Int = 5 @constraint(max: 5)): [Story!]!
+
+  """
   createdAt is when the site was created.
   """
   createdAt: Time!
@@ -1754,7 +1765,7 @@ type Settings {
   """
   featureFlags provides the enabled feature flags.
   """
-  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN, MODERATOR])
+  featureFlags: [FEATURE_FLAG!]!
 
   """
   createdAt is the time that the Settings was created at.
@@ -2337,6 +2348,13 @@ type User {
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
+  ongoingDiscussions are stories where the given user has written comments in
+  sorted by their last comment date.
+  """
+  ongoingDiscussions(limit: Int = 5 @constraint(max: 5)): [Story!]!
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+
+  """
   recentCommentHistory returns recent commenting history by the User.
   """
   recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
@@ -2429,6 +2447,7 @@ type User {
   ssoURL is the url for managing sso account
   """
   ssoURL: String
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
 }
 
 """

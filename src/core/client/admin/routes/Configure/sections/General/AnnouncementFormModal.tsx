@@ -122,7 +122,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
                   </HorizontalGutter>
                   <Flex itemGutter justifyContent="flex-end">
                     <Localized id="configure-general-announcements-cancel">
-                      <Button color="mono" variant="outline" onClick={onClose}>
+                      <Button color="mono" variant="outlined" onClick={onClose}>
                         Cancel
                       </Button>
                     </Localized>

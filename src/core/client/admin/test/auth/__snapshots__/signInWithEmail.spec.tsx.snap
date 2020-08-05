@@ -119,7 +119,6 @@ exports[`accepts correct password 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-      data-color="regular"
       data-variant="regular"
       disabled={false}
       onBlur={[Function]}
@@ -262,7 +261,6 @@ exports[`accepts valid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-      data-color="regular"
       data-variant="regular"
       disabled={false}
       onBlur={[Function]}
@@ -418,7 +416,6 @@ exports[`checks for invalid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-      data-color="regular"
       data-variant="regular"
       disabled={false}
       onBlur={[Function]}
@@ -583,7 +580,6 @@ exports[`renders sign in form 1`] = `
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-                data-color="regular"
                 data-variant="regular"
                 disabled={false}
                 onBlur={[Function]}
@@ -753,7 +749,6 @@ exports[`shows error when submitting empty form 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-      data-color="regular"
       data-variant="regular"
       disabled={false}
       onBlur={[Function]}
@@ -892,7 +887,6 @@ exports[`shows server error 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
-      data-color="regular"
       data-variant="regular"
       disabled={false}
       onBlur={[Function]}

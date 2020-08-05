@@ -1,10 +1,12 @@
 .root {
+  position: relative;
 }
 
 .input {
   cursor: pointer;
   position: absolute; /* take it out of document flow */
   opacity: 0; /* hide it */
+  top: 0;
 }
 
 .label {
@@ -17,7 +19,7 @@
   font-size: var(--font-size-3);
   font-weight: var(--font-weight-primary-regular);
   font-family: var(--font-family-primary);
-  line-height: var(--line-height-3);
+  line-height: 1;
 }
 
 .labelSpan {

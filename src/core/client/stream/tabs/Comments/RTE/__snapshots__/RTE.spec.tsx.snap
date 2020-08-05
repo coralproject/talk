@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <div>
   <RTE
-    className="$root content placeholder toolbar container custom"
+    className="coral coral-rte custom"
     classNameDisabled=""
     contentClassName="coral coral-rte-content RTE-content"
     contentClassNameDisabled="RTE-disabled"

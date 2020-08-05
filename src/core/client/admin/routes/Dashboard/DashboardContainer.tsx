@@ -38,13 +38,6 @@ interface Props {
   site?: Site | null;
 }
 const DashboardContainer: React.FunctionComponent<Props> = (props) => {
-  if (!props.site) {
-    return null;
-  }
-  const sites = props.query
-    ? props.query.sites.edges.map((edge) => edge.node)
-    : [];
-
   const [lastUpdated, setLastUpdated] = useState<string>(new Date().toString());
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
@@ -53,6 +46,12 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
   const onRefetch = useCallback(() => {
     setLastUpdated(new Date().toString());
   }, []);
+  if (!props.site) {
+    return null;
+  }
+  const sites = props.query
+    ? props.query.sites.edges.map((edge) => edge.node)
+    : [];
   return (
     <MainLayout className={styles.root}>
       <Popover

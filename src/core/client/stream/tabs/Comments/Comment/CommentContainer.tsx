@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { EventEmitter2 } from "eventemitter2";
+import { setLongTimeout } from "long-settimeout";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
@@ -179,7 +180,7 @@ export class CommentContainer extends Component<Props, State> {
       new Date(this.props.comment.editing.editableUntil!).getTime() -
       Date.now();
     if (ms > 0) {
-      return setTimeout(() => this.setState({ editable: false }), ms);
+      return setLongTimeout(() => this.setState({ editable: false }), ms);
     }
     return;
   }
@@ -374,17 +375,16 @@ export class CommentContainer extends Component<Props, State> {
                   {commentTags}
                   {editable && (
                     <Button
-                      color="regular"
+                      color="stream"
                       variant="text"
                       onClick={this.openEditDialog}
-                      className={CLASSES.comment.topBar.editButton}
+                      className={cn(
+                        CLASSES.comment.topBar.editButton,
+                        styles.editButton
+                      )}
                       data-testid="comment-edit-button"
                     >
-                      <Flex
-                        alignItems="center"
-                        justifyContent="center"
-                        className={styles.editButton}
-                      >
+                      <Flex alignItems="center" justifyContent="center">
                         <Icon className={styles.editIcon}>edit</Icon>
                         <Localized id="comments-commentContainer-editButton">
                           Edit

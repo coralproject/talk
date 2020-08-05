@@ -123,7 +123,6 @@ exports[`renders configure organization 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeLarge Button-colorAlt Button-variantRegular Button-uppercase Button-disabled"
-            data-color="alt"
             data-testid="configure-sideBar-saveChanges"
             data-variant="regular"
             disabled={true}
@@ -339,7 +338,6 @@ moderation questions.
                 </p>
                 <a
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft"
-                  data-color="regular"
                   data-variant="regular"
                   href="/admin/configure/organization/sites/new"
                   onBlur={[Function]}
@@ -396,7 +394,6 @@ moderation questions.
                         >
                           <a
                             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight"
-                            data-color="regular"
                             data-variant="text"
                             href="/admin/configure/organization/sites/site-1"
                             onBlur={[Function]}
@@ -434,7 +431,6 @@ moderation questions.
                         >
                           <a
                             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight"
-                            data-color="regular"
                             data-variant="text"
                             href="/admin/configure/organization/sites/site-2"
                             onBlur={[Function]}

@@ -5,10 +5,10 @@ exports[`renders correctly on big screens 1`] = `
   className="Box-root Flex-root coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
 >
   <span
-    className="SelectField-root"
+    className="SelectField-root coral coral-sortMenu"
   >
     <select
-      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
       id="coral-comments-sortMenu"
       onBlur={[Function]}
       onChange={[Function]}
@@ -57,10 +57,10 @@ exports[`renders correctly on small screens 1`] = `
   className="Box-root Flex-root coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
 >
   <span
-    className="SelectField-root"
+    className="SelectField-root coral coral-sortMenu"
   >
     <select
-      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor"
+      className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
       id="coral-comments-sortMenu"
       onBlur={[Function]}
       onChange={[Function]}

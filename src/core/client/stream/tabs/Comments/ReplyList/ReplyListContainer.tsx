@@ -206,7 +206,7 @@ function createReplyListContainer(
  */
 const LastReplyList: FunctionComponent<PropTypesOf<
   typeof LocalReplyListContainer
->> = (props) => <LocalReplyListContainer {...props} indentLevel={3} />;
+>> = (props) => <LocalReplyListContainer {...props} indentLevel={4} />;
 
 const ReplyListContainer3 = createReplyListContainer(
   3,

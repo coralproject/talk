@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
     htmlFor="checkboxID"
   >
     <span
-      className="CheckBox-labelSpan"
+      className="CheckBox-labelSpan coral coral-checkbox-label"
     >
       Yes I agree
     </span>

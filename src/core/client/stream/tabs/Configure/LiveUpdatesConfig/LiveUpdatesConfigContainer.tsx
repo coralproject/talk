@@ -52,7 +52,7 @@ const renderMessages = (
     >
       {showSuccess && (
         <CallOut
-          color="positive"
+          color="success"
           icon={<Icon size="sm">check_circle</Icon>}
           title={renderSuccess(enabled)}
           onClose={onCloseSuccess}
@@ -61,7 +61,7 @@ const renderMessages = (
       )}
       {showError && (
         <CallOut
-          color="negative"
+          color="error"
           icon={<Icon size="sm">error</Icon>}
           title={error}
           onClose={onCloseError}

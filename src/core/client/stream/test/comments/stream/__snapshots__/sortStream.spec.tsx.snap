@@ -144,8 +144,10 @@ exports[`renders app with comment stream 1`] = `
                     >
                       <button
                         aria-label="Respect"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-testid="comment-reaction-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -168,8 +170,10 @@ exports[`renders app with comment stream 1`] = `
                       </button>
                       <button
                         aria-label="Reply"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                         data-testid="comment-reply-button"
+                        data-variant="flat"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-2"
                         onBlur={[Function]}
@@ -197,7 +201,9 @@ exports[`renders app with comment stream 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-2"
                           aria-label="Share"
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                          aria-pressed={false}
+                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                          data-variant="flat"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -237,8 +243,10 @@ exports[`renders app with comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -409,8 +417,10 @@ exports[`renders app with comment stream 1`] = `
                     >
                       <button
                         aria-label="Respect"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-testid="comment-reaction-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -433,8 +443,10 @@ exports[`renders app with comment stream 1`] = `
                       </button>
                       <button
                         aria-label="Reply"
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                         data-testid="comment-reply-button"
+                        data-variant="flat"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-3"
                         onBlur={[Function]}
@@ -462,7 +474,9 @@ exports[`renders app with comment stream 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-3"
                           aria-label="Share"
-                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary"
+                          aria-pressed={false}
+                          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                          data-variant="flat"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -502,8 +516,10 @@ exports[`renders app with comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
+                        aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
+                        data-variant="flat"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}

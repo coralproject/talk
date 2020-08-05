@@ -43,7 +43,7 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
           {submitError && (
             <CallOut
               className={CLASSES.login.error}
-              color="negative"
+              color="error"
               title={submitError}
             />
           )}

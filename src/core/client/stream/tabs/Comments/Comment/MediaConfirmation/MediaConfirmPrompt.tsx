@@ -58,7 +58,7 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
           <Localized id="comments-postComment-confirmMedia-cancel">
             <Button
               color="mono"
-              variant="outline"
+              variant="outlined"
               className={styles.promptButton}
               onClick={onRemove}
             >
