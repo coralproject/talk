@@ -1,10 +1,12 @@
 .root {
+  position: relative;
 }
 
 .input {
   cursor: pointer;
   position: absolute; /* take it out of document flow */
   opacity: 0; /* hide it */
+  top: 0;
 }
 
 .label {
