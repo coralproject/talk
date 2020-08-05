@@ -60,6 +60,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         disableCommenting: {
           enabled: false,
         },
+        featureFlags: [],
       },
       indentLevel: 1,
       showAuthPopup: noop as any,
