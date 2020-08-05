@@ -26,6 +26,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
   staticUsername,
   indentLevel,
   toggleCollapsed,
+  blur,
   ...rest
 }) => {
   return (
@@ -35,7 +36,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       className={cn(
         {
           [styles.open]: !rest.collapsed,
-          [styles.blur]: rest.blur,
+          [styles.blur]: blur,
           [CLASSES.comment.collapseToggle.collapsed]: rest.collapsed,
         },
         CLASSES.comment.collapseToggle.indent

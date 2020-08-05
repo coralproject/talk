@@ -128,9 +128,11 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     subcribeToCommentReplyCreated,
     props.comment.id,
     props.indentLevel,
-    // TODO: (wyattjoh) investigate why this is here?
-    props.relay.hasMore(),
+    props.comment.pending,
+    props.settings.disableCommenting.enabled,
     props.liveDirectRepliesInsertion,
+    props.story.isClosed,
+    props.story.closedAt,
     props.story.settings.live.enabled,
   ]);
 

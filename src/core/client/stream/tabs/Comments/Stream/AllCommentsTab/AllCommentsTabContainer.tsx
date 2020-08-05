@@ -142,8 +142,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     subscribeToCommentCreated,
     subscribeToCommentReleased,
     story.id,
-    relay.hasMore(),
+    story.isClosed,
+    story.closedAt,
     story.settings.live.enabled,
+    settings.disableCommenting.enabled,
+    relay.hasMore(),
   ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);

@@ -148,8 +148,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     [eventEmitter, comment.id, settings.featureFlags, story.url, setCommentID]
   );
 
+  const isLoggedIn = !!viewer;
+
   const openEditDialog = useCallback(() => {
-    if (viewer) {
+    if (isLoggedIn) {
       ShowEditFormEvent.emit(eventEmitter, {
         commentID: comment.id,
       });
@@ -157,10 +159,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     } else {
       void showAuthPopup({ view: "SIGN_IN" });
     }
-  }, [viewer, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
+  }, [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
 
   const toggleShowReplyDialog = useCallback(() => {
-    if (viewer) {
+    if (isLoggedIn) {
       if (!showReplyDialog) {
         ShowReplyFormEvent.emit(eventEmitter, {
           commentID: comment.id,
@@ -172,7 +174,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       void showAuthPopup({ view: "SIGN_IN" });
     }
   }, [
-    viewer,
+    isLoggedIn,
     showReplyDialog,
     setShowReplyDialog,
     showAuthPopup,
