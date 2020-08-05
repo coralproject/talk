@@ -432,7 +432,7 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
-  const formattedDate = formatDate(deletionDate.toJSDate(), [tenant.locale]);
+  const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
 
   await mailer.add({
     tenantID: tenant.id,
@@ -1230,7 +1230,7 @@ export async function requestCommentsDownload(
         name: "account-notification/download-comments",
         context: {
           username: user.username!,
-          date: formatDate(now, [tenant.locale]),
+          date: formatDate(now, tenant.locale),
           downloadUrl,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,

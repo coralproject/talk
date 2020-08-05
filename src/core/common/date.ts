@@ -1,5 +1,5 @@
 export function createDateFormatter(
-  locales: string[] | undefined,
+  locales: string | string[] | undefined,
   options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "numeric",
@@ -12,7 +12,7 @@ export function createDateFormatter(
   return new Intl.DateTimeFormat(locales, options);
 }
 
-export function formatDate(date: Date, locales: string[]) {
+export function formatDate(date: Date, locales: string | string[] | undefined) {
   const formatter = createDateFormatter(locales);
   const formattedDate = formatter.format(date);
 
