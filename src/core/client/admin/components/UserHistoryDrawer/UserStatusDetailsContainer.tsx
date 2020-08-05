@@ -21,10 +21,6 @@ interface Props {
 }
 
 const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
-  if (!user.status.ban.active && !user.status.suspension.active) {
-    return null;
-  }
-
   const activeBan = useMemo(() => {
     return user.status.ban.history.find((item) => item.active);
   }, [user]);
@@ -40,6 +36,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
     hour: "numeric",
     minute: "2-digit",
   });
+
+  if (!user.status.ban.active && !user.status.suspension.active) {
+    return null;
+  }
 
   return (
     <div>
