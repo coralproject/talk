@@ -9,7 +9,12 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withContext } from "coral-framework/lib/bootstrap";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
@@ -191,7 +196,22 @@ export class CommentContainer extends Component<Props, State> {
       from: "COMMENT_STREAM",
     });
     e.preventDefault();
-    void this.props.setCommentID({ id: this.props.comment.id });
+
+    if (
+      this.props.settings.featureFlags.includes(
+        GQLFEATURE_FLAG.READ_MORE_NEW_TAB
+      )
+    ) {
+      const url = getURLWithCommentID(
+        this.props.story.url,
+        this.props.comment.id
+      );
+
+      window.open(url, "_blank", "noreferrer");
+    } else {
+      void this.props.setCommentID({ id: this.props.comment.id });
+    }
+
     return false;
   };
 
@@ -607,6 +627,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             disableCommenting {
               enabled
             }
+            featureFlags
             ...ReactionButtonContainer_settings
             ...ReplyCommentFormContainer_settings
             ...EditCommentFormContainer_settings
