@@ -218,41 +218,35 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return true;
   });
 
-  useEffect(
-    () => {
-      // If the comment is not editable now, it can't be editable in the future,
-      // so exit!
-      if (!editable) {
-        return;
-      }
+  useEffect(() => {
+    // If the comment is not editable now, it can't be editable in the future,
+    // so exit!
+    if (!editable) {
+      return;
+    }
 
-      // The comment is editable, we should register a callback to remove that
-      // status when it is no longer editable. We know that the `editableUntil` is
-      // available because it was editable!
-      const editableFor =
-        new Date(comment.editing.editableUntil!).getTime() - Date.now();
-      if (editableFor <= 0) {
-        // Can't schedule a timer for the past! The comment is no longer editable.
-        setEditable(false);
-        return;
-      }
+    // The comment is editable, we should register a callback to remove that
+    // status when it is no longer editable. We know that the `editableUntil` is
+    // available because it was editable!
+    const editableFor =
+      new Date(comment.editing.editableUntil!).getTime() - Date.now();
+    if (editableFor <= 0) {
+      // Can't schedule a timer for the past! The comment is no longer editable.
+      setEditable(false);
+      return;
+    }
 
-      // Setup the timeout.
-      const timeout: LongTimeout | null = setLongTimeout(() => {
-        // Mark the comment as not editable.
-        setEditable(false);
-      }, editableFor);
+    // Setup the timeout.
+    const timeout: LongTimeout | null = setLongTimeout(() => {
+      // Mark the comment as not editable.
+      setEditable(false);
+    }, editableFor);
 
-      return () => {
-        // When this component is disposed, also clear the timeout.
-        clearLongTimeout(timeout);
-      };
-    },
-    // We don't add `editable` to the dependancies because we don't need to
-    // re-run this effect if the value changes (because it's well defined the
-    // first time we see it here).
-    []
-  );
+    return () => {
+      // When this component is disposed, also clear the timeout.
+      clearLongTimeout(timeout);
+    };
+  }, [comment.editing.editableUntil, editable]);
 
   const hasFeaturedTag = comment.tags.some((t) => t.code === GQLTAG.FEATURED);
 
