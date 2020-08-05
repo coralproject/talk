@@ -3,7 +3,7 @@ import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 /**
  * ACCESS_TOKEN_KEY is the key in storage where the accessToken is stored.
  */
-const ACCESS_TOKEN_KEY = "coral:v1:accessToken";
+const ACCESS_TOKEN_KEY = "coral:v2:accessToken";
 
 export interface AuthState {
   /**
