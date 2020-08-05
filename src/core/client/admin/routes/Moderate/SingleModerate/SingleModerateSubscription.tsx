@@ -30,14 +30,12 @@ const SingleModerateSubscription = createSubscription(
       `,
       variables,
       updater: (store) => {
-        const commentID = store
+        const comment = store
           .getRootField("commentStatusUpdated")!
-          .getLinkedRecord("comment")!
-          .getValue("id")! as string;
-        const commentInStore = store.get(commentID);
-        if (commentInStore) {
+          .getLinkedRecord("comment")!;
+        if (comment) {
           // Mark that the status of the comment was live updated.
-          commentInStore.setValue(true, "statusLiveUpdated");
+          comment.setValue(true, "statusLiveUpdated");
         }
       },
     })
