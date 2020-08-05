@@ -1,6 +1,7 @@
 import http from "http";
 import https from "https";
 import { capitalize } from "lodash";
+import { clearLongTimeout } from "long-settimeout";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
@@ -119,7 +120,7 @@ export const createFetch = ({
 
       return res;
     } finally {
-      clearTimeout(abort.timeout);
+      clearLongTimeout(abort.timeout);
     }
   };
 };

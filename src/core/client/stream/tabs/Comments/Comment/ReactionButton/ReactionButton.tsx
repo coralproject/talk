@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
+import Responsive from "react-responsive";
 
-import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
+import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReactionButton.css";
@@ -59,7 +60,7 @@ function render(props: ReactionButtonProps) {
             {reacted ? (iconActive ? iconActive : icon) : icon}
           </Icon>
         )}
-        <MatchMedia gtWidth="xs">
+        <Responsive minWidth={400}>
           {props.isQA ? (
             <span>
               {reacted ? (
@@ -71,7 +72,7 @@ function render(props: ReactionButtonProps) {
           ) : (
             <span>{reacted ? labelActive : label}</span>
           )}
-        </MatchMedia>
+        </Responsive>
         {!!totalReactions && (
           <span className={styles.totalReactions}>{totalReactions}</span>
         )}

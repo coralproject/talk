@@ -1,6 +1,6 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
@@ -27,7 +27,7 @@ it("init local state", async () => {
     localStorage: createPromisifiedStorage(),
   };
   await initLocalState(environment, context as any);
-  await timeout();
+  await waitFor();
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
 });
 

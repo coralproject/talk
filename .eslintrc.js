@@ -21,6 +21,7 @@ const typescriptOverrides = {
     "@typescript-eslint/tslint",
     "react",
     "jsx-a11y",
+    "react-hooks",
   ],
   settings: {
     react: {
@@ -236,5 +237,7 @@ module.exports = {
     "sort-imports": "off",
     "use-isnan": "error",
     "valid-typeof": "off",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
   },
 };

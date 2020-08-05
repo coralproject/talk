@@ -24,7 +24,7 @@ const loadConfigureContainer = () =>
   );
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadConfigureContainer = once(() =>
-  setTimeout(loadConfigureContainer)
+  setTimeout(loadConfigureContainer, 0)
 );
 
 const LazyConfigureContainer = React.lazy(loadConfigureContainer);

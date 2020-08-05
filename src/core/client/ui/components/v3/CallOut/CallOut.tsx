@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { BaseButton, Icon } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./CallOut.css";
@@ -46,10 +46,6 @@ const CallOut: FunctionComponent<Props> = ({
   visible = true,
   onClose,
 }) => {
-  if (!visible) {
-    return null;
-  }
-
   const rootClasses = cn(
     classes.root,
     {
@@ -86,10 +82,13 @@ const CallOut: FunctionComponent<Props> = ({
 
     onClose();
   }, [onClose]);
+  if (!visible) {
+    return null;
+  }
 
   return (
     <div className={rootClasses}>
-      <Flex justifyContent="flex-start" alignItems="flex-start">
+      <div className={classes.container}>
         {iconPosition === "left" && icon !== null && (
           <div className={iconClasses}>{icon}</div>
         )}
@@ -98,15 +97,16 @@ const CallOut: FunctionComponent<Props> = ({
           <div className={classes.body}>{children}</div>
         </div>
         {onClose && (
-          <BaseButton
-            className={classes.closeButton}
-            onClick={onCloseClicked}
-            data-testid="callout-close-button"
-          >
-            <Icon size="sm">close</Icon>
-          </BaseButton>
+          <div className={classes.actions}>
+            <BaseButton
+              onClick={onCloseClicked}
+              data-testid="callout-close-button"
+            >
+              <Icon size="sm">close</Icon>
+            </BaseButton>
+          </div>
         )}
-      </Flex>
+      </div>
     </div>
   );
 };
