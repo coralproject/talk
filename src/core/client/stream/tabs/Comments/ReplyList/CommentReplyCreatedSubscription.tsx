@@ -59,7 +59,7 @@ const CommentReplyCreatedSubscription = createSubscription(
         }
         const comment = rootField.getLinkedRecord("comment")!;
         const commentInStore = Boolean(
-          // We use store form environment here, because it does not contain the response data yet!
+          // We use store from environment here, because it does not contain the response data yet!
           environment
             .getStore()
             .getSource()

@@ -83,7 +83,7 @@ const UnansweredCommentReleasedSubscription = createSubscription(
           .getLinkedRecord("comment")!
           .getValue("id")! as string;
         const commentInStore = Boolean(
-          // We use store form environment here, because it does not contain the response data yet!
+          // We use store from environment here, because it does not contain the response data yet!
           environment.getStore().getSource().get(commentID)
         );
         if (commentInStore) {
