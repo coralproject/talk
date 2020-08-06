@@ -12,3 +12,13 @@
 .options {
   padding-bottom: var(--spacing-3);
 }
+
+.checkBoxDescription {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+
+  color: var(--palette-grey-500);
+
+  padding-left: calc(var(--spacing-3) + 14px);
+}

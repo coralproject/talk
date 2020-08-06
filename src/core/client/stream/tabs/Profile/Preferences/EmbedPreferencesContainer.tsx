@@ -50,14 +50,19 @@ const EmbedPreferencesContainer: FunctionComponent<Props> = ({ viewer }) => {
                   <Field name="unfurlEmbeds" type="checkbox">
                     {({ input }) => (
                       <CheckBox {...input} id={input.name} variant="streamBlue">
-                        <Localized id="profile-preferences-alwaysShowMedia">
-                          Always show media
+                        <Localized id="profile-preferences-alwaysShow">
+                          <div>Always show GIFs, Tweets, YouTube, etc.</div>
                         </Localized>
                       </CheckBox>
                     )}
                   </Field>
                 </FormField>
               </FieldSet>
+              <Localized id="profile-preferences-thisMayMake">
+                <div className={styles.checkBoxDescription}>
+                  This may make the comments slower to load
+                </div>
+              </Localized>
             </div>
             <Button type="submit" disabled={submitting || pristine} upperCase>
               Update

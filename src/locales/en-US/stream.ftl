@@ -341,7 +341,8 @@ profile-commentHistory-empty-subheading = A history of your comments will appear
 ### Preferences
 
 profile-preferences-mediaPreferences = Media Preferences
-profile-preferences-alwaysShowMedia = Always show media
+profile-preferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
+profile-preferences-thisMayMake = This may make the comments slower to load
 
 ### Account
 profile-account-ignoredCommenters = Ignored Commenters
