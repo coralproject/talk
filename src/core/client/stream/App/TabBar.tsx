@@ -122,7 +122,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showConfigureTab && (
             <Tab
-              className={cn(CLASSES.tabBar.configure, {
+              className={cn(CLASSES.tabBar.configure, styles.configureTab, {
                 [styles.smallTab]: !matches,
               })}
               tabID="CONFIGURE"
@@ -135,10 +135,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 </Localized>
               ) : (
                 <div>
-                  <Icon size="lg">settings</Icon>
-                  <Localized id="general-tabBar-configure">
-                    <div className={styles.smallText}>Configure</div>
-                  </Localized>
+                  <Icon size="md">settings</Icon>
                 </div>
               )}
             </Tab>
