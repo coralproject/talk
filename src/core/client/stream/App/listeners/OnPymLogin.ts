@@ -16,7 +16,7 @@ export class OnPymLogin extends Component<Props> {
 
     // Sets comment id through pym.
     props.pym.onMessage("login", (accessToken) => {
-      void this.props.setAccessToken({ accessToken });
+      void this.props.setAccessToken({ accessToken, ephemeral: true });
     });
   }
 

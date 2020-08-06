@@ -63,7 +63,10 @@ export interface CoralContext {
   eventEmitter: EventEmitter2;
 
   /** Clear session data. */
-  clearSession: (nextAccessToken?: string | null) => Promise<void>;
+  clearSession: (
+    nextAccessToken?: string | null,
+    ephemeral?: boolean
+  ) => Promise<void>;
 
   /** Change locale and rerender */
   changeLocale: (locale: LanguageCode) => Promise<void>;
