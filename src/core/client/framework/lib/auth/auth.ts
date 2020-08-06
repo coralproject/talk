@@ -3,7 +3,7 @@ import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 /**
  * ACCESS_TOKEN_KEY is the key in storage where the accessToken is stored.
  */
-const ACCESS_TOKEN_KEY = "coral:v1:accessToken";
+const ACCESS_TOKEN_KEY = "coral:v2:accessToken";
 
 export interface AuthState {
   /**
@@ -19,7 +19,7 @@ export interface AuthState {
 
 export type AccessTokenProvider = () => string | undefined;
 
-function parseAccessToken(accessToken: string) {
+export function parseAccessToken(accessToken: string) {
   // Try to parse the access token claims.
   const claims = parseAccessTokenClaims(accessToken);
   if (!claims) {
@@ -59,6 +59,13 @@ export function retrieveAccessToken() {
 }
 
 export function storeAccessToken(accessToken: string) {
+  // Parse the access token that's trying to be stored now. If it can't be
+  // parsed, it can't be stored.
+  const parsed = parseAccessToken(accessToken);
+  if (!parsed) {
+    return;
+  }
+
   try {
     // Update the access token in storage.
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
@@ -69,7 +76,7 @@ export function storeAccessToken(accessToken: string) {
   }
 
   // Return the parsed access token.
-  return parseAccessToken(accessToken);
+  return parsed;
 }
 
 export function deleteAccessToken() {

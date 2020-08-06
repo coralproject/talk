@@ -23,6 +23,7 @@ import {
   AccessTokenProvider,
   AuthState,
   deleteAccessToken,
+  parseAccessToken,
   retrieveAccessToken,
   storeAccessToken,
 } from "../auth";
@@ -160,7 +161,10 @@ function createManagedCoralContextProvider(
     }
 
     // This is called every time a user session starts or ends.
-    private clearSession = async (nextAccessToken?: string) => {
+    private clearSession = async (
+      nextAccessToken?: string,
+      ephemeral?: boolean
+    ) => {
       // Clear session storage.
       void this.state.context.sessionStorage.clear();
 
@@ -169,7 +173,9 @@ function createManagedCoralContextProvider(
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
-        ? storeAccessToken(nextAccessToken)
+        ? ephemeral
+          ? parseAccessToken(nextAccessToken)
+          : storeAccessToken(nextAccessToken)
         : deleteAccessToken();
 
       // Create the new environment.
