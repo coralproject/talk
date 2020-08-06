@@ -74,7 +74,7 @@ export function useFetch<V, R>(
 export function useImmediateFetch<V extends {}, R>(
   fetch: Fetch<any, V, Promise<R>>,
   variables: V,
-  refetch?: string
+  refetch?: any
 ): [R | null, boolean] {
   const fetcher = useFetch(fetch);
   const [state, setState] = useState<{ data: R | null; loading: boolean }>({
