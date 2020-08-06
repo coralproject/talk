@@ -241,6 +241,7 @@ exports[`Inject counts 1`] = `
   />
   <span
     class="coral-count"
+    data-coral-count="5"
     data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
     data-coral-url="http://localhost:8080/"
     data-notext="true"
@@ -259,6 +260,7 @@ exports[`Inject counts 1`] = `
   </span>
   <span
     class="coral-count"
+    data-coral-count="5"
     data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
     data-coral-url="http://localhost:8080/"
   >

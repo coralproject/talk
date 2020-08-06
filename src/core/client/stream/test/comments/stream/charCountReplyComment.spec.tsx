@@ -53,7 +53,9 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  within(comment).getByTestID("comment-reply-button").props.onClick();
+  act(() =>
+    within(comment).getByTestID("comment-reply-button").props.onClick()
+  );
 
   const rte = await waitForElement(
     () =>

@@ -92,6 +92,7 @@ export default function createManagedSubscriptionClient(
       cacheConfig,
       observer,
     };
+
     request.subscribe = () => {
       if (!subscriptionClient) {
         subscriptionClient = new SubscriptionClient(url, {
@@ -165,14 +166,26 @@ export default function createManagedSubscriptionClient(
       }
     }
 
+    // When the subscription is disposed, this will be true.
+    let disposed = false;
+
     return {
       dispose: () => {
+        // Guard against double disposes. Multiple calls to dispose will now
+        // result in no-ops.
+        if (disposed) {
+          return;
+        }
+        disposed = true;
+
+        let closed = false;
         const i = requests.findIndex((r) => r === request);
         if (i !== -1) {
           // Unsubscribe if available.
           if (request.unsubscribe) {
             request.unsubscribe();
           }
+
           // Remove from requests list.
           requests.splice(i, 1);
 
@@ -182,6 +195,7 @@ export default function createManagedSubscriptionClient(
             (requests.length === 0 || requests.every((r) => !r.unsubscribe))
           ) {
             closeClient();
+            closed = true;
           }
         }
 
@@ -196,6 +210,12 @@ export default function createManagedSubscriptionClient(
             "with variables:",
             JSON.stringify(request.variables)
           );
+
+          if (closed) {
+            window.console.debug(
+              "subscription client disconnecting, no more subscriptions being tracked"
+            );
+          }
         }
       },
     };
