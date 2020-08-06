@@ -47,6 +47,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   return (
     <div>
       <CommentForm
+        rteRef={props.rteRef}
         siteID={props.siteID}
         onSubmit={props.onSubmit}
         initialValues={props.initialValues}
