@@ -7,20 +7,20 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { UpdateEmbedPreferencesEvent } from "coral-stream/events";
+import { UpdateUserMediaSettingsEvent } from "coral-stream/events";
 
-import { UpdateEmbedPreferencesMutation as MutationTypes } from "coral-stream/__generated__/UpdateEmbedPreferencesMutation.graphql";
+import { UpdateUserMediaSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateUserMediaSettingsMutation.graphql";
 
 let clientMutationId = 0;
 
-const UpdateEmbedPreferencesMutation = createMutation(
-  "updateEmbedPreferences",
+const UpdateUserMediaSettingsMutation = createMutation(
+  "updateUserMediaSettings",
   async (
     environment: Environment,
     input: MutationInput<MutationTypes>,
     { eventEmitter }: CoralContext
   ) => {
-    const updateEmbedPreferences = UpdateEmbedPreferencesEvent.begin(
+    const updateMediaSettings = UpdateUserMediaSettingsEvent.begin(
       eventEmitter,
       {
         unfurlEmbeds: input.unfurlEmbeds,
@@ -31,13 +31,13 @@ const UpdateEmbedPreferencesMutation = createMutation(
         environment,
         {
           mutation: graphql`
-            mutation UpdateEmbedPreferencesMutation(
-              $input: UpdateEmbedPreferencesInput!
+            mutation UpdateUserMediaSettingsMutation(
+              $input: UpdateUserMediaSettingsInput!
             ) {
-              updateEmbedPreferences(input: $input) {
+              updateUserMediaSettings(input: $input) {
                 user {
                   id
-                  embedPreferences {
+                  mediaSettings {
                     unfurlEmbeds
                   }
                 }
@@ -53,10 +53,10 @@ const UpdateEmbedPreferencesMutation = createMutation(
           },
         }
       );
-      updateEmbedPreferences.success();
+      updateMediaSettings.success();
       return result;
     } catch (error) {
-      updateEmbedPreferences.error({
+      updateMediaSettings.error({
         message: error.message,
         code: error.code,
       });
@@ -65,4 +65,4 @@ const UpdateEmbedPreferencesMutation = createMutation(
   }
 );
 
-export default UpdateEmbedPreferencesMutation;
+export default UpdateUserMediaSettingsMutation;

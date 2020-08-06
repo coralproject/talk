@@ -37,7 +37,7 @@ import {
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
-  GQLUpdateEmbedPreferencesInput,
+  GQLUpdateUserMediaSettingsInput,
   GQLUSER_ROLE,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
@@ -2320,15 +2320,15 @@ export async function updateUserNotificationSettings(
   return result.value;
 }
 
-export type UpdateEmbedPreferencesInput = Partial<
-  GQLUpdateEmbedPreferencesInput
+export type UpdateUserMediaSettingsInput = Partial<
+  GQLUpdateUserMediaSettingsInput
 >;
 
-export async function updateUserEmbedPreferences(
+export async function updateUserMediaSettings(
   mongo: Db,
   tenantID: string,
   id: string,
-  settings: UpdateEmbedPreferencesInput
+  settings: UpdateUserMediaSettingsInput
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -2337,7 +2337,7 @@ export async function updateUserEmbedPreferences(
     },
     {
       $set: dotize({
-        embedPreferences: settings,
+        mediaSettings: settings,
       }),
     },
     {

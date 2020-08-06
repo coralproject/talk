@@ -25,7 +25,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
-  updateEmbedPreferences,
+  updateMediaSettings,
   updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
@@ -59,11 +59,11 @@ import {
   GQLSetUsernameInput,
   GQLSuspendUserInput,
   GQLUpdateEmailInput,
-  GQLUpdateEmbedPreferencesInput,
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUserMediaSettingsInput,
   GQLUpdateUserModerationScopesInput,
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
@@ -208,9 +208,9 @@ export const Users = (ctx: GraphContext) => ({
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
   ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
-  updateEmbedPreferences: async (
-    input: WithoutMutationID<GQLUpdateEmbedPreferencesInput>
-  ) => updateEmbedPreferences(ctx.mongo, ctx.tenant, ctx.user!, input),
+  updateUserMediaSettings: async (
+    input: WithoutMutationID<GQLUpdateUserMediaSettingsInput>
+  ) => updateMediaSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>

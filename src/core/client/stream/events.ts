@@ -217,14 +217,14 @@ export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
   };
 }>("updateNotificationSettings");
 
-export const UpdateEmbedPreferencesEvent = createViewerNetworkEvent<{
+export const UpdateUserMediaSettingsEvent = createViewerNetworkEvent<{
   unfurlEmbeds?: boolean | null;
   success: {};
   error: {
     message: string;
     code?: string;
   };
-}>("updateEmbedPreferences");
+}>("updateUserMediaSettings");
 
 /**
  * This event is emitted when the viewer updates the story settings.

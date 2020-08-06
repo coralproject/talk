@@ -12,35 +12,35 @@ import {
 } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { EmbedPreferencesContainer_viewer } from "coral-stream/__generated__/EmbedPreferencesContainer_viewer.graphql";
+import { MediaSettingsContainer_viewer } from "coral-stream/__generated__/MediaSettingsContainer_viewer.graphql";
 
-import UpdateEmbedPreferencesMutation from "./UpdateEmbedPreferencesMutation";
+import UpdateUserMediaSettingsMutation from "./UpdateUserMediaSettingsMutation";
 
-import styles from "./EmbedPreferencesContainer.css";
+import styles from "./MediaSettingsContainer.css";
 
 interface Props {
-  viewer: EmbedPreferencesContainer_viewer;
+  viewer: MediaSettingsContainer_viewer;
 }
 
-const EmbedPreferencesContainer: FunctionComponent<Props> = ({ viewer }) => {
-  const updatePreferences = useMutation(UpdateEmbedPreferencesMutation);
+const MediaSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const updateMediaSettings = useMutation(UpdateUserMediaSettingsMutation);
 
   const onSubmit = useCallback(
     async (e) => {
       try {
-        await updatePreferences(e);
+        await updateMediaSettings(e);
       } catch (err) {
         window.console.log(err);
       }
     },
-    [updatePreferences]
+    [updateMediaSettings]
   );
 
   return (
     <HorizontalGutter>
-      <Form initialValues={viewer.embedPreferences} onSubmit={onSubmit}>
+      <Form initialValues={viewer.mediaSettings} onSubmit={onSubmit}>
         {({ submitting, pristine, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <Localized id="profile-preferences-mediaPreferences">
               <div className={styles.title}>Media Preferences</div>
             </Localized>
@@ -76,13 +76,13 @@ const EmbedPreferencesContainer: FunctionComponent<Props> = ({ viewer }) => {
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment EmbedPreferencesContainer_viewer on User {
+    fragment MediaSettingsContainer_viewer on User {
       id
-      embedPreferences {
+      mediaSettings {
         unfurlEmbeds
       }
     }
   `,
-})(EmbedPreferencesContainer);
+})(MediaSettingsContainer);
 
 export default enhanced;

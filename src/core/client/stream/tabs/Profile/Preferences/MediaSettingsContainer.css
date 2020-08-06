@@ -1,3 +1,7 @@
+.form {
+  padding-bottom: var(--spacing-1);
+}
+
 .title {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);

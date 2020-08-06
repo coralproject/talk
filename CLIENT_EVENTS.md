@@ -131,9 +131,9 @@ createComment.error
 - <a href="#signOut">signOut</a>
 - <a href="#signedIn">signedIn</a>
 - <a href="#unfeatureComment">unfeatureComment</a>
-- <a href="#updateEmbedPreferences">updateEmbedPreferences</a>
 - <a href="#updateNotificationSettings">updateNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
+- <a href="#updateUserMediaSettings">updateUserMediaSettings</a>
 - <a href="#viewConversation">viewConversation</a>
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
@@ -552,17 +552,6 @@ createComment.error
       };
   }
   ```
-- <a id="updateEmbedPreferences">**updateEmbedPreferences.success**, **updateEmbedPreferences.error**</a>: 
-  ```ts
-  {
-      unfurlEmbeds?: boolean | null | undefined;
-      success: {};
-      error: {
-          message: string;
-          code?: string | undefined;
-      };
-  }
-  ```
 - <a id="updateNotificationSettings">**updateNotificationSettings.success**, **updateNotificationSettings.error**</a>: This event is emitted when the viewer updates its notification settings.
   ```ts
   {
@@ -592,6 +581,17 @@ createComment.error
           icon?: string | null | undefined;
           content?: string | null | undefined;
       } | null | undefined;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="updateUserMediaSettings">**updateUserMediaSettings.success**, **updateUserMediaSettings.error**</a>: 
+  ```ts
+  {
+      unfurlEmbeds?: boolean | null | undefined;
       success: {};
       error: {
           message: string;

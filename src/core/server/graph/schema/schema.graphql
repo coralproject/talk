@@ -2185,9 +2185,9 @@ enum DIGEST_FREQUENCY {
 }
 
 """
-EmbedPreferences are the user's preferences around embed stream behaviour.
+UserMediaSettings are the user's preferences around embed stream behaviour.
 """
-type EmbedPreferences {
+type UserMediaSettings {
   """
   unfurlEmbeds is whether the user has chosen to immediately show embed contents
   without having to click "Show Tweet", "Show GIF", etc.
@@ -2471,9 +2471,9 @@ type User {
     @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
-  embedPreferences are the user's preferences around embed stream behaviour.
+  mediaSettings are the user's preferences around media stream behaviour.
   """
-  embedPreferences: EmbedPreferences
+  mediaSettings: UserMediaSettings
 }
 
 """
@@ -3641,12 +3641,12 @@ type UpdateNotificationSettingsPayload {
   clientMutationId: String!
 }
 
-input UpdateEmbedPreferencesInput {
+input UpdateUserMediaSettingsInput {
   unfurlEmbeds: Boolean
   clientMutationId: String!
 }
 
-type UpdateEmbedPreferencesPayload {
+type UpdateUserMediaSettingsPayload {
   user: User!
   clientMutationId: String!
 }
@@ -7362,12 +7362,12 @@ type Mutation {
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
-  updateEmbedPreferences can be used to update the embed preferences for the
+  updateUserMediaSettings can be used to update the media preferences for the
   current logged in user.
   """
-  updateEmbedPreferences(
-    input: UpdateEmbedPreferencesInput!
-  ): UpdateEmbedPreferencesPayload! @auth
+  updateUserMediaSettings(
+    input: UpdateUserMediaSettingsInput!
+  ): UpdateUserMediaSettingsPayload! @auth
 
   """
   updateUserEmail allows administrators to update a given User's email address

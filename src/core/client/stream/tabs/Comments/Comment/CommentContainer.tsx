@@ -412,7 +412,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
               <MediaSectionContainer
                 comment={comment}
                 settings={settings}
-                defaultExpanded={viewer?.embedPreferences?.unfurlEmbeds}
+                defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
               />
             }
             footer={
@@ -537,7 +537,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             badges
             role
             scheduledDeletionDate
-            embedPreferences {
+            mediaSettings {
               unfurlEmbeds
             }
             ...UsernameWithPopoverContainer_viewer

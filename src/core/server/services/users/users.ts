@@ -66,10 +66,10 @@ import {
   setUserLocalProfile,
   setUserUsername,
   suspendUser,
-  UpdateEmbedPreferencesInput,
   updateUserAvatar,
   updateUserEmail,
-  updateUserEmbedPreferences,
+  updateUserMediaSettings,
+  UpdateUserMediaSettingsInput,
   updateUserModerationScopes,
   updateUserNotificationSettings,
   updateUserPassword,
@@ -1277,13 +1277,13 @@ export async function updateNotificationSettings(
   return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
 }
 
-export async function updateEmbedPreferences(
+export async function updateMediaSettings(
   mongo: Db,
   tenant: Tenant,
   user: User,
-  settings: UpdateEmbedPreferencesInput
+  settings: UpdateUserMediaSettingsInput
 ) {
-  return updateUserEmbedPreferences(mongo, tenant.id, user.id, settings);
+  return updateUserMediaSettings(mongo, tenant.id, user.id, settings);
 }
 
 function userLastCommentIDKey(
