@@ -16,7 +16,7 @@ it("Listens to event and calls setAccessToken", () => {
 
   const setAccessToken = createSinonStub(
     (s) => s.throws(),
-    (s) => s.withArgs({ accessToken }).returns(null)
+    (s) => s.withArgs({ accessToken, ephemeral: true }).returns(null)
   );
 
   createRenderer().render(

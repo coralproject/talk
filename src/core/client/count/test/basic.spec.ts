@@ -76,6 +76,7 @@ it("Inject counts", async () => {
     ref: "ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw==",
     html:
       '<span class="coral-count-number">5</span> <span class="coral-count-text">Comments</span>',
+    count: 5,
   });
   expect(document.body).toMatchSnapshot();
 });

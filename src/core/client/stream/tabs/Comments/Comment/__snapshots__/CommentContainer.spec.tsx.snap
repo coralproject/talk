@@ -60,6 +60,7 @@ exports[`hide reply button 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -159,11 +160,11 @@ exports[`hide reply button 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -240,6 +241,7 @@ exports[`hide reply button 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -373,6 +375,7 @@ exports[`hide reply button 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -487,6 +490,7 @@ exports[`renders body only 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -593,11 +597,11 @@ exports[`renders body only 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -674,6 +678,7 @@ exports[`renders body only 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -807,6 +812,7 @@ exports[`renders body only 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -921,6 +927,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "disableCommenting": Object {
                       "enabled": true,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -1027,11 +1034,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               "disableCommenting": Object {
                 "enabled": true,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1108,6 +1115,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "disableCommenting": Object {
                   "enabled": true,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -1241,6 +1249,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "disableCommenting": Object {
                   "enabled": true,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -1355,6 +1364,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -1461,11 +1471,11 @@ exports[`renders disabled reply when story is closed 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1542,6 +1552,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -1675,6 +1686,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -1793,6 +1805,7 @@ exports[`renders in reply to 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -1907,6 +1920,7 @@ exports[`renders in reply to 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
@@ -1996,6 +2010,7 @@ exports[`renders in reply to 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -2141,6 +2156,7 @@ exports[`renders in reply to 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -2259,6 +2275,7 @@ exports[`renders username and body 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -2365,11 +2382,11 @@ exports[`renders username and body 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -2446,6 +2463,7 @@ exports[`renders username and body 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -2579,6 +2597,7 @@ exports[`renders username and body 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -2702,6 +2721,7 @@ exports[`shows conversation link 1`] = `
                     "disableCommenting": Object {
                       "enabled": false,
                     },
+                    "featureFlags": Array [],
                   }
                 }
                 viewer={null}
@@ -2814,11 +2834,11 @@ exports[`shows conversation link 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -2895,6 +2915,7 @@ exports[`shows conversation link 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={
@@ -3028,6 +3049,7 @@ exports[`shows conversation link 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+                "featureFlags": Array [],
               }
             }
             story={

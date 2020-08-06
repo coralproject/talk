@@ -8,6 +8,7 @@ import {
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
+import { formatDate } from "coral-common/date";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -431,16 +432,7 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
-  // TODO: extract out into a common shared formatter
-  // this is being duplicated everywhere
-  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  }).format(deletionDate.toJSDate());
+  const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
 
   await mailer.add({
     tenantID: tenant.id,
@@ -1238,7 +1230,7 @@ export async function requestCommentsDownload(
         name: "account-notification/download-comments",
         context: {
           username: user.username!,
-          date: Intl.DateTimeFormat(tenant.locale).format(now),
+          date: formatDate(now, tenant.locale),
           downloadUrl,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
