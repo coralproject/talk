@@ -2447,7 +2447,11 @@ type User {
   the user has a MODERATOR role.
   """
   moderationScopes: UserModerationScopes
-    @auth(userIDField: "id", roles: [ADMIN, MODERATOR])
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   ssoURL is the url for managing sso account
@@ -7265,7 +7269,7 @@ type Mutation {
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
-    @auth
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
     @rate(seconds: 10)
 
   """
@@ -7274,7 +7278,9 @@ type Mutation {
   """
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
-  ): RequestAccountDeletionPayload! @auth @rate(seconds: 10)
+  ): RequestAccountDeletionPayload!
+    @auth(permit: [SUSPENDED, BANNED])
+    @rate(seconds: 10)
 
   """
   deleteUserAccount will delete the target user now.
@@ -7317,7 +7323,7 @@ type Mutation {
   updateEmail will update the current users email address.
   """
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
-    @auth
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
     @rate(seconds: 10)
 
   """
@@ -7326,7 +7332,8 @@ type Mutation {
   """
   updateNotificationSettings(
     input: UpdateNotificationSettingsInput!
-  ): UpdateNotificationSettingsPayload! @auth
+  ): UpdateNotificationSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   updateUserEmail allows administrators to update a given User's email address

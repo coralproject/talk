@@ -1,12 +1,19 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { EventEmitter2 } from "eventemitter2";
-import { setLongTimeout } from "long-settimeout";
-import React, { Component, MouseEvent } from "react";
+import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
+import React, {
+  FunctionComponent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import {
@@ -87,453 +94,428 @@ interface Props {
   toggleCollapsed?: () => void;
 }
 
-interface State {
-  showReplyDialog: boolean;
-  showEditDialog: boolean;
-  editable: boolean;
-  showReportFlow: boolean;
-}
-
-export class CommentContainer extends Component<Props, State> {
-  private uneditableTimer: any;
-
-  public state = {
-    showReplyDialog: false,
-    showEditDialog: false,
-    editable: this.isEditable(),
-    showReportFlow: false,
-  };
-
-  constructor(props: Props) {
-    super(props);
-    if (this.isEditable()) {
-      this.uneditableTimer = this.updateWhenNotEditable();
-    }
-  }
-
-  public componentWillUnmount() {
-    clearTimeout(this.uneditableTimer);
-  }
-
-  private isEditable() {
-    const isMyComment = !!(
-      this.props.viewer &&
-      this.props.comment.author &&
-      this.props.viewer.id === this.props.comment.author.id
-    );
-    const banned = Boolean(
-      this.props.viewer &&
-        this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
-    );
-    const suspended = Boolean(
-      this.props.viewer &&
-        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
-    );
-    return (
-      !banned &&
-      !suspended &&
-      isMyComment &&
-      !!this.props.comment.editing.editableUntil &&
-      isBeforeDate(this.props.comment.editing.editableUntil)
-    );
-  }
-
-  private toggleReplyDialog = () => {
-    if (this.props.viewer) {
-      this.setState((state) => {
-        if (!state.showReplyDialog) {
-          ShowReplyFormEvent.emit(this.props.eventEmitter, {
-            commentID: this.props.comment.id,
-          });
-        }
-        return {
-          showReplyDialog: !state.showReplyDialog,
-        };
+export const CommentContainer: FunctionComponent<Props> = ({
+  className,
+  collapsed,
+  comment,
+  disableReplies,
+  hideAnsweredTag,
+  hideModerationCarat,
+  highlight,
+  indentLevel,
+  localReply,
+  onRemoveAnswered,
+  settings,
+  showConversationLink,
+  hideReportButton,
+  story,
+  toggleCollapsed,
+  eventEmitter,
+  setCommentID,
+  viewer,
+  showAuthPopup,
+}) => {
+  const [showReplyDialog, setShowReplyDialog] = useState(false);
+  const [
+    showEditDialog,
+    setShowEditDialog,
+    toggleShowEditDialog,
+  ] = useToggleState(false);
+  const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
+  const handleShowConversation = useCallback(
+    (e: MouseEvent) => {
+      ViewConversationEvent.emit(eventEmitter, {
+        commentID: comment.id,
+        from: "COMMENT_STREAM",
       });
-    } else {
-      void this.props.showAuthPopup({ view: "SIGN_IN" });
-    }
-  };
 
-  private openEditDialog = () => {
-    if (this.props.viewer) {
-      ShowEditFormEvent.emit(this.props.eventEmitter, {
-        commentID: this.props.comment.id,
+      // Prevent the event from acting.
+      e.preventDefault();
+
+      // If the feature for read more new tab is enabled, then redirect the
+      // user.
+      if (settings.featureFlags.includes(GQLFEATURE_FLAG.READ_MORE_NEW_TAB)) {
+        const url = getURLWithCommentID(story.url, comment.id);
+
+        window.open(url, "_blank", "noreferrer");
+      } else {
+        void setCommentID({ id: comment.id });
+      }
+
+      // Return false to prevent the navigation from occuring.
+      return false;
+    },
+    [eventEmitter, comment.id, settings.featureFlags, story.url, setCommentID]
+  );
+
+  const isLoggedIn = !!viewer;
+
+  const openEditDialog = useCallback(() => {
+    if (isLoggedIn) {
+      ShowEditFormEvent.emit(eventEmitter, {
+        commentID: comment.id,
       });
-      this.setState((state) => ({
-        showEditDialog: true,
-      }));
+      setShowEditDialog(true);
     } else {
-      void this.props.showAuthPopup({ view: "SIGN_IN" });
+      void showAuthPopup({ view: "SIGN_IN" });
     }
-  };
+  }, [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
 
-  private closeEditDialog = () => {
-    this.setState((state) => ({
-      showEditDialog: false,
-    }));
-  };
+  const toggleShowReplyDialog = useCallback(() => {
+    if (isLoggedIn) {
+      if (!showReplyDialog) {
+        ShowReplyFormEvent.emit(eventEmitter, {
+          commentID: comment.id,
+        });
+      }
 
-  private closeReplyDialog = () => {
-    this.setState((state) => ({
-      showReplyDialog: false,
-    }));
-  };
-
-  private updateWhenNotEditable() {
-    const ms =
-      new Date(this.props.comment.editing.editableUntil!).getTime() -
-      Date.now();
-    if (ms > 0) {
-      return setLongTimeout(() => this.setState({ editable: false }), ms);
-    }
-    return;
-  }
-
-  private handleShowConversation = (e: MouseEvent) => {
-    ViewConversationEvent.emit(this.props.eventEmitter, {
-      commentID: this.props.comment.id,
-      from: "COMMENT_STREAM",
-    });
-    e.preventDefault();
-
-    if (
-      this.props.settings.featureFlags.includes(
-        GQLFEATURE_FLAG.READ_MORE_NEW_TAB
-      )
-    ) {
-      const url = getURLWithCommentID(
-        this.props.story.url,
-        this.props.comment.id
-      );
-
-      window.open(url, "_blank", "noreferrer");
+      setShowReplyDialog((v) => !v);
     } else {
-      void this.props.setCommentID({ id: this.props.comment.id });
+      void showAuthPopup({ view: "SIGN_IN" });
+    }
+  }, [
+    isLoggedIn,
+    showReplyDialog,
+    setShowReplyDialog,
+    showAuthPopup,
+    eventEmitter,
+    comment,
+  ]);
+
+  const isViewerBanned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.BANNED
+  );
+  const isViewerSuspended = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
+  );
+  const isViewerScheduledForDeletion = !!viewer?.scheduledDeletionDate;
+
+  const isViewerComment =
+    // Can't edit a comment if you aren't logged in!
+    !!viewer &&
+    // Can't edit a comment if there isn't an author on it!
+    !!comment.author &&
+    // Can't edit a comment if the comment isn't the viewers!
+    viewer.id === comment.author.id;
+
+  // The editable initial value is the result of the the funtion here.
+  const [editable, setEditable] = useState(() => {
+    // Can't edit a comment that the viewer didn't write! If the user is banned
+    // or suspended too they can't edit.
+    if (!isViewerComment || isViewerBanned || isViewerSuspended) {
+      return false;
     }
 
-    return false;
-  };
-
-  private onReportButtonClicked = () => {
-    this.setState({
-      showReportFlow: !this.state.showReportFlow,
-    });
-  };
-  private onCloseReportFlow = () => {
-    this.setState({
-      showReportFlow: false,
-    });
-  };
-
-  public render() {
-    const {
-      comment,
-      settings,
-      story,
-      indentLevel,
-      localReply,
-      disableReplies,
-      showConversationLink,
-      highlight,
-      viewer,
-      className,
-      hideAnsweredTag,
-      collapsed,
-    } = this.props;
-    const { showReplyDialog, showEditDialog, editable } = this.state;
-    const hasFeaturedTag = Boolean(
-      comment.tags.find((t) => t.code === GQLTAG.FEATURED)
-    );
-    // We are in a Q&A if the story mode is set to QA.
-    const isQA = Boolean(story.settings.mode === GQLSTORY_MODE.QA);
-    // Author is expert if comment is tagged Expert and the
-    // story mode is Q&A.
-    const authorIsExpert =
-      isQA && comment.tags.find((t) => t.code === GQLTAG.EXPERT);
-    // Only show a button to clear removed answers if
-    // this comment is by an expert, reply to a top level
-    // comment (question) with an answer
-    const showRemoveAnswered = Boolean(
-      !comment.deleted &&
-        isQA &&
-        authorIsExpert &&
-        indentLevel === 1 &&
-        this.props.onRemoveAnswered
-    );
-    // When we're in Q&A and we are not un-answered (answered)
-    // and we're a top level comment (no parent), then we
-    // are an answered question
-    const hasAnsweredTag = Boolean(
-      !hideAnsweredTag &&
-        isQA &&
-        comment.tags.every((t) => t.code !== GQLTAG.UNANSWERED) &&
-        !comment.parent
-    );
-    const commentTags = (
-      <>
-        {hasFeaturedTag && !isQA && (
-          <FeaturedTag collapsed={this.props.collapsed} />
-        )}
-        {hasAnsweredTag && isQA && (
-          <AnsweredTag collapsed={this.props.collapsed} />
-        )}
-      </>
-    );
-    const banned = Boolean(
-      this.props.viewer &&
-        this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
-    );
-    const suspended = Boolean(
-      this.props.viewer &&
-        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
-    );
-    const scheduledForDeletion = Boolean(
-      this.props.viewer && this.props.viewer.scheduledDeletionDate
-    );
-    const showCaret =
-      this.props.viewer &&
-      this.props.story.canModerate &&
-      can(this.props.viewer, Ability.MODERATE) &&
-      !this.props.hideModerationCarat;
-
-    if (showEditDialog) {
-      return (
-        <div data-testid={`comment-${comment.id}`}>
-          <EditCommentFormContainer
-            settings={settings}
-            comment={comment}
-            story={story}
-            onClose={this.closeEditDialog}
-          />
-        </div>
-      );
-    }
-    // Comment is not published after viewer rejected it.
+    // Can't edit a comment if the editable date is before the current date!
     if (
-      comment.lastViewerAction === "REJECT" &&
-      comment.status === "REJECTED"
+      !comment.editing.editableUntil ||
+      !isBeforeDate(comment.editing.editableUntil)
     ) {
-      return <RejectedTombstoneContainer comment={comment} />;
+      return false;
     }
-    // Comment is not published after edit, so don't render it anymore.
-    if (comment.lastViewerAction === "EDIT" && !isPublished(comment.status)) {
-      return null;
+
+    // Comment is editable!
+    return true;
+  });
+
+  useEffect(() => {
+    // If the comment is not editable now, it can't be editable in the future,
+    // so exit!
+    if (!editable) {
+      return;
     }
+
+    // The comment is editable, we should register a callback to remove that
+    // status when it is no longer editable. We know that the `editableUntil` is
+    // available because it was editable!
+    const editableFor =
+      new Date(comment.editing.editableUntil!).getTime() - Date.now();
+    if (editableFor <= 0) {
+      // Can't schedule a timer for the past! The comment is no longer editable.
+      setEditable(false);
+      return;
+    }
+
+    // Setup the timeout.
+    const timeout: LongTimeout | null = setLongTimeout(() => {
+      // Mark the comment as not editable.
+      setEditable(false);
+    }, editableFor);
+
+    return () => {
+      // When this component is disposed, also clear the timeout.
+      clearLongTimeout(timeout);
+    };
+  }, [comment.editing.editableUntil, editable]);
+
+  const hasFeaturedTag = comment.tags.some((t) => t.code === GQLTAG.FEATURED);
+
+  // We are in a Q&A if the story mode is set to QA.
+  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  // Author is expert if comment is tagged Expert and the
+  // story mode is Q&A.
+  const authorIsExpert: boolean =
+    isQA && comment.tags.some((t) => t.code === GQLTAG.EXPERT);
+
+  // Only show a button to clear removed answers if this comment is by an
+  // expert, reply to a top level comment (question) with an answer.
+  const showRemoveAnswered: boolean =
+    !comment.deleted &&
+    isQA &&
+    authorIsExpert &&
+    indentLevel === 1 &&
+    !!onRemoveAnswered;
+
+  // When we're in Q&A and we are not un-answered (answered) and we're a top
+  // level comment (no parent), then we are an answered question.
+  const hasAnsweredTag: boolean =
+    !hideAnsweredTag &&
+    isQA &&
+    comment.tags.every((t) => t.code !== GQLTAG.UNANSWERED) &&
+    !comment.parent;
+
+  const commentTags = (
+    <>
+      {hasFeaturedTag && !isQA && <FeaturedTag collapsed={collapsed} />}
+      {hasAnsweredTag && isQA && <AnsweredTag collapsed={collapsed} />}
+    </>
+  );
+
+  const showModerationCaret: boolean =
+    !!viewer &&
+    story.canModerate &&
+    can(viewer, Ability.MODERATE) &&
+    !hideModerationCarat;
+
+  if (showEditDialog) {
     return (
-      <div
-        className={cn(
-          CLASSES.comment.$root,
-          `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-          className
-        )}
-        data-testid={`comment-${comment.id}`}
-      >
-        <HorizontalGutter>
-          {!comment.deleted && (
-            <IndentedComment
-              indentLevel={indentLevel}
-              collapsed={collapsed}
-              body={comment.body}
-              createdAt={comment.createdAt}
-              blur={comment.pending || false}
-              showEditedMarker={comment.editing.edited}
-              highlight={highlight}
-              toggleCollapsed={this.props.toggleCollapsed}
-              parentAuthorName={
-                comment.parent &&
-                comment.parent.author &&
-                comment.parent.author.username
-              }
-              staticUsername={
-                comment.author && (
-                  <>
-                    <UsernameContainer
-                      className={cn(
-                        styles.staticUsername,
-                        CLASSES.comment.topBar.username
-                      )}
-                      comment={comment}
-                    />
-                    <UserTagsContainer
-                      className={CLASSES.comment.topBar.userTag}
-                      story={story}
-                      comment={comment}
-                      settings={settings}
-                    />
-                    <UserBadgesContainer
-                      className={CLASSES.comment.topBar.userBadge}
-                      comment={comment}
-                    />
-                  </>
-                )
-              }
-              username={
-                comment.author && (
-                  <>
-                    <UsernameWithPopoverContainer
-                      className={CLASSES.comment.topBar.username}
-                      comment={comment}
-                      viewer={viewer}
-                    />
-                    <UserTagsContainer
-                      className={CLASSES.comment.topBar.userTag}
-                      story={story}
-                      comment={comment}
-                      settings={settings}
-                    />
-                    <UserBadgesContainer
-                      className={CLASSES.comment.topBar.userBadge}
-                      comment={comment}
-                    />
-                  </>
-                )
-              }
-              staticTopBarRight={commentTags}
-              topBarRight={
-                <Flex alignItems="center" itemGutter>
-                  {commentTags}
-                  {editable && (
-                    <Button
-                      color="stream"
-                      variant="text"
-                      onClick={this.openEditDialog}
-                      className={cn(
-                        CLASSES.comment.topBar.editButton,
-                        styles.editButton
-                      )}
-                      data-testid="comment-edit-button"
-                    >
-                      <Flex alignItems="center" justifyContent="center">
-                        <Icon className={styles.editIcon}>edit</Icon>
-                        <Localized id="comments-commentContainer-editButton">
-                          Edit
-                        </Localized>
-                      </Flex>
-                    </Button>
-                  )}
-                  {showCaret && (
-                    <CaretContainer
-                      comment={comment}
-                      story={story}
-                      viewer={viewer!}
-                    />
-                  )}
-                </Flex>
-              }
-              media={
-                <MediaSectionContainer comment={comment} settings={settings} />
-              }
-              footer={
-                <>
-                  <Flex
-                    justifyContent="space-between"
-                    className={CLASSES.comment.actionBar.$root}
-                  >
-                    <ButtonsBar className={styles.actionBar}>
-                      <ReactionButtonContainer
-                        comment={comment}
-                        settings={settings}
-                        viewer={viewer}
-                        readOnly={banned || suspended}
-                        className={cn(
-                          styles.actionButton,
-                          CLASSES.comment.actionBar.reactButton
-                        )}
-                        reactedClassName={cn(
-                          styles.actionButton,
-                          CLASSES.comment.actionBar.reactedButton
-                        )}
-                        isQA={story.settings.mode === GQLSTORY_MODE.QA}
-                      />
-                      {!disableReplies &&
-                        !banned &&
-                        !suspended &&
-                        !scheduledForDeletion && (
-                          <ReplyButton
-                            id={`comments-commentContainer-replyButton-${comment.id}`}
-                            onClick={this.toggleReplyDialog}
-                            active={showReplyDialog}
-                            disabled={
-                              settings.disableCommenting.enabled ||
-                              story.isClosed
-                            }
-                            className={cn(
-                              styles.actionButton,
-                              CLASSES.comment.actionBar.replyButton
-                            )}
-                          />
-                        )}
-                      <PermalinkButtonContainer
-                        story={story}
-                        commentID={comment.id}
-                        className={cn(
-                          styles.actionButton,
-                          CLASSES.comment.actionBar.shareButton
-                        )}
-                      />
-                    </ButtonsBar>
-                    <ButtonsBar>
-                      {!banned &&
-                        !suspended &&
-                        !this.props.hideReportButton && (
-                          <ReportButton
-                            onClick={this.onReportButtonClicked}
-                            open={this.state.showReportFlow}
-                            viewer={this.props.viewer}
-                            comment={this.props.comment}
-                          />
-                        )}
-                    </ButtonsBar>
-                  </Flex>
-                  {showConversationLink && (
-                    <ShowConversationLink
-                      className={CLASSES.comment.readMoreOfConversation}
-                      id={`comments-commentContainer-showConversation-${comment.id}`}
-                      onClick={this.handleShowConversation}
-                      href={getURLWithCommentID(
-                        this.props.story.url,
-                        this.props.comment.id
-                      )}
-                    />
-                  )}
-                </>
-              }
-            />
-          )}
-          {this.state.showReportFlow && (
-            <ReportFlowContainer
-              viewer={viewer}
-              comment={comment}
-              onClose={this.onCloseReportFlow}
-            />
-          )}
-          {showReplyDialog && !comment.deleted && (
-            <ReplyCommentFormContainer
-              settings={settings}
-              comment={comment}
-              story={story}
-              onClose={this.closeReplyDialog}
-              localReply={localReply}
-            />
-          )}
-          {showRemoveAnswered && (
-            <Localized id="qa-unansweredTab-doneAnswering">
-              <Button
-                variant="regular"
-                color="regular"
-                className={styles.removeAnswered}
-                onClick={this.props.onRemoveAnswered}
-              >
-                Done
-              </Button>
-            </Localized>
-          )}
-        </HorizontalGutter>
+      <div data-testid={`comment-${comment.id}`}>
+        <EditCommentFormContainer
+          settings={settings}
+          comment={comment}
+          story={story}
+          onClose={toggleShowEditDialog}
+        />
       </div>
     );
   }
-}
+
+  // Comment is not published after viewer rejected it.
+  if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
+    return <RejectedTombstoneContainer comment={comment} />;
+  }
+
+  // Comment is not published after edit, so don't render it anymore.
+  if (comment.lastViewerAction === "EDIT" && !isPublished(comment.status)) {
+    return null;
+  }
+
+  return (
+    <div
+      className={cn(
+        CLASSES.comment.$root,
+        `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
+        className
+      )}
+      data-testid={`comment-${comment.id}`}
+    >
+      <HorizontalGutter>
+        {!comment.deleted && (
+          <IndentedComment
+            indentLevel={indentLevel}
+            collapsed={collapsed}
+            body={comment.body}
+            createdAt={comment.createdAt}
+            blur={!!comment.pending}
+            showEditedMarker={comment.editing.edited}
+            highlight={highlight}
+            toggleCollapsed={toggleCollapsed}
+            parentAuthorName={comment.parent?.author?.username}
+            staticUsername={
+              comment.author && (
+                <>
+                  <UsernameContainer
+                    className={cn(
+                      styles.staticUsername,
+                      CLASSES.comment.topBar.username
+                    )}
+                    comment={comment}
+                  />
+                  <UserTagsContainer
+                    className={CLASSES.comment.topBar.userTag}
+                    story={story}
+                    comment={comment}
+                    settings={settings}
+                  />
+                  <UserBadgesContainer
+                    className={CLASSES.comment.topBar.userBadge}
+                    comment={comment}
+                  />
+                </>
+              )
+            }
+            username={
+              comment.author && (
+                <>
+                  <UsernameWithPopoverContainer
+                    className={CLASSES.comment.topBar.username}
+                    comment={comment}
+                    viewer={viewer}
+                  />
+                  <UserTagsContainer
+                    className={CLASSES.comment.topBar.userTag}
+                    story={story}
+                    comment={comment}
+                    settings={settings}
+                  />
+                  <UserBadgesContainer
+                    className={CLASSES.comment.topBar.userBadge}
+                    comment={comment}
+                  />
+                </>
+              )
+            }
+            staticTopBarRight={commentTags}
+            topBarRight={
+              <Flex alignItems="center" itemGutter>
+                {commentTags}
+                {editable && (
+                  <Button
+                    color="stream"
+                    variant="text"
+                    onClick={openEditDialog}
+                    className={cn(
+                      CLASSES.comment.topBar.editButton,
+                      styles.editButton
+                    )}
+                    data-testid="comment-edit-button"
+                  >
+                    <Flex alignItems="center" justifyContent="center">
+                      <Icon className={styles.editIcon}>edit</Icon>
+                      <Localized id="comments-commentContainer-editButton">
+                        Edit
+                      </Localized>
+                    </Flex>
+                  </Button>
+                )}
+                {showModerationCaret && (
+                  <CaretContainer
+                    comment={comment}
+                    story={story}
+                    viewer={viewer!}
+                  />
+                )}
+              </Flex>
+            }
+            media={
+              <MediaSectionContainer comment={comment} settings={settings} />
+            }
+            footer={
+              <>
+                <Flex
+                  justifyContent="space-between"
+                  className={CLASSES.comment.actionBar.$root}
+                >
+                  <ButtonsBar className={styles.actionBar}>
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={isViewerBanned || isViewerSuspended}
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactButton
+                      )}
+                      reactedClassName={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactedButton
+                      )}
+                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                    />
+                    {!disableReplies &&
+                      !isViewerBanned &&
+                      !isViewerSuspended &&
+                      !isViewerScheduledForDeletion && (
+                        <ReplyButton
+                          id={`comments-commentContainer-replyButton-${comment.id}`}
+                          onClick={toggleShowReplyDialog}
+                          active={showReplyDialog}
+                          disabled={
+                            settings.disableCommenting.enabled || story.isClosed
+                          }
+                          className={cn(
+                            styles.actionButton,
+                            CLASSES.comment.actionBar.replyButton
+                          )}
+                        />
+                      )}
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.shareButton
+                      )}
+                    />
+                  </ButtonsBar>
+                  <ButtonsBar>
+                    {!isViewerBanned &&
+                      !isViewerSuspended &&
+                      !hideReportButton && (
+                        <ReportButton
+                          onClick={toggleShowReportFlow}
+                          open={showReportFlow}
+                          viewer={viewer}
+                          comment={comment}
+                        />
+                      )}
+                  </ButtonsBar>
+                </Flex>
+                {showConversationLink && (
+                  <ShowConversationLink
+                    className={CLASSES.comment.readMoreOfConversation}
+                    id={`comments-commentContainer-showConversation-${comment.id}`}
+                    onClick={handleShowConversation}
+                    href={getURLWithCommentID(story.url, comment.id)}
+                  />
+                )}
+              </>
+            }
+          />
+        )}
+        {showReportFlow && (
+          <ReportFlowContainer
+            viewer={viewer}
+            comment={comment}
+            onClose={toggleShowReportFlow}
+          />
+        )}
+        {showReplyDialog && !comment.deleted && (
+          <ReplyCommentFormContainer
+            settings={settings}
+            comment={comment}
+            story={story}
+            onClose={toggleShowReplyDialog}
+            localReply={localReply}
+          />
+        )}
+        {showRemoveAnswered && (
+          <Localized id="qa-unansweredTab-doneAnswering">
+            <Button
+              variant="regular"
+              color="regular"
+              className={styles.removeAnswered}
+              onClick={onRemoveAnswered}
+            >
+              Done
+            </Button>
+          </Localized>
+        )}
+      </HorizontalGutter>
+    </div>
+  );
+};
 
 const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
   withSetCommentIDMutation(
@@ -641,4 +623,5 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
 );
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
+
 export default enhanced;
