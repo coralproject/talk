@@ -1,6 +1,7 @@
 declare module "@rudderstack/rudder-sdk-node" {
   export interface Event {
     userId?: string;
+    anonymousId?: string;
     event: string;
     properties: Record<string, any>;
     timestamp?: Date;

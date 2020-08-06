@@ -1,8 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import { clearLongTimeout } from "long-settimeout";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { createTimeoutAt } from "coral-common/utils";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
@@ -54,7 +56,12 @@ graphql`
   }
 `;
 
-export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
+export const AllCommentsTabContainer: FunctionComponent<Props> = ({
+  story,
+  settings,
+  viewer,
+  relay,
+}) => {
   const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
@@ -67,40 +74,65 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
     CommentReleasedSubscription
   );
   useEffect(() => {
-    if (!props.story.settings.live.enabled) {
+    // If live updates are disabled, don't subscribe to new comments!!
+    if (!story.settings.live.enabled) {
       return;
     }
 
-    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
+    // If the story is closed or commenting is disabled, then don't subscribe
+    // to new comments because there isn't any!
+    if (story.isClosed || settings.disableCommenting.enabled) {
       return;
     }
-    if (
-      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-      props.relay.hasMore()
-    ) {
-      // If sort by oldest we only need to know if there is more to load.
-      return;
-    }
-    if (
-      ![
-        GQLCOMMENT_SORT.CREATED_AT_ASC,
-        GQLCOMMENT_SORT.CREATED_AT_DESC,
-      ].includes(commentsOrderBy as GQLCOMMENT_SORT)
-    ) {
-      // Only chronological sort supports top level live updates of incoming comments.
-      return;
+
+    // Check the sort ordering to apply extra logic.
+    switch (commentsOrderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        if (relay.hasMore()) {
+          // Oldest first when there is more than one page of content can't
+          // possibly have new comments to show in view!
+          return;
+        }
+
+        // We have all the comments for this story in view! Comments could load!
+        break;
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        // Newest first can always get more comments in view.
+        break;
+      default:
+        // Only chronological sort supports top level live updates of incoming
+        // comments.
+        return;
     }
 
     const disposable = combineDisposables(
       subscribeToCommentCreated({
-        storyID: props.story.id,
+        storyID: story.id,
         orderBy: commentsOrderBy,
       }),
       subscribeToCommentReleased({
-        storyID: props.story.id,
+        storyID: story.id,
         orderBy: commentsOrderBy,
       })
     );
+
+    // If the story is scheduled to be closed, cancel the subscriptions because
+    // we can't add any more comments!
+    if (story.closedAt) {
+      const timer = createTimeoutAt(() => {
+        disposable.dispose();
+      }, story.closedAt);
+
+      return () => {
+        // Cancel the timer if there was one enabled.
+        if (timer) {
+          clearLongTimeout(timer);
+        }
+
+        // Dispose the subscriptions.
+        disposable.dispose();
+      };
+    }
 
     return () => {
       disposable.dispose();
@@ -109,14 +141,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
     commentsOrderBy,
     subscribeToCommentCreated,
     subscribeToCommentReleased,
-    props.story.id,
-    props.relay.hasMore(),
-    props.story.settings.live.enabled,
+    story.id,
+    story.isClosed,
+    story.closedAt,
+    story.settings.live.enabled,
+    settings.disableCommenting.enabled,
+    relay.hasMore(),
   ]);
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
+
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
       loadMoreEvent.success();
@@ -125,17 +161,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, props.story.id]);
+  }, [loadMore, beginLoadMoreEvent, story.id]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
-    props.story.id,
+  const onViewMore = useCallback(() => viewMore({ storyID: story.id }), [
+    story.id,
     viewMore,
   ]);
-  const comments = props.story.comments.edges.map((edge) => edge.node);
-  const viewNewCount =
-    (props.story.comments.viewNewEdges &&
-      props.story.comments.viewNewEdges.length) ||
-    0;
+  const viewNewCount = story.comments.viewNewEdges?.length || 0;
   return (
     <>
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -147,7 +179,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+            {story.settings.mode === GQLSTORY_MODE.QA ? (
               <Localized id="qa-viewNew" $count={viewNewCount}>
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
@@ -166,17 +198,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
         aria-live="polite"
         size="oneAndAHalf"
       >
-        {comments.length <= 0 && (
+        {story.comments.edges.length <= 0 && (
           <NoComments
-            mode={props.story.settings.mode}
-            isClosed={props.story.isClosed}
+            mode={story.settings.mode}
+            isClosed={story.isClosed}
           ></NoComments>
         )}
-        {comments.length > 0 &&
-          comments.map((comment) => (
+        {story.comments.edges.length > 0 &&
+          story.comments.edges.map(({ node: comment }) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
-              viewer={props.viewer}
+              viewer={viewer}
               comment={comment}
             >
               <FadeInTransition active={Boolean(comment.enteredLive)}>
@@ -189,10 +221,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
                     >
                       <CommentContainer
                         collapsed={collapsed}
-                        viewer={props.viewer}
-                        settings={props.settings}
+                        viewer={viewer}
+                        settings={settings}
                         comment={comment}
-                        story={props.story}
+                        story={story}
                         toggleCollapsed={toggleCollapsed}
                       />
                       <div
@@ -201,10 +233,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
                         })}
                       >
                         <ReplyListContainer
-                          settings={props.settings}
-                          viewer={props.viewer}
+                          settings={settings}
+                          viewer={viewer}
                           comment={comment}
-                          story={props.story}
+                          story={story}
                         />
                       </div>
                     </HorizontalGutter>
@@ -213,7 +245,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
           ))}
-        {props.relay.hasMore() && (
+        {relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMoreAndEmit}
@@ -254,6 +286,7 @@ const enhanced = withPaginationContainer<
         ) {
         id
         isClosed
+        closedAt
         settings {
           live {
             enabled
@@ -306,8 +339,8 @@ const enhanced = withPaginationContainer<
   },
   {
     direction: "forward",
-    getConnectionFromProps(props) {
-      return props.story && props.story.comments;
+    getConnectionFromProps({ story }) {
+      return story && story.comments;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -316,14 +349,14 @@ const enhanced = withPaginationContainer<
         count: totalCount,
       };
     },
-    getVariables(props, { count, cursor }, fragmentVariables) {
+    getVariables({ story }, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
         orderBy: fragmentVariables.orderBy,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
-        storyID: props.story.id,
+        storyID: story.id,
       };
     },
     query: graphql`

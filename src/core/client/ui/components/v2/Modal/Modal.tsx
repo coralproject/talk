@@ -59,6 +59,7 @@ export interface ModalProps {
   classes: typeof styles;
   open?: boolean;
   children?: PropTypesOf<typeof TrapFocus>["children"];
+  disableScroll?: boolean;
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
@@ -69,6 +70,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   onBackdropClick,
   onEscapeKeyDown,
   children,
+  disableScroll = false,
   ...rest
 }) => {
   const rootClassName = cn(classes.root, className);
@@ -110,7 +112,10 @@ const Modal: FunctionComponent<ModalProps> = ({
         />
         <div
           role="presentation"
-          className={styles.scroll}
+          className={cn(
+            styles.baseScroll,
+            disableScroll ? styles.noScroll : styles.scroll
+          )}
           onKeyDown={handleEscapeKeyDown}
         >
           <div className={styles.alignContainer1}>

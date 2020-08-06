@@ -407,6 +407,12 @@ enum FEATURE_FLAG {
   DISCUSSIONS will enable the discussions tab for the comment stream.
   """
   DISCUSSIONS
+
+  """
+  READ_MORE_NEW_TAB will enable opening a new tab when a user clicks on
+  "read more of this conversation" in the comment stream.
+  """
+  READ_MORE_NEW_TAB
 }
 
 # The moderation mode of the site.

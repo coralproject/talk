@@ -23,14 +23,12 @@ function handleCommentLeftModerationQueue(
   if (!rootField) {
     return;
   }
+  const comment = rootField.getLinkedRecord("comment")!;
   const commentID = rootField
     .getLinkedRecord("comment")!
     .getValue("id")! as string;
-  const commentInStore = store.get(commentID);
-  if (commentInStore) {
-    // Mark that the status of the comment was live updated.
-    commentInStore.setValue(true, "statusLiveUpdated");
-  }
+  // Mark that the status of the comment was live updated.
+  comment.setValue(true, "statusLiveUpdated");
   const connection = getQueueConnection(store, queue, storyID, siteID, section);
   if (connection) {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
