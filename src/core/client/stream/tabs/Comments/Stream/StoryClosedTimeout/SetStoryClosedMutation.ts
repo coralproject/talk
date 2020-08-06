@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutationContainer } from "coral-framework/lib/relay";
+import { createMutation } from "coral-framework/lib/relay";
 
 export interface SetStoryClosedInput {
   storyID: string;
@@ -21,7 +21,4 @@ export async function commit(
   });
 }
 
-export const withSetStoryClosedMutation = createMutationContainer(
-  "setStoryClosed",
-  commit
-);
+export default createMutation("setStoryClosed", commit);

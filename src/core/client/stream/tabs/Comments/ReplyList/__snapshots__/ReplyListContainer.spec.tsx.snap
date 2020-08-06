@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -47,6 +48,7 @@ exports[`renders correctly 1`] = `
           }
           story={
             Object {
+              "closedAt": null,
               "isClosed": false,
               "settings": Object {
                 "live": Object {
@@ -78,6 +80,7 @@ exports[`renders correctly 1`] = `
           }
           story={
             Object {
+              "closedAt": null,
               "isClosed": false,
               "settings": Object {
                 "live": Object {
@@ -106,6 +109,7 @@ exports[`renders correctly 1`] = `
   }
   story={
     Object {
+      "closedAt": null,
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -127,6 +131,7 @@ exports[`when has more replies renders hasMore 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -178,6 +183,7 @@ exports[`when has more replies renders hasMore 1`] = `
   }
   story={
     Object {
+      "closedAt": null,
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -197,6 +203,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -248,6 +255,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   }
   story={
     Object {
+      "closedAt": null,
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -267,6 +275,7 @@ exports[`when has more replies when showing all enable show all button after loa
     Object {
       "id": "comment-id",
       "lastViewerAction": null,
+      "pending": null,
       "replies": Object {
         "edges": Array [
           Object {
@@ -318,6 +327,7 @@ exports[`when has more replies when showing all enable show all button after loa
   }
   story={
     Object {
+      "closedAt": null,
       "isClosed": false,
       "settings": Object {
         "live": Object {
