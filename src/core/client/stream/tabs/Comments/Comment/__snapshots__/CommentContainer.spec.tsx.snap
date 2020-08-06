@@ -165,7 +165,6 @@ exports[`hide reply button 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -603,7 +602,6 @@ exports[`renders body only 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1041,7 +1039,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1479,7 +1476,6 @@ exports[`renders disabled reply when story is closed 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -2391,7 +2387,6 @@ exports[`renders username and body 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -2844,7 +2839,6 @@ exports[`shows conversation link 1`] = `
           }
         />
       }
-      parentAuthorName={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={

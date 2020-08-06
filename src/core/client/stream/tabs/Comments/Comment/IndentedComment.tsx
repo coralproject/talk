@@ -21,38 +21,34 @@ export interface IndentedCommentProps
   staticTopBarRight: React.ReactNode;
 }
 
-const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
-  const {
-    staticTopBarRight,
-    staticUsername,
-    indentLevel,
-    toggleCollapsed,
-    ...rest
-  } = props;
-  const CommentToggleElement = (
-    <CommentToggle
-      {...rest}
-      toggleCollapsed={toggleCollapsed}
-      username={staticUsername}
-      topBarRight={staticTopBarRight}
-    />
-  );
-  const CommentElement = <Comment {...rest} />;
-  const CommentwithIndent = (
+const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
+  staticTopBarRight,
+  staticUsername,
+  indentLevel,
+  toggleCollapsed,
+  blur,
+  ...rest
+}) => {
+  return (
     <Indent
       level={indentLevel}
       collapsed={rest.collapsed}
       className={cn(
         {
           [styles.open]: !rest.collapsed,
-          [styles.blur]: props.blur,
+          [styles.blur]: blur,
           [CLASSES.comment.collapseToggle.collapsed]: rest.collapsed,
         },
         CLASSES.comment.collapseToggle.indent
       )}
     >
       {rest.collapsed ? (
-        CommentToggleElement
+        <CommentToggle
+          {...rest}
+          toggleCollapsed={toggleCollapsed}
+          username={staticUsername}
+          topBarRight={staticTopBarRight}
+        />
       ) : (
         <Flex alignItems="flex-start" spacing={1}>
           {toggleCollapsed && (
@@ -79,12 +75,11 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
               </BaseButton>
             </Localized>
           )}
-          {CommentElement}
+          <Comment {...rest} />
         </Flex>
       )}
     </Indent>
   );
-  return CommentwithIndent;
 };
 
 export default IndentedComment;
