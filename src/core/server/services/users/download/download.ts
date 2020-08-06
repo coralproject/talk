@@ -6,6 +6,7 @@ import htmlToText from "html-to-text";
 import { kebabCase } from "lodash";
 import { Db } from "mongodb";
 
+import { createDateFormatter } from "coral-common/date";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import {
   getURLWithCommentID,
@@ -24,7 +25,7 @@ export async function sendUserDownload(
   latestContentDate: Date
 ) {
   // Create the date formatter to format the dates for the CSV.
-  const formatter = Intl.DateTimeFormat(tenant.locale, {
+  const formatter = createDateFormatter(tenant.locale, {
     year: "numeric",
     month: "numeric",
     day: "numeric",

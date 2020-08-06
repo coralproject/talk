@@ -6,7 +6,7 @@ import resizePopup from "../dom/resizePopup";
 
 export default function useResizePopup() {
   const polling = useRef(true);
-  const pollTimeout = useRef<any>(null);
+  const pollTimeout = useRef<number | null>(null);
 
   const pollPopupHeight = useCallback((interval = 200) => {
     if (!polling.current) {
@@ -16,7 +16,7 @@ export default function useResizePopup() {
     // Save the reference to the browser timeout we create.
     pollTimeout.current =
       // Create the timeout to fire after the interval.
-      setTimeout(() => {
+      window.setTimeout(() => {
         // Using requestAnimationFrame, resize the popup, and reschedule the
         // resize timeout again in another interval.
         window.requestAnimationFrame(() => {
@@ -31,13 +31,13 @@ export default function useResizePopup() {
     pollPopupHeight();
 
     return () => {
-      if (pollTimeout) {
-        clearTimeout(pollTimeout.current);
+      if (pollTimeout.current) {
+        window.clearTimeout(pollTimeout.current);
         pollTimeout.current = null;
         polling.current = false;
       }
     };
-  }, []);
+  }, [pollPopupHeight]);
 
   const ref = useResizeObserver(() => {
     resizePopup();

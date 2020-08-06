@@ -24,11 +24,16 @@ function handleCommentEnteredModerationQueue(
     return;
   }
   const comment = rootField.getLinkedRecord("comment")!;
+  const commentID = comment.getValue("id")!;
+  const edgeID = `edge-${commentID}`;
+  const edgeInQueue = Boolean(store.get(edgeID));
+  if (edgeInQueue) {
+    // Comment edge already in the queue, ignore it as it might be just expected race condition,
+    // unless the server is sending the same response multiple times.
+    return;
+  }
   comment.setValue(true, "enteredLive");
-  const commentsEdge = store.create(
-    `edge-${comment.getValue("id")!}`,
-    "CommentsEdge"
-  );
+  const commentsEdge = store.create(edgeID, "CommentsEdge");
   commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
   commentsEdge.setLinkedRecord(comment, "node");
   const connection = getQueueConnection(store, queue, storyID, siteID, section);

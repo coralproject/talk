@@ -74,29 +74,49 @@ export function useFetch<V, R>(
 export function useImmediateFetch<V extends {}, R>(
   fetch: Fetch<any, V, Promise<R>>,
   variables: V,
-  refetch?: string
+  refetch?: any
 ): [R | null, boolean] {
   const fetcher = useFetch(fetch);
-  const [state, setState] = useState<R | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [state, setState] = useState<{ data: R | null; loading: boolean }>({
+    data: null,
+    loading: false,
+  });
 
   useEffect(() => {
-    async function doTheFetch() {
-      setState(null);
-      setLoading(true);
-      const value = await fetcher(variables);
+    let aborted = false;
 
-      // TODO: Maybe we don't need this timeout?
-      setTimeout(() => {
-        setState(value);
-        setLoading(false);
-      }, 100 + 50 * Math.random());
+    async function doTheFetch() {
+      // Update the state by setting loading to true.
+      setState((s) => ({ ...s, loading: true }));
+
+      try {
+        // Perform the fetch.
+        const data = await fetcher(variables);
+        if (aborted) {
+          // If we've aborted, we're either unmounting or a variable has changed,
+          // so don't bother finishing updating the state because another
+          // request is about to occur.
+          return;
+        }
+
+        // Update the state with the data.
+        setState({ data, loading: false });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error("could not perform fetch", err);
+
+        setState({ data: null, loading: false });
+      }
     }
 
     void doTheFetch();
+
+    return () => {
+      aborted = true;
+    };
   }, Object.values(variables).concat(isUndefined(refetch) ? [] : [refetch]));
 
-  return [state, loading];
+  return [state.data, state.loading];
 }
 
 /**
