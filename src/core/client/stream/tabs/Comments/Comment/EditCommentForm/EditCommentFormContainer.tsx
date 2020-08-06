@@ -1,5 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
-import { clearLongTimeout, setLongTimeout } from "long-settimeout";
+import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
@@ -73,7 +73,7 @@ function getMediaFromComment(comment: CommentData) {
 }
 
 export class EditCommentFormContainer extends Component<Props, State> {
-  private expiredTimer: any;
+  private expiredTimer?: LongTimeout;
   private intitialValues = {
     body: this.props.comment.body || "",
     media: getMediaFromComment(this.props.comment),
@@ -93,7 +93,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    clearLongTimeout(this.expiredTimer);
+    if (this.expiredTimer) {
+      clearLongTimeout(this.expiredTimer);
+    }
   }
 
   private updateWhenExpired() {
