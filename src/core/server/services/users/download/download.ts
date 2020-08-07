@@ -85,6 +85,7 @@ export async function sendUserDownload(
     "Article URL",
     "Comment URL",
     "Comment Text",
+    "Media",
   ]);
 
   /**
@@ -109,7 +110,11 @@ export async function sendUserDownload(
       const body = htmlToText.fromString(revision.body);
       const commentURL = getURLWithCommentID(story.url, comment.id);
 
-      csv.write([comment.id, createdAt, story.url, commentURL, body]);
+      const media = revision.media
+        ? `${revision.media.type}: ${revision.media.url}`
+        : "";
+
+      csv.write([comment.id, createdAt, story.url, commentURL, body, media]);
     }
 
     commentBatch = [];
