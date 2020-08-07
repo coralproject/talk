@@ -3,8 +3,10 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
+  combineDisposables,
   useLoadMore,
   useLocal,
   useMutation,
@@ -27,8 +29,8 @@ import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-st
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
-import CommentCreatedSubscription from "./UnansweredCommentCreatedSubscription";
-import CommentReleasedSubscription from "./UnansweredCommentReleasedSubscription";
+import UnansweredCommentCreatedSubscription from "./UnansweredCommentCreatedSubscription";
+import UnansweredCommentReleasedSubscription from "./UnansweredCommentReleasedSubscription";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
 
 import styles from "./UnansweredCommentsTabContainer.css";
@@ -60,55 +62,65 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       }
     `
   );
-  const subscribeToCommentCreated = useSubscription(CommentCreatedSubscription);
-  const subscribeToCommentReleased = useSubscription(
-    CommentReleasedSubscription
+
+  const subscribeToCommentCreated = useSubscription(
+    UnansweredCommentCreatedSubscription
   );
+  const subscribeToCommentReleased = useSubscription(
+    UnansweredCommentReleasedSubscription
+  );
+
+  const live = useLive(props);
+  const hasMore = props.relay.hasMore();
   useEffect(() => {
-    if (!props.story.settings.live.enabled) {
+    // If live updates are disabled, don't subscribe to new comments!!
+    if (!live) {
       return;
     }
 
-    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
-      return;
+    // Check the sort ordering to apply extra logic.
+    switch (commentsOrderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        if (hasMore) {
+          // Oldest first when there is more than one page of content can't
+          // possibly have new comments to show in view!
+          return;
+        }
+
+        // We have all the comments for this story in view! Comments could load!
+        break;
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        // Newest first can always get more comments in view.
+        break;
+      default:
+        // Only chronological sort supports top level live updates of incoming
+        // comments.
+        return;
     }
-    if (
-      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-      props.relay.hasMore()
-    ) {
-      // If sort by oldest we only need to know if there is more to load.
-      return;
-    }
-    if (
-      ![
-        GQLCOMMENT_SORT.CREATED_AT_ASC,
-        GQLCOMMENT_SORT.CREATED_AT_DESC,
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      ].includes(commentsOrderBy as GQLCOMMENT_SORT)
-    ) {
-      // Only chronological sort supports top level live updates of incoming comments.
-      return;
-    }
-    const newCommentDisposable = subscribeToCommentCreated({
-      storyID: props.story.id,
-      orderBy: commentsOrderBy,
-    });
-    const releasedCommentDisposable = subscribeToCommentReleased({
-      storyID: props.story.id,
-      orderBy: commentsOrderBy,
-    });
+
+    const disposable = combineDisposables(
+      subscribeToCommentCreated({
+        storyID: props.story.id,
+        orderBy: commentsOrderBy,
+      }),
+      subscribeToCommentReleased({
+        storyID: props.story.id,
+        orderBy: commentsOrderBy,
+      })
+    );
+
     return () => {
-      newCommentDisposable.dispose();
-      releasedCommentDisposable.dispose();
+      disposable.dispose();
     };
   }, [
     commentsOrderBy,
+    hasMore,
+    live,
+    props.story.id,
     subscribeToCommentCreated,
     subscribeToCommentReleased,
-    props.story.id,
-    props.relay.hasMore(),
-    props.story.settings.live.enabled,
   ]);
+
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {

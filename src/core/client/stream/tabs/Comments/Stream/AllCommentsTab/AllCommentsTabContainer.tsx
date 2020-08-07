@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { clearLongTimeout } from "long-settimeout";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { createTimeoutAt } from "coral-common/utils";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   combineDisposables,
@@ -73,22 +72,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const subscribeToCommentReleased = useSubscription(
     CommentReleasedSubscription
   );
+
+  const live = useLive({ story, settings });
+  const hasMore = relay.hasMore();
   useEffect(() => {
     // If live updates are disabled, don't subscribe to new comments!!
-    if (!story.settings.live.enabled) {
-      return;
-    }
-
-    // If the story is closed or commenting is disabled, then don't subscribe
-    // to new comments because there isn't any!
-    if (story.isClosed || settings.disableCommenting.enabled) {
+    if (!live) {
       return;
     }
 
     // Check the sort ordering to apply extra logic.
     switch (commentsOrderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
-        if (relay.hasMore()) {
+        if (hasMore) {
           // Oldest first when there is more than one page of content can't
           // possibly have new comments to show in view!
           return;
@@ -116,37 +112,16 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       })
     );
 
-    // If the story is scheduled to be closed, cancel the subscriptions because
-    // we can't add any more comments!
-    if (story.closedAt) {
-      const timer = createTimeoutAt(() => {
-        disposable.dispose();
-      }, story.closedAt);
-
-      return () => {
-        // Cancel the timer if there was one enabled.
-        if (timer) {
-          clearLongTimeout(timer);
-        }
-
-        // Dispose the subscriptions.
-        disposable.dispose();
-      };
-    }
-
     return () => {
       disposable.dispose();
     };
   }, [
     commentsOrderBy,
+    hasMore,
+    live,
+    story.id,
     subscribeToCommentCreated,
     subscribeToCommentReleased,
-    story.id,
-    story.isClosed,
-    story.closedAt,
-    story.settings.live.enabled,
-    settings.disableCommenting.enabled,
-    relay.hasMore(),
   ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
@@ -245,7 +220,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
           ))}
-        {relay.hasMore() && (
+        {hasMore && (
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMoreAndEmit}
