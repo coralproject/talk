@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
 
@@ -19,7 +20,10 @@ interface Props {
 
 const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
   return (
-    <div className={cn(styles.root, CLASSES.discussions.mostActiveDiscussions)}>
+    <HorizontalGutter
+      spacing={4}
+      className={cn(styles.root, CLASSES.discussions.mostActiveDiscussions)}
+    >
       <DiscussionsHeader
         header={
           <Localized id="discussions-mostActiveDiscussions">
@@ -49,7 +53,7 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
           </li>
         ))}
       </ol>
-    </div>
+    </HorizontalGutter>
   );
 };
 
