@@ -14,7 +14,12 @@ import {
   SubscriptionServer,
 } from "subscriptions-transport-ws";
 
-import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
+import {
+  ACCESS_TOKEN_PARAM,
+  BUNDLE_CONFIG_PARAM,
+  BUNDLE_ID_PARAM,
+  CLIENT_ID_PARAM,
+} from "coral-common/constants";
 import { RequireProperty } from "coral-common/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
@@ -38,8 +43,13 @@ import {
 } from "coral-server/graph/plugins";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
+import {
+  createStoryViewer,
+  removeStoryViewer,
+} from "coral-server/models/story/viewers";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
+import { find } from "coral-server/services/stories";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -50,6 +60,8 @@ type OnConnectFn = (
   socket: any,
   context: ConnectionContext
 ) => Promise<GraphContext>;
+
+type OnDisconnectFn = (socket: any, context: ConnectionContext) => void;
 
 export function extractTokenFromWSRequest(
   connectionParams: OperationMessagePayload,
@@ -72,10 +84,42 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
     typeof connectionParams[CLIENT_ID_PARAM] === "string" &&
     connectionParams[CLIENT_ID_PARAM].length > 0
   ) {
-    return connectionParams[CLIENT_ID_PARAM];
+    // Limit the clientID to 36 characters (the length of a UUID).
+    return connectionParams[CLIENT_ID_PARAM].slice(0, 36);
   }
 
   return null;
+}
+
+export function extractBundleID(
+  connectionParams: OperationMessagePayload
+): string | null {
+  if (
+    typeof connectionParams[BUNDLE_ID_PARAM] === "string" &&
+    connectionParams[BUNDLE_ID_PARAM].length > 0
+  ) {
+    return connectionParams[BUNDLE_ID_PARAM];
+  }
+
+  return null;
+}
+
+export function extractBundleConfig(
+  connectionParams: OperationMessagePayload
+): null | Record<string, string> {
+  if (typeof connectionParams[BUNDLE_CONFIG_PARAM] === "object") {
+    return connectionParams[BUNDLE_CONFIG_PARAM];
+  }
+
+  return null;
+}
+
+function hasClientID(socket: any): socket is { clientID: string } {
+  if (typeof socket.clientID === "string" && socket.clientID.length > 0) {
+    return true;
+  }
+
+  return false;
 }
 
 export type OnConnectOptions = RequireProperty<
@@ -90,6 +134,8 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
   // Return the per-connection operation.
   return async (connectionParams, socket) => {
+    logger.trace("a socket has connected");
+
     try {
       // Pull the upgrade request off of the connection.
       const req: IncomingMessage = socket.upgradeReq;
@@ -145,7 +191,50 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         opts.clientID = clientID;
       }
 
-      return new GraphContext(opts);
+      // Create the GraphContext.
+      const ctx = new GraphContext(opts);
+
+      // Get the bundleID and bundleConfig.
+      const bundleID = extractBundleID(connectionParams);
+      const bundleConfig = extractBundleConfig(connectionParams);
+
+      if (
+        // If the request has a clientID...
+        clientID &&
+        // And it's from the stream...
+        bundleID === "stream" &&
+        // And it has a bundle config...
+        bundleConfig &&
+        // And we have either a storyID or storyURL on the config...
+        (bundleConfig.storyID || bundleConfig.storyURL)
+      ) {
+        // TODO: (wyattjoh) validate the bundle config.
+
+        // Then we need to create a new storyViewerf for the request!
+        const story = await find(options.mongo, tenant, {
+          id: bundleConfig.storyID,
+          url: bundleConfig.storyURL,
+        });
+        if (story) {
+          // Attach the clientID to the socket so the disconnect handler can use
+          // it to disconnect this clientID.
+          socket.clientID = clientID;
+
+          // Create the viewer entry!
+          await createStoryViewer(
+            options.mongo,
+            {
+              tenantID: tenant.id,
+              siteID: story.siteID,
+              storyID: story.id,
+              clientID,
+            },
+            ctx.now
+          );
+        }
+      }
+
+      return ctx;
     } catch (err) {
       if (err instanceof LiveUpdatesDisabled) {
         logger.info({ err }, "websocket connection rejected");
@@ -165,6 +254,23 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       );
 
       throw new Error(message);
+    }
+  };
+}
+
+export type OnDisconnectOptions = RequireProperty<
+  Omit<GraphContextOptions, "tenant" | "disableCaching">,
+  "redis" | "pubsub"
+>;
+
+function onDisconnect(options: OnDisconnectOptions): OnDisconnectFn {
+  return async (socket) => {
+    logger.trace("a socket has disconnected");
+
+    // If the socket has a clientID attached, then remove the story viewer
+    // entry.
+    if (hasClientID(socket)) {
+      await removeStoryViewer(options.mongo, socket.clientID);
     }
   };
 }
@@ -256,7 +362,9 @@ export function onOperation(options: OnOperationOptions) {
   };
 }
 
-export type Options = OnConnectOptions & OnOperationOptions;
+export type Options = OnConnectOptions &
+  OnDisconnectOptions &
+  OnOperationOptions;
 
 export function createSubscriptionServer(
   server: http.Server,
@@ -271,6 +379,7 @@ export function createSubscriptionServer(
       execute,
       subscribe,
       onConnect: onConnect(options),
+      onDisconnect: onDisconnect(options),
       onOperation: onOperation(options),
       keepAlive,
     },

@@ -3515,6 +3515,11 @@ type Story {
   site is the site associated with the story
   """
   site: Site!
+
+  """
+  viewerCount is the number of viewers active on this Story.
+  """
+  viewerCount: Int!
 }
 
 """
@@ -8043,6 +8048,17 @@ type CommentReleasedPayload {
   comment: Comment!
 }
 
+"""
+LiveStoryViewersUpdatePayload is returned when the viewer count on a story has
+been updated.
+"""
+type LiveStoryViewersUpdatePayload {
+  """
+  viewerCount is the number of viewers on the selected story.
+  """
+  viewerCount: Int!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -8095,4 +8111,9 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  liveStoryViewersUpdate returns when the number of viewers on a story changes.
+  """
+  liveStoryViewersUpdate(storyID: ID!): LiveStoryViewersUpdatePayload!
 }

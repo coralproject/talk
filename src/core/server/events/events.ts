@@ -6,6 +6,7 @@ import {
   CommentReleasedInput,
   CommentReplyCreatedInput,
   CommentStatusUpdatedInput,
+  LiveStoryViewersUpdateInput,
 } from "coral-server/graph/resolvers/Subscription";
 import { FLAG_REASON } from "coral-server/models/action/comment";
 
@@ -120,3 +121,12 @@ export type StoryCreatedCoralEventPayload = CoralEventPayload<
 export const StoryCreatedCoralEvent = createCoralEvent<
   StoryCreatedCoralEventPayload
 >(CoralEventType.STORY_CREATED);
+
+export type LiveStoryViewersUpdateEventPayload = CoralEventPayload<
+  CoralEventType.LIVE_STORY_VIEWERS_UPDATE,
+  LiveStoryViewersUpdateInput
+>;
+
+export const LiveStoryViewersUpdateEvent = createCoralEvent<
+  LiveStoryViewersUpdateEventPayload
+>(CoralEventType.LIVE_STORY_VIEWERS_UPDATE);

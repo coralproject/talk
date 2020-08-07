@@ -2,6 +2,7 @@ import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
+import { countStoryViewers } from "coral-server/models/story/viewers";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   canModerate,
@@ -59,4 +60,14 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
+  viewerCount: (s, input, ctx) =>
+    // TODO: (wyattjoh) return 0 when live updates are disabled
+    countStoryViewers(
+      ctx.mongo,
+      ctx.tenant.id,
+      s.siteID,
+      s.id,
+      ctx.config.get("story_viewer_timeout"),
+      ctx.now
+    ),
 };

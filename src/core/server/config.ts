@@ -262,6 +262,13 @@ const config = convict({
     default: ms("800 milliseconds"),
     env: "PERSPECTIVE_TIMEOUT",
   },
+  story_viewer_timeout: {
+    doc:
+      "The length of time (in ms) that a user should be considered active on a story without interaction.",
+    format: "ms",
+    default: ms("2 minutes"),
+    env: "STORY_VIEWER_TIMEOUT",
+  },
   force_ssl: {
     doc:
       "Forces SSL in production by redirecting all HTTP requests to HTTPS, and sending HSTS headers.",

@@ -7,6 +7,7 @@ import { MigrationRecord } from "coral-server/models/migration";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
+import { StoryViewer } from "coral-server/models/story/viewers";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
@@ -32,6 +33,8 @@ export const queries = createCollection<PersistedQuery>("queries");
 
 export const migrations = createCollection<MigrationRecord>("migrations");
 
+export const storyViewer = createCollection<StoryViewer>("storyViewers");
+
 const collections = {
   users,
   invites,
@@ -43,6 +46,7 @@ const collections = {
   queries,
   migrations,
   sites,
+  storyViewer,
 };
 
 export default collections;
