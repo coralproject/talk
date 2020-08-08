@@ -1,4 +1,5 @@
 import { uniq } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
@@ -423,4 +424,43 @@ export async function retrieveSections(mongo: Db, tenant: Tenant) {
   }
 
   return retrieveStorySections(mongo, tenant.id);
+}
+
+export async function isStoryLiveEnabled(
+  config: Config,
+  tenant: Tenant,
+  story: Story,
+  now: Date
+) {
+  if (config.get("disable_live_updates")) {
+    return false;
+  }
+
+  const timeout = config.get("disable_live_updates_timeout");
+  if (timeout > 0) {
+    // If one of these is available, use it to determine the time since the
+    // last comment.
+    const lastCommentedAt = story.lastCommentedAt || story.createdAt;
+
+    // If this date is before the timeout...
+    if (
+      DateTime.fromJSDate(lastCommentedAt)
+        .plus({
+          milliseconds: timeout,
+        })
+        .toJSDate() <= now
+    ) {
+      // Then we know that the last comment (or lack there of) was left more
+      // than the timeout specified in configuration.
+      return false;
+    }
+  }
+
+  // If the story doesn't specify the enabled property...
+  if (story.settings.live?.enabled === undefined) {
+    // Default to the tenant live setting!
+    return tenant.live.enabled;
+  }
+
+  return story.settings.live?.enabled;
 }

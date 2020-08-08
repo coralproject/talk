@@ -53,8 +53,8 @@ comments-featuredTab = Featured
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers = { SHORT_NUMBER($count) } {
   $count ->
-    [one] person is here
-    *[other] people are here
+    [one] person is online
+    *[other] people are online
 }
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =

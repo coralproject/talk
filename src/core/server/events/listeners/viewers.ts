@@ -1,4 +1,7 @@
-import { touchStoryViewer } from "coral-server/models/story/viewers";
+import { createStoryViewer } from "coral-server/models/story/viewers";
+import { hasFeatureFlag } from "coral-server/models/tenant";
+
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 import {
   CommentCreatedCoralEventPayload,
@@ -24,12 +27,25 @@ export class ViewersCoralEventListener
 
   public initialize: CoralEventPublisherFactory<
     ViewersCoralEventListenerPayloads
-  > = ({ clientID, mongo, now }) => async () => {
+  > = ({ clientID, redis, tenant, config }) => async ({ data }) => {
     if (!clientID) {
       return;
     }
 
-    // NOTE: (wyattjoh) maybe replace this with the create instead?
-    await touchStoryViewer(mongo, clientID, now);
+    // If the feature flag isn't enabled, then we have nothing to do!
+    if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.VIEWER_COUNT)) {
+      return;
+    }
+
+    await createStoryViewer(
+      redis,
+      {
+        tenantID: tenant.id,
+        siteID: data.siteID,
+        storyID: data.storyID,
+      },
+      clientID,
+      config.get("story_viewer_timeout")
+    );
   };
 }

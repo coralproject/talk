@@ -266,7 +266,7 @@ const config = convict({
     doc:
       "The length of time (in ms) that a user should be considered active on a story without interaction.",
     format: "ms",
-    default: ms("2 minutes"),
+    default: ms("15 minutes"),
     env: "STORY_VIEWER_TIMEOUT",
   },
   force_ssl: {

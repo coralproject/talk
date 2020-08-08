@@ -32,6 +32,7 @@ interface Props {
   reportedCount: number | null;
   pendingCount: number | null;
   totalCount: number;
+  viewerCount: number | null;
 }
 
 const UserRow: FunctionComponent<Props> = (props) => (
@@ -50,10 +51,23 @@ const UserRow: FunctionComponent<Props> = (props) => (
             props.title || <NotAvailable />
           )}
         </p>
-        {(props.author || props.publishDate) && (
+        {(props.author || props.publishDate || !!props.viewerCount) && (
           <p className={styles.meta}>
-            <span className={styles.authorName}>{props.author}</span>{" "}
-            {props.publishDate}
+            {!!props.author && (
+              <span className={cn(styles.authorName, styles.metaElement)}>
+                {props.author}
+              </span>
+            )}
+
+            {!!props.publishDate && (
+              <span className={styles.metaElement}>{props.publishDate} </span>
+            )}
+
+            {!!props.viewerCount && (
+              <span className={styles.readingNow}>
+                {props.viewerCount} reading now
+              </span>
+            )}
           </p>
         )}
       </HorizontalGutter>

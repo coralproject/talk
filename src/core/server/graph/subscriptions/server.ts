@@ -47,11 +47,15 @@ import {
   createStoryViewer,
   removeStoryViewer,
 } from "coral-server/models/story/viewers";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 import { find } from "coral-server/services/stories";
 
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLUSER_ROLE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext, { GraphContextOptions } from "../context";
 
@@ -114,8 +118,24 @@ export function extractBundleConfig(
   return null;
 }
 
-function hasClientID(socket: any): socket is { clientID: string } {
-  if (typeof socket.clientID === "string" && socket.clientID.length > 0) {
+function hasStoryViewer(
+  socket: any
+): socket is {
+  tenantID: string;
+  siteID: string;
+  storyID: string;
+  clientID: string;
+} {
+  if (
+    typeof socket.tenantID === "string" &&
+    socket.tenantID.length > 0 &&
+    typeof socket.siteID === "string" &&
+    socket.siteID.length > 0 &&
+    typeof socket.storyID === "string" &&
+    socket.storyID.length > 0 &&
+    typeof socket.clientID === "string" &&
+    socket.clientID.length > 0
+  ) {
     return true;
   }
 
@@ -198,8 +218,13 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       const bundleID = extractBundleID(connectionParams);
       const bundleConfig = extractBundleConfig(connectionParams);
 
+      // Check to see if we have the viewer count feature flag enabled.
+      const enabled = hasFeatureFlag(tenant, GQLFEATURE_FLAG.VIEWER_COUNT);
+
       if (
-        // If the request has a clientID...
+        // If this tenant has this feature flag enabled...
+        enabled &&
+        // And the request has a clientID...
         clientID &&
         // And it's from the stream...
         bundleID === "stream" &&
@@ -208,8 +233,6 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         // And we have either a storyID or storyURL on the config...
         (bundleConfig.storyID || bundleConfig.storyURL)
       ) {
-        // TODO: (wyattjoh) validate the bundle config.
-
         // Then we need to create a new storyViewerf for the request!
         const story = await find(options.mongo, tenant, {
           id: bundleConfig.storyID,
@@ -218,17 +241,21 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         if (story) {
           // Attach the clientID to the socket so the disconnect handler can use
           // it to disconnect this clientID.
+          socket.tenantID = tenant.id;
+          socket.siteID = story.siteID;
+          socket.storyID = story.id;
           socket.clientID = clientID;
 
           // Create the viewer entry!
           await createStoryViewer(
-            options.mongo,
+            options.redis,
             {
               tenantID: tenant.id,
               siteID: story.siteID,
               storyID: story.id,
-              clientID,
             },
+            clientID,
+            options.config.get("story_viewer_timeout"),
             ctx.now
           );
         }
@@ -269,8 +296,15 @@ function onDisconnect(options: OnDisconnectOptions): OnDisconnectFn {
 
     // If the socket has a clientID attached, then remove the story viewer
     // entry.
-    if (hasClientID(socket)) {
-      await removeStoryViewer(options.mongo, socket.clientID);
+    if (hasStoryViewer(socket)) {
+      const { tenantID, siteID, storyID } = socket;
+
+      await removeStoryViewer(
+        options.redis,
+        { tenantID, siteID, storyID },
+        socket.clientID,
+        options.config.get("story_viewer_timeout")
+      );
     }
   };
 }

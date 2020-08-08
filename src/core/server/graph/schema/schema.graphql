@@ -434,6 +434,12 @@ enum FEATURE_FLAG {
   RTE_SARCASM enables sarcasm RTE feature
   """
   RTE_SARCASM
+
+  """
+  VIEWER_COUNT when true will enable the display and tracking of the viewer
+  count.
+  """
+  VIEWER_COUNT
 }
 
 # The moderation mode of the site.
@@ -3519,7 +3525,7 @@ type Story {
   """
   viewerCount is the number of viewers active on this Story.
   """
-  viewerCount: Int!
+  viewerCount: Int
 }
 
 """
@@ -8048,17 +8054,6 @@ type CommentReleasedPayload {
   comment: Comment!
 }
 
-"""
-LiveStoryViewersUpdatePayload is returned when the viewer count on a story has
-been updated.
-"""
-type LiveStoryViewersUpdatePayload {
-  """
-  viewerCount is the number of viewers on the selected story.
-  """
-  viewerCount: Int!
-}
-
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -8111,9 +8106,4 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
-
-  """
-  liveStoryViewersUpdate returns when the number of viewers on a story changes.
-  """
-  liveStoryViewersUpdate(storyID: ID!): LiveStoryViewersUpdatePayload!
 }

@@ -8,6 +8,7 @@ import {
   canModerate,
   hasModeratorRole,
 } from "coral-server/models/user/helpers";
+import { isStoryLiveEnabled } from "coral-server/services/stories";
 
 import {
   GQLFEATURE_FLAG,
@@ -50,24 +51,34 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // options if they exist.
   settings: (s, input, ctx): StorySettingsInput =>
     defaultsDeep(
-      {
-        // Pass these options as required by StorySettingsInput.
-        lastCommentedAt: s.lastCommentedAt,
-        createdAt: s.createdAt,
-      },
+      // Pass these options as required by StorySettingsInput.
+      { story: s },
       s.settings,
       ctx.tenant
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
-  viewerCount: (s, input, ctx) =>
-    // TODO: (wyattjoh) return 0 when live updates are disabled
-    countStoryViewers(
-      ctx.mongo,
-      ctx.tenant.id,
-      s.siteID,
-      s.id,
-      ctx.config.get("story_viewer_timeout"),
-      ctx.now
-    ),
+  viewerCount: async (s, input, ctx) => {
+    // If the feature flag isn't enabled, then we have nothing to return.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.VIEWER_COUNT)) {
+      return null;
+    }
+
+    // Check to see if this story has live enabled.
+    const liveEnabled = isStoryLiveEnabled(ctx.config, ctx.tenant, s, ctx.now);
+    if (!liveEnabled) {
+      return null;
+    }
+
+    // Return the computed count!
+    return countStoryViewers(
+      ctx.redis,
+      {
+        tenantID: ctx.tenant.id,
+        siteID: s.siteID,
+        storyID: s.id,
+      },
+      ctx.config.get("story_viewer_timeout")
+    );
+  },
 };

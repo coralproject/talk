@@ -95,5 +95,4 @@ export const createIndexesFactory = (mongo: Db) => ({
   queries: createIndexFactory(collections.queries(mongo)),
   migrations: createIndexFactory(collections.migrations(mongo)),
   sites: createIndexFactory(collections.sites(mongo)),
-  storyViewer: createIndexFactory(collections.storyViewer(mongo)),
 });

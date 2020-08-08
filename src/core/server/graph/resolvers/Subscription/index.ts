@@ -7,7 +7,6 @@ import { commentLeftModerationQueue } from "./commentLeftModerationQueue";
 import { commentReleased } from "./commentReleased";
 import { commentReplyCreated } from "./commentReplyCreated";
 import { commentStatusUpdated } from "./commentStatusUpdated";
-import { liveStoryViewersUpdate } from "./liveStoryViewersUpdate";
 
 export const Subscription: Required<GQLSubscriptionTypeResolver> = {
   commentCreated,
@@ -17,7 +16,6 @@ export const Subscription: Required<GQLSubscriptionTypeResolver> = {
   commentStatusUpdated,
   commentFeatured,
   commentReleased,
-  liveStoryViewersUpdate,
 };
 
 export { CommentFeaturedInput } from "./commentFeatured";
@@ -27,4 +25,3 @@ export { CommentLeftModerationQueueInput } from "./commentLeftModerationQueue";
 export { CommentReleasedInput } from "./commentReleased";
 export { CommentReplyCreatedInput } from "./commentReplyCreated";
 export { CommentStatusUpdatedInput } from "./commentStatusUpdated";
-export { LiveStoryViewersUpdateInput } from "./liveStoryViewersUpdate";

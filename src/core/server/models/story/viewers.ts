@@ -1,86 +1,127 @@
-import { DateTime } from "luxon";
-import { Db } from "mongodb";
+import { Redis } from "ioredis";
 
-import { storyViewer as collection } from "coral-server/services/mongodb/collections";
+import { createTimer } from "coral-server/helpers";
+import logger from "coral-server/logger";
 
-import { TenantResource } from "../tenant";
-
-export interface StoryViewer extends TenantResource {
-  storyID: string;
+interface KeySpec {
+  tenantID: string;
   siteID: string;
-  clientID: string;
-  lastInteractedAt: Date;
+  storyID: string;
 }
 
-interface CreateStoryViewer {
-  storyID: string;
-  siteID: string;
-  tenantID: string;
-  clientID: string;
+function formatKey({ tenantID, siteID, storyID }: KeySpec, time: number) {
+  return `storyViewers:${tenantID}:${siteID}:${storyID}:${time}`;
+}
+
+function formatTime(now: Date, precision: number): number {
+  return Math.floor(now.getTime() / precision);
+}
+
+function calculateReadKey(spec: KeySpec, precision: number, now: Date) {
+  return formatKey(spec, formatTime(now, precision));
+}
+
+interface Keys {
+  /**
+   * current is the key for the current time.
+   */
+  current: string;
+
+  /**
+   * next is the key for the next time.
+   */
+  next: string;
+}
+
+function calculateWriteKeys(spec: KeySpec, precision: number, now: Date): Keys {
+  return {
+    current: formatKey(spec, formatTime(now, precision)),
+    next: formatKey(spec, formatTime(now, precision) + 1),
+  };
 }
 
 export async function createStoryViewer(
-  mongo: Db,
-  { clientID, ...input }: CreateStoryViewer,
-  now: Date
-) {
-  await collection(mongo).findOneAndUpdate(
-    { clientID },
-    {
-      $set: {
-        ...input,
-        lastInteractedAt: now,
-      },
-    },
-    {
-      upsert: true,
-    }
-  );
+  redis: Redis,
+  spec: KeySpec,
+  clientID: string,
+  precision: number,
+  now = new Date()
+): Promise<number> {
+  const timer = createTimer();
+
+  // Compute the key for this entry.
+  const { current, next } = calculateWriteKeys(spec, precision, now);
+
+  // Add a new viewer to the set, and expire it after the precision.
+  const multi = redis.multi(); // O(1)
+
+  // Add the new viewer to the set...
+  multi.sadd(current, clientID); // O(1)
+
+  // And expire the entire set after the precision time...
+  multi.pexpire(current, precision); // O(1)
+
+  // Add the new viewer to the next set...
+  multi.sadd(next, clientID); // O(1)
+
+  // And expire that entire set after twice the precision time...
+  multi.pexpire(next, precision * 2); // O(1)
+
+  // Get the current count.
+  multi.scard(current); // O(1)
+
+  // Do this now.
+  const [, , , , [, count]] = await multi.exec();
+
+  logger.info({ took: timer(), count, spec }, "created story viewer");
+
+  return count;
 }
 
-export async function removeStoryViewer(mongo: Db, clientID: string) {
-  await collection(mongo).deleteOne({ clientID });
-}
+export async function removeStoryViewer(
+  redis: Redis,
+  spec: KeySpec,
+  clientID: string,
+  precision: number,
+  now = new Date()
+): Promise<number> {
+  const timer = createTimer();
 
-export async function touchStoryViewer(mongo: Db, clientID: string, now: Date) {
-  await collection(mongo).updateOne(
-    { clientID },
-    { $set: { lastInteractedAt: now } }
-  );
+  // Compute the key for this entry.
+  const { current, next } = calculateWriteKeys(spec, precision, now);
+
+  const multi = redis.multi();
+
+  // Remove this clientID from the current and next set.
+  multi.srem(current, clientID); // O(1)
+  multi.srem(next, clientID); // O(1)
+
+  // Get the current count.
+  multi.scard(current); // O(1)
+
+  // Do this now.
+  const [, , [, count]] = await multi.exec();
+
+  logger.info({ took: timer(), count, spec }, "removed story viewer");
+
+  return count;
 }
 
 export async function countStoryViewers(
-  mongo: Db,
-  tenantID: string,
-  siteID: string,
-  storyID: string,
-  timeout: number,
-  now: Date
+  redis: Redis,
+  spec: KeySpec,
+  precision: number,
+  now = new Date()
 ) {
-  const start = DateTime.fromJSDate(now).minus({ second: timeout }).toJSDate();
+  const timer = createTimer();
 
-  const results = await collection<{ count: number }>(mongo)
-    .aggregate([
-      {
-        $match: {
-          tenantID,
-          siteID,
-          storyID,
-          lastInteractedAt: { $gt: start, $lte: now },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          count: { $sum: 1 },
-        },
-      },
-    ])
-    .toArray();
+  // Compute the key for this entry.
+  const key = calculateReadKey(spec, precision, now);
 
-  if (results.length === 0) {
-    return 0;
-  }
+  // Count the number of clientID's.
+  const count = await redis.scard(key);
 
-  return results[0].count;
+  logger.info({ took: timer(), count, spec }, "counted story viewers");
+
+  return count;
 }
