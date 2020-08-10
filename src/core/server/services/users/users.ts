@@ -24,6 +24,7 @@ import {
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
+  UserAlreadyWarnedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
@@ -38,11 +39,13 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 import {
+  acknowledgeOwnWarning,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
+  consolidateUserWarningStatus,
   createModeratorNote,
   createUser,
   createUserToken,
@@ -58,6 +61,7 @@ import {
   removeUserBan,
   removeUserIgnore,
   removeUserPremod,
+  removeUserWarning,
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
@@ -78,6 +82,7 @@ import {
   User,
   UserModerationScopes,
   verifyUserPassword,
+  warnUser,
 } from "coral-server/models/user";
 import {
   getLocalProfile,
@@ -1007,6 +1012,91 @@ export async function removePremod(
 
   // For each of the suspensions, remove it.
   return removeUserPremod(mongo, tenant.id, userID, moderator.id, now);
+}
+
+/**
+ * warn will warn a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be banned on
+ * @param moderator the User that is banning the User
+ * @param userID the ID of the User being banned
+ * @param now the current time that the ban took effect
+ */
+export async function warn(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  message: string,
+  now = new Date()
+) {
+  // Get the user being banned to check to see if the user already has an
+  // existing ban.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently banned.
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (warningStatus.active) {
+    throw new UserAlreadyWarnedError();
+  }
+
+  // Ban the user.
+  return warnUser(mongo, tenant.id, userID, moderator.id, message, now);
+}
+
+export async function removeWarning(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being suspended to check to see if the user already has an
+  // existing suspension.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently suspended.
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (!warningStatus.active) {
+    // The user is not premodded currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // For each of the suspensions, remove it.
+  return removeUserWarning(mongo, tenant.id, userID, moderator.id, now);
+}
+
+export async function acknowledgeWarning(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being suspended to check to see if the user already has an
+  // existing suspension.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently suspended.
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (!warningStatus.active) {
+    // The user is not premodded currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // For each of the suspensions, remove it.
+  return acknowledgeOwnWarning(mongo, tenant.id, userID, now);
 }
 /**
  * suspend will suspend a give user from interacting with Coral.

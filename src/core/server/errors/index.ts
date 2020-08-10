@@ -641,6 +641,14 @@ export class UserAlreadyBannedError extends CoralError {
   }
 }
 
+export class UserAlreadyWarnedError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.USER_ALREADY_WARNED,
+    });
+  }
+}
+
 export class UserBanned extends CoralError {
   constructor(userID: string, resource?: string, operation?: string) {
     super({

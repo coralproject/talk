@@ -232,6 +232,12 @@ export enum ERROR_CODES {
   USER_ALREADY_BANNED = "USER_ALREADY_BANNED",
 
   /**
+   * USER_ALREADY_WARNED is returned when a moderator or administrator attempts
+   * to warn a user that is already warned.
+   */
+  USER_ALREADY_WARNED = "USER_ALREADY_WARNED",
+
+  /**
    * USER_SUSPENDED is returned when the user attempts to perform an action that
    * is not permitted if they are suspended.
    */
