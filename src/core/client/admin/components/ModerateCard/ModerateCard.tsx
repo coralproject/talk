@@ -10,6 +10,7 @@ import React, {
   useRef,
 } from "react";
 
+import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { HOTKEYS } from "coral-admin/constants";
 import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
@@ -29,7 +30,6 @@ import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
 import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
-import MediaContainer from "./MediaContainer";
 import RejectButton from "./RejectButton";
 
 import styles from "./ModerateCard.css";
