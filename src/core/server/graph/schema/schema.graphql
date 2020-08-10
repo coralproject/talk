@@ -2185,6 +2185,17 @@ enum DIGEST_FREQUENCY {
 }
 
 """
+UserMediaSettings are the user's preferences around embed stream behaviour.
+"""
+type UserMediaSettings {
+  """
+  unfurlEmbeds is whether the user has chosen to immediately show embed contents
+  without having to click "Show Tweet", "Show GIF", etc.
+  """
+  unfurlEmbeds: Boolean
+}
+
+"""
 UserNotificationSettings stores the notification settings for a given User.
 """
 type UserNotificationSettings {
@@ -2458,6 +2469,11 @@ type User {
   """
   ssoURL: String
     @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+
+  """
+  mediaSettings are the user's preferences around media stream behaviour.
+  """
+  mediaSettings: UserMediaSettings
 }
 
 """
@@ -3622,6 +3638,16 @@ type UpdateNotificationSettingsPayload {
   """
   clientMutationId is required for Relay support.
   """
+  clientMutationId: String!
+}
+
+input UpdateUserMediaSettingsInput {
+  unfurlEmbeds: Boolean
+  clientMutationId: String!
+}
+
+type UpdateUserMediaSettingsPayload {
+  user: User!
   clientMutationId: String!
 }
 
@@ -7334,6 +7360,14 @@ type Mutation {
     input: UpdateNotificationSettingsInput!
   ): UpdateNotificationSettingsPayload!
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+
+  """
+  updateUserMediaSettings can be used to update the media preferences for the
+  current logged in user.
+  """
+  updateUserMediaSettings(
+    input: UpdateUserMediaSettingsInput!
+  ): UpdateUserMediaSettingsPayload! @auth
 
   """
   updateUserEmail allows administrators to update a given User's email address
