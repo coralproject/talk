@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import { graphql } from "react-relay";
+import Responsive from "react-responsive";
 
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
@@ -378,35 +379,38 @@ export const CommentContainer: FunctionComponent<Props> = ({
             }
             staticTopBarRight={commentTags}
             topBarRight={
-              <Flex alignItems="center" itemGutter>
-                {commentTags}
-                {editable && (
-                  <Button
-                    color="stream"
-                    variant="text"
-                    onClick={openEditDialog}
-                    className={cn(
-                      CLASSES.comment.topBar.editButton,
-                      styles.editButton
-                    )}
-                    data-testid="comment-edit-button"
-                  >
-                    <Flex alignItems="center" justifyContent="center">
-                      <Icon className={styles.editIcon}>edit</Icon>
-                      <Localized id="comments-commentContainer-editButton">
-                        Edit
-                      </Localized>
-                    </Flex>
-                  </Button>
-                )}
-                {showModerationCaret && (
-                  <CaretContainer
-                    comment={comment}
-                    story={story}
-                    viewer={viewer!}
-                  />
-                )}
-              </Flex>
+              <>
+                <Flex alignItems="center" itemGutter>
+                  <Responsive minWidth={400}>{commentTags}</Responsive>
+                  {editable && (
+                    <Button
+                      color="stream"
+                      variant="text"
+                      onClick={openEditDialog}
+                      className={cn(
+                        CLASSES.comment.topBar.editButton,
+                        styles.editButton
+                      )}
+                      data-testid="comment-edit-button"
+                    >
+                      <Flex alignItems="center" justifyContent="center">
+                        <Icon className={styles.editIcon}>edit</Icon>
+                        <Localized id="comments-commentContainer-editButton">
+                          Edit
+                        </Localized>
+                      </Flex>
+                    </Button>
+                  )}
+                  {showModerationCaret && (
+                    <CaretContainer
+                      comment={comment}
+                      story={story}
+                      viewer={viewer!}
+                    />
+                  )}
+                </Flex>
+                <Responsive maxWidth={399}>{commentTags}</Responsive>
+              </>
             }
             media={
               <MediaSectionContainer
