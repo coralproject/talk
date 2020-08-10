@@ -968,6 +968,10 @@ const CLASSES = {
     updateButton: "coral coral-emailNotifications-updateButton",
   },
 
+  mediaPreferences: {
+    updateButton: "coral coral-mediaPreferences-updateButton",
+  },
+
   /**
    * spinner is the loading indicator.
    */

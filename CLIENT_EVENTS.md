@@ -133,6 +133,7 @@ createComment.error
 - <a href="#unfeatureComment">unfeatureComment</a>
 - <a href="#updateNotificationSettings">updateNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
+- <a href="#updateUserMediaSettings">updateUserMediaSettings</a>
 - <a href="#viewConversation">viewConversation</a>
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
@@ -580,6 +581,17 @@ createComment.error
           icon?: string | null | undefined;
           content?: string | null | undefined;
       } | null | undefined;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="updateUserMediaSettings">**updateUserMediaSettings.success**, **updateUserMediaSettings.error**</a>: 
+  ```ts
+  {
+      unfurlEmbeds?: boolean | null | undefined;
       success: {};
       error: {
           message: string;
