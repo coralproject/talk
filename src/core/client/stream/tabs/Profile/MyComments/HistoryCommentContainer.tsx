@@ -59,6 +59,7 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
         <MediaSectionContainer
           comment={props.comment}
           settings={props.settings}
+          defaultExpanded={false}
         />
       }
     />
