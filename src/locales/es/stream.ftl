@@ -26,6 +26,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Alternar el consejo sobre comentarios resaltados
 
+comments-noCommentsYet = ¿No hay comentarios. Por qué no escribes uno?
 
 comments-streamQuery-storyNotFound = Historia no encontrada
 
