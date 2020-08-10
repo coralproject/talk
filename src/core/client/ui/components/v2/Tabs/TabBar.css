@@ -4,6 +4,7 @@ $moderateCardTabSecondaryColor: var(--palette-divider);
 
 .root {
   display: flex;
+  align-items: flex-end;
   padding: 0;
   margin: 0;
 }
