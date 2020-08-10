@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
+import Responsive from "react-responsive";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -35,7 +36,7 @@ const ReportButton: FunctionComponent<Props> = ({
 }) => {
   const onClickReport = useCallback(() => {
     onClick();
-  }, []);
+  }, [onClick]);
 
   const isLoggedIn = useMemo(() => {
     return Boolean(viewer);
@@ -63,10 +64,17 @@ const ReportButton: FunctionComponent<Props> = ({
         data-testid="comment-reported-button"
       >
         <Flex alignItems="center">
-          <Icon size="sm" className={styles.icon}>
-            flag
-          </Icon>
-          <Localized id="comments-reportButton-reported">Reported</Localized>
+          <Localized
+            id="comments-reportButton-aria-reported"
+            attrs={{ "aria-label": true }}
+          >
+            <Icon size="sm" className={styles.icon}>
+              flag
+            </Icon>
+          </Localized>
+          <Responsive minWidth={400}>
+            <Localized id="comments-reportButton-reported">Reported</Localized>
+          </Responsive>
         </Flex>
       </div>
     );
@@ -85,10 +93,17 @@ const ReportButton: FunctionComponent<Props> = ({
       data-testid="comment-report-button"
     >
       <Flex alignItems="center" container="span">
-        <Icon size="sm" className={styles.icon}>
-          flag
-        </Icon>
-        <Localized id="comments-reportButton-report">Report</Localized>
+        <Localized
+          id="comments-reportButton-aria-report"
+          attrs={{ "aria-label": true }}
+        >
+          <Icon size="sm" className={styles.icon}>
+            flag
+          </Icon>
+        </Localized>
+        <Responsive minWidth={400}>
+          <Localized id="comments-reportButton-report">Report</Localized>
+        </Responsive>
       </Flex>
     </Button>
   );
