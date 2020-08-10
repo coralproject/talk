@@ -176,6 +176,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:jsdoc/recommended",
     "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
   ],
   parserOptions: {
     ecmaVersion: 2018,
@@ -237,7 +238,5 @@ module.exports = {
     "sort-imports": "off",
     "use-isnan": "error",
     "valid-typeof": "off",
-    "react-hooks/rules-of-hooks": "warn",
-    "react-hooks/exhaustive-deps": "warn",
   },
 };
