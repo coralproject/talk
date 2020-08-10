@@ -68,7 +68,11 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         >
           {comment.body || ""}
         </HTMLContent>
-        <MediaSectionContainer comment={comment} settings={settings} />
+        <MediaSectionContainer
+          comment={comment}
+          settings={settings}
+          defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+        />
       </HorizontalGutter>
       <Flex
         direction="row"
@@ -164,6 +168,9 @@ const enhanced = withSetCommentIDMutation(
         }
         ignoredUsers {
           id
+        }
+        mediaSettings {
+          unfurlEmbeds
         }
         role
         ...UsernameWithPopoverContainer_viewer
