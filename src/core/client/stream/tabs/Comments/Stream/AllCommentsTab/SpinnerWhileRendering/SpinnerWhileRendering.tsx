@@ -44,10 +44,6 @@ const SpinnerWhileRendering: FunctionComponent<Props> = (props) => {
     // Ensure window has bee
     return callWhenReallyIdle(() => setHidden(false));
   }, [setHidden]);
-  // In our tests, we don't actually "render", so just skip this.
-  if (process.env.NODE_ENV === "test") {
-    return <>{props.children}</>;
-  }
   return (
     <>
       {hidden && (

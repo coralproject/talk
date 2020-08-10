@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
@@ -95,6 +96,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
                 {comment.body}
               </CommentContent>
             )}
+            <MediaContainer comment={comment} />
           </div>
         </HorizontalGutter>
       </Flex>
@@ -153,6 +155,7 @@ const enhanced = withFragmentContainer<Props>({
           id
         }
       }
+      ...MediaContainer_comment
     }
   `,
 })(ConversationModalCommentContainer);

@@ -68,6 +68,8 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
+  updateUserMediaSettings,
+  UpdateUserMediaSettingsInput,
   updateUserModerationScopes,
   updateUserNotificationSettings,
   updateUserPassword,
@@ -1273,6 +1275,15 @@ export async function updateNotificationSettings(
   settings: NotificationSettingsInput
 ) {
   return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
+}
+
+export async function updateMediaSettings(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  settings: UpdateUserMediaSettingsInput
+) {
+  return updateUserMediaSettings(mongo, tenant.id, user.id, settings);
 }
 
 function userLastCommentIDKey(
