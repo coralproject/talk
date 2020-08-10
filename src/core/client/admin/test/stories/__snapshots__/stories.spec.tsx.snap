@@ -205,12 +205,16 @@ exports[`renders empty stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Vin Hoa
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -301,12 +305,16 @@ exports[`renders empty stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Linh Nguyen
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -587,12 +595,16 @@ exports[`renders stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Vin Hoa
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -683,12 +695,16 @@ exports[`renders stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Linh Nguyen
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
