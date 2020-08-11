@@ -19,6 +19,8 @@ export interface IndentedCommentProps
   toggleCollapsed?: () => void;
   staticUsername: React.ReactNode;
   staticTopBarRight: React.ReactNode;
+  tags?: React.ReactNode | null;
+  badges?: React.ReactNode | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
@@ -50,7 +52,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
           topBarRight={staticTopBarRight}
         />
       ) : (
-        <Flex alignItems="flex-start" spacing={1}>
+        <Flex alignItems="baseline" spacing={1}>
           {toggleCollapsed && (
             <Localized
               id="comments-collapse-toggle"

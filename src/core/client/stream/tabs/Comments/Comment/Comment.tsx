@@ -4,11 +4,10 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
-import { Flex, HorizontalGutter } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
-import TopBarLeft from "./TopBarLeft";
 
 import styles from "./Comment.css";
 
@@ -22,7 +21,8 @@ export interface CommentProps {
   showEditedMarker?: boolean;
   highlight?: boolean;
   parentAuthorName?: string | null;
-  userTags?: React.ReactNode;
+  tags?: React.ReactNode | null;
+  badges?: React.ReactNode | null;
   collapsed?: boolean;
   media?: React.ReactNode;
 }
@@ -39,15 +39,35 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
     >
       <Flex
         direction="row"
+        alignItems="flex-start"
         justifyContent="space-between"
         className={CLASSES.comment.topBar.$root}
       >
-        <TopBarLeft>
-          <Flex direction="row" alignItems="center" itemGutter="half">
-            {props.username && props.username}
-            {props.userTags}
-          </Flex>
-          <Flex direction="row" alignItems="baseline" itemGutter>
+        <Flex alignItems="center" wrap>
+          {props.username && (
+            <MatchMedia lteWidth="mobile">
+              {(matches) => (
+                <div
+                  className={cn(styles.username, {
+                    [styles.usernameFullRow]: matches,
+                  })}
+                >
+                  {props.username}
+                </div>
+              )}
+            </MatchMedia>
+          )}
+          <Flex direction="row" alignItems="center" wrap>
+            {props.tags && (
+              <Flex alignItems="center" className={styles.tags}>
+                {props.tags}
+              </Flex>
+            )}
+            {props.badges && (
+              <Flex alignItems="center" className={styles.badges}>
+                {props.badges}
+              </Flex>
+            )}
             <Timestamp
               className={cn(styles.timestamp, CLASSES.comment.topBar.timestamp)}
             >
@@ -57,7 +77,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
               <EditedMarker className={CLASSES.comment.topBar.edited} />
             )}
           </Flex>
-        </TopBarLeft>
+        </Flex>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
 

@@ -459,7 +459,7 @@ exports[`report comment as offensive 1`] = `
         className="coral coral-indent coral-indent-0 Indent-open"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
         >
           <button
             aria-label="Collapse comment thread"
@@ -484,13 +484,13 @@ exports[`report comment as offensive 1`] = `
             role="article"
           >
             <div
-              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                  className="Comment-username"
                 >
                   <div
                     className="Popover-root"
@@ -526,12 +526,9 @@ exports[`report comment as offensive 1`] = `
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                  />
                 </div>
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                 >
                   <button
                     className="BaseButton-root Timestamp-root"
@@ -555,7 +552,7 @@ exports[`report comment as offensive 1`] = `
               </div>
               <div>
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                 />
               </div>
             </div>
@@ -677,6 +674,7 @@ exports[`report comment as offensive 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <div
+                    aria-label="Reported"
                     className="coral-reportedButton coral-comment-reportedButton ReportButton-reported"
                     data-testid="comment-reported-button"
                   >
@@ -689,7 +687,6 @@ exports[`report comment as offensive 1`] = `
                       >
                         flag
                       </i>
-                      Reported
                     </div>
                   </div>
                 </div>
