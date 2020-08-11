@@ -30,23 +30,17 @@ const Warning: FunctionComponent<Props> = ({
       }
     >
       <HorizontalGutter spacing={3}>
-        <Localized
-          id="warning-explanation"
-          $organizationName={organizationName}
-        >
+        <Localized id="warning-explanation">
           <p>
-            In accordance with {organizationName}'s community guidelines your
-            account has been issued a warning.
+            In accordance with our community guidelines your account has been
+            issued a warning.
           </p>
         </Localized>
         <blockquote className={styles.message}>{message}</blockquote>
-        <Localized
-          id="warning-instructions"
-          $organizationName={organizationName}
-        >
+        <Localized id="warning-instructions">
           <p>
-            To continue participating in discussions on {organizationName}{" "}
-            please press the “Acknowledge” button below.
+            To continue participating in discussions please press the
+            "Acknowledge" button below.
           </p>
         </Localized>
         <Localized id="warning-acknowledge">

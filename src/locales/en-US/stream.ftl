@@ -714,9 +714,9 @@ suspendInfo-until-pleaseRejoinThe =
 
 warning-heading = Your account has been issued a warning
 warning-explanation =
-  In accordance with { $organizationName }'s community guidelines your account has been issued a warning.
+  In accordance with our community guidelines your account has been issued a warning.
 warning-instructions =
-  To continue participating in discussions on { $organizationName } please press the "Acknowledge" button below.
+  To continue participating in discussions, please press the "Acknowledge" button below.
 warning-acknowledge = Acknowledge
 
 profile-changeEmail-unverified = (Unverified)

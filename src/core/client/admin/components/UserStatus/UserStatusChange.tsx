@@ -68,37 +68,6 @@ const UserStatusChange: FunctionComponent<Props> = ({
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            {warned ? (
-              <Localized id="community-userStatus-removeWarning">
-                <DropdownButton
-                  className={styles.dropdownButton}
-                  disabled={!onRemoveWarning}
-                  onClick={() => {
-                    if (onRemoveWarning) {
-                      onRemoveWarning();
-                      toggleVisibility();
-                    }
-                  }}
-                >
-                  Remove warning
-                </DropdownButton>
-              </Localized>
-            ) : (
-              <Localized id="community-userStatus-warn">
-                <DropdownButton
-                  className={styles.dropdownButton}
-                  disabled={!onWarn}
-                  onClick={() => {
-                    if (onWarn) {
-                      onWarn();
-                      toggleVisibility();
-                    }
-                  }}
-                >
-                  Warn
-                </DropdownButton>
-              </Localized>
-            )}
             {banned ? (
               <Localized id="community-userStatus-removeUserBan">
                 <DropdownButton
@@ -177,6 +146,37 @@ const UserStatusChange: FunctionComponent<Props> = ({
                   }}
                 >
                   Always pre-moderate
+                </DropdownButton>
+              </Localized>
+            )}
+            {warned ? (
+              <Localized id="community-userStatus-removeWarning">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onRemoveWarning}
+                  onClick={() => {
+                    if (onRemoveWarning) {
+                      onRemoveWarning();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Remove warning
+                </DropdownButton>
+              </Localized>
+            ) : (
+              <Localized id="community-userStatus-warn">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onWarn}
+                  onClick={() => {
+                    if (onWarn) {
+                      onWarn();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Warn
                 </DropdownButton>
               </Localized>
             )}
