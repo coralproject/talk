@@ -41,6 +41,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USER_ALREADY_BANNED: "error-userAlreadyBanned",
   USER_BANNED: "error-userBanned",
   USER_SUSPENDED: "error-userSuspended",
+  USER_WARNED: "error-userWarned",
   INTEGRATION_DISABLED: "error-integrationDisabled",
   PASSWORD_RESET_TOKEN_EXPIRED: "error-passwordResetTokenExpired",
   EMAIL_CONFIRM_TOKEN_EXPIRED: "error-emailConfirmTokenExpired",
