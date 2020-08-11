@@ -108,7 +108,7 @@ exports[`renders deepest comment with link 1`] = `
               </div>
               <div>
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                 />
               </div>
             </div>

@@ -131,7 +131,7 @@ exports[`renders conversation thread 1`] = `
                       </div>
                       <div>
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />
                       </div>
                     </div>
@@ -436,7 +436,7 @@ exports[`renders conversation thread 1`] = `
                       </div>
                       <div>
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />
                       </div>
                     </div>
@@ -726,7 +726,7 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
@@ -1011,7 +1011,7 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
@@ -1280,7 +1280,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                       <div>
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />
                       </div>
                     </div>

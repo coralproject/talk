@@ -394,7 +394,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
                 <MatchMedia gteWidth="mobile">
                   {(matches) => (
                     <>
-                      <Flex alignItems="center" itemGutter>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="flex-end"
+                        itemGutter
+                      >
                         {matches ? commentTags : null}
                         {editable && (
                           <Button
