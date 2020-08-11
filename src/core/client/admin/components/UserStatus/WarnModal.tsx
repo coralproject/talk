@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
@@ -16,6 +16,7 @@ interface Props {
   onClose: () => void;
   onConfirm: (message: string) => void;
   organizationName: string;
+  success: boolean;
 }
 
 const WarnModal: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ const WarnModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
   organizationName,
+  success,
 }) => {
   const onFormSubmit = useCallback(
     (message: string) => {
@@ -40,36 +42,60 @@ const WarnModal: FunctionComponent<Props> = ({
     >
       {({ lastFocusableRef }) => (
         <>
-          <HorizontalGutter spacing={3}>
-            <Localized
-              id="community-warnModal-areYouSure"
-              strong={<ModalHeaderUsername />}
-              $username={username || <NotAvailable />}
-            >
-              <ModalHeader id="WarnModal-title">
-                Warn{" "}
-                <ModalHeaderUsername>
-                  {username || <NotAvailable />}
-                </ModalHeaderUsername>
-                ?
-              </ModalHeader>
-            </Localized>
-            <Localized id="community-WarnModal-consequence">
-              <ModalBodyText>
-                While warned, this user will no longer be able to comment, use
-                reactions, or report comments until they acknowledge the
-                warning.
-              </ModalBodyText>
-            </Localized>
+          {success && (
+            <HorizontalGutter spacing={3}>
+              <Localized
+                id="community-warnModal-success"
+                $username={username}
+                strong={<ModalHeaderUsername />}
+              >
+                <ModalHeader>
+                  <ModalHeaderUsername>{username}</ModalHeaderUsername> has been
+                  warned.
+                </ModalHeader>
+              </Localized>
 
-            <WarnForm
-              username={username}
-              onCancel={onClose}
-              organizationName={organizationName}
-              onSubmit={onFormSubmit}
-              lastFocusableRef={lastFocusableRef}
-            />
-          </HorizontalGutter>
+              <Flex justifyContent="flex-end" itemGutter="half">
+                <Localized id="community-suspendModal-success-close">
+                  <Button ref={lastFocusableRef} onClick={onClose}>
+                    Ok
+                  </Button>
+                </Localized>
+              </Flex>
+            </HorizontalGutter>
+          )}
+          {!success && (
+            <HorizontalGutter spacing={3}>
+              <Localized
+                id="community-warnModal-areYouSure"
+                strong={<ModalHeaderUsername />}
+                $username={username || <NotAvailable />}
+              >
+                <ModalHeader id="warnModal-title">
+                  Warn{" "}
+                  <ModalHeaderUsername>
+                    {username || <NotAvailable />}
+                  </ModalHeaderUsername>
+                  ?
+                </ModalHeader>
+              </Localized>
+              <Localized id="community-warnModal-consequence">
+                <ModalBodyText>
+                  A warning can improve a commenter’s conduct without a
+                  suspension or ban. The user must acknowledge the warning
+                  before they can continue commenting.
+                </ModalBodyText>
+              </Localized>
+
+              <WarnForm
+                username={username}
+                onCancel={onClose}
+                organizationName={organizationName}
+                onSubmit={onFormSubmit}
+                lastFocusableRef={lastFocusableRef}
+              />
+            </HorizontalGutter>
+          )}
         </>
       )}
     </ChangeStatusModal>

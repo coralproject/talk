@@ -51,6 +51,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const [showWarn, setShowWarn] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
+  const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
       return;
@@ -62,16 +63,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       return;
     }
     void removeUserWarning({ userID: user.id });
-  }, [user, setShowWarn]);
+  }, [user, removeUserWarning]);
   const hideWarn = useCallback(() => {
     setShowWarn(false);
+    setShowWarnSuccess(false);
   }, [setShowWarn]);
   const handleWarnConfirm = useCallback(
     (message: string) => {
       void warnUser({ userID: user.id, message });
-      setShowWarn(false);
+      setShowWarnSuccess(true);
     },
-    [warnUser, user, setShowWarn]
+    [warnUser, user, setShowWarnSuccess]
   );
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
@@ -119,12 +121,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       return;
     }
     void removeUserPremod({ userID: user.id });
-  }, [user, premodUser]);
+  }, [user, removeUserPremod]);
 
   const handleSuspendModalClose = useCallback(() => {
     setShowSuspend(false);
     setShowSuspendSuccess(false);
-  }, [setShowBanned, setShowSuspendSuccess]);
+  }, [setShowSuspendSuccess]);
 
   const handleBanModalClose = useCallback(() => {
     setShowBanned(false);
@@ -147,7 +149,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       void banUser({ userID: user.id, message, rejectExistingComments });
       setShowBanned(false);
     },
-    [user, setShowBanned]
+    [user, setShowBanned, banUser]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
@@ -196,6 +198,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         open={showWarn}
         onClose={hideWarn}
         onConfirm={handleWarnConfirm}
+        success={showWarnSuccess}
       />
       {!scoped && (
         <BanModal

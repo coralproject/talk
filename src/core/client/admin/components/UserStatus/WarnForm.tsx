@@ -6,9 +6,10 @@ import { Field, Form } from "react-final-form";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,
-  CheckBox,
   Flex,
+  HelperText,
   HorizontalGutter,
+  Label,
   Textarea,
 } from "coral-ui/components/v2";
 
@@ -44,7 +45,7 @@ const SuspendForm: FunctionComponent<Props> = ({
         organizationName,
       }
     );
-  }, [username, organizationName]);
+  }, [username, organizationName, getMessage]);
 
   const onFormSubmit = useCallback(
     ({ message }) => {
@@ -95,40 +96,24 @@ const SuspendForm: FunctionComponent<Props> = ({
         {({ handleSubmit, form }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter spacing={3}>
-              <Field type="checkbox" name="editMessage">
+              <Localized id="community-warnModal-message-label">
+                <Label>Message</Label>
+              </Localized>
+              <Localized id="community-warnModal-message-description">
+                <HelperText>
+                  Explain to this user how they should change their behavior on
+                  your site.
+                </HelperText>
+              </Localized>
+              <Field component="textarea" name="message">
                 {({ input }) => (
-                  <Localized id="community-warnModal-customize">
-                    <CheckBox
-                      {...input}
-                      id="warnModal-editMessage"
-                      onChange={(event) => {
-                        form.mutators.resetMessageValue(
-                          "message",
-                          !input.checked
-                        );
-                        input.onChange(event);
-                      }}
-                    >
-                      Customize warning message
-                    </CheckBox>
-                  </Localized>
+                  <Textarea
+                    id="warnModal-message"
+                    {...input}
+                    className={styles.textArea}
+                    fullwidth
+                  />
                 )}
-              </Field>
-              <Field name="editMessage" subscription={{ value: true }}>
-                {({ input: { value } }) =>
-                  value ? (
-                    <Field component="textarea" name="message">
-                      {({ input }) => (
-                        <Textarea
-                          id="warnModal-message"
-                          {...input}
-                          className={styles.textArea}
-                          fullwidth
-                        />
-                      )}
-                    </Field>
-                  ) : null
-                }
               </Field>
               <Flex justifyContent="flex-end" itemGutter="half">
                 <Localized id="community-warnModal-cancel">
@@ -136,7 +121,7 @@ const SuspendForm: FunctionComponent<Props> = ({
                     Cancel
                   </Button>
                 </Localized>
-                <Localized id="community-warnModal-suspendUser">
+                <Localized id="community-warnModal-warnUser">
                   <Button ref={lastFocusableRef} type="submit">
                     Warn User
                   </Button>
