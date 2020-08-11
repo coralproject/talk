@@ -130,23 +130,24 @@ export const CommentContainer: FunctionComponent<Props> = ({
         from: "COMMENT_STREAM",
       });
 
+      // If the feature for read more new tab is enabled, then redirect the
+      // user.
+
+      // If the feature flag for opening this in a new tab is enabled, then we
+      // don't need to do anything!
+      if (settings.featureFlags.includes(GQLFEATURE_FLAG.READ_MORE_NEW_TAB)) {
+        return;
+      }
+
       // Prevent the event from acting.
       e.preventDefault();
 
-      // If the feature for read more new tab is enabled, then redirect the
-      // user.
-      if (settings.featureFlags.includes(GQLFEATURE_FLAG.READ_MORE_NEW_TAB)) {
-        const url = getURLWithCommentID(story.url, comment.id);
+      // Update the current view to show the comment.
+      void setCommentID({ id: comment.id });
 
-        window.open(url, "_blank", "noreferrer");
-      } else {
-        void setCommentID({ id: comment.id });
-      }
-
-      // Return false to prevent the navigation from occuring.
       return false;
     },
-    [eventEmitter, comment.id, settings.featureFlags, story.url, setCommentID]
+    [eventEmitter, comment.id, settings.featureFlags, setCommentID]
   );
 
   const isLoggedIn = !!viewer;
