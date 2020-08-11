@@ -22,6 +22,10 @@
   color: var(--palette-grey-500);
 }
 
+.username {
+  margin-right: var(--spacing-1);
+}
+
 .inner {
   flex: 1;
 }

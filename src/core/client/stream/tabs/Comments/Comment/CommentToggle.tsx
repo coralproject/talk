@@ -5,7 +5,6 @@ import CLASSES from "coral-stream/classes";
 import { BaseButton, Flex, Icon, RelativeTime } from "coral-ui/components/v2";
 
 import EditedMarker from "./EditedMarker";
-import TopBarLeft from "./TopBarLeft";
 
 import styles from "./CommentToggle.css";
 
@@ -37,14 +36,24 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
         <Flex
           direction="row"
           justifyContent="space-between"
+          alignItems="center"
           className={cn(styles.inner, CLASSES.comment.topBar.$root)}
         >
-          <TopBarLeft>
-            <Flex direction="row" alignItems="center" itemGutter="half">
+          <Flex
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Flex
+              className={styles.username}
+              direction="row"
+              alignItems="center"
+              itemGutter="half"
+            >
               {props.username && props.username}
               {props.userTags}
             </Flex>
-            <Flex direction="row" alignItems="baseline" itemGutter>
+            <Flex direction="row" alignItems="baseline" itemGutter wrap>
               <RelativeTime
                 className={cn(
                   styles.timestamp,
@@ -56,7 +65,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
                 <EditedMarker className={CLASSES.comment.topBar.edited} />
               )}
             </Flex>
-          </TopBarLeft>
+          </Flex>
           {props.topBarRight && <div>{props.topBarRight}</div>}
         </Flex>
       </Flex>

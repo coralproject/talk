@@ -15,7 +15,7 @@ exports[`post a reply: open reply form 1`] = `
         className="Indent-level3 coral coral-indent coral-indent-3 Indent-open Indent-openPadded"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
         >
           <button
             aria-label="Collapse comment thread"
@@ -40,13 +40,13 @@ exports[`post a reply: open reply form 1`] = `
             role="article"
           >
             <div
-              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                  className="Comment-username"
                 >
                   <div
                     className="Popover-root"
@@ -82,12 +82,9 @@ exports[`post a reply: open reply form 1`] = `
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                  />
                 </div>
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                 >
                   <button
                     className="BaseButton-root Timestamp-root"
@@ -111,7 +108,7 @@ exports[`post a reply: open reply form 1`] = `
               </div>
               <div>
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                 />
               </div>
             </div>
@@ -260,6 +257,7 @@ exports[`post a reply: open reply form 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
+                    aria-label="Report"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
@@ -282,7 +280,6 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         flag
                       </i>
-                      Report
                     </span>
                   </button>
                 </div>
@@ -502,7 +499,7 @@ exports[`post a reply: optimistic response 1`] = `
             className="Indent-level4 coral coral-indent coral-indent-4 Indent-open Indent-openPadded"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+              className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
             >
               <button
                 aria-label="Collapse comment thread"
@@ -527,13 +524,13 @@ exports[`post a reply: optimistic response 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                    className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      className="Comment-username"
                     >
                       <div
                         className="Popover-root"
@@ -569,12 +566,9 @@ exports[`post a reply: optimistic response 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                      />
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                     >
                       <button
                         className="BaseButton-root Timestamp-root"
@@ -598,7 +592,7 @@ exports[`post a reply: optimistic response 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
@@ -745,6 +739,7 @@ exports[`post a reply: optimistic response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
+                        aria-label="Report"
                         aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
@@ -767,7 +762,6 @@ exports[`post a reply: optimistic response 1`] = `
                           >
                             flag
                           </i>
-                          Report
                         </span>
                       </button>
                     </div>
@@ -811,7 +805,7 @@ exports[`renders comment stream 1`] = `
             className="coral coral-indent coral-indent-0 Indent-open"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+              className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
             >
               <button
                 aria-label="Collapse comment thread"
@@ -836,13 +830,13 @@ exports[`renders comment stream 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                    className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      className="Comment-username"
                     >
                       <div
                         className="Popover-root"
@@ -878,12 +872,9 @@ exports[`renders comment stream 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                      />
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                     >
                       <button
                         className="BaseButton-root Timestamp-root"
@@ -907,7 +898,7 @@ exports[`renders comment stream 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                     />
                   </div>
                 </div>
@@ -1029,6 +1020,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
+                        aria-label="Report"
                         aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
@@ -1051,7 +1043,6 @@ exports[`renders comment stream 1`] = `
                           >
                             flag
                           </i>
-                          Report
                         </span>
                       </button>
                     </div>
@@ -1089,7 +1080,7 @@ exports[`renders comment stream 1`] = `
                   className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                    className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                   >
                     <button
                       aria-label="Collapse comment thread"
@@ -1114,13 +1105,13 @@ exports[`renders comment stream 1`] = `
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                         >
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                            className="Comment-username"
                           >
                             <div
                               className="Popover-root"
@@ -1156,12 +1147,9 @@ exports[`renders comment stream 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div
-                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                            />
                           </div>
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                           >
                             <button
                               className="BaseButton-root Timestamp-root"
@@ -1185,7 +1173,7 @@ exports[`renders comment stream 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
@@ -1334,6 +1322,7 @@ exports[`renders comment stream 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
+                              aria-label="Report"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
@@ -1356,7 +1345,6 @@ exports[`renders comment stream 1`] = `
                                 >
                                   flag
                                 </i>
-                                Report
                               </span>
                             </button>
                           </div>
@@ -1394,7 +1382,7 @@ exports[`renders comment stream 1`] = `
                         className="Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                         >
                           <button
                             aria-label="Collapse comment thread"
@@ -1419,13 +1407,13 @@ exports[`renders comment stream 1`] = `
                             role="article"
                           >
                             <div
-                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                  className="Comment-username"
                                 >
                                   <div
                                     className="Popover-root"
@@ -1461,12 +1449,9 @@ exports[`renders comment stream 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                  />
                                 </div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                 >
                                   <button
                                     className="BaseButton-root Timestamp-root"
@@ -1490,7 +1475,7 @@ exports[`renders comment stream 1`] = `
                               </div>
                               <div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
                               </div>
                             </div>
@@ -1639,6 +1624,7 @@ exports[`renders comment stream 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-label="Report"
                                     aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
@@ -1661,7 +1647,6 @@ exports[`renders comment stream 1`] = `
                                       >
                                         flag
                                       </i>
-                                      Report
                                     </span>
                                   </button>
                                 </div>
@@ -1699,7 +1684,7 @@ exports[`renders comment stream 1`] = `
                               className="Indent-level3 coral coral-indent coral-indent-3 Indent-open Indent-openPadded"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                                className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                               >
                                 <button
                                   aria-label="Collapse comment thread"
@@ -1724,13 +1709,13 @@ exports[`renders comment stream 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                                   >
                                     <div
-                                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                      className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                                     >
                                       <div
-                                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                        className="Comment-username"
                                       >
                                         <div
                                           className="Popover-root"
@@ -1766,12 +1751,9 @@ exports[`renders comment stream 1`] = `
                                             </div>
                                           </div>
                                         </div>
-                                        <div
-                                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                        />
                                       </div>
                                       <div
-                                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                       >
                                         <button
                                           className="BaseButton-root Timestamp-root"
@@ -1795,7 +1777,7 @@ exports[`renders comment stream 1`] = `
                                     </div>
                                     <div>
                                       <div
-                                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                       />
                                     </div>
                                   </div>
@@ -1944,6 +1926,7 @@ exports[`renders comment stream 1`] = `
                                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                       >
                                         <button
+                                          aria-label="Report"
                                           aria-pressed={false}
                                           className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                           data-testid="comment-report-button"
@@ -1966,7 +1949,6 @@ exports[`renders comment stream 1`] = `
                                             >
                                               flag
                                             </i>
-                                            Report
                                           </span>
                                         </button>
                                       </div>

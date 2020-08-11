@@ -178,6 +178,7 @@ it("render stream with regular comments, ignore user button should be present", 
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
+
   const commenter = commenters[0];
   const username = within(tabPane).getByText(commenter.username!, {
     selector: "button",

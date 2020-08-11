@@ -5,8 +5,10 @@ $commentsConversationLinkColorActive: var(--palette-primary-800);
 .conversationLink {
   overflow: hidden;
   display: block;
-  text-overflow: ellipsis;
   text-align: left;
+  white-space: break-spaces;
+  line-height: 1rem;
+
   &.sizeRegular {
     padding: 0;
   }

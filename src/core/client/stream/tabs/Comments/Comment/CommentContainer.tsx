@@ -37,6 +37,7 @@ import {
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -45,7 +46,7 @@ import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated_
 
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
-import UserBadgesContainer from "./AuthorBadgesContainer";
+import UserBadgesContainer, { authorHasBadges } from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
@@ -61,7 +62,7 @@ import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportFlowContainer, { ReportButton } from "./ReportFlow";
 import ShowConversationLink from "./ShowConversationLink";
 import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
-import UserTagsContainer from "./UserTagsContainer";
+import UserTagsContainer, { commentHasTags } from "./UserTagsContainer";
 
 import styles from "./CommentContainer.css";
 
@@ -301,6 +302,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
     );
   }
 
+  const hasTags = commentHasTags(story, comment);
+  const hasBadges = authorHasBadges(comment);
+
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
     return <RejectedTombstoneContainer comment={comment} />;
@@ -334,7 +338,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             parentAuthorName={comment.parent?.author?.username}
             staticUsername={
               comment.author && (
-                <>
+                <Flex direction="row" alignItems="center">
                   <UsernameContainer
                     className={cn(
                       styles.staticUsername,
@@ -352,61 +356,82 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     className={CLASSES.comment.topBar.userBadge}
                     comment={comment}
                   />
-                </>
+                </Flex>
               )
             }
             username={
               comment.author && (
-                <>
-                  <UsernameWithPopoverContainer
-                    className={CLASSES.comment.topBar.username}
-                    comment={comment}
-                    viewer={viewer}
-                  />
-                  <UserTagsContainer
-                    className={CLASSES.comment.topBar.userTag}
-                    story={story}
-                    comment={comment}
-                    settings={settings}
-                  />
-                  <UserBadgesContainer
-                    className={CLASSES.comment.topBar.userBadge}
-                    comment={comment}
-                  />
-                </>
+                <UsernameWithPopoverContainer
+                  className={CLASSES.comment.topBar.username}
+                  comment={comment}
+                  viewer={viewer}
+                />
+              )
+            }
+            tags={
+              comment.author &&
+              hasTags && (
+                <UserTagsContainer
+                  className={CLASSES.comment.topBar.userTag}
+                  story={story}
+                  comment={comment}
+                  settings={settings}
+                />
+              )
+            }
+            badges={
+              comment.author &&
+              hasBadges && (
+                <UserBadgesContainer
+                  className={CLASSES.comment.topBar.userBadge}
+                  comment={comment}
+                />
               )
             }
             staticTopBarRight={commentTags}
             topBarRight={
-              <Flex alignItems="center" itemGutter>
-                {commentTags}
-                {editable && (
-                  <Button
-                    color="stream"
-                    variant="text"
-                    onClick={openEditDialog}
-                    className={cn(
-                      CLASSES.comment.topBar.editButton,
-                      styles.editButton
-                    )}
-                    data-testid="comment-edit-button"
-                  >
-                    <Flex alignItems="center" justifyContent="center">
-                      <Icon className={styles.editIcon}>edit</Icon>
-                      <Localized id="comments-commentContainer-editButton">
-                        Edit
-                      </Localized>
-                    </Flex>
-                  </Button>
-                )}
-                {showModerationCaret && (
-                  <CaretContainer
-                    comment={comment}
-                    story={story}
-                    viewer={viewer!}
-                  />
-                )}
-              </Flex>
+              <>
+                <MatchMedia gteWidth="mobile">
+                  {(matches) => (
+                    <>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="flex-end"
+                        itemGutter
+                      >
+                        {matches ? commentTags : null}
+                        {editable && (
+                          <Button
+                            color="stream"
+                            variant="text"
+                            onClick={openEditDialog}
+                            className={cn(
+                              CLASSES.comment.topBar.editButton,
+                              styles.editButton
+                            )}
+                            data-testid="comment-edit-button"
+                          >
+                            <Flex alignItems="center" justifyContent="center">
+                              <Icon className={styles.editIcon}>edit</Icon>
+                              <Localized id="comments-commentContainer-editButton">
+                                Edit
+                              </Localized>
+                            </Flex>
+                          </Button>
+                        )}
+                        {showModerationCaret && (
+                          <CaretContainer
+                            comment={comment}
+                            story={story}
+                            viewer={viewer!}
+                          />
+                        )}
+                      </Flex>
+                      {!matches ? commentTags : null}
+                    </>
+                  )}
+                </MatchMedia>
+              </>
             }
             media={
               <MediaSectionContainer

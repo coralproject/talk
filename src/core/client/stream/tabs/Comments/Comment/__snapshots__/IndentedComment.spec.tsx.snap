@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   level={1}
 >
   <ForwardRef(forwardRef)
-    alignItems="flex-start"
+    alignItems="baseline"
     spacing={1}
   >
     <Comment
