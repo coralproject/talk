@@ -8,7 +8,6 @@ import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
-import TopBarLeft from "./TopBarLeft";
 
 import styles from "./Comment.css";
 
@@ -39,10 +38,11 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
     >
       <Flex
         direction="row"
+        alignItems="baseline"
         justifyContent="space-between"
         className={CLASSES.comment.topBar.$root}
       >
-        <TopBarLeft>
+        <Flex alignItems="baseline" justifyContent="space-between" wrap>
           <Flex direction="row" alignItems="center" itemGutter="half">
             {props.username && props.username}
             {props.userTags}
@@ -57,7 +57,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
               <EditedMarker className={CLASSES.comment.topBar.edited} />
             )}
           </Flex>
-        </TopBarLeft>
+        </Flex>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
 
