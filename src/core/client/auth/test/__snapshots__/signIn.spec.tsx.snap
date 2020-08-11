@@ -108,7 +108,6 @@ exports[`auth configuration renders all auth enabled 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
-              type="button"
             >
               Forgot your password?
             </a>
@@ -373,7 +372,6 @@ exports[`renders sign in view 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
-            type="button"
           >
             Sign up
           </a>
@@ -486,7 +484,6 @@ exports[`renders sign in view 1`] = `
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     onTouchEnd={[Function]}
-                    type="button"
                   >
                     Forgot your password?
                   </a>

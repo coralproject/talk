@@ -29,7 +29,7 @@ const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
       mouseHover: styles.mouseHover,
       disabled: styles.disabled,
     }),
-    [styles]
+    []
   );
 
   return (
@@ -42,7 +42,7 @@ const ShowConversationLink: FunctionComponent<ShowConversationLinkProps> = (
         classes={classesOverride}
         href={props.href}
         onClick={props.onClick}
-        target="_parent"
+        target="_blank"
         anchor
       >
         Read More of this Conversation &gt;

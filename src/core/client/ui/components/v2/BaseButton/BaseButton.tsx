@@ -84,7 +84,7 @@ const BaseButton: FunctionComponent<Props> = ({
     console.warn(
       "BaseButton used as anchor does not support the `type` property"
     );
-  } else if (type === undefined) {
+  } else if (!anchor && type === undefined) {
     // Default to button
     type = "button";
   }
