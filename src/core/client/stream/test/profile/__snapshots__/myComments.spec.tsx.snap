@@ -72,7 +72,6 @@ exports[`renders profile 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-justifyCenter"
@@ -154,7 +153,6 @@ exports[`renders profile 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-justifyCenter"

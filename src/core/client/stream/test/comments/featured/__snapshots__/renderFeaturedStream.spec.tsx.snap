@@ -531,7 +531,6 @@ exports[`renders comment stream 1`] = `
                         onMouseOut={[Function]}
                         onMouseOver={[Function]}
                         onTouchEnd={[Function]}
-                        type="button"
                       >
                         <i
                           aria-hidden="true"
@@ -672,7 +671,6 @@ exports[`renders comment stream 1`] = `
                         onMouseOut={[Function]}
                         onMouseOver={[Function]}
                         onTouchEnd={[Function]}
-                        type="button"
                       >
                         <i
                           aria-hidden="true"

@@ -72,7 +72,6 @@ exports[`renders permalink view with unknown comment 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
         View full discussion
       </a>

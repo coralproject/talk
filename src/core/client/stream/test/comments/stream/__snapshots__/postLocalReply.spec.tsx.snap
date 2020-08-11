@@ -295,8 +295,8 @@ exports[`post a reply: open reply form 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 onTouchEnd={[Function]}
-                target="_parent"
-                type="button"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 Read More of this Conversation &gt;
               </a>
@@ -1964,8 +1964,8 @@ exports[`renders comment stream 1`] = `
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                       onTouchEnd={[Function]}
-                                      target="_parent"
-                                      type="button"
+                                      rel="noopener noreferrer"
+                                      target="_blank"
                                     >
                                       Read More of this Conversation &gt;
                                     </a>

@@ -390,7 +390,6 @@ exports[`renders sign up form 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
-            type="button"
           >
             Sign in
           </a>
