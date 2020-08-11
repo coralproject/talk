@@ -29,6 +29,18 @@ export interface RevisionMetadata {
   };
 
   /**
+   * wordList metadata stores extra status details about what occurred during
+   * word list analysis of this comment revision.
+   */
+  wordList?: {
+    /**
+     * timedOut is whether the wordlist analysis timed out when this revision
+     * of the comment was sent through the moderation phases.
+     */
+    timedOut?: boolean;
+  };
+
+  /**
    * nudge when true indicates that the comment was written on the first try
    * without a warning.
    */
