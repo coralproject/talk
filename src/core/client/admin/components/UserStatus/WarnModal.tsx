@@ -88,9 +88,7 @@ const WarnModal: FunctionComponent<Props> = ({
               </Localized>
 
               <WarnForm
-                username={username}
                 onCancel={onClose}
-                organizationName={organizationName}
                 onSubmit={onFormSubmit}
                 lastFocusableRef={lastFocusableRef}
               />

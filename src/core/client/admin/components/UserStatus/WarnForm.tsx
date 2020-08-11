@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
-import { Mutator } from "final-form";
 import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { required } from "coral-framework/lib/validation";
 import {
   Button,
   Flex,
@@ -16,37 +15,16 @@ import {
 import styles from "./WarnForm.css";
 
 interface Props {
-  username: string | null;
   onCancel: () => void;
-  getMessage: GetMessage;
-  organizationName: string;
   onSubmit: (message: string) => void;
   lastFocusableRef: RefObject<any>;
 }
 
-interface FormStateValues {
-  message: any;
-}
-
 const WarnForm: FunctionComponent<Props> = ({
   onCancel,
-  username,
-  getMessage,
   onSubmit,
-  organizationName,
   lastFocusableRef,
 }) => {
-  const getMessageBody = useCallback((): string => {
-    return getMessage(
-      "community-warnModal-messageTemplate",
-      `this is a a warning.`,
-      {
-        username,
-        organizationName,
-      }
-    );
-  }, [username, organizationName, getMessage]);
-
   const onFormSubmit = useCallback(
     ({ message }) => {
       onSubmit(message);
@@ -54,58 +32,29 @@ const WarnForm: FunctionComponent<Props> = ({
     [onSubmit]
   );
 
-  const setMessageValue: Mutator = useCallback(
-    ([name, newValue], state, { changeValue }) => {
-      if (state.lastFormState) {
-        const { message } = state.lastFormState.values as FormStateValues;
-        const expectedEmailMessage = getMessageBody();
-        if (expectedEmailMessage === message) {
-          changeValue(state, name, () => newValue);
-        }
-      }
-    },
-    [getMessageBody]
-  );
-
-  const resetMessageValue: Mutator = (
-    [name, checked],
-    state,
-    { changeValue }
-  ) => {
-    if (state.lastFormState && !checked) {
-      const { message } = state.lastFormState.values as FormStateValues;
-      const expectedEmailMessage = getMessageBody();
-      if (expectedEmailMessage !== message) {
-        changeValue(state, name, () => expectedEmailMessage);
-      }
-    }
-  };
-
   return (
     <>
-      <Form
-        onSubmit={onFormSubmit}
-        mutators={{
-          setMessageValue,
-          resetMessageValue,
-        }}
-        initialValues={{
-          message: getMessageBody(),
-        }}
-      >
-        {({ handleSubmit, form }) => (
+      <Form onSubmit={onFormSubmit}>
+        {({ handleSubmit, invalid, form }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter spacing={3}>
-              <Localized id="community-warnModal-message-label">
-                <Label>Message</Label>
-              </Localized>
-              <Localized id="community-warnModal-message-description">
-                <HelperText>
-                  Explain to this user how they should change their behavior on
-                  your site.
-                </HelperText>
-              </Localized>
-              <Field component="textarea" name="message">
+              <HorizontalGutter spacing={1}>
+                <Flex alignItems="baseline" spacing={1}>
+                  <Localized id="community-warnModal-message-label">
+                    <Label className={styles.label}>Message</Label>
+                  </Localized>
+                  <Localized id="community-warnModal-message-required">
+                    <span className={styles.required}>Required</span>
+                  </Localized>
+                </Flex>
+                <Localized id="community-warnModal-message-description">
+                  <HelperText>
+                    Explain to this user how they should change their behavior
+                    on your site.
+                  </HelperText>
+                </Localized>
+              </HorizontalGutter>
+              <Field component="textarea" name="message" validate={required}>
                 {({ input }) => (
                   <Textarea
                     id="warnModal-message"
@@ -122,7 +71,11 @@ const WarnForm: FunctionComponent<Props> = ({
                   </Button>
                 </Localized>
                 <Localized id="community-warnModal-warnUser">
-                  <Button ref={lastFocusableRef} type="submit">
+                  <Button
+                    ref={lastFocusableRef}
+                    type="submit"
+                    disabled={invalid}
+                  >
                     Warn User
                   </Button>
                 </Localized>
@@ -135,6 +88,4 @@ const WarnForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(WarnForm);
-
-export default enhanced;
+export default WarnForm;

@@ -1158,6 +1158,7 @@ community-warnModal-areYouSure = Warn <strong>{ $username }</strong>?
 community-warnModal-consequence =
 A warning can improve a commenter's conduct without a suspension or ban. The user must acknowledge the warning before they can continue commenting.
 community-warnModal-message-label = Message
+community-warnModal-message-required = Required
 community-warnModal-message-description = Explain to this user how they should change their behavior on your site.
 community-warnModal-cancel = Cancel
 community-warnModal-warnUser = Warn user
