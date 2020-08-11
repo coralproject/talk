@@ -39,10 +39,6 @@ function callWhenReallyIdle(callback: () => void) {
  * Show spinner, wait for browser to idle and start rendering.
  */
 const SpinnerWhileRendering: FunctionComponent<Props> = (props) => {
-  // In our tests, we don't actually "render", so just skip this.
-  if (process.env.NODE_ENV === "test") {
-    return <>{props.children}</>;
-  }
   const [hidden, setHidden] = useState(true);
   useEffect(() => {
     // Ensure window has bee

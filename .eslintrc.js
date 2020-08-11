@@ -21,6 +21,7 @@ const typescriptOverrides = {
     "@typescript-eslint/tslint",
     "react",
     "jsx-a11y",
+    "react-hooks",
   ],
   settings: {
     react: {
@@ -175,6 +176,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:jsdoc/recommended",
     "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
   ],
   parserOptions: {
     ecmaVersion: 2018,

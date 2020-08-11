@@ -37,6 +37,7 @@ import {
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
+  GQLUpdateUserMediaSettingsInput,
   GQLUSER_ROLE,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
@@ -637,7 +638,9 @@ export async function findOrCreateUser(
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
         throw new DuplicateEmailError(input.email!);
       }
-      throw new DuplicateUserError();
+
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;
@@ -666,7 +669,8 @@ export async function createUser(
         throw new DuplicateEmailError(input.email!);
       }
 
-      throw new DuplicateUserError();
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;
@@ -2295,6 +2299,45 @@ export async function updateUserNotificationSettings(
     {
       $set: dotize({
         notifications: settings,
+      }),
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type UpdateUserMediaSettingsInput = Partial<
+  GQLUpdateUserMediaSettingsInput
+>;
+
+export async function updateUserMediaSettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  settings: UpdateUserMediaSettingsInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: dotize({
+        mediaSettings: settings,
       }),
     },
     {

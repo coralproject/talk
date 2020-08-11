@@ -81,7 +81,7 @@ exports[`renders missing confirm token 1`] = `
             className="CallOut-root CallOut-error CallOut-leftBorder"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignFlexStart"
+              className="CallOut-container"
             >
               <div
                 className="CallOut-content"

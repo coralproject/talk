@@ -1,0 +1,42 @@
+.form {
+  padding-bottom: var(--spacing-1);
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-900);
+
+  padding-bottom: var(--spacing-4);
+}
+
+.options {
+  padding-bottom: var(--spacing-3);
+}
+
+.checkBoxDescription {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+
+  color: var(--palette-grey-500);
+
+  padding-left: calc(var(--spacing-3) + 14px);
+}
+
+.updateButton {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-1);
+}
+
+.updateButtonNotification {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-3);
+}
+
+.callOut {
+  padding-bottom: var(--spacing-2);
+}

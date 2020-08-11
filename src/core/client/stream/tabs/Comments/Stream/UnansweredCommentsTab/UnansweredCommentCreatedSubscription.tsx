@@ -75,6 +75,23 @@ const UnansweredCommentCreatedSubscription = createSubscription(
       `,
       variables,
       updater: (store) => {
+        const rootField = store.getRootField("commentCreated");
+        if (!rootField) {
+          return;
+        }
+        const commentID = rootField
+          .getLinkedRecord("comment")!
+          .getValue("id")! as string;
+        const commentInStore = Boolean(
+          // We use store from environment here, because it does not contain the response data yet!
+          environment.getStore().getSource().get(commentID)
+        );
+        if (commentInStore) {
+          // Comment already in the queue, ignore it as it might be just expected race condition,
+          // unless the server is sending the same response multiple times.
+          return;
+        }
+
         if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
           updateForNewestFirst(store, variables.storyID);
           return;

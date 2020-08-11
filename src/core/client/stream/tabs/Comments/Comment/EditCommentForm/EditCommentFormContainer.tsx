@@ -1,4 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
+import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
@@ -15,6 +16,7 @@ import CLASSES from "coral-stream/classes";
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
 import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
+
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
@@ -71,7 +73,7 @@ function getMediaFromComment(comment: CommentData) {
 }
 
 export class EditCommentFormContainer extends Component<Props, State> {
-  private expiredTimer: any;
+  private expiredTimer?: LongTimeout;
   private intitialValues = {
     body: this.props.comment.body || "",
     media: getMediaFromComment(this.props.comment),
@@ -91,7 +93,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    clearTimeout(this.expiredTimer);
+    if (this.expiredTimer) {
+      clearLongTimeout(this.expiredTimer);
+    }
   }
 
   private updateWhenExpired() {
@@ -99,7 +103,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
       new Date(this.props.comment.editing.editableUntil!).getTime() -
       Date.now();
     if (ms > 0) {
-      return setTimeout(() => this.setState({ expired: true }), ms);
+      return setLongTimeout(() => this.setState({ expired: true }), ms);
     }
     return;
   }

@@ -25,7 +25,7 @@ const loadDiscussionsContainer = () =>
   );
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadDiscussionsContainer = once(() =>
-  setTimeout(loadDiscussionsContainer)
+  setTimeout(loadDiscussionsContainer, 0)
 );
 
 const LazyDiscussionsContainer = React.lazy(loadDiscussionsContainer);

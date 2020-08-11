@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
-import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
+import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
@@ -20,7 +20,8 @@ export default async function initLocalState(
   const config = await getExternalConfig(context.pym);
   if (config) {
     if (config.accessToken) {
-      auth = storeAccessToken(config.accessToken);
+      // Access tokens passed via the config should not be persisted.
+      auth = parseAccessToken(config.accessToken);
     }
     // append body class name if set in config.
     if (config.bodyClassName) {

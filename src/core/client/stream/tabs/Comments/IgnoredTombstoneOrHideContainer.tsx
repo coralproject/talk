@@ -33,20 +33,6 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
 }) => {
   const deleted = Boolean(!comment.author);
 
-  if (deleted) {
-    return (
-      <>
-        <Tombstone className={CLASSES.deletedTombstone} fullWidth>
-          <Localized id="comments-tombstone-deleted">
-            This comment is no longer available. The commenter has deleted their
-            account.
-          </Localized>
-        </Tombstone>
-        {children}
-      </>
-    );
-  }
-
   const ignored = Boolean(
     comment.author &&
       viewer &&
@@ -66,11 +52,30 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     if (!tombstone && ignored === true && previouslyIgnored === false) {
       setTombstone(true);
     }
-  }, [ignored, previouslyIgnored, tombstone, setTombstone]);
+  }, [
+    ignored,
+    previouslyIgnored,
+    tombstone,
+    setTombstone,
+    singleConversationView,
+  ]);
 
   const onShowComment = useCallback(() => {
     setForceVisible(true);
   }, [setForceVisible]);
+  if (deleted) {
+    return (
+      <>
+        <Tombstone className={CLASSES.deletedTombstone} fullWidth>
+          <Localized id="comments-tombstone-deleted">
+            This comment is no longer available. The commenter has deleted their
+            account.
+          </Localized>
+        </Tombstone>
+        {children}
+      </>
+    );
+  }
 
   if (!ignored || forceVisible) {
     return <>{children}</>;

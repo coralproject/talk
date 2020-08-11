@@ -1,8 +1,9 @@
 import AbortController from "abort-controller";
+import { setLongTimeout } from "long-settimeout";
 
 function abortAfter(ms: number) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => {
+  const timeout = setLongTimeout(() => {
     controller.abort();
   }, ms);
 
