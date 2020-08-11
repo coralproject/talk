@@ -209,7 +209,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           />
         )}
         {banned && <BannedInfo />}
-        {warned && <WarningContainer viewer={props.viewer} />}
+        {warned && (
+          <WarningContainer viewer={props.viewer} settings={props.settings} />
+        )}
         {suspended && (
           <SuspendedInfoContainer
             viewer={props.viewer}
@@ -445,6 +447,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
       ...ModerateStreamContainer_settings
+      ...WarningContainer_settings
     }
   `,
 })(StreamContainer);
