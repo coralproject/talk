@@ -28,7 +28,7 @@ interface FormStateValues {
   message: any;
 }
 
-const SuspendForm: FunctionComponent<Props> = ({
+const WarnForm: FunctionComponent<Props> = ({
   onCancel,
   username,
   getMessage,
@@ -135,6 +135,6 @@ const SuspendForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(SuspendForm);
+const enhanced = withGetMessage(WarnForm);
 
 export default enhanced;
