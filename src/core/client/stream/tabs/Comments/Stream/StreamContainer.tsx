@@ -198,7 +198,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && !suspended && (
+        {!banned && !suspended && !warned && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
