@@ -49,6 +49,7 @@ import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
+import WarningContainer from "./Warning";
 
 import styles from "./StreamContainer.css";
 
@@ -138,6 +139,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     props.viewer &&
       props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
   );
+  const warned = Boolean(
+    props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.WARNED)
+  );
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
@@ -194,7 +198,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && !suspended && (
+        {!banned && !suspended && !warned && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
@@ -205,6 +209,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           />
         )}
         {banned && <BannedInfo />}
+        {warned && <WarningContainer viewer={props.viewer} />}
         {suspended && (
           <SuspendedInfoContainer
             viewer={props.viewer}
@@ -423,6 +428,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
       ...ModerateStreamContainer_viewer
+      ...WarningContainer_viewer
       status {
         current
       }

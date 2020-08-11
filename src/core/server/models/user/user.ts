@@ -310,7 +310,7 @@ export interface WarningStatusHistory {
   /**
    * createdBy is the user that created this warning
    */
-  createdBy?: string;
+  createdBy: string;
 
   /**
    * createdAt is the time the username was created
@@ -362,7 +362,7 @@ export interface UserStatus {
    * warning stores whether a user has an unacknowledge warning and a history of
    * warnings
    */
-  warning: WarningStatus;
+  warning?: WarningStatus;
 }
 
 /**
@@ -1937,7 +1937,7 @@ export async function warnUser(
 
     // Check to see if the user is already banned.
     const warning = consolidateUserWarningStatus(user.status.warning);
-    if (warning.active) {
+    if (warning && warning.active) {
       throw new UserAlreadyWarnedError();
     }
 
@@ -2037,6 +2037,7 @@ export async function acknowledgeOwnWarning(
     active: false,
     acknowledgedAt: now,
     createdAt: now,
+    createdBy: id,
   };
 
   // Try to update the user if the user isn't already warned.
@@ -2113,7 +2114,18 @@ export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
 export function consolidateUserWarningStatus(
   warning: User["status"]["warning"]
 ) {
-  return warning;
+  if (!warning) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeWarning = warning.history[warning.history.length - 1];
+  return {
+    active: warning.active,
+    history: warning.history,
+    message: activeWarning ? activeWarning.message : undefined,
+  };
 }
 
 export type ConsolidatedSuspensionStatus = Omit<

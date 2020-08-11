@@ -18,6 +18,7 @@ const UserStatusContainer: FunctionComponent<Props> = (props) => {
       banned={props.user.status.current.includes(GQLUSER_STATUS.BANNED)}
       suspended={props.user.status.current.includes(GQLUSER_STATUS.SUSPENDED)}
       premod={props.user.status.current.includes(GQLUSER_STATUS.PREMOD)}
+      warned={props.user.status.current.includes(GQLUSER_STATUS.WARNED)}
     />
   );
 };

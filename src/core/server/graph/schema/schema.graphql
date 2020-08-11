@@ -2034,7 +2034,7 @@ type WarningStatusHistory {
   """
   createdBy is the user that warned the commenter
   """
-  createdBy: User
+  createdBy: User!
 
   """
   createdAt is the time the user was warned
@@ -2063,6 +2063,8 @@ type WarningStatus {
       userIDField: "userID"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  message: String
 
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
@@ -6549,6 +6551,11 @@ type UpdateUserRolePayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
 }
 
 ##################

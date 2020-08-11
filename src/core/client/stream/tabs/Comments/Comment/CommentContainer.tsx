@@ -190,6 +190,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const isViewerSuspended = !!viewer?.status.current.includes(
     GQLUSER_STATUS.SUSPENDED
   );
+  const isViewerWarned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.WARNED
+  );
   const isViewerScheduledForDeletion = !!viewer?.scheduledDeletionDate;
 
   const isViewerComment =
@@ -204,7 +207,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const [editable, setEditable] = useState(() => {
     // Can't edit a comment that the viewer didn't write! If the user is banned
     // or suspended too they can't edit.
-    if (!isViewerComment || isViewerBanned || isViewerSuspended) {
+    if (
+      !isViewerComment ||
+      isViewerBanned ||
+      isViewerSuspended ||
+      isViewerWarned
+    ) {
       return false;
     }
 
@@ -452,7 +460,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       comment={comment}
                       settings={settings}
                       viewer={viewer}
-                      readOnly={isViewerBanned || isViewerSuspended}
+                      readOnly={
+                        isViewerBanned || isViewerSuspended || isViewerWarned
+                      }
                       className={cn(
                         styles.actionButton,
                         CLASSES.comment.actionBar.reactButton
@@ -466,6 +476,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     {!disableReplies &&
                       !isViewerBanned &&
                       !isViewerSuspended &&
+                      !isViewerWarned &&
                       !isViewerScheduledForDeletion && (
                         <ReplyButton
                           id={`comments-commentContainer-replyButton-${comment.id}`}
@@ -492,6 +503,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                   <ButtonsBar>
                     {!isViewerBanned &&
                       !isViewerSuspended &&
+                      !isViewerWarned &&
                       !hideReportButton && (
                         <ReportButton
                           onClick={toggleShowReportFlow}
