@@ -10,6 +10,7 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
@@ -233,10 +234,12 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             {warned && <WarningContainer viewer={props.viewer} />}
           </div>
         )}
-        <ViewersWatchingContainer
-          story={props.story}
-          settings={props.settings}
-        />
+        <IntersectionProvider>
+          <ViewersWatchingContainer
+            story={props.story}
+            settings={props.settings}
+          />
+        </IntersectionProvider>
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
             direction="row"
