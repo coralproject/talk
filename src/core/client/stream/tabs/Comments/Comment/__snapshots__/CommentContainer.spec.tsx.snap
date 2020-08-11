@@ -7,6 +7,7 @@ exports[`hide reply button 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -168,7 +169,10 @@ exports[`hide reply button 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -289,141 +293,55 @@ exports[`hide reply button 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -437,6 +355,7 @@ exports[`renders body only 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -605,7 +524,10 @@ exports[`renders body only 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -726,141 +648,55 @@ exports[`renders body only 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": null,
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": null,
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": null,
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": null,
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -874,6 +710,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -1042,7 +879,10 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -1163,141 +1003,55 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": true,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -1311,6 +1065,7 @@ exports[`renders disabled reply when story is closed 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -1479,7 +1234,10 @@ exports[`renders disabled reply when story is closed 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -1600,141 +1358,55 @@ exports[`renders disabled reply when story is closed 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": true,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -1748,6 +1420,7 @@ exports[`renders in reply to 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -1929,7 +1602,10 @@ exports[`renders in reply to 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -2062,153 +1738,59 @@ exports[`renders in reply to 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": Object {
-                  "author": Object {
-                    "username": "ParentAuthor",
-                  },
-                },
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": Object {
-                  "author": Object {
-                    "username": "ParentAuthor",
-                  },
-                },
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": Object {
-                  "author": Object {
-                    "username": "ParentAuthor",
-                  },
-                },
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": Object {
+                "author": Object {
+                  "username": "ParentAuthor",
+                },
+              },
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -2222,6 +1804,7 @@ exports[`renders username and body 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -2390,7 +1973,10 @@ exports[`renders username and body 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -2511,141 +2097,55 @@ exports[`renders username and body 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>
@@ -2668,6 +2168,7 @@ exports[`shows conversation link 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
+      badges={false}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -2842,7 +2343,10 @@ exports[`shows conversation link 1`] = `
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
-        <React.Fragment>
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+        >
           <Relay(UsernameContainer)
             className="CommentContainer-staticUsername coral coral-username coral-comment-username"
             comment={
@@ -2963,141 +2467,55 @@ exports[`shows conversation link 1`] = `
               }
             }
           />
-        </React.Fragment>
-      }
-      toggleCollapsed={[Function]}
-      topBarRight={
-        <ForwardRef(forwardRef)
-          alignItems="center"
-          itemGutter={true}
-        >
-          <React.Fragment />
         </ForwardRef(forwardRef)>
       }
-      username={
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
         <React.Fragment>
-          <Relay(UsernameWithPopoverContainer)
-            className="coral coral-username coral-comment-username"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            viewer={null}
-          />
-          <Relay(UserTagsContainer)
-            className="coral coral-userTag coral-comment-userTag"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-            settings={
-              Object {
-                "disableCommenting": Object {
-                  "enabled": false,
-                },
-                "featureFlags": Array [],
-              }
-            }
-            story={
-              Object {
-                "canModerate": false,
-                "isClosed": false,
-                "settings": Object {
-                  "mode": "COMMENTS",
-                },
-                "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
         </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": false,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          viewer={null}
+        />
       }
     />
   </ForwardRef(forwardRef)>

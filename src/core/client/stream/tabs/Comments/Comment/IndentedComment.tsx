@@ -19,6 +19,8 @@ export interface IndentedCommentProps
   toggleCollapsed?: () => void;
   staticUsername: React.ReactNode;
   staticTopBarRight: React.ReactNode;
+  tags?: React.ReactNode | null;
+  badges?: React.ReactNode | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({

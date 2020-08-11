@@ -19,6 +19,7 @@ interface Props {
 
   /** less than equals width. */
   ltWidth?: Breakpoints;
+
   children: ReactNode | ((matches: boolean) => React.ReactNode);
   className?: string;
   component?:

@@ -56,56 +56,58 @@ const ReportButton: FunctionComponent<Props> = ({
 
   if (isReported) {
     return (
-      <div
-        className={cn(
-          CLASSES.comment.actionBar.reportedButton,
-          styles.reported
-        )}
-        data-testid="comment-reported-button"
+      <Localized
+        id="comments-reportButton-aria-reported"
+        attrs={{ "aria-label": true }}
       >
-        <Flex alignItems="center">
-          <Localized
-            id="comments-reportButton-aria-reported"
-            attrs={{ "aria-label": true }}
-          >
+        <div
+          className={cn(
+            CLASSES.comment.actionBar.reportedButton,
+            styles.reported
+          )}
+          data-testid="comment-reported-button"
+        >
+          <Flex alignItems="center">
             <Icon size="sm" className={styles.icon}>
               flag
             </Icon>
-          </Localized>
-          <Responsive minWidth={400}>
-            <Localized id="comments-reportButton-reported">Reported</Localized>
-          </Responsive>
-        </Flex>
-      </div>
+            <Responsive minWidth={400}>
+              <Localized id="comments-reportButton-reported">
+                Reported
+              </Localized>
+            </Responsive>
+          </Flex>
+        </div>
+      </Localized>
     );
   }
 
   return (
-    <Button
-      className={cn(CLASSES.comment.actionBar.reportButton)}
-      variant={open ? "filled" : "flat"}
-      active={Boolean(open)}
-      color="secondary"
-      fontSize="small"
-      fontWeight="semiBold"
-      paddingSize="extraSmall"
-      onClick={isLoggedIn ? onClickReport : signIn}
-      data-testid="comment-report-button"
+    <Localized
+      id="comments-reportButton-aria-report"
+      attrs={{ "aria-label": true }}
     >
-      <Flex alignItems="center" container="span">
-        <Localized
-          id="comments-reportButton-aria-report"
-          attrs={{ "aria-label": true }}
-        >
+      <Button
+        className={cn(CLASSES.comment.actionBar.reportButton)}
+        variant={open ? "filled" : "flat"}
+        active={Boolean(open)}
+        color="secondary"
+        fontSize="small"
+        fontWeight="semiBold"
+        paddingSize="extraSmall"
+        onClick={isLoggedIn ? onClickReport : signIn}
+        data-testid="comment-report-button"
+      >
+        <Flex alignItems="center" container="span">
           <Icon size="sm" className={styles.icon}>
             flag
           </Icon>
-        </Localized>
-        <Responsive minWidth={400}>
-          <Localized id="comments-reportButton-report">Report</Localized>
-        </Responsive>
-      </Flex>
-    </Button>
+          <Responsive minWidth={400}>
+            <Localized id="comments-reportButton-report">Report</Localized>
+          </Responsive>
+        </Flex>
+      </Button>
+    </Localized>
   );
 };
 
