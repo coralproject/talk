@@ -43,13 +43,17 @@ export const wordList: IntermediateModerationPhase = ({
     };
   } else if (banned === null) {
     return {
-      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          timedOut: true,
+        },
+      },
     };
   }
 
@@ -66,13 +70,17 @@ export const wordList: IntermediateModerationPhase = ({
     };
   } else if (suspect === null) {
     return {
-      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          timedOut: true,
+        },
+      },
     };
   }
 };
