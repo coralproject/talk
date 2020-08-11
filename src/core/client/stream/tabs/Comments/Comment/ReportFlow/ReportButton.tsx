@@ -10,7 +10,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
@@ -71,11 +71,15 @@ const ReportButton: FunctionComponent<Props> = ({
             <Icon size="sm" className={styles.icon}>
               flag
             </Icon>
-            <Responsive minWidth={400}>
-              <Localized id="comments-reportButton-reported">
-                Reported
-              </Localized>
-            </Responsive>
+            <MatchMedia gteWidth="mobile">
+              {(matches) =>
+                matches ? (
+                  <Localized id="comments-reportButton-reported">
+                    Reported
+                  </Localized>
+                ) : null
+              }
+            </MatchMedia>
           </Flex>
         </div>
       </Localized>
