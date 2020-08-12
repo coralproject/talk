@@ -4,9 +4,7 @@ import { URL } from "url";
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import { createFetch } from "coral-server/services/fetch";
-
-const fetch = createFetch({ name: "perspective" });
+import { fetchWithTimeout } from "coral-server/services/fetch";
 
 /**
  * Language is the language key that is supported by the Perspective API in the
@@ -137,14 +135,18 @@ export async function sendToPerspective(
 
   try {
     // Create the request and send it.
-    const res = await fetch(url.toString(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetchWithTimeout(
+      "perspective",
+      url.toString(),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
       },
-      timeout,
-      body,
-    });
+      timeout
+    );
     if (!res.ok) {
       return {
         ok: res.ok,
