@@ -88,7 +88,7 @@ export async function update(
   // Whenever the settings are updated, log who performed the update and what
   // keys they updated.
   logger.info(
-    { update: Object.keys(input), userID: user.id },
+    { update: Object.keys(input), userID: user.id, tenantID: tenant.id },
     "settings update audit"
   );
 
