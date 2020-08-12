@@ -16,8 +16,12 @@ export async function commit(
   input: SetStoryClosedInput
 ) {
   return commitLocalUpdate(environment, (store) => {
-    const record = store.get(input.storyID)!;
-    record.setValue(input.isClosed, "isClosed");
+    const proxy = store.get(input.storyID);
+    if (!proxy) {
+      return;
+    }
+
+    proxy.setValue(input.isClosed, "isClosed");
   });
 }
 

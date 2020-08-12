@@ -27,7 +27,11 @@ export async function commit(
   }
   ShowAuthPopupEvent.emit(eventEmitter, { view: input.view });
   return commitLocalUpdate(environment, (store) => {
-    const record = store.get(AUTH_POPUP_ID)!;
+    const record = store.get(AUTH_POPUP_ID);
+    if (!record) {
+      return;
+    }
+
     record.setValue(input.view, "view");
     if (!record.getValue("open")) {
       record.setValue(true, "open");

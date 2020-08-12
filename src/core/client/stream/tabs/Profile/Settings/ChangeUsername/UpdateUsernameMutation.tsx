@@ -20,8 +20,13 @@ const UpdateUsernameMutation = createMutation(
     input: MutationInput<MutationTypes>,
     { eventEmitter }
   ) => {
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
     const changeUsernameEvent = ChangeUsernameEvent.begin(eventEmitter, {
-      oldUsername: getViewer(environment)!.username!,
+      oldUsername: viewer.username || "",
       newUsername: input.username,
     });
     try {
@@ -57,7 +62,7 @@ const UpdateUsernameMutation = createMutation(
             updateUsername: {
               clientMutationId: (clientMutationId++).toString(),
               user: {
-                id: getViewer(environment)!.id,
+                id: viewer.id,
                 username: input.username,
                 status: {
                   username: {

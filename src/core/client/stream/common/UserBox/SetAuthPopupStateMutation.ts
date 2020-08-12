@@ -21,7 +21,11 @@ export async function commit(
   input: SetAuthPopupStateInput
 ) {
   return commitLocalUpdate(environment, (store) => {
-    const record = store.get(AUTH_POPUP_ID)!;
+    const record = store.get(AUTH_POPUP_ID);
+    if (!record) {
+      return;
+    }
+
     if (input.open !== undefined) {
       record.setValue(input.open, "open");
     }

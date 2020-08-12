@@ -10,5 +10,11 @@ export default function getViewer(environment: Environment) {
   if (!viewerID) {
     return null;
   }
-  return lookup<GQLUser>(environment, viewerID)!;
+
+  const viewer = lookup<GQLUser>(environment, viewerID);
+  if (!viewer) {
+    return null;
+  }
+
+  return viewer;
 }

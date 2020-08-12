@@ -12,14 +12,20 @@ export default function prependCommentEdgeToProfile(
   store: RecordSourceSelectorProxy,
   commentEdge: RecordProxy
 ) {
-  const meProxy = store.get(getViewerSourceID(environment)!)!;
-  const con = ConnectionHandler.getConnection(
-    meProxy,
-    "CommentHistory_comments"
-  );
-  // Note: Currently this is always null, until Relay comes
-  // with better data retaintion and data from store support.
-  if (con) {
-    ConnectionHandler.insertEdgeBefore(con, commentEdge);
+  const viewerID = getViewerSourceID(environment);
+  if (!viewerID) {
+    return;
   }
+
+  const proxy = store.get(viewerID);
+  if (!proxy) {
+    return;
+  }
+
+  const con = ConnectionHandler.getConnection(proxy, "CommentHistory_comments");
+  if (!con) {
+    return;
+  }
+
+  ConnectionHandler.insertEdgeBefore(con, commentEdge);
 }

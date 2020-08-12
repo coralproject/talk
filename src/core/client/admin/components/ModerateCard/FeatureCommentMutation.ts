@@ -63,7 +63,11 @@ const FeatureCommentMutation = createMutation(
         storyID: input.storyID,
       },
       optimisticUpdater: (store) => {
-        const comment = store.get(input.commentID)!;
+        const comment = store.get(input.commentID);
+        if (!comment) {
+          return;
+        }
+
         const tags = comment.getLinkedRecords("tags");
         if (tags) {
           const newTag = store.create(uuidGenerator(), "Tag");

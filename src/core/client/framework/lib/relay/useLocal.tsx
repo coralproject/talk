@@ -119,7 +119,11 @@ function useLocal<T>(
   const localUpdate = useCallback(
     (update: LocalUpdater<T>) => {
       commitLocalUpdate(relayEnvironment, (store) => {
-        const record = store.get(LOCAL_ID)!;
+        const record = store.get(LOCAL_ID);
+        if (!record) {
+          return;
+        }
+
         if (isAdvancedUpdater(update)) {
           update(record);
         } else {

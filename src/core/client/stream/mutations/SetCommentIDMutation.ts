@@ -16,7 +16,11 @@ export async function commit(
   { pym }: CoralContext
 ) {
   return commitLocalUpdate(environment, (store) => {
-    const record = store.get(LOCAL_ID)!;
+    const record = store.get(LOCAL_ID);
+    if (!record) {
+      return;
+    }
+
     record.setValue(input.id, "commentID");
     record.setValue("COMMENTS", "activeTab");
 

@@ -17,7 +17,16 @@ let clientMutationId = 0;
 const PremodUserMutation = createMutation(
   "premodUser",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
-    const viewer = getViewer(environment)!;
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
+    const user = lookup<GQLUser>(environment, input.userID);
+    if (!user) {
+      return;
+    }
+
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation PremodUserMutation($input: PremodUserInput!) {
@@ -54,10 +63,7 @@ const PremodUserMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.PREMOD),
+              current: user.status.current.concat(GQLUSER_STATUS.PREMOD),
               premod: {
                 active: true,
                 history: [

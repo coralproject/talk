@@ -37,7 +37,10 @@ export default async function initLocalState(
 
   commitLocalUpdate(environment, (s) => {
     const root = s.getRoot();
-    const localRecord = root.getLinkedRecord("local")!;
+    const localRecord = root.getLinkedRecord("local");
+    if (!localRecord) {
+      return;
+    }
 
     // Parse query params
     const query = parseQuery(location.search);

@@ -16,7 +16,11 @@ export async function commit(
   { eventEmitter }: Pick<CoralContext, "eventEmitter">
 ) {
   return commitLocalUpdate(environment, (store) => {
-    const record = store.get(LOCAL_ID)!;
+    const record = store.get(LOCAL_ID);
+    if (!record) {
+      return;
+    }
+
     if (record.getValue("activeTab") !== input.tab) {
       SetMainTabEvent.emit(eventEmitter, { tab: input.tab });
       record.setValue(input.tab, "activeTab");

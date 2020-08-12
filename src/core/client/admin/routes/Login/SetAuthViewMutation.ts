@@ -16,7 +16,11 @@ const SetAuthViewMutation = createMutation(
   "setAuthView",
   (environment: Environment, input: SetAuthViewInput) =>
     commitLocalUpdate(environment, (store) => {
-      const record = store.get(LOCAL_ID)!;
+      const record = store.get(LOCAL_ID);
+      if (!record) {
+        return;
+      }
+
       record.setValue(input.view, "authView");
     })
 );

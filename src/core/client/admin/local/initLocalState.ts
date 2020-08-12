@@ -47,7 +47,10 @@ export default async function initLocalState(
   initLocalBaseState(environment, context, auth);
 
   commitLocalUpdate(environment, (s) => {
-    const localRecord = s.get(LOCAL_ID)!;
+    const localRecord = s.get(LOCAL_ID);
+    if (!localRecord) {
+      return;
+    }
 
     localRecord.setValue(redirectPath, "redirectPath");
     localRecord.setValue("SIGN_IN", "authView");

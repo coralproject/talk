@@ -59,8 +59,13 @@ const UnfeatureCommentMutation = createMutation(
             }
           `,
           optimisticUpdater: (store) => {
-            const comment = store.get(input.commentID)!;
-            const tags = comment.getLinkedRecords("tags")!;
+            const comment = store.get(input.commentID);
+            if (!comment) {
+              return;
+            }
+
+            const tags = comment.getLinkedRecords("tags") || [];
+
             comment.setLinkedRecords(
               tags.filter((t) => t.getValue("code") === GQLTAG.FEATURED),
               "tags"

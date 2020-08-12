@@ -20,8 +20,13 @@ const UpdateEmailMutation = createMutation(
     input: MutationInput<MutationTypes>,
     { eventEmitter }
   ) => {
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
     const changeEmailEvent = ChangeEmailEvent.begin(eventEmitter, {
-      oldEmail: getViewer(environment)!.email!,
+      oldEmail: viewer.email || "",
       newEmail: input.email,
     });
     try {
@@ -50,10 +55,7 @@ const UpdateEmailMutation = createMutation(
             updateEmail: {
               clientMutationId: (clientMutationId++).toString(),
               user: {
-                // Only a logged in user will be able to change its email
-                // and access this mutation, so the viewer is always available
-                // in the cache when calling this mutation.
-                id: getViewer(environment)!.id,
+                id: viewer.id,
                 email: input.email,
                 emailVerified: false,
               },

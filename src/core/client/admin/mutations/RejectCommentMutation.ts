@@ -79,7 +79,11 @@ const RejectCommentMutation = createMutation(
         section: input.section,
       },
       optimisticUpdater: (store) => {
-        const proxy = store.get(input.commentID)!;
+        const proxy = store.get(input.commentID);
+        if (!proxy) {
+          return;
+        }
+
         proxy.setValue("REJECTED", "status");
         proxy.setValue(true, "viewerDidModerate");
       },
@@ -96,7 +100,11 @@ const RejectCommentMutation = createMutation(
 
         // Ensure that the comment retains the viewerDidModerate state after it
         // comes back from the update.
-        const proxy = store.get(input.commentID)!;
+        const proxy = store.get(input.commentID);
+        if (!proxy) {
+          return;
+        }
+
         proxy.setValue(true, "viewerDidModerate");
 
         const connections = [

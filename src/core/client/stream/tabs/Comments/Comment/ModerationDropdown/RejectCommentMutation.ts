@@ -31,6 +31,11 @@ const RejectCommentMutation = createMutation(
       });
     }
     try {
+      const comment = lookup<GQLComment>(environment, input.commentID);
+      if (!comment) {
+        return;
+      }
+
       const result = await commitMutationPromiseNormalized<MutationTypes>(
         environment,
         {
@@ -68,7 +73,7 @@ const RejectCommentMutation = createMutation(
               comment: {
                 id: input.commentID,
                 status: GQLCOMMENT_STATUS.REJECTED,
-                tags: lookup<GQLComment>(environment, input.commentID)!.tags,
+                tags: comment.tags,
                 story: {
                   id: input.storyID,
                   commentCounts: {
@@ -82,7 +87,12 @@ const RejectCommentMutation = createMutation(
             },
           },
           updater: (store) => {
-            store.get(input.commentID)!.setValue("REJECT", "lastViewerAction");
+            const proxy = store.get(input.commentID);
+            if (!proxy) {
+              return;
+            }
+
+            proxy.setValue("REJECT", "lastViewerAction");
           },
         }
       );

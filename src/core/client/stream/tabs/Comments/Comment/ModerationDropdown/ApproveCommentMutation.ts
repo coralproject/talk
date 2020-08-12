@@ -55,7 +55,12 @@ const ApproveCommentMutation = createMutation(
             },
           },
           updater: (store) => {
-            store.get(input.commentID)!.setValue("APPROVE", "lastViewerAction");
+            const proxy = store.get(input.commentID);
+            if (!proxy) {
+              return;
+            }
+
+            proxy.setValue("APPROVE", "lastViewerAction");
           },
         }
       );

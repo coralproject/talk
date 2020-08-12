@@ -22,18 +22,35 @@ function updateForNewestFirst(
   if (!rootField) {
     return;
   }
-  const comment = rootField.getLinkedRecord("comment")!;
-  comment.setValue(true, "enteredLive");
-  const commentsEdge = store.create(
-    `edge-${comment.getValue("id")!}`,
-    "CommentsEdge"
-  );
-  commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
-  commentsEdge.setLinkedRecord(comment, "node");
-  const story = store.get(storyID)!;
+
+  const comment = rootField.getLinkedRecord("comment");
+  if (!comment) {
+    return;
+  }
+
+  const commentID = comment.getValue("id");
+  if (!commentID || typeof commentID !== "string") {
+    return;
+  }
+
+  const story = store.get(storyID);
+  if (!story) {
+    return;
+  }
+
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-  })!;
+  });
+  if (!connection) {
+    return;
+  }
+
+  comment.setValue(true, "enteredLive");
+
+  const commentsEdge = store.create(`edge-${commentID}`, "CommentsEdge");
+  commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
+  commentsEdge.setLinkedRecord(comment, "node");
+
   const linked = connection.getLinkedRecords("viewNewEdges") || [];
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
 }
@@ -42,11 +59,23 @@ function updateForOldestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
-  const story = store.get(storyID)!;
+  const story = store.get(storyID);
+  if (!story) {
+    return;
+  }
+
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-  })!;
-  const pageInfo = connection.getLinkedRecord("pageInfo")!;
+  });
+  if (!connection) {
+    return;
+  }
+
+  const pageInfo = connection.getLinkedRecord("pageInfo");
+  if (!pageInfo) {
+    return;
+  }
+
   pageInfo.setValue(true, "hasNextPage");
 }
 
@@ -76,9 +105,11 @@ const CommentReleasedSubscription = createSubscription(
         if (!rootField) {
           return;
         }
-        const commentID = rootField
-          .getLinkedRecord("comment")!
-          .getValue("id")! as string;
+        const commentID = rootField.getLinkedRecord("comment")?.getValue("id");
+        if (!commentID || typeof commentID !== "string") {
+          return;
+        }
+
         const commentInStore = Boolean(
           // We use store from environment here, because it does not contain the response data yet!
           environment.getStore().getSource().get(commentID)

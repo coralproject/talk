@@ -17,7 +17,16 @@ let clientMutationId = 0;
 const BanUserMutation = createMutation(
   "banUser",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
-    const viewer = getViewer(environment)!;
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
+    const user = lookup<GQLUser>(environment, input.userID);
+    if (!user) {
+      return;
+    }
+
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation BanUserMutation($input: BanUserInput!) {
@@ -54,10 +63,7 @@ const BanUserMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.BANNED),
+              current: user.status.current.concat(GQLUSER_STATUS.BANNED),
               ban: {
                 active: true,
                 history: [

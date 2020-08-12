@@ -21,7 +21,11 @@ const RequestCommentsDownloadMutation = createMutation(
     { eventEmitter }
   ) => {
     const updater = (store: RecordSourceSelectorProxy) => {
-      const viewer = getViewer(environment)!;
+      const viewer = getViewer(environment);
+      if (!viewer) {
+        return;
+      }
+
       const user = store.get(viewer.id);
       const now = new Date();
 

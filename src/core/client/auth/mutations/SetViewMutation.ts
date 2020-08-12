@@ -21,7 +21,10 @@ const SetViewMutation = createMutation(
   "setView",
   (environment: Environment, input: SetViewInput) => {
     return commitLocalUpdate(environment, (store) => {
-      const record = store.get(LOCAL_ID)!;
+      const record = store.get(LOCAL_ID);
+      if (!record) {
+        return;
+      }
 
       if (input.history) {
         const newLocation = window.location.href.replace(

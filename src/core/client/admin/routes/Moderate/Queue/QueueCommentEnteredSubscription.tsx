@@ -23,8 +23,17 @@ function handleCommentEnteredModerationQueue(
   if (!rootField) {
     return;
   }
-  const comment = rootField.getLinkedRecord("comment")!;
-  const commentID = comment.getValue("id")!;
+
+  const comment = rootField.getLinkedRecord("comment");
+  if (!comment) {
+    return;
+  }
+
+  const commentID = comment.getValue("id");
+  if (!commentID) {
+    return;
+  }
+
   const edgeID = `edge-${commentID}`;
   const edgeInQueue = Boolean(store.get(edgeID));
   if (edgeInQueue) {

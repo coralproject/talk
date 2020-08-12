@@ -14,7 +14,11 @@ const SetDuplicateEmailMutation = createMutation(
   "setDuplicateEmail",
   (environment: Environment, input: SetDuplicateEmailInput) => {
     return commitLocalUpdate(environment, (store) => {
-      const record = store.get(LOCAL_ID)!;
+      const record = store.get(LOCAL_ID);
+      if (!record) {
+        return;
+      }
+
       record.setValue(input.duplicateEmail, "duplicateEmail");
     });
   }

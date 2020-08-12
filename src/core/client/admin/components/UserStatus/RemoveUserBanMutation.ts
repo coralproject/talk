@@ -15,8 +15,13 @@ let clientMutationId = 0;
 
 const RemoveUserBanMutation = createMutation(
   "removeUserBan",
-  (environment: Environment, input: MutationInput<MutationTypes>) =>
-    commitMutationPromiseNormalized<MutationTypes>(environment, {
+  (environment: Environment, input: MutationInput<MutationTypes>) => {
+    const user = lookup<GQLUser>(environment, input.userID);
+    if (!user) {
+      return;
+    }
+
+    return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation RemoveUserBanMutation($input: RemoveUserBanInput!) {
           removeUserBan(input: $input) {
@@ -51,10 +56,9 @@ const RemoveUserBanMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.filter((s) => s !== GQLUSER_STATUS.BANNED),
+              current: user.status.current.filter(
+                (s) => s !== GQLUSER_STATUS.BANNED
+              ),
               ban: {
                 active: false,
                 history: [],
@@ -64,7 +68,8 @@ const RemoveUserBanMutation = createMutation(
           clientMutationId: (clientMutationId++).toString(),
         },
       },
-    })
+    });
+  }
 );
 
 export default RemoveUserBanMutation;

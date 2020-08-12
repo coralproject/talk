@@ -37,9 +37,13 @@ function sharedUpdater(
   input: CreateCommentInput
 ) {
   const commentEdge = store
-    .getRootField("createComment")!
-    .getLinkedRecord("edge")!;
-  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+    .getRootField("createComment")
+    ?.getLinkedRecord("edge");
+  if (!commentEdge) {
+    return;
+  }
+
+  const status = commentEdge.getLinkedRecord("node")?.getValue("status");
 
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
@@ -78,7 +82,11 @@ function addCommentToStory(
   commentEdge: RecordProxy
 ) {
   // Get stream proxy.
-  const streamProxy = store.get(input.storyID)!;
+  const streamProxy = store.get(input.storyID);
+  if (!streamProxy) {
+    return;
+  }
+
   const connectionKey = "Stream_comments";
 
   if (input.commentsOrderBy === "CREATED_AT_ASC") {
@@ -154,12 +162,16 @@ async function commit(
   input: CreateCommentInput,
   { uuidGenerator, relayEnvironment, eventEmitter }: CoralContext
 ) {
-  const viewer = getViewer(environment)!;
+  const viewer = getViewer(environment);
+  if (!viewer) {
+    return;
+  }
+
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
-  const storySettings = lookup<GQLStory>(relayEnvironment, input.storyID)!
-    .settings;
+  const storySettings = lookup<GQLStory>(relayEnvironment, input.storyID)
+    ?.settings;
   if (!storySettings || !storySettings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }
@@ -254,7 +266,13 @@ async function commit(
             return;
           }
           sharedUpdater(environment, store, input);
-          store.get(id)!.setValue(true, "pending");
+
+          const proxy = store.get(id);
+          if (!proxy) {
+            return;
+          }
+
+          proxy.setValue(true, "pending");
         },
         updater: (store) => {
           sharedUpdater(environment, store, input);

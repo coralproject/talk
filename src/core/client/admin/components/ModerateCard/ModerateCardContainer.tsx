@@ -203,7 +203,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       if (!usernameClicked) {
         return;
       }
-      usernameClicked(id || comment.author!.id);
+      const userID = id || comment.author?.id;
+      if (userID) {
+        usernameClicked(userID);
+      }
     },
     [usernameClicked, comment]
   );

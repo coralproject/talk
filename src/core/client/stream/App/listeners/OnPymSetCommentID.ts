@@ -20,8 +20,9 @@ export class OnPymSetCommentID extends Component<Props> {
     props.pym.onMessage("setCommentID", (raw) => {
       commitLocalUpdate(this.props.relayEnvironment, (s) => {
         const id = raw || null;
-        if (s.get(LOCAL_ID)!.getValue("commentID") !== id) {
-          s.get(LOCAL_ID)!.setValue(id, "commentID");
+        const local = s.get(LOCAL_ID);
+        if (local && local.getValue("commentID") !== id) {
+          local.setValue(id, "commentID");
 
           // Change iframe url, this is important
           // because it is used to cleanly initialized

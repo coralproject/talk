@@ -23,9 +23,18 @@ const CreateModeratorNoteMutation = createMutation(
     input: MutationInput<MutationTypes>,
     { uuidGenerator }: CoralContext
   ) => {
-    const viewer = getViewer(environment)!;
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
+    const user = lookup<GQLUser>(environment, input.userID);
+    if (!user) {
+      return;
+    }
+
     const notes =
-      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map((note) => {
+      user.moderatorNotes.map((note) => {
         const createdBy = pick(note.createdBy, ["username", "id"]);
         return {
           ...pick(note, ["id", "body", "createdAt"]),

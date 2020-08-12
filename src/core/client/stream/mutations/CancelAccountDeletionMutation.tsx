@@ -46,11 +46,17 @@ const CancelAccountDeletionMutation = createMutation(
             },
           },
           optimisticUpdater: (store) => {
-            const viewer = getViewer(environment)!;
-            const viewerProxy = store.get(viewer.id);
-            if (viewerProxy) {
-              viewerProxy.setValue(null, "scheduledDeletionDate");
+            const viewer = getViewer(environment);
+            if (!viewer) {
+              return;
             }
+
+            const viewerProxy = store.get(viewer.id);
+            if (!viewerProxy) {
+              return;
+            }
+
+            viewerProxy.setValue(null, "scheduledDeletionDate");
           },
         }
       );

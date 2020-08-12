@@ -31,7 +31,11 @@ const ModerateCountsCommentLeftSubscription = createSubscription(
       `,
       variables,
       updater: (store) => {
-        const root = store.getRootField("commentLeftModerationQueue")!;
+        const root = store.getRootField("commentLeftModerationQueue");
+        if (!root) {
+          return;
+        }
+
         const queue = root.getValue("queue") as GQLMODERATION_QUEUE;
         const change = -1;
         changeQueueCount(store, change, queue, variables.storyID);

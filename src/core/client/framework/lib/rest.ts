@@ -10,13 +10,13 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
     method: "GET",
     headers: {
-      Approve: "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     credentials: "same-origin",
   };
   const options = merge({}, defaultOptions, inputOptions);
-  if (options.method!.toLowerCase() !== "get") {
+  if (options.method?.toLowerCase() !== "get") {
     options.body = JSON.stringify(options.body);
   }
   return options;
@@ -31,8 +31,8 @@ const handleResp = async (res: Response) => {
   }
 
   if (!res.ok) {
-    const ctype = res.headers.get("content-type");
-    if (ctype && ctype.includes("application/json")) {
+    const contentType = res.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
       const response = await res.json();
       throw extractError(response.error);
     } else {
@@ -74,20 +74,25 @@ export class RestClient {
     let opts = options;
     const token =
       options.token || (this.accessTokenProvider && this.accessTokenProvider());
+
     if (token) {
-      opts = merge({}, options, {
+      opts = {
+        ...opts,
         headers: {
+          ...opts.headers,
           Authorization: `Bearer ${token}`,
         },
-      });
+      };
     }
 
     if (this.clientID) {
-      opts = merge({}, opts, {
+      opts = {
+        ...opts,
         headers: {
+          ...opts.headers,
           [CLIENT_ID_HEADER]: this.clientID,
         },
-      });
+      };
     }
 
     const response = await fetch(`${this.uri}${path}`, buildOptions(opts));

@@ -39,7 +39,7 @@ export default function getQueueConnection(
     storyID,
     siteID,
     section,
-  })!;
+  });
   if (!queuesRecord) {
     return undefined;
   }

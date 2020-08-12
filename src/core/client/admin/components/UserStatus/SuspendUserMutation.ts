@@ -18,7 +18,16 @@ let clientMutationId = 0;
 const SuspendUserMutation = createMutation(
   "suspendUser",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
-    const viewer = getViewer(environment)!;
+    const viewer = getViewer(environment);
+    if (!viewer) {
+      return;
+    }
+
+    const user = lookup<GQLUser>(environment, input.userID);
+    if (!user) {
+      return;
+    }
+
     const now = new Date();
     const finish = DateTime.fromJSDate(now).plus({
       seconds: input.timeout,
@@ -63,10 +72,7 @@ const SuspendUserMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+              current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
               suspension: {
                 active: true,
                 history: [

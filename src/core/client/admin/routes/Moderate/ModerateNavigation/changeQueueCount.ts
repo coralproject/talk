@@ -10,7 +10,7 @@ export default function changeQueueCount(
 ) {
   const moderationQueuesProxy = store
     .getRoot()
-    .getLinkedRecord("moderationQueues", { storyID })!;
+    .getLinkedRecord("moderationQueues", { storyID });
   if (!moderationQueuesProxy) {
     return;
   }

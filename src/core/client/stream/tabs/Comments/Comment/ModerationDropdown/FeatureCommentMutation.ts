@@ -60,14 +60,17 @@ const FeatureCommentMutation = createMutation(
             }
           `,
           optimisticUpdater: (store) => {
-            const comment = store.get(input.commentID)!;
-            const tags = comment.getLinkedRecords("tags");
-            if (tags) {
-              const newTag = store.create(uuidGenerator(), "Tag");
-              newTag.setValue(GQLTAG.FEATURED, "code");
-              comment.setLinkedRecords(tags.concat(newTag), "tags");
-              comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
+            const comment = store.get(input.commentID);
+            if (!comment) {
+              return;
             }
+
+            const tags = comment.getLinkedRecords("tags") || [];
+            const newTag = store.create(uuidGenerator(), "Tag");
+            newTag.setValue(GQLTAG.FEATURED, "code");
+            comment.setLinkedRecords(tags.concat(newTag), "tags");
+            comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
+
             incrementCount(store, input.storyID);
           },
           updater: (store) => {

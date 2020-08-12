@@ -45,6 +45,11 @@ async function commit(
     }
   );
   try {
+    const comment = lookup<GQLComment>(environment, input.commentID);
+    if (!comment || !comment.revision) {
+      return;
+    }
+
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
@@ -63,10 +68,7 @@ async function commit(
                 reaction: false,
               },
               revision: {
-                // Can assume revision exists since we just selected
-                // to remove the reaction to it.
-                id: lookup<GQLComment>(environment, input.commentID)!.revision!
-                  .id,
+                id: comment.revision.id,
               },
               actionCounts: {
                 reaction: {

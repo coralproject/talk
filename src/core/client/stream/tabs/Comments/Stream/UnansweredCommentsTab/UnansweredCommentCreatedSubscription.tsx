@@ -2,7 +2,6 @@ import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
-  RecordProxy,
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
@@ -23,18 +22,34 @@ function updateForNewestFirst(
   if (!rootField) {
     return;
   }
-  const comment = rootField.getLinkedRecord("comment")!;
+  const comment = rootField.getLinkedRecord("comment");
+  if (!comment) {
+    return;
+  }
+
   comment.setValue(true, "enteredLive");
-  const commentsEdge = store.create(
-    `edge-${comment.getValue("id")!}`,
-    "CommentsEdge"
-  );
+
+  const commentID = comment.getValue("id");
+  if (!commentID || typeof commentID !== "string") {
+    return;
+  }
+
+  const story = store.get(storyID);
+  if (!story) {
+    return;
+  }
+
+  const commentsEdge = store.create(`edge-${commentID}`, "CommentsEdge");
   commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
   commentsEdge.setLinkedRecord(comment, "node");
-  const story = store.get(storyID)!;
+
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-  })!;
+  });
+  if (!connection) {
+    return;
+  }
+
   const linked = connection.getLinkedRecords("viewNewEdges") || [];
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
 }
@@ -43,13 +58,23 @@ function updateForOldestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string
 ) {
-  const story = store.get(storyID)!;
+  const story = store.get(storyID);
+  if (!story) {
+    return;
+  }
+
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-  })!;
+  });
+  if (!connection) {
+    return;
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const pageInfo = connection.getLinkedRecord("pageInfo") as RecordProxy;
+  const pageInfo = connection.getLinkedRecord("pageInfo");
+  if (!pageInfo) {
+    return;
+  }
+
   pageInfo.setValue(true, "hasNextPage");
 }
 
@@ -75,14 +100,15 @@ const UnansweredCommentCreatedSubscription = createSubscription(
       `,
       variables,
       updater: (store) => {
-        const rootField = store.getRootField("commentCreated");
-        if (!rootField) {
+        const commentID = store
+          .getRootField("commentCreated")
+          ?.getLinkedRecord("comment")
+          ?.getValue("id");
+        if (!commentID || typeof commentID !== "string") {
           return;
         }
-        const commentID = rootField
-          .getLinkedRecord("comment")!
-          .getValue("id")! as string;
-        const commentInStore = Boolean(
+
+        const commentInStore = !!(
           // We use store from environment here, because it does not contain the response data yet!
           environment.getStore().getSource().get(commentID)
         );

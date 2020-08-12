@@ -23,22 +23,32 @@ function handleCommentLeftModerationQueue(
   if (!rootField) {
     return;
   }
-  const comment = rootField.getLinkedRecord("comment")!;
-  const commentID = rootField
-    .getLinkedRecord("comment")!
-    .getValue("id")! as string;
+
+  const comment = rootField.getLinkedRecord("comment");
+  if (!comment) {
+    return;
+  }
+
+  const commentID = comment.getValue("id");
+  if (!commentID) {
+    return;
+  }
+
   // Mark that the status of the comment was live updated.
   comment.setValue(true, "statusLiveUpdated");
+
   const connection = getQueueConnection(store, queue, storyID, siteID, section);
-  if (connection) {
-    const linked = connection.getLinkedRecords("viewNewEdges") || [];
-    connection.setLinkedRecords(
-      linked.filter(
-        (r) => r.getLinkedRecord("node")!.getValue("id") !== commentID
-      ),
-      "viewNewEdges"
-    );
+  if (!connection) {
+    return;
   }
+
+  const linked = connection.getLinkedRecords("viewNewEdges") || [];
+  connection.setLinkedRecords(
+    linked.filter(
+      (r) => r.getLinkedRecord("node")?.getValue("id") !== commentID
+    ),
+    "viewNewEdges"
+  );
 }
 
 const QueueSubscription = createSubscription(

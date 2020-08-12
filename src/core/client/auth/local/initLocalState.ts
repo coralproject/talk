@@ -23,7 +23,10 @@ export default async function initLocalState(
   initLocalBaseState(environment, context, auth);
 
   commitLocalUpdate(environment, (s) => {
-    const localRecord = s.get(LOCAL_ID)!;
+    const localRecord = s.get(LOCAL_ID);
+    if (!localRecord) {
+      return;
+    }
 
     // Parse query params
     const query = parseQuery(location.search);

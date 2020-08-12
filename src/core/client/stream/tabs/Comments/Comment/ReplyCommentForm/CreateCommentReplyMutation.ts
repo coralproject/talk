@@ -37,9 +37,17 @@ function sharedUpdater(
   input: CreateCommentReplyInput
 ) {
   const commentEdge = store
-    .getRootField("createCommentReply")!
-    .getLinkedRecord("edge")!;
-  const node = commentEdge.getLinkedRecord("node")!;
+    .getRootField("createCommentReply")
+    ?.getLinkedRecord("edge");
+  if (!commentEdge) {
+    return;
+  }
+
+  const node = commentEdge.getLinkedRecord("node");
+  if (!node) {
+    return;
+  }
+
   const status = node.getValue("status");
 
   // If comment is not published, we don't need to add it.
@@ -89,7 +97,10 @@ function addLocalCommentReplyToStory(
   input: CreateCommentReplyInput,
   commentEdge: RecordProxy
 ) {
-  const newComment = commentEdge.getLinkedRecord("node")!;
+  const newComment = commentEdge.getLinkedRecord("node");
+  if (!newComment) {
+    return;
+  }
 
   // Get parent proxy.
   const parentProxy = store.get(input.parentID);
@@ -165,20 +176,27 @@ async function commit(
   input: CreateCommentReplyInput,
   { uuidGenerator, relayEnvironment, eventEmitter }: CoralContext
 ) {
-  const parentComment = lookup<GQLComment>(environment, input.parentID)!;
-  const viewer = getViewer(environment)!;
+  const parentComment = lookup<GQLComment>(environment, input.parentID);
+  if (!parentComment) {
+    return;
+  }
+
+  const viewer = getViewer(environment);
+  if (!viewer) {
+    return;
+  }
+
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
-  const storySettings = lookup<GQLStory>(relayEnvironment, input.storyID)!
-    .settings;
-  if (!storySettings || !storySettings.moderation) {
+  const story = lookup<GQLStory>(relayEnvironment, input.storyID);
+  if (!story?.settings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
     !roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF) &&
-    storySettings.moderation === "PRE";
+    story.settings.moderation === "PRE";
 
   const createCommentReplyEvent = CreateCommentReplyEvent.begin(eventEmitter, {
     body: input.body,
@@ -249,7 +267,7 @@ async function commit(
                   id: input.storyID,
                   settings: {
                     live: {
-                      enabled: storySettings.live.enabled,
+                      enabled: story.settings.live.enabled,
                     },
                   },
                 },
@@ -273,7 +291,13 @@ async function commit(
             return;
           }
           sharedUpdater(environment, store, input);
-          store.get(id)!.setValue(true, "pending");
+
+          const proxy = store.get(id);
+          if (!proxy) {
+            return;
+          }
+
+          proxy.setValue(true, "pending");
         },
         updater: (store) => {
           sharedUpdater(environment, store, input);

@@ -57,13 +57,20 @@ const CommentReplyCreatedSubscription = createSubscription(
         if (!rootField) {
           return;
         }
-        const comment = rootField.getLinkedRecord("comment")!;
-        const commentInStore = Boolean(
+
+        const comment = rootField.getLinkedRecord("comment");
+        if (!comment) {
+          return;
+        }
+
+        const commentID = comment.getValue("id");
+        if (!commentID || typeof commentID !== "string") {
+          return;
+        }
+
+        const commentInStore = !!(
           // We use store from environment here, because it does not contain the response data yet!
-          environment
-            .getStore()
-            .getSource()
-            .get(comment.getValue("id") as string)
+          environment.getStore().getSource().get(commentID)
         );
         if (commentInStore) {
           return;
@@ -71,10 +78,15 @@ const CommentReplyCreatedSubscription = createSubscription(
 
         comment.setValue(true, "enteredLive");
 
-        const parentID = comment
-          .getLinkedRecord("parent")!
-          .getValue("id")! as string;
-        const parentProxy = store.get(parentID)!;
+        const parentID = comment.getLinkedRecord("parent")?.getValue("id");
+        if (!parentID || typeof parentID !== "string") {
+          return;
+        }
+
+        const parentProxy = store.get(parentID);
+        if (!parentProxy) {
+          return;
+        }
 
         const depth = determineDepthTillAncestor(comment, variables.ancestorID);
         if (depth === null) {
@@ -102,14 +114,13 @@ const CommentReplyCreatedSubscription = createSubscription(
           // in our visible tree.
           return;
         }
-        if (connection.getLinkedRecord("pageInfo")!.getValue("hasNextPage")) {
+
+        if (connection.getLinkedRecord("pageInfo")?.getValue("hasNextPage")) {
           // It hasn't loaded all comments yet, ignore this one.
           return;
         }
-        const commentsEdge = store.create(
-          `edge-${comment.getValue("id")!}`,
-          "CommentsEdge"
-        );
+
+        const commentsEdge = store.create(`edge-${commentID}`, "CommentsEdge");
         commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
         commentsEdge.setLinkedRecord(comment, "node");
         if (

@@ -42,14 +42,27 @@ const IgnoreUserMutation = createMutation(
             },
           },
           updater: (store) => {
-            const viewer = getViewer(environment)!;
-            const viewerProxy = store.get(viewer.id)!;
+            const viewer = getViewer(environment);
+            if (!viewer) {
+              return;
+            }
+
+            const viewerProxy = store.get(viewer.id);
+            if (!viewerProxy) {
+              return;
+            }
+
             const ignoredUserRecords = viewerProxy.getLinkedRecords(
               "ignoredUsers"
             );
             if (ignoredUserRecords) {
+              const user = store.get(input.userID);
+              if (!user) {
+                return;
+              }
+
               viewerProxy.setLinkedRecords(
-                ignoredUserRecords.concat(store.get(input.userID)!),
+                ignoredUserRecords.concat(user),
                 "ignoredUsers"
               );
             }

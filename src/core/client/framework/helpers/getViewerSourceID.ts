@@ -4,9 +4,10 @@ export default function getViewerSourceID(
   environment: Environment
 ): string | null {
   const source = environment.getStore().getSource();
-  const root = source.get(ROOT_ID)!;
-  if (!root.viewer) {
+  const root = source.get(ROOT_ID);
+  if (!root || !root.viewer) {
     return null;
   }
+
   return (root.viewer as any).__ref;
 }

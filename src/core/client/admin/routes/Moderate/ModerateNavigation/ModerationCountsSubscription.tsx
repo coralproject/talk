@@ -45,7 +45,7 @@ const ModerationCountsSubscription = createSubscription(
 
         const moderationQueuesProxy = store
           .getRoot()
-          .getLinkedRecord("moderationQueues", { storyID: variables.storyID })!;
+          .getLinkedRecord("moderationQueues", { storyID: variables.storyID });
         if (!moderationQueuesProxy) {
           return;
         }

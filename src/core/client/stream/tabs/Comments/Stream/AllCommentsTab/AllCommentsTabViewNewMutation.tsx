@@ -20,20 +20,29 @@ const AllCommentsTabViewNewMutation = createMutation(
     { eventEmitter }: CoralContext
   ) => {
     await commitLocalUpdatePromisified(environment, async (store) => {
-      const story = store.get(input.storyID)!;
+      const story = store.get(input.storyID);
+      if (!story) {
+        return;
+      }
+
       const connection = ConnectionHandler.getConnection(
         story,
         "Stream_comments",
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
         }
-      )!;
+      );
+      if (!connection) {
+        return;
+      }
+
       const viewNewEdges = connection.getLinkedRecords(
         "viewNewEdges"
       ) as ReadonlyArray<RecordProxy>;
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
+
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeBefore(connection, edge);
       });

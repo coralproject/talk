@@ -64,15 +64,15 @@ export class StreamEmbed {
       if (config.commentID) {
         this.render();
       } else {
-        this.cancelAutoRender = onIntersect(
-          document.getElementById(config.id)!,
-          () => {
+        const element = document.getElementById(config.id);
+        if (element) {
+          this.cancelAutoRender = onIntersect(element, () => {
             this.cancelAutoRender = null;
             if (!this.rendered) {
               this.render();
             }
-          }
-        );
+          });
+        }
       }
     }
     config.eventEmitter.once("ready", () => {

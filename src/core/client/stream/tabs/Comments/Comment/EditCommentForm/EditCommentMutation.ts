@@ -68,6 +68,11 @@ async function commit(
     commentID: input.commentID,
   });
   try {
+    const comment = lookup<GQLComment>(environment, input.commentID);
+    if (!comment) {
+      return;
+    }
+
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
@@ -83,7 +88,7 @@ async function commit(
             comment: {
               id: input.commentID,
               body: input.body,
-              status: lookup<GQLComment>(environment, input.commentID)!.status,
+              status: comment.status,
               revision: {
                 id: uuidGenerator(),
                 media: null,
@@ -96,7 +101,12 @@ async function commit(
           },
         },
         updater: (store) => {
-          store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
+          const proxy = store.get(input.commentID);
+          if (!proxy) {
+            return;
+          }
+
+          proxy.setValue("EDIT", "lastViewerAction");
         },
       }
     );

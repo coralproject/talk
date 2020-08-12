@@ -16,7 +16,8 @@ class PrefixedStorage implements Storage {
   public get length() {
     let count = 0;
     for (let i = 0; i < this.storage.length; i++) {
-      if (startsWith(this.storage.key(i)!, this.prefix)) {
+      const key = this.storage.key(i);
+      if (key && startsWith(key, this.prefix)) {
         count++;
       }
     }
@@ -26,8 +27,8 @@ class PrefixedStorage implements Storage {
   public clear() {
     const toBeDeleted = [];
     for (let i = 0; i < this.storage.length; i++) {
-      const key = this.storage.key(i)!;
-      if (startsWith(key, this.prefix)) {
+      const key = this.storage.key(i);
+      if (key && startsWith(key, this.prefix)) {
         toBeDeleted.push(key);
       }
     }
@@ -37,8 +38,8 @@ class PrefixedStorage implements Storage {
   public key(n: number) {
     let count = 0;
     for (let i = 0; i < this.storage.length; i++) {
-      const key = this.storage.key(i)!;
-      if (startsWith(key, this.prefix)) {
+      const key = this.storage.key(i);
+      if (key && startsWith(key, this.prefix)) {
         if (count === n) {
           return key;
         }
