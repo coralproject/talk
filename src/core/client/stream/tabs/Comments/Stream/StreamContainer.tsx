@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -139,9 +144,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     props.viewer &&
       props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
   );
-  const warned = Boolean(
-    props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.WARNED)
-  );
+
+  const warned = useMemo(() => {
+    return Boolean(
+      props.viewer &&
+        props.viewer.status.current.includes(GQLUSER_STATUS.WARNED)
+    );
+  }, [props.viewer]);
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;

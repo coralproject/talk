@@ -31,6 +31,7 @@ import {
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
+  shouldTriggerUserRefresh,
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
@@ -148,11 +149,10 @@ export class PostCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
+        if (shouldTriggerUserRefresh(error.code)) {
+          await this.props.refreshUser();
+        }
         return error.invalidArgs;
-      }
-
-      if (error.code === "USER_WARNED") {
-        await this.props.refreshUser();
       }
 
       /**
