@@ -1224,6 +1224,10 @@ userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
 
+userDetails-warned-on = <strong>Warned on</strong> { $timestamp }
+userDetails-warned-by = <strong>by</strong> { $username }
+userDetails-warned-explanation = User has not acknowledged the warning.
+
 configure-general-reactions-title = Reactions
 configure-general-reactions-explanation =
   Allow your community to engage with one another and express themselves

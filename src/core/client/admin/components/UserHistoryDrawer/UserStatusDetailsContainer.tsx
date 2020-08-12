@@ -90,8 +90,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   )}
                   <Localized id="userDetails-warned-explanation">
                     <p className={styles.root}>
-                      User must acknowledge the warning before they can continue
-                      commenting.
+                      User has not acknowledged the warning.
                     </p>
                   </Localized>
                 </div>
