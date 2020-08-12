@@ -56,12 +56,7 @@ const WarnForm: FunctionComponent<Props> = ({
               </HorizontalGutter>
               <Field component="textarea" name="message" validate={required}>
                 {({ input }) => (
-                  <Textarea
-                    id="warnModal-message"
-                    {...input}
-                    className={styles.textArea}
-                    fullwidth
-                  />
+                  <Textarea id="warnModal-message" {...input} fullwidth />
                 )}
               </Field>
               <Flex justifyContent="flex-end" itemGutter="half">

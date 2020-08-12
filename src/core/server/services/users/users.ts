@@ -24,7 +24,6 @@ import {
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
-  UserAlreadyWarnedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
@@ -1041,7 +1040,7 @@ export async function warn(
   // Check to see if the User is currently banned.
   const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
   if (warningStatus.active) {
-    throw new UserAlreadyWarnedError();
+    throw new Error("User already warned");
   }
 
   // Ban the user.

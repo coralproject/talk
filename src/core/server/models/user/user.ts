@@ -17,7 +17,6 @@ import {
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
-  UserAlreadyWarnedError,
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
@@ -1938,7 +1937,7 @@ export async function warnUser(
     // Check to see if the user is already banned.
     const warning = consolidateUserWarningStatus(user.status.warning);
     if (warning && warning.active) {
-      throw new UserAlreadyWarnedError();
+      throw new Error("User already warned");
     }
 
     throw new Error("an unexpected error occurred");
