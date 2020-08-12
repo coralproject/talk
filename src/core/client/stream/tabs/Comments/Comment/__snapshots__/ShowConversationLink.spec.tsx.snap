@@ -20,7 +20,7 @@ exports[`renders correctly 1`] = `
     href="http://localhost/comment"
     id="id"
     onClick={[Function]}
-    target="_parent"
+    target="_blank"
     variant="textUnderlined"
   >
     Read More of this Conversation &gt;

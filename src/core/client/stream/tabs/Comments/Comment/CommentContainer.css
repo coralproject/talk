@@ -50,4 +50,6 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 
 .staticUsername {
   color: var(--palette-text-100);
+
+  margin-right: var(--spacing-2);
 }

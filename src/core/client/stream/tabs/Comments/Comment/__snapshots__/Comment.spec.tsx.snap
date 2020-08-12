@@ -7,23 +7,27 @@ exports[`renders username and body 1`] = `
   size="half"
 >
   <ForwardRef(forwardRef)
+    alignItems="flex-start"
     className="coral coral-comment-topBar"
     direction="row"
     justifyContent="space-between"
   >
-    <TopBarLeft>
+    <ForwardRef(forwardRef)
+      alignItems="center"
+      wrap={true}
+    >
+      <MatchMediaWithContext
+        lteWidth="mobile"
+      >
+        [Function]
+      </MatchMediaWithContext>
       <ForwardRef(forwardRef)
         alignItems="center"
         direction="row"
-        itemGutter="half"
+        wrap={true}
       >
-        Marvin
-      </ForwardRef(forwardRef)>
-      <ForwardRef(forwardRef)
-        alignItems="baseline"
-        direction="row"
-        itemGutter={true}
-      >
+        
+        
         <TimeStamp
           className="Comment-timestamp coral coral-timestamp coral-comment-timestamp"
         >
@@ -33,7 +37,7 @@ exports[`renders username and body 1`] = `
           className="coral coral-comment-edited"
         />
       </ForwardRef(forwardRef)>
-    </TopBarLeft>
+    </ForwardRef(forwardRef)>
     <div>
       topBarRight
     </div>

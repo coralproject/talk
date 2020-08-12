@@ -2655,12 +2655,26 @@ type CommentRevisionPerspectiveMetadata {
   score: Float!
 }
 
+type CommentRevisionWordListMetadata {
+  """
+  timedOut is whether the wordlist analysis timed out when this revision
+  of the comment was sent through the moderation phases.
+  """
+  timedOut: Boolean
+}
+
 type CommentRevisionMetadata {
   """
   perspective stores metadata associated with the pipeline analysis of this
   revision's body.
   """
   perspective: CommentRevisionPerspectiveMetadata
+
+  """
+  wordList metadata stores extra status details about what occurred during
+  word list analysis of this comment revision.
+  """
+  wordList: CommentRevisionWordListMetadata
 }
 
 """

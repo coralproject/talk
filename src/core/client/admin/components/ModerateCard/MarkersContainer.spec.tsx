@@ -32,6 +32,11 @@ it("renders all markers", () => {
             },
           },
         },
+        metadata: {
+          wordList: {
+            timedOut: false,
+          },
+        },
       },
     },
     settings: {
@@ -69,6 +74,11 @@ it("renders some markers", () => {
               COMMENT_DETECTED_LINKS: 0,
               COMMENT_DETECTED_BANNED_WORD: 1,
             },
+          },
+        },
+        metadata: {
+          wordList: {
+            timedOut: false,
           },
         },
       },
