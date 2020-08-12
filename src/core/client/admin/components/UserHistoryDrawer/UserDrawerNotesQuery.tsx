@@ -39,7 +39,7 @@ const UserDrawerNotesQuery: FunctionComponent<Props> = ({ userID }) => {
           );
         }
 
-        if (!props) {
+        if (!props || !props.viewer) {
           return (
             <div className={styles.spinner}>
               <Spinner />

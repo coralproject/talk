@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -25,7 +25,7 @@ import styles from "./UserDrawerNotesContainer.css";
 
 interface Props {
   user: UserData;
-  viewer: ViewerData | null;
+  viewer: ViewerData;
 }
 
 const UserDrawerNotesContainer: FunctionComponent<Props> = ({
@@ -35,13 +35,13 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
   const createNote = useMutation(CreateModeratorNoteMutation);
   const deleteNote = useMutation(DeleteModeratorNoteMutation);
   const onDelete = useCallback(
-    (id: string) => {
-      return deleteNote({
+    async (id: string) => {
+      await deleteNote({
         id,
         userID: user.id,
       });
     },
-    [user]
+    [deleteNote, user.id]
   );
   const onSubmit = useCallback(
     async ({ body }, form: FormApi) => {
@@ -51,12 +51,15 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
       });
       form.initialize({});
     },
-    [user]
+    [createNote, user.id]
   );
+  const notes = useMemo(() => user.moderatorNotes.concat().reverse(), [
+    user.moderatorNotes,
+  ]);
   return (
     <div>
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitError, invalid, submitting, ...formProps }) => (
+        {({ handleSubmit }) => (
           <form
             className={styles.form}
             onSubmit={handleSubmit}
@@ -83,27 +86,19 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
       </Form>
       <Divider />
       <HorizontalGutter spacing={4}>
-        {user.moderatorNotes &&
-          user.moderatorNotes
-            .concat()
-            .reverse()
-            .map(
-              (note) =>
-                note && (
-                  <ModeratorNote
-                    key={note.id}
-                    id={note.id}
-                    body={note.body}
-                    moderator={note.createdBy.username}
-                    createdAt={note.createdAt}
-                    onDelete={
-                      viewer && viewer.id === note.createdBy.id
-                        ? onDelete
-                        : null
-                    }
-                  />
-                )
-            )}
+        {notes.map(
+          (note) =>
+            note && (
+              <ModeratorNote
+                key={note.id}
+                id={note.id}
+                body={note.body}
+                moderator={note.createdBy.username}
+                createdAt={note.createdAt}
+                onDelete={viewer.id === note.createdBy.id ? onDelete : null}
+              />
+            )
+        )}
       </HorizontalGutter>
     </div>
   );

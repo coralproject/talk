@@ -9,7 +9,7 @@ interface Props {
   body: string;
   moderator: string | null;
   createdAt: string;
-  onDelete: ((id: string) => Promise<any>) | null;
+  onDelete: ((id: string) => Promise<void>) | null;
   id: string;
 }
 
@@ -24,7 +24,7 @@ const ModeratorNote: FunctionComponent<Props> = ({
     if (onDelete) {
       void onDelete(id);
     }
-  }, [id]);
+  }, [id, onDelete]);
   return (
     <div>
       <div className={styles.body}>{body}</div>
