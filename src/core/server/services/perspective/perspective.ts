@@ -1,10 +1,10 @@
+import axios from "axios";
 import path from "path";
 import { URL } from "url";
 
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import { fetchWithTimeout } from "coral-server/services/fetch";
 
 /**
  * Language is the language key that is supported by the Perspective API in the
@@ -135,30 +135,26 @@ export async function sendToPerspective(
 
   try {
     // Create the request and send it.
-    const res = await fetchWithTimeout(
-      "perspective",
-      url.toString(),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
+    const res = await axios.post(url.toString(), body, {
+      headers: {
+        "Content-Type": "application/json",
       },
-      timeout
-    );
-    if (!res.ok) {
+      timeout,
+    });
+
+    // Non-successful response
+    if (res.status < 200 || res.status > 299) {
       return {
-        ok: res.ok,
+        ok: false,
         status: res.status,
         data: null,
       };
     }
 
     // Parse the JSON body and send back the result!
-    const data = await res.json();
+    const data = res.data;
     return {
-      ok: res.ok,
+      ok: true,
       status: res.status,
       data,
     };

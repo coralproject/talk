@@ -1,9 +1,8 @@
-import AbortController from "abort-controller";
 import http from "http";
 import https from "https";
 import { capitalize } from "lodash";
 import { clearLongTimeout } from "long-settimeout";
-import fetch, { RequestInfo, RequestInit, Response } from "node-fetch";
+import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
 import { version } from "coral-common/version";
@@ -58,83 +57,6 @@ export function generateFetchOptions(
     body,
   };
 }
-
-/**
- * Create a fetch request with a time out.
- * Inspired by: https://www.lowmess.com/blog/fetch-with-timeout/
- *
- * @param name gives the request headers user agent a name
- * @param url the url you want to make a request against
- * @param options fetch options, will override preset defaults
- * @param timeMs time in milliseconds to wait for response
- */
-export const fetchWithTimeout = (
-  name: string,
-  url: RequestInfo,
-  options = {},
-  timeMs?: number
-) => {
-  const controller = new AbortController();
-
-  // Create HTTP agents to improve connection performance.
-  const agents = {
-    https: new https.Agent({
-      keepAlive: true,
-    }),
-    http: new http.Agent({
-      keepAlive: true,
-    }),
-  };
-
-  // agent will select the correct agent to use for reusing the agent.
-  const agent = (agentUrl: URL) =>
-    agentUrl.protocol === "http:" ? agents.http : agents.https;
-
-  const defaultHeaders = {
-    "User-Agent": `Coral ${capitalize(name)}/${version}`,
-  };
-
-  const config: FetchOptions = {
-    agent,
-    headers: {
-      ...defaultHeaders,
-    },
-    // Limit response sizes to 2MB of response data. 1e6B is 1MB.
-    size: 2e6,
-    // Do not follow redirects automatically, and do not error if we
-    // encounter one. We'll treat the response from the request as the
-    // endpoints final response.
-    redirect: "manual",
-    // Attach the controller signal to abort the request after the timeout
-    // is reached.
-    signal: controller.signal,
-
-    ...options,
-  };
-
-  const time = timeMs ? timeMs : 10000;
-  const timeOut = setTimeout(() => {
-    controller.abort();
-  }, time);
-
-  return fetch(url, config)
-    .then((response) => {
-      clearTimeout(timeOut);
-
-      if (!response.ok) {
-        throw new Error(`${response.status}: ${response.statusText}`);
-      }
-
-      return response;
-    })
-    .catch((error) => {
-      if (error.name === "AbortError") {
-        throw new Error("fetch response timed out");
-      }
-
-      throw new Error(error.message);
-    });
-};
 
 export const createFetch = ({
   name,
