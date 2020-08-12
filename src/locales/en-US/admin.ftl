@@ -1152,7 +1152,7 @@ community-invite-close = Close
 community-invite-invite = Invite
 
 community-warnModal-success =
-  <strong>{ $username }</strong> has been warned
+  A warning has been sent to <strong>{ $username }</strong>.
 community-warnModal-success-close = Ok
 community-warnModal-areYouSure = Warn <strong>{ $username }</strong>?
 community-warnModal-consequence = A warning can improve a commenter's conduct without a suspension or ban. The user must acknowledge the warning before they can continue commenting.

@@ -50,8 +50,8 @@ const WarnModal: FunctionComponent<Props> = ({
                 strong={<ModalHeaderUsername />}
               >
                 <ModalHeader>
-                  <ModalHeaderUsername>{username}</ModalHeaderUsername> has been
-                  warned.
+                  A warning has been sent to{" "}
+                  <ModalHeaderUsername>{username}</ModalHeaderUsername>
                 </ModalHeader>
               </Localized>
 
