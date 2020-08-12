@@ -6543,11 +6543,6 @@ input UpdateUserRoleInput {
 
 type UpdateUserRolePayload {
   """
-  user is the possibly modified User.
-  """
-  user: User!
-
-  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -6626,6 +6621,10 @@ type AcknowledgeWarningPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
 }
 
 ##################
