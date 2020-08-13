@@ -5,7 +5,7 @@ import { getBrowserInfo } from "../lib/browserInfo";
  * This is only needed when we use the Intl Polyfill.
  */
 export default async function polyfillIntlLocale(locales: string[]) {
-  if (!getBrowserInfo().supportsIntl) {
+  if (!getBrowserInfo().supports.intl) {
     await Promise.all(
       locales.map((locale) =>
         import("intl/locale-data/jsonp/" + locale + ".js")

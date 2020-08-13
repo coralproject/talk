@@ -7,7 +7,7 @@ export default async function injectConditionalPolyfills() {
 
   // Polyfill Intl.
   let intlPromise = Promise.resolve();
-  if (!browser.supportsIntl) {
+  if (!browser.supports.intl) {
     intlPromise = (async () => {
       const IntlPolyfill = (await import("intl")).default;
       Intl.NumberFormat = IntlPolyfill.NumberFormat;
@@ -17,24 +17,24 @@ export default async function injectConditionalPolyfills() {
   }
   pending.push(
     intlPromise.then(() => {
-      if (!browser.supportsIntlPluralRules) {
+      if (!browser.supports.intlPluralRules) {
         return import("fluent-intl-polyfill");
       }
       return;
     })
   );
   // Polyfill Intersection Observer.
-  if (!browser.supportsIntersectionObserver) {
+  if (!browser.supports.intersectionObserver) {
     pending.push(import("intersection-observer"));
   }
 
-  if (!browser.supportsProxyObject) {
+  if (!browser.supports.proxyObject) {
     pending.push(import("proxy-polyfill"));
   }
-  if (!browser.supportsFetch) {
+  if (!browser.supports.fetch) {
     pending.push(import("whatwg-fetch"));
   }
-  if (!browser.supportsCSSVariables) {
+  if (!browser.supports.cssVariables) {
     pending.push(polyfillCSSVars());
   }
   await Promise.all(pending);

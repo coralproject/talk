@@ -5,12 +5,14 @@ export interface BrowserInfo {
   ios: boolean;
   msie: boolean;
   mobile: boolean;
-  supportsCSSVariables: boolean;
-  supportsFetch: boolean;
-  supportsProxyObject: boolean;
-  supportsIntl: boolean;
-  supportsIntlPluralRules: boolean;
-  supportsIntersectionObserver: boolean;
+  supports: {
+    cssVariables: boolean;
+    fetch: boolean;
+    proxyObject: boolean;
+    intl: boolean;
+    intlPluralRules: boolean;
+    intersectionObserver: boolean;
+  };
 }
 
 let browserInfo: BrowserInfo | null = null;
@@ -24,18 +26,19 @@ export function getBrowserInfo(): BrowserInfo {
     const version = Number.parseFloat(browser.getBrowserVersion());
     browserInfo = {
       version,
-      supportsIntl: typeof Intl !== "undefined",
-      supportsIntlPluralRules:
-        typeof Intl !== "undefined" && Boolean(Intl.PluralRules),
-      supportsProxyObject: Boolean(window.Proxy),
-      supportsCSSVariables:
-        window.CSS && CSS.supports("color", "var(--fake-var)"),
-      supportsFetch: Boolean(window.fetch),
-      supportsIntersectionObserver:
-        "IntersectionObserver" in window &&
-        "IntersectionObserverEntry" in window &&
-        "intersectionRatio" in
-          (window as any).IntersectionObserverEntry.prototype,
+      supports: {
+        intl: typeof Intl !== "undefined",
+        intlPluralRules:
+          typeof Intl !== "undefined" && Boolean(Intl.PluralRules),
+        proxyObject: Boolean(window.Proxy),
+        cssVariables: window.CSS && CSS.supports("color", "var(--fake-var)"),
+        fetch: Boolean(window.fetch),
+        intersectionObserver:
+          "IntersectionObserver" in window &&
+          "IntersectionObserverEntry" in window &&
+          "intersectionRatio" in
+            (window as any).IntersectionObserverEntry.prototype,
+      },
       ios,
       msie,
       mobile,

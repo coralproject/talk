@@ -6,7 +6,7 @@ import { getBrowserInfo } from "../lib/browserInfo";
  * through new CSS.
  */
 export default function polyfillCSSVars() {
-  if (!getBrowserInfo().supportsCSSVariables) {
+  if (!getBrowserInfo().supports.cssVariables) {
     return import("css-vars-ponyfill").then((module) => module.default());
   }
   return Promise.resolve();
