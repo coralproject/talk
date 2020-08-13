@@ -25,6 +25,7 @@ export interface CommentProps {
   badges?: React.ReactNode | null;
   collapsed?: boolean;
   media?: React.ReactNode;
+  avatar?: string;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -75,6 +76,11 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             </Timestamp>
             {props.showEditedMarker && (
               <EditedMarker className={CLASSES.comment.topBar.edited} />
+            )}
+            {props.avatar && (
+              <div className={styles.avatar}>
+                <img className={styles.avatarImage} alt="" src={props.avatar} />
+              </div>
             )}
           </Flex>
         </Flex>

@@ -339,6 +339,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             indentLevel={indentLevel}
             collapsed={collapsed}
             body={comment.body}
+            avatar={comment.author.avatar}
             createdAt={comment.createdAt}
             blur={!!comment.pending}
             showEditedMarker={comment.editing.edited}
@@ -606,6 +607,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             author {
               id
               username
+              avatar
             }
             parent {
               author {

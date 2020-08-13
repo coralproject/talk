@@ -41,3 +41,11 @@ $commentTimestampColor: var(--palette-grey-500);
 .usernameFullRow {
   flex-basis: 100%;
 }
+
+.avatar {
+}
+
+.avatarImage {
+  width: 32px;
+  height: 32px;
+}
