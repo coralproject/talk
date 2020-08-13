@@ -29,7 +29,7 @@ $recent-history-triggered: var(--palette-error-500);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-6);
-  line-height: 0.67;
+  line-height: 1;
   color: $recent-history-info;
   margin: 0;
 }
