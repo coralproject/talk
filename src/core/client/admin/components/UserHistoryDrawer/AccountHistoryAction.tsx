@@ -3,10 +3,10 @@ import React, { FunctionComponent } from "react";
 import BanAction, { BanActionProps } from "./BanAction";
 import PremodAction, { PremodActionProps } from "./PremodAction";
 import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
-import WarningAction, { WarningActionProps } from "./WarningAction";
 import UsernameChangeAction, {
   UsernameChangeActionProps,
 } from "./UsernameChangeAction";
+import WarningAction, { WarningActionProps } from "./WarningAction";
 
 export interface HistoryActionProps {
   kind: "username" | "suspension" | "ban" | "premod" | "warning";
