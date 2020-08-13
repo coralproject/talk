@@ -199,7 +199,7 @@ function handleAvailableHash(hash) {
   mostRecentCompilationHash = hash;
 }
 
-const debouncedReload = debounce(function() {
+var debouncedReload = debounce(function() {
   window.location.reload();
 }, 1000);
 

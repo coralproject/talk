@@ -1,30 +1,41 @@
 import { getBrowserInfo } from "../lib/browserInfo";
-import polyfillCSSVarsForIE11 from "./polyfillCSSVarsForIE11";
+import polyfillCSSVars from "./polyfillCSSVars";
 
 export default async function injectConditionalPolyfills() {
+  const browser = getBrowserInfo();
   const pending: Promise<any>[] = [];
 
   // Polyfill Intl.
-  if (typeof Intl === "undefined" || !(Intl as any).PluralRules) {
-    pending.push(import("fluent-intl-polyfill"));
+  let intlPromise = Promise.resolve();
+  if (!browser.supportsIntl) {
+    intlPromise = (async () => {
+      const IntlPolyfill = (await import("intl")).default;
+      Intl.NumberFormat = IntlPolyfill.NumberFormat;
+      Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+      return;
+    })();
   }
-
+  pending.push(
+    intlPromise.then(() => {
+      if (!browser.supportsIntlPluralRules) {
+        return import("fluent-intl-polyfill");
+      }
+      return;
+    })
+  );
   // Polyfill Intersection Observer.
-  if (
-    !("IntersectionObserver" in window) ||
-    !("IntersectionObserverEntry" in window) ||
-    !(
-      "intersectionRatio" in (window as any).IntersectionObserverEntry.prototype
-    )
-  ) {
+  if (!browser.supportsIntersectionObserver) {
     pending.push(import("intersection-observer"));
   }
 
-  // CSS Vars Polyfill for IE11.
-  if (getBrowserInfo().msie) {
-    pending.push(import("whatwg-fetch"));
+  if (!browser.supportsProxyObject) {
     pending.push(import("proxy-polyfill"));
-    pending.push(polyfillCSSVarsForIE11());
+  }
+  if (!browser.supportsFetch) {
+    pending.push(import("whatwg-fetch"));
+  }
+  if (!browser.supportsCSSVariables) {
+    pending.push(polyfillCSSVars());
   }
   await Promise.all(pending);
 }
