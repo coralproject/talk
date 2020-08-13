@@ -1,10 +1,14 @@
-import axios from "axios";
 import path from "path";
 import { URL } from "url";
 
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
+import logger from "coral-server/logger";
 import { getURLWithCommentID } from "coral-server/models/story";
+
+import { createAxios } from "../axios.ts";
+
+const axios = createAxios({ name: "perspective" });
 
 /**
  * Language is the language key that is supported by the Perspective API in the
@@ -135,28 +139,33 @@ export async function sendToPerspective(
 
   try {
     // Create the request and send it.
-    const res = await axios.post(url.toString(), body, {
-      headers: {
-        "Content-Type": "application/json",
+
+    const res = await axios(
+      url.toString(),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
       },
-      timeout,
-    });
+      timeout
+    );
 
     // Non-successful response
-    if (res.status < 200 || res.status > 299) {
+    if (!res.ok) {
       return {
-        ok: false,
+        ok: res.ok,
         status: res.status,
         data: null,
       };
     }
 
     // Parse the JSON body and send back the result!
-    const data = res.data;
     return {
       ok: true,
       status: res.status,
-      data,
+      data: res.data,
     };
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
@@ -165,6 +174,10 @@ export async function sendToPerspective(
         url.searchParams.toString(),
         "[Sensitive]"
       );
+    }
+
+    if (err.message && err.message.startsWith("axios request timed out")) {
+      logger.error("perspective request timed out");
     }
 
     // Rethrow the error.
