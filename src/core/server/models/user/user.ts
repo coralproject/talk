@@ -1934,7 +1934,7 @@ export async function warnUser(
       throw new UserNotFoundError(id);
     }
 
-    // Check to see if the user is already banned.
+    // Check to see if the user is already warned.
     const warning = consolidateUserWarningStatus(user.status.warning);
     if (warning && warning.active) {
       throw new Error("User already warned");
@@ -1963,7 +1963,7 @@ export async function removeUserWarning(
   createdBy: string,
   now = new Date()
 ) {
-  // Create the new ban.
+  // Create the new history entry.
   const update: WarningStatusHistory = {
     active: false,
     createdBy,
@@ -2003,13 +2003,13 @@ export async function removeUserWarning(
     }
   );
   if (!result.value) {
-    // Get the user so we can figure out why the ban operation failed.
+    // Get the user so we can figure out why the warn operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
     }
 
-    // The user wasn't banned already, so nothing needs to be done!
+    // The user wasn't warned already, so nothing needs to be done
     return user;
   }
 
@@ -2072,13 +2072,13 @@ export async function acknowledgeOwnWarning(
     }
   );
   if (!result.value) {
-    // Get the user so we can figure out why the ban operation failed.
+    // Get the user so we can figure out why the warn operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
     }
 
-    // The user wasn't banned already, so nothing needs to be done!
+    // The user wasn't warned already, so nothing needs to be done!
     return user;
   }
 

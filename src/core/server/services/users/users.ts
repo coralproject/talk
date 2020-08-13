@@ -1017,10 +1017,10 @@ export async function removePremod(
  * warn will warn a specific user.
  *
  * @param mongo mongo database to interact with
- * @param tenant Tenant where the User will be banned on
- * @param moderator the User that is banning the User
- * @param userID the ID of the User being banned
- * @param now the current time that the ban took effect
+ * @param tenant Tenant where the User will be warned on
+ * @param moderator the User that is warning the User
+ * @param userID the ID of the User being warned
+ * @param now the current time that the warning took effect
  */
 export async function warn(
   mongo: Db,
@@ -1030,14 +1030,14 @@ export async function warn(
   message: string,
   now = new Date()
 ) {
-  // Get the user being banned to check to see if the user already has an
-  // existing ban.
+  // Get the user being warned to check to see if the user already has an
+  // existing warning.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
   }
 
-  // Check to see if the User is currently banned.
+  // Check to see if the User is currently warned.
   const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
   if (warningStatus.active) {
     throw new Error("User already warned");
@@ -1055,21 +1055,21 @@ export async function removeWarning(
   now = new Date()
 ) {
   // Get the user being suspended to check to see if the user already has an
-  // existing suspension.
+  // existing warning.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
   }
 
-  // Check to see if the User is currently suspended.
+  // Check to see if the User is currently warned.
   const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
   if (!warningStatus.active) {
-    // The user is not premodded currently, just return the user because we
+    // The user is not warned currently, just return the user because we
     // don't have to do anything.
     return targetUser;
   }
 
-  // For each of the suspensions, remove it.
+  // remove warning.
   return removeUserWarning(mongo, tenant.id, userID, moderator.id, now);
 }
 
@@ -1079,22 +1079,19 @@ export async function acknowledgeWarning(
   userID: string,
   now = new Date()
 ) {
-  // Get the user being suspended to check to see if the user already has an
-  // existing suspension.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
   }
 
-  // Check to see if the User is currently suspended.
   const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
   if (!warningStatus.active) {
-    // The user is not premodded currently, just return the user because we
+    // The user is not warned currently, just return the user because we
     // don't have to do anything.
     return targetUser;
   }
 
-  // For each of the suspensions, remove it.
+  // remove warning
   return acknowledgeOwnWarning(mongo, tenant.id, userID, now);
 }
 /**

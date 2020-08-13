@@ -6587,7 +6587,7 @@ type WarnUserPayload {
 
 input RemoveUserWarningInput {
   """
-  userID is the ID of the User that should have their account banned.
+  userID is the ID of the User that should be warned.
   """
   userID: ID!
 
@@ -6995,7 +6995,7 @@ input DeactivateSSOSigningSecretInput {
 
 type DeactivateSSOSigningSecretPayload {
   """
-  clientMutationId is required foe Relay support.
+  clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
