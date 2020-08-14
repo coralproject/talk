@@ -339,7 +339,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
             indentLevel={indentLevel}
             collapsed={collapsed}
             body={comment.body}
-            avatar={comment.author ? comment.author.avatar : null}
+            avatar={
+              comment.author &&
+              settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS)
+                ? comment.author.avatar
+                : null
+            }
             createdAt={comment.createdAt}
             blur={!!comment.pending}
             showEditedMarker={comment.editing.edited}

@@ -13,6 +13,7 @@ import {
   SSOAuthIntegration,
 } from "coral-server/models/settings";
 import {
+  hasFeatureFlag,
   Tenant,
   updateLastUsedAtTenantSSOSigningSecret,
 } from "coral-server/models/tenant";
@@ -34,6 +35,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { findOrCreate } from "coral-server/services/users";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -143,7 +145,9 @@ export async function findOrCreateSSOUser(
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
         ssoURL: url,
-        avatar,
+        avatar: hasFeatureFlag(tenant, GQLFEATURE_FLAG.AVATARS)
+          ? avatar
+          : undefined,
         badges,
         email,
         emailVerified: true,
