@@ -2,17 +2,19 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
-import { graphQLHandler } from "coral-server/app/handlers";
 import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
-import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
-import { JSONErrorHandler } from "coral-server/app/middleware/error";
-import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
-import { jsonMiddleware } from "coral-server/app/middleware/json";
-import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
-import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
-import { authenticate } from "coral-server/app/middleware/passport";
-import { roleMiddleware } from "coral-server/app/middleware/role";
-import { tenantMiddleware } from "coral-server/app/middleware/tenant";
+import {
+  apolloGraphQLMiddleware,
+  authenticate,
+  cspSiteMiddleware,
+  JSONErrorHandler,
+  jsonMiddleware,
+  loggedInMiddleware,
+  notFoundMiddleware,
+  persistedQueryMiddleware,
+  roleMiddleware,
+  tenantMiddleware,
+} from "coral-server/app/middleware";
 import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { createNewAccountRouter } from "./account";
@@ -55,14 +57,16 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
 
-  // Configure the GraphQL route.
+  // Configure the GraphQL route middleware.
   router.use(
     "/graphql",
     authenticate(options.passport),
     jsonMiddleware(app.config.get("max_request_size")),
-    persistedQueryMiddleware(app),
-    graphQLHandler(app)
+    persistedQueryMiddleware(app)
   );
+
+  // Attach the GraphQL router (which will be mounted on the same path).
+  router.use(apolloGraphQLMiddleware(app));
 
   router.use(
     "/dashboard",

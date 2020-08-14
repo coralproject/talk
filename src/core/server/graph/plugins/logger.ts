@@ -1,9 +1,5 @@
-import { DocumentNode, ExecutionArgs, GraphQLFormattedError } from "graphql";
-import {
-  EndHandler,
-  GraphQLExtension,
-  GraphQLResponse,
-} from "graphql-extensions";
+import { ApolloServerPlugin } from "apollo-server-plugin-base";
+import { DocumentNode, GraphQLFormattedError } from "graphql";
 
 import GraphContext from "coral-server/graph/context";
 import { createTimer } from "coral-server/helpers";
@@ -16,10 +12,9 @@ export function logAndReportError(
   ctx: GraphContext,
   err: GraphQLFormattedError
 ) {
-  ctx.logger.error({ err }, "graphql query error");
-
-  // If there's no reporter active, then return now.
+  // If there's no reporter active, then just log what we got and return now.
   if (!ctx.reporter) {
+    ctx.logger.error({ err }, "graphql query error");
     return;
   }
 
@@ -106,35 +101,25 @@ export function logQuery(
   }
 }
 
-export class LoggerExtension implements GraphQLExtension<GraphContext> {
-  public executionDidStart(o: {
-    executionArgs: ExecutionArgs;
-  }): EndHandler | void {
-    // Only try to log things if the context is provided.
-    if (o.executionArgs.contextValue) {
-      // Grab the start time so we can calculate the time it takes to execute
-      // the graph query.
-      const timer = createTimer();
-      return () => {
-        // Log out the details of the request.
-        logQuery(
-          o.executionArgs.contextValue,
-          o.executionArgs.document,
-          undefined,
-          timer()
-        );
-      };
-    }
-  }
+export const LoggerApolloServerPlugin: ApolloServerPlugin<GraphContext> = {
+  requestDidStart() {
+    return {
+      willSendResponse({ response, context }) {
+        if (response.errors) {
+          // Log out the errors on this request.
+          response.errors.forEach((err) => logAndReportError(context, err));
+        }
+      },
+      executionDidStart({ document, context }) {
+        // Grab the start time so we can calculate the time it takes to execute
+        // the graph query.
+        const timer = createTimer();
 
-  public willSendResponse(response: {
-    graphqlResponse: GraphQLResponse;
-    context: GraphContext;
-  }): void {
-    if (response.graphqlResponse.errors) {
-      response.graphqlResponse.errors.forEach((err) =>
-        logAndReportError(response.context, err)
-      );
-    }
-  }
-}
+        return function executionDidEnd() {
+          // Log out the details of this request.
+          logQuery(context, document, context.persisted, timer());
+        };
+      },
+    };
+  },
+};

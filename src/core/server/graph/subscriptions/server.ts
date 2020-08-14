@@ -29,13 +29,13 @@ import {
   TenantNotFoundError,
   WrappedInternalError,
 } from "coral-server/errors";
+import { getPersistedQuery } from "coral-server/graph/persisted";
 import {
   enrichError,
+  getOperationMetadata,
   logAndReportError,
   logQuery,
-} from "coral-server/graph/extensions";
-import { getOperationMetadata } from "coral-server/graph/extensions/helpers";
-import { getPersistedQuery } from "coral-server/graph/persisted";
+} from "coral-server/graph/plugins";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { hasStaffRole } from "coral-server/models/user/helpers";

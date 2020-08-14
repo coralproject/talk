@@ -1,6 +1,10 @@
-import { ApolloError } from "apollo-server-core";
-import { GraphQLFormattedError } from "graphql";
-import { GraphQLExtension, GraphQLResponse } from "graphql-extensions";
+import { ApolloError } from "apollo-server-express";
+import {
+  DocumentNode,
+  GraphQLFormattedError,
+  OperationDefinitionNode,
+  OperationTypeNode,
+} from "graphql";
 import { merge } from "lodash";
 
 import {
@@ -8,9 +12,83 @@ import {
   InternalDevelopmentError,
   WrappedInternalError,
 } from "coral-server/errors";
-import GraphContext from "coral-server/graph/context";
+import { PersistedQuery } from "coral-server/models/queries";
 
-import { getOriginalError } from "./helpers";
+import GraphContext from "../context";
+
+export interface OperationMetadata {
+  operationName: string;
+  operation: OperationTypeNode;
+}
+
+/**
+ * getOperationMetadata will extract the operation metadata from the document
+ * node.
+ *
+ * @param doc the document node that can be used to extract operation metadata
+ *            from
+ */
+export const getOperationMetadata = (
+  doc: DocumentNode
+): Partial<OperationMetadata> => {
+  if (doc.kind === "Document") {
+    const operationDefinition = doc.definitions.find(
+      ({ kind }) => kind === "OperationDefinition"
+    ) as OperationDefinitionNode | undefined;
+    if (operationDefinition) {
+      let operationName: string | undefined;
+      if (operationDefinition.name) {
+        operationName = operationDefinition.name.value;
+      }
+
+      return {
+        operationName,
+        operation: operationDefinition.operation,
+      };
+    }
+  }
+
+  return {};
+};
+
+interface PersistedQueryOperationMetadata extends OperationMetadata {
+  persistedQueryID: string;
+  persistedQueryBundle: string;
+  persistedQueryVersion: string;
+}
+
+/**
+ * getPersistedQueryMetadata will remap the persisted query to the operation
+ * metadata.
+ *
+ * @param persisted persisted query to remap to operation metadata
+ */
+export const getPersistedQueryMetadata = ({
+  id: persistedQueryID,
+  operation,
+  operationName,
+  bundle: persistedQueryBundle,
+  version: persistedQueryVersion,
+}: PersistedQuery): PersistedQueryOperationMetadata => ({
+  persistedQueryID,
+  persistedQueryBundle,
+  persistedQueryVersion,
+  operation,
+  operationName,
+});
+
+/**
+ * getOriginalError tries to return the original error from a
+ * formatted GraphQL error.
+ *
+ * @param err A GraphQL Formatted Error
+ */
+export const getOriginalError = (err: GraphQLFormattedError) => {
+  if ((err as any).originalError) {
+    return (err as any).originalError as Error;
+  }
+  return null;
+};
 
 function hoistCoralErrorExtensions(
   ctx: GraphContext,
@@ -99,23 +177,4 @@ export function enrichError(
   }
 
   return err;
-}
-
-export class ErrorWrappingExtension implements GraphQLExtension<GraphContext> {
-  public willSendResponse(o: {
-    graphqlResponse: GraphQLResponse;
-    context: GraphContext;
-  }): void | { graphqlResponse: GraphQLResponse; context: GraphContext } {
-    if (o.graphqlResponse.errors) {
-      return {
-        ...o,
-        graphqlResponse: {
-          ...o.graphqlResponse,
-          errors: o.graphqlResponse.errors.map((err) =>
-            enrichError(o.context, err)
-          ),
-        },
-      };
-    }
-  }
 }
