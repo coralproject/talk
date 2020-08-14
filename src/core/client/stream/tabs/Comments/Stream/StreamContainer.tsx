@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -49,6 +54,7 @@ import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
+import WarningContainer from "./Warning";
 
 import styles from "./StreamContainer.css";
 
@@ -139,6 +145,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
   );
 
+  const warned = useMemo(() => {
+    return Boolean(
+      props.viewer &&
+        props.viewer.status.current.includes(GQLUSER_STATUS.WARNED)
+    );
+  }, [props.viewer]);
+
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
@@ -194,7 +207,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && !suspended && (
+        {!banned && !suspended && !warned && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
@@ -205,6 +218,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           />
         )}
         {banned && <BannedInfo />}
+        {warned && (
+          <WarningContainer viewer={props.viewer} settings={props.settings} />
+        )}
         {suspended && (
           <SuspendedInfoContainer
             viewer={props.viewer}
@@ -423,6 +439,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
       ...ModerateStreamContainer_viewer
+      ...WarningContainer_viewer
       status {
         current
       }
@@ -439,6 +456,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
       ...ModerateStreamContainer_settings
+      ...WarningContainer_settings
     }
   `,
 })(StreamContainer);

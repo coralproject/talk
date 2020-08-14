@@ -32,9 +32,12 @@ interface Props {
   onRemoveSuspension: () => void;
   onPremod: () => void;
   onRemovePremod: () => void;
+  onWarn: () => void;
+  onRemoveWarning: () => void;
   banned: boolean;
   suspended: boolean;
   premod: boolean;
+  warned: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
   bordered?: boolean;
@@ -47,6 +50,9 @@ const UserStatusChange: FunctionComponent<Props> = ({
   onRemoveSuspension,
   onPremod,
   onRemovePremod,
+  onWarn,
+  onRemoveWarning,
+  warned,
   banned,
   suspended,
   premod,
@@ -140,6 +146,37 @@ const UserStatusChange: FunctionComponent<Props> = ({
                   }}
                 >
                   Always pre-moderate
+                </DropdownButton>
+              </Localized>
+            )}
+            {warned ? (
+              <Localized id="community-userStatus-removeWarning">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onRemoveWarning}
+                  onClick={() => {
+                    if (onRemoveWarning) {
+                      onRemoveWarning();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Remove warning
+                </DropdownButton>
+              </Localized>
+            ) : (
+              <Localized id="community-userStatus-warn">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onWarn}
+                  onClick={() => {
+                    if (onWarn) {
+                      onWarn();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Warn
                 </DropdownButton>
               </Localized>
             )}

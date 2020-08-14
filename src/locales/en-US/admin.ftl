@@ -25,6 +25,7 @@ userStatus-active = Active
 userStatus-banned = Banned
 userStatus-suspended = Suspended
 userStatus-premod = Always pre-moderate
+userStatus-warned = Warned
 
 ## Navigation
 navigation-moderate = Moderate
@@ -1150,6 +1151,18 @@ community-invite-invitationsSent = Your invitations have been sent!
 community-invite-close = Close
 community-invite-invite = Invite
 
+community-warnModal-success =
+  A warning has been sent to <strong>{ $username }</strong>.
+community-warnModal-success-close = Ok
+community-warnModal-areYouSure = Warn <strong>{ $username }</strong>?
+community-warnModal-consequence = A warning can improve a commenter's conduct without a suspension or ban. The user must acknowledge the warning before they can continue commenting.
+community-warnModal-message-label = Message
+community-warnModal-message-required = Required
+community-warnModal-message-description = Explain to this user how they should change their behavior on your site.
+community-warnModal-cancel = Cancel
+community-warnModal-warnUser = Warn user
+community-userStatus-warn = Warn
+
 ## Stories
 stories-emptyMessage = There are currently no published stories.
 stories-noMatchMessage = We could not find any stories matching your criteria.
@@ -1210,6 +1223,10 @@ userDetails-banned-by = <strong>by</strong> { $username }
 userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
+
+userDetails-warned-on = <strong>Warned on</strong> { $timestamp }
+userDetails-warned-by = <strong>by</strong> { $username }
+userDetails-warned-explanation = User has not acknowledged the warning.
 
 configure-general-reactions-title = Reactions
 configure-general-reactions-explanation =

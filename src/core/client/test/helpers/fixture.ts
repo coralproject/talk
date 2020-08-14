@@ -44,6 +44,10 @@ export function createUserStatus(banned = false) {
       active: false,
       history: [],
     },
+    warning: {
+      active: false,
+      history: [],
+    },
   };
 }
 
