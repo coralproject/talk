@@ -46,6 +46,10 @@ export function createUserStatus(banned = false): GQLUserStatus {
       active: false,
       history: [],
     },
+    warning: {
+      active: false,
+      history: [],
+    },
   };
 }
 

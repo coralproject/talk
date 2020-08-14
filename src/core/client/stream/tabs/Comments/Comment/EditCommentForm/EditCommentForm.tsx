@@ -11,6 +11,8 @@ import CommentForm from "../../Stream/CommentForm";
 import TopBarLeft from "../TopBarLeft";
 import Username from "../Username";
 
+import styles from "./EditCommentForm.css";
+
 export interface EditCommentFormProps {
   id: string;
   className?: string;
@@ -63,6 +65,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         expired={props.expired}
         placeholder="Edit comment"
         placeHolderId="comments-editCommentForm-rte"
+        topBorder={true}
         disabledMessage={
           <Localized id="comments-editCommentForm-editTimeExpired">
             Edit time has expired. You can no longer edit this comment. Why not
@@ -76,6 +79,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
             </AriaInfo>
           </Localized>
         }
+        className={styles.root}
         rteConfig={props.rteConfig}
       />
     </div>

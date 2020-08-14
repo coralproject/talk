@@ -712,6 +712,13 @@ suspendInfo-description-inAccordanceWith =
 suspendInfo-until-pleaseRejoinThe =
   Please rejoin the conversation on { $until }
 
+warning-heading = Your account has been issued a warning
+warning-explanation =
+  In accordance with our community guidelines your account has been issued a warning.
+warning-instructions =
+  To continue participating in discussions, please press the "Acknowledge" button below.
+warning-acknowledge = Acknowledge
+
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)
 profile-changeEmail-edit = Edit

@@ -41,6 +41,7 @@ import {
   GQLUSER_ROLE,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
+  GQLWarningStatus,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
@@ -300,6 +301,36 @@ export interface PremodStatus {
   history: PremodStatusHistory[];
 }
 
+export interface WarningStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the warning.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this warning
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commneter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface WarningStatus {
+  active: boolean;
+  history: WarningStatusHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -325,6 +356,12 @@ export interface UserStatus {
    * premod status.
    */
   premod: PremodStatus;
+
+  /**
+   * warning stores whether a user has an unacknowledge warning and a history of
+   * warnings
+   */
+  warning?: WarningStatus;
 }
 
 /**
@@ -545,6 +582,7 @@ async function findOrCreateUserInput(
       suspension: { history: [] },
       ban: { active: false, history: [] },
       premod: { active: false, history: [] },
+      warning: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -1851,6 +1889,201 @@ export async function removeActiveUserSuspensions(
   return result.value;
 }
 
+export async function warnUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new warning.
+  const warningHistory: WarningStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.warning.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.warning.active": true,
+      },
+      $push: {
+        "status.warning.history": warningHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already warned.
+    const warning = consolidateUserWarningStatus(user.status.warning);
+    if (warning && warning.active) {
+      throw new Error("User already warned");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserWarning will remove a warning from a User allowing them to interact with
+ * the site again.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param modifiedBy the ID of the user removing the warning
+ * @param now the current date
+ */
+export async function removeUserWarning(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new history entry.
+  const update: WarningStatusHistory = {
+    active: false,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.warning.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.warning.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.warning.active": false,
+      },
+      $push: {
+        "status.warning.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the warn operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't warned already, so nothing needs to be done
+    return user;
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeWarning will remove a warning from a User allowing them to interact with
+ * the site again.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnWarning(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: WarningStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.warning.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.warning.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.warning.active": false,
+      },
+      $push: {
+        "status.warning.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the warn operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't warned already, so nothing needs to be done!
+    return user;
+  }
+
+  return result.value;
+}
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
   Pick<BanStatus, "history">;
 
@@ -1858,6 +2091,9 @@ export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
+  Pick<PremodStatus, "history">;
+
+export type ConsolidatedWarningStatus = Omit<GQLWarningStatus, "history"> &
   Pick<PremodStatus, "history">;
 
 export function consolidateUsernameStatus(
@@ -1872,6 +2108,23 @@ export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
 
 export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
   return premod;
+}
+
+export function consolidateUserWarningStatus(
+  warning: User["status"]["warning"]
+) {
+  if (!warning) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeWarning = warning.history[warning.history.length - 1];
+  return {
+    active: warning.active,
+    history: warning.history,
+    message: activeWarning ? activeWarning.message : undefined,
+  };
 }
 
 export type ConsolidatedSuspensionStatus = Omit<
@@ -1909,6 +2162,7 @@ export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
   premod: ConsolidatedPremodStatus;
+  warning: ConsolidatedWarningStatus;
 }
 
 export function consolidateUserStatus(
@@ -1920,6 +2174,7 @@ export function consolidateUserStatus(
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
     ban: consolidateUserBanStatus(status.ban),
     premod: consolidateUserPremodStatus(status.premod),
+    warning: consolidateUserWarningStatus(status.warning),
   };
 }
 
