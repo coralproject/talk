@@ -79,6 +79,7 @@ interface Props {
   bodyInputID: string;
   siteID: string;
   topBorder?: boolean;
+  className?: string;
 }
 
 const CommentForm: FunctionComponent<Props> = (props) => {
@@ -122,7 +123,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
   );
 
   return (
-    <div className={CLASSES[props.classNameRoot].$root}>
+    <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>
       <Form onSubmit={onSubmit} initialValues={props.initialValues}>
         {({
           handleSubmit,
