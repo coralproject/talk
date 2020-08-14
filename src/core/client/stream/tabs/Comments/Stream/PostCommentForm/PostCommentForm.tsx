@@ -72,6 +72,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         onSubmit={props.onSubmit}
         onChange={props.onChange}
         min={props.min}
+        topBorder={!props.showMessageBox}
         initialValues={props.initialValues}
         max={props.max}
         disabled={props.disabled}
@@ -107,7 +108,6 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
         submitStatus={
           <PostCommentSubmitStatusContainer status={props.submitStatus} />
         }
-        topBorder={false}
       />
     </div>
   );

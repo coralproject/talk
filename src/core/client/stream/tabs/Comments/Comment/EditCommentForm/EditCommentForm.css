@@ -1,6 +1,3 @@
-$commentsBorder: var(--palette-grey-300);
-
-.commentFormBox {
-  border: 1px solid $commentsBorder;
-  border-radius: var(--round-corners);
+.root {
+  margin-top: var(--spacing-2);
 }
