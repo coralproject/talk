@@ -29,7 +29,11 @@ import {
   TenantNotFoundError,
   WrappedInternalError,
 } from "coral-server/errors";
-import { enrichError, logError, logQuery } from "coral-server/graph/extensions";
+import {
+  enrichError,
+  logAndReportError,
+  logQuery,
+} from "coral-server/graph/extensions";
 import { getOperationMetadata } from "coral-server/graph/extensions/helpers";
 import { getPersistedQuery } from "coral-server/graph/persisted";
 import logger from "coral-server/logger";
@@ -199,7 +203,7 @@ export function formatResponse(
           const enriched = enrichError(context, err);
 
           // Log the error out.
-          logError(context, enriched);
+          logAndReportError(context, enriched);
 
           return enriched;
         }),

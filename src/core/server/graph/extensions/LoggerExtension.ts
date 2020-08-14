@@ -8,11 +8,41 @@ import {
 import GraphContext from "coral-server/graph/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
+import { ErrorReporterScope } from "coral-server/services/errors";
 
 import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
 
-export function logError(ctx: GraphContext, err: GraphQLFormattedError) {
+export function logAndReportError(
+  ctx: GraphContext,
+  err: GraphQLFormattedError
+) {
   ctx.logger.error({ err }, "graphql query error");
+
+  // If there's no reporter active, then return now.
+  if (!ctx.reporter) {
+    return;
+  }
+
+  // Collect the error scope for the reporter.
+  const scope: ErrorReporterScope = {
+    ipAddress: ctx.req?.ip,
+  };
+
+  // Add Tenant details to the scope.
+  scope.tenantID = ctx.tenant.id;
+  scope.tenantDomain = ctx.tenant.domain;
+
+  // Add User details if there is any to the request.
+  if (ctx.user) {
+    scope.userID = ctx.user.id;
+    scope.userRole = ctx.user.role;
+  }
+
+  // Report the error and get back the report ID.
+  const report = ctx.reporter.report(err, scope);
+
+  // Log that we reported an error.
+  ctx.logger.error({ err, report }, "graphql query error");
 }
 
 export function logQuery(
@@ -103,7 +133,7 @@ export class LoggerExtension implements GraphQLExtension<GraphContext> {
   }): void {
     if (response.graphqlResponse.errors) {
       response.graphqlResponse.errors.forEach((err) =>
-        logError(response.context, err)
+        logAndReportError(response.context, err)
       );
     }
   }

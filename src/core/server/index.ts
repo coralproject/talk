@@ -44,6 +44,7 @@ import {
   WebhookCoralEventListener,
 } from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
+import { ErrorReporter, SentryErrorReporter } from "./services/errors";
 import { isInstalled } from "./services/tenant";
 
 export interface ServerOptions {
@@ -115,6 +116,8 @@ class Server {
   // migrationManager is the manager for performing migrations on Coral.
   private migrationManager: MigrationManager;
 
+  private readonly reporter?: ErrorReporter;
+
   /**
    * broker stores a reference to all of the listeners that can be used in
    * conjunction with an event to publish activity occurring inside Coral.
@@ -141,6 +144,13 @@ class Server {
           "SIGNING_SECRET is required in production environments"
         );
       }
+    }
+
+    // Configure the error reporter.
+    if (this.config.get("sentry_backend_key")) {
+      this.reporter = new SentryErrorReporter(
+        this.config.get("sentry_backend_key")
+      );
     }
 
     // Load the graph schemas.
@@ -302,28 +312,29 @@ class Server {
     const disableClientRoutes = this.config.get("disable_client_routes");
 
     const options: AppOptions = {
-      parent,
       broker: this.broker,
-      pubsub: this.pubsub,
-      mongo: this.mongo,
-      redis: this.redis,
-      signingConfig: this.signingConfig,
-      tenantCache: this.tenantCache,
       config: this.config,
-      schema: this.schema,
+      disableClientRoutes,
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
-      scraperQueue: this.tasks.scraper,
-      rejectorQueue: this.tasks.rejector,
-      webhookQueue: this.tasks.webhook,
-      notifierQueue: this.tasks.notifier,
-      disableClientRoutes,
-      persistedQueryCache: this.persistedQueryCache,
       metrics: createMetrics(),
+      migrationManager: this.migrationManager,
+      mongo: this.mongo,
+      notifierQueue: this.tasks.notifier,
+      parent,
       persistedQueriesRequired:
         this.config.get("env") === "production" &&
         !this.config.get("enable_graphiql"),
-      migrationManager: this.migrationManager,
+      persistedQueryCache: this.persistedQueryCache,
+      pubsub: this.pubsub,
+      redis: this.redis,
+      rejectorQueue: this.tasks.rejector,
+      reporter: this.reporter,
+      schema: this.schema,
+      scraperQueue: this.tasks.scraper,
+      signingConfig: this.signingConfig,
+      tenantCache: this.tenantCache,
+      webhookQueue: this.tasks.webhook,
     };
 
     // Create the Coral App, branching off from the parent app.

@@ -27,6 +27,7 @@ export type GraphMiddlewareOptions = Pick<
   | "tenantCache"
   | "metrics"
   | "broker"
+  | "reporter"
 >;
 
 export const graphQLHandler = ({

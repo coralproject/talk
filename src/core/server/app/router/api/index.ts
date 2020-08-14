@@ -9,7 +9,6 @@ import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
-import { errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { authenticate } from "coral-server/app/middleware/passport";
 import { roleMiddleware } from "coral-server/app/middleware/role";
@@ -81,8 +80,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // General API error handler.
   router.use(notFoundMiddleware);
-  router.use(errorLogger);
-  router.use(JSONErrorHandler(app.i18n));
+  router.use(JSONErrorHandler(app));
 
   return router;
 }
