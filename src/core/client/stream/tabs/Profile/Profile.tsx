@@ -35,7 +35,8 @@ export interface ProfileProps {
     PropTypesOf<typeof PreferencesContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof AccountSettingsContainer>["settings"] &
-    PropTypesOf<typeof MyCommentsContainer>["settings"];
+    PropTypesOf<typeof MyCommentsContainer>["settings"] &
+    PropTypesOf<typeof PreferencesContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = (props) => {
@@ -135,7 +136,10 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
           className={CLASSES.preferencesTabPane.$root}
           tabID="PREFERENCES"
         >
-          <PreferencesContainer viewer={props.viewer} />
+          <PreferencesContainer
+            viewer={props.viewer}
+            settings={props.settings}
+          />
         </TabPane>
         {showAccountTab && (
           <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">

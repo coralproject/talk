@@ -56,6 +56,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
       ...UserBoxContainer_settings
       ...AccountSettingsContainer_settings
       ...MyCommentsContainer_settings
+      ...PreferencesContainer_settings
     }
   `,
 })(ProfileContainer);
