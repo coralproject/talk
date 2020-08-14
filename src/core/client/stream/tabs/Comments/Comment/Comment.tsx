@@ -25,7 +25,7 @@ export interface CommentProps {
   badges?: React.ReactNode | null;
   collapsed?: boolean;
   media?: React.ReactNode;
-  avatar?: string;
+  avatar?: string | null;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
