@@ -81,6 +81,10 @@ export const apolloGraphQLMiddleware = ({
     // Disable subscriptions as we'll be providing it seperatly.
     subscriptions: false,
 
+    // Disable automated persisted queries as Coral will provide it's own
+    // implementation at the Express level.
+    persistedQueries: false,
+
     // Configure plugins to be ran on requests.
     plugins: [
       ErrorApolloServerPlugin,
