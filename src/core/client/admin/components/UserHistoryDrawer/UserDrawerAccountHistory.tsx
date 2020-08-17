@@ -133,6 +133,30 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    user.status.warning.history.forEach((record, i) => {
+      let action: "created" | "acknowledged" | "removed";
+      if (record.active) {
+        action = "created";
+      } else {
+        if (record.acknowledgedAt) {
+          action = "acknowledged";
+        } else {
+          action = "removed";
+        }
+      }
+      history.push({
+        kind: "warning",
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy.username,
+        action: {
+          action,
+          acknowledgedAt: record.acknowledgedAt
+            ? new Date(record.acknowledgedAt)
+            : null,
+        },
+      });
+    });
+
     // Sort the history so that it's in the right order.
     return history.sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [user]);
@@ -191,6 +215,16 @@ const enhanced = withFragmentContainer<any>({
             createdBy {
               username
             }
+          }
+        }
+        warning {
+          history {
+            active
+            createdBy {
+              username
+            }
+            acknowledgedAt
+            createdAt
           }
         }
         ban {
