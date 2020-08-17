@@ -9,8 +9,11 @@ general-userBoxUnauthenticated-register = Registrarse
 general-userBoxAuthenticated-signedInAs =
   Registrado como <Username></Username>.
 
+general-userBoxAuthenticated-signedIn =
+  Sesión iniciada como
+
 general-userBoxAuthenticated-notYou =
-  ¿No tú? <button>Desconectar</button>
+  ¿No eres tú? <button>Desconectar</button>
 
 general-tabBar-commentsTab = Comentarios
 general-tabBar-myProfileTab = Mi perfil
@@ -144,6 +147,8 @@ comments-featured-replies = Respuestas
 ## Profile Tab
 
 profile-myCommentsTab = Mis comentarios
+profile-myCommentsTab-comments = Mis comentarios
+profile-preferencesTab = Preferencias
 
 ### Comment History
 profile-historyComment-viewConversation = Ver conversación
@@ -153,6 +158,8 @@ profile-historyComment-story = Historia: {$title}
 profile-profileQuery-errorLoadingProfile = Error al cargar el perfil
 profile-profileQuery-storyNotFound = Historia no encontrada
 profile-commentHistory-loadMore = Carga más
+profile-commentHistory-empty = No has escrito comentarios
+profile-commentHistory-empty-subheading = El historial de tus comentarios aparecerá aquí
 
 ### Settings
 profile-account-ignoredCommenters = Comentaristas ignorados
