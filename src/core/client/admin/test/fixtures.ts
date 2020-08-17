@@ -400,6 +400,10 @@ export const baseUser = createFixture<GQLUser>({
       active: false,
       history: [],
     },
+    warning: {
+      active: false,
+      history: [],
+    },
   },
 });
 

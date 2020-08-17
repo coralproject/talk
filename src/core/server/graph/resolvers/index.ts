@@ -60,6 +60,8 @@ import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
+import { WarningStatus } from "./WarningStatus";
+import { WarningStatusHistory } from "./WarningStatusHistory";
 import { WebhookEndpoint } from "./WebhookEndpoint";
 import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
@@ -123,6 +125,8 @@ const Resolvers: GQLResolver = {
   UsernameHistory,
   UsernameStatus,
   UserStatus,
+  WarningStatus,
+  WarningStatusHistory,
   WebhookEndpoint,
   YouTubeMediaConfiguration,
 };

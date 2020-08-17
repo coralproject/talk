@@ -5,11 +5,13 @@ import {
   UserBanned,
   UserForbiddenError,
   UserSuspended,
+  UserWarned,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import {
   consolidateUserStatus,
   consolidateUserSuspensionStatus,
+  consolidateUserWarningStatus,
   User,
 } from "coral-server/models/user";
 import { canModerateUnscoped } from "coral-server/models/user/helpers";
@@ -59,6 +61,10 @@ function calculateAuthConditions(
     conditions.push(GQLUSER_AUTH_CONDITIONS.PENDING_DELETION);
   }
 
+  if (status.warning && status.warning.active) {
+    conditions.push(GQLUSER_AUTH_CONDITIONS.WARNED);
+  }
+
   return conditions.sort();
 }
 
@@ -90,6 +96,16 @@ const auth: DirectiveResolverFn<
 
       if (conditions.includes(GQLUSER_AUTH_CONDITIONS.BANNED)) {
         throw new UserBanned(user.id, resource, info.operation.operation);
+      }
+
+      if (conditions.includes(GQLUSER_AUTH_CONDITIONS.WARNED)) {
+        const warning = consolidateUserWarningStatus(user.status.warning);
+        throw new UserWarned(
+          user.id,
+          warning.message,
+          resource,
+          info.operation.operation
+        );
       }
 
       if (conditions.includes(GQLUSER_AUTH_CONDITIONS.SUSPENDED)) {

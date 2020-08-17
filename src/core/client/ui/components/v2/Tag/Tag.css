@@ -14,8 +14,8 @@ $tag-pill-bg: inherit;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
   color: $tag-text-color;
-  line-height: 1.14;
-  padding: var(--spacing-1);
+  padding-left: var(--spacing-1);
+  padding-right: var(--spacing-1);
   white-space: nowrap;
   border-radius: 2px;
   display: inline-block;
@@ -43,7 +43,7 @@ $tag-pill-bg: inherit;
 
 .variantPill {
   border-radius: 20px;
-  padding: 2px 10px;
+  padding: 0px 10px;
   background-color: $tag-pill-bg;
   &.colorGrey {
     border: 1px solid $tag-color-grey;

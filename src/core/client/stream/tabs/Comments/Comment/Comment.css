@@ -21,6 +21,23 @@ $commentTimestampColor: var(--palette-grey-500);
   font-style: normal;
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
-  line-height: 1.14;
   color: $commentTimestampColor;
+
+  margin-right: var(--spacing-1);
+}
+
+.tags {
+  margin-right: var(--spacing-1);
+}
+
+.badges {
+  margin-right: var(--spacing-1);
+}
+
+.username {
+  margin-right: var(--spacing-2);
+}
+
+.usernameFullRow {
+  flex-basis: 100%;
 }

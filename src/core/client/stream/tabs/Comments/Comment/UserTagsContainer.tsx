@@ -20,15 +20,47 @@ interface Props {
   className?: string;
 }
 
+function storyIsInQAMode(story: UserTagsContainer_story) {
+  return story.settings.mode === GQLSTORY_MODE.QA;
+}
+
+function hasStaffTag(comment: UserTagsContainer_comment) {
+  return comment.tags.find((t) => t.code === "STAFF");
+}
+
+function hasExpertTag(
+  story: UserTagsContainer_story,
+  comment: UserTagsContainer_comment
+) {
+  const isQA = storyIsInQAMode(story);
+  return isQA && comment.tags.find((t) => t.code === "EXPERT");
+}
+
+// The comment and story params are `any` because relay
+// isn't smart enough to see that the nested fragments
+// on the comment container are compatible.
+export function commentHasTags(story: any, comment: any) {
+  const staffTag = hasStaffTag(comment);
+  const expertTag = hasExpertTag(story, comment);
+  const hasTags = staffTag || expertTag;
+
+  return hasTags;
+}
+
 const UserTagsContainer: FunctionComponent<Props> = ({
   story,
   settings,
   comment,
   className,
 }) => {
-  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-  const staffTag = comment.tags.find((t) => t.code === "STAFF");
-  const expertTag = isQA && comment.tags.find((t) => t.code === "EXPERT");
+  const staffTag = hasStaffTag(comment);
+  const expertTag = hasExpertTag(story, comment);
+  const hasTags = commentHasTags(story, comment);
+
+  if (!hasTags) {
+    return null;
+  }
+
   return (
     <Flex alignItems="center">
       {expertTag && (

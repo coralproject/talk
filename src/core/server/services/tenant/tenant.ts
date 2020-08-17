@@ -32,15 +32,29 @@ import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
 
-function cleanWordList(
+function cleanWordlist(list: string[]): string[] {
+  return uniqBy<string>(
+    list
+      // For each phrase, trim any whitespace.
+      .map((phrase) => phrase.trim())
+      // Only allow truthy phrases (no empty strings)!
+      .filter((phrase) => !!phrase)
+      .sort(),
+    // Only allow unique phrases. This ensures we don't discriminate based on
+    // case.
+    lowerCase
+  );
+}
+
+function cleanWordLists(
   list: GQLSettingsWordListInput
 ): GQLSettingsWordListInput {
   if (list.banned) {
-    list.banned = uniqBy(list.banned.filter(Boolean), lowerCase) as string[];
+    list.banned = cleanWordlist(list.banned);
   }
 
   if (list.suspect) {
-    list.suspect = uniqBy(list.suspect.filter(Boolean), lowerCase) as string[];
+    list.suspect = cleanWordlist(list.suspect);
   }
 
   return list;
@@ -52,6 +66,7 @@ export async function update(
   cache: TenantCache,
   config: Config,
   tenant: Tenant,
+  user: User,
   input: UpdateTenant
 ): Promise<Tenant | null> {
   // If the environment variable for disabling live updates is provided, then
@@ -67,8 +82,15 @@ export async function update(
   // If the word list was specified, we should validate it to ensure there isn't
   // any empty spaces.
   if (input.wordList) {
-    input.wordList = cleanWordList(input.wordList);
+    input.wordList = cleanWordLists(input.wordList);
   }
+
+  // Whenever the settings are updated, log who performed the update and what
+  // keys they updated.
+  logger.info(
+    { update: Object.keys(input), userID: user.id, tenantID: tenant.id },
+    "settings update audit"
+  );
 
   const updatedTenant = await updateTenant(mongo, tenant.id, input);
   if (!updatedTenant) {

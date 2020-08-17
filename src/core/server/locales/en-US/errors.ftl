@@ -46,6 +46,9 @@ error-userAlreadySuspended = The user already has an active suspension until {$u
 error-userAlreadyBanned = The user is already banned.
 error-userBanned = Your account is currently banned.
 error-userSuspended = Your account is currently suspended until {$until}.
+error-userWarned =
+  Your account has been issued a warning: {$message}.
+  To continue participating in discussions, please press the "Acknowledge" button below.
 error-integrationDisabled = Specified integration is disabled.
 error-passwordResetTokenExpired = Password reset link expired.
 error-emailConfirmTokenExpired = Email confirmation link expired.

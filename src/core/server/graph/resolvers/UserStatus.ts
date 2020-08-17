@@ -9,6 +9,7 @@ import { BanStatusInput } from "./BanStatus";
 import { PremodStatusInput } from "./PremodStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
 import { UsernameStatusInput } from "./UsernameStatus";
+import { WarningStatusInput } from "./WarningStatus";
 
 export type UserStatusInput = user.UserStatus & {
   userID: string;
@@ -36,6 +37,11 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
       statuses.push(GQLUSER_STATUS.PREMOD);
     }
 
+    // If they have a warning, then mark it.
+    if (consolidatedStatus.warning.active) {
+      statuses.push(GQLUSER_STATUS.WARNED);
+    }
+
     // If no other statuses were applied, then apply the active status.
     if (statuses.length === 0) {
       statuses.push(GQLUSER_STATUS.ACTIVE);
@@ -57,6 +63,10 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
   }),
   premod: ({ premod, userID }): PremodStatusInput => ({
     ...user.consolidateUserPremodStatus(premod),
+    userID,
+  }),
+  warning: ({ warning, userID }): WarningStatusInput => ({
+    ...user.consolidateUserWarningStatus(warning),
     userID,
   }),
 };

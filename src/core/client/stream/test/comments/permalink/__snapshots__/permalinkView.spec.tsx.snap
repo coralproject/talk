@@ -72,7 +72,6 @@ exports[`renders permalink view 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
         View full discussion
       </a>
@@ -132,20 +131,20 @@ exports[`renders permalink view 1`] = `
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                         >
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                             role="article"
                           >
                             <div
-                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                  className="Comment-username"
                                 >
                                   <div
                                     className="Popover-root"
@@ -181,12 +180,9 @@ exports[`renders permalink view 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                  />
                                 </div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                 >
                                   <button
                                     className="BaseButton-root Timestamp-root"
@@ -210,7 +206,7 @@ exports[`renders permalink view 1`] = `
                               </div>
                               <div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
                               </div>
                             </div>
@@ -332,6 +328,7 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-label="Report"
                                     aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
@@ -354,7 +351,6 @@ exports[`renders permalink view 1`] = `
                                       >
                                         flag
                                       </i>
-                                      Report
                                     </span>
                                   </button>
                                 </div>
@@ -407,20 +403,20 @@ exports[`renders permalink view 1`] = `
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                         >
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                             role="article"
                           >
                             <div
-                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                  className="Comment-username"
                                 >
                                   <div
                                     className="Popover-root"
@@ -456,12 +452,9 @@ exports[`renders permalink view 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                  />
                                 </div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                 >
                                   <button
                                     className="BaseButton-root Timestamp-root"
@@ -485,7 +478,7 @@ exports[`renders permalink view 1`] = `
                               </div>
                               <div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
                               </div>
                             </div>
@@ -607,6 +600,7 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-label="Report"
                                     aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
@@ -629,7 +623,6 @@ exports[`renders permalink view 1`] = `
                                       >
                                         flag
                                       </i>
-                                      Report
                                     </span>
                                   </button>
                                 </div>
@@ -679,20 +672,20 @@ exports[`renders permalink view 1`] = `
                       className="coral coral-indent coral-indent-0 Indent-open"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                        className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                       >
                         <div
                           className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
                           role="article"
                         >
                           <div
-                            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                className="Comment-username"
                               >
                                 <div
                                   className="Popover-root"
@@ -728,12 +721,9 @@ exports[`renders permalink view 1`] = `
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                />
                               </div>
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                               >
                                 <button
                                   className="BaseButton-root Timestamp-root"
@@ -757,7 +747,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                             <div>
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                               />
                             </div>
                           </div>
@@ -879,6 +869,7 @@ exports[`renders permalink view 1`] = `
                                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                               >
                                 <button
+                                  aria-label="Report"
                                   aria-pressed={false}
                                   className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                   data-testid="comment-report-button"
@@ -901,7 +892,6 @@ exports[`renders permalink view 1`] = `
                                     >
                                       flag
                                     </i>
-                                    Report
                                   </span>
                                 </button>
                               </div>
@@ -943,7 +933,7 @@ exports[`renders permalink view 1`] = `
                     className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
@@ -968,13 +958,13 @@ exports[`renders permalink view 1`] = `
                         role="article"
                       >
                         <div
-                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                         >
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                              className="Comment-username"
                             >
                               <div
                                 className="Popover-root"
@@ -1010,12 +1000,9 @@ exports[`renders permalink view 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
                             </div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                             >
                               <button
                                 className="BaseButton-root Timestamp-root"
@@ -1039,7 +1026,7 @@ exports[`renders permalink view 1`] = `
                           </div>
                           <div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                             />
                           </div>
                         </div>
@@ -1188,6 +1175,7 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
+                                aria-label="Report"
                                 aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                 data-testid="comment-report-button"
@@ -1210,7 +1198,6 @@ exports[`renders permalink view 1`] = `
                                   >
                                     flag
                                   </i>
-                                  Report
                                 </span>
                               </button>
                             </div>
@@ -1243,7 +1230,7 @@ exports[`renders permalink view 1`] = `
                     className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
@@ -1268,13 +1255,13 @@ exports[`renders permalink view 1`] = `
                         role="article"
                       >
                         <div
-                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                         >
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                              className="Comment-username"
                             >
                               <div
                                 className="Popover-root"
@@ -1310,12 +1297,9 @@ exports[`renders permalink view 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
                             </div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                             >
                               <button
                                 className="BaseButton-root Timestamp-root"
@@ -1339,7 +1323,7 @@ exports[`renders permalink view 1`] = `
                           </div>
                           <div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                             />
                           </div>
                         </div>
@@ -1488,6 +1472,7 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
+                                aria-label="Report"
                                 aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                 data-testid="comment-report-button"
@@ -1510,7 +1495,6 @@ exports[`renders permalink view 1`] = `
                                   >
                                     flag
                                   </i>
-                                  Report
                                 </span>
                               </button>
                             </div>

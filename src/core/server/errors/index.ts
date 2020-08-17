@@ -664,6 +664,20 @@ export class UserSuspended extends CoralError {
   }
 }
 
+export class UserWarned extends CoralError {
+  constructor(
+    userID: string,
+    message?: string,
+    resource?: string,
+    operation?: string
+  ) {
+    super({
+      code: ERROR_CODES.USER_WARNED,
+      context: { pvt: { resource, operation, userID }, pub: { message } },
+    });
+  }
+}
+
 export class UserCannotBeIgnoredError extends CoralError {
   constructor(userID: string) {
     super({

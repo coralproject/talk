@@ -22,7 +22,10 @@ const FEATURE_FLAGS = Object.values(GQLFEATURE_FLAG);
  * PUBLIC_FEATURE_FLAGS are flags that are allowed to be returned when accessed
  * by a user with non-staff permissions.
  */
-const PUBLIC_FEATURE_FLAGS = [GQLFEATURE_FLAG.DISCUSSIONS];
+const PUBLIC_FEATURE_FLAGS = [
+  GQLFEATURE_FLAG.DISCUSSIONS,
+  GQLFEATURE_FLAG.READ_MORE_NEW_TAB,
+];
 
 type FlagFilter = (flag: GQLFEATURE_FLAG | string) => boolean;
 

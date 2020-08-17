@@ -11,20 +11,36 @@ interface Props {
   className?: string;
 }
 
+// The comment param is `any` because relay isn't
+// smart enough to see that the nested fragments
+// on the comment container are compatible.
+export function authorHasBadges(comment: any) {
+  return (
+    comment &&
+    comment.author &&
+    comment.author.badges &&
+    comment.author.badges.length !== 0
+  );
+}
+
 const AuthorBadgesContainer: FunctionComponent<Props> = ({
   comment,
   className,
 }) => {
-  if (!comment.author || !comment.author.badges) {
+  const hasBadges = authorHasBadges(comment);
+
+  if (!hasBadges) {
     return null;
   }
   return (
     <>
-      {comment.author.badges.map((badge) => (
-        <Tag key={badge} color="dark" className={className}>
-          {badge}
-        </Tag>
-      ))}
+      {comment.author &&
+        comment.author.badges &&
+        comment.author.badges.map((badge) => (
+          <Tag key={badge} color="dark" className={className}>
+            {badge}
+          </Tag>
+        ))}
     </>
   );
 };

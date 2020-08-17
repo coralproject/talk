@@ -38,7 +38,17 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
-      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
+      c.revision.metadata?.wordList?.timedOut && (
+        <Localized id="moderate-marker-possibleBannedWord" key={keyCounter++}>
+          <Marker color="reported">Possible Banned Word</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
+      !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
           <Marker color="reported">Banned Word</Marker>
         </Localized>
@@ -46,7 +56,17 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
-      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
+      c.revision.metadata?.wordList?.timedOut && (
+        <Localized id="moderate-marker-possibleSuspectWord" key={keyCounter++}>
+          <Marker color="reported">Possible Suspect Word</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
+      !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
           <Marker color="reported">Suspect Word</Marker>
         </Localized>
@@ -191,6 +211,11 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_LINKS
               COMMENT_DETECTED_BANNED_WORD
             }
+          }
+        }
+        metadata {
+          wordList {
+            timedOut
           }
         }
       }

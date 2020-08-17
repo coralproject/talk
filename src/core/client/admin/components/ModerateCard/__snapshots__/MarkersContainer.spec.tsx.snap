@@ -25,6 +25,11 @@ exports[`renders all markers 1`] = `
                 },
               },
             },
+            "metadata": Object {
+              "wordList": Object {
+                "timedOut": false,
+              },
+            },
           },
           "status": "PREMOD",
         }
@@ -170,6 +175,11 @@ exports[`renders some markers 1`] = `
                   "COMMENT_REPORTED_OTHER": 0,
                   "COMMENT_REPORTED_SPAM": 0,
                 },
+              },
+            },
+            "metadata": Object {
+              "wordList": Object {
+                "timedOut": false,
               },
             },
           },
