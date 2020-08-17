@@ -33,9 +33,12 @@ function handleCommentLeftModerationQueue(
   if (connection) {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(
-      linked.filter(
-        (r) => r.getLinkedRecord("node")!.getValue("id") !== commentID
-      ),
+      linked.filter((r) => {
+        return (
+          r.getLinkedRecord("node") &&
+          r.getLinkedRecord("node")!.getValue("id") !== commentID
+        );
+      }),
       "viewNewEdges"
     );
   }
