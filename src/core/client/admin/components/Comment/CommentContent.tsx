@@ -49,7 +49,7 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
 interface Props {
   className?: string;
   children: string | React.ReactElement;
-  phrases: GetPhrasesRegExpOptions;
+  phrases?: GetPhrasesRegExpOptions;
   highlight?: boolean;
 }
 
@@ -66,7 +66,7 @@ const CommentContent: FunctionComponent<Props> = ({
   const expression = useMemo(() => {
     // If we aren't in highlight mode for this comment, don't even attempt to
     // generate the expression.
-    if (!highlight) {
+    if (!highlight || !phrases) {
       return null;
     }
 
