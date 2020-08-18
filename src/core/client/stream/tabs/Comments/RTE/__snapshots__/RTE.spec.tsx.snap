@@ -10,6 +10,7 @@ exports[`renders correctly 1`] = `
     contentContainerClassName="RTE-container coral coral-rte-container"
     contentContainerClassNameDisabled=""
     features={Array []}
+    linkContentMatchHref={true}
     placeholder="Post a comment"
     placeholderClassName="coral coral-rte-placeholder RTE-placeholder"
     placeholderClassNameDisabled=""
