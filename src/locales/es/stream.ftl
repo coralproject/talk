@@ -2,6 +2,8 @@
 
 ## General
 
+general-moderate = Moderar
+
 general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
 general-userBoxUnauthenticated-signIn = Iniciar sesión
 general-userBoxUnauthenticated-register = Registrarse
@@ -32,6 +34,10 @@ comments-featuredCommentTooltip-toggleButton =
 comments-noCommentsYet = ¿No hay comentarios. Por qué no escribes uno?
 
 comments-streamQuery-storyNotFound = Historia no encontrada
+
+comments-commentForm-cancel = Cancelar
+comments-commentForm-saveChanges = Guardar cambios
+comments-commentForm-submit = Enviar
 
 comments-postCommentForm-submit = Enviar
 comments-replyList-showAll = Mostrar todo
@@ -148,6 +154,7 @@ comments-featured-replies = Respuestas
 
 profile-myCommentsTab = Mis comentarios
 profile-myCommentsTab-comments = Mis comentarios
+profile-accountTab = Account
 profile-preferencesTab = Preferencias
 
 ### Comment History
@@ -161,6 +168,20 @@ profile-commentHistory-loadMore = Carga más
 profile-commentHistory-empty = No has escrito comentarios
 profile-commentHistory-empty-subheading = El historial de tus comentarios aparecerá aquí
 
+### Preferences
+profile-preferences-mediaPreferences = Preferencias de Media
+profile-preferences-mediaPreferences-alwaysShow = Siempre muestra GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-thisMayMake = Esto puede hacer que los comentarios carguen más lento
+profile-preferences-mediaPreferences-update = Actualizar
+
+### Account
+profile-account-ignoredCommenters-description =
+  Tu puedes ignorar otros comentaristas haciendo clic en su nombre de usuario 
+  y seleccionando Ignorar. Cuando tu ignoras a alguien, todos sus comentarios 
+  estarán ocultos para ti. Los comentaristas que tu ignores todavía serán 
+  capaces de ver tus comentarios.
+profile-account-ignoredCommenters-manage = Manejar
+
 ### Settings
 profile-account-ignoredCommenters = Comentaristas ignorados
 profile-account-ignoredCommenters-description =
@@ -169,6 +190,18 @@ profile-account-ignoredCommenters-description =
 profile-account-ignoredCommenters-empty = Actualmente no estás ignorando a nadie
 profile-account-ignoredCommenters-stopIgnoring = Deja de ignorar
 
+## Notifications
+profile-account-notifications-emailNotifications = Notificaciones por correo
+profile-account-notifications-receiveWhen = Recibe notificaciones cuando:
+profile-account-notifications-onReply = Mi comentario recibe una respuesta
+profile-account-notifications-onFeatured = Mi comentario es destacado.
+profile-account-notifications-onStaffReplies = Un miembro del staff responde a mi comentario
+profile-account-notifications-onModeration = Mi comentario pendiente ha sido revizado
+profile-account-notifications-sendNotifications = Enviar Notificaciones:
+profile-account-notifications-sendNotifications-immediately = Inmediatamente
+profile-account-notifications-sendNotifications-daily = Cada día
+profile-account-notifications-sendNotifications-hourly = Cada hora
+profile-account-notifications-button-update = Actualizar
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -206,12 +239,15 @@ configure-configureQuery-storyNotFound = Historia no encontrada
 ## Comment Stream
 configure-stream-title = Configurar comentarios
 configure-stream-apply = Guardar
+configure-stream-update = Actualizar
 
 configure-premod-title = Habilitar pre-moderación
+configure-premod-premoderateAllComments = Pre-moderar todos los comentarios
 configure-premod-description =
   Los moderadores deben aprobar cualquier comentario antes de que se publique.
 
 configure-premodLink-title = Comentarios pre-moderados que contienen enlaces
+configure-premodLink-commentsContainingLinks = Pre-moderar comentarios que contienen links
 configure-premodLink-description =
   Los moderadores deben aprobar cualquier comentario que contenga un enlace antes de que se publique en esta secuencia.
 
