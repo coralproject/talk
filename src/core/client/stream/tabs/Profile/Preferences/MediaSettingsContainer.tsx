@@ -13,10 +13,12 @@ import {
   FieldSet,
   FormField,
   HorizontalGutter,
+  HorizontalRule,
   Icon,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
+import { MediaSettingsContainer_settings } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
 import { MediaSettingsContainer_viewer } from "coral-stream/__generated__/MediaSettingsContainer_viewer.graphql";
 
 import UpdateUserMediaSettingsMutation from "./UpdateUserMediaSettingsMutation";
@@ -24,10 +26,14 @@ import UpdateUserMediaSettingsMutation from "./UpdateUserMediaSettingsMutation";
 import styles from "./MediaSettingsContainer.css";
 
 interface Props {
+  settings: MediaSettingsContainer_settings;
   viewer: MediaSettingsContainer_viewer;
 }
 
-const MediaSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+const MediaSettingsContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+}) => {
   const updateMediaSettings = useMutation(UpdateUserMediaSettingsMutation);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -58,91 +64,121 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
     [updateMediaSettings, setShowSuccess, setShowError]
   );
 
+  if (
+    !settings.media?.giphy?.enabled &&
+    !settings.media?.twitter?.enabled &&
+    !settings.media?.youtube?.enabled
+  ) {
+    return null;
+  }
+
   return (
-    <HorizontalGutter>
-      <Form initialValues={viewer.mediaSettings} onSubmit={onSubmit}>
-        {({
-          handleSubmit,
-          submitting,
-          submitError,
-          pristine,
-          submitSucceeded,
-        }) => (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <Localized id="profile-preferences-mediaPreferences">
-              <div className={styles.title}>Media Preferences</div>
-            </Localized>
-            <div className={styles.options}>
-              <FieldSet>
-                <FormField>
-                  <Field name="unfurlEmbeds" type="checkbox">
-                    {({ input }) => (
-                      <CheckBox {...input} id={input.name} variant="streamBlue">
-                        <Localized id="profile-preferences-mediaPreferences-alwaysShow">
-                          <div>Always show GIFs, Tweets, YouTube, etc.</div>
-                        </Localized>
-                      </CheckBox>
-                    )}
-                  </Field>
-                </FormField>
-              </FieldSet>
-              <Localized id="profile-preferences-mediaPreferences-thisMayMake">
-                <div className={styles.checkBoxDescription}>
-                  This may make the comments slower to load
-                </div>
+    <>
+      <HorizontalGutter>
+        <Form initialValues={viewer.mediaSettings} onSubmit={onSubmit}>
+          {({
+            handleSubmit,
+            submitting,
+            submitError,
+            pristine,
+            submitSucceeded,
+          }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Localized id="profile-preferences-mediaPreferences">
+                <div className={styles.title}>Media Preferences</div>
               </Localized>
-            </div>
-            <div
-              className={cn(styles.updateButton, {
-                [styles.updateButtonNotification]: showSuccess || showError,
-              })}
-            >
-              <Localized id="profile-preferences-mediaPreferences-update">
-                <Button
-                  type="submit"
-                  disabled={submitting || pristine}
-                  className={CLASSES.mediaPreferences.updateButton}
-                  upperCase
-                >
-                  Update
-                </Button>
-              </Localized>
-            </div>
-            {((submitError && showError) ||
-              (submitSucceeded && showSuccess)) && (
-              <div className={styles.callOut}>
-                {submitError && showError && (
-                  <CallOut
-                    color="error"
-                    onClose={closeError}
-                    icon={<Icon size="sm">warning</Icon>}
-                    titleWeight="semiBold"
-                    title={<span>{submitError}</span>}
-                  />
-                )}
-                {submitSucceeded && showSuccess && (
-                  <CallOut
-                    color="success"
-                    onClose={closeSuccess}
-                    icon={<Icon size="sm">check_circle</Icon>}
-                    titleWeight="semiBold"
-                    title={
-                      <Localized id="profile-preferences-mediaPreferences-preferencesUpdated">
-                        <span>Your media preferences have been updated</span>
-                      </Localized>
-                    }
-                  />
-                )}
+              <div className={styles.options}>
+                <FieldSet>
+                  <FormField>
+                    <Field name="unfurlEmbeds" type="checkbox">
+                      {({ input }) => (
+                        <CheckBox
+                          {...input}
+                          id={input.name}
+                          variant="streamBlue"
+                        >
+                          <Localized id="profile-preferences-mediaPreferences-alwaysShow">
+                            <div>Always show GIFs, Tweets, YouTube, etc.</div>
+                          </Localized>
+                        </CheckBox>
+                      )}
+                    </Field>
+                  </FormField>
+                </FieldSet>
+                <Localized id="profile-preferences-mediaPreferences-thisMayMake">
+                  <div className={styles.checkBoxDescription}>
+                    This may make the comments slower to load
+                  </div>
+                </Localized>
               </div>
-            )}
-          </form>
-        )}
-      </Form>
-    </HorizontalGutter>
+              <div
+                className={cn(styles.updateButton, {
+                  [styles.updateButtonNotification]: showSuccess || showError,
+                })}
+              >
+                <Localized id="profile-preferences-mediaPreferences-update">
+                  <Button
+                    type="submit"
+                    disabled={submitting || pristine}
+                    className={CLASSES.mediaPreferences.updateButton}
+                    upperCase
+                  >
+                    Update
+                  </Button>
+                </Localized>
+              </div>
+              {((submitError && showError) ||
+                (submitSucceeded && showSuccess)) && (
+                <div className={styles.callOut}>
+                  {submitError && showError && (
+                    <CallOut
+                      color="error"
+                      onClose={closeError}
+                      icon={<Icon size="sm">warning</Icon>}
+                      titleWeight="semiBold"
+                      title={<span>{submitError}</span>}
+                    />
+                  )}
+                  {submitSucceeded && showSuccess && (
+                    <CallOut
+                      color="success"
+                      onClose={closeSuccess}
+                      icon={<Icon size="sm">check_circle</Icon>}
+                      titleWeight="semiBold"
+                      title={
+                        <Localized id="profile-preferences-mediaPreferences-preferencesUpdated">
+                          <span>Your media preferences have been updated</span>
+                        </Localized>
+                      }
+                    />
+                  )}
+                </div>
+              )}
+            </form>
+          )}
+        </Form>
+      </HorizontalGutter>
+      <HorizontalRule></HorizontalRule>
+    </>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment MediaSettingsContainer_settings on Settings {
+      media {
+        giphy {
+          enabled
+        }
+        twitter {
+          enabled
+        }
+        youtube {
+          enabled
+        }
+      }
+    }
+  `,
   viewer: graphql`
     fragment MediaSettingsContainer_viewer on User {
       id
