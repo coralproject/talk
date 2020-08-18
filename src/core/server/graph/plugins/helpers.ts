@@ -122,9 +122,9 @@ function hoistCoralErrorExtensions(
  * @param err the error to have their original error extracted from.
  * @param ctx the Context to extract the environment state.
  */
-function getWrappedOriginalError(
+export function getWrappedOriginalError(
   err: GraphQLFormattedError,
-  ctx: GraphContext
+  ctx?: GraphContext
 ): CoralError | undefined {
   if (err instanceof ApolloError) {
     // ApolloError's don't need to be hoisted as they contain validation
@@ -143,7 +143,9 @@ function getWrappedOriginalError(
     return originalError;
   }
 
-  if (ctx.config.get("env") !== "production") {
+  // If the context is provided, and we aren't in production, then return an
+  // internal development error instead of a wrapped internal error.
+  if (ctx && ctx.config.get("env") !== "production") {
     return new InternalDevelopmentError(
       originalError,
       "wrapped internal development error"

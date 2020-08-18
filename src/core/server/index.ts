@@ -147,7 +147,10 @@ class Server {
     }
 
     // Configure the error reporter.
-    if (this.config.get("sentry_backend_key")) {
+    if (
+      this.config.get("env") === "production" &&
+      this.config.get("sentry_backend_key")
+    ) {
       this.reporter = new SentryErrorReporter(
         this.config.get("sentry_backend_key")
       );

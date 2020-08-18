@@ -6,15 +6,22 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { ErrorReporterScope } from "coral-server/services/errors";
 
-import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
+import {
+  getOperationMetadata,
+  getPersistedQueryMetadata,
+  getWrappedOriginalError,
+} from "./helpers";
 
 export function logAndReportError(
   ctx: GraphContext,
-  err: GraphQLFormattedError
+  graphQLError: GraphQLFormattedError
 ) {
+  // Get the original error or fallback to the passed error instead.
+  const err = getWrappedOriginalError(graphQLError) || graphQLError;
+
   // If there's no reporter active, then just log what we got and return now.
-  if (!ctx.reporter) {
-    ctx.logger.error({ err }, "graphql query error");
+  if (!ctx.reporter || !ctx.reporter.shouldReport(err)) {
+    ctx.logger.error({ err, report: null }, "graphql query error");
     return;
   }
 

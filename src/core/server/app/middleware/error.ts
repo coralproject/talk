@@ -73,7 +73,7 @@ function wrapAndReport(
   const { error } = serializeError(e, req, i18n);
 
   // If there's no reporter active, then return now.
-  if (!reporter) {
+  if (!reporter || !reporter.shouldReport(err)) {
     // Log the error.
     log.error(
       { ...extractLoggerMetadata(req, res), err, statusCode: e.status },

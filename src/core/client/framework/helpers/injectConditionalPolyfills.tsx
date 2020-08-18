@@ -37,5 +37,6 @@ export default async function injectConditionalPolyfills() {
   if (!browser.supports.cssVariables) {
     pending.push(polyfillCSSVars());
   }
+
   await Promise.all(pending);
 }

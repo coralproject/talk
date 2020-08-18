@@ -39,7 +39,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Actualmente ha iniciado sesión en
 restricted-noPermissionInfo = Usted no tiene permiso para acceder a esta página.
-restricted-signedInAs = Has iniciado sesión como: <Username></Username>
+restricted-signedInAs = Has iniciado sesión como: <strong>{ $username }</strong>
 restricted-signInWithADifferentAccount = Iniciar sesión con una cuenta diferente
 restricted-contactAdmin = Si cree que esto es un error, comuníquese con su administrador para obtener ayuda.
 
