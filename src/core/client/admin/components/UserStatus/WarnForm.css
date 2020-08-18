@@ -1,0 +1,10 @@
+.label {
+  margin-bottom: 0;
+}
+
+.required {
+  color: var(--palette-text-100);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+}

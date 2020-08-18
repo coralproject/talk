@@ -96,6 +96,15 @@ export default function createTestRenderer<
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
     browserInfo: params.browserInfo || {
+      supports: {
+        cssVariables: true,
+        intersectionObserver: true,
+        fetch: true,
+        intl: true,
+        intlPluralRules: true,
+        proxyObject: true,
+      },
+      version: 10.0,
       ios: false,
       mobile: false,
       msie: false,

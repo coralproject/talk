@@ -34,6 +34,11 @@ enum USER_AUTH_CONDITIONS {
   remain after being deleted.
   """
   PENDING_DELETION
+
+  """
+  WARNED
+  """
+  WARNED
 }
 
 """
@@ -1921,7 +1926,7 @@ type BanStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2001,7 +2006,7 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2011,13 +2016,57 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
   history is the list of all suspension events against a specific User.
   """
   history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
+type WarningStatusHistory {
+  """
+  active when true, indicates that the given user has been warned but has not acknowledged the warning.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the user that warned the commenter
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was warned
+  """
+  createdAt: Time!
+
+  """
+  acknowledgedAt is the time the commenter acknowledged the warning. if `null` then the warning
+  has not been acknowledged
+  """
+  acknowledgedAt: Time
+
+  """
+  message is the custom message sent to the commenter
+  """
+  message: String!
+}
+
+type WarningStatus {
+  """
+  active when true, indicates that the given user has been warned but has not acknowledged it.
+  """
+  active: Boolean!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  message: String
+
+  history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 type PremodStatusHistory {
@@ -2057,7 +2106,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2072,7 +2121,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 }
 
@@ -2094,7 +2143,7 @@ type UserStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2117,6 +2166,11 @@ type UserStatus {
   premod stores the user premod status as well as the history of changes.
   """
   premod: PremodStatus! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  warning stores the user warning status as well as the history of warnings
+  """
+  warning: WarningStatus!
 }
 
 """
@@ -2143,6 +2197,11 @@ enum USER_STATUS {
   PREMOD is used when a User is currently set to require pre-moderation.
   """
   PREMOD
+
+  """
+  WARNED is used when a user has been warned about behaviour and has not acknowledged
+  """
+  WARNED
 }
 
 type ModeratorNote {
@@ -2281,7 +2340,14 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
@@ -2299,7 +2365,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2309,7 +2375,14 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
@@ -2319,7 +2392,14 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
@@ -2345,7 +2425,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2369,7 +2449,10 @@ type User {
   sorted by their last comment date.
   """
   ongoingDiscussions(limit: Int = 5 @constraint(max: 5)): [Story!]!
-    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   recentCommentHistory returns recent commenting history by the User.
@@ -2397,7 +2480,7 @@ type User {
     @auth(
       roles: [ADMIN]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2407,14 +2490,17 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
   notifications stores the notification settings for the given User.
   """
   notifications: UserNotificationSettings!
-    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   createdAt is the time that the User was created at.
@@ -2429,7 +2515,7 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2440,7 +2526,7 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2450,7 +2536,7 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2461,7 +2547,7 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2474,6 +2560,10 @@ type User {
   mediaSettings are the user's preferences around media stream behaviour.
   """
   mediaSettings: UserMediaSettings
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """
@@ -2896,7 +2986,7 @@ type Comment {
     @auth(
       roles: [MODERATOR, ADMIN]
       userIDField: "author_id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -6453,14 +6543,88 @@ input UpdateUserRoleInput {
 
 type UpdateUserRolePayload {
   """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
   user is the possibly modified User.
   """
   user: User!
+}
+
+##################
+# warnUser
+##################
+input WarnUserInput {
+  """
+  userID is the ID of the User that should have their account banned.
+  """
+  userID: ID!
 
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is displayed to the user in the stream
+  """
+  message: String!
+}
+
+type WarnUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input RemoveUserWarningInput {
+  """
+  userID is the ID of the User that should be warned.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveUserWarningPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input AcknowledgeWarningInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcknowledgeWarningPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
 }
 
 ##################
@@ -7279,14 +7443,21 @@ type Mutation {
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
     @auth(
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
   updateUsername will update the users username.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -7295,7 +7466,14 @@ type Mutation {
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
     @auth(
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
@@ -7309,7 +7487,7 @@ type Mutation {
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -7319,7 +7497,7 @@ type Mutation {
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
   ): RequestAccountDeletionPayload!
-    @auth(permit: [SUSPENDED, BANNED])
+    @auth(permit: [SUSPENDED, BANNED, WARNED])
     @rate(seconds: 10)
 
   """
@@ -7335,7 +7513,7 @@ type Mutation {
   cancelAccountDeletion(
     input: CancelAccountDeletionInput!
   ): CancelAccountDeletionPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   createToken allows an administrator to create a Token based on the current
@@ -7363,7 +7541,7 @@ type Mutation {
   updateEmail will update the current users email address.
   """
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -7373,7 +7551,7 @@ type Mutation {
   updateNotificationSettings(
     input: UpdateNotificationSettingsInput!
   ): UpdateNotificationSettingsPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUserMediaSettings can be used to update the media preferences for the
@@ -7431,6 +7609,25 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
+  warnUser will warn a user and prevent them from commenting until they acknowledge
+  """
+  warnUser(input: WarnUserInput!): WarnUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserWarning will remove a user warning
+  """
+  removeUserWarning(input: RemoveUserWarningInput!): RemoveUserWarningPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acknowledgWarning will remove a warning
+  """
+  acknowledgeWarning(
+    input: AcknowledgeWarningInput!
+  ): AcknowledgeWarningPayload @auth(permit: [WARNED])
+
+  """
   removeUserSuspension will remove an active suspension from a User if they have
   one.
   """
@@ -7442,14 +7639,14 @@ type Mutation {
   ignoreUser will mark the given User as ignored by the current logged in User.
   """
   ignoreUser(input: IgnoreUserInput!): IgnoreUserPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   removeUserIgnore will remove the given User from the ignored user list from
   the current logged in User.
   """
   removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   requestCommentsDownload allows a user to request to download their comments.
@@ -7457,7 +7654,7 @@ type Mutation {
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
   ): RequestCommentsDownloadPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   requestUserCommentsDownload allows a user to request to download their comments.

@@ -31,9 +31,11 @@ import {
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
+  shouldTriggerUserRefresh,
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
+import RefreshUserFetch from "../../RefreshUserFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import CommentForm from "../CommentForm";
 import {
@@ -48,6 +50,7 @@ import PostCommentFormFake from "./PostCommentFormFake";
 interface Props {
   createComment: CreateCommentMutation;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
+  refreshUser: FetchProp<typeof RefreshUserFetch>;
   sessionStorage: PromisifiedStorage;
   settings: PostCommentFormContainer_settings;
   viewer: PostCommentFormContainer_viewer | null;
@@ -146,8 +149,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
+        if (shouldTriggerUserRefresh(error.code)) {
+          await this.props.refreshUser();
+        }
         return error.invalidArgs;
       }
+
       /**
        * Comment was caught in one of the moderation filters on the server.
        * We give the user another change to submit the comment, and we
@@ -278,60 +285,62 @@ const enhanced = withContext(({ sessionStorage }) => ({
   withShowAuthPopupMutation(
     withCreateCommentMutation(
       withFetch(RefreshSettingsFetch)(
-        withFragmentContainer<Props>({
-          settings: graphql`
-            fragment PostCommentFormContainer_settings on Settings {
-              charCount {
-                enabled
-                min
-                max
-              }
-              disableCommenting {
-                enabled
-                message
-              }
-              closeCommenting {
-                message
-              }
-              media {
-                twitter {
+        withFetch(RefreshUserFetch)(
+          withFragmentContainer<Props>({
+            settings: graphql`
+              fragment PostCommentFormContainer_settings on Settings {
+                charCount {
                   enabled
+                  min
+                  max
                 }
-                youtube {
+                disableCommenting {
                   enabled
+                  message
                 }
-                giphy {
-                  enabled
+                closeCommenting {
+                  message
+                }
+                media {
+                  twitter {
+                    enabled
+                  }
+                  youtube {
+                    enabled
+                  }
+                  giphy {
+                    enabled
+                  }
+                }
+                rte {
+                  ...RTEContainer_config
                 }
               }
-              rte {
-                ...RTEContainer_config
-              }
-            }
-          `,
-          story: graphql`
-            fragment PostCommentFormContainer_story on Story {
-              id
-              isClosed
-              ...MessageBoxContainer_story
-              site {
+            `,
+            story: graphql`
+              fragment PostCommentFormContainer_story on Story {
                 id
-              }
-              settings {
-                messageBox {
-                  enabled
+                isClosed
+                ...MessageBoxContainer_story
+                site {
+                  id
                 }
-                mode
+                settings {
+                  messageBox {
+                    enabled
+                  }
+                  mode
+                }
               }
-            }
-          `,
-          viewer: graphql`
-            fragment PostCommentFormContainer_viewer on User {
-              id
-              scheduledDeletionDate
-            }
-          `,
-        })(PostCommentFormContainer)
+            `,
+            viewer: graphql`
+              fragment PostCommentFormContainer_viewer on User {
+                id
+                scheduledDeletionDate
+              }
+            `,
+          })(PostCommentFormContainer)
+        )
       )
     )
   )

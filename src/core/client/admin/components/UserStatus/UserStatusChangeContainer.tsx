@@ -15,10 +15,13 @@ import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMudtaion from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
+import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
+import WarnModal from "./WarnModal";
+import WarnUserMutation from "./WarnUserMutation";
 
 interface Props {
   settings: UserStatusChangeContainer_settings;
@@ -41,10 +44,37 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
+  const warnUser = useMutation(WarnUserMutation);
+  const removeUserWarning = useMutation(RemoveUserWarningMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
+  const [showWarn, setShowWarn] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
+  const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
+  const handleWarn = useCallback(() => {
+    if (user.status.warning.active) {
+      return;
+    }
+    setShowWarn(true);
+  }, [user, setShowWarn]);
+  const handleRemoveWarning = useCallback(() => {
+    if (!user.status.warning.active) {
+      return;
+    }
+    void removeUserWarning({ userID: user.id });
+  }, [user, removeUserWarning]);
+  const hideWarn = useCallback(() => {
+    setShowWarn(false);
+    setShowWarnSuccess(false);
+  }, [setShowWarn]);
+  const handleWarnConfirm = useCallback(
+    (message: string) => {
+      void warnUser({ userID: user.id, message });
+      setShowWarnSuccess(true);
+    },
+    [warnUser, user, setShowWarnSuccess]
+  );
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
       return;
@@ -91,12 +121,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       return;
     }
     void removeUserPremod({ userID: user.id });
-  }, [user, premodUser]);
+  }, [user, removeUserPremod]);
 
   const handleSuspendModalClose = useCallback(() => {
     setShowSuspend(false);
     setShowSuspendSuccess(false);
-  }, [setShowBanned, setShowSuspendSuccess]);
+  }, [setShowSuspendSuccess]);
 
   const handleBanModalClose = useCallback(() => {
     setShowBanned(false);
@@ -119,7 +149,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       void banUser({ userID: user.id, message, rejectExistingComments });
       setShowBanned(false);
     },
-    [user, setShowBanned]
+    [user, setShowBanned, banUser]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
@@ -140,6 +170,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         banned={user.status.ban.active}
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
+        warned={user.status.warning.active}
+        onWarn={handleWarn}
+        onRemoveWarning={handleRemoveWarning}
         fullWidth={fullWidth}
         bordered={bordered}
       >
@@ -158,6 +191,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         open={showPremod}
         onClose={hidePremod}
         onConfirm={handlePremodConfirm}
+      />
+      <WarnModal
+        username={user.username}
+        organizationName={settings.organization.name}
+        open={showWarn}
+        onClose={hideWarn}
+        onConfirm={handleWarnConfirm}
+        success={showWarnSuccess}
       />
       {!scoped && (
         <BanModal
@@ -185,6 +226,9 @@ const enhanced = withFragmentContainer<Props>({
           active
         }
         premod {
+          active
+        }
+        warning {
           active
         }
       }

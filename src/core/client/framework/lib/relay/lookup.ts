@@ -56,7 +56,7 @@ const createProxy = <T = any>(
   // IE11 does not have Proxy support and the polyfill only supports
   // a subset of features under special circumstances.
   // https://github.com/GoogleChrome/proxy-polyfill
-  if (getBrowserInfo().msie) {
+  if (!getBrowserInfo().supports.proxyObject) {
     target = recordSource;
     delete proxy.ownKeys;
     delete proxy.getOwnPropertyDescriptor;

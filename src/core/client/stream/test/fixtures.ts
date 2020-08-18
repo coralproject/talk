@@ -162,6 +162,10 @@ export const baseUser = createFixture<GQLUser>({
       until: null,
       history: [],
     },
+    warning: {
+      active: false,
+      history: [],
+    },
   },
   ignoredUsers: [],
   comments: {

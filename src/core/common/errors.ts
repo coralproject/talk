@@ -238,6 +238,12 @@ export enum ERROR_CODES {
   USER_SUSPENDED = "USER_SUSPENDED",
 
   /**
+   * USER_WARNED is returned when the user attempts to perform an action that
+   * is not permitted if they are warned and have not acknowledged the warning.
+   */
+  USER_WARNED = "USER_WARNED",
+
+  /**
    * USER_BANNED is returned when the user attempts to perform an action that
    * is not permitted if they are banned.
    */

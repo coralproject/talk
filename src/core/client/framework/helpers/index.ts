@@ -12,5 +12,6 @@ export { default as resolveStoryURL } from "./resolveStoryURL";
 export { default as detectCountScript } from "./detectCountScript";
 export { default as potentiallyInjectAxe } from "./potentiallyInjectAxe";
 export { default as injectConditionalPolyfills } from "./injectConditionalPolyfills";
-export { default as polyfillCSSVarsForIE11 } from "./polyfillCSSVarsForIE11";
+export { default as polyfillCSSVars } from "./polyfillCSSVars";
+export { default as polyfillIntlLocale } from "./polyfillIntlLocale";
 export { default as getModerationLink, QUEUE_NAME } from "./getModerationLink";

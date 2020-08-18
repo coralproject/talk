@@ -3,6 +3,7 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
 import {
+  acknowledgeWarning,
   addModeratorNote,
   ban,
   cancelAccountDeletion,
@@ -15,6 +16,7 @@ import {
   removeIgnore,
   removePremod,
   removeSuspension,
+  removeWarning,
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
@@ -32,6 +34,7 @@ import {
   updateRole,
   updateUsername,
   updateUsernameByID,
+  warn,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
 import { deleteUser } from "coral-server/services/users/delete";
@@ -51,6 +54,7 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRemoveUserWarningInput,
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
@@ -68,6 +72,7 @@ import {
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
+  GQLWarnUserInput,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { WithoutMutationID } from "./util";
@@ -258,6 +263,19 @@ export const Users = (ctx: GraphContext) => ({
       rejectExistingComments,
       ctx.now
     ),
+  warn: async (input: GQLWarnUserInput) =>
+    warn(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.message,
+      ctx.now
+    ),
+  removeWarning: async (input: GQLRemoveUserWarningInput) =>
+    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  acknowledgeWarning: async () =>
+    acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
     premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
