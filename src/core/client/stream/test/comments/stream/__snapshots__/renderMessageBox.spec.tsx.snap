@@ -444,8 +444,8 @@ exports[`renders message box when logged in 1`] = `
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createComment-submit"
-                data-variant="regular"
+                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-createComment-submit"
+                data-variant="filled"
                 disabled={true}
                 onBlur={[Function]}
                 onFocus={[Function]}
