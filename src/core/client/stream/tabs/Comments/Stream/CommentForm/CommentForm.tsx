@@ -18,8 +18,6 @@ import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
-  Button,
-  ButtonIcon,
   Flex,
   HorizontalGutter,
   Icon,
@@ -28,7 +26,7 @@ import {
   MessageIcon,
   RelativeTime,
 } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -181,13 +179,16 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             props.mediaConfig.giphy.enabled ? (
                               <>
                                 <Button
-                                  color="mono"
-                                  variant={showGifSelector ? "regular" : "flat"}
+                                  color="secondary"
+                                  variant={showGifSelector ? "filled" : "flat"}
                                   onClick={toggleGIFSelector}
-                                  iconLeft
+                                  fontSize="small"
+                                  paddingSize="extraSmall"
                                 >
-                                  <ButtonIcon>add</ButtonIcon>
-                                  GIF
+                                  <Flex alignItems="center">
+                                    <Icon className={styles.icon}>add</Icon>
+                                    GIF
+                                  </Flex>
                                 </Button>
                               </>
                             ) : null
@@ -290,12 +291,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       {props.onCancel && (
                         <Localized id="comments-commentForm-cancel">
                           <Button
-                            color="mono"
+                            color="secondary"
                             variant="outlined"
                             disabled={submitting}
                             onClick={props.onCancel}
                             fullWidth={matches}
                             className={CLASSES[props.classNameRoot].cancel}
+                            upperCase
                           >
                             Cancel
                           </Button>
@@ -309,8 +311,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                         }
                       >
                         <Button
-                          color="stream"
-                          variant="regular"
+                          color="primary"
+                          variant="filled"
                           disabled={
                             hasValidationErrors ||
                             submitting ||
@@ -320,6 +322,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           type="submit"
                           fullWidth={matches}
                           className={CLASSES[props.classNameRoot].submit}
+                          upperCase
                         >
                           {props.editableUntil ? "Save changes" : "Submit"}
                         </Button>

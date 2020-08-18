@@ -11,3 +11,7 @@ $commentsBorder: var(--palette-grey-300);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.icon {
+  margin-right: 2px;
+}
