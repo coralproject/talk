@@ -8,6 +8,7 @@ import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
+import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { RestClient } from "coral-framework/lib/rest";
 import {
@@ -309,6 +310,7 @@ export default async function createManaged({
   }
 
   const localeBundles = await generateBundles(locales, localesData);
+  await polyfillIntlLocale(locales);
 
   // Get the access token from storage.
   const auth = retrieveAccessToken();

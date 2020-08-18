@@ -75,6 +75,8 @@
   left: 3px;
   width: 8px;
   height: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   box-sizing: border-box;
 }
 

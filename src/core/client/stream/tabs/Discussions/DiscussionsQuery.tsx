@@ -3,7 +3,7 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
+import { polyfillCSSVars } from "coral-framework/helpers";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -19,7 +19,7 @@ const loadDiscussionsContainer = () =>
   import("./DiscussionsContainer" /* webpackChunkName: "profile" */).then(
     (x) => {
       // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVarsForIE11();
+      void polyfillCSSVars();
       return x;
     }
   );

@@ -169,7 +169,6 @@ profile-commentHistory-empty = No has escrito comentarios
 profile-commentHistory-empty-subheading = El historial de tus comentarios aparecerá aquí
 
 ### Preferences
-
 profile-preferences-mediaPreferences = Preferencias de Media
 profile-preferences-mediaPreferences-alwaysShow = Siempre muestra GIFs, Tweets, YouTube, etc.
 profile-preferences-mediaPreferences-thisMayMake = Esto puede hacer que los comentarios carguen más lento
@@ -192,7 +191,6 @@ profile-account-ignoredCommenters-empty = Actualmente no estás ignorando a nadi
 profile-account-ignoredCommenters-stopIgnoring = Deja de ignorar
 
 ## Notifications
-
 profile-account-notifications-emailNotifications = Notificaciones por correo
 profile-account-notifications-receiveWhen = Recibe notificaciones cuando:
 profile-account-notifications-onReply = Mi comentario recibe una respuesta
