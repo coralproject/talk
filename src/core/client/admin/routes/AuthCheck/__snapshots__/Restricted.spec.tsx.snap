@@ -42,13 +42,24 @@ exports[`renders correctly 1`] = `
     </div>
     <div>
       <Localized
-        Username={<Username />}
+        $username="User"
         id="restricted-signedInAs"
+        strong={
+          <div
+            className="Restricted-username"
+          />
+        }
       >
         <div
           className="Restricted-copy"
         >
-          You are signed in as: &lt;Username&gt;&lt;/Username&gt;
+          You are signed in as:
+           
+          <div
+            className="Restricted-username"
+          >
+            User
+          </div>
         </div>
       </Localized>
     </div>
