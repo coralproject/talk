@@ -70,25 +70,28 @@ const OEmbed: FunctionComponent<Props> = ({
       }
       let calculatedWidth = width;
       let calculatedHeight = height;
+      let desiredWidth;
+      let desiredHeight;
       if (!width) {
         calculatedWidth =
           iframeRef.current.contentWindow.document.body.scrollWidth;
-        console.log("calculated width", calculatedWidth);
+        desiredWidth = calculatedWidth;
         if (maxWidth && calculatedWidth > maxWidth) {
-          calculatedWidth = maxWidth;
+          desiredWidth = maxWidth;
         }
         if (`${calculatedWidth}` !== iframeRef.current.width) {
-          iframeRef.current.width = `${calculatedWidth}px`;
+          iframeRef.current.width = `${desiredWidth}px`;
         }
       }
       if (!height) {
         calculatedHeight =
           iframeRef.current.contentWindow.document.body.scrollHeight;
+        desiredHeight = calculatedHeight;
         if (maxWidth && calculatedWidth && calculatedWidth > maxWidth) {
-          calculatedHeight = (calculatedHeight / calculatedWidth) * maxWidth;
+          desiredHeight = (calculatedWidth / calculatedHeight) * maxWidth;
         }
         if (`${calculatedHeight}` !== iframeRef.current.height) {
-          iframeRef.current.height = `${calculatedHeight}px`;
+          iframeRef.current.height = `${desiredHeight}px`;
         }
       }
       if (

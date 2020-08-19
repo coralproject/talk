@@ -47,6 +47,10 @@ export const oembedHandler = ({
           .container * {
             margin: 0!important;
           }
+          .image {
+            display: block;
+            max-width: 100%;
+          }
       `;
 
       if (type === "external") {
@@ -56,9 +60,7 @@ export const oembedHandler = ({
             ${style}
           </style>
             <body>
-              <div class="container">
-                <img src="${url}" />
-              </div>
+                <img src="${url}" class="image" />
             </body>
           <html>`
         );
