@@ -471,7 +471,7 @@ export function retrieveAnnouncementIfEnabled(
 
 export function supportsMediaType(
   tenant: Tenant,
-  type: "twitter" | "youtube" | "giphy"
+  type: "twitter" | "youtube" | "giphy" | "external"
 ): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
   if (!tenant.media) {
     return false;
@@ -480,6 +480,8 @@ export function supportsMediaType(
     return tenant.media.twitter && tenant.media.twitter.enabled;
   } else if (type === "youtube") {
     return tenant.media.youtube && tenant.media.youtube.enabled;
+  } else if (type === "external") {
+    return tenant.media.external && tenant.media.external.enabled;
   } else if (type === "giphy") {
     return (
       tenant.media.giphy &&

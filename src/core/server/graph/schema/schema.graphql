@@ -1340,6 +1340,13 @@ type YouTubeMediaConfiguration {
   enabled: Boolean!
 }
 
+type ExternalMediaConfiguration {
+  """
+  enabled is true when external media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
 type MediaConfiguration {
   """
   twitter is the configuration for Twitter support.
@@ -1355,6 +1362,11 @@ type MediaConfiguration {
   giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfiguration!
+
+  """
+  external is the configuration for external images.
+  """
+  external: ExternalMediaConfiguration!
 }
 
 ################################################################################
@@ -2857,10 +2869,32 @@ type YouTubeMedia {
   height: Int
 }
 
+type ExternalMedia {
+  """
+  url is the URL of a YouTube video.
+  """
+  url: String!
+
+  """
+  extension is the file extension
+  """
+  extension: String!
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
+  height: Int
+}
+
 """
 CommentMedia is the various media types that can be attached to a Comment.
 """
-union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia
 
 type CommentRevision {
   """
@@ -3818,7 +3852,7 @@ CreateCommentMediaInput is used for creating media to be attached to a Comment.
 input CreateCommentMediaInput {
   """
   type specifies the type of media that can be attached. Valid values for this
-  are: `giphy`, `twitter`, and `youtube`.
+  are: `giphy`, `external`, `twitter`, and `youtube`.
   """
   type: String!
 
@@ -3831,6 +3865,15 @@ input CreateCommentMediaInput {
   url is the URL to the media resource.
   """
   url: String!
+
+  """
+  width is the width to the media resource.
+  """
+  width: String
+  """
+  height is the height to the media resource.
+  """
+  height: String
 }
 
 ##################
@@ -4577,6 +4620,13 @@ input YouTubeMediaConfigurationInput {
   enabled: Boolean
 }
 
+input ExternalMediaConfigurationInput {
+  """
+  enabled is true when external media objects are enabled.
+  """
+  enabled: Boolean
+}
+
 input GiphyMediaConfigurationInput {
   """
   enabled is true when gif search via giphy and giphy media objects are enabled.
@@ -4609,6 +4659,11 @@ input MediaConfigurationInput {
   giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfigurationInput
+
+  """
+  external is the configuration for Giphy support.
+  """
+  external: ExternalMediaConfigurationInput
 }
 
 """

@@ -74,7 +74,19 @@ export interface YouTubeMedia {
   height?: number;
 }
 
-export type CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia;
+export interface ExternalMedia {
+  type: "external";
+  url: string;
+  extension: string;
+  width?: number;
+  height?: number;
+}
+
+export type CommentMedia =
+  | GiphyMedia
+  | TwitterMedia
+  | YouTubeMedia
+  | ExternalMedia;
 
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
