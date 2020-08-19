@@ -339,12 +339,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
             indentLevel={indentLevel}
             collapsed={collapsed}
             body={comment.body}
-            avatar={
-              comment.author &&
-              settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS)
-                ? comment.author.avatar
-                : null
-            }
             createdAt={comment.createdAt}
             blur={!!comment.pending}
             showEditedMarker={comment.editing.edited}
@@ -434,6 +428,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
                             </Flex>
                           </Button>
                         )}
+
+                        {comment.author &&
+                          settings.featureFlags.includes(
+                            GQLFEATURE_FLAG.AVATARS
+                          ) &&
+                          comment.author.avatar && (
+                            <div className={styles.avatarContainer}>
+                              <img
+                                src={comment.author.avatar}
+                                className={styles.avatar}
+                                alt=""
+                              />
+                            </div>
+                          )}
+
                         {showModerationCaret && (
                           <CaretContainer
                             comment={comment}

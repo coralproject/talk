@@ -53,3 +53,12 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 
   margin-right: var(--spacing-2);
 }
+
+.avatarContainer {
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
