@@ -48,7 +48,7 @@ export class SentryErrorReporter extends ErrorReporter {
     // Add the Tenant's ID and domain if they are provided.
     if (scope.tenantID && scope.tenantDomain) {
       context.tags.tenantID = scope.tenantID;
-      context.tags.tenantDomain = scope.tenantDomain;
+      context.tags.domain = scope.tenantDomain;
     }
 
     // Capture and report the error to Sentry.

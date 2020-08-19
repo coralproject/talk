@@ -12,6 +12,7 @@ export class SentryErrorReporter extends ErrorReporter {
 
     // Initialize sentry.
     Sentry.init({ dsn, release: `coral@${process.env.TALK_VERSION}` });
+    Sentry.setTag("domain", window.location.host);
 
     // Initialize the boundary if enabled.
 
