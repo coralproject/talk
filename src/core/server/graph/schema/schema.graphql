@@ -2050,7 +2050,7 @@ type WarningStatusHistory {
   """
   message is the custom message sent to the commenter
   """
-  message: String!
+  message: String
 }
 
 type WarningStatus {
