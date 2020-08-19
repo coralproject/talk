@@ -9,12 +9,12 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
-  type: Joi.string().allow("twitter", "youtube").only(),
+  type: Joi.string().allow("twitter", "youtube", "external").only(),
   maxWidth: Joi.number().optional(),
 });
 
 interface OEmbedQuery {
-  type: "twitter" | "youtube";
+  type: "twitter" | "youtube" | "external";
   url: string;
   maxWidth?: number;
 }
@@ -48,17 +48,32 @@ export const oembedHandler = ({
             margin: 0!important;
           }
       `;
-      const response = await fetchOEmbedResponse(type, url, maxWidth);
-      if (response === null || !response.html) {
-        const bundle = i18n.getBundle(tenant.locale);
-        const message = translate(
-          bundle,
-          "Requested media could not be found",
-          "common-embedNotFound"
-        );
-        res.status(404);
+
+      if (type === "external") {
         res.send(
           `<html>
+          <style>
+            ${style}
+          </style>
+            <body>
+              <div class="container">
+                <img src="${url}" />
+              </div>
+            </body>
+          <html>`
+        );
+      } else {
+        const response = await fetchOEmbedResponse(type, url, maxWidth);
+        if (response === null || !response.html) {
+          const bundle = i18n.getBundle(tenant.locale);
+          const message = translate(
+            bundle,
+            "Requested media could not be found",
+            "common-embedNotFound"
+          );
+          res.status(404);
+          res.send(
+            `<html>
             <style>
               ${style}
             </style>
@@ -66,15 +81,15 @@ export const oembedHandler = ({
             ${message}
             </body>
           <html>`
-        );
-        return;
-      }
+          );
+          return;
+        }
 
-      const { width, height, html } = response;
+        const { width, height, html } = response;
 
-      // Compile the style to be used for the embed.
-      if (width && height) {
-        style += `
+        // Compile the style to be used for the embed.
+        if (width && height) {
+          style += `
           .container {
             overflow: hidden;
             position: relative;
@@ -89,11 +104,11 @@ export const oembedHandler = ({
             width: 100%;
           }
         `;
-      }
+        }
 
-      // Send back the HTML for the oEmbed.
-      res.send(
-        `<html>
+        // Send back the HTML for the oEmbed.
+        res.send(
+          `<html>
           <style>
             ${style}
           </style>
@@ -103,7 +118,8 @@ export const oembedHandler = ({
               </div>
             </body>
           <html>`
-      );
+        );
+      }
     } catch (err) {
       next(err);
     }

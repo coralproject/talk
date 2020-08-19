@@ -32,7 +32,14 @@ export const commentLength: IntermediateModerationPhase = ({
   }
 
   // If the Giphy support is enabled, we don't need to check for a minimum!
-  if (!supportsMediaType(tenant, "giphy") || !media || media.type !== "giphy") {
+  if (
+    !(
+      supportsMediaType(tenant, "giphy") ||
+      supportsMediaType(tenant, "external")
+    ) ||
+    !media ||
+    (media.type !== "giphy" && media.type !== "external")
+  ) {
     if (length < min) {
       throw new CommentBodyTooShortError(min);
     }

@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
+  ExternalMedia,
   GiphyMedia,
   TwitterMedia,
   YouTubeMedia,
@@ -45,7 +46,9 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     (media.__typename === "YouTubeMedia" &&
       (!settings.media.youtube || !settings.media.youtube.enabled)) ||
     (media.__typename === "GiphyMedia" &&
-      (!settings.media.giphy || !settings.media.giphy.enabled))
+      (!settings.media.giphy || !settings.media.giphy.enabled)) ||
+    (media.__typename === "ExternalMedia" &&
+      (!settings.media.external || !settings.media.external.enabled))
   ) {
     return null;
   }
@@ -69,6 +72,11 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         {media.__typename === "YouTubeMedia" && (
           <Localized id="comments-embedLinks-show-youtube">
             Show video
+          </Localized>
+        )}
+        {media.__typename === "ExternalMedia" && (
+          <Localized id="comments-embedLinks-show-external">
+            Show image
           </Localized>
         )}
         {media.__typename === "GiphyMedia" && (
@@ -103,8 +111,16 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
               Hide video
             </Localized>
           )}
+          {media.__typename === "ExternalMedia" && (
+            <Localized id="comments-embedLinks-hide-external">
+              Hide image
+            </Localized>
+          )}
         </Button>
       </div>
+      {media.__typename === "ExternalMedia" && (
+        <ExternalMedia url={media.url} siteID={comment.site.id} />
+      )}
       {media.__typename === "TwitterMedia" && (
         <TwitterMedia
           url={media.url}
@@ -159,6 +175,9 @@ const enhanced = withFragmentContainer<Props>({
             width
             height
           }
+          ... on ExternalMedia {
+            url
+          }
         }
       }
     }
@@ -173,6 +192,9 @@ const enhanced = withFragmentContainer<Props>({
           enabled
         }
         giphy {
+          enabled
+        }
+        external {
           enabled
         }
       }

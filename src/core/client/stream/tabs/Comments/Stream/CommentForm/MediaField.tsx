@@ -8,11 +8,14 @@ import {
   MediaConfirmPrompt,
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
+import ExternalImageInput from "../../ExternalImageInput";
 import GifSelector, { GifPreview } from "../../GifSelector";
 
 interface Props {
   showGIFSelector: boolean;
   toggleGIFSelector: () => void;
+  showExternalImageInput: boolean;
+  toggleExternalImageInput: () => void;
   siteID: string;
   config: MediaConfig;
   media: MediaLink | null;
@@ -20,9 +23,11 @@ interface Props {
 }
 
 export interface Media {
-  type: "giphy" | "twitter" | "youtube";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id?: string;
+  width?: string;
+  height?: string;
 }
 
 interface MediaConfig {
@@ -33,6 +38,9 @@ interface MediaConfig {
     enabled: boolean;
   };
   youtube: {
+    enabled: boolean;
+  };
+  external: {
     enabled: boolean;
   };
 }
@@ -57,6 +65,18 @@ const MediaField: FunctionComponent<Props> = (props) => {
     field.input.onChange(undefined);
   }, [field.input]);
 
+  const onImageInsert = useCallback(
+    (url: string) => {
+      field.input.onChange({
+        type: "external",
+        url,
+      });
+
+      props.toggleExternalImageInput();
+    },
+    [props.toggleExternalImageInput]
+  );
+
   const onConfirmMedia = useCallback(() => {
     field.input.onChange(props.media!);
     props.setMedia(null);
@@ -73,6 +93,9 @@ const MediaField: FunctionComponent<Props> = (props) => {
   return (
     <>
       {props.showGIFSelector && <GifSelector onGifSelect={onGIFSelect} />}
+      {props.showExternalImageInput && (
+        <ExternalImageInput onImageInsert={onImageInsert} />
+      )}
       {props.media && (
         <MediaConfirmPrompt
           media={props.media}

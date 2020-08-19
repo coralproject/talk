@@ -50,6 +50,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           giphy: { enabled: false },
           twitter: { enabled: false },
           youtube: { enabled: false },
+          external: { enabled: false },
         },
         closeCommenting: {
           message: "closed",

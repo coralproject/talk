@@ -43,6 +43,9 @@ graphql`
       youtube {
         enabled
       }
+      external {
+        enabled
+      }
       giphy {
         enabled
         maxRating
@@ -94,6 +97,25 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <OnOffField
           name="media.youtube.enabled"
+          disabled={disabled}
+          onLabel={
+            <Localized id="configure-general-embedLinks-On">
+              <span>Yes</span>
+            </Localized>
+          }
+          offLabel={
+            <Localized id="configure-general-embedLinks-Off">
+              <span>No</span>
+            </Localized>
+          }
+        />
+      </FormField>
+      <FormField>
+        <Localized id="configure-general-embedLinks-enableExternalEmbeds">
+          <Label component="legend">Enable external media</Label>
+        </Localized>
+        <OnOffField
+          name="media.external.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">

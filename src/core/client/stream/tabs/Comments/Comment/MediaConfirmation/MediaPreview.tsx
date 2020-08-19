@@ -2,7 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { MediaLink } from "coral-common/helpers/findMediaLinks";
-import { TwitterMedia, YouTubeMedia } from "coral-stream/common/Media";
+import {
+  ExternalMedia,
+  TwitterMedia,
+  YouTubeMedia,
+} from "coral-stream/common/Media";
 import {
   Button,
   ButtonIcon,
@@ -22,6 +26,9 @@ interface MediaConfig {
     enabled: boolean;
   };
   youtube: {
+    enabled: boolean;
+  };
+  external: {
     enabled: boolean;
   };
 }
@@ -67,6 +74,9 @@ const MediaPreview: FunctionComponent<Props> = ({
             </MatchMedia>
           </Flex>
         </div>
+        {media.type === "external" && (
+          <ExternalMedia url={media.url} siteID={siteID} />
+        )}
         {media.type === "twitter" && (
           <TwitterMedia url={media.url} siteID={siteID} />
         )}

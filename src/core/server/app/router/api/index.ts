@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
+import { graphQLHandler } from "coral-server/app/handlers";
 import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
 import {
   apolloGraphQLMiddleware,
@@ -56,6 +57,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use("/user", createNewUserRouter(app));
 
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
+  router.get("/iframe", cspSiteMiddleware(app), iframeHandler(app));
 
   // Configure the GraphQL route middleware.
   router.use(

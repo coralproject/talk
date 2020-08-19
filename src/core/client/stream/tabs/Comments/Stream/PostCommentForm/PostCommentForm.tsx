@@ -18,7 +18,7 @@ import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer
 import styles from "./PostCommentForm.css";
 
 interface MediaProps {
-  type: "twitter" | "youtube" | "giphy";
+  type: "twitter" | "youtube" | "giphy" | "external";
   url: string;
   id: string | null;
 }

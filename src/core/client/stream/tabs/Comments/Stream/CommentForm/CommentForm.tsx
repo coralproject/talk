@@ -42,9 +42,11 @@ export interface PasteEvent {
 }
 
 interface MediaProps {
-  type: "giphy" | "twitter" | "youtube";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id: string | null;
+  width?: string;
+  height?: string;
 }
 
 interface FormProps {
@@ -82,6 +84,7 @@ interface Props {
 
 const CommentForm: FunctionComponent<Props> = (props) => {
   const [showGifSelector, , toggleGIFSelector] = useToggleState();
+  const [showExternalImageInput, , toggleExternalImageInput] = useToggleState();
   const [media, setMedia] = useState<MediaLink | null>(null);
   const onSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
@@ -175,23 +178,47 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           disabled={submitting || props.disabled}
                           ref={props.rteRef || null}
                           toolbarButtons={
-                            props.mediaConfig &&
-                            props.mediaConfig.giphy.enabled ? (
-                              <>
-                                <Button
-                                  color="secondary"
-                                  variant={showGifSelector ? "filled" : "flat"}
-                                  onClick={toggleGIFSelector}
-                                  fontSize="small"
-                                  paddingSize="extraSmall"
-                                >
-                                  <Flex alignItems="center">
-                                    <Icon className={styles.icon}>add</Icon>
-                                    GIF
-                                  </Flex>
-                                </Button>
-                              </>
-                            ) : null
+                            <>
+                              {props.mediaConfig &&
+                              props.mediaConfig.external.enabled ? (
+                                <>
+                                  <Button
+                                    color="secondary"
+                                    variant={
+                                      showExternalImageInput ? "filled" : "flat"
+                                    }
+                                    onClick={toggleExternalImageInput}
+                                    fontSize="small"
+                                    paddingSize="extraSmall"
+                                  >
+                                    <Flex alignItems="center">
+                                      <Icon className={styles.icon}>
+                                        add_photo_alternate
+                                      </Icon>
+                                    </Flex>
+                                  </Button>
+                                </>
+                              ) : null}
+                              {props.mediaConfig &&
+                              props.mediaConfig.giphy.enabled ? (
+                                <>
+                                  <Button
+                                    color="secondary"
+                                    variant={
+                                      showGifSelector ? "filled" : "flat"
+                                    }
+                                    onClick={toggleGIFSelector}
+                                    fontSize="small"
+                                    paddingSize="extraSmall"
+                                  >
+                                    <Flex alignItems="center">
+                                      <Icon className={styles.icon}>add</Icon>
+                                      GIF
+                                    </Flex>
+                                  </Button>
+                                </>
+                              ) : null}
+                            </>
                           }
                         />
                       </Localized>
@@ -203,6 +230,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       siteID={props.siteID}
                       media={media}
                       setMedia={setMedia}
+                      showExternalImageInput={showExternalImageInput}
+                      toggleExternalImageInput={toggleExternalImageInput}
                       showGIFSelector={showGifSelector}
                       toggleGIFSelector={toggleGIFSelector}
                     />

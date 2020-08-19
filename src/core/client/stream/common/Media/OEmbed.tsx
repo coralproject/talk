@@ -73,6 +73,10 @@ const OEmbed: FunctionComponent<Props> = ({
       if (!width) {
         calculatedWidth =
           iframeRef.current.contentWindow.document.body.scrollWidth;
+        console.log("calculated width", calculatedWidth);
+        if (maxWidth && calculatedWidth > maxWidth) {
+          calculatedWidth = maxWidth;
+        }
         if (`${calculatedWidth}` !== iframeRef.current.width) {
           iframeRef.current.width = `${calculatedWidth}px`;
         }
@@ -80,6 +84,9 @@ const OEmbed: FunctionComponent<Props> = ({
       if (!height) {
         calculatedHeight =
           iframeRef.current.contentWindow.document.body.scrollHeight;
+        if (maxWidth && calculatedWidth && calculatedWidth > maxWidth) {
+          calculatedHeight = (calculatedHeight / calculatedWidth) * maxWidth;
+        }
         if (`${calculatedHeight}` !== iframeRef.current.height) {
           iframeRef.current.height = `${calculatedHeight}px`;
         }
@@ -96,7 +103,7 @@ const OEmbed: FunctionComponent<Props> = ({
         );
       }
     }, 100);
-  }, [iframeRef, containerRef, width, height]);
+  }, [iframeRef, containerRef, width, height, maxWidth]);
 
   return (
     <div className={styles.container} ref={containerRef}>
