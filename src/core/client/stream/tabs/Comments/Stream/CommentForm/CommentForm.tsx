@@ -199,17 +199,16 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                 <>
                                   <Button
                                     color="secondary"
-                                    variant={
-                                      showExternalImageInput ? "filled" : "flat"
-                                    }
+                                    variant="flat"
+                                    className={cn(styles.rteButton, {
+                                      [styles.rteButtonSelected]: showExternalImageInput,
+                                    })}
                                     onClick={toggleExternalImageInput}
                                     fontSize="small"
                                     paddingSize="extraSmall"
                                   >
                                     <Flex alignItems="center">
-                                      <Icon className={styles.icon}>
-                                        add_photo_alternate
-                                      </Icon>
+                                      <Icon size="md">add_photo_alternate</Icon>
                                     </Flex>
                                   </Button>
                                 </>
@@ -219,9 +218,10 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                 <>
                                   <Button
                                     color="secondary"
-                                    variant={
-                                      showGifSelector ? "filled" : "flat"
-                                    }
+                                    variant="flat"
+                                    className={cn(styles.rteButton, {
+                                      [styles.rteButtonSelected]: showGifSelector,
+                                    })}
                                     onClick={toggleGIFSelector}
                                     fontSize="small"
                                     paddingSize="extraSmall"
