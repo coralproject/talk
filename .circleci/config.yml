@@ -1,23 +1,26 @@
-# job_environment will setup the environment for any job being executed.
-job_environment: &job_environment
+job_defaults: &job_defaults
+  resource_class: xlarge
+
+# job_node_environment will setup the environment for any job being executed.
+job_node_environment: &job_node_environment
   NODE_ENV: "test"
   WEBPACK_MAX_CORES: "4"
   NODE_OPTIONS: "--max-old-space-size=8192"
 
-# job_defaults applies all the defaults for each job.
-job_defaults: &job_defaults
+# job_node_defaults applies all the defaults for each job.
+job_node_defaults: &job_node_defaults
+  <<: *job_defaults
   working_directory: ~/coralproject/talk
-  resource_class: large
   docker:
     - image: circleci/node:12
   environment:
-    <<: *job_environment
+    <<: *job_node_environment
 
 version: 2.1
 jobs:
   # npm_dependencies will install the dependencies used by all other steps.
   npm_dependencies:
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -54,7 +57,7 @@ jobs:
 
   # lint will perform file linting.
   lint:
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -76,9 +79,9 @@ jobs:
 
   # unit_tests will run the unit tests.
   unit_tests:
-    <<: *job_defaults
+    <<: *job_node_defaults
     environment:
-      <<: *job_environment
+      <<: *job_node_environment
       CI: "true"
       JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     steps:
@@ -100,7 +103,7 @@ jobs:
 
   # build will build the static assets and server typescript files.
   build:
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -132,6 +135,7 @@ jobs:
       - image: node:10-alpine
     environment:
       NODE_ENV: development
+    <<: *job_defaults
     steps:
       - checkout
       - run:
@@ -143,7 +147,7 @@ jobs:
 
   # release_docker will build and push the Docker image.
   release_docker:
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
       - run:

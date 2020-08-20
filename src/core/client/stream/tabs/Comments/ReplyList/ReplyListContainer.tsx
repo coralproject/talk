@@ -286,6 +286,14 @@ const ReplyListContainer3 = createReplyListContainer(
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              replyCount
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...LocalReplyListContainer_comment
+            }
           }
           edges {
             node {
@@ -366,6 +374,13 @@ const ReplyListContainer2 = createReplyListContainer(
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...ReplyListContainer3_comment
+            }
           }
           edges {
             node {
@@ -445,6 +460,13 @@ const ReplyListContainer1 = createReplyListContainer(
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...ReplyListContainer2_comment
+            }
           }
           edges {
             node {

@@ -297,6 +297,10 @@ const enhanced = withPaginationContainer<
           @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
+            node {
+              enteredLive
+              ...AllCommentsTabContainer_comment @relay(mask: false)
+            }
           }
           edges {
             node {
