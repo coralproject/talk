@@ -48,6 +48,7 @@ class ReactionButtonContainer extends React.Component<Props> {
       // can assume revision is not null as we
       // tombstone when comment revisions don't exist
       commentRevisionID: this.props.comment.revision!.id,
+      author: this.props.comment.author,
     };
 
     const { createCommentReaction, removeCommentReaction } = this.props;
@@ -106,6 +107,7 @@ export default withShowAuthPopupMutation(
           fragment ReactionButtonContainer_comment on Comment {
             id
             author {
+              id
               username
             }
             revision {
