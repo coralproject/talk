@@ -106,7 +106,9 @@ exports[`post a reply: open reply form 1`] = `
                   </button>
                 </div>
               </div>
-              <div>
+              <div
+                className="Box-root Flex-root Flex-flex"
+              >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                 />
@@ -590,7 +592,9 @@ exports[`post a reply: optimistic response 1`] = `
                       </button>
                     </div>
                   </div>
-                  <div>
+                  <div
+                    className="Box-root Flex-root Flex-flex"
+                  >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                     >
@@ -896,7 +900,9 @@ exports[`renders comment stream 1`] = `
                       </button>
                     </div>
                   </div>
-                  <div>
+                  <div
+                    className="Box-root Flex-root Flex-flex"
+                  >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                     />
@@ -1171,7 +1177,9 @@ exports[`renders comment stream 1`] = `
                             </button>
                           </div>
                         </div>
-                        <div>
+                        <div
+                          className="Box-root Flex-root Flex-flex"
+                        >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
@@ -1473,7 +1481,9 @@ exports[`renders comment stream 1`] = `
                                   </button>
                                 </div>
                               </div>
-                              <div>
+                              <div
+                                className="Box-root Flex-root Flex-flex"
+                              >
                                 <div
                                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
@@ -1775,7 +1785,9 @@ exports[`renders comment stream 1`] = `
                                         </button>
                                       </div>
                                     </div>
-                                    <div>
+                                    <div
+                                      className="Box-root Flex-root Flex-flex"
+                                    >
                                       <div
                                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                       />

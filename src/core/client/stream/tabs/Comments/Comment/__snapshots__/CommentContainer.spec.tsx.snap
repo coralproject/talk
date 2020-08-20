@@ -30,6 +30,7 @@ exports[`hide reply button 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -91,6 +92,7 @@ exports[`hide reply button 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -133,6 +135,7 @@ exports[`hide reply button 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -183,6 +186,7 @@ exports[`hide reply button 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -217,6 +221,7 @@ exports[`hide reply button 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -269,6 +274,7 @@ exports[`hide reply button 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -317,6 +323,7 @@ exports[`hide reply button 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -378,6 +385,7 @@ exports[`renders body only 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": null,
@@ -446,6 +454,7 @@ exports[`renders body only 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": null,
@@ -488,6 +497,7 @@ exports[`renders body only 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": null,
@@ -538,6 +548,7 @@ exports[`renders body only 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": null,
@@ -572,6 +583,7 @@ exports[`renders body only 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": null,
@@ -624,6 +636,7 @@ exports[`renders body only 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": null,
@@ -672,6 +685,7 @@ exports[`renders body only 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": null,
@@ -733,6 +747,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -801,6 +816,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -843,6 +859,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -893,6 +910,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -927,6 +945,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -979,6 +998,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1027,6 +1047,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1088,6 +1109,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1156,6 +1178,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1198,6 +1221,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1248,6 +1272,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1282,6 +1307,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1334,6 +1360,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1382,6 +1409,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1443,6 +1471,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1515,6 +1544,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1561,6 +1591,7 @@ exports[`renders in reply to 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1616,6 +1647,7 @@ exports[`renders in reply to 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1654,6 +1686,7 @@ exports[`renders in reply to 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1710,6 +1743,7 @@ exports[`renders in reply to 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -1762,6 +1796,7 @@ exports[`renders in reply to 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1827,6 +1862,7 @@ exports[`renders username and body 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1895,6 +1931,7 @@ exports[`renders username and body 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -1937,6 +1974,7 @@ exports[`renders username and body 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -1987,6 +2025,7 @@ exports[`renders username and body 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2021,6 +2060,7 @@ exports[`renders username and body 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2073,6 +2113,7 @@ exports[`renders username and body 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2121,6 +2162,7 @@ exports[`renders username and body 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -2191,6 +2233,7 @@ exports[`shows conversation link 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -2259,6 +2302,7 @@ exports[`shows conversation link 1`] = `
                       },
                     },
                     "author": Object {
+                      "avatar": null,
                       "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
@@ -2307,6 +2351,7 @@ exports[`shows conversation link 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
@@ -2357,6 +2402,7 @@ exports[`shows conversation link 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2391,6 +2437,7 @@ exports[`shows conversation link 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2443,6 +2490,7 @@ exports[`shows conversation link 1`] = `
                   },
                 },
                 "author": Object {
+                  "avatar": null,
                   "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
@@ -2491,6 +2539,7 @@ exports[`shows conversation link 1`] = `
                 },
               },
               "author": Object {
+                "avatar": null,
                 "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
