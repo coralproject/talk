@@ -250,6 +250,10 @@ const enhanced = withPaginationContainer<
           @connection(key: "UnansweredStream_comments") {
           viewNewEdges {
             cursor
+            node {
+              enteredLive
+              ...UnansweredCommentsTabContainer_comment @relay(mask: false)
+            }
           }
           edges {
             node {
