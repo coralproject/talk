@@ -199,6 +199,10 @@ const createQueueRoute = (
               @connection(key: "Queue_comments") {
               viewNewEdges {
                 cursor
+                node {
+                  id
+                  ...ModerateCardContainer_comment
+                }
               }
               edges {
                 node {

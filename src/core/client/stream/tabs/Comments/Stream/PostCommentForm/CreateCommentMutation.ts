@@ -196,6 +196,8 @@ async function commit(
                 id,
                 createdAt: currentDate,
                 status: "NONE",
+                pending: false,
+                lastViewerAction: null,
                 author: {
                   id: viewer.id,
                   username: viewer.username,
@@ -231,6 +233,7 @@ async function commit(
                 },
                 replies: {
                   edges: [],
+                  viewNewEdges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
                 story: {

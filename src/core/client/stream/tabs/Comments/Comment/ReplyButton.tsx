@@ -9,6 +9,7 @@ import styles from "./ReplyButton.css";
 
 interface Props {
   id?: string;
+  author?: string | null;
   onClick?: EventHandler<MouseEvent<HTMLButtonElement>>;
   active?: boolean;
   disabled?: boolean;
@@ -16,7 +17,11 @@ interface Props {
 }
 
 const ReplyButton: FunctionComponent<Props> = (props) => (
-  <Localized id="comments-replyButton" attrs={{ "aria-label": true }}>
+  <Localized
+    id="comments-replyButton"
+    attrs={{ "aria-label": true }}
+    $username={props.author}
+  >
     <Button
       className={props.className}
       id={props.id}

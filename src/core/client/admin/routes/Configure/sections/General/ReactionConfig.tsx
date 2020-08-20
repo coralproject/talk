@@ -87,6 +87,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({
               <Label component="p">Preview</Label>
             </Localized>
             <ReactionButton
+              author=""
               readOnly
               className={styles.reactionButton}
               reacted={false}
@@ -126,6 +127,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({
               <Label component="p">Preview</Label>
             </Localized>
             <ReactionButton
+              author=""
               className={styles.reactionButton}
               readOnly
               reacted

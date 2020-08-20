@@ -12,18 +12,21 @@ interface Props {
   story: StoryData;
   commentID: string;
   className?: string;
+  author?: string | null;
 }
 
 export const PermalinkButtonContainer: FunctionComponent<Props> = ({
   story,
   commentID,
   className,
+  author,
 }) => {
   return (
     <PermalinkButton
       className={className}
       commentID={commentID}
       url={getURLWithCommentID(story.url, commentID)}
+      author={author}
     />
   );
 };
