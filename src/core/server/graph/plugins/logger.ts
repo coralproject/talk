@@ -1,18 +1,50 @@
-import { DocumentNode, ExecutionArgs, GraphQLFormattedError } from "graphql";
-import {
-  EndHandler,
-  GraphQLExtension,
-  GraphQLResponse,
-} from "graphql-extensions";
+import { ApolloServerPlugin } from "apollo-server-plugin-base";
+import { DocumentNode, GraphQLFormattedError } from "graphql";
 
 import GraphContext from "coral-server/graph/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
+import { ErrorReporterScope } from "coral-server/services/errors";
 
-import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
+import {
+  getOperationMetadata,
+  getPersistedQueryMetadata,
+  getWrappedOriginalError,
+} from "./helpers";
 
-export function logError(ctx: GraphContext, err: GraphQLFormattedError) {
-  ctx.logger.error({ err }, "graphql query error");
+export function logAndReportError(
+  ctx: GraphContext,
+  graphQLError: GraphQLFormattedError
+) {
+  // Get the original error or fallback to the passed error instead.
+  const err = getWrappedOriginalError(graphQLError) || graphQLError;
+
+  // If there's no reporter active, then just log what we got and return now.
+  if (!ctx.reporter || !ctx.reporter.shouldReport(err)) {
+    ctx.logger.error({ err, report: null }, "graphql query error");
+    return;
+  }
+
+  // Collect the error scope for the reporter.
+  const scope: ErrorReporterScope = {
+    ipAddress: ctx.req?.ip,
+  };
+
+  // Add Tenant details to the scope.
+  scope.tenantID = ctx.tenant.id;
+  scope.tenantDomain = ctx.tenant.domain;
+
+  // Add User details if there is any to the request.
+  if (ctx.user) {
+    scope.userID = ctx.user.id;
+    scope.userRole = ctx.user.role;
+  }
+
+  // Report the error and get back the report ID.
+  const report = ctx.reporter.report(err, scope);
+
+  // Log that we reported an error.
+  ctx.logger.error({ err, report }, "graphql query error");
 }
 
 export function logQuery(
@@ -76,35 +108,25 @@ export function logQuery(
   }
 }
 
-export class LoggerExtension implements GraphQLExtension<GraphContext> {
-  public executionDidStart(o: {
-    executionArgs: ExecutionArgs;
-  }): EndHandler | void {
-    // Only try to log things if the context is provided.
-    if (o.executionArgs.contextValue) {
-      // Grab the start time so we can calculate the time it takes to execute
-      // the graph query.
-      const timer = createTimer();
-      return () => {
-        // Log out the details of the request.
-        logQuery(
-          o.executionArgs.contextValue,
-          o.executionArgs.document,
-          undefined,
-          timer()
-        );
-      };
-    }
-  }
+export const LoggerApolloServerPlugin: ApolloServerPlugin<GraphContext> = {
+  requestDidStart() {
+    return {
+      willSendResponse({ response, context }) {
+        if (response.errors) {
+          // Log out the errors on this request.
+          response.errors.forEach((err) => logAndReportError(context, err));
+        }
+      },
+      executionDidStart({ document, context }) {
+        // Grab the start time so we can calculate the time it takes to execute
+        // the graph query.
+        const timer = createTimer();
 
-  public willSendResponse(response: {
-    graphqlResponse: GraphQLResponse;
-    context: GraphContext;
-  }): void {
-    if (response.graphqlResponse.errors) {
-      response.graphqlResponse.errors.forEach((err) =>
-        logError(response.context, err)
-      );
-    }
-  }
-}
+        return function executionDidEnd() {
+          // Log out the details of this request.
+          logQuery(context, document, context.persisted, timer());
+        };
+      },
+    };
+  },
+};

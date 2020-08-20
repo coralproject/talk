@@ -27,6 +27,7 @@ function createTestRenderer() {
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
+            author: stories[0].comments.edges[0].node.author,
             revision: { id: stories[0].comments.edges[0].node.revision!.id },
             viewerActionPresence: { reaction: true },
             actionCounts: { reaction: { total: 1 } },
@@ -41,6 +42,7 @@ function createTestRenderer() {
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
+            author: stories[0].comments.edges[0].node.author,
             revision: { id: stories[0].comments.edges[0].node.revision!.id },
             viewerActionPresence: { reaction: false },
             actionCounts: { reaction: { total: 0 } },
@@ -72,10 +74,12 @@ it("create and remove reaction", async () => {
   expect(comment.props.className).toContain("coral-reacted-0");
   const button = within(comment).getByTestID("comment-reaction-button");
   button.props.onClick({});
+
   expect(within(button).toJSON()).toMatchSnapshot("Respected");
   expect(resolvers.Mutation.createCommentReaction.called).toBe(true);
   expect(comment.props.className).toContain("coral-reacted-1");
   button.props.onClick({});
+
   expect(within(button).toJSON()).toMatchSnapshot("Unrespected");
   expect(resolvers.Mutation.removeCommentReaction.called).toBe(true);
   expect(comment.props.className).toContain("coral-reacted-0");

@@ -32,14 +32,12 @@ export type VerifyCallback = (
   info?: { message: string }
 ) => void;
 
-export type PassportOptions = Pick<
+type Options = Pick<
   AppOptions,
   "mongo" | "redis" | "config" | "tenantCache" | "signingConfig"
 >;
 
-export function createPassport(
-  options: PassportOptions
-): passport.Authenticator {
+export function createPassport(options: Options): passport.Authenticator {
   // Create the authenticator.
   const auth = new Authenticator();
 

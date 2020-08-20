@@ -1,24 +1,20 @@
 import { isInstalled } from "coral-server/services/tenant";
 import { RequestHandler } from "coral-server/types/express";
 
-export interface InstalledMiddlewareOptions {
+interface Options {
   redirectURL?: string;
   redirectIfInstalled?: boolean;
 }
 
-const DefaultInstalledMiddlewareOptions: Required<InstalledMiddlewareOptions> = {
+const defaultOptions: Required<Options> = {
   redirectIfInstalled: false,
   redirectURL: "/install",
 };
 
 export const installedMiddleware = ({
-  redirectIfInstalled = DefaultInstalledMiddlewareOptions.redirectIfInstalled,
-  redirectURL = DefaultInstalledMiddlewareOptions.redirectURL,
-}: InstalledMiddlewareOptions = DefaultInstalledMiddlewareOptions): RequestHandler => async (
-  req,
-  res,
-  next
-) => {
+  redirectIfInstalled = defaultOptions.redirectIfInstalled,
+  redirectURL = defaultOptions.redirectURL,
+}: Options = defaultOptions): RequestHandler => async (req, res, next) => {
   const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
 
   // If Coral is installed, and redirectIfInstall is true, then it will

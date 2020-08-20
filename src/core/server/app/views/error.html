@@ -1,24 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <title>Error</title>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-  <style type="text/css">
-    body, html { margin: 0; padding: 0; }
-    dl { max-width: 800px; margin: 20px auto; font-size: 23px; }
-    dh { font-weight: bold; }
-  </style>
-</head>
-<body>
-  <dl>
-    <dh>Message</dh>
-    <dd>{{ error.message }}</dd>
-    <dh>Code</dh>
-    <dd>{{ error.code }}</dd>
-    <dh>ID</dh>
-    <dd>{{ error.id }}</dd>
-  </dl>
-</body>
+  <head>
+    <title>Error</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      dl {
+        max-width: 800px;
+        margin: 20px auto;
+        font-size: 23px;
+      }
+      dh {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <dl>
+      <dh>Message</dh>
+      <dd>{{ error.message }}</dd>
+      <dh>Code</dh>
+      <dd>{{ error.code }}</dd>
+      <dh>ID</dh>
+      <dd>{{ error.id }}</dd>
+      {% if reporter %}
+      <dh>{{ reporter.name }}</dh>
+      <dd>{{ reporter.id }}</dd>
+      {% endif %}
+    </dl>
+  </body>
 </html>
-

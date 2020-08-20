@@ -489,7 +489,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    aria-label="Respect"
+                    aria-label="Respect comment by Markus"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"
@@ -629,7 +629,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    aria-label="Respect"
+                    aria-label="Respect comment by Lukas"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                     data-testid="comment-reaction-button"

@@ -4,7 +4,7 @@ import { RequestLimiter } from "coral-server/app/request/limiter";
 import { Config } from "coral-server/config";
 import { RequestHandler } from "coral-server/types/express";
 
-export interface MiddlewareOptions {
+interface Options {
   redis: Redis;
   config: Config;
 }
@@ -12,7 +12,7 @@ export interface MiddlewareOptions {
 export const userLimiterMiddleware = ({
   redis,
   config,
-}: MiddlewareOptions): RequestHandler => {
+}: Options): RequestHandler => {
   const limiter = new RequestLimiter({
     redis,
     ttl: "1m",

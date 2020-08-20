@@ -16,6 +16,7 @@ import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -33,6 +34,7 @@ export interface GraphContextOptions {
   logger?: Logger;
   now?: Date;
   persisted?: PersistedQuery;
+  reporter?: ErrorReporter;
   req?: Request;
   signingConfig?: JWTSigningConfig;
   user?: User;
@@ -57,6 +59,7 @@ export default class GraphContext {
   public readonly broker: CoralEventPublisherBroker;
   public readonly disableCaching: boolean;
   public readonly i18n: I18n;
+  public readonly reporter?: ErrorReporter;
   public readonly id: string;
   public readonly lang: LanguageCode;
   public readonly loaders: ReturnType<typeof loaders>;
@@ -108,6 +111,7 @@ export default class GraphContext {
     this.webhookQueue = options.webhookQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
+    this.reporter = options.reporter;
 
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
