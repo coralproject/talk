@@ -35,6 +35,7 @@ interface From {
 type HistoryRecord = HistoryActionProps & {
   date: Date;
   takenBy: React.ReactNode;
+  description?: string | null;
 };
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
@@ -154,6 +155,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
             ? new Date(record.acknowledgedAt)
             : null,
         },
+        description: record.message,
       });
     });
 
@@ -184,6 +186,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
             <TableCell>Date</TableCell>
             <TableCell>Action</TableCell>
             <TableCell>Taken By</TableCell>
+            <TableCell>Description</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -196,6 +199,9 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
                 <AccountHistoryAction {...history} />
               </TableCell>
               <TableCell className={styles.user}>{history.takenBy}</TableCell>
+              <TableCell className={styles.description}>
+                {history.description}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -225,6 +231,7 @@ const enhanced = withFragmentContainer<any>({
             }
             acknowledgedAt
             createdAt
+            message
           }
         }
         ban {
