@@ -20,6 +20,18 @@ role-plural-moderator = Moderators
 role-plural-staff = Staff
 role-plural-commenter = Commenters
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    [one] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+
 ## User Statuses
 userStatus-active = Active
 userStatus-banned = Banned

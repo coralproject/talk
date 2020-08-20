@@ -2,7 +2,7 @@
 
 exports[`create and remove reaction: Respected 1`] = `
 <button
-  aria-label="Respected"
+  aria-label="Respected comment by Markus"
   aria-pressed={true}
   className="BaseButton-root Button-base Button-flat Button-active Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorPrimary ReactionButton-reacted CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
   data-testid="comment-reaction-button"
@@ -36,7 +36,7 @@ exports[`create and remove reaction: Respected 1`] = `
 
 exports[`create and remove reaction: Unrespected 1`] = `
 <button
-  aria-label="Respect"
+  aria-label="Respect comment by Markus"
   aria-pressed={false}
   className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
   data-testid="comment-reaction-button"

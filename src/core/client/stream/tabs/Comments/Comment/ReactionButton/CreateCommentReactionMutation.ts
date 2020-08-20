@@ -15,7 +15,12 @@ import { CreateCommentReactionEvent } from "coral-stream/events";
 
 import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
 
-export type CreateCommentReactionInput = MutationInput<MutationTypes>;
+export type CreateCommentReactionInput = MutationInput<MutationTypes> & {
+  author?: {
+    id: string;
+    username: string | undefined | null;
+  } | null;
+};
 
 const mutation = graphql`
   mutation CreateCommentReactionMutation($input: CreateCommentReactionInput!) {
@@ -59,6 +64,10 @@ async function commit(
           createCommentReaction: {
             comment: {
               id: input.commentID,
+              author: {
+                id: input.author?.id,
+                username: input.author?.username,
+              },
               viewerActionPresence: {
                 reaction: true,
               },

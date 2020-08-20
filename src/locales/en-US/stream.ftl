@@ -106,7 +106,7 @@ comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
 comments-permalinkButton =
-  .aria-label = Share
+  .aria-label = Share comment by {$username}
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
@@ -144,7 +144,7 @@ comments-postCommentForm-userScheduledForDeletion-warning =
 
 comments-replyButton-reply = Reply
 comments-replyButton =
-  .aria-label = Reply
+  .aria-label = Reply to comment by {$username}
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
@@ -231,6 +231,18 @@ comments-rejectedTombstone-moderateLink =
 
 comments-featuredTag = Featured
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    [one] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
@@ -262,10 +274,18 @@ qa-expert-tag = expert
 
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
+
 qa-reaction-aria-vote =
-  .aria-label = Vote
-qa-reaction-voted =
-  .aria-label = Voted
+  .aria-label = {$count ->
+    [0] Vote for comment by {$username}
+    *[other] Vote ({$count}) for comment by {$username}
+  }
+qa-reaction-aria-voted =
+  .aria-label = {$count ->
+    [0] Voted for comment by {$username}
+    [one] Voted for comment by {$username}
+    *[other] Voted ({$count}) for comment by {$username}
+  }
 
 qa-unansweredTab-doneAnswering = Done
 
