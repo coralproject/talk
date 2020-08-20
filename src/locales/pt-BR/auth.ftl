@@ -96,7 +96,8 @@ resetPassword-resetPasswordButton = Redefinir Senha
 
 ## Create Username
 
-createUsername-createUsernameHeader = Criar nome de usuário
+createUsername-createUsernameHeader =
+createUsername-createAUsername = Create um usuário
 createUsername-whatItIs =
   Seu nome de usuário é o identificador que irá aparecer em todos os seus comentários.
 createUsername-createUsernameButton = Criar usuário
@@ -122,7 +123,8 @@ addEmailAddress-addEmailAddressButton =
   Adicionar Endereço de E-mail
 
 ## Create Password
-createPassword-createPasswordHeader = Criar Senha
+createPassword-createPasswordHeader =
+createPassword-createAPassword = Criar uma senha
 createPassword-whatItIs =
   Para proteger contra alterações não autorizadas na sua conta,
   Nós exigimos que os usuários criem uma senha.
