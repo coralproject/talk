@@ -6,7 +6,6 @@ export interface ErrorReport {
 export interface User {
   id?: string;
   username?: string | null;
-  email?: string | null;
   role?: string;
 }
 

@@ -41,7 +41,6 @@ export class SentryErrorReporter extends ErrorReporter {
     return {
       id: user.id,
       username: user.username || undefined,
-      email: user.email || undefined,
       role: user.role,
     };
   }
