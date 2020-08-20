@@ -81,7 +81,7 @@ const CommentContent: FunctionComponent<Props> = ({
     }
 
     // Sanitize the input for display.
-    const node = getSanitize(highlight)(children);
+    const node = getSanitize(highlight && !!phrases)(children);
 
     // If the expression is available, then mark the nodes.
     if (expression) {
@@ -89,7 +89,7 @@ const CommentContent: FunctionComponent<Props> = ({
     }
 
     return node;
-  }, [children, expression, highlight]);
+  }, [children, expression, highlight, phrases]);
 
   if (parsed) {
     return (
