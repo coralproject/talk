@@ -20,6 +20,18 @@ role-plural-moderator = Moderators
 role-plural-staff = Staff
 role-plural-commenter = Commenters
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    [one] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+
 ## User Statuses
 userStatus-active = Active
 userStatus-banned = Banned
@@ -44,7 +56,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Currently signed in to
 restricted-noPermissionInfo = You do not have permission to access this page.
-restricted-signedInAs = You are signed in as: <Username></Username>
+restricted-signedInAs = You are signed in as: <strong>{ $username }</strong>
 restricted-signInWithADifferentAccount = Sign in with a different account
 restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
 

@@ -14,11 +14,13 @@ interface PermalinkProps {
   commentID: string;
   url: string;
   className?: string;
+  author?: string | null;
 }
 
 const Permalink: FunctionComponent<PermalinkProps> = ({
   commentID,
   url,
+  author,
   className,
 }) => {
   const popoverID = `permalink-popover-${commentID}`;
@@ -47,6 +49,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
           <Localized
             id="comments-permalinkButton"
             attrs={{ "aria-label": true }}
+            $username={author}
           >
             <Button
               onClick={toggleVisibility}

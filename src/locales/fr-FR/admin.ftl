@@ -40,7 +40,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Vous êtes connecté
 restricted-noPermissionInfo = Vous n'avez pas les droits pour accéder à cette page.
-restricted-signedInAs = Vous êtes connecté en tant que : <Username></Username>
+restricted-signedInAs = Vous êtes connecté en tant que : <strong>{ $username }</strong>
 restricted-signInWithADifferentAccount = Se connecter avec un autre compte.
 restricted-contactAdmin = Si vous pensez qu'il y a une erreur, merci de contacter votre administateur pour recevoir une aide.
 

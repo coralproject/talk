@@ -4,8 +4,6 @@ import { createTimer } from "coral-server/helpers";
 import { Metrics } from "coral-server/services/metrics";
 import { RequestHandler } from "coral-server/types/express";
 
-export type MetricsRecorderOptions = Metrics;
-
 export const metricsRecorder = ({
   httpRequestsTotal,
   httpRequestDurationMilliseconds,

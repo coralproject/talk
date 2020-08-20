@@ -14,7 +14,7 @@ type PersistedQueryMiddlewareOptions = Pick<
   "persistedQueryCache" | "persistedQueriesRequired"
 >;
 
-const persistedQueryMiddleware = ({
+export const persistedQueryMiddleware = ({
   persistedQueriesRequired,
   persistedQueryCache,
 }: PersistedQueryMiddlewareOptions): RequestHandler<
@@ -64,5 +64,3 @@ const persistedQueryMiddleware = ({
     return next(err);
   }
 };
-
-export default persistedQueryMiddleware;

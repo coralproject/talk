@@ -8,12 +8,11 @@ import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import styles from "./Restricted.css";
 
 interface Props {
-  username: string;
+  username: string | null;
   onSignInAs: React.MouseEventHandler;
 }
 
 const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
-  const Username = () => <div className={styles.username}>{username}</div>;
   return (
     <AuthBox
       title={
@@ -37,13 +36,20 @@ const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
             </div>
           </Localized>
         </div>
-        <div>
-          <Localized id="restricted-signedInAs" Username={<Username />}>
-            <div className={styles.copy}>
-              {"You are signed in as: <Username></Username>"}
-            </div>
-          </Localized>
-        </div>
+        {username && (
+          <div>
+            <Localized
+              id="restricted-signedInAs"
+              strong={<div className={styles.username} />}
+              $username={username}
+            >
+              <div className={styles.copy}>
+                You are signed in as:{" "}
+                <div className={styles.username}>{username}</div>
+              </div>
+            </Localized>
+          </div>
+        )}
         <Flex justifyContent="center">
           <Localized id="restricted-signInWithADifferentAccount">
             <Button

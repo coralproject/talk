@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { Db } from "mongodb";
 import path from "path";
 
+import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
@@ -35,6 +36,11 @@ export interface ClientTargetHandlerOptions {
   };
 
   /**
+   * config is the static config to be loaded into the template.
+   */
+  config: StaticConfig;
+
+  /**
    * defaultLocale is the configured fallback locale for this installation.
    */
   defaultLocale: LanguageCode;
@@ -64,12 +70,6 @@ export interface ClientTargetHandlerOptions {
    * cacheDuration is the cache duration that a given request should be cached for.
    */
   cacheDuration?: string | false;
-
-  /**
-   * staticURI is prepended to the static url's that are included on the static
-   * pages.
-   */
-  staticURI: string;
 }
 
 function createClientTargetRouter(options: ClientTargetHandlerOptions) {
@@ -96,23 +96,18 @@ interface MountClientRouteOptions {
   };
   defaultLocale: LanguageCode;
   tenantCache: TenantCache;
-  staticURI: string;
+  config: StaticConfig;
   mongo: Db;
 }
 
 const clientHandler = ({
   analytics,
-  staticURI,
+  config,
   entrypoint,
   enableCustomCSS,
   enableCustomCSSQuery,
   defaultLocale,
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
-  // Provide configuration to the frontend in the HTML.
-  const config = {
-    staticURI,
-  };
-
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
   if (req.coral.tenant) {
@@ -121,7 +116,7 @@ const clientHandler = ({
 
   res.render("client", {
     analytics,
-    staticURI,
+    staticURI: config.staticURI,
     entrypoint,
     enableCustomCSS,
     locale,

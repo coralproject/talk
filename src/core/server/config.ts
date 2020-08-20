@@ -282,6 +282,16 @@ const config = convict({
     default: ms("100ms"),
     env: "WORD_LIST_TIMEOUT",
   },
+  sentry_frontend_key: {
+    format: String,
+    default: "",
+    env: "SENTRY_FRONTEND_KEY",
+  },
+  sentry_backend_key: {
+    format: String,
+    default: "",
+    env: "SENTRY_BACKEND_KEY",
+  },
   analytics_frontend_key: {
     doc: "Analytics write key from RudderStack for the Javascript client.",
     format: String,
