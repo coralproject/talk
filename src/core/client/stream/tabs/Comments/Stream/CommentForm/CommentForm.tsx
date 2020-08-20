@@ -13,7 +13,6 @@ import React, {
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { useToggleState } from "coral-framework/hooks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
@@ -83,8 +82,10 @@ interface Props {
 }
 
 const CommentForm: FunctionComponent<Props> = (props) => {
-  const [showGifSelector, , toggleGIFSelector] = useToggleState();
-  const [showExternalImageInput, , toggleExternalImageInput] = useToggleState();
+  const [showGifSelector, setShowGifSelector] = useState<boolean>(false);
+  const [showExternalImageInput, setShowExternalImageInput] = useState<boolean>(
+    false
+  );
   const [media, setMedia] = useState<MediaLink | null>(null);
   const onSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
@@ -122,6 +123,20 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     },
     [setMedia, props.mediaConfig]
   );
+
+  const toggleExternalImageInput = useCallback(() => {
+    setShowExternalImageInput(!showExternalImageInput);
+    if (showGifSelector) {
+      setShowGifSelector(false);
+    }
+  }, [showExternalImageInput, showGifSelector]);
+
+  const toggleGIFSelector = useCallback(() => {
+    setShowGifSelector(!showGifSelector);
+    if (showExternalImageInput) {
+      setShowExternalImageInput(false);
+    }
+  }, [showExternalImageInput, showGifSelector]);
 
   return (
     <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>

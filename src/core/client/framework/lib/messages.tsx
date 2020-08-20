@@ -117,3 +117,9 @@ export const DELETE_CONFIRMATION_INVALID = () => (
     <span>Incorrect confirmation. Try again.</span>
   </Localized>
 );
+
+export const INVALID_MEDIA_URL = () => (
+  <Localized id="framework-validation-media-url-invalid">
+    <span>Please enter a valid image URL (.png, .jpg, or .gif)</span>
+  </Localized>
+);

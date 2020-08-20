@@ -78,6 +78,7 @@ export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
 export const SPOILER_CLASSNAME = "coral-rte-spoiler";
 
 /**
- * VALID_MEDIA_FILE_EXTENSION is the regex for validating external media urls
+ * VALID_MEDIA_FILE_URL is the regex for validating external media urls
  */
-export const VALID_MEDIA_FILE_EXTENSION = /\.(gif|jpe?g|tiff?|png|webp)$/i;
+
+export const VALID_MEDIA_FILE_URL = /https?:[/|.|\w|\s|-]*\.(jpe?g|gif|png|webp)/i;

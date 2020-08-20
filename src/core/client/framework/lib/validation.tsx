@@ -10,6 +10,8 @@ import {
 } from "coral-common/helpers/validate";
 import startsWith from "coral-common/utils/startsWith";
 
+import { VALID_MEDIA_FILE_URL } from "coral-common/constants";
+
 import {
   DELETE_CONFIRMATION_INVALID,
   EMAILS_DO_NOT_MATCH,
@@ -29,6 +31,7 @@ import {
   VALIDATION_REQUIRED,
   VALIDATION_TOO_LONG,
   VALIDATION_TOO_SHORT,
+  INVALID_MEDIA_URL,
 } from "./messages";
 
 export type Validator<T = any, V = any> = (v: T, values: V) => ReactNode;
@@ -80,6 +83,11 @@ export const validateEmail = createValidator(
 export const validateUsernameCharacters = createValidator(
   (v) => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
+);
+
+export const validateMediaURL = createValidator(
+  (v) => !v || !v.url || VALID_MEDIA_FILE_URL.test(v.url),
+  INVALID_MEDIA_URL()
 );
 
 /**

@@ -3,7 +3,10 @@ import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { GiphyGif } from "coral-common/rest/external/giphy";
+import { getMediaValidators } from "../../helpers";
 
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 import {
   MediaConfirmPrompt,
   MediaPreview,
@@ -46,7 +49,9 @@ interface MediaConfig {
 }
 
 const MediaField: FunctionComponent<Props> = (props) => {
-  const field = useField<Media | undefined>("media");
+  const field = useField<Media | undefined>("media", {
+    validate: getMediaValidators(),
+  });
 
   const onGIFSelect = useCallback(
     (gif: GiphyGif) => {
@@ -117,6 +122,14 @@ const MediaField: FunctionComponent<Props> = (props) => {
             <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
           )
         ))}
+      {field.meta.error && (
+        <CallOut
+          color="error"
+          title={field.meta.error}
+          titleWeight="semiBold"
+          icon={<Icon>error</Icon>}
+        />
+      )}
     </>
   );
 };
