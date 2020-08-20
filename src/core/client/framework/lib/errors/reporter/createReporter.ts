@@ -5,13 +5,13 @@ import { SentryErrorReporter } from "./sentry";
 
 interface Options {
   /**
-   * boundary when true will ensure that the boundary element is configured if
-   * the reporter supports it.
+   * reporterPrompt when true will ensure that the reporters error boundary
+   * element is configured if the reporter supports it to collect user feedback.
    */
-  boundary?: boolean;
+  reporterFeedbackPrompt?: boolean;
 }
 
-function createReporter({ boundary = false }: Options = {}):
+function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
   | ErrorReporter
   | undefined {
   // Parse and load the reporter configuration from the config element on the
@@ -34,7 +34,10 @@ function createReporter({ boundary = false }: Options = {}):
   // Based on the reporter's name, create the reporter.
   switch (config.reporter.name) {
     case "sentry":
-      return new SentryErrorReporter(boundary, config.reporter.dsn);
+      return new SentryErrorReporter(
+        reporterFeedbackPrompt,
+        config.reporter.dsn
+      );
     default:
       // We're in a part of the code where we're creating an error reporter, so
       // if we have problems with that, instead of throwing which wouldn't be

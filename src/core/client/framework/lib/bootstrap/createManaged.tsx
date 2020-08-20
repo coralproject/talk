@@ -237,7 +237,7 @@ function createManagedCoralContextProvider(
       // happens.
 
       // NOTE: (wyattjoh) there should be another way to do this better...
-      const Boundary = this.state.context.reporter?.ErrorBoundry;
+      const Boundary = this.state.context.reporter?.ErrorBoundary;
 
       return (
         <CoralContextProvider value={this.state.context}>

@@ -3,13 +3,10 @@ import React, { FunctionComponent } from "react";
 
 import { ErrorReport, ErrorReporter, User } from "./reporter";
 
-export class SentryErrorReporter extends ErrorReporter {
-  public readonly ErrorBoundry?: FunctionComponent;
+export class SentryErrorReporter implements ErrorReporter {
+  public readonly ErrorBoundary?: FunctionComponent;
 
-  constructor(boundary: boolean, dsn: string) {
-    // Setup the base error reporter.
-    super();
-
+  constructor(reporterFeedbackPrompt: boolean, dsn: string) {
     // Initialize sentry.
     Sentry.init({ dsn, release: `coral@${process.env.TALK_VERSION}` });
     Sentry.setTag("domain", window.location.host);
@@ -17,8 +14,8 @@ export class SentryErrorReporter extends ErrorReporter {
     // Initialize the boundary if enabled.
 
     // NOTE: (wyattjoh) there should be another way to do this better...
-    if (boundary) {
-      this.ErrorBoundry = function ErrorBoundary({ children }) {
+    if (reporterFeedbackPrompt) {
+      this.ErrorBoundary = function ErrorBoundary({ children }) {
         return (
           <Sentry.ErrorBoundary showDialog>{children}</Sentry.ErrorBoundary>
         );

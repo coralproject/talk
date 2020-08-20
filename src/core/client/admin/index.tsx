@@ -16,7 +16,7 @@ import "coral-ui/theme/admin.css";
 
 async function main() {
   // Configure and load the error reporter with the boundary element.
-  const reporter = createReporter({ boundary: true });
+  const reporter = createReporter({ reporterFeedbackPrompt: true });
 
   // Load any polyfills that are required.
   await injectConditionalPolyfills();

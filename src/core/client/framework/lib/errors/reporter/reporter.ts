@@ -1,5 +1,18 @@
+/**
+ * ErrorReport is the report to be provided by the error reporter when an error
+ * is reported.
+ */
 export interface ErrorReport {
+  /**
+   * name is used to identify the specific error reporter that captured the
+   * report.
+   */
   name: string;
+
+  /**
+   * id is identifier sent by the error reporter associated with this error
+   * report.
+   */
   id: string;
 }
 
@@ -9,13 +22,13 @@ export interface User {
   role?: string;
 }
 
-export abstract class ErrorReporter {
+export interface ErrorReporter {
   /**
    * report will send a report to the reporter service.
    *
    * @param err the error to report
    */
-  public abstract report(err: any): ErrorReport;
+  report(err: any): ErrorReport;
 
   /**
    * setUser should set the user that's currently interacting with the
@@ -23,11 +36,11 @@ export abstract class ErrorReporter {
    *
    * @param user the current logged in user or null for none.
    */
-  public abstract setUser(user: User | null): void;
+  setUser(user: User | null): void;
 
   /**
-   * ErrorBoundry is the optional component that this reporter provides to catch
+   * ErrorBoundary is the optional component that this reporter provides to catch
    * and display errors to the user.
    */
-  public abstract readonly ErrorBoundry?: React.ComponentType;
+  readonly ErrorBoundary?: React.ComponentType;
 }
