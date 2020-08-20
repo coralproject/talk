@@ -3,6 +3,10 @@
 account-tokenNotFound =
   O link especificado é inválido, verifique se foi copiado corretamente.
 
+## Not Found
+
+notFound = Não encontrado
+
 ## Password Reset
 
 resetPassword-resetPassword = Redefinir senha
@@ -22,7 +26,9 @@ resetPassword-missingResetToken = O token de redefinição parece estar faltando
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Confirmação do email
+confirmEmail-emailConfirmation =
+confirmEmail-confirmYourEmailAddress =
+  Confirme seu endereço de email
 confirmEmail-confirmEmail = Confirmar email
 confirmEmail-pleaseClickToConfirm = Clique a baixo para confirmar seu email
 confirmEmail-oopsSorry = Oops, desculpe!
@@ -37,7 +43,7 @@ download-landingPage-title = Faça o download do seu histórico de comentários
 download-landingPage-description =
   Seu histórico de comentários será salvo em um arquivo .zip. Depois que o seu
   arquivo for descompactado, você terá um aquivo de valor separado por vírgula
-  (ou .csv), que você pode importar facilmente nas suas planilhas 
+  (ou .csv), que você pode importar facilmente nas suas planilhas
   favoritas.
 download-landingPage-contentsDescription =
   Para cada um dos seus comentários, as seguintes informações serão inseridas:
@@ -49,13 +55,21 @@ download-landingPage-contentsText =
   O texto comentado
 download-landingPage-contentsStoryUrl =
   A URL no artigo ou na história onde o comentário aparece
+download-landingPage-download = Fazer download
 download-landingPage-downloadComments =
-  Fazer o download do meu histórico de comentário
 download-landingPage-sorry = Seu link de download é inválido
 
 ## Unsubscribe
 
+unsubscribe-confirm =
+unsubscribe-successfullyUnsubscribed =
+
+unsubscribe-unsubscribeFromEmails = Cancelar inscrição de notificações por email
 unsubscribe-oopsSorry = Oops Desculpe!
-unsubscribe-successfullyUnsubscribed = Agora você está desinscrito de todas as notificações
-unsubscribe-clickToConfirm = Clique abaixo para confirmar que deseja cancelar a inscrição de todas as notificações.
-unsubscribe-confirm = Confirmar
+unsubscribe-clickToConfirm =
+  Clique abaixo para confirmar que deseja cancelar a inscrição de todas as notificações.
+unsubscribe-submit-unsubscribe = Cancelar inscrição
+unsubscribe-unsubscribedSuccessfully =
+  Inscrição de notificações por email cancelada com sucesso
+unsubscribe-youMayNowClose =
+  Agora você pode fechar esta janela
