@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 
+import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
 import playgroundMiddleware from "coral-server/app/middleware/playground";
@@ -25,6 +26,24 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
   }
 
   if (!options.disableClientRoutes) {
+    // Prepare the client config to be injected on the page.
+    const config: StaticConfig = {
+      // When mounting client routes, we need to provide a staticURI even when
+      // not provided to the default current domain relative "/".
+      staticURI: app.config.get("static_uri") || "/",
+    };
+
+    // If sentry is configured, then add it's config to the config.
+    if (
+      app.config.get("env") === "production" &&
+      app.config.get("sentry_frontend_key")
+    ) {
+      config.reporter = {
+        name: "sentry",
+        dsn: app.config.get("sentry_frontend_key"),
+      };
+    }
+
     mountClientRoutes(router, {
       analytics: {
         key: app.config.get("analytics_frontend_key"),
@@ -32,11 +51,9 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
         sdk: app.config.get("analytics_frontend_sdk_url"),
       },
       defaultLocale: app.config.get("default_locale") as LanguageCode,
-      // When mounting client routes, we need to provide a staticURI even when
-      // not provided to the default current domain relative "/".
-      staticURI: app.config.get("static_uri") || "/",
       tenantCache: app.tenantCache,
       mongo: app.mongo,
+      config,
     });
   } else {
     logger.warn("client routes are disabled");

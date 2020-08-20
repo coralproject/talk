@@ -111,6 +111,12 @@ export interface CoralErrorOptions {
    * be `input.email` to denote the specific input field that caused the error.
    */
   param?: string;
+
+  /**
+   * reportable when true indicates to the error reporter that this error
+   * should be reported.
+   */
+  reportable?: boolean;
 }
 
 export class CoralError extends VError {
@@ -149,11 +155,18 @@ export class CoralError extends VError {
    */
   public readonly context: Readonly<CoralErrorContext>;
 
+  /**
+   * reportable when true indicates to the error reporter that this error
+   * should be reported.
+   */
+  public readonly reportable: boolean;
+
   constructor({
     code,
     context = {},
     status = 500,
     type = ERROR_TYPES.INVALID_REQUEST_ERROR,
+    reportable = false,
     cause,
     param,
   }: CoralErrorOptions) {
@@ -181,6 +194,7 @@ export class CoralError extends VError {
     this.code = code;
     this.type = type;
     this.param = param;
+    this.reportable = reportable;
   }
 
   public serializeExtensions(
@@ -267,6 +281,7 @@ export class DuplicateStoryIDError extends CoralError {
   constructor(cause: MongoError, id: string, url?: string) {
     super({
       cause,
+      reportable: true,
       code: ERROR_CODES.DUPLICATE_STORY_ID,
       context: { pvt: { id, url } },
     });
@@ -479,6 +494,7 @@ export class WrappedInternalError extends CoralError {
     super({
       code: ERROR_CODES.INTERNAL_ERROR,
       cause,
+      reportable: true,
       context: { pvt: { reason } },
       status: 500,
     });
@@ -489,6 +505,7 @@ export class InternalError extends CoralError {
   constructor(reason: string, context?: Record<string, any>) {
     super({
       code: ERROR_CODES.INTERNAL_ERROR,
+      reportable: true,
       context: { pvt: { reason, ...context } },
       status: 500,
     });
@@ -566,6 +583,7 @@ export class JWTRevokedError extends CoralError {
   constructor(jti: string) {
     super({
       code: ERROR_CODES.AUTHENTICATION_ERROR,
+      status: 401,
       context: { pvt: { jti } },
     });
   }

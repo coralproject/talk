@@ -29,6 +29,7 @@ import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { Metrics } from "coral-server/services/metrics";
@@ -40,32 +41,33 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 import { healthHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
-import { accessLogger, errorLogger } from "./middleware/logging";
+import { accessLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
+  broker: CoralEventListenerBroker;
   config: Config;
   disableClientRoutes: boolean;
   i18n: I18n;
   mailerQueue: MailerQueue;
-  scraperQueue: ScraperQueue;
-  rejectorQueue: RejectorQueue;
-  webhookQueue: WebhookQueue;
-  notifierQueue: NotifierQueue;
   metrics: Metrics;
+  migrationManager: MigrationManager;
   mongo: Db;
+  notifierQueue: NotifierQueue;
   parent: Express;
   persistedQueriesRequired: boolean;
   persistedQueryCache: PersistedQueryCache;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
+  rejectorQueue: RejectorQueue;
+  reporter?: ErrorReporter;
   schema: GraphQLSchema;
+  scraperQueue: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  migrationManager: MigrationManager;
-  broker: CoralEventListenerBroker;
+  webhookQueue: WebhookQueue;
 }
 
 /**
@@ -113,8 +115,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Error Handling
   parent.use(notFoundMiddleware);
-  parent.use(errorLogger);
-  parent.use(HTMLErrorHandler(options.i18n));
+  parent.use(HTMLErrorHandler(options));
 
   return parent;
 }
@@ -235,7 +236,6 @@ export default function createMetricsServer(config: Config) {
 
   // Error handling.
   server.use(notFoundMiddleware);
-  server.use(errorLogger);
   server.use(JSONErrorHandler());
 
   return server;

@@ -3,7 +3,7 @@ import { parse } from "graphql";
 import path from "path";
 
 import { version } from "coral-common/version";
-import { getOperationMetadata } from "coral-server/graph/extensions/helpers";
+import { getOperationMetadata } from "coral-server/graph/plugins";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 
