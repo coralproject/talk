@@ -10,6 +10,8 @@ storyStatus-closed = Fechado
 ## Roles
 role-admin = Administrador
 role-moderator = Moderador
+role-siteModerator = Moderador do site
+role-organizationModerator = Moderador da Organização
 role-staff = Staff
 role-commenter = Comentador
 
@@ -23,12 +25,14 @@ userStatus-active = Ativo
 userStatus-banned = Banido
 userStatus-suspended = Suspenso
 userStatus-premod = Sempre pré-moderado
+userStatus-warned = Avisado
 
 ## Navigation
 navigation-moderate = Moderação
 navigation-community = Comunidade
 navigation-stories = Histórias
 navigation-configure = Configuração
+navigation-dashboard = Dashboard
 
 ## User Menu
 userMenu-signOut = Sair
@@ -145,8 +149,9 @@ configure-sideBarNavigation-general = Geral
 configure-sideBarNavigation-authentication = Autenticação
 configure-sideBarNavigation-moderation = Moderação
 configure-sideBarNavigation-organization = Organização
+configure-sideBarNavigation-moderationPhases = Fases de moderação
 configure-sideBarNavigation-advanced = Avançado
-configure-sideBarNavigation-email = E-mail
+configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Palavras banidas e suspeitas
 configure-sideBarNavigation-slack = Slack
 configure-sideBarNavigation-webhooks = Webhooks
@@ -158,7 +163,116 @@ configure-onOffField-off = Desligado
 configure-radioButton-allow = Permitir
 configure-radioButton-dontAllow = Não permitir
 
+### Moderation Phases
+
+configure-moderationPhases-generatedAt = CHAVE GERADA EM:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-moderationPhases-phaseNotFound = Fase de moderação externa não encontrada
+configure-moderationPhases-experimentalFeature =
+  O recurso de fases de moderação personalizadas está atualmente em desenvolvimento ativo.
+  <ContactUsLink>Entre em contato conosco para qualquer feedback ou solicitação</ContactUsLink>.
+configure-moderationPhases-header-title = Fases de moderação
+configure-moderationPhases-description =
+  Configure uma fase de moderação externa para automatizar alguma ação de moderação
+  . Requisições de moderação são enviadas e assinadas como JSON. Para
+  saber mais sobre as requisições de moderação, acesse nossa <externalLink>documentação</externalLink>.
+configure-moderationPhases-addExternalModerationPhaseButton =
+  Adicionar fase de moderação externa
+configure-moderationPhases-moderationPhases = Fases de moderação
+configure-moderationPhases-name = Nome
+configure-moderationPhases-status = Status
+configure-moderationPhases-noExternalModerationPhases =
+  Não há fases de moderação externa configuradas, adicione uma acima.
+configure-moderationPhases-enabledModerationPhase = Ativado
+configure-moderationPhases-disableModerationPhase = Desativado
+configure-moderationPhases-detailsButton = Detalhes <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-addExternalModerationPhase = Adicionar fase de moderação externa
+configure-moderationPhases-updateExternalModerationPhaseButton = Atualizar detalhes
+configure-moderationPhases-cancelButton = Cancelar
+configure-moderationPhases-format = Formato do corpo do comentário
+configure-moderationPhases-endpointURL = URL de callback
+configure-moderationPhases-timeout = Tempo limite
+configure-moderationPhases-timeout-details =
+  O tempo que o Coral aguardará pela sua resposta de moderação, em milissegundos.
+configure-moderationPhases-format-details =
+  O formato em que Coral enviará o corpo do comentário. Por padrão, o Coral enviará
+  o comentário no formato HTML original. Se "Texto Simples" for
+  selecionado, a versão sem HTML será enviada.
+configure-moderationPhases-format-html = HTML
+configure-moderationPhases-format-plain = Texto Simples
+configure-moderationPhases-endpointURL-details =
+  A URL para a qual as requisições de moderação do Coral serão enviadas, via POST. O URL fornecido
+  deve responder dentro do tempo limite definido ou a decisão da ação de moderação
+  será ignorada.
+configure-moderationPhases-configureExternalModerationPhase =
+  Configurar fase de moderação externa
+configure-moderationPhases-phaseDetails = Detalhes da fase
+onfigure-moderationPhases-status = Status
+configure-moderationPhases-signingSecret = Segredo da assinatura
+configure-moderationPhases-signingSecretDescription =
+  O seguinte segredo de assinatura é usado para assinar o payload das requisições enviadas
+  para a URL. Para saber mais sobre a assinatura de webhook, acesse nossa <externalLink>documentação</externalLink>.
+configure-moderationPhases-phaseStatus = Status da fase
+configure-moderationPhases-status = Status
+configure-moderationPhases-signingSecret = Segredo de assinatura
+configure-moderationPhases-signingSecretDescription =
+  O seguinte segredo de assinatura é usado para assinar o payload das requisições enviadas
+  para a URL. Para saber mais sobre a assinatura de webhook, acesse nossa <externalLink>documentação</externalLink>.
+configure-moderationPhases-dangerZone = Zona de perigo
+configure-moderationPhases-rotateSigningSecret = Rotacionar segredo de assinatura
+configure-moderationPhases-rotateSigningSecretDescription =
+  Rotacionar o segredo de assinatura permitirá que você substitua com segurança um
+  segredo usado na produção com atraso.
+configure-moderationPhases-rotateSigningSecretButton = Rotacionar segredo de assinatura
+
+configure-moderationPhases-disableExternalModerationPhase =
+  Desativar fase de moderação externa
+configure-moderationPhases-disableExternalModerationPhaseDescription =
+  Esta fase de moderação externa está atualmente habilitada. Ao desativar, nenhuma nova
+  requisição de moderação será enviada para a URL fornecida.
+configure-moderationPhases-disableExternalModerationPhaseButton = Desativar fase
+configure-moderationPhases-enableExternalModerationPhase =
+  Ativar fase de moderação externa
+configure-moderationPhases-enableExternalModerationPhaseDescription =
+  Esta fase de moderação externa está atualmente desativada. Ao ativar, novas consultas
+  de moderação passarão a ser enviadas para a URL fornecida.
+configure-moderationPhases-enableExternalModerationPhaseButton = Ativar fase
+configure-moderationPhases-deleteExternalModerationPhase =
+  Excluir fase de moderação externa
+configure-moderationPhases-deleteExternalModerationPhaseDescription =
+  A exclusao desta fase de moderacao externa impedira que quaisquer novas consultas
+  de moderacao sejam enviadas para esta URL e removera todas as configuracoes associadas.
+configure-moderationPhases-deleteExternalModerationPhaseButton = Excluir fase
+configure-moderationPhases-rotateSigningSecret = Rotacionar segredo de assinatura
+configure-moderationPhases-rotateSigningSecretHelper =
+  Depois de expirar, as assinaturas não serão mais geradas com o segredo antigo.
+configure-moderationPhases-expiresOldSecret =
+  Expirar o segredo antigo
+configure-moderationPhases-expiresOldSecretImmediately =
+  Imediatamente
+configure-moderationPhases-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 hora
+    *[other] { $hours } horas
+  } a partir de agora
+configure-moderationPhases-rotateSigningSecretSuccessUseNewSecret =
+  O segredo de assinatura da fase de moderação externa foi alternado. Certifique-se
+  de atualizar suas integrações para usar o novo segredo abaixo.
+configure-moderationPhases-confirmDisable =
+  Desativar esta fase de moderação externa irá impedir que quaisquer novas consultas
+  de moderação sejam enviadas para esta URL. Você tem certeza que quer continuar?
+configure-moderationPhases-confirmEnable =
+  Habilitando a fase de moderação externa fará com que as consultas de moderação
+  para esta URL passem a ser enviadas. Você tem certeza que quer continuar?
+configure-moderationPhases-confirmDelete =
+  A exclusão desta fase de moderação externa interromperá o envio de novas consultas
+  de moderação para esta URL e também removerá todas as configurações associadas.
+  Você tem certeza que quer continuar?
+
 ### Webhooks
+
+configure-webhooks-generatedAt = CHAVE GERADA EM:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-webhooks-experimentalFeature =
   A funcionalidade de Webhooks atualmente está em desenvolvimento ativo. Eventos podem
   ser adicionados ou removidos. Por favor <ContactUsLink>entre em contato conosco com qualquer feedback ou pedido</ContactUsLink>.
@@ -273,6 +387,36 @@ configure-general-sitewideCommenting-message = Mensagem de Comentários Fechados
 configure-general-sitewideCommenting-messageExplanation =
   Escreva uma mensagem que será exibida quando o fluxo de comentários estiver fechado em todo o site
 
+#### Embed Links
+configure-general-embedLinks-title = Mídia incorporada
+configure-general-embedLinks-desc = Permitir que os comentadores adicionem um vídeo do YouTube, tweet ou GIF da biblioteca do GIPHY ao final do comentário
+configure-general-embedLinks-enableTwitterEmbeds = Permitir incorporações do Twitter
+configure-general-embedLinks-enableYouTubeEmbeds = Permitir incorporações do YouTube
+configure-general-embedLinks-enableGiphyEmbeds = Permitir GIFs do GIPHY
+
+configure-general-embedLinks-On = Sim
+configure-general-embedLinks-Off = Não
+
+configure-general-embedLinks-giphyMaxRating = Classificação de conteúdo GIF
+configure-general-embedLinks-giphyMaxRating-desc = Selecione a classificação máxima de conteúdo para os GIFs que aparecerão nos resultados de pesquisa dos comentadores
+
+configure-general-embedLinks-giphyMaxRating-g = G
+configure-general-embedLinks-giphyMaxRating-g-desc = Conteúdo apropriado para todas as idades
+configure-general-embedLinks-giphyMaxRating-pg = PG
+configure-general-embedLinks-giphyMaxRating-pg-desc = Conteúdo que geralmente é seguro para todos, mas a orientação dos pais para crianças é recomendada.
+configure-general-embedLinks-giphyMaxRating-pg13 = PG-13
+configure-general-embedLinks-giphyMaxRating-pg13-desc = Insinuações sexuais moderadas, uso moderado de substâncias, linguagem obscena moderada ou imagens ameaçadoras. Pode incluir imagens de pessoas seminuas, mas NÃO mostra a genitália humana real ou nudez.
+configure-general-embedLinks-giphyMaxRating-r = R
+configure-general-embedLinks-giphyMaxRating-r-desc = Linguagem forte, forte insinuação sexual, violência e uso de drogas ilegais; não é adequado para adolescentes ou mais jovens. Sem nudez.
+
+configure-general-embedLinks-configuration = Configuração
+configure-general-embedLinks-configuration-desc =
+  Para mais informações sobre a API do GIPHY, acesse: <externalLink>https://developers.giphy.com/docs/api</externalLink>
+configure-general-embedLinks-giphyAPIKey = Chave de API do GIPHY
+
+
+### Configure Announcements
+
 configure-general-announcements-title = Anúncio da comunidade
 configure-general-announcements-description =
   Adicione um anúncio temporário que aparecerá na parte superior de todos os fluxos de comentários da sua organização por um período específico.
@@ -364,6 +508,23 @@ stories-filter-statuses = Status
 stories-column-site = Site
 site-table-siteName = Nome do Site
 stories-filter-sites = Site
+
+stories-column-actions = Ações
+stories-column-rescrape = Re-coletar
+
+stories-actionsButton =
+  .aria-label = Selecionar ação
+stories-actions-popover =
+  .description = Uma lista para selecionar as ações da história
+stories-actions-rescrape = Re-coletar
+stories-actions-close = Fechar história
+stories-actions-open = Abrir história
+
+### Sections
+
+moderate-section-selector-allSections = Todas as seções
+moderate-section-selector-uncategorized = Sem categoria
+moderate-section-uncategorized = Sem categoria
 
 ### Email
 
@@ -689,19 +850,25 @@ moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 moderate-marker-preMod = Pré-Moderado
 moderate-marker-link = Link
 moderate-marker-bannedWord = Palavra Banida
+moderate-marker-possibleBannedWord = Possível Palavra Banida
 moderate-marker-suspectWord = Palavra Suspeita
+moderate-marker-possibleSuspectWord = Possível Palavra Suspeita
 moderate-marker-spam = Spam
 moderate-marker-spamDetected = Spam detectado
 moderate-marker-toxic = Tóxico
 moderate-marker-recentHistory = Histórico recente
 moderate-marker-bodyCount = Tamanho do conteúdo
 moderate-marker-offensive = Ofensivo
+moderate-marker-abusive = Abusivo
 moderate-marker-newCommenter = Novo comentador
 moderate-marker-repeatPost = Comentário repetido
+moderate-marker-other = Outro
 
 moderate-markers-details = Detalhes
 moderate-flagDetails-offensive = Ofensivo
+moderate-flagDetails-abusive = Abusivo
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-other = Outro
 
 moderate-flagDetails-toxicityScore = Score de toxicidade
 moderate-toxicityLabel-likely = Provável <score></score>
@@ -734,6 +901,8 @@ moderate-comment-featureText = Destaque
 moderate-comment-featuredText = Destacado
 moderate-comment-moderatedBy = Moderado por
 moderate-comment-moderatedBySystem = Sistema
+moderate-comment-play-gif = Executar GIF
+moderate-comment-load-video = Carregar vídeo
 
 moderate-single-goToModerationQueues = Ir para a fila de moderação
 moderate-single-singleCommentView = Visualização única de comentários
@@ -948,6 +1117,15 @@ community-premodModal-consequence =
 community-premodModal-cancel = Cancelar
 community-premodModal-premodUser = Sim, sempre pré-moderar
 
+community-siteModeratorModal-assignSites =
+  Atribuir sites para <strong>{ $username }</strong>
+community-siteModeratorModal-assignSitesDescription =
+  Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
+community-siteModeratorModal-cancel = Cancelar
+community-siteModeratorModal-assign = Atribuir
+community-siteModeratorModal-selectSites = Selecionar sites para moderar
+community-siteModeratorModal-noSites = Sem sites
+
 community-invite-inviteMember = Convidar membros para sua organização
 community-invite-emailAddressLabel = Endereço de e-mail:
 community-invite-inviteMore = Convidar mais
@@ -972,6 +1150,18 @@ community-invite-role-admin =
 community-invite-invitationsSent = Seus convites foram enviados!
 community-invite-close = Fechar
 community-invite-invite = Convidar
+
+community-warnModal-success =
+  Um aviso foi enviado para <strong>{ $username }</strong>.
+community-warnModal-success-close = Ok
+community-warnModal-areYouSure = Avisar <strong>{ $username }</strong>?
+community-warnModal-consequence = Um aviso pode melhorar a conduta de um comentador sem suspensão ou proibição. O usuário deve reconhecer o aviso antes de continuar comentando.
+community-warnModal-message-label = Mensagem
+community-warnModal-message-required = Obrigatório
+community-warnModal-message-description = Explique a este usuário como ele deve mudar o comportamento em seu site.
+community-warnModal-cancel = Cancelar
+community-warnModal-warnUser = Avisar usuário
+community-userStatus-warn = Avisar
 
 ## Stories
 stories-emptyMessage = Atualmente não há histórias publicadas.
@@ -1034,6 +1224,10 @@ userDetails-suspended-by = <strong>Suspendido por</strong> { $username }
 userDetails-suspension-start = <strong>Início:</strong> { $timestamp }
 userDetails-suspension-end = <strong>Fim:</strong> { $timestamp }
 
+userDetails-warned-on = <strong>Avisado em</strong> { $timestamp }
+userDetails-warned-by = <strong>por</strong> { $username }
+userDetails-warned-explanation = Usuário não reconheceu o aviso.
+
 configure-general-reactions-title = Reações
 configure-general-reactions-explanation =
   Permitir a interação da sua comunidade através de reações expressadas
@@ -1059,6 +1253,17 @@ configure-general-staff-label = Texto do crachá
 configure-general-staff-input =
   .placeholder = Ex: Staff
 configure-general-staff-preview = Pré-visualização
+
+configure-general-rte-title = Comentários em texto rico
+configure-general-rte-express = Dê à sua comunidade mais maneiras de se expressar além do texto simples com formatação de texto rico.
+configure-general-rte-richTextComments = Comentários em texto rico
+configure-general-rte-onBasicFeatures = Ativado - negrito, itálico, citações em bloco e listas com marcadores
+configure-general-rte-additional = Opções de texto rico adicionais
+configure-general-rte-strikethrough = Tachado
+configure-general-rte-spoiler = Spoiler
+configure-general-rte-spoilerDesc =
+  Palavras e frases formatadas como spoiler ficam escondidas atrás de
+  um fundo escuro até que o leitor decida revelar o texto.
 
 configure-account-features-title = Gerenciamento de recursos da conta de comentaristas
 configure-account-features-explanation =
@@ -1116,3 +1321,28 @@ hotkeysModal-shortcuts-ban = Banir autor do comentário
 hotkeysModal-shortcuts-zen = Alternar visualização de comentário único
 
 authcheck-network-error = Ocorreu um erro de rede. Por favor, atualize a página.
+
+dashboard-heading-last-updated = Última atualização:
+
+dashboard-today-heading = Atividade de hoje
+dashboard-today-new-comments = Novos comentários
+dashboard-alltime-new-comments = Total de todos os tempos
+dashboard-today-rejections = Taxa de rejeição
+dashboard-alltime-rejections = Média de todos os tempos
+dashboard-today-staff-comments = Comentários da equipe
+dashboard-alltime-staff-comments = Total de todos os tempos
+dashboard-today-signups = Novos membros da comunidade
+dashboard-alltime-signups = Total de membros
+dashboard-today-bans = Membros banidos
+dashboard-alltime-bans = Total de membros banidos
+
+dashboard-top-stories-today-heading = As histórias mais comentadas de hoje
+dashboard-top-stories-table-header-story = História
+dashboard-top-stories-table-header-comments = Comentários
+dashboard-top-stories-no-comments = Sem comentários hoje
+
+dashboard-commenters-activity-heading = Novos membros da comunidade esta semana
+
+dashboard-comment-activity-heading = Atividade de comentários por hora
+dashboard-comment-activity-tooltip-comments = Comentários
+dashboard-comment-activity-legend = Média dos últimos 3 dias
