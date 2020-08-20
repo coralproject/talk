@@ -70,7 +70,7 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 }
 
 function isValidImageURL(url: string) {
-  return url.match(/https?:[/|.|\w|\s|-]*\.jpg|gif|png/);
+  return url.match(/(jpe?g|gif|png|webp)$/i);
 }
 
 export const SSOUserProfileSchema = Joi.object().keys({
