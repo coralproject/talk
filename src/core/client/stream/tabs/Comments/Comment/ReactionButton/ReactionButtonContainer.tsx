@@ -87,6 +87,7 @@ class ReactionButtonContainer extends React.Component<Props> {
         iconActive={iconActive}
         readOnly={readOnly}
         isQA={this.props.isQA}
+        author={this.props.comment.author?.username}
       />
     ) : null;
   }
@@ -104,6 +105,9 @@ export default withShowAuthPopupMutation(
         comment: graphql`
           fragment ReactionButtonContainer_comment on Comment {
             id
+            author {
+              username
+            }
             revision {
               id
             }

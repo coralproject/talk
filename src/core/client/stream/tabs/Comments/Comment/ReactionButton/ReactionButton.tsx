@@ -19,6 +19,7 @@ interface ReactionButtonProps {
   readOnly?: boolean;
   className?: string;
   isQA?: boolean;
+  author?: string | null;
 }
 
 function render(props: ReactionButtonProps) {
@@ -43,7 +44,6 @@ function render(props: ReactionButtonProps) {
         className,
         styles.button
       )}
-      aria-label={reacted ? labelActive : label}
       active={Boolean(reacted)}
       data-testid={"comment-reaction-button"}
       variant="flat"
@@ -83,20 +83,39 @@ function render(props: ReactionButtonProps) {
 
 class ReactionButton extends React.Component<ReactionButtonProps> {
   public render() {
-    const { reacted, isQA } = this.props;
+    const {
+      reacted,
+      label,
+      labelActive,
+      totalReactions,
+      isQA,
+      author,
+    } = this.props;
 
     if (isQA) {
       return (
         <Localized
           id={reacted ? "qa-reaction-aria-voted" : "qa-reaction-aria-vote"}
           attrs={{ "aria-label": true }}
+          $username={author}
+          $count={totalReactions}
         >
           {render(this.props)}
         </Localized>
       );
     }
 
-    return <>{render(this.props)}</>;
+    return (
+      <Localized
+        id={reacted ? "comments-reacted" : "comments-react"}
+        attrs={{ "aria-label": true }}
+        $reaction={reacted ? labelActive : label}
+        $username={author}
+        $count={totalReactions}
+      >
+        {render(this.props)}
+      </Localized>
+    );
   }
 }
 
