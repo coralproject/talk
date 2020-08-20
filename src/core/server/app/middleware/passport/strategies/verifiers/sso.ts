@@ -69,6 +69,10 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
   return isNil(error);
 }
 
+function isValidImageURL(url: string) {
+  return url.match(/https?:[/|.|\w|\s|-]*\.jpg|gif|png/);
+}
+
 export const SSOUserProfileSchema = Joi.object().keys({
   id: Joi.string().required(),
   email: Joi.string().lowercase().required(),
@@ -145,9 +149,12 @@ export async function findOrCreateSSOUser(
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
         ssoURL: url,
-        avatar: hasFeatureFlag(tenant, GQLFEATURE_FLAG.AVATARS)
-          ? avatar
-          : undefined,
+        avatar:
+          avatar &&
+          hasFeatureFlag(tenant, GQLFEATURE_FLAG.AVATARS) &&
+          isValidImageURL(avatar)
+            ? avatar
+            : undefined,
         badges,
         email,
         emailVerified: true,
