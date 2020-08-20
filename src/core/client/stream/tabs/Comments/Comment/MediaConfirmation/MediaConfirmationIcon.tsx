@@ -13,6 +13,7 @@ interface Props {
 const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
   return (
     <>
+      {media.type === "external" && <Icon>insert_photo</Icon>}
       {media.type === "youtube" && <Icon>ondemand_video</Icon>}
       {media.type === "twitter" && (
         <img className={styles.twitterIcon} src={twitterImg} alt="twitter" />

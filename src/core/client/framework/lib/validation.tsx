@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 
+import { VALID_MEDIA_FILE_URL } from "coral-common/constants";
 import {
   EMAIL_REGEX,
   PASSWORD_MIN_LENGTH,
@@ -10,13 +11,12 @@ import {
 } from "coral-common/helpers/validate";
 import startsWith from "coral-common/utils/startsWith";
 
-import { VALID_MEDIA_FILE_URL } from "coral-common/constants";
-
 import {
   DELETE_CONFIRMATION_INVALID,
   EMAILS_DO_NOT_MATCH,
   INVALID_CHARACTERS,
   INVALID_EMAIL,
+  INVALID_MEDIA_URL,
   INVALID_URL,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
   NOT_A_WHOLE_NUMBER,
@@ -31,7 +31,6 @@ import {
   VALIDATION_REQUIRED,
   VALIDATION_TOO_LONG,
   VALIDATION_TOO_SHORT,
-  INVALID_MEDIA_URL,
 } from "./messages";
 
 export type Validator<T = any, V = any> = (v: T, values: V) => ReactNode;
@@ -86,7 +85,7 @@ export const validateUsernameCharacters = createValidator(
 );
 
 export const validateMediaURL = createValidator(
-  (v) => !v || !v.url || VALID_MEDIA_FILE_URL.test(v.url),
+  (v) => !v || !v || VALID_MEDIA_FILE_URL.test(v),
   INVALID_MEDIA_URL()
 );
 
