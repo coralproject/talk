@@ -13,7 +13,8 @@ const ExternalMedia: FunctionComponent<Props> = ({ url, siteID }) => {
     <div className={styles.embed}>
       <iframe
         frameBorder="0"
-        width={450}
+        width={480}
+        height={320}
         allowFullScreen
         title="oEmbed"
         src={`/api/external-media?url=${cleanUrl}&siteID=${siteID}`}
