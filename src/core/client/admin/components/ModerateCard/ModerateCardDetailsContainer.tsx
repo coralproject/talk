@@ -92,7 +92,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         </>
       )}
       {activeTab === "HISTORY" && (
-        <CommentRevisionContainer comment={comment} settings={settings} />
+        <CommentRevisionContainer comment={comment} />
       )}
     </HorizontalGutter>
   );
@@ -129,7 +129,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
       ...FlagDetailsContainer_settings
-      ...CommentRevisionContainer_settings
       ...LinkDetailsContainer_settings
     }
   `,

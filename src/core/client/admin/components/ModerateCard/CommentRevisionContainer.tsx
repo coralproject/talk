@@ -5,19 +5,14 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
-import { CommentRevisionContainer_settings as SettingsData } from "coral-admin/__generated__/CommentRevisionContainer_settings.graphql";
 
 import { CommentContent } from "../Comment";
 
 interface Props {
   comment: CommentData;
-  settings: SettingsData;
 }
 
-const CommentRevisionContainer: FunctionComponent<Props> = ({
-  settings,
-  comment,
-}) => {
+const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
   return (
     <HorizontalGutter>
       {comment.revisionHistory
@@ -31,9 +26,7 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
         .map((c) => (
           <div key={c.id}>
             <Timestamp>{c.createdAt}</Timestamp>
-            <CommentContent phrases={settings}>
-              {c.body ? c.body : ""}
-            </CommentContent>
+            <CommentContent>{c.body ? c.body : ""}</CommentContent>
           </div>
         ))}
     </HorizontalGutter>
@@ -50,15 +43,6 @@ const enhanced = withFragmentContainer<Props>({
         id
         body
         createdAt
-      }
-    }
-  `,
-  settings: graphql`
-    fragment CommentRevisionContainer_settings on Settings {
-      locale
-      wordList {
-        banned
-        suspect
       }
     }
   `,
