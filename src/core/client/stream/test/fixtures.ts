@@ -175,6 +175,9 @@ export const baseUser = createFixture<GQLUser>({
       hasNextPage: false,
     },
   },
+  mediaSettings: {
+    unfurlEmbeds: false,
+  },
   notifications: {
     onReply: false,
     onModeration: false,

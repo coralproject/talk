@@ -61,6 +61,10 @@ export function createUser() {
     createdAt: randomDate().toISOString(),
     status: createUserStatus(),
     ignoredUsers: [],
+    avatar: undefined,
+    mediaSettings: {
+      unfurlEmbeds: false,
+    },
     comments: {
       edges: [],
       pageInfo: {
