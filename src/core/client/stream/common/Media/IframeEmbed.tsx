@@ -9,31 +9,20 @@ import React, {
 import styles from "./OEmbed.css";
 
 interface Props {
-  url: string;
-  type: string;
+  src: string;
   loadTimeout?: number;
   showLink?: boolean;
-  className?: string;
   width?: number | null;
   height?: number | null;
-  siteID: string;
 }
 
 function calculateBottomPadding(width: number, height: number) {
   return `${(height / width) * 100}%`;
 }
 
-const OEmbed: FunctionComponent<Props> = ({
-  url,
-  type,
-  className,
-  width,
-  height,
-  siteID,
-}) => {
+const IframeEmbed: FunctionComponent<Props> = ({ width, height, src }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const containerRef = React.createRef<HTMLDivElement>();
-  const cleanUrl = encodeURIComponent(url);
   const [maxWidth, setMaxWidth] = useState<number | null>(null);
   const attrs: HTMLProps<HTMLIFrameElement> = {};
   if (width) {
@@ -117,7 +106,7 @@ const OEmbed: FunctionComponent<Props> = ({
           scrolling="no"
           ref={iframeRef}
           title="oEmbed"
-          src={`/api/oembed?type=${type}&url=${cleanUrl}&maxWidth=${maxWidth}&siteID=${siteID}`}
+          src={`${src}&maxWidth=${maxWidth}`}
           onLoad={onLoad}
           className={styles.frame}
           {...attrs}
@@ -127,4 +116,4 @@ const OEmbed: FunctionComponent<Props> = ({
   );
 };
 
-export default OEmbed;
+export default IframeEmbed;

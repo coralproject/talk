@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import OEmbed from "./OEmbed";
+import IframeEmbed from "./IframeEmbed";
 
 interface Props {
   url: string;
@@ -9,7 +9,10 @@ interface Props {
 }
 
 const ExternalMedia: FunctionComponent<Props> = ({ url, width, siteID }) => {
-  return <OEmbed url={url} type="external" siteID={siteID} />;
+  const cleanUrl = encodeURIComponent(url);
+  return (
+    <IframeEmbed src={`/api/external-media?url=${cleanUrl}&siteID=${siteID}`} />
+  );
 };
 
 export default ExternalMedia;
