@@ -6,7 +6,7 @@ import { LanguageCode } from "coral-common/helpers";
 import logger from "coral-server/logger";
 import { getURLWithCommentID } from "coral-server/models/story";
 
-import { createAxios } from "../axios.ts";
+import { createAxios } from "../fetch.ts";
 
 const axios = createAxios({ name: "perspective" });
 
