@@ -81,4 +81,4 @@ export const SPOILER_CLASSNAME = "coral-rte-spoiler";
  * VALID_MEDIA_FILE_URL is the regex for validating external media urls
  */
 
-export const VALID_MEDIA_FILE_URL = /(jpe?g|gif|png|webp)$/i;
+export const VALID_MEDIA_FILE_URL = /\.(jpe?g|gif|png|webp)\??[-a-zA-Z0-9@:%_+.~#?&//=]*$/i;
