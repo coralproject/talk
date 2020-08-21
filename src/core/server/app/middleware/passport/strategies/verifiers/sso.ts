@@ -3,6 +3,7 @@ import { Redis } from "ioredis";
 import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
+import { URL } from "url";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
@@ -13,7 +14,6 @@ import {
   SSOAuthIntegration,
 } from "coral-server/models/settings";
 import {
-  hasFeatureFlag,
   Tenant,
   updateLastUsedAtTenantSSOSigningSecret,
 } from "coral-server/models/tenant";
@@ -35,7 +35,6 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { findOrCreate } from "coral-server/services/users";
 
 import {
-  GQLFEATURE_FLAG,
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -69,8 +68,14 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
   return isNil(error);
 }
 
+const IMAGE_EXTENSIONS = /\.(jpe?g|png|gif|webp)$/i;
 function isValidImageURL(url: string) {
-  return url.match(/(jpe?g|gif|png|webp)$/i);
+  try {
+    const parsed = new URL(url);
+    return IMAGE_EXTENSIONS.test(parsed.pathname);
+  } catch (err) {
+    return false;
+  }
 }
 
 export const SSOUserProfileSchema = Joi.object().keys({
@@ -107,7 +112,7 @@ export async function findOrCreateSSOUser(
   const {
     jti,
     exp,
-    user: { id, email, username, badges, role, url, avatar },
+    user: { id, email, username, badges, role, url },
     iat,
   } = decodedToken;
 
@@ -125,6 +130,12 @@ export async function findOrCreateSSOUser(
     type: "sso",
     id,
   });
+
+  // Try to get the avatar.
+  let avatar: string | undefined;
+  if (decodedToken.user.avatar && isValidImageURL(decodedToken.user.avatar)) {
+    avatar = decodedToken.user.avatar;
+  }
 
   if (!user) {
     if (!integration.allowRegistration) {
@@ -149,12 +160,7 @@ export async function findOrCreateSSOUser(
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
         ssoURL: url,
-        avatar:
-          avatar &&
-          hasFeatureFlag(tenant, GQLFEATURE_FLAG.AVATARS) &&
-          isValidImageURL(avatar)
-            ? avatar
-            : undefined,
+        avatar,
         badges,
         email,
         emailVerified: true,
@@ -174,7 +180,16 @@ export async function findOrCreateSSOUser(
         mongo,
         tenant.id,
         user.id,
-        { email, username, badges, role: role || user.role, avatar },
+        {
+          email,
+          username,
+          badges,
+          // Default to the role on the user if no role was specified so that
+          // organizations that manage their roles external to the tokens are
+          // not affected by this update feature.
+          role: role || user.role,
+          avatar,
+        },
         lastIssuedAt
       );
     }

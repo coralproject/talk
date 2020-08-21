@@ -277,6 +277,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
     indentLevel === 1 &&
     !!onRemoveAnswered;
 
+  const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
+
   // When we're in Q&A and we are not un-answered (answered) and we're a top
   // level comment (no parent), then we are an answered question.
   const hasAnsweredTag: boolean =
@@ -428,21 +430,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
                             </Flex>
                           </Button>
                         )}
-
-                        {comment.author &&
-                          settings.featureFlags.includes(
-                            GQLFEATURE_FLAG.AVATARS
-                          ) &&
-                          comment.author.avatar && (
-                            <div className={styles.avatarContainer}>
+                        {showAvatar && comment.author?.avatar && (
+                          <div className={styles.avatarContainer}>
+                            <Localized
+                              id="comments-commentContainer-avatar"
+                              attrs={{ alt: true }}
+                              $username={comment.author.username}
+                            >
                               <img
                                 src={comment.author.avatar}
                                 className={styles.avatar}
-                                alt=""
+                                alt={`Avatar for ${comment.author.username}`}
                               />
-                            </div>
-                          )}
-
+                            </Localized>
+                          </div>
+                        )}
                         {showModerationCaret && (
                           <CaretContainer
                             comment={comment}
