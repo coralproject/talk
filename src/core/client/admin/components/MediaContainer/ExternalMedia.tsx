@@ -16,7 +16,7 @@ const ExternalMedia: FunctionComponent<Props> = ({ url, siteID }) => {
         width={480}
         height={320}
         allowFullScreen
-        title="oEmbed"
+        title="External Image"
         src={`/api/external-media?url=${cleanUrl}&siteID=${siteID}`}
       />
     </div>

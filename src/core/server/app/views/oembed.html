@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+      {% if html %}
+        .container * {
+          margin: 0 !important;
+        }
+        {% if ratio %}
+          .container {
+            overflow: hidden;
+            position: relative;
+            padding-bottom: {{ ratio }}%;
+          }
+          .container iframe {
+            border: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+          }
+        {% endif %}
+      {% endif %}
+    </style>
+  </head>
+  <body>
+    {% if message %}
+      {{ message }}
+    {% elif html %}
+      <div class="container">
+        {{ html | safe }}
+      </div>
+    {% endif %}
+  </body>
+</html>

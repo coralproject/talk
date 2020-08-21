@@ -76,9 +76,3 @@ export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
  * SPOILER_CLASSNAME is the classname that is attached to spoilers.
  */
 export const SPOILER_CLASSNAME = "coral-rte-spoiler";
-
-/**
- * VALID_MEDIA_FILE_URL is the regex for validating external media urls
- */
-
-export const VALID_MEDIA_FILE_URL = /\.(jpe?g|gif|png|webp)\??[-a-zA-Z0-9@:%_+.~#?&//=]*$/i;

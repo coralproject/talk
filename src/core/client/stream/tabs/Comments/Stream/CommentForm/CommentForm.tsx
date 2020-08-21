@@ -72,7 +72,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  mediaConfig: PropTypesOf<typeof MediaField>["config"] | null;
+  mediaConfig: PropTypesOf<typeof MediaField>["config"];
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;

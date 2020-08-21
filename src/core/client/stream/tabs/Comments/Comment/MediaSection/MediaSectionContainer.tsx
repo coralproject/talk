@@ -19,36 +19,29 @@ import styles from "./MediaSectionContainer.css";
 interface Props {
   comment: MediaSectionContainer_comment;
   settings: MediaSectionContainer_settings;
-  defaultExpanded: boolean | null | undefined;
+  defaultExpanded?: boolean;
 }
 
 const MediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
-  defaultExpanded,
+  defaultExpanded = false,
 }) => {
-  const { revision } = comment;
-  const [expanded, setExpanded] = useState(defaultExpanded ? true : false);
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const onToggleExpand = useCallback(() => {
     setExpanded((v) => !v);
   }, []);
 
-  if (!revision || !revision.media || !settings.media) {
+  const media = comment.revision?.media;
+  if (!media) {
     return null;
   }
 
-  const { media } = revision;
-
   if (
-    !settings.media ||
-    (media.__typename === "TwitterMedia" &&
-      (!settings.media.twitter || !settings.media.twitter.enabled)) ||
-    (media.__typename === "YouTubeMedia" &&
-      (!settings.media.youtube || !settings.media.youtube.enabled)) ||
-    (media.__typename === "GiphyMedia" &&
-      (!settings.media.giphy || !settings.media.giphy.enabled)) ||
-    (media.__typename === "ExternalMedia" &&
-      (!settings.media.external || !settings.media.external.enabled))
+    (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
+    (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
+    (media.__typename === "GiphyMedia" && !settings.media.giphy.enabled) ||
+    (media.__typename === "ExternalMedia" && !settings.media.external.enabled)
   ) {
     return null;
   }

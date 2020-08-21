@@ -1,12 +1,12 @@
 import {
   composeValidators,
   Condition,
-  validateMediaURL,
+  validateImageURL,
   validateURL,
   validateWhen,
 } from "coral-framework/lib/validation";
 
-const hasExternalmediaAttached: Condition = (value, values) => {
+const hasExternalMediaAttached: Condition = (value, values) => {
   return (
     !!values.media && values.media.type === "external" && !!values.media.url
   );
@@ -14,10 +14,10 @@ const hasExternalmediaAttached: Condition = (value, values) => {
 
 export default function getMediaFieldValidators() {
   return validateWhen(
-    hasExternalmediaAttached,
+    hasExternalMediaAttached,
     composeValidators(
       (v, values) => validateURL(v.url, values),
-      (v, values) => validateMediaURL(v.url, values)
+      (v, values) => validateImageURL(v.url, values)
     )
   );
 }

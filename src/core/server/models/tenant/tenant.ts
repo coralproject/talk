@@ -473,21 +473,14 @@ export function supportsMediaType(
   tenant: Tenant,
   type: "twitter" | "youtube" | "giphy" | "external"
 ): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
-  if (!tenant.media) {
-    return false;
+  switch (type) {
+    case "external":
+      return !!tenant.media?.external.enabled;
+    case "twitter":
+      return !!tenant.media?.twitter.enabled;
+    case "youtube":
+      return !!tenant.media?.youtube.enabled;
+    case "giphy":
+      return !!tenant.media?.giphy.enabled && !!tenant.media.giphy.key;
   }
-  if (type === "twitter") {
-    return tenant.media.twitter && tenant.media.twitter.enabled;
-  } else if (type === "youtube") {
-    return tenant.media.youtube && tenant.media.youtube.enabled;
-  } else if (type === "external") {
-    return tenant.media.external && tenant.media.external.enabled;
-  } else if (type === "giphy") {
-    return (
-      tenant.media.giphy &&
-      tenant.media.giphy.enabled &&
-      !!tenant.media.giphy.key
-    );
-  }
-  return false;
 }

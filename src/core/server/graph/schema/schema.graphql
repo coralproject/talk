@@ -2274,7 +2274,7 @@ type UserMediaSettings {
   unfurlEmbeds is whether the user has chosen to immediately show embed contents
   without having to click "Show Tweet", "Show GIF", etc.
   """
-  unfurlEmbeds: Boolean
+  unfurlEmbeds: Boolean!
 }
 
 """
@@ -2582,7 +2582,7 @@ type User {
   """
   mediaSettings are the user's preferences around media stream behaviour.
   """
-  mediaSettings: UserMediaSettings
+  mediaSettings: UserMediaSettings!
     @auth(
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
@@ -4626,13 +4626,6 @@ input YouTubeMediaConfigurationInput {
   enabled: Boolean
 }
 
-input ExternalMediaConfigurationInput {
-  """
-  enabled is true when external media objects are enabled.
-  """
-  enabled: Boolean
-}
-
 input GiphyMediaConfigurationInput {
   """
   enabled is true when gif search via giphy and giphy media objects are enabled.
@@ -4665,11 +4658,6 @@ input MediaConfigurationInput {
   giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfigurationInput
-
-  """
-  external is the configuration for Giphy support.
-  """
-  external: ExternalMediaConfigurationInput
 }
 
 """

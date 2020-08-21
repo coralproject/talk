@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 
-import { VALID_MEDIA_FILE_URL } from "coral-common/constants";
 import {
   EMAIL_REGEX,
   PASSWORD_MIN_LENGTH,
@@ -9,7 +8,9 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/helpers/validate";
+import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import startsWith from "coral-common/utils/startsWith";
+import { parseURL } from "coral-framework/utils";
 
 import {
   DELETE_CONFIRMATION_INVALID,
@@ -84,10 +85,18 @@ export const validateUsernameCharacters = createValidator(
   INVALID_CHARACTERS()
 );
 
-export const validateMediaURL = createValidator(
-  (v) => !v || !v || VALID_MEDIA_FILE_URL.test(v),
-  INVALID_MEDIA_URL()
-);
+export const validateImageURL = createValidator((v) => {
+  if (!v || typeof v !== "string" || !URL_REGEX.test(v)) {
+    return false;
+  }
+
+  try {
+    const { pathname } = parseURL(v);
+    return validateImagePathname(pathname);
+  } catch (err) {
+    return false;
+  }
+}, INVALID_MEDIA_URL());
 
 /**
  * validateURL is a Validator that checks that the URL only contains valid characters.

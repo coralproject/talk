@@ -81,4 +81,5 @@ export const User: GQLUserTypeResolver<user.User> = {
     // Get the Stories!
     return ctx.loaders.Stories.story.loadMany(results.map(({ _id }) => _id));
   },
+  mediaSettings: ({ mediaSettings = {} }) => mediaSettings,
 };

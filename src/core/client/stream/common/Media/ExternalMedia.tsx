@@ -4,14 +4,15 @@ import IframeEmbed from "./IframeEmbed";
 
 interface Props {
   url: string;
-  width?: number | null;
   siteID: string;
 }
 
-const ExternalMedia: FunctionComponent<Props> = ({ url, width, siteID }) => {
-  const cleanUrl = encodeURIComponent(url);
+const ExternalMedia: FunctionComponent<Props> = ({ url, siteID }) => {
+  const component = encodeURIComponent(url);
   return (
-    <IframeEmbed src={`/api/external-media?url=${cleanUrl}&siteID=${siteID}`} />
+    <IframeEmbed
+      src={`/api/external-media?url=${component}&siteID=${siteID}`}
+    />
   );
 };
 
