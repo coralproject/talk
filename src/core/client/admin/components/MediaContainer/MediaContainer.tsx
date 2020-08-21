@@ -6,10 +6,10 @@ import {} from "coral-ui/components/v2";
 
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
+import ExternalMedia from "./ExternalMedia";
 import GiphyMedia from "./GiphyMedia";
 import TwitterMedia from "./TwitterMedia";
 import YouTubeMedia from "./YouTubeMedia";
-import ExternalMedia from "./ExternalMedia";
 
 interface Props {
   comment: MediaContainer_comment;
