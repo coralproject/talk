@@ -405,6 +405,7 @@ configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Twe
 configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
 configure-general-embedLinks-enableGiphyEmbeds = Allow GIFs from GIPHY
+configure-general-embedLinks-enableExternalEmbeds = Enable external media
 
 configure-general-embedLinks-On = Yes
 configure-general-embedLinks-Off = No

@@ -28,6 +28,7 @@ import styles from "./MediaLinksConfig.css";
 
 interface Props {
   disabled: boolean;
+  externalMediaFeatureFlag: boolean;
 }
 
 const giphyIsEnabled: Condition = (value, values) =>
@@ -55,7 +56,10 @@ graphql`
   }
 `;
 
-const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
+const MediaLinksConfig: FunctionComponent<Props> = ({
+  disabled,
+  externalMediaFeatureFlag,
+}) => {
   return (
     <ConfigBox
       title={
@@ -110,25 +114,27 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           }
         />
       </FormField>
-      <FormField>
-        <Localized id="configure-general-embedLinks-enableExternalEmbeds">
-          <Label component="legend">Enable external media</Label>
-        </Localized>
-        <OnOffField
-          name="media.external.enabled"
-          disabled={disabled}
-          onLabel={
-            <Localized id="configure-general-embedLinks-On">
-              <span>Yes</span>
-            </Localized>
-          }
-          offLabel={
-            <Localized id="configure-general-embedLinks-Off">
-              <span>No</span>
-            </Localized>
-          }
-        />
-      </FormField>
+      {externalMediaFeatureFlag && (
+        <FormField>
+          <Localized id="configure-general-embedLinks-enableExternalEmbeds">
+            <Label component="legend">Enable external media</Label>
+          </Localized>
+          <OnOffField
+            name="media.external.enabled"
+            disabled={disabled}
+            onLabel={
+              <Localized id="configure-general-embedLinks-On">
+                <span>Yes</span>
+              </Localized>
+            }
+            offLabel={
+              <Localized id="configure-general-embedLinks-Off">
+                <span>No</span>
+              </Localized>
+            }
+          />
+        </FormField>
+      )}
       <FormField>
         <Localized id="configure-general-embedLinks-enableGiphyEmbeds">
           <Label component="legend">Allow GIFs from GIPHY</Label>

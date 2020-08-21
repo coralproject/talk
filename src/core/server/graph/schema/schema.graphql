@@ -420,9 +420,15 @@ enum FEATURE_FLAG {
   READ_MORE_NEW_TAB
 
   """
-  AVATARS will enable pulling an avatar URL from sso token and displaying it next to user comments
+  AVATARS will enable pulling an avatar URL from sso token and displaying it
+  next to user comments
   """
   AVATARS
+
+  """
+  EXTERNAL_MEDIA enables embedding external images
+  """
+  EXTERNAL_MEDIA
 }
 
 # The moderation mode of the site.

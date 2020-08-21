@@ -17,7 +17,7 @@ import CommentEditingConfig from "./CommentEditingConfig";
 import CommentLengthConfig from "./CommentLengthConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
 import LocaleConfig from "./LocaleConfig";
-import MediaLinksConfig from "./MediaLinksConfig";
+import MediaLinksConfigContainer from "./MediaLinksConfigContainer";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
@@ -53,7 +53,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <ClosedStreamMessageConfig disabled={submitting} />
       <ReactionConfigContainer disabled={submitting} settings={settings} />
       <StaffConfig disabled={submitting} />
-      <MediaLinksConfig disabled={submitting} />
+      <MediaLinksConfigContainer disabled={submitting} settings={settings} />
     </HorizontalGutter>
   );
 };
@@ -74,6 +74,7 @@ const enhanced = withFragmentContainer<Props>({
       ...RTEConfig_formValues @relay(mask: false)
       ...MediaLinksConfig_formValues @relay(mask: false)
       ...ReactionConfigContainer_settings
+      ...MediaLinksConfigContainer_settings
     }
   `,
 })(GeneralConfigContainer);
