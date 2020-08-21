@@ -229,7 +229,7 @@ export type Settings = GlobalModerationSettings &
     /**
      * media is the configuration media content attached to Comment's.
      */
-    media?: GQLMediaConfiguration;
+    media?: Omit<GQLMediaConfiguration, "external">;
   };
 
 export const defaultRTEConfiguration: GQLRTEConfiguration = {

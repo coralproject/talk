@@ -1,5 +1,5 @@
-import { VALID_MEDIA_FILE_URL } from "coral-common/constants";
 import { findMediaLinks } from "coral-common/helpers/findMediaLinks";
+import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { WrappedInternalError } from "coral-server/errors";
 import {
   ExternalMedia,
@@ -57,21 +57,19 @@ async function attachExternalMedia(
   inputWidth?: string,
   inputHeight?: string
 ): Promise<ExternalMedia | undefined> {
-  const extensionMatch = url.match(VALID_MEDIA_FILE_URL);
-  if (!extensionMatch) {
+  const parsed = new URL(url);
+  if (!validateImagePathname(parsed.pathname)) {
     throw new Error("cannot attach external image");
   }
 
   const width = inputWidth ? parseInt(inputWidth, 10) : undefined;
   const height = inputHeight ? parseInt(inputHeight, 10) : undefined;
 
-  const [, extension] = extensionMatch;
   return {
     type: "external",
     url,
     width,
     height,
-    extension,
   };
 }
 

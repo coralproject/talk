@@ -77,7 +77,6 @@ export interface YouTubeMedia {
 export interface ExternalMedia {
   type: "external";
   url: string;
-  extension: string;
   width?: number;
   height?: number;
 }
