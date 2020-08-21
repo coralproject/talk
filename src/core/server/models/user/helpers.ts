@@ -136,8 +136,8 @@ export function needsSSOUpdate(
   return (
     user.email !== token.email ||
     user.username !== token.username ||
-    (user.avatar && user.avatar !== token.avatar) ||
-    (user.ssoURL && user.ssoURL !== token.url) ||
+    user.avatar !== token.avatar ||
+    user.ssoURL !== token.url ||
     (token.role && user.role !== token.role) ||
     !isEqual(user.badges, token.badges)
   );
