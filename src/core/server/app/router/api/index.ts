@@ -2,7 +2,6 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
-import { graphQLHandler } from "coral-server/app/handlers";
 import { externalMediaHandler } from "coral-server/app/handlers/api/externalMedia/externalMedia";
 import { oembedHandler } from "coral-server/app/handlers/api/oembed/oembed";
 import {
