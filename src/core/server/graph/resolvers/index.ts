@@ -21,6 +21,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
@@ -56,6 +57,7 @@ import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { TwitterMediaConfiguration } from "./TwitterMediaConfiguration";
 import { User } from "./User";
+import { UserMediaSettings } from "./UserMediaSettings";
 import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
@@ -84,6 +86,7 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  ExternalMediaConfiguration,
   ExternalModerationPhase,
   FacebookAuthIntegration,
   FeatureCommentPayload,
@@ -121,6 +124,7 @@ const Resolvers: GQLResolver = {
   TwitterMediaConfiguration,
   Time,
   User,
+  UserMediaSettings,
   UserModerationScopes,
   UsernameHistory,
   UsernameStatus,

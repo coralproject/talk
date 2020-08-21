@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
 
+import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -68,11 +69,10 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
   return isNil(error);
 }
 
-const IMAGE_EXTENSIONS = /\.(jpe?g|png|gif|webp)$/i;
 function isValidImageURL(url: string) {
   try {
     const parsed = new URL(url);
-    return IMAGE_EXTENSIONS.test(parsed.pathname);
+    return validateImagePathname(parsed.pathname);
   } catch (err) {
     return false;
   }

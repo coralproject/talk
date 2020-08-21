@@ -9,31 +9,20 @@ import React, {
 import styles from "./OEmbed.css";
 
 interface Props {
-  url: string;
-  type: string;
+  src: string;
   loadTimeout?: number;
   showLink?: boolean;
-  className?: string;
   width?: number | null;
   height?: number | null;
-  siteID: string;
 }
 
 function calculateBottomPadding(width: number, height: number) {
   return `${(height / width) * 100}%`;
 }
 
-const OEmbed: FunctionComponent<Props> = ({
-  url,
-  type,
-  className,
-  width,
-  height,
-  siteID,
-}) => {
+const IframeEmbed: FunctionComponent<Props> = ({ width, height, src }) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const containerRef = React.createRef<HTMLDivElement>();
-  const cleanUrl = encodeURIComponent(url);
   const [maxWidth, setMaxWidth] = useState<number | null>(null);
   const attrs: HTMLProps<HTMLIFrameElement> = {};
   if (width) {
@@ -70,18 +59,28 @@ const OEmbed: FunctionComponent<Props> = ({
       }
       let calculatedWidth = width;
       let calculatedHeight = height;
+      let desiredWidth;
+      let desiredHeight;
       if (!width) {
         calculatedWidth =
           iframeRef.current.contentWindow.document.body.scrollWidth;
+        desiredWidth = calculatedWidth;
+        if (maxWidth && calculatedWidth > maxWidth) {
+          desiredWidth = maxWidth;
+        }
         if (`${calculatedWidth}` !== iframeRef.current.width) {
-          iframeRef.current.width = `${calculatedWidth}px`;
+          iframeRef.current.width = `${desiredWidth}px`;
         }
       }
       if (!height) {
         calculatedHeight =
           iframeRef.current.contentWindow.document.body.scrollHeight;
+        desiredHeight = calculatedHeight;
+        if (maxWidth && calculatedWidth && calculatedWidth > maxWidth) {
+          desiredHeight = (calculatedWidth / calculatedHeight) * maxWidth;
+        }
         if (`${calculatedHeight}` !== iframeRef.current.height) {
-          iframeRef.current.height = `${calculatedHeight}px`;
+          iframeRef.current.height = `${desiredHeight}px`;
         }
       }
       if (
@@ -96,7 +95,7 @@ const OEmbed: FunctionComponent<Props> = ({
         );
       }
     }, 100);
-  }, [iframeRef, containerRef, width, height]);
+  }, [iframeRef, containerRef, width, height, maxWidth]);
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -107,7 +106,7 @@ const OEmbed: FunctionComponent<Props> = ({
           scrolling="no"
           ref={iframeRef}
           title="oEmbed"
-          src={`/api/oembed?type=${type}&url=${cleanUrl}&maxWidth=${maxWidth}&siteID=${siteID}`}
+          src={`${src}&maxWidth=${maxWidth}`}
           onLoad={onLoad}
           className={styles.frame}
           {...attrs}
@@ -117,4 +116,4 @@ const OEmbed: FunctionComponent<Props> = ({
   );
 };
 
-export default OEmbed;
+export default IframeEmbed;

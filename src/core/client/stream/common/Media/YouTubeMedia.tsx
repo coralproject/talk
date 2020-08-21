@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import OEmbed from "./OEmbed";
+import IframeEmbed from "./IframeEmbed";
 
 interface Props {
   url: string;
@@ -15,13 +15,12 @@ const YouTubeMedia: FunctionComponent<Props> = ({
   height,
   siteID,
 }) => {
+  const cleanUrl = encodeURIComponent(url);
   return (
-    <OEmbed
-      url={url}
+    <IframeEmbed
+      src={`/api/oembed?type=youtube&url=${cleanUrl}&siteID=${siteID}`}
       width={width}
       height={height}
-      type="youtube"
-      siteID={siteID}
     />
   );
 };

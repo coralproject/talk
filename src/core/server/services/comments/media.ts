@@ -1,6 +1,8 @@
 import { findMediaLinks } from "coral-common/helpers/findMediaLinks";
+import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { WrappedInternalError } from "coral-server/errors";
 import {
+  ExternalMedia,
   GiphyMedia,
   TwitterMedia,
   YouTubeMedia,
@@ -48,6 +50,27 @@ async function attachGiphyMedia(
   } catch (err) {
     throw new WrappedInternalError(err, "cannot attach Giphy Media");
   }
+}
+
+async function attachExternalMedia(
+  url: string,
+  inputWidth?: string,
+  inputHeight?: string
+): Promise<ExternalMedia | undefined> {
+  const parsed = new URL(url);
+  if (!validateImagePathname(parsed.pathname)) {
+    throw new Error("cannot attach external image");
+  }
+
+  const width = inputWidth ? parseInt(inputWidth, 10) : undefined;
+  const height = inputHeight ? parseInt(inputHeight, 10) : undefined;
+
+  return {
+    type: "external",
+    url,
+    width,
+    height,
+  };
 }
 
 async function attachOEmbedMedia(
@@ -107,9 +130,11 @@ async function attachOEmbedMedia(
 }
 
 export interface CreateCommentMediaInput {
-  type: "giphy" | "twitter" | "youtube";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id?: string;
+  width?: string;
+  height?: string;
 }
 
 export async function attachMedia(
@@ -130,6 +155,8 @@ export async function attachMedia(
       }
 
       return attachGiphyMedia(tenant, input.id, input.url);
+    case "external":
+      return attachExternalMedia(input.url, input.width, input.height);
     case "twitter":
     case "youtube":
       return attachOEmbedMedia(input.type, input.url, body);

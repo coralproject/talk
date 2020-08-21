@@ -13,7 +13,6 @@ import React, {
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { useToggleState } from "coral-framework/hooks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
@@ -42,9 +41,11 @@ export interface PasteEvent {
 }
 
 interface MediaProps {
-  type: "giphy" | "twitter" | "youtube";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id: string | null;
+  width?: string;
+  height?: string;
 }
 
 interface FormProps {
@@ -71,7 +72,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  mediaConfig: PropTypesOf<typeof MediaField>["config"] | null;
+  mediaConfig: PropTypesOf<typeof MediaField>["config"];
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
@@ -81,7 +82,10 @@ interface Props {
 }
 
 const CommentForm: FunctionComponent<Props> = (props) => {
-  const [showGifSelector, , toggleGIFSelector] = useToggleState();
+  const [showGifSelector, setShowGifSelector] = useState<boolean>(false);
+  const [showExternalImageInput, setShowExternalImageInput] = useState<boolean>(
+    false
+  );
   const [media, setMedia] = useState<MediaLink | null>(null);
   const onSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
@@ -119,6 +123,20 @@ const CommentForm: FunctionComponent<Props> = (props) => {
     },
     [setMedia, props.mediaConfig]
   );
+
+  const toggleExternalImageInput = useCallback(() => {
+    setShowExternalImageInput(!showExternalImageInput);
+    if (showGifSelector) {
+      setShowGifSelector(false);
+    }
+  }, [showExternalImageInput, showGifSelector]);
+
+  const toggleGIFSelector = useCallback(() => {
+    setShowGifSelector(!showGifSelector);
+    if (showExternalImageInput) {
+      setShowExternalImageInput(false);
+    }
+  }, [showExternalImageInput, showGifSelector]);
 
   return (
     <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>
@@ -175,23 +193,47 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           disabled={submitting || props.disabled}
                           ref={props.rteRef || null}
                           toolbarButtons={
-                            props.mediaConfig &&
-                            props.mediaConfig.giphy.enabled ? (
-                              <>
-                                <Button
-                                  color="secondary"
-                                  variant={showGifSelector ? "filled" : "flat"}
-                                  onClick={toggleGIFSelector}
-                                  fontSize="small"
-                                  paddingSize="extraSmall"
-                                >
-                                  <Flex alignItems="center">
-                                    <Icon className={styles.icon}>add</Icon>
-                                    GIF
-                                  </Flex>
-                                </Button>
-                              </>
-                            ) : null
+                            <>
+                              {props.mediaConfig &&
+                              props.mediaConfig.external.enabled ? (
+                                <>
+                                  <Button
+                                    color="secondary"
+                                    variant="flat"
+                                    className={cn(styles.rteButton, {
+                                      [styles.rteButtonSelected]: showExternalImageInput,
+                                    })}
+                                    onClick={toggleExternalImageInput}
+                                    fontSize="small"
+                                    paddingSize="extraSmall"
+                                  >
+                                    <Flex alignItems="center">
+                                      <Icon size="md">add_photo_alternate</Icon>
+                                    </Flex>
+                                  </Button>
+                                </>
+                              ) : null}
+                              {props.mediaConfig &&
+                              props.mediaConfig.giphy.enabled ? (
+                                <>
+                                  <Button
+                                    color="secondary"
+                                    variant="flat"
+                                    className={cn(styles.rteButton, {
+                                      [styles.rteButtonSelected]: showGifSelector,
+                                    })}
+                                    onClick={toggleGIFSelector}
+                                    fontSize="small"
+                                    paddingSize="extraSmall"
+                                  >
+                                    <Flex alignItems="center">
+                                      <Icon className={styles.icon}>add</Icon>
+                                      GIF
+                                    </Flex>
+                                  </Button>
+                                </>
+                              ) : null}
+                            </>
                           }
                         />
                       </Localized>
@@ -203,6 +245,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       siteID={props.siteID}
                       media={media}
                       setMedia={setMedia}
+                      showExternalImageInput={showExternalImageInput}
+                      toggleExternalImageInput={toggleExternalImageInput}
                       showGIFSelector={showGifSelector}
                       toggleGIFSelector={toggleGIFSelector}
                     />

@@ -65,9 +65,10 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   );
 
   if (
-    !settings.media?.giphy?.enabled &&
-    !settings.media?.twitter?.enabled &&
-    !settings.media?.youtube?.enabled
+    !settings.media.giphy.enabled &&
+    !settings.media.twitter.enabled &&
+    !settings.media.youtube.enabled &&
+    !settings.media.external.enabled
   ) {
     return null;
   }
@@ -158,7 +159,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
           )}
         </Form>
       </HorizontalGutter>
-      <HorizontalRule></HorizontalRule>
+      <HorizontalRule />
     </>
   );
 };
@@ -174,6 +175,9 @@ const enhanced = withFragmentContainer<Props>({
           enabled
         }
         youtube {
+          enabled
+        }
+        external {
           enabled
         }
       }

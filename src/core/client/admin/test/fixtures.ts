@@ -187,6 +187,7 @@ export const settings = createFixture<GQLSettings>({
     twitter: { enabled: false },
     giphy: { enabled: false },
     youtube: { enabled: false },
+    external: { enabled: false },
   },
   slack: {
     channels: [],

@@ -3,16 +3,22 @@ import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { GiphyGif } from "coral-common/rest/external/giphy";
+import { getMediaValidators } from "../../helpers";
 
+import { Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 import {
   MediaConfirmPrompt,
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
+import ExternalImageInput from "../../ExternalImageInput";
 import GifSelector, { GifPreview } from "../../GifSelector";
 
 interface Props {
   showGIFSelector: boolean;
   toggleGIFSelector: () => void;
+  showExternalImageInput: boolean;
+  toggleExternalImageInput: () => void;
   siteID: string;
   config: MediaConfig;
   media: MediaLink | null;
@@ -20,9 +26,11 @@ interface Props {
 }
 
 export interface Media {
-  type: "giphy" | "twitter" | "youtube";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id?: string;
+  width?: string;
+  height?: string;
 }
 
 interface MediaConfig {
@@ -35,10 +43,15 @@ interface MediaConfig {
   youtube: {
     enabled: boolean;
   };
+  external: {
+    enabled: boolean;
+  };
 }
 
 const MediaField: FunctionComponent<Props> = (props) => {
-  const field = useField<Media | undefined>("media");
+  const field = useField<Media | undefined>("media", {
+    validate: getMediaValidators(),
+  });
 
   const onGIFSelect = useCallback(
     (gif: GiphyGif) => {
@@ -57,6 +70,18 @@ const MediaField: FunctionComponent<Props> = (props) => {
     field.input.onChange(undefined);
   }, [field.input]);
 
+  const onImageInsert = useCallback(
+    (url: string) => {
+      field.input.onChange({
+        type: "external",
+        url,
+      });
+
+      props.toggleExternalImageInput();
+    },
+    [props.toggleExternalImageInput]
+  );
+
   const onConfirmMedia = useCallback(() => {
     field.input.onChange(props.media!);
     props.setMedia(null);
@@ -73,6 +98,9 @@ const MediaField: FunctionComponent<Props> = (props) => {
   return (
     <>
       {props.showGIFSelector && <GifSelector onGifSelect={onGIFSelect} />}
+      {props.showExternalImageInput && (
+        <ExternalImageInput onImageInsert={onImageInsert} />
+      )}
       {props.media && (
         <MediaConfirmPrompt
           media={props.media}
@@ -94,6 +122,14 @@ const MediaField: FunctionComponent<Props> = (props) => {
             <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
           )
         ))}
+      {field.meta.error && (
+        <CallOut
+          color="error"
+          title={field.meta.error}
+          titleWeight="semiBold"
+          icon={<Icon>error</Icon>}
+        />
+      )}
     </>
   );
 };

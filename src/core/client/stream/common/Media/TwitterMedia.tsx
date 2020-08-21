@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import OEmbed from "./OEmbed";
+import IframeEmbed from "./IframeEmbed";
 
 interface Props {
   url: string;
@@ -9,7 +9,12 @@ interface Props {
 }
 
 const TwitterMedia: FunctionComponent<Props> = ({ url, width, siteID }) => {
-  return <OEmbed url={url} type="twitter" siteID={siteID} />;
+  const cleanUrl = encodeURIComponent(url);
+  return (
+    <IframeEmbed
+      src={`/api/oembed?type=twitter&url=${cleanUrl}&siteID=${siteID}`}
+    />
+  );
 };
 
 export default TwitterMedia;

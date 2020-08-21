@@ -8,13 +8,16 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/helpers/validate";
+import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import startsWith from "coral-common/utils/startsWith";
+import { parseURL } from "coral-framework/utils";
 
 import {
   DELETE_CONFIRMATION_INVALID,
   EMAILS_DO_NOT_MATCH,
   INVALID_CHARACTERS,
   INVALID_EMAIL,
+  INVALID_MEDIA_URL,
   INVALID_URL,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
   NOT_A_WHOLE_NUMBER,
@@ -81,6 +84,19 @@ export const validateUsernameCharacters = createValidator(
   (v) => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
 );
+
+export const validateImageURL = createValidator((v) => {
+  if (!v || typeof v !== "string" || !URL_REGEX.test(v)) {
+    return false;
+  }
+
+  try {
+    const { pathname } = parseURL(v);
+    return validateImagePathname(pathname);
+  } catch (err) {
+    return false;
+  }
+}, INVALID_MEDIA_URL());
 
 /**
  * validateURL is a Validator that checks that the URL only contains valid characters.

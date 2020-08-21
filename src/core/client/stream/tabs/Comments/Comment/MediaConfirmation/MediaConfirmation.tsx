@@ -16,6 +16,9 @@ interface MediaConfig {
   youtube: {
     enabled: boolean;
   };
+  external: {
+    enabled: boolean;
+  };
 }
 
 interface Props {

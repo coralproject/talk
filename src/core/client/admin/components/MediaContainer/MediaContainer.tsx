@@ -6,6 +6,7 @@ import {} from "coral-ui/components/v2";
 
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
+import ExternalMedia from "./ExternalMedia";
 import GiphyMedia from "./GiphyMedia";
 import TwitterMedia from "./TwitterMedia";
 import YouTubeMedia from "./YouTubeMedia";
@@ -27,6 +28,12 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
           title={comment.revision.media.title}
           width={comment.revision.media.width}
           height={comment.revision.media.height}
+        />
+      )}
+      {comment.revision.media.__typename === "ExternalMedia" && (
+        <ExternalMedia
+          url={comment.revision.media.url}
+          siteID={comment.site.id}
         />
       )}
       {comment.revision.media.__typename === "TwitterMedia" && (
@@ -77,6 +84,9 @@ const enhanced = withFragmentContainer<Props>({
             title
             width
             height
+          }
+          ... on ExternalMedia {
+            url
           }
         }
       }

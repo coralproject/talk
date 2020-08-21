@@ -10,8 +10,10 @@ import {
 
 import getHTMLCharacterLength from "./getHTMLCharacterLength";
 
-const hasGIFAttached: Condition = (value, values) =>
-  !!values.media && values.media.type === "giphy" && !!values.media.url;
+const hasMediaAttached: Condition = (value, values) =>
+  !!values.media &&
+  (values.media.type === "giphy" || values.media.type === "external") &&
+  !!values.media.url;
 
 function getLengthValidators(min: number | null, max: number | null) {
   const validators: Validator[] = [];
@@ -37,7 +39,7 @@ export default function getCommentBodyValdiators(
   max: number | null
 ) {
   return validateWhenOtherwise(
-    hasGIFAttached,
+    hasMediaAttached,
     getLengthValidators(null, max),
     getLengthValidators(min || 1, max)
   );

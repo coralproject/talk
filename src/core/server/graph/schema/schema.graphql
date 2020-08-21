@@ -420,9 +420,15 @@ enum FEATURE_FLAG {
   READ_MORE_NEW_TAB
 
   """
-  AVATARS will enable pulling an avatar URL from sso token and displaying it next to user comments
+  AVATARS will enable pulling an avatar URL from sso token and displaying it
+  next to user comments
   """
   AVATARS
+
+  """
+  EXTERNAL_MEDIA enables embedding external images
+  """
+  EXTERNAL_MEDIA
 }
 
 # The moderation mode of the site.
@@ -1340,6 +1346,13 @@ type YouTubeMediaConfiguration {
   enabled: Boolean!
 }
 
+type ExternalMediaConfiguration {
+  """
+  enabled is true when external media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
 type MediaConfiguration {
   """
   twitter is the configuration for Twitter support.
@@ -1355,6 +1368,11 @@ type MediaConfiguration {
   giphy is the configuration for Giphy support.
   """
   giphy: GiphyMediaConfiguration!
+
+  """
+  external is the configuration for external images.
+  """
+  external: ExternalMediaConfiguration!
 }
 
 ################################################################################
@@ -2256,7 +2274,7 @@ type UserMediaSettings {
   unfurlEmbeds is whether the user has chosen to immediately show embed contents
   without having to click "Show Tweet", "Show GIF", etc.
   """
-  unfurlEmbeds: Boolean
+  unfurlEmbeds: Boolean!
 }
 
 """
@@ -2564,7 +2582,7 @@ type User {
   """
   mediaSettings are the user's preferences around media stream behaviour.
   """
-  mediaSettings: UserMediaSettings
+  mediaSettings: UserMediaSettings!
     @auth(
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
@@ -2857,10 +2875,32 @@ type YouTubeMedia {
   height: Int
 }
 
+type ExternalMedia {
+  """
+  url is the URL of a YouTube video.
+  """
+  url: String!
+
+  """
+  extension is the file extension
+  """
+  extension: String!
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
+  height: Int
+}
+
 """
 CommentMedia is the various media types that can be attached to a Comment.
 """
-union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia
 
 type CommentRevision {
   """
@@ -3818,7 +3858,7 @@ CreateCommentMediaInput is used for creating media to be attached to a Comment.
 input CreateCommentMediaInput {
   """
   type specifies the type of media that can be attached. Valid values for this
-  are: `giphy`, `twitter`, and `youtube`.
+  are: `giphy`, `external`, `twitter`, and `youtube`.
   """
   type: String!
 
@@ -3831,6 +3871,15 @@ input CreateCommentMediaInput {
   url is the URL to the media resource.
   """
   url: String!
+
+  """
+  width is the width to the media resource.
+  """
+  width: String
+  """
+  height is the height to the media resource.
+  """
+  height: String
 }
 
 ##################

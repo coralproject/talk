@@ -11,6 +11,8 @@ const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
       return "YouTubeMedia";
     case "twitter":
       return "TwitterMedia";
+    case "external":
+      return "ExternalMedia";
     default:
       // TODO: replace with better error.
       throw new Error("invalid embed type");

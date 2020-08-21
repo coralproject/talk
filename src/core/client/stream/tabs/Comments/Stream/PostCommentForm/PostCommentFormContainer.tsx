@@ -311,6 +311,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
                   giphy {
                     enabled
                   }
+                  external {
+                    enabled
+                  }
                 }
                 rte {
                   ...RTEContainer_config

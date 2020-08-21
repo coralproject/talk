@@ -37,8 +37,8 @@ import {
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
-  GQLUpdateUserMediaSettingsInput,
   GQLUSER_ROLE,
+  GQLUserMediaSettings,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
   GQLWarningStatus,
@@ -536,6 +536,11 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
+
+  /**
+   * mediaSettings are optional media settings for the User.
+   */
+  mediaSettings?: GQLUserMediaSettings;
 
   commentCounts: UserCommentCounts;
 }
@@ -2545,18 +2550,16 @@ export async function updateUserNotificationSettings(
   mongo: Db,
   tenantID: string,
   id: string,
-  settings: NotificationSettingsInput
+  notifications: NotificationSettingsInput
 ) {
+  const update: DeepPartial<User> = { notifications };
+
   const result = await collection(mongo).findOneAndUpdate(
     {
       id,
       tenantID,
     },
-    {
-      $set: dotize({
-        notifications: settings,
-      }),
-    },
+    { $set: dotize(update) },
     {
       // False to return the updated document instead of the original
       // document.
@@ -2576,26 +2579,22 @@ export async function updateUserNotificationSettings(
   return result.value;
 }
 
-export type UpdateUserMediaSettingsInput = Partial<
-  GQLUpdateUserMediaSettingsInput
->;
+export type UpdateUserMediaSettingsInput = Partial<GQLUserMediaSettings>;
 
 export async function updateUserMediaSettings(
   mongo: Db,
   tenantID: string,
   id: string,
-  settings: UpdateUserMediaSettingsInput
+  mediaSettings: UpdateUserMediaSettingsInput
 ) {
+  const update: DeepPartial<User> = { mediaSettings };
+
   const result = await collection(mongo).findOneAndUpdate(
     {
       id,
       tenantID,
     },
-    {
-      $set: dotize({
-        mediaSettings: settings,
-      }),
-    },
+    { $set: dotize(update) },
     {
       // False to return the updated document instead of the original
       // document.

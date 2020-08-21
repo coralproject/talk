@@ -14,6 +14,7 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
+  ExternalMedia,
   getLatestRevision,
   GiphyMedia,
   retrieveComment,
@@ -113,7 +114,12 @@ export default async function edit(
 
   const lastRevision = getLatestRevision(originalStaleComment);
 
-  let media: GiphyMedia | TwitterMedia | YouTubeMedia | undefined;
+  let media:
+    | GiphyMedia
+    | TwitterMedia
+    | YouTubeMedia
+    | ExternalMedia
+    | undefined;
 
   // attach a new media object from input IF:
   //   input.media is defined AND EITHER:

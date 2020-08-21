@@ -1,4 +1,5 @@
 $commentsBorder: var(--palette-grey-300);
+$rteButtonActive: #ddd;
 
 .commentFormBox {
   border: 1px solid $commentsBorder;
@@ -14,4 +15,13 @@ $commentsBorder: var(--palette-grey-300);
 
 .icon {
   margin-right: 2px;
+}
+
+.rteButton {
+  padding: 3px;
+}
+
+.rteButton:hover,
+.rteButtonSelected {
+  background-color: $rteButtonActive;
 }

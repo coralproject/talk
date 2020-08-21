@@ -39,71 +39,34 @@ export const oembedHandler = ({
         return;
       }
 
-      let style = `
-          body {
-            margin: 0;
-            font-family: sans-serif;
-          }
-          .container * {
-            margin: 0!important;
-          }
-      `;
+      // Get the oEmbed response.
+
+      // TODO: look at caching this response
       const response = await fetchOEmbedResponse(type, url, maxWidth);
-      if (response === null || !response.html) {
+      if (!response?.html) {
+        // There was no response! Return a translated error message.
         const bundle = i18n.getBundle(tenant.locale);
         const message = translate(
           bundle,
           "Requested media could not be found",
           "common-embedNotFound"
         );
-        res.status(404);
-        res.send(
-          `<html>
-            <style>
-              ${style}
-            </style>
-            <body>
-            ${message}
-            </body>
-          <html>`
-        );
-        return;
+
+        return res.status(404).render("oembed", { message });
       }
 
+      // Pull out some params from the response.
       const { width, height, html } = response;
 
-      // Compile the style to be used for the embed.
+      // If there's a width and height (and they aren't zero), then compute the
+      // ratio that we'll pass down to the template.
+      let ratio: number | undefined;
       if (width && height) {
-        style += `
-          .container {
-            overflow: hidden;
-            position: relative;
-            padding-bottom: ${(height / width) * 100}%;
-          }
-          .container iframe {
-            border: 0;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-          }
-        `;
+        ratio = Math.floor((height / width) * 100);
       }
 
-      // Send back the HTML for the oEmbed.
-      res.send(
-        `<html>
-          <style>
-            ${style}
-          </style>
-            <body>
-              <div class="container">
-                ${html}
-              </div>
-            </body>
-          <html>`
-      );
+      // Send back the template!
+      return res.render("oembed", { html, ratio });
     } catch (err) {
       next(err);
     }
