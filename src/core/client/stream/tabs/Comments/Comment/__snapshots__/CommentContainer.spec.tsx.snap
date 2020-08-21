@@ -68,6 +68,7 @@ exports[`hide reply button 1`] = `
                 viewer={null}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -424,12 +425,14 @@ exports[`renders body only 1`] = `
               />
               <ReplyButton
                 active={false}
+                author={null}
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author={null}
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -786,12 +789,14 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               />
               <ReplyButton
                 active={false}
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -1148,12 +1153,14 @@ exports[`renders disabled reply when story is closed 1`] = `
               />
               <ReplyButton
                 active={false}
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -1514,12 +1521,14 @@ exports[`renders in reply to 1`] = `
               />
               <ReplyButton
                 active={false}
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -1901,12 +1910,14 @@ exports[`renders username and body 1`] = `
               />
               <ReplyButton
                 active={false}
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
@@ -2272,12 +2283,14 @@ exports[`shows conversation link 1`] = `
               />
               <ReplyButton
                 active={false}
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                author="Marvin"
                 className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={

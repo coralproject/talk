@@ -19,7 +19,7 @@ import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generate
 import Restricted from "./Restricted";
 
 interface Props {
-  viewer: ViewerData;
+  viewer: ViewerData | null;
   error?: Error | null;
   signOut: SignOutMutation;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
@@ -44,7 +44,7 @@ class RestrictedContainer extends Component<Props> {
 
     return (
       <Restricted
-        username={this.props.viewer.username!}
+        username={this.props.viewer.username}
         onSignInAs={this.handleSignInAs}
       />
     );

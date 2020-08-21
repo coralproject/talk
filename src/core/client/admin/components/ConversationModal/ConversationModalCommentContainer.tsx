@@ -92,7 +92,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 
           <div>
             {comment.body && (
-              <CommentContent className={styles.commentText} phrases={settings}>
+              <CommentContent className={styles.commentText}>
                 {comment.body}
               </CommentContent>
             )}
@@ -129,11 +129,6 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ConversationModalCommentContainer_settings on Settings {
-      locale
-      wordList {
-        banned
-        suspect
-      }
       multisite
       featureFlags
       ...MarkersContainer_settings

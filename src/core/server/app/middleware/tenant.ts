@@ -5,7 +5,7 @@ import logger from "coral-server/logger";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
-export interface MiddlewareOptions {
+interface Options {
   cache: TenantCache;
   passNoTenant?: boolean;
 }
@@ -13,7 +13,7 @@ export interface MiddlewareOptions {
 export const tenantMiddleware = ({
   cache,
   passNoTenant = false,
-}: MiddlewareOptions): RequestHandler => async (req, res, next) => {
+}: Options): RequestHandler => async (req, res, next) => {
   try {
     if (!req.coral) {
       const id = uuid();

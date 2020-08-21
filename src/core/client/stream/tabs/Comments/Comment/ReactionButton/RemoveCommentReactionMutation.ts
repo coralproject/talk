@@ -15,7 +15,12 @@ import { RemoveCommentReactionEvent } from "coral-stream/events";
 
 import { RemoveCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/RemoveCommentReactionMutation.graphql";
 
-export type RemoveCommentReactionInput = MutationInput<MutationTypes>;
+export type RemoveCommentReactionInput = MutationInput<MutationTypes> & {
+  author?: {
+    id: string;
+    username: string | undefined | null;
+  } | null;
+};
 
 const mutation = graphql`
   mutation RemoveCommentReactionMutation($input: RemoveCommentReactionInput!) {
@@ -59,6 +64,10 @@ async function commit(
           removeCommentReaction: {
             comment: {
               id: input.commentID,
+              author: {
+                id: input.author?.id,
+                username: input.author?.username,
+              },
               viewerActionPresence: {
                 reaction: false,
               },

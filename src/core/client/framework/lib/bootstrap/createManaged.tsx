@@ -10,6 +10,7 @@ import { v1 as uuid } from "uuid";
 import { LanguageCode } from "coral-common/helpers/i18n";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
+import { ErrorReporter } from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
@@ -60,6 +61,11 @@ interface CreateContextArguments {
 
   /** Supports emitting and listening to events. */
   eventEmitter?: EventEmitter2;
+
+  /**
+   * reporter is the designated ErrorReporter for this application.
+   */
+  reporter?: ErrorReporter;
 }
 
 /** websocketURL points to our live graphql server */
@@ -226,9 +232,20 @@ function createManagedCoralContextProvider(
     };
 
     public render() {
+      // If the boundary is available from the reporter (also, if it's
+      // available) then use it to wrap the lower children for any error that
+      // happens.
+
+      // NOTE: (wyattjoh) there should be another way to do this better...
+      const Boundary = this.state.context.reporter?.ErrorBoundary;
+
       return (
         <CoralContextProvider value={this.state.context}>
-          {this.props.children}
+          {Boundary ? (
+            <Boundary>{this.props.children}</Boundary>
+          ) : (
+            this.props.children
+          )}
           {this.state.context.pym && <SendPymReady />}
         </CoralContextProvider>
       );
@@ -271,6 +288,7 @@ export default async function createManaged({
   initLocalState = noop,
   localesData,
   pym,
+  reporter,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
 }: CreateContextArguments): Promise<ComponentType> {
   // Listen for outside clicks.
@@ -337,6 +355,7 @@ export default async function createManaged({
     timeagoFormatter,
     pym,
     eventEmitter,
+    reporter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),

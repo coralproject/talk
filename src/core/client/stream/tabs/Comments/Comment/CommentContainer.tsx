@@ -497,6 +497,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       !isViewerScheduledForDeletion && (
                         <ReplyButton
                           id={`comments-commentContainer-replyButton-${comment.id}`}
+                          author={comment.author?.username}
                           onClick={toggleShowReplyDialog}
                           active={showReplyDialog}
                           disabled={
@@ -511,6 +512,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     <PermalinkButtonContainer
                       story={story}
                       commentID={comment.id}
+                      author={comment.author?.username}
                       className={cn(
                         styles.actionButton,
                         CLASSES.comment.actionBar.shareButton

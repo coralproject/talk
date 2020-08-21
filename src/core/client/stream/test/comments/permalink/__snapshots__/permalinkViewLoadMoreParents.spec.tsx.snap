@@ -155,7 +155,7 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Respect"
+                            aria-label="Respect comment by Moderator"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
@@ -181,7 +181,7 @@ exports[`renders conversation thread 1`] = `
                             </span>
                           </button>
                           <button
-                            aria-label="Reply"
+                            aria-label="Reply to comment by Moderator"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
@@ -212,7 +212,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="permalink-popover-comment-from-staff-0"
-                              aria-label="Share"
+                              aria-label="Share comment by Moderator"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                               data-variant="flat"
@@ -462,7 +462,7 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Respect"
+                            aria-label="Respect comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
@@ -488,7 +488,7 @@ exports[`renders conversation thread 1`] = `
                             </span>
                           </button>
                           <button
-                            aria-label="Reply"
+                            aria-label="Reply to comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
@@ -519,7 +519,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="permalink-popover-comment-0"
-                              aria-label="Share"
+                              aria-label="Share comment by Markus"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                               data-variant="flat"
@@ -754,7 +754,7 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Respect"
+                              aria-label="Respect comment by Lukas"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                               data-testid="comment-reaction-button"
@@ -780,7 +780,7 @@ exports[`shows more of this conversation 1`] = `
                               </span>
                             </button>
                             <button
-                              aria-label="Reply"
+                              aria-label="Reply to comment by Lukas"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                               data-testid="comment-reply-button"
@@ -811,7 +811,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-1"
-                                aria-label="Share"
+                                aria-label="Share comment by Lukas"
                                 aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                                 data-variant="flat"
@@ -1041,7 +1041,7 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Respect"
+                              aria-label="Respect comment by Moderator"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                               data-testid="comment-reaction-button"
@@ -1067,7 +1067,7 @@ exports[`shows more of this conversation 1`] = `
                               </span>
                             </button>
                             <button
-                              aria-label="Reply"
+                              aria-label="Reply to comment by Moderator"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                               data-testid="comment-reply-button"
@@ -1098,7 +1098,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-from-staff-0"
-                                aria-label="Share"
+                                aria-label="Share comment by Moderator"
                                 aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                                 data-variant="flat"
@@ -1312,7 +1312,7 @@ exports[`shows more of this conversation 1`] = `
                           className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Respect"
+                            aria-label="Respect comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                             data-testid="comment-reaction-button"
@@ -1338,7 +1338,7 @@ exports[`shows more of this conversation 1`] = `
                             </span>
                           </button>
                           <button
-                            aria-label="Reply"
+                            aria-label="Reply to comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                             data-testid="comment-reply-button"
@@ -1369,7 +1369,7 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-controls="permalink-popover-comment-0"
-                              aria-label="Share"
+                              aria-label="Share comment by Markus"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
                               data-variant="flat"
