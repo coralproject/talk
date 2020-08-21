@@ -66,6 +66,8 @@ export const createAxios = ({ name }: CreateAxiosOptions): Axios => {
       timeoutErrorMessage: "axios request timed out",
       httpAgent: agents.http,
       httpsAgent: agents.https,
+      maxContentLength: 2e6,
+      maxRedirects: 0,
     });
 
     const ok = response.status >= 200 || response.status <= 299;
