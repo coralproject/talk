@@ -86,6 +86,9 @@ comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Powered by giphy
 
+comments-postComment-pasteImage = Paste image URL
+comments-postComment-insertImage = Insert
+
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
 comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
@@ -328,6 +331,10 @@ comments-embedLinks-hide-youtube = Hide video
 
 comments-embedLinks-show-twitter = Show Tweet
 comments-embedLinks-hide-twitter = Hide Tweet
+
+comments-embedLinks-show-external = Show image
+comments-embedLinks-hide-external = Hide image
+
 
 ### Featured Comments
 comments-featured-gotoConversation = Go to conversation
