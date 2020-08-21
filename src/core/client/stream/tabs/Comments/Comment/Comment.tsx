@@ -78,7 +78,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             )}
           </Flex>
         </Flex>
-        {props.topBarRight && <div>{props.topBarRight}</div>}
+        {props.topBarRight && <Flex>{props.topBarRight}</Flex>}
       </Flex>
 
       {props.parentAuthorName && (

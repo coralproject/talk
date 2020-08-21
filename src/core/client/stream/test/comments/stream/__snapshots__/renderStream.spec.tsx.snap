@@ -442,7 +442,9 @@ exports[`renders comment stream 1`] = `
                                   </button>
                                 </div>
                               </div>
-                              <div>
+                              <div
+                                className="Box-root Flex-root Flex-flex"
+                              >
                                 <div
                                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
@@ -725,7 +727,9 @@ exports[`renders comment stream 1`] = `
                                   </button>
                                 </div>
                               </div>
-                              <div>
+                              <div
+                                className="Box-root Flex-root Flex-flex"
+                              >
                                 <div
                                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />

@@ -203,6 +203,7 @@ async function commit(
                   username: viewer.username,
                   createdAt: viewer.createdAt,
                   badges: viewer.badges,
+                  avatar: viewer.avatar,
                   ignoreable: false,
                 },
                 site: {

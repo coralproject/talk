@@ -34,6 +34,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           id: "author-id",
           username: "Marvin",
           badges: [],
+          avatar: null,
         },
         actionCounts: {
           reaction: {

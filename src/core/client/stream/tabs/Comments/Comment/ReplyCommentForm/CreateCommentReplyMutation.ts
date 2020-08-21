@@ -217,6 +217,7 @@ async function commit(
                   createdAt: viewer.createdAt,
                   badges: viewer.badges,
                   ignoreable: false,
+                  avatar: viewer.avatar,
                 },
                 body: input.body,
                 revision: {

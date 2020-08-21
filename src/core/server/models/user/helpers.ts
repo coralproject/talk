@@ -128,12 +128,16 @@ export function getSSOProfile(user: Pick<User, "profiles">) {
 
 export function needsSSOUpdate(
   token: SSOUserProfile,
-  user: Pick<User, "email" | "username" | "badges" | "role" | "ssoURL">
+  user: Pick<
+    User,
+    "email" | "username" | "badges" | "role" | "ssoURL" | "avatar"
+  >
 ) {
   return (
     user.email !== token.email ||
     user.username !== token.username ||
-    (user.ssoURL && user.ssoURL !== token.url) ||
+    user.avatar !== token.avatar ||
+    user.ssoURL !== token.url ||
     (token.role && user.role !== token.role) ||
     !isEqual(user.badges, token.badges)
   );

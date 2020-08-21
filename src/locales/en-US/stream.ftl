@@ -156,6 +156,9 @@ comments-replyCommentForm-rte =
 
 comments-commentContainer-editButton = Edit
 
+comments-commentContainer-avatar =
+  .alt = Avatar for { $username }
+
 comments-editCommentForm-saveChanges = Save Changes
 comments-editCommentForm-cancel = Cancel
 comments-editCommentForm-close = Close

@@ -129,7 +129,9 @@ exports[`renders conversation thread 1`] = `
                           </button>
                         </div>
                       </div>
-                      <div>
+                      <div
+                        className="Box-root Flex-root Flex-flex"
+                      >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />
@@ -434,7 +436,9 @@ exports[`renders conversation thread 1`] = `
                           </button>
                         </div>
                       </div>
-                      <div>
+                      <div
+                        className="Box-root Flex-root Flex-flex"
+                      >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />
@@ -724,7 +728,9 @@ exports[`shows more of this conversation 1`] = `
                             </button>
                           </div>
                         </div>
-                        <div>
+                        <div
+                          className="Box-root Flex-root Flex-flex"
+                        >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
@@ -1009,7 +1015,9 @@ exports[`shows more of this conversation 1`] = `
                             </button>
                           </div>
                         </div>
-                        <div>
+                        <div
+                          className="Box-root Flex-root Flex-flex"
+                        >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                           />
@@ -1278,7 +1286,9 @@ exports[`shows more of this conversation 1`] = `
                           </button>
                         </div>
                       </div>
-                      <div>
+                      <div
+                        className="Box-root Flex-root Flex-flex"
+                      >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                         />

@@ -3,6 +3,7 @@ import { Redis } from "ioredis";
 import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
+import { URL } from "url";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
@@ -51,6 +52,7 @@ export interface SSOUserProfile {
   badges?: string[];
   role?: GQLUSER_ROLE;
   url?: string;
+  avatar?: string;
 }
 
 export interface SSOToken {
@@ -66,6 +68,16 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
   return isNil(error);
 }
 
+const IMAGE_EXTENSIONS = /\.(jpe?g|png|gif|webp)$/i;
+function isValidImageURL(url: string) {
+  try {
+    const parsed = new URL(url);
+    return IMAGE_EXTENSIONS.test(parsed.pathname);
+  } catch (err) {
+    return false;
+  }
+}
+
 export const SSOUserProfileSchema = Joi.object().keys({
   id: Joi.string().required(),
   email: Joi.string().lowercase().required(),
@@ -75,6 +87,7 @@ export const SSOUserProfileSchema = Joi.object().keys({
     .valid(...Object.values(GQLUSER_ROLE))
     .optional(),
   url: Joi.string().uri().optional(),
+  avatar: Joi.string().uri().optional(),
 });
 
 export const SSOTokenSchema = Joi.object().keys({
@@ -118,6 +131,12 @@ export async function findOrCreateSSOUser(
     id,
   });
 
+  // Try to get the avatar.
+  let avatar: string | undefined;
+  if (decodedToken.user.avatar && isValidImageURL(decodedToken.user.avatar)) {
+    avatar = decodedToken.user.avatar;
+  }
+
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
@@ -141,6 +160,7 @@ export async function findOrCreateSSOUser(
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
         ssoURL: url,
+        avatar,
         badges,
         email,
         emailVerified: true,
@@ -160,7 +180,16 @@ export async function findOrCreateSSOUser(
         mongo,
         tenant.id,
         user.id,
-        { email, username, badges, role: role || user.role },
+        {
+          email,
+          username,
+          badges,
+          // Default to the role on the user if no role was specified so that
+          // organizations that manage their roles external to the tokens are
+          // not affected by this update feature.
+          role: role || user.role,
+          avatar,
+        },
         lastIssuedAt
       );
     }
