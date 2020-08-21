@@ -1658,6 +1658,65 @@ appears on the comment stream and in the admin interface.
                   <legend
                     className="Label-root"
                   >
+                    {???}
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.external.enabled-true"
+                        name="media.external.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="media.external.enabled-true"
+                      >
+                        <span>
+                          Yes
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="media.external.enabled-false"
+                        name="media.external.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="media.external.enabled-false"
+                      >
+                        <span>
+                          No
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
                     Allow GIFs from GIPHY
                   </legend>
                   <div>

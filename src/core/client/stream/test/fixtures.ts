@@ -112,6 +112,7 @@ export const settings = createFixture<GQLSettings>({
     twitter: { enabled: false },
     youtube: { enabled: false },
     giphy: { enabled: false },
+    external: { enabled: false },
   },
   multisite: false,
   featureFlags: [],
