@@ -27,6 +27,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
     {
       createCommentReply: noop as any,
       refreshSettings: noop as any,
+      refreshViewer: noop as any,
       onClose: noop as any,
       story: {
         id: "story-id",

@@ -749,6 +749,8 @@ warning-instructions =
   To continue participating in discussions, please press the "Acknowledge" button below.
 warning-acknowledge = Acknowledge
 
+warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
+
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)
 profile-changeEmail-edit = Edit

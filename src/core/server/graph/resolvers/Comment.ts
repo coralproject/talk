@@ -75,13 +75,17 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
-  editing: ({ revisions, createdAt }, input, ctx) => ({
+  editing: ({ authorID, revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
     edited: revisions.length > 1,
     // The date that the comment is editable until is the tenant's edit window
-    // length added to the comment created date.
-    editableUntil: getCommentEditableUntilDate(ctx.tenant, createdAt),
+    // length added to the comment created date. This will return null if the
+    // current user is not the author.
+    editableUntil:
+      authorID === ctx.user?.id
+        ? getCommentEditableUntilDate(ctx.tenant, createdAt)
+        : null,
   }),
   author: (c, input, ctx) =>
     c.authorID ? ctx.loaders.Users.user.load(c.authorID) : null,
