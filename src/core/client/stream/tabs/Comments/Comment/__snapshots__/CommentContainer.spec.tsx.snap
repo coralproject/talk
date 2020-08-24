@@ -20,7 +20,7 @@ exports[`hide reply button 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -376,7 +376,7 @@ exports[`renders body only 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -740,7 +740,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -1104,7 +1104,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -1468,7 +1468,7 @@ exports[`renders in reply to 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -1861,7 +1861,7 @@ exports[`renders username and body 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
@@ -2234,7 +2234,7 @@ exports[`shows conversation link 1`] = `
             <ButtonsBar
               className="CommentContainer-actionBar"
             >
-              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+              <Relay(ReactionButtonContainer)
                 className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
