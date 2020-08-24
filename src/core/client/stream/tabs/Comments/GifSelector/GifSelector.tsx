@@ -93,20 +93,23 @@ const GifSelector: FunctionComponent<Props> = (props) => {
         clearTimeout(timeout);
       }
     };
-  }, [query, page, setResults, setIsLoading, setPage]);
+  }, [query, page, setResults, setIsLoading, setPage, gifSearchFetch]);
   const nextPage = useCallback(() => {
     setPage(page + 1);
   }, [page]);
   const prevPage = useCallback(() => {
     setPage(page - 1);
   }, [page]);
-  const onGifSelect = useCallback((gif: GiphyGif) => {
-    setResults([]);
-    setPage(0);
-    setHasNextPage(false);
-    setQuery("");
-    props.onGifSelect(gif);
-  }, []);
+  const onGifSelect = useCallback(
+    (gif: GiphyGif) => {
+      setResults([]);
+      setPage(0);
+      setHasNextPage(false);
+      setQuery("");
+      props.onGifSelect(gif);
+    },
+    [props.onGifSelect]
+  );
   return (
     <div className={styles.root}>
       <HorizontalGutter>
@@ -134,14 +137,30 @@ const GifSelector: FunctionComponent<Props> = (props) => {
           </Localized>
         )}
         {results.length > 0 && (
-          <>
-            <div>
-              <Flex className={styles.results} justifyContent="space-evenly">
-                {results.slice(0, results.length / 2).map((result) => (
+          <div>
+            <Flex className={styles.results} justifyContent="space-evenly">
+              {results.slice(0, results.length / 2).map((result) => (
+                <BaseButton
+                  key={result.id}
+                  onClick={() => onGifSelect(result)}
+                  className={styles.result}
+                >
+                  <img
+                    src={result.images.fixed_height_downsampled.url}
+                    alt={result.title}
+                    className={styles.resultImg}
+                  />
+                </BaseButton>
+              ))}
+            </Flex>
+            <Flex className={styles.results} justifyContent="space-evenly">
+              {results
+                .slice(results.length / 2, results.length)
+                .map((result) => (
                   <BaseButton
+                    className={styles.result}
                     key={result.id}
                     onClick={() => onGifSelect(result)}
-                    className={styles.result}
                   >
                     <img
                       src={result.images.fixed_height_downsampled.url}
@@ -150,28 +169,10 @@ const GifSelector: FunctionComponent<Props> = (props) => {
                     />
                   </BaseButton>
                 ))}
-              </Flex>
-              <Flex className={styles.results} justifyContent="space-evenly">
-                {results
-                  .slice(results.length / 2, results.length)
-                  .map((result) => (
-                    <BaseButton
-                      className={styles.result}
-                      key={result.id}
-                      onClick={() => onGifSelect(result)}
-                    >
-                      <img
-                        src={result.images.fixed_height_downsampled.url}
-                        alt={result.title}
-                        className={styles.resultImg}
-                      />
-                    </BaseButton>
-                  ))}
-              </Flex>
-            </div>
-            <GiphyAttribution />
-          </>
+            </Flex>
+          </div>
         )}
+        <GiphyAttribution />
         {results.length > 0 && (
           <Flex
             justifyContent={

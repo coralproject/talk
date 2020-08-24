@@ -14,23 +14,22 @@ interface Props {
   showLink?: boolean;
   width?: number | null;
   height?: number | null;
+  sandbox?: boolean;
 }
 
 function calculateBottomPadding(width: number, height: number) {
   return `${(height / width) * 100}%`;
 }
 
-const IframeEmbed: FunctionComponent<Props> = ({ width, height, src }) => {
+const IframeEmbed: FunctionComponent<Props> = ({
+  width,
+  height,
+  src,
+  sandbox = false,
+}) => {
   const iframeRef = React.createRef<HTMLIFrameElement>();
   const containerRef = React.createRef<HTMLDivElement>();
   const [maxWidth, setMaxWidth] = useState<number | null>(null);
-  const attrs: HTMLProps<HTMLIFrameElement> = {};
-  if (width) {
-    attrs.width = width;
-  }
-  if (height) {
-    attrs.height = height;
-  }
 
   useEffect(() => {
     if (containerRef.current) {
@@ -97,10 +96,27 @@ const IframeEmbed: FunctionComponent<Props> = ({ width, height, src }) => {
     }, 100);
   }, [iframeRef, containerRef, width, height, maxWidth]);
 
+  const attrs: HTMLProps<HTMLIFrameElement> = {};
+  if (width) {
+    attrs.width = width;
+  }
+  if (height) {
+    attrs.height = height;
+  }
+  if (sandbox) {
+    // If sandbox is enabled, apply all restrictions to this frame.
+    attrs.sandbox = "";
+  }
+
+  // Force loading=lazy to be added for enhanced loading support on supported
+  // browsers.
+  (attrs as any).loading = "lazy";
+
   return (
     <div className={styles.container} ref={containerRef}>
       {maxWidth && (
         <iframe
+          referrerPolicy="no-referrer"
           frameBorder="0"
           allowFullScreen
           scrolling="no"

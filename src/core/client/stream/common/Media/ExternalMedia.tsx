@@ -12,6 +12,7 @@ const ExternalMedia: FunctionComponent<Props> = ({ url, siteID }) => {
   return (
     <IframeEmbed
       src={`/api/external-media?url=${component}&siteID=${siteID}`}
+      sandbox
     />
   );
 };

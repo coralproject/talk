@@ -31,7 +31,13 @@ const YouTubeMedia: FunctionComponent<Props> = ({
     <div className={styles.embed}>
       {!showAnimated && still && (
         <BaseButton onClick={toggleImage} className={styles.toggle}>
-          <img src={still} className={styles.image} alt={title || ""} />
+          <img
+            src={still}
+            className={styles.image}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            alt={title || ""}
+          />
           <Flex
             direction="column"
             alignItems="center"
@@ -49,6 +55,7 @@ const YouTubeMedia: FunctionComponent<Props> = ({
       )}
       {showAnimated && (
         <iframe
+          referrerPolicy="no-referrer"
           frameBorder="0"
           width={width || 480}
           height={height || 270}
