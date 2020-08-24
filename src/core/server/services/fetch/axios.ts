@@ -30,6 +30,7 @@ export interface AxiosOptions {
   method: Method;
   headers: any;
   body: any;
+  timeout?: number;
 }
 
 export const createAxios = ({ name }: CreateAxiosOptions): Axios => {
@@ -51,8 +52,7 @@ export const createAxios = ({ name }: CreateAxiosOptions): Axios => {
 
   return async (
     url: string,
-    { method = "GET", headers = {}, body = {} }: AxiosOptions,
-    timeout?: number
+    { method = "GET", headers = {}, body = {}, timeout = 10000 }: AxiosOptions
   ) => {
     const response = await axios.request({
       method,

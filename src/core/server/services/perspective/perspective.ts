@@ -140,17 +140,14 @@ export async function sendToPerspective(
   try {
     // Create the request and send it.
 
-    const res = await axios(
-      url.toString(),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
+    const res = await axios(url.toString(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      timeout
-    );
+      body,
+      timeout,
+    });
 
     // Non-successful response
     if (!res.ok) {
