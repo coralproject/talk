@@ -570,8 +570,7 @@ export async function updateUsername(
   // Validate the username.
   validateUsername(username);
 
-  const canUpdate = canUpdateLocalProfile(tenant, user);
-  if (!canUpdate) {
+  if (!tenant.accountFeatures.changeUsername) {
     throw new Error("Cannot update profile due to tenant settings");
   }
 
@@ -709,40 +708,52 @@ export async function updateModerationScopes(
 function enabledAuthenticationIntegrations(
   tenant: Tenant,
   target?: "stream" | "admin"
-): string[] {
-  return Object.keys(tenant.auth.integrations).filter((key: string) => {
-    const { enabled, targetFilter } = tenant.auth.integrations[
-      key as keyof GQLAuthIntegrations
-    ];
-    if (target) {
-      return enabled && targetFilter[target];
+): ReadonlyArray<keyof GQLAuthIntegrations> {
+  const integrations = Object.keys(tenant.auth.integrations) as ReadonlyArray<
+    keyof GQLAuthIntegrations
+  >;
+
+  return integrations.filter((key) => {
+    // Get the filter and enabled status for the integration.
+    const { enabled, targetFilter } = tenant.auth.integrations[key];
+    if (!enabled) {
+      return false;
     }
-    return enabled && targetFilter.admin && targetFilter.stream;
+
+    // If the target was specified, then filter for that target.
+    if (target) {
+      return targetFilter[target];
+    }
+
+    // Otherwise, require all targets.
+    return targetFilter.admin && targetFilter.stream;
   });
 }
 
 /**
- * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ * canUpdateEmailAddress will determine if a user is permitted to update their
+ * email address.
  *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
-function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
-  if (!tenant.accountFeatures.changeUsername) {
-    return false;
-  }
-
+function canUpdateEmailAddress(tenant: Tenant, user: User): boolean {
+  // If the user doesn't have a local profile, they can't update their email
+  // address because the email address is externally controlled.
   if (!hasLocalProfile(user)) {
     return false;
   }
 
-  const streamAuthTypes = enabledAuthenticationIntegrations(tenant, "stream");
+  // Get the enabled integrations for the stream.
+  const integrations = enabledAuthenticationIntegrations(tenant, "stream");
 
-  // user can update email if local auth is enabled or any integration other than sso is enabled
-  return (
-    streamAuthTypes.includes("local") ||
-    !(streamAuthTypes.length === 1 && streamAuthTypes[0] === "sso")
-  );
+  // If the local auth integration is enabled, then the user can update the
+  // email address.
+  if (integrations.includes("local")) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
@@ -771,8 +782,7 @@ export async function updateEmail(
   const email = emailAddress.toLowerCase();
   validateEmail(email);
 
-  const canUpdate = canUpdateLocalProfile(tenant, user);
-  if (!canUpdate) {
+  if (!canUpdateEmailAddress(tenant, user)) {
     throw new Error("Cannot update profile due to tenant settings");
   }
 
@@ -794,6 +804,7 @@ export async function updateEmail(
     updated as Required<User>,
     now
   );
+
   return updated;
 }
 
