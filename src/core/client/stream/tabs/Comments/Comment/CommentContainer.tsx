@@ -626,6 +626,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
               id
               username
               avatar
+              badges
             }
             parent {
               author {
