@@ -3,7 +3,6 @@ import { URL } from "url";
 
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
-import logger from "coral-server/logger";
 import { getURLWithCommentID } from "coral-server/models/story";
 
 import { createAxios } from "../fetch.ts";
@@ -174,7 +173,10 @@ export async function sendToPerspective(
     }
 
     if (err.message && err.message.startsWith("axios request timed out")) {
-      logger.error("perspective request timed out");
+      // this will match the current fetch API's response when a
+      // request times out. Existing logging that matches the text
+      // "The user aborted a request..." will catch this.
+      throw new Error("The user aborted a request, timed out.");
     }
 
     // Rethrow the error.
