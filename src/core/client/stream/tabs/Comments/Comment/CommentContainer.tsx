@@ -46,7 +46,7 @@ import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated_
 
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
-import UserBadgesContainer, { authorHasBadges } from "./AuthorBadgesContainer";
+import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
@@ -314,7 +314,13 @@ export const CommentContainer: FunctionComponent<Props> = ({
   }
 
   const hasTags = commentHasTags(story, comment);
-  const hasBadges = authorHasBadges(comment);
+  const badges =
+    !!comment &&
+    !!comment.author &&
+    !!comment.author.badges &&
+    comment.author.badges.length > 0
+      ? comment.author.badges
+      : null;
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
@@ -363,10 +369,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     comment={comment}
                     settings={settings}
                   />
-                  <UserBadgesContainer
-                    className={CLASSES.comment.topBar.userBadge}
-                    comment={comment}
-                  />
+                  {badges && (
+                    <AuthorBadges
+                      className={CLASSES.comment.topBar.userBadge}
+                      badges={badges}
+                    />
+                  )}
                 </Flex>
               )
             }
@@ -392,10 +400,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
             }
             badges={
               comment.author &&
-              hasBadges && (
-                <UserBadgesContainer
+              badges && (
+                <AuthorBadges
                   className={CLASSES.comment.topBar.userBadge}
-                  comment={comment}
+                  badges={badges}
                 />
               )
             }
@@ -626,6 +634,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
               id
               username
               avatar
+              badges
             }
             parent {
               author {
@@ -661,7 +670,6 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...ReportButton_comment
             ...CaretContainer_comment
             ...RejectedTombstoneContainer_comment
-            ...AuthorBadgesContainer_comment
             ...UserTagsContainer_comment
             ...UsernameWithPopoverContainer_comment
             ...UsernameContainer_comment
