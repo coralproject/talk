@@ -14,7 +14,10 @@ import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
-import { COMMENTS_ORDER_BY } from "coral-stream/constants";
+import {
+  COMMENTS_ORDER_BY,
+  VIEWER_STATUS_CONTAINER_ID,
+} from "coral-stream/constants";
 import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
@@ -123,7 +126,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       emitSetCommentsOrderByEvent({ orderBy: order.target.value });
       await localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
     },
-    [setLocal, local.commentsOrderBy]
+    [local.commentsOrderBy, setLocal, emitSetCommentsOrderByEvent, localStorage]
   );
   const onChangeTab = useCallback(
     (tab: COMMENTS_TAB, emit = true) => {
@@ -135,7 +138,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         emitSetCommentsTabEvent({ tab });
       }
     },
-    [setLocal, local.commentsTab]
+    [local.commentsTab, setLocal, emitSetCommentsTabEvent]
   );
   const banned = Boolean(
     props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
@@ -217,15 +220,17 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             commentsOrderBy={local.commentsOrderBy}
           />
         )}
-        {banned && <BannedInfo />}
-        {warned && (
-          <WarningContainer viewer={props.viewer} settings={props.settings} />
-        )}
-        {suspended && (
-          <SuspendedInfoContainer
-            viewer={props.viewer}
-            settings={props.settings}
-          />
+        {(banned || warned || suspended) && (
+          <div id={VIEWER_STATUS_CONTAINER_ID}>
+            {banned && <BannedInfo />}
+            {suspended && (
+              <SuspendedInfoContainer
+                viewer={props.viewer}
+                settings={props.settings}
+              />
+            )}
+            {warned && <WarningContainer viewer={props.viewer} />}
+          </div>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
@@ -456,7 +461,6 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
       ...ModerateStreamContainer_settings
-      ...WarningContainer_settings
     }
   `,
 })(StreamContainer);

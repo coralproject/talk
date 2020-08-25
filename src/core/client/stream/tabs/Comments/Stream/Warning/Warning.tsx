@@ -9,14 +9,9 @@ import styles from "./Warning.css";
 interface Props {
   message: string;
   onAcknowledge: () => void;
-  organizationName: string;
 }
 
-const Warning: FunctionComponent<Props> = ({
-  message,
-  onAcknowledge,
-  organizationName,
-}) => {
+const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
   return (
     <CallOut
       color="error"

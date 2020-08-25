@@ -7,15 +7,15 @@ import {
   FetchVariables,
 } from "coral-framework/lib/relay";
 
-import { RefreshUserFetchQuery as QueryTypes } from "coral-stream/__generated__/RefreshUserFetchQuery.graphql";
+import { RefreshViewerFetchQuery as QueryTypes } from "coral-stream/__generated__/RefreshViewerFetchQuery.graphql";
 
-const RefreshUserFetch = createFetch(
-  "refreshUser",
+const RefreshViewerFetch = createFetch(
+  "refreshViewer",
   (environment: Environment, variables: FetchVariables<QueryTypes>) => {
     return fetchQuery<QueryTypes>(
       environment,
       graphql`
-        query RefreshUserFetchQuery {
+        query RefreshViewerFetchQuery {
           viewer {
             ...StreamContainer_viewer
           }
@@ -27,4 +27,4 @@ const RefreshUserFetch = createFetch(
   }
 );
 
-export default RefreshUserFetch;
+export default RefreshViewerFetch;
