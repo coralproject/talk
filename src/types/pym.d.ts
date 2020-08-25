@@ -83,13 +83,16 @@ declare module "pym.js" {
     name?: string;
     /** if passed it will be assigned to the iframe id attribute */
     id?: string;
+
     /** if passed it will be assigned to the iframe allowfullscreen attribute */
     allowfullscreen?: boolean;
+
     /**
      * if passed it will be assigned to the iframe sandbox attribute
      * (we do not validate the syntax so be careful!!)
      */
-    sandbox?: boolean;
+    sandbox?: string;
+
     /**
      * if passed it will be override the default parentUrl query string
      * parameter name passed to the iframe src
@@ -104,7 +107,8 @@ declare module "pym.js" {
      * if passed and different than false it will strip the querystring
      * params parentUrl and parentTitle passed to the iframe src
      */
-    optionalparams?: string;
+    optionalparams?: boolean;
+
     /** if passed it will activate scroll tracking on the parent */
     trackscroll?: boolean;
     /**

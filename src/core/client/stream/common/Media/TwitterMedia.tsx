@@ -1,18 +1,19 @@
 import React, { FunctionComponent } from "react";
 
-import IframeEmbed from "./IframeEmbed";
+import Frame from "coral-framework/components/Frame";
 
 interface Props {
+  id?: string;
   url: string;
-  width?: number | null;
   siteID: string;
 }
 
-const TwitterMedia: FunctionComponent<Props> = ({ url, width, siteID }) => {
-  const cleanUrl = encodeURIComponent(url);
+const TwitterMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
+  const component = encodeURIComponent(url);
   return (
-    <IframeEmbed
-      src={`/api/oembed?type=twitter&url=${cleanUrl}&siteID=${siteID}`}
+    <Frame
+      id={id}
+      src={`/api/oembed?type=twitter&url=${component}&siteID=${siteID}`}
     />
   );
 };
