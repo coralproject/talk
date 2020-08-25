@@ -437,7 +437,6 @@ exports[`renders message box when logged in 1`] = `
                     </div>
                   </div>
                 </div>
-                
               </div>
             </div>
             <div

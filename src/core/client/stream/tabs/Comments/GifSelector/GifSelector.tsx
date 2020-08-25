@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEvent,
   FunctionComponent,
+  KeyboardEvent,
   useCallback,
   useEffect,
   useRef,
@@ -94,12 +95,22 @@ const GifSelector: FunctionComponent<Props> = (props) => {
       }
     };
   }, [query, page, setResults, setIsLoading, setPage, gifSearchFetch]);
+
   const nextPage = useCallback(() => {
-    setPage(page + 1);
-  }, [page]);
+    setPage((p) => p + 1);
+  }, []);
   const prevPage = useCallback(() => {
-    setPage(page - 1);
-  }, [page]);
+    setPage((p) => p - 1);
+  }, []);
+
+  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+
+    e.preventDefault();
+  }, []);
+
   const onGifSelect = useCallback(
     (gif: GiphyGif) => {
       setResults([]);
@@ -121,6 +132,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             className={styles.input}
             value={query}
             onChange={onSearchFieldChange}
+            onKeyPress={onKeyPress}
             fullWidth
             variant="seamlessAdornment"
             color="streamBlue"

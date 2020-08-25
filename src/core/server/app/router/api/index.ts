@@ -80,7 +80,11 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     createRemoteMediaRouter(app)
   );
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
-  router.get("/external-media", cspSiteMiddleware(app), externalMediaHandler());
+  router.get(
+    "/external-media",
+    cspSiteMiddleware(app),
+    externalMediaHandler(app)
+  );
 
   // General API error handler.
   router.use(notFoundMiddleware);

@@ -1,8 +1,10 @@
 import Joi from "@hapi/joi";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
+import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
+import { translate } from "coral-server/services/i18n";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const ExternalMediaQuerySchema = Joi.object().keys({
@@ -13,7 +15,11 @@ interface ExternalMediaQuery {
   url: string;
 }
 
-export const externalMediaHandler = (): RequestHandler<TenantCoralRequest> => {
+type Options = Pick<AppOptions, "i18n">;
+
+export const externalMediaHandler = ({
+  i18n,
+}: Options): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;
@@ -40,7 +46,15 @@ export const externalMediaHandler = (): RequestHandler<TenantCoralRequest> => {
 
       res.render("image", { url });
     } catch (err) {
-      next(err);
+      // There was no response! Return a translated error message.
+      const bundle = i18n.getBundle(tenant.locale);
+      const message = translate(
+        bundle,
+        "Requested media could not be found",
+        "common-embedNotFound"
+      );
+
+      return res.status(400).render("oembed", { message });
     }
   };
 };
