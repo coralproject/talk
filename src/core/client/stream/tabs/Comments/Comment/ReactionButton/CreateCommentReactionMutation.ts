@@ -5,7 +5,7 @@ import { Environment } from "relay-runtime";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
   lookup,
   MutationInput,
   MutationResponsePromise,
@@ -100,11 +100,8 @@ async function commit(
   }
 }
 
-export const withCreateCommentReactionMutation = createMutationContainer(
-  "createCommentReaction",
-  commit
-);
-
 export type CreateCommentReactionMutation = (
   input: CreateCommentReactionInput
 ) => MutationResponsePromise<MutationTypes, "createCommentReaction">;
+
+export default createMutation("createCommentReaction", commit);

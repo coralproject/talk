@@ -721,7 +721,7 @@ type OIDCAuthIntegration {
   the authentication flow with the given integration. This field is not stored,
   and is instead computed from the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -811,7 +811,7 @@ type GoogleAuthIntegration {
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -861,7 +861,7 @@ type FacebookAuthIntegration {
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -1324,7 +1324,7 @@ type GiphyMediaConfiguration {
   """
   maximum allowed rating for gifs, g, pg, pg-13, r.
   """
-  maxRating: String
+  maxRating: String @auth(roles: [ADMIN])
 
   """
   key is the API key for Giphy.
@@ -1388,13 +1388,13 @@ type CloseCommenting {
   auto when true will configure the automatic close on each story as they are
   created based on the current configured timeout option.
   """
-  auto: Boolean!
+  auto: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   timeout is the amount of seconds from the `createdAt` timestamp that a given
   story will be considered closed.
   """
-  timeout: Int!
+  timeout: Int! @auth(roles: [ADMIN, MODERATOR])
 
   """
   message when provided will be the message that shows when the comment stream
@@ -1580,24 +1580,24 @@ type Announcement {
   id: ID!
 
   """
+  content is the content displayed for the announcement.
+  """
+  content: String!
+
+  """
   createdAt is the creation date.
   """
-  createdAt: Time!
+  createdAt: Time! @auth(roles: [ADMIN])
 
   """
   disableAt is the computed date at which announcement will be invalid.
   """
-  disableAt: Time!
+  disableAt: Time! @auth(roles: [ADMIN])
 
   """
   duration determines how long the announcement will be valid for.
   """
-  duration: Int!
-
-  """
-  content is the content displayed for the announcement.
-  """
-  content: String!
+  duration: Int! @auth(roles: [ADMIN])
 }
 
 type Site {
@@ -1614,7 +1614,7 @@ type Site {
   """
   allowedOrigins are the allowed origins for embeds.
   """
-  allowedOrigins: [String!]!
+  allowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 
   """
   canModerate when true indicates that the current user can moderate comments
@@ -1631,7 +1631,7 @@ type Site {
   """
   createdAt is when the site was created.
   """
-  createdAt: Time!
+  createdAt: Time! @auth(roles: [ADMIN, MODERATOR])
 }
 
 type RTEConfiguration {
@@ -1640,10 +1640,12 @@ type RTEConfiguration {
   bold, italic, quote, and bullet list.
   """
   enabled: Boolean!
+
   """
   strikethrough when true turns on the strikethrough feature.
   """
   strikethrough: Boolean!
+
   """
   spoiler when true turns on the spoiler feature.
   """
@@ -1714,7 +1716,7 @@ type Settings {
   """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
-  customCSSURL: String
+  customCSSURL: String @auth(roles: [ADMIN, MODERATOR])
 
   """
   disableCommenting will disable commenting site-wide.
@@ -1819,7 +1821,7 @@ type Settings {
   """
   multisite is whether multiple sites exist for this tenant.
   """
-  multisite: Boolean!
+  multisite: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   rte is the configuration of the Rich-Text-Editor.
@@ -1946,11 +1948,6 @@ type BanStatus {
   active when true, indicates that the given user is banned.
   """
   active: Boolean!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 
   """
   history is the list of all ban events against a specific User.
@@ -2026,21 +2023,11 @@ type SuspensionStatus {
   active when true, indicates that the given user is suspended.
   """
   active: Boolean!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 
   """
   until is the time that the current user suspension is over.
   """
   until: Time
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 
   """
   history is the list of all suspension events against a specific User.
@@ -2081,12 +2068,10 @@ type WarningStatus {
   active when true, indicates that the given user has been warned but has not acknowledged it.
   """
   active: Boolean!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 
+  """
+  message is the current message for the warning on the User.
+  """
   message: String
 
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
@@ -2126,11 +2111,6 @@ type UsernameHistory {
   username is the username that was assigned
   """
   username: String!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 
   """
   createdBy is the user that created this username
@@ -2141,11 +2121,6 @@ type UsernameHistory {
   createdAt is the time the username was created
   """
   createdAt: Time!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
-    )
 }
 
 type UsernameStatus {
@@ -2164,8 +2139,8 @@ type UserStatus {
   """
   current: [USER_STATUS!]!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
@@ -2173,17 +2148,32 @@ type UserStatus {
   username stores the history of username changes for this user
   """
   username: UsernameStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   banned stores the user banned status as well as the history of changes.
   """
   ban: BanStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   suspension stores the user suspension status as well as the history of
   changes.
   """
   suspension: SuspensionStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   premod stores the user premod status as well as the history of changes.
@@ -2194,6 +2184,11 @@ type UserStatus {
   warning stores the user warning status as well as the history of warnings
   """
   warning: WarningStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """
@@ -2378,7 +2373,17 @@ type User {
   the database. Only relevant during the account completion process.
   """
   duplicateEmail: String
-    @auth(userIDField: "id", permit: [MISSING_NAME, MISSING_EMAIL])
+    @auth(
+      userIDField: "id"
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
+    )
 
   """
   emailVerified when true indicates that the given email address has been
@@ -2431,9 +2436,8 @@ type User {
   moderatorNotes: [ModeratorNote!]! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  ignoreable is a computed property based on the
-  user's role. Typically, users with elevated privileges
-  aren't allowed to be ignored.
+  ignoreable is a computed property based on the user's role. Typically, users
+  with elevated privileges aren't allowed to be ignored.
   """
   ignoreable: Boolean!
 
@@ -2446,8 +2450,8 @@ type User {
     after: Cursor
   ): CommentsConnection!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "id"
+      roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
@@ -2495,14 +2499,19 @@ type User {
   status stores the user status information regarding moderation state.
   """
   status: UserStatus!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
     @auth(
-      roles: [ADMIN]
       userIDField: "id"
+      roles: [ADMIN]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
@@ -2511,7 +2520,6 @@ type User {
   """
   ignoredUsers: [User!]!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
@@ -2537,7 +2545,6 @@ type User {
   lastDownloadedAt: Time
     @auth(
       userIDField: "id"
-      roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
@@ -2577,7 +2584,10 @@ type User {
   ssoURL is the url for managing sso account
   """
   ssoURL: String
-    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   mediaSettings are the user's preferences around media stream behaviour.
@@ -2658,6 +2668,7 @@ type SitesConnection {
   """
   pageInfo: PageInfo!
 }
+
 ################################################################################
 ## Comment
 ################################################################################
@@ -2669,7 +2680,8 @@ type EditInfo {
   edited: Boolean!
 
   """
-  editableUntil is the time that the comment is editable until.
+  editableUntil is the time that the comment is editable until. This will return
+  null if the current viewer is not the author of the Comment.
   """
   editableUntil: Time
 }
@@ -3029,8 +3041,8 @@ type Comment {
   """
   revisionHistory: [CommentRevision!]!
     @auth(
-      roles: [MODERATOR, ADMIN]
       userIDField: "author_id"
+      roles: [MODERATOR, ADMIN]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
@@ -3325,7 +3337,7 @@ type LiveConfiguration {
   """
   configurable when false indicates that live updates cannot be modified.
   """
-  configurable: Boolean!
+  configurable: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   enabled when true will allow live updates.
@@ -7534,7 +7546,8 @@ type Mutation {
   setPassword will set the password on the current User if they have not set
   one already. This mutation will fail if the password is already set.
   """
-  setPassword(input: SetPasswordInput!): SetPasswordPayload! @auth
+  setPassword(input: SetPasswordInput!): SetPasswordPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updatePassword allows the current logged in User to change their password if
@@ -7613,7 +7626,8 @@ type Mutation {
   """
   updateUserMediaSettings(
     input: UpdateUserMediaSettingsInput!
-  ): UpdateUserMediaSettingsPayload! @auth
+  ): UpdateUserMediaSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUserEmail allows administrators to update a given User's email address
