@@ -12,14 +12,16 @@
   color: var(--palette-primary-500);
   margin: 0;
   font-weight: var(--font-weight-primary-semi-bold);
+
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.link {
+  overflow: hidden;
 }
 
 .removeButton {
-  flex: 1;
-  display: block;
-  width: 100%;
   margin-top: var(--spacing-1);
-}
-
-.icon {
+  margin-bottom: var(--spacing-3);
 }

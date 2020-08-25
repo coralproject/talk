@@ -8,16 +8,17 @@ import {
   YouTubeMedia,
 } from "coral-stream/common/Media";
 import {
-  Button,
-  ButtonIcon,
   Flex,
   HorizontalGutter,
+  Icon,
   MatchMedia,
 } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import MediaConfirmationIcon from "./MediaConfirmationIcon";
 
 import styles from "./MediaPreview.css";
+
 interface MediaConfig {
   giphy: {
     enabled: boolean;
@@ -48,56 +49,77 @@ const MediaPreview: FunctionComponent<Props> = ({
 }) => {
   return (
     <div>
-      <HorizontalGutter spacing={3} className={styles.root}>
-        <div>
-          <Flex justifyContent="space-between">
-            <Flex spacing={2}>
-              <div className={styles.icon}>
-                <MediaConfirmationIcon media={media} />
+      <MatchMedia gteWidth="xs">
+        {(matches) => (
+          <>
+            <HorizontalGutter spacing={3} className={styles.root}>
+              <div>
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Flex
+                    spacing={2}
+                    alignItems="baseline"
+                    className={styles.link}
+                  >
+                    <div>
+                      <MediaConfirmationIcon media={media} />
+                    </div>
+                    <div className={styles.url}>
+                      <a
+                        href={media.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {media.url}
+                      </a>
+                    </div>
+                  </Flex>
+                  {matches && (
+                    <Button
+                      onClick={onRemove}
+                      color="secondary"
+                      variant="flat"
+                      paddingSize="extraSmall"
+                    >
+                      <Flex alignItems="flex-end" justifyContent="flex-end">
+                        <Icon size="sm">close</Icon>
+                        <Localized id="comments-postComment-confirmMedia-remove">
+                          <span>Remove</span>
+                        </Localized>
+                      </Flex>
+                    </Button>
+                  )}
+                </Flex>
               </div>
-              <a
-                href={media.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.url}
-              >
-                {media.url}
-              </a>
-            </Flex>
-            <MatchMedia gteWidth="xs">
-              <Localized id="comments-postComment-confirmMedia-remove">
-                <Button onClick={onRemove} color="mono" variant="text" iconLeft>
-                  <ButtonIcon>close</ButtonIcon>
-                  Remove
+              {media.type === "external" && (
+                <ExternalMedia url={media.url} siteID={siteID} />
+              )}
+              {media.type === "twitter" && (
+                <TwitterMedia url={media.url} siteID={siteID} />
+              )}
+              {media.type === "youtube" && (
+                <YouTubeMedia url={media.url} siteID={siteID} />
+              )}
+            </HorizontalGutter>
+            {!matches && (
+              <Flex justifyContent="center">
+                <Button
+                  onClick={onRemove}
+                  color="secondary"
+                  variant="flat"
+                  paddingSize="extraSmall"
+                  className={styles.removeButton}
+                >
+                  <Flex alignItems="flex-end">
+                    <Icon size="sm">close</Icon>
+                    <Localized id="comments-postComment-confirmMedia-remove">
+                      <span>Remove</span>
+                    </Localized>
+                  </Flex>
                 </Button>
-              </Localized>
-            </MatchMedia>
-          </Flex>
-        </div>
-        {media.type === "external" && (
-          <ExternalMedia url={media.url} siteID={siteID} />
+              </Flex>
+            )}
+          </>
         )}
-        {media.type === "twitter" && (
-          <TwitterMedia url={media.url} siteID={siteID} />
-        )}
-        {media.type === "youtube" && (
-          <YouTubeMedia url={media.url} siteID={siteID} />
-        )}
-      </HorizontalGutter>
-      <MatchMedia ltWidth="xs">
-        <Localized id="comments-postComment-confirmMedia-remove">
-          <Button
-            onClick={onRemove}
-            color="mono"
-            variant="text"
-            iconLeft
-            size="large"
-            className={styles.removeButton}
-          >
-            <ButtonIcon>close</ButtonIcon>
-            Remove
-          </Button>
-        </Localized>
       </MatchMedia>
     </div>
   );
