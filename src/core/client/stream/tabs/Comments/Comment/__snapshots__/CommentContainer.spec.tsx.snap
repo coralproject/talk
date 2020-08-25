@@ -7,7 +7,7 @@ exports[`hide reply button 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -265,41 +265,6 @@ exports[`hide reply button 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -363,7 +328,7 @@ exports[`renders body only 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -629,41 +594,6 @@ exports[`renders body only 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": null,
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -727,7 +657,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -993,41 +923,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -1091,7 +986,7 @@ exports[`renders disabled reply when story is closed 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -1357,41 +1252,6 @@ exports[`renders disabled reply when story is closed 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -1455,7 +1315,7 @@ exports[`renders in reply to 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -1742,45 +1602,6 @@ exports[`renders in reply to 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": Object {
-                  "author": Object {
-                    "username": "ParentAuthor",
-                  },
-                },
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -1848,7 +1669,7 @@ exports[`renders username and body 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -2114,41 +1935,6 @@ exports[`renders username and body 1`] = `
               }
             }
           />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
-              }
-            }
-          />
         </ForwardRef(forwardRef)>
       }
       tags={false}
@@ -2221,7 +2007,7 @@ exports[`shows conversation link 1`] = `
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
-      badges={false}
+      badges={null}
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
@@ -2490,41 +2276,6 @@ exports[`shows conversation link 1`] = `
                   "mode": "COMMENTS",
                 },
                 "url": "http://localhost/story",
-              }
-            }
-          />
-          <Relay(AuthorBadgesContainer)
-            className="coral coral-userBadge coral-comment-userBadge"
-            comment={
-              Object {
-                "actionCounts": Object {
-                  "reaction": Object {
-                    "total": 0,
-                  },
-                },
-                "author": Object {
-                  "avatar": null,
-                  "badges": Array [],
-                  "id": "author-id",
-                  "username": "Marvin",
-                },
-                "body": "Woof",
-                "createdAt": "1995-12-17T03:24:00.000Z",
-                "deleted": false,
-                "editing": Object {
-                  "editableUntil": "1995-12-17T03:24:30.000Z",
-                  "edited": false,
-                },
-                "id": "comment-id",
-                "lastViewerAction": null,
-                "parent": null,
-                "pending": false,
-                "status": "NONE",
-                "tags": Array [],
-                "viewerActionPresence": Object {
-                  "dontAgree": false,
-                  "flag": false,
-                },
               }
             }
           />
