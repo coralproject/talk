@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
@@ -15,6 +16,7 @@ import {
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
+import WarningError from "coral-stream/common/WarningError";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -31,11 +33,11 @@ import {
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
-  shouldTriggerUserRefresh,
+  shouldTriggerViewerRefresh,
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
-import RefreshUserFetch from "../../RefreshUserFetch";
+import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import CommentForm from "../CommentForm";
 import {
@@ -50,7 +52,7 @@ import PostCommentFormFake from "./PostCommentFormFake";
 interface Props {
   createComment: CreateCommentMutation;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
-  refreshUser: FetchProp<typeof RefreshUserFetch>;
+  refreshViewer: FetchProp<typeof RefreshViewerFetch>;
   sessionStorage: PromisifiedStorage;
   settings: PostCommentFormContainer_settings;
   viewer: PostCommentFormContainer_viewer | null;
@@ -149,9 +151,16 @@ export class PostCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
-        if (shouldTriggerUserRefresh(error.code)) {
-          await this.props.refreshUser();
+        if (shouldTriggerViewerRefresh(error.code)) {
+          await this.props.refreshViewer();
         }
+
+        if (error.code === ERROR_CODES.USER_WARNED) {
+          return {
+            [FORM_ERROR]: <WarningError />,
+          };
+        }
+
         return error.invalidArgs;
       }
 
@@ -285,7 +294,7 @@ const enhanced = withContext(({ sessionStorage }) => ({
   withShowAuthPopupMutation(
     withCreateCommentMutation(
       withFetch(RefreshSettingsFetch)(
-        withFetch(RefreshUserFetch)(
+        withFetch(RefreshViewerFetch)(
           withFragmentContainer<Props>({
             settings: graphql`
               fragment PostCommentFormContainer_settings on Settings {

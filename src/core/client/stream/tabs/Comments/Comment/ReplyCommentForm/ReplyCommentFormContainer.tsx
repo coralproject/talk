@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
@@ -15,6 +16,7 @@ import {
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import CLASSES from "coral-stream/classes";
+import WarningError from "coral-stream/common/WarningError";
 
 import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
@@ -23,9 +25,11 @@ import { ReplyCommentFormContainer_story as StoryData } from "coral-stream/__gen
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
+  shouldTriggerViewerRefresh,
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
+import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import {
@@ -44,6 +48,7 @@ interface Props {
   autofocus: boolean;
   localReply?: boolean;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
+  refreshViewer: FetchProp<typeof RefreshViewerFetch>;
 }
 
 interface State {
@@ -132,8 +137,20 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
+
+        if (shouldTriggerViewerRefresh(error.code)) {
+          await this.props.refreshViewer();
+        }
+
+        if (error.code === ERROR_CODES.USER_WARNED) {
+          return {
+            [FORM_ERROR]: <WarningError />,
+          };
+        }
+
         return error.invalidArgs;
       }
+
       /**
        * Comment was caught in one of the moderation filters on the server.
        * We give the user another change to submit the comment, and we
@@ -143,6 +160,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         this.disableNudge();
         return { [FORM_ERROR]: error.message };
       }
+
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -220,63 +238,65 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withFetch(RefreshSettingsFetch)(
-    withCreateCommentReplyMutation(
-      withFragmentContainer<Props>({
-        settings: graphql`
-          fragment ReplyCommentFormContainer_settings on Settings {
-            charCount {
-              enabled
-              min
-              max
-            }
-            disableCommenting {
-              enabled
-              message
-            }
-            closeCommenting {
-              message
-            }
-            media {
-              twitter {
+  withFetch(RefreshViewerFetch)(
+    withFetch(RefreshSettingsFetch)(
+      withCreateCommentReplyMutation(
+        withFragmentContainer<Props>({
+          settings: graphql`
+            fragment ReplyCommentFormContainer_settings on Settings {
+              charCount {
                 enabled
+                min
+                max
               }
-              youtube {
+              disableCommenting {
                 enabled
+                message
               }
-              giphy {
-                enabled
+              closeCommenting {
+                message
               }
-              external {
-                enabled
+              media {
+                twitter {
+                  enabled
+                }
+                youtube {
+                  enabled
+                }
+                giphy {
+                  enabled
+                }
+                external {
+                  enabled
+                }
+              }
+              rte {
+                ...RTEContainer_config
               }
             }
-            rte {
-              ...RTEContainer_config
-            }
-          }
-        `,
-        story: graphql`
-          fragment ReplyCommentFormContainer_story on Story {
-            id
-            isClosed
-          }
-        `,
-        comment: graphql`
-          fragment ReplyCommentFormContainer_comment on Comment {
-            id
-            site {
+          `,
+          story: graphql`
+            fragment ReplyCommentFormContainer_story on Story {
               id
+              isClosed
             }
-            author {
-              username
-            }
-            revision {
+          `,
+          comment: graphql`
+            fragment ReplyCommentFormContainer_comment on Comment {
               id
+              site {
+                id
+              }
+              author {
+                username
+              }
+              revision {
+                id
+              }
             }
-          }
-        `,
-      })(ReplyCommentFormContainer)
+          `,
+        })(ReplyCommentFormContainer)
+      )
     )
   )
 );
