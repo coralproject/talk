@@ -112,20 +112,23 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         </Button>
       </div>
       {media.__typename === "ExternalMedia" && (
-        <ExternalMedia url={media.url} siteID={comment.site.id} />
+        <ExternalMedia
+          id={comment.id}
+          url={media.url}
+          siteID={comment.site.id}
+        />
       )}
       {media.__typename === "TwitterMedia" && (
         <TwitterMedia
+          id={comment.id}
           url={media.url}
-          width={media.width}
           siteID={comment.site.id}
         />
       )}
       {media.__typename === "YouTubeMedia" && (
         <YouTubeMedia
+          id={comment.id}
           url={media.url}
-          width={media.width}
-          height={media.height}
           siteID={comment.site.id}
         />
       )}
@@ -145,6 +148,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment MediaSectionContainer_comment on Comment {
+      id
       site {
         id
       }

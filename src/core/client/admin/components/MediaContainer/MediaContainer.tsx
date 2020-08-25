@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import {} from "coral-ui/components/v2";
 
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
@@ -16,50 +15,57 @@ interface Props {
 }
 
 const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
-  if (!comment || !comment.revision || !comment.revision.media) {
+  const media = comment.revision?.media;
+  if (!media) {
     return null;
   }
-  return (
-    <>
-      {comment.revision.media.__typename === "GiphyMedia" && (
+
+  switch (media.__typename) {
+    case "GiphyMedia":
+      return (
         <GiphyMedia
-          still={comment.revision.media.still}
-          video={comment.revision.media.video}
-          title={comment.revision.media.title}
-          width={comment.revision.media.width}
-          height={comment.revision.media.height}
+          still={media.still}
+          video={media.video}
+          title={media.title}
+          width={media.width}
+          height={media.height}
         />
-      )}
-      {comment.revision.media.__typename === "ExternalMedia" && (
+      );
+    case "ExternalMedia":
+      return (
         <ExternalMedia
-          url={comment.revision.media.url}
+          id={comment.id}
+          url={media.url}
           siteID={comment.site.id}
         />
-      )}
-      {comment.revision.media.__typename === "TwitterMedia" && (
+      );
+    case "TwitterMedia":
+      return (
         <TwitterMedia
-          url={comment.revision.media.url}
-          width={comment.revision.media.width}
+          id={comment.id}
+          url={media.url}
           siteID={comment.site.id}
         />
-      )}
-      {comment.revision.media.__typename === "YouTubeMedia" && (
+      );
+    case "YouTubeMedia":
+      return (
         <YouTubeMedia
-          url={comment.revision.media.url}
-          width={comment.revision.media.width}
-          height={comment.revision.media.height}
+          id={comment.id}
+          url={media.url}
           siteID={comment.site.id}
-          still={comment.revision.media.still}
-          title={comment.revision.media.title}
+          still={media.still}
+          title={media.title}
         />
-      )}
-    </>
-  );
+      );
+    case "%other":
+      return null;
+  }
 };
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment MediaContainer_comment on Comment {
+      id
       site {
         id
       }
@@ -76,14 +82,11 @@ const enhanced = withFragmentContainer<Props>({
           }
           ... on TwitterMedia {
             url
-            width
           }
           ... on YouTubeMedia {
             url
             still
             title
-            width
-            height
           }
           ... on ExternalMedia {
             url

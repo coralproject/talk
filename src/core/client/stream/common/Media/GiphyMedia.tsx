@@ -38,6 +38,7 @@ const GiphyMedia: FunctionComponent<Props> = ({
           })}
           width={width || undefined}
           height={height || undefined}
+          // TODO: (wyattjoh) auto pause when out of view
           autoPlay
           loop
           playsInline
@@ -47,7 +48,12 @@ const GiphyMedia: FunctionComponent<Props> = ({
       </div>
     </div>
   ) : (
-    <img src={url} alt={title || ""} />
+    <img
+      src={url}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+      alt={title || ""}
+    />
   );
 };
 

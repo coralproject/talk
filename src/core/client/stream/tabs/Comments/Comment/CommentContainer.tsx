@@ -448,6 +448,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
                               <img
                                 src={comment.author.avatar}
                                 className={styles.avatar}
+                                loading="lazy"
+                                referrerPolicy="no-referrer"
                                 alt={`Avatar for ${comment.author.username}`}
                               />
                             </Localized>

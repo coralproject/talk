@@ -1,26 +1,19 @@
 import React, { FunctionComponent } from "react";
 
-import IframeEmbed from "./IframeEmbed";
+import Frame from "coral-framework/components/Frame";
 
 interface Props {
+  id?: string;
   url: string;
-  width?: number | null;
-  height?: number | null;
   siteID: string;
 }
 
-const YouTubeMedia: FunctionComponent<Props> = ({
-  url,
-  width,
-  height,
-  siteID,
-}) => {
-  const cleanUrl = encodeURIComponent(url);
+const YouTubeMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
+  const component = encodeURIComponent(url);
   return (
-    <IframeEmbed
-      src={`/api/oembed?type=youtube&url=${cleanUrl}&siteID=${siteID}`}
-      width={width}
-      height={height}
+    <Frame
+      id={id}
+      src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
     />
   );
 };

@@ -1,25 +1,21 @@
 import React, { FunctionComponent } from "react";
 
-import styles from "./Media.css";
+import Frame from "coral-framework/components/Frame";
 
 interface Props {
+  id: string;
   url: string;
   siteID: string;
 }
 
-const ExternalMedia: FunctionComponent<Props> = ({ url, siteID }) => {
-  const cleanUrl = encodeURIComponent(url);
+const ExternalMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
+  const component = encodeURIComponent(url);
   return (
-    <div className={styles.embed}>
-      <iframe
-        frameBorder="0"
-        width={480}
-        height={320}
-        allowFullScreen
-        title="External Image"
-        src={`/api/external-media?url=${cleanUrl}&siteID=${siteID}`}
-      />
-    </div>
+    <Frame
+      id={id}
+      src={`/api/external-media?url=${component}&siteID=${siteID}`}
+      sandbox
+    />
   );
 };
 

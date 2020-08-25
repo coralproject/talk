@@ -1,37 +1,44 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import Frame from "coral-framework/components/Frame";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./Media.css";
 
 interface Props {
+  id: string;
   url: string;
   still: string;
-  width: number | null;
-  height: number | null;
   title: string | null;
   siteID: string;
 }
 
 const YouTubeMedia: FunctionComponent<Props> = ({
+  id,
   url,
   still,
   title,
-  width,
-  height,
   siteID,
 }) => {
   const [showAnimated, setShowAnimated] = useState(false);
   const toggleImage = useCallback(() => {
-    setShowAnimated(!showAnimated);
-  }, [showAnimated]);
-  const cleanUrl = encodeURIComponent(url);
+    setShowAnimated((a) => !a);
+  }, []);
+
+  const component = encodeURIComponent(url);
+
   return (
     <div className={styles.embed}>
       {!showAnimated && still && (
         <BaseButton onClick={toggleImage} className={styles.toggle}>
-          <img src={still} className={styles.image} alt={title || ""} />
+          <img
+            src={still}
+            className={styles.image}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            alt={title || ""}
+          />
           <Flex
             direction="column"
             alignItems="center"
@@ -48,13 +55,9 @@ const YouTubeMedia: FunctionComponent<Props> = ({
         </BaseButton>
       )}
       {showAnimated && (
-        <iframe
-          frameBorder="0"
-          width={width || 480}
-          height={height || 270}
-          allowFullScreen
-          title="oEmbed"
-          src={`/api/oembed?type=youtube&url=${cleanUrl}&siteID=${siteID}`}
+        <Frame
+          id={id}
+          src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
         />
       )}
     </div>

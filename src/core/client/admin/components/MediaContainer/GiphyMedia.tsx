@@ -33,6 +33,8 @@ const GiphyMedia: FunctionComponent<Props> = ({
             className={styles.image}
             width={width || undefined}
             height={height || undefined}
+            loading="lazy"
+            referrerPolicy="no-referrer"
             alt={title || ""}
           />
           <Flex
@@ -57,6 +59,7 @@ const GiphyMedia: FunctionComponent<Props> = ({
             width={width || undefined}
             height={height || undefined}
             title={title || ""}
+            // TODO: (wyattjoh) auto pause when out of view
             autoPlay
             loop
           >
