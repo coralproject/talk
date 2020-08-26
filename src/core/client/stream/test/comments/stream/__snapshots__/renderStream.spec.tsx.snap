@@ -143,9 +143,15 @@ exports[`renders comment stream 1`] = `
                     className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
                   >
                     <button
-                      className="Button.module-button"
+                      aria-pressed={false}
+                      className="BaseButton-root RTEButton-button"
                       disabled={false}
+                      onBlur={[Function]}
                       onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       title="Bold"
                       type="button"
                     >
@@ -157,9 +163,15 @@ exports[`renders comment stream 1`] = `
                       </i>
                     </button>
                     <button
-                      className="Button.module-button"
+                      aria-pressed={false}
+                      className="BaseButton-root RTEButton-button"
                       disabled={false}
+                      onBlur={[Function]}
                       onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       title="Italic"
                       type="button"
                     >
@@ -171,9 +183,15 @@ exports[`renders comment stream 1`] = `
                       </i>
                     </button>
                     <button
-                      className="Button.module-button"
+                      aria-pressed={false}
+                      className="BaseButton-root RTEButton-button"
                       disabled={false}
+                      onBlur={[Function]}
                       onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       title="Blockquote"
                       type="button"
                     >
@@ -185,9 +203,15 @@ exports[`renders comment stream 1`] = `
                       </i>
                     </button>
                     <button
-                      className="Button.module-button"
+                      aria-pressed={false}
+                      className="BaseButton-root RTEButton-button"
                       disabled={false}
+                      onBlur={[Function]}
                       onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       title="Bulleted List"
                       type="button"
                     >
