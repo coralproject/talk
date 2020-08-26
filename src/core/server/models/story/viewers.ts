@@ -73,7 +73,7 @@ export async function createStoryViewer(
   // Do this now.
   const [, , , , [, count]] = await multi.exec();
 
-  logger.info({ took: timer(), count, spec }, "created story viewer");
+  logger.debug({ took: timer(), count, spec }, "created story viewer");
 
   return count;
 }
@@ -102,7 +102,7 @@ export async function removeStoryViewer(
   // Do this now.
   const [, , [, count]] = await multi.exec();
 
-  logger.info({ took: timer(), count, spec }, "removed story viewer");
+  logger.debug({ took: timer(), count, spec }, "removed story viewer");
 
   return count;
 }
@@ -121,7 +121,7 @@ export async function countStoryViewers(
   // Count the number of clientID's.
   const count = await redis.scard(key);
 
-  logger.info({ took: timer(), count, spec }, "counted story viewers");
+  logger.debug({ took: timer(), count, spec }, "counted story viewers");
 
   return count;
 }
