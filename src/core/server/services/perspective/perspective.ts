@@ -5,7 +5,7 @@ import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 
-import { createAxios } from "../fetch.ts";
+import { createAxios } from "../fetch";
 
 const axios = createAxios({ name: "perspective" });
 
