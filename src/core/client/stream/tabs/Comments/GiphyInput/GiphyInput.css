@@ -25,12 +25,6 @@
   text-align: center;
 }
 
-.error {
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-3);
-  color: var(--palette-error-500);
-}
-
 .results {
   overflow: hidden;
 }

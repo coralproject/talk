@@ -11,7 +11,7 @@ import {
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
-import GifSelector, { GifPreview } from "../../GifSelector";
+import GiphyInput, { GifPreview } from "../../GiphyInput";
 import { getMediaValidators } from "../../helpers";
 
 export type Widget = "giphy" | "external" | null;
@@ -24,7 +24,7 @@ interface Props {
   setPastedMedia: (media: MediaLink | null) => void;
 }
 
-export interface Media {
+interface Media {
   id?: string;
   type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
@@ -39,99 +39,117 @@ const MediaField: FunctionComponent<Props> = ({
   pastedMedia,
   setPastedMedia,
 }) => {
-  const field = useField<Media | undefined>("media", {
+  const {
+    input: { value, onChange },
+    meta: { valid, dirty, error },
+  } = useField<Media | undefined>("media", {
     validate: getMediaValidators(),
   });
 
-  // Grab the reference to the media object.
-  const media = field.input.value;
-
-  const onSelect = useCallback(
-    (selectedMedia: Media | undefined) => {
-      field.input.onChange(selectedMedia);
-    },
-    [field.input]
-  );
-
-  const onGIFSelect = useCallback(
+  const onGiphySelect = useCallback(
     (gif: GiphyGif) =>
-      onSelect({
+      onChange({
         type: "giphy",
         id: gif.id,
         url: gif.images.original.url,
       }),
-    [onSelect]
+    [onChange]
   );
 
-  const onImageInsert = useCallback(
+  const onExternalImageSelect = useCallback(
     (url: string) =>
-      onSelect({
+      onChange({
         type: "external",
         url,
       }),
-    [onSelect]
+    [onChange]
   );
 
   const onRemove = useCallback(() => {
-    onSelect(undefined);
+    // We use `undefined` here instead of null because `final-form` only treats
+    // undefined as truly unset versus `null` which _is_ a value.
+    onChange(undefined);
     setPastedMedia(null);
-  }, [onSelect, setPastedMedia]);
+  }, [onChange, setPastedMedia]);
 
-  const onConfirmMedia = useCallback(() => {
+  const onConfirmPastedMedia = useCallback(() => {
     // We know that the pastedMedia is provided because the onConfirmMedia is
     // only rendered when the pastedMedia is available.
-    field.input.onChange(pastedMedia!);
+    onChange(pastedMedia!);
     setPastedMedia(null);
-  }, [field.input, pastedMedia, setPastedMedia]);
+  }, [onChange, pastedMedia, setPastedMedia]);
 
   useEffect(() => {
-    if (!field.meta.dirty || !field.meta.valid || !widget) {
+    // If a widget is not open, do nothing. The following checks are designed
+    // to interact only when there is a widget open when there shouldn't be or
+    // if the current value does not match the open widget.
+    if (!widget) {
       return;
     }
 
-    setWidget(null);
-  }, [field.meta.valid, field.meta.dirty, setWidget, widget]);
-
-  // This effect will update the selected value if we swap widgets.
-  useEffect(() => {
-    if (media && widget && media.type !== widget) {
-      onSelect(undefined);
+    if (value) {
+      if (widget === value.type) {
+        if (dirty && valid) {
+          // When this field is dirty, valid, and the current value was created
+          // by the current widget then disable the widget because that means
+          // that we have validated the field value and it was valid, so we
+          // don't need the widget anymore.
+          setWidget(null);
+        }
+      } else {
+        // When the widget open is not the same as the one that created the
+        // current value, then unset the value because we must have switched the
+        // widget since we selected the current value.
+        onChange(undefined);
+      }
     }
 
-    if (pastedMedia && widget) {
+    // When there is pasted media and a widget is selected, then unset the
+    // pasted media because pasted media does not use a widget, only a
+    // confirmation.
+    if (pastedMedia) {
       setPastedMedia(null);
     }
-  }, [media, onSelect, pastedMedia, setPastedMedia, widget]);
+  }, [
+    dirty,
+    valid,
+    value,
+    onChange,
+    pastedMedia,
+    setPastedMedia,
+    setWidget,
+    widget,
+  ]);
 
   return (
     <>
       {/* Show the input widget that's selected. */}
       {widget === "giphy" ? (
-        <GifSelector onGifSelect={onGIFSelect} />
+        <GiphyInput onSelect={onGiphySelect} />
       ) : widget === "external" ? (
-        <ExternalImageInput onImageInsert={onImageInsert} />
+        <ExternalImageInput onSelect={onExternalImageSelect} />
       ) : pastedMedia ? (
         <MediaConfirmPrompt
           media={pastedMedia}
-          onConfirm={onConfirmMedia}
+          onConfirm={onConfirmPastedMedia}
           onRemove={onRemove}
         />
       ) : null}
 
       {/* If there's no widget, and we have a valid url, display preview */}
-      {!widget && media?.url && field.meta.valid ? (
-        isMediaLink(media) ? (
-          <MediaPreview media={media} siteID={siteID} onRemove={onRemove} />
+      {!widget && value?.url && valid ? (
+        isMediaLink(value) ? (
+          <MediaPreview media={value} siteID={siteID} onRemove={onRemove} />
         ) : (
-          <GifPreview url={media.url} onRemove={onRemove} />
+          <GifPreview url={value.url} onRemove={onRemove} />
         )
       ) : null}
 
       {/* Show any errors associated with this field. */}
-      {field.meta.error && (
+      {error && (
         <CallOut
           color="error"
-          title={field.meta.error}
+          title={error}
           titleWeight="semiBold"
           icon={<Icon>error</Icon>}
         />

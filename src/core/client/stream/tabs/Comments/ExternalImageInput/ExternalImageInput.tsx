@@ -17,21 +17,25 @@ import {
 import styles from "./ExternalImageInput.css";
 
 interface Props {
-  onImageInsert: (url: string) => void;
+  onSelect: (url: string) => void;
 }
 
-const ExternalImageInput: FunctionComponent<Props> = ({ onImageInsert }) => {
+const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [url, setURL] = useState<string>("");
-  const onURLFieldChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
+
+  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setURL(evt.target.value);
   }, []);
-  const onInsertClick = useCallback(() => {
-    onImageInsert(url);
+
+  const onClick = useCallback(() => {
+    onSelect(url);
 
     // TODO: we should handle this state better...
     setURL("");
-  }, [url, setURL, onImageInsert]);
+  }, [url, setURL, onSelect]);
 
+  // This will handle when the user hits enter where we don't want to submit the
+  // form.
   const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") {
       return;
@@ -50,7 +54,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onImageInsert }) => {
           <TextField
             className={styles.input}
             value={url}
-            onChange={onURLFieldChange}
+            onChange={onChange}
             onKeyPress={onKeyPress}
             fullWidth
             variant="seamlessAdornment"
@@ -59,7 +63,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onImageInsert }) => {
               <Localized id="comments-postComment-insertImage">
                 <Button
                   color="stream"
-                  onClick={onInsertClick}
+                  onClick={onClick}
                   className={styles.insertButton}
                 >
                   Insert
