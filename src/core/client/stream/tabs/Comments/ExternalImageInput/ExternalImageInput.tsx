@@ -9,6 +9,7 @@ import React, {
 
 import {
   Button,
+  Flex,
   HorizontalGutter,
   InputLabel,
   TextField,
@@ -51,26 +52,26 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
           <Localized id="comments-postComment-pasteImage">
             <InputLabel>Paste image URL</InputLabel>
           </Localized>
-          <TextField
-            className={styles.input}
-            value={url}
-            onChange={onChange}
-            onKeyPress={onKeyPress}
-            fullWidth
-            variant="seamlessAdornment"
-            color="streamBlue"
-            adornment={
-              <Localized id="comments-postComment-insertImage">
-                <Button
-                  color="stream"
-                  onClick={onClick}
-                  className={styles.insertButton}
-                >
-                  Insert
-                </Button>
-              </Localized>
-            }
-          />
+          <Flex>
+            <TextField
+              className={styles.input}
+              value={url}
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+              fullWidth
+              variant="seamlessAdornment"
+              color="streamBlue"
+            />
+            <Localized id="comments-postComment-insertImage">
+              <Button
+                color="stream"
+                onClick={onClick}
+                className={styles.insertButton}
+              >
+                Insert
+              </Button>
+            </Localized>
+          </Flex>
         </HorizontalGutter>
       </HorizontalGutter>
     </div>
