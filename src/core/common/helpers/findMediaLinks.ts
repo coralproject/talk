@@ -27,7 +27,7 @@ function formatLink(type: MediaType, url: string): MediaLink {
   };
 }
 
-const patterns: Array<{ type: MediaType; pattern: RegExp }> = [
+const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
   {
     type: "youtube",
     pattern: /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[-_a-zA-z0-9]{1,12}|youtu\.be\/[-_a-zA-z0-9]{1,12})/g,

@@ -501,6 +501,16 @@ export class WrappedInternalError extends CoralError {
   }
 }
 
+export class ValidationError extends CoralError {
+  constructor(cause: Error) {
+    super({
+      code: ERROR_CODES.VALIDATION,
+      cause,
+      status: 400,
+    });
+  }
+}
+
 export class InternalError extends CoralError {
   constructor(reason: string, context?: Record<string, any>) {
     super({

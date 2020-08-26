@@ -30,7 +30,7 @@ import { Button, CallOut } from "coral-ui/components/v3";
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer from "../../RTE";
-import MediaField from "./MediaField";
+import MediaField, { Widget } from "./MediaField";
 
 import styles from "./CommentForm.css";
 
@@ -46,6 +46,21 @@ interface MediaProps {
   id: string | null;
   width?: string;
   height?: string;
+}
+
+interface MediaConfig {
+  giphy: {
+    enabled: boolean;
+  };
+  twitter: {
+    enabled: boolean;
+  };
+  youtube: {
+    enabled: boolean;
+  };
+  external: {
+    enabled: boolean;
+  };
 }
 
 interface FormProps {
@@ -72,7 +87,7 @@ interface Props {
   expired?: boolean;
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
-  mediaConfig: PropTypesOf<typeof MediaField>["config"];
+  mediaConfig: MediaConfig;
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
@@ -81,21 +96,28 @@ interface Props {
   className?: string;
 }
 
+function createWidgetToggle(desiredWidget: Widget) {
+  return (widget: Widget) => {
+    if (widget !== desiredWidget) {
+      return desiredWidget;
+    }
+
+    return null;
+  };
+}
+
 const CommentForm: FunctionComponent<Props> = (props) => {
-  const [showGifSelector, setShowGifSelector] = useState<boolean>(false);
-  const [showExternalImageInput, setShowExternalImageInput] = useState<boolean>(
-    false
-  );
-  const [media, setMedia] = useState<MediaLink | null>(null);
+  const [mediaWidget, setMediaWidget] = useState<Widget>(null);
+  const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
   const onSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
-      setMedia(null);
+      setPastedMedia(null);
 
       // Submit the form.
       return props.onSubmit(values, form);
     },
-    [props.onSubmit, setMedia]
+    [props.onSubmit, setPastedMedia]
   );
 
   const onPaste = useCallback(
@@ -118,25 +140,22 @@ const CommentForm: FunctionComponent<Props> = (props) => {
         ((link.type === "twitter" && props.mediaConfig.twitter.enabled) ||
           (link.type === "youtube" && props.mediaConfig.youtube.enabled))
       ) {
-        setMedia({ ...link });
+        setPastedMedia({ ...link });
       }
     },
-    [setMedia, props.mediaConfig]
+    [setPastedMedia, props.mediaConfig]
   );
 
   const toggleExternalImageInput = useCallback(() => {
-    setShowExternalImageInput(!showExternalImageInput);
-    if (showGifSelector) {
-      setShowGifSelector(false);
-    }
-  }, [showExternalImageInput, showGifSelector]);
+    setMediaWidget(createWidgetToggle("external"));
+  }, []);
 
   const toggleGIFSelector = useCallback(() => {
-    setShowGifSelector(!showGifSelector);
-    if (showExternalImageInput) {
-      setShowExternalImageInput(false);
-    }
-  }, [showExternalImageInput, showGifSelector]);
+    setMediaWidget(createWidgetToggle("giphy"));
+  }, []);
+
+  const showGifSelector = mediaWidget === "giphy";
+  const showExternalImageInput = mediaWidget === "external";
 
   return (
     <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>
@@ -239,18 +258,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       </Localized>
                     )}
                   </Field>
-                  {props.mediaConfig && (
-                    <MediaField
-                      config={props.mediaConfig}
-                      siteID={props.siteID}
-                      media={media}
-                      setMedia={setMedia}
-                      showExternalImageInput={showExternalImageInput}
-                      toggleExternalImageInput={toggleExternalImageInput}
-                      showGIFSelector={showGifSelector}
-                      toggleGIFSelector={toggleGIFSelector}
-                    />
-                  )}
+                  <MediaField
+                    widget={mediaWidget}
+                    setWidget={setMediaWidget}
+                    pastedMedia={pastedMedia}
+                    setPastedMedia={setPastedMedia}
+                    siteID={props.siteID}
+                  />
                 </div>
               </div>
               {!props.expired && props.editableUntil && (

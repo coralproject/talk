@@ -61,3 +61,4 @@ error-inviteIncludesExistingUser = A user with the email address { $email } alre
 error-repeatPost = Are you sure? This comment is very similar to your previous comment.
 error-installationForbidden = { -product-name } is already installed. To install another Tenant on this domain ({ $domain }) you need to generate an installation token.
 error-duplicateSiteOrigin = Allowed domains may only be associated with a single site.
+error-validation = A validation error occurred.

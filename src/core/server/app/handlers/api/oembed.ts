@@ -19,11 +19,11 @@ interface OEmbedQuery {
   maxWidth?: number;
 }
 
-export type OembedHandler = Pick<AppOptions, "i18n">;
+type Options = Pick<AppOptions, "i18n">;
 
 export const oembedHandler = ({
   i18n,
-}: OembedHandler): RequestHandler<TenantCoralRequest> => {
+}: Options): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;

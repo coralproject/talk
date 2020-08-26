@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEvent,
   FunctionComponent,
+  KeyboardEvent,
   useCallback,
   useState,
 } from "react";
@@ -12,6 +13,7 @@ import {
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
+
 import styles from "./ExternalImageInput.css";
 
 interface Props {
@@ -25,8 +27,19 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onImageInsert }) => {
   }, []);
   const onInsertClick = useCallback(() => {
     onImageInsert(url);
+
+    // TODO: we should handle this state better...
     setURL("");
   }, [url, setURL, onImageInsert]);
+
+  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+
+    e.preventDefault();
+  }, []);
+
   return (
     <div className={styles.root}>
       <HorizontalGutter>
@@ -38,6 +51,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onImageInsert }) => {
             className={styles.input}
             value={url}
             onChange={onURLFieldChange}
+            onKeyPress={onKeyPress}
             fullWidth
             variant="seamlessAdornment"
             color="streamBlue"

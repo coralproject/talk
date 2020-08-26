@@ -1,127 +1,133 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { GiphyGif } from "coral-common/rest/external/giphy";
-import { getMediaValidators } from "../../helpers";
-
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
+
 import {
   MediaConfirmPrompt,
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
 import GifSelector, { GifPreview } from "../../GifSelector";
+import { getMediaValidators } from "../../helpers";
+
+export type Widget = "giphy" | "external" | null;
 
 interface Props {
-  showGIFSelector: boolean;
-  toggleGIFSelector: () => void;
-  showExternalImageInput: boolean;
-  toggleExternalImageInput: () => void;
+  widget: Widget;
+  setWidget: (widget: Widget) => void;
   siteID: string;
-  config: MediaConfig;
-  media: MediaLink | null;
-  setMedia: (media: MediaLink | null) => void;
+  pastedMedia: MediaLink | null;
+  setPastedMedia: (media: MediaLink | null) => void;
 }
 
 export interface Media {
+  id?: string;
   type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
-  id?: string;
   width?: string;
   height?: string;
 }
 
-interface MediaConfig {
-  giphy: {
-    enabled: boolean;
-  };
-  twitter: {
-    enabled: boolean;
-  };
-  youtube: {
-    enabled: boolean;
-  };
-  external: {
-    enabled: boolean;
-  };
-}
-
-const MediaField: FunctionComponent<Props> = (props) => {
+const MediaField: FunctionComponent<Props> = ({
+  widget,
+  setWidget,
+  siteID,
+  pastedMedia,
+  setPastedMedia,
+}) => {
   const field = useField<Media | undefined>("media", {
     validate: getMediaValidators(),
   });
 
-  const onGIFSelect = useCallback(
-    (gif: GiphyGif) => {
-      field.input.onChange({
-        type: "giphy",
-        id: gif.id,
-        url: gif.images.original.url,
-      });
-
-      props.toggleGIFSelector();
-    },
-    [props.toggleGIFSelector]
-  );
-
-  const onGIFRemove = useCallback(() => {
-    field.input.onChange(undefined);
-  }, [field.input]);
-
-  const onImageInsert = useCallback(
-    (url: string) => {
-      field.input.onChange({
-        type: "external",
-        url,
-      });
-
-      props.toggleExternalImageInput();
-    },
-    [props.toggleExternalImageInput]
-  );
-
-  const onConfirmMedia = useCallback(() => {
-    field.input.onChange(props.media!);
-    props.setMedia(null);
-  }, [props.media, props.setMedia, field.input]);
-
-  const onRemoveMedia = useCallback(() => {
-    field.input.onChange(null);
-    props.setMedia(null);
-  }, [props.media, props.setMedia, field.input]);
-
   // Grab the reference to the media object.
   const media = field.input.value;
 
+  const onSelect = useCallback(
+    (selectedMedia: Media | undefined) => {
+      field.input.onChange(selectedMedia);
+    },
+    [field.input]
+  );
+
+  const onGIFSelect = useCallback(
+    (gif: GiphyGif) =>
+      onSelect({
+        type: "giphy",
+        id: gif.id,
+        url: gif.images.original.url,
+      }),
+    [onSelect]
+  );
+
+  const onImageInsert = useCallback(
+    (url: string) =>
+      onSelect({
+        type: "external",
+        url,
+      }),
+    [onSelect]
+  );
+
+  const onRemove = useCallback(() => {
+    onSelect(undefined);
+    setPastedMedia(null);
+  }, [onSelect, setPastedMedia]);
+
+  const onConfirmMedia = useCallback(() => {
+    // We know that the pastedMedia is provided because the onConfirmMedia is
+    // only rendered when the pastedMedia is available.
+    field.input.onChange(pastedMedia!);
+    setPastedMedia(null);
+  }, [field.input, pastedMedia, setPastedMedia]);
+
+  useEffect(() => {
+    if (!field.meta.dirty || !field.meta.valid || !widget) {
+      return;
+    }
+
+    setWidget(null);
+  }, [field.meta.valid, field.meta.dirty, setWidget, widget]);
+
+  // This effect will update the selected value if we swap widgets.
+  useEffect(() => {
+    if (media && widget && media.type !== widget) {
+      onSelect(undefined);
+    }
+
+    if (pastedMedia && widget) {
+      setPastedMedia(null);
+    }
+  }, [media, onSelect, pastedMedia, setPastedMedia, widget]);
+
   return (
     <>
-      {props.showGIFSelector && <GifSelector onGifSelect={onGIFSelect} />}
-      {props.showExternalImageInput && (
+      {/* Show the input widget that's selected. */}
+      {widget === "giphy" ? (
+        <GifSelector onGifSelect={onGIFSelect} />
+      ) : widget === "external" ? (
         <ExternalImageInput onImageInsert={onImageInsert} />
-      )}
-      {props.media && (
+      ) : pastedMedia ? (
         <MediaConfirmPrompt
-          media={props.media}
+          media={pastedMedia}
           onConfirm={onConfirmMedia}
-          onRemove={onRemoveMedia}
+          onRemove={onRemove}
         />
-      )}
-      {media &&
-        media.url &&
-        (isMediaLink(media) ? (
-          <MediaPreview
-            config={props.config}
-            media={media}
-            siteID={props.siteID}
-            onRemove={onRemoveMedia}
-          />
+      ) : null}
+
+      {/* If there's no widget, and we have a valid url, display preview */}
+      {!widget && media?.url && field.meta.valid ? (
+        isMediaLink(media) ? (
+          <MediaPreview media={media} siteID={siteID} onRemove={onRemove} />
         ) : (
-          !props.showGIFSelector && (
-            <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
-          )
-        ))}
+          <GifPreview url={media.url} onRemove={onRemove} />
+        )
+      ) : null}
+
+      {/* Show any errors associated with this field. */}
       {field.meta.error && (
         <CallOut
           color="error"
