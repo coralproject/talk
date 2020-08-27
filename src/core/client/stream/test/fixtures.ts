@@ -120,6 +120,7 @@ export const settings = createFixture<GQLSettings>({
     enabled: true,
     strikethrough: false,
     spoiler: false,
+    sarcasm: false,
   },
 });
 

@@ -53,4 +53,7 @@ $commentsLinkColorHovered: var(--palette-primary-700);
     background-color: transparent;
     cursor: text;
   }
+  & :global(.coral-rte-sarcasm) {
+    font-family: monospace;
+  }
 }
