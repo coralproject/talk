@@ -130,6 +130,9 @@ comments-rte-strikethrough =
 
 comments-rte-spoiler = Spoiler
 
+comments-rte-externalImage =
+  .title = External Image
+
 comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
