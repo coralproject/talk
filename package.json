@@ -73,6 +73,7 @@
     "apollo-server-express": "^2.16.1",
     "apollo-server-plugin-base": "^0.9.1",
     "archiver": "^3.1.1",
+    "axios": "^0.19.2",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "bull": "^3.13.0",
