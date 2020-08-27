@@ -10,17 +10,35 @@
         margin: 0;
         padding: 0 100px 50px 100px;
       }
+
+      .coral-count {
+        background-color: coral;
+        color: white;
+        padding: 5px;
+        text-decoration: none;
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 0.75em;
+      }
+
+      .coral-new-count-number,
+      .coral-new-count-text {
+        font-weight: bold;
+      }
+
+      .coral-count[data-coral-count="0"] .coral-count-number {
+        display: none;
+      }
     </style>
   </head>
-
   <body>
-    <p style="text-align: center">
+    <p style="text-align: center;">
       <a href="/admin">Admin</a> | <a href="/">Default</a> |
       <a href="/story.html">Story</a>
     </p>
-    <h1 style="text-align: center">Coral 5.0 – Story with Button</h1>
+    <h1 style="text-align: center;">Coral 5.0 – Story with Button</h1>
     <p>
-      <a href="#coralStreamEmbed"><span class="coral-count"></span></a>&nbsp;
+      <a href="#coralStreamEmbed" class="coral-count">Comments</a>
     </p>
     <p>
       Dismember a mouse and then regurgitate parts of it on the family room
@@ -119,8 +137,8 @@
       check on human, have not seen in an hour might be dead oh look, human is
       alive, hiss at human, feed me.
     </p>
-    <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto"></div>
-    <div style="text-align: center">
+    <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto;"></div>
+    <div style="text-align: center;">
       <button id="showComments">Show Comments</button>
     </div>
     <script>
@@ -131,7 +149,7 @@
 
       const button = document.getElementById("showComments");
 
-      const showStreamEmbed = function() {
+      const showStreamEmbed = function () {
         CoralStreamEmbed.render();
         button.parentElement.removeChild(button);
       };

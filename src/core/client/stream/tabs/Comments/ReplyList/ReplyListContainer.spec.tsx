@@ -19,6 +19,7 @@ jest.spyOn(React, "useContext").mockImplementation(() => context);
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
+      id: "story-id",
       closedAt: null,
       isClosed: false,
       settings: { live: { enabled: true } },
@@ -57,6 +58,7 @@ it("renders correctly", () => {
 it("renders correctly when replies are empty", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
+      id: "story-id",
       isClosed: false,
       closedAt: null,
       settings: {
@@ -94,6 +96,7 @@ describe("when has more replies", () => {
   let finishLoading: ((error?: Error) => void) | null = null;
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
+      id: "story-id",
       isClosed: false,
       closedAt: null,
       settings: {
