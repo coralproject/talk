@@ -31,6 +31,7 @@ const enhanced = withForwardRef(
         enabled
         strikethrough
         spoiler
+        sarcasm
       }
     `,
   })(RTEContainer)

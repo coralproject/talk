@@ -60,6 +60,7 @@ it("disabled rte formatting", async () => {
         enabled: false,
         spoiler: true,
         strikethrough: true,
+        sarcasm: true,
       }
     );
     expect(within(rte).queryByTitle("Bold")).toBeNull();
@@ -68,6 +69,7 @@ it("disabled rte formatting", async () => {
     expect(within(rte).queryByTitle("Bulleted List")).toBeNull();
     expect(within(rte).queryByTitle("Strikethrough")).toBeNull();
     expect(within(rte).queryByTitle("Spoiler")).toBeNull();
+    expect(within(rte).queryByTitle("Sarcasm")).toBeNull();
   });
 });
 
@@ -79,6 +81,7 @@ it("enable basic rte formatting", async () => {
         enabled: true,
         spoiler: false,
         strikethrough: false,
+        sarcasm: false,
       }
     );
     expect(within(rte).queryByTitle("Bold")).not.toBeNull();
@@ -87,6 +90,7 @@ it("enable basic rte formatting", async () => {
     expect(within(rte).queryByTitle("Bulleted List")).not.toBeNull();
     expect(within(rte).queryByTitle("Strikethrough")).toBeNull();
     expect(within(rte).queryByTitle("Spoiler")).toBeNull();
+    expect(within(rte).queryByTitle("Sarcasm")).toBeNull();
   });
 });
 
@@ -98,6 +102,7 @@ it("enable strike formatting", async () => {
         enabled: true,
         strikethrough: true,
         spoiler: false,
+        sarcasm: false,
       }
     );
     expect(within(rte).queryByTitle("Bold")).not.toBeNull();
@@ -106,6 +111,7 @@ it("enable strike formatting", async () => {
     expect(within(rte).queryByTitle("Bulleted List")).not.toBeNull();
     expect(within(rte).queryByTitle("Strikethrough")).not.toBeNull();
     expect(within(rte).queryByTitle("Spoiler")).toBeNull();
+    expect(within(rte).queryByTitle("Sarcasm")).toBeNull();
   });
 });
 
@@ -117,6 +123,7 @@ it("enable spoiler formatting", async () => {
         enabled: true,
         strikethrough: false,
         spoiler: true,
+        sarcasm: false,
       }
     );
     expect(within(rte).queryByTitle("Bold")).not.toBeNull();
@@ -125,6 +132,7 @@ it("enable spoiler formatting", async () => {
     expect(within(rte).queryByTitle("Bulleted List")).not.toBeNull();
     expect(within(rte).queryByTitle("Strikethrough")).toBeNull();
     expect(within(rte).queryByText("Spoiler")).not.toBeNull();
+    expect(within(rte).queryByTitle("Sarcasm")).toBeNull();
   });
 });
 
@@ -136,6 +144,7 @@ it("enable all formatting", async () => {
         enabled: true,
         strikethrough: true,
         spoiler: true,
+        sarcasm: true,
       }
     );
     expect(within(rte).queryByTitle("Bold")).not.toBeNull();
@@ -144,5 +153,6 @@ it("enable all formatting", async () => {
     expect(within(rte).queryByTitle("Bulleted List")).not.toBeNull();
     expect(within(rte).queryByTitle("Strikethrough")).not.toBeNull();
     expect(within(rte).queryByText("Spoiler")).not.toBeNull();
+    expect(within(rte).queryByText("Sarcasm")).not.toBeNull();
   });
 });

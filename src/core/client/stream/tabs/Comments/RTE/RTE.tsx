@@ -23,6 +23,7 @@ import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import RTEButton from "./RTEButton";
+import Sarcasm from "./Sarcasm";
 
 import styles from "./RTE.css";
 
@@ -35,6 +36,7 @@ interface RTEFeatures {
   strikethrough?: boolean;
   bulletList?: boolean;
   spoiler?: boolean;
+  sarcasm?: boolean;
 }
 
 const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
@@ -47,6 +49,7 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
       bulletList: features.bulletList,
       strikethrough: features.strikethrough,
       spoiler: features.spoiler,
+      sarcasm: features.sarcasm,
     },
   });
   return (html: string) => {
@@ -239,6 +242,13 @@ const RTE: FunctionComponent<Props> = (props) => {
       x.push(
         <RTELocalized key="spoiler" id="comments-rte-spoiler">
           <Spoiler>Spoiler</Spoiler>
+        </RTELocalized>
+      );
+    }
+    if (features?.sarcasm) {
+      x.push(
+        <RTELocalized key="sarcasm" id="comments-rte-sarcasm">
+          <Sarcasm>Sarcasm</Sarcasm>
         </RTELocalized>
       );
     }

@@ -429,6 +429,11 @@ enum FEATURE_FLAG {
   EXTERNAL_MEDIA enables embedding external images
   """
   EXTERNAL_MEDIA
+
+  """
+  RTE_SARCASM enables sarcasm RTE feature
+  """
+  RTE_SARCASM
 }
 
 # The moderation mode of the site.
@@ -1650,6 +1655,11 @@ type RTEConfiguration {
   spoiler when true turns on the spoiler feature.
   """
   spoiler: Boolean!
+
+  """
+  sarcasm when true turns on the sarcasm feature.
+  """
+  sarcasm: Boolean!
 }
 
 """

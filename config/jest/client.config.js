@@ -23,7 +23,7 @@ module.exports = {
       "<rootDir>/config/jest/fileTransform.js",
   },
   transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\](?!(fluent|react-relay-network-modern)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
+    "[/\\\\]node_modules[/\\\\](?!(fluent|react-relay-network-modern|@coralproject/rte/lib)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
   ],
   moduleNameMapper: {
     "^coral-account/(.*)$": "<rootDir>/src/core/client/account/$1",

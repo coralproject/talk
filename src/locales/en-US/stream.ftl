@@ -130,6 +130,8 @@ comments-rte-strikethrough =
 
 comments-rte-spoiler = Spoiler
 
+comments-rte-sarcasm = Sarcasm
+
 comments-rte-externalImage =
   .title = External Image
 

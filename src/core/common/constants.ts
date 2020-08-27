@@ -76,3 +76,8 @@ export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
  * SPOILER_CLASSNAME is the classname that is attached to spoilers.
  */
 export const SPOILER_CLASSNAME = "coral-rte-spoiler";
+
+/**
+ * SARCASM_CLASSNAME is the classname that is attached to sarcasm.
+ */
+export const SARCASM_CLASSNAME = "coral-rte-sarcasm";
