@@ -29,7 +29,8 @@ import { Button, CallOut } from "coral-ui/components/v3";
 
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
-import RTEContainer from "../../RTE";
+import RTEContainer, { RTEButton } from "../../RTE";
+import { RTELocalized } from "../../RTE/RTE";
 import MediaField, { Widget } from "./MediaField";
 
 import styles from "./CommentForm.css";
@@ -215,42 +216,31 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             <>
                               {props.mediaConfig &&
                               props.mediaConfig.external.enabled ? (
-                                <>
-                                  <Button
-                                    color="secondary"
-                                    variant="flat"
-                                    className={cn(styles.rteButton, {
-                                      [styles.rteButtonSelected]: showExternalImageInput,
-                                    })}
+                                <RTELocalized
+                                  key="image"
+                                  id="comments-rte-externalImage"
+                                  attrs={{ title: true }}
+                                >
+                                  <RTEButton
+                                    aria-pressed={showExternalImageInput}
                                     onClick={toggleExternalImageInput}
-                                    fontSize="small"
-                                    paddingSize="extraSmall"
                                   >
-                                    <Flex alignItems="center">
-                                      <Icon size="md">add_photo_alternate</Icon>
-                                    </Flex>
-                                  </Button>
-                                </>
+                                    <Icon size="md">add_photo_alternate</Icon>
+                                  </RTEButton>
+                                </RTELocalized>
                               ) : null}
                               {props.mediaConfig &&
                               props.mediaConfig.giphy.enabled ? (
-                                <>
-                                  <Button
-                                    color="secondary"
-                                    variant="flat"
-                                    className={cn(styles.rteButton, {
-                                      [styles.rteButtonSelected]: showGifSelector,
-                                    })}
-                                    onClick={toggleGIFSelector}
-                                    fontSize="small"
-                                    paddingSize="extraSmall"
-                                  >
-                                    <Flex alignItems="center">
-                                      <Icon className={styles.icon}>add</Icon>
-                                      GIF
-                                    </Flex>
-                                  </Button>
-                                </>
+                                <RTEButton
+                                  key="gif"
+                                  aria-pressed={showGifSelector}
+                                  onClick={toggleGIFSelector}
+                                >
+                                  <Flex alignItems="center" container="span">
+                                    <Icon className={styles.icon}>add</Icon>
+                                    GIF
+                                  </Flex>
+                                </RTEButton>
                               ) : null}
                             </>
                           }
