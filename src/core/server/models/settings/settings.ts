@@ -235,5 +235,6 @@ export type Settings = GlobalModerationSettings &
 export const defaultRTEConfiguration: GQLRTEConfiguration = {
   enabled: true,
   spoiler: false,
+  sarcasm: false,
   strikethrough: false,
 };

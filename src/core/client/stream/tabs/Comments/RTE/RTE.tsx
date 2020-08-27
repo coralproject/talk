@@ -22,6 +22,9 @@ import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
+import RTEButton from "./RTEButton";
+import Sarcasm from "./Sarcasm";
+
 import styles from "./RTE.css";
 
 export const RTE_RESET_VALUE = "<div><br></div>";
@@ -33,6 +36,7 @@ interface RTEFeatures {
   strikethrough?: boolean;
   bulletList?: boolean;
   spoiler?: boolean;
+  sarcasm?: boolean;
 }
 
 const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
@@ -45,6 +49,7 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
       bulletList: features.bulletList,
       strikethrough: features.strikethrough,
       spoiler: features.spoiler,
+      sarcasm: features.sarcasm,
     },
   });
   return (html: string) => {
@@ -63,18 +68,19 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
 // ref and passes the api prop to the children.
 // This is currently required in order for the RTE
 // to detect and setup the features.
-const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
-  function RTELocalized({ ctrlKey, squire, ...props }, ref) {
-    return (
-      <LocalizedOriginal {...props}>
-        {React.cloneElement(
-          React.Children.only(props.children as React.ReactElement),
-          { ctrlKey, squire, ref }
-        )}
-      </LocalizedOriginal>
-    );
-  }
-);
+export const RTELocalized = React.forwardRef<
+  any,
+  PropTypesOf<typeof LocalizedOriginal>
+>(function RTELocalized({ ctrlKey, squire, ButtonComponent, ...props }, ref) {
+  return (
+    <LocalizedOriginal {...props}>
+      {React.cloneElement(
+        React.Children.only(props.children as React.ReactElement),
+        { ctrlKey, squire, ButtonComponent, ref }
+      )}
+    </LocalizedOriginal>
+  );
+});
 
 export interface PasteEvent {
   fragment: DocumentFragment;
@@ -173,16 +179,16 @@ const RTE: FunctionComponent<Props> = (props) => {
     const x = [];
     if (features?.bold) {
       x.push(
-        <Localized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
+        <RTELocalized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
           <Bold>
             <Icon size="md">format_bold</Icon>
           </Bold>
-        </Localized>
+        </RTELocalized>
       );
     }
     if (features?.italic) {
       x.push(
-        <Localized
+        <RTELocalized
           key="italic"
           id="comments-rte-italic"
           attrs={{ title: true }}
@@ -190,12 +196,12 @@ const RTE: FunctionComponent<Props> = (props) => {
           <Italic>
             <Icon size="md">format_italic</Icon>
           </Italic>
-        </Localized>
+        </RTELocalized>
       );
     }
     if (features?.blockquote) {
       x.push(
-        <Localized
+        <RTELocalized
           key="blockquote"
           id="comments-rte-blockquote"
           attrs={{ title: true }}
@@ -203,12 +209,12 @@ const RTE: FunctionComponent<Props> = (props) => {
           <Blockquote>
             <Icon size="md">format_quote</Icon>
           </Blockquote>
-        </Localized>
+        </RTELocalized>
       );
     }
     if (features?.bulletList) {
       x.push(
-        <Localized
+        <RTELocalized
           key="bulletedList"
           id="comments-rte-bulletedList"
           attrs={{ title: true }}
@@ -216,12 +222,12 @@ const RTE: FunctionComponent<Props> = (props) => {
           <UnorderedList>
             <Icon size="md">format_list_bulleted</Icon>
           </UnorderedList>
-        </Localized>
+        </RTELocalized>
       );
     }
     if (features?.strikethrough) {
       x.push(
-        <Localized
+        <RTELocalized
           key="strikethrough"
           id="comments-rte-strikethrough"
           attrs={{ title: true }}
@@ -229,14 +235,21 @@ const RTE: FunctionComponent<Props> = (props) => {
           <Strike>
             <Icon size="md">strikethrough_s</Icon>
           </Strike>
-        </Localized>
+        </RTELocalized>
       );
     }
     if (features?.spoiler) {
       x.push(
-        <Localized key="spoiler" id="comments-rte-spoiler">
+        <RTELocalized key="spoiler" id="comments-rte-spoiler">
           <Spoiler>Spoiler</Spoiler>
-        </Localized>
+        </RTELocalized>
+      );
+    }
+    if (features?.sarcasm) {
+      x.push(
+        <RTELocalized key="sarcasm" id="comments-rte-sarcasm">
+          <Sarcasm>Sarcasm</Sarcasm>
+        </RTELocalized>
       );
     }
     if (props.toolbarButtons) {
@@ -285,6 +298,7 @@ const RTE: FunctionComponent<Props> = (props) => {
         onFocus={onFocus}
         onWillPaste={onWillPaste}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
+        ButtonComponent={RTEButton}
         {...rest}
       />
     </div>

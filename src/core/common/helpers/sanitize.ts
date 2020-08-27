@@ -1,6 +1,6 @@
 import createDOMPurify, { DOMPurifyI } from "dompurify";
 
-import { SPOILER_CLASSNAME } from "coral-common/constants";
+import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
 
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
@@ -13,6 +13,7 @@ export interface RTEFeatures {
   bulletList?: boolean;
   strikethrough?: boolean;
   spoiler?: boolean;
+  sarcasm?: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export const ALL_FEATURES: RTEFeatures = {
   bulletList: true,
   strikethrough: true,
   spoiler: true,
+  sarcasm: true,
 };
 
 const MAILTO_PROTOCOL = "mailto:";
@@ -45,6 +47,7 @@ export function convertGQLRTEConfigToRTEFeatures(
     bulletList: config.enabled,
     strikethrough: config.enabled && config.strikethrough,
     spoiler: config.enabled && config.spoiler,
+    sarcasm: config.enabled && config.sarcasm,
   };
 }
 
@@ -81,14 +84,21 @@ const sanitizeAttributes = (features: RTEFeatures, node: Element) => {
   if (node.nodeName !== "A" && node.getAttribute("href")) {
     node.removeAttribute("href");
   }
-  if (features.spoiler) {
+  if (features.spoiler || features.sarcasm) {
     // Only allow <span class="SPOILER_CLASSNAME"> as our spoiler tag.
-    if (
-      node.nodeName === "SPAN" &&
-      node.classList.contains(SPOILER_CLASSNAME)
-    ) {
-      // Remove other classes.
-      node.className = SPOILER_CLASSNAME;
+    if (node.nodeName === "SPAN") {
+      if (features.spoiler && node.classList.contains(SPOILER_CLASSNAME)) {
+        // Remove other classes.
+        node.className = SPOILER_CLASSNAME;
+      } else if (
+        features.sarcasm &&
+        node.classList.contains(SARCASM_CLASSNAME)
+      ) {
+        // Remove other classes.
+        node.className = SARCASM_CLASSNAME;
+      } else {
+        node.removeAttribute("class");
+      }
     } else {
       node.removeAttribute("class");
     }
@@ -117,7 +127,7 @@ function createPurifyConfig(features: RTEFeatures) {
   if (features.strikethrough) {
     ALLOWED_TAGS.push("s");
   }
-  if (features.spoiler) {
+  if (features.spoiler || features.sarcasm) {
     ALLOWED_TAGS.push("span");
     ALLOWED_ATTR.push("class");
   }

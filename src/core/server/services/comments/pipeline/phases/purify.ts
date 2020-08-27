@@ -28,6 +28,9 @@ function config2CacheKey(config: GQLRTEConfiguration) {
   if (config.spoiler) {
     ret += "sp";
   }
+  if (config.sarcasm) {
+    ret += "sm";
+  }
   if (config.strikethrough) {
     ret += "st";
   }
