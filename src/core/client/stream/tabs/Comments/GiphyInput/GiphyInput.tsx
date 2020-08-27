@@ -2,9 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEvent,
   FunctionComponent,
+  KeyboardEvent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react";
 
@@ -16,42 +16,32 @@ import {
   ButtonIcon,
   Flex,
   HorizontalGutter,
+  Icon,
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { GIF_RESULTS_LIMIT, GifSearchFetch } from "./GifSearchFetch";
 import GiphyAttribution from "./GiphyAttribution";
 
-import styles from "./GifSelector.css";
+import styles from "./GiphyInput.css";
 
 interface Props {
-  onGifSelect: (gif: GiphyGif) => void;
+  onSelect: (gif: GiphyGif) => void;
 }
 
-const GifSelector: FunctionComponent<Props> = (props) => {
+const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
   const gifSearchFetch = useFetch(GifSearchFetch);
   const [results, setResults] = useState<GiphyGif[]>([]);
-  const [searchError, setSearchError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSearchFieldChange = useCallback(
-    (evt: ChangeEvent<HTMLInputElement>) => {
-      setQuery(evt.target.value);
-    },
-    []
-  );
-  const searchInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    // TODO: why doesn't this work?
-    if (searchInput && searchInput.current) {
-      searchInput.current.focus();
-    }
+  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
+    setQuery(evt.target.value);
   }, []);
 
   useEffect(() => {
@@ -64,10 +54,10 @@ const GifSelector: FunctionComponent<Props> = (props) => {
         } else {
           setHasNextPage(false);
         }
-        setSearchError(null);
+        setError(null);
         setResults(data);
-      } catch (error) {
-        setSearchError(error.message);
+      } catch (err) {
+        setError(err.message);
       }
 
       setIsLoading(false);
@@ -94,22 +84,33 @@ const GifSelector: FunctionComponent<Props> = (props) => {
       }
     };
   }, [query, page, setResults, setIsLoading, setPage, gifSearchFetch]);
+
   const nextPage = useCallback(() => {
-    setPage(page + 1);
-  }, [page]);
+    setPage((p) => p + 1);
+  }, []);
   const prevPage = useCallback(() => {
-    setPage(page - 1);
-  }, [page]);
-  const onGifSelect = useCallback(
+    setPage((p) => p - 1);
+  }, []);
+
+  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+
+    e.preventDefault();
+  }, []);
+
+  const onClick = useCallback(
     (gif: GiphyGif) => {
       setResults([]);
       setPage(0);
       setHasNextPage(false);
       setQuery("");
-      props.onGifSelect(gif);
+      onSelect(gif);
     },
-    [props.onGifSelect]
+    [onSelect]
   );
+
   return (
     <div className={styles.root}>
       <HorizontalGutter>
@@ -120,7 +121,8 @@ const GifSelector: FunctionComponent<Props> = (props) => {
           <TextField
             className={styles.input}
             value={query}
-            onChange={onSearchFieldChange}
+            onChange={onChange}
+            onKeyPress={onKeyPress}
             fullWidth
             variant="seamlessAdornment"
             color="streamBlue"
@@ -142,7 +144,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
               {results.slice(0, results.length / 2).map((result) => (
                 <BaseButton
                   key={result.id}
-                  onClick={() => onGifSelect(result)}
+                  onClick={() => onClick(result)}
                   className={styles.result}
                 >
                   <img
@@ -160,7 +162,7 @@ const GifSelector: FunctionComponent<Props> = (props) => {
                   <BaseButton
                     className={styles.result}
                     key={result.id}
-                    onClick={() => onGifSelect(result)}
+                    onClick={() => onClick(result)}
                   >
                     <img
                       src={result.images.fixed_height_downsampled.url}
@@ -171,6 +173,14 @@ const GifSelector: FunctionComponent<Props> = (props) => {
                 ))}
             </Flex>
           </div>
+        )}
+        {error && (
+          <CallOut
+            color="error"
+            title={error}
+            titleWeight="semiBold"
+            icon={<Icon>error</Icon>}
+          />
         )}
         <GiphyAttribution />
         {results.length > 0 && (
@@ -205,23 +215,17 @@ const GifSelector: FunctionComponent<Props> = (props) => {
             )}
           </Flex>
         )}
-        {searchError && <p className={styles.error}>{searchError}</p>}
-        {!isLoading &&
-          !searchError &&
-          results.length === 0 &&
-          query.length > 1 && (
-            <Localized
-              id="comments-postComment-gifSearch-no-results"
-              $query={query}
-            >
-              <p className={styles.noResults}>
-                No results found for "{query}"{" "}
-              </p>
-            </Localized>
-          )}
+        {!isLoading && !error && results.length === 0 && query.length > 1 && (
+          <Localized
+            id="comments-postComment-gifSearch-no-results"
+            $query={query}
+          >
+            <p className={styles.noResults}>No results found for "{query}" </p>
+          </Localized>
+        )}
       </HorizontalGutter>
     </div>
   );
 };
 
-export default GifSelector;
+export default GiphyInput;

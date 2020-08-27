@@ -1,5 +1,7 @@
 import Joi from "@hapi/joi";
 
+import { ValidationError } from "coral-server/errors";
+
 /**
  * validate will strip unknown fields and perform validation against it. It will
  * throw any error encountered.
@@ -16,8 +18,7 @@ export const validate = (schema: Joi.Schema, body: any) => {
   });
 
   if (err) {
-    // TODO: wrap error?
-    throw err;
+    throw new ValidationError(err);
   }
 
   return value;

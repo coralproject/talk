@@ -451,7 +451,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div
@@ -671,7 +670,6 @@ exports[`edit a comment: edit form 1`] = `
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div
@@ -891,7 +889,6 @@ exports[`edit a comment: optimistic response 1`] = `
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div
@@ -1999,7 +1996,6 @@ exports[`shows expiry message: edit time expired 1`] = `
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div

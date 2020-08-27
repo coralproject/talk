@@ -7,7 +7,7 @@ import styles from "./GifPreview.css";
 
 interface Props {
   url: string;
-  title: string;
+  title?: string;
   onRemove: () => void;
 }
 

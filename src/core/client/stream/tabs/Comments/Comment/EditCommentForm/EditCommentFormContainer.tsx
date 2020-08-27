@@ -51,6 +51,7 @@ function getMediaFromComment(comment: CommentData) {
   if (!comment.revision || !comment.revision.media) {
     return;
   }
+
   switch (comment.revision.media.__typename) {
     case "YouTubeMedia":
       return {
@@ -67,7 +68,12 @@ function getMediaFromComment(comment: CommentData) {
         type: "twitter",
         url: comment.revision.media.url,
       };
-    default:
+    case "ExternalMedia":
+      return {
+        type: "external",
+        url: comment.revision.media.url,
+      };
+    case "%other":
       return;
   }
 }
@@ -225,6 +231,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
                   url
                   width
                   height
+                }
+                ... on ExternalMedia {
+                  url
                 }
               }
             }

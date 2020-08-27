@@ -6,35 +6,18 @@ import MediaPreview from "./MediaPreview";
 
 import styles from "./MediaConfirmation.css";
 
-interface MediaConfig {
-  giphy: {
-    enabled: boolean;
-  };
-  twitter: {
-    enabled: boolean;
-  };
-  youtube: {
-    enabled: boolean;
-  };
-  external: {
-    enabled: boolean;
-  };
-}
-
 interface Props {
   media: MediaLink & {
     confirmed: boolean;
   };
   onConfirm: () => void;
   onRemove: () => void;
-  config: MediaConfig;
   siteID: string;
 }
 
 const MediaConfirmation: FunctionComponent<Props> = ({
   media,
   onConfirm,
-  config,
   onRemove,
   siteID,
 }) => {
@@ -48,12 +31,7 @@ const MediaConfirmation: FunctionComponent<Props> = ({
         />
       )}
       {media.confirmed && (
-        <MediaPreview
-          media={media}
-          onRemove={onRemove}
-          config={config}
-          siteID={siteID}
-        />
+        <MediaPreview media={media} onRemove={onRemove} siteID={siteID} />
       )}
     </div>
   );

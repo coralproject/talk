@@ -60,4 +60,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INSTALLATION_FORBIDDEN: "error-installationForbidden",
   SCRAPE_FAILED: "error-scrapeFailed",
   DUPLICATE_SITE_ORIGIN: "error-duplicateSiteOrigin",
+  VALIDATION: "error-validation",
 };

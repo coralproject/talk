@@ -1,131 +1,155 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { GiphyGif } from "coral-common/rest/external/giphy";
-import { getMediaValidators } from "../../helpers";
-
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
+
 import {
   MediaConfirmPrompt,
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
-import GifSelector, { GifPreview } from "../../GifSelector";
+import GiphyInput, { GifPreview } from "../../GiphyInput";
+import { getMediaValidators } from "../../helpers";
+
+export type Widget = "giphy" | "external" | null;
 
 interface Props {
-  showGIFSelector: boolean;
-  toggleGIFSelector: () => void;
-  showExternalImageInput: boolean;
-  toggleExternalImageInput: () => void;
+  widget: Widget;
+  setWidget: (widget: Widget) => void;
   siteID: string;
-  config: MediaConfig;
-  media: MediaLink | null;
-  setMedia: (media: MediaLink | null) => void;
+  pastedMedia: MediaLink | null;
+  setPastedMedia: (media: MediaLink | null) => void;
 }
 
-export interface Media {
+interface Media {
+  id?: string;
   type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
-  id?: string;
   width?: string;
   height?: string;
 }
 
-interface MediaConfig {
-  giphy: {
-    enabled: boolean;
-  };
-  twitter: {
-    enabled: boolean;
-  };
-  youtube: {
-    enabled: boolean;
-  };
-  external: {
-    enabled: boolean;
-  };
-}
-
-const MediaField: FunctionComponent<Props> = (props) => {
-  const field = useField<Media | undefined>("media", {
+const MediaField: FunctionComponent<Props> = ({
+  widget,
+  setWidget,
+  siteID,
+  pastedMedia,
+  setPastedMedia,
+}) => {
+  const {
+    input: { value, onChange },
+    meta: { valid, dirty, error },
+  } = useField<Media | undefined>("media", {
     validate: getMediaValidators(),
   });
 
-  const onGIFSelect = useCallback(
-    (gif: GiphyGif) => {
-      field.input.onChange({
+  const onGiphySelect = useCallback(
+    (gif: GiphyGif) =>
+      onChange({
         type: "giphy",
         id: gif.id,
         url: gif.images.original.url,
-      });
-
-      props.toggleGIFSelector();
-    },
-    [props.toggleGIFSelector]
+      }),
+    [onChange]
   );
 
-  const onGIFRemove = useCallback(() => {
-    field.input.onChange(undefined);
-  }, [field.input]);
-
-  const onImageInsert = useCallback(
-    (url: string) => {
-      field.input.onChange({
+  const onExternalImageSelect = useCallback(
+    (url: string) =>
+      onChange({
         type: "external",
         url,
-      });
-
-      props.toggleExternalImageInput();
-    },
-    [props.toggleExternalImageInput]
+      }),
+    [onChange]
   );
 
-  const onConfirmMedia = useCallback(() => {
-    field.input.onChange(props.media!);
-    props.setMedia(null);
-  }, [props.media, props.setMedia, field.input]);
+  const onRemove = useCallback(() => {
+    // We use `undefined` here instead of null because `final-form` only treats
+    // undefined as truly unset versus `null` which _is_ a value.
+    onChange(undefined);
+    setPastedMedia(null);
+  }, [onChange, setPastedMedia]);
 
-  const onRemoveMedia = useCallback(() => {
-    field.input.onChange(null);
-    props.setMedia(null);
-  }, [props.media, props.setMedia, field.input]);
+  const onConfirmPastedMedia = useCallback(() => {
+    // We know that the pastedMedia is provided because the onConfirmMedia is
+    // only rendered when the pastedMedia is available.
+    onChange(pastedMedia!);
+    setPastedMedia(null);
+  }, [onChange, pastedMedia, setPastedMedia]);
 
-  // Grab the reference to the media object.
-  const media = field.input.value;
+  useEffect(() => {
+    // If a widget is not open, do nothing. The following checks are designed
+    // to interact only when there is a widget open when there shouldn't be or
+    // if the current value does not match the open widget.
+    if (!widget) {
+      return;
+    }
+
+    if (value) {
+      if (widget === value.type) {
+        if (dirty && valid) {
+          // When this field is dirty, valid, and the current value was created
+          // by the current widget then disable the widget because that means
+          // that we have validated the field value and it was valid, so we
+          // don't need the widget anymore.
+          setWidget(null);
+        }
+      } else {
+        // When the widget open is not the same as the one that created the
+        // current value, then unset the value because we must have switched the
+        // widget since we selected the current value.
+        onChange(undefined);
+      }
+    }
+
+    // When there is pasted media and a widget is selected, then unset the
+    // pasted media because pasted media does not use a widget, only a
+    // confirmation.
+    if (pastedMedia) {
+      setPastedMedia(null);
+    }
+  }, [
+    dirty,
+    valid,
+    value,
+    onChange,
+    pastedMedia,
+    setPastedMedia,
+    setWidget,
+    widget,
+  ]);
 
   return (
     <>
-      {props.showGIFSelector && <GifSelector onGifSelect={onGIFSelect} />}
-      {props.showExternalImageInput && (
-        <ExternalImageInput onImageInsert={onImageInsert} />
-      )}
-      {props.media && (
+      {/* Show the input widget that's selected. */}
+      {widget === "giphy" ? (
+        <GiphyInput onSelect={onGiphySelect} />
+      ) : widget === "external" ? (
+        <ExternalImageInput onSelect={onExternalImageSelect} />
+      ) : pastedMedia ? (
         <MediaConfirmPrompt
-          media={props.media}
-          onConfirm={onConfirmMedia}
-          onRemove={onRemoveMedia}
+          media={pastedMedia}
+          onConfirm={onConfirmPastedMedia}
+          onRemove={onRemove}
         />
-      )}
-      {media &&
-        media.url &&
-        (isMediaLink(media) ? (
-          <MediaPreview
-            config={props.config}
-            media={media}
-            siteID={props.siteID}
-            onRemove={onRemoveMedia}
-          />
+      ) : null}
+
+      {/* If there's no widget, and we have a valid url, display preview */}
+      {!widget && value?.url && valid ? (
+        isMediaLink(value) ? (
+          <MediaPreview media={value} siteID={siteID} onRemove={onRemove} />
         ) : (
-          !props.showGIFSelector && (
-            <GifPreview url={media.url} onRemove={onGIFRemove} title="" />
-          )
-        ))}
-      {field.meta.error && (
+          <GifPreview url={value.url} onRemove={onRemove} />
+        )
+      ) : null}
+
+      {/* Show any errors associated with this field. */}
+      {error && (
         <CallOut
           color="error"
-          title={field.meta.error}
+          title={error}
           titleWeight="semiBold"
           icon={<Icon>error</Icon>}
         />
