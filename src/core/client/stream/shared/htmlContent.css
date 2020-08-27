@@ -55,5 +55,6 @@ $commentsLinkColorHovered: var(--palette-primary-700);
   }
   & :global(.coral-rte-sarcasm) {
     font-family: monospace;
+    font-size: var(--font-size-4);
   }
 }
