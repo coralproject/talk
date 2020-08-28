@@ -24,6 +24,29 @@ export interface AppProps {
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
+  window.addEventListener(
+    "message",
+    (e) => {
+      try {
+        if (!e.data) {
+          return;
+        }
+
+        const dataString: string = e.data;
+        const dataIndex = dataString.indexOf("{");
+        const p = dataString.substring(dataIndex, dataString.length);
+
+        const payload = JSON.parse(p);
+        if (payload.event === "keypress") {
+          window.console.log(payload);
+        }
+      } catch {
+        // ignore
+      }
+    },
+    false
+  );
+
   return (
     <HorizontalGutter className={cn(CLASSES.app, styles.root)}>
       <nav>

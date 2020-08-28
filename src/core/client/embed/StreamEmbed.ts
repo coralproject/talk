@@ -22,6 +22,7 @@ import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
 } from "./PymControl";
+import hookUpWindowEvents from "./WindowEvents";
 
 export interface StreamEmbedConfig {
   storyID?: string;
@@ -167,6 +168,8 @@ export class StreamEmbed {
       decorators: streamDecorators,
       url,
     });
+
+    hookUpWindowEvents(this.pymControl);
   }
 }
 
