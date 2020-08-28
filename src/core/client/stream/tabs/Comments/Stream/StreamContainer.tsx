@@ -470,7 +470,6 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
       ...ModerateStreamContainer_settings
-      ...WarningContainer_settings
       ...ViewersWatchingContainer_settings
     }
   `,
