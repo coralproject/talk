@@ -66,6 +66,12 @@ interface CreateContextArguments {
    * reporter is the designated ErrorReporter for this application.
    */
   reporter?: ErrorReporter;
+
+  /** bundle is the specific source of the connection */
+  bundle: string;
+
+  /** bundleConfig is the configuration parameters for this bundle */
+  bundleConfig?: Record<string, string>;
 }
 
 /** websocketURL points to our live graphql server */
@@ -290,6 +296,8 @@ export default async function createManaged({
   pym,
   reporter,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
+  bundle,
+  bundleConfig = {},
 }: CreateContextArguments): Promise<ComponentType> {
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
@@ -338,7 +346,9 @@ export default async function createManaged({
 
   const subscriptionClient = createManagedSubscriptionClient(
     websocketURL,
-    clientID
+    clientID,
+    bundle,
+    bundleConfig
   );
 
   const { environment, accessTokenProvider } = createRelayEnvironment(

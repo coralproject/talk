@@ -1,0 +1,23 @@
+$start-color: var(--palette-success-500);
+$end-color: var(--palette-success-400);
+
+@keyframes color {
+  0% {
+    color: $start-color;
+  }
+  50% {
+    color: $end-color;
+  }
+  100% {
+    color: $start-color;
+  }
+}
+
+.title,
+.icon {
+  animation: color 1s ease-in-out infinite;
+}
+
+.icon {
+  flex-basis: calc(var(--spacing-3) + var(--spacing-1) + 8px);
+}

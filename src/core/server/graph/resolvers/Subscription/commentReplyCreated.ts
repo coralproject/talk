@@ -11,6 +11,7 @@ export interface CommentReplyCreatedInput extends SubscriptionPayload {
   ancestorIDs: string[];
   commentID: string;
   storyID: string;
+  siteID: string;
 }
 
 export type CommentReplyCreatedSubscription = SubscriptionType<

@@ -434,6 +434,12 @@ enum FEATURE_FLAG {
   RTE_SARCASM enables sarcasm RTE feature
   """
   RTE_SARCASM
+
+  """
+  VIEWER_COUNT when true will enable the display and tracking of the viewer
+  count.
+  """
+  VIEWER_COUNT
 }
 
 # The moderation mode of the site.
@@ -3515,6 +3521,11 @@ type Story {
   site is the site associated with the story
   """
   site: Site!
+
+  """
+  viewerCount is the number of viewers active on this Story.
+  """
+  viewerCount: Int
 }
 
 """
