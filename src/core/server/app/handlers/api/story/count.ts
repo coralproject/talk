@@ -1,5 +1,6 @@
 import Joi from "@hapi/joi";
 
+import { CountJSONPData } from "coral-common/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
@@ -78,13 +79,15 @@ export const countHandler = ({
       );
     }
 
-    // Respond using jsonp.
-    res.jsonp({
-      // Reference from the client that we'll just send back as it is.
+    const data: CountJSONPData = {
       ref,
       html,
       count,
-    });
+      id: story?.id || null,
+    };
+
+    // Respond using jsonp.
+    res.jsonp(data);
   } catch (err) {
     return next(err);
   }

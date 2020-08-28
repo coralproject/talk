@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { GiphyGif } from "coral-common/rest/external/giphy";
+import { GiphyGif } from "coral-common/types/giphy";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 

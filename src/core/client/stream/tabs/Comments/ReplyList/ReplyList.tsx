@@ -112,7 +112,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           </Localized>
         </Indent>
       )}
-      {Boolean(props.viewNewCount && props.viewNewCount > 0) && (
+      {!!props.viewNewCount && (
         <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showMoreReplies">
             <Button

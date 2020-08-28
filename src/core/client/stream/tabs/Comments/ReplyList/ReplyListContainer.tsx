@@ -76,12 +76,16 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     }
   }, [showAll, beginShowAllEvent, props.comment.id]);
 
-  const subcribeToCommentReplyCreated = useSubscription(
+  const subscribeToCommentReplyCreated = useSubscription(
     CommentReplyCreatedSubscription
   );
 
   const live = useLive(props);
   useEffect(() => {
+    if (props.indentLevel !== 1) {
+      return;
+    }
+
     // If the comment is pending, no need to subscribe the comment!
     if (props.comment.pending) {
       return;
@@ -92,11 +96,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       return;
     }
 
-    if (props.indentLevel !== 1) {
-      return;
-    }
-
-    const disposable = subcribeToCommentReplyCreated({
+    const disposable = subscribeToCommentReplyCreated({
       ancestorID: props.comment.id,
       liveDirectRepliesInsertion: props.liveDirectRepliesInsertion,
     });
@@ -106,7 +106,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     };
   }, [
     live,
-    subcribeToCommentReplyCreated,
+    subscribeToCommentReplyCreated,
     props.comment.id,
     props.indentLevel,
     props.comment.pending,
@@ -115,8 +115,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const onViewNew = useCallback(() => {
-    void viewNew({ commentID: props.comment.id });
-  }, [props.comment.id, viewNew]);
+    void viewNew({ commentID: props.comment.id, storyID: props.story.id });
+  }, [props.comment.id, props.story.id, viewNew]);
 
   const viewNewCount =
     (props.comment.replies.viewNewEdges &&
@@ -237,6 +237,7 @@ const ReplyListContainer3 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer3_story on Story {
+        id
         isClosed
         closedAt
         settings {
@@ -304,6 +305,7 @@ const ReplyListContainer3 = createReplyListContainer(
   LastReplyList,
   true
 );
+
 const ReplyListContainer2 = createReplyListContainer(
   2,
   {
@@ -325,6 +327,7 @@ const ReplyListContainer2 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer2_story on Story {
+        id
         isClosed
         closedAt
         settings {
@@ -411,6 +414,7 @@ const ReplyListContainer1 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer1_story on Story {
+        id
         isClosed
         closedAt
         settings {

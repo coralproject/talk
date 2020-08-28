@@ -426,6 +426,11 @@ enum FEATURE_FLAG {
   AVATARS
 
   """
+  NEW_COMMENT_COUNT enables the comment count update feature.
+  """
+  NEW_COMMENT_COUNT
+
+  """
   EXTERNAL_MEDIA enables embedding external images
   """
   EXTERNAL_MEDIA

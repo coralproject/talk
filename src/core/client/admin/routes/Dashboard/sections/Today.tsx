@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { TodayMetricsJSON } from "coral-common/rest/dashboard/types";
+import { TodayMetricsJSON } from "coral-common/types/dashboard";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
 

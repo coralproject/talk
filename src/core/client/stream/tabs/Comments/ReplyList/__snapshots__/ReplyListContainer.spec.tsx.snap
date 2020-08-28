@@ -49,6 +49,7 @@ exports[`renders correctly 1`] = `
           story={
             Object {
               "closedAt": null,
+              "id": "story-id",
               "isClosed": false,
               "settings": Object {
                 "live": Object {
@@ -81,6 +82,7 @@ exports[`renders correctly 1`] = `
           story={
             Object {
               "closedAt": null,
+              "id": "story-id",
               "isClosed": false,
               "settings": Object {
                 "live": Object {
@@ -110,6 +112,7 @@ exports[`renders correctly 1`] = `
   story={
     Object {
       "closedAt": null,
+      "id": "story-id",
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -184,6 +187,7 @@ exports[`when has more replies renders hasMore 1`] = `
   story={
     Object {
       "closedAt": null,
+      "id": "story-id",
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -256,6 +260,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   story={
     Object {
       "closedAt": null,
+      "id": "story-id",
       "isClosed": false,
       "settings": Object {
         "live": Object {
@@ -328,6 +333,7 @@ exports[`when has more replies when showing all enable show all button after loa
   story={
     Object {
       "closedAt": null,
+      "id": "story-id",
       "isClosed": false,
       "settings": Object {
         "live": Object {
