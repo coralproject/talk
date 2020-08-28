@@ -3,7 +3,7 @@ $linkColorHovered: var(--palette-primary-700);
 $linkColorActive: var(--palette-primary-800);
 
 .link {
-  margin-right: 12px;
+  margin-right: var(--spacing-4);
 
   &.sizeRegular {
     padding: 0;
@@ -26,10 +26,10 @@ $linkColorActive: var(--palette-primary-800);
 }
 
 .icon {
-  margin-right: 4px;
+  margin-right: var(--spacing-1);
 }
 
 .border {
   border-top: 1px solid var(--palette-grey-300);
-  padding-top: 8px;
+  padding-top: var(--spacing-2);
 }
