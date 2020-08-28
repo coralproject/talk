@@ -26,6 +26,7 @@ async function main() {
     localesData,
     initLocalState,
     reporter,
+    bundle: "install",
   });
 
   const Index: FunctionComponent = () => (

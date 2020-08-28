@@ -36,8 +36,8 @@ function contextProvider(options: ContextProviderOptions) {
     // Add the clientID if there is one on the request.
     const clientID = req.get(CLIENT_ID_HEADER);
     if (clientID) {
-      // TODO: (wyattjoh) validate length
-      opts.clientID = clientID;
+      // Limit the clientID to 36 characters (the length of a UUID).
+      opts.clientID = clientID.slice(0, 36);
     }
 
     // Return the compiled context.
