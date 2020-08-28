@@ -816,7 +816,7 @@ exports[`renders comment stream 1`] = `
   role="log"
 >
   <div
-    className="Box-root HorizontalGutter-root AllCommentsTabContainer-borderedComment HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="coral coral-comment coral coral-reacted-0"

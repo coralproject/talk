@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <div
   className="coral coral-createComment"
+  id="post-comment-form"
 >
   <Relay(MessageBoxContainer)
     className="coral coral-createComment-message PostCommentFormFake-messageBox"

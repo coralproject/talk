@@ -445,6 +445,12 @@ enum FEATURE_FLAG {
   count.
   """
   VIEWER_COUNT
+
+  """
+  ALTERNATE_OLDEST_FIRST_VIEW when enabled will move the create comment form to
+  the bottom of the stream when sorting the comment stream by oldest first.
+  """
+  ALTERNATE_OLDEST_FIRST_VIEW
 }
 
 # The moderation mode of the site.

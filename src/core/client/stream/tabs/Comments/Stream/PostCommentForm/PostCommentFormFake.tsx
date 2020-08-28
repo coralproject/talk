@@ -6,6 +6,7 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -30,21 +31,27 @@ interface Props {
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
 }
 
-const PostCommentFormFake: FunctionComponent<Props> = (props) => {
+const PostCommentFormFake: FunctionComponent<Props> = ({
+  showMessageBox,
+  story,
+  draft,
+  onDraftChange,
+  onSignIn,
+  rteConfig,
+}) => {
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
-  const onChange = useCallback((html: string) => props.onDraftChange(html), [
-    props.onDraftChange,
+  const onChange = useCallback((html: string) => onDraftChange(html), [
+    onDraftChange,
   ]);
-  const isQA =
-    props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
+  const isQA = story.settings && story.settings.mode === GQLSTORY_MODE.QA;
   return (
-    <div className={CLASSES.createComment.$root}>
-      {props.showMessageBox && (
+    <div id={POST_COMMENT_FORM_ID} className={CLASSES.createComment.$root}>
+      {showMessageBox && (
         <MessageBoxContainer
-          story={props.story}
+          story={story}
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
@@ -59,9 +66,9 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
             attrs={{ placeholder: true }}
           >
             <RTEContainer
-              config={props.rteConfig}
+              config={rteConfig}
               placeholder={isQA ? "Post a question" : "Post a comment"}
-              value={props.draft}
+              value={draft}
               onChange={onChange}
               onFocus={onFocus}
             />
@@ -74,7 +81,7 @@ const PostCommentFormFake: FunctionComponent<Props> = (props) => {
             variant="filled"
             type="submit"
             fullWidth
-            onClick={props.onSignIn}
+            onClick={onSignIn}
           >
             Sign in and join the conversation
           </Button>

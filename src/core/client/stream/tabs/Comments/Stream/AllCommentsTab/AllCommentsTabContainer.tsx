@@ -14,7 +14,12 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
@@ -31,6 +36,8 @@ import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import { PostCommentFormContainer } from "../PostCommentForm";
+import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 import CommentReleasedSubscription from "./CommentReleasedSubscription";
@@ -143,9 +150,33 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     viewMore,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
+
+  // TODO: extract to separate function
+  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
+  const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+
+  const alternateOldestViewEnabled =
+    settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    !story.isClosed &&
+    !settings.disableCommenting.enabled;
+
+  const showCommentForm =
+    // If we do have the alternate view enabled and...
+    alternateOldestViewEnabled &&
+    // If we aren't banned and...
+    !banned &&
+    // If we aren't suspended and...
+    !suspended &&
+    // If we aren't warned.
+    !warned;
+
   return (
     <>
-      {Boolean(viewNewCount && viewNewCount > 0) && (
+      {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
             variant="outlined"
@@ -180,18 +211,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           ></NoComments>
         )}
         {story.comments.edges.length > 0 &&
-          story.comments.edges.map(({ node: comment }) => (
+          story.comments.edges.map(({ node: comment }, index) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
               viewer={viewer}
               comment={comment}
             >
-              <FadeInTransition active={Boolean(comment.enteredLive)}>
+              <FadeInTransition active={!!comment.enteredLive}>
                 <CollapsableComment>
                   {({ collapsed, toggleCollapsed }) => (
                     <HorizontalGutter
                       className={cn({
-                        [styles.borderedComment]: !collapsed,
+                        [styles.borderedComment]:
+                          !collapsed && index < story.comments.edges.length - 1,
                       })}
                     >
                       <CommentContainer
@@ -236,6 +268,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
       </HorizontalGutter>
+      {alternateOldestViewEnabled && (
+        <HorizontalGutter mt={6} spacing={6}>
+          {showCommentForm && (
+            <PostCommentFormContainer
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              commentsOrderBy={commentsOrderBy}
+            />
+          )}
+          <AllCommentsLinks />
+        </HorizontalGutter>
+      )}
     </>
   );
 };
@@ -298,6 +343,7 @@ const enhanced = withPaginationContainer<
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
         ...IgnoredTombstoneOrHideContainer_viewer
+        ...PostCommentFormContainer_viewer
         status {
           current
         }
@@ -311,8 +357,10 @@ const enhanced = withPaginationContainer<
         disableCommenting {
           enabled
         }
+        featureFlags
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
+        ...PostCommentFormContainer_settings
       }
     `,
   },

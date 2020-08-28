@@ -8,6 +8,7 @@ import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 
@@ -60,7 +61,7 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
     emitFocusEvent();
   }, [emitFocusEvent]);
   return (
-    <div className={CLASSES.createComment.$root}>
+    <div id={POST_COMMENT_FORM_ID} className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
         <MessageBoxContainer
           story={props.story}

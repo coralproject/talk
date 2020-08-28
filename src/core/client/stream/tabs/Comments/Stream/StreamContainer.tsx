@@ -7,7 +7,12 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
@@ -39,6 +44,7 @@ import {
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
+import AddACommentButton from "./AddACommentButton";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
 import AnsweredComments from "./AnsweredCommentsTab";
@@ -139,22 +145,35 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     [local.commentsTab, setLocal, emitSetCommentsTabEvent]
   );
 
-  const isBanned = !!props.viewer?.status.current.includes(
-    GQLUSER_STATUS.BANNED
-  );
-
-  const isSuspended = !!props.viewer?.status.current.includes(
+  // TODO: extract to separate function
+  const banned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!props.viewer?.status.current.includes(
     GQLUSER_STATUS.SUSPENDED
   );
-
-  const isWarned = !!props.viewer?.status.current.includes(
-    GQLUSER_STATUS.WARNED
-  );
+  const warned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
   const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
+
+  // The alternate view is only enabled when we have the feature flag, the sort
+  // as oldest first, the story is not closed, and comments are not disabled.
+  const alternateOldestViewEnabled =
+    props.settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    local.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    !props.story.isClosed &&
+    !props.settings.disableCommenting.enabled;
+
+  const showCommentForm =
+    // If we aren't banned and...
+    !banned &&
+    // If we aren't suspended and...
+    !suspended &&
+    // If we aren't warned.
+    !warned;
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -210,26 +229,29 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!isBanned && !isSuspended && !isWarned && (
-          <PostCommentFormContainer
-            settings={props.settings}
-            story={props.story}
-            viewer={props.viewer}
-            tab={local.commentsTab}
-            onChangeTab={onChangeTab}
-            commentsOrderBy={local.commentsOrderBy}
-          />
-        )}
-        {(isBanned || isWarned || isSuspended) && (
+        {showCommentForm &&
+          (alternateOldestViewEnabled ? (
+            <AddACommentButton />
+          ) : (
+            <PostCommentFormContainer
+              settings={props.settings}
+              story={props.story}
+              viewer={props.viewer}
+              tab={local.commentsTab}
+              onChangeTab={onChangeTab}
+              commentsOrderBy={local.commentsOrderBy}
+            />
+          ))}
+        {(banned || warned || suspended) && (
           <div id={VIEWER_STATUS_CONTAINER_ID}>
-            {isBanned && <BannedInfo />}
-            {isSuspended && (
+            {banned && <BannedInfo />}
+            {suspended && (
               <SuspendedInfoContainer
                 viewer={props.viewer}
                 settings={props.settings}
               />
             )}
-            {isWarned && <WarningContainer viewer={props.viewer} />}
+            {warned && <WarningContainer viewer={props.viewer} />}
           </div>
         )}
         <IntersectionProvider>
@@ -424,6 +446,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment StreamContainer_story on Story {
       id
       url
+      isClosed
       settings {
         mode
       }
@@ -463,12 +486,20 @@ const enhanced = withFragmentContainer<Props>({
       reaction {
         sortLabel
       }
+      featureFlags
+      disableCommenting {
+        enabled
+      }
       ...AnnouncementContainer_settings
+      ...CommunityGuidelinesContainer_settings
       ...CommunityGuidelinesContainer_settings
       ...ModerateStreamContainer_settings
       ...PostCommentFormContainer_settings
+      ...PostCommentFormContainer_settings
       ...PreviousCountSpyContainer_settings
       ...SuspendedInfoContainer_settings
+      ...SuspendedInfoContainer_settings
+      ...UserBoxContainer_settings
       ...UserBoxContainer_settings
       ...ViewersWatchingContainer_settings
     }
