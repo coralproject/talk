@@ -56,6 +56,7 @@ export default function createWebpackConfig(
   const isProduction = env.NODE_ENV === "production";
   const minimize = isProduction && !config.get("disableMinimize");
   const treeShake = config.get("enableTreeShake");
+  const enableBuildCache = !isProduction;
 
   const envStringified = {
     "process.env": Object.keys(env).reduce<Record<string, string>>(
@@ -199,7 +200,7 @@ export default function createWebpackConfig(
             },
             safari10: true,
           },
-          cache: true,
+          cache: enableBuildCache,
           parallel: true,
           sourceMap: !disableSourcemaps,
         }),
@@ -393,7 +394,7 @@ export default function createWebpackConfig(
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
-                    cacheDirectory: true,
+                    cacheDirectory: enableBuildCache,
                   },
                 },
               ],
@@ -417,7 +418,7 @@ export default function createWebpackConfig(
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
-                    cacheDirectory: true,
+                    cacheDirectory: enableBuildCache,
                   },
                 },
                 {
@@ -450,7 +451,7 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
-                    cacheDirectory: true,
+                    cacheDirectory: enableBuildCache,
                   },
                 },
               ],
