@@ -58,8 +58,8 @@ interface Props {
   viewer: PostCommentFormContainer_viewer | null;
   story: PostCommentFormContainer_story;
   showAuthPopup: ShowAuthPopupMutation;
-  tab: COMMENTS_TAB;
-  onChangeTab: (tab: COMMENTS_TAB) => void;
+  tab?: COMMENTS_TAB;
+  onChangeTab?: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
 }
 
@@ -129,7 +129,11 @@ export class PostCommentFormContainer extends Component<Props, State> {
     form
   ) => {
     try {
-      if (this.props.tab === "FEATURED_COMMENTS") {
+      if (
+        this.props.tab &&
+        this.props.tab === "FEATURED_COMMENTS" &&
+        this.props.onChangeTab
+      ) {
         this.props.onChangeTab("ALL_COMMENTS");
       }
 

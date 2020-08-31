@@ -313,6 +313,7 @@ exports[`renders message box when logged in 1`] = `
     </div>
     <div
       className="coral coral-createComment"
+      id="post-comment-form"
     >
       <div
         className="MessageBox-root coral coral-createComment-message PostCommentForm-messageBox"
@@ -677,6 +678,7 @@ exports[`renders message box when not logged in 1`] = `
     </div>
     <div
       className="coral coral-createComment"
+      id="post-comment-form"
     >
       <div
         className="MessageBox-root coral coral-createComment-message PostCommentFormFake-messageBox"

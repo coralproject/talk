@@ -74,6 +74,7 @@ exports[`renders comment stream with community guidelines 1`] = `
     </div>
     <div
       className="coral coral-createComment"
+      id="post-comment-form"
     >
       <div
         className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
@@ -593,7 +594,7 @@ exports[`renders comment stream with community guidelines 1`] = `
             />
           </div>
           <div
-            className="Box-root HorizontalGutter-root AllCommentsTabContainer-borderedComment HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
               className="coral coral-comment coral coral-reacted-0"

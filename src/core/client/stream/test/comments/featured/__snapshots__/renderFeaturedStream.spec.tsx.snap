@@ -112,6 +112,7 @@ exports[`renders comment stream 1`] = `
         </div>
         <div
           className="coral coral-createComment"
+          id="post-comment-form"
         >
           <div
             className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
