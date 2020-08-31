@@ -164,6 +164,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
     ) &&
     local.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    local.commentsTab === "ALL_COMMENTS" &&
     !props.story.isClosed &&
     !props.settings.disableCommenting.enabled;
 
