@@ -12,7 +12,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { TimeSeriesMetricsJSON } from "coral-common/rest/dashboard/types";
+import { TimeSeriesMetricsJSON } from "coral-common/types/dashboard";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";

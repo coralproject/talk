@@ -1,15 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
@@ -52,11 +48,13 @@ import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletio
 import FeaturedComments from "./FeaturedComments";
 import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
 import { PostCommentFormContainer } from "./PostCommentForm";
+import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
+import ViewersWatchingContainer from "./ViewersWatchingContainer";
 import WarningContainer from "./Warning";
 
 import styles from "./StreamContainer.css";
@@ -140,25 +138,23 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     },
     [local.commentsTab, setLocal, emitSetCommentsTabEvent]
   );
-  const banned = Boolean(
-    props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
-  );
-  const suspended = Boolean(
-    props.viewer &&
-      props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+
+  const isBanned = !!props.viewer?.status.current.includes(
+    GQLUSER_STATUS.BANNED
   );
 
-  const warned = useMemo(() => {
-    return Boolean(
-      props.viewer &&
-        props.viewer.status.current.includes(GQLUSER_STATUS.WARNED)
-    );
-  }, [props.viewer]);
+  const isSuspended = !!props.viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
+  );
+
+  const isWarned = !!props.viewer?.status.current.includes(
+    GQLUSER_STATUS.WARNED
+  );
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
-  const isQA = Boolean(props.story.settings.mode === GQLSTORY_MODE.QA);
+  const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -187,9 +183,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
+      <PreviousCountSpyContainer
+        story={props.story}
+        settings={props.settings}
+      />
       <HorizontalGutter
         className={cn(styles.root, {
-          [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
+          [CLASSES.commentsTabPane.authenticated]: !!props.viewer,
           [CLASSES.commentsTabPane.unauthenticated]: !props.viewer,
         })}
         size="double"
@@ -210,7 +210,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && !suspended && !warned && (
+        {!isBanned && !isSuspended && !isWarned && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
@@ -220,18 +220,24 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             commentsOrderBy={local.commentsOrderBy}
           />
         )}
-        {(banned || warned || suspended) && (
+        {(isBanned || isWarned || isSuspended) && (
           <div id={VIEWER_STATUS_CONTAINER_ID}>
-            {banned && <BannedInfo />}
-            {suspended && (
+            {isBanned && <BannedInfo />}
+            {isSuspended && (
               <SuspendedInfoContainer
                 viewer={props.viewer}
                 settings={props.settings}
               />
             )}
-            {warned && <WarningContainer viewer={props.viewer} />}
+            {isWarned && <WarningContainer viewer={props.viewer} />}
           </div>
         )}
+        <IntersectionProvider>
+          <ViewersWatchingContainer
+            story={props.story}
+            settings={props.settings}
+          />
+        </IntersectionProvider>
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
             direction="row"
@@ -416,11 +422,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment StreamContainer_story on Story {
-      ...PostCommentFormContainer_story
-      ...StoryClosedTimeoutContainer_story
-      ...CreateCommentReplyMutation_story
-      ...CreateCommentMutation_story
-      ...ModerateStreamContainer_story
       id
       url
       settings {
@@ -433,21 +434,28 @@ const enhanced = withFragmentContainer<Props>({
           UNANSWERED
         }
       }
+      ...CreateCommentMutation_story
+      ...CreateCommentReplyMutation_story
+      ...ModerateStreamContainer_story
+      ...PostCommentFormContainer_story
+      ...PreviousCountSpyContainer_story
+      ...StoryClosedTimeoutContainer_story
+      ...ViewersWatchingContainer_story
     }
   `,
   viewer: graphql`
     fragment StreamContainer_viewer on User {
-      ...UserBoxContainer_viewer
-      ...CreateCommentReplyMutation_viewer
-      ...CreateCommentMutation_viewer
-      ...PostCommentFormContainer_viewer
-      ...SuspendedInfoContainer_viewer
-      ...StreamDeletionRequestCalloutContainer_viewer
-      ...ModerateStreamContainer_viewer
-      ...WarningContainer_viewer
       status {
         current
       }
+      ...CreateCommentMutation_viewer
+      ...CreateCommentReplyMutation_viewer
+      ...ModerateStreamContainer_viewer
+      ...PostCommentFormContainer_viewer
+      ...StreamDeletionRequestCalloutContainer_viewer
+      ...SuspendedInfoContainer_viewer
+      ...UserBoxContainer_viewer
+      ...WarningContainer_viewer
     }
   `,
   settings: graphql`
@@ -455,12 +463,14 @@ const enhanced = withFragmentContainer<Props>({
       reaction {
         sortLabel
       }
-      ...PostCommentFormContainer_settings
-      ...UserBoxContainer_settings
-      ...CommunityGuidelinesContainer_settings
-      ...SuspendedInfoContainer_settings
       ...AnnouncementContainer_settings
+      ...CommunityGuidelinesContainer_settings
       ...ModerateStreamContainer_settings
+      ...PostCommentFormContainer_settings
+      ...PreviousCountSpyContainer_settings
+      ...SuspendedInfoContainer_settings
+      ...UserBoxContainer_settings
+      ...ViewersWatchingContainer_settings
     }
   `,
 })(StreamContainer);

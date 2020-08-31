@@ -81,8 +81,9 @@ const CommentReplyCreatedSubscription = createSubscription(
           // could not trace back to ancestor, discard.
           return;
         }
+
         // Comment is just outside our visible depth.
-        if (depth === 4) {
+        if (depth >= 4) {
           // Inform last comment in visible tree about the available replies.
           // This will trigger to show the `Read More of this Conversation` link.
           const replyCount = parentProxy.getValue("replyCount") || 0;

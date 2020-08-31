@@ -14,6 +14,19 @@ export const CLIENT_ID_HEADER = "X-Coral-Client-ID";
 export const CLIENT_ID_PARAM = "clientID";
 
 /**
+ * BUNDLE_ID_PARAM references the name of the param used ot send the ID of the
+ * bundle via connectionParams when connecting via a websocket connection.
+ */
+export const BUNDLE_ID_PARAM = "bundleID";
+
+/**
+ * BUNDLE_CONFIG_PARAM references the name of the param used to send the
+ * parameters of the bundle via connectionParams when connecting via a websocket
+ * connection.
+ */
+export const BUNDLE_CONFIG_PARAM = "bundleConfig";
+
+/**
  * ACCESS_TOKEN_PARAM references the name of the param used to send the access
  * token in connectionParams when authenticating a websocket connection.
  */

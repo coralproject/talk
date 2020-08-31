@@ -6,16 +6,18 @@ import {
   createMutation,
 } from "coral-framework/lib/relay";
 import { ShowMoreRepliesEvent } from "coral-stream/events";
+import { incrementStoryCommentCounts } from "../helpers";
 
-interface ReplyListViewNewInput {
+interface ReplyListViewNewMutationInput {
+  storyID: string;
   commentID: string;
 }
 
-const QueueViewNewMutation = createMutation(
+const ReplyListViewNewMutation = createMutation(
   "viewNew",
   async (
     environment: Environment,
-    input: ReplyListViewNewInput,
+    input: ReplyListViewNewMutationInput,
     { eventEmitter }: CoralContext
   ) => {
     await commitLocalUpdatePromisified(environment, async (store) => {
@@ -42,6 +44,10 @@ const QueueViewNewMutation = createMutation(
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeAfter(connection, edge);
       });
+
+      // Increment the count.
+      incrementStoryCommentCounts(store, input.storyID, viewNewEdges.length);
+
       connection.setLinkedRecords([], "viewNewEdges");
       ShowMoreRepliesEvent.emit(eventEmitter, {
         commentID: input.commentID,
@@ -51,4 +57,4 @@ const QueueViewNewMutation = createMutation(
   }
 );
 
-export default QueueViewNewMutation;
+export default ReplyListViewNewMutation;

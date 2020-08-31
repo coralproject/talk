@@ -9,7 +9,12 @@ import {
   SubscriptionClient,
 } from "subscriptions-transport-ws";
 
-import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
+import {
+  ACCESS_TOKEN_PARAM,
+  BUNDLE_CONFIG_PARAM,
+  BUNDLE_ID_PARAM,
+  CLIENT_ID_PARAM,
+} from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 
 /**
@@ -61,7 +66,9 @@ export interface ManagedSubscriptionClient {
  */
 export default function createManagedSubscriptionClient(
   url: string,
-  clientID: string
+  clientID: string,
+  bundle: string,
+  bundleConfig: Record<string, string>
 ): ManagedSubscriptionClient {
   const requests: SubscriptionRequest[] = [];
   let subscriptionClient: SubscriptionClient | null = null;
@@ -114,6 +121,8 @@ export default function createManagedSubscriptionClient(
           connectionParams: {
             [ACCESS_TOKEN_PARAM]: accessToken,
             [CLIENT_ID_PARAM]: clientID,
+            [BUNDLE_ID_PARAM]: bundle,
+            [BUNDLE_CONFIG_PARAM]: bundleConfig,
           },
         });
       }

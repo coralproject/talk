@@ -1,9 +1,8 @@
-import { clearLongTimeout } from "long-settimeout";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
-import { createTimeoutAt } from "coral-common/utils";
+import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
@@ -77,69 +76,47 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     }
   }, [showAll, beginShowAllEvent, props.comment.id]);
 
-  const subcribeToCommentReplyCreated = useSubscription(
+  const subscribeToCommentReplyCreated = useSubscription(
     CommentReplyCreatedSubscription
   );
+
+  const live = useLive(props);
   useEffect(() => {
+    if (props.indentLevel !== 1) {
+      return;
+    }
+
     // If the comment is pending, no need to subscribe the comment!
     if (props.comment.pending) {
       return;
     }
 
-    if (!props.story.settings.live.enabled) {
+    // If live updates aren't enabled, don't subscribe!
+    if (!live) {
       return;
     }
 
-    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
-      return;
-    }
-
-    if (props.indentLevel !== 1) {
-      return;
-    }
-
-    const disposable = subcribeToCommentReplyCreated({
+    const disposable = subscribeToCommentReplyCreated({
       ancestorID: props.comment.id,
       liveDirectRepliesInsertion: props.liveDirectRepliesInsertion,
     });
-
-    // If the story is scheduled to be closed, cancel the subscriptions because
-    // we can't add any more comments!
-    if (props.story.closedAt) {
-      const timer = createTimeoutAt(() => {
-        disposable.dispose();
-      }, props.story.closedAt);
-
-      return () => {
-        // Cancel the timer if there was one enabled.
-        if (timer) {
-          clearLongTimeout(timer);
-        }
-
-        // Dispose the subscriptions.
-        disposable.dispose();
-      };
-    }
 
     return () => {
       disposable.dispose();
     };
   }, [
-    subcribeToCommentReplyCreated,
+    live,
+    subscribeToCommentReplyCreated,
     props.comment.id,
     props.indentLevel,
     props.comment.pending,
-    props.settings.disableCommenting.enabled,
     props.liveDirectRepliesInsertion,
-    props.story.isClosed,
-    props.story.closedAt,
-    props.story.settings.live.enabled,
   ]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const onViewNew = useCallback(() => {
-    void viewNew({ commentID: props.comment.id });
-  }, [props.comment.id, viewNew]);
+    void viewNew({ commentID: props.comment.id, storyID: props.story.id });
+  }, [props.comment.id, props.story.id, viewNew]);
 
   const viewNewCount =
     (props.comment.replies.viewNewEdges &&
@@ -260,6 +237,7 @@ const ReplyListContainer3 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer3_story on Story {
+        id
         isClosed
         closedAt
         settings {
@@ -327,6 +305,7 @@ const ReplyListContainer3 = createReplyListContainer(
   LastReplyList,
   true
 );
+
 const ReplyListContainer2 = createReplyListContainer(
   2,
   {
@@ -348,6 +327,7 @@ const ReplyListContainer2 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer2_story on Story {
+        id
         isClosed
         closedAt
         settings {
@@ -434,6 +414,7 @@ const ReplyListContainer1 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer1_story on Story {
+        id
         isClosed
         closedAt
         settings {

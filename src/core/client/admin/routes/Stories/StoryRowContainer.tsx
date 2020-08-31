@@ -53,6 +53,7 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
       reportedCount={props.story.moderationQueues.reported.count}
       pendingCount={props.story.moderationQueues.pending.count}
       publishDate={publishedAt}
+      viewerCount={props.story.viewerCount}
     />
   );
 };
@@ -83,6 +84,7 @@ const enhanced = withFragmentContainer<Props>({
           count
         }
       }
+      viewerCount
       site {
         name
         id

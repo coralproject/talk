@@ -6,7 +6,7 @@ import { LanguageCode } from "coral-common/helpers";
 import {
   GiphyGifRetrieveResponse,
   GiphyGifSearchResponse,
-} from "coral-common/rest/external/giphy";
+} from "coral-common/types/giphy";
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";

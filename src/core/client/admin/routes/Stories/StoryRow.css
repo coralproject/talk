@@ -13,8 +13,16 @@
   color: var(--palette-text-100);
 }
 
+.metaElement {
+  margin-right: var(--spacing-1);
+}
+
 .authorName {
   font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.readingNow {
+  color: var(--palette-success-500);
 }
 
 .reportedCountColumn,

@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 
-import { GiphyGif } from "coral-common/rest/external/giphy";
+import { GiphyGif } from "coral-common/types/giphy";
 import { useFetch } from "coral-framework/lib/relay";
 import {
   BaseButton,

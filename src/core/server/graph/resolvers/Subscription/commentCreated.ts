@@ -9,6 +9,7 @@ import {
 
 export interface CommentCreatedInput extends SubscriptionPayload {
   storyID: string;
+  siteID: string;
   commentID: string;
 }
 

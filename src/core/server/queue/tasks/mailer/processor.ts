@@ -9,7 +9,6 @@ import {
   SMTPClient,
   SMTPConnectionOptions,
 } from "emailjs";
-import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
@@ -82,12 +81,7 @@ export function juiceHTML(input: string) {
           return reject(err);
         }
 
-        return resolve(
-          minify(html, {
-            removeComments: true,
-            collapseWhitespace: true,
-          })
-        );
+        return resolve(html);
       }
     );
   });
