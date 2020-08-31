@@ -16,6 +16,7 @@ import Profile from "../tabs/Profile";
 import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
+import useKeys from "./useKeys";
 
 type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
@@ -24,28 +25,8 @@ export interface AppProps {
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
-  window.addEventListener(
-    "message",
-    (e) => {
-      try {
-        if (!e.data) {
-          return;
-        }
-
-        const dataString: string = e.data;
-        const dataIndex = dataString.indexOf("{");
-        const p = dataString.substring(dataIndex, dataString.length);
-
-        const payload = JSON.parse(p);
-        if (payload.event === "keypress") {
-          window.console.log(payload);
-        }
-      } catch {
-        // ignore
-      }
-    },
-    false
-  );
+  const key = useKeys();
+  window.console.log(key);
 
   return (
     <HorizontalGutter className={cn(CLASSES.app, styles.root)}>
