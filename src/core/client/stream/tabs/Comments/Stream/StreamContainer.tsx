@@ -233,14 +233,22 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           (alternateOldestViewEnabled ? (
             <AddACommentButton />
           ) : (
-            <PostCommentFormContainer
-              settings={props.settings}
-              story={props.story}
-              viewer={props.viewer}
-              tab={local.commentsTab}
-              onChangeTab={onChangeTab}
-              commentsOrderBy={local.commentsOrderBy}
-            />
+            <>
+              <IntersectionProvider>
+                <ViewersWatchingContainer
+                  story={props.story}
+                  settings={props.settings}
+                />
+              </IntersectionProvider>
+              <PostCommentFormContainer
+                settings={props.settings}
+                story={props.story}
+                viewer={props.viewer}
+                tab={local.commentsTab}
+                onChangeTab={onChangeTab}
+                commentsOrderBy={local.commentsOrderBy}
+              />
+            </>
           ))}
         {(banned || warned || suspended) && (
           <div id={VIEWER_STATUS_CONTAINER_ID}>
@@ -254,12 +262,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             {warned && <WarningContainer viewer={props.viewer} />}
           </div>
         )}
-        <IntersectionProvider>
-          <ViewersWatchingContainer
-            story={props.story}
-            settings={props.settings}
-          />
-        </IntersectionProvider>
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
             direction="row"
