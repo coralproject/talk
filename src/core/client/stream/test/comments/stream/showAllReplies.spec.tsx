@@ -19,7 +19,7 @@ beforeEach(() => {
     replies: createSinonStub(
       (s) => s.throws(),
       (s) =>
-        s.withArgs({ first: 3, orderBy: "CREATED_AT_ASC" }).returns({
+        s.withArgs({ first: 10, orderBy: "CREATED_AT_ASC" }).returns({
           edges: [
             {
               node: comments[1],
