@@ -1467,7 +1467,93 @@ appears on the comment stream and in the admin interface.
                     <label
                       className="Label-root"
                     >
-                      Badge text
+                      Admin badge text
+                    </label>
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                    >
+                      <div
+                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="staff.adminLabel"
+                          name="staff.adminLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Staff"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <p
+                      className="Label-root"
+                    >
+                      Preview
+                    </p>
+                    
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                  >
+                    <label
+                      className="Label-root"
+                    >
+                      Moderator badge text
+                    </label>
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                    >
+                      <div
+                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="staff.moderatorLabel"
+                          name="staff.moderatorLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Staff"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <p
+                      className="Label-root"
+                    >
+                      Preview
+                    </p>
+                    
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                  >
+                    <label
+                      className="Label-root"
+                    >
+                      Staff member badge text
                     </label>
                     <div
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
