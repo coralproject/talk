@@ -80,6 +80,13 @@ const MediaField: FunctionComponent<Props> = ({
   }, [onChange, pastedMedia, setPastedMedia]);
 
   useEffect(() => {
+    // If the widget is not open and the field is dirty and invalid, then unset
+    // the current value. The user should be seeing a error now, but they closed
+    // the widget anyways.
+    if (!widget && dirty && !valid) {
+      onChange(undefined);
+    }
+
     // If a widget is not open, do nothing. The following checks are designed
     // to interact only when there is a widget open when there shouldn't be or
     // if the current value does not match the open widget.
