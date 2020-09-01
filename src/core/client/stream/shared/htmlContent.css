@@ -17,8 +17,7 @@ $commentsLinkColorHovered: var(--palette-primary-700);
     font-weight: var(--font-weight-primary-semi-bold);
   }
 
-  i
-  em {
+  i em {
     font-style: italic;
   }
   blockquote {
@@ -48,13 +47,12 @@ $commentsLinkColorHovered: var(--palette-primary-700);
     cursor: pointer;
   }
   & :global(.coral-rte-spoiler-reveal) {
-    opacity: 1.0;
+    opacity: 1;
     color: var(--palette-text-900);
     background-color: transparent;
     cursor: text;
   }
   & :global(.coral-rte-sarcasm) {
     font-family: monospace;
-    font-size: var(--font-size-4);
   }
 }
