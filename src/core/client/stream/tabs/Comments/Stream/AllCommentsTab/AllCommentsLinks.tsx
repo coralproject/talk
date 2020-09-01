@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { Button, Icon } from "coral-ui/components/v2";
+import { Button, ButtonIcon } from "coral-ui/components/v2";
 
 import styles from "./AllCommentsLinks.css";
 
@@ -34,10 +34,11 @@ const AllCommentsLinks: FunctionComponent = () => {
         onClick={onGoToCommentsTop}
         variant="textUnderlined"
         color="regular"
+        iconLeft
         classes={classes}
         uppercase={false}
       >
-        <Icon className={styles.icon}>forum</Icon>
+        <ButtonIcon>forum</ButtonIcon>
         <span>Top of comments</span>
       </Button>
       <Button
@@ -46,10 +47,11 @@ const AllCommentsLinks: FunctionComponent = () => {
         onClick={onGoToArticleTop}
         variant="textUnderlined"
         color="regular"
+        iconLeft
         classes={classes}
         uppercase={false}
       >
-        <Icon className={styles.icon}>description</Icon>
+        <ButtonIcon>description</ButtonIcon>
         <span>Top of article</span>
       </Button>
     </div>
