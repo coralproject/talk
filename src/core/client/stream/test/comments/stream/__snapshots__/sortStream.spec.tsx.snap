@@ -117,7 +117,7 @@ exports[`renders app with comment stream 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Box-root Flex-root Flex-flex"
+                    className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -389,7 +389,7 @@ exports[`renders app with comment stream 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Box-root Flex-root Flex-flex"
+                    className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"

@@ -38,7 +38,10 @@ exports[`renders username and body 1`] = `
         />
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
-    <ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
+      justifyContent="flex-end"
+      wrap={true}
+    >
       topBarRight
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>

@@ -78,7 +78,11 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             )}
           </Flex>
         </Flex>
-        {props.topBarRight && <Flex>{props.topBarRight}</Flex>}
+        {props.topBarRight && (
+          <Flex wrap justifyContent="flex-end">
+            {props.topBarRight}
+          </Flex>
+        )}
       </Flex>
 
       {props.parentAuthorName && (
