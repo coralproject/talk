@@ -51,11 +51,8 @@ comment-count-text =
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
 comments-counter-shortNum = { SHORT_NUMBER($count) }
-comments-watchers = { SHORT_NUMBER($count) } {
-  $count ->
-    [one] person is online
-    *[other] people are online
-}
+comments-watchers = { SHORT_NUMBER($count) } online
+
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
