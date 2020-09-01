@@ -59,7 +59,7 @@ const RTEConfig: FunctionComponent<Props> = ({ disabled }) => (
         disabled={disabled}
         onLabel={
           <Localized id="configure-general-rte-onBasicFeatures">
-            <span>On - bold, italics, block quotes, and bulletted lists</span>
+            <span>On - bold, italics, block quotes, and bulleted lists</span>
           </Localized>
         }
       />
