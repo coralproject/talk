@@ -604,7 +604,7 @@ here:
                         htmlFor="rte.enabled-true"
                       >
                         <span>
-                          On - bold, italics, block quotes, and bulletted lists
+                          On - bold, italics, block quotes, and bulleted lists
                         </span>
                       </label>
                     </div>

@@ -7,12 +7,13 @@ import {
   createSanitize,
 } from "coral-common/helpers/sanitize";
 import { defaultRTEConfiguration } from "coral-server/models/settings";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
-import { GQLRTEConfiguration } from "coral-server/graph/schema/__generated__/types";
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 // Initializing JSDOM and DOMPurify
 const window = new JSDOM("", {}).window;
@@ -20,38 +21,51 @@ const window = new JSDOM("", {}).window;
 /**
  * config2CacheKey returns a stable cache key from a `GQLRTEConfiguration` object.
  */
-function config2CacheKey(config: GQLRTEConfiguration) {
+function configToCacheKey(tenant: Tenant): string {
+  if (!tenant.rte) {
+    return "";
+  }
+
   let ret = "";
-  if (config.enabled) {
+
+  if (tenant.rte.enabled) {
     ret += "e";
   }
-  if (config.spoiler) {
+
+  if (tenant.rte.spoiler) {
     ret += "sp";
   }
-  if (config.sarcasm) {
+
+  if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM)) {
     ret += "sm";
   }
-  if (config.strikethrough) {
+
+  if (tenant.rte.strikethrough) {
     ret += "st";
   }
+
   return ret;
 }
 
 const createSanitizeMemoized = memoize(
-  (config: GQLRTEConfiguration) => {
+  (tenant: Tenant) => {
+    // Default the RTE Configuration to the default one.
+    const config = tenant.rte || defaultRTEConfiguration;
+
     return createSanitize(window as any, {
-      features: convertGQLRTEConfigToRTEFeatures(config),
+      // Merge in the sarcasm check from the feature flag.
+      features: convertGQLRTEConfigToRTEFeatures({
+        ...config,
+        sarcasm: hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
+      }),
     });
   },
   // cache key resolver.
-  config2CacheKey
+  configToCacheKey
 );
 
-function sanitizeCommentBody(
-  config: GQLRTEConfiguration = defaultRTEConfiguration,
-  source: string
-) {
-  const sanitize = createSanitizeMemoized(config);
+function sanitizeCommentBody(tenant: Tenant, source: string) {
+  const sanitize = createSanitizeMemoized(tenant);
 
   // Sanitize and return the HTMLBodyElement for the parsed source.
   const sanitized = sanitize(source);
@@ -73,7 +87,7 @@ export const purify: IntermediateModerationPhase = async ({
   comment,
   tenant,
 }): Promise<IntermediatePhaseResult | void> => {
-  const { body, linkCount } = sanitizeCommentBody(tenant.rte, comment.body);
+  const { body, linkCount } = sanitizeCommentBody(tenant, comment.body);
 
   return {
     body,
