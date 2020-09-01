@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -7,14 +8,14 @@ import { Button } from "coral-ui/components/v3";
 import styles from "./AddACommentButton.css";
 
 const AddACommentButton: FunctionComponent = () => {
+  const { pym } = useCoralContext();
   const onClick = useCallback(() => {
-    const element = document.getElementById(POST_COMMENT_FORM_ID);
-    if (!element) {
+    if (!pym) {
       return;
     }
 
-    element.scrollIntoView({ behavior: "smooth" });
-  }, []);
+    pym.scrollParentToChildEl(POST_COMMENT_FORM_ID);
+  }, [pym]);
 
   return (
     <div className={styles.root}>

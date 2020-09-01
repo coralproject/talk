@@ -15,8 +15,12 @@ const AllCommentsLinks: FunctionComponent = () => {
     pym.scrollParentTo("");
   }, [pym]);
   const onGoToCommentsTop = useCallback(() => {
-    document.body.scrollIntoView({ behavior: "smooth" });
-  }, []);
+    if (!pym) {
+      return;
+    }
+
+    pym.scrollParentToChildPos(0);
+  }, [pym]);
 
   const classes = {
     sizeRegular: styles.sizeRegular,
