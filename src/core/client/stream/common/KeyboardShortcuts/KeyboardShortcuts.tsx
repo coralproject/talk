@@ -89,7 +89,7 @@ const KeyboardShortcuts: FunctionComponent = () => {
     return null;
   }, [currentStop, getKeyStops, toKeyStop]);
 
-  const processNextElement = useCallback(() => {
+  const jumpToNextElement = useCallback(() => {
     const stop = findNextElement();
     if (!stop) {
       return;
@@ -121,7 +121,7 @@ const KeyboardShortcuts: FunctionComponent = () => {
     }
   }, [findNextElement, scrollToElement]);
 
-  const processPreviousElement = useCallback(() => {
+  const jumpToPreviousElement = useCallback(() => {
     const stop = findPreviousElement();
     if (!stop) {
       return;
@@ -149,30 +149,30 @@ const KeyboardShortcuts: FunctionComponent = () => {
           payload.data.shiftKey &&
           payload.data.key === "C"
         ) {
-          processPreviousElement();
+          jumpToPreviousElement();
         } else if (payload.event === "keypress" && payload.data.key === "c") {
-          processNextElement();
+          jumpToNextElement();
         }
       } catch {
         // ignore
       }
     },
-    [processNextElement, processPreviousElement]
+    [jumpToNextElement, jumpToPreviousElement]
   );
 
   const handleKeyPress = useCallback(
     (e: any) => {
       try {
         if (e.shiftKey && e.key === "C") {
-          processPreviousElement();
+          jumpToPreviousElement();
         } else if (e.key === "c") {
-          processNextElement();
+          jumpToNextElement();
         }
       } catch {
         // ignore
       }
     },
-    [processNextElement, processPreviousElement]
+    [jumpToNextElement, jumpToPreviousElement]
   );
 
   useEffect(() => {
