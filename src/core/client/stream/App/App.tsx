@@ -16,7 +16,6 @@ import Profile from "../tabs/Profile";
 import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
-import useKeys from "./useKeys";
 
 type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
@@ -25,9 +24,6 @@ export interface AppProps {
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
-  const key = useKeys();
-  window.console.log(key);
-
   return (
     <HorizontalGutter className={cn(CLASSES.app, styles.root)}>
       <nav>

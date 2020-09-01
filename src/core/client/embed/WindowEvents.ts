@@ -6,6 +6,8 @@ export default function hookUpWindowEvents(pym: PymControl) {
       event: "keypress",
       data: {
         code: e.code,
+        key: e.key,
+        charCode: e.charCode,
       },
     };
 

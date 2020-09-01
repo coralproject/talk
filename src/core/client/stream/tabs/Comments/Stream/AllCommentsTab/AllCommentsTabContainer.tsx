@@ -23,6 +23,7 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -178,6 +179,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      <KeyboardShortcuts />
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
