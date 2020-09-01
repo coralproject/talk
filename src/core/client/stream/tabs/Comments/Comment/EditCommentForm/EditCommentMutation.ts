@@ -36,6 +36,9 @@ const mutation = graphql`
               still
               video
             }
+            ... on ExternalMedia {
+              url
+            }
             ... on TwitterMedia {
               url
               width
