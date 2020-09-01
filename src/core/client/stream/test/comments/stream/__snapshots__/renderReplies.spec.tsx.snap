@@ -12,7 +12,11 @@ exports[`renders reply list 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-with-replies"
+      data-keystop={true}
       data-testid="comment-comment-with-replies"
+      id="comment-comment-with-replies"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -316,7 +320,11 @@ exports[`renders reply list 1`] = `
         >
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-isLoadMore={false}
+            data-keyid="comment-3"
+            data-keystop={true}
             data-testid="comment-comment-3"
+            id="comment-comment-3"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -615,7 +623,11 @@ exports[`renders reply list 1`] = `
         >
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-isLoadMore={false}
+            data-keyid="comment-4"
+            data-keystop={true}
             data-testid="comment-comment-4"
+            id="comment-comment-4"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -917,7 +929,11 @@ exports[`renders reply list 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-5"
+      data-keystop={true}
       data-testid="comment-comment-5"
+      id="comment-comment-5"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"

@@ -13,7 +13,11 @@ exports[`renders comment stream with load more button 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-0"
+      data-keystop={true}
       data-testid="comment-comment-0"
+      id="comment-comment-0"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -285,7 +289,11 @@ exports[`renders comment stream with load more button 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-1"
+      data-keystop={true}
       data-testid="comment-comment-1"
+      id="comment-comment-1"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -555,6 +563,8 @@ exports[`renders comment stream with load more button 1`] = `
   <button
     aria-controls="comments-allComments-log"
     className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-fullWidth coral coral-loadMoreButton coral-allComments-loadMoreButton"
+    data-isLoadMore={true}
+    data-keystop={true}
     data-variant="outlined"
     disabled={false}
     onBlur={[Function]}

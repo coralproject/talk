@@ -13,7 +13,11 @@ exports[`renders app with comment stream 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-2"
+      data-keystop={true}
       data-testid="comment-comment-2"
+      id="comment-comment-2"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -285,7 +289,11 @@ exports[`renders app with comment stream 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-isLoadMore={false}
+      data-keyid="comment-3"
+      data-keystop={true}
       data-testid="comment-comment-3"
+      id="comment-comment-3"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
