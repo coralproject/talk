@@ -31,6 +31,7 @@ export const getDefaultStaffConfiguration = (
 ): GQLStaffConfiguration => ({
   label: translate(bundle, "Staff", "staff-label"),
   adminLabel: translate(bundle, "Staff", "staff-label"),
+  staffLabel: translate(bundle, "Staff", "staff-label"),
   moderatorLabel: translate(bundle, "Staff", "staff-label"),
 });
 
