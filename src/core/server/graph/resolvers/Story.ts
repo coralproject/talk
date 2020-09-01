@@ -8,7 +8,7 @@ import {
   canModerate,
   hasModeratorRole,
 } from "coral-server/models/user/helpers";
-import { isStoryLiveEnabled } from "coral-server/services/stories";
+import { isLiveEnabled } from "coral-server/services/stories";
 
 import {
   GQLFEATURE_FLAG,
@@ -65,8 +65,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     }
 
     // Check to see if this story has live enabled.
-    const liveEnabled = isStoryLiveEnabled(ctx.config, ctx.tenant, s, ctx.now);
-    if (!liveEnabled) {
+    if (!isLiveEnabled(ctx.config, ctx.tenant, s, ctx.now)) {
       return null;
     }
 
