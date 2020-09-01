@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { get } from "lodash";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, KeyboardEvent } from "react";
 import { Field, FieldProps, Form } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
@@ -49,10 +49,21 @@ export interface FormProps {
 }
 
 class ReportCommentForm extends React.Component<Props> {
+  // Stop keyboard shortcuts from scrolling us away
+  // if we type the C key
+  private onKeyPress(e: KeyboardEvent) {
+    e.stopPropagation();
+  }
+
   public render() {
     const { onCancel, onSubmit, id } = this.props;
     return (
-      <div className={styles.root} data-testid="report-comment-form">
+      <div
+        className={styles.root}
+        data-testid="report-comment-form"
+        onKeyPress={this.onKeyPress}
+        role="none"
+      >
         <Form onSubmit={onSubmit}>
           {({
             handleSubmit,
