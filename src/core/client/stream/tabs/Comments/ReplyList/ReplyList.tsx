@@ -106,6 +106,8 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
               variant="outlined"
               color="secondary"
               fullWidth
+              data-keystop={true}
+              data-isLoadMore={true}
             >
               Show All Replies
             </Button>

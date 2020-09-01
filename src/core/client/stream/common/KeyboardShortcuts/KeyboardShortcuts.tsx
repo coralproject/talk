@@ -1,58 +1,173 @@
-import { FunctionComponent, useCallback, useEffect } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 
-import KeyedComments from "./KeyedComments";
-
-function scrollToComment(index: number) {
-  const commentID = KeyedComments.comments[index];
-  if (!commentID) {
-    return;
-  }
-
-  const container = document.querySelector(`[data-keyid="${commentID}"]`);
-  if (!container) {
-    return;
-  }
-
-  container.scrollIntoView();
-  KeyedComments.setCurrentIndex(index);
+interface KeyStop {
+  id?: string;
+  isLoadMore: boolean;
+  element: Element;
 }
 
 const KeyboardShortcuts: FunctionComponent = () => {
-  const handleKeyMessage = useCallback((e: any) => {
-    try {
-      if (!e.data) {
-        return;
-      }
+  const [currentStop, setCurrentStop] = useState<KeyStop | null>(null);
 
-      const dataString: string = e.data;
-      const dataIndex = dataString.indexOf("{");
-      const p = dataString.substring(dataIndex, dataString.length);
-
-      const payload = JSON.parse(p);
-
-      if (payload.event === "keypress" && payload.data.key === "c") {
-        scrollToComment(KeyedComments.currentIndex() + 1);
-      }
-      if (payload.event === "keypress" && payload.data.key === "x") {
-        scrollToComment(KeyedComments.currentIndex() - 1);
-      }
-    } catch {
-      // ignore
-    }
+  const getKeyStops = useCallback(() => {
+    const matches = document.querySelectorAll(`[data-keystop="true"]`);
+    return matches;
   }, []);
 
-  const handleKeyPress = useCallback((e: any) => {
-    try {
-      if (e.key === "c") {
-        scrollToComment(KeyedComments.currentIndex() + 1);
+  const findNextElement = useCallback((): KeyStop | null => {
+    const stops = getKeyStops();
+
+    if (currentStop === null && stops.length > 0) {
+      const stop = stops[0];
+
+      const id = stop.attributes.getNamedItem("data-keyid");
+      const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
+
+      return {
+        element: stop,
+        id: id ? id.value : undefined,
+        isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
+      };
+    } else if (currentStop !== null && currentStop.id && stops.length > 0) {
+      let index = -1;
+      stops.forEach((el, key) => {
+        if (
+          el.attributes.getNamedItem("data-keyid")?.value === currentStop.id
+        ) {
+          index = key;
+        }
+      });
+
+      if (index >= 0 && index + 1 < stops.length) {
+        const stop = stops[index + 1];
+
+        const id = stop.attributes.getNamedItem("data-keyid");
+        const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
+
+        return {
+          element: stop,
+          id: id ? id.value : undefined,
+          isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
+        };
       }
-      if (e.key === "x") {
-        scrollToComment(KeyedComments.currentIndex() - 1);
-      }
-    } catch {
-      // ignore
     }
-  }, []);
+
+    return null;
+  }, [getKeyStops, currentStop]);
+
+  const findPreviousElement = useCallback((): KeyStop | null => {
+    if (!currentStop) {
+      return null;
+    }
+
+    const stops = getKeyStops();
+
+    let index = -1;
+    stops.forEach((el, key) => {
+      if (el.attributes.getNamedItem("data-keyid")?.value === currentStop.id) {
+        index = key;
+      }
+    });
+
+    if (index - 1 >= 0 && index < stops.length) {
+      const stop = stops[index - 1];
+
+      const id = stop.attributes.getNamedItem("data-keyid");
+      const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
+
+      return {
+        element: stop,
+        id: id ? id.value : undefined,
+        isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
+      };
+    }
+
+    return null;
+  }, [currentStop, getKeyStops]);
+
+  const processNextElement = useCallback(() => {
+    const stop = findNextElement();
+    if (!stop) {
+      return;
+    }
+
+    if (stop.isLoadMore) {
+      const clickEvent = document.createEvent("MouseEvent");
+      clickEvent.initMouseEvent(
+        "click",
+        true,
+        true,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        null
+      );
+      stop.element.dispatchEvent(clickEvent);
+    } else {
+      stop.element.scrollIntoView();
+      setCurrentStop(stop);
+    }
+  }, [findNextElement, setCurrentStop]);
+
+  const processPreviousElement = useCallback(() => {
+    const stop = findPreviousElement();
+    if (!stop) {
+      return;
+    }
+
+    stop.element.scrollIntoView();
+    setCurrentStop(stop);
+  }, [findPreviousElement]);
+
+  const handleKeyMessage = useCallback(
+    (e: any) => {
+      try {
+        if (!e.data) {
+          return;
+        }
+
+        const dataString: string = e.data;
+        const dataIndex = dataString.indexOf("{");
+        const p = dataString.substring(dataIndex, dataString.length);
+
+        const payload = JSON.parse(p);
+
+        if (payload.event === "keypress" && payload.data.key === "c") {
+          processNextElement();
+        }
+        if (payload.event === "keypress" && payload.data.key === "x") {
+          processPreviousElement();
+        }
+      } catch {
+        // ignore
+      }
+    },
+    [processNextElement, processPreviousElement]
+  );
+
+  const handleKeyPress = useCallback(
+    (e: any) => {
+      try {
+        if (e.key === "c") {
+          processNextElement();
+        }
+        if (e.key === "x") {
+          processPreviousElement();
+        }
+      } catch {
+        // ignore
+      }
+    },
+    [processNextElement, processPreviousElement]
+  );
 
   useEffect(() => {
     window.addEventListener("message", handleKeyMessage);

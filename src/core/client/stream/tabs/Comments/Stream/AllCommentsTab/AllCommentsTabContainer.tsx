@@ -266,6 +266,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
+              data-keystop={true}
+              data-isLoadMore={true}
             >
               Load More
             </Button>

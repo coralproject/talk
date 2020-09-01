@@ -24,7 +24,6 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import KeyedComments from "coral-stream/common/KeyboardShortcuts/KeyedComments";
 import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
@@ -333,8 +332,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return null;
   }
 
-  KeyedComments.register(comment.id);
-
   return (
     <div
       className={cn(
@@ -342,8 +339,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
         className
       )}
-      data-keyid={`${comment.id}`}
       data-testid={`comment-${comment.id}`}
+      data-keystop={true}
+      data-isLoadMore={false}
+      data-keyid={comment.id}
     >
       <HorizontalGutter>
         {!comment.deleted && (
