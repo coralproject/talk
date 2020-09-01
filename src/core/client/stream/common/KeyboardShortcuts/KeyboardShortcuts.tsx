@@ -127,11 +127,14 @@ const KeyboardShortcuts: FunctionComponent = () => {
 
         const payload = JSON.parse(p);
 
-        if (payload.event === "keypress" && payload.data.key === "c") {
-          processNextElement();
-        }
-        if (payload.event === "keypress" && payload.data.key === "x") {
+        if (
+          payload.event === "keypress" &&
+          payload.data.shiftKey &&
+          payload.data.key === "C"
+        ) {
           processPreviousElement();
+        } else if (payload.event === "keypress" && payload.data.key === "c") {
+          processNextElement();
         }
       } catch {
         // ignore
@@ -143,11 +146,10 @@ const KeyboardShortcuts: FunctionComponent = () => {
   const handleKeyPress = useCallback(
     (e: any) => {
       try {
-        if (e.key === "c") {
-          processNextElement();
-        }
-        if (e.key === "x") {
+        if (e.shiftKey && e.key === "C") {
           processPreviousElement();
+        } else if (e.key === "c") {
+          processNextElement();
         }
       } catch {
         // ignore
