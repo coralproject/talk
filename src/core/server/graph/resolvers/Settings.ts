@@ -1,6 +1,5 @@
 import { defaultRTEConfiguration } from "coral-server/models/settings";
 import {
-  hasFeatureFlag,
   retrieveAnnouncementIfEnabled,
   Tenant,
 } from "coral-server/models/tenant";
@@ -64,11 +63,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return sites.edges.length > 1;
   },
   webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
-  rte: ({ rte = {} }, args, { tenant }) => ({
-    ...defaultRTEConfiguration,
-    ...rte,
-    sarcasm: hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
-  }),
+  rte: ({ rte = defaultRTEConfiguration }) => rte,
   media: ({ media = {} }) => media,
   live: ({ live }): LiveConfigurationInput => live,
 };

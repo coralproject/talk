@@ -44,6 +44,7 @@ import { Queue } from "./Queue";
 import { Queues } from "./Queues";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
+import { RTEConfiguration } from "./RTEConfiguration";
 import { Settings } from "./Settings";
 import { SigningSecret } from "./SigningSecret";
 import { Site } from "./Site";
@@ -110,6 +111,7 @@ const Resolvers: GQLResolver = {
   Queues,
   RecentCommentHistory,
   RejectCommentPayload,
+  RTEConfiguration,
   Settings,
   SigningSecret,
   Site,

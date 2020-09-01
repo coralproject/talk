@@ -12,7 +12,6 @@ import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLPerspectiveExternalIntegration,
-  GQLRTEConfiguration,
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -170,6 +169,27 @@ export type DisableCommenting = Omit<
 > &
   Partial<Pick<GQLSettings["disableCommenting"], "message">>;
 
+/**
+ * RTEConfiguration stores configuration for the rich text editor.
+ */
+export interface RTEConfiguration {
+  /**
+   * enabled when true turns on basic RTE features including
+   * bold, italic, quote, and bullet list.
+   */
+  enabled: boolean;
+
+  /**
+   * strikethrough when true turns on the strikethrough feature.
+   */
+  strikethrough: boolean;
+
+  /**
+   * spoiler when true turns on the spoiler feature.
+   */
+  spoiler: boolean;
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -224,7 +244,10 @@ export type Settings = GlobalModerationSettings &
      */
     newCommenters: NewCommentersConfiguration;
 
-    rte?: GQLRTEConfiguration;
+    /**
+     * rte stores configuration for the rich text editor.
+     */
+    rte?: RTEConfiguration;
 
     /**
      * media is the configuration media content attached to Comment's.
@@ -232,9 +255,8 @@ export type Settings = GlobalModerationSettings &
     media?: Omit<GQLMediaConfiguration, "external">;
   };
 
-export const defaultRTEConfiguration: GQLRTEConfiguration = {
+export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
-  sarcasm: false,
   strikethrough: false,
 };
