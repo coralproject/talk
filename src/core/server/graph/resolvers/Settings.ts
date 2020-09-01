@@ -13,6 +13,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { LiveConfigurationInput } from "./LiveConfiguration";
 
 /**
  * FEATURE_FLAGS is an array of all the valid feature flags.
@@ -69,4 +70,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     sarcasm: hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
   }),
   media: ({ media = {} }) => media,
+  live: ({ live }): LiveConfigurationInput => live,
 };
