@@ -339,6 +339,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
         className
       )}
+      id={`comment-${comment.id}`}
       data-testid={`comment-${comment.id}`}
       data-keystop={true}
       data-isLoadMore={false}

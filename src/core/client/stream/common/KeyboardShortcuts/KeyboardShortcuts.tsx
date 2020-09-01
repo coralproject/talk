@@ -1,5 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+
 interface KeyStop {
   id?: string;
   isLoadMore: boolean;
@@ -7,7 +9,22 @@ interface KeyStop {
 }
 
 const KeyboardShortcuts: FunctionComponent = () => {
+  const { pym } = useCoralContext();
+
   const [currentStop, setCurrentStop] = useState<KeyStop | null>(null);
+
+  const scrollToElement = useCallback(
+    (stop: KeyStop) => {
+      if (!pym || !stop || !stop.id) {
+        return;
+      }
+
+      const id = `comment-${stop.id}`;
+
+      pym.scrollParentToChildEl(id);
+    },
+    [pym]
+  );
 
   const getKeyStops = useCallback(() => {
     const matches = document.querySelectorAll(`[data-keystop="true"]`);
@@ -99,10 +116,10 @@ const KeyboardShortcuts: FunctionComponent = () => {
       );
       stop.element.dispatchEvent(clickEvent);
     } else {
-      stop.element.scrollIntoView();
+      scrollToElement(stop);
       setCurrentStop(stop);
     }
-  }, [findNextElement, setCurrentStop]);
+  }, [findNextElement, scrollToElement]);
 
   const processPreviousElement = useCallback(() => {
     const stop = findPreviousElement();
@@ -110,9 +127,9 @@ const KeyboardShortcuts: FunctionComponent = () => {
       return;
     }
 
-    stop.element.scrollIntoView();
+    scrollToElement(stop);
     setCurrentStop(stop);
-  }, [findPreviousElement]);
+  }, [findPreviousElement, scrollToElement]);
 
   const handleKeyMessage = useCallback(
     (e: any) => {
