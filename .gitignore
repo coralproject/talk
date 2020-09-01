@@ -23,8 +23,6 @@ test/e2e/bslocal.log
 test/e2e/selenium-debug.log
 browserstack.err
 
-plugins.json
-
 plugins/*
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-auth
