@@ -1,4 +1,4 @@
-import { uniq } from "lodash";
+import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -20,6 +20,7 @@ import {
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
+import { LiveConfiguration } from "coral-server/models/settings";
 import {
   addExpert,
   closeStory,
@@ -426,41 +427,64 @@ export async function retrieveSections(mongo: Db, tenant: Tenant) {
   return retrieveStorySections(mongo, tenant.id);
 }
 
-export async function isStoryLiveEnabled(
+type LiveEnabledSource = Story | LiveConfiguration;
+
+function sourceIsStory(source: LiveEnabledSource): source is Story {
+  // All stories have an ID and a Tenant ID, if it has this it's a Story!
+  if ((source as Story).id && (source as Story).tenantID) {
+    return true;
+  }
+
+  return false;
+}
+
+export async function isLiveEnabled(
   config: Config,
   tenant: Tenant,
-  story: Story,
+  source: LiveEnabledSource,
   now: Date
 ) {
   if (config.get("disable_live_updates")) {
     return false;
   }
 
-  const timeout = config.get("disable_live_updates_timeout");
-  if (timeout > 0) {
-    // If one of these is available, use it to determine the time since the
-    // last comment.
-    const lastCommentedAt = story.lastCommentedAt || story.createdAt;
+  let settings: Partial<LiveConfiguration>;
 
-    // If this date is before the timeout...
-    if (
-      DateTime.fromJSDate(lastCommentedAt)
-        .plus({
-          milliseconds: timeout,
-        })
-        .toJSDate() <= now
-    ) {
-      // Then we know that the last comment (or lack there of) was left more
-      // than the timeout specified in configuration.
-      return false;
+  if (sourceIsStory(source)) {
+    const timeout = config.get("disable_live_updates_timeout");
+    if (timeout > 0) {
+      // If one of these is available, use it to determine the time since the
+      // last comment.
+      const lastCommentedAt = source.lastCommentedAt || source.createdAt;
+
+      // If this date is before the timeout...
+      if (
+        DateTime.fromJSDate(lastCommentedAt)
+          .plus({
+            milliseconds: timeout,
+          })
+          .toJSDate() <= now
+      ) {
+        // Then we know that the last comment (or lack there of) was left more
+        // than the timeout specified in configuration.
+        return false;
+      }
     }
+
+    // If the live settings aren't set on the Story, then default to the
+    // organization setting.
+    if (!source.settings.live) {
+      return tenant.live.enabled;
+    }
+
+    // Live settings are available, set them on the settings object.
+    settings = source.settings.live;
+  } else {
+    // The source wasn't a story, but settings!
+    settings = source;
   }
 
-  // If the story doesn't specify the enabled property...
-  if (story.settings.live?.enabled === undefined) {
-    // Default to the tenant live setting!
-    return tenant.live.enabled;
-  }
-
-  return story.settings.live?.enabled;
+  // If the settings don't have the setting property enabled, then use the
+  // tenant settings.
+  return defaultTo(settings.enabled, tenant.live.enabled);
 }
