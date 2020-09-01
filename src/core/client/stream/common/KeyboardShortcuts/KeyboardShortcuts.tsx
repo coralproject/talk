@@ -132,7 +132,7 @@ const KeyboardShortcuts: FunctionComponent = () => {
   }, [findPreviousElement, scrollToElement]);
 
   const handleKeyMessage = useCallback(
-    (e: any) => {
+    (e) => {
       try {
         if (!e.data) {
           return;
@@ -161,7 +161,7 @@ const KeyboardShortcuts: FunctionComponent = () => {
   );
 
   const handleKeyPress = useCallback(
-    (e: any) => {
+    (e: KeyboardEvent) => {
       try {
         if (e.shiftKey && e.key === "C") {
           jumpToPreviousElement();

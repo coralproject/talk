@@ -1,7 +1,7 @@
 import PymControl from "./PymControl";
 
 export default function hookUpWindowEvents(pym: PymControl) {
-  window.addEventListener("keypress", (e) => {
+  window.addEventListener("keypress", (e: KeyboardEvent) => {
     const payload = {
       event: "keypress",
       data: {
