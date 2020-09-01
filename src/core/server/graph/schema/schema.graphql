@@ -1513,19 +1513,22 @@ type StaffConfiguration {
   """
   label is the string used when displaying the STAFF badge to users.
   """
-  label: String!
+  label: String! @deprecated(reason: "deprecated in favour of staffLabel")
 
   """
-  moderatorLabel is the string used when displaying the MODERATOR badge to users. Defaults
-  to value of `staff.label`
+  staffLabel is the string used when displaying the STAFF badge to users.
   """
-  moderatorLabel: String
+  staffLabel: String!
 
   """
-  adminLabel is the string used when displaying the ADMIN badge to users. Defaults
-  to value of `staff.label`
+  moderatorLabel is the string used when displaying the MODERATOR badge to users.
   """
-  adminLabel: String
+  moderatorLabel: String!
+
+  """
+  adminLabel is the string used when displaying the ADMIN badge to users
+  """
+  adminLabel: String!
 }
 
 type WebhookDelivery {
