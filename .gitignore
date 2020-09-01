@@ -69,6 +69,7 @@ plugins/*
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-upvote
 !plugins/talk-plugin-viewing-options
+!plugins/talk-plugin-rate
 
 **/node_modules/*
 yarn-error.log

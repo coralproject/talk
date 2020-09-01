@@ -1,0 +1,15 @@
+# 
+#  This file is for translations and they should look like this:
+#
+#
+#  ```
+#   en:
+#    talk-plugin-respect:
+#     respect: Respect
+#     respected: Respected
+#   es:
+#    talk-plugin-respect:
+#     respect: Respetar
+#     respected: Respetado
+#  ```
+# 
