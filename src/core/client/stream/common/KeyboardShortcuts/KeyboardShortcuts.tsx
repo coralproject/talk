@@ -14,20 +14,23 @@ const KeyboardShortcuts: FunctionComponent = () => {
     return matches;
   }, []);
 
+  const toKeyStop = useCallback((el: Element) => {
+    const id = el.attributes.getNamedItem("data-keyid");
+    const isLoadMore = el.attributes.getNamedItem("data-isloadmore");
+
+    return {
+      element: el,
+      id: id ? id.value : undefined,
+      isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
+    };
+  }, []);
+
   const findNextElement = useCallback((): KeyStop | null => {
     const stops = getKeyStops();
 
     if (currentStop === null && stops.length > 0) {
       const stop = stops[0];
-
-      const id = stop.attributes.getNamedItem("data-keyid");
-      const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
-
-      return {
-        element: stop,
-        id: id ? id.value : undefined,
-        isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
-      };
+      return toKeyStop(stop);
     } else if (currentStop !== null && currentStop.id && stops.length > 0) {
       let index = -1;
       stops.forEach((el, key) => {
@@ -40,20 +43,12 @@ const KeyboardShortcuts: FunctionComponent = () => {
 
       if (index >= 0 && index + 1 < stops.length) {
         const stop = stops[index + 1];
-
-        const id = stop.attributes.getNamedItem("data-keyid");
-        const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
-
-        return {
-          element: stop,
-          id: id ? id.value : undefined,
-          isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
-        };
+        return toKeyStop(stop);
       }
     }
 
     return null;
-  }, [getKeyStops, currentStop]);
+  }, [getKeyStops, currentStop, toKeyStop]);
 
   const findPreviousElement = useCallback((): KeyStop | null => {
     if (!currentStop) {
@@ -71,19 +66,11 @@ const KeyboardShortcuts: FunctionComponent = () => {
 
     if (index - 1 >= 0 && index < stops.length) {
       const stop = stops[index - 1];
-
-      const id = stop.attributes.getNamedItem("data-keyid");
-      const isLoadMore = stop.attributes.getNamedItem("data-isloadmore");
-
-      return {
-        element: stop,
-        id: id ? id.value : undefined,
-        isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
-      };
+      return toKeyStop(stop);
     }
 
     return null;
-  }, [currentStop, getKeyStops]);
+  }, [currentStop, getKeyStops, toKeyStop]);
 
   const processNextElement = useCallback(() => {
     const stop = findNextElement();
