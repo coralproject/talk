@@ -6,6 +6,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
   useLoadMore,
@@ -37,6 +38,7 @@ import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import { PostCommentFormContainer } from "../PostCommentForm";
+import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
@@ -269,7 +271,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         )}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
-        <HorizontalGutter mt={6} spacing={6}>
+        <HorizontalGutter mt={6} spacing={4}>
+          <IntersectionProvider>
+            <ViewersWatchingContainer story={story} settings={settings} />
+          </IntersectionProvider>
           {showCommentForm && (
             <PostCommentFormContainer
               story={story}
@@ -334,6 +339,7 @@ const enhanced = withPaginationContainer<
         ...ReplyListContainer1_story
         ...CreateCommentReplyMutation_story
         ...CreateCommentMutation_story
+        ...ViewersWatchingContainer_story
       }
     `,
     viewer: graphql`
@@ -361,6 +367,7 @@ const enhanced = withPaginationContainer<
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
         ...PostCommentFormContainer_settings
+        ...ViewersWatchingContainer_settings
       }
     `,
   },

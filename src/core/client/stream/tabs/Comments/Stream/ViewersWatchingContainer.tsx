@@ -116,13 +116,25 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   }
 
   // We always add one for the current viewer!
-  const viewerCount = refreshed ? story.viewerCount : story.viewerCount + 1;
+  const viewerCount = refreshed
+    ? // If we have refreshed the count, we will use the viewer count as is, but
+      // if the count is zero, it should be one because at least this one user
+      // is viewing.
+      story.viewerCount || 1
+    : // If we haven't refreshed, we should probably add one here because the
+      // count is queried before the websocket subscription is created.
+      story.viewerCount + 1;
 
   return (
     <div ref={intersectionRef}>
       <CallOut
-        classes={{ icon: styles.icon, title: styles.title }}
+        classes={{
+          icon: styles.icon,
+          title: styles.title,
+          container: styles.container,
+        }}
         icon={<Icon size="md">play_circle_filled</Icon>}
+        color="primary"
         title={
           <Localized id="comments-watchers" $count={viewerCount}>
             <span>{viewerCount} people is online</span>
