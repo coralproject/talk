@@ -8,7 +8,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { useLive, useVisibilityState } from "coral-framework/hooks";
-import { withInView } from "coral-framework/lib/intersection";
+import { useInView } from "coral-framework/lib/intersection";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
@@ -21,8 +21,6 @@ import RefreshStoryViewerCount from "./RefreshStoryViewerCount";
 import styles from "./ViewersWatchingContainer.css";
 
 interface Props {
-  inView: boolean | undefined;
-  intersectionRef: React.Ref<any>;
   story: ViewersWatchingContainer_story;
   settings: ViewersWatchingContainer_settings;
 }
@@ -34,9 +32,8 @@ const MAX_TIMEOUT = TIMEOUT + TIMEOUT_JITTER;
 const ViewersWatchingContainer: FunctionComponent<Props> = ({
   story,
   settings,
-  inView = false,
-  intersectionRef,
 }) => {
+  const { inView, intersectionRef } = useInView();
   const [lastRefreshed, setLastRefreshed] = useState<number>(Date.now());
   const [refreshed, setRefreshed] = useState(false);
   const live = useLive({ story, settings });
@@ -137,7 +134,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
         color="primary"
         title={
           <Localized id="comments-watchers" $count={viewerCount}>
-            <span>{viewerCount} people is online</span>
+            <span>{viewerCount} online</span>
           </Localized>
         }
         titleWeight="semiBold"
@@ -146,28 +143,26 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withInView(
-  withFragmentContainer<Props>({
-    story: graphql`
-      fragment ViewersWatchingContainer_story on Story {
-        id
-        viewerCount
-        isClosed
-        settings {
-          live {
-            enabled
-          }
-        }
-      }
-    `,
-    settings: graphql`
-      fragment ViewersWatchingContainer_settings on Settings {
-        disableCommenting {
+const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment ViewersWatchingContainer_story on Story {
+      id
+      viewerCount
+      isClosed
+      settings {
+        live {
           enabled
         }
       }
-    `,
-  })(ViewersWatchingContainer)
-);
+    }
+  `,
+  settings: graphql`
+    fragment ViewersWatchingContainer_settings on Settings {
+      disableCommenting {
+        enabled
+      }
+    }
+  `,
+})(ViewersWatchingContainer);
 
 export default enhanced;
