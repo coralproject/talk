@@ -93,6 +93,8 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
   }, []);
 
   const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+
     if (e.key !== "Enter") {
       return;
     }
