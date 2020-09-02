@@ -34,7 +34,9 @@ const StaffTagContainer: FunctionComponent<Props> = ({
         </Tag>
       )}
       {tags.includes("STAFF") && (
-        <Tag className={cn(className, styles.tag)}>{settings.staff.label}</Tag>
+        <Tag className={cn(className, styles.tag)}>
+          {settings.staff.staffLabel}
+        </Tag>
       )}
     </>
   );
@@ -44,7 +46,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment StaffTagContainer_settings on Settings {
       staff {
-        label
+        staffLabel
         adminLabel
         moderatorLabel
       }

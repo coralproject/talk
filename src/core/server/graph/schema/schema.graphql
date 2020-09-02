@@ -4603,9 +4603,9 @@ assigned to users with any role above COMMENTER.
 """
 input StaffConfigurationInput {
   """
-  label is the string used when displaying the STAFF badge to users.
+  staffLabel is the string used when displaying the STAFF badge to users.
   """
-  label: String
+  staffLabel: String
 
   """
   adminLabel is the string used when displaying the ADMIN badge to users.

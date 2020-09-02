@@ -24,7 +24,7 @@ import styles from "./StaffConfig.css";
 graphql`
   fragment StaffConfig_formValues on Settings {
     staff {
-      label
+      staffLabel
       adminLabel
       moderatorLabel
     }
@@ -108,7 +108,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Flex>
       )}
     </Field>
-    <Field name="staff.label" validate={required}>
+    <Field name="staff.staffLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
