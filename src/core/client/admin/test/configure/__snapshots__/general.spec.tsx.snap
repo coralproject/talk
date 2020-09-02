@@ -1485,7 +1485,7 @@ appears on the comment stream and in the admin interface.
                           onFocus={[Function]}
                           placeholder="E.g. Staff"
                           type="text"
-                          value=""
+                          value="Staff"
                         />
                       </div>
                     </div>
@@ -1498,7 +1498,11 @@ appears on the comment stream and in the admin interface.
                     >
                       Preview
                     </p>
-                    
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Staff
+                    </span>
                   </div>
                 </div>
                 <div
@@ -1528,7 +1532,7 @@ appears on the comment stream and in the admin interface.
                           onFocus={[Function]}
                           placeholder="E.g. Staff"
                           type="text"
-                          value=""
+                          value="Staff"
                         />
                       </div>
                     </div>
@@ -1541,7 +1545,11 @@ appears on the comment stream and in the admin interface.
                     >
                       Preview
                     </p>
-                    
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Staff
+                    </span>
                   </div>
                 </div>
                 <div
