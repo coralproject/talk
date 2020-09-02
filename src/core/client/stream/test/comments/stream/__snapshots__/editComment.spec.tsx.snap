@@ -3,9 +3,7 @@
 exports[`cancel edit 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
-  data-isLoadMore={false}
-  data-keyid="comment-with-replies"
-  data-keystop={true}
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
 >
@@ -966,9 +964,7 @@ exports[`edit a comment: optimistic response 1`] = `
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
-  data-isLoadMore={false}
-  data-keyid="comment-with-replies"
-  data-keystop={true}
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
 >
@@ -1263,9 +1259,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
 exports[`edit a comment: server response 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
-  data-isLoadMore={false}
-  data-keyid="comment-with-replies"
-  data-keystop={true}
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
 >
@@ -1569,9 +1563,7 @@ exports[`edit a comment: server response 1`] = `
 exports[`shows expiry message: edit form closed 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
-  data-isLoadMore={false}
-  data-keyid="comment-with-replies"
-  data-keystop={true}
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
 >
