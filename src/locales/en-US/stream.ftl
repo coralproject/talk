@@ -192,7 +192,7 @@ comments-replyingTo = Replying to <Username></Username>
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
 comments-reportButton-aria-report =
-  .aria-label = Report
+  .aria-label = Report comment by {$username}
 comments-reportButton-aria-reported =
   .aria-label = Reported
 
