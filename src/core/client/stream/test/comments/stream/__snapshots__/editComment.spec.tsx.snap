@@ -53,7 +53,7 @@ exports[`cancel edit 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1003,7 +1003,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1296,7 +1296,7 @@ exports[`edit a comment: server response 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1598,7 +1598,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
