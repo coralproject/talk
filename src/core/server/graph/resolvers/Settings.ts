@@ -66,5 +66,4 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   rte: ({ rte = defaultRTEConfiguration }) => rte,
   media: ({ media = {} }) => media,
   live: ({ live }): LiveConfigurationInput => live,
-  staff: ({ staff }) => staff,
 };

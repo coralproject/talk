@@ -4,11 +4,8 @@ import { GQLStaffConfigurationTypeResolver } from "coral-server/graph/schema/__g
 
 export const StaffConfiguration: GQLStaffConfigurationTypeResolver<settings.StaffConfiguration> = {
   // MIGRATE: plan to remove this in 7.0.0.
-  label: (config, args, { tenant }) => tenant.staff.label,
-  adminLabel: (config, args, { tenant }) =>
-    tenant.staff.adminLabel || tenant.staff.label,
-  moderatorLabel: (config, args, { tenant }) =>
-    tenant.staff.moderatorLabel || tenant.staff.label,
-  staffLabel: (config, args, { tenant }) =>
-    tenant.staff.staffLabel || tenant.staff.label,
+  label: (config) => config.label,
+  adminLabel: (config) => config.adminLabel || config.label,
+  moderatorLabel: (config) => config.moderatorLabel || config.label,
+  staffLabel: (config) => config.staffLabel || config.label,
 };
