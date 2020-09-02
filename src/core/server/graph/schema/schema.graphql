@@ -1869,6 +1869,11 @@ type Settings {
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfiguration!
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean!
 }
 
 ################################################################################
@@ -2639,6 +2644,11 @@ type User {
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  bio is a user-defined biography.
+  """
+  bio: String
 }
 
 """
@@ -4906,6 +4916,11 @@ input SettingsInput {
   media is the configuration media content attached to Comment's.
   """
   media: MediaConfigurationInput
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean
 }
 
 """
@@ -5685,6 +5700,34 @@ input SetUsernameInput {
 }
 
 type SetUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateBio
+##################
+
+input UpdateBioInput {
+  """
+  bio is the desired bio that should be set to the current User.
+  """
+  bio: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateBioPayload {
   """
   user is the possibly modified User.
   """
@@ -7587,6 +7630,12 @@ type Mutation {
         WARNED
       ]
     )
+
+  """
+  updateBio will update the users bio.
+  """
+  updateBio(input: UpdateBioInput!): UpdateBioPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUsername will update the users username.

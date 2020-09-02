@@ -62,3 +62,4 @@ error-repeatPost = Are you sure? This comment is very similar to your previous c
 error-installationForbidden = { -product-name } is already installed. To install another Tenant on this domain ({ $domain }) you need to generate an installation token.
 error-duplicateSiteOrigin = Allowed domains may only be associated with a single site.
 error-validation = A validation error occurred.
+error-userBioTooLong = Bio exceeds maximum length.

@@ -450,6 +450,15 @@ export class UserForbiddenError extends CoralError {
   }
 }
 
+export class UserBioTooLongError extends CoralError {
+  constructor(userID: string) {
+    super({
+      code: ERROR_CODES.USER_BIO_TOO_LONG,
+      context: { pub: { userID } },
+    });
+  }
+}
+
 export class UserNotFoundError extends CoralError {
   constructor(userID: string) {
     super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pub: { userID } } });

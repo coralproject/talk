@@ -409,4 +409,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
       clientMutationId,
     };
   },
+  updateBio: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateBio(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

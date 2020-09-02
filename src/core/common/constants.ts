@@ -94,3 +94,8 @@ export const SPOILER_CLASSNAME = "coral-rte-spoiler";
  * SARCASM_CLASSNAME is the classname that is attached to sarcasm.
  */
 export const SARCASM_CLASSNAME = "coral-rte-sarcasm";
+
+/**
+ * MAX_BIO_LENGTH is the maximum length of a user bio in characters
+ */
+export const MAX_BIO_LENGTH = 100;
