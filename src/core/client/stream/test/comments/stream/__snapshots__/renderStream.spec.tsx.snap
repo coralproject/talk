@@ -593,7 +593,7 @@ exports[`renders comment stream 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
-                                    aria-label="Report"
+                                    aria-label="Report comment by Markus"
                                     aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
@@ -878,7 +878,7 @@ exports[`renders comment stream 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
-                                    aria-label="Report"
+                                    aria-label="Report comment by Moderator"
                                     aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
