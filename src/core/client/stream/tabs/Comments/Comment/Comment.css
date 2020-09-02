@@ -40,4 +40,5 @@ $commentTimestampColor: var(--palette-grey-500);
 
 .usernameFullRow {
   flex-basis: 100%;
+  max-width: 190px;
 }

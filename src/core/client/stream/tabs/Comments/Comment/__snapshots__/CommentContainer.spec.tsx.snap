@@ -280,7 +280,7 @@ exports[`hide reply button 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -609,7 +609,7 @@ exports[`renders body only 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -938,7 +938,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -1267,7 +1267,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -1617,7 +1617,7 @@ exports[`renders in reply to 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -1950,7 +1950,7 @@ exports[`renders username and body 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
@@ -2294,7 +2294,7 @@ exports[`shows conversation link 1`] = `
       }
       username={
         <Relay(UsernameWithPopoverContainer)
-          className="coral coral-username coral-comment-username"
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
           comment={
             Object {
               "actionCounts": Object {
