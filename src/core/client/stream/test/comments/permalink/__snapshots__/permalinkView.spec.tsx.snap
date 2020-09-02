@@ -151,7 +151,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <button
                                       aria-controls="username-popover-comment-1"
-                                      className="BaseButton-root coral coral-username coral-comment-username"
+                                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -425,7 +425,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <button
                                       aria-controls="username-popover-comment-2"
-                                      className="BaseButton-root coral coral-username coral-comment-username"
+                                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -696,7 +696,7 @@ exports[`renders permalink view 1`] = `
                                 >
                                   <button
                                     aria-controls="username-popover-comment-with-replies"
-                                    className="BaseButton-root coral coral-username coral-comment-username"
+                                    className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                     onBlur={[Function]}
                                     onClick={[Function]}
                                     onFocus={[Function]}
@@ -977,7 +977,7 @@ exports[`renders permalink view 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-3"
-                                  className="BaseButton-root coral coral-username coral-comment-username"
+                                  className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1276,7 +1276,7 @@ exports[`renders permalink view 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-4"
-                                  className="BaseButton-root coral coral-username coral-comment-username"
+                                  className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}

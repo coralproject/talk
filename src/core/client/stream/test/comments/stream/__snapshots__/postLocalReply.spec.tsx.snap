@@ -53,7 +53,7 @@ exports[`post a reply: open reply form 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-deepest-replies-3"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -562,7 +562,7 @@ exports[`post a reply: optimistic response 1`] = `
                       >
                         <button
                           aria-controls="username-popover-uuid-0"
-                          className="BaseButton-root coral coral-username coral-comment-username"
+                          className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -870,7 +870,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-with-deepest-replies"
-                          className="BaseButton-root coral coral-username coral-comment-username"
+                          className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1147,7 +1147,7 @@ exports[`renders comment stream 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-with-deepest-replies-1"
-                                className="BaseButton-root coral coral-username coral-comment-username"
+                                className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -1451,7 +1451,7 @@ exports[`renders comment stream 1`] = `
                                   >
                                     <button
                                       aria-controls="username-popover-comment-with-deepest-replies-2"
-                                      className="BaseButton-root coral coral-username coral-comment-username"
+                                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -1755,7 +1755,7 @@ exports[`renders comment stream 1`] = `
                                         >
                                           <button
                                             aria-controls="username-popover-comment-with-deepest-replies-3"
-                                            className="BaseButton-root coral coral-username coral-comment-username"
+                                            className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                             onBlur={[Function]}
                                             onClick={[Function]}
                                             onFocus={[Function]}

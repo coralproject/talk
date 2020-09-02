@@ -381,7 +381,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
             username={
               comment.author && (
                 <UsernameWithPopoverContainer
-                  className={CLASSES.comment.topBar.username}
+                  className={cn(
+                    styles.usernameButton,
+                    CLASSES.comment.topBar.username
+                  )}
                   comment={comment}
                   viewer={viewer}
                 />
