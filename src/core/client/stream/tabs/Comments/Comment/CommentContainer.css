@@ -62,4 +62,12 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 .avatar {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+}
+
+.usernameButton {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  max-width: 100%;
 }

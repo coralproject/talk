@@ -63,7 +63,7 @@ exports[`renders app with comment stream 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-2"
-                          className="BaseButton-root coral coral-username coral-comment-username"
+                          className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -242,7 +242,7 @@ exports[`renders app with comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        aria-label="Report"
+                        aria-label="Report comment by Isabelle"
                         aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
@@ -335,7 +335,7 @@ exports[`renders app with comment stream 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-3"
-                          className="BaseButton-root coral coral-username coral-comment-username"
+                          className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -514,7 +514,7 @@ exports[`renders app with comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        aria-label="Report"
+                        aria-label="Report comment by Isabelle"
                         aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
