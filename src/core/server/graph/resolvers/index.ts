@@ -50,6 +50,7 @@ import { SigningSecret } from "./SigningSecret";
 import { Site } from "./Site";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
+import { StaffConfiguration } from "./StaffConfig";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
 import { Subscription } from "./Subscription";
@@ -70,6 +71,7 @@ import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
 const Resolvers: GQLResolver = {
   ApproveCommentPayload,
+  StaffConfiguration,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,

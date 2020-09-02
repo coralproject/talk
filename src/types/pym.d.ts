@@ -1,4 +1,6 @@
 declare module "pym.js" {
+  export type MessageCallback = (message: string) => void;
+
   export interface ChildSettings {
     /**
      * Callback invoked after receiving a resize event from the parent,
@@ -39,7 +41,7 @@ declare module "pym.js" {
     parentTitle: string;
 
     /** Stores the registered messageHandlers for each messageType */
-    messageHandlers: Record<string, Array<(message: string) => void>>;
+    messageHandlers: Record<string, Array<MessageCallback>>;
 
     /** RegularExpression to validate the received messages */
     messageRegex: RegExp;

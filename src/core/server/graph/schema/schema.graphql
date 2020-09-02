@@ -1513,7 +1513,22 @@ type StaffConfiguration {
   """
   label is the string used when displaying the STAFF badge to users.
   """
-  label: String!
+  label: String! @deprecated(reason: "deprecated in favour of staffLabel")
+
+  """
+  staffLabel is the string used when displaying the STAFF badge to users.
+  """
+  staffLabel: String!
+
+  """
+  moderatorLabel is the string used when displaying the MODERATOR badge to users.
+  """
+  moderatorLabel: String!
+
+  """
+  adminLabel is the string used when displaying the ADMIN badge to users
+  """
+  adminLabel: String!
 }
 
 type WebhookDelivery {
@@ -2987,6 +3002,18 @@ enum TAG {
   or MODERATOR role.
   """
   STAFF
+
+  """
+  ADMIN is used when a Comment is written by a User that has the ADMIN,
+  role.
+  """
+  ADMIN
+
+  """
+  MODERATOR is used when a Comment is written by a User that has the MODERATOR,
+  role.
+  """
+  MODERATOR
 
   """
   FEATURED is used when a Comment is marked as such by a staff member.
@@ -4576,9 +4603,19 @@ assigned to users with any role above COMMENTER.
 """
 input StaffConfigurationInput {
   """
-  label is the string used when displaying the STAFF badge to users.
+  staffLabel is the string used when displaying the STAFF badge to users.
   """
-  label: String
+  staffLabel: String
+
+  """
+  adminLabel is the string used when displaying the ADMIN badge to users.
+  """
+  adminLabel: String
+
+  """
+  moderatorLabel is the string used when displaying the MODERATOR badge to users.
+  """
+  moderatorLabel: String
 }
 
 """

@@ -1265,7 +1265,16 @@ configure-general-staff-explanation =
 configure-general-staff-label = Badge text
 configure-general-staff-input =
   .placeholder = E.g. Staff
+configure-general-staff-moderator-input =
+  .placeholder = E.g. Moderator
+configure-general-staff-admin-input =
+  .placeholder = E.g. Admin
 configure-general-staff-preview = Preview
+configure-general-staff-moderator-preview = Preview
+configure-general-staff-admin-preview = Preview
+configure-general-staff-member-label = Staff member badge text
+configure-general-staff-admin-label = Admin badge text
+configure-general-staff-moderator-label = Moderator badge text
 
 configure-general-rte-title = Rich-text comments
 configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.

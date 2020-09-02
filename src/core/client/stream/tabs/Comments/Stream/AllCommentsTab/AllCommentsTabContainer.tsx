@@ -23,6 +23,7 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -178,6 +179,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      <KeyboardShortcuts />
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
@@ -257,6 +259,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {hasMore && (
           <Localized id="comments-loadMore">
             <Button
+              id="comments-loadMore"
               onClick={loadMoreAndEmit}
               color="secondary"
               variant="outlined"
@@ -264,6 +267,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
             >
               Load More
             </Button>

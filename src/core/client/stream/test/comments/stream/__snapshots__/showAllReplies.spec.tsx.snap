@@ -12,7 +12,9 @@ exports[`renders comment stream 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-comment-1"
+      id="comment-comment-1"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -62,7 +64,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-1"
-                          className="BaseButton-root coral coral-username coral-comment-username"
+                          className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -241,7 +243,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        aria-label="Report"
+                        aria-label="Report comment by Lukas"
                         aria-pressed={false}
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                         data-testid="comment-report-button"
@@ -288,6 +290,8 @@ exports[`renders comment stream 1`] = `
       <button
         aria-controls="coral-comments-replyList-log--comment-0"
         className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-fullWidth coral coral-replyList-showAllButton"
+        data-is-load-more={true}
+        data-key-stop={true}
         data-variant="outlined"
         disabled={false}
         id="coral-comments-replyList-showAll--comment-0"

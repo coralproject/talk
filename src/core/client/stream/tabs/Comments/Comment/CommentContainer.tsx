@@ -339,7 +339,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
         className
       )}
+      id={`comment-${comment.id}`}
       data-testid={`comment-${comment.id}`}
+      // Added for keyboard shortcut support.
+      data-key-stop
     >
       <HorizontalGutter>
         {!comment.deleted && (
@@ -381,7 +384,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
             username={
               comment.author && (
                 <UsernameWithPopoverContainer
-                  className={CLASSES.comment.topBar.username}
+                  className={cn(
+                    styles.usernameButton,
+                    CLASSES.comment.topBar.username
+                  )}
                   comment={comment}
                   viewer={viewer}
                 />

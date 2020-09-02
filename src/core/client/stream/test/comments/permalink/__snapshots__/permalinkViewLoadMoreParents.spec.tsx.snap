@@ -31,7 +31,9 @@ exports[`renders conversation thread 1`] = `
         </div>
         <div
           className="coral coral-comment coral coral-reacted-0"
+          data-key-stop={true}
           data-testid="comment-comment-from-staff-0"
+          id="comment-comment-from-staff-0"
         >
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -63,7 +65,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-from-staff-0"
-                              className="BaseButton-root coral coral-username coral-comment-username"
+                              className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
                               onFocus={[Function]}
@@ -103,7 +105,7 @@ exports[`renders conversation thread 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-alignCenter"
                             >
                               <span
-                                className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                                className="Tag-root coral coral-userTag coral-comment-userTag StaffTagContainer-tag Tag-colorGrey Tag-uppercase"
                               >
                                 Staff
                               </span>
@@ -255,7 +257,7 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Report"
+                            aria-label="Report comment by Moderator"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"
@@ -351,7 +353,9 @@ exports[`renders conversation thread 1`] = `
         </div>
         <div
           className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+          data-key-stop={true}
           data-testid="comment-comment-0"
+          id="comment-comment-0"
         >
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -383,7 +387,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
-                              className="BaseButton-root coral coral-username coral-comment-username"
+                              className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
                               onFocus={[Function]}
@@ -562,7 +566,7 @@ exports[`renders conversation thread 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Report"
+                            aria-label="Report comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"
@@ -643,7 +647,9 @@ exports[`shows more of this conversation 1`] = `
           </div>
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-key-stop={true}
             data-testid="comment-comment-1"
+            id="comment-comment-1"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -675,7 +681,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-1"
-                                className="BaseButton-root coral coral-username coral-comment-username"
+                                className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -854,7 +860,7 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Report"
+                              aria-label="Report comment by Lukas"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
@@ -917,7 +923,9 @@ exports[`shows more of this conversation 1`] = `
           </div>
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-key-stop={true}
             data-testid="comment-comment-from-staff-0"
+            id="comment-comment-from-staff-0"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -949,7 +957,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
-                                className="BaseButton-root coral coral-username coral-comment-username"
+                                className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -989,7 +997,7 @@ exports[`shows more of this conversation 1`] = `
                                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
                               >
                                 <span
-                                  className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                                  className="Tag-root coral coral-userTag coral-comment-userTag StaffTagContainer-tag Tag-colorGrey Tag-uppercase"
                                 >
                                   Staff
                                 </span>
@@ -1141,7 +1149,7 @@ exports[`shows more of this conversation 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              aria-label="Report"
+                              aria-label="Report comment by Moderator"
                               aria-pressed={false}
                               className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                               data-testid="comment-report-button"
@@ -1201,7 +1209,9 @@ exports[`shows more of this conversation 1`] = `
         </div>
         <div
           className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+          data-key-stop={true}
           data-testid="comment-comment-0"
+          id="comment-comment-0"
         >
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1233,7 +1243,7 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
-                              className="BaseButton-root coral coral-username coral-comment-username"
+                              className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
                               onFocus={[Function]}
@@ -1412,7 +1422,7 @@ exports[`shows more of this conversation 1`] = `
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                         >
                           <button
-                            aria-label="Report"
+                            aria-label="Report comment by Markus"
                             aria-pressed={false}
                             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                             data-testid="comment-report-button"

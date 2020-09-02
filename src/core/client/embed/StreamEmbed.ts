@@ -12,6 +12,7 @@ import {
   withConfig,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
+  withKeypressEvent,
   withLiveCommentCount,
   withPymStorage,
   withSetCommentID,
@@ -149,6 +150,7 @@ export class StreamEmbed {
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),
+      withKeypressEvent,
     ];
 
     const query = stringifyQuery({

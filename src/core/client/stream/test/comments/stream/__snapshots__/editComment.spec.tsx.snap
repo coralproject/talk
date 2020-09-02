@@ -3,7 +3,9 @@
 exports[`cancel edit 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -53,7 +55,7 @@ exports[`cancel edit 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -257,7 +259,7 @@ exports[`cancel edit 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
-                    aria-label="Report"
+                    aria-label="Report comment by Markus"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
@@ -350,7 +352,10 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte"
                   onBlur={[Function]}
@@ -569,7 +574,10 @@ exports[`edit a comment: edit form 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte"
                   onBlur={[Function]}
@@ -788,7 +796,10 @@ exports[`edit a comment: optimistic response 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte "
                   onBlur={[Function]}
@@ -953,7 +964,9 @@ exports[`edit a comment: optimistic response 1`] = `
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1003,7 +1016,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1207,7 +1220,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
-                    aria-label="Report"
+                    aria-label="Report comment by Markus"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
@@ -1246,7 +1259,9 @@ exports[`edit a comment: render comment with edit button 1`] = `
 exports[`edit a comment: server response 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1296,7 +1311,7 @@ exports[`edit a comment: server response 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1509,7 +1524,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
-                    aria-label="Report"
+                    aria-label="Report comment by Markus"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
@@ -1548,7 +1563,9 @@ exports[`edit a comment: server response 1`] = `
 exports[`shows expiry message: edit form closed 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1598,7 +1615,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
-                      className="BaseButton-root coral coral-username coral-comment-username"
+                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1802,7 +1819,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                 >
                   <button
-                    aria-label="Report"
+                    aria-label="Report comment by Markus"
                     aria-pressed={false}
                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                     data-testid="comment-report-button"
@@ -1895,7 +1912,10 @@ exports[`shows expiry message: edit time expired 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte "
                   onBlur={[Function]}

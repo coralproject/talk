@@ -8,6 +8,7 @@ import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
+import { onPymMessage } from "coral-framework/helpers";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { ErrorReporter } from "coral-framework/lib/errors";
@@ -303,14 +304,7 @@ export default async function createManaged({
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
     registerClickFarAway = (cb) => {
-      pym.onMessage("click", cb);
-      // Return unlisten callback.
-      return () => {
-        const index = pym.messageHandlers.click.indexOf(cb);
-        if (index > -1) {
-          pym.messageHandlers.click.splice(index, 1);
-        }
-      };
+      return onPymMessage(pym, "click", cb);
     };
   }
 
