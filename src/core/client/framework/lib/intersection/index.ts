@@ -1,6 +1,2 @@
-export {
-  IntersectionProvider,
-  Observe,
-  withIntersectionContext,
-} from "./IntersectionContext";
-export { default as withInView } from "./withInView";
+export { IntersectionProvider, Observe } from "./IntersectionContext";
+export { default as useInView } from "./useInView";
