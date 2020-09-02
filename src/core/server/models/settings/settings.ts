@@ -78,6 +78,7 @@ export interface NewCommentersConfiguration {
 }
 
 export interface StaffConfiguration {
+  staffLabel?: string;
   // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
   label: string;
   adminLabel?: string;

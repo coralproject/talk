@@ -66,11 +66,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   rte: ({ rte = defaultRTEConfiguration }) => rte,
   media: ({ media = {} }) => media,
   live: ({ live }): LiveConfigurationInput => live,
-  staff: ({ staff }) => ({
-    moderatorLabel: staff.moderatorLabel || staff.label,
-    adminLabel: staff.adminLabel || staff.label,
-    staffLabel: staff.label,
-    // MIGRATE: plan to remove this in 7.0.0.
-    label: staff.label,
-  }),
+  staff: ({ staff }) => staff,
 };
