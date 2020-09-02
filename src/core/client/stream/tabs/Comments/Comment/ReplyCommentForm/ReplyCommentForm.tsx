@@ -50,6 +50,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         rteRef={props.rteRef}
         siteID={props.siteID}
         onSubmit={props.onSubmit}
+        onChange={props.onChange}
         initialValues={props.initialValues}
         min={props.min}
         max={props.max}

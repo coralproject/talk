@@ -177,8 +177,12 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
       void this.props.sessionStorage.removeItem(this.contextKey);
     }
     // Reset errors whenever user clears the form.
-    if (state.touched && state.touched.body && !state.values.body) {
-      form.reset({ body: RTE_RESET_VALUE });
+    if (
+      state.touched &&
+      state.touched.body &&
+      (!state.values.body || state.values.body === RTE_RESET_VALUE)
+    ) {
+      (form as any).restart({ body: RTE_RESET_VALUE });
     }
   };
 
