@@ -77,6 +77,14 @@ export interface NewCommentersConfiguration {
   approvedCommentsThreshold: number;
 }
 
+export interface StaffConfiguration {
+  staffLabel?: string;
+  // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
+  label: string;
+  adminLabel?: string;
+  moderatorLabel?: string;
+}
+
 /**
  * Auth is the set of configured authentication integrations.
  */
@@ -198,7 +206,6 @@ export type Settings = GlobalModerationSettings &
     | "recentCommentHistory"
     | "wordList"
     | "reaction"
-    | "staff"
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"
@@ -253,6 +260,11 @@ export type Settings = GlobalModerationSettings &
      * media is the configuration media content attached to Comment's.
      */
     media?: Omit<GQLMediaConfiguration, "external">;
+
+    /**
+     * staff configures the labels for staff members in comment stream.
+     */
+    staff: StaffConfiguration;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

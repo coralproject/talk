@@ -105,7 +105,7 @@ exports[`renders conversation thread 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-alignCenter"
                             >
                               <span
-                                className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                                className="Tag-root coral coral-userTag coral-comment-userTag StaffTagContainer-tag Tag-colorGrey Tag-uppercase"
                               >
                                 Staff
                               </span>
@@ -997,7 +997,7 @@ exports[`shows more of this conversation 1`] = `
                                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
                               >
                                 <span
-                                  className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                                  className="Tag-root coral coral-userTag coral-comment-userTag StaffTagContainer-tag Tag-colorGrey Tag-uppercase"
                                 >
                                   Staff
                                 </span>

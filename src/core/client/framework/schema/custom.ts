@@ -12,6 +12,7 @@ import {
   GQLMODERATION_MODE,
   GQLMODERATION_QUEUE,
   GQLSTORY_STATUS,
+  GQLTAG,
   GQLUSER_AUTH_CONDITIONS,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -23,6 +24,7 @@ export type GQLMODERATION_QUEUE_RL = RelayEnumLiteral<
   typeof GQLMODERATION_QUEUE
 >;
 export type GQLUSER_ROLE_RL = RelayEnumLiteral<typeof GQLUSER_ROLE>;
+export type GQLTAG_RL = RelayEnumLiteral<typeof GQLTAG>;
 export type GQLUSER_STATUS_RL = RelayEnumLiteral<typeof GQLUSER_STATUS>;
 export type GQLCOMMENT_FLAG_DETECTED_REASON_RL = RelayEnumLiteral<
   typeof GQLCOMMENT_FLAG_DETECTED_REASON
