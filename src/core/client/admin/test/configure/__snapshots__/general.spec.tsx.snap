@@ -1572,8 +1572,8 @@ appears on the comment stream and in the admin interface.
                         <input
                           className="TextField-input TextField-colorRegular"
                           disabled={false}
-                          id="staff.label"
-                          name="staff.label"
+                          id="staff.staffLabel"
+                          name="staff.staffLabel"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
