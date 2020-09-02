@@ -119,7 +119,9 @@ exports[`renders permalink view 1`] = `
                 </div>
                 <div
                   className="coral coral-comment coral coral-reacted-0"
+                  data-key-stop={true}
                   data-testid="comment-comment-1"
+                  id="comment-comment-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -393,7 +395,9 @@ exports[`renders permalink view 1`] = `
                 </div>
                 <div
                   className="coral coral-comment coral coral-reacted-0"
+                  data-key-stop={true}
                   data-testid="comment-comment-2"
+                  id="comment-comment-2"
                 >
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -664,7 +668,9 @@ exports[`renders permalink view 1`] = `
               </div>
               <div
                 className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+                data-key-stop={true}
                 data-testid="comment-comment-with-replies"
+                id="comment-comment-with-replies"
               >
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -927,7 +933,9 @@ exports[`renders permalink view 1`] = `
           >
             <div
               className="coral coral-comment coral coral-reacted-0"
+              data-key-stop={true}
               data-testid="comment-comment-3"
+              id="comment-comment-3"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1226,7 +1234,9 @@ exports[`renders permalink view 1`] = `
           >
             <div
               className="coral coral-comment coral coral-reacted-0"
+              data-key-stop={true}
               data-testid="comment-comment-4"
+              id="comment-comment-4"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"

@@ -3,7 +3,9 @@
 exports[`cancel edit 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -350,7 +352,10 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte"
                   onBlur={[Function]}
@@ -569,7 +574,10 @@ exports[`edit a comment: edit form 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte"
                   onBlur={[Function]}
@@ -788,7 +796,10 @@ exports[`edit a comment: optimistic response 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte "
                   onBlur={[Function]}
@@ -953,7 +964,9 @@ exports[`edit a comment: optimistic response 1`] = `
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1246,7 +1259,9 @@ exports[`edit a comment: render comment with edit button 1`] = `
 exports[`edit a comment: server response 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1548,7 +1563,9 @@ exports[`edit a comment: server response 1`] = `
 exports[`shows expiry message: edit form closed 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-replies"
+  id="comment-comment-with-replies"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1895,7 +1912,10 @@ exports[`shows expiry message: edit time expired 1`] = `
             <div
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
-              <div>
+              <div
+                onKeyPress={[Function]}
+                role="none"
+              >
                 <div
                   className="coral coral-rte "
                   onBlur={[Function]}
