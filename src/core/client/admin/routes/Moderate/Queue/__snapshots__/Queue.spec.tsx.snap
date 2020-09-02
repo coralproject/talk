@@ -14,7 +14,7 @@ exports[`renders correctly with load more 1`] = `
   <ForwardRef(forwardRef)
     justifyContent="center"
   >
-    <withContext(WithInView)
+    <AutoLoadMoresContainer
       disableLoadMore={false}
       onLoadMore={[Function]}
     />

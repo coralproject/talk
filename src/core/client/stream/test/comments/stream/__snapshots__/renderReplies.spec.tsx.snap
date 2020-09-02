@@ -12,7 +12,9 @@ exports[`renders reply list 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-comment-with-replies"
+      id="comment-comment-with-replies"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -316,7 +318,9 @@ exports[`renders reply list 1`] = `
         >
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-key-stop={true}
             data-testid="comment-comment-3"
+            id="comment-comment-3"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -615,7 +619,9 @@ exports[`renders reply list 1`] = `
         >
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-key-stop={true}
             data-testid="comment-comment-4"
+            id="comment-comment-4"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -917,7 +923,9 @@ exports[`renders reply list 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-comment-5"
+      id="comment-comment-5"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
