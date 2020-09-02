@@ -12,7 +12,9 @@ exports[`renders comment stream 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-comment-1"
+      id="comment-comment-1"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -288,6 +290,8 @@ exports[`renders comment stream 1`] = `
       <button
         aria-controls="coral-comments-replyList-log--comment-0"
         className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-fullWidth coral coral-replyList-showAllButton"
+        data-is-load-more={true}
+        data-key-stop={true}
         data-variant="outlined"
         disabled={false}
         id="coral-comments-replyList-showAll--comment-0"

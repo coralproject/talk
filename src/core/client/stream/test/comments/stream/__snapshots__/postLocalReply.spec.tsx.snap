@@ -3,7 +3,9 @@
 exports[`post a reply: open reply form 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-deepest-replies-3"
+  id="comment-comment-with-deepest-replies-3"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -352,7 +354,10 @@ exports[`post a reply: open reply form 1`] = `
               <div
                 className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
               >
-                <div>
+                <div
+                  onKeyPress={[Function]}
+                  role="none"
+                >
                   <div
                     className="coral coral-rte"
                     onBlur={[Function]}
@@ -512,7 +517,9 @@ exports[`post a reply: optimistic response 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-uuid-0"
+      id="comment-uuid-0"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -820,7 +827,9 @@ exports[`renders comment stream 1`] = `
   >
     <div
       className="coral coral-comment coral coral-reacted-0"
+      data-key-stop={true}
       data-testid="comment-comment-with-deepest-replies"
+      id="comment-comment-with-deepest-replies"
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1097,7 +1106,9 @@ exports[`renders comment stream 1`] = `
         >
           <div
             className="coral coral-comment coral coral-reacted-0"
+            data-key-stop={true}
             data-testid="comment-comment-with-deepest-replies-1"
+            id="comment-comment-with-deepest-replies-1"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1401,7 +1412,9 @@ exports[`renders comment stream 1`] = `
               >
                 <div
                   className="coral coral-comment coral coral-reacted-0"
+                  data-key-stop={true}
                   data-testid="comment-comment-with-deepest-replies-2"
+                  id="comment-comment-with-deepest-replies-2"
                 >
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1705,7 +1718,9 @@ exports[`renders comment stream 1`] = `
                     >
                       <div
                         className="coral coral-comment coral coral-reacted-0"
+                        data-key-stop={true}
                         data-testid="comment-comment-with-deepest-replies-3"
+                        id="comment-comment-with-deepest-replies-3"
                       >
                         <div
                           className="Box-root HorizontalGutter-root HorizontalGutter-full"

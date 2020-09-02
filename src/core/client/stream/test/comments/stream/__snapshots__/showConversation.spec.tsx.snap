@@ -3,7 +3,9 @@
 exports[`renders deepest comment with link 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-with-deepest-replies-3"
+  id="comment-comment-with-deepest-replies-3"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"

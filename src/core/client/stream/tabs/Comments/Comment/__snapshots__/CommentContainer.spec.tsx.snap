@@ -3,7 +3,9 @@
 exports[`hide reply button 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -324,7 +326,9 @@ exports[`hide reply button 1`] = `
 exports[`renders body only 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -653,7 +657,9 @@ exports[`renders body only 1`] = `
 exports[`renders disabled reply when commenting has been disabled 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -982,7 +988,9 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 exports[`renders disabled reply when story is closed 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -1311,7 +1319,9 @@ exports[`renders disabled reply when story is closed 1`] = `
 exports[`renders in reply to 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -1665,7 +1675,9 @@ exports[`renders in reply to 1`] = `
 exports[`renders username and body 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment
@@ -1994,7 +2006,9 @@ exports[`renders username and body 1`] = `
 exports[`renders with tombstone when comment has been deleted 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef) />
 </div>
@@ -2003,7 +2017,9 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
 exports[`shows conversation link 1`] = `
 <div
   className="coral coral-comment coral coral-reacted-0"
+  data-key-stop={true}
   data-testid="comment-comment-id"
+  id="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
     <IndentedComment

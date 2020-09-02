@@ -106,6 +106,9 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
               variant="outlined"
               color="secondary"
               fullWidth
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
             >
               Show All Replies
             </Button>
