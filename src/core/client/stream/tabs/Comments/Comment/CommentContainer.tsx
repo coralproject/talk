@@ -341,9 +341,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
       )}
       id={`comment-${comment.id}`}
       data-testid={`comment-${comment.id}`}
-      data-keystop={true}
-      data-isLoadMore={false}
-      data-keyid={comment.id}
+      // Added for keyboard shortcut support.
+      data-key-stop
     >
       <HorizontalGutter>
         {!comment.deleted && (

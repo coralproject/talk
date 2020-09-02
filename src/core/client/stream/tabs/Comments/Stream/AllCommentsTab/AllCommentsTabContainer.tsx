@@ -259,6 +259,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {hasMore && (
           <Localized id="comments-loadMore">
             <Button
+              id="comments-loadMore"
               onClick={loadMoreAndEmit}
               color="secondary"
               variant="outlined"
@@ -266,8 +267,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
-              data-keystop={true}
-              data-isLoadMore={true}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
             >
               Load More
             </Button>

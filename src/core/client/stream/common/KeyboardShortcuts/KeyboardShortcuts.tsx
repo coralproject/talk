@@ -1,189 +1,147 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useEffect } from "react";
 
+import { onPymMessage } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
-interface KeyStop {
-  id?: string;
-  isLoadMore: boolean;
-  element: Element;
+interface KeyboardEventData {
+  key: string;
+  shiftKey: boolean;
 }
 
-const KeyboardShortcuts: FunctionComponent = () => {
+interface KeyStop {
+  id: string;
+  isLoadMore: boolean;
+  element: HTMLElement;
+}
+
+const getKeyStops = () =>
+  document.querySelectorAll<HTMLElement>("[data-key-stop]");
+
+const toKeyStop = (element: HTMLElement): KeyStop => {
+  const id = element.id;
+  const isLoadMore = "isLoadMore" in element.dataset;
+
+  return {
+    element,
+    id,
+    isLoadMore,
+  };
+};
+
+const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
+  const stops = getKeyStops();
+  if (stops.length === 0) {
+    return null;
+  }
+
+  // There is no current stop, so return the first one!
+  if (!currentStop) {
+    return toKeyStop(stops[0]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let index = 0; index < stops.length; index++) {
+    if (stops[index].id === currentStop.id) {
+      if (index === stops.length - 1) {
+        // We're at the last one, get the first one!
+        return toKeyStop(stops[0]);
+      }
+
+      // Go one more element forward.
+      return toKeyStop(stops[index + 1]);
+    }
+  }
+
+  // We couldn't find your current element to get the next one! Go to the first
+  // stop.
+  return toKeyStop(stops[0]);
+};
+
+const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
+  const stops = getKeyStops();
+  if (stops.length === 0) {
+    return null;
+  }
+
+  // There is no current stop, get the last one!
+  if (!currentStop) {
+    return toKeyStop(stops[stops.length - 1]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let index = 0; index < stops.length; index++) {
+    if (stops[index].id === currentStop.id) {
+      if (index === 0) {
+        // We are the first element, get the last one!
+        return toKeyStop(stops[stops.length - 1]);
+      }
+
+      // Get one element before the current index!
+      return toKeyStop(stops[index - 1]);
+    }
+  }
+
+  // We couldn't find your current element to get the previous one! Go to the
+  // first stop.
+  return toKeyStop(stops[0]);
+};
+
+const KeyboardShortcuts: FunctionComponent = ({ children }) => {
   const { pym } = useCoralContext();
+  useEffect(() => {
+    if (!pym) {
+      return;
+    }
 
-  const [currentStop, setCurrentStop] = useState<KeyStop | null>(null);
+    // Store a reference to the current stop.
+    let currentStop: KeyStop | null = null;
 
-  const scrollToElement = useCallback(
-    (stop: KeyStop) => {
-      if (!pym || !stop || !stop.id) {
+    const handle = (event: KeyboardEvent | string) => {
+      let data: KeyboardEventData;
+
+      try {
+        if (typeof event === "string") {
+          data = JSON.parse(event);
+        } else {
+          data = event;
+        }
+      } catch (err) {
+        if (process.env.NODE_ENV !== "production") {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
+
         return;
       }
 
-      const id = `comment-${stop.id}`;
+      let stop: KeyStop | null = null;
+      if (data.shiftKey && data.key === "C") {
+        stop = findPreviousElement(currentStop);
+      } else if (data.key === "c") {
+        stop = findNextElement(currentStop);
+      }
 
-      pym.scrollParentToChildEl(id);
-    },
-    [pym]
-  );
+      if (!stop) {
+        return;
+      }
 
-  const getKeyStops = useCallback(() => {
-    const matches = document.querySelectorAll(`[data-keystop="true"]`);
-    return matches;
-  }, []);
+      pym.scrollParentToChildEl(stop.id);
 
-  const toKeyStop = useCallback((el: Element) => {
-    const id = el.attributes.getNamedItem("data-keyid");
-    const isLoadMore = el.attributes.getNamedItem("data-isloadmore");
-
-    return {
-      element: el,
-      id: id ? id.value : undefined,
-      isLoadMore: isLoadMore ? isLoadMore.value === "true" : false,
+      if (stop.isLoadMore) {
+        stop.element.click();
+      } else {
+        currentStop = stop;
+      }
     };
-  }, []);
 
-  const findNextElement = useCallback((): KeyStop | null => {
-    const stops = getKeyStops();
-
-    if (currentStop === null && stops.length > 0) {
-      const stop = stops[0];
-      return toKeyStop(stop);
-    } else if (currentStop !== null && currentStop.id && stops.length > 0) {
-      let index = -1;
-      stops.forEach((el, key) => {
-        if (
-          el.attributes.getNamedItem("data-keyid")?.value === currentStop.id
-        ) {
-          index = key;
-        }
-      });
-
-      if (index >= 0 && index + 1 < stops.length) {
-        const stop = stops[index + 1];
-        return toKeyStop(stop);
-      }
-    }
-
-    return null;
-  }, [getKeyStops, currentStop, toKeyStop]);
-
-  const findPreviousElement = useCallback((): KeyStop | null => {
-    if (!currentStop) {
-      return null;
-    }
-
-    const stops = getKeyStops();
-
-    let index = -1;
-    stops.forEach((el, key) => {
-      if (el.attributes.getNamedItem("data-keyid")?.value === currentStop.id) {
-        index = key;
-      }
-    });
-
-    if (index - 1 >= 0 && index < stops.length) {
-      const stop = stops[index - 1];
-      return toKeyStop(stop);
-    }
-
-    return null;
-  }, [currentStop, getKeyStops, toKeyStop]);
-
-  const jumpToNextElement = useCallback(() => {
-    const stop = findNextElement();
-    if (!stop) {
-      return;
-    }
-
-    if (stop.isLoadMore) {
-      const clickEvent = document.createEvent("MouseEvent");
-      clickEvent.initMouseEvent(
-        "click",
-        true,
-        true,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
-      );
-      stop.element.dispatchEvent(clickEvent);
-    } else {
-      scrollToElement(stop);
-      setCurrentStop(stop);
-    }
-  }, [findNextElement, scrollToElement]);
-
-  const jumpToPreviousElement = useCallback(() => {
-    const stop = findPreviousElement();
-    if (!stop) {
-      return;
-    }
-
-    scrollToElement(stop);
-    setCurrentStop(stop);
-  }, [findPreviousElement, scrollToElement]);
-
-  const handleKeyMessage = useCallback(
-    (e) => {
-      try {
-        if (!e.data) {
-          return;
-        }
-
-        const dataString: string = e.data;
-        const dataIndex = dataString.indexOf("{");
-        const p = dataString.substring(dataIndex, dataString.length);
-
-        const payload = JSON.parse(p);
-
-        if (
-          payload.event === "keypress" &&
-          payload.data.shiftKey &&
-          payload.data.key === "C"
-        ) {
-          jumpToPreviousElement();
-        } else if (payload.event === "keypress" && payload.data.key === "c") {
-          jumpToNextElement();
-        }
-      } catch {
-        // ignore
-      }
-    },
-    [jumpToNextElement, jumpToPreviousElement]
-  );
-
-  const handleKeyPress = useCallback(
-    (e: KeyboardEvent) => {
-      try {
-        if (e.shiftKey && e.key === "C") {
-          jumpToPreviousElement();
-        } else if (e.key === "c") {
-          jumpToNextElement();
-        }
-      } catch {
-        // ignore
-      }
-    },
-    [jumpToNextElement, jumpToPreviousElement]
-  );
-
-  useEffect(() => {
-    window.addEventListener("message", handleKeyMessage);
-    window.addEventListener("keypress", handleKeyPress);
+    const unsubscribe = onPymMessage(pym, "keypress", handle);
+    window.addEventListener("keypress", handle);
 
     return () => {
-      window.removeEventListener("message", handleKeyMessage);
-      window.removeEventListener("keypress", handleKeyPress);
+      unsubscribe();
+      window.removeEventListener("keypress", handle);
     };
-  }, [handleKeyMessage, handleKeyPress]);
+  }, [pym]);
 
   return null;
 };

@@ -15,7 +15,7 @@ export const defaultPymControlFactory: PymControlFactory = (config) =>
   new PymControl(config);
 
 export default class PymControl {
-  public pym: pym.Parent;
+  private pym: pym.Parent;
   private cleanups: CleanupCallback[];
 
   constructor(config: PymControlConfig) {
