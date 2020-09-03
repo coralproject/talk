@@ -163,7 +163,7 @@ configure-email-fromEmailLabel = Fra e-mail-adresse
 configure-email-fromEmailDescription =
   E-mail-adresse, der bruges til at sende meddelelser
 configure-email-smtpHostLabel = SMTP vært
-configure-email-smtpHostDescription = (eksempel smtp.sendgrid.com)
+configure-email-smtpHostDescription = (eksempel smtp.sendgrid.net)
 configure-email-smtpPortLabel = SMTP-port
 configure-email-smtpPortDescription = (eksempel 25)
 configure-email-smtpTLSLabel = TLS

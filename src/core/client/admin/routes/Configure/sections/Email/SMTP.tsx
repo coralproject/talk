@@ -59,7 +59,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
           <Label>SMTP host</Label>
         </Localized>
         <Localized id="configure-email-smtpHostDescription">
-          <HelperText>(ex. smtp.sendgrid.com)</HelperText>
+          <HelperText>(ex. smtp.sendgrid.net)</HelperText>
         </Localized>
       </FormFieldHeader>
       <Field
