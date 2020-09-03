@@ -86,6 +86,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
             usernameClassName={styles.username}
             comment={comment}
             viewer={viewer}
+            settings={settings}
           />
         )}
         <Box ml={1} container="span">
@@ -210,6 +211,7 @@ const enhanced = withSetCommentIDMutation(
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
         ...MediaSectionContainer_settings
+        ...UsernameWithPopoverContainer_settings
       }
     `,
   })(FeaturedCommentContainer)

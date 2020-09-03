@@ -390,6 +390,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                   )}
                   comment={comment}
                   viewer={viewer}
+                  settings={settings}
                 />
               )
             }
@@ -696,6 +697,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...EditCommentFormContainer_settings
             ...UserTagsContainer_settings
             ...MediaSectionContainer_settings
+            ...UsernameWithPopoverContainer_settings
           }
         `,
       })(CommentContainer)
