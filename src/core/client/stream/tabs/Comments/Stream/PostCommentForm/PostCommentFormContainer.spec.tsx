@@ -1,4 +1,5 @@
 import { shallow } from "enzyme";
+import { createForm } from "final-form";
 import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
@@ -9,7 +10,6 @@ import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { act, removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
 
-import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
@@ -136,9 +136,7 @@ it("creates a comment", async () => {
   const storyID = "story-id";
   const input = { body: "Hello World!" };
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
-  const form = { initialize: noop };
-  const formMock = sinon.mock(form);
-  formMock.expects("initialize").withArgs({ body: RTE_RESET_VALUE }).once();
+  const form = createForm({ onSubmit: noop });
 
   const props = createDefaultProps({
     createComment: createCommentStub,
@@ -175,9 +173,6 @@ it("creates a comment", async () => {
         })
       ).toBeTruthy()
     );
-  });
-  await act(async () => {
-    await wait(() => formMock.verify());
   });
 });
 
