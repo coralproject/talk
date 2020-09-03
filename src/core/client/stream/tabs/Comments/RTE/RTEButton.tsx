@@ -1,3 +1,4 @@
+import { InjectedProps } from "@coralproject/rte/lib/factories/createToggle";
 import cn from "classnames";
 import React from "react";
 
@@ -7,14 +8,11 @@ import styles from "./RTEButton.css";
 
 const RTEButton = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
+  React.ButtonHTMLAttributes<HTMLButtonElement> & Partial<InjectedProps>
 >(function RTEButtonForwarded(props, ref) {
+  const { ctrlKey, squire, ButtonComponent, className, ...rest } = props;
   return (
-    <BaseButton
-      {...props}
-      className={cn(styles.button, props.className)}
-      ref={ref}
-    />
+    <BaseButton {...rest} className={cn(styles.button, className)} ref={ref} />
   );
 });
 
