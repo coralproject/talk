@@ -103,6 +103,15 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
         if (typeof event === "string") {
           data = JSON.parse(event);
         } else {
+          if (event.target) {
+            const el = event.target as HTMLElement;
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+              return;
+            }
+            if (el.getAttribute("contenteditable") === "true") {
+              return;
+            }
+          }
           data = event;
         }
       } catch (err) {
