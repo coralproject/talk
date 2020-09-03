@@ -2,7 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <div
-  onKeyPress={[Function]}
   role="none"
 >
   <RTE
