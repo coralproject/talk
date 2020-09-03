@@ -5719,7 +5719,7 @@ input UpdateBioInput {
   """
   bio is the desired bio that should be set to the current User.
   """
-  bio: String!
+  bio: String
 
   """
   clientMutationId is required for Relay support.
