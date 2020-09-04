@@ -215,6 +215,7 @@ async function commit(
                   id: viewer.id,
                   username: viewer.username,
                   createdAt: viewer.createdAt,
+                  bio: viewer.bio,
                   badges: viewer.badges,
                   ignoreable: false,
                   avatar: viewer.avatar,

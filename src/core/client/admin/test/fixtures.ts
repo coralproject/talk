@@ -61,6 +61,7 @@ export const settings = createFixture<GQLSettings>({
     moderatorLabel: "Staff",
     adminLabel: "Staff",
   },
+  memberBios: true,
   reaction: {
     label: "Reaction",
     labelActive: "reacted",
@@ -660,6 +661,7 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_REPORTED_SPAM: 0,
           COMMENT_REPORTED_OTHER: 0,
           COMMENT_REPORTED_OFFENSIVE: 0,
+          COMMENT_REPORTED_BIO: 0,
           COMMENT_REPORTED_ABUSIVE: 0,
           COMMENT_DETECTED_TOXIC: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,

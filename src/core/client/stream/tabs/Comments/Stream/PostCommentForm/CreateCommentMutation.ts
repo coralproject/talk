@@ -201,6 +201,7 @@ async function commit(
                 author: {
                   id: viewer.id,
                   username: viewer.username,
+                  bio: viewer.bio,
                   createdAt: viewer.createdAt,
                   badges: viewer.badges,
                   avatar: viewer.avatar,

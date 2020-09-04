@@ -105,6 +105,7 @@ export function createComment(author?: GQLUser) {
             COMMENT_REPORTED_OFFENSIVE: 0,
             COMMENT_REPORTED_ABUSIVE: 0,
             COMMENT_REPORTED_SPAM: 0,
+            COMMENT_REPORTED_BIO: 0,
             COMMENT_DETECTED_NEW_COMMENTER: 0,
             COMMENT_DETECTED_REPEAT_POST: 0,
           },
@@ -254,6 +255,7 @@ export function createSettings() {
       enabled: true,
       configurable: true,
     },
+    memberBios: false,
     wordList: {
       suspect: ["suspect"],
       banned: ["banned"],
