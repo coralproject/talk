@@ -378,6 +378,12 @@ configure-general-guidelines-explanation =
   here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
+#### Bio
+configure-general-memberBio-title = Member bios
+configure-general-memberBio-explanation =
+  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
+configure-general-memberBio-label = Allow member bios
+
 #### Locale
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
@@ -863,6 +869,7 @@ moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
+moderate-marker-bio = Bio
 moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
 moderate-marker-possibleSuspectWord = Possible Suspect Word
@@ -971,6 +978,7 @@ moderate-user-drawer-all-no-comments = {$username} has not submitted any comment
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
+moderate-user-drawer-bio-title = Member bio
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended

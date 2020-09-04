@@ -4,7 +4,6 @@ import { graphql } from "react-relay";
 
 import { Markdown } from "coral-framework/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { MemberBioContainer_user } from "coral-admin/__generated__/MemberBioContainer_user.graphql";
 
@@ -19,12 +18,12 @@ const MemberBioContainer: FunctionComponent<Props> = ({ user }) => {
     return null;
   }
   return (
-    <HorizontalGutter spacing={1}>
+    <div>
       <Localized id="moderate-user-drawer-bio-title">
         <h3 className={styles.title}>Member Bio</h3>
       </Localized>
-      <Markdown>{user.bio}</Markdown>
-    </HorizontalGutter>
+      <Markdown className={styles.contents}>{user.bio}</Markdown>
+    </div>
   );
 };
 
