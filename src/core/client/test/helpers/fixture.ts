@@ -148,6 +148,7 @@ export function createComment(author?: GQLUser) {
           COMMENT_REPORTED_ABUSIVE: 0,
           COMMENT_REPORTED_SPAM: 0,
           COMMENT_REPORTED_OTHER: 0,
+          COMMENT_REPORTED_BIO: 0,
           COMMENT_DETECTED_TOXIC: 0,
           COMMENT_DETECTED_SPAM: 0,
           COMMENT_DETECTED_RECENT_HISTORY: 0,

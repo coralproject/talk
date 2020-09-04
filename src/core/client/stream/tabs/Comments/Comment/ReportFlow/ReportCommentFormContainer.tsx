@@ -15,6 +15,7 @@ import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import { ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
+import { ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
@@ -24,11 +25,13 @@ import ReportCommentForm from "./ReportCommentForm";
 
 interface Props {
   comment: ReportCommentFormContainer_comment;
+  settings: ReportCommentFormContainer_settings;
   onClose: () => void;
 }
 
 const ReportCommentFormContainer: FunctionComponent<Props> = ({
   comment,
+  settings,
   onClose,
 }) => {
   const [done, setDone] = useState(false);
@@ -91,6 +94,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         data-testid="report-comment-form"
         onSubmit={onSubmit}
         onCancel={onClose}
+        biosEnabled={settings.memberBios}
       />
     );
   }
@@ -119,6 +123,11 @@ const enhanced = withFragmentContainer<Props>({
       revision {
         id
       }
+    }
+  `,
+  settings: graphql`
+    fragment ReportCommentFormContainer_settings on Settings {
+      memberBios
     }
   `,
 })(ReportCommentFormContainer);

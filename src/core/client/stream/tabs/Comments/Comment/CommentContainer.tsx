@@ -566,6 +566,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           <ReportFlowContainer
             viewer={viewer}
             comment={comment}
+            settings={settings}
             onClose={toggleShowReportFlow}
           />
         )}
@@ -692,6 +693,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
               enabled
             }
             featureFlags
+            ...ReportFlowContainer_settings
             ...ReactionButtonContainer_settings
             ...ReplyCommentFormContainer_settings
             ...EditCommentFormContainer_settings
