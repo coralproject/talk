@@ -16,8 +16,8 @@ const RateComponent = React.createClass({
   rate(rating) {
     const {
       postReaction,
-      deleteReaction,
-      alreadyReacted,
+      // deleteReaction,
+      // alreadyReacted,
       showSignInDialog,
       user,
     } = this.props;
@@ -25,11 +25,7 @@ const RateComponent = React.createClass({
       showSignInDialog();
       return;
     }
-    if (alreadyReacted) {
-      deleteReaction();
-    } else {
-      postReaction();
-    }
+    postReaction();
     this.setState({
       rating: rating,
       temp_rating: rating,

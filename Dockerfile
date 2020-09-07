@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:14-alpine
 
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -21,7 +21,7 @@ ENV REVISION_HASH=${REVISION_HASH}
 
 # Install app dependencies and build static assets.
 # Pin node-gyp@6.1.0 as newer versions do not build on Node 8.
-RUN yarn global add node-gyp@6.1.0 && \
+RUN yarn global add node-gyp@7.1.0 && \
     yarn install --frozen-lockfile && \
     yarn build && \
     yarn cache clean
