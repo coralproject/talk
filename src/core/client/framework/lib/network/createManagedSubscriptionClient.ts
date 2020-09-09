@@ -65,7 +65,7 @@ export interface ManagedSubscriptionClient {
 /**
  * Batch react state updates.
  */
-function reactBatchUpdates(callback: () => void) {
+function batchReactUpdates(callback: () => void) {
   // Note: 2017 the React team suggested to use this unstable function
   // until React always batches state updates per default.
   ReactDOM.unstable_batchedUpdates(callback);
@@ -86,7 +86,7 @@ function runBatch(request: SubscriptionRequest) {
  */
 function batchLoop(requests: SubscriptionRequest[], timeout: number) {
   setTimeout(() => {
-    reactBatchUpdates(() => {
+    batchReactUpdates(() => {
       requests.forEach((r) => {
         runBatch(r);
       });
@@ -196,7 +196,7 @@ export default function createManagedSubscriptionClient(
       });
       request.unsubscribe = () => {
         // Run remaining batched response data before unsubscribing.
-        reactBatchUpdates(() => {
+        batchReactUpdates(() => {
           runBatch(request);
         });
         subscription.unsubscribe();
