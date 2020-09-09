@@ -28,6 +28,7 @@ export interface SubscriptionRequest {
   variables: Variables;
   cacheConfig: CacheConfig;
   observer: any;
+  /** batch contains response data waiting to be processed */
   batch: any[];
   subscribe: () => void;
   unsubscribe: (() => void) | null;
