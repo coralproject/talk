@@ -14,6 +14,7 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
+import { createComment } from "coral-test/helpers/fixture";
 import create from "../create";
 import {
   emptyModerationQueues,
@@ -94,6 +95,63 @@ it("allows viewing new when new comments come in", async () => {
   expect(() => within(container).getByText(/View \d+ new/)).toThrow();
   // New comment should appear.
   within(container).getByTestID(`moderate-comment-${commentData.id}`);
+});
+
+it("limits view new comments to a fixed amount", async () => {
+  const LIMIT = 20;
+  const PUSH_AMOUNT = LIMIT + 10;
+  const { subscriptionHandler, container } = await createTestRenderer();
+  expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
+
+  const pushNewComment = () => {
+    subscriptionHandler.dispatch<
+      SubscriptionToCommentEnteredModerationQueueResolver
+    >("commentEnteredModerationQueue", (variables) => {
+      if (
+        variables.storyID !== null ||
+        variables.queue !== GQLMODERATION_QUEUE.REPORTED
+      ) {
+        return;
+      }
+      return {
+        queue: GQLMODERATION_QUEUE.REPORTED,
+        comment: createComment(),
+      };
+    });
+  };
+
+  for (let i = 0; i < PUSH_AMOUNT; i++) {
+    pushNewComment();
+  }
+
+  const viewNewButton = await waitForElement(() =>
+    within(container).getByText(`View ${PUSH_AMOUNT}`, {
+      exact: false,
+      selector: "button",
+    })
+  );
+  act(() => {
+    viewNewButton.props.onClick();
+  });
+  // View New Button should disappear.
+  expect(() => within(container).getByText(/View \d+ new/)).toThrow();
+  // New comments should appear.
+  /*
+  TODO: (cvle) normally I would do this, but for some reason, 4 times the
+  expected result is found.. is this because of <TransitionGroup /> thing? Hmm...
+
+  const result = container.findAll((i) =>
+      Boolean(i.props["data-testid"]?.startsWith("moderate-comment-"))
+    ).length;
+  */
+  const result =
+    within(container)
+      .toHTML()
+      .match(/data-testid="moderate-comment-/g)?.length || 0;
+  expect(result).toBe(LIMIT);
+
+  // There should also be a load more button.
+  await waitForElement(() => within(container).getByText("Load More"));
 });
 
 it("recognizes when same comment enters and leaves again", async () => {

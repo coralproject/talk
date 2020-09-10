@@ -54,7 +54,17 @@ async function main() {
       ...file.config,
     });
 
-    fs.writeFileSync(file.fileName, types);
+    // Here comes our modifications.
+    // TODO: (cvle) contribute a non-hacky way to the `graphql-schema-typescript` project.
+    const content = types;
+    /* const resolverIndex = types.indexOf("GQLResolver");
+    if (resolverIndex > 0) {
+      content =
+        // Make optional type fields nullable before the GQLResolver part..
+        types.slice(0, resolverIndex).replace(/\?: /g, "?: null | ") +
+        types.slice(resolverIndex);
+    }*/
+    fs.writeFileSync(file.fileName, content);
   }
 
   return files;
