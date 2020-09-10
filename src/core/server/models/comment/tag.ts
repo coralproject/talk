@@ -22,3 +22,5 @@ export interface CommentTag {
    */
   createdAt: Date;
 }
+
+export const STAFF_TAGS = [GQLTAG.STAFF, GQLTAG.ADMIN, GQLTAG.MODERATOR];
