@@ -7885,7 +7885,7 @@ type Mutation {
   updateUserRole will update a given User's role.
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   promoteUser will allow the viewer to add one or many scopes that applies to
@@ -7910,7 +7910,7 @@ type Mutation {
   """
   updateUserModerationScopes(
     input: UpdateUserModerationScopesInput!
-  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   banUser will ban a specific User from interacting with Comments.

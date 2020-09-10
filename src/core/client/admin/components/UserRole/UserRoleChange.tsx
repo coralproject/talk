@@ -29,6 +29,9 @@ interface Props {
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
   query: PropTypesOf<typeof SiteModeratorModal>["query"];
+  viewerRole: GQLUSER_ROLE_RL;
+  viewerScoped: boolean;
+  viewerSites?: string[] | null;
 }
 
 const UserRoleChange: FunctionComponent<Props> = ({
@@ -40,6 +43,9 @@ const UserRoleChange: FunctionComponent<Props> = ({
   moderationScopes,
   moderationScopesEnabled = false,
   query,
+  viewerRole,
+  viewerScoped,
+  viewerSites,
 }) => {
   // Setup state and callbacks for the popover.
   const [
@@ -92,6 +98,20 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [moderationScopes]
   );
 
+  function canChangeRole(targetRole: GQLUSER_ROLE_RL, unscoped = false) {
+    if (viewerRole === GQLUSER_ROLE.ADMIN) {
+      return true;
+    }
+    if (
+      role !== GQLUSER_ROLE.ADMIN &&
+      targetRole === GQLUSER_ROLE.MODERATOR &&
+      (!unscoped || !viewerScoped)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <>
       {moderationScopesEnabled && (
@@ -102,6 +122,8 @@ const UserRoleChange: FunctionComponent<Props> = ({
           selectedSiteIDs={selectedSiteIDs}
           onCancel={toggleModalVisibility}
           onFinish={onFinishModal}
+          viewerScoped={viewerScoped}
+          viewerSites={viewerSites}
         />
       )}
       <Localized id="community-role-popover" attrs={{ description: true }}>
@@ -113,46 +135,55 @@ const UserRoleChange: FunctionComponent<Props> = ({
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.COMMENTER}
-                  role={GQLUSER_ROLE.COMMENTER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.COMMENTER)}
-                />
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.STAFF}
-                  role={GQLUSER_ROLE.STAFF}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.STAFF)}
-                />
-                {moderationScopesEnabled && (
+                {canChangeRole(GQLUSER_ROLE.COMMENTER) && (
                   <UserRoleChangeButton
-                    active={scoped && role === GQLUSER_ROLE.MODERATOR}
-                    role={GQLUSER_ROLE.MODERATOR}
-                    scoped
-                    moderationScopesEnabled
-                    onClick={() => {
-                      setModalVisibility(true);
-                      setPopoverVisibility(false);
-                    }}
+                    active={role === GQLUSER_ROLE.COMMENTER}
+                    role={GQLUSER_ROLE.COMMENTER}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                   />
                 )}
-                <UserRoleChangeButton
-                  active={
-                    (!moderationScopesEnabled ||
-                      (moderationScopesEnabled && !scoped)) &&
-                    role === GQLUSER_ROLE.MODERATOR
-                  }
-                  role={GQLUSER_ROLE.MODERATOR}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.MODERATOR)}
-                />
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.ADMIN}
-                  role={GQLUSER_ROLE.ADMIN}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.ADMIN)}
-                />
+                {canChangeRole(GQLUSER_ROLE.STAFF) && (
+                  <UserRoleChangeButton
+                    active={role === GQLUSER_ROLE.STAFF}
+                    role={GQLUSER_ROLE.STAFF}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.STAFF)}
+                  />
+                )}
+                {moderationScopesEnabled &&
+                  canChangeRole(GQLUSER_ROLE.MODERATOR) && (
+                    <UserRoleChangeButton
+                      active={scoped && role === GQLUSER_ROLE.MODERATOR}
+                      role={GQLUSER_ROLE.MODERATOR}
+                      scoped
+                      moderationScopesEnabled
+                      onClick={() => {
+                        setModalVisibility(true);
+                        setPopoverVisibility(false);
+                      }}
+                    />
+                  )}
+                {canChangeRole(GQLUSER_ROLE.MODERATOR, true) && (
+                  <UserRoleChangeButton
+                    active={
+                      (!moderationScopesEnabled ||
+                        (moderationScopesEnabled && !scoped)) &&
+                      role === GQLUSER_ROLE.MODERATOR
+                    }
+                    role={GQLUSER_ROLE.MODERATOR}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.MODERATOR)}
+                  />
+                )}
+                {canChangeRole(GQLUSER_ROLE.ADMIN) && (
+                  <UserRoleChangeButton
+                    active={role === GQLUSER_ROLE.ADMIN}
+                    role={GQLUSER_ROLE.ADMIN}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.ADMIN)}
+                  />
+                )}
               </Dropdown>
             </ClickOutside>
           }
