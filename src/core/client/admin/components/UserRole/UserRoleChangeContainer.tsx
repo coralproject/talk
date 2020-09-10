@@ -3,7 +3,11 @@ import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import {
+  GQLFEATURE_FLAG,
+  GQLUSER_ROLE,
+  GQLUSER_ROLE_RL,
+} from "coral-framework/schema";
 
 import { UserRoleChangeContainer_query } from "coral-admin/__generated__/UserRoleChangeContainer_query.graphql";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
@@ -53,10 +57,13 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     },
     [user]
   );
-  const canChangeRole = useMemo(
-    () => viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE),
-    [viewer, user]
-  );
+  const canChangeRole = useMemo(() => {
+    return (
+      viewer.id !== user.id &&
+      can(viewer, Ability.CHANGE_ROLE) &&
+      (user.role !== GQLUSER_ROLE.ADMIN || viewer.role === GQLUSER_ROLE.ADMIN)
+    );
+  }, [viewer, user]);
 
   const moderationScopesEnabled = useMemo(
     () =>
@@ -81,12 +88,21 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     <UserRoleChange
       username={user.username}
       onChangeRole={handleOnChangeRole}
+      viewerRole={viewer.role}
       onChangeModerationScopes={handleOnChangeModerationScopes}
       role={user.role}
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
       moderationScopesEnabled={moderationScopesEnabled}
       query={query}
+      viewerScoped={
+        viewer.moderationScopes ? viewer.moderationScopes?.scoped : false
+      }
+      viewerSites={
+        viewer.moderationScopes
+          ? viewer.moderationScopes.sites?.map((s) => s.id)
+          : null
+      }
     />
   );
 };
@@ -96,6 +112,12 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserRoleChangeContainer_viewer on User {
       id
       role
+      moderationScopes {
+        scoped
+        sites {
+          id
+        }
+      }
     }
   `,
   user: graphql`

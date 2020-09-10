@@ -658,12 +658,23 @@ export async function updateUsernameByID(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id">,
+  user: Pick<User, "id" | "role">,
   userID: string,
   role: GQLUSER_ROLE
 ) {
   if (user.id === userID) {
     throw new Error("cannot update your own user role");
+  }
+
+  // technically a site moderator can promote to organization moderator...
+  if (user.role === GQLUSER_ROLE.MODERATOR) {
+    if (role !== GQLUSER_ROLE.MODERATOR) {
+      throw new Error("Moderators can only promote to moderator");
+    }
+    const targetUser = await retrieveUser(mongo, tenant.id, userID);
+    if (targetUser && targetUser.role === GQLUSER_ROLE.ADMIN) {
+      throw new Error("Moderators cannot demote admins");
+    }
   }
 
   return updateUserRole(mongo, tenant.id, userID, role);
@@ -672,7 +683,7 @@ export async function updateRole(
 export async function updateModerationScopes(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id">,
+  user: Pick<User, "id" | "role" | "moderationScopes">,
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
@@ -688,6 +699,32 @@ export async function updateModerationScopes(
 
   // Verify that the scopes referenced exist.
   if (moderationScopes.siteIDs) {
+    if (user.role === GQLUSER_ROLE.MODERATOR) {
+      if (
+        user.moderationScopes &&
+        user.moderationScopes.siteIDs &&
+        user.moderationScopes.siteIDs.length > 0
+      ) {
+        const invalidSite = moderationScopes.siteIDs.find(
+          (s) => !user.moderationScopes?.siteIDs?.includes(s)
+        );
+        if (invalidSite) {
+          throw new Error(
+            "Site moderators can only add moderators to sites they moderate"
+          );
+        }
+        const targetUser = await retrieveUser(mongo, tenant.id, userID);
+        const removedSite =
+          targetUser!.moderationScopes &&
+          targetUser!.moderationScopes.siteIDs &&
+          targetUser!.moderationScopes.siteIDs.find(
+            (s) => !moderationScopes.siteIDs!.includes(s)
+          );
+        if (removedSite) {
+          throw new Error("Site moderators cannot remove moderation scopes");
+        }
+      }
+    }
     const sites = await retrieveManySites(
       mongo,
       tenant.id,
