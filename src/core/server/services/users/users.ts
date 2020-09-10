@@ -662,6 +662,7 @@ export async function updateRole(
   userID: string,
   role: GQLUSER_ROLE
 ) {
+  // TODO accept siteIDs so can promote and update scopes in once mutation
   if (user.id === userID) {
     throw new Error("cannot update your own user role");
   }
