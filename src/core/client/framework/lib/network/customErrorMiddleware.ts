@@ -1,6 +1,7 @@
 import { Middleware, RRNLRequestError } from "react-relay-network-modern/es";
 
-import { NetworkOfflineError, RelayNetworkRequestError } from "../errors";
+import { RelayNetworkRequestError } from "../errors";
+import assertOnline from "./assertOnline";
 import extractGraphQLError from "./extractGraphQLError";
 
 function isRRNLRequestError(error: Error): error is RRNLRequestError {
@@ -19,12 +20,8 @@ const customErrorMiddleware: Middleware = (next) => async (req) => {
     }
     return res;
   } catch (error) {
-    if (
-      navigator.onLine === false ||
-      (error.name === "TypeError" && error.message === "Failed to fetch")
-    ) {
-      throw new NetworkOfflineError(error);
-    }
+    // Make sure we are online, otherwise throw.
+    assertOnline(error);
     if (isRRNLRequestError(error)) {
       throw new RelayNetworkRequestError(error);
     }

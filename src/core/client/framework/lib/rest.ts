@@ -4,7 +4,7 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { Overwrite } from "coral-framework/types";
 
 import { AccessTokenProvider } from "./auth";
-import { extractError } from "./network";
+import { assertOnline, extractError } from "./network";
 
 const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
@@ -90,8 +90,12 @@ export class RestClient {
       });
     }
 
-    const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
-
-    return handleResp(response);
+    try {
+      const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
+      return handleResp(response);
+    } catch (error) {
+      assertOnline(error);
+      throw error;
+    }
   }
 }
