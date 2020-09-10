@@ -322,7 +322,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       ? comment.author.badges
       : null;
   const badgesJoin = badges
-    ?.map((b: string) => `badge-${b.replace(" ", "-")}`)
+    ?.map((b: string) => `coral-badge-${b.replace(" ", "-")}`)
     .join(" ");
   const badgesClassName = badgesJoin ? badgesJoin : "";
 
