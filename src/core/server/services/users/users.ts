@@ -90,6 +90,7 @@ import {
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
+  isModerationScoped,
 } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -658,9 +659,10 @@ export async function updateUsernameByID(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id" | "role">,
+  user: Pick<User, "id" | "role" | "moderationScopes">,
   userID: string,
-  role: GQLUSER_ROLE
+  role: GQLUSER_ROLE,
+  moderationScopes?: UserModerationScopes
 ) {
   // TODO accept siteIDs so can promote and update scopes in once mutation
   if (user.id === userID) {
@@ -672,13 +674,29 @@ export async function updateRole(
     if (role !== GQLUSER_ROLE.MODERATOR) {
       throw new Error("Moderators can only promote to moderator");
     }
+    if (isModerationScoped(user.moderationScopes)) {
+      if (
+        !moderationScopes ||
+        !moderationScopes.siteIDs ||
+        (moderationScopes.siteIDs && moderationScopes.siteIDs.length < 1)
+      ) {
+        throw new Error("Scoped moderators cannot create unscoped moderators");
+      }
+    }
     const targetUser = await retrieveUser(mongo, tenant.id, userID);
     if (targetUser && targetUser.role === GQLUSER_ROLE.ADMIN) {
       throw new Error("Moderators cannot demote admins");
     }
   }
 
-  return updateUserRole(mongo, tenant.id, userID, role);
+  const result = await updateUserRole(mongo, tenant.id, userID, role);
+  if (
+    moderationScopes &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)
+  ) {
+    await updateModerationScopes(mongo, tenant, user, userID, moderationScopes);
+  }
+  return result;
 }
 
 export async function updateModerationScopes(

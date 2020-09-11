@@ -223,7 +223,14 @@ export const Users = (ctx: GraphContext) => ({
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
-    updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+    updateRole(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.role,
+      input.moderationScopes
+    ),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>
