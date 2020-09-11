@@ -1,11 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
+import { without } from "lodash";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { MAX_BIO_LENGTH } from "coral-common/constants";
-import { MarkdownEditor } from "coral-framework/components/loadables";
+import {
+  defaultToolbar,
+  MarkdownEditor,
+} from "coral-framework/components/loadables";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -84,6 +88,12 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
+                      toolbar={without(
+                        defaultToolbar,
+                        "image",
+                        "link",
+                        "fullscreen"
+                      )}
                     />
                     <div>
                       {meta.error && (
