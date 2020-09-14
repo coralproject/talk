@@ -33,6 +33,8 @@ framework-validation-notAWholeNumberGreaterThan = Anna suurempi numero kuin { $x
 framework-validation-notAWholeNumberGreaterThanOrEqual = Anna numero joka on suurempi tai yhtä suuri kuin { $x }
 framework-validation-usernamesDoNotMatch = Käyttäjänimet eivät täsmää. Yritä uudelleen.
 framework-validation-deleteConfirmationInvalid = Vahvistus ei täsmää. Yritä uudelleen.
+framework-validation-invalidWebhookEndpointEventSelection = Valitse vähintään yksi tapahtuma vastaanotettavaksi.
+framework-validation-media-url-invalid = Ole hyvä ja anna toimiva kuvan osoite (.png, .jpg, tai .gif)
 
 framework-timeago-just-now = Juuri nyt
 
