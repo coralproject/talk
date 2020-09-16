@@ -1,3 +1,5 @@
+import { noop } from "lodash";
+import ReactDOM from "react-dom";
 import {
   CacheConfig,
   ConcreteBatch,
@@ -26,6 +28,8 @@ export interface SubscriptionRequest {
   variables: Variables;
   cacheConfig: CacheConfig;
   observer: any;
+  /** batch contains response data waiting to be processed */
+  batch: any[];
   subscribe: () => void;
   unsubscribe: (() => void) | null;
 }
@@ -59,6 +63,39 @@ export interface ManagedSubscriptionClient {
 }
 
 /**
+ * Batch react state updates.
+ */
+function batchReactUpdates(callback: () => void) {
+  // Note: 2017 the React team suggested to use this unstable function
+  // until React always batches state updates per default.
+  ReactDOM.unstable_batchedUpdates(callback);
+}
+
+/**
+ * Handle all batched response data of given request.
+ */
+function runBatch(request: SubscriptionRequest) {
+  request.batch.forEach((data) => {
+    request.observer.onNext({ data });
+  });
+  request.batch = [];
+}
+
+/**
+ * Handle batched response data of given requests in a loop.
+ */
+function batchLoop(requests: SubscriptionRequest[], timeout: number) {
+  setTimeout(() => {
+    batchReactUpdates(() => {
+      requests.forEach((r) => {
+        runBatch(r);
+      });
+    });
+    batchLoop(requests, timeout);
+  }, timeout);
+}
+
+/**
  * Creates a ManagedSubscriptionClient
  *
  * @param url url of the graphql live server
@@ -74,6 +111,9 @@ export default function createManagedSubscriptionClient(
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
   let accessToken: string | undefined;
+
+  // Start batching loop that runs every second.
+  batchLoop(requests, 1000);
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -93,11 +133,15 @@ export default function createManagedSubscriptionClient(
     observer: any
   ) => {
     // Capture request into an `SubscriptionRequest` object.
-    const request: Partial<SubscriptionRequest> = {
+    const request: SubscriptionRequest = {
       operation,
       variables,
       cacheConfig,
       observer,
+      batch: [],
+      unsubscribe: null,
+      // We will this function below.
+      subscribe: noop,
     };
 
     request.subscribe = () => {
@@ -146,16 +190,21 @@ export default function createManagedSubscriptionClient(
 
       const subscription = subscriptionClient.request(opts).subscribe({
         next({ data }) {
-          observer.onNext({ data });
+          // Push data to batch and let the batch loop handle it.
+          request.batch.push(data);
         },
       });
       request.unsubscribe = () => {
+        // Run remaining batched response data before unsubscribing.
+        batchReactUpdates(() => {
+          runBatch(request);
+        });
         subscription.unsubscribe();
       };
     };
 
     // Register the request.
-    requests.push(request as SubscriptionRequest);
+    requests.push(request);
 
     // Start subscription if we are not paused.
     if (!paused) {

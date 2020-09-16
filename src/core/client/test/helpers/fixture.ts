@@ -5,10 +5,13 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
   GQLSettings,
+  GQLSite,
   GQLStory,
+  GQLSTORY_MODE,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
+  GQLUserStatus,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -16,8 +19,11 @@ import {
   denormalizeStory,
 } from "coral-framework/testHelpers";
 
-// TODO: Look into a date/time provider that can create
-// predictable date/time (i.e. constantly increasing, or seeded)
+// TODO (cvle) Temporary way to use `null` in fixtures as the gql types
+// are incorrect by not including `null` as an allowed value.
+// https://vmproduct.atlassian.net/browse/CORL-1377
+export const NULL_VALUE: any = null;
+
 export function createDateInRange(start: Date, end: Date) {
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
@@ -28,7 +34,7 @@ export function randomDate() {
   return createDateInRange(new Date(2000, 0, 1), new Date());
 }
 
-export function createUserStatus(banned = false) {
+export function createUserStatus(banned = false): GQLUserStatus {
   return {
     current: [banned ? GQLUSER_STATUS.BANNED : GQLUSER_STATUS.ACTIVE],
     ban: {
@@ -40,6 +46,9 @@ export function createUserStatus(banned = false) {
       until: null,
       history: [],
     },
+    username: {
+      history: [],
+    },
     premod: {
       active: false,
       history: [],
@@ -47,6 +56,7 @@ export function createUserStatus(banned = false) {
     warning: {
       active: false,
       history: [],
+      message: NULL_VALUE,
     },
   };
 }
@@ -59,16 +69,33 @@ export function createUser() {
     createdAt: randomDate().toISOString(),
     status: createUserStatus(),
     ignoredUsers: [],
+    avatar: NULL_VALUE,
+    mediaSettings: {
+      unfurlEmbeds: false,
+    },
+    comments: {
+      edges: [],
+      pageInfo: {
+        hasNextPage: false,
+      },
+    },
     ignoreable: true,
   });
 }
 
-export function createComment(author?: GQLUser) {
+export function createComment(
+  data: {
+    author?: GQLUser;
+    story?: GQLStory;
+    canModerate?: boolean;
+    site?: GQLSite;
+  } = {}
+) {
   const revision = uuid();
   const createdAt = randomDate();
   const editableUntil = new Date(createdAt.getTime() + 30 * 60000);
-
-  if (author === undefined) {
+  let author = data.author;
+  if (!data.author) {
     author = createUser();
     author.createdAt = new Date(createdAt.getTime() - 60 * 60000).toISOString();
   }
@@ -79,6 +106,7 @@ export function createComment(author?: GQLUser) {
       author,
       body: uuid(),
       status: GQLCOMMENT_STATUS.NONE,
+      deleted: NULL_VALUE,
       statusHistory: {
         edges: [],
         pageInfo: { endCursor: null, hasNextPage: false },
@@ -110,6 +138,7 @@ export function createComment(author?: GQLUser) {
           },
         },
       },
+      site: data.site || createSite(),
       tags: [],
       permalink: "",
       flags: {
@@ -121,9 +150,12 @@ export function createComment(author?: GQLUser) {
         },
       },
       viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
-      parent: undefined,
+      parent: NULL_VALUE,
+      canModerate: !!data.canModerate,
     })
   );
+
+  comment.story = data.story || createStory({ comments: [comment] });
 
   comment.revision = {
     id: revision,
@@ -132,7 +164,11 @@ export function createComment(author?: GQLUser) {
       perspective: {
         score: 0,
       },
+      wordList: {
+        timedOut: false,
+      },
     },
+    media: NULL_VALUE,
     createdAt,
     actionCounts: {
       reaction: {
@@ -160,12 +196,15 @@ export function createComment(author?: GQLUser) {
         },
       },
     },
+    body: comment.body,
   };
+
+  comment.revisionHistory = [comment.revision];
 
   return comment;
 }
 
-export function createComments(count = 3) {
+export function createComments(count: number) {
   const comments = [];
   for (let i = 0; i < count; i++) {
     comments.push(createComment());
@@ -174,9 +213,12 @@ export function createComments(count = 3) {
   return comments;
 }
 
-export function createStory() {
+export function createStory(
+  data: { comments?: GQLComment[]; site?: GQLSite } = {}
+) {
   const id = uuid();
-  const comments = createComments();
+  const comments = data.comments || [];
+
   comments.forEach((c) => {
     const edges = [{ node: c, cursor: c.createdAt }];
     c.author!.comments = {
@@ -185,6 +227,8 @@ export function createStory() {
       pageInfo: {
         hasPreviousPage: false,
         hasNextPage: false,
+        startCursor: null,
+        endCursor: null,
       },
     };
     c.author!.allComments = {
@@ -193,6 +237,8 @@ export function createStory() {
       pageInfo: {
         hasPreviousPage: false,
         hasNextPage: false,
+        startCursor: null,
+        endCursor: null,
       },
     };
     c.author!.rejectedComments = {
@@ -201,20 +247,18 @@ export function createStory() {
       pageInfo: {
         hasPreviousPage: false,
         hasNextPage: false,
+        startCursor: null,
+        endCursor: null,
       },
     };
   });
 
-  const story = denormalizeStory(
+  return denormalizeStory(
     createFixture<GQLStory>({
       id,
       url: `http://localhost/stories/story-${id}`,
       comments: {
-        edges: [
-          { node: comments[0], cursor: comments[0].createdAt },
-          { node: comments[1], cursor: comments[1].createdAt },
-          { node: comments[2], cursor: comments[2].createdAt },
-        ],
+        edges: comments.map((c) => ({ node: c, cursor: c.createdAt })),
         pageInfo: {
           hasNextPage: false,
         },
@@ -222,26 +266,39 @@ export function createStory() {
       metadata: {
         title: uuid(),
       },
+      canModerate: true,
       isClosed: false,
       commentCounts: {
         totalPublished: 0,
         tags: {
           FEATURED: 0,
+          UNANSWERED: 0,
         },
       },
+      site: data.site || createSite(),
       settings: {
         moderation: GQLMODERATION_MODE.POST,
         premodLinksEnable: false,
         messageBox: {
           enabled: false,
         },
+        live: {
+          enabled: true,
+          configurable: true,
+        },
+        mode: GQLSTORY_MODE.COMMENTS,
+        experts: [],
       },
     })
   );
+}
 
-  comments.forEach((c) => (c.story = story));
-
-  return story;
+export function createSite() {
+  const id = uuid();
+  return createFixture<GQLSite>({
+    id,
+    name: `Site ${id}`,
+  });
 }
 
 export function createSettings() {

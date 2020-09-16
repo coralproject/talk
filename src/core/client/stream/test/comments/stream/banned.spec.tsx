@@ -10,10 +10,11 @@ import {
 } from "coral-framework/testHelpers";
 import {
   createComment,
+  createComments,
   createStory,
   createUser,
   createUserStatus,
-} from "coral-stream/test/helpers/fixture";
+} from "coral-test/helpers/fixture";
 
 import { settings } from "../../fixtures";
 import create from "./create";
@@ -21,7 +22,7 @@ import create from "./create";
 const bannedUser = createUser();
 bannedUser.status = createUserStatus(true);
 
-const story = createStory();
+const story = createStory({ comments: createComments(3) });
 const firstComment = story.comments.edges[0].node;
 const reactedComment = createComment();
 

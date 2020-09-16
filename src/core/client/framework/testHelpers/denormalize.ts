@@ -5,6 +5,7 @@ import {
   GQLTAG,
   GQLTag,
 } from "coral-framework/schema";
+import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 import createFixture, { Fixture } from "./createFixture";
 
@@ -26,7 +27,9 @@ export function denormalizeComment(
       }))) ||
     [];
   const repliesPageInfo = (comment.replies && comment.replies.pageInfo) || {
+    startCursor: null,
     endCursor: null,
+    hasPrevPage: false,
     hasNextPage: false,
   };
   return createFixture<GQLComment>({
@@ -35,7 +38,7 @@ export function denormalizeComment(
     replyCount:
       comment.replyCount !== undefined ? comment.replyCount : replyEdges.length,
     parentCount: parents.length,
-    parent: parents.length > 0 ? parents[parents.length - 1].node : undefined,
+    parent: parents.length > 0 ? parents[parents.length - 1].node : NULL_VALUE,
     parents: {
       edges: parents,
       pageInfo: { startCursor: null, hasPreviousPage: false },
