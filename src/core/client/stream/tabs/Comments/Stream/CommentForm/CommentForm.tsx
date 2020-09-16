@@ -110,15 +110,48 @@ function createWidgetToggle(desiredWidget: Widget) {
 const CommentForm: FunctionComponent<Props> = (props) => {
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
-  const onSubmit = useCallback(
+  const { onSubmit, mediaConfig } = props;
+  const onFormSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
       setPastedMedia(null);
 
       // Submit the form.
-      return props.onSubmit(values, form);
+      return onSubmit(values, form);
     },
-    [props.onSubmit, setPastedMedia]
+    [onSubmit, setPastedMedia]
+  );
+
+  const onBodyChange = useCallback(
+    (html: string, values: FormProps, form: FormApi) => {
+      if (pastedMedia || values.media) {
+        const existingLink =
+          values.media && values.media.url ? values.media : pastedMedia;
+        // if there is a pending or selected twitter or youtube url
+        if (
+          existingLink &&
+          (existingLink.type === "twitter" || existingLink.type === "youtube")
+        ) {
+          const links = findMediaLinks(html);
+          // ensure the text still contains the link
+          const match = links.find((l) => l.url === existingLink?.url);
+          if (!match) {
+            // check if the text contains another link
+            const otherLink = links.find((l) => l.url !== existingLink?.url);
+            if (otherLink) {
+              // prompt user to confirm the other link
+              setPastedMedia(otherLink);
+            } else {
+              // clear pasted media
+              setPastedMedia(null);
+            }
+            // clear form field
+            form.change("media", null);
+          }
+        }
+      }
+    },
+    [setPastedMedia, pastedMedia]
   );
 
   const onPaste = useCallback(
@@ -137,14 +170,14 @@ const CommentForm: FunctionComponent<Props> = (props) => {
       }
       if (
         link &&
-        props.mediaConfig &&
-        ((link.type === "twitter" && props.mediaConfig.twitter.enabled) ||
-          (link.type === "youtube" && props.mediaConfig.youtube.enabled))
+        mediaConfig &&
+        ((link.type === "twitter" && mediaConfig.twitter.enabled) ||
+          (link.type === "youtube" && mediaConfig.youtube.enabled))
       ) {
         setPastedMedia({ ...link });
       }
     },
-    [setPastedMedia, props.mediaConfig]
+    [setPastedMedia, mediaConfig]
   );
 
   const toggleExternalImageInput = useCallback(() => {
@@ -160,7 +193,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
 
   return (
     <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>
-      <Form onSubmit={onSubmit} initialValues={props.initialValues}>
+      <Form onSubmit={onFormSubmit} initialValues={props.initialValues}>
         {({
           handleSubmit,
           submitting,
@@ -168,6 +201,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
           hasValidationErrors,
           form,
           pristine,
+          values,
         }) => (
           <form
             autoComplete="off"
@@ -204,9 +238,19 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           inputID={props.bodyInputID}
                           config={props.rteConfig}
                           onFocus={props.onFocus}
-                          onWillPaste={onPaste}
+                          onWillPaste={(event) => {
+                            if (
+                              !(
+                                (values as FormProps).media &&
+                                (values as FormProps).media?.url
+                              )
+                            ) {
+                              onPaste(event);
+                            }
+                          }}
                           onChange={(html: string) => {
                             input.onChange(html);
+                            onBodyChange(html, values as FormProps, form);
                           }}
                           value={input.value}
                           placeholder={props.placeholder}
@@ -222,6 +266,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                   attrs={{ title: true }}
                                 >
                                   <RTEButton
+                                    disabled={
+                                      !!pastedMedia ||
+                                      !!(
+                                        (values as FormProps).media &&
+                                        (values as FormProps).media?.url
+                                      )
+                                    }
                                     aria-pressed={showExternalImageInput}
                                     onClick={toggleExternalImageInput}
                                   >
@@ -233,6 +284,13 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                               props.mediaConfig.giphy.enabled ? (
                                 <RTEButton
                                   key="gif"
+                                  disabled={
+                                    !!pastedMedia ||
+                                    !!(
+                                      (values as FormProps).media &&
+                                      (values as FormProps).media?.url
+                                    )
+                                  }
                                   aria-pressed={showGifSelector}
                                   onClick={toggleGIFSelector}
                                 >

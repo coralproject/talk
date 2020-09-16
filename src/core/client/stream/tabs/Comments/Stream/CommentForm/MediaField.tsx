@@ -115,7 +115,7 @@ const MediaField: FunctionComponent<Props> = ({
     // pasted media because pasted media does not use a widget, only a
     // confirmation.
     if (pastedMedia) {
-      setPastedMedia(null);
+      setWidget(null);
     }
   }, [
     dirty,
@@ -131,16 +131,16 @@ const MediaField: FunctionComponent<Props> = ({
   return (
     <>
       {/* Show the input widget that's selected. */}
-      {widget === "giphy" ? (
-        <GiphyInput onSelect={onGiphySelect} />
-      ) : widget === "external" ? (
-        <ExternalImageInput onSelect={onExternalImageSelect} />
-      ) : pastedMedia ? (
+      {pastedMedia ? (
         <MediaConfirmPrompt
           media={pastedMedia}
           onConfirm={onConfirmPastedMedia}
           onRemove={onRemove}
         />
+      ) : widget === "giphy" ? (
+        <GiphyInput onSelect={onGiphySelect} />
+      ) : widget === "external" ? (
+        <ExternalImageInput onSelect={onExternalImageSelect} />
       ) : null}
 
       {/* If there's no widget, and we have a valid url, display preview */}
