@@ -122,7 +122,7 @@
     "mongodb": "^3.5.9",
     "mongodb-core": "^3.2.7",
     "ms": "^2.1.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "nunjucks": "^3.2.1",
     "on-finished": "^2.3.0",
     "passport": "^0.4.1",
