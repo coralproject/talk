@@ -321,6 +321,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.author.badges.length > 0
       ? comment.author.badges
       : null;
+  const badgesJoin = badges
+    ?.map((b: string) => `coral-badge-${b.replace(" ", "-")}`)
+    .join(" ");
+  const badgesClassName = badgesJoin ? badgesJoin : "";
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
@@ -337,6 +341,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       className={cn(
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
+        badgesClassName,
         className
       )}
       id={`comment-${comment.id}`}
