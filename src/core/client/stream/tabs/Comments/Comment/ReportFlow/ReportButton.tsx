@@ -108,7 +108,9 @@ const ReportButton: FunctionComponent<Props> = ({
             flag
           </Icon>
           <Responsive minWidth={400}>
-            <Localized id="comments-reportButton-report">Report</Localized>
+            <Localized id="comments-reportButton-report">
+              <span>Report</span>
+            </Localized>
           </Responsive>
         </Flex>
       </Button>
