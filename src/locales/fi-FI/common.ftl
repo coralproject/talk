@@ -5,5 +5,6 @@ common-banEmailTemplate =
   Hei { $username }
   
   Olemme asettaneet sinut kirjoituskieltoon, sillä olet rikkonut verkkopalvelumme kommentoinnin sääntöjä. Et voi toistaiseksi kirjoittaa kommentteja, reagoida muiden kommentteihin tai ilmoittaa niitä asiattomiksi.
-
-  Ystävällisin terveisin, ylläpito
+  
+common-embedNotFound = Haettua sisältöä ei löytynyt. Se on mahdollisesti poistettu. 
+common-networkError = Verkkovirhe. Ole hyvä ja lataa sivu uudelleen. 

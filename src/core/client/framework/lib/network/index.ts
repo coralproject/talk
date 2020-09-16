@@ -5,3 +5,4 @@ export {
   default as createManagedSubscriptionClient,
   ManagedSubscriptionClient,
 } from "./createManagedSubscriptionClient";
+export { default as assertOnline } from "./assertOnline";

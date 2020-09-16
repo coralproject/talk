@@ -13,3 +13,6 @@ comment-count =
   }</span>
 
 staff-label = Ylläpitäjä
+
+experimental-tag = Kokeellinen
+experimental-tag-tooltip-title = Kokeellinen ominaisuus
