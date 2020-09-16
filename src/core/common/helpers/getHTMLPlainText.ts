@@ -1,3 +1,5 @@
+import { decode } from "he";
+
 /**
  * getHTMLPlainText returns text representation of html.
  *
@@ -13,10 +15,10 @@ export default function getHTMLPlainText(html: string): string {
 
   if (process.env.WEBPACK !== "true") {
     // textContent is not fully implemented in JSDOM, so we use `striptags`
-    // instead.
+    // instead, and `he.decode` to decode HTML Entities.
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    textContent = require("striptags")(htmlWithNewLine);
+    textContent = decode(require("striptags")(htmlWithNewLine));
   } else {
     const divElement = document.createElement("div");
     divElement.innerHTML = htmlWithNewLine;
