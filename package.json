@@ -125,6 +125,7 @@
     "node-fetch": "^2.6.1",
     "nunjucks": "^3.2.1",
     "on-finished": "^2.3.0",
+    "p-timeout": "^3.2.0",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
