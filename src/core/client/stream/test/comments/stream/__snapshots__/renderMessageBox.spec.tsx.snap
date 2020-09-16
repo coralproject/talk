@@ -356,7 +356,6 @@ exports[`renders message box when logged in 1`] = `
                 className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
               >
                 <div
-                  onKeyPress={[Function]}
                   role="none"
                 >
                   <div
@@ -709,7 +708,6 @@ exports[`renders message box when not logged in 1`] = `
           className="PostCommentFormFake-rteContainer"
         >
           <div
-            onKeyPress={[Function]}
             role="none"
           >
             <div

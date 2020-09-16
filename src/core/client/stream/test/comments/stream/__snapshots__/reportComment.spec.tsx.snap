@@ -4,7 +4,6 @@ exports[`render popup 1`] = `
 <div
   className="ReportCommentForm-root"
   data-testid="report-comment-form"
-  onKeyPress={[Function]}
   role="none"
 >
   <form
@@ -228,7 +227,6 @@ exports[`render popup expanded 1`] = `
 <div
   className="ReportCommentForm-root"
   data-testid="report-comment-form"
-  onKeyPress={[Function]}
   role="none"
 >
   <form

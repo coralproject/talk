@@ -355,7 +355,6 @@ exports[`post a reply: open reply form 1`] = `
                 className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
               >
                 <div
-                  onKeyPress={[Function]}
                   role="none"
                 >
                   <div
