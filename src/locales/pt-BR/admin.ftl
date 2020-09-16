@@ -537,7 +537,7 @@ configure-email-fromEmailLabel = Do endereço de e-mail
 configure-email-fromEmailDescription =
   Endereço de email que será usado para enviar mensagens
 configure-email-smtpHostLabel = hospedeiro de SMTP
-configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
+configure-email-smtpHostDescription = (ex. smtp.sendgrid.net)
 configure-email-smtpPortLabel = porta  SMTP
 configure-email-smtpPortDescription = (ex. 25)
 configure-email-smtpTLSLabel = TLS

@@ -27,8 +27,7 @@ email-subject-accountNotificationUpdateUsername = Kirjoittajanimesi on vaihdettu
 email-template-accountNotificationUpdateUsername =
   Hei { $username },<br/><br/>
   Kiitos että päivitit { $organizationName } keskustelun kirjoittajatilisi tietoja. Tekemäsi muutokset ovat voimassa välittömästi. <br /><br />
-  Jos et tehnyt tätä muutosta, ole hyvä ja ota yhteyttä ylläpitoon
-  <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
+  Jos et tehnyt tätä muutosta, ole hyvä ja ota yhteyttä ylläpitoon <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-accountNotificationSuspend = Sinut on asetettu kirjoituskieltoon
 email-template-accountNotificationSuspend =
@@ -64,6 +63,7 @@ email-template-accountNotificationDeleteRequestConfirmation =
   Sähköpostiosoitteesi poistetaan järjestelmästämme.<br /><br />
   Voit kirjautua tilillesi ja peruuttaa poistopyynnön ajastettuun poistohetkeen asti.
 
+
 email-subject-accountNotificationDeleteRequestCancel =
   Kirjoittajatilisi poistopyyntö on peruutettu
 email-template-accountNotificationDeleteRequestCancel =
@@ -77,13 +77,15 @@ email-template-accountNotificationDeleteRequestCompleted =
   Jos haluat jatkossa liittyä keskusteluun mukaan voit luoda uuden tilin.<br /><br />
   Voit lähettää meille palautetta osoitteeseen { $organizationContactEmail }.
 
+
+
+
+
 # Notification
 
 email-footer-notification =
-  <br /><br />Ystävällisin terveisin<br />
-  $organizationName<br /><br />
+  <br /><br />Ystävällisin terveisin<br />$organizationName<br /><br />
   <i>Etkö enää halua tällaisia viestejä? <a data-l10n-name="unsubscribeLink">Paina tästä</a></i>
-
 ## On Reply
 
 email-subject-notificationOnReply = Kirjoittamaasi kommenttiin on vastattu
@@ -106,7 +108,8 @@ email-template-notificationOnStaffReply =
 
 email-subject-notificationOnCommentApproved = Kommenttisi on julkaistu
 email-template-notificationOnCommentApproved =
-  Kiitos lähettämästäsi kommentista! Olemme nyt tarkastaneet kommenttisi ja julkaisseet sen <a data-l10n-name="commentPermalink">täällä</a>.
+  Kiitos lähettämästäsi kommentista! Olemme nyt tarkastaneet kommenttisi ja 
+  julkaisseet sen <a data-l10n-name="commentPermalink">täällä</a>.
 
 ## On Comment Rejected
 
@@ -118,3 +121,6 @@ email-template-notificationOnCommentRejected =
 # Notification Digest
 
 email-subject-notificationDigest = Viimeisimmät kommenttisi
+
+email-subject-testSmtpTest = Testisähköposti Coralista
+email-template-testSmtpTest = Tämä on testisähköposti osoitteeseen { $email }
