@@ -4,38 +4,38 @@ error-commentBodyTooShort = Kommentissa on oltava vähintään {$min} merkkiä.
 error-commentBodyExceedsMaxLength =
   Kommenttisi on liian pitkä. Se voi olla korkeintaan {$max} merkkiä.
 error-storyURLNotPermitted =
-  The specified story URL does not exist in the permitted domains list.
-error-duplicateStoryURL =  The specified story URL already exists.
-error-tenantNotFound = Tenant hostname ({$hostname}) not found.
+  Jutun osoite ei ole sallittujen verkko-osoitteiden listalla.
+error-duplicateStoryURL =  Jutun osoite on jo olemassa.
+error-tenantNotFound = Tenantin palvelinnimeä ({$hostname}) ei löytynyt.
 error-userNotFound = Käyttäjää ({$userID}) ei löydy.
-error-notFound = Unrecognized request URL ({$method} {$path}).
-error-tokenInvalid = Invalid API Token provided.
-
-error-tokenNotFound = Specified token does not exist.
+error-notFound = Osoitetta ei tunnistettu ({$method} {$path}).
+error-tokenInvalid = Virheellinen API token.
+error-tokenNotFound = Annettua tokenia ei löytynyt.
 error-emailAlreadySet = Sähköpostiosoite on jo käytössä.
 error-emailNotSet = Sähköpostiosoite puuttuu.
 error-duplicateUser =
-  Specified user already exists with a different login method.
+  Käyttäjä on jo luotu käyttämällä toista kirjautumismenetelmää.
 error-duplicateEmail = Sähköpostiosoite on jo käytössä.
 error-localProfileAlreadySet =
-  Specified account already has a password set.
+  Kirjoittajatilin salasana on jo asetettu.
 error-localProfileNotSet =
-  Specified account does not have a password set.
-error-usernameAlreadySet = Specified account already has their username set.
+  Kirjoittajatilin salasanaa ei ole asetettu.
+error-usernameAlreadySet = Kirjoittajatilin kirjoittajanimi on jo asetettu.
 error-usernameContainsInvalidCharacters =
-  Provided username contains invalid characters.
+  Annettu kirjoittajanimi sisältää virhellisiä merkkejä.
 error-usernameExceedsMaxLength =
-  Username exceeds maximum length of {$max} characters.
+  Kirjoittajanimen maksimipituus on {$max} merkkiä.
 error-usernameTooShort =
-  Username must have at least {$min} characters.
+  Kirjoittajanimessä on oltava vähintään {$min} merkkiä. 
 error-passwordTooShort =
-  Password must have at least {$min} characters.
+  Salasanassa on oltava vähintään {$min} merkkiä.
 error-emailInvalidFormat =
-  Provided email address does not appear to be a valid email.
+  Annetun sähköpostiosoitteen muoto on virheellinen.
 error-emailExceedsMaxLength =
-  Email address exceeds maximum length of {$max} characters.
+  Sähköpostiosoitteen maksimipituus on {$max} merkkiä.
+error-scrapeFailed = Osoitteen { $url } lukeminen ei onnistu.
 error-internalError = Järjestelmävirhe
-error-tenantInstalledAlready = Tenant has already been installed.
+error-tenantInstalledAlready = Tenant on jo asennettu.
 error-userNotEntitled = Sinulla ei ole oikeutta käyttää tätä.
 error-storyNotFound = Keskustelua ({$storyID}) ei löytynyt.
 error-commentNotFound = Kommenttia ({$commentID}) ei löytynyt.
@@ -46,16 +46,19 @@ error-userAlreadySuspended = Kirjoittajalla on jo kirjoituskielto {$until} asti.
 error-userAlreadyBanned = Kirjoittaja on jo kirjoituskiellossa.
 error-userBanned = Sinut on asetettu kirjoituskieltoon.
 error-userSuspended = Sinut on asetettu kirjoituskieltoon {$until} asti.
-error-integrationDisabled = Specified integration is disabled.
-error-passwordResetTokenExpired = Password reset link expired.
-error-emailConfirmTokenExpired = Email confirmation link expired.
+error-userWarned = Kirjoittajatilillesi on annettu varoitus. Lue yläpuolella näkyvä varoitusviesti päästäksesi jatkamaan keskusteluihin osallistumista.
+error-integrationDisabled = Integraatio ei ole käytössä.
+error-passwordResetTokenExpired = Salasanan nollauslinkki on vanhentunut.
+error-emailConfirmTokenExpired = Sähköpostin vahvistuslinkki on vanhentunut.
 error-rateLimitExceeded = Olet yrittänyt liian monta kertaa, ja siksi uudet yritykset on hetkeksi estetty. Odota vähän aikaa ja yritä sitten uudelleen.
-error-inviteTokenExpired = Invite link has expired.
-error-inviteRequiresEmailAddresses = Please add an email address to send invitations.
-error-passwordIncorrect = Incorrect password. Please try again.
-error-usernameAlreadyUpdated = You may only change your username once every { framework-timeago-time }.
-error-persistedQueryNotFound = The persisted query with ID { $id } was not found.
-error-rawQueryNotAuthorized = You are not authorized to execute this query.
-error-inviteIncludesExistingUser = A user with the email address { $email } already exists.
+error-inviteTokenExpired = Kutsulinkki on vanhentunut.
+error-inviteRequiresEmailAddresses = Ole hyvä ja lisää sähköpostiosoite kutsun lähettämiseksi.
+error-passwordIncorrect = Virheellinen salasana. Ole hyvä ja yritä uudelleen.
+error-usernameAlreadyUpdated = Voit vaihtaa kirjoittajanimesi enintään { framework-timeago-time } välein.
+error-persistedQueryNotFound = Talletettua kyselyä ID:llä { $id } ei löytynyt.
+error-rawQueryNotAuthorized = Sinulla ei ole oikeuksia ajaa tätä kyselyä.
+error-inviteIncludesExistingUser = Kirjoittajatili sähköpostiosoitteella { $email } on jo olemassa.
 error-repeatPost = Oletko varma, että haluat lähettää? Kirjoittamasi kommentti näyttää hyvin samanlaiselta kuin aiempi kommenttisi.
-error-installationForbidden = { -product-name } is already installed. To install another Tenant on this domain ({ $domain }) you need to generate an installation token.
+error-installationForbidden = { -product-name } on jo asennettu. Sinun tulee luoda uusi asennustoken asentaaksesi uuden tenantin tähän domainiin ({ $domain }) 
+error-duplicateSiteOrigin = Sallitut domainit voivat liittyä ainoastaan yhteen sivustoon. 
+error-validation = Vahvistusvirhe.
