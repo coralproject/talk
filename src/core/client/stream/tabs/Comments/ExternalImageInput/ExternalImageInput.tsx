@@ -38,8 +38,6 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
   // This will handle when the user hits enter where we don't want to submit the
   // form.
   const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-
     if (e.key !== "Enter") {
       return;
     }

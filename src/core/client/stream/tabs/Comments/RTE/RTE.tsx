@@ -13,9 +13,7 @@ import React, {
   EventHandler,
   FocusEvent,
   FunctionComponent,
-  KeyboardEvent,
   Ref,
-  useCallback,
   useMemo,
 } from "react";
 
@@ -260,14 +258,8 @@ const RTE: FunctionComponent<Props> = (props) => {
     return x;
   }, [features]);
 
-  // Stop keyboard shortcuts from scrolling us away
-  // if we type the C key
-  const onKeyPress = useCallback((e: KeyboardEvent) => {
-    e.stopPropagation();
-  }, []);
-
   return (
-    <div onKeyPress={onKeyPress} role="none">
+    <div role="none">
       <CoralRTE
         inputID={inputID}
         className={cn(CLASSES.rte.$root, className)}

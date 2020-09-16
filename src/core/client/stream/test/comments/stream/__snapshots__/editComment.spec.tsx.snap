@@ -353,7 +353,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div
-                onKeyPress={[Function]}
                 role="none"
               >
                 <div
@@ -575,7 +574,6 @@ exports[`edit a comment: edit form 1`] = `
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div
-                onKeyPress={[Function]}
                 role="none"
               >
                 <div
@@ -797,7 +795,6 @@ exports[`edit a comment: optimistic response 1`] = `
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div
-                onKeyPress={[Function]}
                 role="none"
               >
                 <div
@@ -1913,7 +1910,6 @@ exports[`shows expiry message: edit time expired 1`] = `
               className="CommentForm-commentFormBox coral coral-commentForm"
             >
               <div
-                onKeyPress={[Function]}
                 role="none"
               >
                 <div
