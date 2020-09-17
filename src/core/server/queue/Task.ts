@@ -1,5 +1,6 @@
 import Queue, { Job, JobCounts, Queue as QueueType } from "bull";
 import Logger from "bunyan";
+import timeoutPromiseAfter from "p-timeout";
 
 import TIME from "coral-common/time";
 import { createTimer } from "coral-server/helpers";
@@ -13,6 +14,7 @@ export interface TaskOptions<T, U = void> {
   jobProcessor: JobProcessor<T, U>;
   jobOptions?: Queue.JobOptions;
   queue: Queue.QueueOptions;
+  timeout?: number;
 }
 
 export default class Task<T extends TenantResource, U = any> {
@@ -25,6 +27,7 @@ export default class Task<T extends TenantResource, U = any> {
     jobProcessor,
     jobOptions = {},
     queue,
+    timeout = 30 * TIME.SECOND,
   }: TaskOptions<T, U>) {
     this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
@@ -52,6 +55,7 @@ export default class Task<T extends TenantResource, U = any> {
         ...jobOptions,
       },
       queue,
+      timeout,
     };
 
     // TODO: (wyattjoh) attach event handlers to the queue for metrics via: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events
@@ -90,8 +94,12 @@ export default class Task<T extends TenantResource, U = any> {
       log.info("processing job from queue");
 
       try {
-        // Send the job off to the job processor to be handled.
-        const promise: U = await this.options.jobProcessor(job);
+        // Send the job off to the job processor to be handled. If the
+        // processing of the job takes too long time it out.
+        const promise: U = await timeoutPromiseAfter(
+          this.options.jobProcessor(job),
+          this.options.timeout
+        );
 
         // Log it!
         log.info({ took: timer() }, "processing completed");
