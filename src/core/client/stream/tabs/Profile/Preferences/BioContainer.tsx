@@ -1,21 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { without } from "lodash";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { MAX_BIO_LENGTH } from "coral-common/constants";
-import {
-  defaultToolbar,
-  MarkdownEditor,
-} from "coral-framework/components/loadables";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateMaxLength } from "coral-framework/lib/validation";
 import { Flex, HorizontalGutter, HorizontalRule } from "coral-ui/components/v2";
-import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
+import {
+  Button,
+  CallOut,
+  TextArea,
+  ValidationMessage,
+} from "coral-ui/components/v3";
 
 import { BioContainer_settings } from "coral-stream/__generated__/BioContainer_settings.graphql";
 import { BioContainer_viewer } from "coral-stream/__generated__/BioContainer_viewer.graphql";
@@ -67,14 +67,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
         </Localized>
       </HorizontalGutter>
       <Form onSubmit={onSubmit} initialValues={{ bio: viewer.bio }}>
-        {({
-          handleSubmit,
-          submitting,
-          pristine,
-          invalid,
-          submitError,
-          error,
-        }) => (
+        {({ handleSubmit, submitting, pristine, invalid, submitError }) => (
           <form autoComplete="off" onSubmit={handleSubmit} id="bio-form">
             <HorizontalGutter>
               <Field
@@ -84,16 +77,11 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
               >
                 {({ input, meta }) => (
                   <>
-                    <MarkdownEditor
+                    <TextArea
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
-                      toolbar={without(
-                        defaultToolbar,
-                        "image",
-                        "link",
-                        "fullscreen"
-                      )}
+                      color="streamBlue"
                     />
                     <div>
                       {meta.error && (

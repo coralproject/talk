@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { Markdown } from "coral-framework/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { MemberBioContainer_user } from "coral-admin/__generated__/MemberBioContainer_user.graphql";
@@ -22,7 +21,7 @@ const MemberBioContainer: FunctionComponent<Props> = ({ user }) => {
       <Localized id="moderate-user-drawer-bio-title">
         <h3 className={styles.title}>Member Bio</h3>
       </Localized>
-      <Markdown className={styles.contents}>{user.bio}</Markdown>
+      <div className={styles.contents}>{user.bio}</div>
     </div>
   );
 };

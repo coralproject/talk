@@ -3,7 +3,6 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { Markdown } from "coral-framework/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
@@ -54,7 +53,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
             Member since: {user.createdAt}
           </div>
         </Localized>
-        {settings.memberBios && user.bio && <Markdown>{user.bio}</Markdown>}
+        {settings.memberBios && user.bio && <div>{user.bio}</div>}
       </HorizontalGutter>
       {canIgnore && (
         <Flex justifyContent="flex-end">
