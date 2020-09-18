@@ -115,7 +115,7 @@ export default class CoralEventListenerBroker {
     }
 
     if (listener.disabled) {
-      logger.warn({ listenerName: listener.name }, "listener was disabled");
+      logger.info({ listenerName: listener.name }, "listener was disabled");
       return;
     }
 
