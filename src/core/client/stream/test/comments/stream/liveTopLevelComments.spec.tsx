@@ -11,7 +11,12 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { comments, settings, stories } from "../../fixtures";
+import {
+  comments,
+  settings,
+  stories,
+  storyWithNoComments,
+} from "../../fixtures";
 import create from "./create";
 
 const story = stories[0];
@@ -110,6 +115,49 @@ it("should load more when ordering by oldest", async () => {
       }
     );
 
+    await waitForElement(() =>
+      within(testRenderer.root).getByText("Load More", {
+        exact: false,
+        selector: "button",
+      })
+    );
+  });
+});
+
+it("should load more when ordering by oldest even when initial render was empty", async () => {
+  const { testRenderer, subscriptionHandler } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => storyWithNoComments,
+      },
+    },
+    initLocalState: (localRecord) => {
+      localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
+    },
+  });
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-allComments-log")
+  );
+  expect(() =>
+    within(testRenderer.root).getByText("Load More", {
+      exact: false,
+      selector: "button",
+    })
+  ).toThrow();
+
+  const commentData = comments[5];
+  await act(async () => {
+    subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
+      "commentCreated",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        return {
+          comment: commentData,
+        };
+      }
+    );
     await waitForElement(() =>
       within(testRenderer.root).getByText("Load More", {
         exact: false,
