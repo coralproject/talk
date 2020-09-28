@@ -58,5 +58,9 @@ export function createScraperTask(
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options),
     queue,
+    // Timeout the job processor twice the time of the scrape timeout. This will
+    // give the scraper a chance to time itself out after the scraper fails, but
+    // will catch it if the scraping takes too long.
+    timeout: options.config.get("scrape_timeout") * 2,
   });
 }

@@ -1,3 +1,4 @@
+import TIME from "coral-common/time";
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
@@ -21,6 +22,7 @@ import {
   denormalizeStories,
   denormalizeStory,
 } from "coral-framework/testHelpers";
+import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",
@@ -41,7 +43,7 @@ export const settings = createFixture<GQLSettings>({
   closeCommenting: {
     auto: false,
     message: "Story is closed",
-    timeout: undefined,
+    timeout: 2 * TIME.WEEK,
   },
   organization: {
     name: "Acme Co",
@@ -195,7 +197,7 @@ export const baseUser = createFixture<GQLUser>({
       __typename: "LocalProfile",
     },
   ],
-  avatar: undefined,
+  avatar: NULL_VALUE,
 });
 
 const yesterday = new Date();
@@ -325,7 +327,7 @@ export const baseComment = createFixture<GQLComment>({
   body: "Comment Body",
   revision: {
     id: "revision-0",
-    media: undefined,
+    media: NULL_VALUE,
   },
   status: GQLCOMMENT_STATUS.NONE,
   createdAt: "2018-07-06T18:24:00.000Z",
@@ -342,10 +344,10 @@ export const baseComment = createFixture<GQLComment>({
   },
   site: { id: "site-0" },
   story: baseStory,
-  parent: undefined,
+  parent: NULL_VALUE,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
-  deleted: undefined,
+  deleted: NULL_VALUE,
 });
 
 export const comments = denormalizeComments(

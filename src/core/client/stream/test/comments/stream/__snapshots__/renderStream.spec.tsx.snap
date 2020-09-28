@@ -121,7 +121,6 @@ exports[`renders comment stream 1`] = `
               className="PostCommentFormFake-rteContainer"
             >
               <div
-                onKeyPress={[Function]}
                 role="none"
               >
                 <div
