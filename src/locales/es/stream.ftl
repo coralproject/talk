@@ -205,17 +205,16 @@ qa-answeredTooltip-toggleButton =
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
-  Account deletion requested
+  Se ha solicitado la eliminación de la cuenta
 comments-stream-deleteAccount-callOut-receivedDesc =
-  A request to delete your account was received on { $date }.
+  Se recibió una solicitud para eliminar su cuenta en { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  If you would like to continue leaving comments, replies or reactions,
-  you may cancel your request to delete your account before { $date }.
+  Si desea seguir dejando comentarios, respuestas o reacciones,
+  puede cancelar su solicitud para eliminar su cuenta antes del { $date }.
 comments-stream-deleteAccount-callOut-cancel =
-  Cancel account deletion request
+  Cancelar la solicitud de eliminación de la cuenta
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
-  Cancel account deletion
-
+  Cancelar la eliminación de la cuenta
 
 ### Featured Comments
 comments-featured-gotoConversation = Ir a conversación
