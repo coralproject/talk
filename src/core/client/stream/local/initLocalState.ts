@@ -15,7 +15,7 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 export default async function initLocalState(
   environment: Environment,
   context: CoralContext,
-  auth?: AuthState
+  auth: AuthState | null = null
 ) {
   const config = await getExternalConfig(context.pym);
   if (config) {

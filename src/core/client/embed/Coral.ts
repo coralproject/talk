@@ -15,6 +15,8 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
+  /** refreshAccessToken is called to obtain a new access token when the current one has expired. */
+  refreshAccessToken?: () => Promise<string> | string;
   enableDeprecatedEvents?: boolean;
   /** Allow setting className of body tag inside iframe */
   bodyClassName?: string;
@@ -43,5 +45,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     bodyClassName: config.bodyClassName,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     customCSSURL: config.customCSSURL,
+    refreshAccessToken: config.refreshAccessToken,
   });
 }

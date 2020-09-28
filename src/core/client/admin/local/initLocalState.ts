@@ -2,7 +2,10 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import { AuthState, storeAccessToken } from "coral-framework/lib/auth";
+import {
+  AuthState,
+  storeAccessTokenInLocalStorage,
+} from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -12,7 +15,7 @@ import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 export default async function initLocalState(
   environment: Environment,
   context: CoralContext,
-  auth?: AuthState
+  auth: AuthState | null = null
 ) {
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
@@ -31,7 +34,7 @@ export default async function initLocalState(
 
     // If there was an access token, store it.
     if (params.accessToken) {
-      auth = storeAccessToken(params.accessToken);
+      auth = storeAccessTokenInLocalStorage(params.accessToken);
     }
 
     // As we are in the middle of an auth flow (given that there was something

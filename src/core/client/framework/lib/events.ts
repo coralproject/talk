@@ -8,6 +8,7 @@ import { useCoralContext } from "./bootstrap";
  * `Coral.createStreamEmbed`.
  */
 export interface ViewerEvent<T> {
+  name: string;
   emit: keyof T extends never
     ? (eventEmitter: EventEmitter2) => void
     : (eventEmitter: EventEmitter2, data: T) => void;
@@ -47,6 +48,7 @@ export interface ViewerNetworkEventStarted<
 export interface ViewerNetworkEvent<
   T extends { success: object; error: object }
 > {
+  name: string;
   /**
    * Mark the network request as started. This will also start tracking the rtt time.
    */
@@ -67,6 +69,7 @@ export function createViewerNetworkEvent<
   T extends { success: object; error: object }
 >(name: string): ViewerNetworkEvent<T> {
   return {
+    name,
     begin: ((eventEmitter, data) => {
       const ms = Date.now();
       return {
@@ -102,6 +105,7 @@ export function createViewerNetworkEvent<
  */
 export function createViewerEvent<T>(name: string): ViewerEvent<T> {
   return {
+    name,
     emit: ((eventEmitter, data) => {
       eventEmitter.emit(name, data);
     }) as ViewerEvent<T>["emit"],

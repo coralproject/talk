@@ -45,3 +45,5 @@ export {
   requestSubscription,
 } from "./subscription";
 export { default as purgeMetadata } from "./purgeMetadata";
+export { default as waitForLocalState } from "./waitForLocalState";
+export { default as lookupQuery } from "./lookupQuery";

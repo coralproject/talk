@@ -2,6 +2,8 @@ import {
   authMiddleware,
   cacheMiddleware,
   RelayNetworkLayer,
+  RelayNetworkLayerResponse,
+  RelayRequestAny,
   retryMiddleware,
   urlMiddleware,
 } from "react-relay-network-modern/es";
@@ -15,6 +17,11 @@ import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
 import persistedQueriesGetMethodMiddleware from "./persistedQueriesGetMethodMiddleware";
+
+export type TokenRefresh = (
+  req: RelayRequestAny,
+  res: RelayNetworkLayerResponse
+) => string | Promise<string>;
 
 const graphqlURL = `${getLocationOrigin()}/api/graphql`;
 
@@ -48,7 +55,8 @@ function createSubscriptionFunction(
 export default function createNetwork(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  accessTokenProvider: AccessTokenProvider
+  accessTokenProvider: AccessTokenProvider,
+  tokenRefresh?: TokenRefresh
 ) {
   return new RelayNetworkLayer(
     [
@@ -76,6 +84,8 @@ export default function createNetwork(
         token: () => {
           return accessTokenProvider() || "";
         },
+        tokenRefreshPromise: tokenRefresh,
+        allowEmptyToken: true,
       }),
       clientIDMiddleware(clientID),
       persistedQueriesGetMethodMiddleware,

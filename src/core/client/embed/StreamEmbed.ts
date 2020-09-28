@@ -17,6 +17,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
@@ -37,6 +38,7 @@ export interface StreamEmbedConfig {
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
   customCSSURL?: string;
+  refreshAccessToken?: () => Promise<string> | string;
 }
 
 export class StreamEmbed {
@@ -151,6 +153,7 @@ export class StreamEmbed {
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),
       withKeypressEvent,
+      withRefreshAccessToken(this.config.refreshAccessToken),
     ];
 
     const query = stringifyQuery({

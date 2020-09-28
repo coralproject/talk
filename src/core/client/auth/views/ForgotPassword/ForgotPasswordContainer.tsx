@@ -16,7 +16,7 @@ const ForgotPasswordContainer: FunctionComponent<Props> = ({ viewer }) => {
   const [checkEmail, setCheckEmail] = useState<string | null>(null);
 
   // We rely on the email address being provided when the user is logged in.
-  // Normally we'd have to be concerned about how the auth token is being passed
+  // Normally we'd have to be concerned about how the access token is being passed
   // because of the auth state issues present with browsers that do weird things
   // to segment data, but thankfully this is only used for local auth, which
   // means that the auth data in the browser is the same as what's available to
