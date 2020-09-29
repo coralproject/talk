@@ -3,11 +3,11 @@ import { inject, singleton } from "tsyringe";
 import { Config, CONFIG } from "coral-server/config";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
   Processor,
   ProcessorHandler,
 } from "coral-server/queue/tasks/processor";
-import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfigService } from "coral-server/services/jwt";
 import { MONGO, Mongo } from "coral-server/services/mongodb";
 import {
