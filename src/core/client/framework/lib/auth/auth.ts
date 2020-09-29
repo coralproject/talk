@@ -1,10 +1,8 @@
 import { commitLocalUpdate, Environment } from "react-relay";
 import { RecordProxy } from "relay-runtime";
 
-import { GQLQuery } from "coral-framework/schema";
-
 import { ManagedSubscriptionClient } from "../network";
-import { LOCAL_ID, lookup } from "../relay";
+import { LOCAL_ID } from "../relay";
 import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 
 /**
@@ -43,10 +41,6 @@ export function parseAccessToken(accessToken: string): AuthState | null {
   }
 
   return { accessToken, claims };
-}
-
-export function isLoggedIn(environment: Environment) {
-  return Boolean(lookup<GQLQuery>(environment, "client:root")?.viewer);
 }
 
 export function retrieveAccessToken() {

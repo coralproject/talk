@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react";
 
-import { isLoggedIn } from "coral-framework/lib/auth";
+import isLoggedIn from "coral-framework/helpers/isLoggedIn";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
