@@ -1,4 +1,4 @@
-import Queue, { Job } from "bull";
+import Queue from "bull";
 import { Db } from "mongodb";
 
 import { createTimer } from "coral-server/helpers";
@@ -9,7 +9,7 @@ import {
   retrieveAllCommentsUserConnection,
 } from "coral-server/models/comment";
 import { Connection } from "coral-server/models/helpers";
-import Task from "coral-server/queue/Task";
+import Task, { JobProcessor } from "coral-server/queue/Task";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { rejectComment } from "coral-server/stacks";
@@ -47,7 +47,7 @@ const createJobProcessor = ({
   mongo,
   redis,
   tenantCache,
-}: RejectorProcessorOptions) => async (job: Job<RejectorData>) => {
+}: RejectorProcessorOptions): JobProcessor<RejectorData> => async (job) => {
   // Pull out the job data.
   const { authorID, moderatorID, tenantID } = job.data;
   const log = logger.child(

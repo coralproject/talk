@@ -9,7 +9,7 @@ import { TenantResource } from "coral-server/models/tenant";
 
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
 
-export interface TaskOptions<T, U = void> {
+interface TaskOptions<T, U = void> {
   jobName: string;
   jobProcessor: JobProcessor<T, U>;
   jobOptions?: Queue.JobOptions;
@@ -84,6 +84,8 @@ export default class Task<T extends TenantResource, U = any> {
    * job requests.
    */
   public process() {
+    // We don't handle this error here so that if the process is no longer being
+    // ran, we should throw an error to crash the process.
     void this.queue.process(async (job: Job<T>) => {
       const log = this.log.child(
         { jobID: job.id, attemptsMade: job.attemptsMade },
@@ -109,6 +111,13 @@ export default class Task<T extends TenantResource, U = any> {
         log.error({ err, took: timer() }, "job failed to process");
         throw err;
       }
+    });
+
+    // When an error occurs with the job processor, handle the error by logging
+    // it and re-throwing it to crash the process.
+    this.queue.on("error", (err: Error) => {
+      this.log.fatal({ err }, "failed to handle error from job");
+      process.exit(1);
     });
 
     this.log.trace("registered processor for job type");
