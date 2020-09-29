@@ -47,6 +47,12 @@ function updateForOldestFirst(
     orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
   })!;
   const pageInfo = connection.getLinkedRecord("pageInfo")!;
+  // Should not be falsy because Relay uses this information to determine
+  // whether or not new data is available to load.
+  if (!pageInfo.getValue("endCursor")) {
+    // Set cursor to oldest date, to load from the beginning.
+    pageInfo.setValue(new Date(0).toISOString(), "endCursor");
+  }
   pageInfo.setValue(true, "hasNextPage");
 }
 
