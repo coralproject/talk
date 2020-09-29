@@ -1,7 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { DOMLocalization } from "@fluent/dom/compat";
 import Joi from "@hapi/joi";
-import { Job } from "bull";
 import createDOMPurify from "dompurify";
 import {
   Message,
@@ -21,6 +20,7 @@ import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
+import { JobProcessor } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
   TenantCache,
@@ -187,7 +187,9 @@ function createMessageTranslator(i18n: I18n) {
   };
 }
 
-export const createJobProcessor = (options: MailProcessorOptions) => {
+export const createJobProcessor = (
+  options: MailProcessorOptions
+): JobProcessor<MailerData> => {
   const { tenantCache, i18n } = options;
 
   // Create the cache adapter that will handle invalidating the email transport
@@ -197,7 +199,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
   // Create the message translator function.
   const translateMessage = createMessageTranslator(i18n);
 
-  return async (job: Job<MailerData>) => {
+  return async (job) => {
     const { value: data, error: err } = MailerDataSchema.validate(job.data, {
       stripUnknown: true,
       presence: "required",

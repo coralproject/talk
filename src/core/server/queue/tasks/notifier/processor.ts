@@ -1,10 +1,10 @@
-import { Job } from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import logger from "coral-server/logger";
+import { JobProcessor } from "coral-server/queue/Task";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { NotificationCategory } from "coral-server/services/notifications/categories";
@@ -60,61 +60,59 @@ export const createJobProcessor = ({
   registry,
   tenantCache,
   signingConfig,
-}: Options) => {
-  return async (job: Job<NotifierData>) => {
-    const now = new Date();
+}: Options): JobProcessor<NotifierData> => async (job) => {
+  const now = new Date();
 
-    // Pull the data out of the model.
-    const { tenantID, input } = job.data;
+  // Pull the data out of the model.
+  const { tenantID, input } = job.data;
 
-    // Create a new logger to handle logging for this job.
-    const log = logger.child(
-      {
-        jobID: job.id,
-        jobName: JOB_NAME,
-        tenantID,
-      },
-      true
-    );
+  // Create a new logger to handle logging for this job.
+  const log = logger.child(
+    {
+      jobID: job.id,
+      jobName: JOB_NAME,
+      tenantID,
+    },
+    true
+  );
 
-    log.debug("starting to handle a notify operation");
+  log.debug("starting to handle a notify operation");
 
-    // Get all the handlers that are active for this channel.
-    const categories = registry.get(input.type);
-    if (!categories || categories.length === 0) {
-      return;
-    }
+  // Get all the handlers that are active for this channel.
+  const categories = registry.get(input.type);
+  if (!categories || categories.length === 0) {
+    return;
+  }
 
-    // Grab the tenant from the cache.
-    const tenant = await tenantCache.retrieveByID(tenantID);
-    if (!tenant) {
-      throw new Error("tenant not found with ID");
-    }
+  // Grab the tenant from the cache.
+  const tenant = await tenantCache.retrieveByID(tenantID);
+  if (!tenant) {
+    throw new Error("tenant not found with ID");
+  }
 
-    // Create a notification context to handle processing notifications.
-    const ctx = new NotificationContext({
-      mongo,
-      config,
-      signingConfig,
-      tenant,
-      now,
-    });
+  // Create a notification context to handle processing notifications.
+  const ctx = new NotificationContext({
+    mongo,
+    config,
+    signingConfig,
+    tenant,
+    now,
+  });
 
-    // For each of the handler's we need to process, we should iterate to
-    // generate their notifications.
-    let notifications = await handleHandlers(ctx, categories, input);
+  // For each of the handler's we need to process, we should iterate to
+  // generate their notifications.
+  let notifications = await handleHandlers(ctx, categories, input);
 
-    // Check to see if some of the other notifications that are queued
-    // had this notification superseded.
-    notifications = notifications.filter(filterSuperseded);
+  // Check to see if some of the other notifications that are queued
+  // had this notification superseded.
+  notifications = notifications.filter(filterSuperseded);
 
-    // Send all the notifications now.
-    await processNewNotifications(
-      ctx,
-      notifications.map(({ notification }) => notification),
-      mailerQueue
-    );
+  // Send all the notifications now.
+  await processNewNotifications(
+    ctx,
+    notifications.map(({ notification }) => notification),
+    mailerQueue
+  );
 
-    log.debug({ notifications: notifications.length }, "notifications handled");
-  };
+  log.debug({ notifications: notifications.length }, "notifications handled");
 };

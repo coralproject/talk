@@ -4,11 +4,13 @@ import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
 
-export interface AugmentedRedisCommands {
+interface AugmentedRedisCommands {
   mhincrby(key: string, ...args: any[]): Promise<void>;
 }
 
-export type AugmentedPipeline = Pipeline & AugmentedRedisCommands;
+export interface AugmentedPipeline extends Pipeline {
+  mhincrby(key: string, ...args: any[]): Pipeline;
+}
 
 export type AugmentedRedis = Omit<Redis, "pipeline"> &
   AugmentedRedisCommands & {
@@ -30,9 +32,18 @@ function augmentRedisClient(redis: Redis): AugmentedRedis {
 }
 
 function attachHandlers(redis: Redis) {
-  // Attach to the error event.
+  // There appears to already be 10 error listeners on Redis. They must be added
+  // by the framework. Increase the maximum number of listeners to avoid the
+  // memory leak warning.
+  redis.setMaxListeners(11);
   redis.on("error", (err: Error) => {
     logger.error({ err }, "an error occurred with redis");
+  });
+  redis.on("close", () => {
+    logger.warn("redis connection has been closed");
+  });
+  redis.on("reconnecting", () => {
+    logger.warn("redis has reconnected");
   });
 }
 
@@ -54,6 +65,18 @@ export function createRedisClient(config: Config, lazyConnect = false): Redis {
   } catch (err) {
     throw new WrappedInternalError(err, "could not connect to redis");
   }
+}
+
+export function createRedisClientFactory(config: Config) {
+  let redis: Redis | undefined;
+
+  return (): Redis => {
+    if (!redis) {
+      redis = createRedisClient(config);
+    }
+
+    return redis;
+  };
 }
 
 /**

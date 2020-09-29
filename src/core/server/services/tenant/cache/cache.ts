@@ -77,6 +77,7 @@ export default class TenantCache {
    */
   private readonly clientApplicationID = uuid();
 
+  private readonly redis: Redis;
   private readonly mongo: Db;
   private readonly emitter = new EventEmitter();
 
@@ -85,7 +86,7 @@ export default class TenantCache {
    */
   public readonly cachingEnabled: boolean;
 
-  constructor(mongo: Db, subscriber: Redis, config: Config) {
+  constructor(mongo: Db, redis: Redis, config: Config) {
     this.cachingEnabled = !config.get("disable_tenant_caching");
     if (!this.cachingEnabled) {
       logger.warn("tenant caching is disabled");
@@ -94,6 +95,7 @@ export default class TenantCache {
     }
 
     // Save the Db reference.
+    this.redis = redis;
     this.mongo = mongo;
 
     // Configure the data loaders.
@@ -141,11 +143,13 @@ export default class TenantCache {
     if (this.cachingEnabled) {
       // Attach to messages on this connection so we can receive updates when
       // the tenant are changed.
-      subscriber.on("message", this.onMessage);
-
-      // Subscribe to tenant notifications.
-      void subscriber.subscribe(TENANT_CACHE_CHANNEL);
+      this.redis.on("message", this.onMessage.bind(this));
     }
+  }
+
+  public async connect() {
+    // Subscribe to tenant notifications.
+    await this.redis.subscribe(TENANT_CACHE_CHANNEL);
   }
 
   /**

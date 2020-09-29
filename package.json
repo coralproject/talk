@@ -397,6 +397,11 @@
       "Newer versions has problems with using nunjucks.",
       "Update when the following issue is resolved:",
       "https://github.com/tj/consolidate.js/issues/244"
+    ],
+    "@types/mongodb@3.1.22": [
+      "Newer versions has problems with optional fields when querying with null",
+      "Update when the following issue is resolved:",
+      "https://github.com/DefinitelyTyped/DefinitelyTyped/issues/47686"
     ]
   },
   "husky": {

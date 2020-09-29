@@ -335,7 +335,9 @@ export class SSOVerifier implements Verifier<SSOToken> {
       // succeeded! Mark the key as used last now and break out. We should do
       // this in the nextTick because it's not important to have it recorded at
       // the same time.
-      void updateLastUsedAtKID(this.redis, tenant.id, key.kid, now);
+      updateLastUsedAtKID(this.redis, tenant.id, key.kid, now).catch((err) => {
+        logger.error({ err }, "could not update last used at kid");
+      });
 
       // TODO: [CORL-754] (wyattjoh) reintroduce when we amend the front-end to display the kid
       // if (!kid) {

@@ -201,6 +201,9 @@ class Server {
       config
     );
 
+    // Connect the tenant cache.
+    await this.tenantCache.connect();
+
     // Create the migration manager.
     this.migrationManager = new MigrationManager({
       tenantCache: this.tenantCache,
