@@ -20,8 +20,8 @@ export function createTokenRefreshProvider(): TokenRefreshProvider {
       };
     },
     refreshToken: async (req, res) => {
-      for (let i = 0; i < callbacks.length; i++) {
-        const result = await callbacks[i](req, res);
+      for (const cb of callbacks) {
+        const result = await cb(req, res);
         if (result) {
           return result;
         }

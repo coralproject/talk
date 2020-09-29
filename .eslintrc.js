@@ -80,7 +80,7 @@ const typescriptOverrides = {
       "@typescript-eslint/no-use-before-define": "off", // TODO: (cvle) Should be on?
       "@typescript-eslint/no-use-before-declare": "off",
       "@typescript-eslint/no-var-requires": "error",
-      "@typescript-eslint/prefer-for-of": "off", // Different looping mechanism has their own valid performance characteristics.
+      "@typescript-eslint/prefer-for-of": "error",
       "@typescript-eslint/prefer-function-type": "error",
       "@typescript-eslint/prefer-namespace-keyword": "error",
       "@typescript-eslint/triple-slash-reference": "error",
