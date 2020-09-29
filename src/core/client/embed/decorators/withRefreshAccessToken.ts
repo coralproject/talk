@@ -1,3 +1,4 @@
+import { RefreshAccessTokenCallback } from "../Coral";
 import { Decorator } from "./types";
 
 /**
@@ -6,7 +7,7 @@ import { Decorator } from "./types";
  * response.
  */
 const withRefreshAccessToken = (
-  refreshAccessToken: (() => Promise<string> | string) | null = null
+  refreshAccessToken: RefreshAccessTokenCallback | null = null
 ): Decorator => (pym) => {
   pym.onMessage("getRefreshAccessToken", () => {
     if (!refreshAccessToken) {
@@ -14,17 +15,14 @@ const withRefreshAccessToken = (
       pym.sendMessage("refreshAccessToken", "");
       return;
     }
-    const result = refreshAccessToken();
-    const tokenPromise =
-      typeof result === "string" ? Promise.resolve(result) : result;
-    tokenPromise
-      .then((token) => {
-        pym.sendMessage("refreshAccessToken", token);
-      })
-      .catch(() => {
-        // Answer with an empty token.
-        pym.sendMessage("refreshAccessToken", "");
-      });
+    let called = false;
+    refreshAccessToken((token: string) => {
+      if (called) {
+        throw new Error("next access token has been already provided");
+      }
+      called = true;
+      pym.sendMessage("refreshAccessToken", token);
+    });
   });
 };
 

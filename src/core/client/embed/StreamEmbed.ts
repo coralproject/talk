@@ -5,6 +5,7 @@ import ensureNoEndSlash from "coral-common/utils/ensureNoEndSlash";
 import urls from "coral-framework/helpers/urls";
 import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
+import { RefreshAccessTokenCallback } from "./Coral";
 import {
   Decorator,
   withAutoHeight,
@@ -38,7 +39,7 @@ export interface StreamEmbedConfig {
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
   customCSSURL?: string;
-  refreshAccessToken?: () => Promise<string> | string;
+  refreshAccessToken?: RefreshAccessTokenCallback;
 }
 
 export class StreamEmbed {
