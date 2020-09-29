@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 
 import { CommentNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
+import logger from "coral-server/logger";
 import {
   ACTION_TYPE,
   CommentAction,
@@ -247,12 +248,14 @@ export async function createReaction(
   );
   if (action) {
     // A comment reaction was created! Publish it.
-    void publishCommentReactionCreated(
+    publishCommentReactionCreated(
       broker,
       comment,
       input.commentRevisionID,
       action
-    );
+    ).catch((err) => {
+      logger.error({ err }, "could not publish comment flag created");
+    });
   }
 
   return comment;
@@ -357,12 +360,14 @@ export async function createFlag(
   );
   if (action) {
     // A action was created! Publish the event.
-    void publishCommentFlagCreated(
+    publishCommentFlagCreated(
       broker,
       comment,
       input.commentRevisionID,
       action
-    );
+    ).catch((err) => {
+      logger.error({ err }, "could not publish comment flag created");
+    });
   }
 
   return comment;

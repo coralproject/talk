@@ -97,10 +97,12 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
-    void StoryCreatedCoralEvent.publish(broker, {
+    StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
       siteID: story.siteID,
+    }).catch((err) => {
+      logger.error({ err }, "could not publish story created event");
     });
   }
 
@@ -226,10 +228,12 @@ export async function create(
     story = await scrape(mongo, config, tenant.id, story.id, storyURL);
   }
 
-  void StoryCreatedCoralEvent.publish(broker, {
+  StoryCreatedCoralEvent.publish(broker, {
     storyID: story.id,
     storyURL: story.url,
     siteID: site.id,
+  }).catch((err) => {
+    logger.error({ err }, "could not publish story created event");
   });
 
   return story;
