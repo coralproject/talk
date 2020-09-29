@@ -3,7 +3,7 @@
 install-backButton-back = Revenir en arrière
 install-nextButton-next = Aller au prochain
 install-permittedDomains-finishInstall = Finir l'installation
-install-header-title = Assistant d'installation { -product-name } 
+install-header-title = Assistant d'installation { -product-name }
 
 install-initialStep-theRemainder = Le reste de l’assistant d’installation prendra environ 10 minutes. Une fois que vous aurez terminé, vous aurez votre propre instance de { -product-name }.
 install-initialStep-getStarted = Commençons
@@ -21,13 +21,32 @@ install-addOrganization-description = Veuillez indiquer le nom de votre organisa
 install-addOrganization-orgName = Nom de l'organisation
 install-addOrganization-orgNameTextField =
    .placeholder = Nom de l'organisation
+install-addSite-siteName = Nom du site
+install-addSite-siteNameTextField =
+   .placeholder = Nom du site
+install-addSite-siteNameDescription =
+  Le nom du site apparaîtra sur les mails envoyés par Coral à votre communauté et membres de votre organisation.
 install-addOrganization-orgEmail = Email de contact de l'organisation
 install-addOrganization-orgEmailTextField =
   .placeholder = Email de contact de l'organisation
+
+install-addSite-siteEmail = Mail de contact
+install-addSite-siteEmailTextField =
+  .placeholder = Mail de contact
+install-addSite-siteEmailDescription =
+  Cette adresse mail sert aux membres de votre communauté qui voudraient vous contacter ou qui ont besoin d'aide. Ex.: aide@votresite.com
+
 install-addOrganization-orgURL = URL de l'organisation
 install-addOrganization-orgURLTextField =
   .placeholder = URL de l'organisation
 install-addOrganization-orgURLDescription = Assurez-vous d'avoir inclus <strong>http://</strong> or <strong>https://</strong> dans l'URL de votre organisation.
+
+install-addSite-siteURL = URL de l'organisation
+install-addSite-siteURLTextField =
+  .placeholder = URL de l'organisation
+install-addSite-siteURLDescription =
+  Cette URL apparaîtra sur les mails envoyés par Coral aux membres de votre communauté.
+install-addOrganization-orgURLDescription = Assurez-vous d'inclure <strong>http://</strong> ou <strong>https://</strong> dans votre URL.
 
 install-createYourAccount-stepTitle = Créer un compte d'administrateur
 install-createYourAccount-title = Créer un compte administrateur
@@ -59,9 +78,12 @@ install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domaines
 install-permittedDomains-permittedDomainsDescription = Insérer les domaines en les séparant par des virgules.
 
-install-finalStep-description = Merci d'avoir installé { -product-name } ! 
+install-finalStep-stepTitle = Complété
+install-finalStep-title = Installation complétée
+
+install-finalStep-description = Merci d'avoir installé { -product-name } !
   Nous vous avons envoyé un message de vérification à votre adresse email.
   Une fois que vous aurez fini de paramétrer votre compte,
   vous pourrez commencer à communiquer avec vos lecteurs.
-install-finalStep-goToTheDocs = Aller aux Docs
+install-finalStep-goToTheDocs = Aller à la documentation
 install-finalStep-goToAdmin = Aller à l'administration

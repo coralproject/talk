@@ -10,6 +10,8 @@ storyStatus-closed = Fermé
 ## Roles
 role-admin = Administrateur
 role-moderator = Modérateur
+role-siteModerator = Modérateur du site
+role-organizationModerator = Modérateur de l'organisation
 role-staff = Staff
 role-commenter = Membre
 
@@ -18,17 +20,32 @@ role-plural-moderator = Modérateurs
 role-plural-staff = Staff
 role-plural-commenter = Membres
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} commentaire de {$username}
+    [one] {$reaction} commentaire de {$username}
+    *[other] {$reaction} ({$count}) commentaire de {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} commentaire de {$username}
+    [one] {$reaction} commentaire de {$username}
+    *[other] {$reaction} ({$count}) commentaires de {$username}
+  }
+
 ## User Statuses
 userStatus-active = Actif
 userStatus-banned = Banni
 userStatus-suspended = Suspendu
-userStatus-premod = Toujours pré-modéré
+userStatus-premod = Toujours pré-modérer
+userStatus-warned = Averti
 
 ## Navigation
 navigation-moderate = Modérer
 navigation-community = Communauté
 navigation-stories = Articles
 navigation-configure = Configurer
+navigation-dashboard = Tableau de bord
 
 ## User Menu
 userMenu-signOut = Déconnexion
@@ -66,7 +83,78 @@ login-signInWithFacebook = Se connecter avec Facebook
 login-signInWithGoogle = Se connecter avec Google
 login-signInWithOIDC = Se connecter avec { $name }
 
+
+## Create Username
+
+createUsername-createUsernameHeader = Créer un pseudo
+createUsername-whatItIs =
+  Votre pseudo est un identifiant qui apparaîtra sur tous vos commentaires.
+createUsername-createUsernameButton = Créer un pseudo
+createUsername-usernameLabel = Pseudo
+createUsername-usernameDescription = Vous pouvez utiliser "_" et ".", les espaces ne sont pas permis.
+createUsername-usernameTextField =
+  .placeholder = Pseudo
+
+## Add Email Address
+addEmailAddress-addEmailAddressHeader = Ajouter une adresse email
+
+addEmailAddress-emailAddressLabel = Adresse email
+addEmailAddress-emailAddressTextField =
+  .placeholder = Adresse email
+
+addEmailAddress-confirmEmailAddressLabel = Confirmer votre adresse email
+addEmailAddress-confirmEmailAddressTextField =
+  .placeholder = Confirmer votre adresse email
+
+addEmailAddress-whatItIs =
+  Pour plus de sécurité, nous recommandons à nos utilisateurs d'ajouter une adresse email à leur compte.
+
+addEmailAddress-addEmailAddressButton =
+  Ajouter une adresse email
+
+## Create Password
+createPassword-createPasswordHeader = Créer un mot de passe.
+createPassword-whatItIs =
+  Afin d'être protégé contre les changements non autorisés sur leur compte,
+  nous recommandons aux utilisateurs de créer un mot de passse.
+createPassword-createPasswordButton =
+  Créer un mot de passe
+
+createPassword-passwordLabel = Mot de passe
+createPassword-passwordDescription = Le mot de passe doit comporter au minimum {$minLength} caractères.
+createPassword-passwordTextField =
+  .placeholder = Mot de passe
+
+# Forgot Password
+forgotPassword-forgotPasswordHeader = Mot de passe oublié?
+forgotPassword-checkEmailHeader = Vérifiez vos mails.
+forgotPassword-gotBackToSignIn = Retourner à la page de connexion
+forgotPassword-checkEmail-receiveEmail =
+  Si un compte est associé au <strong>{ $email }</strong>,
+  vous recevrez un mail avec un lien pour créer un nouveau mot de passe.
+forgotPassword-enterEmailAndGetALink =
+  Entrez votre adresse mail ci-dessous et nous vous enverrons un lien
+  pour réinitialiser votre mot de passe.
+forgotPassword-emailAddressLabel = Adresse mail
+forgotPassword-emailAddressTextField =
+  .placeholder = Adresse mail
+forgotPassword-sendEmailButton = Envoyer le mail
+
+# Link Account
+linkAccount-linkAccountHeader = Lier un compte
+linkAccount-alreadyAssociated =
+  Le mail <strong>{ $email }</strong> est déjà
+  associé à un compte. Si vous voulez l'associer quand même,
+  entrez votre mot de passe.
+linkAccount-passwordLabel = Mot de passe
+linkAccount-passwordTextField =
+  .label = Mot de passe
+linkAccount-linkAccountButton = Lier le compte
+linkAccount-useDifferentEmail = Utiliser une autre adresse mail.
+
 ## Configure
+
+configure-experimentalFeature = Fonctions expérimentales
 
 configure-unsavedInputWarning =
   Vous avez des changements non sauvegardés. Êtes-vous sûr de vouloir quitter cette page ?
@@ -74,10 +162,13 @@ configure-unsavedInputWarning =
 configure-sideBarNavigation-general = Général
 configure-sideBarNavigation-authentication = Authentification
 configure-sideBarNavigation-moderation = Modération
+configure-sideBarNavigation-moderationPhases = Étapes de modération
 configure-sideBarNavigation-organization = Organisation
 configure-sideBarNavigation-advanced = Avancé
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Mots bannis
+configure-sideBarNavigation-slack = Slack
+configure-sideBarNavigation-webhooks = Webhooks
 
 configure-sideBar-saveChanges = Enregistrer
 configure-configurationSubHeader = Configuration
@@ -85,6 +176,198 @@ configure-onOffField-on = Activer
 configure-onOffField-off = Désactiver
 configure-permissionField-allow = Autoriser
 configure-permissionField-dontAllow = Ne pas autoriser
+
+### Moderation Phases
+
+configure-moderationPhases-generatedAt = CLÉ GÉNÉRÉE À:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-moderationPhases-phaseNotFound = Étape de modération externe non-trouvée
+configure-moderationPhases-experimentalFeature =
+  La fonctionalité des étapes de modération est en dévelopement.
+  S'il-vous-plaît <ContactUsLink>contactez-nous avec vos commentaires et requêtes</ContactUsLink>.
+configure-moderationPhases-header-title = Étapes de modérations
+configure-moderationPhases-description =
+  Configurer une étape de modération externe pour automatiser certains actions
+  de modération. Les requêtes sont faites en JSON encodé et signé. Pour en savoir
+  plus sur les requêtes de modération, visitez la <externalLink>documentation</externalLink>.
+configure-moderationPhases-addExternalModerationPhaseButton =
+  Ajouter une étape de modération externe
+configure-moderationPhases-moderationPhases = Étapes de modération
+configure-moderationPhases-name = Nom
+configure-moderationPhases-status = Statut
+configure-moderationPhases-noExternalModerationPhases =
+  Aucune étape de modération externe n'est configuré, ajoutez-en une ci-haut.
+configure-moderationPhases-enabledModerationPhase = Activé
+configure-moderationPhases-disableModerationPhase = Désactivé
+configure-moderationPhases-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-addExternalModerationPhase = Ajouter une étape de modération externe
+configure-moderationPhases-updateExternalModerationPhaseButton = Mettre à jour les détails
+configure-moderationPhases-cancelButton = Annuler
+configure-moderationPhases-format = Format du corps de commentaire
+configure-moderationPhases-endpointURL = URL de callback
+configure-moderationPhases-timeout = Timeout
+configure-moderationPhases-timeout-details =
+  Le temps que Coral attend pour la réponse de modération en millisecondes.
+configure-moderationPhases-format-details =
+  Le format dans lequel Coral envoie les corps des commentaires. Par défaut, Coral va
+  envoyer le commentaire en HTML-encodé. Si l'option "Texte brut" est sélectionné,
+  la version HTML sans balises sera envoyée.
+configure-moderationPhases-format-html = HTML
+configure-moderationPhases-format-plain = Texte brut
+configure-moderationPhases-endpointURL-details =
+  L'URL que les requêtes de modérations Coral seront envoyées (POST). L'URL doit
+  répondre dans le temps alloué ou bien la décision de modération sera sautée.
+configure-moderationPhases-configureExternalModerationPhase =
+  Configurer une étape de modération externe
+configure-moderationPhases-phaseDetails = Détails de l'étape
+onfigure-moderationPhases-status = Statut
+configure-moderationPhases-signingSecret = Secret
+configure-moderationPhases-signingSecretDescription =
+  Le secret est utilisé pour signer les requêtes envoyées à l'URL.
+  Pour en savoir plus, consultez la <externalLink>documentation</externalLink>.
+configure-moderationPhases-phaseStatus = Statut de l'étape
+configure-moderationPhases-status = Statut
+configure-moderationPhases-signingSecret = Secret
+configure-moderationPhases-signingSecretDescription =
+  Le secret est utilisé pour signer les requêtes envoyées à l'URL.
+  Pour en savoir plus, consultez la <externalLink>documentation</externalLink>.
+configure-moderationPhases-dangerZone = Zone de danger
+configure-moderationPhases-rotateSigningSecret = Rotation du secret
+configure-moderationPhases-rotateSigningSecretDescription =
+  Effectuer une rotation du secret permet de remplacer le secret existant
+  en production sans délais.
+configure-moderationPhases-rotateSigningSecretButton =
+  Effectuer la rotation
+
+configure-moderationPhases-disableExternalModerationPhase =
+  Désactiver l'étape de modération externe
+configure-moderationPhases-disableExternalModerationPhaseDescription =
+  Cette étape de modération est présentement active. En la désactivant,
+  aucune nouvelle requête sera envoyée à l'URL fournie.
+configure-moderationPhases-disableExternalModerationPhaseButton = Désactiver
+configure-moderationPhases-enableExternalModerationPhase =
+  Activer l'étape de modération externe
+configure-moderationPhases-enableExternalModerationPhaseDescription =
+  Cette étape de modération externe est présentement désactivée. En l'activant, de
+  nouvelles requêtes seront envoyées à l'URL fournie.
+configure-moderationPhases-enableExternalModerationPhaseButton = Activer
+configure-moderationPhases-deleteExternalModerationPhase =
+  Supprimer l'étape de modération externe
+configure-moderationPhases-deleteExternalModerationPhaseDescription =
+  En supprimant cette étape de modération, aucune nouvelle requête de sera émise
+  et tous les réglages associés seront retirés.
+configure-moderationPhases-deleteExternalModerationPhaseButton = Supprimer
+configure-moderationPhases-rotateSigningSecret = Rotation des secrets
+configure-moderationPhases-rotateSigningSecretHelper =
+  Après l'expiration, les signatures ne seront plus générées par le vieux secret.
+configure-moderationPhases-expiresOldSecret =
+  Expirer le vieux secret
+configure-moderationPhases-expiresOldSecretImmediately =
+  Immédiatement
+configure-moderationPhases-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 heure
+    *[other] { $hours } heures
+  } à partir de maintenant
+configure-moderationPhases-rotateSigningSecretSuccessUseNewSecret =
+  La rotation du secret pour cette étape de modération a été effectuée. Assurez-vous
+  de mettre à jour vos intégration pour utiliser le nouveau secret ci-dessous.
+configure-moderationPhases-confirmDisable =
+  Désactiver cette étape modération externe préviendra toutes nouvelles requêtes d'être
+  envoyées à cette URL. Voulez-vous continuer?
+configure-moderationPhases-confirmEnable =
+  Activer cette étape de modétaion débutera l'envoi de nouvelles requêtes à cette URL.
+  Voulez-vous continuer?
+configure-moderationPhases-confirmDelete =
+  Supprimer cette étape de modération externe préviendra toutes nouvelles d'être envoyées
+  à cette URL et retirera les réglages associés. Voulez-vous continuer?
+
+### Webhooks
+
+configure-webhooks-generatedAt = CLÉ GÉNÉRÉE À:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-webhooks-experimentalFeature =
+  La fonctionalité webhook est en développement actif. Des événements
+  pourraient être ajoutés ou retirés. <ContactUsLink>Contactez-nous avec vos commentaires ou suggestions</ContactUsLink>.
+configure-webhooks-webhookEndpointNotFound = Endpoint webhook non trouvé.
+configure-webhooks-header-title = Configurer le endpoint du webhook
+configure-webhooks-description =
+  Configuer un endpoint pour envoyer des événements quand d'autres événements
+  surviennent dans Coral. Ces événements sont encodés et signés en JSON. Pour en
+  savoir plus, consultez le <externalLink>guide des Webhook</externalLink>
+configure-webhooks-addEndpoint = Ajouter un webhook
+configure-webhooks-addEndpointButton = Ajouter un webhook
+configure-webhooks-endpoints = Endpoints
+configure-webhooks-url = URL
+configure-webhooks-status = Statut
+configure-webhooks-noEndpoints = Aucun webhook configuré, ajoutez-en un plus haut.
+configure-webhooks-enabledWebhookEndpoint = Activé
+configure-webhooks-disabledWebhookEndpoint = Désactivé
+configure-webhooks-endpointURL = URL du Endpoint
+configure-webhooks-cancelButton = Annuler
+configure-webhooks-updateWebhookEndpointButton = Mettre-à-jour
+configure-webhooks-eventsToSend = Événements à envoyer
+configure-webhooks-clearEventsToSend = Effacer les événements
+configure-webhooks-eventsToSendDescription =
+  Ces événements sont liés à ce endpoint. Visitez notre <externalLink>guide webhook</externalLink> pour le schéma
+  de ces événements. Tous les événements correspondants seront envoyé au endpoint s'il
+  est actif:
+configure-webhooks-allEvents =
+  Ce endpoint va recevoir tous les événements, incluant ceux ajoutés plus tard.
+configure-webhooks-selectedEvents =
+  { $count } { $count ->
+    [1] événement sélectionné
+    *[other] événements sélectionnés
+  } .
+configure-webhooks-selectAnEvent =
+  Sélectionner les événements ci-haut pour <button>recevoir tous les événements</button>.
+configure-webhooks-configureWebhookEndpoint = Configurer le endpoint
+configure-webhooks-confirmEnable =
+  Activer le webhook démarrera l'envoi d'événements à cette URL. Voulez-vous continuer?
+configure-webhooks-confirmDisable =
+  Désactiver le webhook préviendra l'envoi de nouveaux événements à cette URL. Voulez-vous continuer?
+configure-webhooks-confirmDelete =
+  Supprimer ce webhook préviendra l'envoi de nouveaux événements à cette URL et retirera les réglages associés. Voulez-vous continuer?
+configure-webhooks-dangerZone = Zone de danger
+configure-webhooks-rotateSigningSecret = Effectuer la rotation du secret
+configure-webhooks-rotateSigningSecretDescription =
+  Effectuer la rotation du secret permet de remplacer de façon sécuritaire le secret
+  utilisé en production avec un délai.
+configure-webhooks-rotateSigningSecretButton = Effectuer la rotation
+configure-webhooks-rotateSigningSecretHelper =
+  Après son expiration, les signatures ne seront plus générées à partir de l'ancien secret.
+configure-webhooks-rotateSigningSecretSuccessUseNewSecret =
+  Le remplacement du secret du webhook a été effectué. Assurez-vous de mettre à jour
+  vos intégrations afin d'utiliser le nouveau secret.
+configure-webhooks-disableEndpoint = Désactiver le endpoint
+configure-webhooks-disableEndpointDescription =
+  Le endpoint est actif. En le désactivant, aucun nouvel événement sera envoyé
+  à l'URL spécifiée.
+configure-webhooks-disableEndpointButton = Désactiver le endpoint
+configure-webhooks-enableEndpoint = Activer le endpoint
+configure-webhooks-enableEndpointDescription =
+  Ce endpoint est inactif. En activant le endpoint les nouveaux événements seront envoyés
+  à l'URL spécifiée.
+configure-webhooks-enableEndpointButton = Activer le endpoint
+configure-webhooks-deleteEndpoint = Supprimer le endpoint
+configure-webhooks-deleteEndpointDescription =
+  Supprimer le endpoint préviendra l'envoi de nouveaux événements à l'URL
+  spécifiée.
+configure-webhooks-deleteEndpointButton = Supprimer le endpoint
+configure-webhooks-endpointStatus = État du endpoint
+configure-webhooks-signingSecret = Secret
+configure-webhooks-signingSecretDescription =
+  Ce secret est utilisé pour signer les requêtes envoyées à l'URL.
+  Pour en savoir plus, consulter le <externalLink>Guide webhook</externalLink>
+configure-webhooks-expiresOldSecret = Expiration de l'ancien secret
+configure-webhooks-expiresOldSecretImmediately = Immédiatement
+configure-webhooks-expiresOldSecretHoursFromNow =
+  Dans
+  { $hours ->
+    [1] 1 heure
+    *[other] { $hours } heures
+  } .
+configure-webhooks-detailsButton = Détails <icon>keyboard_arrow_right</icon>
 
 ### General
 configure-general-guidelines-title = Résumé des règles de la communauté
@@ -117,6 +400,48 @@ configure-general-sitewideCommenting-message =
   Message pour dire que les commentaires sont fermés sur tout le site.
 configure-general-sitewideCommenting-messageExplanation =
   Écrire un message qui sera affiché quand le flux de commentaires sera fermé sur tout le site.
+
+#### Embed Links
+configure-general-embedLinks-title = Intégration de média
+configure-general-embedLinks-desc = Permettre aux membres d'ajouter une vidéo Youtube, un Tweet ou un GIF de la bibliothèque GIPHY à la fin de leur commentaire
+configure-general-embedLinks-enableTwitterEmbeds = Permettre les intégration Twitter
+configure-general-embedLinks-enableYouTubeEmbeds = Permettre les intégration Youtube
+configure-general-embedLinks-enableGiphyEmbeds = Permettre les GIF de GIPHY
+configure-general-embedLinks-enableExternalEmbeds = Permettre un média externe
+
+configure-general-embedLinks-On = Oui
+configure-general-embedLinks-Off = Non
+
+configure-general-embedLinks-giphyMaxRating = Classement du contenu GIF
+configure-general-embedLinks-giphyMaxRating-desc = Sélectionnez le classement maximal permis pour les GIF qui apparaîtront dans les résultats de recherche du membre
+
+configure-general-embedLinks-giphyMaxRating-g = G
+configure-general-embedLinks-giphyMaxRating-g-desc = Contenu approprié pour tous les âges
+configure-general-embedLinks-giphyMaxRating-pg = PG
+configure-general-embedLinks-giphyMaxRating-pg-desc = Contenu généralement approprié, mais une intervention parentale est conseillée.
+configure-general-embedLinks-giphyMaxRating-pg13 = PG-13
+configure-general-embedLinks-giphyMaxRating-pg13-desc = Sous-entendu sexuels, utilisation de substances légère, blasphème léger, image pouvant froisser. Peut inclure des images de personnes légèrement vêtures, mais n'affiche aucune nudité.
+configure-general-embedLinks-giphyMaxRating-r = R
+configure-general-embedLinks-giphyMaxRating-r-desc = Language vulgaire, sous-entendu sexuel fort, violence, utilisation de drogues illégales; n'est pas conseillé pour les adolescents ou les enfants. Aucune nudité.
+
+configure-general-embedLinks-configuration = Configuration
+configure-general-embedLinks-configuration-desc =
+  Pour d'autres informations sur l'API de GIPHY, visitez <externalLink>https://developers.giphy.com/docs/api</externalLink>.
+configure-general-embedLinks-giphyAPIKey = Clé API GIPHY
+
+#### Configure Announcements
+
+configure-general-announcements-title = Annonces à la communauté
+configure-general-announcements-description =
+  Ajouter une annonce temporaire qui apparaître au haut de tous les flux de commentaires de votre organisation, pour un temps déterminé.
+configure-general-announcements-delete = Retirer l'annonce
+configure-general-announcements-add = Ajouter une annonce
+configure-general-announcements-start = Débuter la diffusion de l'annonce
+configure-general-announcements-cancel = Annuler
+configure-general-announcements-current-label = Annonce active
+configure-general-announcements-current-duration =
+  Cette annonce se terminera automatiquement le : { $timestamp }
+configure-general-announcements-duration = Afficher cette annone pour:
 
 #### Closing Comment Streams
 configure-general-closingCommentStreams-title = Fermer le flux de commentaires
@@ -152,12 +477,62 @@ configure-general-commentEditing-seconds = Secondes
 configure-general-closedStreamMessage-title = Message lorsque le flux de commentaires est fermé.
 configure-general-closedStreamMessage-explanation = Écrire un message qui apparaîtra lorsqu'un article sera fermé aux commentaires.
 
+### Sites
+configure-sites-site-details = Détails <icon>keyboard_arrow_right</icon>
+configure-sites-add-new-site = Ajouter un nouveau site à { $site }
+configure-sites-add-success = { $site } a été ajouté à { $org }
+configure-sites-edit-success = Les changements de { $site } ont été sauvegardés.
+configure-sites-site-form-name = Nom du site
+configure-sites-site-form-name-explanation =  Le nom du site apparaîtra sur les courriels envoyés par Coral aux membres votre l'organisation.
+configure-sites-site-form-url = URL du site
+configure-sites-site-form-url-explanation = Cette URL apparaîtra sur les courriels envoyés par Coral aux membres votre l'organisation.
+configure-sites-site-form-email = email du site
+configure-sites-site-form-url-explanation = Cette adresse courriel permet à vos membres de vous contacter afin de répondre à leurs question. Ex.: aide@votresite.com
+configure-sites-site-form-domains = Domaines permis pour votre site
+configure-sites-site-form-domains-explanation = Domaines où les flux de commentaires Coral peuvent être intégrés. (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-sites-site-form-submit = <icon>add</icon> Ajouter un site
+configure-sites-site-form-cancel = Annuler
+configure-sites-site-form-save = Sauvergarder les changements
+configure-sites-site-edit = Éditer les détails de { $site }
+configure-sites-site-form-embed-code = Code intégré
+sites-emptyMessage = Aucun site ne correspond aux critères de recherche.
+sites-selector-allSites = Tous les sites
+sites-filter-sites-allSites = Tous les sites
+
+site-selector-all-sites = Tous les sites
+stories-filter-sites-allSites = Tous les sites
+stories-filter-statuses = Statut
+stories-column-site = Site
+site-table-siteName = Nom du site
+stories-filter-sites = Site
+
+stories-column-actions = Actions
+stories-column-rescrape = Rechercher à nouveau
+
+stories-actionsButton =
+  .aria-label = Selectionnez une action:
+stories-actions-popover =
+  .description = Un menu déroulant pour sélectionner les actions
+stories-actions-rescrape = Rechercher à nouveau
+stories-actions-close = Fermer un article
+stories-actions-open = Ouvrir un article
+
+### Sections
+
+moderate-section-selector-allSections = Toutes les sections
+moderate-section-selector-uncategorized = Non catégorisé
+moderate-section-uncategorized = Non catégorisé
+
+
 ### Organization
 configure-organization-name = Nom de l'entreprise
+configure-organization-sites = Sites
 configure-organization-nameExplanation =
   Votre nom d'entreprise apparaîtra sur les emails envoyés par { -product-name }
   à votre communauté et aux membres de votre entreprise.
-
+configure-organization-sites-explanation =
+  Ajouter un nouveau site à votre organisation ou éditer les détails d'un site existant.
+configure-organization-sites-add-site = <icon>add</icon> Ajouter un site
 configure-organization-email =  Email de l'entreprise
 configure-organization-emailExplanation =
   Cette adresse email sera utilisée dans les mails et sur le site
@@ -395,6 +770,40 @@ decisionHistory-rejectedCommentBy = Commentaire rejeté par <Username></Username
 decisionHistory-approvedCommentBy = Commentaire approuvé par <Username></Username>
 decisionHistory-goToComment = Aller au commentaire
 
+### Slack
+
+configure-slack-header-title = Intégrations Slack
+configure-slack-description =
+  Envoie automatiquement les commentaire en attente de modération directement
+  à un canal Slack. Vous aurez besoin d'un accès administrateur Slack afin de pouvoir
+  le configurer comme il se doit. Pour la marche à suivre, consultez notre
+  <externalLink>documentation</externalLink>.
+configure-slack-notRecommended =
+  Non recommandé pour les sites ayant plus de 10 000 commentaires par mois.
+
+configure-slack-addChannel = Ajouter un canal
+
+configure-slack-channel-defaultName = Nouveau canal
+configure-slack-channel-enabled = Activé
+configure-slack-channel-remove = Retirer un canal
+configure-slack-channel-name-label = Nom
+configure-slack-channel-name-description =
+  Ceci sert d'information, pour facilement identifier chacune
+  des connexions Slack. Slack ne nous informe pas du nom des
+  canaux auquels vous connectez Coral.
+configure-slack-channel-hookURL-label = URL Webhook
+configure-slack-channel-hookURL-description =
+  Slack fourni une URL spécifique à chacun des canaux pour activer
+  les connexions webhook. Pour trouver cette URL, veuillez suivre les
+  instructions fournies ici <externalLink>here</externalLink>.
+configure-slack-channel-triggers-label =
+  Recevoir des notifications dans ce canal Slack pour
+configure-slack-channel-triggers-reportedComments = Commentaires signalés
+configure-slack-channel-triggers-pendingComments = Commentaires en attente
+configure-slack-channel-triggers-featuredComments = Commentaires mis de l'avant
+configure-slack-channel-triggers-allComments = Tous les commentaires
+configure-slack-channel-triggers-staffComments = Commentaires de l'équipe
+
 ## moderate
 moderate-navigation-reported = Signalé
 moderate-navigation-pending = En attente
@@ -561,47 +970,6 @@ moderate-user-drawer-notes-field =
 moderate-user-drawer-notes-button = Ajouter une remarque
 moderatorNote-left-by = Laissé par :
 moderatorNote-delete = Supprimer
-
-## Create Username
-
-createUsername-createUsernameHeader = Créer un pseudo
-createUsername-whatItIs =
-  Votre pseudo est un identifiant qui apparaîtra sur tous vos commentaires.
-createUsername-createUsernameButton = Créer un pseudo
-createUsername-usernameLabel = Pseudo
-createUsername-usernameDescription = Vous pouvez utiliser "_" et ".", les espaces ne sont pas permis.
-createUsername-usernameTextField =
-  .placeholder = Pseudo
-
-## Add Email Address
-addEmailAddress-addEmailAddressHeader = Ajouter une adresse email
-
-addEmailAddress-emailAddressLabel = Adresse email
-addEmailAddress-emailAddressTextField =
-  .placeholder = Adresse email
-
-addEmailAddress-confirmEmailAddressLabel = Confirmer votre adresse email
-addEmailAddress-confirmEmailAddressTextField =
-  .placeholder = Confirmer votre adresse email
-
-addEmailAddress-whatItIs =
-  Pour plus de sécurité, nous recommandons à nos utilisateurs d'ajouter une adresse email à leur compte.
-
-addEmailAddress-addEmailAddressButton =
-  Ajouter une adresse email
-
-## Create Password
-createPassword-createPasswordHeader = Créer un mot de passe.
-createPassword-whatItIs =
-  Afin d'être protégé contre les changements non autorisés sur leur compte,
-  nous recommandons aux utilisateurs de créer un mot de passse.
-createPassword-createPasswordButton =
-  Créer un mot de passe
-
-createPassword-passwordLabel = Mot de passe
-createPassword-passwordDescription = Le mot de passe doit comporter au minimum {$minLength} caractères.
-createPassword-passwordTextField =
-  .placeholder = Mot de passe
 
 ## Community
 community-emptyMessage = Nous n'avons trouvé personne dans la communauté qui réponde à vos critères.
@@ -873,5 +1241,29 @@ hotkeysModal-shortcuts-reject = Rejeter
 hotkeysModal-shortcuts-ban = Bannir l'auteur d'un commentaire
 hotkeysModal-shortcuts-zen = Basculer en affichage de commentaire unique
 
+authcheck-network-error = Une erreur réseau est survenue, rafraichissez la page.
 
+dashboard-heading-last-updated = Dernière mise-à-jour:
 
+dashboard-today-heading = Activité quotidienne
+dashboard-today-new-comments = Nouveaux commentaires
+dashboard-alltime-new-comments = Total historique
+dashboard-today-rejections = Taux de rejet
+dashboard-alltime-rejections = Total historique
+dashboard-today-staff-comments = Commentaire de l'équipe de modération
+dashboard-alltime-staff-comments = Total historique
+dashboard-today-signups = Nouveaux membres
+dashboard-alltime-signups = Membres totaux
+dashboard-today-bans = Membres bannis
+dashboard-alltime-bans = Membres bannis totaux
+
+dashboard-top-stories-today-heading = Article le plus commenté aujourd'hui
+dashboard-top-stories-table-header-story = Article
+dashboard-top-stories-table-header-comments = Commentaires
+dashboard-top-stories-no-comments = Aucun commentaire aujourd'hui
+
+dashboard-commenters-activity-heading = Nouveaux membres depuis la semaine dernière
+
+dashboard-comment-activity-heading = Commentaires à l'heure
+dashboard-comment-activity-tooltip-comments = Commentaires
+dashboard-comment-activity-legend = Moyenne des 3 derniers jours

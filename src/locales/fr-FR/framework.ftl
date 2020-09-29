@@ -33,6 +33,8 @@ framework-validation-notAWholeNumberGreaterThan = Veuillez entrer un nombre enti
 framework-validation-notAWholeNumberGreaterThanOrEqual = Veuillez entrer un nombre entier supérieur ou égal à { $x }.
 framework-validation-usernamesDoNotMatch = Les pseudos ne correspondent pas. Veuillez réessayer.
 framework-validation-deleteConfirmationInvalid = Confirmation incorrecte. Veuillez réessayer.
+framework-validation-invalidWebhookEndpointEventSelection = Sélectionnez au moins un événement à recevoir.
+framework-validation-media-url-invalid = Entrez une URL d'image valide (.png, .jpg, ou .gif)
 
 framework-timeago-just-now = à l'instant
 

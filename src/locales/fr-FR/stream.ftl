@@ -2,19 +2,41 @@
 
 ## General
 
+general-moderate = Modérer
+
 general-userBoxUnauthenticated-joinTheConversation = Réagir
 general-userBoxUnauthenticated-signIn = Se connecter
 general-userBoxUnauthenticated-register = S'enregistrer
 
 general-userBoxAuthenticated-signedInAs =
+general-userBoxAuthenticated-signedIn =
   Connecté en tant que <Username></Username>.
-
 general-userBoxAuthenticated-notYou =
   Ce n'est pas vous ?<button>Se déconnecter</button>
 
+general-userBox-youHaveBeenSuccessfullySignedOut =
+  Vous avez été déconnecté avec succès
+
 general-tabBar-commentsTab = Commentaires
 general-tabBar-myProfileTab = Mon profil
+general-tabBar-discussionsTab = Discussions
 general-tabBar-configure = Configuration
+
+general-tabBar-aria-comments =
+  .aria-label = Commentaires
+  .title = Commentaires
+general-tabBar-aria-qa =
+  .aria-label = Q&R
+  .title = Q&R
+general-tabBar-aria-myProfile =
+  .aria-label = Mon profil
+  .title = Mon profil
+general-tabBar-aria-configure =
+  .aria-label = Configuration
+  .title = Mon profil
+general-tabBar-aria-discussions =
+  .aria-label = Discussions
+  .title = Discussions
 
 ## Comment Count
 
@@ -28,29 +50,53 @@ comment-count-text =
 
 comments-allCommentsTab = Tous les commentaires
 comments-featuredTab = En vedette
+comments-counter-shortNum = { SHORT_NUMBER($count) }
+comments-watchers = { SHORT_NUMBER($count) } en ligne
+
 comments-featuredCommentTooltip-how = Comment un commentaire est déclaré "en vedette" ?
 comments-featuredCommentTooltip-handSelectedComments =
   Les commentaires sont choisis par notre équipe comme dignes d'être lus.
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Basculer la bulle d'information des commentaires en vedette
+  .title = Basculer la bulle d'information des commentaires en vedette
 
 comments-bannedInfo-bannedFromCommenting = Votre compte a été banni des commentaires.
 comments-bannedInfo-violatedCommunityGuidelines =
   Quelqu'un ayant accès à votre compte a enfreint les règles
-  de notre communauté. En conséquence, votre compte a été banni. 
+  de notre communauté. En conséquence, votre compte a été banni.
   Vous ne pourrez plus commenter, réagir ou signaler des commentaires.
   Si vous pensez que cela a été fait par erreur,
   veuillez contacter notre équipe communautaire.
 
-
+comments-noCommentsAtAll = Il n'y a aucun commentaire sur cet article.
 comments-noCommentsYet = Il n'y a pas de commentaire pour le moment. Souhaitez-vous en écrire un ?
 
 comments-streamQuery-storyNotFound = Pas d'article trouvé.
+
+comments-commentForm-cancel = Annuler
+comments-commentForm-saveChanges = Sauvegarder les changements
+comments-commentForm-submit = Soumettre
 
 comments-postCommentForm-submit = Soumettre
 comments-replyList-showAll = Tout voir
 comments-replyList-showMoreReplies = Voir plus de réponses
 
+comments-postCommentForm-gifSeach = Rechercher un GIF
+comments-postComment-gifSearch-loading = Chargement...
+comments-postComment-gifSearch-no-results = Aucun résultat pour {$query}
+comments-postComment-gifSearch-powered-by-giphy =
+  .alt = Propulsé par giphy
+
+comments-postComment-pasteImage = Coller l'URL d'une image
+comments-postComment-insertImage = Insérer
+
+comments-postComment-confirmMedia-youtube = Ajouter cette vidéo Youtube à la fin de votre commentaire?
+comments-postComment-confirmMedia-twitter = Ajouter ce Tweet à la fin de votre commentaire?
+comments-postComment-confirmMedia-cancel = Annuler
+comments-postComment-confirmMedia-add-tweet = Ajouter le Tweet
+comments-postComment-confirmMedia-add-video = Ajouter la vidéo
+comments-postComment-confirmMedia-remove = Retirer
+comments-commentForm-gifPreview-remove = Retirer
 comments-viewNew =
   { $count ->
     [1] Voir {$count} nouveau commentaire
@@ -60,7 +106,11 @@ comments-loadMore = Charger plus
 
 comments-permalinkPopover =
   .description = Un dialogue qui montre un lien vers le commentaire
+ comments-permalinkPopover-permalinkToComment =
+  .aria-label = Permalien du commentaire
 comments-permalinkButton-share = Partager
+comments-permalinkButton =
+  .aria-label = Partager le commentaire de {$username}
 comments-permalinkView-viewFullDiscussion = Voir toute la discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = Ce commentaire n'existe pas ou a été supprimé.
 
@@ -72,6 +122,19 @@ comments-rte-italic =
 
 comments-rte-blockquote =
   .title = Bloc de citation
+
+comments-rte-bulletedList =
+  .title = Liste
+
+comments-rte-strikethrough =
+  .title = Barré
+
+comments-rte-spoiler = Divulgâcheur
+
+comments-rte-sarcasm = Sarcasme
+
+comments-rte-externalImage =
+  .title = Image externe
 
 comments-remainingCharacters = { $remaining } caractères restants
 
@@ -87,17 +150,23 @@ comments-postCommentFormFake-rte =
 
 comments-postCommentForm-userScheduledForDeletion-warning =
   Les commentaires sont désactivés lorsque la suppression de votre compte est planifiée.
+
 comments-replyButton-reply = Répondre
+comments-replyButton =
+  .aria-label = Répondre au commentaire de {$username}
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
 comments-replyCommentForm-submit = Soumettre
 comments-replyCommentForm-cancel = Annuler
-comments-replyCommentForm-rte☺Label = Écrire une réponse  
+comments-replyCommentForm-rte☺Label = Écrire une réponse
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
 comments-commentContainer-editButton = Modifier
+
+comments-commentContainer-avatar =
+  .alt = Avatar de { $username }
 
 comments-editCommentForm-saveChanges = Sauvegarder les changements
 comments-editCommentForm-cancel = Annuler
@@ -112,13 +181,19 @@ comments-showConversationLink-readMore = En lire plus sur cette conversation >
 comments-conversationThread-showMoreOfThisConversation =
 Montrer plus de cette conversation
 
-comments-permalinkView-currentViewing = Vous consultez actuellement un
-comments-permalinkView-singleConversation = UNE SEULE CONVERSATION
+comments-permalinkView-currentViewing =
+comments-permalinkView-singleConversation =
+comments-permalinkView-youAreCurrentlyViewing =
+  Vous consultez actuellement une seule conversation
 comments-inReplyTo = En réponse à <Username></Username>
 comments-replyTo = Répondre à : <Username></Username>
 
 comments-reportButton-report = Signaler
 comments-reportButton-reported = Signalé
+comments-reportButton-aria-report =
+  .aria-label = Signaler le commentaire de {$username}
+comments-reportButton-aria-reported =
+  .aria-label = Signalé
 
 comments-sortMenu-sortBy = Trier par
 comments-sortMenu-newest = Le plus récent
@@ -132,23 +207,23 @@ comments-userPopover-ignore = Ignorer
 
 comments-userIgnorePopover-ignoreUser = Voulez-vous ignorer {$username} ?
 comments-userIgnorePopover-description =
-  Lorsque vous ignorez un intervenant, tous les commentaires 
-  qu'il écrira sur le site vous seront cachés. 
+  Lorsque vous ignorez un intervenant, tous les commentaires
+  qu'il écrira sur le site vous seront cachés.
   Vous pouvez annuler cette action dans "Mon profil".
 comments-userIgnorePopover-ignore = Ignorer
 comments-userIgnorePopover-cancel = Annuler
 
 comments-userBanPopover-title = Voulez-vous bannir {$username} ?
 comments-userBanPopover-description =
-  Une fois banni, cet utilisateur ne sera plus capable 
-  de commenter, de réagir ou de signaler des commentaires. 
+  Une fois banni, cet utilisateur ne sera plus capable
+  de commenter, de réagir ou de signaler des commentaires.
   Ce commentaire sera également rejeté.
 comments-userBanPopover-cancel = Annuler
 comments-userBanPopover-ban = Bannir
 
 comments-moderationDropdown-popover =
   .description = Une bulle contextuelle pour la modération du commentaire
-comments-moderationDropdown-feature = En vedette 
+comments-moderationDropdown-feature = En vedette
 comments-moderationDropdown-unfeature = Désactiver la mise en vedette
 comments-moderationDropdown-approve = Approuver
 comments-moderationDropdown-approved = Approuvé
@@ -156,14 +231,86 @@ comments-moderationDropdown-reject = Rejeter
 comments-moderationDropdown-rejected = Rejeté
 comments-moderationDropdown-ban = Bannir l'utilisateur
 comments-moderationDropdown-banned = Banni
-comments-moderationDropdown-goToModerate = Aller à la modération
+comments-moderationDropdown-goToModerate =
+comments-moderationDropdown-moderationView = Vue de modération
+comments-moderationDropdown-moderateStory = Modérer l'article
 comments-moderationDropdown-caretButton =
   .aria-label = Modérer
 
-comments-rejectedTombstone =
-  Vous avez rejeté ce commentaire. <TextLink> Aller à la modération pour revoir votre décision.</TextLink>
+comments-rejectedTombstone-title = Vous avez rejeté ce commentaire.
+comments-rejectedTombstone-moderateLink =
+  Allez à la vue de la modération pour réviser cette décision
 
 comments-featuredTag = En vedette
+
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} commentaire de {$username}
+    [one] {$reaction} commentaire de {$username}
+    *[other] {$reaction} ({$count}) commentaires de {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} commentaire de {$username}
+    [one] {$reaction} commentaire de {$username}
+    *[other] {$reaction} ({$count}) commentaire de {$username}
+  }
+
+### Q&A
+
+general-tabBar-qaTab = Q&R
+
+qa-answeredTab = Répondu
+qa-unansweredTab = Non répondu
+qa-allCommentsTab = Tous
+
+qa-noQuestionsAtAll =
+  Il n'y a aucune question sur cet article.
+qa-noQuestionsYet =
+  Il n'y a aucune question. Pourquoi ne pas en poser une?
+qa-viewNew =
+  { $count ->
+    [1] View {$count} nouvelle question
+    *[other] View {$count} nouvelles questions
+  }
+
+qa-postQuestionForm-rteLabel = Publier une question
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Plus voté
+
+qa-answered-tag = répondu
+qa-expert-tag = expert
+
+qa-reaction-vote = Voter
+qa-reaction-voted = Voté
+
+qa-reaction-aria-vote =
+  .aria-label = {$count ->
+    [0] vote pour le commentaire de {$username}
+    [one] vote pour le commentaire de {$username}
+    *[other] ({$count}) votes pour le commentaire de {$username}
+  }
+qa-reaction-aria-voted =
+  .aria-label = {$count ->
+    [0] vote pour le commentaire de {$username}
+    [one] vote pour le commentaire de {$username}
+    *[other] ({$count}) votes pour le commentaire de {$username}
+  }
+
+qa-unansweredTab-doneAnswering = Terminé
+
+qa-expert-email = ({ $email })
+
+qa-answeredTooltip-how = Comment une question est-elle répondue?
+qa-answeredTooltip-answeredComments =
+  Les Questions sont répondues par un expert Q&R.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Affiche le tooltip des question répondues
+  .title = Affiche le tooltip des question répondues
 
 ### Account Deletion Stream
 
@@ -173,20 +320,37 @@ comments-stream-deleteAccount-callOut-receivedDesc =
   Une requête pour supprimer votre compte a été reçue à cette date : { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
   Si vous voulez continuer de poster des commentaires, de répondre ou d'ajouter des réactions, vous devriez annuler votre requête de suppression de compte avant cette date { $date }.
-comments-stream-deleteAccount-callOut-cancel = 
+comments-stream-deleteAccount-callOut-cancel =
   Annuler la requête de suppression de compte
+
+
+### Embed Links
+
+comments-embedLinks-showEmbeds = Afficher les pièces jointes
+comments-embedLinks-hideEmbeds = Cacher les pièces jointes
+
+comments-embedLinks-show-giphy = Afficher les GIF
+comments-embedLinks-hide-giphy = Cacher les GIF
+
+comments-embedLinks-show-youtube = Afficher les video
+comments-embedLinks-hide-youtube = Cacher les video
+
+comments-embedLinks-show-twitter = Afficher les Tweet
+comments-embedLinks-hide-twitter = Cacher les Tweet
+
+comments-embedLinks-show-external = Afficher les image
+comments-embedLinks-hide-external = Cacher les image
 
 ### Featured Comments
 comments-featured-gotoConversation = Aller sur la conversation
-comments-featured-replies = Les réponses  
+comments-featured-replies = Les réponses
 
 ## Profile Tab
 
 profile-myCommentsTab = Mes commentaires
 profile-myCommentsTab-comments = Mes commentaires
 profile-accountTab = Mon compte
-
-accountSettings-manage-account = Gérer mon compte
+profile-preferencesTab = Préférences
 
 ### Account Deletion
 
@@ -194,6 +358,8 @@ profile-accountDeletion-deletionDesc =
   La suppression de votre compte est prévue pour le { $date }.
 profile-accountDeletion-cancelDeletion =
    Annuler la requête de suppression de votre compte.
+profile-accountDeletion-cancelAccountDeletion =
+   Annuler la suppression de votre compte.
 
 ### Comment History
 profile-historyComment-viewConversation = Voir la conversation
@@ -207,14 +373,26 @@ profile-commentHistory-loadMore = Charger plus
 profile-commentHistory-empty = Vous n'avez pas écrit de commentaire.
 profile-commentHistory-empty-subheading = Un historique de vos commentaires va apparaître ici.
 
+### Preferences
+
+profile-preferences-mediaPreferences = Préférence des médias
+profile-preferences-mediaPreferences-alwaysShow = Toujours afficher les GIFs, Tweets, vidéos YouTube, etc.
+profile-preferences-mediaPreferences-thisMayMake = Cette option peut ralentir le chargement des commentaires
+profile-preferences-mediaPreferences-update = Mettre-à-jour
+profile-preferences-mediaPreferences-preferencesUpdated =
+  Vos préférences ont été mises à jour
+
 ### Account
 profile-account-ignoredCommenters = Intervenants ignorés
 profile-account-ignoredCommenters-description =
   Vous pouvez ignorer les autres intervenants en cliquant sur leur pseudo et en selectionnant "Ignorer". Lorsque vous ignorez quelqu'un, tous ses commentaires vous seront cachés. Les intervenants que vous ignorez pourront toujours voir vos commentaires.
 profile-account-ignoredCommenters-empty = Vous n'avez ignoré personne.
-profile-account-ignoredCommenters-stopIgnoring = Arrêter d'ignorer 
+profile-account-ignoredCommenters-stopIgnoring = Arrêter d'ignorer
+profile-account-ignoredCommenters-youAreNoLonger =
+  Vous n'ignorez plus
 profile-account-ignoredCommenters-manage = Gérer
 profile-account-ignoredCommenters-cancel = Annuler
+profile-account-ignoredCommenters-close = Fermer
 
 profile-account-changePassword-cancel = Annuler
 profile-account-changePassword = Changer le mot de passe
@@ -236,13 +414,22 @@ profile-account-download-comments-request-icon =
   .title = Demander l'historique des commentaires
 profile-account-download-comments-recentRequest =
   La date de votre dernière demande était : { $timeStamp }
-profile-account-download-comments-timeOut =
-  Vous pouvez soumettre une nouvelle requête dans { framework-timeago-time }.
+profile-account-download-comments-yourMostRecentRequest =
+  Votre demande la plus récente date de moins de 14 jours.
+  Vous pourrez soumettre une nouvelle requête le { $timeStamp }.
+profile-account-download-comments-requested =
+  Requête envoyée. Vous pourrez soumettre une autre demande dans { framework-timeago-time }.
+profile-account-download-comments-requestSubmitted =
+  Votre demande a bien été envoyée. Vour pourrez effectuer une autre demande
+  pour télécharger l'historique des commentaires dans { framework-timeago-time }.
+profile-account-download-comments-error =
+  Nous sommes incapables de comptléter votre requête de téléchargement.
 profile-account-download-comments-request-button = Requête
 
 ## Delete Account
 
 profile-account-deleteAccount-title = Supprimer mon compte
+profile-account-deleteAccount-deleteMyAccount = Supprimer mon compte
 profile-account-deleteAccount-description =
   Supprimer votre compte supprimera de manière irréversible votre profil et effacera tous vos commentaires du site.
 profile-account-deleteAccount-requestDelete = Faire une demande de suppression de compte.
@@ -259,6 +446,10 @@ profile-account-deleteAccount-pages-deleteButton = Supprimer mon compte
 profile-account-deleteAccount-pages-cancel = Annuler
 profile-account-deleteAccount-pages-proceed = Procéder
 profile-account-deleteAccount-pages-done = Terminé
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Phrase
+
+profile-account-deleteAccount-pages-sharedHeader = Supprimer mon compte
 
 profile-account-deleteAccount-pages-descriptionHeader = Supprimer mon compte ?
 profile-account-deleteAccount-pages-descriptionText =
@@ -271,6 +462,7 @@ profile-account-deleteAccount-pages-emailRemoved =
   Votre adresse email sera supprimée de notre système.
 
 profile-account-deleteAccount-pages-whenHeader = Supprimer mon compte : Quand ?
+profile-account-deleteAccount-pages-whenSubHeader = Quand ?
 profile-account-deleteAccount-pages-whenSec1Header =
   Quand mon compte sera-t'il supprimé ?
 profile-account-deleteAccount-pages-whenSec1Content =
@@ -281,12 +473,14 @@ profile-account-deleteAccount-pages-whenSec2Content =
   Non. Une fois que vous avez demandé la suppression de votre compte, vous ne pouvez plus écrire de commentaires, répondre à des commentaires ou réagir.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Télécharger mes commentaires ?
+profile-account-deleteAccount-pages-downloadSubHeader = Télécharger mes commentaires
 profile-account-deleteAccount-pages-downloadCommentsDesc =
   Avant que votre compte ne soit supprimé, nous vous recommandons de télécharger votre historique de commentaires pour votre information. Après que votre compte sera supprimé, vous ne pourrez plus faire de demande de téléchargement de votre historique de commentaires.
 profile-account-deleteAccount-pages-downloadCommentsPath =
   Mon profil > Télécharger mon historique de commentaires
 
 profile-account-deleteAccount-pages-confirmHeader = Confirmer la suppression de compte ?
+profile-account-deleteAccount-pages-confirmSubHeader = Êtes-vous certain ?
 profile-account-deleteAccount-pages-confirmDescHeader =
   Êtes-vous sûr de vouloir supprimer votre compte ?
 profile-account-deleteAccount-confirmDescContent =
@@ -298,7 +492,7 @@ profile-account-deleteAccount-pages-confirmPasswordLabel =
 
 profile-account-deleteAccount-pages-completeHeader = Demande de suppression de votre compte
 profile-account-deleteAccount-pages-completeDescript =
-  Votre demande a été soumise, et une confirmation a été envoyée à l'adresse email 
+  Votre demande a été soumise, et une confirmation a été envoyée à l'adresse email
   associée à votre compte.
 profile-account-deleteAccount-pages-completeTimeHeader =
   Votre compte sera supprimé le : { $date }.
@@ -311,6 +505,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   Nous aimerions savoir pourquoi vous avez choisi de supprimer votre compte.
   Envoyez-nous vos commentaires sur notre système de commentaires par email { $email }.
 profile-account-changePassword-edit = Modifier
+profile-account-changePassword-change = Changer
 
 
 ## Notifications
@@ -337,14 +532,18 @@ comments-reportPopover-reportThisComment = Signaler ce commentaire
 comments-reportPopover-whyAreYouReporting = Pourquoi signalez-vous ce commentaire ?
 
 comments-reportPopover-reasonOffensive = Ce commentaire est offensant.
+comments-reportPopover-reasonAbusive = C'est un comportement abusif.
 comments-reportPopover-reasonIDisagree = Je suis en désaccord avec ce commentaire.
 comments-reportPopover-reasonSpam = Il ressemble à une publicité.
 comments-reportPopover-reasonOther = Autre
 
+comments-reportPopover-additionalInformation =
+  Information supplémentaire <optional>facultatif</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
   Veuillez indiquer des informations additionnelles qui pourraient être utiles pour nos modérateurs. (Facultatif)
 
 comments-reportPopover-maxCharacters = Nombre de caractères maximal : { $maxCharacters }
+comments-reportPopover-restrictToMaxCharacters = Respectez la limite de { $maxCharacters } caractères
 comments-reportPopover-cancel = Annuler
 comments-reportPopover-submit = Soumettre
 
@@ -356,7 +555,9 @@ comments-reportPopover-dismiss = Rejeter
 ## Submit Status
 comments-submitStatus-dismiss = Rejeter
 comments-submitStatus-submittedAndWillBeReviewed =
-    Votre commentaire a été soumis et va être jugé par un modérateur.
+    Votre commentaire a été soumis et va être évalué par un modérateur.
+comments-submitStatus-submittedAndRejected =
+    Ce commentaire a été rejeté car il ne respectait pas les règles.
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Une erreur est survenue pendant le chargement des réglages.
@@ -366,67 +567,179 @@ configure-configureQuery-storyNotFound = L'article n'a pas été trouvé.
 profile-changeUsername-username = Pseudo
 profile-changeUsername-success = Votre pseudo a bien été mis à jour.
 profile-changeUsername-edit = Modifier
+profile-changeUsername-edit = Changer
 profile-changeUsername-heading = Modifier votre pseudo
-profile-changeUsername-desc = 
-Changer le pseudo qui apparaît sur tous vos anciens et futurs commentaires. <strong>Le pseudo peut être changé une fois tous les { framework-timeago-time }.</strong>
+profile-changeUsername-heading-changeYourUsername = Changer de pseudo
+profile-changeUsername-desc = Changer le pseudo qui apparaît sur tous vos anciens et futurs commentaires. <strong>Le pseudo peut être changé une fois tous les { framework-timeago-time }.</strong>
 profile-changeUsername-desc-text = Changer le pseudo qui apparaît sur tous vos anciens et futurs commentaires. Le pseudo peut être changé une fois tous les { framework-timeago-time }.
 profile-changeUsername-current = Pseudo actuel
 profile-changeUsername-newUsername-label = Nouveau pseudo
 profile-changeUsername-confirmNewUsername-label = Confirmer le nouveau pseudo
 profile-changeUsername-cancel = Annuler
 profile-changeUsername-save = Sauvegarder
+profile-changeUsername-saveChanges = Sauvegarder les changements
 profile-changeUsername-recentChange =  Votre pseudo a été changé dans la dernière { framework-timeago-time }. Vous pourrez le rechanger à partir du { $nextUpdate }.
+profile-changeUsername-youChangedYourUsernameWithin =
+  Vous avez changé votre pseudo dans les derniers { framework-timeago-time }. Vous pourrez changer votre pseudo de nouveau le: { $nextUpdate }.
 profile-changeUsername-close = Fermer
 
-## Comment Stream
-configure-stream-title = Configurer ce flux de commentaires
-configure-stream-apply = Appliquer
+## Discussions tab
 
-configure-premod-title = Activer la pré-modération
+discussions-mostActiveDiscussions = Discussions les plus actives
+discussions-mostActiveDiscussions-subhead = En ordre du nombre de commentaires reçu depuis les dernières 24 heures sur { $siteName }
+discussions-mostActiveDiscussions-empty = Vous n'avez participé a aucune discussion
+discussions-myOngoingDiscussions = Mes discussions en cours
+discussions-myOngoingDiscussions-subhead = Vos commentaires sur { $orgName }
+discussions-viewFullHistory = Afficher tout l'historique
+discussions-discussionsQuery-errorLoadingProfile = Une erreur s'est produite au chargment du profil
+discussions-discussionsQuery-storyNotFound = Article introuvable
+
+## Comment Stream
+configure-stream-title =
+configure-stream-title-configureThisStream =
+  Configurer ce flux de commentaires
+configure-stream-apply =
+configure-stream-update = Mettre à jour
+configure-stream-streamHasBeenUpdated =
+  Ce flux a été mis à jour
+
+configure-premod-title =
+configure-premod-premoderateAllComments = Pré-modération de tous les commentaires
 configure-premod-description =
   Les modérateurs doivent approuver chaque commentaire avant qu'il ne soit publié dans cet article.
 
-configure-premodLink-title = La pré-modération dans les commentaires contenant des liens.
+configure-premodLink-title =
+configure-premodLink-commentsContainingLinks =
+  La pré-modération des commentaires contenant des liens.
 configure-premodLink-description =
   Les modérateurs doivent approuver chaque commentaire qui contient un lien avant qu'il ne soit publié dans cet article.
 
-configure-liveUpdates-title = Activer la mise à jour en direct pour cet article
+configure-liveUpdates-title =
+configure-enableLiveUpdates-title = Activer la mise à jour en direct
 configure-liveUpdates-description =
+configure-enableLiveUpdates-description =
   Lorsque cette option est activée, les commentaires sont mis à jour instantanément lorsque de nouveaux commentaires et réponses sont soumis, au lieu de nécessiter un rafraîchissement de la page. Vous pouvez le désactiver dans la situation inhabituelle d'un article qui génère un trafic si important que les commentaires se chargent lentement.
+configure-enableLiveUpdates-enable = Activer
 
+configure-liveUpdates-disabledSuccess = La mise-à-jour en direct est désactivée
+configure-liveUpdates-enabledSuccess = La mise-à-jour en direct est activée
 
-configure-messageBox-title = Activer la boîte de message pour cet article
+configure-disableLiveUpdates-title = Désactiver la mise à jour en direct
+configure-disableLiveUpdates-description =
+  Lorsque cette option est désactivée, les commentaires ne sont plus mis à jour instantanément lorsque de nouveaux commentaires et réponses sont soumis. Un rafraîchissement sera nécessaire. Cette option est recommendée pour les article qui ont un flux de commentaires élevé et que le chargement des commentaires et lent.
+configure-disableLiveUpdates-disable = Désactiver.
+
+configure-messageBox-title =
+configure-addMessage-title =
+ Ajouter un message ou une question
 configure-messageBox-description =
+configure-addMessage-description =
   Utilisez-le pour suggérer un sujet de discussion, poser une question
   ou faire des annonces concernant les commentaires de cet article.
+configure-addMessage-addMessage = Ajouter un message
+configure-addMessage-removed = Le message a été retiré
+config-addMessage-messageHasBeenAdded =
+  Le message a été ajouté à la boîte de commetaires
+configure-addMessage-remove = Retirer
+configure-addMessage-submitUpdate = Mettre à jour
+configure-addMessage-cancel = Annuler
+configure-addMessage-submitAdd = Ajouter le message
+
 configure-messageBox-preview = Aperçu
 configure-messageBox-selectAnIcon = Sélectionner une icône
+configure-messageBox-iconConversation = Conversation
+configure-messageBox-iconDate = Date
+configure-messageBox-iconHelp = Aide
+configure-messageBox-iconWarning = Attention
+configure-messageBox-iconChatBubble = Bulle de discussion
 configure-messageBox-noIcon = Aucune icône
 configure-messageBox-writeAMessage = Écrire un message
 
-configure-closeStream-title =  Fermer le flux de commentaires
+configure-closeStream-title =
+configure-closeStream-closeCommentStream =
+  Fermer le flux de commentaires
 configure-closeStream-description =
   Ce flux de commentaires est actuellement ouvert. En le fermant, aucune nouveau commentaire ne pourra être publié et tous les commentaires précédents resteront visibles.
 configure-closeStream-closeStream = Fermer le flux
+configure-closeStream-theStreamIsNowOpen = Le flux est maintenant ouvert
 
 configure-openStream-title = Ouvrir le flux
 configure-openStream-description =
   Ce flux de commentaires est actuellement fermé. En l'ouvrant, de nouveaux commentaires pourront être publiés et visibles.
 configure-openStream-openStream = Ouvrir le flux
+configure-openStream-theStreamIsNowClosed = The stream est maintenant fermé
 
+configure-moderateThisStream =
+
+qa-experimental-tag-tooltip-content =
+  Le format Q&R est présentement en développement. Contactez-nous avec
+  vos commentaires ou suggestions.
+
+configure-enableQA-title =
+configure-enableQA-switchToQA =
+  Basculer au format Q&R
+configure-enableQA-description =
+  Le format Q&R permet aux membres de la communauté de soumettre des questions
+  qui seront répondues par un expect désigné.
+configure-enableQA-enableQA = Basculez en Q&R
+configure-enableQA-streamIsNowComments =
+  Ce flux est présentement en format commentaires
+
+configure-disableQA-title = Configurer ce Q&R
+configure-disableQA-description =
+  Le format Q&R permet aux membres de la communauté de soumettre des questions
+  qui seront répondues par un expect désigné.
+configure-disableQA-disableQA = Basculer en format commentaires
+configure-disableQA-streamIsNowQA =
+  Ce flux est présentement en format Q&R
+
+configure-experts-title = Ajouter un expert
+configure-experts-filter-searchField =
+  .placeholder = Rechercher par email ou pseudo
+  .aria-label = Rechercher par email ou pseudo
+configure-experts-filter-searchButton =
+  .aria-label = Rechercher
+configure-experts-filter-description =
+  Ajouter une badge d'expert aux commentaires de l'utilisateur désigné, seulement
+  sur cette page. Les nouveux utilisateurs doivent d'abord se créer un compte et s'y
+  connecter sur une page de commentaires.
+configure-experts-search-none-found = Aucun utilisateur n'a été trouvé à partir de ce email ou pseudo
+configure-experts-
+configure-experts-remove-button = Retirer
+configure-experts-load-more = Charger plus
+configure-experts-none-yet = Il n'y a présentement aucun expert pour ce Q&R
+configure-experts-search-title = Rechercher un expert
+configure-experts-assigned-title = Experts
+configure-experts-noLongerAnExpert = n'est plus un expert
 comments-tombstone-ignore = Ce commentaire est caché, car vous avez ignoré {$username}.
+comments-tombstone-showComment = Afficher le commentaire
 comments-tombstone-deleted =
   Ce commentaire n'est plus disponible. L'intervenant a supprimé son compte.
 
-suspendInfo-heading = Votre compte a été temporairement suspendu des commentaires.
+suspendInfo-heading =
+suspendInfo-heading-yourAccountHasBeen =
+  Votre compte a été temporairement suspendu des commentaires.
 suspendInfo-info =
+suspendInfo-description-inAccordanceWith =
   Conformément aux directives de la communauté de { $organization },
   votre compte a été temporairement suspendu. Pendant la suspension,
   vous ne pourrez ni commenter, ni réagir, ni signaler de commentaires.
+suspendInfo-until-pleaseRejoinThe =
   Vous pourrez rejoindre la conversation le { $until }.
 
+warning-heading = Votre compte a reçu un avertissement
+warning-explanation =
+  En conformité avec nos règlements de communauté, votre compte a reçu un avertissement.
+warning-instructions =
+  Pour pouvoir continuer de participer aux discussions, appuyez sur le bouton "J'ai compris" ci-dessous.
+warning-acknowledge = J'ai compris
+
+warning-notice = Votre compte a reçu un avertissement. Pour continuer de participer, veuillez <a>prendre connaissance de l'avertissmenet</a>
+
 profile-changeEmail-unverified = (Non vérifié)
+profile-changeEmail-current = (actuel)
 profile-changeEmail-edit = Modifer
+profile-changeEmail-change = Changer
 profile-changeEmail-please-verify = Vérifier votre adresse email
 profile-changeEmail-please-verify-details =
   Un email a été envoyé a l'adresse { $email } pour vérifier votre compte.
@@ -435,12 +748,16 @@ profile-changeEmail-please-verify-details =
   ou de pouvoir recevoir des notifications.
 profile-changeEmail-resend = Renvoyer une vérification
 profile-changeEmail-heading = Modifier votre adresse email
+profile-changeEmail-changeYourEmailAddress =
+  Changer votre adresse email
 profile-changeEmail-desc = Changer l'adresse email utilisée pour vous connecter et pour communiquer à propos de votre compte
-profile-changeEmail-current = Email actuel
 profile-changeEmail-newEmail-label = Nouvelle adresse email
 profile-changeEmail-password = Mot de passe
 profile-changeEmail-password-input =
   .placeholder = Mot de passe
-profile-changeEmail-cancel = Annuler 
+profile-changeEmail-cancel = Annuler
 profile-changeEmail-submit = Sauvegarder
+profile-changeEmail-saveChanges = Sauvegarder les changements
 profile-changeEmail-email = Email
+profile-changeEmail-title = Adresse mail
+profile-changeEmail-success = Votre email a bien été mis à jour
