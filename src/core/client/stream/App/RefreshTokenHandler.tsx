@@ -7,6 +7,7 @@ import {
   LOCAL_ID,
   lookup,
   lookupQuery,
+  retainQuery,
   useMutation,
 } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
@@ -19,6 +20,14 @@ import {
   waitTillAuthPopupIsClosed,
 } from "../common/AuthPopup";
 import getPymRefreshAccessToken from "./getPymRefreshAccessToken";
+
+const authControlQuery = graphql`
+  query RefreshTokenHandlerAuthControlQuery {
+    settings {
+      ...authControl_settings @relay(mask: false)
+    }
+  }
+`;
 
 /**
  * RefreshTokenHandler registers the stream refresh access token
@@ -38,6 +47,18 @@ const RefreshTokenHandler: FunctionComponent = () => {
     console.error("TokenRefreshProvider is missing");
   }
   useEffect(() => {
+    // Prevent garbage collection of auth control data that we use
+    // below as long as this component is rendered.
+    const retainment = retainQuery<RefreshTokenHandlerAuthControlQuery>(
+      relayEnvironment,
+      authControlQuery
+    );
+    return () => {
+      retainment.dispose();
+    };
+  }, [relayEnvironment]);
+
+  useEffect(() => {
     return tokenRefreshProvider?.register(async () => {
       // Try to get a new access token over pym.
       if (pym) {
@@ -56,18 +77,12 @@ const RefreshTokenHandler: FunctionComponent = () => {
       // the UserBoxContainer (with the authControl_settings fragment).
       const data = lookupQuery<RefreshTokenHandlerAuthControlQuery>(
         relayEnvironment,
-        graphql`
-          query RefreshTokenHandlerAuthControlQuery {
-            settings {
-              ...authControl_settings @relay(mask: false)
-            }
-          }
-        `
+        authControlQuery
       );
 
       if (!data?.settings?.auth) {
         throw new Error(
-          "Missing auth data. Make sure <UserBoxContainer /> is currently being rendered."
+          "Missing auth data. Make sure <UserBoxContainer /> has been rendered."
         );
       }
 
