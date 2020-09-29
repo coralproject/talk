@@ -3,9 +3,9 @@ import { inject, singleton } from "tsyringe";
 import { CONFIG, Config } from "coral-server/config";
 import { createTimer } from "coral-server/helpers";
 import {
-  JobProcessor,
-  JobProcessorHandler,
-} from "coral-server/queue/processor";
+  Processor,
+  ProcessorHandler,
+} from "coral-server/queue/tasks/processor";
 import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { scrape } from "coral-server/services/stories/scraper";
 
@@ -18,13 +18,13 @@ export interface ScraperData {
 }
 
 @singleton()
-export class ScraperQueueProcessor implements JobProcessor<ScraperData> {
+export class ScraperQueueProcessor implements Processor<ScraperData> {
   constructor(
     @inject(MONGO) private readonly mongo: Mongo,
     @inject(CONFIG) private readonly config: Config
   ) {}
 
-  public process: JobProcessorHandler<ScraperData> = async (logger, job) => {
+  public process: ProcessorHandler<ScraperData> = async (logger, job) => {
     // Pull out the job data.
     const { storyID, storyURL, tenantID } = job.data;
 

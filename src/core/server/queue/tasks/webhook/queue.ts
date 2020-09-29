@@ -2,7 +2,7 @@ import { singleton } from "tsyringe";
 
 import { TaskQueueOptions } from "coral-server/queue/options";
 import { JobQueue } from "coral-server/queue/queue";
-import Task from "coral-server/queue/task";
+import Task from "coral-server/queue/tasks/task";
 
 import { JOB_NAME, WebhookData, WebhookQueueProcessor } from "./processor";
 

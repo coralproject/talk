@@ -6,11 +6,11 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
 
-import { JobProcessor } from "./processor";
+import { Processor } from "./processor";
 
 interface Options<T extends TenantResource, U = void> {
   name: string;
-  processor: JobProcessor<T, U>;
+  processor: Processor<T, U>;
   options?: Queue.JobOptions;
   queue: Queue.QueueOptions;
   timeout?: number;
@@ -19,7 +19,7 @@ interface Options<T extends TenantResource, U = void> {
 export default class Task<T extends TenantResource, U = any> {
   private readonly log: Logger;
   private readonly options: Queue.JobOptions;
-  private readonly processor: JobProcessor<T, U>;
+  private readonly processor: Processor<T, U>;
   private readonly queue: QueueType<T>;
   private readonly timeout: number;
 

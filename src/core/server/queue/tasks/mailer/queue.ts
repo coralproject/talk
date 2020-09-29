@@ -4,8 +4,8 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TaskQueueOptions } from "coral-server/queue/options";
 import { JobQueue } from "coral-server/queue/queue";
-import Task from "coral-server/queue/task";
 import MailerContent from "coral-server/queue/tasks/mailer/content";
+import Task from "coral-server/queue/tasks/task";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { JOB_NAME, MailerData, MailerQueueProcessor } from "./processor";

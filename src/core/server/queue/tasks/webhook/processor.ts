@@ -8,9 +8,9 @@ import {
   getWebhookEndpoint,
 } from "coral-server/models/tenant";
 import {
-  JobProcessor,
-  JobProcessorHandler,
-} from "coral-server/queue/processor";
+  Processor,
+  ProcessorHandler,
+} from "coral-server/queue/tasks/processor";
 import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
 import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { REDIS, Redis } from "coral-server/services/redis";
@@ -56,7 +56,7 @@ interface CoralWebhookEventPayload extends CoralEventPayload {
 }
 
 @singleton()
-export class WebhookQueueProcessor implements JobProcessor<WebhookData> {
+export class WebhookQueueProcessor implements Processor<WebhookData> {
   private readonly fetch = createFetch({ name: "Webhook" });
 
   constructor(
@@ -65,7 +65,7 @@ export class WebhookQueueProcessor implements JobProcessor<WebhookData> {
     @inject(MONGO) private readonly mongo: Mongo
   ) {}
 
-  public process: JobProcessorHandler<WebhookData> = async (logger, job) => {
+  public process: ProcessorHandler<WebhookData> = async (logger, job) => {
     const { tenantID, endpointID, contextID, event } = job.data;
 
     logger = logger.child(

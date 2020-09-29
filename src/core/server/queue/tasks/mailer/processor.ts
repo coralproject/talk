@@ -6,9 +6,9 @@ import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import { Logger } from "coral-server/logger";
 import {
-  JobProcessor,
-  JobProcessorHandler,
-} from "coral-server/queue/processor";
+  Processor,
+  ProcessorHandler,
+} from "coral-server/queue/tasks/processor";
 import {
   TenantCache,
   TenantCacheAdapter,
@@ -42,14 +42,14 @@ function send(client: SMTPClient, message: Message): Promise<Message> {
 }
 
 @singleton()
-export class MailerQueueProcessor implements JobProcessor<MailerData> {
+export class MailerQueueProcessor implements Processor<MailerData> {
   constructor(
     private readonly translator: MessageTranslator,
     private readonly smtpCache: TenantCacheAdapter<SMTPClient>,
     private readonly tenantCache: TenantCache
   ) {}
 
-  public process: JobProcessorHandler<MailerData> = async (logger, job) => {
+  public process: ProcessorHandler<MailerData> = async (logger, job) => {
     // Pull the data out of the validated model.
     const { tenantID } = job.data;
 

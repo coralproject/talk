@@ -8,9 +8,9 @@ import {
 } from "coral-server/models/comment";
 import { Connection } from "coral-server/models/helpers";
 import {
-  JobProcessor,
-  JobProcessorHandler,
-} from "coral-server/queue/processor";
+  Processor,
+  ProcessorHandler,
+} from "coral-server/queue/tasks/processor";
 import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { Redis, REDIS } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -27,7 +27,7 @@ export interface RejectorData {
 }
 
 @singleton()
-export class RejectorQueueProcessor implements JobProcessor<RejectorData> {
+export class RejectorQueueProcessor implements Processor<RejectorData> {
   constructor(
     @inject(MONGO) private readonly mongo: Mongo,
     @inject(REDIS) private readonly redis: Redis,
@@ -46,7 +46,7 @@ export class RejectorQueueProcessor implements JobProcessor<RejectorData> {
     });
   }
 
-  public process: JobProcessorHandler<RejectorData> = async (logger, job) => {
+  public process: ProcessorHandler<RejectorData> = async (logger, job) => {
     // Pull out the job data.
     const { authorID, moderatorID, tenantID } = job.data;
 

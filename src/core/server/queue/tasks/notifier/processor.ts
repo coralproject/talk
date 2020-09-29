@@ -4,9 +4,9 @@ import { Config, CONFIG } from "coral-server/config";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import {
-  JobProcessor,
-  JobProcessorHandler,
-} from "coral-server/queue/processor";
+  Processor,
+  ProcessorHandler,
+} from "coral-server/queue/tasks/processor";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfigService } from "coral-server/services/jwt";
 import { MONGO, Mongo } from "coral-server/services/mongodb";
@@ -44,7 +44,7 @@ export interface CategoryNotification {
 }
 
 @singleton()
-export class NotifierQueueProcessor implements JobProcessor<NotifierData> {
+export class NotifierQueueProcessor implements Processor<NotifierData> {
   private readonly registry = new Map<CoralEventType, NotificationCategory[]>();
 
   constructor(
@@ -70,7 +70,7 @@ export class NotifierQueueProcessor implements JobProcessor<NotifierData> {
     }
   }
 
-  public process: JobProcessorHandler<NotifierData> = async (logger, job) => {
+  public process: ProcessorHandler<NotifierData> = async (logger, job) => {
     const now = new Date();
 
     // Pull the data out of the model.
