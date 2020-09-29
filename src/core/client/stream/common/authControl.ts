@@ -1,3 +1,10 @@
+/**
+ * This file contains methods that helps determine which
+ * parts of auth we control depending on the current settings.
+ * It comes with a fragment that retrieves the data needed
+ * to call the methods and can be used in queries.
+ */
+
 import { graphql } from "react-relay";
 
 import { NoFragmentRefs } from "coral-framework/testHelpers";
@@ -42,6 +49,10 @@ graphql`
   }
 `;
 
+/**
+ * Determine whether we control the auth and if we provide a way
+ * to open the auth view.
+ */
 export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
@@ -52,6 +63,10 @@ export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
   ].some((i) => i.enabled && i.targetFilter.stream);
 }
 
+/**
+ * Determine whether we support register and if we provide a way
+ * to open the register view.
+ */
 export function supportsRegister(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
