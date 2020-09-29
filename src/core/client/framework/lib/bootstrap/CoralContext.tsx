@@ -17,9 +17,15 @@ import { TransitionControlData } from "coral-framework/testHelpers";
 import { UIContext } from "coral-ui/components/v2";
 import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
+import { ManagedSubscriptionClient } from "../network/createManagedSubscriptionClient";
+import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
+
 export interface CoralContext {
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
+
+  /** subscriptionClient that managed the websocket connection for subscriptions */
+  subscriptionClient: ManagedSubscriptionClient;
 
   /** locales */
   locales: string[];
@@ -62,6 +68,9 @@ export interface CoralContext {
 
   /** A event emitter */
   eventEmitter: EventEmitter2;
+
+  /** TokenRefreshProvider is used to obtain a new access token after expiry */
+  tokenRefreshProvider?: TokenRefreshProvider;
 
   /** Clear session data. */
   clearSession: (

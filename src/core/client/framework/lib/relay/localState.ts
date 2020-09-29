@@ -2,7 +2,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { createAndRetain } from "coral-framework/lib/relay";
 
-import { AuthState } from "../auth";
+import { AuthState, setAuthStateInLocalRecord } from "../auth";
 import { CoralContext } from "../bootstrap";
 
 /**
@@ -27,7 +27,7 @@ export const LOCAL_ID = "client:root.local";
 export function initLocalBaseState(
   environment: Environment,
   context: CoralContext,
-  auth?: AuthState
+  auth: AuthState | null = null
 ) {
   commitLocalUpdate(environment, (source) => {
     const root = source.getRoot();
@@ -37,11 +37,6 @@ export function initLocalBaseState(
 
     root.setLinkedRecord(local, "local");
 
-    // Update the access token properties.
-    local.setValue(auth?.accessToken || null, "accessToken");
-
-    // Update the claims.
-    local.setValue(auth?.claims.exp || null, "accessTokenExp");
-    local.setValue(auth?.claims.jti || null, "accessTokenJTI");
+    setAuthStateInLocalRecord(local, auth);
   });
 }

@@ -15,6 +15,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
+import { MutationProp } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import {
   GQLFEATURE_FLAG,
@@ -25,15 +26,17 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
+  ShowAuthPopupMutation,
+  withShowAuthPopupMutation,
+} from "coral-stream/common/AuthPopup";
+import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
   ViewConversationEvent,
 } from "coral-stream/events";
 import {
   SetCommentIDMutation,
-  ShowAuthPopupMutation,
   withSetCommentIDMutation,
-  withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
@@ -73,7 +76,7 @@ interface Props {
   settings: SettingsData;
   eventEmitter: EventEmitter2;
   indentLevel?: number;
-  showAuthPopup: ShowAuthPopupMutation;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   setCommentID: SetCommentIDMutation;
   /**
    * localReply will integrate the mutation response into

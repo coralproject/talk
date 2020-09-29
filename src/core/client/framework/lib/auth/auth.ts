@@ -1,3 +1,8 @@
+import { commitLocalUpdate, Environment } from "react-relay";
+import { RecordProxy } from "relay-runtime";
+
+import { ManagedSubscriptionClient } from "../network";
+import { LOCAL_ID } from "../relay";
 import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 
 /**
@@ -19,19 +24,19 @@ export interface AuthState {
 
 export type AccessTokenProvider = () => string | undefined;
 
-export function parseAccessToken(accessToken: string) {
+export function parseAccessToken(accessToken: string): AuthState | null {
   // Try to parse the access token claims.
   const claims = parseAccessTokenClaims(accessToken);
   if (!claims) {
     // Claims couldn't be parsed.
-    return;
+    return null;
   }
 
   if (claims.exp) {
     const expiresIn = computeExpiresIn(claims.exp);
     if (!expiresIn) {
       // Looks like the access token has expired.
-      return;
+      return null;
     }
   }
 
@@ -58,12 +63,14 @@ export function retrieveAccessToken() {
   }
 }
 
-export function storeAccessToken(accessToken: string) {
+export function storeAccessTokenInLocalStorage(
+  accessToken: string
+): AuthState | null {
   // Parse the access token that's trying to be stored now. If it can't be
   // parsed, it can't be stored.
   const parsed = parseAccessToken(accessToken);
   if (!parsed) {
-    return;
+    return null;
   }
 
   try {
@@ -79,7 +86,49 @@ export function storeAccessToken(accessToken: string) {
   return parsed;
 }
 
-export function deleteAccessToken() {
+/**
+ * Commits auth state to relay store.
+ */
+export function commitAuthState(
+  environment: Environment,
+  auth: AuthState | null
+) {
+  commitLocalUpdate(environment, (store) => {
+    const local = store.get(LOCAL_ID)!;
+    setAuthStateInLocalRecord(local, auth);
+  });
+}
+
+export function setAuthStateInLocalRecord(
+  local: RecordProxy,
+  auth: AuthState | null
+) {
+  // Update the access token properties.
+  local.setValue(auth?.accessToken || null, "accessToken");
+  // Update the claims.
+  local.setValue(auth?.claims.exp || null, "accessTokenExp");
+  local.setValue(auth?.claims.jti || null, "accessTokenJTI");
+}
+
+export function replaceAccessTokenOnTheFly(
+  environment: Environment,
+  subscriptionClient: ManagedSubscriptionClient,
+  accessToken: string,
+  options: { ephemeral?: boolean } = {}
+) {
+  const auth = options.ephemeral
+    ? parseAccessToken(accessToken)
+    : storeAccessTokenInLocalStorage(accessToken);
+  if (!auth) {
+    return;
+  }
+  subscriptionClient.pause();
+  commitAuthState(environment, auth);
+  subscriptionClient.setAccessToken(accessToken);
+  subscriptionClient.resume();
+}
+
+export function deleteAccessTokenFromLocalStorage() {
   try {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
   } catch (err) {

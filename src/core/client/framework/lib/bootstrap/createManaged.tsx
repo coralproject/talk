@@ -25,10 +25,10 @@ import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 import {
   AccessTokenProvider,
   AuthState,
-  deleteAccessToken,
+  deleteAccessTokenFromLocalStorage,
   parseAccessToken,
   retrieveAccessToken,
-  storeAccessToken,
+  storeAccessTokenInLocalStorage,
 } from "../auth";
 import { generateBundles, LocalesData } from "../i18n";
 import {
@@ -36,6 +36,7 @@ import {
   createNetwork,
   ManagedSubscriptionClient,
 } from "../network";
+import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
 import { PostMessageService } from "../postMessage";
 import { LOCAL_ID } from "../relay";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
@@ -44,7 +45,7 @@ import SendPymReady from "./SendPymReady";
 export type InitLocalState = (
   environment: Environment,
   context: CoralContext,
-  auth?: AuthState
+  auth?: AuthState | null
 ) => void | Promise<void>;
 
 interface CreateContextArguments {
@@ -73,6 +74,9 @@ interface CreateContextArguments {
 
   /** bundleConfig is the configuration parameters for this bundle */
   bundleConfig?: Record<string, string>;
+
+  /** tokenRefreshProvider is used to obtain a new access token after expiry. */
+  tokenRefreshProvider?: TokenRefreshProvider;
 }
 
 /** websocketURL points to our live graphql server */
@@ -122,7 +126,7 @@ function areWeInIframe() {
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  accessToken?: string
+  tokenRefreshProvider?: TokenRefreshProvider
 ) {
   const source = new RecordSource();
   const accessTokenProvider: AccessTokenProvider = () => {
@@ -134,7 +138,12 @@ function createRelayEnvironment(
     return local.accessToken as string | undefined;
   };
   const environment = new Environment({
-    network: createNetwork(subscriptionClient, clientID, accessTokenProvider),
+    network: createNetwork(
+      subscriptionClient,
+      clientID,
+      accessTokenProvider,
+      tokenRefreshProvider?.refreshToken
+    ),
     store: new Store(source),
   });
 
@@ -189,14 +198,14 @@ function createManagedCoralContextProvider(
       const auth = nextAccessToken
         ? ephemeral
           ? parseAccessToken(nextAccessToken)
-          : storeAccessToken(nextAccessToken)
-        : deleteAccessToken();
+          : storeAccessTokenInLocalStorage(nextAccessToken)
+        : deleteAccessTokenFromLocalStorage();
 
       // Create the new environment.
       const { environment, accessTokenProvider } = createRelayEnvironment(
         subscriptionClient,
         clientID,
-        auth?.accessToken
+        this.state.context.tokenRefreshProvider
       );
 
       // Create the new context.
@@ -299,6 +308,7 @@ export default async function createManaged({
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
   bundle,
   bundleConfig = {},
+  tokenRefreshProvider,
 }: CreateContextArguments): Promise<ComponentType> {
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
@@ -348,11 +358,12 @@ export default async function createManaged({
   const { environment, accessTokenProvider } = createRelayEnvironment(
     subscriptionClient,
     clientID,
-    auth?.accessToken
+    tokenRefreshProvider
   );
 
   // Assemble context.
   const context: CoralContext = {
+    subscriptionClient,
     relayEnvironment: environment,
     locales,
     localeBundles,
@@ -373,6 +384,7 @@ export default async function createManaged({
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
     changeLocale: (locale?: LanguageCode) => Promise.resolve(),
+    tokenRefreshProvider,
   };
 
   // Initialize local state.

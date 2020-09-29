@@ -7,6 +7,7 @@ import injectConditionalPolyfills from "coral-framework/helpers/injectConditiona
 import potentiallyInjectAxe from "coral-framework/helpers/potentiallyInjectAxe";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { createReporter } from "coral-framework/lib/errors/reporter";
+import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRefreshProvider";
 
 import AppContainer from "./App";
 import { initLocalState } from "./local";
@@ -44,6 +45,7 @@ async function main() {
     reporter,
     bundle: "stream",
     bundleConfig,
+    tokenRefreshProvider: createTokenRefreshProvider(),
   });
 
   const Index: FunctionComponent = () => (

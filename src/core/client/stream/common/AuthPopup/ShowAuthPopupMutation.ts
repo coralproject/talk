@@ -7,15 +7,11 @@ import {
 } from "coral-framework/lib/relay";
 import { LoginPromptEvent, ShowAuthPopupEvent } from "coral-stream/events";
 
-import { AUTH_POPUP_ID } from "../local";
+import { AUTH_POPUP_ID } from "../../local";
 
 export interface ShowAuthPopupInput {
   view: "SIGN_IN" | "SIGN_UP" | "FORGOT_PASSWORD";
 }
-
-export type ShowAuthPopupMutation = (
-  input: ShowAuthPopupInput
-) => Promise<void>;
 
 export async function commit(
   environment: Environment,
