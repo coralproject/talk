@@ -29,7 +29,7 @@ import {
 } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
-  JWTSigningConfig,
+  SigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
@@ -72,7 +72,7 @@ export function isInviteToken(
 export async function generateInviteURL(
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   user: Required<Pick<Invite, "id" | "email" | "expiresAt">>,
   now: Date
 ) {
@@ -109,7 +109,7 @@ export async function generateInviteURL(
 export async function verifyInviteTokenString(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {
@@ -156,7 +156,7 @@ export async function invite(
   tenant: Tenant,
   config: Config,
   mailerQueue: MailerQueue,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   { role, ...input }: InviteUser,
   invitingUser: User,
   now = new Date()
@@ -273,7 +273,7 @@ export interface RedeemInvite {
 export async function redeem(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   { username, password }: RedeemInvite,
   now: Date

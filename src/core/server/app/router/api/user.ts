@@ -1,12 +1,11 @@
-import { AppOptions } from "coral-server/app";
 import { userDownloadHandler } from "coral-server/app/handlers";
 
 import { createAPIRouter } from "./helpers";
 
-export function createNewUserRouter(app: AppOptions) {
+export function createNewUserRouter() {
   const router = createAPIRouter();
 
-  router.get("/download", userDownloadHandler(app));
+  router.get("/download", userDownloadHandler());
 
   return router;
 }

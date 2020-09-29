@@ -1,13 +1,13 @@
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
 
 import { createTimer } from "coral-server/helpers";
-import { Metrics } from "coral-server/services/metrics";
+import { MetricsService } from "coral-server/services/metrics";
 
 import GraphContext from "../context";
 import { getOperationMetadata } from "./helpers";
 
 export const MetricsApolloServerPlugin = (
-  metrics: Metrics
+  metrics: MetricsService
 ): ApolloServerPlugin<GraphContext> => ({
   requestDidStart() {
     return {

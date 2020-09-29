@@ -1,12 +1,14 @@
-import { RedisPubSub } from "graphql-redis-subscriptions";
-import { Redis } from "ioredis";
+import { singleton } from "tsyringe";
 
-export function createPubSubClient(
-  publisher: Redis,
-  subscriber: Redis
-): RedisPubSub {
-  return new RedisPubSub({
-    publisher,
-    subscriber,
-  });
+import { RedisService } from "coral-server/services/redis";
+import { RedisPubSub } from "graphql-redis-subscriptions";
+
+@singleton()
+export class PubSubService extends RedisPubSub {
+  constructor(publisher: RedisService, subscriber: RedisService) {
+    super({
+      publisher: publisher.redis,
+      subscriber: subscriber.redis,
+    });
+  }
 }

@@ -1,21 +1,19 @@
-import { AppOptions } from "coral-server/app";
-import { decodeJWT } from "coral-server/services/jwt";
+import { decodeJWT, JWTSigningConfigService } from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import {
   redeemDownloadToken,
   sendUserDownload,
 } from "coral-server/services/users/download";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import { container } from "tsyringe";
 
-type AdminDownloadOptions = Pick<
-  AppOptions,
-  "mongo" | "redis" | "signingConfig"
->;
+export const userDownloadHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const userDownloadHandler = ({
-  mongo,
-  redis,
-  signingConfig,
-}: AdminDownloadOptions): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant, now } = req.coral;
     const { token } = req.query;

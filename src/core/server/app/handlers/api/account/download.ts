@@ -1,23 +1,25 @@
 import Joi from "@hapi/joi";
 
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 
-import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
+import {
+  decodeJWT,
+  extractTokenFromRequest,
+  JWTSigningConfigService,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import {
   redeemDownloadToken,
   sendUserDownload,
   verifyDownloadTokenString,
 } from "coral-server/services/users/download";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import { container } from "tsyringe";
 
 const USER_ID_LIMITER_TTL = "1d";
-
-export type AccountDownloadOptions = Pick<
-  AppOptions,
-  "mongo" | "redis" | "signingConfig" | "config"
->;
 
 export interface AccountDownloadBody {
   token: string;
@@ -27,12 +29,15 @@ export const AccountDownloadBodySchema = Joi.object().keys({
   token: Joi.string().trim(),
 });
 
-export const accountDownloadHandler = ({
-  mongo,
-  redis,
-  signingConfig,
-  config,
-}: AccountDownloadOptions): RequestHandler<TenantCoralRequest> => {
+export const accountDownloadHandler = (): RequestHandler<
+  TenantCoralRequest
+> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
+
   const userIDLimiter = new RequestLimiter({
     redis,
     ttl: USER_ID_LIMITER_TTL,
@@ -85,17 +90,15 @@ export const accountDownloadHandler = ({
   };
 };
 
-export type AccountDownloadCheckOptions = Pick<
-  AppOptions,
-  "mongo" | "redis" | "signingConfig" | "config"
->;
+export const accountDownloadCheckHandler = (): RequestHandler<
+  TenantCoralRequest
+> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const accountDownloadCheckHandler = ({
-  mongo,
-  redis,
-  signingConfig,
-  config,
-}: AccountDownloadCheckOptions): RequestHandler<TenantCoralRequest> => {
   const userIDLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

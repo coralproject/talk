@@ -21,7 +21,7 @@ import {
 } from "coral-server/models/user";
 import { getLocalProfile } from "coral-server/models/user/helpers";
 import {
-  JWTSigningConfig,
+  SigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
@@ -69,7 +69,7 @@ export async function generateResetURL(
   mongo: Db,
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   user: User,
   now: Date = new Date()
 ) {
@@ -114,7 +114,7 @@ export async function generateResetURL(
 export async function verifyResetTokenString(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {
@@ -164,7 +164,7 @@ export async function verifyResetTokenString(
 export async function resetPassword(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   password: string,
   now: Date

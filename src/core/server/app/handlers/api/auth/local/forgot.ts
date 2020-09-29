@@ -1,12 +1,19 @@
 import Joi from "@hapi/joi";
 
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 import { IntegrationDisabled } from "coral-server/errors";
 import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import { retrieveUserWithProfile } from "coral-server/models/user";
-import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
+import { MailerQueue } from "coral-server/queue/tasks";
+import {
+  decodeJWT,
+  extractTokenFromRequest,
+  JWTSigningConfigService,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import {
   generateResetURL,
   resetPassword,
@@ -14,6 +21,7 @@ import {
 } from "coral-server/services/users/auth";
 import { validateEmail } from "coral-server/services/users/helpers";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import { container } from "tsyringe";
 
 export interface ForgotBody {
   email: string;
@@ -23,18 +31,14 @@ export const ForgotBodySchema = Joi.object().keys({
   email: Joi.string().trim().lowercase().email(),
 });
 
-export type ForgotOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
->;
+export const forgotHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const mailerQueue = container.resolve(MailerQueue);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const forgotHandler = ({
-  config,
-  redis,
-  mongo,
-  signingConfig,
-  mailerQueue,
-}: ForgotOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -138,17 +142,13 @@ export const ForgotResetBodySchema = Joi.object().keys({
   password: Joi.string(),
 });
 
-export type ForgotResetOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
->;
+export const forgotResetHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const forgotResetHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: ForgotResetOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -212,17 +212,13 @@ export const forgotResetHandler = ({
   };
 };
 
-export type ForgotCheckOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const forgotCheckHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const forgotCheckHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: ForgotCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

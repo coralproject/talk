@@ -1,3 +1,5 @@
+import { injectable } from "tsyringe";
+
 import TenantCache from "./cache";
 
 export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
@@ -8,20 +10,14 @@ export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
  * tenants are enabled, this acts as a map to store entries, and will
  * automatically invalidate tenants that have been updated.
  */
+@injectable()
 export default class TenantCacheAdapter<T> {
   private readonly cache = new Map<string, T>();
-  private readonly tenantCache: TenantCache;
 
   private readonly deconstructionFn?: DeconstructionFn<T>;
   private unsubscribeFn?: () => void;
 
-  constructor(
-    tenantCache: TenantCache,
-    deconstructionFn?: DeconstructionFn<T>
-  ) {
-    this.tenantCache = tenantCache;
-    this.deconstructionFn = deconstructionFn;
-
+  constructor(private readonly tenantCache: TenantCache) {
     // Subscribe to updates immediately.
     this.subscribe();
   }

@@ -1,18 +1,15 @@
-import { Redis } from "ioredis";
+import { container } from "tsyringe";
 
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { Config } from "coral-server/config";
+import { CONFIG, Config } from "coral-server/config";
+import { Redis, REDIS } from "coral-server/services/redis";
 import { RequestHandler } from "coral-server/types/express";
 
-interface Options {
-  redis: Redis;
-  config: Config;
-}
+export const userLimiterMiddleware = (): RequestHandler => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const userLimiterMiddleware = ({
-  redis,
-  config,
-}: Options): RequestHandler => {
   const limiter = new RequestLimiter({
     redis,
     ttl: "1m",

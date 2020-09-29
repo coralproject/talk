@@ -15,7 +15,7 @@ import {
   calculateCounts,
   calculateCountsDiff,
 } from "coral-server/services/comments/moderation";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 
 interface UpdateAllCommentCountsInput {
   tenant: Readonly<Tenant>;
@@ -65,7 +65,7 @@ function calculateStatus(
 
 export default async function updateAllCommentCounts(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   input: UpdateAllCommentCountsInput
 ) {
   // Compute the queue difference as a result of the old status and the new

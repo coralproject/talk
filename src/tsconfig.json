@@ -15,7 +15,9 @@
     "paths": {
       "coral-server/*": ["./core/server/*"],
       "coral-common/*": ["./core/common/*"]
-    }
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "./core/client"]

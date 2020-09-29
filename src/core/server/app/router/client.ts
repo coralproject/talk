@@ -1,5 +1,4 @@
 import express, { Router } from "express";
-import { Db } from "mongodb";
 import path from "path";
 
 import { StaticConfig } from "coral-common/config";
@@ -9,7 +8,6 @@ import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import logger from "coral-server/logger";
-import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
 import Entrypoints, { Entrypoint } from "../helpers/entrypoints";
@@ -36,19 +34,14 @@ export interface ClientTargetHandlerOptions {
   };
 
   /**
-   * config is the static config to be loaded into the template.
+   * staticConfig is the static config to be loaded into the template.
    */
-  config: StaticConfig;
+  staticConfig: StaticConfig;
 
   /**
    * defaultLocale is the configured fallback locale for this installation.
    */
   defaultLocale: LanguageCode;
-
-  /**
-   * mongo is used when trying to infer a site from the request.
-   */
-  mongo: Db;
 
   /**
    * entrypoint is the entrypoint entry to load.
@@ -77,7 +70,7 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   const router = express.Router();
 
   // Add CSP headers to the request, which only apply when serving HTML content.
-  router.use(cspSiteMiddleware(options));
+  router.use(cspSiteMiddleware());
 
   // Always send the cache headers.
   router.use(cacheHeadersMiddleware({ cacheDuration: options.cacheDuration }));
@@ -95,20 +88,18 @@ interface MountClientRouteOptions {
     sdk: string;
   };
   defaultLocale: LanguageCode;
-  tenantCache: TenantCache;
-  config: StaticConfig;
-  mongo: Db;
+  staticConfig: StaticConfig;
 }
 
 const clientHandler = ({
   analytics,
-  config,
+  staticConfig,
   entrypoint,
   enableCustomCSS,
   enableCustomCSSQuery,
   defaultLocale,
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
-  // Grab the locale code from the tenant configuration, if available.
+  // Grab the locale code from the tenant Configuration, if available.
   let locale: LanguageCode = defaultLocale;
   if (req.coral.tenant) {
     locale = req.coral.tenant.locale;
@@ -116,18 +107,18 @@ const clientHandler = ({
 
   res.render("client", {
     analytics,
-    staticURI: config.staticURI,
+    staticURI: staticConfig.staticURI,
     entrypoint,
     enableCustomCSS,
     locale,
-    config,
+    staticConfig,
     customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };
 
 export function mountClientRoutes(
   router: Router,
-  { tenantCache, ...options }: MountClientRouteOptions
+  options: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
@@ -154,7 +145,6 @@ export function mountClientRoutes(
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({
-      cache: tenantCache,
       passNoTenant: true,
     })
   );

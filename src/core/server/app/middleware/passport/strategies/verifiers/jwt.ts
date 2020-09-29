@@ -1,16 +1,17 @@
 import Joi from "@hapi/joi";
-import { Redis } from "ioredis";
 import { isNil } from "lodash";
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import {
   isJWTRevoked,
-  JWTSigningConfig,
+  JWTSigningConfigService,
   StandardClaims,
   verifyJWT,
 } from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 
 import { Verifier } from "../jwt";
 
@@ -43,22 +44,13 @@ export function isJWTToken(token: JWTToken | object): token is JWTToken {
   return isNil(error);
 }
 
-export interface JWTVerifierOptions {
-  signingConfig: JWTSigningConfig;
-  mongo: Db;
-  redis: Redis;
-}
-
+@singleton()
 export class JWTVerifier implements Verifier<JWTToken> {
-  private signingConfig: JWTSigningConfig;
-  private mongo: Db;
-  private redis: Redis;
-
-  constructor({ signingConfig, mongo, redis }: JWTVerifierOptions) {
-    this.signingConfig = signingConfig;
-    this.mongo = mongo;
-    this.redis = redis;
-  }
+  constructor(
+    private readonly signingConfig: JWTSigningConfigService,
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(REDIS) private readonly redis: Redis
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   public supports(token: JWTToken | object, tenant: Tenant): token is JWTToken {

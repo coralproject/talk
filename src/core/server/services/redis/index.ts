@@ -1,23 +1,21 @@
-import RedisClient, { Pipeline, Redis } from "ioredis";
+import RedisClient, { Pipeline as IOPipeline, Redis as IORedis } from "ioredis";
+import { inject, injectable } from "tsyringe";
 
-import { Config } from "coral-server/config";
-import { WrappedInternalError } from "coral-server/errors";
+import { CONFIG, Config } from "coral-server/config";
 import logger from "coral-server/logger";
 
-interface AugmentedRedisCommands {
+export const REDIS = Symbol("REDIS");
+
+interface Pipeline extends IOPipeline {
+  mhincrby(key: string, ...args: any[]): IOPipeline;
+}
+
+export interface Redis extends IORedis {
+  pipeline(commands?: string[][]): Pipeline;
   mhincrby(key: string, ...args: any[]): Promise<void>;
 }
 
-export interface AugmentedPipeline extends Pipeline {
-  mhincrby(key: string, ...args: any[]): Pipeline;
-}
-
-export type AugmentedRedis = Omit<Redis, "pipeline"> &
-  AugmentedRedisCommands & {
-    pipeline(commands?: string[][]): AugmentedPipeline;
-  };
-
-function augmentRedisClient(redis: Redis): AugmentedRedis {
+function augmentRedisClient(redis: IORedis): Redis {
   // mhincrby will increment many hash values.
   redis.defineCommand("mhincrby", {
     numberOfKeys: 1,
@@ -28,14 +26,16 @@ function augmentRedisClient(redis: Redis): AugmentedRedis {
     `,
   });
 
-  return redis as AugmentedRedis;
+  return redis as Redis;
 }
 
-function attachHandlers(redis: Redis) {
+function attachHandlers(redis: IORedis) {
   // There appears to already be 10 error listeners on Redis. They must be added
   // by the framework. Increase the maximum number of listeners to avoid the
   // memory leak warning.
   redis.setMaxListeners(11);
+
+  // Attach to the error event.
   redis.on("error", (err: Error) => {
     logger.error({ err }, "an error occurred with redis");
   });
@@ -47,55 +47,26 @@ function attachHandlers(redis: Redis) {
   });
 }
 
-export function createRedisClient(config: Config, lazyConnect = false): Redis {
-  try {
-    const options = config.get("redis_options") || {};
+export function createRedis(config: Config): Redis {
+  const options = config.get("redis_options") || {};
 
-    const redis = new RedisClient(config.get("redis"), {
-      // Merge in the custom options.
-      ...options,
-      // Enforce the lazyConnect option as provided by the function invocation.
-      lazyConnect,
-    });
+  const redis = new RedisClient(config.get("redis"), {
+    // Merge in the custom options.
+    ...options,
+  });
 
-    // Configure the redis client with the handlers for logging
-    attachHandlers(redis);
+  // configure the redis client with the handlers for logging
+  attachHandlers(redis);
 
-    return redis;
-  } catch (err) {
-    throw new WrappedInternalError(err, "could not connect to redis");
-  }
+  return augmentRedisClient(redis);
 }
 
-export function createRedisClientFactory(config: Config) {
-  let redis: Redis | undefined;
+@injectable()
+export class RedisService {
+  // TODO: remove this once we've better integrated this.
+  public readonly redis: Redis;
 
-  return (): Redis => {
-    if (!redis) {
-      redis = createRedisClient(config);
-    }
-
-    return redis;
-  };
-}
-
-/**
- * createAugmentedRedisClient will connect to the Redis instance identified in
- * the configuration.
- *
- * @param config application configuration.
- */
-export async function createAugmentedRedisClient(
-  config: Config
-): Promise<AugmentedRedis> {
-  try {
-    const redis = augmentRedisClient(createRedisClient(config, true));
-
-    // Connect the redis client.
-    await redis.connect();
-
-    return redis;
-  } catch (err) {
-    throw new WrappedInternalError(err, "could not connect to redis");
+  constructor(@inject(CONFIG) config: Config) {
+    this.redis = createRedis(config);
   }
 }

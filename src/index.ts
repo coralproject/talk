@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import dotenv from "dotenv";
 import { rewrite } from "env-rewrite";
 import sourceMapSupport from "source-map-support";
@@ -24,10 +26,13 @@ dotenv.config();
 // NOTE: It is required for the `dotenv` module to be configured before other
 // modules to ensure the rewriting takes place before those modules load!
 
-import express from "express";
+import { container } from "tsyringe";
 
-import createCoral from "./core";
+import Server from "./core/server";
+import { CONFIG, Config, createConfig } from "./core/server/config";
 import logger from "./core/server/logger";
+import { createMongoDB, MONGO, Mongo } from "./core/server/services/mongodb";
+import { createRedis, REDIS, Redis } from "./core/server/services/redis";
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -36,16 +41,30 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-// Create the app that will serve as the mounting point for the Coral Server.
-const parent = express();
-
 // bootstrap will create a new Coral server, and start it up.
 async function bootstrap() {
   try {
     logger.debug("starting bootstrap");
 
+    // Get the configuration for the application.
+    const config = createConfig();
+
+    logger.debug({ config: config.toString() }, "loaded configuration");
+
+    // Register the configuration.
+    container.register<Config>(CONFIG, { useValue: config });
+
+    // Register the MongoDB connection as it will be reused because there is
+    // only one per application.
+    const mongo = await createMongoDB(config);
+    container.register<Mongo>(MONGO, { useValue: mongo });
+
+    // Register this Redis connection as it will be re-used.
+    const redis = createRedis(config);
+    container.register<Redis>(REDIS, { useValue: redis });
+
     // Create the server instance.
-    const server = createCoral();
+    const server = container.resolve(Server);
 
     // Connect the server to databases.
     await server.connect();
@@ -54,7 +73,7 @@ async function bootstrap() {
     await server.process();
 
     // Start the server.
-    await server.start({ parent });
+    await server.start();
   } catch (err) {
     logger.error({ err }, "can not bootstrap server");
     throw err;

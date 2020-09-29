@@ -5,7 +5,7 @@ import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 
 import {
   GQLCOMMENT_STATUS,
@@ -16,7 +16,7 @@ import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 const rejectComment = async (
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
   commentID: string,

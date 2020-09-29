@@ -1,6 +1,7 @@
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
-import GraphContext from "coral-server/graph/context";
+import { Config } from "coral-server/config";
+import { Context } from "coral-server/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import {
   getStoryTitle,
@@ -8,11 +9,9 @@ import {
   Story,
 } from "coral-server/models/story";
 import { User } from "coral-server/models/user";
+import { roleIsStaff } from "coral-server/models/user/helpers";
 
-import {
-  GQLSlackChannel,
-  GQLUSER_ROLE,
-} from "coral-server/graph/schema/__generated__/types";
+import { GQLSlackChannel } from "coral-server/graph/schema/__generated__/types";
 
 export type Trigger =
   | "reported"
@@ -22,42 +21,24 @@ export type Trigger =
   | "staffCreated";
 
 export default class SlackPublishEvent {
-  public comment: Comment;
-  public story: Story;
-  public author: User;
-  public actionType: Trigger;
   constructor(
-    actionType: Trigger,
-    comment: Comment,
-    story: Story,
-    author: User
-  ) {
-    this.actionType = actionType;
-    this.comment = comment;
-    this.story = story;
-    this.author = author;
-  }
+    private readonly config: Config,
+    private readonly actionType: Trigger,
+    private readonly comment: Comment,
+    private readonly story: Story,
+    private readonly author: User
+  ) {}
 
   private getTriggers(): (Trigger | null)[] {
     if (
       this.actionType &&
       this.actionType === "created" &&
-      this.authorIsStaff()
+      this.author &&
+      roleIsStaff(this.author.role)
     ) {
       return ["staffCreated", "created"];
     }
     return [this.actionType];
-  }
-
-  private authorIsStaff() {
-    return Boolean(
-      this.author &&
-        [
-          GQLUSER_ROLE.ADMIN,
-          GQLUSER_ROLE.MODERATOR,
-          GQLUSER_ROLE.STAFF,
-        ].includes(this.author.role)
-    );
   }
 
   public getMessage(): string {
@@ -93,10 +74,10 @@ export default class SlackPublishEvent {
     );
   }
 
-  public getContent({ loaders, config, tenant, req }: GraphContext) {
+  public getContent({ tenant, req }: Context) {
     const storyTitle = getStoryTitle(this.story);
     const moderateLink = reconstructTenantURL(
-      config,
+      this.config,
       tenant,
       req,
       `/admin/moderate/comment/${this.comment.id}`

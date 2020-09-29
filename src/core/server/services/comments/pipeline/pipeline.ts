@@ -13,7 +13,7 @@ import { CommentMedia } from "coral-server/models/comment/revision";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
 import {
@@ -60,7 +60,7 @@ export interface PhaseResult {
 
 export interface ModerationPhaseContextInput {
   mongo: Db;
-  redis: AugmentedRedis;
+  redis: Redis;
   config: Config;
   log: Logger;
   story: Story;

@@ -1,7 +1,7 @@
-export * from "./analytics";
-export * from "./notifier";
-export * from "./perspective";
-export * from "./slack";
-export * from "./subscription";
-export * from "./viewers";
-export * from "./webhook";
+export { AnalyticsCoralEventListener } from "./analytics";
+export { NotifierCoralEventListener } from "./notifier";
+export { PerspectiveCoralEventListener } from "./perspective";
+export { SlackCoralEventListener } from "./slack";
+export { SubscriptionCoralEventListener } from "./subscription";
+export { ViewersCoralEventListener } from "./viewers";
+export { WebhookCoralEventListener } from "./webhook";

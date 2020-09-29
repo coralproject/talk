@@ -1,9 +1,13 @@
 import Analytics, { Event } from "@rudderstack/rudder-sdk-node";
+import { inject, singleton } from "tsyringe";
 
-import { Config } from "coral-server/config";
-import GraphContext from "coral-server/graph/context";
+import { CONFIG, Config } from "coral-server/config";
+import { Context } from "coral-server/context";
 import { relativeTo } from "coral-server/helpers";
 import logger from "coral-server/logger";
+import { retrieveComment } from "coral-server/models/comment";
+import { retrieveStory } from "coral-server/models/story";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
@@ -15,7 +19,7 @@ import {
   CommentStatusUpdatedCoralEventPayload,
   StoryCreatedCoralEventPayload,
 } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 type AnalyticsCoralEventListenerPayloads =
@@ -26,6 +30,7 @@ type AnalyticsCoralEventListenerPayloads =
   | CommentFlagCreatedCoralEventPayload
   | StoryCreatedCoralEventPayload;
 
+@singleton()
 export class AnalyticsCoralEventListener
   implements CoralEventListener<AnalyticsCoralEventListenerPayloads> {
   public readonly name = "analytics";
@@ -39,9 +44,12 @@ export class AnalyticsCoralEventListener
   ];
 
   public readonly disabled: boolean = false;
-  private readonly analytics: Analytics;
+  private readonly analytics?: Analytics;
 
-  constructor(config: Config) {
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(CONFIG) config: Config
+  ) {
     const key = config.get("analytics_backend_key");
     const url = config.get("analytics_data_plane_url");
     if (!key || !url) {
@@ -55,7 +63,8 @@ export class AnalyticsCoralEventListener
 
   private track(event: Event) {
     return new Promise((resolve, reject) => {
-      this.analytics.track(event, (err) => {
+      // We can't track if we're disabled!
+      this.analytics!.track(event, (err) => {
         if (err) {
           return reject(err);
         }
@@ -89,17 +98,27 @@ export class AnalyticsCoralEventListener
   }
 
   private async create(
-    ctx: GraphContext,
+    ctx: Context,
     event: AnalyticsCoralEventListenerPayloads
   ): Promise<Pick<Event, "event" | "properties"> | undefined> {
     switch (event.type) {
       case CoralEventType.COMMENT_CREATED:
       case CoralEventType.COMMENT_REPLY_CREATED: {
-        const [comment, story] = await Promise.all([
-          ctx.loaders.Comments.comment.load(event.data.commentID),
-          ctx.loaders.Stories.story.load(event.data.storyID),
-        ]);
-        if (!comment || !story || !comment.authorID) {
+        const comment = await retrieveComment(
+          this.mongo,
+          ctx.tenant.id,
+          event.data.commentID
+        );
+        if (!comment || !comment.authorID) {
+          return;
+        }
+
+        const story = await retrieveStory(
+          this.mongo,
+          ctx.tenant.id,
+          event.data.storyID
+        );
+        if (!story) {
           return;
         }
 
@@ -129,7 +148,11 @@ export class AnalyticsCoralEventListener
       }
 
       case CoralEventType.COMMENT_REACTION_CREATED: {
-        const story = await ctx.loaders.Stories.story.load(event.data.storyID);
+        const story = await retrieveStory(
+          this.mongo,
+          ctx.tenant.id,
+          event.data.storyID
+        );
         if (!story) {
           return;
         }
@@ -148,7 +171,11 @@ export class AnalyticsCoralEventListener
       }
 
       case CoralEventType.COMMENT_FLAG_CREATED: {
-        const story = await ctx.loaders.Stories.story.load(event.data.storyID);
+        const story = await retrieveStory(
+          this.mongo,
+          ctx.tenant.id,
+          event.data.storyID
+        );
         if (!story) {
           return;
         }
@@ -168,7 +195,11 @@ export class AnalyticsCoralEventListener
       }
 
       case CoralEventType.COMMENT_STATUS_UPDATED: {
-        const story = await ctx.loaders.Stories.story.load(event.data.storyID);
+        const story = await retrieveStory(
+          this.mongo,
+          ctx.tenant.id,
+          event.data.storyID
+        );
         if (!story) {
           return;
         }
@@ -188,9 +219,9 @@ export class AnalyticsCoralEventListener
     }
   }
 
-  public initialize: CoralEventPublisherFactory<
+  public handle: CoralEventHandler<
     AnalyticsCoralEventListenerPayloads
-  > = (ctx) => async (event) => {
+  > = async (ctx, event) => {
     // Check to see if we should process this event.
     if (!this.filter(event)) {
       // The event should not be processed.

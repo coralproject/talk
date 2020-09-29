@@ -1,18 +1,14 @@
-import {
-  execute,
-  ExecutionResult,
-  GraphQLSchema,
-  parse,
-  subscribe,
-} from "graphql";
+import { execute, ExecutionResult, parse, subscribe } from "graphql";
 import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
   ExecutionParams,
   OperationMessage,
   OperationMessagePayload,
-  SubscriptionServer,
+  SubscriptionServer as ApolloSubscriptionServer,
 } from "subscriptions-transport-ws";
+import { container } from "tsyringe";
+import { v4 as uuid } from "uuid";
 
 import {
   ACCESS_TOKEN_PARAM,
@@ -20,13 +16,12 @@ import {
   BUNDLE_ID_PARAM,
   CLIENT_ID_PARAM,
 } from "coral-common/constants";
-import { RequireProperty } from "coral-common/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
-import {
-  createVerifiers,
+import JWTStrategy, {
   verifyAndRetrieveUser,
 } from "coral-server/app/middleware/passport/strategies/jwt";
+import { CONFIG, Config } from "coral-server/config";
 import {
   CoralError,
   LiveUpdatesDisabled,
@@ -49,8 +44,14 @@ import {
 } from "coral-server/models/story/viewers";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import { hasStaffRole } from "coral-server/models/user/helpers";
+import { I18nService } from "coral-server/services/i18n";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
+import { MetricsService } from "coral-server/services/metrics";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { PersistedQueryCache } from "coral-server/services/queries";
+import { REDIS, Redis } from "coral-server/services/redis";
 import { find } from "coral-server/services/stories";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
   GQLFEATURE_FLAG,
@@ -58,16 +59,9 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext, { GraphContextOptions } from "../context";
+import SchemaService from "../schema";
 
-type OnConnectFn = (
-  params: OperationMessagePayload,
-  socket: any,
-  context: ConnectionContext
-) => Promise<GraphContext>;
-
-type OnDisconnectFn = (socket: any, context: ConnectionContext) => void;
-
-export function extractTokenFromWSRequest(
+function extractTokenFromWSRequest(
   connectionParams: OperationMessagePayload,
   req: IncomingMessage
 ): string | null {
@@ -83,7 +77,7 @@ export function extractTokenFromWSRequest(
   return extractTokenFromRequest(req);
 }
 
-export function extractClientID(connectionParams: OperationMessagePayload) {
+function extractClientID(connectionParams: OperationMessagePayload) {
   if (
     typeof connectionParams[CLIENT_ID_PARAM] === "string" &&
     connectionParams[CLIENT_ID_PARAM].length > 0
@@ -95,7 +89,7 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
   return null;
 }
 
-export function extractBundleID(
+function extractBundleID(
   connectionParams: OperationMessagePayload
 ): string | null {
   if (
@@ -108,7 +102,7 @@ export function extractBundleID(
   return null;
 }
 
-export function extractBundleConfig(
+function extractBundleConfig(
   connectionParams: OperationMessagePayload
 ): null | Record<string, string> {
   if (typeof connectionParams[BUNDLE_CONFIG_PARAM] === "object") {
@@ -142,18 +136,67 @@ function hasStoryViewer(
   return false;
 }
 
-export type OnConnectOptions = RequireProperty<
-  Omit<GraphContextOptions, "tenant" | "disableCaching">,
-  "signingConfig"
->;
+export class SubscriptionServer {
+  private readonly options: AppOptions;
+  private readonly schema: SchemaService;
+  private readonly persistedQueryCache: PersistedQueryCache;
+  private readonly redis: Redis;
+  private readonly config: Config;
+  private readonly tenantCache: TenantCache;
+  private readonly strategy: JWTStrategy;
+  private readonly mongo: Mongo;
+  private readonly i18n: I18nService;
+  private readonly metrics: MetricsService;
 
-export function onConnect(options: OnConnectOptions): OnConnectFn {
-  // Create the JWT verifiers that will be used to verify all the requests
-  // coming in.
-  const verifiers = createVerifiers(options);
+  /**
+   * attached will be true when the server has attached to am
+   * ApolloSubscriptionServer.
+   */
+  private attached = false;
 
-  // Return the per-connection operation.
-  return async (connectionParams, socket) => {
+  constructor(options: AppOptions) {
+    // TODO: Replace with DI.
+    this.schema = container.resolve(SchemaService);
+    this.config = container.resolve<Config>(CONFIG);
+    this.i18n = container.resolve(I18nService);
+    this.mongo = container.resolve<Mongo>(MONGO);
+    this.persistedQueryCache = container.resolve(PersistedQueryCache);
+    this.redis = container.resolve<Redis>(REDIS);
+    this.strategy = container.resolve(JWTStrategy);
+    this.tenantCache = container.resolve(TenantCache);
+    this.metrics = container.resolve(MetricsService);
+
+    this.options = options;
+  }
+
+  public attach(server: http.Server) {
+    if (this.attached) {
+      throw new Error("server was already attached");
+    }
+    this.attached = true;
+
+    return ApolloSubscriptionServer.create(
+      {
+        schema: this.schema.schema,
+        execute,
+        subscribe,
+        onConnect: this.onConnect.bind(this),
+        onOperation: this.onOperation.bind(this),
+        onDisconnect: this.onDisconnect.bind(this),
+        keepAlive: this.config.get("websocket_keep_alive_timeout"),
+      },
+      {
+        server,
+        path: "/api/graphql/live",
+      }
+    );
+  }
+
+  private async onConnect(
+    connectionParams: OperationMessagePayload,
+    socket: any,
+    context: ConnectionContext
+  ) {
     logger.trace("a socket has connected");
 
     try {
@@ -167,25 +210,27 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       // Get the Tenant for this hostname.
-      const tenant = await options.tenantCache.retrieveByDomain(hostname);
+      const tenant = await this.tenantCache.retrieveByDomain(hostname);
       if (!tenant) {
         throw new TenantNotFoundError(hostname);
       }
 
       // Create some new options to store the tenant context details inside.
       const opts: GraphContextOptions = {
-        ...options,
+        id: uuid(),
+        now: new Date(),
+        tenant,
+        logger,
         // Disable caching with this Context to ensure that every call (besides)
         // to the tenant, is not cached, and is instead fresh.
         disableCaching: true,
-        tenant,
       };
 
       // If the token is available, try to get the user.
       const tokenString = extractTokenFromWSRequest(connectionParams, req);
       if (tokenString) {
         const user = await verifyAndRetrieveUser(
-          verifiers,
+          this.strategy.verifiers,
           tenant,
           tokenString
         );
@@ -196,7 +241,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
       // Check to see if live updates are disabled on the server, if they are,
       // we can block the websocket request here for non-staff users.
-      if (options.config.get("disable_live_updates")) {
+      if (this.config.get("disable_live_updates")) {
         // TODO: (wyattjoh) if the story settings can only disable, and not
         // enable live updates (as it takes precedence over global settings)
         // then we can add a check for `!tenant.live.enabled` here too.
@@ -234,7 +279,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         (bundleConfig.storyID || bundleConfig.storyURL)
       ) {
         // Then we need to create a new storyViewerf for the request!
-        const story = await find(options.mongo, tenant, {
+        const story = await find(this.mongo, tenant, {
           id: bundleConfig.storyID,
           url: bundleConfig.storyURL,
         });
@@ -248,14 +293,14 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
           // Create the viewer entry!
           await createStoryViewer(
-            options.redis,
+            this.redis,
             {
               tenantID: tenant.id,
               siteID: story.siteID,
               storyID: story.id,
             },
             clientID,
-            options.config.get("story_viewer_timeout"),
+            this.config.get("story_viewer_timeout"),
             ctx.now
           );
         }
@@ -276,22 +321,50 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
           "could not setup websocket connection"
         );
       }
-      const { message } = err.serializeExtensions(
-        options.i18n.getDefaultBundle()
-      );
+      const { message } = err.serializeExtensions(this.i18n.getDefaultBundle());
 
       throw new Error(message);
     }
-  };
-}
+  }
 
-export type OnDisconnectOptions = RequireProperty<
-  Omit<GraphContextOptions, "tenant" | "disableCaching">,
-  "redis" | "pubsub"
->;
+  private async onOperation(
+    message: OperationMessage,
+    params: ExecutionParams<GraphContext>
+  ) {
+    // Handle the payload if it is a persisted query.
+    const persisted = await getPersistedQuery(
+      this.persistedQueryCache,
+      message.payload
+    );
+    if (!persisted) {
+      // Check to see if this is from an ADMIN token which is allowed to run
+      // un-persisted queries.
+      if (
+        this.options.persistedQueriesRequired &&
+        (!params.context.user ||
+          params.context.user.role !== GQLUSER_ROLE.ADMIN)
+      ) {
+        throw new RawQueryNotAuthorized(
+          params.context.tenant.id,
+          message.payload && message.payload.query
+            ? message.payload.query
+            : null,
+          params.context.user ? params.context.user.id : null
+        );
+      }
+    } else {
+      // The query was found for this operation, replace the query with the one
+      // provided.
+      params.query = persisted.query;
+    }
 
-function onDisconnect(options: OnDisconnectOptions): OnDisconnectFn {
-  return async (socket) => {
+    // Attach the response formatter.
+    params.formatResponse = this.formatResponse(persisted);
+
+    return params;
+  }
+
+  private async onDisconnect(socket: any) {
     logger.trace("a socket has disconnected");
 
     // If the socket has a clientID attached, then remove the story viewer
@@ -300,22 +373,15 @@ function onDisconnect(options: OnDisconnectOptions): OnDisconnectFn {
       const { tenantID, siteID, storyID } = socket;
 
       await removeStoryViewer(
-        options.redis,
+        this.redis,
         { tenantID, siteID, storyID },
         socket.clientID,
-        options.config.get("story_viewer_timeout")
+        this.config.get("story_viewer_timeout")
       );
     }
-  };
-}
+  }
 
-export type FormatResponseOptions = Pick<AppOptions, "metrics">;
-
-export function formatResponse(
-  { metrics }: FormatResponseOptions,
-  persisted?: PersistedQuery
-) {
-  return (
+  private formatResponse = (persisted?: PersistedQuery) => (
     value: ExecutionResult,
     { context, query }: ExecutionParams<GraphContext>
   ) => {
@@ -331,7 +397,7 @@ export function formatResponse(
     const { operation, operationName } = getOperationMetadata(query);
     if (operation && operationName) {
       // Increment the graph query value, tagging with the name of the query.
-      metrics.executedGraphQueriesTotalCounter
+      this.metrics.executedGraphQueriesTotalCounter
         .labels(operation, operationName)
         .inc();
     }
@@ -352,74 +418,4 @@ export function formatResponse(
 
     return value;
   };
-}
-
-export type OnOperationOptions = FormatResponseOptions &
-  Pick<AppOptions, "persistedQueryCache" | "persistedQueriesRequired">;
-
-export function onOperation(options: OnOperationOptions) {
-  return async (
-    message: OperationMessage,
-    params: ExecutionParams<GraphContext>
-  ) => {
-    // Handle the payload if it is a persisted query.
-    const persisted = await getPersistedQuery(
-      options.persistedQueryCache,
-      message.payload
-    );
-    if (!persisted) {
-      // Check to see if this is from an ADMIN token which is allowed to run
-      // un-persisted queries.
-      if (
-        options.persistedQueriesRequired &&
-        (!params.context.user ||
-          params.context.user.role !== GQLUSER_ROLE.ADMIN)
-      ) {
-        throw new RawQueryNotAuthorized(
-          params.context.tenant.id,
-          message.payload && message.payload.query
-            ? message.payload.query
-            : null,
-          params.context.user ? params.context.user.id : null
-        );
-      }
-    } else {
-      // The query was found for this operation, replace the query with the one
-      // provided.
-      params.query = persisted.query;
-    }
-
-    // Attach the response formatter.
-    params.formatResponse = formatResponse(options, persisted);
-
-    return params;
-  };
-}
-
-export type Options = OnConnectOptions &
-  OnDisconnectOptions &
-  OnOperationOptions;
-
-export function createSubscriptionServer(
-  server: http.Server,
-  schema: GraphQLSchema,
-  options: Options
-) {
-  const keepAlive = options.config.get("websocket_keep_alive_timeout");
-
-  return SubscriptionServer.create(
-    {
-      schema,
-      execute,
-      subscribe,
-      onConnect: onConnect(options),
-      onDisconnect: onDisconnect(options),
-      onOperation: onOperation(options),
-      keepAlive,
-    },
-    {
-      server,
-      path: "/api/graphql/live",
-    }
-  );
 }

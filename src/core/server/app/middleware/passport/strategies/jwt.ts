@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
+import { injectAll, registry, singleton } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import {
   JWTRevokedError,
   TenantNotFoundError,
@@ -19,16 +19,13 @@ import { JWTToken, JWTVerifier } from "./verifiers/jwt";
 import { OIDCIDToken, OIDCVerifier } from "./verifiers/oidc";
 import { SSOToken, SSOVerifier } from "./verifiers/sso";
 
-export type JWTStrategyOptions = Pick<
-  AppOptions,
-  "signingConfig" | "mongo" | "redis" | "tenantCache" | "mongo"
->;
-
 /**
  * Token is the various forms of the Token that can be verified.
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
+
+export const VERIFIERS = Symbol("VERIFIERS");
 
 /**
  * Verifier allows different implementations to offer ways to verify a given
@@ -50,18 +47,7 @@ export interface Verifier<T = Token> {
    * supports will perform type checking and ensure that the given Tenant
    * supports the requested verification type.
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   supports: (token: T | object, tenant: Tenant, kid?: string) => token is T;
-}
-
-export function createVerifiers(
-  options: JWTStrategyOptions
-): Array<Verifier<Token>> {
-  return [
-    new OIDCVerifier(options),
-    new SSOVerifier(options),
-    new JWTVerifier(options),
-  ];
 }
 
 export async function verifyAndRetrieveUser(
@@ -112,15 +98,17 @@ export async function verifyAndRetrieveUser(
   );
 }
 
-export class JWTStrategy extends Strategy {
-  public name = "jwt";
+@singleton()
+@registry([
+  { token: VERIFIERS, useClass: OIDCVerifier },
+  { token: VERIFIERS, useClass: SSOVerifier },
+  { token: VERIFIERS, useClass: JWTVerifier },
+])
+export default class JWTStrategy extends Strategy {
+  public readonly name = "jwt";
 
-  private verifiers: Verifier[];
-
-  constructor(options: JWTStrategyOptions) {
+  constructor(@injectAll(VERIFIERS) public readonly verifiers: Verifier[]) {
     super();
-
-    this.verifiers = createVerifiers(options);
   }
 
   public async authenticate(req: Request<TenantCoralRequest>) {

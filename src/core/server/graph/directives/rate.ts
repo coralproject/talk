@@ -19,6 +19,7 @@ const rate: DirectiveResolverFn<
   next,
   src,
   { max = 1, seconds, key: forceResource }: RateDirectiveArgs,
+  // TODO: extract the parameters via DI.
   { user, tenant, now, redis, config },
   info
 ) => {

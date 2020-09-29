@@ -1,11 +1,11 @@
 import Joi from "@hapi/joi";
-import { AppOptions } from "coral-server/app";
 
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
-import { translate } from "coral-server/services/i18n";
+import { I18nService, translate } from "coral-server/services/i18n";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import { container } from "tsyringe";
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
@@ -19,11 +19,10 @@ interface OEmbedQuery {
   maxWidth?: number;
 }
 
-type Options = Pick<AppOptions, "i18n">;
+export const oembedHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const i18n = container.resolve(I18nService);
 
-export const oembedHandler = ({
-  i18n,
-}: Options): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;

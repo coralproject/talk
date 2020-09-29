@@ -1,4 +1,7 @@
+import { container } from "tsyringe";
+
 import { isInstalled } from "coral-server/services/tenant";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
 interface Options {
@@ -14,15 +17,20 @@ const defaultOptions: Required<Options> = {
 export const installedMiddleware = ({
   redirectIfInstalled = defaultOptions.redirectIfInstalled,
   redirectURL = defaultOptions.redirectURL,
-}: Options = defaultOptions): RequestHandler => async (req, res, next) => {
-  const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
+}: Options = defaultOptions): RequestHandler => {
+  // TODO: Replace with DI.
+  const tenantCache = container.resolve(TenantCache);
 
-  // If Coral is installed, and redirectIfInstall is true, then it will
-  // redirect. If Coral is not installed, and redirectIfInstall is false, then
-  // it will also redirect.
-  if (installed === redirectIfInstalled) {
-    return res.redirect(redirectURL);
-  }
+  return async (req, res, next) => {
+    const installed = await isInstalled(tenantCache, req.hostname);
 
-  next();
+    // If Coral is installed, and redirectIfInstall is true, then it will
+    // redirect. If Coral is not installed, and redirectIfInstall is false, then
+    // it will also redirect.
+    if (installed === redirectIfInstalled) {
+      return res.redirect(redirectURL);
+    }
+
+    next();
+  };
 };

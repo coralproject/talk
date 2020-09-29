@@ -1,10 +1,10 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
-import { translate } from "coral-server/services/i18n";
+import { I18nService, translate } from "coral-server/services/i18n";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const ExternalMediaQuerySchema = Joi.object().keys({
@@ -15,11 +15,10 @@ interface ExternalMediaQuery {
   url: string;
 }
 
-type Options = Pick<AppOptions, "i18n">;
+export const externalMediaHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const i18n = container.resolve(I18nService);
 
-export const externalMediaHandler = ({
-  i18n,
-}: Options): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;

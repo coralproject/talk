@@ -10,7 +10,7 @@ import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
 import { reduceSeconds } from "coral-common/helpers/i18n";
 import TIME from "coral-common/time";
 import { Writable } from "coral-common/types";
-import { translate } from "coral-server/services/i18n";
+import { translate } from "coral-server/services/i18n/translate";
 
 import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/schema/__generated__/types";
 

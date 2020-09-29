@@ -48,7 +48,7 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
@@ -75,7 +75,7 @@ export type CreateComment = Omit<
 
 const markCommentAsAnswered = async (
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -126,7 +126,7 @@ const markCommentAsAnswered = async (
 
 export default async function create(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,

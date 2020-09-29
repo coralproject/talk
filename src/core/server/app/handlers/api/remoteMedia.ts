@@ -15,11 +15,9 @@ interface GIFSearchQuery {
   offset: string;
 }
 
-export const gifSearchHandler: RequestHandler<TenantCoralRequest> = async (
-  req,
-  res,
-  next
-) => {
+export const gifSearchHandler = (): RequestHandler<
+  TenantCoralRequest
+> => async (req, res, next) => {
   const { tenant } = req.coral;
 
   try {

@@ -47,7 +47,7 @@
 
   {# Insert the staticURI via the configuration object during insertion. #}
   <script type="application/json" id="config">
-    {{ config | dump | safe }}
+    {{ staticConfig | dump | safe }}
   </script>
 {% endblock %}
 

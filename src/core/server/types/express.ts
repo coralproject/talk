@@ -5,17 +5,23 @@ import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { TenantCache } from "coral-server/services/tenant/cache";
+import { ErrorReporter } from "coral-server/services/errors";
 
 export interface CoralRequest {
   id: string;
   now: Date;
-  cache: {
-    tenant: TenantCache;
-  };
   tenant?: Tenant;
-  persisted?: PersistedQuery;
   logger: Logger;
+
+  /**
+   * persisted is the query that was persisted on the request from the persisted
+   * query middleware. This can't be moved into a plugin because currently
+   * Apollo does not have a hook that runs before it validates a query that's
+   * executing.
+   */
+  persisted?: PersistedQuery;
+
+  reporter?: ErrorReporter;
 }
 
 export type TenantCoralRequest = RequireProperty<CoralRequest, "tenant">;

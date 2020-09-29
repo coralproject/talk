@@ -6,56 +6,53 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
 
-export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
+import { JobProcessor } from "./processor";
 
-interface TaskOptions<T, U = void> {
-  jobName: string;
-  jobProcessor: JobProcessor<T, U>;
-  jobOptions?: Queue.JobOptions;
+interface Options<T extends TenantResource, U = void> {
+  name: string;
+  processor: JobProcessor<T, U>;
+  options?: Queue.JobOptions;
   queue: Queue.QueueOptions;
   timeout?: number;
 }
 
 export default class Task<T extends TenantResource, U = any> {
-  private readonly options: Required<TaskOptions<T, U>>;
-  private readonly queue: QueueType<T>;
   private readonly log: Logger;
+  private readonly options: Queue.JobOptions;
+  private readonly processor: JobProcessor<T, U>;
+  private readonly queue: QueueType<T>;
+  private readonly timeout: number;
 
   constructor({
-    jobName,
-    jobProcessor,
-    jobOptions = {},
+    processor,
+    options = {},
     queue,
-    timeout = 30000,
-  }: TaskOptions<T, U>) {
-    this.log = logger.child({ jobName }, true);
-    this.queue = new Queue(jobName, queue);
+    timeout = 30 * 1000,
+  }: Options<T, U>) {
+    this.log = logger.child({ jobName: name }, true);
     this.options = {
-      jobName,
-      jobProcessor,
-      jobOptions: {
-        // We always remove the job when it's complete, no need to fill up Redis
-        // with completed entries if we don't need to.
-        removeOnComplete: true,
+      // We always remove the job when it's complete, no need to fill up Redis
+      // with completed entries if we don't need to.
+      removeOnComplete: true,
 
-        // Remove the job if it fails after all attempts.
-        removeOnFail: true,
+      // Remove the job if it fails after all attempts.
+      removeOnFail: true,
 
-        // By default, configure jobs to use an exponential backoff strategy.
-        backoff: {
-          type: "exponential",
-          delay: 10000,
-        },
-
-        // Be default, try all jobs at least 5 times.
-        attempts: 5,
-
-        // Add the custom job options if they exist.
-        ...jobOptions,
+      // By default, configure jobs to use an exponential backoff strategy.
+      backoff: {
+        type: "exponential",
+        delay: 10 * 1000,
       },
-      queue,
-      timeout,
+
+      // Be default, try all jobs at least 5 times.
+      attempts: 5,
+
+      // Add the custom job options if they exist.
+      ...options,
     };
+    this.processor = processor;
+    this.queue = new Queue(name, queue);
+    this.timeout = timeout;
 
     // TODO: (wyattjoh) attach event handlers to the queue for metrics via: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events
   }
@@ -72,9 +69,10 @@ export default class Task<T extends TenantResource, U = any> {
    */
   public async add(data: T): Promise<Queue.Job<T> | undefined> {
     // Create the job.
-    const job = await this.queue.add(data, this.options.jobOptions);
+    const job = await this.queue.add(data, this.options);
 
     this.log.info({ jobID: job.id }, "added job to queue");
+
     return job;
   }
 
@@ -98,8 +96,8 @@ export default class Task<T extends TenantResource, U = any> {
         // Send the job off to the job processor to be handled. If the
         // processing of the job takes too long time it out.
         const promise: U = await timeoutPromiseAfter(
-          this.options.jobProcessor(job),
-          this.options.timeout
+          this.processor.process(log, job),
+          this.timeout
         );
 
         // Log it!

@@ -1,0 +1,3 @@
+{
+  "schema": "./src/core/server/graph/schema/schema.graphql"
+}

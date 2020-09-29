@@ -1,13 +1,19 @@
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 
-import { Config } from "coral-server/config";
+import { Config, CONFIG } from "coral-server/config";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
-import logger from "coral-server/logger";
-import { JobProcessor } from "coral-server/queue/Task";
+import {
+  JobProcessor,
+  JobProcessorHandler,
+} from "coral-server/queue/processor";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
-import { JWTSigningConfig } from "coral-server/services/jwt";
-import { NotificationCategory } from "coral-server/services/notifications/categories";
+import { JWTSigningConfigService } from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import {
+  categories,
+  NotificationCategory,
+} from "coral-server/services/notifications/categories";
 import NotificationContext from "coral-server/services/notifications/context";
 import { Notification } from "coral-server/services/notifications/notification";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -28,15 +34,6 @@ export interface NotifierData {
   input: NotifierCoralEventListenerPayloads;
 }
 
-interface Options {
-  mailerQueue: MailerQueue;
-  mongo: Db;
-  config: Config;
-  registry: Map<CoralEventType, NotificationCategory[]>;
-  tenantCache: TenantCache;
-  signingConfig: JWTSigningConfig;
-}
-
 /**
  * CategoryNotification combines the category and notification's to collect the
  * appropriate elements together that can be used for digesting purposes.
@@ -46,73 +43,80 @@ export interface CategoryNotification {
   notification: Notification;
 }
 
-/**
- * createJobProcessor creates the processor that is used to process the
- * possible notifications and queueing them up in the mailer if they need to be
- * sent.
- *
- * @param options options for the processor
- */
-export const createJobProcessor = ({
-  mailerQueue,
-  mongo,
-  config,
-  registry,
-  tenantCache,
-  signingConfig,
-}: Options): JobProcessor<NotifierData> => async (job) => {
-  const now = new Date();
+@singleton()
+export class NotifierQueueProcessor implements JobProcessor<NotifierData> {
+  private readonly registry = new Map<CoralEventType, NotificationCategory[]>();
 
-  // Pull the data out of the model.
-  const { tenantID, input } = job.data;
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(CONFIG) private readonly config: Config,
+    private readonly signingConfig: JWTSigningConfigService,
+    private readonly tenantCache: TenantCache,
+    private readonly mailerQueue: MailerQueue
+  ) {
+    this.registry = new Map<CoralEventType, NotificationCategory[]>();
 
-  // Create a new logger to handle logging for this job.
-  const log = logger.child(
-    {
-      jobID: job.id,
-      jobName: JOB_NAME,
-      tenantID,
-    },
-    true
-  );
-
-  log.debug("starting to handle a notify operation");
-
-  // Get all the handlers that are active for this channel.
-  const categories = registry.get(input.type);
-  if (!categories || categories.length === 0) {
-    return;
+    // Notification categories have been grouped by their event name so that
+    // each event emitted need only access the associated notification once.
+    for (const category of categories) {
+      for (const event of category.events as CoralEventType[]) {
+        let handlers = this.registry.get(event);
+        if (!handlers) {
+          handlers = [];
+        }
+        handlers.push(category);
+        this.registry.set(event, handlers);
+      }
+    }
   }
 
-  // Grab the tenant from the cache.
-  const tenant = await tenantCache.retrieveByID(tenantID);
-  if (!tenant) {
-    throw new Error("tenant not found with ID");
-  }
+  public process: JobProcessorHandler<NotifierData> = async (logger, job) => {
+    const now = new Date();
 
-  // Create a notification context to handle processing notifications.
-  const ctx = new NotificationContext({
-    mongo,
-    config,
-    signingConfig,
-    tenant,
-    now,
-  });
+    // Pull the data out of the model.
+    const { tenantID, input } = job.data;
 
-  // For each of the handler's we need to process, we should iterate to
-  // generate their notifications.
-  let notifications = await handleHandlers(ctx, categories, input);
+    logger.debug("starting to handle a notify operation");
 
-  // Check to see if some of the other notifications that are queued
-  // had this notification superseded.
-  notifications = notifications.filter(filterSuperseded);
+    // Get all the handlers that are active for this channel.
+    const handlers = this.registry.get(input.type);
+    if (!handlers || handlers.length === 0) {
+      return;
+    }
 
-  // Send all the notifications now.
-  await processNewNotifications(
-    ctx,
-    notifications.map(({ notification }) => notification),
-    mailerQueue
-  );
+    // Grab the tenant from the cache.
+    const tenant = await this.tenantCache.retrieveByID(tenantID);
+    if (!tenant) {
+      throw new Error("tenant not found with ID");
+    }
 
-  log.debug({ notifications: notifications.length }, "notifications handled");
-};
+    // Create a notification context to handle processing notifications.
+    const ctx = new NotificationContext({
+      mongo: this.mongo,
+      config: this.config,
+      signingConfig: this.signingConfig,
+      tenant,
+      now,
+    });
+
+    // For each of the handler's we need to process, we should iterate to
+    // generate their notifications.
+    let notifications = await handleHandlers(ctx, handlers, input);
+
+    // Check to see if some of the other notifications that are queued
+    // had this notification superseded.
+    notifications = notifications.filter(filterSuperseded);
+
+    // Send all the notifications now.
+    await processNewNotifications(
+      ctx,
+      notifications.map(({ notification }) => notification),
+      this.mailerQueue
+    );
+
+    logger.debug(
+      { notifications: notifications.length },
+      "notifications handled"
+    );
+  };
+}

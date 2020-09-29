@@ -2,22 +2,17 @@ import Joi from "@hapi/joi";
 import { NextFunction, Response } from "express";
 import { Redis } from "ioredis";
 import jwt from "jsonwebtoken";
-import passport, { Authenticator } from "passport";
+import { container } from "tsyringe";
 
 import { stringifyQuery } from "coral-common/utils";
-import { AppOptions } from "coral-server/app";
-import FacebookStrategy from "coral-server/app/middleware/passport/strategies/facebook";
-import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
-import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
-import { createLocalStrategy } from "coral-server/app/middleware/passport/strategies/local";
-import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
 import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import {
   extractTokenFromRequest,
-  JWTSigningConfig,
+  JWTSigningConfigService,
   revokeJWT,
+  SigningConfig,
   signTokenString,
 } from "coral-server/services/jwt";
 import {
@@ -26,38 +21,13 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
+import { AuthenticatorService } from "./service";
+
 export type VerifyCallback = (
   err?: Error | null,
   user?: User | null,
   info?: { message: string }
 ) => void;
-
-type Options = Pick<
-  AppOptions,
-  "mongo" | "redis" | "config" | "tenantCache" | "signingConfig"
->;
-
-export function createPassport(options: Options): passport.Authenticator {
-  // Create the authenticator.
-  const auth = new Authenticator();
-
-  // Use the LocalStrategy.
-  auth.use(createLocalStrategy(options));
-
-  // Use the OIDC Strategy.
-  auth.use(new OIDCStrategy(options));
-
-  // Use the SSOStrategy.
-  auth.use(new JWTStrategy(options));
-
-  // Use the FacebookStrategy.
-  auth.use(new FacebookStrategy(options));
-
-  // Use the GoogleStrategy.
-  auth.use(new GoogleStrategy(options));
-
-  return auth;
-}
 
 interface LogoutToken {
   jti?: string;
@@ -107,7 +77,7 @@ export async function handleLogout(
 
 export async function handleSuccessfulLogin(
   user: User,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   req: Request<TenantCoralRequest>,
   res: Response,
   next: NextFunction
@@ -123,40 +93,12 @@ export async function handleSuccessfulLogin(
     res.header("Expires", "-1");
     res.header("Pragma", "no-cache");
 
-    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-    // // Compute the expiry date.
-    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
-    //   seconds: tenant.auth.sessionDuration,
-    // });
-    //
-    // res.cookie(
-    //   COOKIE_NAME,
-    //   token,
-    //   generateCookieOptions(req, expiresIn.toJSDate())
-    // );
-
     // Send back the details!
     res.json({ token });
   } catch (err) {
     return next(err);
   }
 }
-
-// NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-// const generateCookieOptions = (
-//   req: Request,
-//   expiresIn: Date
-// ): CookieOptions => ({
-//   path: "/api",
-//   httpOnly: true,
-//   secure: req.secure,
-//   // Chrome will ignore `SameSite: None` when not used in a secure context
-//   // anyways, so don't bother setting `None` when we're not secure. The only
-//   // time we aren't behind HTTPS is when we're testing/in development where the
-//   // the setting for `SameSite: Lax` would be OK.
-//   sameSite: req.secure ? "none" : "lax",
-//   expires: expiresIn,
-// });
 
 function redirectWithHash(
   res: Response,
@@ -169,10 +111,11 @@ function redirectWithHash(
 export async function handleOAuth2Callback(
   err: Error | null,
   user: User | null,
-  signingConfig: JWTSigningConfig,
   req: Request<TenantCoralRequest>,
   res: Response
 ) {
+  const signingConfig = container.resolve(JWTSigningConfigService);
+
   const path = "/embed/auth/callback";
   if (!user) {
     if (!err) {
@@ -195,18 +138,6 @@ export async function handleOAuth2Callback(
       now
     );
 
-    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-    // // Compute the expiry date.
-    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
-    //   seconds: tenant.auth.sessionDuration,
-    // });
-    //
-    // res.cookie(
-    //   COOKIE_NAME,
-    //   accessToken,
-    //   generateCookieOptions(req, expiresIn.toJSDate())
-    // );
-
     // Send back the details!
     return redirectWithHash(res, path, { accessToken });
   } catch (e) {
@@ -224,22 +155,24 @@ export async function handleOAuth2Callback(
  * @param options any options to be passed to the authenticate call
  */
 export const wrapOAuth2Authn = (
-  authenticator: passport.Authenticator,
-  signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler<TenantCoralRequest> => (req, res, next) =>
-  authenticator.authenticate(
-    name,
-    { ...options, session: false },
-    async (err: Error | null, user: User | null) => {
-      try {
-        await handleOAuth2Callback(err, user, signingConfig, req, res);
-      } catch (e) {
-        return next(e);
+): RequestHandler<TenantCoralRequest> => {
+  const authenticator = container.resolve(AuthenticatorService);
+
+  return (req, res, next) =>
+    authenticator.authenticate(
+      name,
+      { ...options, session: false },
+      async (err: Error | null, user: User | null) => {
+        try {
+          await handleOAuth2Callback(err, user, req, res);
+        } catch (e) {
+          return next(e);
+        }
       }
-    }
-  )(req, res, next);
+    )(req, res, next);
+};
 
 /**
  * wrapAuthn will wrap a authenticators authenticate method with one that
@@ -251,30 +184,33 @@ export const wrapOAuth2Authn = (
  * @param options any options to be passed to the authenticate call
  */
 export const wrapAuthn = (
-  authenticator: passport.Authenticator,
-  signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler<TenantCoralRequest> => (req, res, next) =>
-  authenticator.authenticate(
-    name,
-    { ...options, session: false },
-    async (err: Error | null, user: User | null) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(new AuthenticationError("user not on request"));
-      }
+): RequestHandler<TenantCoralRequest> => {
+  const authenticator = container.resolve(AuthenticatorService);
+  const signingConfig = container.resolve(JWTSigningConfigService);
 
-      try {
-        // Pass the login off to be signed.
-        await handleSuccessfulLogin(user, signingConfig, req, res, next);
-      } catch (e) {
-        return next(e);
+  return (req, res, next) =>
+    authenticator.authenticate(
+      name,
+      { ...options, session: false },
+      async (err: Error | null, user: User | null) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return next(new AuthenticationError("user not on request"));
+        }
+
+        try {
+          // Pass the login off to be signed.
+          await handleSuccessfulLogin(user, signingConfig, req, res, next);
+        } catch (e) {
+          return next(e);
+        }
       }
-    }
-  )(req, res, next);
+    )(req, res, next);
+};
 
 /**
  * authenticate will wrap the authenticator to forward any error to the error
@@ -282,22 +218,24 @@ export const wrapAuthn = (
  *
  * @param authenticator the authenticator to use
  */
-export const authenticate = (
-  authenticator: passport.Authenticator
-): RequestHandler<TenantCoralRequest> => (req, res, next) =>
-  authenticator.authenticate(
-    "jwt",
-    { session: false },
-    (err: Error | null, user: User | null) => {
-      if (err) {
-        return next(err);
-      }
+export const authenticate = (): RequestHandler<TenantCoralRequest> => {
+  const authenticator = container.resolve(AuthenticatorService);
 
-      // Attach the user to the request.
-      if (user) {
-        req.user = user;
-      }
+  return (req, res, next) =>
+    authenticator.authenticate(
+      "jwt",
+      { session: false },
+      (err: Error | null, user: User | null) => {
+        if (err) {
+          return next(err);
+        }
 
-      return next();
-    }
-  )(req, res, next);
+        // Attach the user to the request.
+        if (user) {
+          req.user = user;
+        }
+
+        return next();
+      }
+    )(req, res, next);
+};

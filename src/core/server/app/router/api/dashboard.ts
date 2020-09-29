@@ -1,4 +1,3 @@
-import { AppOptions } from "coral-server/app";
 import {
   dailyUsersMetricsHandler,
   hourlyCommentsMetricsHandler,
@@ -10,16 +9,16 @@ import { userLimiterMiddleware } from "coral-server/app/middleware/userLimiter";
 
 import { createAPIRouter } from "./helpers";
 
-export function createDashboardRouter(app: AppOptions) {
+export function createDashboardRouter() {
   const router = createAPIRouter({ cacheDuration: "30s" });
 
-  router.use(userLimiterMiddleware(app));
+  router.use(userLimiterMiddleware());
 
-  router.get("/today", todayMetricsHandler(app));
-  router.get("/total", totalMetricsHandler(app));
-  router.get("/hourly/comments", hourlyCommentsMetricsHandler(app));
-  router.get("/daily/users", dailyUsersMetricsHandler(app));
-  router.get("/today/stories", todayStoriesMetricsHandler(app));
+  router.get("/today", todayMetricsHandler());
+  router.get("/total", totalMetricsHandler());
+  router.get("/hourly/comments", hourlyCommentsMetricsHandler());
+  router.get("/daily/users", dailyUsersMetricsHandler());
+  router.get("/today/stories", todayStoriesMetricsHandler());
 
   return router;
 }

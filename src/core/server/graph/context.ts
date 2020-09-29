@@ -1,13 +1,12 @@
 import { RedisPubSub } from "graphql-redis-subscriptions";
-import { Db } from "mongodb";
-import { v1 as uuid } from "uuid";
+import { container } from "tsyringe";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import { Config } from "coral-server/config";
-import CoralEventListenerBroker, {
+import { CONFIG, Config } from "coral-server/config";
+import CoralEventEmitter, {
   CoralEventPublisherBroker,
 } from "coral-server/events/publisher";
-import logger, { Logger } from "coral-server/logger";
+import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -17,104 +16,148 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 import { ErrorReporter } from "coral-server/services/errors";
-import { I18n } from "coral-server/services/i18n";
-import { JWTSigningConfig } from "coral-server/services/jwt";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { I18n, I18nService } from "coral-server/services/i18n";
+import {
+  JWTSigningConfigService,
+  SigningConfig,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 
 import loaders from "./loaders";
 import mutators from "./mutators";
+import { PubSubService } from "./subscriptions/pubsub";
 
 export interface GraphContextOptions {
+  id: string;
+  now: Date;
+  tenant: Tenant;
+  logger: Logger;
+
   clientID?: string;
-  disableCaching?: boolean;
-  id?: string;
-  lang?: LanguageCode;
-  logger?: Logger;
-  now?: Date;
-  persisted?: PersistedQuery;
-  reporter?: ErrorReporter;
-  req?: Request;
-  signingConfig?: JWTSigningConfig;
   user?: User;
 
-  config: Config;
-  i18n: I18n;
-  mailerQueue: MailerQueue;
-  rejectorQueue: RejectorQueue;
-  scraperQueue: ScraperQueue;
-  webhookQueue: WebhookQueue;
-  notifierQueue: NotifierQueue;
-  mongo: Db;
-  pubsub: RedisPubSub;
-  redis: AugmentedRedis;
-  tenant: Tenant;
-  tenantCache: TenantCache;
-  broker: CoralEventListenerBroker;
+  // TODO: Scope down this request to simplify access.
+  req?: Request;
+
+  disableCaching?: boolean;
+  persisted?: PersistedQuery;
+  reporter?: ErrorReporter;
 }
 
 export default class GraphContext {
+  // These references are currently resolved from the container.
   public readonly config: Config;
-  public readonly broker: CoralEventPublisherBroker;
-  public readonly disableCaching: boolean;
   public readonly i18n: I18n;
-  public readonly reporter?: ErrorReporter;
-  public readonly id: string;
-  public readonly lang: LanguageCode;
-  public readonly loaders: ReturnType<typeof loaders>;
-  public readonly logger: Logger;
   public readonly mailerQueue: MailerQueue;
+  public readonly mongo: Mongo;
+  public readonly notifierQueue: NotifierQueue;
+  public readonly pubsub: RedisPubSub;
+  public readonly redis: Redis;
   public readonly rejectorQueue: RejectorQueue;
   public readonly scraperQueue: ScraperQueue;
-  public readonly webhookQueue: WebhookQueue;
-  public readonly notifierQueue: NotifierQueue;
-  public readonly mongo: Db;
-  public readonly mutators: ReturnType<typeof mutators>;
-  public readonly now: Date;
-  public readonly pubsub: RedisPubSub;
-  public readonly redis: AugmentedRedis;
-  public readonly tenant: Tenant;
+  public readonly signingConfig: SigningConfig;
   public readonly tenantCache: TenantCache;
+  public readonly webhookQueue: WebhookQueue;
 
-  public readonly clientID?: string;
-  public readonly persisted?: PersistedQuery;
+  public readonly reporter?: ErrorReporter;
+
+  public readonly disableCaching: boolean;
+  public readonly id: string;
+  public readonly now: Date;
+  public readonly logger: Logger;
+  public readonly tenant: Tenant;
   public readonly req?: Request;
-  public readonly signingConfig?: JWTSigningConfig;
+  public readonly clientID?: string;
+
+  public readonly lang: LanguageCode;
+
+  // TODO: move this somewhere else.
+  public readonly persisted?: PersistedQuery;
+
   public readonly user?: User;
 
+  // These loaders and mutators keep a reference of the context around. This
+  // should in the future instead
+  private _loaders: ReturnType<typeof loaders>;
+  private _mutators: ReturnType<typeof mutators>;
+  private _broker: CoralEventPublisherBroker;
+
   constructor(options: GraphContextOptions) {
-    this.id = options.id || uuid();
-    this.now = options.now || new Date();
-    this.lang = options.lang || options.i18n.getDefaultLang();
-    this.disableCaching = options.disableCaching || false;
+    // TODO: Replace with DI.
+    this.config = container.resolve<Config>(CONFIG);
+    this.mongo = container.resolve<Mongo>(MONGO);
+    this.redis = container.resolve<Redis>(REDIS);
+    this.i18n = container.resolve(I18nService);
+    this.mailerQueue = container.resolve(MailerQueue);
+    this.notifierQueue = container.resolve(NotifierQueue);
+    this.pubsub = container.resolve(PubSubService);
+    this.rejectorQueue = container.resolve(RejectorQueue);
+    this.scraperQueue = container.resolve(ScraperQueue);
+    this.signingConfig = container.resolve(JWTSigningConfigService);
+    this.tenantCache = container.resolve(TenantCache);
+    this.webhookQueue = container.resolve(WebhookQueue);
 
-    this.logger = (options.logger || logger).child(
-      { context: "graph", contextID: this.id },
-      true
-    );
-
-    this.user = options.user;
-    this.req = options.req;
-    this.persisted = options.persisted;
-    this.config = options.config;
-    this.i18n = options.i18n;
-    this.pubsub = options.pubsub;
-    this.mongo = options.mongo;
-    this.redis = options.redis;
+    this.id = options.id;
+    this.now = options.now;
     this.tenant = options.tenant;
-    this.tenantCache = options.tenantCache;
-    this.scraperQueue = options.scraperQueue;
-    this.mailerQueue = options.mailerQueue;
-    this.rejectorQueue = options.rejectorQueue;
-    this.notifierQueue = options.notifierQueue;
-    this.webhookQueue = options.webhookQueue;
-    this.signingConfig = options.signingConfig;
-    this.clientID = options.clientID;
-    this.reporter = options.reporter;
+    this.logger = options.logger;
 
-    this.broker = options.broker.instance(this);
-    this.loaders = loaders(this);
-    this.mutators = mutators(this);
+    this.disableCaching = options.disableCaching || false;
+    this.clientID = options.clientID;
+    this.req = options.req;
+    this.user = options.user;
+
+    this.lang = options.tenant.locale;
+
+    this.persisted = options.persisted;
+    this.reporter = options.reporter;
+  }
+
+  /**
+   * broker is a lazy reference to the broker instance that can be used to
+   * report events.
+   */
+  public get broker() {
+    if (this._broker) {
+      return this._broker;
+    }
+
+    // Load and cache a reference for this broker.
+    this._broker = container.resolve(CoralEventEmitter).instance(this);
+
+    return this._broker;
+  }
+
+  /**
+   * loaders is a lazy reference to the loaders object that can be used to load
+   * content.
+   */
+  public get loaders() {
+    if (this._loaders) {
+      return this._loaders;
+    }
+
+    // Load and cache a reference for these loaders.
+    this._loaders = loaders(this);
+
+    return this._loaders;
+  }
+
+  /**
+   * mutators is a lazy reference to the mutators object that can be used to
+   * mutate content.
+   */
+  public get mutators() {
+    if (this._mutators) {
+      return this._mutators;
+    }
+
+    // Load and cache a reference for these mutators.
+    this._mutators = mutators(this);
+
+    return this._mutators;
   }
 }

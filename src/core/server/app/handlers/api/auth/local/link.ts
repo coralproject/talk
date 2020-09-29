@@ -1,10 +1,16 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 import { linkUsersAvailable } from "coral-server/models/tenant";
-import { signTokenString } from "coral-server/services/jwt";
+import {
+  JWTSigningConfigService,
+  signTokenString,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import { link } from "coral-server/services/users";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
@@ -18,17 +24,13 @@ export const LinkBodySchema = Joi.object().keys({
   password: Joi.string(),
 });
 
-export type LinkOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
->;
+export const linkHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const linkHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: LinkOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

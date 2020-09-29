@@ -12,8 +12,8 @@ import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import {
   isJWTRevoked,
-  JWTSigningConfig,
   revokeJWT,
+  SigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
@@ -31,8 +31,7 @@ const DownloadTokenSchema = StandardClaimsSchema.keys({
 export async function generateDownloadToken(
   userID: string,
   tenant: Tenant,
-  config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   now: Date
 ) {
   const nowDate = DateTime.fromJSDate(now);
@@ -56,16 +55,10 @@ export async function generateDownloadLink(
   userID: string,
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   now: Date
 ) {
-  const token = await generateDownloadToken(
-    userID,
-    tenant,
-    config,
-    signingConfig,
-    now
-  );
+  const token = await generateDownloadToken(userID, tenant, signingConfig, now);
 
   return constructTenantURL(
     config,
@@ -78,16 +71,10 @@ export async function generateAdminDownloadLink(
   userID: string,
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   now: Date
 ) {
-  const token = await generateDownloadToken(
-    userID,
-    tenant,
-    config,
-    signingConfig,
-    now
-  );
+  const token = await generateDownloadToken(userID, tenant, signingConfig, now);
 
   return constructTenantURL(
     config,
@@ -115,7 +102,7 @@ export async function verifyDownloadTokenString(
   mongo: Db,
   redis: Redis,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {
@@ -154,7 +141,7 @@ export async function redeemDownloadToken(
   mongo: Db,
   redis: Redis,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {

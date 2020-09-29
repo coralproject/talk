@@ -1,13 +1,18 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 import { v4 as uuid } from "uuid";
 
-import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 import { IntegrationDisabled } from "coral-server/errors";
 import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import { LocalProfile, User } from "coral-server/models/user";
+import { MailerQueue } from "coral-server/queue/tasks";
+import { JWTSigningConfigService } from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import { create } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
@@ -26,18 +31,14 @@ export const SignupBodySchema = Joi.object().keys({
   email: Joi.string().trim().lowercase().email(),
 });
 
-export type SignupOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
->;
+export const signupHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const mailerQueue = container.resolve(MailerQueue);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const signupHandler = ({
-  config,
-  redis,
-  mongo,
-  signingConfig,
-  mailerQueue,
-}: SignupOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

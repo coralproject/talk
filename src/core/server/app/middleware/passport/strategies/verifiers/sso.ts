@@ -1,8 +1,8 @@
 import Joi from "@hapi/joi";
-import { Redis } from "ioredis";
 import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { URL } from "url";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
@@ -32,7 +32,8 @@ import {
   SymmetricSigningAlgorithm,
   verifyJWT,
 } from "coral-server/services/jwt";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import { findOrCreate } from "coral-server/services/users";
 
 import {
@@ -99,7 +100,7 @@ export const SSOTokenSchema = Joi.object().keys({
 
 export async function findOrCreateSSOUser(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
   token: SSOToken,
@@ -216,7 +217,7 @@ const updateLastUsedAtKID = throttle(
 
 export interface SSOVerifierOptions {
   mongo: Db;
-  redis: AugmentedRedis;
+  redis: Redis;
 }
 
 export function getRelevantSSOSigningSecrets(
@@ -257,14 +258,12 @@ export function getRelevantSSOSigningSecrets(
   return keys;
 }
 
+@singleton()
 export class SSOVerifier implements Verifier<SSOToken> {
-  private mongo: Db;
-  private redis: AugmentedRedis;
-
-  constructor({ mongo, redis }: SSOVerifierOptions) {
-    this.mongo = mongo;
-    this.redis = redis;
-  }
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(REDIS) private readonly redis: Redis
+  ) {}
 
   public supports(
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -321,7 +320,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
           now
         );
       } catch (err) {
-        // If this is the last config to test, we need to rethrow the error
+        // If this is the last config.get("to") test, we need to rethrow the error
         // here.
         if (keys.length === 0) {
           throw err;
@@ -342,7 +341,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
       // TODO: [CORL-754] (wyattjoh) reintroduce when we amend the front-end to display the kid
       // if (!kid) {
       //   logger.warn(
-      //     { tenantID: tenant.id, kid: config.kid },
+      //     { tenantID: tenant.id, kid: config.get("kid") },
       //     "token without a `kid` matched key with known `kid`"
       //   );
       // }

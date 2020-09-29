@@ -1,10 +1,10 @@
 import DataLoader from "dataloader";
 import { EventEmitter } from "events";
 import { Redis } from "ioredis";
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { v4 as uuid } from "uuid";
 
-import { Config } from "coral-server/config";
+import { CONFIG, Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {
   countTenants,
@@ -13,6 +13,8 @@ import {
   retrieveManyTenantsByDomain,
   Tenant,
 } from "coral-server/models/tenant";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { RedisService } from "coral-server/services/redis";
 
 import { parse, stringify } from "./json";
 
@@ -50,6 +52,7 @@ type MessageData<T extends Message> = Omit<T, "clientApplicationID" | "event">;
 
 // TenantCache provides an interface for retrieving tenant stored in local
 // memory rather than grabbing it from the database every single call.
+@singleton()
 export default class TenantCache {
   /**
    * tenantsByID reference the tenants that have been cached/retrieved by ID.
@@ -80,8 +83,6 @@ export default class TenantCache {
    */
   private readonly clientApplicationID = uuid();
 
-  private readonly redis: Redis;
-  private readonly mongo: Db;
   private readonly emitter = new EventEmitter();
 
   /**
@@ -89,7 +90,11 @@ export default class TenantCache {
    */
   public readonly cachingEnabled: boolean;
 
-  constructor(mongo: Db, redis: Redis, config: Config) {
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    private readonly redis: RedisService,
+    @inject(CONFIG) config: Config
+  ) {
     this.cachingEnabled = !config.get("disable_tenant_caching");
     if (!this.cachingEnabled) {
       logger.warn("tenant caching is disabled");
@@ -97,15 +102,11 @@ export default class TenantCache {
       logger.debug("tenant caching is enabled");
     }
 
-    // Save the Db reference.
-    this.redis = redis;
-    this.mongo = mongo;
-
     // Configure the data loaders.
     this.tenantsByID = new DataLoader(
       async (ids) => {
         logger.debug({ ids: ids.length }, "now loading tenants");
-        const tenants = await retrieveManyTenants(this.mongo, ids);
+        const tenants = await retrieveManyTenants(mongo, ids);
         logger.debug(
           { tenants: tenants.filter((t) => t !== null).length },
           "loaded tenants"
@@ -146,13 +147,13 @@ export default class TenantCache {
     if (this.cachingEnabled) {
       // Attach to messages on this connection so we can receive updates when
       // the tenant are changed.
-      this.redis.on("message", this.onMessage.bind(this));
+      this.redis.redis.on("message", this.onMessage.bind(this));
     }
   }
 
   public async connect() {
     // Subscribe to tenant notifications.
-    await this.redis.subscribe(TENANT_CACHE_CHANNEL);
+    await this.redis.redis.subscribe(TENANT_CACHE_CHANNEL);
   }
 
   /**

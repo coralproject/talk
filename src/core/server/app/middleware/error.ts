@@ -1,5 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { Response } from "express";
+import { container } from "tsyringe";
 
 import {
   CoralError,
@@ -8,7 +9,7 @@ import {
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { ErrorReport, ErrorReporterScope } from "coral-server/services/errors";
-import { I18n } from "coral-server/services/i18n";
+import { I18n, I18nService } from "coral-server/services/i18n";
 import { ErrorRequestHandler, Request } from "coral-server/types/express";
 
 import { AppOptions } from "../";
@@ -47,7 +48,7 @@ const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
   };
 };
 
-type ErrorHandlerOptions = Partial<Pick<AppOptions, "i18n" | "reporter">>;
+type ErrorHandlerOptions = Pick<AppOptions, "reporter">;
 
 interface ErrorHandlerResponse {
   status: number;
@@ -61,7 +62,8 @@ function wrapAndReport(
   err: Error,
   req: Request,
   res: Response,
-  { i18n, reporter }: ErrorHandlerOptions
+  i18n: I18n,
+  { reporter }: ErrorHandlerOptions
 ): ErrorHandlerResponse {
   // Grab the logger.
   const log = req.coral ? req.coral.logger : logger;
@@ -130,20 +132,34 @@ function wrapAndReport(
   };
 }
 
-export const JSONErrorHandler = (
-  options: ErrorHandlerOptions = {}
-): ErrorRequestHandler => (err, req, res, next) => {
-  const { status, context } = wrapAndReport(err, req, res, options);
+export const JSONErrorHandler = ({
+  reporter,
+}: ErrorHandlerOptions = {}): ErrorRequestHandler => {
+  // TODO: Replace with DI.
+  const i18n = container.resolve(I18nService);
 
-  // Send the response via JSON.
-  res.status(status).json(context);
+  return (err, req, res, next) => {
+    const { status, context } = wrapAndReport(err, req, res, i18n, {
+      reporter,
+    });
+
+    // Send the response via JSON.
+    res.status(status).json(context);
+  };
 };
 
-export const HTMLErrorHandler = (
-  options: ErrorHandlerOptions = {}
-): ErrorRequestHandler => (err, req, res, next) => {
-  const { status, context } = wrapAndReport(err, req, res, options);
+export const HTMLErrorHandler = ({
+  reporter,
+}: ErrorHandlerOptions = {}): ErrorRequestHandler => {
+  // TODO: Replace with DI.
+  const i18n = container.resolve(I18nService);
 
-  // Send the response via HTML.
-  res.status(status).render("error", context);
+  return (err, req, res, next) => {
+    const { status, context } = wrapAndReport(err, req, res, i18n, {
+      reporter,
+    });
+
+    // Send the response via HTML.
+    res.status(status).render("error", context);
+  };
 };

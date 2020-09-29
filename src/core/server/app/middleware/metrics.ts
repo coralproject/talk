@@ -1,13 +1,15 @@
 import onFinished from "on-finished";
+import { container } from "tsyringe";
 
 import { createTimer } from "coral-server/helpers";
-import { Metrics } from "coral-server/services/metrics";
+import { MetricsService } from "coral-server/services/metrics";
 import { RequestHandler } from "coral-server/types/express";
 
-export const metricsRecorder = ({
-  httpRequestsTotal,
-  httpRequestDurationMilliseconds,
-}: Metrics): RequestHandler => {
+export const metricsRecorder = (): RequestHandler => {
+  const metrics = container.resolve(MetricsService);
+
+  const { httpRequestsTotal, httpRequestDurationMilliseconds } = metrics;
+
   return (req, res, next) => {
     const timer = createTimer();
     onFinished(res, () => {

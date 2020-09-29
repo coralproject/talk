@@ -1,21 +1,27 @@
-import { AppOptions } from "coral-server/app";
+import { container } from "tsyringe";
+
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 import { updateUserNotificationSettings } from "coral-server/models/user";
-import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
+import {
+  decodeJWT,
+  extractTokenFromRequest,
+  JWTSigningConfigService,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { verifyUnsubscribeTokenString } from "coral-server/services/notifications/categories/unsubscribe";
+import { Redis, REDIS } from "coral-server/services/redis";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-export type UnsubscribeCheckOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const unsubscribeCheckHandler = (): RequestHandler<
+  TenantCoralRequest
+> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const unsubscribeCheckHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: UnsubscribeCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -68,17 +74,13 @@ export const unsubscribeCheckHandler = ({
   };
 };
 
-export type UnsubscribeOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const unsubscribeHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const unsubscribeHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: UnsubscribeOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

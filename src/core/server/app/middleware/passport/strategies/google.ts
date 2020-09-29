@@ -1,9 +1,9 @@
 import { Profile, Strategy } from "passport-google-oauth2";
+import { inject, singleton } from "tsyringe";
 
-import OAuth2Strategy, {
-  OAuth2StrategyOptions,
-} from "coral-server/app/middleware/passport/strategies/oauth2";
+import OAuth2Strategy from "coral-server/app/middleware/passport/strategies/oauth2";
 import { constructTenantURL } from "coral-server/app/url";
+import { CONFIG, Config } from "coral-server/config";
 import {
   AuthIntegrations,
   GoogleAuthIntegration,
@@ -13,21 +13,28 @@ import {
   GoogleProfile,
   retrieveUserWithProfile,
 } from "coral-server/models/user";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { findOrCreate } from "coral-server/services/users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-export type GoogleStrategyOptions = OAuth2StrategyOptions;
-
+@singleton()
 export default class GoogleStrategy extends OAuth2Strategy<
   GoogleAuthIntegration,
   Strategy
 > {
   public name = "google";
 
-  constructor(options: GoogleStrategyOptions) {
+  constructor(
+    @inject(CONFIG) config: Config,
+    @inject(MONGO) mongo: Mongo,
+    tenantCache: TenantCache
+  ) {
     super({
-      ...options,
+      config,
+      mongo,
+      tenantCache,
       authenticateOptions: {
         scope: ["profile", "email"],
       },

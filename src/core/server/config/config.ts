@@ -7,15 +7,13 @@ import ms from "ms";
 import { LOCALES } from "coral-common/helpers/i18n/locales";
 import { ensureEndSlash } from "coral-common/utils";
 
-import { WrappedInternalError } from "./errors";
-
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
   name: "mongo-uri",
   validate: (url: string) => {
     parseConnectionString(url, (err) => {
       if (err) {
-        throw new WrappedInternalError(err, "invalid mongo-uri");
+        throw err;
       }
     });
   },
@@ -94,7 +92,7 @@ const config = convict({
   },
   trust_proxy: {
     doc:
-      'When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)',
+      'When provided, it uses the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)',
     format: String,
     default: "",
     env: "TRUST_PROXY",
@@ -367,5 +365,5 @@ const config = convict({
 
 export type Config = typeof config;
 
-// Setup the base configuration.
+// Setup the base Configuration.
 export default config;

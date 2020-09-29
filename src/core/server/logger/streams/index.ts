@@ -1,10 +1,13 @@
 import PrettyStream from "@coralproject/bunyan-prettystream";
+import { container } from "tsyringe";
 
-import config from "coral-server/config";
+import { CONFIG, Config } from "coral-server/config";
 
 import { SecretStream } from "./SecretStream";
 
 export function getStreams() {
+  const config = container.resolve<Config>(CONFIG);
+
   // Create a new secret stream.
   const secret = new SecretStream();
 

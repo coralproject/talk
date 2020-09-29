@@ -9,7 +9,7 @@ import {
   RelatedCommentCounts,
 } from "coral-server/models/comment/counts";
 import { sites } from "coral-server/services/mongodb/collections";
-import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 
 import {
   createEmptyCommentModerationCountsPerQueue,
@@ -52,7 +52,7 @@ interface SharedModerationQueueCountsMatch {
  */
 export async function recalculateSharedModerationQueueQueueCounts(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   tenantID: string,
   now = new Date()
 ) {
@@ -154,7 +154,7 @@ function fillAndConvertStringToNumber<
  */
 export async function retrieveSharedModerationQueueQueuesCounts(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   tenantID: string,
   now = new Date()
 ): Promise<CommentModerationCountsPerQueue> {
@@ -185,11 +185,11 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 }
 
 export async function updateSharedCommentCounts(
-  redis: AugmentedRedis,
+  redis: Redis,
   tenantID: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) {
-  const pipeline: AugmentedPipeline = redis.pipeline();
+  const pipeline = redis.pipeline();
 
   // Update the moderation queue total.
   const moderationQueue = commentCounts.moderationQueue || {};

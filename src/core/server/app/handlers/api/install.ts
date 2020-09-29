@@ -1,29 +1,34 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 import { v4 as uuid } from "uuid";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { Config } from "coral-server/config";
+import { CONFIG, Config } from "coral-server/config";
 import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
 import { CreateSiteInput } from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
+import { I18nService } from "coral-server/services/i18n";
 import {
-  createJWTSigningConfig,
+  createSigningConfig,
   extractTokenFromRequest,
-  JWTSigningConfig,
+  SigningConfig,
 } from "coral-server/services/jwt";
 import { verifyInstallationTokenString } from "coral-server/services/management";
+import { MigrationManager } from "coral-server/services/migrate";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import { create as createSite } from "coral-server/services/sites";
 import {
   install,
   InstallTenant,
   isInstalled,
 } from "coral-server/services/tenant";
+import { TenantCache } from "coral-server/services/tenant/cache";
 import { create, CreateUser } from "coral-server/services/users";
 import {
   CoralRequest,
@@ -33,15 +38,12 @@ import {
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-export type TenantInstallCheckHandlerOptions = Pick<
-  AppOptions,
-  "redis" | "config"
->;
+export const installCheckHandler = (): RequestHandler<CoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const tenantCache = container.resolve(TenantCache);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const installCheckHandler = ({
-  config,
-  redis,
-}: TenantInstallCheckHandlerOptions): RequestHandler<CoralRequest> => {
   const { managementEnabled, signingConfig } = managementSigningConfig(config);
   const limiter = new RequestLimiter({
     redis,
@@ -57,7 +59,7 @@ export const installCheckHandler = ({
       await limiter.test(req, req.ip);
 
       // Pull the tenant out.
-      const { tenant, cache } = req.coral;
+      const { tenant } = req.coral;
 
       // If there's already a Tenant on the request! No need to process further.
       if (tenant) {
@@ -65,7 +67,7 @@ export const installCheckHandler = ({
       }
 
       // Check to see if the server already has a tenant installed.
-      const alreadyInstalled = await isInstalled(cache.tenant);
+      const alreadyInstalled = await isInstalled(tenantCache);
       if (!alreadyInstalled) {
         // No tenants are installed at all, we can of course proceed with the
         // install now.
@@ -123,18 +125,15 @@ const TenantInstallBodySchema = Joi.object().keys({
   }),
 });
 
-export type TenantInstallHandlerOptions = Pick<
-  AppOptions,
-  "redis" | "mongo" | "config" | "mailerQueue" | "i18n" | "migrationManager"
->;
+export const installHandler = (): RequestHandler => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const i18n = container.resolve(I18nService);
+  const tenantCache = container.resolve(TenantCache);
+  const migrationManager = container.resolve(MigrationManager);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const installHandler = ({
-  mongo,
-  redis,
-  config,
-  i18n,
-  migrationManager,
-}: TenantInstallHandlerOptions): RequestHandler => {
   const { managementEnabled, signingConfig } = managementSigningConfig(config);
   const limiter = new RequestLimiter({
     redis,
@@ -153,17 +152,13 @@ export const installHandler = ({
         return next(new Error("coral was not set"));
       }
 
-      if (!req.coral.cache) {
-        return next(new Error("cache was not set"));
-      }
-
       if (req.coral.tenant) {
         // There's already a Tenant on the request! No need to process further.
         return next(new TenantInstalledAlreadyError());
       }
 
       // Check to see if the server already has a tenant installed.
-      let alreadyInstalled = await isInstalled(req.coral.cache.tenant);
+      let alreadyInstalled = await isInstalled(tenantCache);
 
       // Check to see if management is enabled for this server.
       if (managementEnabled && signingConfig) {
@@ -204,14 +199,14 @@ export const installHandler = ({
       // Execute the pending migrations now, as the schema and types are already
       // current for the new tenant being installed now. No point in creating
       // a tenant when migrations have not been ran yet.
-      await migrationManager.executePendingMigrations(mongo, redis, true);
+      await migrationManager.executePendingMigrations(true);
 
       // Install will throw if it can not create a Tenant, or it has already been
       // installed.
       const tenant = await install(
         mongo,
         redis,
-        req.coral.cache.tenant,
+        tenantCache,
         i18n,
         {
           ...tenantInput,
@@ -261,7 +256,7 @@ export const installHandler = ({
 
 async function checkForInstallationToken(
   req: Request,
-  signingConfig: JWTSigningConfig
+  signingConfig: SigningConfig
 ) {
   // The server already has another tenant installed. Every additional
   // tenant must be installed via the signed domain method. Check to see
@@ -291,10 +286,7 @@ function managementSigningConfig(config: Config) {
   const managementSigningAlgorithm = config.get("management_signing_algorithm");
   const managementEnabled = Boolean(managementSigningSecret);
   const signingConfig = managementSigningSecret
-    ? createJWTSigningConfig(
-        managementSigningSecret,
-        managementSigningAlgorithm
-      )
+    ? createSigningConfig(managementSigningSecret, managementSigningAlgorithm)
     : null;
   return { managementEnabled, signingConfig };
 }

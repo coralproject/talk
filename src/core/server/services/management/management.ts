@@ -4,7 +4,7 @@ import { isNull } from "lodash";
 import { TokenInvalidError } from "coral-server/errors";
 
 import {
-  JWTSigningConfig,
+  SigningConfig,
   StandardClaims,
   StandardClaimsSchema,
   verifyJWT,
@@ -35,7 +35,7 @@ export function isInstallationToken(
 }
 
 export async function verifyInstallationTokenString(
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {

@@ -20,7 +20,7 @@ import {
 } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
-  JWTSigningConfig,
+  SigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
@@ -68,7 +68,7 @@ export async function generateConfirmURL(
   mongo: Db,
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   user: Required<Pick<User, "id" | "email">>,
   now: Date
 ) {
@@ -116,7 +116,7 @@ export async function generateConfirmURL(
 export async function verifyConfirmTokenString(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {
@@ -175,7 +175,7 @@ export async function verifyConfirmTokenString(
 export async function confirmEmail(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {
@@ -211,7 +211,7 @@ export async function sendConfirmationEmail(
   mailer: MailerQueue,
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   user: Required<Pick<User, "id" | "username" | "email">>,
   now: Date
 ) {

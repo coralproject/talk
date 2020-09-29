@@ -23,7 +23,7 @@ import {
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 import {
   publishChanges,
   updateAllCommentCounts,
@@ -86,7 +86,7 @@ interface AddCommentAction {
 
 async function addCommentAction(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID">,
@@ -145,7 +145,7 @@ async function addCommentAction(
 
 export async function removeCommentAction(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
@@ -226,7 +226,7 @@ export type CreateCommentReaction = Pick<
 
 export async function createReaction(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -265,7 +265,7 @@ export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
 
 export async function removeReaction(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -285,7 +285,7 @@ export type CreateCommentDontAgree = Pick<
 
 export async function createDontAgree(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -314,7 +314,7 @@ export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
 
 export async function removeDontAgree(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -336,7 +336,7 @@ export type CreateCommentFlag = Pick<
 
 export async function createFlag(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,

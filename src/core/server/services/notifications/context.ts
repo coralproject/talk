@@ -1,31 +1,26 @@
 import DataLoader from "dataloader";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import logger, { Logger } from "coral-server/logger";
-import { Comment, retrieveManyComments } from "coral-server/models/comment";
-import { retrieveManyStories, Story } from "coral-server/models/story";
+import { retrieveManyComments } from "coral-server/models/comment";
+import { retrieveManyStories } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import {
   insertUserNotificationDigests,
-  pullUserNotificationDigests,
   retrieveManyUsers,
   User,
 } from "coral-server/models/user";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
-import { JWTSigningConfig } from "coral-server/services/jwt";
+import { SigningConfig } from "coral-server/services/jwt";
 
-import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
-
+import { Mongo } from "../mongodb";
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
-  mongo: Db;
+  mongo: Mongo;
   tenant: Tenant;
   config: Config;
-  signingConfig: JWTSigningConfig;
+  signingConfig: SigningConfig;
   now?: Date;
-  log?: Logger;
 }
 
 /**
@@ -33,8 +28,8 @@ interface Options {
  * collect data to include in notifications to be sent.
  */
 export default class NotificationContext {
-  private readonly mongo: Db;
-  private readonly signingConfig: JWTSigningConfig;
+  private readonly mongo: Mongo;
+  private readonly signingConfig: SigningConfig;
 
   /**
    * tenant is the tenant performing this particular operation.
@@ -52,54 +47,38 @@ export default class NotificationContext {
   public readonly config: Config;
 
   /**
-   * log is the context wrapped logger for this NotificationContext.
-   */
-  public readonly log: Logger;
-
-  /**
    * users is a `DataLoader` used to retrieve users efficiently.
    */
-  public readonly users: DataLoader<
-    string,
-    Readonly<User> | null
-  > = new DataLoader((userIDs) =>
+  public readonly users = new DataLoader((userIDs: string[]) =>
     retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
   );
 
   /**
    * comments is a `DataLoader` used to retrieve comments efficiently.
    */
-  public readonly comments: DataLoader<
-    string,
-    Readonly<Comment> | null
-  > = new DataLoader((commentIDs) =>
+  public readonly comments = new DataLoader((commentIDs: string[]) =>
     retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
   );
 
   /**
    * stories is a `DataLoader` used to retrieve stories efficiently.
    */
-  public readonly stories: DataLoader<
-    string,
-    Readonly<Story> | null
-  > = new DataLoader((storyIDs) =>
+  public readonly stories = new DataLoader((storyIDs: string[]) =>
     retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
   );
 
   constructor({
-    mongo,
     tenant,
-    now = new Date(),
-    log = logger,
+    mongo,
     config,
     signingConfig,
+    now = new Date(),
   }: Options) {
     this.mongo = mongo;
-    this.tenant = tenant;
-    this.now = now;
     this.config = config;
     this.signingConfig = signingConfig;
-    this.log = log.child({ tenantID: tenant.id }, true);
+    this.tenant = tenant;
+    this.now = now;
   }
 
   /**
@@ -133,33 +112,5 @@ export default class NotificationContext {
     this.users.prime(user.id, user);
 
     return user;
-  }
-
-  /**
-   * digest will return an `asyncIterator` that can be used to iterate over all
-   * the users on a Tenant that have digests available configured with the given
-   * frequency.
-   *
-   * @param frequency the frequency to get the digests for
-   */
-  public digest(frequency: GQLDIGEST_FREQUENCY) {
-    // `this` isn't available inside the iterator function, so extract it here.
-    const { mongo, tenant } = this;
-    return {
-      async *[Symbol.asyncIterator]() {
-        while (true) {
-          const user = await pullUserNotificationDigests(
-            mongo,
-            tenant.id,
-            frequency
-          );
-          if (!user) {
-            break;
-          }
-
-          yield user;
-        }
-      },
-    };
   }
 }

@@ -1,5 +1,11 @@
-import logger from "coral-server/logger";
+import { inject, singleton } from "tsyringe";
+
+import { CONFIG, Config } from "coral-server/config";
+import { retrieveComment } from "coral-server/models/comment";
+import { retrieveStory } from "coral-server/models/story";
+import { retrieveUser } from "coral-server/models/user";
 import { createFetch } from "coral-server/services/fetch";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 
 import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 
@@ -9,10 +15,7 @@ import {
   CommentFeaturedCoralEventPayload,
   CommentReplyCreatedCoralEventPayload,
 } from "../../events";
-import {
-  CoralEventListener,
-  CoralEventPublisherFactory,
-} from "../../publisher";
+import { CoralEventHandler, CoralEventListener } from "../../listener";
 import { CoralEventType } from "../../types";
 import SlackPublishEvent, { Trigger } from "./publishEvent";
 
@@ -22,6 +25,7 @@ type SlackCoralEventListenerPayloads =
   | CommentCreatedCoralEventPayload
   | CommentReplyCreatedCoralEventPayload;
 
+@singleton()
 export class SlackCoralEventListener
   implements CoralEventListener<SlackCoralEventListenerPayloads> {
   public readonly name = "slack";
@@ -32,6 +36,11 @@ export class SlackCoralEventListener
     CoralEventType.COMMENT_REPLY_CREATED,
   ];
   private readonly fetch = createFetch({ name: "slack" });
+
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(CONFIG) private readonly config: Config
+  ) {}
 
   /**
    * postMessage will prepare and send the incoming Slack webhook.
@@ -55,6 +64,7 @@ export class SlackCoralEventListener
       throw new Error(`slack returned non-200 status code: ${res.status}`);
     }
   }
+
   private getActionType(
     payload: SlackCoralEventListenerPayloads
   ): Trigger | null {
@@ -76,9 +86,10 @@ export class SlackCoralEventListener
     return null;
   }
 
-  public initialize: CoralEventPublisherFactory<
-    SlackCoralEventListenerPayloads
-  > = (ctx) => async (payload) => {
+  public handle: CoralEventHandler<SlackCoralEventListenerPayloads> = async (
+    ctx,
+    payload
+  ) => {
     const {
       tenant: { id: tenantID, slack },
     } = ctx;
@@ -100,31 +111,42 @@ export class SlackCoralEventListener
       return;
     }
 
-    const comment = await ctx.loaders.Comments.comment.load(
+    const comment = await retrieveComment(
+      this.mongo,
+      ctx.tenant.id,
       payload.data.commentID
     );
     if (!comment || !comment.authorID) {
       return;
     }
 
-    const author = await ctx.loaders.Users.user.load(comment.authorID);
+    const author = await retrieveUser(
+      this.mongo,
+      ctx.tenant.id,
+      comment.authorID
+    );
     if (!author) {
       return;
     }
 
-    const story = await ctx.loaders.Stories.story.load(payload.data.storyID);
+    const story = await retrieveStory(
+      this.mongo,
+      ctx.tenant.id,
+      payload.data.storyID
+    );
     if (!story) {
       return;
     }
 
     const publishEvent = new SlackPublishEvent(
+      this.config,
       actionType,
       comment,
       story,
       author
     );
 
-    // For each channel that is enabled with configuration.
+    // For each channel that is enabled with Configuration.
     for (const channel of slack.channels) {
       if (!channel.enabled || !channel.hookURL) {
         continue;
@@ -135,7 +157,7 @@ export class SlackCoralEventListener
           // Post the message to slack.
           await this.postMessage(channel.hookURL, publishEvent.getContent(ctx));
         } catch (err) {
-          logger.error(
+          ctx.logger.error(
             { err, tenantID, payload, channel },
             "could not post the comment to slack"
           );

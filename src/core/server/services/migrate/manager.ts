@@ -1,7 +1,6 @@
 import fs from "fs-extra";
-import { Redis } from "ioredis";
-import { Db } from "mongodb";
 import path from "path";
+import { inject, singleton } from "tsyringe";
 import * as uuid from "uuid";
 
 import { createTimer } from "coral-server/helpers";
@@ -13,7 +12,9 @@ import {
   retrieveAllMigrationRecords,
   startMigration,
 } from "coral-server/models/migration";
-import { I18n } from "coral-server/services/i18n";
+import { I18nService } from "coral-server/services/i18n";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
@@ -25,21 +26,21 @@ import Migration from "./migration";
 // Extract the id from the filename with this regex.
 const fileNamePattern = /^(\d+)_([\S_]+)\.[tj]s$/;
 
-export interface ManagerOptions {
-  tenantCache: TenantCache;
-  i18n: I18n;
-}
-
-export default class Manager {
+@singleton()
+export default class MigrationManager {
   private clientID: string;
   private migrations: Migration[];
-  private tenantCache: TenantCache;
   private ran = false;
 
-  constructor({ tenantCache, i18n }: ManagerOptions) {
+  constructor(
+    private readonly tenantCache: TenantCache,
+    // QUESTION: Is this the best way of doing this??
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(REDIS) private readonly redis: Redis,
+    i18n: I18nService
+  ) {
     this.clientID = uuid.v4();
     this.migrations = [];
-    this.tenantCache = tenantCache;
 
     const fileNames = fs.readdirSync(path.join(__dirname, "migrations"));
     for (const fileName of fileNames) {
@@ -109,9 +110,9 @@ export default class Manager {
    *
    * @param mongo the database handle to use to get the migrations
    */
-  private async pending(mongo: Db): Promise<Migration[]> {
+  private async pending(): Promise<Migration[]> {
     // Get all the migration records in the database.
-    const records = await retrieveAllMigrationRecords(mongo);
+    const records = await retrieveAllMigrationRecords(this.mongo);
 
     // Check to see if any of the migrations have failed or are in progress.
     for (const record of records) {
@@ -138,16 +139,12 @@ export default class Manager {
     });
   }
 
-  private async currentMigration(mongo: Db) {
-    const records = await retrieveAllMigrationRecords(mongo);
+  private async currentMigration() {
+    const records = await retrieveAllMigrationRecords(this.mongo);
     return records.length > 0 ? records[records.length - 1] : null;
   }
 
-  public async executePendingMigrations(
-    mongo: Db,
-    redis: Redis,
-    silent = false
-  ) {
+  public async executePendingMigrations(silent = false) {
     // Error out if this is ran twice.
     if (this.ran) {
       if (silent) {
@@ -161,10 +158,10 @@ export default class Manager {
     this.ran = true;
 
     // Check the current migration id.
-    let currentMigration = await this.currentMigration(mongo);
+    let currentMigration = await this.currentMigration();
 
     // Determine which migrations need to be ran.
-    const pending = await this.pending(mongo);
+    const pending = await this.pending();
     if (pending.length === 0) {
       logger.info(
         {
@@ -189,7 +186,11 @@ export default class Manager {
       );
 
       // Mark the migration as started.
-      const record = await startMigration(mongo, migration.id, this.clientID);
+      const record = await startMigration(
+        this.mongo,
+        migration.id,
+        this.clientID
+      );
       if (record.clientID !== this.clientID) {
         throw new InProgressMigrationDetectedError(record);
       }
@@ -198,7 +199,7 @@ export default class Manager {
       if (migration.indexes) {
         const migrationStartTime = createTimer();
         log.info("starting index migration");
-        await migration.indexes(mongo);
+        await migration.indexes(this.mongo);
         log.info(
           { executionTime: migrationStartTime() },
           "finished index migration"
@@ -216,11 +217,11 @@ export default class Manager {
 
           try {
             // Up the migration.
-            await migration.up(mongo, tenant.id);
+            await migration.up(this.mongo, tenant.id);
 
             // Test the migration.
             if (migration.test) {
-              await migration.test(mongo, tenant.id);
+              await migration.test(this.mongo, tenant.id);
             }
           } catch (err) {
             // The migration or test has failed, try to roll back the operation.
@@ -228,7 +229,7 @@ export default class Manager {
               log.error({ err }, "migration has failed, attempting rollback");
 
               // Attempt the down migration.
-              await migration.down(mongo, tenant.id);
+              await migration.down(this.mongo, tenant.id);
             } else {
               log.error(
                 { err },
@@ -237,7 +238,7 @@ export default class Manager {
             }
 
             // Mark the migration as failed.
-            await failMigration(mongo, migration.id);
+            await failMigration(this.mongo, migration.id);
 
             // Rethrow the error here to cause the application to crash.
             throw err;
@@ -251,10 +252,10 @@ export default class Manager {
       }
 
       // Mark the migration as completed.
-      await finishMigration(mongo, migration.id);
+      await finishMigration(this.mongo, migration.id);
     }
 
-    currentMigration = await this.currentMigration(mongo);
+    currentMigration = await this.currentMigration();
 
     logger.info(
       {
@@ -266,7 +267,7 @@ export default class Manager {
 
     for await (const tenant of this.tenantCache) {
       // Flush the tenant cache now for each tenant.
-      await this.tenantCache.delete(redis, tenant.id, tenant.domain);
+      await this.tenantCache.delete(this.redis, tenant.id, tenant.domain);
     }
   }
 }

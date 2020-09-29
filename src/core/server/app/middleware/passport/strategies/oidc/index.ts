@@ -10,6 +10,7 @@ import { isNil } from "lodash";
 import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
+import { inject, singleton } from "tsyringe";
 
 import { validate } from "coral-server/app/request/body";
 import { reconstructURL } from "coral-server/app/url";
@@ -23,10 +24,8 @@ import {
   User,
 } from "coral-server/models/user";
 import { AsymmetricSigningAlgorithm } from "coral-server/services/jwt";
-import {
-  TenantCache,
-  TenantCacheAdapter,
-} from "coral-server/services/tenant/cache";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 import { findOrCreate } from "coral-server/services/users";
 import { validateUsername } from "coral-server/services/users/helpers";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
@@ -287,22 +286,15 @@ export function findOrCreateOIDCUserWithToken(
  */
 const OIDC_SCOPE = "openid email profile";
 
-export interface OIDCStrategyOptions {
-  mongo: Db;
-  tenantCache: TenantCache;
-}
-
+@singleton()
 export default class OIDCStrategy extends Strategy {
   public name = "oidc";
 
-  private mongo: Db;
-  private cache: TenantCacheAdapter<StrategyItem>;
-
-  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
+  constructor(
+    private readonly cache: TenantCacheAdapter<StrategyItem>,
+    @inject(MONGO) private readonly mongo: Mongo
+  ) {
     super();
-
-    this.mongo = mongo;
-    this.cache = new TenantCacheAdapter(tenantCache);
   }
 
   private lookupJWKSClient(

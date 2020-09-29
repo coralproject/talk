@@ -1,17 +1,19 @@
-import { Redis } from "ioredis";
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 
-import { Config } from "coral-server/config";
 import { CoralEventPayload } from "coral-server/events/event";
 import { createTimer } from "coral-server/helpers";
-import logger from "coral-server/logger";
 import { filterExpiredSigningSecrets } from "coral-server/models/settings";
 import {
   deleteTenantWebhookEndpointSigningSecrets,
   getWebhookEndpoint,
 } from "coral-server/models/tenant";
-import { JobProcessor } from "coral-server/queue/Task";
+import {
+  JobProcessor,
+  JobProcessorHandler,
+} from "coral-server/queue/processor";
 import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import { disableWebhookEndpoint } from "coral-server/services/tenant";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
@@ -22,13 +24,6 @@ const MAXIMUM_FAILURE_COUNT = 10;
 
 // The number of webhook attempts that should be retained for debugging.
 const MAXIMUM_EVENT_ATTEMPTS_LOG_SIZE = 50;
-
-export interface WebhookProcessorOptions {
-  config: Config;
-  mongo: Db;
-  redis: Redis;
-  tenantCache: TenantCache;
-}
 
 export interface WebhookData {
   contextID: string;
@@ -60,23 +55,23 @@ interface CoralWebhookEventPayload extends CoralEventPayload {
   readonly tenantDomain: string;
 }
 
-export function createJobProcessor({
-  mongo,
-  tenantCache,
-  redis,
-}: WebhookProcessorOptions): JobProcessor<WebhookData> {
-  // Create the fetcher that will orchestrate sending the actual webhooks.
-  const fetch = createFetch({ name: "Webhook" });
+@singleton()
+export class WebhookQueueProcessor implements JobProcessor<WebhookData> {
+  private readonly fetch = createFetch({ name: "Webhook" });
 
-  return async (job) => {
+  constructor(
+    private readonly tenantCache: TenantCache,
+    @inject(REDIS) private readonly redis: Redis,
+    @inject(MONGO) private readonly mongo: Mongo
+  ) {}
+
+  public process: JobProcessorHandler<WebhookData> = async (logger, job) => {
     const { tenantID, endpointID, contextID, event } = job.data;
 
-    const log = logger.child(
+    logger = logger.child(
       {
         eventID: event.id,
         contextID,
-        jobID: job.id,
-        jobName: JOB_NAME,
         tenantID,
         endpointID,
       },
@@ -84,22 +79,22 @@ export function createJobProcessor({
     );
 
     // Get the referenced tenant so we can get the endpoint details.
-    const tenant = await tenantCache.retrieveByID(tenantID);
+    const tenant = await this.tenantCache.retrieveByID(tenantID);
     if (!tenant) {
-      log.error("referenced tenant was not found");
+      logger.error("referenced tenant was not found");
       return;
     }
 
     // Get the referenced endpoint.
     const endpoint = getWebhookEndpoint(tenant, endpointID);
     if (!endpoint) {
-      log.error("referenced endpoint was not found");
+      logger.error("referenced endpoint was not found");
       return;
     }
 
     // If the endpoint is disabled, don't bother processing it.
     if (!endpoint.enabled) {
-      log.warn("endpoint was disabled, skipping sending");
+      logger.warn("endpoint was disabled, skipping sending");
       return;
     }
 
@@ -124,14 +119,14 @@ export function createJobProcessor({
 
     // Send the request.
     const timer = createTimer();
-    const res = await fetch(endpoint.url, options);
+    const res = await this.fetch(endpoint.url, options);
     if (res.ok) {
-      log.info(
+      logger.info(
         { took: timer(), responseStatus: res.status },
         "finished sending webhook"
       );
     } else {
-      log.warn(
+      logger.warn(
         { took: timer(), responseStatus: res.status },
         "failed to deliver webhook"
       );
@@ -157,7 +152,7 @@ export function createJobProcessor({
     // Record the delivery.
     const endpointDeliveriesKey = `${tenantID}:endpointDeliveries:${endpointID}`;
     const endpointFailuresKey = `${tenantID}:endpointFailures:${endpointID}`;
-    let [, , [, failuresString]] = await redis
+    let [, , [, failuresString]] = await this.redis
       .multi()
       // Push the attempt into the list.
       .rpush(endpointDeliveriesKey, JSON.stringify(delivery))
@@ -172,24 +167,24 @@ export function createJobProcessor({
     if (res.ok && failures && failures > 0) {
       // The webhook delivery was a success, and there were previous failures.
       // Remove the failures record.
-      await redis.del(endpointFailuresKey);
+      await this.redis.del(endpointFailuresKey);
     } else if (!res.ok) {
       // Record the failed attempt.
-      failuresString = await redis.incr(endpointFailuresKey);
+      failuresString = await this.redis.incr(endpointFailuresKey);
 
       // If the failure count is higher than the allowed maximum, disable the
       // endpoint.
       failures = failuresString ? parseInt(failuresString, 10) : null;
       if (failures && failures >= MAXIMUM_FAILURE_COUNT) {
-        log.warn(
+        logger.warn(
           { failures, maxFailures: MAXIMUM_FAILURE_COUNT },
           "maximum failures reached, disabling endpoint"
         );
 
         await disableWebhookEndpoint(
-          mongo,
-          redis,
-          tenantCache,
+          this.mongo,
+          this.redis,
+          this.tenantCache,
           tenant,
           endpointID
         );
@@ -206,19 +201,19 @@ export function createJobProcessor({
     if (expiredSigningSecretKIDs.length > 0) {
       process.nextTick(() => {
         deleteTenantWebhookEndpointSigningSecrets(
-          mongo,
+          this.mongo,
           tenantID,
           endpoint.id,
           expiredSigningSecretKIDs
         )
           .then(() => {
-            log.info(
+            logger.info(
               { endpointID: endpoint.id, kids: expiredSigningSecretKIDs },
               "removed expired secrets from endpoint"
             );
           })
           .catch((err) => {
-            log.error(
+            logger.error(
               { err },
               "an error occurred when trying to remove expired endpoint secrets"
             );

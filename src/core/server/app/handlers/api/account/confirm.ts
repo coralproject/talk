@@ -1,15 +1,23 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { CONFIG, Config } from "coral-server/config";
 import {
   AuthenticationError,
   UserForbiddenError,
   UserNotFoundError,
 } from "coral-server/errors";
 import { retrieveUser, User } from "coral-server/models/user";
-import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
+import { MailerQueue } from "coral-server/queue/tasks";
+import {
+  decodeJWT,
+  extractTokenFromRequest,
+  JWTSigningConfigService,
+} from "coral-server/services/jwt";
+import { Mongo, MONGO } from "coral-server/services/mongodb";
+import { REDIS, Redis } from "coral-server/services/redis";
 import {
   confirmEmail,
   sendConfirmationEmail,
@@ -19,11 +27,6 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-export type ConfirmRequestOptions = Pick<
-  AppOptions,
-  "mongo" | "mailerQueue" | "signingConfig" | "redis" | "config"
->;
-
 export interface ConfirmRequestBody {
   userID?: string;
 }
@@ -32,13 +35,14 @@ export const ConfirmRequestBodySchema = Joi.object().keys({
   userID: Joi.string().optional(),
 });
 
-export const confirmRequestHandler = ({
-  redis,
-  config,
-  mongo,
-  mailerQueue,
-  signingConfig,
-}: ConfirmRequestOptions): RequestHandler<TenantCoralRequest> => {
+export const confirmRequestHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const redis = container.resolve<Redis>(REDIS);
+  const mailerQueue = container.resolve(MailerQueue);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -132,17 +136,13 @@ export const confirmRequestHandler = ({
   };
 };
 
-export type ConfirmCheckOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const confirmCheckHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const confirmCheckHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: ConfirmCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -195,17 +195,13 @@ export const confirmCheckHandler = ({
   };
 };
 
-export type ConfirmOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const confirmHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const confirmHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: ConfirmOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

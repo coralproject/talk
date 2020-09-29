@@ -1,17 +1,16 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 
 import { CountJSONPData } from "coral-common/types/count";
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
-import { translate } from "coral-server/services/i18n";
+import { I18nService, translate } from "coral-server/services/i18n";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
-
-export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache" | "i18n">;
 
 const StoryCountQuerySchema = Joi.object().keys({
   // Required for JSONP support.
@@ -33,62 +32,60 @@ interface StoryCountQuery {
 /**
  * countHandler returns translated comment counts using JSONP.
  */
-export const countHandler = ({
-  mongo,
-  i18n,
-}: CountOptions): RequestHandler<TenantCoralRequest> => async (
-  req,
-  res,
-  next
-) => {
-  try {
-    const { tenant } = req.coral;
+export const countHandler = (): RequestHandler<TenantCoralRequest> => {
+  const mongo = container.resolve<Mongo>(MONGO);
+  const i18n = container.resolve(I18nService);
 
-    // Ensure we have something to query with.
-    const { id, url, notext, ref }: StoryCountQuery = validate(
-      StoryCountQuerySchema,
-      req.query
-    );
+  return async (req, res, next) => {
+    try {
+      const { tenant } = req.coral;
 
-    // Try to query the story.
-    const story = await find(mongo, tenant, {
-      id,
-      url,
-    });
-
-    const count = story
-      ? calculateTotalPublishedCommentCount(story.commentCounts.status)
-      : 0;
-
-    let html = "";
-    if (notext === "true") {
-      // We only need the count without the text.
-      html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
-    } else {
-      // Use translated string.
-      const bundle = i18n.getBundle(tenant.locale);
-      html = translate(
-        bundle,
-        `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
-        "comment-count",
-        {
-          number: count,
-          numberClass: NUMBER_CLASS_NAME,
-          textClass: TEXT_CLASS_NAME,
-        }
+      // Ensure we have something to query with.
+      const { id, url, notext, ref }: StoryCountQuery = validate(
+        StoryCountQuerySchema,
+        req.query
       );
+
+      // Try to query the story.
+      const story = await find(mongo, tenant, {
+        id,
+        url,
+      });
+
+      const count = story
+        ? calculateTotalPublishedCommentCount(story.commentCounts.status)
+        : 0;
+
+      let html = "";
+      if (notext === "true") {
+        // We only need the count without the text.
+        html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
+      } else {
+        // Use translated string.
+        const bundle = i18n.getBundle(tenant.locale);
+        html = translate(
+          bundle,
+          `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
+          "comment-count",
+          {
+            number: count,
+            numberClass: NUMBER_CLASS_NAME,
+            textClass: TEXT_CLASS_NAME,
+          }
+        );
+      }
+
+      const data: CountJSONPData = {
+        ref,
+        html,
+        count,
+        id: story?.id || null,
+      };
+
+      // Respond using jsonp.
+      res.jsonp(data);
+    } catch (err) {
+      return next(err);
     }
-
-    const data: CountJSONPData = {
-      ref,
-      html,
-      count,
-      id: story?.id || null,
-    };
-
-    // Respond using jsonp.
-    res.jsonp(data);
-  } catch (err) {
-    return next(err);
-  }
+  };
 };

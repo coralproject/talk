@@ -1,6 +1,6 @@
 import DataLoader from "dataloader";
 import LRU from "lru-cache";
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 
 import { loadPersistedQueries } from "coral-server/graph/persisted";
 import logger from "coral-server/logger";
@@ -10,23 +10,20 @@ import {
   primeQueries,
 } from "coral-server/models/queries/queries";
 
-interface PersistedQueryCacheOptions {
-  mongo: Db;
-}
+import { Mongo, MONGO } from "../mongodb";
 
 /**
  * PersistedQueryCache abstracts the persisted query management.
  */
+@singleton()
 export class PersistedQueryCache {
-  private mongo: Db;
   private queries: Map<string, PersistedQuery>;
   private cache: LRU<string, PersistedQuery>;
   private loader: DataLoader<string, PersistedQuery | null>;
 
-  constructor(options: PersistedQueryCacheOptions) {
+  constructor(@inject(MONGO) private readonly mongo: Mongo) {
     const queries = loadPersistedQueries();
 
-    this.mongo = options.mongo;
     this.loader = new DataLoader(
       (ids: string[]) => getQueries(this.mongo, ids),
       {

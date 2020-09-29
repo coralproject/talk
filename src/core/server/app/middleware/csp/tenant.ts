@@ -1,10 +1,11 @@
 import builder from "content-security-policy-builder";
 import { Db } from "mongodb";
+import { container } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import { extractParentsURL, getOrigin } from "coral-server/app/url";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { findSiteByURL } from "coral-server/services/sites";
 import { isURLPermitted } from "coral-server/services/sites/url";
 import { Request, RequestHandler } from "coral-server/types/express";
@@ -69,32 +70,30 @@ async function retrieveSiteFromEmbed(
   return null;
 }
 
-type Options = Pick<AppOptions, "mongo">;
-
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
-export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
-  req,
-  res,
-  next
-) => {
-  // Initially, we do not allow any origins.
-  const site = await retrieveSiteFromEmbed(mongo, req);
+export const cspSiteMiddleware = (): RequestHandler => {
+  const mongo = container.resolve<Mongo>(MONGO);
 
-  // Grab the origins from the site.
-  const origins = site ? site.allowedOrigins : [];
+  return async (req, res, next) => {
+    // Initially, we do not allow any origins.
+    const site = await retrieveSiteFromEmbed(mongo, req);
 
-  res.setHeader(
-    "Content-Security-Policy",
-    generateContentSecurityPolicy(origins)
-  );
+    // Grab the origins from the site.
+    const origins = site ? site.allowedOrigins : [];
 
-  // Add some fallbacks for IE.
-  res.setHeader("X-Frame-Options", generateFrameOptions(req, origins));
-  res.setHeader("X-XSS-Protection", "1; mode=block");
+    res.setHeader(
+      "Content-Security-Policy",
+      generateContentSecurityPolicy(origins)
+    );
 
-  next();
+    // Add some fallbacks for IE.
+    res.setHeader("X-Frame-Options", generateFrameOptions(req, origins));
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+
+    next();
+  };
 };
 
 function generateContentSecurityPolicy(allowedOrigins: string[]) {

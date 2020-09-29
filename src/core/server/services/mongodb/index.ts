@@ -31,9 +31,7 @@ function attachHandlers(db: Db) {
 }
 
 /**
- * create will connect to the MongoDB instance identified in the configuration.
- *
- * @param config application configuration.
+ * create will connect to the MongoDB instance identified in the Configuration.
  */
 export async function createMongoDB(config: Config): Promise<Db> {
   // Connect and create a client for MongoDB.
@@ -50,3 +48,7 @@ export async function createMongoDB(config: Config): Promise<Db> {
 
   return db;
 }
+
+export const MONGO = Symbol("MONGO");
+
+export type Mongo = Db;

@@ -1,9 +1,9 @@
 import jwks, { JwksClient } from "jwks-rsa";
-import { Db } from "mongodb";
+import { inject, singleton } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 
 import { Verifier } from "../jwt";
@@ -16,16 +16,12 @@ import {
 
 export { OIDCIDToken } from "../oidc";
 
-export type OIDCVerifierOptions = Pick<AppOptions, "mongo" | "tenantCache">;
-
+@singleton()
 export class OIDCVerifier implements Verifier<OIDCIDToken> {
-  private mongo: Db;
-  private cache: TenantCacheAdapter<JwksClient>;
-
-  constructor({ mongo, tenantCache }: OIDCVerifierOptions) {
-    this.mongo = mongo;
-    this.cache = new TenantCacheAdapter(tenantCache);
-  }
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    private readonly cache: TenantCacheAdapter<JwksClient>
+  ) {}
 
   public async verify(
     tokenString: string,

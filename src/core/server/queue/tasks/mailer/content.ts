@@ -1,23 +1,16 @@
 import { camelCase } from "lodash";
 import nunjucks, { Environment, ILoader } from "nunjucks";
 import path from "path";
+import { inject, singleton } from "tsyringe";
 
-import { Config } from "coral-server/config";
+import { CONFIG, Config } from "coral-server/config";
 import { Tenant } from "coral-server/models/tenant";
-import {
-  TenantCache,
-  TenantCacheAdapter,
-} from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 
 import { EmailTemplate } from "./templates";
 
 // templateDirectory is the directory containing the email templates.
 const templateDirectory = path.join(__dirname, "templates");
-
-export interface MailerContentOptions {
-  config: Config;
-  tenantCache: TenantCache;
-}
 
 /**
  * render will render the nunjucks template using the provided environment.
@@ -43,23 +36,20 @@ function render(env: Environment, { name, context }: EmailTemplate) {
   );
 }
 
+@singleton()
 export default class MailerContent {
-  private cache: TenantCacheAdapter<nunjucks.Environment>;
-  private config: Config;
-  private loaders: ILoader[];
+  private readonly loaders: ILoader[];
 
-  constructor({ config, tenantCache }: MailerContentOptions) {
-    this.config = config;
-
-    // Configure the environment cache.
-    this.cache = new TenantCacheAdapter(tenantCache);
-
+  constructor(
+    private readonly cache: TenantCacheAdapter<nunjucks.Environment>,
+    @inject(CONFIG) config: Config
+  ) {
     // Configure the loaders for the templates that apply to all clients.
     this.loaders = [
       // Load the templates from the filesystem.
       new nunjucks.FileSystemLoader(templateDirectory, {
         // When we aren't in production mode, reload the templates.
-        watch: this.config.get("env") !== "production",
+        watch: config.get("env") !== "production",
       }),
     ];
   }

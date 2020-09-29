@@ -34,7 +34,7 @@ import {
   CreateCommentMediaInput,
 } from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { Redis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
 import { publishChanges, updateAllCommentCounts } from "./helpers";
@@ -65,7 +65,7 @@ export type EditComment = Omit<
 
 export default async function edit(
   mongo: Db,
-  redis: AugmentedRedis,
+  redis: Redis,
   config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,

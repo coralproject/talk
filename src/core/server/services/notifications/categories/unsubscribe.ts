@@ -10,7 +10,7 @@ import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser, User } from "coral-server/models/user";
 import {
-  JWTSigningConfig,
+  SigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
@@ -45,7 +45,7 @@ export function isUnsubscribeToken(
 export async function generateUnsubscribeURL(
   tenant: Tenant,
   config: Config,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   user: Pick<User, "id">,
   now: Date
 ) {
@@ -84,7 +84,7 @@ export async function generateUnsubscribeURL(
 export async function verifyUnsubscribeTokenString(
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
+  signingConfig: SigningConfig,
   tokenString: string,
   now: Date
 ) {

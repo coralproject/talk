@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { DateTime } from "luxon";
 
 import {
-  JWTSigningConfig,
+  SigningConfig,
   signTokenString,
   SymmetricSigningAlgorithm,
 } from "coral-server/services/jwt";
@@ -10,7 +10,7 @@ import {
 import { isJWTToken, JWTToken } from "./jwt";
 
 // Create signing config.
-const config: JWTSigningConfig = {
+const config: SigningConfig = {
   algorithm: SymmetricSigningAlgorithm.HS256,
   secret: "secret",
 };

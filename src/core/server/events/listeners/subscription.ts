@@ -1,5 +1,8 @@
+import { singleton } from "tsyringe";
+
 import { createSubscriptionChannelName } from "coral-server/graph/resolvers/Subscription/helpers";
 import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
+import { PubSubService } from "coral-server/graph/subscriptions/pubsub";
 
 import {
   CommentCreatedCoralEventPayload,
@@ -10,7 +13,7 @@ import {
   CommentReplyCreatedCoralEventPayload,
   CommentStatusUpdatedCoralEventPayload,
 } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 type SubscriptionCoralEventListenerPayloads =
@@ -22,6 +25,7 @@ type SubscriptionCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload
   | CommentReleasedCoralEventPayload;
 
+@singleton()
 export class SubscriptionCoralEventListener
   implements CoralEventListener<SubscriptionCoralEventListenerPayloads> {
   public readonly name = "subscription";
@@ -34,6 +38,8 @@ export class SubscriptionCoralEventListener
     CoralEventType.COMMENT_FEATURED,
     CoralEventType.COMMENT_RELEASED,
   ];
+
+  constructor(private readonly pubsub: PubSubService) {}
 
   private translate(
     type: SubscriptionCoralEventListenerPayloads["type"]
@@ -63,10 +69,10 @@ export class SubscriptionCoralEventListener
     return createSubscriptionChannelName(tenantID, this.translate(type));
   }
 
-  public initialize: CoralEventPublisherFactory<
+  public handle: CoralEventHandler<
     SubscriptionCoralEventListenerPayloads
-  > = ({ clientID, pubsub, tenant: { id } }) => async ({ type, data }) => {
-    await pubsub.publish(this.trigger(id, type), {
+  > = async ({ clientID, tenant: { id } }, { type, data }) => {
+    await this.pubsub.publish(this.trigger(id, type), {
       ...data,
       clientID,
     });

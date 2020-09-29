@@ -1,12 +1,13 @@
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { categories } from "coral-server/services/notifications/categories";
+import { singleton } from "tsyringe";
 
 import {
   CommentFeaturedCoralEventPayload,
   CommentReplyCreatedCoralEventPayload,
   CommentStatusUpdatedCoralEventPayload,
 } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 export type NotifierCoralEventListenerPayloads =
@@ -14,15 +15,12 @@ export type NotifierCoralEventListenerPayloads =
   | CommentStatusUpdatedCoralEventPayload
   | CommentReplyCreatedCoralEventPayload;
 
+@singleton()
 export class NotifierCoralEventListener
   implements CoralEventListener<NotifierCoralEventListenerPayloads> {
   public readonly name = "notifier";
 
-  private readonly queue: NotifierQueue;
-
-  constructor(queue: NotifierQueue) {
-    this.queue = queue;
-  }
+  constructor(private readonly queue: NotifierQueue) {}
 
   /**
    * events are the events that this listener handles. These are parsed from the
@@ -38,9 +36,10 @@ export class NotifierCoralEventListener
     return events;
   }, [] as CoralEventType[]);
 
-  public initialize: CoralEventPublisherFactory<
-    NotifierCoralEventListenerPayloads
-  > = ({ tenant: { id } }) => async (input) => {
+  public handle: CoralEventHandler<NotifierCoralEventListenerPayloads> = async (
+    { tenant: { id } },
+    input
+  ) => {
     await this.queue.add({ tenantID: id, input });
   };
 }

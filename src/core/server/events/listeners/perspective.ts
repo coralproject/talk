@@ -1,19 +1,31 @@
+import { inject, singleton } from "tsyringe";
+
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
+import { CONFIG, Config } from "coral-server/config";
+import { retrieveComment } from "coral-server/models/comment";
+import { retrieveStory } from "coral-server/models/story";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
 import { sendToPerspective } from "coral-server/services/perspective";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { CommentStatusUpdatedCoralEventPayload } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 type PerspectiveCoralEventListenerPayloads = CommentStatusUpdatedCoralEventPayload;
 
+@singleton()
 export class PerspectiveCoralEventListener
   implements CoralEventListener<PerspectiveCoralEventListenerPayloads> {
   public readonly name = "perspective";
   public readonly events = [CoralEventType.COMMENT_STATUS_UPDATED];
+
+  constructor(
+    @inject(MONGO) private readonly mongo: Mongo,
+    @inject(CONFIG) private readonly config: Config
+  ) {}
 
   private computeStatus(status: GQLCOMMENT_STATUS) {
     if (status === GQLCOMMENT_STATUS.APPROVED) {
@@ -26,11 +38,9 @@ export class PerspectiveCoralEventListener
     return null;
   }
 
-  public initialize: CoralEventPublisherFactory<
+  public handle: CoralEventHandler<
     PerspectiveCoralEventListenerPayloads
-  > = (ctx) => async ({
-    data: { newStatus, commentID, commentRevisionID },
-  }) => {
+  > = async (ctx, { data: { newStatus, commentID, commentRevisionID } }) => {
     const {
       tenant: {
         integrations: { perspective },
@@ -58,7 +68,11 @@ export class PerspectiveCoralEventListener
 
     try {
       // Get the comment in question.
-      const comment = await ctx.loaders.Comments.comment.load(commentID);
+      const comment = await retrieveComment(
+        this.mongo,
+        ctx.tenant.id,
+        commentID
+      );
       if (!comment) {
         return;
       }
@@ -72,16 +86,20 @@ export class PerspectiveCoralEventListener
       }
 
       // Get the story for this comment.
-      const story = await ctx.loaders.Stories.story.load(comment.storyID);
+      const story = await retrieveStory(
+        this.mongo,
+        ctx.tenant.id,
+        comment.storyID
+      );
       if (!story) {
         return;
       }
 
       // Reconstruct the Tenant URL.
-      const tenantURL = reconstructTenantURL(ctx.config, ctx.tenant);
+      const tenantURL = reconstructTenantURL(this.config, ctx.tenant);
 
       // Get the timeout value.
-      const timeout = ctx.config.get("perspective_timeout");
+      const timeout = this.config.get("perspective_timeout");
 
       // Get the response from perspective.
       const result = await sendToPerspective(

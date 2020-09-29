@@ -8,7 +8,7 @@ import { Config } from "coral-server/config";
 import { RateLimitExceeded } from "coral-server/errors";
 import { Request } from "coral-server/types/express";
 
-export interface LimiterOptions {
+interface LimiterOptions {
   redis: Redis;
   ttl: string;
   max: number;
@@ -18,14 +18,14 @@ export interface LimiterOptions {
   config: Config;
 }
 
-export class Limiter {
-  private redis: Redis;
-  private ttl: number;
-  private max: number;
-  private prefix: string;
-  private resource: string;
-  private operation: string;
-  private disabled: boolean;
+class Limiter {
+  private readonly redis: Redis;
+  private readonly ttl: number;
+  private readonly max: number;
+  private readonly prefix: string;
+  private readonly resource: string;
+  private readonly operation: string;
+  private readonly disabled: boolean;
 
   constructor(options: LimiterOptions) {
     this.redis = options.redis;
@@ -84,6 +84,7 @@ export type RequestLimiterOptions = Omit<
   "operation" | "resource"
 >;
 
+// QUESTION: Is it possible to inject some parameters but provide others?
 export class RequestLimiter {
   private limiter: Limiter;
 

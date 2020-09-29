@@ -1,28 +1,27 @@
-import logger from "coral-server/logger";
+import { singleton } from "tsyringe";
+
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
 
 import { StoryCreatedCoralEventPayload } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 export type WebhookCoralEventListenerPayloads = StoryCreatedCoralEventPayload;
 
+@singleton()
 export class WebhookCoralEventListener
   implements CoralEventListener<WebhookCoralEventListenerPayloads> {
   public readonly name = "webhook";
   public readonly events = [CoralEventType.STORY_CREATED];
 
-  private readonly queue: WebhookQueue;
+  constructor(private readonly queue: WebhookQueue) {}
 
-  constructor(queue: WebhookQueue) {
-    this.queue = queue;
-  }
-
-  public initialize: CoralEventPublisherFactory<
-    WebhookCoralEventListenerPayloads
-  > = ({ id: contextID, tenant }) => async (event) => {
+  public handle: CoralEventHandler<WebhookCoralEventListenerPayloads> = async (
+    { id: contextID, tenant, logger },
+    event
+  ) => {
     const log = logger.child(
       {
         tenantID: tenant.id,

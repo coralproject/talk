@@ -1,26 +1,29 @@
 import Joi from "@hapi/joi";
+import { container } from "tsyringe";
 
-import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
+import { CONFIG, Config } from "coral-server/config";
+import {
+  decodeJWT,
+  extractTokenFromRequest,
+  JWTSigningConfigService,
+} from "coral-server/services/jwt";
+import { MONGO, Mongo } from "coral-server/services/mongodb";
+import { Redis, REDIS } from "coral-server/services/redis";
 import {
   redeem,
   verifyInviteTokenString,
 } from "coral-server/services/users/auth/invite";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-export type InviteCheckOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const inviteCheckHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const inviteCheckHandler = ({
-  redis,
-  signingConfig,
-  mongo,
-  config,
-}: InviteCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -80,17 +83,13 @@ export const InviteBodySchema = Joi.object().keys({
   password: Joi.string(),
 });
 
-export type InviteOptions = Pick<
-  AppOptions,
-  "mongo" | "signingConfig" | "redis" | "config"
->;
+export const inviteHandler = (): RequestHandler<TenantCoralRequest> => {
+  // TODO: Replace with DI.
+  const config = container.resolve<Config>(CONFIG);
+  const mongo = container.resolve<Mongo>(MONGO);
+  const signingConfig = container.resolve(JWTSigningConfigService);
+  const redis = container.resolve<Redis>(REDIS);
 
-export const inviteHandler = ({
-  redis,
-  mongo,
-  signingConfig,
-  config,
-}: InviteOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",

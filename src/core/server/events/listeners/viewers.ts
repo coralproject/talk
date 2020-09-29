@@ -1,5 +1,9 @@
+import { inject, singleton } from "tsyringe";
+
+import { CONFIG, Config } from "coral-server/config";
 import { createStoryViewer } from "coral-server/models/story/viewers";
 import { hasFeatureFlag } from "coral-server/models/tenant";
+import { Redis, REDIS } from "coral-server/services/redis";
 
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
@@ -8,7 +12,7 @@ import {
   CommentReactionCreatedCoralEventPayload,
   CommentReplyCreatedCoralEventPayload,
 } from "../events";
-import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventHandler, CoralEventListener } from "../listener";
 import { CoralEventType } from "../types";
 
 type ViewersCoralEventListenerPayloads =
@@ -16,6 +20,7 @@ type ViewersCoralEventListenerPayloads =
   | CommentCreatedCoralEventPayload
   | CommentReactionCreatedCoralEventPayload;
 
+@singleton()
 export class ViewersCoralEventListener
   implements CoralEventListener<ViewersCoralEventListenerPayloads> {
   public readonly name = "viewers";
@@ -25,9 +30,15 @@ export class ViewersCoralEventListener
     CoralEventType.COMMENT_REACTION_CREATED,
   ];
 
-  public initialize: CoralEventPublisherFactory<
-    ViewersCoralEventListenerPayloads
-  > = ({ clientID, redis, tenant, config }) => async ({ data }) => {
+  constructor(
+    @inject(REDIS) private readonly redis: Redis,
+    @inject(CONFIG) private readonly config: Config
+  ) {}
+
+  public handle: CoralEventHandler<ViewersCoralEventListenerPayloads> = async (
+    { clientID, tenant },
+    { data }
+  ) => {
     if (!clientID) {
       return;
     }
@@ -38,14 +49,14 @@ export class ViewersCoralEventListener
     }
 
     await createStoryViewer(
-      redis,
+      this.redis,
       {
         tenantID: tenant.id,
         siteID: data.siteID,
         storyID: data.storyID,
       },
       clientID,
-      config.get("story_viewer_timeout")
+      this.config.get("story_viewer_timeout")
     );
   };
 }
