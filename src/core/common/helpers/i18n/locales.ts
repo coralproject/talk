@@ -10,6 +10,7 @@ export type LanguageCode =
   | "nl-NL"
   | "da"
   | "fr-FR"
+  | "fr-CA"
   | "ro"
   | "fi-FI"
   | "sv"
@@ -27,6 +28,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "nl-NL": "Nederlands",
   da: "Dansk",
   "fr-FR": "Francais",
+  "fr-CA": "Français canadien",
   ro: "Română",
   "fi-FI": "Suomi",
   sv: "Svenska",
