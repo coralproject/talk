@@ -25,6 +25,7 @@ import {
   setUsername,
   suspend,
   updateAvatar,
+  updateBio,
   updateEmail,
   updateEmailByID,
   updateMediaSettings,
@@ -62,6 +63,7 @@ import {
   GQLSetPasswordInput,
   GQLSetUsernameInput,
   GQLSuspendUserInput,
+  GQLUpdateBioInput,
   GQLUpdateEmailInput,
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
@@ -197,6 +199,8 @@ export const Users = (ctx: GraphContext) => ({
       input.username,
       ctx.user!
     ),
+  updateBio: async (input: GQLUpdateBioInput) =>
+    updateBio(ctx.mongo, ctx.tenant, ctx.user!, input.bio),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmailByID(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateEmail: async (input: GQLUpdateEmailInput) =>

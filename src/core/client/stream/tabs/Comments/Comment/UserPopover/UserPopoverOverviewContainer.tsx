@@ -8,6 +8,7 @@ import CLASSES from "coral-stream/classes";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
+import { UserPopoverOverviewContainer_settings } from "coral-stream/__generated__/UserPopoverOverviewContainer_settings.graphql";
 import { UserPopoverOverviewContainer_user as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
 import { UserPopoverOverviewContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
 
@@ -19,12 +20,14 @@ interface Props {
   user: UserData;
   viewer: ViewerData | null;
   onIgnore: React.EventHandler<React.MouseEvent>;
+  settings: UserPopoverOverviewContainer_settings;
 }
 
 export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
   user,
   viewer,
   onIgnore,
+  settings,
 }) => {
   const canIgnore =
     viewer &&
@@ -50,6 +53,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
             Member since: {user.createdAt}
           </div>
         </Localized>
+        {settings.memberBios && user.bio && <div>{user.bio}</div>}
       </HorizontalGutter>
       {canIgnore && (
         <Flex justifyContent="flex-end">
@@ -87,6 +91,12 @@ const enhanced = withFragmentContainer<Props>({
       username
       createdAt
       ignoreable
+      bio
+    }
+  `,
+  settings: graphql`
+    fragment UserPopoverOverviewContainer_settings on Settings {
+      memberBios
     }
   `,
 })(UserPopoverOverviewContainer);

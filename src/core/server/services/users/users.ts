@@ -6,6 +6,7 @@ import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
   COMMENT_REPEAT_POST_DURATION,
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
+  MAX_BIO_LENGTH,
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
@@ -24,6 +25,7 @@ import {
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
+  UserBioTooLongError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
@@ -70,6 +72,7 @@ import {
   setUserUsername,
   suspendUser,
   updateUserAvatar,
+  updateUserBio,
   updateUserEmail,
   updateUserMediaSettings,
   UpdateUserMediaSettingsInput,
@@ -828,6 +831,27 @@ export async function updateEmailByID(
   validateEmail(email);
 
   return updateUserEmail(mongo, tenant.id, userID, email, true);
+}
+
+/**
+ * updateBio will update the given User's avatar.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param bio the bio that we are setting on the User
+ */
+export async function updateBio(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  bio?: string
+) {
+  if (bio && bio.length > MAX_BIO_LENGTH) {
+    throw new UserBioTooLongError(user.id);
+  }
+
+  return updateUserBio(mongo, tenant.id, user.id, bio);
 }
 
 /**

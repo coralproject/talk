@@ -1,6 +1,6 @@
 .root {
   min-width: 192px;
-  max-width: 80vw;
+  max-width: 45vw;
   padding: var(--spacing-3);
 }
 

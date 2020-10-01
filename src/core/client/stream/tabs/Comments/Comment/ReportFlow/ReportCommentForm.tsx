@@ -37,6 +37,7 @@ interface Props {
   id: string;
   onCancel: () => void;
   onSubmit: OnSubmit<any>;
+  biosEnabled: boolean;
 }
 
 export interface FormProps {
@@ -125,6 +126,19 @@ class ReportCommentForm extends React.Component<Props> {
                       </RadioField>
                     </Localized>
                   </li>
+                  {this.props.biosEnabled && (
+                    <li>
+                      <Localized id="comments-reportPopover-reasonBio">
+                        <RadioField
+                          name="reason"
+                          value="COMMENT_REPORTED_BIO"
+                          disabled={submitting}
+                        >
+                          This commenter's bio is offensive or abusive
+                        </RadioField>
+                      </Localized>
+                    </li>
+                  )}
                   <li>
                     <Localized id="comments-reportPopover-reasonOther">
                       <RadioField

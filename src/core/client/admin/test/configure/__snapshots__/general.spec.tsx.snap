@@ -1612,6 +1612,94 @@ appears on the comment stream and in the admin interface.
                 <legend
                   className="Header-root"
                 >
+                  Member bios
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
+                </p>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Allow member bios
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="memberBios-true"
+                        name="memberBios"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="memberBios-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="memberBios-false"
+                        name="memberBios"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="memberBios-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+              </fieldset>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
                   Embedded media
                 </legend>
               </div>

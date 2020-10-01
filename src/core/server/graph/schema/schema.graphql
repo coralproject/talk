@@ -146,6 +146,11 @@ enum COMMENT_FLAG_REPORTED_REASON {
   fit into the other reported reasons.
   """
   COMMENT_REPORTED_OTHER
+
+  """
+  COMMENT_REPORTED_BIO is used when a User reports a bio that is offensive or abusive.
+  """
+  COMMENT_REPORTED_BIO
 }
 
 """
@@ -209,6 +214,7 @@ enum COMMENT_FLAG_REASON {
   COMMENT_REPORTED_ABUSIVE
   COMMENT_REPORTED_SPAM
   COMMENT_REPORTED_OTHER
+  COMMENT_REPORTED_BIO
   COMMENT_DETECTED_TOXIC
   COMMENT_DETECTED_SPAM
   COMMENT_DETECTED_LINKS
@@ -247,6 +253,7 @@ type FlagReasonActionCounts {
   COMMENT_REPORTED_ABUSIVE: Int!
   COMMENT_REPORTED_SPAM: Int!
   COMMENT_REPORTED_OTHER: Int!
+  COMMENT_REPORTED_BIO: Int!
   COMMENT_DETECTED_TOXIC: Int!
   COMMENT_DETECTED_SPAM: Int!
   COMMENT_DETECTED_LINKS: Int!
@@ -1869,6 +1876,11 @@ type Settings {
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfiguration!
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean!
 }
 
 ################################################################################
@@ -2639,6 +2651,11 @@ type User {
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  bio is a user-defined biography.
+  """
+  bio: String
 }
 
 """
@@ -4906,6 +4923,11 @@ input SettingsInput {
   media is the configuration media content attached to Comment's.
   """
   media: MediaConfigurationInput
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean
 }
 
 """
@@ -5685,6 +5707,34 @@ input SetUsernameInput {
 }
 
 type SetUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateBio
+##################
+
+input UpdateBioInput {
+  """
+  bio is the desired bio that should be set to the current User.
+  """
+  bio: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateBioPayload {
   """
   user is the possibly modified User.
   """
@@ -7587,6 +7637,12 @@ type Mutation {
         WARNED
       ]
     )
+
+  """
+  updateBio will update the users bio.
+  """
+  updateBio(input: UpdateBioInput!): UpdateBioPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUsername will update the users username.

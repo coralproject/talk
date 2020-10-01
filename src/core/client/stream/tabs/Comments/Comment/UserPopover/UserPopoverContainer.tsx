@@ -10,6 +10,7 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ShowUserPopoverEvent } from "coral-stream/events";
 
+import { UserPopoverContainer_settings } from "coral-stream/__generated__/UserPopoverContainer_settings.graphql";
 import { UserPopoverContainer_user as UserData } from "coral-stream/__generated__/UserPopoverContainer_user.graphql";
 import { UserPopoverContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverContainer_viewer.graphql";
 
@@ -22,12 +23,14 @@ interface Props {
   onDismiss: () => void;
   user: UserData;
   viewer: ViewerData | null;
+  settings: UserPopoverContainer_settings;
 }
 
 export const UserPopoverContainer: FunctionComponent<Props> = ({
   user,
   viewer,
   onDismiss,
+  settings,
 }) => {
   const emitShowUserPopover = useViewerEvent(ShowUserPopoverEvent);
   useEffect(() => {
@@ -41,6 +44,7 @@ export const UserPopoverContainer: FunctionComponent<Props> = ({
         <UserPopoverOverviewContainer
           user={user}
           viewer={viewer}
+          settings={settings}
           onIgnore={onIgnore}
         />
       ) : (
@@ -61,6 +65,11 @@ const enhanced = withFragmentContainer<Props>({
       id
       ...UserPopoverOverviewContainer_user
       ...UserIgnorePopoverContainer_user
+    }
+  `,
+  settings: graphql`
+    fragment UserPopoverContainer_settings on Settings {
+      ...UserPopoverOverviewContainer_settings
     }
   `,
 })(UserPopoverContainer);

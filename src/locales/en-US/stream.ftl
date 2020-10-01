@@ -354,6 +354,15 @@ profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
 profile-preferencesTab = Preferences
 
+### Bio
+profile-bio-title = Bio
+profile-bio-description =
+  Write a bio to display publicly on your commenting profile. Must be
+  less than 100 characters.
+profile-bio-remove = Remove
+profile-bio-update = Update
+
+
 ### Account Deletion
 
 profile-accountDeletion-deletionDesc =

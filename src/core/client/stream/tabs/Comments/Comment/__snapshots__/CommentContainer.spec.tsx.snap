@@ -315,6 +315,14 @@ exports[`hide reply button 1`] = `
               },
             }
           }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
+            }
+          }
           viewer={null}
         />
       }
@@ -644,6 +652,14 @@ exports[`renders body only 1`] = `
                 "dontAgree": false,
                 "flag": false,
               },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
             }
           }
           viewer={null}
@@ -977,6 +993,14 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               },
             }
           }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": true,
+              },
+              "featureFlags": Array [],
+            }
+          }
           viewer={null}
         />
       }
@@ -1306,6 +1330,14 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "dontAgree": false,
                 "flag": false,
               },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
             }
           }
           viewer={null}
@@ -1664,6 +1696,14 @@ exports[`renders in reply to 1`] = `
               },
             }
           }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
+            }
+          }
           viewer={null}
         />
       }
@@ -1993,6 +2033,14 @@ exports[`renders username and body 1`] = `
                 "dontAgree": false,
                 "flag": false,
               },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
             }
           }
           viewer={null}
@@ -2341,6 +2389,14 @@ exports[`shows conversation link 1`] = `
                 "dontAgree": false,
                 "flag": false,
               },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
             }
           }
           viewer={null}
