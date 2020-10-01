@@ -4,7 +4,11 @@ import { Db } from "mongodb";
 import { Config } from "coral-server/config";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
-import { AugmentedRedis, createRedisClient } from "coral-server/services/redis";
+import {
+  AugmentedRedis,
+  createRedisClient,
+  createRedisClientFactory,
+} from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
@@ -14,8 +18,8 @@ import { createScraperTask, ScraperQueue } from "./tasks/scraper";
 import { createWebhookTask, WebhookQueue } from "./tasks/webhook";
 
 const createQueueOptions = (config: Config): Queue.QueueOptions => {
-  const client = createRedisClient(config);
-  const subscriber = createRedisClient(config);
+  const getRedisQueueClient = createRedisClientFactory(config);
+  const getRedisQueueSubscriber = createRedisClientFactory(config);
 
   // Return the options that can be used by the Queue.
   return {
@@ -25,9 +29,9 @@ const createQueueOptions = (config: Config): Queue.QueueOptions => {
     createClient: (type) => {
       switch (type) {
         case "subscriber":
-          return subscriber;
+          return getRedisQueueSubscriber();
         case "client":
-          return client;
+          return getRedisQueueClient();
         case "bclient":
           return createRedisClient(config);
       }

@@ -1,5 +1,6 @@
 import Queue, { Job, JobCounts, Queue as QueueType } from "bull";
 import Logger from "bunyan";
+import timeoutPromiseAfter from "p-timeout";
 
 import TIME from "coral-common/time";
 import { createTimer } from "coral-server/helpers";
@@ -8,11 +9,12 @@ import { TenantResource } from "coral-server/models/tenant";
 
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
 
-export interface TaskOptions<T, U = void> {
+interface TaskOptions<T, U = void> {
   jobName: string;
   jobProcessor: JobProcessor<T, U>;
   jobOptions?: Queue.JobOptions;
   queue: Queue.QueueOptions;
+  timeout?: number;
 }
 
 export default class Task<T extends TenantResource, U = any> {
@@ -25,6 +27,7 @@ export default class Task<T extends TenantResource, U = any> {
     jobProcessor,
     jobOptions = {},
     queue,
+    timeout = 30 * TIME.SECOND,
   }: TaskOptions<T, U>) {
     this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
@@ -52,6 +55,7 @@ export default class Task<T extends TenantResource, U = any> {
         ...jobOptions,
       },
       queue,
+      timeout,
     };
 
     // TODO: (wyattjoh) attach event handlers to the queue for metrics via: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events
@@ -80,6 +84,8 @@ export default class Task<T extends TenantResource, U = any> {
    * job requests.
    */
   public process() {
+    // We don't handle this error here so that if the process is no longer being
+    // ran, we should throw an error to crash the process.
     void this.queue.process(async (job: Job<T>) => {
       const log = this.log.child(
         { jobID: job.id, attemptsMade: job.attemptsMade },
@@ -90,8 +96,12 @@ export default class Task<T extends TenantResource, U = any> {
       log.info("processing job from queue");
 
       try {
-        // Send the job off to the job processor to be handled.
-        const promise: U = await this.options.jobProcessor(job);
+        // Send the job off to the job processor to be handled. If the
+        // processing of the job takes too long time it out.
+        const promise: U = await timeoutPromiseAfter(
+          this.options.jobProcessor(job),
+          this.options.timeout
+        );
 
         // Log it!
         log.info({ took: timer() }, "processing completed");
@@ -101,6 +111,13 @@ export default class Task<T extends TenantResource, U = any> {
         log.error({ err, took: timer() }, "job failed to process");
         throw err;
       }
+    });
+
+    // When an error occurs with the job processor, handle the error by logging
+    // it and re-throwing it to crash the process.
+    this.queue.on("error", (err: Error) => {
+      this.log.fatal({ err }, "failed to handle error from job");
+      process.exit(1);
     });
 
     this.log.trace("registered processor for job type");

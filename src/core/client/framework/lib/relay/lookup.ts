@@ -68,6 +68,10 @@ const createProxy = <T = any>(
 /**
  * Lookup the Relay Cache with given object id. Returns a `RecordSourceProxy``
  * for easy traversing through the Relay Cache.
+ *
+ * Attention: This will usually cause data dependencies to other
+ * components if you are looking into non-local-state,
+ * make sure to make a comment about that.
  */
 export default function lookup<T = any>(environment: Environment, id: string) {
   const recordSource = environment.getStore().getSource().get(id);

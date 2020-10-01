@@ -5,6 +5,7 @@ import ensureNoEndSlash from "coral-common/utils/ensureNoEndSlash";
 import urls from "coral-framework/helpers/urls";
 import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
+import { RefreshAccessTokenCallback } from "./Coral";
 import {
   Decorator,
   withAutoHeight,
@@ -17,6 +18,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
@@ -37,6 +39,7 @@ export interface StreamEmbedConfig {
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
   customCSSURL?: string;
+  refreshAccessToken?: RefreshAccessTokenCallback;
 }
 
 export class StreamEmbed {
@@ -151,6 +154,7 @@ export class StreamEmbed {
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),
       withKeypressEvent,
+      withRefreshAccessToken(this.config.refreshAccessToken),
     ];
 
     const query = stringifyQuery({

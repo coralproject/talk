@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withLocalStateContainer } from "coral-framework/lib/relay";
+import AuthPopup from "coral-stream/common/AuthPopup";
 
 import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContainerLocal.graphql";
 
@@ -13,6 +14,7 @@ import {
   OnPymLogout,
   OnPymSetCommentID,
 } from "./listeners";
+import RefreshTokenHandler from "./RefreshTokenHandler";
 
 const listeners = (
   <>
@@ -38,6 +40,8 @@ class AppContainer extends React.Component<Props> {
     return (
       <>
         {this.props.disableListeners ? null : listeners}
+        <RefreshTokenHandler />
+        <AuthPopup />
         <App activeTab={activeTab} />
       </>
     );

@@ -7,8 +7,8 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import SetAuthPopupStateMutation from "coral-stream/common/UserBox/SetAuthPopupStateMutation";
-import ShowAuthPopupMutation from "coral-stream/mutations/ShowAuthPopupMutation";
+import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
+import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
 import { Popup } from "coral-ui/components/v2";
 
 import { ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";

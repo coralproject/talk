@@ -27,6 +27,7 @@ import {
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-framework/schema";
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
+import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",
@@ -123,9 +124,9 @@ export const settings = createFixture<GQLSettings>({
             kid: "kid-01",
             secret: "secret",
             createdAt: "2020-01-01T01:00:00.000Z",
-            lastUsedAt: undefined,
-            rotatedAt: undefined,
-            inactiveAt: undefined,
+            lastUsedAt: null,
+            rotatedAt: null,
+            inactiveAt: null,
           },
         ],
         key: "",
@@ -232,9 +233,9 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
               kid: "kid-01",
               secret: "secret",
               createdAt: "2020-01-01T01:00:00.000Z",
-              lastUsedAt: undefined,
-              rotatedAt: undefined,
-              inactiveAt: undefined,
+              lastUsedAt: null,
+              rotatedAt: null,
+              inactiveAt: null,
             },
           ],
           keyGeneratedAt: null,
@@ -607,7 +608,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     metadata: {
-      author: undefined,
+      author: NULL_VALUE,
       title: "World hunger has been defeated",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
@@ -654,7 +655,7 @@ export const baseComment = createFixture<GQLComment>({
   ],
   canModerate: true,
   revision: {
-    media: undefined,
+    media: NULL_VALUE,
     actionCounts: {
       flag: {
         reasons: {
@@ -674,16 +675,18 @@ export const baseComment = createFixture<GQLComment>({
         },
       },
     },
-    metadata: {},
+    metadata: {
+      perspective: NULL_VALUE,
+      wordList: NULL_VALUE,
+    },
   },
   flags: {
     nodes: [],
   },
   story: stories[0],
   site: sites[0],
-  // TODO: Should be allowed to pass null here..
-  parent: undefined,
-  deleted: undefined,
+  parent: NULL_VALUE,
+  deleted: NULL_VALUE,
 });
 
 export const unmoderatedComments = createFixtures<GQLComment>(

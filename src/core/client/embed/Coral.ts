@@ -6,6 +6,10 @@ import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
+export type RefreshAccessTokenCallback = (
+  nextAccessToken: (token: string) => void
+) => void;
+
 export interface Config {
   storyID?: string;
   storyURL?: string;
@@ -15,6 +19,12 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
+  /**
+   * refreshAccessToken is called to obtain a new access token when the current one has expired.
+   * A parameter `nextAccessToken` is passed as the first argument that should be called with the
+   * next access token.
+   */
+  refreshAccessToken?: RefreshAccessTokenCallback;
   enableDeprecatedEvents?: boolean;
   /** Allow setting className of body tag inside iframe */
   bodyClassName?: string;
@@ -43,5 +53,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     bodyClassName: config.bodyClassName,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     customCSSURL: config.customCSSURL,
+    refreshAccessToken: config.refreshAccessToken,
   });
 }

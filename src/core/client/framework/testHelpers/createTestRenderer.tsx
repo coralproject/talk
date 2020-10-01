@@ -91,6 +91,16 @@ export default function createTestRenderer<
         path.resolve(__dirname, "../../../../locales/en-US")
       ),
     ],
+    subscriptionClient: {
+      subscribe: () => {
+        return {
+          dispose: () => {},
+        };
+      },
+      pause: () => {},
+      resume: () => {},
+      setAccessToken: () => {},
+    },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
