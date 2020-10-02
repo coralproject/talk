@@ -59,7 +59,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
-  rated: (s, input, ctx) => {
+  rating: (s, input, ctx) => {
     if (!ctx.user) {
       return null;
     }
@@ -74,7 +74,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
       return null;
     }
 
-    return ctx.loaders.Stories.rated(s.id);
+    return ctx.loaders.Stories.rating(s.id);
   },
   ratings: (s, input, ctx) => {
     if (

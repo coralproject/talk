@@ -22,8 +22,8 @@ import {
   createComment,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
+  retrieveAuthorStoryRating,
   retrieveComment,
-  retrieveStoryRated,
 } from "coral-server/models/comment";
 import {
   getDepth,
@@ -148,7 +148,7 @@ const validateRating = async (
 
   // Check to see if this user has already submitted a comment with a rating
   // on this story.
-  const existing = await retrieveStoryRated(
+  const existing = await retrieveAuthorStoryRating(
     mongo,
     tenant.id,
     story.id,

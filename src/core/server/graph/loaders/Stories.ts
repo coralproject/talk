@@ -4,9 +4,9 @@ import { DateTime } from "luxon";
 
 import GraphContext from "coral-server/graph/context";
 import {
+  retrieveAuthorStoryRating,
   retrieveManyStoryRatings,
   retrieveOngoingDiscussions,
-  retrieveStoryRated,
 } from "coral-server/models/comment";
 import { retrieveTopStoryMetrics } from "coral-server/models/comment/metrics";
 import { Connection } from "coral-server/models/helpers";
@@ -237,8 +237,13 @@ export default (ctx: GraphContext) => ({
       ctx.now
     );
   },
-  rated: async (storyID: string) =>
-    retrieveStoryRated(ctx.mongo, ctx.tenant.id, storyID, ctx.user!.id),
+  rating: (storyID: string) =>
+    retrieveAuthorStoryRating(
+      ctx.mongo,
+      ctx.tenant.id,
+      storyID,
+      ctx.user!.id
+    ).then((comment) => (comment ? comment.rating : null)),
   ratings: new DataLoader((storyIDs: string[]) =>
     retrieveManyStoryRatings(ctx.mongo, ctx.tenant.id, storyIDs)
   ),
