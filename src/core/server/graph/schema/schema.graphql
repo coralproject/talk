@@ -3685,7 +3685,7 @@ type Story @cacheControl(maxAge: 30) {
   rating is the rating that the viewer has already added to a comment on this
   story.
   """
-  rating: Int
+  viewerRating: Int
 }
 
 """

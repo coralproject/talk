@@ -237,11 +237,12 @@ export default (ctx: GraphContext) => ({
       ctx.now
     );
   },
-  rating: (storyID: string) =>
+  viewerRating: (storyID: string) =>
     retrieveAuthorStoryRating(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
+      // This loader is only ever called when there is a user available.
       ctx.user!.id
     ).then((comment) => (comment ? comment.rating : null)),
   ratings: new DataLoader((storyIDs: string[]) =>
