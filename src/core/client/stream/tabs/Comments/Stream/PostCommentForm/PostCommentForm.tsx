@@ -33,7 +33,12 @@ interface FormSubmitProps extends FormProps, FormError {}
 
 interface StorySettings {
   settings?: {
-    mode?: "COMMENTS" | "QA" | "%future added value" | null;
+    mode?:
+      | "COMMENTS"
+      | "QA"
+      | "RATINGS_AND_REVIEWS"
+      | "%future added value"
+      | null;
   };
 }
 

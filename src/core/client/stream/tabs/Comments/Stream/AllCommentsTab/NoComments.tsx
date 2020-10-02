@@ -5,7 +5,12 @@ import { GQLSTORY_MODE } from "coral-framework/schema";
 import { CallOut } from "coral-ui/components/v2";
 
 interface Props {
-  mode: "COMMENTS" | "QA" | "%future added value";
+  mode:
+    | "COMMENTS"
+    | "QA"
+    | "RATINGS_AND_REVIEWS"
+    | "%future added value"
+    | null;
   isClosed: boolean;
 }
 
