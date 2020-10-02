@@ -468,6 +468,12 @@ enum FEATURE_FLAG {
   the bottom of the stream when sorting the comment stream by oldest first.
   """
   ALTERNATE_OLDEST_FIRST_VIEW
+
+  """
+  ENABLE_RATINGS_AND_REVIEWS when enabled will allow for the ratings and reviews
+  functionality to be enabled.
+  """
+  ENABLE_RATINGS_AND_REVIEWS
 }
 
 # The moderation mode of the site.
@@ -509,6 +515,12 @@ enum STORY_MODE {
   QA is used for when the story is in Q&A mode.
   """
   QA
+
+  """
+  RATINGS_AND_REVIEWS is used for when the story should be used for ratings and
+  reviews.
+  """
+  RATINGS_AND_REVIEWS
 }
 
 ################################################################################
@@ -3286,6 +3298,11 @@ type Comment @cacheControl(maxAge: 5) {
   site is the Site referenced by the Story for this Comment.
   """
   site: Site!
+
+  """
+  rating is the optional rating that is attached to the Comment.
+  """
+  rating: Int
 }
 
 type PageInfo {
@@ -3516,6 +3533,20 @@ enum STORY_STATUS {
   CLOSED
 }
 
+type StoryRatings {
+  """
+  average refers to the average rating across all ratings for the Story from
+  published comments.
+  """
+  average: Float!
+
+  """
+  count refers to the number of ratings that have been submitted that
+  contributes to the `average`.
+  """
+  count: Int!
+}
+
 """
 Story is an Article or Page where Comments are written on by Users.
 """
@@ -3562,6 +3593,12 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+
+    """
+    rating allows filtering for comments with a specific rating. If this feature
+    has not been enabled on this tenant or story, this option has no effect.
+    """
+    rating: Int
 
     """
     This is a workaround to allow filtering for current Q&A
@@ -3637,6 +3674,17 @@ type Story @cacheControl(maxAge: 30) {
   viewerCount is the number of viewers active on this Story.
   """
   viewerCount: Int
+
+  """
+  ratings is information about ratings that is attached to this story by
+  published comments.
+  """
+  ratings: StoryRatings
+
+  """
+  rated is true when the current viewer has already rated the given story.
+  """
+  rated: Boolean
 }
 
 """
@@ -3980,6 +4028,11 @@ input CreateCommentInput {
   media is the optional media attachment to be added to a Comment.
   """
   media: CreateCommentMediaInput
+
+  """
+  rating is the optional rating that can be added to a Comment.
+  """
+  rating: Int
 }
 
 """

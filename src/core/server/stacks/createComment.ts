@@ -1,3 +1,5 @@
+import Joi from "@hapi/joi";
+import { isNumber } from "lodash";
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
@@ -21,6 +23,7 @@ import {
   CreateCommentInput,
   pushChildCommentIDOntoParent,
   retrieveComment,
+  retrieveStoryRated,
 } from "coral-server/models/comment";
 import {
   getDepth,
@@ -33,7 +36,7 @@ import {
   Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import {
@@ -53,6 +56,7 @@ import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
@@ -70,6 +74,7 @@ export type CreateComment = Omit<
   | "siteID"
   | "media"
 > & {
+  rating?: number;
   media?: CreateCommentMediaInput;
 };
 
@@ -124,6 +129,36 @@ const markCommentAsAnswered = async (
   }
 };
 
+const RatingSchema = Joi.number().min(1).max(5).integer();
+
+const validateRating = async (
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  story: Story,
+  rating: number
+) => {
+  // Check to see if this Tenant has ratings enabled.
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)) {
+    throw new Error("tenant does not have feature flag enabled");
+  }
+
+  // Check that the rating is within range.
+  Joi.assert(rating, RatingSchema, "rating is not within range");
+
+  // Check to see if this user has already submitted a comment with a rating
+  // on this story.
+  const existing = await retrieveStoryRated(
+    mongo,
+    tenant.id,
+    story.id,
+    author.id
+  );
+  if (existing) {
+    throw new Error("author has already written a comment with a rating");
+  }
+};
+
 export default async function create(
   mongo: Db,
   redis: AugmentedRedis,
@@ -153,6 +188,17 @@ export default async function create(
   const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     throw new StoryNotFoundError(input.storyID);
+  }
+
+  // Perform some validation associated with the rating if it was provided.
+  if (isNumber(input.rating)) {
+    // Looks like the rating has been provided. Ensure that this is not a reply,
+    // because replies cannot have a rating.
+    if (input.parentID) {
+      throw new Error("replies cannot contain a rating");
+    }
+
+    await validateRating(mongo, tenant, author, story, input.rating);
   }
 
   const ancestorIDs: string[] = [];

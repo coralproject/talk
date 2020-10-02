@@ -1,3 +1,4 @@
+import { SchemaDirectiveVisitor } from "@graphql-tools/utils";
 import {
   defaultFieldResolver,
   GraphQLArgument,
@@ -5,7 +6,6 @@ import {
   GraphQLInterfaceType,
   GraphQLObjectType,
 } from "graphql";
-import { SchemaDirectiveVisitor } from "graphql-tools";
 import { isNumber } from "lodash";
 
 export default class extends SchemaDirectiveVisitor {

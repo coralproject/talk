@@ -12,6 +12,7 @@ import { isLiveEnabled } from "coral-server/services/stories";
 
 import {
   GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
   GQLTAG,
@@ -58,6 +59,36 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
+  rated: (s, input, ctx) => {
+    if (!ctx.user) {
+      return null;
+    }
+
+    if (
+      !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+    ) {
+      return null;
+    }
+
+    if (s.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+      return null;
+    }
+
+    return ctx.loaders.Stories.rated(s.id);
+  },
+  ratings: (s, input, ctx) => {
+    if (
+      !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+    ) {
+      return null;
+    }
+
+    if (s.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+      return null;
+    }
+
+    return ctx.loaders.Stories.ratings.load(s.id);
+  },
   viewerCount: async (s, input, ctx) => {
     // If the feature flag isn't enabled, then we have nothing to return.
     if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.VIEWER_COUNT)) {

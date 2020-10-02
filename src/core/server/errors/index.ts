@@ -467,7 +467,7 @@ export class UserNotFoundError extends CoralError {
 
 export class StoryNotFoundError extends CoralError {
   constructor(storyID: string) {
-    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pvt: { storyID } } });
+    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pub: { storyID } } });
   }
 }
 

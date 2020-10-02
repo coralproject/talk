@@ -116,6 +116,11 @@ export interface Comment extends TenantResource {
   tags: CommentTag[];
 
   /**
+   * rating is the optional value for the current rating linked to this Comment.
+   */
+  rating?: number;
+
+  /**
    * childCount is the count of direct replies. It is stored as a separate value
    * here even though the childIDs field technically contained the same data in
    * it's length because we needed to sort by this field sometimes.
@@ -1109,4 +1114,74 @@ export async function retrieveOngoingDiscussions(
   logger.info({ took: timer() }, "ongoing discussions query");
 
   return results;
+}
+
+export async function retrieveStoryRated(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  authorID: string
+) {
+  const timer = createTimer();
+
+  const previous = await collection(mongo).findOne({
+    tenantID,
+    storyID,
+    authorID,
+    parentID: null,
+    rating: { $gt: 0 },
+  });
+
+  logger.info({ took: timer() }, "check comment rated query");
+
+  return !!previous;
+}
+
+export async function retrieveManyStoryRatings(
+  mongo: Db,
+  tenantID: string,
+  storyIDs: string[]
+) {
+  const timer = createTimer();
+
+  const results = await collection<{
+    _id: string;
+    average: number;
+    count: number;
+  }>(mongo)
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          storyID: {
+            $in: storyIDs,
+          },
+          // We only store ratings on parent comments.
+          parentID: null,
+          // We only want to calculate an average with the comments that are
+          // published.
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+          // We only want to look at comments that contain a rating.
+          rating: { $exists: true },
+        },
+      },
+      {
+        $group: {
+          _id: "$storyID",
+          average: { $avg: "$rating" },
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .toArray();
+
+  // TODO: If this query becomes too expensive, we can use redis to help.
+  logger.info({ took: timer() }, "story ratings query");
+
+  return storyIDs.map(
+    (storyID) =>
+      results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
+  );
 }

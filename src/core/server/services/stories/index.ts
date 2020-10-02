@@ -270,6 +270,26 @@ export async function updateSettings(
   input: UpdateStorySettings,
   now = new Date()
 ) {
+  // Validate the input mode.
+  if (input.mode) {
+    if (
+      input.mode === GQLSTORY_MODE.QA &&
+      !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA)
+    ) {
+      throw new Error(
+        "can not update story mode to QA because tenant does not have feature flag enabled"
+      );
+    }
+    if (
+      input.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS &&
+      !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+    ) {
+      throw new Error(
+        "can not update story mode to RATINGS_AND_REVIEWS because tenant does not have feature flag enabled"
+      );
+    }
+  }
+
   return updateStorySettings(mongo, tenant.id, storyID, input, now);
 }
 
