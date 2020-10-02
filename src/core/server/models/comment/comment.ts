@@ -807,8 +807,11 @@ export async function updateCommentActionCounts(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    throw new CommentNotFoundError(id, revisionID);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**

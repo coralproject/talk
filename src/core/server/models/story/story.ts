@@ -364,12 +364,15 @@ export async function updateStory(
       // document.
       { returnOriginal: false }
     );
+    if (!result.value) {
+      throw new StoryNotFoundError(id);
+    }
 
-    return result.value || null;
+    return result.value;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
-    if (input.url && err instanceof MongoError && err.code === 11000) {
+    if (err instanceof MongoError && err.code === 11000 && input.url) {
       throw new DuplicateStoryURLError(err, input.url, id);
     }
 
@@ -401,8 +404,11 @@ export async function updateStorySettings(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function openStory(
@@ -424,8 +430,11 @@ export async function openStory(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function closeStory(
@@ -447,8 +456,11 @@ export async function closeStory(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function removeStory(mongo: Db, tenantID: string, id: string) {
@@ -456,8 +468,11 @@ export async function removeStory(mongo: Db, tenantID: string, id: string) {
     id,
     tenantID,
   });
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**
@@ -563,17 +578,12 @@ export const updateStoryCounts = (
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
 
-export async function addExpert(
+export async function addStoryExpert(
   mongo: Db,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -588,25 +598,19 @@ export async function addExpert(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to add expert to story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
-export async function removeExpert(
+export async function removeStoryExpert(
   mongo: Db,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -621,12 +625,11 @@ export async function removeExpert(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to remove expert from story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function setStoryMode(
@@ -635,11 +638,6 @@ export async function setStoryMode(
   storyID: string,
   mode: GQLSTORY_MODE
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -654,12 +652,11 @@ export async function setStoryMode(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to enable Q&A on story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**

@@ -22,7 +22,7 @@ import {
 } from "coral-server/models/comment";
 import { LiveConfiguration } from "coral-server/models/settings";
 import {
-  addExpert,
+  addStoryExpert,
   closeStory,
   createStory,
   CreateStoryInput,
@@ -31,9 +31,9 @@ import {
   findStory,
   FindStoryInput,
   openStory,
-  removeExpert,
   removeStories,
   removeStory,
+  removeStoryExpert,
   retrieveManyStories,
   retrieveStory,
   retrieveStorySections,
@@ -261,6 +261,7 @@ export async function update(
 
   return updateStory(mongo, tenant.id, storyID, input, now);
 }
+
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
 export async function updateSettings(
@@ -406,7 +407,7 @@ export async function merge(
   return destinationStory;
 }
 
-export async function addStoryExpert(
+export async function addExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -417,10 +418,10 @@ export async function addStoryExpert(
     throw new UserNotFoundError(userID);
   }
 
-  return addExpert(mongo, tenant.id, storyID, userID);
+  return addStoryExpert(mongo, tenant.id, storyID, userID);
 }
 
-export async function removeStoryExpert(
+export async function removeExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -431,7 +432,7 @@ export async function removeStoryExpert(
     throw new UserNotFoundError(userID);
   }
 
-  return removeExpert(mongo, tenant.id, storyID, userID);
+  return removeStoryExpert(mongo, tenant.id, storyID, userID);
 }
 
 export async function updateStoryMode(
