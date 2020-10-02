@@ -1,4 +1,4 @@
-import { intersection } from "lodash";
+import _, { intersection } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -659,50 +659,110 @@ export async function updateUsernameByID(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id" | "role" | "moderationScopes">,
+  viewer: Pick<User, "id" | "role" | "moderationScopes">,
   userID: string,
-  role: GQLUSER_ROLE,
-  moderationScopes?: UserModerationScopes
+  role: GQLUSER_ROLE
 ) {
-  // TODO accept siteIDs so can promote and update scopes in once mutation
-  if (user.id === userID) {
+  if (viewer.id === userID) {
     throw new Error("cannot update your own user role");
   }
 
-  // technically a site moderator can promote to organization moderator...
-  if (user.role === GQLUSER_ROLE.MODERATOR) {
-    if (role !== GQLUSER_ROLE.MODERATOR) {
-      throw new Error("Moderators can only promote to moderator");
-    }
-    if (isModerationScoped(user.moderationScopes)) {
-      if (
-        !moderationScopes ||
-        !moderationScopes.siteIDs ||
-        (moderationScopes.siteIDs && moderationScopes.siteIDs.length < 1)
-      ) {
-        throw new Error("Scoped moderators cannot create unscoped moderators");
-      }
-    }
-    const targetUser = await retrieveUser(mongo, tenant.id, userID);
-    if (targetUser && targetUser.role === GQLUSER_ROLE.ADMIN) {
-      throw new Error("Moderators cannot demote admins");
-    }
+  // only admins can promote to admin
+  if (viewer.role !== GQLUSER_ROLE.ADMIN && role === GQLUSER_ROLE.ADMIN) {
+    throw new Error("only admins can update users to administrators");
   }
 
-  const result = await updateUserRole(mongo, tenant.id, userID, role);
-  if (
-    moderationScopes &&
-    hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)
-  ) {
-    await updateModerationScopes(mongo, tenant, user, userID, moderationScopes);
+  // you can only update users if you're currently an admin or moderator
+  if (![GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(viewer.role)) {
+    throw new Error("you have insufficient permissions to set roles");
   }
-  return result;
+
+  // scoped moderators (site mods) should not be using updateRole
+  // they should be using promoteUserRole
+  if (
+    viewer.role === GQLUSER_ROLE.MODERATOR &&
+    viewer.moderationScopes &&
+    viewer.moderationScopes.siteIDs?.length !== 0
+  ) {
+    throw new Error("you have insufficient permissions to set roles");
+  }
+
+  return updateUserRole(mongo, tenant.id, userID, role);
+}
+
+export async function promoteUserRole(
+  mongo: Db,
+  tenant: Tenant,
+  viewer: Pick<User, "id" | "role" | "moderationScopes">,
+  userID: string
+) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    throw new InternalError("feature flag not enabled", {
+      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
+    });
+  }
+
+  if (viewer.id === userID) {
+    throw new Error("cannot promote yourself");
+  }
+
+  if (
+    !viewer.moderationScopes ||
+    viewer.moderationScopes?.siteIDs?.length === 0
+  ) {
+    throw new Error("cannot promote user if we do not have moderation scopes");
+  }
+
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  if (
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !isModerationScoped(user.moderationScopes)
+  ) {
+    throw new Error("cannot promote an organization moderator");
+  }
+
+  if (user.role === GQLUSER_ROLE.ADMIN) {
+    throw new Error("cannot promote an admin");
+  }
+
+  // promote the user to our role
+  const roleResult = await updateUserRole(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.role
+  );
+  if (roleResult.role !== viewer.role) {
+    throw new Error("failed to promote to role");
+  }
+
+  // promote user to our moderation scopes
+  const scopesResult = await updateUserModerationScopes(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.moderationScopes
+  );
+  if (
+    !_.isEqual(
+      _.sortBy(viewer.moderationScopes?.siteIDs),
+      _.sortBy(scopesResult.moderationScopes?.siteIDs)
+    )
+  ) {
+    throw new Error("failed to promote moderation scopes");
+  }
+
+  return scopesResult;
 }
 
 export async function updateModerationScopes(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id" | "role" | "moderationScopes">,
+  viewer: Pick<User, "id" | "role" | "moderationScopes">,
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
@@ -712,47 +772,38 @@ export async function updateModerationScopes(
     });
   }
 
-  if (user.id === userID) {
+  // you can only change scopes if you're currently an admin or moderator
+  if (![GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(viewer.role)) {
+    throw new Error("you have insufficient permissions to promote users");
+  }
+
+  // scoped moderators (site mods) should not be using updateModerationScopes
+  // they should be using promoteUserRole
+  if (
+    viewer.role === GQLUSER_ROLE.MODERATOR &&
+    viewer.moderationScopes &&
+    viewer.moderationScopes.siteIDs?.length !== 0
+  ) {
+    throw new Error("you have insufficient permissions to set roles");
+  }
+
+  if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }
 
-  // Verify that the scopes referenced exist.
-  if (moderationScopes.siteIDs) {
-    if (user.role === GQLUSER_ROLE.MODERATOR) {
-      if (
-        user.moderationScopes &&
-        user.moderationScopes.siteIDs &&
-        user.moderationScopes.siteIDs.length > 0
-      ) {
-        const invalidSite = moderationScopes.siteIDs.find(
-          (s) => !user.moderationScopes?.siteIDs?.includes(s)
-        );
-        if (invalidSite) {
-          throw new Error(
-            "Site moderators can only add moderators to sites they moderate"
-          );
-        }
-        const targetUser = await retrieveUser(mongo, tenant.id, userID);
-        const removedSite =
-          targetUser!.moderationScopes &&
-          targetUser!.moderationScopes.siteIDs &&
-          targetUser!.moderationScopes.siteIDs.find(
-            (s) => !moderationScopes.siteIDs!.includes(s)
-          );
-        if (removedSite) {
-          throw new Error("Site moderators cannot remove moderation scopes");
-        }
-      }
-    }
-    const sites = await retrieveManySites(
-      mongo,
-      tenant.id,
-      moderationScopes.siteIDs
-    );
+  if (!moderationScopes.siteIDs) {
+    throw new Error("no sites specified in the moderation scopes");
+  }
 
-    if (sites.some((site) => site === null)) {
-      throw new Error("site specified does not exist");
-    }
+  const sites = await retrieveManySites(
+    mongo,
+    tenant.id,
+    moderationScopes.siteIDs
+  );
+  if (sites.some((site) => site === null)) {
+    throw new Error(
+      "some or all of the sites specified in the moderation scopes do not exist"
+    );
   }
 
   return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);

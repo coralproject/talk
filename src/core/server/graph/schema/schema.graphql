@@ -6787,15 +6787,37 @@ input UpdateUserRoleInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
-
-  """
-  moderationScopes defines the scopes that a given moderator should be limited
-  to when
-  """
-  moderationScopes: ModerationScopesInput
 }
 
 type UpdateUserRolePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
+# promoteUserRole
+##################
+
+input PromoteUserRoleInput {
+  """
+  userID is the ID of the User that should have their role updated.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type PromoteUserRolePayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -7841,6 +7863,12 @@ type Mutation {
   updateUserRole will update a given User's role.
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  promoteUser will allow you to promote a user to a moderator.
+  """
+  promoteUserRole(input: PromoteUserRoleInput!): PromoteUserRolePayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
