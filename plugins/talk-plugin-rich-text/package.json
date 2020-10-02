@@ -7,7 +7,7 @@
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "dompurify": "^1.0.3",
+    "dompurify": "^2.1.1",
     "jsdom": "^11.6.2",
     "linkifyjs": "^2.1.5",
     "react-contenteditable": "^2.0.7"
