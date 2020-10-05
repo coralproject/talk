@@ -261,6 +261,6 @@
     "graphql-docs/marked": "^0.7.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": "~8"
   }
 }
