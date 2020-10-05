@@ -1,3 +1,5 @@
+import decode from "jwt-decode";
+
 const SKEW_TOLERANCE = 300;
 
 export interface Claims {
@@ -8,17 +10,8 @@ export interface Claims {
 export function parseAccessTokenClaims<T = {}>(
   accessToken: string
 ): (Claims & T) | null {
-  const parts = accessToken.split(".");
-  if (parts.length !== 3) {
-    // TODO: (wyattjoh) add error reporting around this error
-    // eslint-disable-next-line no-console
-    console.warn("access token does not have the right number of parts");
-
-    return null;
-  }
-
   try {
-    const claims = JSON.parse(atob(parts[1]));
+    const claims = decode<Claims & T>(accessToken);
 
     // Validate `jti` claim.
     if (!claims.jti || typeof claims.jti !== "string") {
