@@ -1,5 +1,7 @@
 import { CacheScope } from "apollo-cache-control";
 
+import { setCacheHint } from "coral-common/graphql";
+
 import {
   GQLEditInfo,
   GQLEditInfoTypeResolver,
@@ -11,7 +13,7 @@ export const EditInfo: GQLEditInfoTypeResolver<GQLEditInfo> = {
       return null;
     }
 
-    info.cacheControl.setCacheHint({ scope: CacheScope.Private });
+    setCacheHint(info, { scope: CacheScope.Private });
 
     return editableUntil;
   },

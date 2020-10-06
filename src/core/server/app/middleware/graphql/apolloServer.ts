@@ -1,5 +1,5 @@
-import { RedisCache } from "apollo-server-cache-redis";
 import { ApolloServer } from "apollo-server-express";
+import { ApolloServerPlugin } from "apollo-server-plugin-base";
 import ResponseCachePlugin from "apollo-server-plugin-response-cache";
 
 import { CLIENT_ID_HEADER } from "coral-common/constants";
@@ -11,6 +11,8 @@ import {
   MetricsApolloServerPlugin,
 } from "coral-server/graph/plugins";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
+
+import { RedisCache } from "./cache/redis";
 
 type ContextProviderOptions = Omit<AppOptions, "schema" | "metrics">;
 
@@ -52,11 +54,40 @@ export const apolloGraphQLMiddleware = ({
   metrics,
   ...options
 }: AppOptions) => {
-  const url = new URL(options.config.get("redis"));
-  const cache = new RedisCache({
-    ...url,
-    port: parseInt(url.port, 10),
-  });
+  // Optionally add `Cache-Control` headers to GraphQL responses.
+  let cacheControl:
+    | {
+        defaultMaxAge: number;
+      }
+    | boolean = false;
+  if (!options.config.get("disable_graphql_cache_headers")) {
+    cacheControl = {
+      defaultMaxAge: Math.floor(
+        options.config.get("default_graphql_cache_max_age") / 1000
+      ),
+    };
+  }
+
+  const plugins: ApolloServerPlugin[] = [
+    ErrorApolloServerPlugin,
+    LoggerApolloServerPlugin,
+    MetricsApolloServerPlugin(metrics),
+  ];
+
+  // Optionally cache GraphQL responses in Redis. Will only enable if headers
+  // are also enabled.
+  if (
+    !options.config.get("disable_graphql_response_cache") &&
+    !options.config.get("disable_graphql_cache_headers")
+  ) {
+    plugins.push(
+      ResponseCachePlugin({
+        // Each user will share the same cache.
+        sessionId: ({ context }) => (context.user ? context.user.id : null),
+        cache: new RedisCache(options.redis),
+      })
+    );
+  }
 
   // Create the ApolloServer that we'll use to get the middleware from.
   const server = new ApolloServer({
@@ -83,10 +114,8 @@ export const apolloGraphQLMiddleware = ({
     // Disable engine, Coral doesn't use it.
     engine: false,
 
-    // Disable cache control, Coral doesn't use it yet.
-    cacheControl: {
-      defaultMaxAge: 30,
-    },
+    // Configure optional cache control headers.
+    cacheControl,
 
     // Disable subscriptions as we'll be providing it separately.
     subscriptions: false,
@@ -96,16 +125,7 @@ export const apolloGraphQLMiddleware = ({
     persistedQueries: false,
 
     // Configure plugins to be ran on requests.
-    plugins: [
-      ErrorApolloServerPlugin,
-      LoggerApolloServerPlugin,
-      MetricsApolloServerPlugin(metrics),
-      ResponseCachePlugin({
-        // Each user will share the same cache.
-        sessionId: ({ context }) => (context.user ? context.user.id : null),
-        cache,
-      }),
-    ],
+    plugins,
 
     // Disable the debug mode, as we already add in our logging function.
     debug: false,

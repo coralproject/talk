@@ -3,6 +3,7 @@ import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import { reconstructTenantURL } from "coral-server/app/url";
 
 import GraphContext from "../context";
@@ -31,7 +32,7 @@ export async function setCacheHintWhenTruthy<T>(
     return value;
   }
 
-  info.cacheControl.setCacheHint(cacheHint);
+  setCacheHint(info, cacheHint);
 
   return value;
 }
