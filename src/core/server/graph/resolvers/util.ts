@@ -1,4 +1,4 @@
-import { CacheScope, CacheHint } from "apollo-cache-control";
+import { CacheHint, CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
