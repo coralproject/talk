@@ -2,7 +2,6 @@ import Queue, { Job, JobCounts, Queue as QueueType } from "bull";
 import Logger from "bunyan";
 import timeoutPromiseAfter from "p-timeout";
 
-import TIME from "coral-common/time";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
@@ -27,7 +26,7 @@ export default class Task<T extends TenantResource, U = any> {
     jobProcessor,
     jobOptions = {},
     queue,
-    timeout = 30 * TIME.SECOND,
+    timeout = 30000,
   }: TaskOptions<T, U>) {
     this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
@@ -45,7 +44,7 @@ export default class Task<T extends TenantResource, U = any> {
         // By default, configure jobs to use an exponential backoff strategy.
         backoff: {
           type: "exponential",
-          delay: 10 * TIME.SECOND,
+          delay: 10000,
         },
 
         // Be default, try all jobs at least 5 times.
