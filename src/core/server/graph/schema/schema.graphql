@@ -80,6 +80,16 @@ directive @deprecated(
   reason: String = "No longer supported"
 ) on FIELD_DEFINITION | ENUM_VALUE
 
+enum CACHE_CONTROL_SCOPE {
+  PUBLIC
+  PRIVATE
+}
+
+directive @cacheControl(
+  scope: CACHE_CONTROL_SCOPE
+  maxAge: Int
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
 ################################################################################
 ## Custom Scalar Types
 ################################################################################
@@ -1704,7 +1714,7 @@ type RTEConfiguration {
 """
 Settings stores the global settings for a given Tenant.
 """
-type Settings {
+type Settings @cacheControl(maxAge: 30) {
   """
   id is a canonical identifier for this Tenant.
   """
@@ -1713,22 +1723,28 @@ type Settings {
   """
   domain is the domain that is associated with this Tenant.
   """
-  domain: String! @auth(roles: [ADMIN])
+  domain: String! @auth(roles: [ADMIN]) @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   webhooks store the webhook configuration.
   """
-  webhooks: WebhookConfiguration! @auth(roles: [ADMIN])
+  webhooks: WebhookConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   webhookEvents returns all the events that can trigger webhooks.
   """
-  webhookEvents: [WEBHOOK_EVENT_NAME!]! @auth(roles: [ADMIN])
+  webhookEvents: [WEBHOOK_EVENT_NAME!]!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   staticURI if configured, is the static URI used to serve static files from.
   """
-  staticURI: String @auth(roles: [ADMIN])
+  staticURI: String
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   locale is the specified locale for this Tenant.
@@ -1744,7 +1760,9 @@ type Settings {
   """
   moderation is the moderation mode for all Stories on the site.
   """
-  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+  moderation: MODERATION_MODE
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -1754,7 +1772,9 @@ type Settings {
   """
   premodLinksEnable will put all comments that contain links into premod.
   """
-  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+  premodLinksEnable: Boolean
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   closeCommenting contains settings related to the automatic closing of commenting on
@@ -1765,7 +1785,9 @@ type Settings {
   """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
-  customCSSURL: String @auth(roles: [ADMIN, MODERATOR])
+  customCSSURL: String
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   disableCommenting will disable commenting site-wide.
@@ -1792,17 +1814,23 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+  email: EmailConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   slack is the configuration for slack communication
   """
-  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
+  slack: SlackConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   wordList will return a given list of words.
   """
-  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+  wordList: WordList!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -1812,7 +1840,9 @@ type Settings {
   """
   integrations contains all the external integrations that can be enabled.
   """
-  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
+  integrations: ExternalIntegrations!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   recentCommentHistory is the set of settings related to how automatic
@@ -1820,6 +1850,7 @@ type Settings {
   """
   recentCommentHistory: RecentCommentHistoryConfiguration!
     @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   reaction specifies the configuration for reactions.
@@ -1840,7 +1871,9 @@ type Settings {
   """
   stories stores the configuration around stories.
   """
-  stories: StoryConfiguration! @auth(roles: [ADMIN])
+  stories: StoryConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   media is the configuration media content attached to Comment's.
@@ -1855,12 +1888,16 @@ type Settings {
   """
   createdAt is the time that the Settings was created at.
   """
-  createdAt: Time! @auth(roles: [ADMIN])
+  createdAt: Time!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   newCommenters is the configuration for how new commenters comments are treated.
   """
-  newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
+  newCommenters: NewCommentersConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   announcement is the currently active Announcement.
@@ -1870,7 +1907,9 @@ type Settings {
   """
   multisite is whether multiple sites exist for this tenant.
   """
-  multisite: Boolean! @auth(roles: [ADMIN, MODERATOR])
+  multisite: Boolean!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   rte is the configuration of the Rich-Text-Editor.
@@ -2128,6 +2167,9 @@ type WarningStatus {
   """
   message: String
 
+  """
+  history will return the status history items for warnings.
+  """
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
@@ -2421,6 +2463,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   duplicateEmail is set on users that have a matching email with another user in
@@ -2438,6 +2481,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   emailVerified when true indicates that the given email address has been
@@ -2466,6 +2510,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   role is the current role of the User.
@@ -3089,7 +3134,7 @@ type CommentTagCounts {
 """
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
-type Comment {
+type Comment @cacheControl(maxAge: 5) {
   """
   id is the identifier of the Comment.
   """
@@ -3469,7 +3514,7 @@ enum STORY_STATUS {
 """
 Story is an Article or Page where Comments are written on by Users.
 """
-type Story {
+type Story @cacheControl(maxAge: 30) {
   """
   id is the identifier of the Story.
   """
@@ -3526,13 +3571,17 @@ type Story {
   commentActionCounts stores the counts of all the actions against this Story and it's
   Comments.
   """
-  commentActionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
+  commentActionCounts: ActionCounts!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   moderationQueues returns the set of ModerationQueues that are available for
   this Story.
   """
-  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   closedAt is the Time that the Story is closed for commenting. If null or in
@@ -3564,7 +3613,9 @@ type Story {
   """
   lastCommentedAt is the last time someone commented on this story.
   """
-  lastCommentedAt: Time @auth(roles: [ADMIN])
+  lastCommentedAt: Time
+    @auth(roles: [ADMIN])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   canModerate returns true if the current user can moderate comments on this
@@ -3786,7 +3837,9 @@ type Query {
     storyID: ID
     siteID: ID
     section: SectionFilter
-  ): ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+  ): ModerationQueues!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   sections will return the unique sections used by this Tenant.

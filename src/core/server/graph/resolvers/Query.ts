@@ -4,6 +4,7 @@ import { getWebhookEndpoint } from "coral-server/models/tenant";
 import { GQLQueryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
+import { setCacheHintWhenTruthy } from "./util";
 
 export const Query: Required<GQLQueryTypeResolver<void>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.find.load(args),
@@ -18,7 +19,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     id ? ctx.loaders.Comments.visible.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
   settings: (source, args, ctx) => ctx.tenant,
-  viewer: (source, args, ctx) => ctx.user,
+  viewer: (source, args, ctx, info) => setCacheHintWhenTruthy(ctx.user, info),
   discoverOIDCConfiguration: (source, { issuer }, ctx) =>
     ctx.loaders.Auth.discoverOIDCConfiguration.load(issuer),
   debugScrapeStoryMetadata: (source, { url }, ctx) =>

@@ -323,6 +323,26 @@ const config = convict({
     default: "",
     env: "ANALYTICS_DATA_PLANE_URL",
   },
+  default_graphql_cache_max_age: {
+    doc:
+      "Specifies the max age for the GraphQL requests. Must be larger than 1 second.",
+    format: "ms",
+    default: ms("30 seconds"),
+    env: "DEFAULT_GRAPHQL_CACHE_MAX_AGE",
+  },
+  disable_graphql_response_cache: {
+    doc: "When enabled, will disable caching GraphQL requests.",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_GRAPHQL_RESPONSE_CACHE",
+  },
+  disable_graphql_cache_headers: {
+    doc:
+      "When enabled, will disable sending GraphQL Cache-Control headers along with requests. This will also disable the response cache.",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_GRAPHQL_CACHE_HEADERS",
+  },
 });
 
 export type Config = typeof config;

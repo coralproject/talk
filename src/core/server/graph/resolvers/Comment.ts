@@ -1,6 +1,8 @@
+import { CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import { defaultTo } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/resolvers/util";
 import {
@@ -120,8 +122,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
-  viewerActionPresence: (c, input, ctx) =>
-    ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
+  viewerActionPresence: (c, input, ctx, info) => {
+    if (!ctx.user) {
+      return null;
+    }
+
+    setCacheHint(info, { scope: CacheScope.Private });
+
+    return ctx.loaders.Comments.retrieveMyActionPresence.load(c.id);
+  },
+
   parentCount: (c) => getDepth(c),
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>
