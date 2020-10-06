@@ -1,3 +1,4 @@
+import { CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import { defaultTo } from "lodash";
 
@@ -120,8 +121,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
-  viewerActionPresence: (c, input, ctx) =>
-    ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
+  viewerActionPresence: (c, input, ctx, info) => {
+    if (!ctx.user) {
+      return null;
+    }
+
+    info.cacheControl.setCacheHint({ scope: CacheScope.Private });
+
+    return ctx.loaders.Comments.retrieveMyActionPresence.load(c.id);
+  },
+
   parentCount: (c) => getDepth(c),
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>

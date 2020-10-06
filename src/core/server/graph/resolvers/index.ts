@@ -21,6 +21,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { EditInfo } from "./EditInfo";
 import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
@@ -89,6 +90,7 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  EditInfo,
   ExternalMediaConfiguration,
   ExternalModerationPhase,
   FacebookAuthIntegration,

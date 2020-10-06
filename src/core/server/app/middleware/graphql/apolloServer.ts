@@ -1,4 +1,6 @@
+import { RedisCache } from "apollo-server-cache-redis";
 import { ApolloServer } from "apollo-server-express";
+import ResponseCachePlugin from "apollo-server-plugin-response-cache";
 
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
@@ -50,6 +52,12 @@ export const apolloGraphQLMiddleware = ({
   metrics,
   ...options
 }: AppOptions) => {
+  const url = new URL(options.config.get("redis"));
+  const cache = new RedisCache({
+    ...url,
+    port: parseInt(url.port, 10),
+  });
+
   // Create the ApolloServer that we'll use to get the middleware from.
   const server = new ApolloServer({
     // Provide the executable schema that we assembled earlier.
@@ -76,9 +84,11 @@ export const apolloGraphQLMiddleware = ({
     engine: false,
 
     // Disable cache control, Coral doesn't use it yet.
-    cacheControl: false,
+    cacheControl: {
+      defaultMaxAge: 30,
+    },
 
-    // Disable subscriptions as we'll be providing it seperatly.
+    // Disable subscriptions as we'll be providing it separately.
     subscriptions: false,
 
     // Disable automated persisted queries as Coral will provide it's own
@@ -90,6 +100,11 @@ export const apolloGraphQLMiddleware = ({
       ErrorApolloServerPlugin,
       LoggerApolloServerPlugin,
       MetricsApolloServerPlugin(metrics),
+      ResponseCachePlugin({
+        // Each user will share the same cache.
+        sessionId: ({ context }) => (context.user ? context.user.id : null),
+        cache,
+      }),
     ],
 
     // Disable the debug mode, as we already add in our logging function.

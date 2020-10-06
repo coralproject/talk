@@ -80,6 +80,16 @@ directive @deprecated(
   reason: String = "No longer supported"
 ) on FIELD_DEFINITION | ENUM_VALUE
 
+enum CACHE_CONTROL_SCOPE {
+  PUBLIC
+  PRIVATE
+}
+
+directive @cacheControl(
+  scope: CACHE_CONTROL_SCOPE
+  maxAge: Int
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
 ################################################################################
 ## Custom Scalar Types
 ################################################################################
@@ -2128,6 +2138,9 @@ type WarningStatus {
   """
   message: String
 
+  """
+  history will return the status history items for warnings.
+  """
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
@@ -2421,6 +2434,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   duplicateEmail is set on users that have a matching email with another user in
@@ -2438,6 +2452,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   emailVerified when true indicates that the given email address has been
@@ -2466,6 +2481,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   role is the current role of the User.
@@ -2483,6 +2499,7 @@ type User {
         WARNED
       ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   moderatorNotes are notes left by moderators about the User.
@@ -3089,7 +3106,7 @@ type CommentTagCounts {
 """
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
-type Comment {
+type Comment @cacheControl(maxAge: 30) {
   """
   id is the identifier of the Comment.
   """
@@ -3469,7 +3486,7 @@ enum STORY_STATUS {
 """
 Story is an Article or Page where Comments are written on by Users.
 """
-type Story {
+type Story @cacheControl(maxAge: 30) {
   """
   id is the identifier of the Story.
   """
