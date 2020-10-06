@@ -1,6 +1,8 @@
+import { CacheScope } from "apollo-cache-control";
 import { DirectiveResolverFn } from "graphql-tools";
 import { memoize } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import {
   UserBanned,
   UserForbiddenError,
@@ -80,6 +82,14 @@ const auth: DirectiveResolverFn<
   { user, now },
   info
 ) => {
+  if (
+    roles &&
+    (roles.includes(GQLUSER_ROLE.ADMIN) ||
+      roles.includes(GQLUSER_ROLE.MODERATOR))
+  ) {
+    setCacheHint(info, { scope: CacheScope.Private });
+  }
+
   // If there is a user on the request.
   if (user) {
     const conditions = calculateAuthConditionsMemoized(user, now);
