@@ -10,7 +10,7 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
     method: "GET",
     headers: {
-      Approve: "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     credentials: "same-origin",
@@ -31,8 +31,8 @@ const handleResp = async (res: Response) => {
   }
 
   if (!res.ok) {
-    const ctype = res.headers.get("content-type");
-    if (ctype && ctype.includes("application/json")) {
+    const type = res.headers.get("content-type");
+    if (type && type.includes("application/json")) {
       const response = await res.json();
       throw extractError(response.error);
     } else {
@@ -53,9 +53,9 @@ type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
 };
 
 export class RestClient {
-  public readonly uri: string;
-  private clientID?: string;
-  private accessTokenProvider?: AccessTokenProvider;
+  private readonly uri: string;
+  private readonly clientID?: string;
+  private readonly accessTokenProvider?: AccessTokenProvider;
 
   constructor(
     uri: string,
