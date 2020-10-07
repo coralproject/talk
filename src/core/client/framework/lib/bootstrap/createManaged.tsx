@@ -126,7 +126,8 @@ function areWeInIframe() {
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  tokenRefreshProvider?: TokenRefreshProvider
+  tokenRefreshProvider?: TokenRefreshProvider,
+  clearCacheBefore?: Date
 ) {
   const source = new RecordSource();
   const accessTokenProvider: AccessTokenProvider = () => {
@@ -142,7 +143,8 @@ function createRelayEnvironment(
       subscriptionClient,
       clientID,
       accessTokenProvider,
-      tokenRefreshProvider?.refreshToken
+      tokenRefreshProvider?.refreshToken,
+      clearCacheBefore
     ),
     store: new Store(source),
   });
@@ -205,7 +207,9 @@ function createManagedCoralContextProvider(
       const { environment, accessTokenProvider } = createRelayEnvironment(
         subscriptionClient,
         clientID,
-        this.state.context.tokenRefreshProvider
+        this.state.context.tokenRefreshProvider,
+        // Disable the cache on requests for the next 30 seconds.
+        new Date(Date.now() + 30 * 1000)
       );
 
       // Create the new context.

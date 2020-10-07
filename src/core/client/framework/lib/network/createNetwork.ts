@@ -9,10 +9,10 @@ import {
 } from "react-relay-network-modern/es";
 import { GraphQLResponse, Observable, SubscribeFunction } from "relay-runtime";
 
-import TIME from "coral-common/time";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { AccessTokenProvider } from "../auth";
+import clearCacheMiddleware from "./clearCacheMiddleware";
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
@@ -56,14 +56,16 @@ export default function createNetwork(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   accessTokenProvider: AccessTokenProvider,
-  tokenRefresh?: TokenRefresh
+  tokenRefresh?: TokenRefresh,
+  clearCacheBefore?: Date
 ) {
   return new RelayNetworkLayer(
     [
+      clearCacheMiddleware(clearCacheBefore),
       customErrorMiddleware,
       cacheMiddleware({
         size: 100, // max 100 requests
-        ttl: 15 * TIME.MINUTE,
+        ttl: 15 * 60 * 1000, // 15 minutes
         clearOnMutation: true,
       }),
       urlMiddleware({
