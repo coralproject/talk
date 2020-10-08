@@ -12,7 +12,8 @@ job_node_defaults: &job_node_defaults
   <<: *job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:12
+    # NOTE: Pinning to this to test to see if it's the cause of the recent build errors.
+    - image: circleci/node:12.18.3
   environment:
     <<: *job_node_environment
 
@@ -131,19 +132,14 @@ jobs:
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
-    docker:
-      - image: node:10-alpine
-    environment:
-      NODE_ENV: development
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
-      - run:
-          name: Update Image Dependencies
-          command: apk --no-cache add git python
-      - run:
-          name: Install NodeJS Dependencies
-          command: npm install
+      - setup_remote_docker
+      - deploy:
+          name: Test Building
+          command: bash ./scripts/docker.sh
+          no_output_timeout: 30m
 
   # release_docker will build and push the Docker image.
   release_docker:
