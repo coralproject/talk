@@ -131,7 +131,7 @@ jobs:
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
       - setup_remote_docker
