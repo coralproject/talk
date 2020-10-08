@@ -4,7 +4,8 @@ const clearCacheMiddleware: (clearCacheBefore?: Date) => Middleware = (
   clearCacheBefore
 ) => (next) => async (req) => {
   if (clearCacheBefore && new Date() < clearCacheBefore) {
-    req.fetchOpts.cache = "no-cache";
+    req.fetchOpts.headers["Cache-Control"] = "no-store";
+    req.fetchOpts.headers.Pragma = "no-store";
   }
 
   return next(req);
