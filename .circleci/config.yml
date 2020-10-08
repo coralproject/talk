@@ -12,7 +12,8 @@ job_node_defaults: &job_node_defaults
   <<: *job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:12
+    # NOTE: Pinning to this to test to see if it's the cause of the recent build errors.
+    - image: circleci/node:12.18.3
   environment:
     <<: *job_node_environment
 
