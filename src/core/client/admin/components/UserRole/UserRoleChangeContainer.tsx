@@ -28,6 +28,11 @@ interface Props {
 }
 
 function canChangeRole(viewer: RoleDescription, user: RoleDescription) {
+  // cannot modify your own role
+  if (viewer.id === user.id) {
+    return false;
+  }
+
   // admin's can do whatever they want
   if (viewer.role === GQLUSER_ROLE.ADMIN) {
     return true;
@@ -77,10 +82,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const viewerCanChangeRole = useMemo(() => {
     return canChangeRole(
       {
+        id: viewer.id,
         role: convertRole(viewer.role),
         scoped: !!viewer.moderationScopes && viewer.moderationScopes.scoped,
       },
       {
+        id: user.id,
         role: convertRole(user.role),
         scoped: !!user.moderationScopes && user.moderationScopes.scoped,
       }

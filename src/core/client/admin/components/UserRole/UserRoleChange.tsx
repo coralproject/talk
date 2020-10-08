@@ -35,6 +35,7 @@ interface Props {
 }
 
 export interface RoleDescription {
+  id?: string;
   role: GQLUSER_ROLE;
   scoped: boolean | undefined;
 }
