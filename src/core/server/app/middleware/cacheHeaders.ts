@@ -13,10 +13,18 @@ export const noCacheMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
+const parseDuration = (duration: string | number) => {
+  if (typeof duration === "string") {
+    return Math.floor(ms(duration) / 1000);
+  }
+
+  return Math.floor(duration / 1000);
+};
+
 export const cacheHeadersMiddleware = (
-  duration?: string | false
+  duration?: string | false | number
 ): RequestHandler => {
-  const maxAge = duration ? Math.floor(ms(duration) / 1000) : false;
+  const maxAge = duration ? parseDuration(duration) : false;
   if (!maxAge) {
     return noCacheMiddleware;
   }

@@ -3,7 +3,7 @@ import express from "express";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
 
 interface Options {
-  cache?: false | string;
+  cache?: false | string | number;
 }
 
 export function createAPIRouter({ cache = false }: Options = {}) {

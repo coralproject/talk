@@ -323,6 +323,13 @@ const config = convict({
     default: "",
     env: "ANALYTICS_DATA_PLANE_URL",
   },
+  jsonp_max_age: {
+    doc:
+      "The max age for jsonp endpoints designed to be used as embeddable scripts.",
+    format: "ms",
+    default: ms("2m"),
+    env: "JSONP_MAX_AGE",
+  },
   default_graphql_cache_max_age: {
     doc:
       "Specifies the max age for the GraphQL requests. Must be larger than 1 second.",
