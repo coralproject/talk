@@ -13,7 +13,7 @@ job_node_defaults: &job_node_defaults
   working_directory: ~/coralproject/talk
   docker:
     # NOTE: Pinning to this to test to see if it's the cause of the recent build errors.
-    - image: circleci/node:12.18.3
+    - image: circleci/node:12.19.0
   environment:
     <<: *job_node_environment
 
@@ -135,7 +135,8 @@ jobs:
     <<: *job_node_defaults
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - deploy:
           name: Test Building
           command: bash ./scripts/docker.sh
@@ -149,7 +150,8 @@ jobs:
       - run:
           name: Verify release version
           command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - deploy:
           name: Deploy the code
           command: bash ./scripts/docker.sh deploy
