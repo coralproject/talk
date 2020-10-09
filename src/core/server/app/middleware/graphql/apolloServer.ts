@@ -60,7 +60,7 @@ export const apolloGraphQLMiddleware = ({
         defaultMaxAge: number;
       }
     | boolean = false;
-  if (!options.config.get("disable_graphql_cache_headers")) {
+  if (options.config.get("graphql_cache_headers")) {
     cacheControl = {
       defaultMaxAge: Math.floor(
         options.config.get("default_graphql_cache_max_age") / 1000
@@ -77,8 +77,8 @@ export const apolloGraphQLMiddleware = ({
   // Optionally cache GraphQL responses in Redis. Will only enable if headers
   // are also enabled.
   if (
-    !options.config.get("disable_graphql_response_cache") &&
-    !options.config.get("disable_graphql_cache_headers")
+    options.config.get("graphql_response_cache") &&
+    options.config.get("graphql_cache_headers")
   ) {
     plugins.push(
       ResponseCachePlugin({

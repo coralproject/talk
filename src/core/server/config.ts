@@ -330,18 +330,18 @@ const config = convict({
     default: ms("30 seconds"),
     env: "DEFAULT_GRAPHQL_CACHE_MAX_AGE",
   },
-  disable_graphql_response_cache: {
-    doc: "When enabled, will disable caching GraphQL requests.",
+  graphql_response_cache: {
+    doc: "When enabled, will enable caching GraphQL responses in Redis.",
     format: Boolean,
     default: false,
-    env: "DISABLE_GRAPHQL_RESPONSE_CACHE",
+    env: "GRAPHQL_RESPONSE_CACHE",
   },
-  disable_graphql_cache_headers: {
+  graphql_cache_headers: {
     doc:
-      "When enabled, will disable sending GraphQL Cache-Control headers along with requests. This will also disable the response cache.",
+      "When enabled, Coral will send Cache-Control headers along with GraphQL requests. If this is not enabled, the response cache is also not enabled.",
     format: Boolean,
     default: false,
-    env: "DISABLE_GRAPHQL_CACHE_HEADERS",
+    env: "GRAPHQL_CACHE_HEADERS",
   },
 });
 
