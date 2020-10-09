@@ -1,0 +1,34 @@
+{
+    "name": "The Coral Project: Talk",
+    "env": {
+        "TALK_SESSION_SECRET": {
+            "description": "The session secret",
+            "generator": "secret"
+        },
+        "TALK_FACEBOOK_APP_ID": {
+            "value": "",
+            "required": true
+        },
+        "TALK_FACEBOOK_APP_SECRET": {
+            "value": "",
+            "required": true
+        },
+        "NODE_ENV": "production",
+        "TALK_SMTP_PORT": "2525",
+        "REWRITE_ENV": "TALK_PORT:PORT,TALK_MONGO_URL:MONGO_URI,TALK_REDIS_URL:REDIS_URL,TALK_SMTP_HOST:POSTMARK_SMTP_SERVER,TALK_SMTP_USERNAME:POSTMARK_API_TOKEN,TALK_SMTP_PASSWORD:POSTMARK_API_TOKEN"
+        "REWRITE_ENV": "TALK_PORT:PORT,TALK_MONGO_URL:MONGO_URI,TALK_REDIS_URL:REDIS_URL,TALK_SMTP_HOST:POSTMARK_SMTP_SERVER,TALK_SMTP_USERNAME:POSTMARK_API_TOKEN,TALK_SMTP_PASSWORD:POSTMARK_API_TOKEN",
+        "NPM_CONFIG_PRODUCTION": "false"
+    },
+    "addons": [{
+        "plan": "mongolab:sandbox",
+        "as": "MONGO"
+    }, {
+        "plan": "rediscloud:30",
+        "as": "REDIS"
+    }, {
+        "plan": "postmark:10k",
+        "as": "POSTMARK"
+    }],
+    "image": "heroku/nodejs",
+    "success_url": "/admin/setup"
+}
