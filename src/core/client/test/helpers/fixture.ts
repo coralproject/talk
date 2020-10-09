@@ -40,6 +40,7 @@ export function createUserStatus(banned = false): GQLUserStatus {
     ban: {
       active: banned,
       history: [],
+      sites: [],
     },
     suspension: {
       active: false,

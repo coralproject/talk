@@ -2048,6 +2048,11 @@ type BanStatus {
   active: Boolean!
 
   """
+  sites is a list of sites that the user has been site banned on.
+  """
+  sites: [Site!]!
+
+  """
   history is the list of all ban events against a specific User.
   """
   history: [BanStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
@@ -6950,6 +6955,8 @@ input BanUserInput {
   message is sent to banned user via email.
   """
   message: String!
+
+  siteIDs: [String!]
 
   """
   whether or not to reject all the user's previous comments when banning them.

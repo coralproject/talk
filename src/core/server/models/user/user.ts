@@ -229,6 +229,8 @@ export interface BanStatus {
    */
   active: boolean;
 
+  siteIDs?: string[];
+
   /**
    * history is the list of all ban events against a specific User.
    */
@@ -2213,7 +2215,10 @@ export function consolidateUsernameStatus(
 }
 
 export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
-  return ban;
+  return {
+    ...ban,
+    sites: [],
+  };
 }
 
 export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {

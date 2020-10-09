@@ -77,7 +77,7 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   const router = express.Router();
 
   // Add CSP headers to the request, which only apply when serving HTML content.
-  router.use(cspSiteMiddleware(options));
+  router.use(cspSiteMiddleware);
 
   // Always send the cache headers.
   router.use(cacheHeadersMiddleware({ cacheDuration: options.cacheDuration }));
@@ -127,7 +127,7 @@ const clientHandler = ({
 
 export function mountClientRoutes(
   router: Router,
-  { tenantCache, ...options }: MountClientRouteOptions
+  { tenantCache, mongo, ...options }: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
@@ -154,6 +154,7 @@ export function mountClientRoutes(
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({
+      mongo,
       cache: tenantCache,
       passNoTenant: true,
     })
@@ -163,6 +164,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/stream",
     createClientTargetRouter({
+      mongo,
       ...options,
       enableCustomCSS: true,
       enableCustomCSSQuery: true,
@@ -172,6 +174,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/auth/callback",
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("authCallback"),
@@ -180,6 +183,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/auth",
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("auth"),
@@ -192,6 +196,7 @@ export function mountClientRoutes(
     // If we aren't already installed, redirect the user to the install page.
     installedMiddleware(),
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("account"),
@@ -203,6 +208,7 @@ export function mountClientRoutes(
     // If we aren't already installed, redirect the user to the install page.
     installedMiddleware(),
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("admin"),
@@ -216,6 +222,7 @@ export function mountClientRoutes(
       redirectURL: "/admin",
     }),
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("install"),
