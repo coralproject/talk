@@ -264,6 +264,7 @@ export async function createTenant(
     slack: {
       channels: [],
     },
+    memberBios: false,
     rte: defaultRTEConfiguration,
   };
 

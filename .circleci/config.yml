@@ -131,19 +131,17 @@ jobs:
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
-    docker:
-      - image: node:10-alpine
-    environment:
-      NODE_ENV: development
-    <<: *job_defaults
+    <<: *job_node_defaults
     steps:
       - checkout
-      - run:
-          name: Update Image Dependencies
-          command: apk --no-cache add git python
-      - run:
-          name: Install NodeJS Dependencies
-          command: npm install
+      - setup_remote_docker:
+          # This is pinned to 19 to resolve a problem described here:
+          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
+          version: 19.03.13
+      - deploy:
+          name: Test Building
+          command: bash ./scripts/docker.sh
+          no_output_timeout: 30m
 
   # release_docker will build and push the Docker image.
   release_docker:
@@ -153,7 +151,10 @@ jobs:
       - run:
           name: Verify release version
           command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
-      - setup_remote_docker
+      - setup_remote_docker:
+          # This is pinned to 19 to resolve a problem described here:
+          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
+          version: 19.03.13
       - deploy:
           name: Deploy the code
           command: bash ./scripts/docker.sh deploy

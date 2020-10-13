@@ -18,6 +18,7 @@ import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/U
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 import { UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
 
+import MemberBioContainer from "./MemberBioContainer";
 import RecentHistoryContainer from "./RecentHistoryContainer";
 import Tabs from "./Tabs";
 import UserBadgesContainer from "./UserBadgesContainer";
@@ -121,6 +122,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
             </Flex>
           </HorizontalGutter>
         </HorizontalGutter>
+        <MemberBioContainer user={user} />
         <RecentHistoryContainer user={user} settings={settings} />
       </HorizontalGutter>
       <Divider />
@@ -138,6 +140,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user
+      ...MemberBioContainer_user
       moderatorNotes {
         id
       }

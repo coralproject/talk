@@ -12,11 +12,6 @@ const UserBoxContainerN = removeFragmentRefs(UserBoxContainer);
 it("renders fully", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
-      authPopup: {
-        open: false,
-        focus: false,
-        view: "SIGN_IN",
-      },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
       accessTokenExp: 1562172094,
@@ -59,8 +54,6 @@ it("renders fully", () => {
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
     // eslint-disable-next-line no-empty
-    setAuthPopupState: async () => {},
-    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -71,11 +64,6 @@ it("renders fully", () => {
 it("renders without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
-      authPopup: {
-        open: false,
-        focus: false,
-        view: "SIGN_IN",
-      },
       accessToken: "access-token",
       accessTokenJTI: null,
       accessTokenExp: null,
@@ -118,8 +106,6 @@ it("renders without logout button", () => {
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
     // eslint-disable-next-line no-empty
-    setAuthPopupState: async () => {},
-    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -130,11 +116,6 @@ it("renders without logout button", () => {
 it("renders sso only", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
-      authPopup: {
-        open: false,
-        focus: false,
-        view: "SIGN_IN",
-      },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
       accessTokenExp: 1562172094,
@@ -176,8 +157,6 @@ it("renders sso only", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    setAuthPopupState: async () => {},
     // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
@@ -189,11 +168,6 @@ it("renders sso only", () => {
 it("renders sso only without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
-      authPopup: {
-        open: false,
-        focus: false,
-        view: "SIGN_IN",
-      },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
       accessTokenExp: 1562172094,
@@ -236,8 +210,6 @@ it("renders sso only without logout button", () => {
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
     // eslint-disable-next-line no-empty
-    setAuthPopupState: async () => {},
-    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -248,11 +220,6 @@ it("renders sso only without logout button", () => {
 it("renders without register button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
-      authPopup: {
-        open: false,
-        focus: false,
-        view: "SIGN_IN",
-      },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
       accessTokenExp: 1562172094,
@@ -294,8 +261,6 @@ it("renders without register button", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    setAuthPopupState: async () => {},
     // eslint-disable-next-line no-empty
     signOut: async () => {},
   };

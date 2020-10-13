@@ -7,6 +7,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
 import { PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
 
+import BioContainer from "./BioContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
 import MediaSettingsContainer from "./MediaSettingsContainer";
 import NotificationSettingsContainer from "./NotificationSettingsContainer";
@@ -19,6 +20,7 @@ interface Props {
 const PreferencesContainer: FunctionComponent<Props> = (props) => {
   return (
     <HorizontalGutter spacing={4}>
+      <BioContainer viewer={props.viewer} settings={props.settings} />
       <NotificationSettingsContainer viewer={props.viewer} />
       <MediaSettingsContainer viewer={props.viewer} settings={props.settings} />
       <IgnoreUserSettingsContainer viewer={props.viewer} />
@@ -30,6 +32,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment PreferencesContainer_settings on Settings {
       ...MediaSettingsContainer_settings
+      ...BioContainer_settings
     }
   `,
   viewer: graphql`
@@ -37,6 +40,7 @@ const enhanced = withFragmentContainer<Props>({
       ...NotificationSettingsContainer_viewer
       ...IgnoreUserSettingsContainer_viewer
       ...MediaSettingsContainer_viewer
+      ...BioContainer_viewer
     }
   `,
 })(PreferencesContainer);

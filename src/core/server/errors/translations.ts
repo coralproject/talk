@@ -61,4 +61,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   SCRAPE_FAILED: "error-scrapeFailed",
   DUPLICATE_SITE_ORIGIN: "error-duplicateSiteOrigin",
   VALIDATION: "error-validation",
+  USER_BIO_TOO_LONG: "error-userBioTooLong",
 };

@@ -27,6 +27,7 @@ import { NULL_VALUE } from "coral-test/helpers/fixture";
 export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
+  memberBios: false,
   premodLinksEnable: false,
   live: {
     enabled: true,

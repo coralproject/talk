@@ -1,7 +1,9 @@
+import { CacheHint, CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import { reconstructTenantURL } from "coral-server/app/url";
 
 import GraphContext from "../context";
@@ -18,4 +20,19 @@ export function getRequestedFields<T>(info: GraphQLResolveInfo) {
 export function reconstructTenantURLResolver<T = any>(path: string) {
   return (parent: T, args: unknown, ctx: GraphContext) =>
     reconstructTenantURL(ctx.config, ctx.tenant, ctx.req, path);
+}
+
+export async function setCacheHintWhenTruthy<T>(
+  promise: Promise<T> | T,
+  info: GraphQLResolveInfo,
+  cacheHint: CacheHint = { scope: CacheScope.Private }
+) {
+  const value = await Promise.resolve(promise);
+  if (!value) {
+    return value;
+  }
+
+  setCacheHint(info, cacheHint);
+
+  return value;
 }

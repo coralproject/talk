@@ -11,16 +11,17 @@ import {
 } from "coral-framework/lib/errors";
 import {
   FetchProp,
+  MutationProp,
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
-import WarningError from "coral-stream/common/WarningError";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "coral-stream/mutations";
+} from "coral-stream/common/AuthPopup";
+import WarningError from "coral-stream/common/WarningError";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
@@ -57,7 +58,7 @@ interface Props {
   settings: PostCommentFormContainer_settings;
   viewer: PostCommentFormContainer_viewer | null;
   story: PostCommentFormContainer_story;
-  showAuthPopup: ShowAuthPopupMutation;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   tab?: COMMENTS_TAB;
   onChangeTab?: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
@@ -129,14 +130,6 @@ export class PostCommentFormContainer extends Component<Props, State> {
     form
   ) => {
     try {
-      if (
-        this.props.tab &&
-        this.props.tab === "FEATURED_COMMENTS" &&
-        this.props.onChangeTab
-      ) {
-        this.props.onChangeTab("ALL_COMMENTS");
-      }
-
       const submitStatus = getSubmitStatus(
         await this.props.createComment({
           storyID: this.props.story.id,
@@ -146,6 +139,14 @@ export class PostCommentFormContainer extends Component<Props, State> {
           media: input.media,
         })
       );
+      // Change tab *after* successfully creating comment to try avoiding race condition.
+      if (
+        this.props.tab &&
+        this.props.tab === "FEATURED_COMMENTS" &&
+        this.props.onChangeTab
+      ) {
+        this.props.onChangeTab("ALL_COMMENTS");
+      }
       if (submitStatus !== "RETRY") {
         form
           .getRegisteredFields()

@@ -1,33 +1,26 @@
-import { Component } from "react";
+import { FunctionComponent, useEffect } from "react";
 
-import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
-import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import isLoggedIn from "coral-framework/helpers/isLoggedIn";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useMutation } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
+import { waitTillAuthPopupIsClosed } from "coral-stream/common/AuthPopup";
 import { SignedInEvent } from "coral-stream/events";
 
-interface Props {
-  postMessage: CoralContext["postMessage"];
-  eventEmitter: CoralContext["eventEmitter"];
-  setAccessToken: MutationProp<typeof SetAccessTokenMutation>;
-}
-
-export class OnPostMessageSetAccessToken extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    // Auth popup will use this to handle a successful login.
-    props.postMessage.on("setAccessToken", (accessToken: string) => {
-      void props.setAccessToken({ accessToken });
-      SignedInEvent.emit(props.eventEmitter);
+const OnPostMessageSetAccessToken: FunctionComponent = () => {
+  const { postMessage, eventEmitter, relayEnvironment } = useCoralContext();
+  const setAccessToken = useMutation(SetAccessTokenMutation);
+  useEffect(() => {
+    return postMessage.on("setAccessToken", async (accessToken: string) => {
+      await waitTillAuthPopupIsClosed(relayEnvironment);
+      const loggedIn = isLoggedIn(relayEnvironment);
+      void setAccessToken({ accessToken, refresh: loggedIn });
+      if (!loggedIn) {
+        SignedInEvent.emit(eventEmitter);
+      }
     });
-  }
+  }, [postMessage, eventEmitter, setAccessToken, relayEnvironment]);
+  return null;
+};
 
-  public render() {
-    return null;
-  }
-}
-
-const enhanced = withContext(({ postMessage, eventEmitter }) => ({
-  postMessage,
-  eventEmitter,
-}))(withMutation(SetAccessTokenMutation)(OnPostMessageSetAccessToken));
-export default enhanced;
+export default OnPostMessageSetAccessToken;

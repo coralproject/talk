@@ -543,6 +543,11 @@ export interface User extends TenantResource {
   mediaSettings?: GQLUserMediaSettings;
 
   commentCounts: UserCommentCounts;
+
+  /**
+   * bio is a user deifned biography
+   */
+  bio?: string;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -1233,6 +1238,53 @@ export async function updateUserEmail(
     }
     throw err;
   }
+}
+
+/**
+ * updateUserBio will update the bio associated with a User. If the bio
+ * is not provided, it will be unset.
+ *
+ * @param mongo the database that we are interacting with
+ * @param tenantID the Tenant ID of the Tenant where the User exists
+ * @param id the User ID that we are updating
+ * @param bio the string for the user bio
+ */
+export async function updateUserBio(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  bio?: string
+) {
+  // The email wasn't found, so try to update the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      // This will ensure that if the bio isn't provided, it will unset the
+      // bio on the User.
+      [bio ? "$set" : "$unset"]: {
+        bio: bio ? bio : 1,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
 }
 
 /**

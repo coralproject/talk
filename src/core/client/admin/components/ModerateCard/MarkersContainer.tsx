@@ -145,6 +145,19 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO && (
+        <Marker key={keyCounter++} color="reported">
+          <Localized id="moderate-marker-bio">
+            <span>Bio</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO}
+          </MarkerCount>
+        </Marker>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-other">
@@ -202,6 +215,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_REPORTED_OTHER
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_ABUSIVE
+              COMMENT_REPORTED_BIO
               COMMENT_DETECTED_TOXIC
               COMMENT_DETECTED_SUSPECT_WORD
               COMMENT_DETECTED_SPAM

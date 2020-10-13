@@ -4,12 +4,12 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 import Responsive from "react-responsive";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "coral-stream/mutations";
+} from "coral-stream/common/AuthPopup";
 import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -22,7 +22,7 @@ interface Props {
   onClick: () => void;
   open?: boolean | null;
 
-  showAuthPopup: ShowAuthPopupMutation;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
 }

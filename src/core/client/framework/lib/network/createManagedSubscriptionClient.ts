@@ -58,7 +58,7 @@ export interface ManagedSubscriptionClient {
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
 
-  /** Sets access token and restarts the websocket connection */
+  /** Sets access token, you should call pause() before this and resume() afterwards. */
   setAccessToken(accessToken?: string): void;
 }
 

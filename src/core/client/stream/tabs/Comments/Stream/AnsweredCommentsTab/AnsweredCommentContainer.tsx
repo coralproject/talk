@@ -88,6 +88,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
               )}
               comment={comment}
               viewer={viewer}
+              settings={settings}
             />
           )}
           <Flex alignItems="flex-start" justifyContent="center">
@@ -213,6 +214,7 @@ const enhanced = withSetCommentIDMutation(
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
         ...CommentContainer_settings
+        ...UsernameWithPopoverContainer_settings
       }
     `,
   })(AnsweredCommentContainer)
