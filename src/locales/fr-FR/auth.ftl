@@ -76,6 +76,18 @@ forgotPassword-checkEmail-receiveEmail =
   vous recevrez un email avec un lien pour créer un nouveau mot de passe.
 forgotPassword-checkEmail-closeButton = Fermer
 
+## Link Account
+
+linkAccount-linkAccountHeader = Lier un compte
+linkAccount-alreadyAssociated =
+  Le mail <strong>{ $email }</strong> est déjà associé à un compte
+  Si vous voulez lier ces comptes, entrez votre mot de passe.
+linkAccount-passwordLabel = Mot de passe
+linkAccount-passwordTextField =
+  .label = Mot de passe
+linkAccount-linkAccountButton = Lier le compte
+linkAccount-useDifferentEmail = Utiliser une autre adresse
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Réinitialiser le mot de passe
@@ -84,6 +96,7 @@ resetPassword-resetPasswordButton = Réinitialiser le mot de passe
 ## Create Username
 
 createUsername-createUsernameHeader = Créer un pseudo
+createUsername-createAUsername = Créer un pseudo
 createUsername-whatItIs =
   Votre pseudo est un identifiant qui apparaîtra sur tous vos commentaires.
 createUsername-createUsernameButton = Créer un pseudo
@@ -109,7 +122,8 @@ addEmailAddress-addEmailAddressButton =
   Ajouter une adresse email.
 
 ## Create Password
-createPassword-createPasswordHeader = Créer un mot de passe
+createPassword-createPasswordHeader =
+createPassword-createAPassword = Créer un mot de passe
 createPassword-whatItIs =
   Pour vous protéger contre les changements non autorisés sur votre compte,
   nous vous conseillons de créer un mot de passe.
