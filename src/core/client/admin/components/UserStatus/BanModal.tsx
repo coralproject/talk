@@ -17,13 +17,23 @@ import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
 
 import styles from "./BanModal.css";
+import UserStatusSitesListQuery from "./UserStatusSitesListQuery";
+
+import { Scopes } from "./UserStatusSitesListContainer";
 
 interface Props {
   username: string | null;
   open: boolean;
   onClose: () => void;
-  onConfirm: (rejectExistingComments: boolean, message?: string) => void;
+  onConfirm: (
+    rejectExistingComments: boolean,
+    message?: string,
+    siteIDs?: string[] | null | undefined
+  ) => void;
   getMessage: GetMessage;
+
+  viewerScopes: Scopes;
+  userScopes: Scopes;
 }
 
 const BanModal: FunctionComponent<Props> = ({
@@ -32,6 +42,8 @@ const BanModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
   getMessage,
+  viewerScopes,
+  userScopes,
 }) => {
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
@@ -44,8 +56,12 @@ const BanModal: FunctionComponent<Props> = ({
   }, [getMessage, username]);
 
   const onFormSubmit = useCallback(
-    ({ emailMessage, rejectExistingComments }) => {
-      onConfirm(rejectExistingComments, emailMessage);
+    (input) => {
+      onConfirm(
+        input.rejectExistingComments,
+        input.emailMessage,
+        input.siteIDs
+      );
     },
     [onConfirm]
   );
@@ -126,6 +142,11 @@ const BanModal: FunctionComponent<Props> = ({
                       ) : null
                     }
                   </Field>
+
+                  <UserStatusSitesListQuery
+                    viewerScopes={viewerScopes}
+                    userScopes={userScopes}
+                  />
 
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-banModal-cancel">

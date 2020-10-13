@@ -6956,6 +6956,9 @@ input BanUserInput {
   """
   message: String!
 
+  """
+  site ID's to scope the ban to.
+  """
   siteIDs: [String!]
 
   """

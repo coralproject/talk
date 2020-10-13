@@ -145,8 +145,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleBanConfirm = useCallback(
-    (rejectExistingComments, message) => {
-      void banUser({ userID: user.id, message, rejectExistingComments });
+    (rejectExistingComments, message, siteIDs) => {
+      void banUser({
+        userID: user.id,
+        message,
+        rejectExistingComments,
+        siteIDs,
+      });
       setShowBanned(false);
     },
     [user, setShowBanned, banUser]
@@ -206,6 +211,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           open={showBanned}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
+          viewerScopes={{
+            role: viewer.role,
+            siteIDs: viewer.moderationScopes?.sites?.map((s) => s.id),
+          }}
+          userScopes={{
+            role: user.role,
+            siteIDs: user.status.ban.sites?.map((s) => s.id),
+          }}
         />
       )}
     </>
@@ -221,6 +234,9 @@ const enhanced = withFragmentContainer<Props>({
       status {
         ban {
           active
+          sites {
+            id
+          }
         }
         suspension {
           active
@@ -244,8 +260,12 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment UserStatusChangeContainer_viewer on User {
+      role
       moderationScopes {
         scoped
+        sites {
+          id
+        }
       }
     }
   `,
