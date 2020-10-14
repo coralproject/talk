@@ -15,7 +15,7 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Flex, Icon, TextLink } from "coral-ui/components";
+import { Flex, Icon, TextLink } from "coral-ui/components/v2";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
 import { AnsweredCommentContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
@@ -88,6 +88,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
               )}
               comment={comment}
               viewer={viewer}
+              settings={settings}
             />
           )}
           <Flex alignItems="flex-start" justifyContent="center">
@@ -213,6 +214,7 @@ const enhanced = withSetCommentIDMutation(
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
         ...CommentContainer_settings
+        ...UsernameWithPopoverContainer_settings
       }
     `,
   })(AnsweredCommentContainer)

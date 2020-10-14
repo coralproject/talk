@@ -13,28 +13,31 @@ interface RequestQuery {
   parentUrl?: string;
   storyURL?: string;
   storyID?: string;
+  siteID?: string;
 }
 
 async function retrieveSiteFromEmbed(
   mongo: Db,
   req: Request
 ): Promise<Site | null> {
-  if (!req.coral || !req.coral.tenant) {
+  const { tenant } = req.coral;
+  if (!tenant) {
     // There is no tenant for the request, don't add any headers.
     return null;
   }
-
-  // Pull the tenant and the logger from the request.
-  const {
-    coral: { tenant },
-  } = req;
 
   // Attempt to detect the site based on the query parameters.
   const {
     storyURL = "",
     storyID = "",
     parentUrl = "",
+    siteID = "",
   }: RequestQuery = req.query;
+
+  // If the siteID is available, use that.
+  if (siteID) {
+    return retrieveSite(mongo, tenant.id, siteID);
+  }
 
   // If the storyURL is available, we can lookup the site directly based on it.
   if (storyURL) {
@@ -95,16 +98,12 @@ export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
 };
 
 function generateContentSecurityPolicy(allowedOrigins: string[]) {
-  const directives: Record<string, any> = {};
-
   // Only the domains that are allowed by the tenant may embed Coral.
-  directives.frameAncestors =
-    allowedOrigins.length > 0 ? allowedOrigins : ["'none'"];
+  const frameAncestors =
+    allowedOrigins.length > 0 ? ["'self'", ...allowedOrigins] : ["'none'"];
 
-  // Build the directive.
-  const directive = builder({ directives });
-
-  return directive;
+  // Build and return the directive.
+  return builder({ directives: { frameAncestors } });
 }
 
 export function generateFrameOptions(req: Request, allowedOrigins: string[]) {

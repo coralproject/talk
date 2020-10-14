@@ -24,6 +24,7 @@ exports[`renders permalink view 1`] = `
       >
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -37,6 +38,7 @@ exports[`renders permalink view 1`] = `
         </button>
         <button
           className="BaseButton-root Button-base Button-outlined Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase coral coral-viewerBox-signInButton"
+          data-variant="outlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -60,6 +62,7 @@ exports[`renders permalink view 1`] = `
       </div>
       <a
         className="BaseButton-root Button-base Button-flat Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeSmall Button-colorPrimary Button-underline coral coral-permalink-viewFullDiscussionButton"
+        data-variant="flat"
         disabled={false}
         href="http://localhost/"
         onBlur={[Function]}
@@ -69,7 +72,6 @@ exports[`renders permalink view 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
         View full discussion
       </a>
@@ -117,7 +119,9 @@ exports[`renders permalink view 1`] = `
                 </div>
                 <div
                   className="coral coral-comment coral coral-reacted-0"
+                  data-key-stop={true}
                   data-testid="comment-comment-1"
+                  id="comment-comment-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -129,44 +133,27 @@ exports[`renders permalink view 1`] = `
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                         >
-                          <button
-                            aria-label="Collapse comment thread"
-                            className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
-                            onBlur={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
-                            >
-                              remove
-                            </i>
-                          </button>
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                             role="article"
                           >
                             <div
-                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                  className="Comment-username"
                                 >
                                   <div
                                     className="Popover-root"
                                   >
                                     <button
                                       aria-controls="username-popover-comment-1"
-                                      className="BaseButton-root coral coral-username coral-comment-username"
+                                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -195,12 +182,9 @@ exports[`renders permalink view 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                  />
                                 </div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                 >
                                   <button
                                     className="BaseButton-root Timestamp-root"
@@ -222,9 +206,11 @@ exports[`renders permalink view 1`] = `
                                   </button>
                                 </div>
                               </div>
-                              <div>
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
+                              >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
                               </div>
                             </div>
@@ -246,11 +232,11 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
-                                    aria-label="Respect"
-                                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                                    data-color="mono"
+                                    aria-label="Respect comment by Lukas"
+                                    aria-pressed={false}
+                                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                     data-testid="comment-reaction-button"
-                                    data-variant="text"
+                                    data-variant="flat"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -260,20 +246,23 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="Icon-root Icon-sm"
+                                    <span
+                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
-                                      thumb_up
-                                    </i>
+                                      <i
+                                        aria-hidden="true"
+                                        className="Icon-root Icon-sm ReactionButton-icon"
+                                      >
+                                        thumb_up
+                                      </i>
+                                    </span>
                                   </button>
                                   <button
-                                    aria-label="Reply"
-                                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                                    data-active={false}
-                                    data-color="mono"
+                                    aria-label="Reply to comment by Lukas"
+                                    aria-pressed={false}
+                                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                     data-testid="comment-reply-button"
-                                    data-variant="text"
+                                    data-variant="flat"
                                     disabled={false}
                                     id="comments-commentContainer-replyButton-comment-1"
                                     onBlur={[Function]}
@@ -284,23 +273,27 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="Icon-root Icon-sm"
+                                    <span
+                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
-                                      reply
-                                    </i>
+                                      <i
+                                        aria-hidden="true"
+                                        className="Icon-root Icon-sm ReplyButton-icon"
+                                      >
+                                        reply
+                                      </i>
+                                    </span>
                                   </button>
                                   <div
                                     className="Popover-root"
                                   >
                                     <button
                                       aria-controls="permalink-popover-comment-1"
-                                      aria-label="Share"
-                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                                      data-active={false}
-                                      data-color="mono"
-                                      data-variant="text"
+                                      aria-label="Share comment by Lukas"
+                                      aria-pressed={false}
+                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                      data-variant="flat"
+                                      disabled={false}
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -309,12 +302,16 @@ exports[`renders permalink view 1`] = `
                                       onTouchEnd={[Function]}
                                       type="button"
                                     >
-                                      <i
-                                        aria-hidden="true"
-                                        className="Icon-root Icon-sm"
+                                      <span
+                                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                       >
-                                        share
-                                      </i>
+                                        <i
+                                          aria-hidden="true"
+                                          className="Icon-root Icon-sm PermalinkButton-icon"
+                                        >
+                                          share
+                                        </i>
+                                      </span>
                                     </button>
                                     <div
                                       aria-hidden={true}
@@ -335,8 +332,11 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-label="Report comment by Lukas"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
+                                    data-variant="flat"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -346,7 +346,7 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <div
+                                    <span
                                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
                                       <i
@@ -355,8 +355,7 @@ exports[`renders permalink view 1`] = `
                                       >
                                         flag
                                       </i>
-                                      Report
-                                    </div>
+                                    </span>
                                   </button>
                                 </div>
                               </div>
@@ -396,7 +395,9 @@ exports[`renders permalink view 1`] = `
                 </div>
                 <div
                   className="coral coral-comment coral coral-reacted-0"
+                  data-key-stop={true}
                   data-testid="comment-comment-2"
+                  id="comment-comment-2"
                 >
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -408,44 +409,27 @@ exports[`renders permalink view 1`] = `
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                         >
-                          <button
-                            aria-label="Collapse comment thread"
-                            className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
-                            onBlur={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
-                            >
-                              remove
-                            </i>
-                          </button>
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                             role="article"
                           >
                             <div
-                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                              className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                  className="Comment-username"
                                 >
                                   <div
                                     className="Popover-root"
                                   >
                                     <button
                                       aria-controls="username-popover-comment-2"
-                                      className="BaseButton-root coral coral-username coral-comment-username"
+                                      className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -474,12 +458,9 @@ exports[`renders permalink view 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                  />
                                 </div>
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                                 >
                                   <button
                                     className="BaseButton-root Timestamp-root"
@@ -501,9 +482,11 @@ exports[`renders permalink view 1`] = `
                                   </button>
                                 </div>
                               </div>
-                              <div>
+                              <div
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
+                              >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                                 />
                               </div>
                             </div>
@@ -525,11 +508,11 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
-                                    aria-label="Respect"
-                                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                                    data-color="mono"
+                                    aria-label="Respect comment by Isabelle"
+                                    aria-pressed={false}
+                                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                     data-testid="comment-reaction-button"
-                                    data-variant="text"
+                                    data-variant="flat"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -539,20 +522,23 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="Icon-root Icon-sm"
+                                    <span
+                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
-                                      thumb_up
-                                    </i>
+                                      <i
+                                        aria-hidden="true"
+                                        className="Icon-root Icon-sm ReactionButton-icon"
+                                      >
+                                        thumb_up
+                                      </i>
+                                    </span>
                                   </button>
                                   <button
-                                    aria-label="Reply"
-                                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                                    data-active={false}
-                                    data-color="mono"
+                                    aria-label="Reply to comment by Isabelle"
+                                    aria-pressed={false}
+                                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                     data-testid="comment-reply-button"
-                                    data-variant="text"
+                                    data-variant="flat"
                                     disabled={false}
                                     id="comments-commentContainer-replyButton-comment-2"
                                     onBlur={[Function]}
@@ -563,23 +549,27 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="Icon-root Icon-sm"
+                                    <span
+                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
-                                      reply
-                                    </i>
+                                      <i
+                                        aria-hidden="true"
+                                        className="Icon-root Icon-sm ReplyButton-icon"
+                                      >
+                                        reply
+                                      </i>
+                                    </span>
                                   </button>
                                   <div
                                     className="Popover-root"
                                   >
                                     <button
                                       aria-controls="permalink-popover-comment-2"
-                                      aria-label="Share"
-                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                                      data-active={false}
-                                      data-color="mono"
-                                      data-variant="text"
+                                      aria-label="Share comment by Isabelle"
+                                      aria-pressed={false}
+                                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                      data-variant="flat"
+                                      disabled={false}
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -588,12 +578,16 @@ exports[`renders permalink view 1`] = `
                                       onTouchEnd={[Function]}
                                       type="button"
                                     >
-                                      <i
-                                        aria-hidden="true"
-                                        className="Icon-root Icon-sm"
+                                      <span
+                                        className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                       >
-                                        share
-                                      </i>
+                                        <i
+                                          aria-hidden="true"
+                                          className="Icon-root Icon-sm PermalinkButton-icon"
+                                        >
+                                          share
+                                        </i>
+                                      </span>
                                     </button>
                                     <div
                                       aria-hidden={true}
@@ -614,8 +608,11 @@ exports[`renders permalink view 1`] = `
                                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                                 >
                                   <button
+                                    aria-label="Report comment by Isabelle"
+                                    aria-pressed={false}
                                     className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                     data-testid="comment-report-button"
+                                    data-variant="flat"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -625,7 +622,7 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <div
+                                    <span
                                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
                                       <i
@@ -634,8 +631,7 @@ exports[`renders permalink view 1`] = `
                                       >
                                         flag
                                       </i>
-                                      Report
-                                    </div>
+                                    </span>
                                   </button>
                                 </div>
                               </div>
@@ -672,7 +668,9 @@ exports[`renders permalink view 1`] = `
               </div>
               <div
                 className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+                data-key-stop={true}
                 data-testid="comment-comment-with-replies"
+                id="comment-comment-with-replies"
               >
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -684,44 +682,27 @@ exports[`renders permalink view 1`] = `
                       className="coral coral-indent coral-indent-0 Indent-open"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                        className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                       >
-                        <button
-                          aria-label="Collapse comment thread"
-                          className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
-                          onBlur={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
-                          >
-                            remove
-                          </i>
-                        </button>
                         <div
-                          className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
+                          className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
                           role="article"
                         >
                           <div
-                            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                             >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                                className="Comment-username"
                               >
                                 <div
                                   className="Popover-root"
                                 >
                                   <button
                                     aria-controls="username-popover-comment-with-replies"
-                                    className="BaseButton-root coral coral-username coral-comment-username"
+                                    className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                     onBlur={[Function]}
                                     onClick={[Function]}
                                     onFocus={[Function]}
@@ -750,12 +731,9 @@ exports[`renders permalink view 1`] = `
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                />
                               </div>
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                                className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                               >
                                 <button
                                   className="BaseButton-root Timestamp-root"
@@ -777,9 +755,11 @@ exports[`renders permalink view 1`] = `
                                 </button>
                               </div>
                             </div>
-                            <div>
+                            <div
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
+                            >
                               <div
-                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                               />
                             </div>
                           </div>
@@ -801,11 +781,11 @@ exports[`renders permalink view 1`] = `
                                 className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                               >
                                 <button
-                                  aria-label="Respect"
-                                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                                  data-color="mono"
+                                  aria-label="Respect comment by Markus"
+                                  aria-pressed={false}
+                                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                   data-testid="comment-reaction-button"
-                                  data-variant="text"
+                                  data-variant="flat"
                                   disabled={false}
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -815,20 +795,23 @@ exports[`renders permalink view 1`] = `
                                   onTouchEnd={[Function]}
                                   type="button"
                                 >
-                                  <i
-                                    aria-hidden="true"
-                                    className="Icon-root Icon-sm"
+                                  <span
+                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                   >
-                                    thumb_up
-                                  </i>
+                                    <i
+                                      aria-hidden="true"
+                                      className="Icon-root Icon-sm ReactionButton-icon"
+                                    >
+                                      thumb_up
+                                    </i>
+                                  </span>
                                 </button>
                                 <button
-                                  aria-label="Reply"
-                                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                                  data-active={false}
-                                  data-color="mono"
+                                  aria-label="Reply to comment by Markus"
+                                  aria-pressed={false}
+                                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                   data-testid="comment-reply-button"
-                                  data-variant="text"
+                                  data-variant="flat"
                                   disabled={false}
                                   id="comments-commentContainer-replyButton-comment-with-replies"
                                   onBlur={[Function]}
@@ -839,23 +822,27 @@ exports[`renders permalink view 1`] = `
                                   onTouchEnd={[Function]}
                                   type="button"
                                 >
-                                  <i
-                                    aria-hidden="true"
-                                    className="Icon-root Icon-sm"
+                                  <span
+                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                   >
-                                    reply
-                                  </i>
+                                    <i
+                                      aria-hidden="true"
+                                      className="Icon-root Icon-sm ReplyButton-icon"
+                                    >
+                                      reply
+                                    </i>
+                                  </span>
                                 </button>
                                 <div
                                   className="Popover-root"
                                 >
                                   <button
                                     aria-controls="permalink-popover-comment-with-replies"
-                                    aria-label="Share"
-                                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                                    data-active={false}
-                                    data-color="mono"
-                                    data-variant="text"
+                                    aria-label="Share comment by Markus"
+                                    aria-pressed={false}
+                                    className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                    data-variant="flat"
+                                    disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
                                     onFocus={[Function]}
@@ -864,12 +851,16 @@ exports[`renders permalink view 1`] = `
                                     onTouchEnd={[Function]}
                                     type="button"
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="Icon-root Icon-sm"
+                                    <span
+                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                     >
-                                      share
-                                    </i>
+                                      <i
+                                        aria-hidden="true"
+                                        className="Icon-root Icon-sm PermalinkButton-icon"
+                                      >
+                                        share
+                                      </i>
+                                    </span>
                                   </button>
                                   <div
                                     aria-hidden={true}
@@ -890,8 +881,11 @@ exports[`renders permalink view 1`] = `
                                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                               >
                                 <button
+                                  aria-label="Report comment by Markus"
+                                  aria-pressed={false}
                                   className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                   data-testid="comment-report-button"
+                                  data-variant="flat"
                                   disabled={false}
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -901,7 +895,7 @@ exports[`renders permalink view 1`] = `
                                   onTouchEnd={[Function]}
                                   type="button"
                                 >
-                                  <div
+                                  <span
                                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                   >
                                     <i
@@ -910,8 +904,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       flag
                                     </i>
-                                    Report
-                                  </div>
+                                  </span>
                                 </button>
                               </div>
                             </div>
@@ -940,7 +933,9 @@ exports[`renders permalink view 1`] = `
           >
             <div
               className="coral coral-comment coral coral-reacted-0"
+              data-key-stop={true}
               data-testid="comment-comment-3"
+              id="comment-comment-3"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -949,10 +944,10 @@ exports[`renders permalink view 1`] = `
                   className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
-                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open"
+                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
@@ -977,20 +972,20 @@ exports[`renders permalink view 1`] = `
                         role="article"
                       >
                         <div
-                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                         >
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                              className="Comment-username"
                             >
                               <div
                                 className="Popover-root"
                               >
                                 <button
                                   aria-controls="username-popover-comment-3"
-                                  className="BaseButton-root coral coral-username coral-comment-username"
+                                  className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1019,12 +1014,9 @@ exports[`renders permalink view 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
                             </div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                             >
                               <button
                                 className="BaseButton-root Timestamp-root"
@@ -1046,9 +1038,11 @@ exports[`renders permalink view 1`] = `
                               </button>
                             </div>
                           </div>
-                          <div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
+                          >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                             />
                           </div>
                         </div>
@@ -1097,11 +1091,11 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
-                                aria-label="Respect"
-                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                                data-color="mono"
+                                aria-label="Respect comment by Isabelle"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                 data-testid="comment-reaction-button"
-                                data-variant="text"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1111,20 +1105,23 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="Icon-root Icon-sm"
+                                <span
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
-                                  thumb_up
-                                </i>
+                                  <i
+                                    aria-hidden="true"
+                                    className="Icon-root Icon-sm ReactionButton-icon"
+                                  >
+                                    thumb_up
+                                  </i>
+                                </span>
                               </button>
                               <button
-                                aria-label="Reply"
-                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                                data-active={false}
-                                data-color="mono"
+                                aria-label="Reply to comment by Isabelle"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                 data-testid="comment-reply-button"
-                                data-variant="text"
+                                data-variant="flat"
                                 disabled={false}
                                 id="comments-commentContainer-replyButton-comment-3"
                                 onBlur={[Function]}
@@ -1135,23 +1132,27 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="Icon-root Icon-sm"
+                                <span
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
-                                  reply
-                                </i>
+                                  <i
+                                    aria-hidden="true"
+                                    className="Icon-root Icon-sm ReplyButton-icon"
+                                  >
+                                    reply
+                                  </i>
+                                </span>
                               </button>
                               <div
                                 className="Popover-root"
                               >
                                 <button
                                   aria-controls="permalink-popover-comment-3"
-                                  aria-label="Share"
-                                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                                  data-active={false}
-                                  data-color="mono"
-                                  data-variant="text"
+                                  aria-label="Share comment by Isabelle"
+                                  aria-pressed={false}
+                                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                  data-variant="flat"
+                                  disabled={false}
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1160,12 +1161,16 @@ exports[`renders permalink view 1`] = `
                                   onTouchEnd={[Function]}
                                   type="button"
                                 >
-                                  <i
-                                    aria-hidden="true"
-                                    className="Icon-root Icon-sm"
+                                  <span
+                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                   >
-                                    share
-                                  </i>
+                                    <i
+                                      aria-hidden="true"
+                                      className="Icon-root Icon-sm PermalinkButton-icon"
+                                    >
+                                      share
+                                    </i>
+                                  </span>
                                 </button>
                                 <div
                                   aria-hidden={true}
@@ -1186,8 +1191,11 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
+                                aria-label="Report comment by Isabelle"
+                                aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                 data-testid="comment-report-button"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1197,7 +1205,7 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <div
+                                <span
                                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
                                   <i
@@ -1206,8 +1214,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     flag
                                   </i>
-                                  Report
-                                </div>
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -1227,7 +1234,9 @@ exports[`renders permalink view 1`] = `
           >
             <div
               className="coral coral-comment coral coral-reacted-0"
+              data-key-stop={true}
               data-testid="comment-comment-4"
+              id="comment-comment-4"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1236,10 +1245,10 @@ exports[`renders permalink view 1`] = `
                   className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
-                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open"
+                    className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
@@ -1264,20 +1273,20 @@ exports[`renders permalink view 1`] = `
                         role="article"
                       >
                         <div
-                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                          className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
                         >
                           <div
-                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                              className="Comment-username"
                             >
                               <div
                                 className="Popover-root"
                               >
                                 <button
                                   aria-controls="username-popover-comment-4"
-                                  className="BaseButton-root coral coral-username coral-comment-username"
+                                  className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1306,12 +1315,9 @@ exports[`renders permalink view 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
                             </div>
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
+                              className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignCenter Flex-directionRow"
                             >
                               <button
                                 className="BaseButton-root Timestamp-root"
@@ -1333,9 +1339,11 @@ exports[`renders permalink view 1`] = `
                               </button>
                             </div>
                           </div>
-                          <div>
+                          <div
+                            className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifyFlexEnd"
+                          >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                              className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
                             />
                           </div>
                         </div>
@@ -1384,11 +1392,11 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root CommentContainer-actionBar Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
-                                aria-label="Respect"
-                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                                data-color="mono"
+                                aria-label="Respect comment by Isabelle"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                                 data-testid="comment-reaction-button"
-                                data-variant="text"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1398,20 +1406,23 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="Icon-root Icon-sm"
+                                <span
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
-                                  thumb_up
-                                </i>
+                                  <i
+                                    aria-hidden="true"
+                                    className="Icon-root Icon-sm ReactionButton-icon"
+                                  >
+                                    thumb_up
+                                  </i>
+                                </span>
                               </button>
                               <button
-                                aria-label="Reply"
-                                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-replyButton"
-                                data-active={false}
-                                data-color="mono"
+                                aria-label="Reply to comment by Isabelle"
+                                aria-pressed={false}
+                                className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary CommentContainer-actionButton coral coral-comment-replyButton"
                                 data-testid="comment-reply-button"
-                                data-variant="text"
+                                data-variant="flat"
                                 disabled={false}
                                 id="comments-commentContainer-replyButton-comment-4"
                                 onBlur={[Function]}
@@ -1422,23 +1433,27 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="Icon-root Icon-sm"
+                                <span
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
-                                  reply
-                                </i>
+                                  <i
+                                    aria-hidden="true"
+                                    className="Icon-root Icon-sm ReplyButton-icon"
+                                  >
+                                    reply
+                                  </i>
+                                </span>
                               </button>
                               <div
                                 className="Popover-root"
                               >
                                 <button
                                   aria-controls="permalink-popover-comment-4"
-                                  aria-label="Share"
-                                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-comment-shareButton"
-                                  data-active={false}
-                                  data-color="mono"
-                                  data-variant="text"
+                                  aria-label="Share comment by Isabelle"
+                                  aria-pressed={false}
+                                  className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
+                                  data-variant="flat"
+                                  disabled={false}
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1447,12 +1462,16 @@ exports[`renders permalink view 1`] = `
                                   onTouchEnd={[Function]}
                                   type="button"
                                 >
-                                  <i
-                                    aria-hidden="true"
-                                    className="Icon-root Icon-sm"
+                                  <span
+                                    className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                   >
-                                    share
-                                  </i>
+                                    <i
+                                      aria-hidden="true"
+                                      className="Icon-root Icon-sm PermalinkButton-icon"
+                                    >
+                                      share
+                                    </i>
+                                  </span>
                                 </button>
                                 <div
                                   aria-hidden={true}
@@ -1473,8 +1492,11 @@ exports[`renders permalink view 1`] = `
                               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifySpaceBetween Flex-alignCenter Flex-directionRow gutter"
                             >
                               <button
+                                aria-label="Report comment by Isabelle"
+                                aria-pressed={false}
                                 className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-reportButton coral-comment-reportButton"
                                 data-testid="comment-report-button"
+                                data-variant="flat"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1484,7 +1506,7 @@ exports[`renders permalink view 1`] = `
                                 onTouchEnd={[Function]}
                                 type="button"
                               >
-                                <div
+                                <span
                                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
                                   <i
@@ -1493,8 +1515,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     flag
                                   </i>
-                                  Report
-                                </div>
+                                </span>
                               </button>
                             </div>
                           </div>

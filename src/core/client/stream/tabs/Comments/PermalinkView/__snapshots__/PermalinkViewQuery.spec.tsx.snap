@@ -7,10 +7,8 @@ exports[`renders error 1`] = `
 `;
 
 exports[`renders loading 1`] = `
-<Delay
-  ms={500}
->
-  <withProps(withPropsOnChange(Spinner)) />
+<Delay>
+  <withPropsOnChange(Spinner) />
 </Delay>
 `;
 

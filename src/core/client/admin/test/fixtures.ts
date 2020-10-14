@@ -27,6 +27,7 @@ import {
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-framework/schema";
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
+import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",
@@ -57,7 +58,11 @@ export const settings = createFixture<GQLSettings>({
   },
   staff: {
     label: "Staff",
+    staffLabel: "Staff",
+    moderatorLabel: "Staff",
+    adminLabel: "Staff",
   },
+  memberBios: true,
   reaction: {
     label: "Reaction",
     labelActive: "reacted",
@@ -119,9 +124,9 @@ export const settings = createFixture<GQLSettings>({
             kid: "kid-01",
             secret: "secret",
             createdAt: "2020-01-01T01:00:00.000Z",
-            lastUsedAt: undefined,
-            rotatedAt: undefined,
-            inactiveAt: undefined,
+            lastUsedAt: null,
+            rotatedAt: null,
+            inactiveAt: null,
           },
         ],
         key: "",
@@ -183,6 +188,12 @@ export const settings = createFixture<GQLSettings>({
     premodEnabled: false,
     approvedCommentsThreshold: 2,
   },
+  media: {
+    twitter: { enabled: false },
+    giphy: { enabled: false },
+    youtube: { enabled: false },
+    external: { enabled: false },
+  },
   slack: {
     channels: [],
   },
@@ -222,9 +233,9 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
               kid: "kid-01",
               secret: "secret",
               createdAt: "2020-01-01T01:00:00.000Z",
-              lastUsedAt: undefined,
-              rotatedAt: undefined,
-              inactiveAt: undefined,
+              lastUsedAt: null,
+              rotatedAt: null,
+              inactiveAt: null,
             },
           ],
           keyGeneratedAt: null,
@@ -275,6 +286,7 @@ export const site = createFixture<GQLSite>({
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
   allowedOrigins: ["http://test-site.com"],
+  canModerate: true,
 });
 
 export const sites = createFixtures<GQLSite>([
@@ -283,12 +295,14 @@ export const sites = createFixtures<GQLSite>([
     id: "site-1",
     createdAt: "2018-07-06T18:24:00.000Z",
     allowedOrigins: ["http://test-site.com"],
+    canModerate: true,
   },
   {
     name: "Second Site",
     id: "site-2",
     createdAt: "2018-09-06T18:24:00.000Z",
     allowedOrigins: ["http://test-2-site.com"],
+    canModerate: true,
   },
 ]);
 
@@ -389,6 +403,10 @@ export const baseUser = createFixture<GQLUser>({
       history: [],
     },
     premod: {
+      active: false,
+      history: [],
+    },
+    warning: {
       active: false,
       history: [],
     },
@@ -533,6 +551,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[0],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -563,6 +582,7 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -588,11 +608,12 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     metadata: {
-      author: undefined,
+      author: NULL_VALUE,
       title: "World hunger has been defeated",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
     site: sites[1],
+    canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
     },
@@ -632,34 +653,40 @@ export const baseComment = createFixture<GQLComment>({
       createdAt: "2018-07-06T18:24:00.000Z",
     },
   ],
+  canModerate: true,
   revision: {
+    media: NULL_VALUE,
     actionCounts: {
       flag: {
         reasons: {
+          COMMENT_REPORTED_SPAM: 0,
+          COMMENT_REPORTED_OTHER: 0,
+          COMMENT_REPORTED_OFFENSIVE: 0,
+          COMMENT_REPORTED_BIO: 0,
+          COMMENT_REPORTED_ABUSIVE: 0,
           COMMENT_DETECTED_TOXIC: 0,
+          COMMENT_DETECTED_SUSPECT_WORD: 0,
           COMMENT_DETECTED_SPAM: 0,
+          COMMENT_DETECTED_REPEAT_POST: 0,
           COMMENT_DETECTED_RECENT_HISTORY: 0,
+          COMMENT_DETECTED_NEW_COMMENTER: 0,
           COMMENT_DETECTED_LINKS: 0,
           COMMENT_DETECTED_BANNED_WORD: 0,
-          COMMENT_DETECTED_SUSPECT_WORD: 0,
-          COMMENT_REPORTED_OFFENSIVE: 0,
-          COMMENT_REPORTED_ABUSIVE: 0,
-          COMMENT_REPORTED_SPAM: 0,
-          COMMENT_DETECTED_NEW_COMMENTER: 0,
-          COMMENT_DETECTED_REPEAT_POST: 0,
         },
       },
     },
-    metadata: {},
+    metadata: {
+      perspective: NULL_VALUE,
+      wordList: NULL_VALUE,
+    },
   },
   flags: {
     nodes: [],
   },
   story: stories[0],
   site: sites[0],
-  // TODO: Should be allowed to pass null here..
-  parent: undefined,
-  deleted: undefined,
+  parent: NULL_VALUE,
+  deleted: NULL_VALUE,
 });
 
 export const unmoderatedComments = createFixtures<GQLComment>(

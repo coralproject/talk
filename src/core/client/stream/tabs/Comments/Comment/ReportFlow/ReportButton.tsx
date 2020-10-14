@@ -2,14 +2,15 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
+import Responsive from "react-responsive";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "coral-stream/mutations";
-import { Flex, Icon } from "coral-ui/components/v2";
+} from "coral-stream/common/AuthPopup";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
@@ -21,7 +22,7 @@ interface Props {
   onClick: () => void;
   open?: boolean | null;
 
-  showAuthPopup: ShowAuthPopupMutation;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
 }
@@ -35,7 +36,7 @@ const ReportButton: FunctionComponent<Props> = ({
 }) => {
   const onClickReport = useCallback(() => {
     onClick();
-  }, []);
+  }, [onClick]);
 
   const isLoggedIn = useMemo(() => {
     return Boolean(viewer);
@@ -55,41 +56,65 @@ const ReportButton: FunctionComponent<Props> = ({
 
   if (isReported) {
     return (
-      <div
-        className={cn(
-          CLASSES.comment.actionBar.reportedButton,
-          styles.reported
-        )}
-        data-testid="comment-reported-button"
+      <Localized
+        id="comments-reportButton-aria-reported"
+        attrs={{ "aria-label": true }}
       >
-        <Flex alignItems="center">
-          <Icon size="sm" className={styles.icon}>
-            flag
-          </Icon>
-          <Localized id="comments-reportButton-reported">Reported</Localized>
-        </Flex>
-      </div>
+        <div
+          className={cn(
+            CLASSES.comment.actionBar.reportedButton,
+            styles.reported
+          )}
+          data-testid="comment-reported-button"
+        >
+          <Flex alignItems="center">
+            <Icon size="sm" className={styles.icon}>
+              flag
+            </Icon>
+            <MatchMedia gteWidth="mobile">
+              {(matches) =>
+                matches ? (
+                  <Localized id="comments-reportButton-reported">
+                    Reported
+                  </Localized>
+                ) : null
+              }
+            </MatchMedia>
+          </Flex>
+        </div>
+      </Localized>
     );
   }
 
   return (
-    <Button
-      className={cn(CLASSES.comment.actionBar.reportButton)}
-      variant={open ? "filled" : "flat"}
-      color="secondary"
-      fontSize="small"
-      fontWeight="semiBold"
-      paddingSize="extraSmall"
-      onClick={isLoggedIn ? onClickReport : signIn}
-      data-testid="comment-report-button"
+    <Localized
+      id="comments-reportButton-aria-report"
+      attrs={{ "aria-label": true }}
+      $username={comment.author ? comment.author.username : ""}
     >
-      <Flex alignItems="center">
-        <Icon size="sm" className={styles.icon}>
-          flag
-        </Icon>
-        <Localized id="comments-reportButton-report">Report</Localized>
-      </Flex>
-    </Button>
+      <Button
+        className={cn(CLASSES.comment.actionBar.reportButton)}
+        variant={open ? "filled" : "flat"}
+        active={Boolean(open)}
+        color="secondary"
+        fontSize="small"
+        fontWeight="semiBold"
+        paddingSize="extraSmall"
+        onClick={isLoggedIn ? onClickReport : signIn}
+        data-testid="comment-report-button"
+      >
+        <Flex alignItems="center" container="span">
+          <Icon size="sm" className={styles.icon}>
+            flag
+          </Icon>
+          <Responsive minWidth={400}>
+            <Localized id="comments-reportButton-report">
+              <span>Report</span>
+            </Localized>
+          </Responsive>
+        </Flex>
+      </Button>
+    </Localized>
   );
 };
 
@@ -103,6 +128,9 @@ const enhanced = withShowAuthPopupMutation(
     comment: graphql`
       fragment ReportButton_comment on Comment {
         id
+        author {
+          username
+        }
         viewerActionPresence {
           dontAgree
           flag

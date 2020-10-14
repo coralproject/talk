@@ -56,7 +56,7 @@ const createProxy = <T = any>(
   // IE11 does not have Proxy support and the polyfill only supports
   // a subset of features under special circumstances.
   // https://github.com/GoogleChrome/proxy-polyfill
-  if (getBrowserInfo().msie) {
+  if (!getBrowserInfo().supports.proxyObject) {
     target = recordSource;
     delete proxy.ownKeys;
     delete proxy.getOwnPropertyDescriptor;
@@ -68,6 +68,10 @@ const createProxy = <T = any>(
 /**
  * Lookup the Relay Cache with given object id. Returns a `RecordSourceProxy``
  * for easy traversing through the Relay Cache.
+ *
+ * Attention: This will usually cause data dependencies to other
+ * components if you are looking into non-local-state,
+ * make sure to make a comment about that.
  */
 export default function lookup<T = any>(environment: Environment, id: string) {
   const recordSource = environment.getStore().getSource().get(id);

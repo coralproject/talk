@@ -75,7 +75,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         <Localized id="comments-userBanPopover-cancel">
           <Button
             className={CLASSES.banUserPopover.cancelButton}
-            variant="outline"
+            variant="outlined"
             size="regular"
             color="mono"
             onClick={onDismiss}

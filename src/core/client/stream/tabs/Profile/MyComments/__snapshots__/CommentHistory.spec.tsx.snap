@@ -44,7 +44,7 @@ exports[`has more disables load more 1`] = `
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outline"
+      variant="outlined"
     >
       Load More
     </ForwardRef(forwardRef)>
@@ -96,7 +96,7 @@ exports[`has more renders correctly 1`] = `
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outline"
+      variant="outlined"
     >
       Load More
     </ForwardRef(forwardRef)>

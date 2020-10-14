@@ -53,7 +53,9 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  within(comment).getByTestID("comment-reply-button").props.onClick();
+  act(() =>
+    within(comment).getByTestID("comment-reply-button").props.onClick()
+  );
 
   const rte = await waitForElement(
     () =>
@@ -79,35 +81,25 @@ async function createTestRenderer(
 it("validate min", async () => {
   const { rte, form } = await createTestRenderer();
 
-  const text = "Please enter at least 3 characters.";
-
   act(() => rte.props.onChange("ab"));
-  act(() => form.props.onSubmit());
-  within(form).getByText(text);
 
-  // Reset validation when erasing all content.
-  act(() => rte.props.onChange(""));
-  expect(within(form).queryByText(text)).toBeNull();
+  expect(within(form).queryByText("Submit")?.props.disabled).toBeTruthy();
 
-  act(() => rte.props.onChange("ab"));
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange("abcdefg"));
+  expect(within(form).queryByText("Submit")?.props.disabled).toBeFalsy();
 });
 
 it("validate max", async () => {
   const { rte, form } = await createTestRenderer();
 
-  const text = "Please enter at max 10 characters.";
-
   act(() => rte.props.onChange("abcdefghijklmnopqrst"));
-  act(() => form.props.onSubmit());
-  within(form).getByText(text);
+  expect(within(form).queryByText("Submit")?.props.disabled).toBeTruthy();
 
-  // Reset validation when erasing all content.
   act(() => rte.props.onChange(""));
-  expect(within(form).queryByText(text)).toBeNull();
+  expect(within(form).queryByText("Submit")?.props.disabled).toBeTruthy();
 
-  act(() => rte.props.onChange("abcdefghijklmnopqrst"));
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange("abcdefg"));
+  expect(within(form).queryByText("Submit")?.props.disabled).toBeFalsy();
 });
 
 it("show remaining characters", async () => {
@@ -170,7 +162,6 @@ it("update from server upon specific char count error", async () => {
     await waitForElement(() =>
       within(form).getByText("-3 characters remaining")
     );
-
     // Body submit error should be displayed.
     await waitForElement(() => within(form).getByText(errorCode));
 

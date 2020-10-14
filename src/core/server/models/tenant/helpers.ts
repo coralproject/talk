@@ -30,6 +30,9 @@ export const getDefaultStaffConfiguration = (
   bundle: FluentBundle
 ): GQLStaffConfiguration => ({
   label: translate(bundle, "Staff", "staff-label"),
+  adminLabel: translate(bundle, "Staff", "staff-label"),
+  staffLabel: translate(bundle, "Staff", "staff-label"),
+  moderatorLabel: translate(bundle, "Staff", "staff-label"),
 });
 
 /**
@@ -43,7 +46,7 @@ export function hasFeatureFlag(
   tenant: Pick<Tenant, "featureFlags">,
   flag: GQLFEATURE_FLAG
 ) {
-  if (tenant.featureFlags && tenant.featureFlags.includes(flag)) {
+  if (tenant.featureFlags?.includes(flag)) {
     return true;
   }
 
@@ -70,4 +73,20 @@ export function getWebhookEndpoint(
   endpointID: string
 ) {
   return tenant.webhooks.endpoints.find((e) => e.id === endpointID) || null;
+}
+
+export function supportsMediaType(
+  tenant: Pick<Tenant, "media" | "featureFlags">,
+  type: "twitter" | "youtube" | "giphy" | "external"
+): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
+  switch (type) {
+    case "external":
+      return hasFeatureFlag(tenant, GQLFEATURE_FLAG.EXTERNAL_MEDIA);
+    case "twitter":
+      return !!tenant.media?.twitter.enabled;
+    case "youtube":
+      return !!tenant.media?.youtube.enabled;
+    case "giphy":
+      return !!tenant.media?.giphy.enabled && !!tenant.media.giphy.key;
+  }
 }

@@ -31,8 +31,8 @@ export async function deactivateTenantSSOSigningSecret(
     { id },
     {
       $set: {
-        "auth.integrations.sso.keys.$[keys].inactiveAt": inactiveAt,
-        "auth.integrations.sso.keys.$[keys].rotatedAt": now,
+        "auth.integrations.sso.signingSecrets.$[signingSecrets].inactiveAt": inactiveAt,
+        "auth.integrations.sso.signingSecrets.$[signingSecrets].rotatedAt": now,
       },
     },
     {
@@ -40,7 +40,7 @@ export async function deactivateTenantSSOSigningSecret(
       // document.
       returnOriginal: false,
       // Add an ArrayFilter to only update one of the keys.
-      arrayFilters: [{ "keys.kid": kid }],
+      arrayFilters: [{ "signingSecrets.kid": kid }],
     }
   );
 
@@ -57,7 +57,7 @@ export async function deleteTenantSSOSigningSecret(
     { id },
     {
       $pull: {
-        "auth.integrations.sso.keys": { kid },
+        "auth.integrations.sso.signingSecrets": { kid },
       },
     },
     {

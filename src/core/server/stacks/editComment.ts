@@ -14,8 +14,13 @@ import { createCommentModerationAction } from "coral-server/models/action/modera
 import {
   editComment,
   EditCommentInput,
+  ExternalMedia,
+  getLatestRevision,
+  GiphyMedia,
   retrieveComment,
+  TwitterMedia,
   validateEditable,
+  YouTubeMedia,
 } from "coral-server/models/comment";
 import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -24,6 +29,10 @@ import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
+import {
+  attachMedia,
+  CreateCommentMediaInput,
+} from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
@@ -49,8 +58,10 @@ function getLastCommentEditableUntilDate(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata"
->;
+  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata" | "media"
+> & {
+  media?: CreateCommentMediaInput;
+};
 
 export default async function edit(
   mongo: Db,
@@ -101,6 +112,29 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  const lastRevision = getLatestRevision(originalStaleComment);
+
+  let media:
+    | GiphyMedia
+    | TwitterMedia
+    | YouTubeMedia
+    | ExternalMedia
+    | undefined;
+
+  // attach a new media object from input IF:
+  //   input.media is defined AND EITHER:
+  //      - previous revision has no media OR
+  //      - previous revision has media with a different URL
+  // otherwise, attach previous revision media if present
+
+  if (input.media) {
+    if (!lastRevision.media || lastRevision.media.url !== input.media.url) {
+      media = await attachMedia(tenant, input.media, input.body);
+    } else if (lastRevision.media) {
+      media = lastRevision.media;
+    }
+  }
+
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
     log,
@@ -115,6 +149,7 @@ export default async function edit(
       ...input,
       authorID: author.id,
     },
+    media,
     author,
     req,
     now,
@@ -139,6 +174,7 @@ export default async function edit(
       metadata,
       actionCounts,
       lastEditableCommentCreatedAt,
+      media,
     },
     now
   );

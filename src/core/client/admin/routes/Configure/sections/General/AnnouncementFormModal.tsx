@@ -2,7 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  parseInteger,
+} from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -97,6 +101,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
                           required,
                           validateWholeNumberGreaterThan(0)
                         )}
+                        parse={parseInteger}
                       >
                         {({ input, meta }) => (
                           <>
@@ -117,7 +122,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
                   </HorizontalGutter>
                   <Flex itemGutter justifyContent="flex-end">
                     <Localized id="configure-general-announcements-cancel">
-                      <Button color="mono" variant="outline" onClick={onClose}>
+                      <Button color="mono" variant="outlined" onClick={onClose}>
                         Cancel
                       </Button>
                     </Localized>

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Modal } from "coral-ui/components";
+import { Modal } from "coral-ui/components/v2";
 
 import DeleteAccountModalContents from "./DeleteAccountModalContents";
 

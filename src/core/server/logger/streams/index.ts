@@ -1,6 +1,7 @@
+import PrettyStream from "@coralproject/bunyan-prettystream";
+
 import config from "coral-server/config";
 
-import PrettyStream from "@coralproject/bunyan-prettystream";
 import { SecretStream } from "./SecretStream";
 
 export function getStreams() {

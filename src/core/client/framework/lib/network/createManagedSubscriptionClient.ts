@@ -1,3 +1,5 @@
+import { noop } from "lodash";
+import ReactDOM from "react-dom";
 import {
   CacheConfig,
   ConcreteBatch,
@@ -9,7 +11,12 @@ import {
   SubscriptionClient,
 } from "subscriptions-transport-ws";
 
-import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
+import {
+  ACCESS_TOKEN_PARAM,
+  BUNDLE_CONFIG_PARAM,
+  BUNDLE_ID_PARAM,
+  CLIENT_ID_PARAM,
+} from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 
 /**
@@ -21,6 +28,8 @@ export interface SubscriptionRequest {
   variables: Variables;
   cacheConfig: CacheConfig;
   observer: any;
+  /** batch contains response data waiting to be processed */
+  batch: any[];
   subscribe: () => void;
   unsubscribe: (() => void) | null;
 }
@@ -49,8 +58,41 @@ export interface ManagedSubscriptionClient {
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
 
-  /** Sets access token and restarts the websocket connection */
+  /** Sets access token, you should call pause() before this and resume() afterwards. */
   setAccessToken(accessToken?: string): void;
+}
+
+/**
+ * Batch react state updates.
+ */
+function batchReactUpdates(callback: () => void) {
+  // Note: 2017 the React team suggested to use this unstable function
+  // until React always batches state updates per default.
+  ReactDOM.unstable_batchedUpdates(callback);
+}
+
+/**
+ * Handle all batched response data of given request.
+ */
+function runBatch(request: SubscriptionRequest) {
+  request.batch.forEach((data) => {
+    request.observer.onNext({ data });
+  });
+  request.batch = [];
+}
+
+/**
+ * Handle batched response data of given requests in a loop.
+ */
+function batchLoop(requests: SubscriptionRequest[], timeout: number) {
+  setTimeout(() => {
+    batchReactUpdates(() => {
+      requests.forEach((r) => {
+        runBatch(r);
+      });
+    });
+    batchLoop(requests, timeout);
+  }, timeout);
 }
 
 /**
@@ -61,12 +103,17 @@ export interface ManagedSubscriptionClient {
  */
 export default function createManagedSubscriptionClient(
   url: string,
-  clientID: string
+  clientID: string,
+  bundle: string,
+  bundleConfig: Record<string, string>
 ): ManagedSubscriptionClient {
   const requests: SubscriptionRequest[] = [];
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
   let accessToken: string | undefined;
+
+  // Start batching loop that runs every second.
+  batchLoop(requests, 1000);
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -86,12 +133,17 @@ export default function createManagedSubscriptionClient(
     observer: any
   ) => {
     // Capture request into an `SubscriptionRequest` object.
-    const request: Partial<SubscriptionRequest> = {
+    const request: SubscriptionRequest = {
       operation,
       variables,
       cacheConfig,
       observer,
+      batch: [],
+      unsubscribe: null,
+      // We will this function below.
+      subscribe: noop,
     };
+
     request.subscribe = () => {
       if (!subscriptionClient) {
         subscriptionClient = new SubscriptionClient(url, {
@@ -113,6 +165,8 @@ export default function createManagedSubscriptionClient(
           connectionParams: {
             [ACCESS_TOKEN_PARAM]: accessToken,
             [CLIENT_ID_PARAM]: clientID,
+            [BUNDLE_ID_PARAM]: bundle,
+            [BUNDLE_CONFIG_PARAM]: bundleConfig,
           },
         });
       }
@@ -136,16 +190,21 @@ export default function createManagedSubscriptionClient(
 
       const subscription = subscriptionClient.request(opts).subscribe({
         next({ data }) {
-          observer.onNext({ data });
+          // Push data to batch and let the batch loop handle it.
+          request.batch.push(data);
         },
       });
       request.unsubscribe = () => {
+        // Run remaining batched response data before unsubscribing.
+        batchReactUpdates(() => {
+          runBatch(request);
+        });
         subscription.unsubscribe();
       };
     };
 
     // Register the request.
-    requests.push(request as SubscriptionRequest);
+    requests.push(request);
 
     // Start subscription if we are not paused.
     if (!paused) {
@@ -165,14 +224,26 @@ export default function createManagedSubscriptionClient(
       }
     }
 
+    // When the subscription is disposed, this will be true.
+    let disposed = false;
+
     return {
       dispose: () => {
+        // Guard against double disposes. Multiple calls to dispose will now
+        // result in no-ops.
+        if (disposed) {
+          return;
+        }
+        disposed = true;
+
+        let closed = false;
         const i = requests.findIndex((r) => r === request);
         if (i !== -1) {
           // Unsubscribe if available.
           if (request.unsubscribe) {
             request.unsubscribe();
           }
+
           // Remove from requests list.
           requests.splice(i, 1);
 
@@ -182,6 +253,7 @@ export default function createManagedSubscriptionClient(
             (requests.length === 0 || requests.every((r) => !r.unsubscribe))
           ) {
             closeClient();
+            closed = true;
           }
         }
 
@@ -196,6 +268,12 @@ export default function createManagedSubscriptionClient(
             "with variables:",
             JSON.stringify(request.variables)
           );
+
+          if (closed) {
+            window.console.debug(
+              "subscription client disconnecting, no more subscriptions being tracked"
+            );
+          }
         }
       },
     };

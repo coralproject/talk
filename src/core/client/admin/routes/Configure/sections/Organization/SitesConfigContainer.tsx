@@ -22,7 +22,7 @@ const SitesConfigContainer: React.FunctionComponent<Props> = (props) => {
     () => (props.query ? props.query.sites.edges.map((edge) => edge.node) : []),
     [props?.query?.sites.edges]
   );
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
   const [, isRefetching] = useRefetch<
     SitesConfigContainerPaginationQueryVariables
   >(props.relay);
@@ -92,4 +92,5 @@ const enhanced = withPaginationContainer<
     `,
   }
 )(SitesConfigContainer);
+
 export default enhanced;

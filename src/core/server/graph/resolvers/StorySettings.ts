@@ -5,18 +5,13 @@ import { GQLStorySettingsTypeResolver } from "../schema/__generated__/types";
 import { LiveConfigurationInput } from "./LiveConfiguration";
 
 export interface StorySettingsInput extends story.StorySettings {
-  lastCommentedAt?: Date;
-  createdAt?: Date;
+  story: story.Story;
 }
 
-export const StorySettings: GQLStorySettingsTypeResolver<StorySettingsInput> = {
-  live: (s): LiveConfigurationInput => ({
-    // Live may not be available sometimes, fix it here with the inline ||.
-    ...(s.live || { enabled: false }),
-    // Pass these options as required by LiveConfigurationInput.
-    lastCommentedAt: s.lastCommentedAt,
-    createdAt: s.createdAt,
-  }),
+export const StorySettings: Required<GQLStorySettingsTypeResolver<
+  StorySettingsInput
+>> = {
+  live: (s): LiveConfigurationInput => s.story,
   moderation: (s, input, ctx) => s.moderation || ctx.tenant.moderation,
   premodLinksEnable: (s, input, ctx) =>
     s.premodLinksEnable || ctx.tenant.premodLinksEnable,

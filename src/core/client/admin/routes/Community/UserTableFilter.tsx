@@ -8,9 +8,12 @@ import {
   GQLUSER_STATUS,
   GQLUSER_STATUS_RL,
 } from "coral-framework/schema";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import {
+  Button,
   FieldSet,
+  Flex,
+  HorizontalGutter,
+  Icon,
   Label,
   OptGroup,
   Option,

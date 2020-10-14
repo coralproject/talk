@@ -3,14 +3,13 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
+import { polyfillCSSVars } from "coral-framework/helpers";
 import {
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
-import { Delay } from "coral-ui/components";
+import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
@@ -19,13 +18,13 @@ const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(
     (x) => {
       // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVarsForIE11();
+      void polyfillCSSVars();
       return x;
     }
   );
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadConfigureContainer = once(() =>
-  setTimeout(loadConfigureContainer)
+  setTimeout(loadConfigureContainer, 0)
 );
 
 const LazyConfigureContainer = React.lazy(loadConfigureContainer);

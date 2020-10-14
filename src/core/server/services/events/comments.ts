@@ -46,25 +46,27 @@ export async function publishCommentStatusChanges(
 
 export async function publishCommentReplyCreated(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "id" | "status" | "storyID" | "ancestorIDs">
+  comment: Pick<Comment, "id" | "status" | "storyID" | "ancestorIDs" | "siteID">
 ) {
   if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentReplyCreatedCoralEvent.publish(broker, {
       ancestorIDs: comment.ancestorIDs,
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
     });
   }
 }
 
 export async function publishCommentCreated(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "id" | "storyID" | "parentID" | "status">
+  comment: Pick<Comment, "id" | "storyID" | "parentID" | "status" | "siteID">
 ) {
   if (!comment.parentID && hasPublishedStatus(comment)) {
     await CommentCreatedCoralEvent.publish(broker, {
       commentID: comment.id,
       storyID: comment.storyID,
+      siteID: comment.siteID,
     });
   }
 }

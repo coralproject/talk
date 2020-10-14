@@ -9,7 +9,7 @@ import styles from "./BannedInfo.css";
 const BannedInfo: FunctionComponent = (props) => {
   return (
     <CallOut
-      color="negative"
+      color="error"
       icon={
         <Icon size="sm" className={styles.icon}>
           block

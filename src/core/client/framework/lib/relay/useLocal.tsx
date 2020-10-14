@@ -2,9 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   commitLocalUpdate,
   GraphQLTaggedNode,
-  ReaderFragment,
   RecordProxy,
-  SingularReaderSelector,
 } from "relay-runtime";
 import { ReaderClientExtension } from "relay-runtime/lib/util/ReaderNode";
 
@@ -12,8 +10,8 @@ import { OmitFragments } from "coral-framework/testHelpers/removeFragmentRefs";
 import { DeepPartial } from "coral-framework/types";
 
 import { useCoralContext } from "../bootstrap";
-import { resolveModule } from "./helpers";
-import { LOCAL_ID, LOCAL_TYPE } from "./localState";
+import getLocalFragmentSelector from "./getLocalFragmentSelector";
+import { LOCAL_ID } from "./localState";
 
 /**
  * AdvancedUpdater gives you full access to the Relay Record Proxy to update Local State.
@@ -86,31 +84,7 @@ function applySimplified(
 function useLocal<T>(
   fragmentSpec: GraphQLTaggedNode
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
-  const fragment = resolveModule(fragmentSpec as ReaderFragment);
-
-  if (fragment.kind !== "Fragment") {
-    throw new Error("Expected fragment");
-  }
-  if (fragment.type !== LOCAL_TYPE) {
-    throw new Error(`Type must be "Local" in "Fragment ${fragment.name}"`);
-  }
-
-  // TODO: (cvle) This is part is still hacky.
-  // Waiting for a solution to https://github.com/facebook/relay/issues/2997.
-  const selector: SingularReaderSelector = {
-    kind: undefined as any,
-    owner: undefined as any,
-    dataID: LOCAL_ID,
-    node: {
-      type: fragment.type,
-      kind: fragment.kind,
-      name: fragment.name,
-      metadata: fragment.metadata,
-      selections: fragment.selections,
-      argumentDefinitions: [],
-    },
-    variables: {},
-  };
+  const selector = getLocalFragmentSelector(fragmentSpec);
 
   const { relayEnvironment } = useCoralContext();
   const [local, setLocal] = useState<T>(
@@ -125,14 +99,14 @@ function useLocal<T>(
         } else {
           applySimplified(
             record,
-            (fragment.selections[0] as ReaderClientExtension).selections,
+            (selector.node.selections[0] as ReaderClientExtension).selections,
             update
           );
         }
       });
       return;
     },
-    [relayEnvironment, fragment]
+    [relayEnvironment, selector.node.selections]
   );
   const firstRun = useRef(true);
 
@@ -148,7 +122,7 @@ function useLocal<T>(
     return () => {
       subscription.dispose();
     };
-  }, [relayEnvironment, fragment]);
+  }, [relayEnvironment, selector]);
   return [local, localUpdate];
 }
 

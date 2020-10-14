@@ -3,6 +3,7 @@
   body {
     margin: 0;
     padding: 0;
+    background: var(--palette-background-body);
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;

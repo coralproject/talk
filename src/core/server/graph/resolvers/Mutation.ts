@@ -31,6 +31,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateNotificationSettings(input),
     clientMutationId,
   }),
+  updateUserMediaSettings: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    user: await ctx.mutators.Users.updateUserMediaSettings(input),
+    clientMutationId,
+  }),
   updateSettings: async (
     source,
     { input: { clientMutationId, ...input } },
@@ -74,11 +82,6 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   ) => ({
     comment: await ctx.mutators.Comments.unfeature(input),
     clientMutationId,
-  }),
-  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
-  regenerateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.regenerateSSOKey(),
-    clientMutationId: input.clientMutationId,
   }),
   rotateSSOSigningSecret: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.rotateSSOSigningSecret(input),
@@ -184,12 +187,28 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateUserRole(input),
     clientMutationId: input.clientMutationId,
   }),
+  updateUserModerationScopes: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateUserModerationScopes(input),
+    clientMutationId: input.clientMutationId,
+  }),
   banUser: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.ban(input),
     clientMutationId: input.clientMutationId,
   }),
   removeUserBan: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.removeBan(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  warnUser: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.warn(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  removeUserWarning: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.removeWarning(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  acknowledgeWarning: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.acknowledgeWarning(),
     clientMutationId: input.clientMutationId,
   }),
   suspendUser: async (source, { input }, ctx) => ({
@@ -252,9 +271,13 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     flags: await ctx.mutators.Settings.disableFeatureFlag(input.flag),
     clientMutationId: input.clientMutationId,
   }),
-  createAnnouncement: async (source, { input }, ctx) => ({
+  createAnnouncement: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
     settings: await ctx.mutators.Settings.createAnnouncement(input),
-    clientMutationId: input.clientMutationId,
+    clientMutationId,
   }),
   deleteAnnouncement: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.deleteAnnouncement(),
@@ -386,4 +409,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
       clientMutationId,
     };
   },
+  updateBio: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateBio(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

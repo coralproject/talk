@@ -4,7 +4,9 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
   useLoadMore,
@@ -13,11 +15,18 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, Button, HorizontalGutter } from "coral-ui/components";
+import { Box, HorizontalGutter } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -29,6 +38,9 @@ import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import { PostCommentFormContainer } from "../PostCommentForm";
+import ViewersWatchingContainer from "../ViewersWatchingContainer";
+import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 import CommentReleasedSubscription from "./CommentReleasedSubscription";
@@ -53,7 +65,12 @@ graphql`
   }
 `;
 
-export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
+export const AllCommentsTabContainer: FunctionComponent<Props> = ({
+  story,
+  settings,
+  viewer,
+  relay,
+}) => {
   const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
@@ -65,38 +82,42 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
   const subscribeToCommentReleased = useSubscription(
     CommentReleasedSubscription
   );
+
+  const live = useLive({ story, settings });
+  const hasMore = relay.hasMore();
   useEffect(() => {
-    if (!props.story.settings.live.enabled) {
+    // If live updates are disabled, don't subscribe to new comments!!
+    if (!live) {
       return;
     }
 
-    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
-      return;
-    }
-    if (
-      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-      props.relay.hasMore()
-    ) {
-      // If sort by oldest we only need to know if there is more to load.
-      return;
-    }
-    if (
-      ![
-        GQLCOMMENT_SORT.CREATED_AT_ASC,
-        GQLCOMMENT_SORT.CREATED_AT_DESC,
-      ].includes(commentsOrderBy as GQLCOMMENT_SORT)
-    ) {
-      // Only chronological sort supports top level live updates of incoming comments.
-      return;
+    // Check the sort ordering to apply extra logic.
+    switch (commentsOrderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        if (hasMore) {
+          // Oldest first when there is more than one page of content can't
+          // possibly have new comments to show in view!
+          return;
+        }
+
+        // We have all the comments for this story in view! Comments could load!
+        break;
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        // Newest first can always get more comments in view.
+        break;
+      default:
+        // Only chronological sort supports top level live updates of incoming
+        // comments.
+        return;
     }
 
     const disposable = combineDisposables(
       subscribeToCommentCreated({
-        storyID: props.story.id,
+        storyID: story.id,
         orderBy: commentsOrderBy,
       }),
       subscribeToCommentReleased({
-        storyID: props.story.id,
+        storyID: story.id,
         orderBy: commentsOrderBy,
       })
     );
@@ -106,16 +127,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
     };
   }, [
     commentsOrderBy,
+    hasMore,
+    live,
+    story.id,
     subscribeToCommentCreated,
     subscribeToCommentReleased,
-    props.story.id,
-    props.relay.hasMore(),
-    props.story.settings.live.enabled,
   ]);
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
+
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
       loadMoreEvent.success();
@@ -124,20 +146,41 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, props.story.id]);
+  }, [loadMore, beginLoadMoreEvent, story.id]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
-    props.story.id,
+  const onViewMore = useCallback(() => viewMore({ storyID: story.id }), [
+    story.id,
     viewMore,
   ]);
-  const comments = props.story.comments.edges.map((edge) => edge.node);
-  const viewNewCount =
-    (props.story.comments.viewNewEdges &&
-      props.story.comments.viewNewEdges.length) ||
-    0;
+  const viewNewCount = story.comments.viewNewEdges?.length || 0;
+
+  // TODO: extract to separate function
+  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
+  const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+
+  const alternateOldestViewEnabled =
+    settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    !story.isClosed &&
+    !settings.disableCommenting.enabled;
+
+  const showCommentForm =
+    // If we do have the alternate view enabled and...
+    alternateOldestViewEnabled &&
+    // If we aren't banned and...
+    !banned &&
+    // If we aren't suspended and...
+    !suspended &&
+    // If we aren't warned.
+    !warned;
+
   return (
     <>
-      {Boolean(viewNewCount && viewNewCount > 0) && (
+      <KeyboardShortcuts />
+      {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
             variant="outlined"
@@ -146,7 +189,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+            {story.settings.mode === GQLSTORY_MODE.QA ? (
               <Localized id="qa-viewNew" $count={viewNewCount}>
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
@@ -164,35 +207,35 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
         role="log"
         aria-live="polite"
         size="oneAndAHalf"
-        className={styles.stream}
       >
-        {comments.length <= 0 && (
+        {story.comments.edges.length <= 0 && (
           <NoComments
-            mode={props.story.settings.mode}
-            isClosed={props.story.isClosed}
+            mode={story.settings.mode}
+            isClosed={story.isClosed}
           ></NoComments>
         )}
-        {comments.length > 0 &&
-          comments.map((comment) => (
+        {story.comments.edges.length > 0 &&
+          story.comments.edges.map(({ node: comment }, index) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
-              viewer={props.viewer}
+              viewer={viewer}
               comment={comment}
             >
-              <FadeInTransition active={Boolean(comment.enteredLive)}>
+              <FadeInTransition active={!!comment.enteredLive}>
                 <CollapsableComment>
                   {({ collapsed, toggleCollapsed }) => (
                     <HorizontalGutter
                       className={cn({
-                        [styles.borderedComment]: !collapsed,
+                        [styles.borderedComment]:
+                          !collapsed && index < story.comments.edges.length - 1,
                       })}
                     >
                       <CommentContainer
                         collapsed={collapsed}
-                        viewer={props.viewer}
-                        settings={props.settings}
+                        viewer={viewer}
+                        settings={settings}
                         comment={comment}
-                        story={props.story}
+                        story={story}
                         toggleCollapsed={toggleCollapsed}
                       />
                       <div
@@ -201,10 +244,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
                         })}
                       >
                         <ReplyListContainer
-                          settings={props.settings}
-                          viewer={props.viewer}
+                          settings={settings}
+                          viewer={viewer}
                           comment={comment}
-                          story={props.story}
+                          story={story}
                         />
                       </div>
                     </HorizontalGutter>
@@ -213,21 +256,42 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
           ))}
-        {props.relay.hasMore() && (
+        {hasMore && (
           <Localized id="comments-loadMore">
             <Button
+              id="comments-loadMore"
               onClick={loadMoreAndEmit}
-              variant="outlineFilled"
+              color="secondary"
+              variant="outlined"
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
             >
               Load More
             </Button>
           </Localized>
         )}
       </HorizontalGutter>
+      {alternateOldestViewEnabled && (
+        <HorizontalGutter mt={6} spacing={4}>
+          <IntersectionProvider>
+            <ViewersWatchingContainer story={story} settings={settings} />
+          </IntersectionProvider>
+          {showCommentForm && (
+            <PostCommentFormContainer
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              commentsOrderBy={commentsOrderBy}
+            />
+          )}
+          <AllCommentsLinks />
+        </HorizontalGutter>
+      )}
     </>
   );
 };
@@ -253,6 +317,7 @@ const enhanced = withPaginationContainer<
         ) {
         id
         isClosed
+        closedAt
         settings {
           live {
             enabled
@@ -263,6 +328,10 @@ const enhanced = withPaginationContainer<
           @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
+            node {
+              enteredLive
+              ...AllCommentsTabContainer_comment @relay(mask: false)
+            }
           }
           edges {
             node {
@@ -276,6 +345,7 @@ const enhanced = withPaginationContainer<
         ...ReplyListContainer1_story
         ...CreateCommentReplyMutation_story
         ...CreateCommentMutation_story
+        ...ViewersWatchingContainer_story
       }
     `,
     viewer: graphql`
@@ -285,6 +355,7 @@ const enhanced = withPaginationContainer<
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
         ...IgnoredTombstoneOrHideContainer_viewer
+        ...PostCommentFormContainer_viewer
         status {
           current
         }
@@ -298,15 +369,18 @@ const enhanced = withPaginationContainer<
         disableCommenting {
           enabled
         }
+        featureFlags
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
+        ...PostCommentFormContainer_settings
+        ...ViewersWatchingContainer_settings
       }
     `,
   },
   {
     direction: "forward",
-    getConnectionFromProps(props) {
-      return props.story && props.story.comments;
+    getConnectionFromProps({ story }) {
+      return story && story.comments;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -315,14 +389,14 @@ const enhanced = withPaginationContainer<
         count: totalCount,
       };
     },
-    getVariables(props, { count, cursor }, fragmentVariables) {
+    getVariables({ story }, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
         orderBy: fragmentVariables.orderBy,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
-        storyID: props.story.id,
+        storyID: story.id,
       };
     },
     query: graphql`

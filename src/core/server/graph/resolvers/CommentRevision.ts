@@ -1,6 +1,7 @@
-import { GQLCommentRevisionTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import { Comment, Revision } from "coral-server/models/comment";
+
+import { GQLCommentRevisionTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export interface WrappedCommentRevision {
   revision: Revision;
@@ -17,4 +18,5 @@ export const CommentRevision: Required<GQLCommentRevisionTypeResolver<
   // Defaults to an empty object if not set on the revision.
   metadata: (w) => w.revision.metadata || {},
   createdAt: (w) => w.revision.createdAt,
+  media: (w) => w.revision.media,
 };

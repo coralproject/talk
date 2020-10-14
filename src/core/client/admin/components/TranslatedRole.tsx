@@ -5,22 +5,24 @@ import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
-  children: GQLUSER_ROLE_RL;
+  role: GQLUSER_ROLE_RL;
+  scoped?: boolean;
+  moderationScopesEnabled: boolean;
 }
 
 function createElement(
   Container: React.ReactElement<any> | React.ComponentType<any> | string,
-  children: React.ReactNode
+  text: string
 ) {
   if (React.isValidElement<any>(Container)) {
-    return React.cloneElement(Container, { children });
+    return React.cloneElement(Container, { children: text });
   } else {
-    return <Container>{children}</Container>;
+    return <Container>{text}</Container>;
   }
 }
 
 const TranslatedRole: React.FunctionComponent<Props> = (props) => {
-  switch (props.children) {
+  switch (props.role) {
     case GQLUSER_ROLE.COMMENTER:
       return (
         <Localized id="role-commenter">
@@ -34,9 +36,25 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
         </Localized>
       );
     case GQLUSER_ROLE.MODERATOR:
+      if (!props.moderationScopesEnabled) {
+        return (
+          <Localized id="role-moderator">
+            {createElement(props.container!, "Moderator")}
+          </Localized>
+        );
+      }
+
+      if (props.scoped) {
+        return (
+          <Localized id="role-siteModerator">
+            {createElement(props.container!, "Site Moderator")}
+          </Localized>
+        );
+      }
+
       return (
-        <Localized id="role-moderator">
-          {createElement(props.container!, "Moderator")}
+        <Localized id="role-organizationModerator">
+          {createElement(props.container!, "Organization Moderator")}
         </Localized>
       );
     case GQLUSER_ROLE.STAFF:
@@ -47,7 +65,7 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
       );
     default:
       // Unknown role, just use untranslated string.
-      return createElement(props.container!, props.children);
+      return createElement(props.container!, props.role);
   }
 };
 

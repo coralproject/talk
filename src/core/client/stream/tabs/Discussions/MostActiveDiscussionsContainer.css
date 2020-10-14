@@ -1,0 +1,25 @@
+.root {
+  font-family: var(--font-family-primary);
+}
+
+.list {
+  margin: 0;
+  padding-left: 0;
+  counter-reset: activeDiscussionsCounter;
+  list-style: none;
+}
+
+.listItem {
+  counter-increment: activeDiscussionsCounter;
+  display: flex;
+  align-items: flex-start;
+}
+
+.listItem:before {
+  content: counter(activeDiscussionsCounter);
+  color: var(--palette-text-100);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-bold);
+  line-height: 1.125;
+  padding-right: var(--spacing-3);
+}

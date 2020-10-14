@@ -88,19 +88,22 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -184,7 +187,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 aria-controls="uuid-0"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -351,19 +353,22 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-                  data-color="regular"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -447,7 +452,6 @@ exports[`renders rejected queue with comments 1`] = `
                       aria-controls="uuid-0"
                       aria-expanded={false}
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                      data-color="mono"
                       data-variant="text"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -622,19 +626,22 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Don't fool with me",
+                className="ModerateCard-content"
+              >
+                <div
+                  className="CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Don't fool with me",
+                    }
                   }
-                }
-              />
+                />
+              </div>
               <div
                 className="ModerateCard-viewContext"
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-                  data-color="regular"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -718,7 +725,6 @@ exports[`renders rejected queue with comments 1`] = `
                       aria-controls="uuid-1"
                       aria-expanded={false}
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                      data-color="mono"
                       data-variant="text"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -899,19 +905,22 @@ exports[`renders rejected queue with comments and load more 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I think I deserve better",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I think I deserve better",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1008,7 +1017,6 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 aria-controls="uuid-2"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}

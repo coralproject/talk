@@ -62,7 +62,7 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
       <div className={styles.footer}>
         {!showReplies && comment.replyCount > 0 && (
           <Localized id="conversation-modal-replies-show">
-            <Button variant="outline" fullWidth onClick={onShowReplies}>
+            <Button variant="outlined" fullWidth onClick={onShowReplies}>
               Show replies
             </Button>
           </Localized>
@@ -71,7 +71,7 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
           comment.replyCount > replies.length &&
           replies.length > 0 && (
             <Localized id="conversation-modal-replies-show-more">
-              <Button variant="outline" fullWidth onClick={loadMore}>
+              <Button variant="outlined" fullWidth onClick={loadMore}>
                 Show more replies
               </Button>
             </Localized>

@@ -8,10 +8,10 @@ import {
   GQLGoogleAuthIntegration,
   GQLLiveConfiguration,
   GQLLocalAuthIntegration,
+  GQLMediaConfiguration,
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLPerspectiveExternalIntegration,
-  GQLRTEConfiguration,
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -75,6 +75,14 @@ export interface AccountFeatures {
 export interface NewCommentersConfiguration {
   premodEnabled: boolean;
   approvedCommentsThreshold: number;
+}
+
+export interface StaffConfiguration {
+  staffLabel?: string;
+  // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
+  label: string;
+  adminLabel?: string;
+  moderatorLabel?: string;
 }
 
 /**
@@ -169,6 +177,27 @@ export type DisableCommenting = Omit<
 > &
   Partial<Pick<GQLSettings["disableCommenting"], "message">>;
 
+/**
+ * RTEConfiguration stores configuration for the rich text editor.
+ */
+export interface RTEConfiguration {
+  /**
+   * enabled when true turns on basic RTE features including
+   * bold, italic, quote, and bullet list.
+   */
+  enabled: boolean;
+
+  /**
+   * strikethrough when true turns on the strikethrough feature.
+   */
+  strikethrough: boolean;
+
+  /**
+   * spoiler when true turns on the spoiler feature.
+   */
+  spoiler: boolean;
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -177,7 +206,6 @@ export type Settings = GlobalModerationSettings &
     | "recentCommentHistory"
     | "wordList"
     | "reaction"
-    | "staff"
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"
@@ -185,6 +213,7 @@ export type Settings = GlobalModerationSettings &
     | "createdAt"
     | "slack"
     | "announcement"
+    | "memberBios"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -223,10 +252,23 @@ export type Settings = GlobalModerationSettings &
      */
     newCommenters: NewCommentersConfiguration;
 
-    rte?: GQLRTEConfiguration;
+    /**
+     * rte stores configuration for the rich text editor.
+     */
+    rte?: RTEConfiguration;
+
+    /**
+     * media is the configuration media content attached to Comment's.
+     */
+    media?: Omit<GQLMediaConfiguration, "external">;
+
+    /**
+     * staff configures the labels for staff members in comment stream.
+     */
+    staff: StaffConfiguration;
   };
 
-export const defaultRTEConfiguration: GQLRTEConfiguration = {
+export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
   strikethrough: false,

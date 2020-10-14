@@ -11,7 +11,10 @@ import SiteSelectorSite from "./SiteSelectorSite";
 import styles from "./SiteSelector.css";
 
 interface Props {
-  sites: Array<{ id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]>;
+  scoped: boolean;
+  sites: ReadonlyArray<
+    { id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]
+  >;
   queueName: string;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -22,6 +25,7 @@ interface Props {
 
 const SiteSelector: FunctionComponent<Props> = ({
   sites,
+  scoped,
   queueName,
   loading,
   onLoadMore,
@@ -40,8 +44,7 @@ const SiteSelector: FunctionComponent<Props> = ({
       selected={
         <>
           {siteID && <SiteSelectorCurrentSiteQuery siteID={siteID} />}
-
-          {!siteID && (
+          {!scoped && !siteID && (
             <Localized id="site-selector-all-sites">
               <span className={styles.buttonText}>All sites</span>
             </Localized>
@@ -50,11 +53,13 @@ const SiteSelector: FunctionComponent<Props> = ({
       }
     >
       <>
-        <SiteSelectorSite
-          link={getModerationLink({ queue: queueName as QUEUE_NAME })}
-          site={null}
-          active={!siteID}
-        />
+        {!scoped && (
+          <SiteSelectorSite
+            link={getModerationLink({ queue: queueName as QUEUE_NAME })}
+            site={null}
+            active={!siteID}
+          />
+        )}
         {sites.map((s) => (
           <SiteSelectorSite
             link={getModerationLink({

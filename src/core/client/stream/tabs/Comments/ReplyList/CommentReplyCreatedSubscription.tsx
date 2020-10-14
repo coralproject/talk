@@ -58,6 +58,17 @@ const CommentReplyCreatedSubscription = createSubscription(
           return;
         }
         const comment = rootField.getLinkedRecord("comment")!;
+        const commentInStore = Boolean(
+          // We use store from environment here, because it does not contain the response data yet!
+          environment
+            .getStore()
+            .getSource()
+            .get(comment.getValue("id") as string)
+        );
+        if (commentInStore) {
+          return;
+        }
+
         comment.setValue(true, "enteredLive");
 
         const parentID = comment
@@ -70,8 +81,9 @@ const CommentReplyCreatedSubscription = createSubscription(
           // could not trace back to ancestor, discard.
           return;
         }
+
         // Comment is just outside our visible depth.
-        if (depth === 4) {
+        if (depth >= 4) {
           // Inform last comment in visible tree about the available replies.
           // This will trigger to show the `Read More of this Conversation` link.
           const replyCount = parentProxy.getValue("replyCount") || 0;

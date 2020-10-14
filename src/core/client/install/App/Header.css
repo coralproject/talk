@@ -3,18 +3,16 @@
 }
 
 .headline {
-  font-size: 1.2rem;
+  font-weight: var(--font-weight-primary-regular);
 }
 
 .headlineMain {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.subHeadline {
-  font-size: 1.5rem;
+  font-size: var(--font-size-7);
+  line-height: 1;
 }
 
 .subHeadlineMain {
-  font-size: 2rem;
+  font-size: var(--font-size-8);
+  line-height: 1;
+  font-weight: var(--font-weight-primary-bold);
 }

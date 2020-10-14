@@ -5,7 +5,7 @@ it("tests ignored", async () => {
 });
 
 /*
-TODO (nick-funk): Resolve why these tests are screaming about 
+TODO (nick-funk): Resolve why these tests are screaming about
                   an unmounted component.
 
 Issue I'm seeing:
@@ -72,7 +72,6 @@ async function createTestRenderer(
         params.resolvers
       ),
       initLocalState: (localRecord, source, environment) => {
-        localRecord.setValue(true, "loggedIn");
         if (params.initLocalState) {
           params.initLocalState(localRecord, source, environment);
         }

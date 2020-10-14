@@ -16,6 +16,7 @@ import {
 } from "coral-server/models/action/comment";
 import {
   Comment,
+  CommentMedia,
   createComment,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
@@ -40,6 +41,10 @@ import {
   CreateAction,
 } from "coral-server/services/comments/actions";
 import {
+  attachMedia,
+  CreateCommentMediaInput,
+} from "coral-server/services/comments/media";
+import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
@@ -57,8 +62,16 @@ import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags" | "siteID"
->;
+  | "status"
+  | "metadata"
+  | "ancestorIDs"
+  | "actionCounts"
+  | "tags"
+  | "siteID"
+  | "media"
+> & {
+  media?: CreateCommentMediaInput;
+};
 
 const markCommentAsAnswered = async (
   mongo: Db,
@@ -167,6 +180,11 @@ export default async function create(
     );
   }
 
+  let media: CommentMedia | undefined;
+  if (input.media) {
+    media = await attachMedia(tenant, input.media, input.body);
+  }
+
   let result: PhaseResult;
   try {
     // Run the comment through the moderation phases.
@@ -183,6 +201,7 @@ export default async function create(
       author,
       req,
       now,
+      media,
     });
   } catch (err) {
     if (
@@ -231,6 +250,7 @@ export default async function create(
       ancestorIDs,
       metadata,
       actionCounts,
+      media,
     },
     now
   );

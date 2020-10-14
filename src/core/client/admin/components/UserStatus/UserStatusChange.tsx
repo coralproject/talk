@@ -14,15 +14,30 @@ import {
 import styles from "./UserStatusChange.css";
 
 interface Props {
-  onBan: () => void;
-  onRemoveBan: () => void;
+  /**
+   * onBan when set to false disables the controls associated with banning a
+   * user. Otherwise the provided function is called when the control is
+   * clicked.
+   */
+  onBan: false | (() => void);
+
+  /**
+   * onRemoveBan when set to false disables the controls associated with
+   * banning a user. Otherwise the provided function is called when the control
+   * is clicked.
+   */
+  onRemoveBan: false | (() => void);
+
   onSuspend: () => void;
   onRemoveSuspension: () => void;
   onPremod: () => void;
   onRemovePremod: () => void;
+  onWarn: () => void;
+  onRemoveWarning: () => void;
   banned: boolean;
   suspended: boolean;
   premod: boolean;
+  warned: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
   bordered?: boolean;
@@ -35,6 +50,9 @@ const UserStatusChange: FunctionComponent<Props> = ({
   onRemoveSuspension,
   onPremod,
   onRemovePremod,
+  onWarn,
+  onRemoveWarning,
+  warned,
   banned,
   suspended,
   premod,
@@ -54,9 +72,12 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-removeUserBan">
                 <DropdownButton
                   className={styles.dropdownButton}
+                  disabled={!onRemoveBan}
                   onClick={() => {
-                    onRemoveBan();
-                    toggleVisibility();
+                    if (onRemoveBan) {
+                      onRemoveBan();
+                      toggleVisibility();
+                    }
                   }}
                 >
                   Remove ban
@@ -66,9 +87,12 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-ban">
                 <DropdownButton
                   className={styles.dropdownButton}
+                  disabled={!onBan}
                   onClick={() => {
-                    onBan();
-                    toggleVisibility();
+                    if (onBan) {
+                      onBan();
+                      toggleVisibility();
+                    }
                   }}
                 >
                   Ban
@@ -122,6 +146,37 @@ const UserStatusChange: FunctionComponent<Props> = ({
                   }}
                 >
                   Always pre-moderate
+                </DropdownButton>
+              </Localized>
+            )}
+            {warned ? (
+              <Localized id="community-userStatus-removeWarning">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onRemoveWarning}
+                  onClick={() => {
+                    if (onRemoveWarning) {
+                      onRemoveWarning();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Remove warning
+                </DropdownButton>
+              </Localized>
+            ) : (
+              <Localized id="community-userStatus-warn">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  disabled={!onWarn}
+                  onClick={() => {
+                    if (onWarn) {
+                      onWarn();
+                      toggleVisibility();
+                    }
+                  }}
+                >
+                  Warn
                 </DropdownButton>
               </Localized>
             )}

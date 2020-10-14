@@ -8,7 +8,7 @@ import {
 } from "recompose";
 
 interface FormProps {
-  form: FormApi;
+  form: FormApi<any>;
 }
 const withForm: InferableComponentEnhancer<FormProps> = hoistStatics<any>(
   (WrappedComponent: React.ComponentType<any>) => {

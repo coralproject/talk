@@ -1,4 +1,4 @@
-$moderate-background: var(--v2-colors-grey-100);
+$moderate-background: var(--palette-grey-100);
 
 .background {
   position: fixed;

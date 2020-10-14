@@ -1,17 +1,22 @@
+import { CacheScope } from "apollo-cache-control";
 import { DirectiveResolverFn } from "graphql-tools";
 import { memoize } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import {
   UserBanned,
   UserForbiddenError,
   UserSuspended,
+  UserWarned,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import {
   consolidateUserStatus,
   consolidateUserSuspensionStatus,
+  consolidateUserWarningStatus,
   User,
 } from "coral-server/models/user";
+import { canModerateUnscoped } from "coral-server/models/user/helpers";
 
 import {
   GQLUSER_AUTH_CONDITIONS,
@@ -27,6 +32,7 @@ export interface AuthDirectiveArgs {
   roles?: GQLUSER_ROLE[];
   userIDField?: string;
   permit?: GQLUSER_AUTH_CONDITIONS[];
+  unscoped?: boolean;
 }
 
 function calculateAuthConditions(
@@ -57,6 +63,10 @@ function calculateAuthConditions(
     conditions.push(GQLUSER_AUTH_CONDITIONS.PENDING_DELETION);
   }
 
+  if (status.warning && status.warning.active) {
+    conditions.push(GQLUSER_AUTH_CONDITIONS.WARNED);
+  }
+
   return conditions.sort();
 }
 
@@ -68,10 +78,18 @@ const auth: DirectiveResolverFn<
 > = (
   next,
   src,
-  { roles, userIDField, permit }: AuthDirectiveArgs,
+  { roles, userIDField, permit, unscoped = false }: AuthDirectiveArgs,
   { user, now },
   info
 ) => {
+  if (
+    roles &&
+    (roles.includes(GQLUSER_ROLE.ADMIN) ||
+      roles.includes(GQLUSER_ROLE.MODERATOR))
+  ) {
+    setCacheHint(info, { scope: CacheScope.Private });
+  }
+
   // If there is a user on the request.
   if (user) {
     const conditions = calculateAuthConditionsMemoized(user, now);
@@ -88,6 +106,16 @@ const auth: DirectiveResolverFn<
 
       if (conditions.includes(GQLUSER_AUTH_CONDITIONS.BANNED)) {
         throw new UserBanned(user.id, resource, info.operation.operation);
+      }
+
+      if (conditions.includes(GQLUSER_AUTH_CONDITIONS.WARNED)) {
+        const warning = consolidateUserWarningStatus(user.status.warning);
+        throw new UserWarned(
+          user.id,
+          warning.message,
+          resource,
+          info.operation.operation
+        );
       }
 
       if (conditions.includes(GQLUSER_AUTH_CONDITIONS.SUSPENDED)) {
@@ -115,7 +143,22 @@ const auth: DirectiveResolverFn<
         info.operation.operation,
         user.id,
         permit,
-        conditions
+        conditions,
+        unscoped
+      );
+    }
+
+    // If the unscoped check is enabled, then ensure that the user can moderate
+    // unscoped.
+    if (unscoped && !canModerateUnscoped(user)) {
+      throw new UserForbiddenError(
+        "user cannot access unscoped resource as they are scoped",
+        calculateLocationKey(info),
+        info.operation.operation,
+        user.id,
+        permit,
+        conditions,
+        unscoped
       );
     }
 
@@ -141,7 +184,10 @@ const auth: DirectiveResolverFn<
     "user does not have permission to access the resource",
     calculateLocationKey(info),
     info.operation.operation,
-    user ? user.id : undefined
+    user ? user.id : undefined,
+    permit,
+    undefined,
+    unscoped
   );
 };
 

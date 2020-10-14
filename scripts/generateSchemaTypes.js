@@ -54,7 +54,24 @@ async function main() {
       ...file.config,
     });
 
-    fs.writeFileSync(file.fileName, types);
+    const content = types;
+
+    // TODO: (cvle) The following comment block contains code that was meant to
+    // solve https://vmproduct.atlassian.net/browse/CORL-1377 by adding null as a possible
+    // value to optional fields. However the server code is deeply tangled with the
+    // previous wrong types and need to be sorted out first.
+
+    // Here comes our modifications.
+    /* const resolverIndex = types.indexOf("GQLResolver");
+    if (resolverIndex > 0) {
+      content =
+        // TODO: (cvle) contribute a non-hacky way to the `graphql-schema-typescript` project.
+        // Make optional type fields nullable before the GQLResolver part..
+        types.slice(0, resolverIndex).replace(/\?: /g, "?: null | ") +
+        types.slice(resolverIndex);
+    }*/
+
+    fs.writeFileSync(file.fileName, content);
   }
 
   return files;

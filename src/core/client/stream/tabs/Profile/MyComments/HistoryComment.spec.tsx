@@ -20,6 +20,7 @@ it("renders correctly", () => {
       label: "reaction",
       icon: "icon",
     },
+    media: null,
     story: {
       metadata: {
         title: "Story Title",

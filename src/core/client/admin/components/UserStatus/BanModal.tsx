@@ -12,9 +12,9 @@ import {
   Textarea,
 } from "coral-ui/components/v2";
 
+import ModalHeader from "../ModalHeader";
+import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import ChangeStatusModalHeader from "./ChangeStatusModalHeader";
-import ModalHeaderUsername from "./ModalHeaderUsername";
 
 import styles from "./BanModal.css";
 
@@ -66,13 +66,13 @@ const BanModal: FunctionComponent<Props> = ({
                 <strong>{username || <NotAvailable />}</strong>
               ))}
             >
-              <ChangeStatusModalHeader id="banModal-title">
+              <ModalHeader id="banModal-title">
                 Are you sure you want to ban{" "}
                 <ModalHeaderUsername>
                   {username || <NotAvailable />}
                 </ModalHeaderUsername>
                 ?
-              </ChangeStatusModalHeader>
+              </ModalHeader>
             </Localized>
             <Localized id="community-banModal-consequence">
               <p className={styles.bodyText}>

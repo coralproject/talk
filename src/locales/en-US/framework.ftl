@@ -34,6 +34,7 @@ framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole nu
 framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
 framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
 framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
+framework-validation-media-url-invalid = Please enter a valid image URL (.png, .jpg, or .gif)
 
 framework-timeago-just-now = Just now
 

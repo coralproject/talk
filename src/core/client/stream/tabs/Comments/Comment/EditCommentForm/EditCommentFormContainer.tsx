@@ -1,4 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
+import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
@@ -46,9 +47,43 @@ interface State {
   submitStatus: SubmitStatus | null;
 }
 
+function getMediaFromComment(comment: CommentData) {
+  if (!comment.revision || !comment.revision.media) {
+    return;
+  }
+
+  switch (comment.revision.media.__typename) {
+    case "YouTubeMedia":
+      return {
+        type: "youtube",
+        url: comment.revision.media.url,
+      };
+    case "GiphyMedia":
+      return {
+        type: "giphy",
+        url: comment.revision.media.url,
+      };
+    case "TwitterMedia":
+      return {
+        type: "twitter",
+        url: comment.revision.media.url,
+      };
+    case "ExternalMedia":
+      return {
+        type: "external",
+        url: comment.revision.media.url,
+      };
+    case "%other":
+      return;
+  }
+}
+
 export class EditCommentFormContainer extends Component<Props, State> {
-  private expiredTimer: any;
-  private intitialValues = { body: this.props.comment.body || "" };
+  private expiredTimer?: LongTimeout;
+  private intitialValues = {
+    body: this.props.comment.body || "",
+    media: getMediaFromComment(this.props.comment),
+  };
 
   public state: State = {
     initialized: false,
@@ -64,7 +99,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    clearTimeout(this.expiredTimer);
+    if (this.expiredTimer) {
+      clearLongTimeout(this.expiredTimer);
+    }
   }
 
   private updateWhenExpired() {
@@ -72,7 +109,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
       new Date(this.props.comment.editing.editableUntil!).getTime() -
       Date.now();
     if (ms > 0) {
-      return setTimeout(() => this.setState({ expired: true }), ms);
+      return setLongTimeout(() => this.setState({ expired: true }), ms);
     }
     return;
   }
@@ -98,6 +135,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         await this.props.editComment({
           commentID: this.props.comment.id,
           body: input.body,
+          media: input.media,
         })
       );
       if (submitStatus !== "RETRY") {
@@ -133,6 +171,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     }
     return (
       <EditCommentForm
+        siteID={this.props.comment.site.id}
         id={this.props.comment.id}
         rteConfig={this.props.settings.rte}
         onSubmit={this.handleOnSubmit}
@@ -144,6 +183,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         createdAt={this.props.comment.createdAt}
         editableUntil={this.props.comment.editing.editableUntil!}
         expired={this.state.expired}
+        mediaConfig={this.props.settings.media}
         min={
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.min) ||
@@ -158,6 +198,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     );
   }
 }
+
 const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
@@ -170,11 +211,40 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             id
             body
             createdAt
+            revision {
+              id
+              media {
+                __typename
+                ... on GiphyMedia {
+                  url
+                  title
+                  width
+                  height
+                  still
+                  video
+                }
+                ... on TwitterMedia {
+                  url
+                  width
+                }
+                ... on YouTubeMedia {
+                  url
+                  width
+                  height
+                }
+                ... on ExternalMedia {
+                  url
+                }
+              }
+            }
             author {
               username
             }
             editing {
               editableUntil
+            }
+            site {
+              id
             }
           }
         `,
@@ -189,6 +259,20 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               enabled
               min
               max
+            }
+            media {
+              twitter {
+                enabled
+              }
+              youtube {
+                enabled
+              }
+              giphy {
+                enabled
+              }
+              external {
+                enabled
+              }
             }
             rte {
               ...RTEContainer_config

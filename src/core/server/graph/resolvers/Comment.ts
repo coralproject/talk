@@ -1,6 +1,8 @@
+import { CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import { defaultTo } from "lodash";
 
+import { setCacheHint } from "coral-common/graphql";
 import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/resolvers/util";
 import {
@@ -16,11 +18,17 @@ import {
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
+import { hasFeatureFlag } from "coral-server/models/tenant";
+import {
+  canModerate,
+  hasModeratorRole,
+} from "coral-server/models/user/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
   GQLComment,
   GQLCommentTypeResolver,
+  GQLFEATURE_FLAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
@@ -53,16 +61,33 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
+  canModerate: (c, input, ctx) => {
+    if (!ctx.user) {
+      return false;
+    }
+
+    // If the feature flag for site moderators is not turned on return based on
+    // the users role.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      return hasModeratorRole(ctx.user);
+    }
+
+    return canModerate(ctx.user, { siteID: c.siteID });
+  },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
-  editing: ({ revisions, createdAt }, input, ctx) => ({
+  editing: ({ authorID, revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
     edited: revisions.length > 1,
     // The date that the comment is editable until is the tenant's edit window
-    // length added to the comment created date.
-    editableUntil: getCommentEditableUntilDate(ctx.tenant, createdAt),
+    // length added to the comment created date. This will return null if the
+    // current user is not the author.
+    editableUntil:
+      authorID === ctx.user?.id
+        ? getCommentEditableUntilDate(ctx.tenant, createdAt)
+        : null,
   }),
   author: (c, input, ctx) =>
     c.authorID ? ctx.loaders.Users.user.load(c.authorID) : null,
@@ -97,8 +122,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
-  viewerActionPresence: (c, input, ctx) =>
-    ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
+  viewerActionPresence: (c, input, ctx, info) => {
+    if (!ctx.user) {
+      return null;
+    }
+
+    setCacheHint(info, { scope: CacheScope.Private });
+
+    return ctx.loaders.Comments.retrieveMyActionPresence.load(c.id);
+  },
+
   parentCount: (c) => getDepth(c),
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>

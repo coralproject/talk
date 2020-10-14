@@ -14,6 +14,7 @@ import RTE from "./RTE";
 interface Props extends Omit<PropTypesOf<typeof RTE>, "ref"> {
   forwardRef: Ref<CoralRTE>;
   config: RTEContainer_config;
+  toolbarButtons?: React.ReactElement | null;
 }
 
 const RTEContainer: React.FunctionComponent<Props> = ({ config, ...rest }) => {
@@ -30,6 +31,7 @@ const enhanced = withForwardRef(
         enabled
         strikethrough
         spoiler
+        sarcasm
       }
     `,
   })(RTEContainer)

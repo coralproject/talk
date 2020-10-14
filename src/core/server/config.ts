@@ -262,6 +262,13 @@ const config = convict({
     default: ms("800 milliseconds"),
     env: "PERSPECTIVE_TIMEOUT",
   },
+  story_viewer_timeout: {
+    doc:
+      "The length of time (in ms) that a user should be considered active on a story without interaction.",
+    format: "ms",
+    default: ms("15 minutes"),
+    env: "STORY_VIEWER_TIMEOUT",
+  },
   force_ssl: {
     doc:
       "Forces SSL in production by redirecting all HTTP requests to HTTPS, and sending HSTS headers.",
@@ -281,6 +288,16 @@ const config = convict({
     format: "ms",
     default: ms("100ms"),
     env: "WORD_LIST_TIMEOUT",
+  },
+  sentry_frontend_key: {
+    format: String,
+    default: "",
+    env: "SENTRY_FRONTEND_KEY",
+  },
+  sentry_backend_key: {
+    format: String,
+    default: "",
+    env: "SENTRY_BACKEND_KEY",
   },
   analytics_frontend_key: {
     doc: "Analytics write key from RudderStack for the Javascript client.",
@@ -305,6 +322,26 @@ const config = convict({
     format: "optional-url",
     default: "",
     env: "ANALYTICS_DATA_PLANE_URL",
+  },
+  default_graphql_cache_max_age: {
+    doc:
+      "Specifies the max age for the GraphQL requests. Must be larger than 1 second.",
+    format: "ms",
+    default: ms("30 seconds"),
+    env: "DEFAULT_GRAPHQL_CACHE_MAX_AGE",
+  },
+  graphql_response_cache: {
+    doc: "When enabled, will enable caching GraphQL responses in Redis.",
+    format: Boolean,
+    default: false,
+    env: "GRAPHQL_RESPONSE_CACHE",
+  },
+  graphql_cache_headers: {
+    doc:
+      "When enabled, Coral will send Cache-Control headers along with GraphQL requests. If this is not enabled, the response cache is also not enabled.",
+    format: Boolean,
+    default: false,
+    env: "GRAPHQL_CACHE_HEADERS",
   },
 });
 

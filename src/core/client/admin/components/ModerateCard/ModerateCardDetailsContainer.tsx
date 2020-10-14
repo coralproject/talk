@@ -37,6 +37,7 @@ function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
     ? c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE +
+        c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
         0 || c.revision.metadata.perspective
     : false;
@@ -82,19 +83,16 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         <>
           <LinkDetailsContainer comment={comment} settings={settings} />
           {doesHaveFlagDetails && (
-            <>
-              <hr />
-              <FlagDetailsContainer
-                comment={comment}
-                settings={settings}
-                onUsernameClick={onUsernameClick}
-              />
-            </>
+            <FlagDetailsContainer
+              comment={comment}
+              settings={settings}
+              onUsernameClick={onUsernameClick}
+            />
           )}
         </>
       )}
       {activeTab === "HISTORY" && (
-        <CommentRevisionContainer comment={comment} settings={settings} />
+        <CommentRevisionContainer comment={comment} />
       )}
     </HorizontalGutter>
   );
@@ -113,6 +111,7 @@ const enhanced = withFragmentContainer<Props>({
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_ABUSIVE
               COMMENT_REPORTED_SPAM
+              COMMENT_REPORTED_OTHER
             }
           }
         }
@@ -130,7 +129,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
       ...FlagDetailsContainer_settings
-      ...CommentRevisionContainer_settings
       ...LinkDetailsContainer_settings
     }
   `,

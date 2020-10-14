@@ -13,7 +13,7 @@ import {
   verifyResetTokenString,
 } from "coral-server/services/users/auth";
 import { validateEmail } from "coral-server/services/users/helpers";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 export interface ForgotBody {
   email: string;
@@ -34,7 +34,7 @@ export const forgotHandler = ({
   mongo,
   signingConfig,
   mailerQueue,
-}: ForgotOptions): RequestHandler => {
+}: ForgotOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -55,9 +55,7 @@ export const forgotHandler = ({
       // Limit based on the IP address.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, logger, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
       if (!hasEnabledAuthIntegration(tenant, "local")) {
@@ -75,7 +73,7 @@ export const forgotHandler = ({
       // Limit based on the email address.
       await emailLimiter.test(req, email);
 
-      const log = coral.logger.child(
+      const log = logger.child(
         {
           email,
           tenantID: tenant.id,
@@ -102,7 +100,7 @@ export const forgotHandler = ({
         config,
         signingConfig,
         user,
-        req.coral!.now
+        now
       );
 
       // Add the email to the processing queue.
@@ -150,7 +148,7 @@ export const forgotResetHandler = ({
   mongo,
   signingConfig,
   config,
-}: ForgotResetOptions): RequestHandler => {
+}: ForgotResetOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -171,9 +169,7 @@ export const forgotResetHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
       if (!hasEnabledAuthIntegration(tenant, "local")) {
@@ -206,7 +202,7 @@ export const forgotResetHandler = ({
         signingConfig,
         tokenString,
         password,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);
@@ -226,7 +222,7 @@ export const forgotCheckHandler = ({
   mongo,
   signingConfig,
   config,
-}: ForgotCheckOptions): RequestHandler => {
+}: ForgotCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -247,9 +243,7 @@ export const forgotCheckHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
       if (!hasEnabledAuthIntegration(tenant, "local")) {
@@ -274,7 +268,7 @@ export const forgotCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);

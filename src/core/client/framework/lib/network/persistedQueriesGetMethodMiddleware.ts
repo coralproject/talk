@@ -10,6 +10,10 @@ function queriesAreEmpty(req: RelayRequestAny): boolean {
   return req.getQueryString() === "";
 }
 
+function hasToken(req: RelayRequestAny): boolean {
+  return "Authorization" in req.fetchOpts.headers;
+}
+
 /**
  * persistedQueriesGetMethodMiddleware will use the GET method instead of POST for
  * all request excluding mutations when persisted queries are used.
@@ -19,7 +23,7 @@ function queriesAreEmpty(req: RelayRequestAny): boolean {
 const persistedQueriesGetMethodMiddleware: Middleware = (next) => async (
   req
 ) => {
-  if (queriesAreEmpty(req) && !hasMutations(req)) {
+  if (queriesAreEmpty(req) && !hasMutations(req) && !hasToken(req)) {
     // Pull the body out (serializing it) and delete it off of the original
     // fetch options.
     const body: Record<string, any> = JSON.parse(req.fetchOpts.body as string);

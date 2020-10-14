@@ -1,0 +1,28 @@
+{% extends "templates/base.html" %}
+
+{% block css %}
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    .container * {
+      margin: 0 !important;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <img src="{{ url }}" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block js %}
+  {# TODO: create a bundle for this instead of relying on this CDN to serve this file #}
+  <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js" onload="new pym.Child({ polling: 100 });"></script>
+{% endblock %}

@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { Component, ReactNode } from "react";
 
-import { Step, StepBar } from "coral-ui/components";
+import { Step, StepBar } from "coral-ui/components/v2";
 
 import Header from "./Header";
 

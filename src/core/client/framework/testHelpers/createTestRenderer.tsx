@@ -91,11 +91,30 @@ export default function createTestRenderer<
         path.resolve(__dirname, "../../../../locales/en-US")
       ),
     ],
+    subscriptionClient: {
+      subscribe: () => {
+        return {
+          dispose: () => {},
+        };
+      },
+      pause: () => {},
+      resume: () => {},
+      setAccessToken: () => {},
+    },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
     browserInfo: params.browserInfo || {
+      supports: {
+        cssVariables: true,
+        intersectionObserver: true,
+        fetch: true,
+        intl: true,
+        intlPluralRules: true,
+        proxyObject: true,
+      },
+      version: 10.0,
       ios: false,
       mobile: false,
       msie: false,

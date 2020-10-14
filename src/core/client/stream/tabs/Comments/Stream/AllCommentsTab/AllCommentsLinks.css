@@ -1,0 +1,35 @@
+$linkColor: var(--palette-primary-500);
+$linkColorHovered: var(--palette-primary-700);
+$linkColorActive: var(--palette-primary-800);
+
+.link {
+  margin-right: var(--spacing-4);
+
+  &.sizeRegular {
+    padding: 0;
+  }
+  &.colorRegular {
+    color: $linkColor;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $linkColorHovered;
+      }
+      &.active,
+      &:active {
+        color: $linkColorActive;
+      }
+    }
+  }
+}
+
+.icon {
+  margin-right: var(--spacing-1);
+}
+
+.border {
+  border-top: 1px solid var(--palette-grey-300);
+  padding-top: var(--spacing-2);
+}

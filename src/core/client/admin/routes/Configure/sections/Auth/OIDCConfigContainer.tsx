@@ -50,20 +50,24 @@ class OIDCConfigContainer extends React.Component<Props, State> {
       if (config) {
         if (config.issuer) {
           this.props.form.change(
-            "auth.integrations.oidc.issuer",
+            // TODO: @(cvle) Types in final-form are not accurate...
+            "auth.integrations.oidc.issuer" as any,
             config.issuer
           );
         }
         this.props.form.change(
-          "auth.integrations.oidc.authorizationURL",
+          // TODO: @(cvle) Types in final-form are not accurate...
+          "auth.integrations.oidc.authorizationURL" as any,
           config.authorizationURL
         );
         this.props.form.change(
-          "auth.integrations.oidc.jwksURI",
+          // TODO: @(cvle) Types in final-form are not accurate...
+          "auth.integrations.oidc.jwksURI" as any,
           config.jwksURI
         );
         this.props.form.change(
-          "auth.integrations.oidc.tokenURL",
+          // TODO: @(cvle) Types in final-form are not accurate...
+          "auth.integrations.oidc.tokenURL" as any,
           config.tokenURL
         );
       }

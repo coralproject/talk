@@ -4,8 +4,9 @@ import { graphql } from "react-relay";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
@@ -14,30 +15,66 @@ import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMudtaion from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
+import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
+import WarnModal from "./WarnModal";
+import WarnUserMutation from "./WarnUserMutation";
 
 interface Props {
-  user: UserData;
+  settings: UserStatusChangeContainer_settings;
+  user: UserStatusChangeContainer_user;
+  viewer: UserStatusChangeContainer_viewer;
   fullWidth?: boolean;
-  settings: SettingsData;
   bordered?: boolean;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
-  const { user, settings, fullWidth, bordered } = props;
+const UserStatusChangeContainer: FunctionComponent<Props> = ({
+  user,
+  settings,
+  fullWidth,
+  bordered,
+  viewer,
+}) => {
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
+  const warnUser = useMutation(WarnUserMutation);
+  const removeUserWarning = useMutation(RemoveUserWarningMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
+  const [showWarn, setShowWarn] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
+  const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
+  const handleWarn = useCallback(() => {
+    if (user.status.warning.active) {
+      return;
+    }
+    setShowWarn(true);
+  }, [user, setShowWarn]);
+  const handleRemoveWarning = useCallback(() => {
+    if (!user.status.warning.active) {
+      return;
+    }
+    void removeUserWarning({ userID: user.id });
+  }, [user, removeUserWarning]);
+  const hideWarn = useCallback(() => {
+    setShowWarn(false);
+    setShowWarnSuccess(false);
+  }, [setShowWarn]);
+  const handleWarnConfirm = useCallback(
+    (message: string) => {
+      void warnUser({ userID: user.id, message });
+      setShowWarnSuccess(true);
+    },
+    [warnUser, user, setShowWarnSuccess]
+  );
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
       return;
@@ -84,12 +121,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
       return;
     }
     void removeUserPremod({ userID: user.id });
-  }, [user, premodUser]);
+  }, [user, removeUserPremod]);
 
   const handleSuspendModalClose = useCallback(() => {
     setShowSuspend(false);
     setShowSuspendSuccess(false);
-  }, [setShowBanned, setShowSuspendSuccess]);
+  }, [setShowSuspendSuccess]);
 
   const handleBanModalClose = useCallback(() => {
     setShowBanned(false);
@@ -112,18 +149,20 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
       void banUser({ userID: user.id, message, rejectExistingComments });
       setShowBanned(false);
     },
-    [user, setShowBanned]
+    [user, setShowBanned, banUser]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
     return <UserStatusContainer user={user} />;
   }
 
+  const scoped = !!viewer.moderationScopes?.scoped;
+
   return (
     <>
       <UserStatusChange
-        onBan={handleBan}
-        onRemoveBan={handleRemoveBan}
+        onBan={!scoped && handleBan}
+        onRemoveBan={!scoped && handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
@@ -131,6 +170,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
         banned={user.status.ban.active}
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
+        warned={user.status.warning.active}
+        onWarn={handleWarn}
+        onRemoveWarning={handleRemoveWarning}
         fullWidth={fullWidth}
         bordered={bordered}
       >
@@ -150,12 +192,22 @@ const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
         onClose={hidePremod}
         onConfirm={handlePremodConfirm}
       />
-      <BanModal
+      <WarnModal
         username={user.username}
-        open={showBanned}
-        onClose={handleBanModalClose}
-        onConfirm={handleBanConfirm}
+        organizationName={settings.organization.name}
+        open={showWarn}
+        onClose={hideWarn}
+        onConfirm={handleWarnConfirm}
+        success={showWarnSuccess}
       />
+      {!scoped && (
+        <BanModal
+          username={user.username}
+          open={showBanned}
+          onClose={handleBanModalClose}
+          onConfirm={handleBanConfirm}
+        />
+      )}
     </>
   );
 };
@@ -176,6 +228,9 @@ const enhanced = withFragmentContainer<Props>({
         premod {
           active
         }
+        warning {
+          active
+        }
       }
       ...UserStatusContainer_user
     }
@@ -184,6 +239,13 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserStatusChangeContainer_settings on Settings {
       organization {
         name
+      }
+    }
+  `,
+  viewer: graphql`
+    fragment UserStatusChangeContainer_viewer on User {
+      moderationScopes {
+        scoped
       }
     }
   `,

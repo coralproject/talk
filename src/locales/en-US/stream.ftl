@@ -19,6 +19,7 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
+general-tabBar-discussionsTab = Discussions
 general-tabBar-configure = Configure
 
 general-tabBar-aria-comments =
@@ -33,6 +34,9 @@ general-tabBar-aria-myProfile =
 general-tabBar-aria-configure =
   .aria-label = Configure
   .title = My Profile
+general-tabBar-aria-discussions =
+  .aria-label = Discussions
+  .title = Discussions
 
 ## Comment Count
 
@@ -47,6 +51,8 @@ comment-count-text =
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
 comments-counter-shortNum = { SHORT_NUMBER($count) }
+comments-watchers = { SHORT_NUMBER($count) } online
+
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
@@ -68,10 +74,30 @@ comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
 
+comments-commentForm-cancel = Cancel
+comments-commentForm-saveChanges = Save changes
+comments-commentForm-submit = Submit
+
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
+comments-postCommentForm-gifSeach = Search for a GIF
+comments-postComment-gifSearch-loading = Loading...
+comments-postComment-gifSearch-no-results = No results found for {$query}
+comments-postComment-gifSearch-powered-by-giphy =
+  .alt = Powered by giphy
+
+comments-postComment-pasteImage = Paste image URL
+comments-postComment-insertImage = Insert
+
+comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-cancel = Cancel
+comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-video = Add video
+comments-postComment-confirmMedia-remove = Remove
+comments-commentForm-gifPreview-remove = Remove
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment
@@ -85,7 +111,7 @@ comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
 comments-permalinkButton =
-  .aria-label = Share
+  .aria-label = Share comment by {$username}
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
@@ -106,6 +132,11 @@ comments-rte-strikethrough =
 
 comments-rte-spoiler = Spoiler
 
+comments-rte-sarcasm = Sarcasm
+
+comments-rte-externalImage =
+  .title = External Image
+
 comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
@@ -123,7 +154,7 @@ comments-postCommentForm-userScheduledForDeletion-warning =
 
 comments-replyButton-reply = Reply
 comments-replyButton =
-  .aria-label = Reply
+  .aria-label = Reply to comment by {$username}
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
@@ -134,6 +165,9 @@ comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
 comments-commentContainer-editButton = Edit
+
+comments-commentContainer-avatar =
+  .alt = Avatar for { $username }
 
 comments-editCommentForm-saveChanges = Save Changes
 comments-editCommentForm-cancel = Cancel
@@ -158,7 +192,7 @@ comments-replyingTo = Replying to <Username></Username>
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
 comments-reportButton-aria-report =
-  .aria-label = Report
+  .aria-label = Report comment by {$username}
 comments-reportButton-aria-reported =
   .aria-label = Reported
 
@@ -210,6 +244,18 @@ comments-rejectedTombstone-moderateLink =
 
 comments-featuredTag = Featured
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    [one] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
@@ -241,10 +287,18 @@ qa-expert-tag = expert
 
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
+
 qa-reaction-aria-vote =
-  .aria-label = Vote
-qa-reaction-voted =
-  .aria-label = Voted
+  .aria-label = {$count ->
+    [0] Vote for comment by {$username}
+    *[other] Vote ({$count}) for comment by {$username}
+  }
+qa-reaction-aria-voted =
+  .aria-label = {$count ->
+    [0] Voted for comment by {$username}
+    [one] Voted for comment by {$username}
+    *[other] Voted ({$count}) for comment by {$username}
+  }
 
 qa-unansweredTab-doneAnswering = Done
 
@@ -271,6 +325,24 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancel account deletion
 
+### Embed Links
+
+comments-embedLinks-showEmbeds = Show embeds
+comments-embedLinks-hideEmbeds = Hide embeds
+
+comments-embedLinks-show-giphy = Show GIF
+comments-embedLinks-hide-giphy = Hide GIF
+
+comments-embedLinks-show-youtube = Show video
+comments-embedLinks-hide-youtube = Hide video
+
+comments-embedLinks-show-twitter = Show Tweet
+comments-embedLinks-hide-twitter = Hide Tweet
+
+comments-embedLinks-show-external = Show image
+comments-embedLinks-hide-external = Hide image
+
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to conversation
 comments-featured-replies = Replies
@@ -281,6 +353,15 @@ profile-myCommentsTab = My Comments
 profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
 profile-preferencesTab = Preferences
+
+### Bio
+profile-bio-title = Bio
+profile-bio-description =
+  Write a bio to display publicly on your commenting profile. Must be
+  less than 100 characters.
+profile-bio-remove = Remove
+profile-bio-update = Update
+
 
 ### Account Deletion
 
@@ -302,6 +383,15 @@ profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
 profile-commentHistory-empty-subheading = A history of your comments will appear here
+
+### Preferences
+
+profile-preferences-mediaPreferences = Media Preferences
+profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-thisMayMake = This may make the comments slower to load
+profile-preferences-mediaPreferences-update = Update
+profile-preferences-mediaPreferences-preferencesUpdated =
+  Your media preferences have been updated
 
 ### Account
 profile-account-ignoredCommenters = Ignored Commenters
@@ -473,6 +563,7 @@ comments-reportPopover-pleaseLeaveAdditionalInformation =
   Please leave any additional information that may be helpful to our moderators.
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
+comments-reportPopover-restrictToMaxCharacters = Please restrict your report to { $maxCharacters } characters
 comments-reportPopover-cancel = Cancel
 comments-reportPopover-submit = Submit
 
@@ -512,6 +603,17 @@ profile-changeUsername-recentChange = Your username has been changed in the last
 profile-changeUsername-youChangedYourUsernameWithin =
   You changed your username within the last { framework-timeago-time }. You may change your username again on: { $nextUpdate }.
 profile-changeUsername-close = Close
+
+## Discussions tab
+
+discussions-mostActiveDiscussions = Most active discussions
+discussions-mostActiveDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $siteName }
+discussions-mostActiveDiscussions-empty = You haven’t participated in any discussions
+discussions-myOngoingDiscussions = My ongoing discussions
+discussions-myOngoingDiscussions-subhead = Where you’ve commented across { $orgName }
+discussions-viewFullHistory = View full comment history
+discussions-discussionsQuery-errorLoadingProfile = Error loading profile
+discussions-discussionsQuery-storyNotFound = Story not found
 
 ## Comment Stream
 configure-stream-title =
@@ -655,6 +757,15 @@ suspendInfo-description-inAccordanceWith =
   be able to comment, respect or report comments.
 suspendInfo-until-pleaseRejoinThe =
   Please rejoin the conversation on { $until }
+
+warning-heading = Your account has been issued a warning
+warning-explanation =
+  In accordance with our community guidelines your account has been issued a warning.
+warning-instructions =
+  To continue participating in discussions, please press the "Acknowledge" button below.
+warning-acknowledge = Acknowledge
+
+warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)

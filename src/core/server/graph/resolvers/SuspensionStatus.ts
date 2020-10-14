@@ -1,5 +1,6 @@
-import { GQLSuspensionStatusTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as user from "coral-server/models/user";
+
+import { GQLSuspensionStatusTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export type SuspensionStatusInput = user.ConsolidatedSuspensionStatus & {
   userID: string;

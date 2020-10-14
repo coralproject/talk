@@ -1,15 +1,15 @@
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { BaseButton, Icon } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./CallOut.css";
 
 type CallOutColor =
   | "mono"
-  | "positive"
-  | "negative"
+  | "success"
+  | "error"
   | "primary"
   | "warning"
   | "none";
@@ -46,16 +46,12 @@ const CallOut: FunctionComponent<Props> = ({
   visible = true,
   onClose,
 }) => {
-  if (!visible) {
-    return null;
-  }
-
   const rootClasses = cn(
     classes.root,
     {
       [classes.mono]: color === "mono",
-      [classes.positive]: color === "positive",
-      [classes.negative]: color === "negative",
+      [classes.success]: color === "success",
+      [classes.error]: color === "error",
       [classes.primary]: color === "primary",
       [classes.warning]: color === "warning",
       [classes.leftBorder]: borderPosition === "leftSide",
@@ -66,8 +62,8 @@ const CallOut: FunctionComponent<Props> = ({
 
   const iconClasses = cn(classes.icon, {
     [classes.mono]: color === "mono" && iconColor === "inherit",
-    [classes.positive]: color === "positive" && iconColor === "inherit",
-    [classes.negative]: color === "negative" && iconColor === "inherit",
+    [classes.success]: color === "success" && iconColor === "inherit",
+    [classes.error]: color === "error" && iconColor === "inherit",
     [classes.primary]: color === "primary" && iconColor === "inherit",
     [classes.warning]: color === "warning" && iconColor === "inherit",
     [classes.leftIcon]: iconPosition === "left",
@@ -86,10 +82,13 @@ const CallOut: FunctionComponent<Props> = ({
 
     onClose();
   }, [onClose]);
+  if (!visible) {
+    return null;
+  }
 
   return (
     <div className={rootClasses}>
-      <Flex justifyContent="flex-start" alignItems="flex-start">
+      <div className={classes.container}>
         {iconPosition === "left" && icon !== null && (
           <div className={iconClasses}>{icon}</div>
         )}
@@ -98,15 +97,16 @@ const CallOut: FunctionComponent<Props> = ({
           <div className={classes.body}>{children}</div>
         </div>
         {onClose && (
-          <BaseButton
-            className={classes.closeButton}
-            onClick={onCloseClicked}
-            data-testid="callout-close-button"
-          >
-            <Icon size="sm">close</Icon>
-          </BaseButton>
+          <div className={classes.actions}>
+            <BaseButton
+              onClick={onCloseClicked}
+              data-testid="callout-close-button"
+            >
+              <Icon size="sm">close</Icon>
+            </BaseButton>
+          </div>
         )}
-      </Flex>
+      </div>
     </div>
   );
 };

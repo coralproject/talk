@@ -32,12 +32,15 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
           settings {
             ...UserHistoryDrawerContainer_settings
           }
+          viewer {
+            ...UserHistoryDrawerContainer_viewer
+          }
         }
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
       render={({ props }: QueryRenderData<QueryTypes>) => {
-        if (!props) {
+        if (!props || !props.viewer) {
           return (
             <div className={styles.root}>
               <Spinner />
@@ -62,6 +65,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             onClose={onClose}
             user={props.user}
             settings={props.settings}
+            viewer={props.viewer}
           />
         );
       }}

@@ -3,6 +3,7 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
 import {
+  acknowledgeWarning,
   addModeratorNote,
   ban,
   cancelAccountDeletion,
@@ -15,6 +16,7 @@ import {
   removeIgnore,
   removePremod,
   removeSuspension,
+  removeWarning,
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
@@ -23,13 +25,17 @@ import {
   setUsername,
   suspend,
   updateAvatar,
+  updateBio,
   updateEmail,
   updateEmailByID,
+  updateMediaSettings,
+  updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
   updateRole,
   updateUsername,
   updateUsernameByID,
+  warn,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
 import { deleteUser } from "coral-server/services/users/delete";
@@ -49,6 +55,7 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRemoveUserWarningInput,
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
@@ -56,15 +63,19 @@ import {
   GQLSetPasswordInput,
   GQLSetUsernameInput,
   GQLSuspendUserInput,
+  GQLUpdateBioInput,
   GQLUpdateEmailInput,
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUserMediaSettingsInput,
+  GQLUpdateUserModerationScopesInput,
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
-} from "../schema/__generated__/types";
+  GQLWarnUserInput,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { WithoutMutationID } from "./util";
 
@@ -188,6 +199,8 @@ export const Users = (ctx: GraphContext) => ({
       input.username,
       ctx.user!
     ),
+  updateBio: async (input: GQLUpdateBioInput) =>
+    updateBio(ctx.mongo, ctx.tenant, ctx.user!, input.bio),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmailByID(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateEmail: async (input: GQLUpdateEmailInput) =>
@@ -204,10 +217,23 @@ export const Users = (ctx: GraphContext) => ({
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
   ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  updateUserMediaSettings: async (
+    input: WithoutMutationID<GQLUpdateUserMediaSettingsInput>
+  ) => updateMediaSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  updateUserModerationScopes: async (
+    input: GQLUpdateUserModerationScopesInput
+  ) =>
+    updateModerationScopes(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.moderationScopes
+    ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
       ctx.mongo,
@@ -225,18 +251,35 @@ export const Users = (ctx: GraphContext) => ({
       input.id,
       ctx.user!
     ),
-  ban: async (input: GQLBanUserInput) =>
+  ban: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+  }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,
       ctx.user!,
-      input.userID,
-      input.message,
-      input.rejectExistingComments || false,
+      userID,
+      message,
+      rejectExistingComments,
       ctx.now
     ),
+  warn: async (input: GQLWarnUserInput) =>
+    warn(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.message,
+      ctx.now
+    ),
+  removeWarning: async (input: GQLRemoveUserWarningInput) =>
+    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  acknowledgeWarning: async () =>
+    acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
     premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>

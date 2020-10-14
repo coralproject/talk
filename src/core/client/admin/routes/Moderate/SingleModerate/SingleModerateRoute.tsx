@@ -30,14 +30,20 @@ const SingleModerateRoute: FunctionComponent<Props> = (props) => {
     };
   }, [props.comment, subscribeToSingleModerate]);
 
+  if (!props.viewer) {
+    return null;
+  }
+
   if (!props.comment) {
     return <NotFound />;
   }
+
   return (
     <SingleModerate>
       <Queue
         comments={[props.comment]}
         settings={props.settings}
+        viewer={props.viewer}
         onLoadMore={noop}
         hasLoadMore={false}
         disableLoadMore={false}
@@ -56,6 +62,9 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
       }
       settings {
         ...ModerateCardContainer_settings
+      }
+      viewer {
+        ...ModerateCardContainer_viewer
       }
     }
   `,

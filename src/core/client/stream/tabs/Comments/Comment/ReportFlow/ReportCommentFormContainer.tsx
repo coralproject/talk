@@ -1,33 +1,45 @@
 import { Localized } from "@fluent/react/compat";
+import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  useFetch,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import { ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
+import { ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
+import { shouldTriggerViewerRefresh } from "../../helpers";
+import RefreshViewerFetch from "../../RefreshViewerFetch";
 import CreateCommentDisagreeMutation from "./CreateCommentDisagreeMutation";
 import CreateCommentFlagMutation from "./CreateCommentFlagMutation";
 import ReportCommentForm from "./ReportCommentForm";
 
 interface Props {
   comment: ReportCommentFormContainer_comment;
+  settings: ReportCommentFormContainer_settings;
   onClose: () => void;
 }
 
 const ReportCommentFormContainer: FunctionComponent<Props> = ({
   comment,
+  settings,
   onClose,
 }) => {
   const [done, setDone] = useState(false);
   const dontAgreeMutation = useMutation(CreateCommentDisagreeMutation);
   const flagMutation = useMutation(CreateCommentFlagMutation);
-
+  const refreshViewer = useFetch(RefreshViewerFetch);
   const onSubmit = useCallback(
-    async (input, form) => {
+    async (input) => {
       try {
         if (input.reason === "DISAGREE") {
           await dontAgreeMutation({
@@ -46,17 +58,33 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
           });
         }
         setDone(true);
-      } catch (error) {
-        if (error instanceof InvalidRequestError) {
-          return error.invalidArgs;
+      } catch (err) {
+        if (err instanceof InvalidRequestError) {
+          if (shouldTriggerViewerRefresh(err.code)) {
+            await refreshViewer();
+          }
+
+          if (err.code === ERROR_CODES.USER_WARNED) {
+            return {
+              [FORM_ERROR]: <WarningError />,
+            };
+          }
+
+          return err.invalidArgs;
         }
         // eslint-disable-next-line no-console
-        console.error(error);
+        console.error(err);
       }
 
       return undefined;
     },
-    [setDone]
+    [
+      comment.id,
+      comment.revision,
+      dontAgreeMutation,
+      flagMutation,
+      refreshViewer,
+    ]
   );
 
   if (!done) {
@@ -66,13 +94,14 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         data-testid="report-comment-form"
         onSubmit={onSubmit}
         onCancel={onClose}
+        biosEnabled={settings.memberBios}
       />
     );
   }
 
   return (
     <CallOut
-      color="positive"
+      color="success"
       title={
         <Localized id="comments-reportPopover-thankYou">Thank you!</Localized>
       }
@@ -94,6 +123,11 @@ const enhanced = withFragmentContainer<Props>({
       revision {
         id
       }
+    }
+  `,
+  settings: graphql`
+    fragment ReportCommentFormContainer_settings on Settings {
+      memberBios
     }
   `,
 })(ReportCommentFormContainer);

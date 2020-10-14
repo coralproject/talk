@@ -144,9 +144,7 @@ it("report comment as offensive", async () => {
 
   act(() =>
     within(form)
-      .getByLabelText("Additional information", {
-        exact: false,
-      })
+      .getByTestID("report-comment-additional-information")
       .props.onChange({ target: { value: "More info" } })
   );
 
@@ -187,9 +185,7 @@ it("dont agree with comment", async () => {
 
   act(() =>
     within(form)
-      .getByLabelText("Additional information", {
-        exact: false,
-      })
+      .getByTestID("report-comment-additional-information")
       .props.onChange({ target: { value: "More info" } })
   );
 

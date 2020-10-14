@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
@@ -10,6 +11,7 @@ import {
 } from "coral-framework/lib/errors";
 import {
   FetchProp,
+  MutationProp,
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -18,7 +20,8 @@ import { PropTypesOf } from "coral-framework/types";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "coral-stream/mutations";
+} from "coral-stream/common/AuthPopup";
+import WarningError from "coral-stream/common/WarningError";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
@@ -31,10 +34,13 @@ import {
 import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
+  shouldTriggerViewerRefresh,
   SubmitStatus,
 } from "../../helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
+import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
+import CommentForm from "../CommentForm";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -47,20 +53,21 @@ import PostCommentFormFake from "./PostCommentFormFake";
 interface Props {
   createComment: CreateCommentMutation;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
+  refreshViewer: FetchProp<typeof RefreshViewerFetch>;
   sessionStorage: PromisifiedStorage;
   settings: PostCommentFormContainer_settings;
   viewer: PostCommentFormContainer_viewer | null;
   story: PostCommentFormContainer_story;
-  showAuthPopup: ShowAuthPopupMutation;
-  tab: COMMENTS_TAB;
-  onChangeTab: (tab: COMMENTS_TAB) => void;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
+  tab?: COMMENTS_TAB;
+  onChangeTab?: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
 }
 
 interface State {
   /** nudge will turn on the nudging behavior on the server */
   nudge: boolean;
-  initialValues?: PropTypesOf<typeof PostCommentForm>["initialValues"];
+  initialValues?: PropTypesOf<typeof CommentForm>["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
   submitStatus: SubmitStatus | null;
@@ -118,23 +125,32 @@ export class PostCommentFormContainer extends Component<Props, State> {
     }
   };
 
-  private handleOnSubmit: PropTypesOf<
-    typeof PostCommentForm
-  >["onSubmit"] = async (input, form) => {
+  private handleOnSubmit: PropTypesOf<typeof CommentForm>["onSubmit"] = async (
+    input,
+    form
+  ) => {
     try {
-      if (this.props.tab === "FEATURED_COMMENTS") {
-        this.props.onChangeTab("ALL_COMMENTS");
-      }
-
       const submitStatus = getSubmitStatus(
         await this.props.createComment({
           storyID: this.props.story.id,
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
           body: input.body,
+          media: input.media,
         })
       );
+      // Change tab *after* successfully creating comment to try avoiding race condition.
+      if (
+        this.props.tab &&
+        this.props.tab === "FEATURED_COMMENTS" &&
+        this.props.onChangeTab
+      ) {
+        this.props.onChangeTab("ALL_COMMENTS");
+      }
       if (submitStatus !== "RETRY") {
+        form
+          .getRegisteredFields()
+          .forEach((name) => form.resetFieldState(name));
         form.initialize({ body: RTE_RESET_VALUE });
       }
       this.setState({ submitStatus, nudge: true });
@@ -143,8 +159,19 @@ export class PostCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
+        if (shouldTriggerViewerRefresh(error.code)) {
+          await this.props.refreshViewer();
+        }
+
+        if (error.code === ERROR_CODES.USER_WARNED) {
+          return {
+            [FORM_ERROR]: <WarningError />,
+          };
+        }
+
         return error.invalidArgs;
       }
+
       /**
        * Comment was caught in one of the moderation filters on the server.
        * We give the user another change to submit the comment, and we
@@ -160,7 +187,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     return;
   };
 
-  private handleOnChange: PropTypesOf<typeof PostCommentForm>["onChange"] = (
+  private handleOnChange: PropTypesOf<typeof CommentForm>["onChange"] = (
     state,
     form
   ) => {
@@ -174,8 +201,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
     }
 
     // Reset errors whenever user clears the form.
-    if (state.touched && state.touched.body && !state.values.body) {
-      form.reset({ body: RTE_RESET_VALUE });
+    if (
+      state.touched &&
+      state.touched.body &&
+      (!state.values.body || state.values.body === RTE_RESET_VALUE)
+    ) {
+      (form as any).restart({ body: RTE_RESET_VALUE });
     }
   };
 
@@ -229,10 +260,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
 
     return (
       <PostCommentForm
+        siteID={this.props.story.site.id}
         story={this.props.story}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
+        mediaConfig={this.props.settings.media}
         rteConfig={this.props.settings.rte}
         min={
           (this.props.settings.charCount.enabled &&
@@ -273,46 +306,65 @@ const enhanced = withContext(({ sessionStorage }) => ({
   withShowAuthPopupMutation(
     withCreateCommentMutation(
       withFetch(RefreshSettingsFetch)(
-        withFragmentContainer<Props>({
-          settings: graphql`
-            fragment PostCommentFormContainer_settings on Settings {
-              charCount {
-                enabled
-                min
-                max
-              }
-              disableCommenting {
-                enabled
-                message
-              }
-              closeCommenting {
-                message
-              }
-              rte {
-                ...RTEContainer_config
-              }
-            }
-          `,
-          story: graphql`
-            fragment PostCommentFormContainer_story on Story {
-              id
-              isClosed
-              ...MessageBoxContainer_story
-              settings {
-                messageBox {
+        withFetch(RefreshViewerFetch)(
+          withFragmentContainer<Props>({
+            settings: graphql`
+              fragment PostCommentFormContainer_settings on Settings {
+                charCount {
                   enabled
+                  min
+                  max
                 }
-                mode
+                disableCommenting {
+                  enabled
+                  message
+                }
+                closeCommenting {
+                  message
+                }
+                media {
+                  twitter {
+                    enabled
+                  }
+                  youtube {
+                    enabled
+                  }
+                  giphy {
+                    enabled
+                  }
+                  external {
+                    enabled
+                  }
+                }
+                rte {
+                  ...RTEContainer_config
+                }
               }
-            }
-          `,
-          viewer: graphql`
-            fragment PostCommentFormContainer_viewer on User {
-              id
-              scheduledDeletionDate
-            }
-          `,
-        })(PostCommentFormContainer)
+            `,
+            story: graphql`
+              fragment PostCommentFormContainer_story on Story {
+                id
+                isClosed
+                ...MessageBoxContainer_story
+                site {
+                  id
+                }
+                settings {
+                  messageBox {
+                    enabled
+                  }
+                  mode
+                }
+              }
+            `,
+            viewer: graphql`
+              fragment PostCommentFormContainer_viewer on User {
+                id
+                scheduledDeletionDate
+              }
+            `,
+          })(PostCommentFormContainer)
+        )
       )
     )
   )

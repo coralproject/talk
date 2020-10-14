@@ -34,6 +34,11 @@ enum USER_AUTH_CONDITIONS {
   remain after being deleted.
   """
   PENDING_DELETION
+
+  """
+  WARNED
+  """
+  WARNED
 }
 
 """
@@ -46,10 +51,13 @@ is used without options, it simply requires a logged in user. `permit` can be
 used to allow specific `USER_AUTH_CONDITIONS` that normally (if present) would
 deny access to any edge associated with the `@auth` directive. If a User has
 only some of the conditions listed, they will pass, but if they have at least
-one more that isn't in the list, the request will be denied.
+one more that isn't in the list, the request will be denied. If `unscoped` is
+provided and is `true`, it will require that the user does not have any
+moderation scopes applied to their account (such as a site moderator).
 """
 directive @auth(
   roles: [USER_ROLE!]
+  unscoped: Boolean
   userIDField: String
   permit: [USER_AUTH_CONDITIONS!]
 ) on FIELD_DEFINITION
@@ -71,6 +79,16 @@ deprecated indicates that a field should not be used in the future.
 directive @deprecated(
   reason: String = "No longer supported"
 ) on FIELD_DEFINITION | ENUM_VALUE
+
+enum CACHE_CONTROL_SCOPE {
+  PUBLIC
+  PRIVATE
+}
+
+directive @cacheControl(
+  scope: CACHE_CONTROL_SCOPE
+  maxAge: Int
+) on FIELD_DEFINITION | OBJECT | INTERFACE
 
 ################################################################################
 ## Custom Scalar Types
@@ -138,6 +156,11 @@ enum COMMENT_FLAG_REPORTED_REASON {
   fit into the other reported reasons.
   """
   COMMENT_REPORTED_OTHER
+
+  """
+  COMMENT_REPORTED_BIO is used when a User reports a bio that is offensive or abusive.
+  """
+  COMMENT_REPORTED_BIO
 }
 
 """
@@ -201,6 +224,7 @@ enum COMMENT_FLAG_REASON {
   COMMENT_REPORTED_ABUSIVE
   COMMENT_REPORTED_SPAM
   COMMENT_REPORTED_OTHER
+  COMMENT_REPORTED_BIO
   COMMENT_DETECTED_TOXIC
   COMMENT_DETECTED_SPAM
   COMMENT_DETECTED_LINKS
@@ -239,6 +263,7 @@ type FlagReasonActionCounts {
   COMMENT_REPORTED_ABUSIVE: Int!
   COMMENT_REPORTED_SPAM: Int!
   COMMENT_REPORTED_OTHER: Int!
+  COMMENT_REPORTED_BIO: Int!
   COMMENT_DETECTED_TOXIC: Int!
   COMMENT_DETECTED_SPAM: Int!
   COMMENT_DETECTED_LINKS: Int!
@@ -387,6 +412,62 @@ enum FEATURE_FLAG {
   DEFAULT_QA_STORY_MODE will set the story mode to QA by default.
   """
   DEFAULT_QA_STORY_MODE
+
+  """
+  SITE_MODERATOR will enable the enhanced Site Moderator role by assigning a new
+  modeartion scope to a user.
+  """
+  SITE_MODERATOR
+
+  """
+  REDUCED_SECURITY_MODE when true will allow unpersisted queries to be executed
+  in production environments.
+  """
+  REDUCED_SECURITY_MODE
+
+  """
+  DISCUSSIONS will enable the discussions tab for the comment stream.
+  """
+  DISCUSSIONS
+
+  """
+  READ_MORE_NEW_TAB will enable opening a new tab when a user clicks on
+  "read more of this conversation" in the comment stream.
+  """
+  READ_MORE_NEW_TAB
+
+  """
+  AVATARS will enable pulling an avatar URL from sso token and displaying it
+  next to user comments
+  """
+  AVATARS
+
+  """
+  NEW_COMMENT_COUNT enables the comment count update feature.
+  """
+  NEW_COMMENT_COUNT
+
+  """
+  EXTERNAL_MEDIA enables embedding external images
+  """
+  EXTERNAL_MEDIA
+
+  """
+  RTE_SARCASM enables sarcasm RTE feature
+  """
+  RTE_SARCASM
+
+  """
+  VIEWER_COUNT when true will enable the display and tracking of the viewer
+  count.
+  """
+  VIEWER_COUNT
+
+  """
+  ALTERNATE_OLDEST_FIRST_VIEW when enabled will move the create comment form to
+  the bottom of the stream when sorting the comment stream by oldest first.
+  """
+  ALTERNATE_OLDEST_FIRST_VIEW
 }
 
 # The moderation mode of the site.
@@ -679,7 +760,7 @@ type OIDCAuthIntegration {
   the authentication flow with the given integration. This field is not stored,
   and is instead computed from the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -769,7 +850,7 @@ type GoogleAuthIntegration {
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -819,7 +900,7 @@ type FacebookAuthIntegration {
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
-  callbackURL: String!
+  callbackURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is the URL that the user should be redirected to in order to start
@@ -1270,6 +1351,70 @@ type StoryMessageBox {
 }
 
 ################################################################################
+## Embed Links
+################################################################################
+
+type GiphyMediaConfiguration {
+  """
+  enabled is true when gif search via giphy and giphy media objects are enabled.
+  """
+  enabled: Boolean!
+
+  """
+  maximum allowed rating for gifs, g, pg, pg-13, r.
+  """
+  maxRating: String @auth(roles: [ADMIN])
+
+  """
+  key is the API key for Giphy.
+  """
+  key: String @auth(roles: [ADMIN])
+}
+
+type TwitterMediaConfiguration {
+  """
+  enabled is true when twitter media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type YouTubeMediaConfiguration {
+  """
+  enabled is true when youtube media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type ExternalMediaConfiguration {
+  """
+  enabled is true when external media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type MediaConfiguration {
+  """
+  twitter is the configuration for Twitter support.
+  """
+  twitter: TwitterMediaConfiguration!
+
+  """
+  youtube is the configuration for YouTube support.
+  """
+  youtube: YouTubeMediaConfiguration!
+
+  """
+  giphy is the configuration for Giphy support.
+  """
+  giphy: GiphyMediaConfiguration!
+
+  """
+  external is the configuration for external images.
+  """
+  external: ExternalMediaConfiguration!
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -1282,13 +1427,13 @@ type CloseCommenting {
   auto when true will configure the automatic close on each story as they are
   created based on the current configured timeout option.
   """
-  auto: Boolean!
+  auto: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   timeout is the amount of seconds from the `createdAt` timestamp that a given
   story will be considered closed.
   """
-  timeout: Int!
+  timeout: Int! @auth(roles: [ADMIN, MODERATOR])
 
   """
   message when provided will be the message that shows when the comment stream
@@ -1385,7 +1530,22 @@ type StaffConfiguration {
   """
   label is the string used when displaying the STAFF badge to users.
   """
-  label: String!
+  label: String! @deprecated(reason: "deprecated in favour of staffLabel")
+
+  """
+  staffLabel is the string used when displaying the STAFF badge to users.
+  """
+  staffLabel: String!
+
+  """
+  moderatorLabel is the string used when displaying the MODERATOR badge to users.
+  """
+  moderatorLabel: String!
+
+  """
+  adminLabel is the string used when displaying the ADMIN badge to users
+  """
+  adminLabel: String!
 }
 
 type WebhookDelivery {
@@ -1474,24 +1634,24 @@ type Announcement {
   id: ID!
 
   """
+  content is the content displayed for the announcement.
+  """
+  content: String!
+
+  """
   createdAt is the creation date.
   """
-  createdAt: Time!
+  createdAt: Time! @auth(roles: [ADMIN])
 
   """
   disableAt is the computed date at which announcement will be invalid.
   """
-  disableAt: Time!
+  disableAt: Time! @auth(roles: [ADMIN])
 
   """
   duration determines how long the announcement will be valid for.
   """
-  duration: Int!
-
-  """
-  content is the content displayed for the announcement.
-  """
-  content: String!
+  duration: Int! @auth(roles: [ADMIN])
 }
 
 type Site {
@@ -1508,12 +1668,24 @@ type Site {
   """
   allowedOrigins are the allowed origins for embeds.
   """
-  allowedOrigins: [String!]!
+  allowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  canModerate when true indicates that the current user can moderate comments
+  left on this Site.
+  """
+  canModerate: Boolean!
+
+  """
+  topStories will return stories that have had the most comments within the last
+  24 hours on this Site.
+  """
+  topStories(limit: Int = 5 @constraint(max: 5)): [Story!]!
 
   """
   createdAt is when the site was created.
   """
-  createdAt: Time!
+  createdAt: Time! @auth(roles: [ADMIN, MODERATOR])
 }
 
 type RTEConfiguration {
@@ -1522,20 +1694,27 @@ type RTEConfiguration {
   bold, italic, quote, and bullet list.
   """
   enabled: Boolean!
+
   """
   strikethrough when true turns on the strikethrough feature.
   """
   strikethrough: Boolean!
+
   """
   spoiler when true turns on the spoiler feature.
   """
   spoiler: Boolean!
+
+  """
+  sarcasm when true turns on the sarcasm feature.
+  """
+  sarcasm: Boolean!
 }
 
 """
 Settings stores the global settings for a given Tenant.
 """
-type Settings {
+type Settings @cacheControl(maxAge: 30) {
   """
   id is a canonical identifier for this Tenant.
   """
@@ -1544,22 +1723,28 @@ type Settings {
   """
   domain is the domain that is associated with this Tenant.
   """
-  domain: String! @auth(roles: [ADMIN])
+  domain: String! @auth(roles: [ADMIN]) @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   webhooks store the webhook configuration.
   """
-  webhooks: WebhookConfiguration! @auth(roles: [ADMIN])
+  webhooks: WebhookConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   webhookEvents returns all the events that can trigger webhooks.
   """
-  webhookEvents: [WEBHOOK_EVENT_NAME!]! @auth(roles: [ADMIN])
+  webhookEvents: [WEBHOOK_EVENT_NAME!]!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   staticURI if configured, is the static URI used to serve static files from.
   """
-  staticURI: String @auth(roles: [ADMIN])
+  staticURI: String
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   locale is the specified locale for this Tenant.
@@ -1575,7 +1760,9 @@ type Settings {
   """
   moderation is the moderation mode for all Stories on the site.
   """
-  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+  moderation: MODERATION_MODE
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -1585,7 +1772,9 @@ type Settings {
   """
   premodLinksEnable will put all comments that contain links into premod.
   """
-  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+  premodLinksEnable: Boolean
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   closeCommenting contains settings related to the automatic closing of commenting on
@@ -1597,6 +1786,8 @@ type Settings {
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   disableCommenting will disable commenting site-wide.
@@ -1623,17 +1814,23 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+  email: EmailConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   slack is the configuration for slack communication
   """
-  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
+  slack: SlackConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   wordList will return a given list of words.
   """
-  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+  wordList: WordList!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -1643,7 +1840,9 @@ type Settings {
   """
   integrations contains all the external integrations that can be enabled.
   """
-  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
+  integrations: ExternalIntegrations!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   recentCommentHistory is the set of settings related to how automatic
@@ -1651,6 +1850,7 @@ type Settings {
   """
   recentCommentHistory: RecentCommentHistoryConfiguration!
     @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   reaction specifies the configuration for reactions.
@@ -1671,33 +1871,55 @@ type Settings {
   """
   stories stores the configuration around stories.
   """
-  stories: StoryConfiguration! @auth(roles: [ADMIN])
+  stories: StoryConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
+  media is the configuration media content attached to Comment's.
+  """
+  media: MediaConfiguration!
 
   """
   featureFlags provides the enabled feature flags.
   """
-  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN, MODERATOR])
+  featureFlags: [FEATURE_FLAG!]!
 
   """
   createdAt is the time that the Settings was created at.
   """
-  createdAt: Time! @auth(roles: [ADMIN])
+  createdAt: Time!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   newCommenters is the configuration for how new commenters comments are treated.
   """
-  newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
+  newCommenters: NewCommentersConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
+  """
+  announcement is the currently active Announcement.
+  """
   announcement: Announcement
+
   """
   multisite is whether multiple sites exist for this tenant.
   """
   multisite: Boolean!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfiguration!
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean!
 }
 
 ################################################################################
@@ -1819,11 +2041,6 @@ type BanStatus {
   active when true, indicates that the given user is banned.
   """
   active: Boolean!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
 
   """
   history is the list of all ban events against a specific User.
@@ -1899,26 +2116,61 @@ type SuspensionStatus {
   active when true, indicates that the given user is suspended.
   """
   active: Boolean!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
 
   """
   until is the time that the current user suspension is over.
   """
   until: Time
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
 
   """
   history is the list of all suspension events against a specific User.
   """
   history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
+type WarningStatusHistory {
+  """
+  active when true, indicates that the given user has been warned but has not acknowledged the warning.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the user that warned the commenter
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was warned
+  """
+  createdAt: Time!
+
+  """
+  acknowledgedAt is the time the commenter acknowledged the warning. if `null` then the warning
+  has not been acknowledged
+  """
+  acknowledgedAt: Time
+
+  """
+  message is the custom message sent to the commenter
+  """
+  message: String
+}
+
+type WarningStatus {
+  """
+  active when true, indicates that the given user has been warned but has not acknowledged it.
+  """
+  active: Boolean!
+
+  """
+  message is the current message for the warning on the User.
+  """
+  message: String
+
+  """
+  history will return the status history items for warnings.
+  """
+  history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 type PremodStatusHistory {
@@ -1955,11 +2207,6 @@ type UsernameHistory {
   username is the username that was assigned
   """
   username: String!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
 
   """
   createdBy is the user that created this username
@@ -1970,11 +2217,6 @@ type UsernameHistory {
   createdAt is the time the username was created
   """
   createdAt: Time!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
 }
 
 type UsernameStatus {
@@ -1993,31 +2235,56 @@ type UserStatus {
   """
   current: [USER_STATUS!]!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
   username stores the history of username changes for this user
   """
   username: UsernameStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   banned stores the user banned status as well as the history of changes.
   """
   ban: BanStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   suspension stores the user suspension status as well as the history of
   changes.
   """
   suspension: SuspensionStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   premod stores the user premod status as well as the history of changes.
   """
   premod: PremodStatus! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  warning stores the user warning status as well as the history of warnings
+  """
+  warning: WarningStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """
@@ -2044,6 +2311,11 @@ enum USER_STATUS {
   PREMOD is used when a User is currently set to require pre-moderation.
   """
   PREMOD
+
+  """
+  WARNED is used when a user has been warned about behaviour and has not acknowledged
+  """
+  WARNED
 }
 
 type ModeratorNote {
@@ -2086,6 +2358,17 @@ enum DIGEST_FREQUENCY {
 }
 
 """
+UserMediaSettings are the user's preferences around embed stream behaviour.
+"""
+type UserMediaSettings {
+  """
+  unfurlEmbeds is whether the user has chosen to immediately show embed contents
+  without having to click "Show Tweet", "Show GIF", etc.
+  """
+  unfurlEmbeds: Boolean!
+}
+
+"""
 UserNotificationSettings stores the notification settings for a given User.
 """
 type UserNotificationSettings {
@@ -2123,6 +2406,24 @@ type UserNotificationSettings {
 }
 
 """
+UserModerationScopes describes the scopes for moderation. These only apply when
+the user has a MODERATOR role.
+"""
+type UserModerationScopes {
+  """
+  scoped returns true when the moderator has a scoped moderation role, and
+  cannot moderate organization wide.
+  """
+  scoped: Boolean!
+
+  """
+  sites (when not null) list the sites that the user is only allowed to moderate
+  on. When null, it means that the user is allowed to moderate on all sites.
+  """
+  sites: [Site!]
+}
+
+"""
 User is someone that leaves Comments, and logs in.
 """
 type User {
@@ -2153,15 +2454,34 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   duplicateEmail is set on users that have a matching email with another user in
   the database. Only relevant during the account completion process.
   """
   duplicateEmail: String
-    @auth(userIDField: "id", permit: [MISSING_NAME, MISSING_EMAIL])
+    @auth(
+      userIDField: "id"
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
+    )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   emailVerified when true indicates that the given email address has been
@@ -2171,7 +2491,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2181,8 +2501,16 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   role is the current role of the User.
@@ -2191,7 +2519,14 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
@@ -2200,9 +2535,8 @@ type User {
   moderatorNotes: [ModeratorNote!]! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  ignoreable is a computed property based on the
-  user's role. Typically, users with elevated privileges
-  aren't allowed to be ignored.
+  ignoreable is a computed property based on the user's role. Typically, users
+  with elevated privileges aren't allowed to be ignored.
   """
   ignoreable: Boolean!
 
@@ -2215,9 +2549,9 @@ type User {
     after: Cursor
   ): CommentsConnection!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2237,6 +2571,16 @@ type User {
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
+  ongoingDiscussions are stories where the given user has written comments in
+  sorted by their last comment date.
+  """
+  ongoingDiscussions(limit: Int = 5 @constraint(max: 5)): [Story!]!
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
   recentCommentHistory returns recent commenting history by the User.
   """
   recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
@@ -2254,15 +2598,20 @@ type User {
   status stores the user status information regarding moderation state.
   """
   status: UserStatus!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
     @auth(
-      roles: [ADMIN]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      roles: [ADMIN]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2270,16 +2619,18 @@ type User {
   """
   ignoredUsers: [User!]!
     @auth(
-      roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
   notifications stores the notification settings for the given User.
   """
   notifications: UserNotificationSettings!
-    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 
   """
   createdAt is the time that the User was created at.
@@ -2293,8 +2644,7 @@ type User {
   lastDownloadedAt: Time
     @auth(
       userIDField: "id"
-      roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2305,7 +2655,7 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2315,13 +2665,42 @@ type User {
     @auth(
       userIDField: "id"
       roles: [ADMIN, MODERATOR]
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  moderationScopes describes the scopes for moderation. These only apply when
+  the user has a MODERATOR role.
+  """
+  moderationScopes: UserModerationScopes
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
   ssoURL is the url for managing sso account
   """
   ssoURL: String
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  mediaSettings are the user's preferences around media stream behaviour.
+  """
+  mediaSettings: UserMediaSettings!
+    @auth(
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  bio is a user-defined biography.
+  """
+  bio: String
 }
 
 """
@@ -2393,6 +2772,7 @@ type SitesConnection {
   """
   pageInfo: PageInfo!
 }
+
 ################################################################################
 ## Comment
 ################################################################################
@@ -2404,7 +2784,8 @@ type EditInfo {
   edited: Boolean!
 
   """
-  editableUntil is the time that the comment is editable until.
+  editableUntil is the time that the comment is editable until. This will return
+  null if the current viewer is not the author of the Comment.
   """
   editableUntil: Time
 }
@@ -2503,13 +2884,139 @@ type CommentRevisionPerspectiveMetadata {
   score: Float!
 }
 
+type CommentRevisionWordListMetadata {
+  """
+  timedOut is whether the wordlist analysis timed out when this revision
+  of the comment was sent through the moderation phases.
+  """
+  timedOut: Boolean
+}
+
 type CommentRevisionMetadata {
   """
   perspective stores metadata associated with the pipeline analysis of this
   revision's body.
   """
   perspective: CommentRevisionPerspectiveMetadata
+
+  """
+  wordList metadata stores extra status details about what occurred during
+  word list analysis of this comment revision.
+  """
+  wordList: CommentRevisionWordListMetadata
 }
+
+"""
+GiphyMedia is a particular GIF that is provided by the Giphy platform.
+"""
+type GiphyMedia {
+  """
+  url is the URL to a image of the GIF.
+  """
+  url: String!
+
+  """
+  original is the URL to a image of the GIF.
+  """
+  original: String!
+
+  """
+  still is a thumbnail preview of the GIF.
+  """
+  still: String!
+
+  """
+  video is a URL to the mp4 video of the GIF.
+  """
+  video: String!
+
+  """
+  width is the width of the GIF in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the GIF in pixels.
+  """
+  height: Int
+
+  """
+  title is the title of the GIF.
+  """
+  title: String
+}
+
+"""
+TwitterMedia is a specific Twitter Tweet.
+"""
+type TwitterMedia {
+  """
+  url is the URL of a Twitter tweet.
+  """
+  url: String!
+
+  """
+  width is the width of the Twitter tweet in pixels.
+  """
+  width: Int
+}
+
+"""
+YouTubeMedia is a specific YouTube video.
+"""
+type YouTubeMedia {
+  """
+  url is the URL of a YouTube video.
+  """
+  url: String!
+
+  """
+  still is the thumbnail of the YouTube video.
+  """
+  still: String!
+
+  """
+  title is the title of the YouTube video.
+  """
+  title: String
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
+  height: Int
+}
+
+type ExternalMedia {
+  """
+  url is the URL of a YouTube video.
+  """
+  url: String!
+
+  """
+  extension is the file extension
+  """
+  extension: String!
+
+  """
+  width is the width of the YouTube video in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the YouTube video in pixels.
+  """
+  height: Int
+}
+
+"""
+CommentMedia is the various media types that can be attached to a Comment.
+"""
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia
 
 type CommentRevision {
   """
@@ -2536,6 +3043,11 @@ type CommentRevision {
   body: String
 
   """
+  media is the optional media object attached to this revision.
+  """
+  media: CommentMedia
+
+  """
   metadata stores details on a CommentRevision.
   """
   metadata: CommentRevisionMetadata! @auth(roles: [ADMIN, MODERATOR])
@@ -2552,6 +3064,18 @@ enum TAG {
   or MODERATOR role.
   """
   STAFF
+
+  """
+  ADMIN is used when a Comment is written by a User that has the ADMIN,
+  role.
+  """
+  ADMIN
+
+  """
+  MODERATOR is used when a Comment is written by a User that has the MODERATOR,
+  role.
+  """
+  MODERATOR
 
   """
   FEATURED is used when a Comment is marked as such by a staff member.
@@ -2610,7 +3134,7 @@ type CommentTagCounts {
 """
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
-type Comment {
+type Comment @cacheControl(maxAge: 5) {
   """
   id is the identifier of the Comment.
   """
@@ -2633,9 +3157,9 @@ type Comment {
   """
   revisionHistory: [CommentRevision!]!
     @auth(
-      roles: [MODERATOR, ADMIN]
       userIDField: "author_id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      roles: [MODERATOR, ADMIN]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
 
   """
@@ -2747,6 +3271,11 @@ type Comment {
   deleted is whether the comment has been deleted.
   """
   deleted: Boolean
+
+  """
+  canModerate returns true if the current user can moderate this Comment.
+  """
+  canModerate: Boolean!
 
   """
   site is the Site referenced by the Story for this Comment.
@@ -2924,7 +3453,7 @@ type LiveConfiguration {
   """
   configurable when false indicates that live updates cannot be modified.
   """
-  configurable: Boolean!
+  configurable: Boolean! @auth(roles: [ADMIN, MODERATOR])
 
   """
   enabled when true will allow live updates.
@@ -2985,7 +3514,7 @@ enum STORY_STATUS {
 """
 Story is an Article or Page where Comments are written on by Users.
 """
-type Story {
+type Story @cacheControl(maxAge: 30) {
   """
   id is the identifier of the Story.
   """
@@ -3042,13 +3571,17 @@ type Story {
   commentActionCounts stores the counts of all the actions against this Story and it's
   Comments.
   """
-  commentActionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
+  commentActionCounts: ActionCounts!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   moderationQueues returns the set of ModerationQueues that are available for
   this Story.
   """
-  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   closedAt is the Time that the Story is closed for commenting. If null or in
@@ -3080,12 +3613,25 @@ type Story {
   """
   lastCommentedAt is the last time someone commented on this story.
   """
-  lastCommentedAt: Time @auth(roles: [ADMIN])
+  lastCommentedAt: Time
+    @auth(roles: [ADMIN])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
+
+  """
+  canModerate returns true if the current user can moderate comments on this
+  Story.
+  """
+  canModerate: Boolean!
 
   """
   site is the site associated with the story
   """
   site: Site!
+
+  """
+  viewerCount is the number of viewers active on this Story.
+  """
+  viewerCount: Int
 }
 
 """
@@ -3291,7 +3837,9 @@ type Query {
     storyID: ID
     siteID: ID
     section: SectionFilter
-  ): ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+  ): ModerationQueues!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(scope: PRIVATE, maxAge: 0)
 
   """
   sections will return the unique sections used by this Tenant.
@@ -3383,6 +3931,16 @@ type UpdateNotificationSettingsPayload {
   clientMutationId: String!
 }
 
+input UpdateUserMediaSettingsInput {
+  unfurlEmbeds: Boolean
+  clientMutationId: String!
+}
+
+type UpdateUserMediaSettingsPayload {
+  user: User!
+  clientMutationId: String!
+}
+
 ##################
 ## createComment
 ##################
@@ -3412,6 +3970,11 @@ input CreateCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3428,6 +3991,36 @@ type CreateCommentPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+}
+
+"""
+CreateCommentMediaInput is used for creating media to be attached to a Comment.
+"""
+input CreateCommentMediaInput {
+  """
+  type specifies the type of media that can be attached. Valid values for this
+  are: `giphy`, `external`, `twitter`, and `youtube`.
+  """
+  type: String!
+
+  """
+  id refers to a foreign id for the specific media provider.
+  """
+  id: String
+
+  """
+  url is the URL to the media resource.
+  """
+  url: String!
+
+  """
+  width is the width to the media resource.
+  """
+  width: String
+  """
+  height is the height to the media resource.
+  """
+  height: String
 }
 
 ##################
@@ -3469,6 +4062,11 @@ input CreateCommentReplyInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -3509,6 +4107,11 @@ input EditCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  media is the optional media attachment to be added to a Comment.
+  """
+  media: CreateCommentMediaInput
 }
 
 """
@@ -4070,9 +4673,19 @@ assigned to users with any role above COMMENTER.
 """
 input StaffConfigurationInput {
   """
-  label is the string used when displaying the STAFF badge to users.
+  staffLabel is the string used when displaying the STAFF badge to users.
   """
-  label: String
+  staffLabel: String
+
+  """
+  adminLabel is the string used when displaying the ADMIN badge to users.
+  """
+  adminLabel: String
+
+  """
+  moderatorLabel is the string used when displaying the MODERATOR badge to users.
+  """
+  moderatorLabel: String
 }
 
 """
@@ -4150,6 +4763,54 @@ input SlackConfigurationInput {
   channels: [SlackChannelConfigurationInput!]
 }
 
+input TwitterMediaConfigurationInput {
+  """
+  enabled is true when twitter media objects are enabled.
+  """
+  enabled: Boolean
+}
+
+input YouTubeMediaConfigurationInput {
+  """
+  enabled is true when youtube media objects are enabled.
+  """
+  enabled: Boolean
+}
+
+input GiphyMediaConfigurationInput {
+  """
+  enabled is true when gif search via giphy and giphy media objects are enabled.
+  """
+  enabled: Boolean
+
+  """
+  maximum allowed rating for gifs, g, pg, pg-13, r
+  """
+  maxRating: String
+
+  """
+  key is the API key for Giphy.
+  """
+  key: String
+}
+
+input MediaConfigurationInput {
+  """
+  twitter is the configuration for Twitter support.
+  """
+  twitter: TwitterMediaConfigurationInput
+
+  """
+  youtube is the configuration for YouTube support.
+  """
+  youtube: YouTubeMediaConfigurationInput
+
+  """
+  giphy is the configuration for Giphy support.
+  """
+  giphy: GiphyMediaConfigurationInput
+}
+
 """
 NewCommenterConfigurationInput specifies the features that apply to new commenters
 """
@@ -4166,7 +4827,6 @@ input NewCommentersConfigurationInput {
   """
   approvedCommentsThreshold: Int
 }
-
 
 """
 RTEConfigurationInput specifies the configuration for the rte.
@@ -4311,8 +4971,17 @@ input SettingsInput {
   rte is the configuration of the Rich-Text-Editor.
   """
   rte: RTEConfigurationInput
-}
 
+  """
+  media is the configuration media content attached to Comment's.
+  """
+  media: MediaConfigurationInput
+
+  """
+  memberBios is whether members can define a bio for their account.
+  """
+  memberBios: Boolean
+}
 
 """
 UpdateSettingsInput provides the input for the updateSettings Mutation.
@@ -4514,29 +5183,6 @@ type CreateCommentFlagPayload {
   comment is the Comment that the Flag was created on.
   """
   comment: Comment
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-## regenerateSSOKey
-##################
-
-input RegenerateSSOKeyInput {
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type RegenerateSSOKeyPayload {
-  """
-  settings is the Settings that the SSO secret was regenerated on.
-  """
-  settings: Settings
 
   """
   clientMutationId is required for Relay support.
@@ -5114,6 +5760,34 @@ input SetUsernameInput {
 }
 
 type SetUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateBio
+##################
+
+input UpdateBioInput {
+  """
+  bio is the desired bio that should be set to the current User.
+  """
+  bio: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateBioPayload {
   """
   user is the possibly modified User.
   """
@@ -6039,12 +6713,58 @@ type UpdateUserAvatarPayload {
 }
 
 ##################
+# updateUserModerationScopes
+##################
+
+"""
+ModerationScopesInput describes the different scopes that a given moderator
+could be assigned.
+"""
+input ModerationScopesInput {
+  """
+  siteIDs is an array of ID's that should be the list of sites that a moderator
+  is limited to. If none are passed, it will remove the scoping for this User.
+  """
+  siteIDs: [String!]
+}
+
+input UpdateUserModerationScopesInput {
+  """
+  userID is the ID of the User that should have their role updated.
+  """
+  userID: ID!
+
+  """
+  moderationScopes defines the scopes that a given moderator should be limited
+  to when
+  """
+  moderationScopes: ModerationScopesInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserModerationScopesPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # updateUserRole
 ##################
 
 input UpdateUserRoleInput {
   """
-  userID is the ID of the User that should have their avatar updated.
+  userID is the ID of the User that should have their role updated.
   """
   userID: ID!
 
@@ -6061,14 +6781,88 @@ input UpdateUserRoleInput {
 
 type UpdateUserRolePayload {
   """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
   user is the possibly modified User.
   """
   user: User!
+}
+
+##################
+# warnUser
+##################
+input WarnUserInput {
+  """
+  userID is the ID of the User that should have their account banned.
+  """
+  userID: ID!
 
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is displayed to the user in the stream
+  """
+  message: String!
+}
+
+type WarnUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input RemoveUserWarningInput {
+  """
+  userID is the ID of the User that should be warned.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveUserWarningPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input AcknowledgeWarningInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcknowledgeWarningPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
 }
 
 ##################
@@ -6740,16 +7534,6 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  regenerateSSOKey will regenerate the SSO secret used to sign secrets. This will
-  invalidate any existing user sessions.
-
-  DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
-  """
-  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
-    @auth(roles: [ADMIN])
-    @deprecated(reason: "deprecated in favour of `rotateSSOSigningSecret`")
-
-  """
   rotateSSOSigningSecret can be used to rotate a given active SigningSecret.
   """
   rotateSSOSigningSecret(
@@ -6897,14 +7681,27 @@ type Mutation {
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
     @auth(
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
+
+  """
+  updateBio will update the users bio.
+  """
+  updateBio(input: UpdateBioInput!): UpdateBioPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUsername will update the users username.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -6913,21 +7710,29 @@ type Mutation {
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
     @auth(
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [
+        MISSING_NAME
+        MISSING_EMAIL
+        SUSPENDED
+        BANNED
+        PENDING_DELETION
+        WARNED
+      ]
     )
 
   """
   setPassword will set the password on the current User if they have not set
   one already. This mutation will fail if the password is already set.
   """
-  setPassword(input: SetPasswordInput!): SetPasswordPayload! @auth
+  setPassword(input: SetPasswordInput!): SetPasswordPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updatePassword allows the current logged in User to change their password if
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
-    @auth
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -6936,7 +7741,9 @@ type Mutation {
   """
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
-  ): RequestAccountDeletionPayload! @auth @rate(seconds: 10)
+  ): RequestAccountDeletionPayload!
+    @auth(permit: [SUSPENDED, BANNED, WARNED])
+    @rate(seconds: 10)
 
   """
   deleteUserAccount will delete the target user now.
@@ -6951,7 +7758,7 @@ type Mutation {
   cancelAccountDeletion(
     input: CancelAccountDeletionInput!
   ): CancelAccountDeletionPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   createToken allows an administrator to create a Token based on the current
@@ -6979,7 +7786,7 @@ type Mutation {
   updateEmail will update the current users email address.
   """
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
-    @auth
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
     @rate(seconds: 10)
 
   """
@@ -6988,7 +7795,17 @@ type Mutation {
   """
   updateNotificationSettings(
     input: UpdateNotificationSettingsInput!
-  ): UpdateNotificationSettingsPayload! @auth
+  ): UpdateNotificationSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
+
+  """
+  updateUserMediaSettings can be used to update the media preferences for the
+  current logged in user.
+  """
+  updateUserMediaSettings(
+    input: UpdateUserMediaSettingsInput!
+  ): UpdateUserMediaSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   updateUserEmail allows administrators to update a given User's email address
@@ -7011,22 +7828,50 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
+  updateUserModerationScopes will update the moderation scopes for a given user.
+  This is used to limit the scopes for which a given moderator can moderate if
+  they also have the moderator role.
+  """
+  updateUserModerationScopes(
+    input: UpdateUserModerationScopesInput!
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+
+  """
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   removeUserBan will remove an active ban from a User if they have one.
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
 
   """
   suspendUser will suspend a specific User from interacting with Comments.
   """
   suspendUser(input: SuspendUserInput!): SuspendUserPayload!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  warnUser will warn a user and prevent them from commenting until they acknowledge
+  """
+  warnUser(input: WarnUserInput!): WarnUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserWarning will remove a user warning
+  """
+  removeUserWarning(input: RemoveUserWarningInput!): RemoveUserWarningPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acknowledgWarning will remove a warning
+  """
+  acknowledgeWarning(
+    input: AcknowledgeWarningInput!
+  ): AcknowledgeWarningPayload @auth(permit: [WARNED])
 
   """
   removeUserSuspension will remove an active suspension from a User if they have
@@ -7040,14 +7885,14 @@ type Mutation {
   ignoreUser will mark the given User as ignored by the current logged in User.
   """
   ignoreUser(input: IgnoreUserInput!): IgnoreUserPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   removeUserIgnore will remove the given User from the ignored user list from
   the current logged in User.
   """
   removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   requestCommentsDownload allows a user to request to download their comments.
@@ -7055,7 +7900,7 @@ type Mutation {
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
   ): RequestCommentsDownloadPayload!
-    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   requestUserCommentsDownload allows a user to request to download their comments.
@@ -7230,8 +8075,7 @@ type Mutation {
   """
   testSMTP sends a test email.
   """
-  testSMTP(input: TestSMTPInput!): TestSMTPPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
 }
 
 ##################

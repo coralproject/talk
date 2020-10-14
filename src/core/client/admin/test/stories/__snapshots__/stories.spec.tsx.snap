@@ -50,7 +50,6 @@ exports[`renders empty stories 1`] = `
                   <button
                     aria-label="Search"
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
-                    data-color="dark"
                     data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -87,7 +86,7 @@ exports[`renders empty stories 1`] = `
             >
               <select
                 aria-label="Search by status"
-                className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -206,12 +205,16 @@ exports[`renders empty stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Vin Hoa
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -248,7 +251,6 @@ exports[`renders empty stories 1`] = `
                 <button
                   aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -303,12 +305,16 @@ exports[`renders empty stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Linh Nguyen
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -345,7 +351,6 @@ exports[`renders empty stories 1`] = `
                 <button
                   aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -435,7 +440,6 @@ exports[`renders stories 1`] = `
                   <button
                     aria-label="Search"
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
-                    data-color="dark"
                     data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -472,7 +476,7 @@ exports[`renders stories 1`] = `
             >
               <select
                 aria-label="Search by status"
-                className="SelectField-select SelectField-selectFont SelectField-selectColor"
+                className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -591,12 +595,16 @@ exports[`renders stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Vin Hoa
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -633,7 +641,6 @@ exports[`renders stories 1`] = `
                 <button
                   aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -688,12 +695,16 @@ exports[`renders stories 1`] = `
                   className="StoryRow-meta"
                 >
                   <span
-                    className="StoryRow-authorName"
+                    className="StoryRow-authorName StoryRow-metaElement"
                   >
                     Linh Nguyen
                   </span>
-                   
-                  11/29/2018, 4:01 PM
+                  <span
+                    className="StoryRow-metaElement"
+                  >
+                    11/29/2018, 4:01 PM
+                     
+                  </span>
                 </p>
               </div>
             </td>
@@ -730,7 +741,6 @@ exports[`renders stories 1`] = `
                 <button
                   aria-label="Select action"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-color="mono"
                   data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}

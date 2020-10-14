@@ -1,5 +1,6 @@
-import { GQLInviteTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as invite from "coral-server/models/invite";
+
+import { GQLInviteTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export const Invite: GQLInviteTypeResolver<invite.Invite> = {
   createdBy: ({ createdBy }, args, ctx) =>

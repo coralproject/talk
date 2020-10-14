@@ -1,5 +1,6 @@
 import { RouteMatch, RouteProps } from "found";
 import React from "react";
+
 import { resolveModule } from "../relay/helpers";
 
 type RouteConfig<Props = any, QueryResponse = undefined> = Partial<

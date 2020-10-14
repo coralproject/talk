@@ -25,6 +25,13 @@ exports[`renders correctly 1`] = `
         <CommentsPane />
       </TabPane>
       <TabPane
+        className="coral coral-discussions"
+        data-testid="current-tab-pane"
+        tabID="DISCUSSIONS"
+      >
+        <withContext(withLocalStateContainer(DiscussionsQuery)) />
+      </TabPane>
+      <TabPane
         className="coral coral-myProfile"
         data-testid="current-tab-pane"
         tabID="PROFILE"

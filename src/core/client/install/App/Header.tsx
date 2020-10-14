@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "coral-ui/components";
+import { Flex, Typography } from "coral-ui/components/v2";
 
 import styles from "./Header.css";
 
@@ -19,17 +19,14 @@ const Header: FunctionComponent<HeaderProps> = ({ main }) => {
       className={styles.root}
     >
       <Typography
-        className={cn(styles.headline, {
-          [styles.headlineMain]: main,
-        })}
+        className={cn(styles.headline, { [styles.headlineMain]: main })}
+        variant="heading2"
       >
         Coral by Vox Media
       </Typography>
       <Localized id="install-header-title">
         <Typography
-          className={cn(styles.subHeadline, {
-            [styles.subHeadlineMain]: main,
-          })}
+          className={cn({ [styles.subHeadlineMain]: main })}
           variant="heading1"
         >
           Coral Installation Wizard

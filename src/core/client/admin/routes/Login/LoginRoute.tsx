@@ -64,4 +64,5 @@ const enhanced = withRouteConfig<LoginRouteQueryResponse>({
     `
   )(LoginRoute)
 );
+
 export default enhanced;

@@ -2,22 +2,26 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
-import { graphQLHandler } from "coral-server/app/handlers";
-import { JSONErrorHandler } from "coral-server/app/middleware/error";
-import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
-import { jsonMiddleware } from "coral-server/app/middleware/json";
-import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
-import { errorLogger } from "coral-server/app/middleware/logging";
-import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
-import { authenticate } from "coral-server/app/middleware/passport";
-import { roleMiddleware } from "coral-server/app/middleware/role";
-import { tenantMiddleware } from "coral-server/app/middleware/tenant";
+import { externalMediaHandler, oembedHandler } from "coral-server/app/handlers";
+import {
+  apolloGraphQLMiddleware,
+  authenticate,
+  cspSiteMiddleware,
+  JSONErrorHandler,
+  jsonMiddleware,
+  loggedInMiddleware,
+  notFoundMiddleware,
+  persistedQueryMiddleware,
+  roleMiddleware,
+  tenantMiddleware,
+} from "coral-server/app/middleware";
 import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
 import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
+import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
 
@@ -51,14 +55,16 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
 
-  // Configure the GraphQL route.
+  // Configure the GraphQL route middleware.
   router.use(
     "/graphql",
     authenticate(options.passport),
     jsonMiddleware(app.config.get("max_request_size")),
-    persistedQueryMiddleware(app),
-    graphQLHandler(app)
+    persistedQueryMiddleware(app)
   );
+
+  // Attach the GraphQL router (which will be mounted on the same path).
+  router.use(apolloGraphQLMiddleware(app));
 
   router.use(
     "/dashboard",
@@ -67,11 +73,22 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     roleMiddleware(STAFF_ROLES),
     createDashboardRouter(app)
   );
+  router.use(
+    "/remote-media",
+    authenticate(options.passport),
+    loggedInMiddleware,
+    createRemoteMediaRouter(app)
+  );
+  router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
+  router.get(
+    "/external-media",
+    cspSiteMiddleware(app),
+    externalMediaHandler(app)
+  );
 
   // General API error handler.
   router.use(notFoundMiddleware);
-  router.use(errorLogger);
-  router.use(JSONErrorHandler(app.i18n));
+  router.use(JSONErrorHandler(app));
 
   return router;
 }

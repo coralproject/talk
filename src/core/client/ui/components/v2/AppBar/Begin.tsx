@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 

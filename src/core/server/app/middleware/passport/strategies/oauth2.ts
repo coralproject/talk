@@ -12,7 +12,7 @@ import {
   TenantCache,
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
-import { Request } from "coral-server/types/express";
+import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 interface OAuth2Integration {
   enabled: boolean;
@@ -66,16 +66,14 @@ export default abstract class OAuth2Strategy<
   ): Promise<User | null | undefined>;
 
   protected verifyCallback = async (
-    req: Request,
+    req: Request<TenantCoralRequest>,
     accessToken: string,
     refreshToken: string,
     profile: Profile,
     done: VerifyCallback
   ) => {
     try {
-      // Coral is defined at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);
@@ -85,7 +83,7 @@ export default abstract class OAuth2Strategy<
         tenant,
         integration as Required<T>,
         profile,
-        coral.now
+        now
       );
       if (!user) {
         return done(null);
@@ -97,10 +95,9 @@ export default abstract class OAuth2Strategy<
     }
   };
 
-  public authenticate(req: Request) {
+  public authenticate(req: Request<TenantCoralRequest>) {
     try {
-      // Coral is defined at this point.
-      const tenant = req.coral!.tenant!;
+      const { tenant } = req.coral;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);

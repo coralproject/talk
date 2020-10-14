@@ -198,6 +198,7 @@ async function commit(
             body: input.body,
             nudge: input.nudge,
             clientMutationId: clientMutationId.toString(),
+            media: input.media,
           },
         },
         optimisticResponse: {
@@ -208,16 +209,21 @@ async function commit(
                 id,
                 createdAt: currentDate,
                 status: "NONE",
+                pending: false,
+                lastViewerAction: null,
                 author: {
                   id: viewer.id,
                   username: viewer.username,
                   createdAt: viewer.createdAt,
+                  bio: viewer.bio,
                   badges: viewer.badges,
                   ignoreable: false,
+                  avatar: viewer.avatar,
                 },
                 body: input.body,
                 revision: {
                   id: uuidGenerator(),
+                  media: null,
                 },
                 parent: {
                   id: parentComment.id,
@@ -251,8 +257,12 @@ async function commit(
                     },
                   },
                 },
+                site: {
+                  id: uuidGenerator(),
+                },
                 replies: {
                   edges: [],
+                  viewNewEdges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
                 deleted: false,

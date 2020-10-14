@@ -123,7 +123,6 @@ exports[`renders configure wordList 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeLarge Button-colorAlt Button-variantRegular Button-uppercase Button-disabled"
-            data-color="alt"
             data-testid="configure-sideBar-saveChanges"
             data-variant="regular"
             disabled={true}

@@ -14,6 +14,19 @@ export const CLIENT_ID_HEADER = "X-Coral-Client-ID";
 export const CLIENT_ID_PARAM = "clientID";
 
 /**
+ * BUNDLE_ID_PARAM references the name of the param used ot send the ID of the
+ * bundle via connectionParams when connecting via a websocket connection.
+ */
+export const BUNDLE_ID_PARAM = "bundleID";
+
+/**
+ * BUNDLE_CONFIG_PARAM references the name of the param used to send the
+ * parameters of the bundle via connectionParams when connecting via a websocket
+ * connection.
+ */
+export const BUNDLE_CONFIG_PARAM = "bundleConfig";
+
+/**
  * ACCESS_TOKEN_PARAM references the name of the param used to send the access
  * token in connectionParams when authenticating a websocket connection.
  */
@@ -36,6 +49,10 @@ export const TOXICITY_MODEL_DEFAULT = "TOXICITY";
  */
 export const TOXICITY_ENDPOINT_DEFAULT =
   "https://commentanalyzer.googleapis.com/v1alpha1";
+
+export const GIPHY_SEARCH = "https://api.giphy.com/v1/gifs/search";
+
+export const GIPHY_FETCH = "https://api.giphy.com/v1/gifs";
 
 /**
  * DOWNLOAD_LIMIT_TIMEFRAME_DURATION is the number of seconds that a given
@@ -72,3 +89,13 @@ export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
  * SPOILER_CLASSNAME is the classname that is attached to spoilers.
  */
 export const SPOILER_CLASSNAME = "coral-rte-spoiler";
+
+/**
+ * SARCASM_CLASSNAME is the classname that is attached to sarcasm.
+ */
+export const SARCASM_CLASSNAME = "coral-rte-sarcasm";
+
+/**
+ * MAX_BIO_LENGTH is the maximum length of a user bio in characters
+ */
+export const MAX_BIO_LENGTH = 100;

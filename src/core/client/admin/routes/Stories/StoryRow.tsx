@@ -21,6 +21,7 @@ interface Props {
   storyID: string;
   title: string | null;
   author: string | null;
+  readOnly: boolean;
   publishDate: string | null;
   story: PropTypesOf<typeof StoryActionsContainer>["story"] &
     PropTypesOf<typeof StoryStatusContainer>["story"];
@@ -31,6 +32,7 @@ interface Props {
   reportedCount: number | null;
   pendingCount: number | null;
   totalCount: number;
+  viewerCount: number | null;
 }
 
 const UserRow: FunctionComponent<Props> = (props) => (
@@ -38,17 +40,34 @@ const UserRow: FunctionComponent<Props> = (props) => (
     <TableCell className={styles.titleColumn}>
       <HorizontalGutter>
         <p>
-          <Link
-            to={getModerationLink({ storyID: props.storyID })}
-            as={TextLink}
-          >
-            {props.title || <NotAvailable />}
-          </Link>
+          {!props.readOnly ? (
+            <Link
+              to={getModerationLink({ storyID: props.storyID })}
+              as={TextLink}
+            >
+              {props.title || <NotAvailable />}
+            </Link>
+          ) : (
+            props.title || <NotAvailable />
+          )}
         </p>
-        {(props.author || props.publishDate) && (
+        {(props.author || props.publishDate || !!props.viewerCount) && (
           <p className={styles.meta}>
-            <span className={styles.authorName}>{props.author}</span>{" "}
-            {props.publishDate}
+            {!!props.author && (
+              <span className={cn(styles.authorName, styles.metaElement)}>
+                {props.author}
+              </span>
+            )}
+
+            {!!props.publishDate && (
+              <span className={styles.metaElement}>{props.publishDate} </span>
+            )}
+
+            {!!props.viewerCount && (
+              <span className={styles.readingNow}>
+                {props.viewerCount} reading now
+              </span>
+            )}
           </p>
         )}
       </HorizontalGutter>
@@ -78,7 +97,9 @@ const UserRow: FunctionComponent<Props> = (props) => (
       <StoryStatusContainer story={props.story} />
     </TableCell>
     <TableCell className={styles.actionsColumn}>
-      <StoryActionsContainer story={props.story} viewer={props.viewer} />
+      {!props.readOnly && (
+        <StoryActionsContainer story={props.story} viewer={props.viewer} />
+      )}
     </TableCell>
   </TableRow>
 );

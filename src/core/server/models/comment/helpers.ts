@@ -47,6 +47,13 @@ export function getLatestRevision(
   return comment.revisions[comment.revisions.length - 1];
 }
 
+export function hasRevision(
+  comment: Pick<Comment, "revisions">,
+  revisionID: string
+): boolean {
+  return comment.revisions.some((revision) => revision.id === revisionID);
+}
+
 export function calculateRejectionRate(counts: CommentStatusCounts): number {
   const published = calculateTotalPublishedCommentCount(counts);
   const rejected = counts[GQLCOMMENT_STATUS.REJECTED];

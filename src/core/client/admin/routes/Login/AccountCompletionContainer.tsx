@@ -1,121 +1,140 @@
 import { RouterState, withRouter } from "found";
-import React, { Component } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
-import { SetRedirectPathMutation } from "coral-admin/mutations";
 import {
-  MutationProp,
+  useMutation,
   withFragmentContainer,
   withLocalStateContainer,
-  withMutation,
 } from "coral-framework/lib/relay";
 
-import { AccountCompletionContainer_auth as AuthData } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_viewer as UserData } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
-import { AccountCompletionContainerLocal as Local } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
+import { AccountCompletionContainer_auth } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
+import { AccountCompletionContainer_viewer } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
+import { AccountCompletionContainerLocal } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
-import SetAuthViewMutation from "./SetAuthViewMutation";
+import SetAuthViewMutation, { SetAuthViewInput } from "./SetAuthViewMutation";
 
-type Props = {
-  completeAccount: MutationProp<typeof CompleteAccountMutation>;
-  setAuthView: MutationProp<typeof SetAuthViewMutation>;
-  local: Local;
-  auth: AuthData;
-  viewer: UserData | null;
-  setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
-} & RouterState;
+interface Props extends RouterState {
+  local: AccountCompletionContainerLocal;
+  auth: AccountCompletionContainer_auth;
+  viewer: AccountCompletionContainer_viewer | null;
+}
 
-function handleAccountCompletion(props: Props) {
-  const {
-    local: { authView, authDuplicateEmail },
-    viewer,
-    auth,
-    setAuthView,
-  } = props;
-  if (viewer) {
+const AccountCompletionContainer: FunctionComponent<Props> = ({
+  local,
+  auth,
+  viewer,
+  children,
+  router,
+}) => {
+  const completeAccount = useMutation(CompleteAccountMutation);
+  const [checked, setChecked] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const setAuthView = useMutation(SetAuthViewMutation);
+  const redirect = useCallback(
+    (view: SetAuthViewInput["view"]) => {
+      if (local.authView !== view) {
+        setAuthView({ view });
+      }
+    },
+    [local, setAuthView]
+  );
+
+  useEffect(() => {
+    // If we've already been marked as completed, stop now.
+    if (completed) {
+      return;
+    }
+
+    // Mark that we checked the completion status.
+    setChecked(true);
+
+    // If there is no viewer, exit now!
+    if (!viewer) {
+      return;
+    }
+
+    // Check if the user has an email address.
     if (!viewer.email) {
-      // email not set yet.
+      // The email is not set on the viewer, check to see if the duplicate email
+      // was detected via the `ADD_EMAIL_ADDRESS` process (indicated via
+      // `authDuplicateEmail`) or from social login (indicated via
+      // `viewer.duplicateEmail`). If they're already at the `ADD_EMAIL_ADDRESS`
+      // view we don't need to change that.
       if (
-        // duplicate email detected during the `ADD_EMAIL_ADDRESS` process.
-        authDuplicateEmail ||
-        // detected duplicate email usually coming from a social login.
-        viewer.duplicateEmail
+        (local.authDuplicateEmail || viewer.duplicateEmail) &&
+        local.authView !== "ADD_EMAIL_ADDRESS"
       ) {
-        // Duplicate email detected.
-        if (authView !== "ADD_EMAIL_ADDRESS" && authView !== "LINK_ACCOUNT") {
-          // `ADD_EMAIL_ADDRESS` view is allowed in case the viewer wants to change the email address.
-          // otherwise direct to the link account view.
-          setAuthView({ view: "LINK_ACCOUNT" });
-        }
-      } else if (authView !== "ADD_EMAIL_ADDRESS") {
-        setAuthView({ view: "ADD_EMAIL_ADDRESS" });
+        redirect("LINK_ACCOUNT");
+        return;
       }
-    } else if (!viewer.username) {
-      // username not set yet.
-      if (authView !== "CREATE_USERNAME") {
-        // direct to create username view.
-        setAuthView({ view: "CREATE_USERNAME" });
-      }
-    } else if (
-      // password not set when local auth is enabled.
+
+      redirect("ADD_EMAIL_ADDRESS");
+      return;
+    }
+
+    // Check if the user has a username.
+    if (!viewer.username) {
+      // The username is not set on the viewer, ensure we're on the create
+      // username view.
+      redirect("CREATE_USERNAME");
+      return;
+    }
+
+    // Check if the user has a password (and if they need one).
+    if (
       !viewer.profiles.some((p) => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
-      (auth.integrations.local.targetFilter.admin ||
-        auth.integrations.local.targetFilter.stream)
+      auth.integrations.local.targetFilter.admin
     ) {
-      if (authView !== "CREATE_PASSWORD") {
-        // direct to create password view.
-        setAuthView({ view: "CREATE_PASSWORD" });
-      }
-    } else {
-      // all set, complete account.
-      void props
-        .completeAccount({ accessToken: props.local.accessToken! })
-        .then(() => {
-          props.router.replace(props.local.redirectPath || "/admin");
-        });
-      // account completed.
-      return true;
+      // The password is not set on the viewer and the password is configured on
+      // the admin area.
+      redirect("CREATE_PASSWORD");
+      return;
     }
-  }
-  // account not completed yet.
-  return false;
-}
 
-interface State {
-  checkedCompletionStatus: boolean;
-  completed: boolean;
-}
-
-class AccountCompletionContainer extends Component<Props, State> {
-  public state = {
-    checkedCompletionStatus: false,
-    completed: false,
-  };
-
-  public componentDidMount() {
-    const completed = handleAccountCompletion(this.props);
-    this.setState({ checkedCompletionStatus: true, completed });
-  }
-  public componentDidUpdate() {
-    if (!this.state.completed) {
-      const completed = handleAccountCompletion(this.props);
-      if (completed) {
-        this.setState({ completed });
+    // Create a callback finish function that will redirect the user once the
+    // access token has been set in the store.
+    async function finish() {
+      try {
+        await completeAccount({ accessToken: local.accessToken! });
+        router.replace(local.redirectPath || "/admin");
+      } catch (err) {
+        window.console.error(err);
       }
     }
+
+    // Looks like the account is complete! Finish the account setup.
+    void finish();
+
+    // Mark the account as completed.
+    setCompleted(true);
+  }, [
+    completed,
+    setChecked,
+    viewer,
+    auth,
+    redirect,
+    local,
+    router,
+    completeAccount,
+    setCompleted,
+  ]);
+
+  // If we haven't checked or we haven't completed the account, then render
+  // nothing.
+  if (!checked || completed) {
+    return null;
   }
 
-  public render() {
-    const { children } = this.props;
-    // We skip first frame to check for completion status.
-    if (!this.state.checkedCompletionStatus || this.state.completed) {
-      return null;
-    }
-    return <>{children}</>;
-  }
-}
+  return <>{children}</>;
+};
 
 const enhanced = withLocalStateContainer(
   graphql`
@@ -151,15 +170,7 @@ const enhanced = withLocalStateContainer(
         }
       }
     `,
-  })(
-    withMutation(SetAuthViewMutation)(
-      withMutation(SetRedirectPathMutation)(
-        withMutation(CompleteAccountMutation)(
-          withRouter(AccountCompletionContainer)
-        )
-      )
-    )
-  )
+  })(withRouter(AccountCompletionContainer))
 );
 
 export default enhanced;

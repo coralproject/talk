@@ -39,7 +39,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Aktuelt logget ind på
 restricted-noPermissionInfo = Du har ikke tilladelse til at få adgang til denne side.
-restricted-signedInAs = Du er logget ind som:<Username></Username>
+restricted-signedInAs = Du er logget ind som: <strong>{ $username }</strong>
 restricted-signInWithADifferentAccount = Log ind med en anden konto
 restricted-contactAdmin = Hvis du mener, at dette er en fejl, skal du kontakte din administrator for at få hjælp.
 
@@ -163,7 +163,7 @@ configure-email-fromEmailLabel = Fra e-mail-adresse
 configure-email-fromEmailDescription =
   E-mail-adresse, der bruges til at sende meddelelser
 configure-email-smtpHostLabel = SMTP vært
-configure-email-smtpHostDescription = (eksempel smtp.sendgrid.com)
+configure-email-smtpHostDescription = (eksempel smtp.sendgrid.net)
 configure-email-smtpPortLabel = SMTP-port
 configure-email-smtpPortDescription = (eksempel 25)
 configure-email-smtpTLSLabel = TLS

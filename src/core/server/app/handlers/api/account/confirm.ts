@@ -8,7 +8,6 @@ import {
   UserForbiddenError,
   UserNotFoundError,
 } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { retrieveUser, User } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {
@@ -16,7 +15,9 @@ import {
   sendConfirmationEmail,
   verifyConfirmTokenString,
 } from "coral-server/services/users/auth/confirm";
-import { RequestHandler } from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export type ConfirmRequestOptions = Pick<
   AppOptions,
@@ -37,7 +38,7 @@ export const confirmRequestHandler = ({
   mongo,
   mailerQueue,
   signingConfig,
-}: ConfirmRequestOptions): RequestHandler => {
+}: ConfirmRequestOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -58,9 +59,7 @@ export const confirmRequestHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, logger, now } = req.coral;
 
       // Grab the requesting user.
       const requestingUser = req.user;
@@ -98,7 +97,7 @@ export const confirmRequestHandler = ({
 
       await userIDLimiter.test(req, targetUserID);
 
-      const log = coral.logger.child(
+      const log = logger.child(
         {
           targetUserID,
           requestingUserID: requestingUser.id,
@@ -121,7 +120,7 @@ export const confirmRequestHandler = ({
         signingConfig,
         // TODO: (wyattjoh) evaluate the use of required here.
         targetUser as Required<User>,
-        coral.now
+        now
       );
 
       log.trace("sent confirm email with token");
@@ -143,7 +142,7 @@ export const confirmCheckHandler = ({
   mongo,
   signingConfig,
   config,
-}: ConfirmCheckOptions): RequestHandler => {
+}: ConfirmCheckOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -164,9 +163,7 @@ export const confirmCheckHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { tenant, now } = req.coral;
 
       // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
 
@@ -188,7 +185,7 @@ export const confirmCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        coral.now
+        now
       );
 
       return res.sendStatus(204);
@@ -208,7 +205,7 @@ export const confirmHandler = ({
   mongo,
   signingConfig,
   config,
-}: ConfirmOptions): RequestHandler => {
+}: ConfirmOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
@@ -229,9 +226,7 @@ export const confirmHandler = ({
       // Rate limit based on the IP address and user agent.
       await ipLimiter.test(req, req.ip);
 
-      // Tenant is guaranteed at this point.
-      const coral = req.coral!;
-      const tenant = coral.tenant!;
+      const { now, tenant } = req.coral;
 
       // Grab the token from the request.
       const tokenString = extractTokenFromRequest(req, true);
@@ -246,7 +241,7 @@ export const confirmHandler = ({
       }
 
       // Execute the reset.
-      await confirmEmail(mongo, tenant, signingConfig, tokenString, coral.now);
+      await confirmEmail(mongo, tenant, signingConfig, tokenString, now);
 
       return res.sendStatus(204);
     } catch (err) {

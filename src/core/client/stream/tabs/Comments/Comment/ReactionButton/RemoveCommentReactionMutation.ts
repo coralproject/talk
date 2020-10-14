@@ -5,7 +5,7 @@ import { Environment } from "relay-runtime";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
   lookup,
   MutationInput,
   MutationResponsePromise,
@@ -15,7 +15,12 @@ import { RemoveCommentReactionEvent } from "coral-stream/events";
 
 import { RemoveCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/RemoveCommentReactionMutation.graphql";
 
-export type RemoveCommentReactionInput = MutationInput<MutationTypes>;
+export type RemoveCommentReactionInput = MutationInput<MutationTypes> & {
+  author?: {
+    id: string;
+    username: string | undefined | null;
+  } | null;
+};
 
 const mutation = graphql`
   mutation RemoveCommentReactionMutation($input: RemoveCommentReactionInput!) {
@@ -59,6 +64,10 @@ async function commit(
           removeCommentReaction: {
             comment: {
               id: input.commentID,
+              author: {
+                id: input.author?.id,
+                username: input.author?.username,
+              },
               viewerActionPresence: {
                 reaction: false,
               },
@@ -90,11 +99,8 @@ async function commit(
   }
 }
 
-export const withRemoveCommentReactionMutation = createMutationContainer(
-  "removeCommentReaction",
-  commit
-);
-
 export type RemoveCommentReactionMutation = (
   input: RemoveCommentReactionInput
 ) => MutationResponsePromise<MutationTypes, "removeCommentReaction">;
+
+export default createMutation("removeCommentReaction", commit);

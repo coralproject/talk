@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
@@ -16,7 +16,9 @@ import {
 
 import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
+import { UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
 
+import MemberBioContainer from "./MemberBioContainer";
 import RecentHistoryContainer from "./RecentHistoryContainer";
 import Tabs from "./Tabs";
 import UserBadgesContainer from "./UserBadgesContainer";
@@ -27,16 +29,17 @@ import styles from "./UserHistoryDrawerContainer.css";
 interface Props {
   user: UserHistoryDrawerContainer_user;
   settings: UserHistoryDrawerContainer_settings;
+  viewer: UserHistoryDrawerContainer_viewer;
   onClose: () => void;
 }
 
 const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   settings,
   user,
+  viewer,
   onClose,
 }) => {
-  const { locales } = useCoralContext();
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -69,6 +72,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                   bordered={true}
                   settings={settings}
                   user={user}
+                  viewer={viewer}
                 />
               </div>
               <UserStatusDetailsContainer user={user} />
@@ -101,7 +105,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 </Icon>
               </Localized>
               <span className={styles.userDetailValue}>
-                {formatter.format(new Date(user.createdAt))}
+                {formatter(user.createdAt)}
               </span>
             </Flex>
             <Flex alignItems="center" spacing={2}>
@@ -118,6 +122,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
             </Flex>
           </HorizontalGutter>
         </HorizontalGutter>
+        <MemberBioContainer user={user} />
         <RecentHistoryContainer user={user} settings={settings} />
       </HorizontalGutter>
       <Divider />
@@ -135,6 +140,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user
+      ...MemberBioContainer_user
       moderatorNotes {
         id
       }
@@ -151,6 +157,11 @@ const enhanced = withFragmentContainer<Props>({
       organization {
         name
       }
+    }
+  `,
+  viewer: graphql`
+    fragment UserHistoryDrawerContainer_viewer on User {
+      ...UserStatusChangeContainer_viewer
     }
   `,
 })(UserHistoryDrawerContainer);

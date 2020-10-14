@@ -21,6 +21,7 @@ const typescriptOverrides = {
     "@typescript-eslint/tslint",
     "react",
     "jsx-a11y",
+    "react-hooks",
   ],
   settings: {
     react: {
@@ -92,6 +93,8 @@ const typescriptOverrides = {
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",
       "no-empty-function": "off",
+      // (tessalt) disabled because video elements are only used to display gifs, which have no audio
+      "jsx-a11y/media-has-caption": "off",
     }
   ),
 };
@@ -173,6 +176,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:jsdoc/recommended",
     "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
   ],
   parserOptions: {
     ecmaVersion: 2018,

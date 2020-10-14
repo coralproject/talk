@@ -39,7 +39,12 @@ const ConversationModalHeaderContainer: FunctionComponent<Props> = ({
             : comment.story.url}
         </h1>
         <Localized id="conversation-modal-header-moderate-link">
-          <Button variant="outline" color="mono" uppercase onClick={onModerate}>
+          <Button
+            variant="outlined"
+            color="mono"
+            uppercase
+            onClick={onModerate}
+          >
             Moderate story
           </Button>
         </Localized>

@@ -15,7 +15,6 @@ import {
   enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
-  regenerateSSOKey,
   rotateExternalModerationPhaseSigningSecret,
   rotateSSOSigningSecret,
   rotateWebhookEndpointSigningSecret,
@@ -61,10 +60,7 @@ export const Settings = ({
   update: (
     input: WithoutMutationID<GQLUpdateSettingsInput>
   ): Promise<Tenant | null> =>
-    update(mongo, redis, tenantCache, config, tenant, input.settings),
-  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
-  regenerateSSOKey: (): Promise<Tenant | null> =>
-    regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
+    update(mongo, redis, tenantCache, config, tenant, user!, input.settings),
   rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>
     rotateSSOSigningSecret(mongo, redis, tenantCache, tenant, inactiveIn, now),
   deleteSSOSigningSecret: ({ kid }: GQLDeleteSSOSigningSecretInput) =>
@@ -75,7 +71,7 @@ export const Settings = ({
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
-  createAnnouncement: (input: GQLCreateAnnouncementInput) =>
+  createAnnouncement: (input: WithoutMutationID<GQLCreateAnnouncementInput>) =>
     createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),

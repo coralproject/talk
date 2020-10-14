@@ -52,7 +52,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -270,6 +269,8 @@ describe("specified story", () => {
     moderateAllOptions.props.onClick({ button: 0, preventDefault: noop });
 
     // Expect a routing request was made to the right url.
-    expect(transitionControl.history[0].pathname).toBe("/admin/moderate");
+    expect(transitionControl.history[0].pathname).toBe(
+      "/admin/moderate/sites/site-1"
+    );
   });
 });

@@ -1,3 +1,4 @@
+import TIME from "coral-common/time";
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
@@ -21,10 +22,12 @@ import {
   denormalizeStories,
   denormalizeStory,
 } from "coral-framework/testHelpers";
+import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
+  memberBios: false,
   premodLinksEnable: false,
   live: {
     enabled: true,
@@ -41,7 +44,7 @@ export const settings = createFixture<GQLSettings>({
   closeCommenting: {
     auto: false,
     message: "Story is closed",
-    timeout: undefined,
+    timeout: 2 * TIME.WEEK,
   },
   organization: {
     name: "Acme Co",
@@ -93,6 +96,9 @@ export const settings = createFixture<GQLSettings>({
   },
   staff: {
     label: "Staff",
+    adminLabel: "Staff",
+    moderatorLabel: "Staff",
+    staffLabel: "Staff",
   },
   reaction: {
     icon: "thumb_up",
@@ -108,12 +114,19 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  media: {
+    twitter: { enabled: false },
+    youtube: { enabled: false },
+    giphy: { enabled: false },
+    external: { enabled: false },
+  },
   multisite: false,
   featureFlags: [],
   rte: {
     enabled: true,
     strikethrough: false,
     spoiler: false,
+    sarcasm: false,
   },
 });
 
@@ -122,6 +135,7 @@ export const site = createFixture<GQLSite>({
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
   allowedOrigins: ["http://test-site.com"],
+  canModerate: true,
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -156,6 +170,10 @@ export const baseUser = createFixture<GQLUser>({
       until: null,
       history: [],
     },
+    warning: {
+      active: false,
+      history: [],
+    },
   },
   ignoredUsers: [],
   comments: {
@@ -163,6 +181,9 @@ export const baseUser = createFixture<GQLUser>({
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  mediaSettings: {
+    unfurlEmbeds: false,
   },
   notifications: {
     onReply: false,
@@ -177,6 +198,7 @@ export const baseUser = createFixture<GQLUser>({
       __typename: "LocalProfile",
     },
   ],
+  avatar: NULL_VALUE,
 });
 
 const yesterday = new Date();
@@ -297,6 +319,7 @@ export const baseStory = createFixture<GQLStory>({
     mode: GQLSTORY_MODE.COMMENTS,
     experts: [],
   },
+  canModerate: true,
   site,
 });
 
@@ -305,6 +328,7 @@ export const baseComment = createFixture<GQLComment>({
   body: "Comment Body",
   revision: {
     id: "revision-0",
+    media: NULL_VALUE,
   },
   status: GQLCOMMENT_STATUS.NONE,
   createdAt: "2018-07-06T18:24:00.000Z",
@@ -319,11 +343,12 @@ export const baseComment = createFixture<GQLComment>({
       total: 0,
     },
   },
+  site: { id: "site-0" },
   story: baseStory,
-  parent: undefined,
+  parent: NULL_VALUE,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
-  deleted: undefined,
+  deleted: NULL_VALUE,
 });
 
 export const comments = denormalizeComments(

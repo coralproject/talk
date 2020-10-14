@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
@@ -10,15 +11,14 @@ import {
   retrieveUserWithProfile,
   verifyUserPassword,
 } from "coral-server/models/user";
-import { Request } from "coral-server/types/express";
-import { Redis } from "ioredis";
+import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 const verifyFactory = (
   mongo: Db,
   ipLimiter: RequestLimiter,
   emailLimiter: RequestLimiter
 ) => async (
-  req: Request,
+  req: Request<TenantCoralRequest>,
   emailInput: string,
   passwordInput: string,
   done: VerifyCallback
@@ -34,8 +34,7 @@ const verifyFactory = (
     await ipLimiter.test(req, req.ip);
     await emailLimiter.test(req, email);
 
-    // The tenant is guaranteed at this point.
-    const tenant = req.coral!.tenant!;
+    const { tenant } = req.coral;
 
     // Get the user from the database.
     const user = await retrieveUserWithProfile(mongo, tenant.id, {

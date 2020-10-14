@@ -1,16 +1,16 @@
-$callout-regular-bg: var(--v2-colors-grey-100);
-$callout-regular-text: var(--v2-colors-mono-500);
-$callout-regular-border: var(--v2-colors-grey-300);
+$callout-regular-bg: var(--palette-grey-100);
+$callout-regular-text: var(--palette-text-500);
+$callout-regular-border: var(--palette-grey-300);
 
 .root {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
   position: relative;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: var(--v2-spacing-4);
+  padding: var(--spacing-4);
   box-sizing: border-box;
   border-width: 1px;
   border-style: solid;
@@ -28,21 +28,21 @@ $callout-regular-border: var(--v2-colors-grey-300);
 }
 
 .colorPrimary {
-  background-color: var(--palette-primary-lightest);
-  border-color: var(--palette-primary-light);
-  color: var(--palette-text-primary);
+  background-color: $colors-teal-100;
+  border-color: $colors-teal-300;
+  color: var(--palette-text-500);
 }
 
 .colorError {
-  background-color: var(--palette-error-lightest);
-  border-color: var(--palette-error-light);
-  color: var(--palette-text-primary);
+  background-color: var(--palette-error-100);
+  border-color: var(--palette-error-300);
+  color: var(--palette-text-500);
 }
 
 .colorSuccess {
-  background-color: var(--palette-success-lightest);
-  border-color: var(--palette-success-light);
-  color: var(--palette-text-primary);
+  background-color: var(--palette-success-100);
+  border-color: var(--palette-success-300);
+  color: var(--palette-text-500);
 }
 
 .fullWidth {

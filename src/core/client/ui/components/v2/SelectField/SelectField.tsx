@@ -1,8 +1,12 @@
 import cn from "classnames";
-import React, { ChangeEvent, EventHandler, FocusEvent } from "react";
-import { FunctionComponent } from "react";
+import React, {
+  ChangeEvent,
+  EventHandler,
+  FocusEvent,
+  FunctionComponent,
+} from "react";
 
-import Icon from "coral-ui/components/Icon";
+import Icon from "coral-ui/components/v2/Icon";
 import { withKeyboardFocus, withStyles } from "coral-ui/hocs";
 
 import styles from "./SelectField.css";
@@ -74,7 +78,11 @@ const SelectField: FunctionComponent<SelectFieldProps> = (props) => {
 
   return (
     <span className={rootClassName}>
-      <select className={selectClassName} disabled={disabled} {...rest}>
+      <select
+        className={cn(selectClassName, "coral-selectField")}
+        disabled={disabled}
+        {...rest}
+      >
         {children}
       </select>
       <span className={afterWrapperClassName} aria-hidden>

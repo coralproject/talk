@@ -10,6 +10,7 @@ interface Props {
   banned: boolean;
   suspended: boolean;
   premod: boolean;
+  warned: boolean;
 }
 
 const render = (className: string, content: React.ReactNode) => (
@@ -42,6 +43,14 @@ const UserStatus: FunctionComponent<Props> = (props) => {
       styles.warning,
       <Localized id="userStatus-premod">
         <div>Always Premoderated</div>
+      </Localized>
+    );
+  }
+  if (props.warned) {
+    return render(
+      styles.warning,
+      <Localized id="userStatus-warned">
+        <div>Warned</div>
       </Localized>
     );
   }

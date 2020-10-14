@@ -7,8 +7,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
-import { Flex } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components/v2";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
 import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";

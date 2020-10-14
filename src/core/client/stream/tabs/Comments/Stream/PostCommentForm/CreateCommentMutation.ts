@@ -182,8 +182,9 @@ async function commit(
         variables: {
           input: {
             storyID: input.storyID,
-            body: input.body,
+            body: input.body || "",
             nudge: input.nudge,
+            media: input.media,
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -195,18 +196,26 @@ async function commit(
                 id,
                 createdAt: currentDate,
                 status: "NONE",
+                pending: false,
+                lastViewerAction: null,
                 author: {
                   id: viewer.id,
                   username: viewer.username,
+                  bio: viewer.bio,
                   createdAt: viewer.createdAt,
                   badges: viewer.badges,
+                  avatar: viewer.avatar,
                   ignoreable: false,
+                },
+                site: {
+                  id: uuidGenerator(),
                 },
                 revision: {
                   id: uuidGenerator(),
+                  media: null,
                 },
                 parent: null,
-                body: input.body,
+                body: input.body || "",
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
                   edited: false,
@@ -226,6 +235,7 @@ async function commit(
                 },
                 replies: {
                   edges: [],
+                  viewNewEdges: [],
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
                 story: {

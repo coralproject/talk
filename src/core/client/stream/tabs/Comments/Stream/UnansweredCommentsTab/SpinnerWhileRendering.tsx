@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import Spinner from "coral-stream/common/Spinner";
-import { Flex } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components/v2";
 
 interface Props {
   children: React.ReactNode;
@@ -41,14 +40,14 @@ function callWhenReallyIdle(callback: () => void) {
  */
 const SpinnerWhileRendering: FunctionComponent<Props> = (props) => {
   // In our tests, we don't actually "render", so just skip this.
-  if (process.env.NODE_ENV === "test") {
-    return <>{props.children}</>;
-  }
   const [hidden, setHidden] = useState(true);
   useEffect(() => {
     // Ensure window has bee
     return callWhenReallyIdle(() => setHidden(false));
   }, [setHidden]);
+  if (process.env.NODE_ENV === "test") {
+    return <>{props.children}</>;
+  }
   return (
     <>
       {hidden && (

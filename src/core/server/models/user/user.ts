@@ -38,8 +38,10 @@ import {
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUserMediaSettings,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
+  GQLWarningStatus,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
@@ -299,6 +301,36 @@ export interface PremodStatus {
   history: PremodStatusHistory[];
 }
 
+export interface WarningStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the warning.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this warning
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commneter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface WarningStatus {
+  active: boolean;
+  history: WarningStatusHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -324,6 +356,12 @@ export interface UserStatus {
    * premod status.
    */
   premod: PremodStatus;
+
+  /**
+   * warning stores whether a user has an unacknowledge warning and a history of
+   * warnings
+   */
+  warning?: WarningStatus;
 }
 
 /**
@@ -361,6 +399,14 @@ export interface Digest {
 
 export interface UserCommentCounts {
   status: CommentStatusCounts;
+}
+
+export interface UserModerationScopes {
+  /**
+   * siteIDs is the array of site ID's that this User can moderate. If not
+   * provided the user can moderate all sites.
+   */
+  siteIDs?: string[];
 }
 
 /**
@@ -433,6 +479,12 @@ export interface User extends TenantResource {
   role: GQLUSER_ROLE;
 
   /**
+   * moderationScopes describes the scopes for moderation. These only apply when
+   * the user has a MODERATOR role.
+   */
+  moderationScopes?: UserModerationScopes;
+
+  /**
    * notifications stores the notification settings for the given User.
    */
   notifications: GQLUserNotificationSettings;
@@ -485,7 +537,17 @@ export interface User extends TenantResource {
    */
   deletedAt?: Date;
 
+  /**
+   * mediaSettings are optional media settings for the User.
+   */
+  mediaSettings?: GQLUserMediaSettings;
+
   commentCounts: UserCommentCounts;
+
+  /**
+   * bio is a user deifned biography
+   */
+  bio?: string;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -530,6 +592,7 @@ async function findOrCreateUserInput(
       suspension: { history: [] },
       ban: { active: false, history: [] },
       premod: { active: false, history: [] },
+      warning: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -623,7 +686,9 @@ export async function findOrCreateUser(
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
         throw new DuplicateEmailError(input.email!);
       }
-      throw new DuplicateUserError();
+
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;
@@ -652,7 +717,8 @@ export async function createUser(
         throw new DuplicateEmailError(input.email!);
       }
 
-      throw new DuplicateUserError();
+      // Some other error occured.
+      throw new DuplicateUserError(err);
     }
 
     throw err;
@@ -730,6 +796,28 @@ export async function updateUserRole(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
+export async function updateUserModerationScopes(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  moderationScopes: UserModerationScopes
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    { $set: { moderationScopes } },
     {
       // False to return the updated document instead of the original
       // document.
@@ -878,6 +966,7 @@ export interface UpdateUserInput {
   username?: string;
   badges?: string[];
   role?: GQLUSER_ROLE;
+  avatar?: string;
 }
 
 export async function updateUserFromSSO(
@@ -1149,6 +1238,53 @@ export async function updateUserEmail(
     }
     throw err;
   }
+}
+
+/**
+ * updateUserBio will update the bio associated with a User. If the bio
+ * is not provided, it will be unset.
+ *
+ * @param mongo the database that we are interacting with
+ * @param tenantID the Tenant ID of the Tenant where the User exists
+ * @param id the User ID that we are updating
+ * @param bio the string for the user bio
+ */
+export async function updateUserBio(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  bio?: string
+) {
+  // The email wasn't found, so try to update the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      // This will ensure that if the bio isn't provided, it will unset the
+      // bio on the User.
+      [bio ? "$set" : "$unset"]: {
+        bio: bio ? bio : 1,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
 }
 
 /**
@@ -1811,6 +1947,201 @@ export async function removeActiveUserSuspensions(
   return result.value;
 }
 
+export async function warnUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new warning.
+  const warningHistory: WarningStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.warning.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.warning.active": true,
+      },
+      $push: {
+        "status.warning.history": warningHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already warned.
+    const warning = consolidateUserWarningStatus(user.status.warning);
+    if (warning && warning.active) {
+      throw new Error("User already warned");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserWarning will remove a warning from a User allowing them to interact with
+ * the site again.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param modifiedBy the ID of the user removing the warning
+ * @param now the current date
+ */
+export async function removeUserWarning(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new history entry.
+  const update: WarningStatusHistory = {
+    active: false,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.warning.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.warning.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.warning.active": false,
+      },
+      $push: {
+        "status.warning.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the warn operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't warned already, so nothing needs to be done
+    return user;
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeWarning will remove a warning from a User allowing them to interact with
+ * the site again.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnWarning(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: WarningStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  // Try to update the user if the user isn't already warned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.warning.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.warning.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.warning.active": false,
+      },
+      $push: {
+        "status.warning.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the warn operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't warned already, so nothing needs to be done!
+    return user;
+  }
+
+  return result.value;
+}
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
   Pick<BanStatus, "history">;
 
@@ -1818,6 +2149,9 @@ export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
+  Pick<PremodStatus, "history">;
+
+export type ConsolidatedWarningStatus = Omit<GQLWarningStatus, "history"> &
   Pick<PremodStatus, "history">;
 
 export function consolidateUsernameStatus(
@@ -1832,6 +2166,23 @@ export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
 
 export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
   return premod;
+}
+
+export function consolidateUserWarningStatus(
+  warning: User["status"]["warning"]
+) {
+  if (!warning) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeWarning = warning.history[warning.history.length - 1];
+  return {
+    active: warning.active,
+    history: warning.history,
+    message: activeWarning ? activeWarning.message : undefined,
+  };
 }
 
 export type ConsolidatedSuspensionStatus = Omit<
@@ -1869,6 +2220,7 @@ export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
   premod: ConsolidatedPremodStatus;
+  warning: ConsolidatedWarningStatus;
 }
 
 export function consolidateUserStatus(
@@ -1880,6 +2232,7 @@ export function consolidateUserStatus(
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
     ban: consolidateUserBanStatus(status.ban),
     premod: consolidateUserPremodStatus(status.premod),
+    warning: consolidateUserWarningStatus(status.warning),
   };
 }
 
@@ -2249,18 +2602,51 @@ export async function updateUserNotificationSettings(
   mongo: Db,
   tenantID: string,
   id: string,
-  settings: NotificationSettingsInput
+  notifications: NotificationSettingsInput
 ) {
+  const update: DeepPartial<User> = { notifications };
+
   const result = await collection(mongo).findOneAndUpdate(
     {
       id,
       tenantID,
     },
+    { $set: dotize(update) },
     {
-      $set: dotize({
-        notifications: settings,
-      }),
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type UpdateUserMediaSettingsInput = Partial<GQLUserMediaSettings>;
+
+export async function updateUserMediaSettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  mediaSettings: UpdateUserMediaSettingsInput
+) {
+  const update: DeepPartial<User> = { mediaSettings };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
     },
+    { $set: dotize(update) },
     {
       // False to return the updated document instead of the original
       // document.

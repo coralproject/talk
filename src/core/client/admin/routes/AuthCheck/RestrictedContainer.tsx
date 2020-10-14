@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
-import { timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
 import {
   MutationProp,
   withFragmentContainer,
@@ -19,7 +19,7 @@ import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generate
 import Restricted from "./Restricted";
 
 interface Props {
-  viewer: ViewerData;
+  viewer: ViewerData | null;
   error?: Error | null;
   signOut: SignOutMutation;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
@@ -31,7 +31,7 @@ class RestrictedContainer extends Component<Props> {
   private handleSignInAs = async () => {
     await this.props.signOut();
     // Wait for new context to propagate.
-    await timeout();
+    await waitFor();
     void this.props.setRedirectPath({
       path: location.pathname + location.search + location.hash,
     });
@@ -44,7 +44,7 @@ class RestrictedContainer extends Component<Props> {
 
     return (
       <Restricted
-        username={this.props.viewer.username!}
+        username={this.props.viewer.username}
         onSignInAs={this.handleSignInAs}
       />
     );

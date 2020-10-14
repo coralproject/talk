@@ -7,7 +7,6 @@ import { ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { validateWebhookEventSelection } from "coral-framework/lib/validation";
-import { Typography } from "coral-ui/components";
 import {
   Button,
   CheckBox,
@@ -18,6 +17,7 @@ import {
   Label,
   ListGroup,
   ListGroupRow,
+  Typography,
 } from "coral-ui/components/v2";
 
 import {

@@ -42,8 +42,8 @@ exports.onCreateWebpackConfig = ({
 
   if (stage === "develop") {
     config.entry.commons.push(
-      // Add our global css variables file.
-      `${srcDir}/core/client/ui/theme/variables.css.ts`
+      // Add our stream css variables file.
+      `${srcDir}/core/client/ui/theme/stream.css.ts`
     );
   }
 
@@ -52,7 +52,7 @@ exports.onCreateWebpackConfig = ({
   if (stage === "build-javascript") {
     config.entry.app = [
       config.entry.app,
-      `${appDir}/core/client/ui/theme/variables.css.ts`,
+      `${appDir}/core/client/ui/theme/stream.css.ts`,
     ];
   }
   */

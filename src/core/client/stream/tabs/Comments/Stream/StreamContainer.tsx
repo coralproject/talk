@@ -5,11 +5,20 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
-import { COMMENTS_ORDER_BY } from "coral-stream/constants";
+import {
+  COMMENTS_ORDER_BY,
+  VIEWER_STATUS_CONTAINER_ID,
+} from "coral-stream/constants";
 import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
@@ -35,6 +44,7 @@ import {
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
+import AddACommentButton from "./AddACommentButton";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
 import AnsweredComments from "./AnsweredCommentsTab";
@@ -44,11 +54,14 @@ import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletio
 import FeaturedComments from "./FeaturedComments";
 import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
 import { PostCommentFormContainer } from "./PostCommentForm";
+import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
+import ViewersWatchingContainer from "./ViewersWatchingContainer";
+import WarningContainer from "./Warning";
 
 import styles from "./StreamContainer.css";
 
@@ -117,7 +130,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       emitSetCommentsOrderByEvent({ orderBy: order.target.value });
       await localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
     },
-    [setLocal, local.commentsOrderBy]
+    [local.commentsOrderBy, setLocal, emitSetCommentsOrderByEvent, localStorage]
   );
   const onChangeTab = useCallback(
     (tab: COMMENTS_TAB, emit = true) => {
@@ -129,20 +142,40 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         emitSetCommentsTabEvent({ tab });
       }
     },
-    [setLocal, local.commentsTab]
+    [local.commentsTab, setLocal, emitSetCommentsTabEvent]
   );
-  const banned = Boolean(
-    props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
+
+  // TODO: extract to separate function
+  const banned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!props.viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
   );
-  const suspended = Boolean(
-    props.viewer &&
-      props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
-  );
+  const warned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
-  const isQA = Boolean(props.story.settings.mode === GQLSTORY_MODE.QA);
+  const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
+
+  // The alternate view is only enabled when we have the feature flag, the sort
+  // as oldest first, the story is not closed, and comments are not disabled.
+  const alternateOldestViewEnabled =
+    props.settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    local.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    local.commentsTab === "ALL_COMMENTS" &&
+    !isQA &&
+    !props.story.isClosed &&
+    !props.settings.disableCommenting.enabled;
+
+  const showCommentForm =
+    // If we aren't banned and...
+    !banned &&
+    // If we aren't suspended and...
+    !suspended &&
+    // If we aren't warned.
+    !warned;
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -171,9 +204,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
+      <PreviousCountSpyContainer
+        story={props.story}
+        settings={props.settings}
+      />
       <HorizontalGutter
         className={cn(styles.root, {
-          [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
+          [CLASSES.commentsTabPane.authenticated]: !!props.viewer,
           [CLASSES.commentsTabPane.unauthenticated]: !props.viewer,
         })}
         size="double"
@@ -194,22 +231,38 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && !suspended && (
-          <PostCommentFormContainer
-            settings={props.settings}
-            story={props.story}
-            viewer={props.viewer}
-            tab={local.commentsTab}
-            onChangeTab={onChangeTab}
-            commentsOrderBy={local.commentsOrderBy}
-          />
-        )}
-        {banned && <BannedInfo />}
-        {suspended && (
-          <SuspendedInfoContainer
-            viewer={props.viewer}
-            settings={props.settings}
-          />
+        {showCommentForm &&
+          (alternateOldestViewEnabled ? (
+            <AddACommentButton />
+          ) : (
+            <>
+              <IntersectionProvider>
+                <ViewersWatchingContainer
+                  story={props.story}
+                  settings={props.settings}
+                />
+              </IntersectionProvider>
+              <PostCommentFormContainer
+                settings={props.settings}
+                story={props.story}
+                viewer={props.viewer}
+                tab={local.commentsTab}
+                onChangeTab={onChangeTab}
+                commentsOrderBy={local.commentsOrderBy}
+              />
+            </>
+          ))}
+        {(banned || warned || suspended) && (
+          <div id={VIEWER_STATUS_CONTAINER_ID}>
+            {banned && <BannedInfo />}
+            {suspended && (
+              <SuspendedInfoContainer
+                viewer={props.viewer}
+                settings={props.settings}
+              />
+            )}
+            {warned && <WarningContainer viewer={props.viewer} />}
+          </div>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
@@ -240,6 +293,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     <Counter
                       data-testid="comments-featuredCount"
                       size="sm"
+                      className={CLASSES.counter}
                       color={
                         local.commentsTab === "FEATURED_COMMENTS"
                           ? "inherit"
@@ -273,6 +327,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     </Localized>
                     <Counter
                       size="sm"
+                      className={CLASSES.counter}
                       color={
                         local.commentsTab === "UNANSWERED_COMMENTS"
                           ? "inherit"
@@ -309,6 +364,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
 
                   <Counter
                     size="sm"
+                    className={CLASSES.counter}
                     color={
                       local.commentsTab === "ALL_COMMENTS" ? "inherit" : "grey"
                     }
@@ -392,13 +448,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment StreamContainer_story on Story {
-      ...PostCommentFormContainer_story
-      ...StoryClosedTimeoutContainer_story
-      ...CreateCommentReplyMutation_story
-      ...CreateCommentMutation_story
-      ...ModerateStreamContainer_story
       id
       url
+      isClosed
       settings {
         mode
       }
@@ -409,20 +461,28 @@ const enhanced = withFragmentContainer<Props>({
           UNANSWERED
         }
       }
+      ...CreateCommentMutation_story
+      ...CreateCommentReplyMutation_story
+      ...ModerateStreamContainer_story
+      ...PostCommentFormContainer_story
+      ...PreviousCountSpyContainer_story
+      ...StoryClosedTimeoutContainer_story
+      ...ViewersWatchingContainer_story
     }
   `,
   viewer: graphql`
     fragment StreamContainer_viewer on User {
-      ...UserBoxContainer_viewer
-      ...CreateCommentReplyMutation_viewer
-      ...CreateCommentMutation_viewer
-      ...PostCommentFormContainer_viewer
-      ...SuspendedInfoContainer_viewer
-      ...StreamDeletionRequestCalloutContainer_viewer
-      ...ModerateStreamContainer_viewer
       status {
         current
       }
+      ...CreateCommentMutation_viewer
+      ...CreateCommentReplyMutation_viewer
+      ...ModerateStreamContainer_viewer
+      ...PostCommentFormContainer_viewer
+      ...StreamDeletionRequestCalloutContainer_viewer
+      ...SuspendedInfoContainer_viewer
+      ...UserBoxContainer_viewer
+      ...WarningContainer_viewer
     }
   `,
   settings: graphql`
@@ -430,12 +490,22 @@ const enhanced = withFragmentContainer<Props>({
       reaction {
         sortLabel
       }
-      ...PostCommentFormContainer_settings
-      ...UserBoxContainer_settings
-      ...CommunityGuidelinesContainer_settings
-      ...SuspendedInfoContainer_settings
+      featureFlags
+      disableCommenting {
+        enabled
+      }
       ...AnnouncementContainer_settings
+      ...CommunityGuidelinesContainer_settings
+      ...CommunityGuidelinesContainer_settings
       ...ModerateStreamContainer_settings
+      ...PostCommentFormContainer_settings
+      ...PostCommentFormContainer_settings
+      ...PreviousCountSpyContainer_settings
+      ...SuspendedInfoContainer_settings
+      ...SuspendedInfoContainer_settings
+      ...UserBoxContainer_settings
+      ...UserBoxContainer_settings
+      ...ViewersWatchingContainer_settings
     }
   `,
 })(StreamContainer);

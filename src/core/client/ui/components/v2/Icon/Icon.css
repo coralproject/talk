@@ -26,38 +26,38 @@
 }
 
 .xs {
-  font-size: 10px;
-  width: 10px;
+  font-size: var(--font-size-icon-xs);
+  width: var(--font-size-icon-xs);
 }
 
 .sm {
-  font-size: 14px;
-  width: 14px;
+  font-size: var(--font-size-icon-sm);
+  width: var(--font-size-icon-sm);
 }
 .md {
-  font-size: 18px;
-  width: 18px;
+  font-size: var(--font-size-icon-md);
+  width: var(--font-size-icon-md);
 }
 .lg {
-  font-size: 24px;
-  width: 24px;
+  font-size: var(--font-size-icon-lg);
+  width: var(--font-size-icon-lg);
 }
 .xl {
-  font-size: 36px;
-  width: 36px;
+  font-size: var(--font-size-icon-xl);
+  width: var(--font-size-icon-xl);
 }
 
 .colorPrimary {
-  color: var(--v2-colors-teal-700);
+  color: $colors-teal-700;
 }
 .colorError {
-  color: var(--v2-colors-red-500);
+  color: var(--palette-error-500);
 }
 
 .colorSuccess {
-  color: var(--v2-colors-green-500);
+  color: var(--palette-success-500);
 }
 
 .colorStream {
-  color: var(--v2-colors-stream-blue-500);
+  color: var(--palette-primary-500);
 }

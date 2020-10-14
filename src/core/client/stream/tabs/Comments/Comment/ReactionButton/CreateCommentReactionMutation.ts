@@ -5,17 +5,22 @@ import { Environment } from "relay-runtime";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
   lookup,
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment } from "coral-framework/schema";
-
-import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
 import { CreateCommentReactionEvent } from "coral-stream/events";
 
-export type CreateCommentReactionInput = MutationInput<MutationTypes>;
+import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
+
+export type CreateCommentReactionInput = MutationInput<MutationTypes> & {
+  author?: {
+    id: string;
+    username: string | undefined | null;
+  } | null;
+};
 
 const mutation = graphql`
   mutation CreateCommentReactionMutation($input: CreateCommentReactionInput!) {
@@ -59,6 +64,10 @@ async function commit(
           createCommentReaction: {
             comment: {
               id: input.commentID,
+              author: {
+                id: input.author?.id,
+                username: input.author?.username,
+              },
               viewerActionPresence: {
                 reaction: true,
               },
@@ -91,11 +100,8 @@ async function commit(
   }
 }
 
-export const withCreateCommentReactionMutation = createMutationContainer(
-  "createCommentReaction",
-  commit
-);
-
 export type CreateCommentReactionMutation = (
   input: CreateCommentReactionInput
 ) => MutationResponsePromise<MutationTypes, "createCommentReaction">;
+
+export default createMutation("createCommentReaction", commit);

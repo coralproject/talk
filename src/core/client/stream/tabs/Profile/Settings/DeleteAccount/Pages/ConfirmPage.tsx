@@ -225,7 +225,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
 
                 {submitError && (
                   <CallOut
-                    color="negative"
+                    color="error"
                     icon={<Icon size="sm">error</Icon>}
                     titleWeight="semiBold"
                     title={submitError}

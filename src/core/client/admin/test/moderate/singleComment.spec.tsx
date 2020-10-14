@@ -47,7 +47,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -95,7 +94,7 @@ it("approves single comment", async () => {
     });
     return {
       comment: {
-        id: comment.id,
+        ...comment,
         status: GQLCOMMENT_STATUS.APPROVED,
         statusHistory: {
           edges: [
@@ -148,9 +147,8 @@ it("rejects single comment", async () => {
     });
     return {
       comment: {
-        id: comment.id,
+        ...comment,
         status: GQLCOMMENT_STATUS.REJECTED,
-        author: comment.author,
         statusHistory: {
           edges: [
             {

@@ -6,14 +6,17 @@ import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
   COMMENT_REPEAT_POST_DURATION,
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
+  MAX_BIO_LENGTH,
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
+import { formatDate } from "coral-common/date";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
+  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -22,6 +25,7 @@ import {
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
+  UserBioTooLongError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
@@ -29,13 +33,20 @@ import {
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
-import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
+import { retrieveManySites } from "coral-server/models/site";
 import {
+  hasFeatureFlag,
+  linkUsersAvailable,
+  Tenant,
+} from "coral-server/models/tenant";
+import {
+  acknowledgeOwnWarning,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
+  consolidateUserWarningStatus,
   createModeratorNote,
   createUser,
   createUserToken,
@@ -51,6 +62,7 @@ import {
   removeUserBan,
   removeUserIgnore,
   removeUserPremod,
+  removeUserWarning,
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
@@ -60,13 +72,19 @@ import {
   setUserUsername,
   suspendUser,
   updateUserAvatar,
+  updateUserBio,
   updateUserEmail,
+  updateUserMediaSettings,
+  UpdateUserMediaSettingsInput,
+  updateUserModerationScopes,
   updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
   User,
+  UserModerationScopes,
   verifyUserPassword,
+  warnUser,
 } from "coral-server/models/user";
 import {
   getLocalProfile,
@@ -80,6 +98,7 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
+  GQLFEATURE_FLAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -129,44 +148,48 @@ export async function findOrCreate(
   // Validate the input.
   validateFindOrCreateUserInput(input, options);
 
-  let user: Readonly<User>;
-  let wasUpserted: boolean;
-
   try {
-    const result = await findOrCreateUser(mongo, tenant.id, input, now);
-    user = result.user;
-    wasUpserted = result.wasUpserted;
+    // Try to find or create the user.
+    const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+    return user;
   } catch (err) {
+    // If this error is related to a duplicate user error, we might have
+    // encountered a race related to the unique index. We should try once more
+    // to perform the operation.
+    if (err instanceof DuplicateUserError) {
+      // Retry the operation once more, if this operation fails, the error will
+      // exit this function.
+      const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+      return user;
+    }
+
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
     // the tenant has both local and another social profile enabled.
     if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
       // Pull the email address out of the input, and re-try creating the user
-      // given that.
+      // given that. We need to pull the verified property out because we don't
+      // want to have that embedded in the `...rest` object.
       const { email, emailVerified, ...rest } = input;
 
       // Create the user again this time, but associate the duplicate email to
       // the user account.
-      const result = await findOrCreateUser(
+      const { user } = await findOrCreateUser(
         mongo,
         tenant.id,
         { ...rest, duplicateEmail: email },
         now
       );
 
-      user = result.user;
-      wasUpserted = result.wasUpserted;
-    } else {
-      throw err;
+      return user;
     }
-  }
 
-  if (wasUpserted) {
-    // TODO: (wyattjoh) emit that a user was created
+    // The error wasn't related to a duplicate user or duplicate email error,
+    // so just re-throw that error again.
+    throw err;
   }
-
-  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-  return user;
 }
 
 export type CreateUser = FindOrCreateUserInput;
@@ -418,16 +441,7 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
-  // TODO: extract out into a common shared formatter
-  // this is being duplicated everywhere
-  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  }).format(deletionDate.toJSDate());
+  const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
 
   await mailer.add({
     tenantID: tenant.id,
@@ -559,8 +573,7 @@ export async function updateUsername(
   // Validate the username.
   validateUsername(username);
 
-  const canUpdate = canUpdateLocalProfile(tenant, user);
-  if (!canUpdate) {
+  if (!tenant.accountFeatures.changeUsername) {
     throw new Error("Cannot update profile due to tenant settings");
   }
 
@@ -656,6 +669,39 @@ export async function updateRole(
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
+export async function updateModerationScopes(
+  mongo: Db,
+  tenant: Tenant,
+  user: Pick<User, "id">,
+  userID: string,
+  moderationScopes: UserModerationScopes
+) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    throw new InternalError("feature flag not enabled", {
+      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
+    });
+  }
+
+  if (user.id === userID) {
+    throw new Error("cannot update your own moderation scopes");
+  }
+
+  // Verify that the scopes referenced exist.
+  if (moderationScopes.siteIDs) {
+    const sites = await retrieveManySites(
+      mongo,
+      tenant.id,
+      moderationScopes.siteIDs
+    );
+
+    if (sites.some((site) => site === null)) {
+      throw new Error("site specified does not exist");
+    }
+  }
+
+  return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);
+}
+
 /**
  * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
  *
@@ -665,40 +711,52 @@ export async function updateRole(
 function enabledAuthenticationIntegrations(
   tenant: Tenant,
   target?: "stream" | "admin"
-): string[] {
-  return Object.keys(tenant.auth.integrations).filter((key: string) => {
-    const { enabled, targetFilter } = tenant.auth.integrations[
-      key as keyof GQLAuthIntegrations
-    ];
-    if (target) {
-      return enabled && targetFilter[target];
+): ReadonlyArray<keyof GQLAuthIntegrations> {
+  const integrations = Object.keys(tenant.auth.integrations) as ReadonlyArray<
+    keyof GQLAuthIntegrations
+  >;
+
+  return integrations.filter((key) => {
+    // Get the filter and enabled status for the integration.
+    const { enabled, targetFilter } = tenant.auth.integrations[key];
+    if (!enabled) {
+      return false;
     }
-    return enabled && targetFilter.admin && targetFilter.stream;
+
+    // If the target was specified, then filter for that target.
+    if (target) {
+      return targetFilter[target];
+    }
+
+    // Otherwise, require all targets.
+    return targetFilter.admin && targetFilter.stream;
   });
 }
 
 /**
- * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ * canUpdateEmailAddress will determine if a user is permitted to update their
+ * email address.
  *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
-function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
-  if (!tenant.accountFeatures.changeUsername) {
-    return false;
-  }
-
+function canUpdateEmailAddress(tenant: Tenant, user: User): boolean {
+  // If the user doesn't have a local profile, they can't update their email
+  // address because the email address is externally controlled.
   if (!hasLocalProfile(user)) {
     return false;
   }
 
-  const streamAuthTypes = enabledAuthenticationIntegrations(tenant, "stream");
+  // Get the enabled integrations for the stream.
+  const integrations = enabledAuthenticationIntegrations(tenant, "stream");
 
-  // user can update email if local auth is enabled or any integration other than sso is enabled
-  return (
-    streamAuthTypes.includes("local") ||
-    !(streamAuthTypes.length === 1 && streamAuthTypes[0] === "sso")
-  );
+  // If the local auth integration is enabled, then the user can update the
+  // email address.
+  if (integrations.includes("local")) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
@@ -727,8 +785,7 @@ export async function updateEmail(
   const email = emailAddress.toLowerCase();
   validateEmail(email);
 
-  const canUpdate = canUpdateLocalProfile(tenant, user);
-  if (!canUpdate) {
+  if (!canUpdateEmailAddress(tenant, user)) {
     throw new Error("Cannot update profile due to tenant settings");
   }
 
@@ -750,6 +807,7 @@ export async function updateEmail(
     updated as Required<User>,
     now
   );
+
   return updated;
 }
 
@@ -773,6 +831,27 @@ export async function updateEmailByID(
   validateEmail(email);
 
   return updateUserEmail(mongo, tenant.id, userID, email, true);
+}
+
+/**
+ * updateBio will update the given User's avatar.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param bio the bio that we are setting on the User
+ */
+export async function updateBio(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  bio?: string
+) {
+  if (bio && bio.length > MAX_BIO_LENGTH) {
+    throw new UserBioTooLongError(user.id);
+  }
+
+  return updateUserBio(mongo, tenant.id, user.id, bio);
 }
 
 /**
@@ -967,6 +1046,88 @@ export async function removePremod(
 
   // For each of the suspensions, remove it.
   return removeUserPremod(mongo, tenant.id, userID, moderator.id, now);
+}
+
+/**
+ * warn will warn a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be warned on
+ * @param moderator the User that is warning the User
+ * @param userID the ID of the User being warned
+ * @param now the current time that the warning took effect
+ */
+export async function warn(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  message: string,
+  now = new Date()
+) {
+  // Get the user being warned to check to see if the user already has an
+  // existing warning.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently warned.
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (warningStatus.active) {
+    throw new Error("User already warned");
+  }
+
+  // Ban the user.
+  return warnUser(mongo, tenant.id, userID, moderator.id, message, now);
+}
+
+export async function removeWarning(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being suspended to check to see if the user already has an
+  // existing warning.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently warned.
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (!warningStatus.active) {
+    // The user is not warned currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // remove warning.
+  return removeUserWarning(mongo, tenant.id, userID, moderator.id, now);
+}
+
+export async function acknowledgeWarning(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  now = new Date()
+) {
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+  if (!warningStatus.active) {
+    // The user is not warned currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // remove warning
+  return acknowledgeOwnWarning(mongo, tenant.id, userID, now);
 }
 /**
  * suspend will suspend a give user from interacting with Coral.
@@ -1192,7 +1353,7 @@ export async function requestCommentsDownload(
         name: "account-notification/download-comments",
         context: {
           username: user.username!,
-          date: Intl.DateTimeFormat(tenant.locale).format(now),
+          date: formatDate(now, tenant.locale),
           downloadUrl,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
@@ -1235,6 +1396,15 @@ export async function updateNotificationSettings(
   settings: NotificationSettingsInput
 ) {
   return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
+}
+
+export async function updateMediaSettings(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  settings: UpdateUserMediaSettingsInput
+) {
+  return updateUserMediaSettings(mongo, tenant.id, user.id, settings);
 }
 
 function userLastCommentIDKey(

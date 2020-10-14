@@ -75,19 +75,22 @@ exports[`approves single comment 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -141,7 +144,6 @@ exports[`approves single comment 1`] = `
                 aria-controls="uuid-0"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -298,19 +300,22 @@ exports[`rejects single comment 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="ModerateCard-content CommentContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="ModerateCard-viewContext"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-            data-color="regular"
             data-variant="text"
             onBlur={[Function]}
             onClick={[Function]}
@@ -364,7 +369,6 @@ exports[`rejects single comment 1`] = `
                 aria-controls="uuid-0"
                 aria-expanded={false}
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                data-color="mono"
                 data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -556,19 +560,22 @@ exports[`renders single comment view 1`] = `
                 className="ModerateCard-contentArea"
               >
                 <div
-                  className="ModerateCard-content CommentContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                  className="ModerateCard-content"
+                >
+                  <div
+                    className="CommentContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                      }
                     }
-                  }
-                />
+                  />
+                </div>
                 <div
                   className="ModerateCard-viewContext"
                 >
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
-                    data-color="regular"
                     data-variant="text"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -622,7 +629,6 @@ exports[`renders single comment view 1`] = `
                         aria-controls="uuid-0"
                         aria-expanded={false}
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
-                        data-color="mono"
                         data-variant="text"
                         onBlur={[Function]}
                         onClick={[Function]}

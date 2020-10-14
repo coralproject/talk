@@ -6,7 +6,7 @@ import {
   purgeMetadata,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
@@ -17,6 +17,8 @@ import CommentEditingConfig from "./CommentEditingConfig";
 import CommentLengthConfig from "./CommentLengthConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
 import LocaleConfig from "./LocaleConfig";
+import MediaLinksConfig from "./MediaLinksConfig";
+import MemberBioConfig from "./MemberBioConfig";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
@@ -52,6 +54,8 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <ClosedStreamMessageConfig disabled={submitting} />
       <ReactionConfigContainer disabled={submitting} settings={settings} />
       <StaffConfig disabled={submitting} />
+      <MemberBioConfig disabled={submitting} />
+      <MediaLinksConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };
@@ -70,7 +74,8 @@ const enhanced = withFragmentContainer<Props>({
       ...ReactionConfig_formValues @relay(mask: false)
       ...StaffConfig_formValues @relay(mask: false)
       ...RTEConfig_formValues @relay(mask: false)
-
+      ...MediaLinksConfig_formValues @relay(mask: false)
+      ...MemberBioConfig_formValues @relay(mask: false)
       ...ReactionConfigContainer_settings
     }
   `,

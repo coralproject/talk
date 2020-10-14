@@ -21,17 +21,20 @@ rewrite();
 // the environment.
 dotenv.config();
 
+// NOTE: It is required for the `dotenv` module to be configured before other
+// modules to ensure the rewriting takes place before those modules load!
+
+import express from "express";
+
+import createCoral from "./core";
+import logger from "./core/server/logger";
+
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", (err) => {
   throw err;
 });
-
-import express from "express";
-
-import createCoral from "./core";
-import logger from "./core/server/logger";
 
 // Create the app that will serve as the mounting point for the Coral Server.
 const parent = express();

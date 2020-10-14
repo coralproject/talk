@@ -1,14 +1,15 @@
 import { shallow } from "enzyme";
+import { createForm } from "final-form";
 import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
-import { pureMerge, timeout } from "coral-common/utils";
+import { waitFor } from "coral-common/helpers";
+import { pureMerge } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { act, removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
 
-import { RTE_RESET_VALUE } from "../../RTE/RTE";
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
@@ -22,11 +23,15 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       showAuthPopup: noop as any,
       createComment: noop as any,
       refreshSettings: noop as any,
+      refreshViewer: noop as any,
       tab: "",
       onChangeTab: noop as any,
       story: {
         id: "story-id",
         isClosed: false,
+        site: {
+          id: "site-id",
+        },
         settings: {
           messageBox: {
             enabled: false,
@@ -40,6 +45,12 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: true,
           min: 3,
           max: 100,
+        },
+        media: {
+          giphy: { enabled: false },
+          twitter: { enabled: false },
+          youtube: { enabled: false },
+          external: { enabled: false },
         },
         closeCommenting: {
           message: "closed",
@@ -102,7 +113,7 @@ it("save values", async () => {
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -125,9 +136,7 @@ it("creates a comment", async () => {
   const storyID = "story-id";
   const input = { body: "Hello World!" };
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
-  const form = { initialize: noop };
-  const formMock = sinon.mock(form);
-  formMock.expects("initialize").withArgs({ body: RTE_RESET_VALUE }).once();
+  const form = createForm({ onSubmit: noop });
 
   const props = createDefaultProps({
     createComment: createCommentStub,
@@ -143,7 +152,7 @@ it("creates a comment", async () => {
   });
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -156,16 +165,14 @@ it("creates a comment", async () => {
     await wait(() =>
       expect(
         createCommentStub.calledWith({
+          ...input,
           storyID,
           nudge: true,
           commentsOrderBy: "CREATED_AT_ASC",
-          ...input,
+          media: undefined,
         })
       ).toBeTruthy()
     );
-  });
-  await act(async () => {
-    await wait(() => formMock.verify());
   });
 });
 
@@ -181,7 +188,7 @@ it("renders when story has been closed (collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -202,7 +209,7 @@ it("renders when commenting has been disabled (collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.update();
@@ -235,7 +242,7 @@ it("renders when story has been closed (non-collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.setProps(nextProps);
@@ -264,7 +271,7 @@ it("renders when commenting has been disabled (non-collapsing)", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   act(() => {
     wrapper.setProps(nextProps);
@@ -282,7 +289,7 @@ it("renders when user is scheduled to be deleted", async () => {
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
+  await waitFor();
 
   await act(async () => {
     await wait(() => expect(wrapper).toMatchSnapshot());

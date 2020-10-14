@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, ButtonIcon } from "coral-ui/components";
+import { Button, ButtonIcon } from "coral-ui/components/v2";
 
 export interface NextButtonProps {
   submitting: boolean;
@@ -10,9 +10,8 @@ export interface NextButtonProps {
 const NextButton: FunctionComponent<NextButtonProps> = (props) => {
   return (
     <Button
-      variant="filled"
-      color="primary"
-      size="large"
+      variant="regular"
+      color="regular"
       type="submit"
       disabled={props.submitting}
     >

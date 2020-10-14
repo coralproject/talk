@@ -5,7 +5,10 @@ import React, { FunctionComponent } from "react";
 import { Field, FieldProps, Form } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
-import { validateMaxLength } from "coral-framework/lib/validation";
+import {
+  customMessage,
+  validateMaxLength,
+} from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import { Flex, RadioButton } from "coral-ui/components/v2";
 import { Button, ValidationMessage } from "coral-ui/components/v3";
@@ -34,6 +37,7 @@ interface Props {
   id: string;
   onCancel: () => void;
   onSubmit: OnSubmit<any>;
+  biosEnabled: boolean;
 }
 
 export interface FormProps {
@@ -49,7 +53,11 @@ class ReportCommentForm extends React.Component<Props> {
   public render() {
     const { onCancel, onSubmit, id } = this.props;
     return (
-      <div className={styles.root} data-testid="report-comment-form">
+      <div
+        className={styles.root}
+        data-testid="report-comment-form"
+        role="none"
+      >
         <Form onSubmit={onSubmit}>
           {({
             handleSubmit,
@@ -118,6 +126,19 @@ class ReportCommentForm extends React.Component<Props> {
                       </RadioField>
                     </Localized>
                   </li>
+                  {this.props.biosEnabled && (
+                    <li>
+                      <Localized id="comments-reportPopover-reasonBio">
+                        <RadioField
+                          name="reason"
+                          value="COMMENT_REPORTED_BIO"
+                          disabled={submitting}
+                        >
+                          This commenter's bio is offensive or abusive
+                        </RadioField>
+                      </Localized>
+                    </li>
+                  )}
                   <li>
                     <Localized id="comments-reportPopover-reasonOther">
                       <RadioField
@@ -150,34 +171,42 @@ class ReportCommentForm extends React.Component<Props> {
                 <div>
                   <Field
                     name="additionalDetails"
-                    validate={validateMaxLength(500)}
+                    validate={customMessage(
+                      validateMaxLength(500),
+                      <Localized
+                        id="comments-reportPopover-restrictToMaxCharacters"
+                        $maxCharacters={500}
+                      >
+                        <span>
+                          Please restrict your report to 500 characters
+                        </span>
+                      </Localized>
+                    )}
                   >
                     {({ input, meta }) => (
                       <div className={styles.textAreaContainer}>
                         <textarea
                           {...input}
-                          id={`comments-reportCommentForm-aditionalDetails--${id}`}
+                          data-testid="report-comment-additional-information"
+                          id={`comments-reportCommentForm-additionalDetails--${id}`}
                           className={styles.textarea}
                           disabled={submitting}
                         />
-                        {/* TODO: (wyattjoh) check to see if this should be replaced by the framework validation message */}
-                        {(meta.error && (
-                          <div color="error" className={styles.textareaInfo}>
-                            {meta.error}
-                          </div>
-                        )) || (
-                          <Localized
-                            id="comments-reportPopover-maxCharacters"
-                            $maxCharacters={500}
-                          >
-                            <div
-                              color="textSecondary"
-                              className={styles.textareaInfo}
+                        <div className={styles.textareaInfo}>
+                          {(meta.error && (
+                            <ValidationMessage
+                              meta={meta}
+                              justifyContent="flex-end"
+                            />
+                          )) || (
+                            <Localized
+                              id="comments-reportPopover-maxCharacters"
+                              $maxCharacters={500}
                             >
-                              Max. 500 Characters
-                            </div>
-                          </Localized>
-                        )}
+                              <div>Max. 500 Characters</div>
+                            </Localized>
+                          )}
+                        </div>
                       </div>
                     )}
                   </Field>

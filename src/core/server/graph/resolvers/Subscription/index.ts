@@ -8,7 +8,7 @@ import { commentReleased } from "./commentReleased";
 import { commentReplyCreated } from "./commentReplyCreated";
 import { commentStatusUpdated } from "./commentStatusUpdated";
 
-export const Subscription: GQLSubscriptionTypeResolver = {
+export const Subscription: Required<GQLSubscriptionTypeResolver> = {
   commentCreated,
   commentEnteredModerationQueue,
   commentLeftModerationQueue,

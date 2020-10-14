@@ -7,6 +7,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
+import { incrementStoryCommentCounts } from "../../helpers";
 
 interface Input {
   storyID: string;
@@ -34,9 +35,15 @@ const AllCommentsTabViewNewMutation = createMutation(
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
+
+      // Insert new edges into the view.
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeBefore(connection, edge);
       });
+
+      // Increment the count.
+      incrementStoryCommentCounts(store, input.storyID, viewNewEdges.length);
+
       ViewNewCommentsEvent.emit(eventEmitter, {
         storyID: input.storyID,
         count: viewNewEdges.length,

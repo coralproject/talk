@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
+import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
@@ -75,40 +76,47 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     }
   }, [showAll, beginShowAllEvent, props.comment.id]);
 
-  const subcribeToCommentReplyCreated = useSubscription(
+  const subscribeToCommentReplyCreated = useSubscription(
     CommentReplyCreatedSubscription
   );
-  useEffect(() => {
-    if (!props.story.settings.live.enabled) {
-      return;
-    }
 
-    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
-      return;
-    }
+  const live = useLive(props);
+  useEffect(() => {
     if (props.indentLevel !== 1) {
       return;
     }
-    const disposable = subcribeToCommentReplyCreated({
+
+    // If the comment is pending, no need to subscribe the comment!
+    if (props.comment.pending) {
+      return;
+    }
+
+    // If live updates aren't enabled, don't subscribe!
+    if (!live) {
+      return;
+    }
+
+    const disposable = subscribeToCommentReplyCreated({
       ancestorID: props.comment.id,
       liveDirectRepliesInsertion: props.liveDirectRepliesInsertion,
     });
+
     return () => {
       disposable.dispose();
     };
   }, [
-    subcribeToCommentReplyCreated,
+    live,
+    subscribeToCommentReplyCreated,
     props.comment.id,
     props.indentLevel,
-    props.relay.hasMore(),
+    props.comment.pending,
     props.liveDirectRepliesInsertion,
-    props.story.settings.live.enabled,
   ]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const onViewNew = useCallback(() => {
-    void viewNew({ commentID: props.comment.id });
-  }, [props.comment.id, viewNew]);
+    void viewNew({ commentID: props.comment.id, storyID: props.story.id });
+  }, [props.comment.id, props.story.id, viewNew]);
 
   const viewNewCount =
     (props.comment.replies.viewNewEdges &&
@@ -206,7 +214,7 @@ function createReplyListContainer(
  */
 const LastReplyList: FunctionComponent<PropTypesOf<
   typeof LocalReplyListContainer
->> = (props) => <LocalReplyListContainer {...props} indentLevel={3} />;
+>> = (props) => <LocalReplyListContainer {...props} indentLevel={4} />;
 
 const ReplyListContainer3 = createReplyListContainer(
   3,
@@ -229,7 +237,9 @@ const ReplyListContainer3 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer3_story on Story {
+        id
         isClosed
+        closedAt
         settings {
           live {
             enabled
@@ -242,17 +252,26 @@ const ReplyListContainer3 = createReplyListContainer(
     comment: graphql`
       fragment ReplyListContainer3_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 3 }
+          count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              replyCount
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...LocalReplyListContainer_comment
+            }
           }
           edges {
             node {
@@ -286,6 +305,7 @@ const ReplyListContainer3 = createReplyListContainer(
   LastReplyList,
   true
 );
+
 const ReplyListContainer2 = createReplyListContainer(
   2,
   {
@@ -307,7 +327,9 @@ const ReplyListContainer2 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer2_story on Story {
+        id
         isClosed
+        closedAt
         settings {
           live {
             enabled
@@ -320,17 +342,25 @@ const ReplyListContainer2 = createReplyListContainer(
     comment: graphql`
       fragment ReplyListContainer2_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 3 }
+          count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...ReplyListContainer3_comment
+            }
           }
           edges {
             node {
@@ -384,7 +414,9 @@ const ReplyListContainer1 = createReplyListContainer(
     `,
     story: graphql`
       fragment ReplyListContainer1_story on Story {
+        id
         isClosed
+        closedAt
         settings {
           live {
             enabled
@@ -397,17 +429,25 @@ const ReplyListContainer1 = createReplyListContainer(
     comment: graphql`
       fragment ReplyListContainer1_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 3 }
+          count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
         status
+        pending
         lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           viewNewEdges {
             cursor
+            node {
+              id
+              enteredLive
+              ...CommentContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...ReplyListContainer2_comment
+            }
           }
           edges {
             node {

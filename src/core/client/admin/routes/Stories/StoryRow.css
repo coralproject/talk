@@ -10,11 +10,19 @@
 }
 
 .meta {
-  color: var(--v2-colors-mono-100);
+  color: var(--palette-text-100);
+}
+
+.metaElement {
+  margin-right: var(--spacing-1);
 }
 
 .authorName {
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.readingNow {
+  color: var(--palette-success-500);
 }
 
 .reportedCountColumn,
@@ -25,5 +33,5 @@
 }
 
 .boldColumn {
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-semi-bold);
 }

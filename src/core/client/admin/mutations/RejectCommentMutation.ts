@@ -47,7 +47,7 @@ const RejectCommentMutation = createMutation(
                   }
                 }
               }
-              ...ModeratedByContainer_comment
+              ...ModerateCardContainer_comment
             }
             moderationQueues(
               storyID: $storyID
@@ -83,12 +83,51 @@ const RejectCommentMutation = createMutation(
         proxy.setValue("REJECTED", "status");
         proxy.setValue(true, "viewerDidModerate");
       },
-      updater: (store) => {
+      updater: (store, data) => {
+        // If no comment came back or the returned comment status was the same,
+        // don't remove it from the connections!
+        if (
+          !data.rejectComment ||
+          !data.rejectComment.comment ||
+          data.rejectComment.comment.status !== "REJECTED"
+        ) {
+          return;
+        }
+
+        // Ensure that the comment retains the viewerDidModerate state after it
+        // comes back from the update.
+        const proxy = store.get(input.commentID)!;
+        proxy.setValue(true, "viewerDidModerate");
+
         const connections = [
-          getQueueConnection(store, "REPORTED", input.storyID),
-          getQueueConnection(store, "PENDING", input.storyID),
-          getQueueConnection(store, "UNMODERATED", input.storyID),
-          getQueueConnection(store, "APPROVED", input.storyID),
+          getQueueConnection(
+            store,
+            "REPORTED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "PENDING",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "UNMODERATED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
+          getQueueConnection(
+            store,
+            "APPROVED",
+            input.storyID,
+            input.siteID,
+            input.section
+          ),
         ].filter((c) => c);
         connections.forEach((con) =>
           ConnectionHandler.deleteNode(con!, input.commentID)

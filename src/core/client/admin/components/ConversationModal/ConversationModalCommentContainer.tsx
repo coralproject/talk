@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
@@ -91,10 +92,11 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 
           <div>
             {comment.body && (
-              <CommentContent className={styles.commentText} phrases={settings}>
+              <CommentContent className={styles.commentText}>
                 {comment.body}
               </CommentContent>
             )}
+            <MediaContainer comment={comment} />
           </div>
         </HorizontalGutter>
       </Flex>
@@ -104,7 +106,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
             <Localized id="conversation-modal-reply-show-replies">
               <Button
                 color="mono"
-                variant="outline"
+                variant="outlined"
                 onClick={onShowReplies}
                 fullWidth
               >
@@ -127,11 +129,6 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ConversationModalCommentContainer_settings on Settings {
-      locale
-      wordList {
-        banned
-        suspect
-      }
       multisite
       featureFlags
       ...MarkersContainer_settings
@@ -153,6 +150,7 @@ const enhanced = withFragmentContainer<Props>({
           id
         }
       }
+      ...MediaContainer_comment
     }
   `,
 })(ConversationModalCommentContainer);

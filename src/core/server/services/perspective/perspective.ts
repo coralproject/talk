@@ -4,9 +4,10 @@ import { URL } from "url";
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import { createFetch } from "coral-server/services/fetch";
 
-const fetch = createFetch({ name: "perspective" });
+import { createAxios } from "../fetch";
+
+const axios = createAxios({ name: "perspective" });
 
 /**
  * Language is the language key that is supported by the Perspective API in the
@@ -137,14 +138,17 @@ export async function sendToPerspective(
 
   try {
     // Create the request and send it.
-    const res = await fetch(url.toString(), {
+
+    const res = await axios(url.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      timeout,
       body,
+      timeout,
     });
+
+    // Non-successful response
     if (!res.ok) {
       return {
         ok: res.ok,
@@ -154,11 +158,10 @@ export async function sendToPerspective(
     }
 
     // Parse the JSON body and send back the result!
-    const data = await res.json();
     return {
-      ok: res.ok,
+      ok: true,
       status: res.status,
-      data,
+      data: res.data,
     };
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
@@ -167,6 +170,13 @@ export async function sendToPerspective(
         url.searchParams.toString(),
         "[Sensitive]"
       );
+    }
+
+    if (err.message && err.message.startsWith("axios request timed out")) {
+      // this will match the current fetch API's response when a
+      // request times out. Existing logging that matches the text
+      // "The user aborted a request..." will catch this.
+      throw new Error("The user aborted a request, timed out.");
     }
 
     // Rethrow the error.

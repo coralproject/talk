@@ -2,8 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
-import Spinner from "coral-stream/common/Spinner";
-import { Delay } from "coral-ui/components";
+import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { SiteSelectorCurrentSiteQuery as QueryTypes } from "coral-admin/__generated__/SiteSelectorCurrentSiteQuery.graphql";
 

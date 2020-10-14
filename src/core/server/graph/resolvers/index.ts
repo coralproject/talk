@@ -14,19 +14,24 @@ import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
+import { CommentMedia } from "./CommentMedia";
 import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { EditInfo } from "./EditInfo";
+import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
+import { GiphyMediaConfiguration } from "./GiphyMediaConfiguration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
+import { MediaConfiguration } from "./MediaConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { ModeratorNote } from "./ModeratorNote";
@@ -40,24 +45,34 @@ import { Queue } from "./Queue";
 import { Queues } from "./Queues";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
+import { RTEConfiguration } from "./RTEConfiguration";
 import { Settings } from "./Settings";
 import { SigningSecret } from "./SigningSecret";
+import { Site } from "./Site";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
+import { StaffConfiguration } from "./StaffConfig";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
 import { Subscription } from "./Subscription";
 import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
+import { TwitterMediaConfiguration } from "./TwitterMediaConfiguration";
 import { User } from "./User";
+import { UserMediaSettings } from "./UserMediaSettings";
+import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
+import { WarningStatus } from "./WarningStatus";
+import { WarningStatusHistory } from "./WarningStatusHistory";
 import { WebhookEndpoint } from "./WebhookEndpoint";
+import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
 const Resolvers: GQLResolver = {
   ApproveCommentPayload,
+  StaffConfiguration,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,
@@ -67,6 +82,7 @@ const Resolvers: GQLResolver = {
   CommentCreatedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
+  CommentMedia,
   CommentModerationAction,
   CommentReleasedPayload,
   CommentReplyCreatedPayload,
@@ -74,14 +90,18 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  EditInfo,
+  ExternalMediaConfiguration,
   ExternalModerationPhase,
   FacebookAuthIntegration,
   FeatureCommentPayload,
   Flag,
+  GiphyMediaConfiguration,
   GoogleAuthIntegration,
   Invite,
   LiveConfiguration,
   Locale,
+  MediaConfiguration,
   ModerationQueue,
   ModerationQueues,
   ModeratorNote,
@@ -91,26 +111,34 @@ const Resolvers: GQLResolver = {
   PremodStatusHistory,
   Profile,
   Query,
+  Queue,
+  Queues,
   RecentCommentHistory,
   RejectCommentPayload,
-  SSOAuthIntegration,
+  RTEConfiguration,
+  Settings,
   SigningSecret,
+  Site,
+  SlackConfiguration,
+  SSOAuthIntegration,
   Story,
   StorySettings,
   Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,
+  TwitterMediaConfiguration,
   Time,
   User,
-  Queue,
-  Queues,
+  UserMediaSettings,
+  UserModerationScopes,
   UsernameHistory,
   UsernameStatus,
   UserStatus,
-  Settings,
-  SlackConfiguration,
+  WarningStatus,
+  WarningStatusHistory,
   WebhookEndpoint,
+  YouTubeMediaConfiguration,
 };
 
 export default Resolvers;

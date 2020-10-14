@@ -105,7 +105,6 @@ it("edit a comment", async () => {
       })
       .props.onChange("Edited!")
   );
-
   act(() => {
     within(comment).getByType("form").props.onSubmit();
   });
@@ -153,7 +152,9 @@ it("edit a comment and handle non-published comment state", async () => {
   await waitForElement(() =>
     within(comment).getByText("will be reviewed", { exact: false })
   );
-  within(comment).getByTestID("callout-close-button").props.onClick();
+  act(() => {
+    within(comment).getByTestID("callout-close-button").props.onClick();
+  });
   expect(
     within(testRenderer.root).queryByText("will be reviewed", { exact: false })
   ).toBeNull();
@@ -208,7 +209,7 @@ it("shows expiry message", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  act(() => within(comment).getByText("Close").props.onClick());
+  act(() => within(comment).getByText("Cancel").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });
 

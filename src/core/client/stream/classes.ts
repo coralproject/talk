@@ -7,7 +7,10 @@ const CLASSES = {
   /**
    * guidlines represents the box containing the guidlines.
    */
-  guidelines: "coral coral-guidelines",
+  guidelines: {
+    container: "coral coral-guidelines",
+    content: "coral coral-guidelines-content",
+  },
 
   /**
    * guidlines represents the box containing the guidlines.
@@ -29,6 +32,11 @@ const CLASSES = {
    * counter to show e.g. the amount of comments.
    */
   counter: "coral coral-counter",
+
+  /**
+   * commentForm is the border div around the RTE.
+   */
+  commentForm: "coral coral-commentForm",
 
   /**
    * rte represents the rich-text-editor
@@ -59,6 +67,8 @@ const CLASSES = {
      * myProfile is the button for the "My Profile" tab.
      */
     myProfile: "coral coral-tabBar-tab coral-tabBar-myProfile",
+
+    discussions: "coral coral-tabBar-tab coral-tabBar-discussions",
 
     /**
      * configure is the button for the "Configure" tab.
@@ -175,6 +185,10 @@ const CLASSES = {
      * dismissButton is the button to dismiss the in review message.
      */
     dismissButton: "coral coral-createComment-dismissButton",
+    /**
+     * cancel is the button for cancelling the post.
+     */
+    cancel: "coral coral-createComment-cancel",
   },
 
   /**
@@ -272,6 +286,12 @@ const CLASSES = {
      * $root represents the container containing a given Comment.
      */
     $root: "coral coral-comment",
+
+    /**
+     * highlight is attached to the comment container if the single
+     * conversation view is shown for this comment.
+     */
+    highlight: "coral coral-comment-highlight",
 
     /**
      * reacted signifies the number of reactions of the comment.
@@ -552,7 +572,8 @@ const CLASSES = {
    */
   sharePopover: {
     $root: "coral coral-sharePopover",
-    copyButton: "coral coral-sharePopover-copyButotn",
+    copyButton:
+      "coral coral-sharePopover-copyButotn coral-sharePopover-copyButton",
   },
 
   /**
@@ -610,6 +631,7 @@ const CLASSES = {
     logoutButton: "coral coral-viewerBox-logoutButton",
     signInButton: "coral coral-viewerBox-signInButton",
     registerButton: "coral coral-viewerBox-registerButton",
+    username: "coral coral-viewerBox-username",
   },
 
   /**
@@ -708,6 +730,10 @@ const CLASSES = {
    */
   myProfileTabPane: {
     $root: "coral coral-myProfile",
+  },
+
+  discussionsTabPane: {
+    $root: "coral coral-discussions",
   },
 
   /**
@@ -942,6 +968,10 @@ const CLASSES = {
     updateButton: "coral coral-emailNotifications-updateButton",
   },
 
+  mediaPreferences: {
+    updateButton: "coral coral-mediaPreferences-updateButton",
+  },
+
   /**
    * spinner is the loading indicator.
    */
@@ -977,6 +1007,24 @@ const CLASSES = {
   },
 
   moderateStream: "coral coral-general-moderateStreamLink",
+
+  discussions: {
+    $root: "coral coral-discussions",
+    mostActiveDiscussions: "coral coral-mostActiveDiscussions",
+    myOngoingDiscussions: "coral coral-myOngoingDiscussions",
+    header: "coral coral-discussions-header",
+    subHeader: "coral coral-discussions-subHeader",
+    discussionsList: "coral coral-discussions-list",
+    story: {
+      $root: "coral coral-discussions-story",
+      header: "coral coral-discussions-story-header",
+      commentsCount: "coral coral-discussions-story-commentsCount",
+      commentsCountIcon: "coral coral-discussions-story-commentsCountIcon",
+      date: "coral coral-discussions-story-date",
+      siteName: "coral coral-discussions-story-siteName",
+    },
+    viewHistoryButton: "coral coral-discussions-viewHistoryButton",
+  },
 };
 
 export default CLASSES;

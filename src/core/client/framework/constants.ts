@@ -12,7 +12,7 @@ export const COUNT_SELECTOR = ".coral-count";
 export const ORIGIN_FALLBACK_ID = "coral-script";
 
 /**
- * ANNOUNEMENT_DISMISSED_KEY is the localStorage key to store the ID of the
+ * ANNOUNCEMENT_DISMISSED_KEY is the localStorage key to store the ID of the
  * most recently dismissed announcement
  */
-export const ANNOUNEMENT_DISMISSED_KEY = "coral:lastAnnouncementDismissed";
+export const ANNOUNCEMENT_DISMISSED_KEY = "coral:lastAnnouncementDismissed";

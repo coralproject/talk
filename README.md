@@ -1,39 +1,52 @@
-# Coral ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk.svg)
+<p align="center">
+  <a href="https://coralproject.net" target="_blank"><img width="250" src="https://docs.coralproject.net/coral/images/coralproject_by_voxmedia.svg" alt="Coral by Vox Media" /></a>
+</p>
 
-Online comments are broken. Our open-source commenting platform, Coral, rethinks
-how moderation, comment display, and conversation function, creating the
-opportunity for safer, smarter discussions around your work.
-[Read more about Coral here](https://coralproject.net/talk).
+<p align="center">
+  A better commenting experience from <a href="https://product.voxmedia.com/" target="_blank">Vox Media</a>.
+</p>
 
-Built with <3 by the Coral team, a part of [Vox Media](https://product.voxmedia.com/).
+<p align="center">
+  <a href="https://circleci.com/gh/coralproject/talk" target="_blank"><img src="https://img.shields.io/circleci/build/gh/coralproject/talk?style=flat-square" alt="CircleCI" /></a>
+  <a href="https://hub.docker.com/r/coralproject/talk" target="_blank"><img src="https://img.shields.io/docker/v/coralproject/talk?label=docker%20hub&sort=semver&style=flat-square" alt="Docker Image Version" /></a>
+  <a href="https://hub.docker.com/r/coralproject/talk" target="_blank"><img src="https://img.shields.io/docker/image-size/coralproject/talk?label=docker%20image%20size&sort=semver&style=flat-square" alt="Docker Image Size" /></a>
+  <a href="https://twitter.com/coralproject" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/coralproject?style=flat-square"></a>
+</p>
 
-Preview Coral easily by running it via a Heroku App:
+## Description
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
+Online comments are broken. Our open-source commenting platform,
+[Coral](https://coralproject.net), rethinks how moderation, comment display, and
+conversation function, creating the opportunity for safer, smarter discussions
+around your work.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
-
-- [Documentation](#documentation)
-- [Pre-Launch Guide](#pre-launch-guide)
-- [More Resources](#more-resources)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+We offer hosting and support packages for Coral, as well as exclusive,
+customer-only features. [Contact us](https://coralproject.net/pricing/) for more
+information or [sign up for a webinar](https://coralproject.net).
 
 ## Documentation
 
-You can get started with Coral using our [Documentation](https://docs.coralproject.net/talk/).
+If you're new to Coral, the [Coral documentation](https://docs.coralproject.net/)
+is a great place to start running and developing with Coral.
 
-## Pre-Launch Guide
+You’ve installed Coral, and you’re preparing to launch it on your site. The real
+community work starts now, before you go live. You have a unique opportunity
+pre-launch to set your community up for success. Read our
+[Community Guides](https://guides.coralproject.net/start-here/) to learn more.
 
-You’ve installed Coral on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Community Guides](https://guides.coralproject.net/start-here/) to learn more.
+## Support
 
-## More Resources
+We can help you set up Coral, migrate your comments from another system,
+integrate your registration platform, pair with your programmers, and help you
+with bespoke installs. To learn more, [contact us](https://coralproject.net/pricing/).
 
-- [Learn more about Coral and sign up for a webinar](https://coralproject.net/)
+## Contributing
+
+Coral is a Apache-2.0 licensed open-source project built with <3 by the Coral
+team, a part of [Vox Media](https://product.voxmedia.com/).
+
+If you are interested in contributing to Coral, check out our [Contributor's Guide](CONTRIBUTING.md).
 
 ## License
 
-Coral is released under the [Apache License, v2.0](/LICENSE).
+Coral is [Apache-2.0 licensed](LICENSE).

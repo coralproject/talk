@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
@@ -35,6 +35,7 @@ interface From {
 type HistoryRecord = HistoryActionProps & {
   date: Date;
   takenBy: React.ReactNode;
+  description?: string | null;
 };
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
@@ -48,7 +49,6 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       </span>
     </Localized>
   );
-  const { locales } = useCoralContext();
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
     const history: HistoryRecord[] = [];
@@ -134,10 +134,35 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    user.status.warning.history.forEach((record, i) => {
+      let action: "created" | "acknowledged" | "removed";
+      if (record.active) {
+        action = "created";
+      } else {
+        if (record.acknowledgedAt) {
+          action = "acknowledged";
+        } else {
+          action = "removed";
+        }
+      }
+      history.push({
+        kind: "warning",
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy.username,
+        action: {
+          action,
+          acknowledgedAt: record.acknowledgedAt
+            ? new Date(record.acknowledgedAt)
+            : null,
+        },
+        description: record.message,
+      });
+    });
+
     // Sort the history so that it's in the right order.
     return history.sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [user]);
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -161,18 +186,22 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
             <TableCell>Date</TableCell>
             <TableCell>Action</TableCell>
             <TableCell>Taken By</TableCell>
+            <TableCell>Description</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {combinedHistory.map((history, index) => (
             <TableRow key={index} className={styles.row}>
               <TableCell className={styles.date}>
-                {formatter.format(history.date)}
+                {formatter(history.date)}
               </TableCell>
               <TableCell className={styles.action}>
                 <AccountHistoryAction {...history} />
               </TableCell>
               <TableCell className={styles.user}>{history.takenBy}</TableCell>
+              <TableCell className={styles.description}>
+                {history.description}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -192,6 +221,17 @@ const enhanced = withFragmentContainer<any>({
             createdBy {
               username
             }
+          }
+        }
+        warning {
+          history {
+            active
+            createdBy {
+              username
+            }
+            acknowledgedAt
+            createdAt
+            message
           }
         }
         ban {

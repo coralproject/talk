@@ -19,9 +19,16 @@ exports[`renders all markers 1`] = `
                   "COMMENT_DETECTED_SUSPECT_WORD": 1,
                   "COMMENT_DETECTED_TOXIC": 1,
                   "COMMENT_REPORTED_ABUSIVE": 0,
+                  "COMMENT_REPORTED_BIO": 0,
                   "COMMENT_REPORTED_OFFENSIVE": 2,
+                  "COMMENT_REPORTED_OTHER": 0,
                   "COMMENT_REPORTED_SPAM": 3,
                 },
+              },
+            },
+            "metadata": Object {
+              "wordList": Object {
+                "timedOut": false,
               },
             },
           },
@@ -165,9 +172,16 @@ exports[`renders some markers 1`] = `
                   "COMMENT_DETECTED_SUSPECT_WORD": 0,
                   "COMMENT_DETECTED_TOXIC": 1,
                   "COMMENT_REPORTED_ABUSIVE": 0,
+                  "COMMENT_REPORTED_BIO": 0,
                   "COMMENT_REPORTED_OFFENSIVE": 2,
+                  "COMMENT_REPORTED_OTHER": 0,
                   "COMMENT_REPORTED_SPAM": 0,
                 },
+              },
+            },
+            "metadata": Object {
+              "wordList": Object {
+                "timedOut": false,
               },
             },
           },

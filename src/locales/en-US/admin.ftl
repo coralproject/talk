@@ -10,6 +10,8 @@ storyStatus-closed = Closed
 ## Roles
 role-admin = Admin
 role-moderator = Moderator
+role-siteModerator = Site Moderator
+role-organizationModerator = Organization Moderator
 role-staff = Staff
 role-commenter = Commenter
 
@@ -18,11 +20,24 @@ role-plural-moderator = Moderators
 role-plural-staff = Staff
 role-plural-commenter = Commenters
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comment by {$username}
+    [one] {$reaction} comment by {$username}
+    *[other] {$reaction} ({$count}) comment by {$username}
+  }
+
 ## User Statuses
 userStatus-active = Active
 userStatus-banned = Banned
 userStatus-suspended = Suspended
 userStatus-premod = Always pre-moderate
+userStatus-warned = Warned
 
 ## Navigation
 navigation-moderate = Moderate
@@ -41,7 +56,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Currently signed in to
 restricted-noPermissionInfo = You do not have permission to access this page.
-restricted-signedInAs = You are signed in as: <Username></Username>
+restricted-signedInAs = You are signed in as: <strong>{ $username }</strong>
 restricted-signInWithADifferentAccount = Sign in with a different account
 restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
 
@@ -363,6 +378,12 @@ configure-general-guidelines-explanation =
   here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
+#### Bio
+configure-general-memberBio-title = Member bios
+configure-general-memberBio-explanation =
+  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
+configure-general-memberBio-label = Allow member bios
+
 #### Locale
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
@@ -383,6 +404,37 @@ configure-general-sitewideCommenting-offCommentStreamsClosed =
 configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
+
+#### Embed Links
+configure-general-embedLinks-title = Embedded media
+configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
+configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
+configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
+configure-general-embedLinks-enableGiphyEmbeds = Allow GIFs from GIPHY
+configure-general-embedLinks-enableExternalEmbeds = Enable external media
+
+configure-general-embedLinks-On = Yes
+configure-general-embedLinks-Off = No
+
+configure-general-embedLinks-giphyMaxRating = GIF content rating
+configure-general-embedLinks-giphyMaxRating-desc = Select the maximum content rating for the GIFs that will appear in commenters’ search results
+
+configure-general-embedLinks-giphyMaxRating-g = G
+configure-general-embedLinks-giphyMaxRating-g-desc = Content that is appropriate for all ages
+configure-general-embedLinks-giphyMaxRating-pg = PG
+configure-general-embedLinks-giphyMaxRating-pg-desc = Content that is generally safe for everyone, but parental guidance for children is advised.
+configure-general-embedLinks-giphyMaxRating-pg13 = PG-13
+configure-general-embedLinks-giphyMaxRating-pg13-desc = Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity.
+configure-general-embedLinks-giphyMaxRating-r = R
+configure-general-embedLinks-giphyMaxRating-r-desc = Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
+
+configure-general-embedLinks-configuration = Configuration
+configure-general-embedLinks-configuration-desc =
+  For additional information on GIPHY’s API please visit: <externalLink>https://developers.giphy.com/docs/api</externalLink>
+configure-general-embedLinks-giphyAPIKey = GIPHY API key
+
+
+#### Configure Announcements
 
 configure-general-announcements-title = Community announcement
 configure-general-announcements-description =
@@ -504,7 +556,7 @@ configure-email-fromEmailLabel = From email address
 configure-email-fromEmailDescription =
   Email address that will be used to send messages
 configure-email-smtpHostLabel = SMTP host
-configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
+configure-email-smtpHostDescription = (ex. smtp.sendgrid.net)
 configure-email-smtpPortLabel = SMTP port
 configure-email-smtpPortDescription = (ex. 25)
 configure-email-smtpTLSLabel = TLS
@@ -817,7 +869,10 @@ moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
+moderate-marker-bio = Bio
+moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
+moderate-marker-possibleSuspectWord = Possible Suspect Word
 moderate-marker-spam = Spam
 moderate-marker-spamDetected = Spam detected
 moderate-marker-toxic = Toxic
@@ -827,11 +882,13 @@ moderate-marker-offensive = Offensive
 moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
+moderate-marker-other = Other
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
@@ -864,6 +921,8 @@ moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
 moderate-comment-moderatedBy = Moderated By
 moderate-comment-moderatedBySystem = System
+moderate-comment-play-gif = Play GIF
+moderate-comment-load-video = Load Video
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
@@ -919,6 +978,7 @@ moderate-user-drawer-all-no-comments = {$username} has not submitted any comment
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
+moderate-user-drawer-bio-title = Member bio
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended
@@ -1078,6 +1138,15 @@ community-premodModal-consequence =
 community-premodModal-cancel = Cancel
 community-premodModal-premodUser = Yes, always pre-moderate
 
+community-siteModeratorModal-assignSites =
+  Assign sites for <strong>{ $username }</strong>
+community-siteModeratorModal-assignSitesDescription =
+  Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
+community-siteModeratorModal-cancel = Cancel
+community-siteModeratorModal-assign = Assign
+community-siteModeratorModal-selectSites = Select sites to moderate
+community-siteModeratorModal-noSites = No sites
+
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
 community-invite-inviteMore = Invite more
@@ -1102,6 +1171,18 @@ community-invite-role-admin =
 community-invite-invitationsSent = Your invitations have been sent!
 community-invite-close = Close
 community-invite-invite = Invite
+
+community-warnModal-success =
+  A warning has been sent to <strong>{ $username }</strong>.
+community-warnModal-success-close = Ok
+community-warnModal-areYouSure = Warn <strong>{ $username }</strong>?
+community-warnModal-consequence = A warning can improve a commenter's conduct without a suspension or ban. The user must acknowledge the warning before they can continue commenting.
+community-warnModal-message-label = Message
+community-warnModal-message-required = Required
+community-warnModal-message-description = Explain to this user how they should change their behavior on your site.
+community-warnModal-cancel = Cancel
+community-warnModal-warnUser = Warn user
+community-userStatus-warn = Warn
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.
@@ -1164,6 +1245,10 @@ userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
 
+userDetails-warned-on = <strong>Warned on</strong> { $timestamp }
+userDetails-warned-by = <strong>by</strong> { $username }
+userDetails-warned-explanation = User has not acknowledged the warning.
+
 configure-general-reactions-title = Reactions
 configure-general-reactions-explanation =
   Allow your community to engage with one another and express themselves
@@ -1188,12 +1273,21 @@ configure-general-staff-explanation =
 configure-general-staff-label = Badge text
 configure-general-staff-input =
   .placeholder = E.g. Staff
+configure-general-staff-moderator-input =
+  .placeholder = E.g. Moderator
+configure-general-staff-admin-input =
+  .placeholder = E.g. Admin
 configure-general-staff-preview = Preview
+configure-general-staff-moderator-preview = Preview
+configure-general-staff-admin-preview = Preview
+configure-general-staff-member-label = Staff member badge text
+configure-general-staff-admin-label = Admin badge text
+configure-general-staff-moderator-label = Moderator badge text
 
 configure-general-rte-title = Rich-text comments
 configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.
 configure-general-rte-richTextComments = Rich-text comments
-configure-general-rte-onBasicFeatures = On - bold, italics, block quotes, and bulletted lists
+configure-general-rte-onBasicFeatures = On - bold, italics, block quotes, and bulleted lists
 configure-general-rte-additional = Additional rich-text options
 configure-general-rte-strikethrough = Strikethrough
 configure-general-rte-spoiler = Spoiler

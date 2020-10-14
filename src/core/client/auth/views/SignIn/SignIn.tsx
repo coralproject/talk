@@ -108,7 +108,7 @@ const SignIn: FunctionComponent<SignInForm> = ({
           <div className={CLASSES.login.errorContainer}>
             <CallOut
               className={CLASSES.login.error}
-              color="negative"
+              color="error"
               title={error}
             />
           </div>

@@ -11,6 +11,7 @@ import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
+import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
@@ -18,6 +19,7 @@ import styles from "./UserHistoryDrawerRejectedComments.css";
 const danglingLogic = () => false;
 
 interface Props {
+  viewer: UserHistoryDrawerRejectedComments_viewer;
   user: UserHistoryDrawerRejectedComments_user;
   settings: UserHistoryDrawerRejectedComments_settings;
   relay: RelayPaginationProp;
@@ -26,6 +28,7 @@ interface Props {
 const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
   user,
   settings,
+  viewer,
   relay,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
@@ -63,6 +66,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
           <ModerateCardContainer
             comment={c}
             settings={settings}
+            viewer={viewer}
             danglingLogic={danglingLogic}
             hideUsername
             showStoryInfo
@@ -94,6 +98,11 @@ const enhanced = withPaginationContainer<
     settings: graphql`
       fragment UserHistoryDrawerRejectedComments_settings on Settings {
         ...ModerateCardContainer_settings
+      }
+    `,
+    viewer: graphql`
+      fragment UserHistoryDrawerRejectedComments_viewer on User {
+        ...ModerateCardContainer_viewer
       }
     `,
     user: graphql`

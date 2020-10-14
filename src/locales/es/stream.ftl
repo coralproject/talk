@@ -2,6 +2,8 @@
 
 ## General
 
+general-moderate = Moderar
+
 general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
 general-userBoxUnauthenticated-signIn = Iniciar sesión
 general-userBoxUnauthenticated-register = Registrarse
@@ -9,8 +11,11 @@ general-userBoxUnauthenticated-register = Registrarse
 general-userBoxAuthenticated-signedInAs =
   Registrado como <Username></Username>.
 
+general-userBoxAuthenticated-signedIn =
+  Sesión iniciada como
+
 general-userBoxAuthenticated-notYou =
-  ¿No tú? <button>Desconectar</button>
+  ¿No eres tú? <button>Desconectar</button>
 
 general-tabBar-commentsTab = Comentarios
 general-tabBar-myProfileTab = Mi perfil
@@ -26,8 +31,13 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Alternar el consejo sobre comentarios resaltados
 
+comments-noCommentsYet = ¿No hay comentarios. Por qué no escribes uno?
 
 comments-streamQuery-storyNotFound = Historia no encontrada
+
+comments-commentForm-cancel = Cancelar
+comments-commentForm-saveChanges = Guardar cambios
+comments-commentForm-submit = Enviar
 
 comments-postCommentForm-submit = Enviar
 comments-replyList-showAll = Mostrar todo
@@ -136,6 +146,76 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Resaltado
 
+
+### Q&A
+
+general-tabBar-qaTab = Q&A
+
+qa-answeredTab = Respondido
+qa-unansweredTab = Aún sin responder
+qa-allCommentsTab = Todas
+
+qa-noQuestionsAtAll =
+  No hay preguntas sobre esta historia.
+qa-noQuestionsYet =
+  No hay preguntas todavía. ¿Por qué no formulas una?
+qa-viewNew =
+  { $count ->
+    [1] View {$count} nueva pregunta
+    *[other] View {$count} nuevas preguntas
+  }
+
+qa-postQuestionForm-rteLabel = Publica una pregunta
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Más votada
+
+qa-answered-tag = respondido
+qa-expert-tag = experto
+
+qa-reaction-vote = Votar
+qa-reaction-voted = Votado
+
+qa-reaction-aria-vote =
+  .aria-label = {$count ->
+    [0] Votar por el comentario de {$username}
+    *[other] Votar ({$count}) por el comentario de {$username}
+  }
+qa-reaction-aria-voted =
+  .aria-label = {$count ->
+    [0] Votado por el comentario de {$username}
+    [one] Votado por el comentario de {$username}
+    *[other] Votado ({$count}) por el comentario de {$username}
+  }
+
+qa-unansweredTab-doneAnswering = Completado
+
+qa-expert-email = ({ $email })
+
+qa-answeredTooltip-how = ¿Cómo será respondida una pregunta?
+qa-answeredTooltip-answeredComments =
+  Las preguntas serán respondidas por expertos elegidos por nuestro equipo.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Alternar descripción emergente de preguntas respondidas
+  .title = Alternar descripción emergente de preguntas respondidas
+
+### Account Deletion Stream
+
+comments-stream-deleteAccount-callOut-title =
+  Se ha solicitado la eliminación de la cuenta
+comments-stream-deleteAccount-callOut-receivedDesc =
+  Se recibió una solicitud para eliminar su cuenta en { $date }.
+comments-stream-deleteAccount-callOut-cancelDesc =
+  Si desea seguir dejando comentarios, respuestas o reacciones,
+  puede cancelar su solicitud para eliminar su cuenta antes del { $date }.
+comments-stream-deleteAccount-callOut-cancel =
+  Cancelar la solicitud de eliminación de la cuenta
+comments-stream-deleteAccount-callOut-cancelAccountDeletion =
+  Cancelar la eliminación de la cuenta
+
 ### Featured Comments
 comments-featured-gotoConversation = Ir a conversación
 comments-featured-replies = Respuestas
@@ -143,6 +223,9 @@ comments-featured-replies = Respuestas
 ## Profile Tab
 
 profile-myCommentsTab = Mis comentarios
+profile-myCommentsTab-comments = Mis comentarios
+profile-accountTab = Account
+profile-preferencesTab = Preferencias
 
 ### Comment History
 profile-historyComment-viewConversation = Ver conversación
@@ -152,6 +235,44 @@ profile-historyComment-story = Historia: {$title}
 profile-profileQuery-errorLoadingProfile = Error al cargar el perfil
 profile-profileQuery-storyNotFound = Historia no encontrada
 profile-commentHistory-loadMore = Carga más
+profile-commentHistory-empty = No has escrito comentarios
+profile-commentHistory-empty-subheading = El historial de tus comentarios aparecerá aquí
+
+### Preferences
+profile-preferences-mediaPreferences = Preferencias de Media
+profile-preferences-mediaPreferences-alwaysShow = Siempre muestra GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-thisMayMake = Esto puede hacer que los comentarios carguen más lento
+profile-preferences-mediaPreferences-update = Actualizar
+
+### Account
+profile-account-ignoredCommenters-description =
+  Tu puedes ignorar otros comentaristas haciendo clic en su nombre de usuario 
+  y seleccionando Ignorar. Cuando tu ignoras a alguien, todos sus comentarios 
+  estarán ocultos para ti. Los comentaristas que tu ignores todavía serán 
+  capaces de ver tus comentarios.
+profile-account-ignoredCommenters-manage = Manejar
+
+
+profile-account-download-comments-title = Descargar mi historial de comentarios
+profile-account-download-comments-description =
+  Recibirá un correo electrónico con un enlace para descargar su historial de comentarios. 
+  <strong>Puede realizar una solicitud de descarga cada 14 días.</strong>
+profile-account-download-comments-request =
+  Solicitar su historial de comentarios
+profile-account-download-comments-request-icon =
+  .title = Solicitar su historial de comentarios
+profile-account-download-comments-recentRequest =
+  Su último solicitud: { $timeStamp }
+profile-account-download-comments-yourMostRecentRequest =
+  Puede realizar una solicitud de descarga cada 14 días. Puede
+  pedir una nueva descarga en: { $timeStamp }
+profile-account-download-comments-requested =
+  Recibido. Puede realizar una solicitud en { framework-timeago-time }.
+profile-account-download-comments-requestSubmitted =
+  Recibido. Puede realizar una solicitud en { framework-timeago-time }.
+profile-account-download-comments-error =
+  No podemos cumplir su pedido.
+profile-account-download-comments-request-button = SOLICITUD
 
 ### Settings
 profile-account-ignoredCommenters = Comentaristas ignorados
@@ -161,6 +282,18 @@ profile-account-ignoredCommenters-description =
 profile-account-ignoredCommenters-empty = Actualmente no estás ignorando a nadie
 profile-account-ignoredCommenters-stopIgnoring = Deja de ignorar
 
+## Notifications
+profile-account-notifications-emailNotifications = Notificaciones por correo
+profile-account-notifications-receiveWhen = Recibe notificaciones cuando:
+profile-account-notifications-onReply = Mi comentario recibe una respuesta
+profile-account-notifications-onFeatured = Mi comentario es destacado.
+profile-account-notifications-onStaffReplies = Un miembro del staff responde a mi comentario
+profile-account-notifications-onModeration = Mi comentario pendiente ha sido revizado
+profile-account-notifications-sendNotifications = Enviar Notificaciones:
+profile-account-notifications-sendNotifications-immediately = Inmediatamente
+profile-account-notifications-sendNotifications-daily = Cada día
+profile-account-notifications-sendNotifications-hourly = Cada hora
+profile-account-notifications-button-update = Actualizar
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -198,12 +331,15 @@ configure-configureQuery-storyNotFound = Historia no encontrada
 ## Comment Stream
 configure-stream-title = Configurar comentarios
 configure-stream-apply = Guardar
+configure-stream-update = Actualizar
 
 configure-premod-title = Habilitar pre-moderación
+configure-premod-premoderateAllComments = Pre-moderar todos los comentarios
 configure-premod-description =
   Los moderadores deben aprobar cualquier comentario antes de que se publique.
 
 configure-premodLink-title = Comentarios pre-moderados que contienen enlaces
+configure-premodLink-commentsContainingLinks = Pre-moderar comentarios que contienen links
 configure-premodLink-description =
   Los moderadores deben aprobar cualquier comentario que contenga un enlace antes de que se publique en esta secuencia.
 
@@ -235,3 +371,41 @@ configure-openStream-description =
 configure-openStream-openStream = Abrir los comentarios
 
 comments-tombstone-ignore = Este comentario está oculto porque ignoraste a {$username}
+
+configure-enableQA-title = 
+configure-enableQA-switchToQA = 
+  Cambiar a Q&A
+configure-enableQA-description =
+  El formato de Q&A permite a los miembros de la comunidad enviar preguntas para que las respondan los expertos elegidos.
+configure-enableQA-enableQA = Cambiar a Q&A
+configure-enableQA-streamIsNowComments =
+  Está ahora en el formato de comentarios
+
+configure-disableQA-title = Configurar esta sesión de Q&A
+configure-disableQA-description =
+  El formato de Q&A permite a los miembros de la comunidad enviar preguntas para que las respondan los expertos elegidos.
+configure-disableQA-disableQA = Cambiar a comentarios
+configure-disableQA-streamIsNowQA =
+  Está ahora en el formato Q&A
+
+configure-experts-title = Agregar un experto
+configure-experts-filter-searchField =
+  .placeholder = Buscar por email or nombre de usario
+  .aria-label = Buscar por email or nombre de usario
+configure-experts-filter-searchButton =
+  .aria-label = Buscar
+configure-experts-filter-description =
+  Agregar una insignia de experto a los comentarios de los usuarios registrados, solamente en esta página. Los nuevos usuarios primero deben registrarse y abrir los comentarios en una página para crear su cuenta.
+  page. 
+configure-experts-search-none-found = No se encuentra ningún usario con este email o nombre de usario
+configure-experts-
+configure-experts-remove-button = Eliminar
+configure-experts-load-more = Carga más
+configure-experts-none-yet = No hay expertos en el Q&A.
+configure-experts-search-title = Buscar un experto
+configure-experts-assigned-title = Expertos
+configure-experts-noLongerAnExpert = ya no es un experto
+comments-tombstone-ignore = Este comentario está escondido porque usted ha ignorado {$username}
+comments-tombstone-showComment = Mostrar comentario
+comments-tombstone-deleted =
+  Este comentario ya no está disponible. El comentarista ha eliminado su cuenta.

@@ -2,8 +2,16 @@ import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
+import { countStoryViewers } from "coral-server/models/story/viewers";
+import { hasFeatureFlag } from "coral-server/models/tenant";
+import {
+  canModerate,
+  hasModeratorRole,
+} from "coral-server/models/user/helpers";
+import { isLiveEnabled } from "coral-server/services/stories";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
   GQLTAG,
@@ -21,6 +29,20 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     story.isStoryClosed(ctx.tenant, s, ctx.now)
       ? GQLSTORY_STATUS.CLOSED
       : GQLSTORY_STATUS.OPEN,
+  canModerate: (s, input, ctx) => {
+    if (!ctx.user) {
+      return false;
+    }
+
+    // If the feature flag for site moderators is not turned on return based on
+    // the users role.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+      return hasModeratorRole(ctx.user);
+    }
+
+    // We know the user is provided because this edge is authenticated.
+    return canModerate(ctx.user, { siteID: s.siteID });
+  },
   isClosed: (s, input, ctx) => story.isStoryClosed(ctx.tenant, s, ctx.now),
   closedAt: (s, input, ctx) => story.getStoryClosedAt(ctx.tenant, s) || null,
   commentActionCounts: (s) => decodeActionCounts(s.commentCounts.action),
@@ -29,14 +51,33 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // options if they exist.
   settings: (s, input, ctx): StorySettingsInput =>
     defaultsDeep(
-      {
-        // Pass these options as required by StorySettingsInput.
-        lastCommentedAt: s.lastCommentedAt,
-        createdAt: s.createdAt,
-      },
+      // Pass these options as required by StorySettingsInput.
+      { story: s },
       s.settings,
       ctx.tenant
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
+  viewerCount: async (s, input, ctx) => {
+    // If the feature flag isn't enabled, then we have nothing to return.
+    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.VIEWER_COUNT)) {
+      return null;
+    }
+
+    // Check to see if this story has live enabled.
+    if (!isLiveEnabled(ctx.config, ctx.tenant, s, ctx.now)) {
+      return null;
+    }
+
+    // Return the computed count!
+    return countStoryViewers(
+      ctx.redis,
+      {
+        tenantID: ctx.tenant.id,
+        siteID: s.siteID,
+        storyID: s.id,
+      },
+      ctx.config.get("story_viewer_timeout")
+    );
+  },
 };

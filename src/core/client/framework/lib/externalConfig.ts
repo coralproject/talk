@@ -1,5 +1,6 @@
 import { Child as PymChild } from "pym.js";
 
+import { onPymMessageOnce } from "coral-framework/helpers";
 import { areWeInIframe } from "coral-framework/utils";
 
 export interface ExternalConfig {
@@ -13,7 +14,7 @@ export function getExternalConfig(
   if (pym && areWeInIframe()) {
     return new Promise((resolve) => {
       pym.sendMessage("getConfig", "");
-      pym.onMessage("config", (raw) => {
+      onPymMessageOnce(pym, "config", (raw) => {
         resolve(JSON.parse(raw) as ExternalConfig);
       });
     });

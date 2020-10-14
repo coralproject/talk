@@ -22,7 +22,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
 
   /** Size of the button */
-  size?: "regular" | "large";
+  size?: "small" | "regular" | "large";
 
   /** Color of the button */
   color?: "regular" | "alert" | "mono" | "alt" | "dark" | "stream";
@@ -31,7 +31,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   variant?:
     | "regular"
     | "flat"
-    | "outline"
+    | "outlined"
     | "text"
     | "underlined"
     | "textUnderlined";
@@ -99,6 +99,7 @@ export class Button extends React.Component<Props> {
     const rootClassName = cn(
       classes.root,
       {
+        [classes.sizeSmall]: size === "small",
         [classes.sizeRegular]: size === "regular",
         [classes.sizeLarge]: size === "large",
         [classes.colorRegular]: color === "regular",
@@ -109,7 +110,7 @@ export class Button extends React.Component<Props> {
         [classes.colorStream]: color === "stream",
         [classes.variantRegular]: variant === "regular",
         [classes.variantFlat]: variant === "flat",
-        [classes.variantOutline]: variant === "outline",
+        [classes.variantOutline]: variant === "outlined",
         [classes.variantText]: variant === "text",
         [classes.variantUnderlined]: variant === "underlined",
         [classes.variantTextUnderlined]: variant === "textUnderlined",
@@ -134,9 +135,9 @@ export class Button extends React.Component<Props> {
         ref={forwardRef}
         type={type}
         data-variant={variant}
-        data-color={color}
         to={to}
         data-active={active}
+        aria-pressed={active}
         {...rest}
       >
         {children}

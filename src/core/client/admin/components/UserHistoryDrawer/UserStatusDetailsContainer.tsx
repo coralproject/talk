@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
+import { last } from "lodash";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   BaseButton,
@@ -21,27 +22,39 @@ interface Props {
 }
 
 const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
-  if (!user.status.ban.active && !user.status.suspension.active) {
-    return null;
-  }
-
   const activeBan = useMemo(() => {
-    return user.status.ban.history.find((item) => item.active);
+    if (user.status.ban.active) {
+      return last(user.status.ban.history);
+    }
+    return null;
   }, [user]);
 
   const activeSuspension = useMemo(() => {
     return user.status.suspension.history.find((item) => item.active);
   }, [user]);
 
-  const { locales } = useCoralContext();
+  const activeWarning = useMemo(() => {
+    if (user.status.warning.active) {
+      return last(user.status.warning.history);
+    }
+    return null;
+  }, [user]);
 
-  const formatter = new Intl.DateTimeFormat(locales, {
+  const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
   });
+
+  if (
+    !user.status.ban.active &&
+    !user.status.suspension.active &&
+    !user.status.warning.active
+  ) {
+    return null;
+  }
 
   return (
     <div>
@@ -51,16 +64,47 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <Box p={2}>
+              {activeWarning && (
+                <div>
+                  <Localized
+                    id="userDetails-warned-on"
+                    $timestamp={formatter(activeWarning.createdAt)}
+                    strong={<strong />}
+                  >
+                    <p className={styles.root}>
+                      <strong>Warned on </strong>{" "}
+                      {formatter(activeWarning.createdAt)}
+                    </p>
+                  </Localized>
+                  {activeWarning.createdBy && (
+                    <Localized
+                      id="userDetails-warned-by"
+                      strong={<strong />}
+                      $username={activeWarning.createdBy.username}
+                    >
+                      <p className={styles.root}>
+                        <strong>by </strong>
+                        {activeWarning.createdBy.username}
+                      </p>
+                    </Localized>
+                  )}
+                  <Localized id="userDetails-warned-explanation">
+                    <p className={styles.root}>
+                      User has not acknowledged the warning.
+                    </p>
+                  </Localized>
+                </div>
+              )}
               {activeBan && (
                 <div>
                   <Localized
                     id="userDetails-banned-on"
-                    $timestamp={formatter.format(new Date(activeBan.createdAt))}
+                    $timestamp={formatter(activeBan.createdAt)}
                     strong={<strong />}
                   >
                     <p className={styles.root}>
                       <strong>Banned on </strong>{" "}
-                      {formatter.format(new Date(activeBan.createdAt))}
+                      {formatter(activeBan.createdAt)}
                     </p>
                   </Localized>
                   {activeBan.createdBy && (
@@ -94,25 +138,21 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   <Localized
                     id="userDetails-suspension-start"
                     strong={<strong />}
-                    $timestamp={formatter.format(
-                      new Date(activeSuspension.from.start)
-                    )}
+                    $timestamp={formatter(activeSuspension.from.start)}
                   >
                     <p className={styles.root}>
                       <strong>Start: </strong>
-                      {formatter.format(new Date(activeSuspension.from.start))}
+                      {formatter(activeSuspension.from.start)}
                     </p>
                   </Localized>
                   <Localized
                     strong={<strong />}
-                    $timestamp={formatter.format(
-                      new Date(activeSuspension.from.finish)
-                    )}
+                    $timestamp={formatter(activeSuspension.from.finish)}
                     id="userDetails-suspension-finish"
                   >
                     <p className={styles.root}>
                       <strong>End: </strong>
-                      {formatter.format(new Date(activeSuspension.from.finish))}
+                      {formatter(activeSuspension.from.finish)}
                     </p>
                   </Localized>
                 </div>
@@ -144,6 +184,16 @@ const enhanced = withFragmentContainer<Props>({
   user: graphql`
     fragment UserStatusDetailsContainer_user on User {
       status {
+        warning {
+          active
+          history {
+            active
+            createdBy {
+              username
+            }
+            createdAt
+          }
+        }
         ban {
           active
           history {

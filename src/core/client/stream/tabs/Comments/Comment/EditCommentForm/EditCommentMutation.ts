@@ -11,9 +11,9 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment } from "coral-framework/schema";
+import { EditCommentEvent } from "coral-stream/events";
 
 import { EditCommentMutation as MutationTypes } from "coral-stream/__generated__/EditCommentMutation.graphql";
-import { EditCommentEvent } from "coral-stream/events";
 
 export type EditCommentInput = MutationInput<MutationTypes>;
 
@@ -26,6 +26,29 @@ const mutation = graphql`
         status
         revision {
           id
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on ExternalMedia {
+              url
+            }
+            ... on TwitterMedia {
+              url
+              width
+            }
+            ... on YouTubeMedia {
+              url
+              width
+              height
+            }
+          }
         }
         editing {
           edited
@@ -54,7 +77,7 @@ async function commit(
         mutation,
         variables: {
           input: {
-            ...pick(input, ["commentID", "body"]),
+            ...pick(input, ["commentID", "body", "media"]),
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -66,6 +89,7 @@ async function commit(
               status: lookup<GQLComment>(environment, input.commentID)!.status,
               revision: {
                 id: uuidGenerator(),
+                media: null,
               },
               editing: {
                 edited: true,

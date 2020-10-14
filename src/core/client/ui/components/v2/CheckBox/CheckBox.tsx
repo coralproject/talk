@@ -94,7 +94,9 @@ class CheckBox extends Component<CheckBoxProps> {
           })}
           htmlFor={finalID}
         >
-          <span className={classes.labelSpan}>{children}</span>
+          <span className={cn(classes.labelSpan, "coral coral-checkbox-label")}>
+            {children}
+          </span>
         </label>
       </div>
     );

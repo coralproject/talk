@@ -1,4 +1,5 @@
 import timekeeper from "timekeeper";
+
 import isBeforeDate from "./isBeforeDate";
 
 it("works correctly", () => {

@@ -1,7 +1,7 @@
 import logger from "coral-server/logger";
 import { createFetch } from "coral-server/services/fetch";
 
-import SlackPublishEvent, { Trigger } from "./publishEvent";
+import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 
 import {
   CommentCreatedCoralEventPayload,
@@ -13,8 +13,8 @@ import {
   CoralEventPublisherFactory,
 } from "../../publisher";
 import { CoralEventType } from "../../types";
+import SlackPublishEvent, { Trigger } from "./publishEvent";
 
-import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 type SlackCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload
   | CommentEnteredModerationQueueCoralEventPayload
@@ -34,9 +34,9 @@ export class SlackCoralEventListener
    * postMessage will prepare and send the incoming Slack webhook.
    *
    * @param hookURL url to the Slack webhook that we should send the message to
-   * @param blocks the blocks for the message
+   * @param content the content for the message
    */
-  private async postMessage(hookURL: string, blocks: any[]) {
+  private async postMessage(hookURL: string, content: any) {
     // Send the post to the Slack URL. We don't wrap this in a try/catch because
     // it's handled in the calling function.
     const res = await this.fetch(hookURL, {
@@ -44,9 +44,7 @@ export class SlackCoralEventListener
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        blocks,
-      }),
+      body: JSON.stringify(content),
     });
 
     // Check that the request was completed successfully.
@@ -131,7 +129,7 @@ export class SlackCoralEventListener
       if (publishEvent.shouldPublishToChannel(channel)) {
         try {
           // Post the message to slack.
-          await this.postMessage(channel.hookURL, publishEvent.getBlocks(ctx));
+          await this.postMessage(channel.hookURL, publishEvent.getContent(ctx));
         } catch (err) {
           logger.error(
             { err, tenantID, payload, channel },

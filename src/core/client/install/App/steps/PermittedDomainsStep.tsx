@@ -22,7 +22,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import BackButton from "./BackButton";
 
@@ -68,7 +68,7 @@ class PermittedDomainsStep extends Component<Props> {
                 </Typography>
               </Localized>
               <Localized id="install-permittedDomains-description-with-scheme">
-                <Typography variant="bodyCopy" align="center">
+                <Typography variant="bodyCopy">
                   Enter the domains you would like to permit for Coral, e.g.
                   your local, staging and production environments including the
                   scheme (ex. http://localhost:3000, https://staging.domain.com,
@@ -91,7 +91,7 @@ class PermittedDomainsStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Permitted Domains
                       </InputLabel>
                     </Localized>
@@ -121,9 +121,8 @@ class PermittedDomainsStep extends Component<Props> {
               <Flex direction="row-reverse" itemGutter>
                 <Localized id="install-permittedDomains-finishInstall">
                   <Button
-                    variant="filled"
-                    color="primary"
-                    size="large"
+                    variant="regular"
+                    color="regular"
                     type="submit"
                     disabled={submitting}
                   >

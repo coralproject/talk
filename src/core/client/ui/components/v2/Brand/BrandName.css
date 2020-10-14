@@ -2,9 +2,9 @@
 
   margin: 0;
 
-  font-weight: var(--v2-font-weight-secondary-bold);
-  font-family: var(--v2-font-family-secondary);
-  color: var(--v2-colors-coral-500);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  color: $colors-coral-500;
 
   font-size: 1.15rem;
   line-height: 1.15rem;

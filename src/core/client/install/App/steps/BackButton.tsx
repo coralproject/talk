@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button } from "coral-ui/components";
+import { Button } from "coral-ui/components/v2";
 
 export interface BackButtonProps {
   submitting: boolean;
@@ -16,9 +16,8 @@ const BackButton: FunctionComponent<BackButtonProps> = ({
     <Localized id="install-backButton-back">
       <Button
         onClick={onGoToPreviousStep}
-        variant="filled"
-        color="regular"
-        size="large"
+        variant="regular"
+        color="mono"
         disabled={submitting}
       >
         Back

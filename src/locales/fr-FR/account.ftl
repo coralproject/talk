@@ -3,6 +3,10 @@
 account-tokenNotFound =
   Le lien spécifié n'est pas valide, veuillez vérifier qu'il ait été copié correctement.
 
+## Not Found
+
+notFound = Non trouvé
+
 ## Password Reset
 
 resetPassword-resetPassword = Réinitialiser le mot de passe
@@ -37,7 +41,7 @@ download-landingPage-title = Télécharger votre historique de commentaires.
 download-landingPage-description =
   Votre historique de commentaires sera téléchargé sous la forme d'un dossier .zip.
   Après avoir dézippé votre historique de commentaires,
-  vous aurez des valeurs séparées par une virgule (ou un fichier .csv) 
+  vous aurez des valeurs séparées par une virgule (ou un fichier .csv)
   que vous pourrez facilement importer dans votre
   application tableur préférée.
 download-landingPage-contentsDescription =
@@ -51,12 +55,18 @@ download-landingPage-contentsText =
 download-landingPage-contentsStoryUrl =
   Le lien de l'article où votre commentaire apparaît.
 download-landingPage-downloadComments =
+download-landingPage-download =
   Télécharge mon historique de commentaires.
 download-landingPage-sorry = Votre lien de téléchargement n'est pas valide.
 
 ## Unsubscribe
 
+unsubscribe-unsubscribeFromEmails = Se désinscrire des notifications mail.
+unsubscribe-submit-unsubscribe = Se désinscrire
+unsubscribe-youMayNowClose =
+  Vous pouvez maintenant fermer cette fenêtre.
 unsubscribe-oopsSorry = Oups désolé !
+unsubscribe-unsubscribedSuccessfully =
 unsubscribe-successfullyUnsubscribed = Vous ne recevrez désormais plus de notifications.
 unsubscribe-clickToConfirm = Cliquez ci-dessous pour confirmer que vous ne voulez plus recevoir de notifications.
 unsubscribe-confirm = Confirmer

@@ -8,7 +8,10 @@ import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
+import { onPymMessage } from "coral-framework/helpers";
+import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
+import { ErrorReporter } from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
@@ -17,14 +20,15 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
-import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
+import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import {
   AccessTokenProvider,
   AuthState,
-  deleteAccessToken,
+  deleteAccessTokenFromLocalStorage,
+  parseAccessToken,
   retrieveAccessToken,
-  storeAccessToken,
+  storeAccessTokenInLocalStorage,
 } from "../auth";
 import { generateBundles, LocalesData } from "../i18n";
 import {
@@ -32,6 +36,7 @@ import {
   createNetwork,
   ManagedSubscriptionClient,
 } from "../network";
+import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
 import { PostMessageService } from "../postMessage";
 import { LOCAL_ID } from "../relay";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
@@ -40,7 +45,7 @@ import SendPymReady from "./SendPymReady";
 export type InitLocalState = (
   environment: Environment,
   context: CoralContext,
-  auth?: AuthState
+  auth?: AuthState | null
 ) => void | Promise<void>;
 
 interface CreateContextArguments {
@@ -58,6 +63,20 @@ interface CreateContextArguments {
 
   /** Supports emitting and listening to events. */
   eventEmitter?: EventEmitter2;
+
+  /**
+   * reporter is the designated ErrorReporter for this application.
+   */
+  reporter?: ErrorReporter;
+
+  /** bundle is the specific source of the connection */
+  bundle: string;
+
+  /** bundleConfig is the configuration parameters for this bundle */
+  bundleConfig?: Record<string, string>;
+
+  /** tokenRefreshProvider is used to obtain a new access token after expiry. */
+  tokenRefreshProvider?: TokenRefreshProvider;
 }
 
 /** websocketURL points to our live graphql server */
@@ -107,7 +126,8 @@ function areWeInIframe() {
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  accessToken?: string
+  tokenRefreshProvider?: TokenRefreshProvider,
+  clearCacheBefore?: Date
 ) {
   const source = new RecordSource();
   const accessTokenProvider: AccessTokenProvider = () => {
@@ -119,7 +139,13 @@ function createRelayEnvironment(
     return local.accessToken as string | undefined;
   };
   const environment = new Environment({
-    network: createNetwork(subscriptionClient, clientID, accessTokenProvider),
+    network: createNetwork(
+      subscriptionClient,
+      clientID,
+      accessTokenProvider,
+      tokenRefreshProvider?.refreshToken,
+      clearCacheBefore
+    ),
     store: new Store(source),
   });
 
@@ -160,7 +186,10 @@ function createManagedCoralContextProvider(
     }
 
     // This is called every time a user session starts or ends.
-    private clearSession = async (nextAccessToken?: string) => {
+    private clearSession = async (
+      nextAccessToken?: string,
+      ephemeral?: boolean
+    ) => {
       // Clear session storage.
       void this.state.context.sessionStorage.clear();
 
@@ -169,14 +198,18 @@ function createManagedCoralContextProvider(
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
-        ? storeAccessToken(nextAccessToken)
-        : deleteAccessToken();
+        ? ephemeral
+          ? parseAccessToken(nextAccessToken)
+          : storeAccessTokenInLocalStorage(nextAccessToken)
+        : deleteAccessTokenFromLocalStorage();
 
       // Create the new environment.
       const { environment, accessTokenProvider } = createRelayEnvironment(
         subscriptionClient,
         clientID,
-        auth?.accessToken
+        this.state.context.tokenRefreshProvider,
+        // Disable the cache on requests for the next 30 seconds.
+        new Date(Date.now() + 30 * 1000)
       );
 
       // Create the new context.
@@ -219,9 +252,20 @@ function createManagedCoralContextProvider(
     };
 
     public render() {
+      // If the boundary is available from the reporter (also, if it's
+      // available) then use it to wrap the lower children for any error that
+      // happens.
+
+      // NOTE: (wyattjoh) there should be another way to do this better...
+      const Boundary = this.state.context.reporter?.ErrorBoundary;
+
       return (
         <CoralContextProvider value={this.state.context}>
-          {this.props.children}
+          {Boundary ? (
+            <Boundary>{this.props.children}</Boundary>
+          ) : (
+            this.props.children
+          )}
           {this.state.context.pym && <SendPymReady />}
         </CoralContextProvider>
       );
@@ -264,20 +308,17 @@ export default async function createManaged({
   initLocalState = noop,
   localesData,
   pym,
+  reporter,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
+  bundle,
+  bundleConfig = {},
+  tokenRefreshProvider,
 }: CreateContextArguments): Promise<ComponentType> {
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
     registerClickFarAway = (cb) => {
-      pym.onMessage("click", cb);
-      // Return unlisten callback.
-      return () => {
-        const index = pym.messageHandlers.click.indexOf(cb);
-        if (index > -1) {
-          pym.messageHandlers.click.splice(index, 1);
-        }
-      };
+      return onPymMessage(pym, "click", cb);
     };
   }
 
@@ -303,6 +344,7 @@ export default async function createManaged({
   }
 
   const localeBundles = await generateBundles(locales, localesData);
+  await polyfillIntlLocale(locales);
 
   // Get the access token from storage.
   const auth = retrieveAccessToken();
@@ -312,23 +354,27 @@ export default async function createManaged({
 
   const subscriptionClient = createManagedSubscriptionClient(
     websocketURL,
-    clientID
+    clientID,
+    bundle,
+    bundleConfig
   );
 
   const { environment, accessTokenProvider } = createRelayEnvironment(
     subscriptionClient,
     clientID,
-    auth?.accessToken
+    tokenRefreshProvider
   );
 
   // Assemble context.
   const context: CoralContext = {
+    subscriptionClient,
     relayEnvironment: environment,
     locales,
     localeBundles,
     timeagoFormatter,
     pym,
     eventEmitter,
+    reporter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),
@@ -342,6 +388,7 @@ export default async function createManaged({
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
     changeLocale: (locale?: LanguageCode) => Promise.resolve(),
+    tokenRefreshProvider,
   };
 
   // Initialize local state.

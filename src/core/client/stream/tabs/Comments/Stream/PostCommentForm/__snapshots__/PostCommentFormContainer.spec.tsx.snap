@@ -10,6 +10,22 @@ exports[`renders correctly 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "external": Object {
+        "enabled": false,
+      },
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -21,6 +37,7 @@ exports[`renders correctly 1`] = `
     }
   }
   showMessageBox={false}
+  siteID="site-id"
   story={
     Object {
       "id": "story-id",
@@ -30,6 +47,9 @@ exports[`renders correctly 1`] = `
           "enabled": false,
         },
         "mode": "COMMENTS",
+      },
+      "site": Object {
+        "id": "site-id",
       },
     }
   }
@@ -51,6 +71,9 @@ exports[`renders when commenting has been disabled (collapsing) 1`] = `
         },
         "mode": "COMMENTS",
       },
+      "site": Object {
+        "id": "site-id",
+      },
     }
   }
 />
@@ -66,6 +89,22 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "external": Object {
+        "enabled": false,
+      },
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -77,6 +116,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
     }
   }
   showMessageBox={false}
+  siteID="site-id"
   story={
     Object {
       "id": "story-id",
@@ -86,6 +126,9 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
           "enabled": false,
         },
         "mode": "COMMENTS",
+      },
+      "site": Object {
+        "id": "site-id",
       },
     }
   }
@@ -107,6 +150,9 @@ exports[`renders when story has been closed (collapsing) 1`] = `
         },
         "mode": "COMMENTS",
       },
+      "site": Object {
+        "id": "site-id",
+      },
     }
   }
 />
@@ -122,6 +168,22 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "external": Object {
+        "enabled": false,
+      },
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -133,6 +195,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
     }
   }
   showMessageBox={false}
+  siteID="site-id"
   story={
     Object {
       "id": "story-id",
@@ -142,6 +205,9 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
           "enabled": false,
         },
         "mode": "COMMENTS",
+      },
+      "site": Object {
+        "id": "site-id",
       },
     }
   }
@@ -165,6 +231,22 @@ exports[`renders when user is scheduled to be deleted 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "external": Object {
+        "enabled": false,
+      },
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -176,6 +258,7 @@ exports[`renders when user is scheduled to be deleted 1`] = `
     }
   }
   showMessageBox={false}
+  siteID="site-id"
   story={
     Object {
       "id": "story-id",
@@ -185,6 +268,9 @@ exports[`renders when user is scheduled to be deleted 1`] = `
           "enabled": false,
         },
         "mode": "COMMENTS",
+      },
+      "site": Object {
+        "id": "site-id",
       },
     }
   }
@@ -202,6 +288,22 @@ exports[`renders with initialValues 1`] = `
     }
   }
   max={100}
+  mediaConfig={
+    Object {
+      "external": Object {
+        "enabled": false,
+      },
+      "giphy": Object {
+        "enabled": false,
+      },
+      "twitter": Object {
+        "enabled": false,
+      },
+      "youtube": Object {
+        "enabled": false,
+      },
+    }
+  }
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -213,6 +315,7 @@ exports[`renders with initialValues 1`] = `
     }
   }
   showMessageBox={false}
+  siteID="site-id"
   story={
     Object {
       "id": "story-id",
@@ -222,6 +325,9 @@ exports[`renders with initialValues 1`] = `
           "enabled": false,
         },
         "mode": "COMMENTS",
+      },
+      "site": Object {
+        "id": "site-id",
       },
     }
   }

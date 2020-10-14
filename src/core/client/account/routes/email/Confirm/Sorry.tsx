@@ -16,7 +16,7 @@ const Sorry: React.FunctionComponent<Props> = ({ reason }) => {
         <div className={styles.title}>Oops Sorry!</div>
       </Localized>
       <CallOut
-        color="negative"
+        color="error"
         titleWeight="semiBold"
         title={
           reason ? (

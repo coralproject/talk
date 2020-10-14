@@ -1,0 +1,30 @@
+.input {
+  cursor: pointer;
+  position: absolute; /* take it out of document flow */
+  opacity: 0; /* hide it */
+}
+
+.label {
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid var(--palette-grey-300);
+  border-radius: var(--round-corners);
+  color: var(--palette-text-500);
+  padding: var(--spacing-1);
+  line-height: 1;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.checked {
+  border: 1px solid var(--palette-grey-700);
+  background: var(--palette-grey-700);
+  color: var(--palette-text-000);
+}

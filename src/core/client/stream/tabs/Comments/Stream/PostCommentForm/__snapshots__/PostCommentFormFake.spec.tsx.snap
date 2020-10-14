@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <div
   className="coral coral-createComment"
+  id="post-comment-form"
 >
   <Relay(MessageBoxContainer)
     className="coral coral-createComment-message PostCommentFormFake-messageBox"
@@ -11,7 +12,9 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)
     className="PostCommentFormFake-root"
   >
-    <div>
+    <div
+      className="PostCommentFormFake-rteContainer"
+    >
       <Localized
         attrs={
           Object {

@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { TodayMetricsJSON } from "coral-common/rest/dashboard/types";
+import { TodayMetricsJSON } from "coral-common/types/dashboard";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
 
@@ -89,7 +89,10 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="badge" loading={loading || totalLoading}>
+        <TodayDashboardBox
+          icon="recent_actors"
+          loading={loading || totalLoading}
+        >
           <TodayValue value={today?.comments.staff.toString()}>
             <Localized id="dashboard-today-staff-comments">
               Staff comments

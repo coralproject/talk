@@ -1,25 +1,26 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import Responsive from "react-responsive";
 
-import {
-  Button,
-  ClickOutside,
-  Icon,
-  MatchMedia,
-  Popover,
-} from "coral-ui/components/v2";
+import CLASSES from "coral-stream/classes";
+import { ClickOutside, Flex, Icon, Popover } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PermalinkPopover from "./PermalinkPopover";
+
+import styles from "./PermalinkButton.css";
 
 interface PermalinkProps {
   commentID: string;
   url: string;
   className?: string;
+  author?: string | null;
 }
 
 const Permalink: FunctionComponent<PermalinkProps> = ({
   commentID,
   url,
+  author,
   className,
 }) => {
   const popoverID = `permalink-popover-${commentID}`;
@@ -48,23 +49,28 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
           <Localized
             id="comments-permalinkButton"
             attrs={{ "aria-label": true }}
+            $username={author}
           >
             <Button
               onClick={toggleVisibility}
               aria-controls={popoverID}
               ref={ref}
-              variant="text"
               active={visible}
-              size="regular"
-              color="mono"
-              className={className}
+              variant="flat"
+              color="secondary"
+              fontSize="small"
+              fontWeight="semiBold"
+              paddingSize="extraSmall"
+              className={CLASSES.comment.actionBar.shareButton}
             >
-              <Icon>share</Icon>
-              <MatchMedia gtWidth="xs">
-                <Localized id="comments-permalinkButton-share">
-                  <span>Share</span>
-                </Localized>
-              </MatchMedia>
+              <Flex alignItems="center" container="span">
+                <Icon className={styles.icon}>share</Icon>
+                <Responsive minWidth={400}>
+                  <Localized id="comments-permalinkButton-share">
+                    <span>Share</span>
+                  </Localized>
+                </Responsive>
+              </Flex>
             </Button>
           </Localized>
         )}

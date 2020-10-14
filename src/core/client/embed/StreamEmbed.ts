@@ -5,6 +5,7 @@ import ensureNoEndSlash from "coral-common/utils/ensureNoEndSlash";
 import urls from "coral-framework/helpers/urls";
 import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
+import { RefreshAccessTokenCallback } from "./Coral";
 import {
   Decorator,
   withAutoHeight,
@@ -12,10 +13,12 @@ import {
   withConfig,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
+  withKeypressEvent,
   withLiveCommentCount,
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
@@ -35,6 +38,8 @@ export interface StreamEmbedConfig {
   accessToken?: string;
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
+  customCSSURL?: string;
+  refreshAccessToken?: RefreshAccessTokenCallback;
 }
 
 export class StreamEmbed {
@@ -148,12 +153,15 @@ export class StreamEmbed {
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),
+      withKeypressEvent,
+      withRefreshAccessToken(this.config.refreshAccessToken),
     ];
 
     const query = stringifyQuery({
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,
+      customCSSURL: this.config.customCSSURL,
     });
 
     const url = `${ensureNoEndSlash(this.config.rootURL)}${urls.embed.stream}${

@@ -47,7 +47,7 @@ const ApproveCommentMutation = createMutation(
                   }
                 }
               }
-              ...ModeratedByContainer_comment
+              ...ModerateCardContainer_comment
             }
             moderationQueues(
               storyID: $storyID
@@ -83,7 +83,22 @@ const ApproveCommentMutation = createMutation(
         proxy.setValue("APPROVED", "status");
         proxy.setValue(true, "viewerDidModerate");
       },
-      updater: (store) => {
+      updater: (store, data) => {
+        // If no comment came back or the returned comment status was the same,
+        // don't remove it from the connections!
+        if (
+          !data.approveComment ||
+          !data.approveComment.comment ||
+          data.approveComment.comment.status !== "APPROVED"
+        ) {
+          return;
+        }
+
+        // Ensure that the comment retains the viewerDidModerate state after it
+        // comes back from the update.
+        const proxy = store.get(input.commentID)!;
+        proxy.setValue(true, "viewerDidModerate");
+
         const connections = [
           getQueueConnection(
             store,

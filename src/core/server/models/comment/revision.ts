@@ -29,11 +29,63 @@ export interface RevisionMetadata {
   };
 
   /**
+   * wordList metadata stores extra status details about what occurred during
+   * word list analysis of this comment revision.
+   */
+  wordList?: {
+    /**
+     * timedOut is whether the wordlist analysis timed out when this revision
+     * of the comment was sent through the moderation phases.
+     */
+    timedOut?: boolean;
+  };
+
+  /**
    * nudge when true indicates that the comment was written on the first try
    * without a warning.
    */
   nudge?: boolean;
 }
+
+export interface GiphyMedia {
+  type: "giphy";
+  id: string;
+  url: string;
+  original: string;
+  still: string;
+  video: string;
+  width?: number;
+  height?: number;
+  title?: string;
+}
+
+export interface TwitterMedia {
+  type: "twitter";
+  url: string;
+  width?: number;
+}
+
+export interface YouTubeMedia {
+  type: "youtube";
+  url: string;
+  still: string;
+  title?: string;
+  width?: number;
+  height?: number;
+}
+
+export interface ExternalMedia {
+  type: "external";
+  url: string;
+  width?: number;
+  height?: number;
+}
+
+export type CommentMedia =
+  | GiphyMedia
+  | TwitterMedia
+  | YouTubeMedia
+  | ExternalMedia;
 
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
@@ -64,4 +116,9 @@ export interface Revision {
    * createdAt is the date that this revision was created at.
    */
   createdAt: Date;
+
+  /**
+   * media is the optional media object attached to this revision.
+   */
+  media?: CommentMedia;
 }

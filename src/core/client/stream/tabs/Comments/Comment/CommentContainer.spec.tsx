@@ -22,6 +22,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       story: {
         url: "http://localhost/story",
         isClosed: false,
+        canModerate: false,
         settings: {
           mode: "COMMENTS",
         },
@@ -33,6 +34,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           id: "author-id",
           username: "Marvin",
           badges: [],
+          avatar: null,
         },
         actionCounts: {
           reaction: {
@@ -59,6 +61,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         disableCommenting: {
           enabled: false,
         },
+        featureFlags: [],
       },
       indentLevel: 1,
       showAuthPopup: noop as any,

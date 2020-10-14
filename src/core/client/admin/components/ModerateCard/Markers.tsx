@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent } from "react";
 
-import { useUUID } from "coral-framework/hooks";
+import { useToggleState, useUUID } from "coral-framework/hooks";
 import {
   Button,
   ButtonIcon,
@@ -18,10 +18,8 @@ interface Props {
 
 const Markers: FunctionComponent<Props> = ({ children, details }) => {
   const uuid = useUUID();
-  const [showDetails, setShowDetails] = useState<boolean>(false);
-  const toggleDetails = useCallback(() => setShowDetails(!showDetails), [
-    showDetails,
-  ]);
+  const [showDetails, , toggleDetails] = useToggleState();
+
   return (
     <HorizontalGutter>
       <Flex itemGutter>
@@ -43,12 +41,7 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
           </Button>
         )}
       </Flex>
-      {showDetails && (
-        <div id={uuid}>
-          <hr className={styles.detailsDivider} />
-          {details}
-        </div>
-      )}
+      {showDetails && <div id={uuid}>{details}</div>}
     </HorizontalGutter>
   );
 };

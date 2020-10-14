@@ -1,17 +1,16 @@
 import cn from "classnames";
 import React, { ButtonHTMLAttributes, FunctionComponent, Ref } from "react";
 
-import { BaseButton, Icon } from "coral-ui/components/v2";
+import { Icon } from "coral-ui/components/v2";
+import Button from "coral-ui/components/v3/Button";
 import { withForwardRef } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
-
-import { IconColor } from "coral-ui/components/v2/Icon/Icon";
 
 import styles from "./TooltipButton.css";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
-  activeColor?: IconColor;
+  activeColor?: PropTypesOf<typeof Button>["color"];
   className?: string;
   classes?: typeof styles;
   toggleVisibility: () => void;
@@ -32,7 +31,7 @@ const TooltipButton: FunctionComponent<Props> = ({
   ariaLabel,
   title,
 }) => (
-  <BaseButton
+  <Button
     className={cn(classes ? classes.button : styles.button, className)}
     onClick={(evt) => {
       evt.stopPropagation();
@@ -41,9 +40,12 @@ const TooltipButton: FunctionComponent<Props> = ({
     ref={forwardRef}
     aria-label={ariaLabel}
     title={title}
+    color={active ? activeColor : "none"}
+    variant="flat"
+    paddingSize="none"
   >
-    <Icon color={active ? activeColor : "inherit"}>info</Icon>
-  </BaseButton>
+    <Icon>info</Icon>
+  </Button>
 );
 
 const enhanced = withForwardRef(TooltipButton);

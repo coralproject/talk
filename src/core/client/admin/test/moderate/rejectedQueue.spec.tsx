@@ -52,7 +52,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -245,7 +244,7 @@ it("approves comment in rejected queue", async () => {
     });
     return {
       comment: {
-        id: rejectedComments[0].id,
+        ...rejectedComments[0],
         status: GQLCOMMENT_STATUS.APPROVED,
         statusHistory: {
           edges: [

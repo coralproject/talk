@@ -22,7 +22,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import BackButton from "./BackButton";
 import NextButton from "./NextButton";
@@ -66,7 +66,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 </Typography>
               </Localized>
               <Localized id="install-addOrganization-description">
-                <Typography variant="bodyCopy" align="center">
+                <Typography variant="bodyCopy">
                   Please tell us the name of your organization. This will appear
                   in emails when inviting new team members.
                 </Typography>
@@ -85,7 +85,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addOrganization-orgName">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Organization name
                       </InputLabel>
                     </Localized>
@@ -114,7 +114,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addSite-siteEmail">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Contact email
                       </InputLabel>
                     </Localized>
@@ -146,7 +146,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addSite-siteURL">
-                      <InputLabel container={<label htmlFor={input.name} />}>
+                      <InputLabel htmlFor={input.name}>
                         Organization URL
                       </InputLabel>
                     </Localized>
@@ -181,9 +181,7 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addSite-siteName">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Site name
-                      </InputLabel>
+                      <InputLabel htmlFor={input.name}>Site name</InputLabel>
                     </Localized>
                     <Localized id="install-addSite-siteNameDescription">
                       <InputDescription>

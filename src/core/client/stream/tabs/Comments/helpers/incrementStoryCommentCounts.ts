@@ -1,8 +1,9 @@
-import { RecordSourceSelectorProxy } from "relay-runtime";
+import { RecordSourceProxy } from "relay-runtime";
 
 export default function incrementStoryCommentCounts(
-  store: RecordSourceSelectorProxy,
-  storyID: string
+  store: RecordSourceProxy,
+  storyID: string,
+  increment = 1
 ) {
   // Updating Comment Count
   const story = store.get(storyID);
@@ -11,7 +12,7 @@ export default function incrementStoryCommentCounts(
     if (record) {
       // TODO: when we have moderation, we'll need to be careful here.
       const currentCount = record.getValue("totalPublished");
-      record.setValue((currentCount as number) + 1, "totalPublished");
+      record.setValue((currentCount as number) + increment, "totalPublished");
     }
   }
 }

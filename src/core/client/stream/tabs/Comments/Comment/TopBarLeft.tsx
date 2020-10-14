@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, MatchMedia } from "coral-ui/components";
+import { Flex, MatchMedia } from "coral-ui/components/v2";
 
 export interface TopBarLeftProps {
   className?: string;
@@ -15,7 +15,7 @@ const TopBarLeft: FunctionComponent<TopBarLeftProps> = (props) => {
       {(matches) => (
         <Flex
           className={rootClassName}
-          alignItems={matches ? "flex-end" : "baseline"}
+          alignItems={matches ? "center" : "baseline"}
           direction={matches ? "row" : "column"}
           itemGutter={matches ? true : "half"}
         >

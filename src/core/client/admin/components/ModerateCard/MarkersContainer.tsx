@@ -38,7 +38,17 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
-      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
+      c.revision.metadata?.wordList?.timedOut && (
+        <Localized id="moderate-marker-possibleBannedWord" key={keyCounter++}>
+          <Marker color="reported">Possible Banned Word</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
+      !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
           <Marker color="reported">Banned Word</Marker>
         </Localized>
@@ -46,7 +56,17 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
-      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
+      c.revision.metadata?.wordList?.timedOut && (
+        <Localized id="moderate-marker-possibleSuspectWord" key={keyCounter++}>
+          <Marker color="reported">Possible Suspect Word</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
+      !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
           <Marker color="reported">Suspect Word</Marker>
         </Localized>
@@ -125,6 +145,32 @@ const markers: Array<(
     null,
   (c) =>
     (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO && (
+        <Marker key={keyCounter++} color="reported">
+          <Localized id="moderate-marker-bio">
+            <span>Bio</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO}
+          </MarkerCount>
+        </Marker>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER && (
+        <Marker key={keyCounter++} color="reported">
+          <Localized id="moderate-marker-other">
+            <span>Other</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER}
+          </MarkerCount>
+        </Marker>
+      )) ||
+    null,
+  (c) =>
+    (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_NEW_COMMENTER && (
         <Localized id="moderate-marker-newCommenter" key={keyCounter++}>
           <Marker color="reported">New commenter</Marker>
@@ -138,7 +184,7 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
 ) => {
   const elements = useMemo(
     () => markers.map((cb) => cb(props.comment)).filter((m) => m),
-    [markers, props.comment]
+    [props.comment]
   );
 
   return (
@@ -165,18 +211,25 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
         actionCounts {
           flag {
             reasons {
-              COMMENT_DETECTED_TOXIC
-              COMMENT_DETECTED_SPAM
-              COMMENT_DETECTED_RECENT_HISTORY
-              COMMENT_DETECTED_LINKS
-              COMMENT_DETECTED_BANNED_WORD
-              COMMENT_DETECTED_SUSPECT_WORD
+              COMMENT_REPORTED_SPAM
+              COMMENT_REPORTED_OTHER
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_ABUSIVE
-              COMMENT_REPORTED_SPAM
-              COMMENT_DETECTED_NEW_COMMENTER
+              COMMENT_REPORTED_BIO
+              COMMENT_DETECTED_TOXIC
+              COMMENT_DETECTED_SUSPECT_WORD
+              COMMENT_DETECTED_SPAM
               COMMENT_DETECTED_REPEAT_POST
+              COMMENT_DETECTED_RECENT_HISTORY
+              COMMENT_DETECTED_NEW_COMMENTER
+              COMMENT_DETECTED_LINKS
+              COMMENT_DETECTED_BANNED_WORD
             }
+          }
+        }
+        metadata {
+          wordList {
+            timedOut
           }
         }
       }

@@ -1,0 +1,27 @@
+.root {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  color: var(--palette-text-500);
+  border-top: 1px solid var(--palette-grey-200);
+  margin: 0 var(--spacing-2);
+  padding: var(--spacing-2) 0;
+  flex: 1;
+}
+
+.url {
+  color: var(--palette-primary-500);
+  margin: 0;
+  font-weight: var(--font-weight-primary-semi-bold);
+
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.link {
+  overflow: hidden;
+}
+
+.removeButton {
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-3);
+}
