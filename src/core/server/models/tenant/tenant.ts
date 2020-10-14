@@ -236,6 +236,7 @@ export async function createTenant(
     integrations: {
       akismet: {
         enabled: false,
+        ipBased: false,
       },
       perspective: {
         enabled: false,
