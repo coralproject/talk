@@ -19,7 +19,7 @@ export type UserStatusInput = user.UserStatus & {
 };
 
 const banActive = (ban: BanStatus, ctx: GraphContext) => {
-  if (ban.active) {
+  if (ban.active && (!ban.siteIDs || ban.siteIDs.length === 0)) {
     return true;
   }
 

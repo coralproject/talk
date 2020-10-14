@@ -1730,6 +1730,7 @@ export async function banUser(
   id: string,
   createdBy: string,
   message?: string,
+  siteIDs?: string[] | null,
   now = new Date()
 ) {
   // Create the new ban.
@@ -1753,6 +1754,7 @@ export async function banUser(
     {
       $set: {
         "status.ban.active": true,
+        "status.ban.siteIDs": siteIDs ? siteIDs : [],
       },
       $push: {
         "status.ban.history": banHistory,
