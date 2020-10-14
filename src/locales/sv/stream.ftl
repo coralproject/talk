@@ -6,8 +6,8 @@ general-userBoxUnauthenticated-joinTheConversation = Delta i diskussionen
 general-userBoxUnauthenticated-signIn = Logga in
 general-userBoxUnauthenticated-register = Registrera dig
 
-general-userBoxAuthenticated-signedInAs =
-  Inloggad som <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Inloggad som
 
 general-userBoxAuthenticated-notYou =
   Inte du? <button>Logga ut</button>
@@ -36,8 +36,8 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-bannedInfo-bannedFromCommenting = Ditt konto har blivit avstängt från att kommentera.
 comments-bannedInfo-violatedCommunityGuidelines =
-  Någon med access till ditt konto har brutit mot våra regler. 
-  Ditt konto har därför blivit avstängt och du kommer inte kunna 
+  Någon med access till ditt konto har brutit mot våra regler.
+  Ditt konto har därför blivit avstängt och du kommer inte kunna
   kommentera längre. Om du tycker detta är fel, vänligen kontakta oss.
 
 comments-noCommentsYet = Det finns inga kommentarer ännu. Varför inte skriva en?
@@ -85,7 +85,7 @@ comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
 comments-postCommentForm-userScheduledForDeletion-warning =
-  Du kan inte kommentera när ditt konto är på väg att raderas. 
+  Du kan inte kommentera när ditt konto är på väg att raderas.
 
 comments-replyButton-reply = Svara
 
@@ -106,7 +106,7 @@ comments-editCommentForm-rteLabel = Redigera kommentar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
 comments-editCommentForm-editRemainingTime = Redigering: <time></time> kvar
-comments-editCommentForm-editTimeExpired = Tiden för att redigera har gått ut. Du kan inte längre redigera den här kommentaren. Varför inte skriva en till? 
+comments-editCommentForm-editTimeExpired = Tiden för att redigera har gått ut. Du kan inte längre redigera den här kommentaren. Varför inte skriva en till?
 comments-editedMarker-edited = Redigerad
 comments-showConversationLink-readMore = Läs mer av den här diskussionen >
 comments-conversationThread-showMoreOfThisConversation =
@@ -227,7 +227,7 @@ profile-account-changePassword-password = Lösenord
 
 profile-account-download-comments-title = Ladda ner min kommentarshistorik
 profile-account-download-comments-description =
-  Du kommer få ett mejl med en länk till att ladda ner din kommentarshistorik. 
+  Du kommer få ett mejl med en länk till att ladda ner din kommentarshistorik.
   Du kan göra <strong>en begäran om nedladdning var 14:e dag</strong>
 profile-account-download-comments-request =
   Begär kommentarshistorik
@@ -236,7 +236,7 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   Din senaste begäran: { $timeStamp }
 profile-account-download-comments-requested =
-  Nedladdning begärd. Du kan begära en ny nedladdning om { framework-timeago-time }.  
+  Nedladdning begärd. Du kan begära en ny nedladdning om { framework-timeago-time }.
 profile-account-download-comments-request-button = Begäran
 
 ## Delete Account
@@ -385,9 +385,9 @@ configure-stream-apply = Applicera
 
 configure-premod-title = Använd förhandsmoderering
 configure-premod-description =
-  Moderatorer måste godkänna varje kommentar innan den publiceras vid den här artikeln. 
+  Moderatorer måste godkänna varje kommentar innan den publiceras vid den här artikeln.
 
-configure-premodLink-title = Förhandsmoderera kommentarer som innehåller länkar 
+configure-premodLink-title = Förhandsmoderera kommentarer som innehåller länkar
 configure-premodLink-description =
   Moderatorer måste godkänna varje kommentar som innehåller en länk innan den publiceras vid den här artikeln.
 

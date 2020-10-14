@@ -8,7 +8,6 @@ general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
 
-general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-signedIn =
   Signed in as
 general-userBoxAuthenticated-notYou =

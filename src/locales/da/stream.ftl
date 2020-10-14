@@ -6,8 +6,8 @@ general-userBoxUnauthenticated-joinTheConversation = Deltag i samtalen
 general-userBoxUnauthenticated-signIn = Log ind
 general-userBoxUnauthenticated-register = Registrer
 
-general-userBoxAuthenticated-signedInAs =
-  Logget ind som <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Logget ind som
 
 general-userBoxAuthenticated-notYou =
   Er det ikke dig? <button>Log ud</button>

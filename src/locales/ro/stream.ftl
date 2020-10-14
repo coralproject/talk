@@ -6,8 +6,8 @@ general-userBoxUnauthenticated-joinTheConversation = Alaturâ-te conversației
 general-userBoxUnauthenticated-signIn = Intră în cont
 general-userBoxUnauthenticated-register = Înregistrează-te
 
-general-userBoxAuthenticated-signedInAs =
-  Înregistrat ca <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Înregistrat ca
 
 general-userBoxAuthenticated-notYou =
   Nu ești tu? <button>Ieși din cont</button>;

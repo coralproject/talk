@@ -8,9 +8,8 @@ general-userBoxUnauthenticated-joinTheConversation = Réagir
 general-userBoxUnauthenticated-signIn = Se connecter
 general-userBoxUnauthenticated-register = S'enregistrer
 
-general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-signedIn =
-  Connecté en tant que <Username></Username>.
+  Connecté en tant que
 general-userBoxAuthenticated-notYou =
   Ce n'est pas vous ?<button>Se déconnecter</button>
 
