@@ -94,6 +94,7 @@ export const settings = createFixture<GQLSettings>({
   integrations: {
     akismet: {
       enabled: false,
+      ipBased: false,
     },
     perspective: {
       enabled: false,

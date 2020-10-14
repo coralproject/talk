@@ -61,10 +61,21 @@ export const spam: IntermediateModerationPhase = async ({
   });
 
   // Grab the properties we need.
-  const userIP = req.ip;
-  if (!userIP) {
-    log.debug("request did not contain ip address, aborting spam check");
-    return;
+  let userIP = "";
+
+  // Only use the ip address if ipBased is enabled. This property is by default
+  // not set, that's why we're explicitly checking if it is false before using
+  // it.
+  if (integration.ipBased !== false) {
+    if (req.ip) {
+      userIP = req.ip;
+    } else {
+      log.debug(
+        "request did not contain ip address, continue spam check with empty ip address"
+      );
+    }
+  } else {
+    log.trace("not adding ip address to request due to configuration");
   }
 
   const userAgent = req.get("User-Agent");

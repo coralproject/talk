@@ -715,6 +715,7 @@ configure-moderation-akismet-explanation =
 
 #### Akismet
 configure-moderation-akismet-filter = Spam detection filter
+configure-moderation-akismet-ipBased = IP-based spam detection
 configure-moderation-akismet-accountNote =
   Note: You must add your active domain(s)
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>

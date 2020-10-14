@@ -32,6 +32,7 @@ graphql`
     integrations {
       akismet {
         enabled
+        ipBased
         key
         site
       }
@@ -77,6 +78,12 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           <Label component="legend">Spam detection filter</Label>
         </Localized>
         <OnOffField name="integrations.akismet.enabled" disabled={disabled} />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-moderation-akismet-ipBased">
+          <Label component="legend">IP-based spam detection</Label>
+        </Localized>
+        <OnOffField name="integrations.akismet.ipBased" disabled={disabled} />
       </FormField>
       <HorizontalGutter spacing={3}>
         <Localized id="configure-configurationSubHeader" strong={<strong />}>

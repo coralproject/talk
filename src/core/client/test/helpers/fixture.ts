@@ -348,6 +348,7 @@ export function createSettings() {
     integrations: {
       akismet: {
         enabled: false,
+        ipBased: false,
       },
       perspective: {
         enabled: false,
