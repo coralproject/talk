@@ -32,6 +32,7 @@ interface Props {
   ) => void;
   getMessage: GetMessage;
 
+  moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
   userScopes: Scopes;
 }
@@ -42,6 +43,7 @@ const BanModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
   getMessage,
+  moderationScopesEnabled,
   viewerScopes,
   userScopes,
 }) => {
@@ -103,6 +105,7 @@ const BanModal: FunctionComponent<Props> = ({
               showMessage: false,
               rejectExistingComments: false,
               emailMessage: getDefaultMessage,
+              siteIDs: userScopes.siteIDs ? userScopes.siteIDs : [],
             }}
           >
             {({ handleSubmit }) => (
@@ -143,10 +146,12 @@ const BanModal: FunctionComponent<Props> = ({
                     }
                   </Field>
 
-                  <UserStatusSitesListQuery
-                    viewerScopes={viewerScopes}
-                    userScopes={userScopes}
-                  />
+                  {moderationScopesEnabled && (
+                    <UserStatusSitesListQuery
+                      viewerScopes={viewerScopes}
+                      userScopes={userScopes}
+                    />
+                  )}
 
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-banModal-cancel">

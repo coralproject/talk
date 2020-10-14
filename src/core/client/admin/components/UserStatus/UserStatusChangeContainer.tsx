@@ -1,8 +1,13 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLUSER_ROLE } from "coral-framework/schema";
 
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
@@ -52,6 +57,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showWarn, setShowWarn] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
+
+  const moderationScopesEnabled = useMemo(
+    () =>
+      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+      settings.multisite,
+    [settings.featureFlags, settings.multisite]
+  );
+
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
       return;
@@ -82,9 +95,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     setShowBanned(true);
   }, [user, setShowBanned]);
   const handleRemoveBan = useCallback(() => {
-    if (!user.status.ban.active) {
+    if (
+      !user.status.ban.active &&
+      (!user.status.ban.sites || user.status.ban.sites.length === 0)
+    ) {
       return;
     }
+
     void removeUserBan({ userID: user.id });
   }, [user, removeUserBan]);
   const handleSuspend = useCallback(() => {
@@ -172,7 +189,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
-        banned={user.status.ban.active}
+        banned={user.status.ban.active || user.status.ban.sites.length > 0}
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
         warned={user.status.warning.active}
@@ -211,6 +228,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           open={showBanned}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
+          moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
             role: viewer.role,
             siteIDs: viewer.moderationScopes?.sites?.map((s) => s.id),
@@ -256,6 +274,8 @@ const enhanced = withFragmentContainer<Props>({
       organization {
         name
       }
+      multisite
+      featureFlags
     }
   `,
   viewer: graphql`
