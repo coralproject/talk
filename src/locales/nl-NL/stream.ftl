@@ -6,8 +6,8 @@ general-userBoxUnauthenticated-joinTheConversation = Meld je aan of Registreer j
 general-userBoxUnauthenticated-signIn = Aanmelden
 general-userBoxUnauthenticated-register = Registreren
 
-general-userBoxAuthenticated-signedInAs =
-  Aangemeld als <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Aangemeld als
 
 general-userBoxAuthenticated-notYou =
   Bent u dit niet? <button>Uitloggen</button>
@@ -37,7 +37,7 @@ comments-featuredCommentTooltip-toggleButton =
 comments-bannedInfo-bannedFromCommenting = Uw account is beblokkeerd voor het geven van reacties.
 comments-bannedInfo-violatedCommunityGuidelines =
   Iemand die toegang heeft tot uw account heeft onze spelregels geschonden.
-  Als gevolg daarvan is uw account geblokkeerd. U zult niet langer 
+  Als gevolg daarvan is uw account geblokkeerd. U zult niet langer
   in staat zijn om reacties te plaatsen. Als u denkt dat
   dit is foutief gebeurd is, neem dan contact op met onze moderator.
 
@@ -203,7 +203,7 @@ profile-accountDeletion-cancelDeletion =
 ### Comment History
 profile-historyComment-viewConversation = Bekijk discussie
 profile-historyComment-replies = Antwoorden {$replyCount}
-profile-historyComment-commentHistory = Voorbije reacties 
+profile-historyComment-commentHistory = Voorbije reacties
 profile-historyComment-story = Bericht: {$title}
 profile-historyComment-comment-on = Reageer op:
 profile-profileQuery-errorLoadingProfile = Profiel kan niet ingeladen worden
@@ -448,7 +448,7 @@ comments-tombstone-deleted =
 suspendInfo-heading = Uw account is tijdelijk geschorst voor reacties.
 suspendInfo-info =
   In overeenstemming met de spelregels van  { $organization } is uw
-  account tijdelijk geblokkeerd. Intussen zult U geen reacties 
+  account tijdelijk geblokkeerd. Intussen zult U geen reacties
   meer kunnen plaatsen. U kunt terug deelnemen
   aan de discussie op { $until }
 

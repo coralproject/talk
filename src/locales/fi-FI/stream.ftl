@@ -8,7 +8,6 @@ general-userBoxUnauthenticated-joinTheConversation = Liity keskusteluun
 general-userBoxUnauthenticated-signIn = Kirjaudu
 general-userBoxUnauthenticated-register = Rekisteröidy
 
-general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-signedIn =
   Kirjoitat nimellä
 general-userBoxAuthenticated-notYou =
@@ -62,7 +61,7 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-collapse-toggle =
   .aria-label = Pienennä keskusteluketju
-comments-bannedInfo-bannedFromCommenting = Olemme asettaneet sinut kirjoituskieltoon. 
+comments-bannedInfo-bannedFromCommenting = Olemme asettaneet sinut kirjoituskieltoon.
 comments-bannedInfo-violatedCommunityGuidelines =
   Olemme asettaneet sinut kirjoituskieltoon, koska olet rikkonut kommentoinnin sääntöjä. Jos kielto on mielestäsi aiheeton, ota yhteyttä ylläpitoon.
 
@@ -106,7 +105,7 @@ comments-viewNew =
 comments-loadMore = Näytä lisää
 
 comments-permalinkPopover =
-  .description = Ikkuna jossa on linkki kommenttiin 
+  .description = Ikkuna jossa on linkki kommenttiin
 comments-permalinkPopover-permalinkToComment =
   .aria-label = Linkki kommenttiin
 comments-permalinkButton-share = Jaa
@@ -208,7 +207,7 @@ comments-userPopover-ignore = Hiljennä
 
 comments-userIgnorePopover-ignoreUser = Hiljennetäänkö {$username}?
 comments-userIgnorePopover-description =
-  Et enää näe hiljentämäsi kirjoittajan kommentteja. 
+  Et enää näe hiljentämäsi kirjoittajan kommentteja.
   Voit perua hiljentämisen Omat tiedot -sivulla.
 
 comments-userIgnorePopover-ignore = Hiljennä
@@ -216,8 +215,8 @@ comments-userIgnorePopover-cancel = Peruuta
 
 comments-userBanPopover-title = Asetetaanko {$username} kirjoituskieltoon?
 comments-userBanPopover-description =
-  Kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja, 
-  reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi. 
+  Kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja,
+  reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi.
   Myös tämä kommentti hylätään.
 comments-userBanPopover-cancel = Peruuta
 comments-userBanPopover-ban = Aseta kirjoituskieltoon
@@ -232,7 +231,7 @@ comments-moderationDropdown-reject = Hylkää
 comments-moderationDropdown-rejected = Hylätty
 comments-moderationDropdown-ban = Aseta kirjoituskieltoon
 comments-moderationDropdown-banned = Kirjoituskiellossa
-comments-moderationDropdown-goToModerate = 
+comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderoi
 comments-moderationDropdown-moderateStory = Moderoi juttu
 comments-moderationDropdown-caretButton =
@@ -319,7 +318,7 @@ comments-stream-deleteAccount-callOut-receivedDesc =
   Olemme vastaanottaneet pyyntösi kirjoittajatilisi poistamiseksi { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
   Jos haluat jatkaa kirjoittamista, voit peruuttaa poistopyyntösi { $date } asti.
- 
+
 comments-stream-deleteAccount-callOut-cancel =
   Peruuta kirjoittajatilin poistopyyntö
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
@@ -387,10 +386,10 @@ profile-preferences-mediaPreferences-preferencesUpdated =
 ### Account
 profile-account-ignoredCommenters = Hiljennetyt kirjoittajat
 profile-account-ignoredCommenters-description =
-  Voit hiljentää haluamiesi kirjoittajien kommentit painamalla heidän nimeään ja valitsemalla Hiljennä. 
+  Voit hiljentää haluamiesi kirjoittajien kommentit painamalla heidän nimeään ja valitsemalla Hiljennä.
   Et enää näe hiljentämiesi kirjoittajien kommentteja, mutta he näkevät edelleen sinun kirjoittamasi kommentit.
-  
-  
+
+
 profile-account-ignoredCommenters-empty = Et ole hiljentänyt ketään
 profile-account-ignoredCommenters-stopIgnoring = Peru hiljentäminen
 profile-account-ignoredCommenters-youAreNoLonger =
@@ -411,7 +410,7 @@ profile-account-changePassword-password = Salasana
 
 profile-account-download-comments-title = Lataa kommenttihistoriasi
 profile-account-download-comments-description =
-  Saat sähköpostin, jossa on linkki kommenttihistoriasi lataamista varten. 
+  Saat sähköpostin, jossa on linkki kommenttihistoriasi lataamista varten.
   Voit tehdä latauspyynnön 14 vuorokauden välein.
 profile-account-download-comments-request =
   Lataa kommenttihistoria
@@ -420,12 +419,12 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   Viimeisin latauspyyntösi: { $timeStamp }
 profile-account-download-comments-yourMostRecentRequest =
-  Viimeisin latauspyyntösi on kuluvan 14 vuorokauden ajalta. 
+  Viimeisin latauspyyntösi on kuluvan 14 vuorokauden ajalta.
   Voit tehdä seuraavan latauspyynnön { $timeStamp }
 profile-account-download-comments-requested =
   Pyyntö lähetetty. Seuraavaan mahdolliseen latauspyyntöön on aikaa { framework-timeago-time }
 profile-account-download-comments-requestSubmitted =
-  Latauspyyntösi on lähetetty onnistuneesti. 
+  Latauspyyntösi on lähetetty onnistuneesti.
   Seuraavaan latauspyyntöön on aikaa { framework-timeago-time }.
 profile-account-download-comments-error =
   Latauspyynnön suorittaminen ei onnistunut.
@@ -437,12 +436,12 @@ profile-account-deleteAccount-title = Poista kirjoittajatilisi
 profile-account-deleteAccount-deleteMyAccount = Poista kirjoittajatilisi
 profile-account-deleteAccount-description =
   Kirjoittajatilin poistaminen poistaa pysyvästi kaikki kirjoittamasi kommentit.
-  
+
 profile-account-deleteAccount-requestDelete = Pyydä kirjoittajatilin poistoa
 
 profile-account-deleteAccount-cancelDelete-description =
-  Olet pyytänyt kirjoittajatilisi poistoa. 
-  Tilisi poistetaan { $date }. 
+  Olet pyytänyt kirjoittajatilisi poistoa.
+  Tilisi poistetaan { $date }.
   Siihen asti voit perua pyyntösi.
 profile-account-deleteAccount-cancelDelete = Peru poistopyyntö
 
@@ -476,15 +475,15 @@ profile-account-deleteAccount-pages-whenSec1Content =
 profile-account-deleteAccount-pages-whenSec2Header =
   Voinko jatkaa kirjoittamista tilin poistoon asti?
 profile-account-deleteAccount-pages-whenSec2Content =
-  Poistumassa olevalla kirjoittajatilillä et voi enää kirjoittaa kommentteja 
+  Poistumassa olevalla kirjoittajatilillä et voi enää kirjoittaa kommentteja
   tai tehdä muitakaan kommentteihin liittyviä asioita.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Lataa kommenttisi?
 profile-account-deleteAccount-pages-downloadSubHeader = Lataa kommenttisi
 profile-account-deleteAccount-pages-downloadCommentsDesc =
-  Suosittelemme, että lataat kommenttihistoriasi itsellesi ennen kirjoittajatilisi poistamista. 
+  Suosittelemme, että lataat kommenttihistoriasi itsellesi ennen kirjoittajatilisi poistamista.
   Kun tilisi on poistettu, et voi enää ladata kommenttihistoriaasi.
-  
+
 profile-account-deleteAccount-pages-downloadCommentsPath =
   Omat tiedot > Lataa kommenttihistoriasi
 
@@ -494,7 +493,7 @@ profile-account-deleteAccount-pages-confirmDescHeader =
   Oletko varma, että haluat poistaa kirjoittajatilisi?
 profile-account-deleteAccount-confirmDescContent =
   Poistopyynnön vahvistamiseksi kirjoita seuraava teksti alla olevaan laatikkoon:
-  
+
 profile-account-deleteAccount-pages-confirmPhraseLabel =
   Vahvista kirjoittamalla teksti:
 profile-account-deleteAccount-pages-confirmPasswordLabel =
@@ -513,7 +512,7 @@ profile-account-deleteAccount-pages-completeSignIntoYourAccount =
   <strong>Peru poistopyyntö</strong>.
 profile-account-deleteAccount-pages-completeTellUsWhy = Kerro meille miksi.
 profile-account-deleteAccount-pages-completeWhyDeleteAccount =
-  Haluaisimme tietää, miksi olet poistamassa kirjoittajatiliäsi. 
+  Haluaisimme tietää, miksi olet poistamassa kirjoittajatiliäsi.
   Voit lähettää meille palautetta osoitteeseen { $email }.
 profile-account-changePassword-edit = Muokkaa
 profile-account-changePassword-change = Vaihda
@@ -582,7 +581,7 @@ profile-changeUsername-edit = Muokkaa
 profile-changeUsername-change = Vaihda
 profile-changeUsername-heading = Muokkaa nimeäsi
 profile-changeUsername-heading-changeYourUsername = Vaihda nimesi
-profile-changeUsername-desc = Vaihda nimi, joka näkyy kaikissa vanhoissa ja uusissa kommenteissasi. <strong>Nimen voi vaihtaa kerran per { framework-timeago-time }.</strong> 
+profile-changeUsername-desc = Vaihda nimi, joka näkyy kaikissa vanhoissa ja uusissa kommenteissasi. <strong>Nimen voi vaihtaa kerran per { framework-timeago-time }.</strong>
 profile-changeUsername-desc-text = Vaihda nimi, joka näkyy kaikissa vanhoissa ja uusissa kommenteissasi. <strong>Nimen voi vaihtaa kerran per { framework-timeago-time }.</strong>
 profile-changeUsername-current = Nykyinen nimi
 profile-changeUsername-newUsername-label = Uusi nimi
@@ -592,7 +591,7 @@ profile-changeUsername-save = Tallenna
 profile-changeUsername-saveChanges = Tallenna muutokset
 profile-changeUsername-recentChange = Nimesi on vaihdettu kuluneen { framework-timeago-time } aikana. Voit vaihtaa nimesi uudelleen { $nextUpdate }.
 profile-changeUsername-youChangedYourUsernameWithin =
-  Vaihdoit nimesi kuluneen { framework-timeago-time } aikana. Voit vaihtaa nimesi uudelleen { $nextUpdate }.  
+  Vaihdoit nimesi kuluneen { framework-timeago-time } aikana. Voit vaihtaa nimesi uudelleen { $nextUpdate }.
 profile-changeUsername-close = Sulje
 
 ## Discussions tab
@@ -607,40 +606,40 @@ discussions-discussionsQuery-errorLoadingProfile = Tietojen lataaminen epäonnis
 discussions-discussionsQuery-storyNotFound = Juttua ei löytynyt
 
 ## Comment Stream
-configure-stream-title = 
+configure-stream-title =
 configure-stream-title-configureThisStream =
   Muokkaa tämän kommenttiketjun asetuksia
-configure-stream-apply = 
+configure-stream-apply =
 configure-stream-update = Tallenna
 configure-stream-streamHasBeenUpdated =
   Kommenttiketju päivitettiin
 
-configure-premod-title = 
+configure-premod-title =
 configure-premod-premoderateAllComments = Kommenttien ennakkotarkastus
 configure-premod-description =
   Ylläpidon on hyväksyttävä kommentti ennen kuin se julkaistaan.
 
-configure-premodLink-title = 
+configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   Linkkejä sisältävien kommenttien ennakkotarkastus
 configure-premodLink-description =
   Ylläpidon on hyväksyttävä linkkejä sisältävä kommentti ennen kuin se julkaistaan.
 
-configure-liveUpdates-title = 
-configure-enableLiveUpdates-title = Reaaliaikainen päivitys käytössä  
+configure-liveUpdates-title =
+configure-enableLiveUpdates-title = Reaaliaikainen päivitys käytössä
 configure-liveUpdates-description =
 configure-enableLiveUpdates-description =
-  Kun reaaliaikainen päivitys on käytössä, uusien kommenttien ja 
-  vastausten näkyminen ei vaadi sivulatausta, vaan tiedot päivittyvät välittömästi. 
-  Voit poistaa ominaisuuden käytöstä, jos se aiheuttaa kommenttien latautumisen 
+  Kun reaaliaikainen päivitys on käytössä, uusien kommenttien ja
+  vastausten näkyminen ei vaadi sivulatausta, vaan tiedot päivittyvät välittömästi.
+  Voit poistaa ominaisuuden käytöstä, jos se aiheuttaa kommenttien latautumisen
   hitautta poikkeuksellisen suosituissa jutuissa.
 configure-enableLiveUpdates-enable = Ota käyttöön
 
 configure-disableLiveUpdates-title = Poista reaaliaikainen päivitys käytöstä
 configure-disableLiveUpdates-description =
-  Kun reaaliaikainen päivitys ei ole käytössä, uudet kommentit ja vastaukset eivät enää 
-  päivity välittömästi. Uusien kommenttien näkymiseksi kommentoijien on päivitettävä sivu manuaalisesti. 
-  Reaaliaikainen päivitys on suositeltua poistaa käytöstä jos se aiheuttaa kommenttien latautumisen 
+  Kun reaaliaikainen päivitys ei ole käytössä, uudet kommentit ja vastaukset eivät enää
+  päivity välittömästi. Uusien kommenttien näkymiseksi kommentoijien on päivitettävä sivu manuaalisesti.
+  Reaaliaikainen päivitys on suositeltua poistaa käytöstä jos se aiheuttaa kommenttien latautumisen
   hitautta poikkeuksellisen suosituissa jutuissa.
 configure-disableLiveUpdates-disable = Poista käytöstä
 
@@ -653,8 +652,8 @@ configure-addMessage-title =
 configure-messageBox-description =
 configure-addMessage-description =
   Lisää viesti kommentointilaatikon yläpuolella.
-  Voit käyttää viestilaatikkoa esimerkiksi keskustelun ohjaamiseen tai 
-  kysymyksen tai juttuun liittyvän ilmoituksen tekemiseen.  
+  Voit käyttää viestilaatikkoa esimerkiksi keskustelun ohjaamiseen tai
+  kysymyksen tai juttuun liittyvän ilmoituksen tekemiseen.
 configure-addMessage-addMessage = Lisää viesti
 configure-addMessage-removed = Viesti on poistettu
 config-addMessage-messageHasBeenAdded =
@@ -674,42 +673,42 @@ configure-messageBox-iconChatBubble = Puhekupla
 configure-messageBox-noIcon = Ei kuvaketta
 configure-messageBox-writeAMessage = Kirjoita viesti
 
-configure-closeStream-title = 
+configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   Sulje keskustelu
 configure-closeStream-description =
-  Keskustelu on tällä hetkellä avoinna. 
-  Suljettuun keskusteluun ei voi kirjoittaa uusia kommentteja, 
+  Keskustelu on tällä hetkellä avoinna.
+  Suljettuun keskusteluun ei voi kirjoittaa uusia kommentteja,
   mutta vanhat kommentit jäävät näkyville.
 configure-closeStream-closeStream = Sulje keskustelu
 configure-closeStream-theStreamIsNowOpen = Keskustelu on nyt avattu
 
 configure-openStream-title = Avaa keskustelu
 configure-openStream-description =
-  Keskustelu on tällä hetkellä suljettu. 
+  Keskustelu on tällä hetkellä suljettu.
   Avattuun keskusteluun voi jälleen kirjoittaa kommentteja.
 configure-openStream-openStream = Avaa keskustelu
 configure-openStream-theStreamIsNowClosed = Keskustelu on nyt suljettu
 
-configure-moderateThisStream = 
+configure-moderateThisStream =
 
 qa-experimental-tag-tooltip-content =
-  K&V toiminnallisuutta kehitetään aktiivisesti. 
+  K&V toiminnallisuutta kehitetään aktiivisesti.
   Ota yhteyttä jos haluat antaa palautetta tai kehitysehdotuksia.
 
 configure-enableQA-title =
 configure-enableQA-switchToQA =
   Vaihda K&V muotoon
 configure-enableQA-description =
-  K&V muodossa kommentoijat voivat jättää kysymyksiä erikseen valittujen 
+  K&V muodossa kommentoijat voivat jättää kysymyksiä erikseen valittujen
   asiantuntijoiden vastattavaksi.
 configure-enableQA-enableQA = Vaihda K&V muotoon
 configure-enableQA-streamIsNowComments =
-  Ketju on nyt kommentointimuodossa  
+  Ketju on nyt kommentointimuodossa
 
 configure-disableQA-title = K&V asetukset
 configure-disableQA-description =
-  K&V muodossa kommentoijat voivat jättää kysymyksiä erikseen valittujen 
+  K&V muodossa kommentoijat voivat jättää kysymyksiä erikseen valittujen
   asiantuntijoiden vastattavaksi.
 configure-disableQA-disableQA = Vaihda kommentointimuotoon
 configure-disableQA-streamIsNowQA =
@@ -723,31 +722,31 @@ configure-experts-filter-searchButton =
   .aria-label = Hae
 configure-experts-filter-description =
   Lisää Asiantuntija -leiman valituille käyttäjille vain tällä sivulla.
-  Uusien käyttäjien on ensin luotava kirjoittajatili ja 
+  Uusien käyttäjien on ensin luotava kirjoittajatili ja
   vierailtava kommenttisivulla.
 configure-experts-search-none-found = No users were found with that email or username
 configure-experts-
 configure-experts-remove-button = Poista
 configure-experts-load-more = Lataa lisää
-configure-experts-none-yet = Tälle K&V ketjulle ei ole vielä lisätty asiantuntijoita 
+configure-experts-none-yet = Tälle K&V ketjulle ei ole vielä lisätty asiantuntijoita
 configure-experts-search-title = Hae asiantuntijaa
 configure-experts-assigned-title = Asiantuntijat
 configure-experts-noLongerAnExpert = ei ole enää asiantuntija
-comments-tombstone-ignore = Kommentti ei näy, koska olet hiljentänyt kirjoittajan {$username} 
+comments-tombstone-ignore = Kommentti ei näy, koska olet hiljentänyt kirjoittajan {$username}
 comments-tombstone-showComment = Näytä kommentti
 comments-tombstone-deleted =
   Kommentti on poistettu, koska sen kirjoittaja on poistanut kirjoittajatilinsä.
 
-suspendInfo-heading = 
+suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
-  Olemme asettaneet sinut määräaikaiseen kirjoituskieltoon. 
+  Olemme asettaneet sinut määräaikaiseen kirjoituskieltoon.
 suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
-  Et saa kirjoittaa kommentteja, koska olet rikkonut kommentoinnin sääntöjä. 
-  Kirjoituskiellon aikana et voi myöskään reagoida toisten kommentteihin tai 
-  ilmoittaa niitä asiattomiksi. 
+  Et saa kirjoittaa kommentteja, koska olet rikkonut kommentoinnin sääntöjä.
+  Kirjoituskiellon aikana et voi myöskään reagoida toisten kommentteihin tai
+  ilmoittaa niitä asiattomiksi.
 suspendInfo-until-pleaseRejoinThe =
-  Kirjoituskieltosi päättyy { $until }. 
+  Kirjoituskieltosi päättyy { $until }.
 
 warning-heading = Kirjoittajatilillesi on annettu varoitus
 warning-explanation =
@@ -765,13 +764,13 @@ profile-changeEmail-change = Vaihda
 profile-changeEmail-please-verify = Vahvista sähköpostiosoitteesi
 profile-changeEmail-please-verify-details =
   Vahvistusviesti on lähetetty sähköpostiosoitteeseesi { $email }.
-  Sinun tulee vahvistaa uusi sähköpostiosoitteesi ennen kuin voit 
+  Sinun tulee vahvistaa uusi sähköpostiosoitteesi ennen kuin voit
   käyttää sitä kirjautumiseen tai ilmoitusten vastaanottamiseen.
 profile-changeEmail-resend = Lähetä vahvistusviesti uudelleen
 profile-changeEmail-heading = Muokkaa sähköpostiosoitettasi
 profile-changeEmail-changeYourEmailAddress =
   Vaihda sähköpostiosoitteesi
-profile-changeEmail-desc = Vaihda sähköpostiosoite, jota käytät kirjautumiseen ja johon saat kirjoittajatiliisi liittyviä viestejä. 
+profile-changeEmail-desc = Vaihda sähköpostiosoite, jota käytät kirjautumiseen ja johon saat kirjoittajatiliisi liittyviä viestejä.
 profile-changeEmail-newEmail-label = Uusi sähköpostiosoite
 profile-changeEmail-password = Salasana
 profile-changeEmail-password-input =

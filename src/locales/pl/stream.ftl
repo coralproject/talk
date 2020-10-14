@@ -6,8 +6,8 @@ general-userBoxUnauthenticated-joinTheConversation = Dołącz do rozmowy
 general-userBoxUnauthenticated-signIn = Zaloguj się
 general-userBoxUnauthenticated-register = Rejestracja
 
-general-userBoxAuthenticated-signedInAs =
-  Twój login to <Username></Username>.
+general-userBoxAuthenticated-signedIn =
+  Twój login to
 
 general-userBoxAuthenticated-notYou =
   To nie Ty? <button>Wyloguj</button>
@@ -39,8 +39,8 @@ comments-featuredCommentTooltip-toggleButton =
 comments-bannedInfo-bannedFromCommenting = Twoje konto zostało zablokowane i nie możesz komentować.
 comments-bannedInfo-violatedCommunityGuidelines =
   Ktoś z dostępem do Twojego konta złamał zasady obowiązujące w
-  naszej społeczności. W rezultacie tych działań, Twoje konto 
-  zostało zbanowane. Nie masz już więcej możliwości komentowania, 
+  naszej społeczności. W rezultacie tych działań, Twoje konto
+  zostało zbanowane. Nie masz już więcej możliwości komentowania,
   ocenienia albo zgłaszania komentarzy. Jeśli uważasz, że stało się
   to w wyniku błędu, skontaktuj się z naszym zespołem.
 
@@ -138,7 +138,7 @@ comments-userPopover-ignore = Ignoruj
 
 comments-userIgnorePopover-ignoreUser = Ignorować {$username}?
 comments-userIgnorePopover-description =
-  Kiedy ignorujesz użytkownika, wszystkie jej/jego komentarze 
+  Kiedy ignorujesz użytkownika, wszystkie jej/jego komentarze
   będą przed Tobą ukryte. Możesz później cofnąć tę operację
   w swoim Profilu.
 comments-userIgnorePopover-ignore = Ignoruj
@@ -146,9 +146,9 @@ comments-userIgnorePopover-cancel = Anuluj
 
 comments-userBanPopover-title = Zbanować {$username}?
 comments-userBanPopover-description =
-  Po zbanowaniu, nie będzie już mógł/mogła 
+  Po zbanowaniu, nie będzie już mógł/mogła
   komentować, reagować, zgłaszać komentarzy.
-  Ten komentarz zostanie usunięty. 
+  Ten komentarz zostanie usunięty.
 comments-userBanPopover-cancel = Anuluj
 comments-userBanPopover-ban = Banuj
 
@@ -222,7 +222,7 @@ comments-stream-deleteAccount-callOut-title =
 comments-stream-deleteAccount-callOut-receivedDesc =
   Twoja prośba o usunięcie konta została przyjęta { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  Jeśli chcesz nadal publikować komentarze, odpowiadać na nie lub reagować, 
+  Jeśli chcesz nadal publikować komentarze, odpowiadać na nie lub reagować,
   możesz anulować swoją prośbę o usunięcie konta przed { $date }.
 comments-stream-deleteAccount-callOut-cancel =
   Anuluj prośbę o usunięcie konta
@@ -263,8 +263,8 @@ profile-commentHistory-empty-subheading = Tutaj pojawi się lista napisanych prz
 profile-account-ignoredCommenters = Ignorowani komentatorzy
 profile-account-ignoredCommenters-description =
   Możesz ignorować innych po kliknięciu w ich profil
-  i wybraniu opcji Ignoruj. Kiedy kogoś ignorujesz, 
-  jej/jego komentarze są ukryte przed Tobą. Ale Twoje 
+  i wybraniu opcji Ignoruj. Kiedy kogoś ignorujesz,
+  jej/jego komentarze są ukryte przed Tobą. Ale Twoje
   komentarze nadal są dla nich widoczne.
 profile-account-ignoredCommenters-empty = Nie ignorujesz nikogo
 profile-account-ignoredCommenters-stopIgnoring = Przestań ignorować
@@ -304,7 +304,7 @@ profile-account-deleteAccount-description =
 profile-account-deleteAccount-requestDelete = Wyślij prośbę o usunięcie konta
 
 profile-account-deleteAccount-cancelDelete-description =
-  Wysłałaś/eś już prośbę o usunięcie konta. 
+  Wysłałaś/eś już prośbę o usunięcie konta.
   Konto zostanie usunięte { $date }.
   Do tego czasu możesz jeszcze anulować ten proces.
 profile-account-deleteAccount-cancelDelete = Anuluj usunięcie konta
@@ -342,8 +342,8 @@ profile-account-deleteAccount-pages-whenSec2Content =
 profile-account-deleteAccount-pages-downloadCommentHeader = Pobrać moje komentarze?
 profile-account-deleteAccount-pages-downloadCommentsDesc =
   Zanim Twoje konto zostanie usunięte, polecamy skorzystanie z opcji
-  pobrania historii Twoich komentarzy. Nie będzie to możliwe 
-  po usunięciu konta. 
+  pobrania historii Twoich komentarzy. Nie będzie to możliwe
+  po usunięciu konta.
 profile-account-deleteAccount-pages-downloadCommentsPath =
   Mój profil > Pobierz historię moich komentarzy
 
@@ -361,7 +361,7 @@ profile-account-deleteAccount-pages-confirmPasswordLabel =
 profile-account-deleteAccount-pages-completeHeader = Zażądano usunięcie konta
 profile-account-deleteAccount-pages-completeDescript =
   Twoje życzenie zostało wysłane i na adres email powiązany z Twoim kontem
-  wysłaliśmy link do potwierdzenia. 
+  wysłaliśmy link do potwierdzenia.
 profile-account-deleteAccount-pages-completeTimeHeader =
   Twoje konto zostanie usunięte: { $date }
 profile-account-deleteAccount-pages-completeChangeYourMindHeader = Zmiana decyzji?
@@ -457,12 +457,12 @@ configure-premodLink-description =
 
 configure-liveUpdates-title = Włącz Aktualizację Na Żywo dla tego artykułu
 configure-liveUpdates-description =
-  Kiedy włączysz tę opcję, komentarze będą aktualizowane 
+  Kiedy włączysz tę opcję, komentarze będą aktualizowane
   od razu po wysłaniu, bez czekania na przeładowanie strony.
-  Możesz wyłączyć tę opcję, w rzadko spotykanej sytuacji, gdy 
+  Możesz wyłączyć tę opcję, w rzadko spotykanej sytuacji, gdy
   artykuł ma tak dużo odwiedzin, że komentarze ładują się
-  zbyt wolno. 
-  
+  zbyt wolno.
+
 configure-messageBox-title = Włącz Boks Wiadomości dla tego artykułu
 configure-messageBox-description =
   Dodaj wiadomość na górze pola komentarzy dla Twoich użytkowników.
@@ -528,7 +528,7 @@ suspendInfo-heading = Twoje konto zostało chwilowo zawieszone i na razie nie mo
 suspendInfo-info =
   Zgodnie z regulaminem społeczności { $organization } Twoje
   konto zostało chwilowo zawieszone. Dopóki jest zawieszone nie
-  możesz komentować, reagować ani zgłaszać innych komentarzy. 
+  możesz komentować, reagować ani zgłaszać innych komentarzy.
   Wróc do nas { $until }
 
 profile-changeEmail-unverified = (Niepotwierdzone)
@@ -537,7 +537,7 @@ profile-changeEmail-please-verify = Potwierdź swój email
 profile-changeEmail-please-verify-details =
   Email do weryfikacji konta został wysłany na { $email }.
   Musisz potwierdzić swoje konto, zanim będzie można się
-  zalogować i otrzymywać powiadomienia. 
+  zalogować i otrzymywać powiadomienia.
 profile-changeEmail-resend = Ponowna weryfikacja
 profile-changeEmail-heading = Zmień email
 profile-changeEmail-desc = Zmień adres email używany do logowania i otrzymywania powiadomień.

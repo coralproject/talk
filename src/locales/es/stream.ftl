@@ -8,9 +8,6 @@ general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
 general-userBoxUnauthenticated-signIn = Iniciar sesión
 general-userBoxUnauthenticated-register = Registrarse
 
-general-userBoxAuthenticated-signedInAs =
-  Registrado como <Username></Username>.
-
 general-userBoxAuthenticated-signedIn =
   Sesión iniciada como
 
@@ -246,16 +243,16 @@ profile-preferences-mediaPreferences-update = Actualizar
 
 ### Account
 profile-account-ignoredCommenters-description =
-  Tu puedes ignorar otros comentaristas haciendo clic en su nombre de usuario 
-  y seleccionando Ignorar. Cuando tu ignoras a alguien, todos sus comentarios 
-  estarán ocultos para ti. Los comentaristas que tu ignores todavía serán 
+  Tu puedes ignorar otros comentaristas haciendo clic en su nombre de usuario
+  y seleccionando Ignorar. Cuando tu ignoras a alguien, todos sus comentarios
+  estarán ocultos para ti. Los comentaristas que tu ignores todavía serán
   capaces de ver tus comentarios.
 profile-account-ignoredCommenters-manage = Manejar
 
 
 profile-account-download-comments-title = Descargar mi historial de comentarios
 profile-account-download-comments-description =
-  Recibirá un correo electrónico con un enlace para descargar su historial de comentarios. 
+  Recibirá un correo electrónico con un enlace para descargar su historial de comentarios.
   <strong>Puede realizar una solicitud de descarga cada 14 días.</strong>
 profile-account-download-comments-request =
   Solicitar su historial de comentarios
@@ -372,8 +369,8 @@ configure-openStream-openStream = Abrir los comentarios
 
 comments-tombstone-ignore = Este comentario está oculto porque ignoraste a {$username}
 
-configure-enableQA-title = 
-configure-enableQA-switchToQA = 
+configure-enableQA-title =
+configure-enableQA-switchToQA =
   Cambiar a Q&A
 configure-enableQA-description =
   El formato de Q&A permite a los miembros de la comunidad enviar preguntas para que las respondan los expertos elegidos.
@@ -396,7 +393,7 @@ configure-experts-filter-searchButton =
   .aria-label = Buscar
 configure-experts-filter-description =
   Agregar una insignia de experto a los comentarios de los usuarios registrados, solamente en esta página. Los nuevos usuarios primero deben registrarse y abrir los comentarios en una página para crear su cuenta.
-  page. 
+  page.
 configure-experts-search-none-found = No se encuentra ningún usario con este email o nombre de usario
 configure-experts-
 configure-experts-remove-button = Eliminar
