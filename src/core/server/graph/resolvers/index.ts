@@ -4,6 +4,7 @@ import Time from "coral-server/graph/scalars/time";
 
 import { GQLResolver } from "coral-server/graph/schema/__generated__/types";
 
+import { AkismetExternalIntegration } from "./AkismetExternalIntegration";
 import { ApproveCommentPayload } from "./ApproveCommentPayload";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
@@ -71,6 +72,7 @@ import { WebhookEndpoint } from "./WebhookEndpoint";
 import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
 const Resolvers: GQLResolver = {
+  AkismetExternalIntegration,
   ApproveCommentPayload,
   StaffConfiguration,
   AuthIntegrations,
