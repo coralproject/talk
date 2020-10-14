@@ -13,7 +13,8 @@ export type LanguageCode =
   | "ro"
   | "fi-FI"
   | "sv"
-  | "pl";
+  | "pl"
+  | "ru";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -31,6 +32,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "fi-FI": "Suomi",
   sv: "Svenska",
   pl: "Polski",
+  ru: "Русский",
 };
 
 /**
