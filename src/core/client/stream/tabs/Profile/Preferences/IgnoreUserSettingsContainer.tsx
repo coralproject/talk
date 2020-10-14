@@ -57,12 +57,14 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
       <Localized id="profile-account-ignoredCommenters">
         <div className={styles.title}>Ignored Commenters</div>
       </Localized>
-      <div className={styles.description}>
-        You can ignore other commenters by clicking on their username and
-        selecting Ignore. When you ignore someone, all of their comments are
-        hidden from you. Commenters you Ignore will still be able to see your
-        comments.
-      </div>
+      <Localized id="profile-account-ignoredCommenters-description">
+        <div className={styles.description}>
+          You can ignore other commenters by clicking on their username and
+          selecting Ignore. When you ignore someone, all of their comments are
+          hidden from you. Commenters you Ignore will still be able to see your
+          comments.
+        </div>
+      </Localized>
       {showManage && (
         <Localized id="profile-account-ignoredCommenters-close">
           <Button

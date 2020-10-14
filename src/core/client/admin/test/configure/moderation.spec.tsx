@@ -166,6 +166,7 @@ it("change akismet settings", async () => {
       updateSettings: ({ variables }) => {
         expectAndFail(variables.settings.integrations!.akismet).toEqual({
           enabled: true,
+          ipBased: false,
           key: "my api key",
           site: "https://coralproject.net",
         });
@@ -183,7 +184,13 @@ it("change akismet settings", async () => {
     "akismet-config"
   );
 
-  const onField = within(akismetContainer).getByLabelText("On");
+  const spamDetectionFieldset = within(akismetContainer).getAllByText(
+    "Spam detection filter",
+    {
+      selector: "fieldset",
+    }
+  )[1];
+  const onField = within(spamDetectionFieldset).getByLabelText("On");
   const keyField = within(akismetContainer).getByLabelText("API key");
   const siteField = within(akismetContainer).getByLabelText("Site URL");
   const form = findParentWithType(akismetContainer, "form")!;

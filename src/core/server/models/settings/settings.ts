@@ -1,5 +1,4 @@
 import {
-  GQLAkismetExternalIntegration,
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
@@ -142,11 +141,33 @@ export interface ExternalModerationExternalIntegration {
   phases: ExternalModerationPhase[];
 }
 
+export interface AkismetExternalIntegration {
+  /**
+   * enabled when True will enable the integration.
+   */
+  enabled: boolean;
+
+  /**
+   * ipBased when true will enable IP-based spam detection.
+   */
+  ipBased?: boolean;
+
+  /**
+   * The key for the Akismet integration.
+   */
+  key?: string;
+
+  /**
+   * The site (blog) for the Akismet integration.
+   */
+  site?: string;
+}
+
 export interface ExternalIntegrations {
   /**
    * akismet provides integration with the Akismet Spam detection service.
    */
-  akismet: GQLAkismetExternalIntegration;
+  akismet: AkismetExternalIntegration;
 
   /**
    * perspective provides integration with the Perspective API comment analysis

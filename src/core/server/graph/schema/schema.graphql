@@ -969,6 +969,11 @@ type AkismetExternalIntegration {
   enabled: Boolean!
 
   """
+  ipBased when True will enable IP-based spam detection.
+  """
+  ipBased: Boolean!
+
+  """
   The key for the Akismet integration.
   """
   key: String
@@ -4383,6 +4388,11 @@ input SettingsAkismetExternalIntegrationInput {
   enabled when True will enable the integration.
   """
   enabled: Boolean
+
+  """
+  ipBased when True will enable IP-based spam detection.
+  """
+  ipBased: Boolean
 
   """
   The key for the Akismet integration.
