@@ -72,6 +72,7 @@ import {
   setUserLastDownloadedAt,
   setUserLocalProfile,
   setUserUsername,
+  siteBanUser,
   suspendUser,
   updateUserAvatar,
   updateUserBio,
@@ -1067,34 +1068,43 @@ export async function ban(
     throw new UserNotFoundError(userID);
   }
 
-  // Check to see if the User is currently banned.
-  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
-  if (banStatus.active) {
-    throw new UserAlreadyBannedError();
+  let user: Readonly<User> | null = null;
+
+  // Perform a site ban
+  if (siteIDs && siteIDs.length > 0) {
+    user = await siteBanUser(
+      mongo,
+      tenant.id,
+      userID,
+      banner.id,
+      message,
+      siteIDs,
+      now
+    );
   }
+  // Otherwise, perform a regular ban
+  else {
+    // Check to see if the User is currently banned.
+    const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+    if (banStatus.active) {
+      throw new UserAlreadyBannedError();
+    }
 
-  // Ban the user.
-  const user = await banUser(
-    mongo,
-    tenant.id,
-    userID,
-    banner.id,
-    message,
-    siteIDs,
-    now
-  );
+    // Ban the user.
+    user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-  if (rejectExistingComments) {
-    await rejector.add({
-      tenantID: tenant.id,
-      authorID: userID,
-      moderatorID: banner.id,
-    });
+    if (rejectExistingComments) {
+      await rejector.add({
+        tenantID: tenant.id,
+        authorID: userID,
+        moderatorID: banner.id,
+      });
+    }
   }
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
-  if (user.email) {
+  if (user?.email) {
     // Send the ban user email.
     await mailer.add({
       tenantID: tenant.id,
@@ -1380,13 +1390,26 @@ export async function removeBan(
 
   // Check to see if the User is currently banned.
   const banStatus = consolidateUserBanStatus(targetUser.status.ban);
-  if (!banStatus.active) {
-    // The user is not ban currently, just return the user because we don't
-    // have to do anything.
-    return targetUser;
+
+  // Remove a regular ban
+  if (banStatus.active) {
+    return removeUserBan(mongo, tenant.id, userID, user.id, now);
+  }
+  // Remove a site ban
+  else if (banStatus.siteIDs && banStatus.siteIDs.length > 0) {
+    return removeUserBan(
+      mongo,
+      tenant.id,
+      userID,
+      user.id,
+      now,
+      banStatus.siteIDs
+    );
   }
 
-  return removeUserBan(mongo, tenant.id, userID, user.id, now);
+  // The user is not ban currently, just return the user because we don't
+  // have to do anything.
+  return targetUser;
 }
 
 export async function ignore(

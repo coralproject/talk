@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { uniq } from "lodash";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
@@ -218,6 +219,11 @@ export interface BanStatusHistory {
   createdAt: Date;
 
   message?: string;
+
+  /**
+   * will be populated if the ban was site-specific.
+   */
+  siteIDs?: string[];
 }
 
 /**
@@ -1714,6 +1720,61 @@ export async function removeUserPremod(
   return result.value;
 }
 
+export async function siteBanUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  siteIDs?: string[],
+  now = new Date()
+) {
+  const banHistory: BanStatusHistory = {
+    id: uuid(),
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+    siteIDs,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $push: {
+        "status.ban.history": banHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already banned.
+    const ban = consolidateUserBanStatus(user.status.ban);
+    if (ban.active) {
+      throw new UserAlreadyBannedError();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
 /**
  * banUser will ban a specific user from interacting with the site.
  *
@@ -1730,7 +1791,6 @@ export async function banUser(
   id: string,
   createdBy: string,
   message?: string,
-  siteIDs?: string[] | null,
   now = new Date()
 ) {
   // Create the new ban.
@@ -1754,7 +1814,6 @@ export async function banUser(
     {
       $set: {
         "status.ban.active": true,
-        "status.ban.siteIDs": siteIDs ? siteIDs : [],
       },
       $push: {
         "status.ban.history": banHistory,
@@ -1800,7 +1859,8 @@ export async function removeUserBan(
   tenantID: string,
   id: string,
   createdBy: string,
-  now = new Date()
+  now = new Date(),
+  siteIDs?: string[]
 ) {
   // Create the new ban.
   const ban: BanStatusHistory = {
@@ -1808,6 +1868,7 @@ export async function removeUserBan(
     active: false,
     createdBy,
     createdAt: now,
+    siteIDs,
   };
 
   // Try to update the user if the user isn't already banned.
@@ -2203,7 +2264,7 @@ export async function acknowledgeOwnWarning(
   return result.value;
 }
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
-  Pick<BanStatus, "history">;
+  Pick<BanStatus, "history"> & { siteIDs?: string[] };
 
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
@@ -2220,10 +2281,73 @@ export function consolidateUsernameStatus(
   return username;
 }
 
-export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
+const computeBanActive = (ban: BanStatus, siteID?: string) => {
+  if (ban.active && (!ban.siteIDs || ban.siteIDs.length === 0)) {
+    return true;
+  }
+
+  if (!siteID) {
+    return false;
+  }
+
+  return !!ban.siteIDs?.includes(siteID);
+};
+
+export function computeBanSiteIDs(ban: BanStatus, now: Date = new Date()) {
+  if (!ban.history || ban.history.length === 0) {
+    return [];
+  }
+
+  const bannedSiteIDs = new Array<string>();
+  ban.history.forEach((history: BanStatusHistory) => {
+    if (
+      !history.active ||
+      !history.siteIDs ||
+      history.siteIDs.length === 0 ||
+      history.createdAt > now
+    ) {
+      return;
+    }
+
+    const includesAll = (superSet: any[], subSet: any[]) => {
+      for (const value of subSet) {
+        if (!superSet.includes(value)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const banRemoval = ban.history.find(
+      (h) =>
+        h.active === false &&
+        h.createdAt > history.createdAt &&
+        // Check if it was a full on ban removal
+        (!h.siteIDs ||
+          h.siteIDs.length === 0 ||
+          // Check if it was a removal of specifically this site ban
+          (h.siteIDs &&
+            includesAll(h.siteIDs, history.siteIDs ? history.siteIDs : [])))
+    );
+
+    if (!banRemoval) {
+      bannedSiteIDs.push(...history.siteIDs);
+    }
+  });
+
+  return uniq(bannedSiteIDs);
+}
+
+export function consolidateUserBanStatus(
+  ban: User["status"]["ban"],
+  now: Date = new Date(),
+  siteID?: string
+) {
   return {
     ...ban,
-    sites: [],
+    active: computeBanActive(ban, siteID),
+    siteIDs: computeBanSiteIDs(ban, now),
   };
 }
 
@@ -2288,12 +2412,15 @@ export interface ConsolidatedUserStatus {
 
 export function consolidateUserStatus(
   status: User["status"],
-  now = new Date()
+  now = new Date(),
+  siteID?: string
 ): ConsolidatedUserStatus {
+  const banStatus = consolidateUserBanStatus(status.ban, now, siteID);
+
   // Return the status.
   return {
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
-    ban: consolidateUserBanStatus(status.ban),
+    ban: { ...banStatus, sites: [] },
     premod: consolidateUserPremodStatus(status.premod),
     warning: consolidateUserWarningStatus(status.warning),
   };

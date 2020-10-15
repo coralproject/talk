@@ -5,7 +5,6 @@ import {
   GQLUSER_STATUS,
   GQLUserStatusTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
-import { BanStatus } from "coral-server/models/user";
 
 import GraphContext from "../context";
 import { BanStatusInput } from "./BanStatus";
@@ -18,28 +17,15 @@ export type UserStatusInput = user.UserStatus & {
   userID: string;
 };
 
-const banActive = (ban: BanStatus, ctx: GraphContext) => {
-  if (ban.active && (!ban.siteIDs || ban.siteIDs.length === 0)) {
-    return true;
-  }
-
-  const siteID = ctx?.site?.id;
-  if (!siteID) {
-    return false;
-  }
-
-  return !!ban.siteIDs?.includes(siteID);
-};
-
-const banStatusSites = async (
-  ban: BanStatus,
-  ctx: GraphContext
+const loadSites = async (
+  ctx: GraphContext,
+  siteIDs?: string[]
 ): Promise<GQLSite[]> => {
-  if (!ban.siteIDs) {
+  if (!siteIDs) {
     return [];
   }
 
-  const sites = await ctx.loaders.Sites.site.loadMany(ban.siteIDs);
+  const sites = await ctx.loaders.Sites.site.loadMany(siteIDs);
 
   const returnedSites = new Array<GQLSite>();
   sites.forEach((s) => {
@@ -95,12 +81,14 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
     ...user.consolidateUsernameStatus(username),
     userID,
   }),
-  ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => ({
-    ...user.consolidateUserBanStatus(ban),
-    active: banActive(ban, ctx),
-    sites: await banStatusSites(ban, ctx),
-    userID,
-  }),
+  ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => {
+    const banStatus = user.consolidateUserBanStatus(ban, ctx.now, ctx.site?.id);
+    return {
+      ...banStatus,
+      sites: await loadSites(ctx, banStatus.siteIDs),
+      userID,
+    };
+  },
   suspension: ({ suspension, userID }): SuspensionStatusInput => ({
     ...user.consolidateUserSuspensionStatus(suspension),
     userID,

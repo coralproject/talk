@@ -2036,6 +2036,11 @@ type BanStatusHistory {
   message is sent to banned user via email.
   """
   message: String!
+
+  """
+  siteIDs are set when the ban was created to perform a site specific ban.
+  """
+  siteIDs: [String!]
 }
 
 """
