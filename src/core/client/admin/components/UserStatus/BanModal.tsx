@@ -4,6 +4,7 @@ import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
   CheckBox,
@@ -15,11 +16,10 @@ import {
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-
-import styles from "./BanModal.css";
+import { Scopes } from "./UserStatusSitesListContainer";
 import UserStatusSitesListQuery from "./UserStatusSitesListQuery";
 
-import { Scopes } from "./UserStatusSitesListContainer";
+import styles from "./BanModal.css";
 
 interface Props {
   username: string | null;
@@ -62,11 +62,23 @@ const BanModal: FunctionComponent<Props> = ({
       onConfirm(
         input.rejectExistingComments,
         input.emailMessage,
-        input.siteIDs
+        input.sites?.map((s: any) => s.id)
       );
     },
     [onConfirm]
   );
+
+  const initialSiteIDs = useMemo(() => {
+    if (
+      viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
+      viewerScopes.sites &&
+      viewerScopes.sites?.length > 0
+    ) {
+      return viewerScopes.sites ? viewerScopes.sites : [];
+    }
+
+    return userScopes.sites ? userScopes.sites : [];
+  }, [userScopes.sites, viewerScopes.role, viewerScopes.sites]);
 
   return (
     <ChangeStatusModal
@@ -105,7 +117,7 @@ const BanModal: FunctionComponent<Props> = ({
               showMessage: false,
               rejectExistingComments: false,
               emailMessage: getDefaultMessage,
-              siteIDs: userScopes.siteIDs ? userScopes.siteIDs : [],
+              siteIDs: initialSiteIDs,
             }}
           >
             {({ handleSubmit }) => (

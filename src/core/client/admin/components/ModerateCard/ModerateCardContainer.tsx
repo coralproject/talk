@@ -130,7 +130,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [approveComment, comment, match, readOnly]);
+  }, [approveComment, comment.id, comment.revision, loadNext, match, readOnly]);
 
   const handleReject = useCallback(async () => {
     if (!comment.revision) {
@@ -153,7 +153,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [rejectComment, comment, match, readOnly]);
+  }, [comment.revision, comment.id, readOnly, match, rejectComment, loadNext]);
 
   const handleFeature = useCallback(() => {
     if (!comment.revision) {
@@ -230,7 +230,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (setSelected) {
       setSelected();
     }
-  }, [selected, comment]);
+  }, [setSelected]);
 
   const handleBanModalClose = useCallback(() => {
     setShowBanModal(false);
@@ -347,12 +347,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
         onConfirm={handleBanConfirm}
         viewerScopes={{
           role: viewer.role,
-          siteIDs: viewer.moderationScopes?.sites?.map((s) => s.id),
+          sites: viewer.moderationScopes?.sites?.map((s) => s),
         }}
         userScopes={{
           role: comment.author ? comment.author.role : GQLUSER_ROLE.COMMENTER,
-          siteIDs: comment.author
-            ? comment.author.status.ban.sites?.map((s) => s.id)
+          sites: comment.author
+            ? comment.author.status.ban.sites?.map((s) => s)
             : [],
         }}
       />
@@ -372,6 +372,7 @@ const enhanced = withFragmentContainer<Props>({
           ban {
             sites {
               id
+              name
             }
           }
         }
@@ -448,6 +449,7 @@ const enhanced = withFragmentContainer<Props>({
         scoped
         sites {
           id
+          name
         }
       }
     }

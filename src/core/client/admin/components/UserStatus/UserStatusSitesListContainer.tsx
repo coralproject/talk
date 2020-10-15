@@ -1,5 +1,11 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import { useField } from "react-final-form";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -9,6 +15,7 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   CheckBox,
   FieldSet,
@@ -23,11 +30,17 @@ import {
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 import { UserStatusSitesListContainer_query } from "coral-admin/__generated__/UserStatusSitesListContainer_query.graphql";
 import { UserStatusSitesListContainerPaginationQueryVariables } from "coral-admin/__generated__/UserStatusSitesListContainerPaginationQuery.graphql";
-import { useField } from "react-final-form";
+
+import styles from "./UserStatusSitesListContainer.css";
+
+interface ScopeSite {
+  readonly id: string;
+  readonly name: string;
+}
 
 export interface Scopes {
   role: USER_ROLE;
-  siteIDs: string[] | undefined;
+  sites?: ScopeSite[] | null;
 }
 
 interface Props {
@@ -45,26 +58,36 @@ interface Props {
 
 const siteIsVisible = (
   id: string,
-  viewerSites: string[] | null | undefined
+  viewerSites: ScopeSite[] | null | undefined
 ) => {
   if (!viewerSites || viewerSites.length === 0) {
     return true;
   }
 
-  return viewerSites.includes(id);
+  return viewerSites.map((s) => s.id).includes(id);
 };
 
 const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   query,
   relay,
   viewerScopes,
-  userScopes,
 }) => {
-  const { input } = useField<string[]>("siteIDs");
-  const sites = useMemo(
-    () => query?.sites.edges.map((edge) => edge.node) || [],
-    [query?.sites.edges]
-  );
+  const viewerIsScoped = useMemo(() => {
+    return viewerScopes.sites && viewerScopes.sites.length > 0;
+  }, [viewerScopes]);
+  const [showSites, setShowSites] = useState<boolean>(!!viewerIsScoped);
+
+  const { input: siteIDsInput } = useField<string[]>("siteIDs");
+  const sites = useMemo(() => {
+    if (
+      viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
+      viewerScopes.sites &&
+      viewerScopes.sites.length > 0
+    ) {
+      return viewerScopes.sites || [];
+    }
+    return query?.sites.edges.map((edge) => edge.node) || [];
+  }, [query?.sites.edges, viewerScopes.role, viewerScopes.sites]);
   const [loadMore, isLoadingMore] = useLoadMore(relay, 1);
   const [, isRefetching] = useRefetch<
     UserStatusSitesListContainerPaginationQueryVariables
@@ -72,65 +95,83 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   const loading = !query || isRefetching;
   const hasMore = !isRefetching && relay.hasMore();
 
-  const onChange = useCallback(
+  const toggleShowSites = useCallback(() => {
+    setShowSites(!showSites);
+  }, [showSites, setShowSites]);
+  const onChangeSite = useCallback(
     (siteID: string, selectedIndex: number) => () => {
-      const changed = [...input.value];
+      const changed = [...siteIDsInput.value];
       if (selectedIndex >= 0) {
         changed.splice(selectedIndex, 1);
       } else {
         changed.push(siteID);
       }
 
-      input.onChange(changed);
+      siteIDsInput.onChange(changed);
     },
-    [input]
+    [siteIDsInput]
   );
 
   return (
     <IntersectionProvider>
       <FieldSet>
-        <FormField>
-          <Localized id="community-banModal-selectSites">
-            <Label>Select sites to moderate</Label>
-          </Localized>
-          <ListGroup>
-            {sites.map((site) => {
-              const selectedIndex = input.value.indexOf(site.id);
-              const enabled = siteIsVisible(site.id, viewerScopes.siteIDs);
-              const isChecked = selectedIndex >= 0;
+        <div className={styles.header}>
+          {viewerIsScoped ? (
+            <Localized id="community-banModal-selectSites">
+              <Label>Select sites to ban</Label>
+            </Localized>
+          ) : (
+            <FormField>
+              <CheckBox checked={showSites} onChange={toggleShowSites}>
+                <Localized id="community-banModal-selectSites">
+                  Select sites to ban
+                </Localized>
+              </CheckBox>
+            </FormField>
+          )}
+        </div>
 
-              return (
-                <ListGroupRow key={site.id}>
-                  <CheckBox
-                    disabled={!enabled}
-                    checked={isChecked}
-                    onChange={onChange(site.id, selectedIndex)}
-                  >
-                    {site.name}
-                  </CheckBox>
-                </ListGroupRow>
-              );
-            })}
-            {!loading && sites.length === 0 && (
-              <Localized id="community-banModal-noSites">
-                <span>No sites</span>
-              </Localized>
-            )}
-            {loading && (
-              <Flex justifyContent="center">
-                <Spinner />
-              </Flex>
-            )}
-            {hasMore && (
-              <Flex justifyContent="center">
-                <AutoLoadMore
-                  disableLoadMore={isLoadingMore}
-                  onLoadMore={loadMore}
-                />
-              </Flex>
-            )}
-          </ListGroup>
-        </FormField>
+        {(viewerIsScoped || showSites) && (
+          <FormField>
+            <ListGroup>
+              {sites.map((site) => {
+                const selectedIndex = siteIDsInput.value.indexOf(site.id);
+                const enabled = siteIsVisible(site.id, viewerScopes.sites);
+                const isChecked = selectedIndex >= 0;
+
+                return (
+                  <ListGroupRow key={site.id}>
+                    <CheckBox
+                      disabled={!enabled}
+                      checked={isChecked}
+                      onChange={onChangeSite(site.id, selectedIndex)}
+                    >
+                      {site.name}
+                    </CheckBox>
+                  </ListGroupRow>
+                );
+              })}
+              {!loading && sites.length === 0 && (
+                <Localized id="community-banModal-noSites">
+                  <span>No sites</span>
+                </Localized>
+              )}
+              {loading && (
+                <Flex justifyContent="center">
+                  <Spinner />
+                </Flex>
+              )}
+              {hasMore && (
+                <Flex justifyContent="center">
+                  <AutoLoadMore
+                    disableLoadMore={isLoadingMore}
+                    onLoadMore={loadMore}
+                  />
+                </Flex>
+              )}
+            </ListGroup>
+          </FormField>
+        )}
       </FieldSet>
     </IntersectionProvider>
   );

@@ -178,13 +178,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     return <UserStatusContainer user={user} />;
   }
 
-  const scoped = !!viewer.moderationScopes?.scoped;
-
   return (
     <>
       <UserStatusChange
-        onBan={!scoped && handleBan}
-        onRemoveBan={!scoped && handleRemoveBan}
+        onBan={handleBan}
+        onRemoveBan={handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
@@ -222,7 +220,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onConfirm={handleWarnConfirm}
         success={showWarnSuccess}
       />
-      {!scoped && (
+      {
         <BanModal
           username={user.username}
           open={showBanned}
@@ -231,14 +229,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
             role: viewer.role,
-            siteIDs: viewer.moderationScopes?.sites?.map((s) => s.id),
+            sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
           userScopes={{
             role: user.role,
-            siteIDs: user.status.ban.sites?.map((s) => s.id),
+            sites: user.status.ban.sites?.map((s) => s),
           }}
         />
-      )}
+      }
     </>
   );
 };
@@ -254,6 +252,7 @@ const enhanced = withFragmentContainer<Props>({
           active
           sites {
             id
+            name
           }
         }
         suspension {
@@ -285,6 +284,7 @@ const enhanced = withFragmentContainer<Props>({
         scoped
         sites {
           id
+          name
         }
       }
     }
