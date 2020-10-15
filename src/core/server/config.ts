@@ -323,12 +323,25 @@ const config = convict({
     default: "",
     env: "ANALYTICS_DATA_PLANE_URL",
   },
-  jsonp_max_age: {
+  jsonp_cache_max_age: {
     doc:
       "The max age for jsonp endpoints designed to be used as embeddable scripts.",
     format: "ms",
     default: ms("2m"),
-    env: "JSONP_MAX_AGE",
+    env: "JSONP_CACHE_MAX_AGE",
+  },
+  jsonp_cache_immutable: {
+    doc:
+      "When enabled, jsonp endpoints designed to be used as embeddable scripts will have an immutable directive added to the cache control headers.",
+    format: Boolean,
+    default: false,
+    env: "JSONP_CACHE_IMMUTABLE",
+  },
+  jsonp_response_cache: {
+    doc: "When enabled, will enable caching JSONP responses in Redis.",
+    format: Boolean,
+    default: false,
+    env: "JSONP_RESPONSE_CACHE",
   },
   default_graphql_cache_max_age: {
     doc:

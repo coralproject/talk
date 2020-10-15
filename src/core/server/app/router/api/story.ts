@@ -5,12 +5,17 @@ import cacheMiddleware from "coral-server/app/middleware/cache";
 import { createAPIRouter } from "./helpers";
 
 export function createStoryRouter(app: AppOptions) {
-  const ttl = app.config.get("jsonp_max_age");
+  const cacheDuration = app.config.get("jsonp_cache_max_age");
+  const immutable = app.config.get("jsonp_cache_immutable");
 
-  const router = createAPIRouter({ cacheDuration: ttl, immutable: true });
+  const router = createAPIRouter({ cacheDuration, immutable });
 
-  router.get("/count.js", cacheMiddleware(app.redis, ttl), countHandler(app));
-  router.get("/active.js", cacheMiddleware(app.redis, ttl), activeHandler(app));
+  if (app.config.get("jsonp_response_cache")) {
+    router.use(cacheMiddleware(app.redis, cacheDuration));
+  }
+
+  router.get("/count.js", countHandler(app));
+  router.get("/active.js", activeHandler(app));
 
   return router;
 }
