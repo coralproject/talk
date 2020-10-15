@@ -111,7 +111,11 @@ export async function createApp(options: AppOptions): Promise<Express> {
   parent.use("/assets/media", cors());
 
   // Static Files
-  parent.use("/assets", cacheHeadersMiddleware("1w"), serveStatic);
+  parent.use(
+    "/assets",
+    cacheHeadersMiddleware({ cacheDuration: "1w" }),
+    serveStatic
+  );
 
   // Error Handling
   parent.use(notFoundMiddleware);

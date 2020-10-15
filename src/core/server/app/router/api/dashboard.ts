@@ -11,7 +11,7 @@ import { userLimiterMiddleware } from "coral-server/app/middleware/userLimiter";
 import { createAPIRouter } from "./helpers";
 
 export function createDashboardRouter(app: AppOptions) {
-  const router = createAPIRouter({ cache: "30s" });
+  const router = createAPIRouter({ cacheDuration: "30s" });
 
   router.use(userLimiterMiddleware(app));
 
