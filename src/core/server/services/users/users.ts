@@ -16,7 +16,6 @@ import {
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
-  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -35,7 +34,7 @@ import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
 import {
-  hasFeatureFlag,
+  assertHasFeatureFlag,
   linkUsersAvailable,
   Tenant,
 } from "coral-server/models/tenant";
@@ -794,11 +793,8 @@ export async function updateModerationScopes(
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
+  // Ensure Tenant has site moderators enabled.
+  assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
 
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");

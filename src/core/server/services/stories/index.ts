@@ -34,6 +34,7 @@ import {
   removeStories,
   removeStory,
   removeStoryExpert,
+  resolveStoryMode,
   retrieveManyStories,
   retrieveStory,
   retrieveStorySections,
@@ -45,7 +46,11 @@ import {
   updateStorySettings,
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import {
+  assertHasFeatureFlag,
+  hasFeatureFlag,
+  Tenant,
+} from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
@@ -262,6 +267,14 @@ export async function update(
   return updateStory(mongo, tenant.id, storyID, input, now);
 }
 
+function validateStoryMode(tenant: Tenant, mode: GQLSTORY_MODE) {
+  if (mode === GQLSTORY_MODE.QA) {
+    assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
+  } else if (mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+  }
+}
+
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
 export async function updateSettings(
@@ -273,22 +286,7 @@ export async function updateSettings(
 ) {
   // Validate the input mode.
   if (input.mode) {
-    if (
-      input.mode === GQLSTORY_MODE.QA &&
-      !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA)
-    ) {
-      throw new Error(
-        "can not update story mode to QA because tenant does not have feature flag enabled"
-      );
-    }
-    if (
-      input.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS &&
-      !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
-    ) {
-      throw new Error(
-        "can not update story mode to RATINGS_AND_REVIEWS because tenant does not have feature flag enabled"
-      );
-    }
+    validateStoryMode(tenant, input.mode);
   }
 
   return updateStorySettings(mongo, tenant.id, storyID, input, now);
@@ -341,6 +339,17 @@ export async function merge(
   // We can only merge stories if they are all on the same site.
   if (uniq(stories.map(({ siteID }) => siteID)).length > 1) {
     throw new Error("cannot merge stories on different sites");
+  }
+
+  // We can only merge stories with the comments mode so if any of them are not
+  // comments, then error.
+  if (
+    stories.some(
+      ({ settings }) =>
+        resolveStoryMode(settings, tenant) !== GQLSTORY_MODE.COMMENTS
+    )
+  ) {
+    throw new Error("cannot merge stories not in comments mode");
   }
 
   // Move all the comment's from the source stories over to the destination
@@ -441,6 +450,9 @@ export async function updateStoryMode(
   storyID: string,
   mode: GQLSTORY_MODE
 ) {
+  // Validate the mode.
+  validateStoryMode(tenant, mode);
+
   return setStoryMode(mongo, tenant.id, storyID, mode);
 }
 

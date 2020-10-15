@@ -18,6 +18,7 @@ import {
   Story,
   StoryConnectionInput,
 } from "coral-server/models/story";
+import { countStoryViewers } from "coral-server/models/story/viewers";
 import {
   find,
   findOrCreate,
@@ -238,13 +239,24 @@ export default (ctx: GraphContext) => ({
     );
   },
   viewerRating: (storyID: string) =>
-    retrieveAuthorStoryRating(
-      ctx.mongo,
-      ctx.tenant.id,
-      storyID,
-      // This loader is only ever called when there is a user available.
-      ctx.user!.id
-    ).then((comment) => (comment ? comment.rating : null)),
+    ctx.user
+      ? retrieveAuthorStoryRating(
+          ctx.mongo,
+          ctx.tenant.id,
+          storyID,
+          ctx.user.id
+        )
+      : null,
+  viewerCount: (siteID: string, storyID: string) =>
+    countStoryViewers(
+      ctx.redis,
+      {
+        tenantID: ctx.tenant.id,
+        siteID,
+        storyID,
+      },
+      ctx.config.get("story_viewer_timeout")
+    ),
   ratings: new DataLoader((storyIDs: string[]) =>
     retrieveManyStoryRatings(ctx.mongo, ctx.tenant.id, storyIDs)
   ),

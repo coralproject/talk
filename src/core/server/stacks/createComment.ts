@@ -36,7 +36,7 @@ import {
   Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { assertHasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import {
@@ -138,9 +138,12 @@ const validateRating = async (
   story: Story,
   rating: number
 ) => {
-  // Check to see if this Tenant has ratings enabled.
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)) {
-    throw new Error("tenant does not have feature flag enabled");
+  // Ensure Tenant has ratings enabled.
+  assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+
+  // Check to see if this Story has ratings enabled.
+  if (story.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    throw new Error("story does not have ratings enabled");
   }
 
   // Check that the rating is within range.

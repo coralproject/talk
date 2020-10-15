@@ -2,7 +2,6 @@ import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
-import { countStoryViewers } from "coral-server/models/story/viewers";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   canModerate,
@@ -60,10 +59,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
   viewerRating: (s, input, ctx) => {
-    if (!ctx.user) {
-      return null;
-    }
-
     if (
       !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
     ) {
@@ -101,14 +96,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     }
 
     // Return the computed count!
-    return countStoryViewers(
-      ctx.redis,
-      {
-        tenantID: ctx.tenant.id,
-        siteID: s.siteID,
-        storyID: s.id,
-      },
-      ctx.config.get("story_viewer_timeout")
-    );
+    return ctx.loaders.Stories.viewerCount(s.siteID, s.id);
   },
 };
