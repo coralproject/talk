@@ -85,7 +85,7 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
     const banStatus = user.consolidateUserBanStatus(ban, ctx.now, ctx.site?.id);
     return {
       ...banStatus,
-      sites: await loadSites(ctx, banStatus.siteIDs),
+      sites: await ctx.loaders.Sites.site.loadMany(banStatus.siteIDs),
       userID,
     };
   },
