@@ -2055,7 +2055,7 @@ type BanStatus {
   """
   sites is a list of sites that the user has been site banned on.
   """
-  sites: [Site!]!
+  sites: [Site!]
 
   """
   history is the list of all ban events against a specific User.
