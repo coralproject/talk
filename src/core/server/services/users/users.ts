@@ -1,4 +1,4 @@
-import _, { intersection } from "lodash";
+import { intersection, isEqual, sortBy } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -672,21 +672,6 @@ export async function updateRole(
     throw new Error("only admins can update users to administrators");
   }
 
-  // you can only update users if you're currently an admin or moderator
-  if (![GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(viewer.role)) {
-    throw new Error("you have insufficient permissions to set roles");
-  }
-
-  // scoped moderators (site mods) should not be using updateRole
-  // they should be using promoteUserRole
-  if (
-    viewer.role === GQLUSER_ROLE.MODERATOR &&
-    viewer.moderationScopes &&
-    viewer.moderationScopes.siteIDs?.length !== 0
-  ) {
-    throw new Error("you have insufficient permissions to set roles");
-  }
-
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
@@ -748,9 +733,9 @@ export async function promoteUserRole(
     viewer.moderationScopes
   );
   if (
-    !_.isEqual(
-      _.sortBy(viewer.moderationScopes?.siteIDs),
-      _.sortBy(scopesResult.moderationScopes?.siteIDs)
+    !isEqual(
+      sortBy(viewer.moderationScopes?.siteIDs),
+      sortBy(scopesResult.moderationScopes?.siteIDs)
     )
   ) {
     throw new Error("failed to promote moderation scopes");
@@ -770,21 +755,6 @@ export async function updateModerationScopes(
     throw new InternalError("feature flag not enabled", {
       flag: GQLFEATURE_FLAG.SITE_MODERATOR,
     });
-  }
-
-  // you can only change scopes if you're currently an admin or moderator
-  if (![GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(viewer.role)) {
-    throw new Error("you have insufficient permissions to promote users");
-  }
-
-  // scoped moderators (site mods) should not be using updateModerationScopes
-  // they should be using promoteUserRole
-  if (
-    viewer.role === GQLUSER_ROLE.MODERATOR &&
-    viewer.moderationScopes &&
-    viewer.moderationScopes.siteIDs?.length !== 0
-  ) {
-    throw new Error("you have insufficient permissions to set roles");
   }
 
   if (viewer.id === userID) {
