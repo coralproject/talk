@@ -99,13 +99,13 @@ export async function searchGiphy(
   offset: string,
   tenant: Tenant
 ): Promise<GiphyGifSearchResponse> {
-  if (!supportsMediaType(tenant, "giphy")) {
+  if (!supportsMediaType(tenant, "giphy") || !tenant.media.giphy.key) {
     throw new InternalError("Giphy was not enabled");
   }
 
   const language = convertLanguage(tenant.locale);
   const url = new URL(GIPHY_SEARCH);
-  url.searchParams.set("api_key", tenant.media.giphy.key!);
+  url.searchParams.set("api_key", tenant.media.giphy.key);
   url.searchParams.set("limit", "10");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
@@ -126,10 +126,7 @@ export async function searchGiphy(
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
-      err.message = err.message.replace(
-        url.searchParams.toString(),
-        "[Sensitive]"
-      );
+      err.message = err.message.replace(tenant.media.giphy.key, "[Sensitive]");
     }
 
     // Rethrow the error.
@@ -162,10 +159,7 @@ export async function retrieveFromGiphy(
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
-      err.message = err.message.replace(
-        url.searchParams.toString(),
-        "[Sensitive]"
-      );
+      err.message = err.message.replace(tenant.media.giphy.key, "[Sensitive]");
     }
 
     // Rethrow the error.
