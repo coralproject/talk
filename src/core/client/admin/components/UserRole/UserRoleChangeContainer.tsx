@@ -39,13 +39,19 @@ function canChangeRole(viewer: RoleDescription, user: RoleDescription) {
   }
 
   // staff and commenters can't do anything
-  if ([GQLUSER_ROLE.STAFF, GQLUSER_ROLE.COMMENTER].includes(viewer.role)) {
+  if (
+    GQLUSER_ROLE.STAFF === viewer.role ||
+    GQLUSER_ROLE.COMMENTER === viewer.role
+  ) {
     return false;
   }
 
   // organization moderators can update staff, commenters, and site mods
   if (viewer.role === GQLUSER_ROLE.MODERATOR && !viewer.scoped) {
-    if ([GQLUSER_ROLE.COMMENTER, GQLUSER_ROLE.STAFF].includes(user.role)) {
+    if (
+      GQLUSER_ROLE.COMMENTER === user.role ||
+      GQLUSER_ROLE.STAFF === user.role
+    ) {
       return true;
     }
     if (user.role === GQLUSER_ROLE.MODERATOR && user.scoped) {
@@ -57,7 +63,10 @@ function canChangeRole(viewer: RoleDescription, user: RoleDescription) {
 
   // site moderators can update staff and commenters
   if (viewer.role === GQLUSER_ROLE.MODERATOR && viewer.scoped) {
-    if ([GQLUSER_ROLE.COMMENTER, GQLUSER_ROLE.STAFF].includes(user.role)) {
+    if (
+      GQLUSER_ROLE.COMMENTER === user.role ||
+      GQLUSER_ROLE.STAFF === user.role
+    ) {
       return true;
     }
 
@@ -83,12 +92,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     return canChangeRole(
       {
         id: viewer.id,
-        role: convertRole(viewer.role),
+        role: viewer.role,
         scoped: !!viewer.moderationScopes && viewer.moderationScopes.scoped,
       },
       {
         id: user.id,
-        role: convertRole(user.role),
+        role: user.role,
         scoped: !!user.moderationScopes && user.moderationScopes.scoped,
       }
     );
@@ -139,8 +148,8 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       username={user.username}
       onChange={onChange}
       onPromote={onPromote}
-      viewerRole={convertRole(viewer.role)}
-      role={convertRole(user.role)}
+      viewerRole={viewer.role}
+      role={user.role}
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
       moderationScopesEnabled={moderationScopesEnabled}
@@ -156,21 +165,6 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     />
   );
 };
-
-function convertRole(role: GQLUSER_ROLE_RL): GQLUSER_ROLE {
-  switch (role) {
-    case GQLUSER_ROLE.ADMIN:
-      return GQLUSER_ROLE.ADMIN;
-    case GQLUSER_ROLE.MODERATOR:
-      return GQLUSER_ROLE.MODERATOR;
-    case GQLUSER_ROLE.STAFF:
-      return GQLUSER_ROLE.STAFF;
-    case GQLUSER_ROLE.COMMENTER:
-      return GQLUSER_ROLE.COMMENTER;
-    default:
-      return GQLUSER_ROLE.COMMENTER;
-  }
-}
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
