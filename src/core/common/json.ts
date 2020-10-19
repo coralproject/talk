@@ -1,4 +1,17 @@
+/**
+ * ISO 8601 defines a date format matching the following:
+ *
+ * 2020-10-19T18:53:23.478Z
+ *
+ * Which will always be in UTC.
+ */
 const ISO_8601 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
+
+/**
+ * isISOString will return true if the string matches a ISO 8601 date.
+ *
+ * @param value value to test if it matches the ISO 8601 format
+ */
 function isISOString(value: string) {
   return ISO_8601.test(value);
 }
@@ -7,7 +20,8 @@ const KEY = "$date";
 
 function replacer(key: string, value: any) {
   // The JSON stringifier will perform it's work prior to using this replacer
-  // function.
+  // function. We only apply this to objects that don't already match the
+  // desired `KEY` and that match a ISO 8601 format.
   if (typeof value === "string" && key !== KEY && isISOString(value)) {
     return { [KEY]: value };
   }
@@ -40,7 +54,12 @@ function reviver(key: string, value: any) {
   // The next time we encounter the date object, it will be parsed as a date,
   // but still nested within the `{ [KEY]: DATE }` object. We then should
   // transform it back to the `DATE` value.
-  if (typeof value === "object" && KEY in value && value[KEY] instanceof Date) {
+  if (
+    typeof value === "object" &&
+    KEY in value &&
+    Object.keys(value).length === 1 &&
+    value[KEY] instanceof Date
+  ) {
     return value[KEY];
   }
 

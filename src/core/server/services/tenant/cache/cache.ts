@@ -297,7 +297,9 @@ export default class TenantCache {
       // Ensure that we can parse this message.
       if (!message.version || message.version > VERSION) {
         // The message did not have a version or the message had a version that
-        // was greater than the one we currently support.
+        // was greater than the one we currently support. This can only occur
+        // when there is a new version being roll-deployed. Any application
+        // hitting this should eventually be replaced.
         log.error(
           {
             messageVersion: message.version || null,
