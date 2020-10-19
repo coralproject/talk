@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";

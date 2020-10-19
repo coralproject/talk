@@ -1,6 +1,6 @@
-import Joi from "@hapi/joi";
 import { NextFunction, Response } from "express";
 import { Redis } from "ioredis";
+import Joi from "joi";
 import jwt from "jsonwebtoken";
 import passport, { Authenticator } from "passport";
 

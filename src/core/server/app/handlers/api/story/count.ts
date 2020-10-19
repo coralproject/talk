@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 import { CountJSONPData } from "coral-common/types/count";
 import { AppOptions } from "coral-server/app";

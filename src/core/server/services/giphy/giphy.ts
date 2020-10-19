@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { URL } from "url";
 
 import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
@@ -141,12 +141,12 @@ export async function retrieveFromGiphy(
   tenant: Tenant,
   id: string
 ): Promise<GiphyGifRetrieveResponse> {
-  if (!supportsMediaType(tenant, "giphy")) {
+  if (!supportsMediaType(tenant, "giphy") || !tenant.media.giphy.key) {
     throw new InternalError("Giphy was not enabled");
   }
 
   const url = new URL(`${GIPHY_FETCH}/${id}`);
-  url.searchParams.set("api_key", tenant.media.giphy.key!);
+  url.searchParams.set("api_key", tenant.media.giphy.key);
 
   try {
     const res = await fetch(url.toString());

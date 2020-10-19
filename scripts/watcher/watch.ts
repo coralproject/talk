@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import chalk from "chalk";
 import { pickBy } from "lodash";
 

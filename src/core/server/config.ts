@@ -1,6 +1,6 @@
-import Joi from "@hapi/joi";
 import bytes from "bytes";
 import convict from "convict";
+import Joi from "joi";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
 

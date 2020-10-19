@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { AppOptions } from "coral-server/app";
