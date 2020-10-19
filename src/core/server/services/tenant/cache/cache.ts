@@ -4,6 +4,7 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
+import { parse, stringify } from "coral-common/json";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {
@@ -26,8 +27,11 @@ type DeleteSubscribeCallback = (tenantID: string, tenantDomain: string) => void;
 
 type Message = UpdateMessage | DeleteMessage;
 
+const VERSION = 1;
+
 interface DeleteMessage {
   event: EVENTS.DELETE;
+  version: typeof VERSION;
   tenantID: string;
   tenantDomain: string;
   clientApplicationID: string;
@@ -35,6 +39,7 @@ interface DeleteMessage {
 
 interface UpdateMessage {
   event: EVENTS.UPDATE;
+  version: typeof VERSION;
   tenant: Tenant;
   clientApplicationID: string;
 }
@@ -43,7 +48,10 @@ interface UpdateMessage {
  * MessageData is a type that is used to select only the data parts of the
  * message.
  */
-type MessageData<T extends Message> = Omit<T, "clientApplicationID" | "event">;
+type MessageData<T extends Message> = Omit<
+  T,
+  "clientApplicationID" | "event" | "version"
+>;
 
 // TenantCache provides an interface for retrieving tenant stored in local
 // memory rather than grabbing it from the database every single call.
@@ -272,7 +280,7 @@ export default class TenantCache {
 
     try {
       // Parse the message (which is JSON).
-      const message: Message = JSON.parse(data);
+      const message: Message = parse(data);
 
       // Extract some known parameters.
       const { clientApplicationID } = message;
@@ -285,6 +293,20 @@ export default class TenantCache {
 
       const log = logger.child({ eventName: message.event }, true);
       log.debug("received tenant message");
+
+      // Ensure that we can parse this message.
+      if (!message.version || message.version > VERSION) {
+        // The message did not have a version or the message had a version that
+        // was greater than the one we currently support.
+        log.error(
+          {
+            messageVersion: message.version || null,
+            supportedVersion: VERSION,
+          },
+          "received unsupported version message"
+        );
+        return;
+      }
 
       // Send the message to the correct handler.
       switch (message.event) {
@@ -338,7 +360,7 @@ export default class TenantCache {
   private async publish(tenantID: string, conn: Redis, message: Message) {
     const subscribers = await conn.publish(
       TENANT_CACHE_CHANNEL,
-      JSON.stringify(message)
+      stringify(message)
     );
     logger.debug(
       { tenantID, subscribers, eventName: message.event },
@@ -360,6 +382,7 @@ export default class TenantCache {
     // Notify the other nodes about the tenant change.
     await this.publish(tenant.id, conn, {
       event: EVENTS.UPDATE,
+      version: VERSION,
       tenant,
       clientApplicationID: this.clientApplicationID,
     });
@@ -372,6 +395,7 @@ export default class TenantCache {
     // Notify the other nodes about the tenant change.
     await this.publish(tenantID, conn, {
       event: EVENTS.DELETE,
+      version: VERSION,
       tenantID,
       tenantDomain,
       clientApplicationID: this.clientApplicationID,
