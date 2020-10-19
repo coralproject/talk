@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import { useToggleState } from "coral-framework/hooks";
-import { GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,
@@ -22,21 +22,21 @@ import styles from "./UserRoleChange.css";
 
 interface Props {
   username: string | null;
-  onChange: (role: GQLUSER_ROLE, siteIDs?: string[]) => Promise<void>;
+  onChange: (role: GQLUSER_ROLE_RL, siteIDs?: string[]) => Promise<void>;
   onPromote: () => Promise<void>;
-  role: GQLUSER_ROLE;
+  role: GQLUSER_ROLE_RL;
   scoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
   query: PropTypesOf<typeof SiteModeratorModal>["query"];
-  viewerRole: GQLUSER_ROLE;
+  viewerRole: GQLUSER_ROLE_RL;
   viewerScoped: boolean;
   viewerSites?: string[] | null;
 }
 
 export interface RoleDescription {
   id?: string;
-  role: GQLUSER_ROLE;
+  role: GQLUSER_ROLE_RL;
   scoped: boolean | undefined;
 }
 
@@ -51,7 +51,10 @@ export function canChangeRole(
   }
 
   // staff and commenters can't do anything
-  if ([GQLUSER_ROLE.STAFF, GQLUSER_ROLE.COMMENTER].includes(viewerRole.role)) {
+  if (
+    viewerRole.role === GQLUSER_ROLE.STAFF ||
+    viewerRole.role === GQLUSER_ROLE.COMMENTER
+  ) {
     return false;
   }
 
@@ -77,7 +80,8 @@ export function canChangeRole(
   if (viewerRole.role === GQLUSER_ROLE.MODERATOR && viewerRole.scoped) {
     // can only update staff and commenters
     if (
-      ![GQLUSER_ROLE.STAFF, GQLUSER_ROLE.COMMENTER].includes(existingRole.role)
+      GQLUSER_ROLE.ADMIN === existingRole.role ||
+      GQLUSER_ROLE.MODERATOR === existingRole.role
     ) {
       return false;
     }
@@ -185,7 +189,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
    * moderation scopes.
    */
   const handleChangeRole = useCallback(
-    async (r: GQLUSER_ROLE, siteIDs: string[] = []) => {
+    async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
       if (moderationScopesEnabled) {
         await onChange(r, siteIDs);
       } else {
@@ -220,16 +224,15 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [moderationScopes]
   );
 
-  const MOD_ROLE_NAME = useMemo(() => GQLUSER_ROLE.MODERATOR, []);
   const onClick = useCallback(
-    (r: GQLUSER_ROLE, siteIDs: string[]) => async () => {
+    (r: GQLUSER_ROLE_RL, siteIDs: string[]) => async () => {
       // if we're a site mod and we're upgrading someone to site mod
       // use the simple promotion flow
       if (
-        r === MOD_ROLE_NAME &&
+        r === GQLUSER_ROLE.MODERATOR &&
         siteIDs &&
         siteIDs.length > 0 &&
-        viewerRole === MOD_ROLE_NAME &&
+        viewerRole === GQLUSER_ROLE.MODERATOR &&
         viewerScoped
       ) {
         await handlePromote();
@@ -240,7 +243,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
       togglePopoverVisibility();
     },
     [
-      MOD_ROLE_NAME,
       handleChangeRole,
       handlePromote,
       togglePopoverVisibility,
