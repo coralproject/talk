@@ -20,7 +20,7 @@ email-subject-accountNotificationPasswordChange = Twoje hasło zostało zmienion
 email-template-accountNotificationPasswordChange =
   Hej { $username },<br/><br/>
   Hasło do Twojego konta zostało zmienione.<br/><br/>
-  Jeśli stało się to bez Twojej wiedzy, 
+  Jeśli stało się to bez Twojej wiedzy,
   skontaktuj się z naszym zespołem <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-accountNotificationUpdateUsername = Twój login został zmieniony
@@ -121,3 +121,6 @@ email-template-notificationOnCommentRejected =
 # Notification Digest
 
 email-subject-notificationDigest = Twoja aktywność na { $organizationName }
+
+email-subject-testSmtpTest = Testowa wiadomość z Coral
+email-template-testSmtpTest = To jest testowa wiadomość wysłana na adres { $email }
