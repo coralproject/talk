@@ -1,7 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
@@ -12,6 +14,7 @@ import {
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
+import { UserRoleChange_viewer } from "coral-admin/__generated__/UserRoleChange_viewer.graphql";
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 
 import SiteModeratorModal from "./SiteModeratorModal";
@@ -29,9 +32,7 @@ interface Props {
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
   query: PropTypesOf<typeof SiteModeratorModal>["query"];
-  viewerRole: GQLUSER_ROLE_RL;
-  viewerScoped: boolean;
-  viewerSites?: string[] | null;
+  viewer: UserRoleChange_viewer;
 }
 
 export interface RoleDescription {
@@ -106,9 +107,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   moderationScopes,
   moderationScopesEnabled = false,
   query,
-  viewerRole,
-  viewerScoped,
-  viewerSites,
+  viewer,
 }) => {
   // Setup state and callbacks for the popover.
   const [
@@ -118,70 +117,85 @@ const UserRoleChange: FunctionComponent<Props> = ({
     togglePopoverVisibility,
   ] = useToggleState();
 
+  const viewerSites = useMemo(() => {
+    if (!viewer.moderationScopes) {
+      return [];
+    }
+
+    return viewer.moderationScopes.sites ? viewer.moderationScopes.sites : [];
+  }, [viewer]);
+  const viewerScoped = useMemo(() => {
+    if (!viewer.moderationScopes) {
+      return false;
+    }
+
+    return viewer.moderationScopes.scoped;
+  }, [viewer]);
+
   const canChangeCommenter = useMemo(
     () =>
       canChangeRole(
-        { role: viewerRole, scoped: viewerScoped },
+        { role: viewer.role, scoped: viewerScoped },
         { role, scoped },
         {
           role: GQLUSER_ROLE.COMMENTER,
           scoped: false,
         }
       ),
-    [role, scoped, viewerRole, viewerScoped]
+    [role, scoped, viewer, viewerScoped]
   );
   const canChangeStaff = useMemo(
     () =>
       canChangeRole(
-        { role: viewerRole, scoped: viewerScoped },
+        { role: viewer.role, scoped: viewerScoped },
         { role, scoped },
         {
           role: GQLUSER_ROLE.STAFF,
           scoped: false,
         }
       ),
-    [role, scoped, viewerRole, viewerScoped]
+    [role, scoped, viewer, viewerScoped]
   );
   const canChangeSiteMod = useMemo(
     () =>
       moderationScopesEnabled &&
       canChangeRole(
-        { role: viewerRole, scoped: viewerScoped },
+        { role: viewer.role, scoped: viewerScoped },
         { role, scoped },
         {
           role: GQLUSER_ROLE.MODERATOR,
           scoped: true,
         }
       ),
-    [moderationScopesEnabled, role, scoped, viewerRole, viewerScoped]
+    [moderationScopesEnabled, role, scoped, viewer, viewerScoped]
   );
   const canChangeOrgMod = useMemo(
     () =>
       canChangeRole(
-        { role: viewerRole, scoped: viewerScoped },
+        { role: viewer.role, scoped: viewerScoped },
         { role, scoped },
         {
           role: GQLUSER_ROLE.MODERATOR,
           scoped: false,
         }
       ),
-    [role, scoped, viewerRole, viewerScoped]
+    [role, scoped, viewer.role, viewerScoped]
   );
   const canChangeAdmin = useMemo(
     () =>
       canChangeRole(
-        { role: viewerRole, scoped: viewerScoped },
+        { role: viewer.role, scoped: viewerScoped },
         { role, scoped },
         {
           role: GQLUSER_ROLE.ADMIN,
           scoped: false,
         }
       ),
-    [role, scoped, viewerRole, viewerScoped]
+    [role, scoped, viewer, viewerScoped]
   );
   const shouldPromoteSiteMod = useMemo(
-    () => viewerRole === GQLUSER_ROLE.MODERATOR && viewerScoped,
-    [viewerRole, viewerScoped]
+    () => viewer.role === GQLUSER_ROLE.MODERATOR && viewerScoped,
+    [viewer, viewerScoped]
   );
 
   /**
@@ -232,7 +246,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
         r === GQLUSER_ROLE.MODERATOR &&
         siteIDs &&
         siteIDs.length > 0 &&
-        viewerRole === GQLUSER_ROLE.MODERATOR &&
+        viewer.role === GQLUSER_ROLE.MODERATOR &&
         viewerScoped
       ) {
         await handlePromote();
@@ -246,7 +260,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
       handleChangeRole,
       handlePromote,
       togglePopoverVisibility,
-      viewerRole,
+      viewer,
       viewerScoped,
     ]
   );
@@ -254,8 +268,10 @@ const UserRoleChange: FunctionComponent<Props> = ({
   const onClickChangeSiteMod = useCallback(async () => {
     // Site mod promote flow
     if (canChangeSiteMod && shouldPromoteSiteMod) {
-      const sites = viewerSites ? viewerSites : [];
-      await onClick(viewerRole, sites)();
+      await onClick(
+        viewer.role,
+        viewerSites.map((s) => s.id)
+      )();
     }
     // Other mod/admin site mod selection flow
     else {
@@ -268,9 +284,13 @@ const UserRoleChange: FunctionComponent<Props> = ({
     setModalVisibility,
     setPopoverVisibility,
     shouldPromoteSiteMod,
-    viewerRole,
+    viewer,
     viewerSites,
   ]);
+
+  if (!viewer) {
+    return null;
+  }
 
   return (
     <>
@@ -283,7 +303,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
           onCancel={toggleModalVisibility}
           onFinish={onFinishModal}
           viewerScoped={viewerScoped}
-          viewerSites={viewerSites}
+          viewerSites={viewerSites.map((s) => s.id)}
         />
       )}
       <Localized id="community-role-popover" attrs={{ description: true }}>
@@ -376,4 +396,19 @@ const UserRoleChange: FunctionComponent<Props> = ({
   );
 };
 
-export default UserRoleChange;
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment UserRoleChange_viewer on User {
+      id
+      role
+      moderationScopes {
+        scoped
+        sites {
+          id
+        }
+      }
+    }
+  `,
+})(UserRoleChange);
+
+export default enhanced;
