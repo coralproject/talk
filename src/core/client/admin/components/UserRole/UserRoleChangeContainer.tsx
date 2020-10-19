@@ -148,20 +148,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       username={user.username}
       onChange={onChange}
       onPromote={onPromote}
-      viewerRole={viewer.role}
       role={user.role}
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
       moderationScopesEnabled={moderationScopesEnabled}
       query={query}
-      viewerScoped={
-        viewer.moderationScopes ? viewer.moderationScopes?.scoped : false
-      }
-      viewerSites={
-        viewer.moderationScopes
-          ? viewer.moderationScopes.sites?.map((s) => s.id)
-          : null
-      }
+      viewer={viewer}
     />
   );
 };
@@ -173,10 +165,8 @@ const enhanced = withFragmentContainer<Props>({
       role
       moderationScopes {
         scoped
-        sites {
-          id
-        }
       }
+      ...UserRoleChange_viewer
     }
   `,
   user: graphql`
