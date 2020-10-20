@@ -116,7 +116,9 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
       <HorizontalGutter>
         <HorizontalGutter>
           <Localized id="comments-postComment-gifSearch">
-            <InputLabel>Search for a GIF</InputLabel>
+            <InputLabel htmlFor="coral-comments-postComment-gifSearch">
+              Search for a GIF
+            </InputLabel>
           </Localized>
           <TextField
             className={styles.input}
@@ -126,10 +128,20 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
             fullWidth
             variant="seamlessAdornment"
             color="streamBlue"
+            id="coral-comments-postComment-gifSearch"
             adornment={
-              <Button color="stream" className={styles.searchButton}>
-                <ButtonIcon>search</ButtonIcon>
-              </Button>
+              <Localized
+                id="comments-postComment-gifSearch-search"
+                attrs={{ "aria-label": true }}
+              >
+                <Button
+                  color="stream"
+                  className={styles.searchButton}
+                  aria-label="Search"
+                >
+                  <ButtonIcon>search</ButtonIcon>
+                </Button>
+              </Localized>
             }
           />
         </HorizontalGutter>

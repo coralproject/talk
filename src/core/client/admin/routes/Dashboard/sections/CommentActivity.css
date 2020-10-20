@@ -13,7 +13,7 @@
 }
 
 .legend {
-  color: $colors-coral-500;
+  color: $colors-coral-600;
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-semi-bold);
   margin-bottom: 0;
@@ -22,7 +22,7 @@
   &:before {
     width: 24px;
     height: 1px;
-    background: $colors-coral-500;
+    background: $colors-coral-600;
     content: "";
     position: absolute;
     left: 0;

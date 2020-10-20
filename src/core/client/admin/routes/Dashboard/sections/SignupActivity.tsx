@@ -18,8 +18,8 @@ import createDashboardFetch from "../createDashboardFetch";
 import {
   CHART_COLOR_GREY_200,
   CHART_COLOR_MONO_500,
-  CHART_COLOR_PRIMARY_LIGHT,
-  CHART_COLOR_PRIMARY_PALE,
+  CHART_COLOR_PRIMARY_100,
+  CHART_COLOR_PRIMARY_600,
 } from "./ChartColors";
 import SignupActivityTick from "./SignupActivityTick";
 
@@ -87,14 +87,18 @@ const CommenterActivity: FunctionComponent<Props> = ({
             />
             <Bar dataKey="count">
               {(daily ? daily.series : []).map((entry, index) => {
+                const isToday =
+                  daily && daily.series && daily.series.length - 1 === index;
                 return (
                   <Cell
                     key={entry.timestamp}
                     fill={
-                      daily && daily.series && daily.series.length - 1 === index
-                        ? CHART_COLOR_PRIMARY_PALE
-                        : CHART_COLOR_PRIMARY_LIGHT
+                      isToday
+                        ? CHART_COLOR_PRIMARY_100
+                        : CHART_COLOR_PRIMARY_600
                     }
+                    stroke={isToday ? CHART_COLOR_PRIMARY_600 : undefined}
+                    strokeWidth={2}
                   />
                 );
               })}

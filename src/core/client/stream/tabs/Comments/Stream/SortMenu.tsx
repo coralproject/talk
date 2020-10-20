@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { useViewerEvent } from "coral-framework/lib/events";
 import CLASSES from "coral-stream/classes";
 import { OpenSortMenuEvent } from "coral-stream/events";
-import { Flex, Option, SelectField } from "coral-ui/components/v2";
+import { AriaInfo, Flex, Option, SelectField } from "coral-ui/components/v2";
 
 import * as styles from "./SortMenu.css";
 
@@ -29,6 +29,16 @@ const SortMenu: FunctionComponent<Props> = (props) => {
   const onClickSelectField = useCallback(() => emitOpenSortMenuEvent(), [
     emitOpenSortMenuEvent,
   ]);
+  let label = (
+    <Localized id="comments-sortMenu-sortBy">
+      <label className={styles.label} htmlFor="coral-comments-sortMenu">
+        Sort by
+      </label>
+    </Localized>
+  );
+  if (!props.showLabel) {
+    label = <AriaInfo>{label}</AriaInfo>;
+  }
   return (
     <Flex
       className={cn(props.className, CLASSES.sortMenu)}
@@ -36,13 +46,7 @@ const SortMenu: FunctionComponent<Props> = (props) => {
       alignItems="center"
       itemGutter
     >
-      {props.showLabel && (
-        <Localized id="comments-sortMenu-sortBy">
-          <label className={styles.label} htmlFor="coral-comments-sortMenu">
-            Sort by
-          </label>
-        </Localized>
-      )}
+      {label}
       <SelectField
         id="coral-comments-sortMenu"
         value={props.orderBy}
