@@ -80,7 +80,7 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   router.use(cspSiteMiddleware(options));
 
   // Always send the cache headers.
-  router.use(cacheHeadersMiddleware(options.cacheDuration));
+  router.use(cacheHeadersMiddleware({ cacheDuration: options.cacheDuration }));
 
   // Wildcard display all the client routes under the provided prefix.
   router.get("/*", clientHandler(options));

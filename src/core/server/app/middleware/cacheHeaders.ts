@@ -4,30 +4,46 @@ import ms from "ms";
 export const noCacheMiddleware: RequestHandler = (req, res, next) => {
   // Set cache control headers to prevent browsers/cdn's from caching these
   // requests.
-  res.set({
-    "Cache-Control": "private, no-cache, no-store, must-revalidate",
-    Expires: "-1",
-    Pragma: "no-cache",
-  });
-
+  res.set("Cache-Control", "no-store");
   next();
 };
 
-export const cacheHeadersMiddleware = (
-  duration?: string | false
-): RequestHandler => {
-  const maxAge = duration ? Math.floor(ms(duration) / 1000) : false;
+const parseDuration = (duration: string | number) => {
+  if (typeof duration === "string") {
+    return Math.floor(ms(duration) / 1000);
+  }
+
+  return Math.floor(duration / 1000);
+};
+
+interface Options {
+  cacheDuration?: string | false | number;
+  immutable?: boolean;
+}
+
+export const cacheHeadersMiddleware = ({
+  cacheDuration = false,
+  immutable = false,
+}: Options = {}): RequestHandler => {
+  // Parse the passed duration to convert it to a max-age value.
+  const maxAge = cacheDuration ? parseDuration(cacheDuration) : false;
   if (!maxAge) {
     return noCacheMiddleware;
   }
 
-  return (req, res, next) => {
-    // Set cache control headers to encourage browsers/cdn's to cache these
-    // requests if we aren't in private mode.
-    res.set({
-      "Cache-Control": `public, max-age=${maxAge}`,
-    });
+  // Set cache control headers to encourage browsers/cdn's to cache these
+  // requests if we aren't in private mode.
+  const directives: string[] = ["public", `max-age=${maxAge}`];
 
+  if (immutable) {
+    directives.push("immutable");
+  }
+
+  // Join the directives together.
+  const value = directives.join(", ");
+
+  return (req, res, next) => {
+    res.set("Cache-Control", value);
     next();
   };
 };

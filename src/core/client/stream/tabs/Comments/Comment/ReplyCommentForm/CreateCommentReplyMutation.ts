@@ -195,7 +195,7 @@ async function commit(
             storyID: input.storyID,
             parentID: input.parentID,
             parentRevisionID: input.parentRevisionID,
-            body: input.body,
+            body: input.body || "",
             nudge: input.nudge,
             clientMutationId: clientMutationId.toString(),
             media: input.media,
@@ -220,7 +220,7 @@ async function commit(
                   ignoreable: false,
                   avatar: viewer.avatar,
                 },
-                body: input.body,
+                body: input.body || "",
                 revision: {
                   id: uuidGenerator(),
                   media: null,
