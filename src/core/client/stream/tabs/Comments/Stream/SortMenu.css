@@ -21,3 +21,9 @@
 .fullWidth {
   width: 100%;
 }
+
+.hideLabel {
+  position: absolute;
+  pointer-events: none;
+  visibility: hidden;
+}
