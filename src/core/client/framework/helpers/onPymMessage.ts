@@ -7,12 +7,16 @@ function onPymMessage(
 ) {
   child.onMessage(messageType, callback);
   return () => {
+    if (!(messageType in child.messageHandlers)) {
+      return;
+    }
     const index = child.messageHandlers[messageType].indexOf(callback);
-    if (index > -1) {
-      child.messageHandlers[messageType].splice(index, 1);
-      if (child.messageHandlers[messageType].length === 0) {
-        delete child.messageHandlers[messageType];
-      }
+    if (index === -1) {
+      return;
+    }
+    child.messageHandlers[messageType].splice(index, 1);
+    if (child.messageHandlers[messageType].length === 0) {
+      delete child.messageHandlers[messageType];
     }
   };
 }

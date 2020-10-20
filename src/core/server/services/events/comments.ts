@@ -7,6 +7,7 @@ import {
   CommentReactionCreatedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
+  CommentReplyReleasedCoralEvent,
   CommentStatusUpdatedCoralEvent,
 } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -46,7 +47,10 @@ export async function publishCommentStatusChanges(
 
 export async function publishCommentReplyCreated(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "id" | "status" | "storyID" | "ancestorIDs" | "siteID">
+  comment: Pick<
+    Comment,
+    "id" | "status" | "storyID" | "ancestorIDs" | "siteID" | "tags"
+  >
 ) {
   if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentReplyCreatedCoralEvent.publish(broker, {
@@ -73,10 +77,29 @@ export async function publishCommentCreated(
 
 export async function publishCommentReleased(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "id" | "storyID" | "parentID" | "status">
+  comment: Pick<
+    Comment,
+    "id" | "storyID" | "parentID" | "ancestorIDs" | "status"
+  >
 ) {
   if (!comment.parentID && hasPublishedStatus(comment)) {
     await CommentReleasedCoralEvent.publish(broker, {
+      commentID: comment.id,
+      storyID: comment.storyID,
+    });
+  }
+}
+
+export async function publishCommentReplyReleased(
+  broker: CoralEventPublisherBroker,
+  comment: Pick<
+    Comment,
+    "id" | "storyID" | "parentID" | "ancestorIDs" | "status"
+  >
+) {
+  if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
+    await CommentReplyReleasedCoralEvent.publish(broker, {
+      ancestorIDs: comment.ancestorIDs,
       commentID: comment.id,
       storyID: comment.storyID,
     });
