@@ -182,7 +182,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     <>
       <UserStatusChange
         onBan={handleBan}
-        onRemoveBan={handleRemoveBan}
+        onRemoveBan={!viewer.moderationScopes?.scoped && handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
