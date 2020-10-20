@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { useViewerEvent } from "coral-framework/lib/events";
 import CLASSES from "coral-stream/classes";
 import { OpenSortMenuEvent } from "coral-stream/events";
-import { Flex, Option, SelectField, AriaInfo } from "coral-ui/components/v2";
+import { AriaInfo, Flex, Option, SelectField } from "coral-ui/components/v2";
 
 import * as styles from "./SortMenu.css";
 
