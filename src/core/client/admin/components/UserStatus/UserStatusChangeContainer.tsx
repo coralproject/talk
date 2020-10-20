@@ -187,7 +187,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
-        banned={user.status.ban.active || user.status.ban.sites.length > 0}
+        banned={
+          user.status.ban.active ||
+          !!(
+            user.status.ban &&
+            user.status.ban.sites &&
+            user.status.ban?.sites?.length !== 0
+          )
+        }
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
         warned={user.status.warning.active}

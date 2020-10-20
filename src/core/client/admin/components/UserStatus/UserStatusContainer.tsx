@@ -17,7 +17,7 @@ const UserStatusContainer: FunctionComponent<Props> = (props) => {
     <UserStatus
       banned={
         props.user.status.current.includes(GQLUSER_STATUS.BANNED) ||
-        props.user.status.ban.sites.length > 0
+        props.user.status.ban?.sites?.length !== 0
       }
       suspended={props.user.status.current.includes(GQLUSER_STATUS.SUSPENDED)}
       premod={props.user.status.current.includes(GQLUSER_STATUS.PREMOD)}
