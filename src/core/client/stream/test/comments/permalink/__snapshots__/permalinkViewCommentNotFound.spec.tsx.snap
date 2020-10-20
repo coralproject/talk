@@ -9,7 +9,7 @@ exports[`renders permalink view with unknown comment 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root PermalinkView-root coral coral-permalink coral-unauthenticated HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root PermalinkViewContainer-root coral coral-permalink coral-unauthenticated HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
@@ -53,10 +53,10 @@ exports[`renders permalink view with unknown comment 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root PermalinkView-header Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+      className="Box-root Flex-root PermalinkViewContainer-header Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
     >
       <div
-        className="PermalinkView-title"
+        className="PermalinkViewContainer-title"
       >
         You are currently viewing a single conversation
       </div>
