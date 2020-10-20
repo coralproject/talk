@@ -1,32 +1,37 @@
 import { parse, stringify } from "./json";
 
-it("stringify values with dates", () => {
-  const data = {
-    date: new Date("2020-10-19T18:35:31.151Z"),
-    array: [
-      { date: new Date("2020-10-19T18:35:31.152Z") },
-      { date: new Date("2020-10-19T18:35:31.153Z") },
-      { date: new Date("2020-10-19T18:35:31.154Z") },
-    ],
-  };
+const createInput = () => ({
+  date: new Date("2020-10-19T18:35:31.151Z"),
+  shouldTransform: [
+    { date: new Date("2020-10-19T18:35:31.152Z") },
+    { date: new Date("2020-10-19T18:35:31.153Z") },
+    { date: new Date("2020-10-19T18:35:31.154Z") },
+  ],
+  shouldNotTransform: [
+    "2020-10-19T18:35:31.155Z",
+    "2020-10-19T18:35:31.156Z",
+    "2020-10-19T18:35:31.157Z",
+  ],
+});
 
-  const stringified = stringify(data);
+it("stringify values with dates", () => {
+  const input = createInput();
+  const stringified = stringify(input);
 
   expect(stringified).toMatchSnapshot();
 });
 
 it("parse values with dates", () => {
-  const data = '{ "date": { "$date": "2020-10-19T18:35:31.151Z" } }';
+  const json = '{ "date": { "$date": "2020-10-19T18:35:31.151Z" } }';
 
-  const parsed = parse(data);
+  const parsed = parse(json);
 
   expect(parsed).toMatchSnapshot();
 });
 
 it("can parse what's stringified", () => {
-  const data = { date: new Date("2020-10-19T18:35:31.151Z") };
+  const input = createInput();
+  const parsed = parse(stringify(input));
 
-  const parsed = parse(stringify(data));
-
-  expect(parsed).toEqual(data);
+  expect(parsed).toEqual(input);
 });
