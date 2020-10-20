@@ -7937,7 +7937,7 @@ type Mutation {
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   removeUserBan will remove an active ban from a User if they have one.
