@@ -27,4 +27,4 @@ export { CommentLeftModerationQueueInput } from "./commentLeftModerationQueue";
 export { CommentReleasedInput } from "./commentReleased";
 export { CommentReplyCreatedInput } from "./commentReplyCreated";
 export { CommentStatusUpdatedInput } from "./commentStatusUpdated";
-export { CommentEnteredInput } from "./CommentEntered";
+export { CommentEnteredInput } from "./commentEntered";
