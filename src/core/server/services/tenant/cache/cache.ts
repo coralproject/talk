@@ -4,7 +4,6 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { parse, stringify } from "coral-common/json";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {
@@ -15,7 +14,10 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 
-const TENANT_CACHE_CHANNEL = "TENANT_CACHE_CHANNEL";
+import { parse, stringify } from "./json";
+
+const TENANT_CACHE_CHANNEL_VERSION = 1;
+const TENANT_CACHE_CHANNEL = `TENANT_CACHE_CHANNEL_V${TENANT_CACHE_CHANNEL_VERSION}`;
 
 enum EVENTS {
   UPDATE = "UPDATE",
@@ -27,11 +29,8 @@ type DeleteSubscribeCallback = (tenantID: string, tenantDomain: string) => void;
 
 type Message = UpdateMessage | DeleteMessage;
 
-const VERSION = 1;
-
 interface DeleteMessage {
   event: EVENTS.DELETE;
-  version: typeof VERSION;
   tenantID: string;
   tenantDomain: string;
   clientApplicationID: string;
@@ -39,7 +38,6 @@ interface DeleteMessage {
 
 interface UpdateMessage {
   event: EVENTS.UPDATE;
-  version: typeof VERSION;
   tenant: Tenant;
   clientApplicationID: string;
 }
@@ -48,10 +46,7 @@ interface UpdateMessage {
  * MessageData is a type that is used to select only the data parts of the
  * message.
  */
-type MessageData<T extends Message> = Omit<
-  T,
-  "clientApplicationID" | "event" | "version"
->;
+type MessageData<T extends Message> = Omit<T, "clientApplicationID" | "event">;
 
 // TenantCache provides an interface for retrieving tenant stored in local
 // memory rather than grabbing it from the database every single call.
@@ -294,22 +289,6 @@ export default class TenantCache {
       const log = logger.child({ eventName: message.event }, true);
       log.debug("received tenant message");
 
-      // Ensure that we can parse this message.
-      if (!message.version || message.version > VERSION) {
-        // The message did not have a version or the message had a version that
-        // was greater than the one we currently support. This can only occur
-        // when there is a new version being roll-deployed. Any application
-        // hitting this should eventually be replaced.
-        log.error(
-          {
-            messageVersion: message.version || null,
-            supportedVersion: VERSION,
-          },
-          "received unsupported version message"
-        );
-        return;
-      }
-
       // Send the message to the correct handler.
       switch (message.event) {
         case EVENTS.UPDATE:
@@ -384,7 +363,6 @@ export default class TenantCache {
     // Notify the other nodes about the tenant change.
     await this.publish(tenant.id, conn, {
       event: EVENTS.UPDATE,
-      version: VERSION,
       tenant,
       clientApplicationID: this.clientApplicationID,
     });
@@ -397,7 +375,6 @@ export default class TenantCache {
     // Notify the other nodes about the tenant change.
     await this.publish(tenantID, conn, {
       event: EVENTS.DELETE,
-      version: VERSION,
       tenantID,
       tenantDomain,
       clientApplicationID: this.clientApplicationID,
