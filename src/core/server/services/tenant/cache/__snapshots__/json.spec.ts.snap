@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse values with dates 1`] = `
+Object {
+  "date": 2020-10-19T18:35:31.151Z,
+}
+`;
+
+exports[`stringify values with dates 1`] = `"{\\"date\\":{\\"$date\\":\\"2020-10-19T18:35:31.151Z\\"},\\"array\\":[{\\"date\\":{\\"$date\\":\\"2020-10-19T18:35:31.152Z\\"}},{\\"date\\":{\\"$date\\":\\"2020-10-19T18:35:31.153Z\\"}},{\\"date\\":{\\"$date\\":\\"2020-10-19T18:35:31.154Z\\"}}]}"`;

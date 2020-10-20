@@ -14,7 +14,10 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 
-const TENANT_CACHE_CHANNEL = "TENANT_CACHE_CHANNEL";
+import { parse, stringify } from "./json";
+
+const TENANT_CACHE_CHANNEL_VERSION = 1;
+const TENANT_CACHE_CHANNEL = `TENANT_CACHE_CHANNEL_V${TENANT_CACHE_CHANNEL_VERSION}`;
 
 enum EVENTS {
   UPDATE = "UPDATE",
@@ -272,7 +275,7 @@ export default class TenantCache {
 
     try {
       // Parse the message (which is JSON).
-      const message: Message = JSON.parse(data);
+      const message: Message = parse(data);
 
       // Extract some known parameters.
       const { clientApplicationID } = message;
@@ -338,7 +341,7 @@ export default class TenantCache {
   private async publish(tenantID: string, conn: Redis, message: Message) {
     const subscribers = await conn.publish(
       TENANT_CACHE_CHANNEL,
-      JSON.stringify(message)
+      stringify(message)
     );
     logger.debug(
       { tenantID, subscribers, eventName: message.event },
