@@ -55,7 +55,7 @@ function calculateAuthConditions(
   const status = consolidateUserStatus(user.status, now);
   if (status.ban.active) {
     conditions.push(GQLUSER_AUTH_CONDITIONS.BANNED);
-  } else if (site && status.ban.sites?.map((s) => s.id).includes(site.id)) {
+  } else if (site && status.ban.siteIDs?.includes(site.id)) {
     conditions.push(GQLUSER_AUTH_CONDITIONS.BANNED);
   }
 

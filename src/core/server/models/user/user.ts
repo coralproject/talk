@@ -2308,7 +2308,7 @@ export async function acknowledgeOwnWarning(
 
   return result.value;
 }
-export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
+export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
   Pick<BanStatus, "history"> & { siteIDs?: string[] };
 
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
@@ -2460,12 +2460,9 @@ export function consolidateUserStatus(
   now = new Date(),
   siteID?: string
 ): ConsolidatedUserStatus {
-  const banStatus = consolidateUserBanStatus(status.ban, now, siteID);
-
-  // Return the status.
   return {
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
-    ban: { ...banStatus, sites: [] },
+    ban: consolidateUserBanStatus(status.ban, now, siteID),
     premod: consolidateUserPremodStatus(status.premod),
     warning: consolidateUserWarningStatus(status.warning),
   };

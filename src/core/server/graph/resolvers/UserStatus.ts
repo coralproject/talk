@@ -1,12 +1,10 @@
 import * as user from "coral-server/models/user";
 
 import {
-  GQLSite,
   GQLUSER_STATUS,
   GQLUserStatusTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
-import GraphContext from "../context";
 import { BanStatusInput } from "./BanStatus";
 import { PremodStatusInput } from "./PremodStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
@@ -15,32 +13,6 @@ import { WarningStatusInput } from "./WarningStatus";
 
 export type UserStatusInput = user.UserStatus & {
   userID: string;
-};
-
-const loadSites = async (
-  ctx: GraphContext,
-  siteIDs?: string[]
-): Promise<GQLSite[]> => {
-  if (!siteIDs) {
-    return [];
-  }
-
-  const sites = await ctx.loaders.Sites.site.loadMany(siteIDs);
-
-  const returnedSites = new Array<GQLSite>();
-  sites.forEach((s) => {
-    if (!s) {
-      return;
-    }
-
-    returnedSites.push({
-      ...s,
-      canModerate: false,
-      topStories: [],
-    });
-  });
-
-  return returnedSites;
 };
 
 export const UserStatus: Required<GQLUserStatusTypeResolver<
@@ -83,9 +55,9 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
   }),
   ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => {
     const banStatus = user.consolidateUserBanStatus(ban, ctx.now, ctx.site?.id);
+
     return {
       ...banStatus,
-      sites: await ctx.loaders.Sites.site.loadMany(banStatus.siteIDs),
       userID,
     };
   },
