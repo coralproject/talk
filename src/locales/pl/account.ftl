@@ -3,6 +3,10 @@
 account-tokenNotFound =
   Ten link nie prawidłowy, sprawdź, czy właściwie go wklejasz.
 
+## Not Found
+
+notFound = Nie odnaleziono
+
 ## Password Reset
 
 resetPassword-resetPassword = Zmiana hasła
@@ -16,13 +20,14 @@ resetPassword-passwordTextField =
   .placeholder = Hasło
 resetPassword-successfullyReset = Hasło zostało zmienione
 resetPassword-youMayClose =
-  Możesz już zamknąć to okno i zalogować się używają swojego nowego hasła. 
+  Możesz już zamknąć to okno i zalogować się używają swojego nowego hasła.
 resetPassword-oopsSorry = Przepraszamy!
 resetPassword-missingResetToken = Brakuje tokena do resetowania hasła!
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Potwierdzenie emaila
+confirmEmail-confirmYourEmailAddress =
+  Potwierdź swój adres email
 confirmEmail-confirmEmail = Potwierdź email
 confirmEmail-pleaseClickToConfirm = Kliknij poniżej, żeby potwierdzić email.
 confirmEmail-oopsSorry = Przepraszamy!
@@ -36,8 +41,8 @@ confirmEmail-youMayClose =
 download-landingPage-title = Pobierz swoją historię komentarzy
 download-landingPage-description =
   Archiwum Twoich komentarzy będzie dostępne jako plik .zip. Wewnątrz
-  tego pliku znajduje się plik z wartościami oddzielonymi przecinkiem (.csv), 
-  który możesz otworzyć w arkuszu kalkulacyjnym. 
+  tego pliku znajduje się plik z wartościami oddzielonymi przecinkiem (.csv),
+  który możesz otworzyć w arkuszu kalkulacyjnym.
 download-landingPage-contentsDescription =
   Dla każdego komentarza załączamy następujące dane:
 download-landingPage-contentsDate =
@@ -48,13 +53,17 @@ download-landingPage-contentsText =
   Treść komentarza
 download-landingPage-contentsStoryUrl =
   URL artykułu gdzie komentarz został zamieszczony
-download-landingPage-downloadComments =
-  Pobierz historię moich komentarzy
+download-landingPage-download = Ściągnij
 download-landingPage-sorry = Ten link jest nieprawidłowy.
 
 ## Unsubscribe
 
+unsubscribe-unsubscribeFromEmails = Wyłącz powiadomienia email
 unsubscribe-oopsSorry = Mamy jakiś problem!
-unsubscribe-successfullyUnsubscribed = Wyłączono subskrypcję wszystkich powiadomień
-unsubscribe-clickToConfirm = Kliknij poniżej, żeby potwierdzić rezygnację ze wszystkich powiadomień.
-unsubscribe-confirm = Potwierdzam
+unsubscribe-clickToConfirm =
+  Kliknij poniżej, żeby potwierdzić rezygnację ze wszystkich powiadomień.
+unsubscribe-submit-unsubscribe = Wyłącz powiadomienia
+unsubscribe-unsubscribedSuccessfully =
+  Nie będziesz już dostawać powiadomień przez email
+unsubscribe-youMayNowClose =
+  Możesz już zamknąć to okno
