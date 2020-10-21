@@ -22,8 +22,8 @@ import createDashboardFetch from "../createDashboardFetch";
 import {
   CHART_COLOR_GREY_200,
   CHART_COLOR_MONO_500,
-  CHART_COLOR_PRIMARY,
-  CHART_COLOR_SECONDARY,
+  CHART_COLOR_PRIMARY_600,
+  CHART_COLOR_SECONDARY_600,
 } from "./ChartColors";
 import CommentActivityTooltip from "./CommentActivityTooltip";
 
@@ -49,6 +49,7 @@ const CommentActivity: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
     hour: "numeric",
     hour12: true,
   });
+
   return (
     <DashboardBox>
       <Localized id="dashboard-comment-activity-heading">
@@ -66,7 +67,7 @@ const CommentActivity: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             >
               {hourly && (
                 <ReferenceLine
-                  stroke={CHART_COLOR_SECONDARY}
+                  stroke={CHART_COLOR_SECONDARY_600}
                   y={hourly.average}
                 />
               )}
@@ -95,7 +96,7 @@ const CommentActivity: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
                 dot={{ strokeWidth: 1 }}
                 type="monotoneX"
                 dataKey="count"
-                stroke={CHART_COLOR_PRIMARY}
+                stroke={CHART_COLOR_PRIMARY_600}
               />
               <Tooltip
                 content={(tooltipProps: TooltipProps) => (

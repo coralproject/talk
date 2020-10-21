@@ -50,10 +50,13 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
       <HorizontalGutter>
         <HorizontalGutter>
           <Localized id="comments-postComment-pasteImage">
-            <InputLabel>Paste image URL</InputLabel>
+            <InputLabel htmlFor="coral-comments-postComment-pasteImage">
+              Paste image URL
+            </InputLabel>
           </Localized>
           <Flex>
             <TextField
+              id="coral-comments-postComment-pasteImage"
               className={styles.input}
               value={url}
               onChange={onChange}

@@ -32,4 +32,7 @@
   .button:hover {
     background-color: transparent;
   }
+  .button[aria-pressed=true]:hover {
+    background-color: var(--palette-grey-300)
+  }
 }
