@@ -7,6 +7,7 @@ import {
   CommentCreatedCoralEventPayload,
   CommentEnteredModerationQueueCoralEventPayload,
   CommentFeaturedCoralEventPayload,
+  CommentReplyCreatedCoralEventPayload,
 } from "../../events";
 import {
   CoralEventListener,
@@ -18,7 +19,8 @@ import SlackPublishEvent, { Trigger } from "./publishEvent";
 type SlackCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload
   | CommentEnteredModerationQueueCoralEventPayload
-  | CommentCreatedCoralEventPayload;
+  | CommentCreatedCoralEventPayload
+  | CommentReplyCreatedCoralEventPayload;
 
 export class SlackCoralEventListener
   implements CoralEventListener<SlackCoralEventListenerPayloads> {
@@ -27,6 +29,7 @@ export class SlackCoralEventListener
     CoralEventType.COMMENT_FEATURED,
     CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE,
     CoralEventType.COMMENT_CREATED,
+    CoralEventType.COMMENT_REPLY_CREATED,
   ];
   private readonly fetch = createFetch({ name: "slack" });
 
@@ -58,6 +61,8 @@ export class SlackCoralEventListener
     switch (payload.type) {
       case CoralEventType.COMMENT_CREATED:
         return "created";
+      case CoralEventType.COMMENT_REPLY_CREATED:
+        return "replied";
       case CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE:
         if (payload.data.queue === GQLMODERATION_QUEUE.REPORTED) {
           return "reported";
