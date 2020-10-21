@@ -1,3 +1,5 @@
+import { isPlainObject } from "lodash";
+
 /**
  * ISO 8601 defines a date format matching the following:
  *
@@ -39,7 +41,7 @@ function transform(value: any): any {
 
   // If the value is a plain object (extending {}), then process each field by
   // itself and return a clone.
-  if (typeof value === "object") {
+  if (isPlainObject(value)) {
     const copy: Record<string, any> = {};
 
     for (const key in value) {
@@ -84,7 +86,7 @@ function reviver(key: string, value: any) {
   // but still nested within the `{ [KEY]: DATE }` object. We then should
   // transform it back to the `DATE` value.
   if (
-    typeof value === "object" &&
+    isPlainObject(value) &&
     KEY in value &&
     Object.keys(value).length === 1 &&
     value[KEY] instanceof Date

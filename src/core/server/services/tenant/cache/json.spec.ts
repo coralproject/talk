@@ -12,6 +12,9 @@ const createInput = () => ({
     "2020-10-19T18:35:31.156Z",
     "2020-10-19T18:35:31.157Z",
   ],
+  thingWithNull: null,
+  thingWithBool: [true, false],
+  thingWithNumbers: [1, 2, 3],
 });
 
 it("stringify values with dates", () => {
