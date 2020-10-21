@@ -5,6 +5,11 @@ import { PromisifiedStorage } from "./PromisifiedStorage";
 
 type Pym = Child | Parent;
 
+interface Request {
+  resolve: (v: any) => void;
+  reject: (v: any) => void;
+}
+
 class PymStorage implements PromisifiedStorage {
   /** Instance to pym */
   private pym: Pym;
@@ -12,11 +17,8 @@ class PymStorage implements PromisifiedStorage {
   /** Requested storage type */
   private type: string;
 
-  /** A Map of requestID => {resolve, reject} */
-  private requests: Record<
-    string,
-    { resolve: (v: any) => void; reject: (v: any) => void }
-  > = {};
+  /** A Map of requestID => Request */
+  private requests: Record<string, Request> = {};
 
   /** Requests method with parameters over pym. */
   private call<T>(
@@ -26,9 +28,23 @@ class PymStorage implements PromisifiedStorage {
     const id = uuid();
     return new Promise((resolve, reject) => {
       this.requests[id] = { resolve, reject };
+
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.debug(`pymStorage.${this.type}.request`, {
+          id,
+          method,
+          parameters,
+        });
+      }
+
       this.pym.sendMessage(
         `pymStorage.${this.type}.request`,
-        JSON.stringify({ id, method, parameters })
+        JSON.stringify({
+          id,
+          method,
+          parameters,
+        })
       );
     });
   }
@@ -38,15 +54,41 @@ class PymStorage implements PromisifiedStorage {
     // Receive successful responses.
     this.pym.onMessage(`pymStorage.${this.type}.response`, (msg: string) => {
       const { id, result } = JSON.parse(msg);
-      this.requests[id].resolve(result);
-      delete this.requests[id];
+
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.debug(`pymStorage.${this.type}.response`, { id, result });
+      }
+
+      if (id in this.requests) {
+        this.requests[id].resolve(result);
+        delete this.requests[id];
+      } else if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `pymStorage.${this.type}.response for missing request: ${id}`
+        );
+      }
     });
 
     // Receive error responses.
     this.pym.onMessage(`pymStorage.${this.type}.error`, (msg: string) => {
       const { id, error } = JSON.parse(msg);
-      this.requests[id].reject(new Error(error));
-      delete this.requests[id];
+
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.debug(`pymStorage.${this.type}.error`, { id, error });
+      }
+
+      if (id in this.requests) {
+        this.requests[id].reject(new Error(error));
+        delete this.requests[id];
+      } else if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `pymStorage.${this.type}.error for missing request: ${id}`
+        );
+      }
     });
   }
 

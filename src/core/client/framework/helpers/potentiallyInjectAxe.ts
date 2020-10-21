@@ -38,7 +38,8 @@ export default async function potentiallyInjectAxe(
   }
 
   // eslint-disable-next-line no-console
-  console.log("Injecting react-axe");
+  console.debug("injecting react-axe");
+
   const axe = (await import("react-axe")).default;
   axe(React, ReactDOM, 1000, {
     rules: [
