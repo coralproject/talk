@@ -185,8 +185,6 @@ comments-showConversationLink-readMore = Przeczytaj więcej w tej konwersacji >
 comments-conversationThread-showMoreOfThisConversation =
   Pokaż więcej w konwersacji
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   W tej chwili widzisz pojedynczy wątek komentarzy
 comments-inReplyTo = W odpowiedzi do <Username></Username>
@@ -235,7 +233,6 @@ comments-moderationDropdown-reject = Odrzuć
 comments-moderationDropdown-rejected = Odrzucony
 comments-moderationDropdown-ban = Zbanuj użytkownika
 comments-moderationDropdown-banned = Zbanowany
-comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Widok moderacji
 comments-moderationDropdown-moderateStory = Moderuj komentarze
 comments-moderationDropdown-caretButton =
@@ -623,28 +620,22 @@ discussions-discussionsQuery-errorLoadingProfile = Błąd podczas ładowania Two
 discussions-discussionsQuery-storyNotFound = Tego artykułu nie udało nam się odnaleźć
 
 ## Comment Stream
-configure-stream-title =
 configure-stream-title-configureThisStream =
   Skonfiguruj ten strumień
-configure-stream-apply =
 configure-stream-update = Zaktualizuj
 configure-stream-streamHasBeenUpdated =
   Tej strumień został odświeżony
 
-configure-premod-title =
 configure-premod-premoderateAllComments = Wstępnie moderuj wszystkie komentarze
 configure-premod-description =
   Moderatorzy muszą zaaprobować wszystkie komentarze zanim zostaną opublikowane przy tym artykule.
 
-configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   Wstępnie moderuj komentarze zawierające linki
 configure-premodLink-description =
   Moderatorzy muszą zaaprobować wszystkie komentarze zawierające link zanim zostaną opublikowane przy tym artykule.
 
-configure-liveUpdates-title =
 configure-enableLiveUpdates-title = Włącz aktualizacje na żywo
-configure-liveUpdates-description =
 configure-enableLiveUpdates-description =
   Kiedy włączysz tę opcję, komentarze będą aktualizowane
   od razu po wysłaniu, bez czekania na przeładowanie strony.
@@ -664,10 +655,8 @@ configure-disableLiveUpdates-disable = Wyłącz
 configure-liveUpdates-disabledSuccess = Aktualizacje na żywo są wyłączone
 configure-liveUpdates-enabledSuccess = Aktualizacje na żywo są wyłączone
 
-configure-messageBox-title =
 configure-addMessage-title =
   Dodaj wiadomość lub pytanie
-configure-messageBox-description =
 configure-addMessage-description =
   Dodaj wiadomość na górze pola komentarzy dla swoich użytkowników.
   Używaj tego jako sugestię do rozpoczęcia dyskusji, zadanie pytania
@@ -691,7 +680,6 @@ configure-messageBox-iconChatBubble = Dymek
 configure-messageBox-noIcon = Brak ikony
 configure-messageBox-writeAMessage = Napisz wiadomość
 
-configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   Zamknij strumień komentarzy
 configure-closeStream-description =
@@ -708,13 +696,10 @@ configure-openStream-description =
 configure-openStream-openStream = Otwórz
 configure-openStream-theStreamIsNowClosed = Strumień jest teraz zamknięty
 
-configure-moderateThisStream =
-
 qa-experimental-tag-tooltip-content =
   Format Q&A jest teraz aktywnie rozwijany. Napisz do nas
   jeśli masz uwagi lub pytania.
 
-configure-enableQA-title =
 configure-enableQA-switchToQA =
   Przełącz na format Q&A
 configure-enableQA-description =
@@ -754,10 +739,8 @@ comments-tombstone-showComment = Pokaż komentarz
 comments-tombstone-deleted =
   Ten komentarz nie jest już dostępny. Komentator usunął swoje konto.
 
-suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
   Twoje konto zostało chwilowo zawieszone i na razie nie możesz komentować.
-suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   Zgodnie z regulaminem społeczności { $organization } Twoje
   konto zostało chwilowo zawieszone. Dopóki jest zawieszone nie

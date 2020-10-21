@@ -96,7 +96,6 @@ resetPassword-resetPasswordButton = Ustaw nowe hasło
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = Stwórz login
 createUsername-whatItIs =
   Twój login jest identyfikatorem, który pojawia się przy wszystkich Twoich komentarzach.
@@ -123,7 +122,6 @@ addEmailAddress-addEmailAddressButton =
   Podaj adres email
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = Stwórz hasło
 createPassword-whatItIs =
   Żeby zapobiec nieautoryzowanemu użyciu Twojego konta,

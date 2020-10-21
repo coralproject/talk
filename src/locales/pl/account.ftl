@@ -26,7 +26,6 @@ resetPassword-missingResetToken = Brakuje tokena do resetowania hasła!
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
   Potwierdź swój adres email
 confirmEmail-confirmEmail = Potwierdź email
@@ -54,14 +53,10 @@ download-landingPage-contentsText =
   Treść komentarza
 download-landingPage-contentsStoryUrl =
   URL artykułu gdzie komentarz został zamieszczony
-download-landingPage-downloadComments =
 download-landingPage-download = Ściągnij
 download-landingPage-sorry = Ten link jest nieprawidłowy.
 
 ## Unsubscribe
-
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
 
 unsubscribe-unsubscribeFromEmails = Wyłącz powiadomienia email
 unsubscribe-oopsSorry = Mamy jakiś problem!
