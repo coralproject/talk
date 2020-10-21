@@ -19,7 +19,6 @@ export type Trigger =
   | "pending"
   | "featured"
   | "created"
-  | "replied"
   | "staffCreated";
 
 export default class SlackPublishEvent {
@@ -67,7 +66,7 @@ export default class SlackPublishEvent {
     if (triggers.includes("staffCreated")) {
       return "This comment has been created by staff";
     }
-    if (triggers.includes("created") || triggers.includes("replied")) {
+    if (triggers.includes("created")) {
       return "This comment has been created";
     }
     if (triggers.includes("featured")) {
@@ -86,8 +85,7 @@ export default class SlackPublishEvent {
   public shouldPublishToChannel({ triggers }: GQLSlackChannel) {
     const triggerSet = this.getTriggers();
     return (
-      (triggers.allComments &&
-        (triggerSet.includes("created") || triggerSet.includes("replied"))) ||
+      (triggers.allComments && triggerSet.includes("created")) ||
       (triggers.featuredComments && triggerSet.includes("featured")) ||
       (triggers.reportedComments && triggerSet.includes("reported")) ||
       (triggers.pendingComments && triggerSet.includes("pending")) ||
