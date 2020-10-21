@@ -103,6 +103,7 @@ export function canModerate(
     user.moderationScopes &&
     siteID &&
     user.moderationScopes.siteIDs &&
+    user.moderationScopes.siteIDs.length > 0 &&
     !user.moderationScopes.siteIDs.includes(siteID)
   ) {
     return false;
