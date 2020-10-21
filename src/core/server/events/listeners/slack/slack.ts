@@ -60,9 +60,8 @@ export class SlackCoralEventListener
   ): Trigger | null {
     switch (payload.type) {
       case CoralEventType.COMMENT_CREATED:
-        return "created";
       case CoralEventType.COMMENT_REPLY_CREATED:
-        return "replied";
+        return "created";
       case CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE:
         if (payload.data.queue === GQLMODERATION_QUEUE.REPORTED) {
           return "reported";
