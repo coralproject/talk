@@ -496,14 +496,10 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...AnnouncementContainer_settings
       ...CommunityGuidelinesContainer_settings
-      ...CommunityGuidelinesContainer_settings
       ...ModerateStreamContainer_settings
-      ...PostCommentFormContainer_settings
       ...PostCommentFormContainer_settings
       ...PreviousCountSpyContainer_settings
       ...SuspendedInfoContainer_settings
-      ...SuspendedInfoContainer_settings
-      ...UserBoxContainer_settings
       ...UserBoxContainer_settings
       ...ViewersWatchingContainer_settings
     }

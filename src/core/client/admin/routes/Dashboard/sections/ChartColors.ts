@@ -1,8 +1,9 @@
-export const CHART_COLOR_PRIMARY = "#419EA7";
-export const CHART_COLOR_PRIMARY_LIGHT = "#59C3C3";
-export const CHART_COLOR_SECONDARY = "#F77160";
-export const CHART_COLOR_MONO_500 = "#353F44";
-export const CHART_COLOR_MONO_100 = "#65696B";
-export const CHART_COLOR_GREY_200 = "#EAEFF0";
-export const CHART_COLOR_PRIMARY_PALE = "#9FECDF";
-export const CHART_COLOR_PRIMARY_DARK = "#2C7B8C";
+import colors from "coral-ui/theme/colors";
+
+export const CHART_COLOR_PRIMARY_600 = colors.teal600;
+export const CHART_COLOR_PRIMARY_100 = colors.teal100;
+export const CHART_COLOR_SECONDARY_600 = colors.coral600;
+export const CHART_COLOR_MONO_500 = colors.mono500;
+export const CHART_COLOR_MONO_100 = colors.mono100;
+export const CHART_COLOR_GREY_200 = colors.grey200;
+export const CHART_COLOR_PRIMARY_700 = colors.teal700;

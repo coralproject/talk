@@ -340,7 +340,7 @@ export default async function createManaged({
 
   if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console
-    console.log(`Using locales ${JSON.stringify(locales)}`);
+    console.debug(`using locales ${JSON.stringify(locales)}`);
   }
 
   const localeBundles = await generateBundles(locales, localesData);

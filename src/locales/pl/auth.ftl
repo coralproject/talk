@@ -68,7 +68,7 @@ forgotPassword-enterEmailAndGetALink =
   Podaj swój adres email poniżej a prześlemy Ci link
   pozwalajacy ustawić nowe hasło.
 
-### Check Email
+# Check Email
 
 forgotPassword-checkEmail-checkEmailHeader = Sprawdź swoją skrzynkę email
 forgotPassword-checkEmail-receiveEmail =
@@ -80,8 +80,8 @@ forgotPassword-checkEmail-closeButton = Zamknij
 
 linkAccount-linkAccountHeader = Połącz konta
 linkAccount-alreadyAssociated =
-  Email <strong>{ $email }</strong> jest 
-  już przypisany do konta. Jeśli chcesz 
+  Email <strong>{ $email }</strong> jest
+  już przypisany do konta. Jeśli chcesz
   połączyć te konta, podaj swoje hasło.
 linkAccount-passwordLabel = Hasło
 linkAccount-passwordTextField =
@@ -96,7 +96,7 @@ resetPassword-resetPasswordButton = Ustaw nowe hasło
 
 ## Create Username
 
-createUsername-createUsernameHeader = Załóż login
+createUsername-createAUsername = Stwórz login
 createUsername-whatItIs =
   Twój login jest identyfikatorem, który pojawia się przy wszystkich Twoich komentarzach.
 createUsername-createUsernameButton = Stwórz login
@@ -105,7 +105,7 @@ createUsername-createUsernameButton = Stwórz login
 addEmailAddress-addEmailAddressHeader = Dodaj adres email
 
 addEmailAddress-whatItIs =
-  Ze względów bezpieczeństwa wymagamy, by użytkownicy dodali adres email do swoich kont. 
+  Ze względów bezpieczeństwa wymagamy, by użytkownicy dodali adres email do swoich kont.
   Twój email będzie wykorzystywany do:
 
 addEmailAddress-receiveUpdates =
@@ -122,9 +122,9 @@ addEmailAddress-addEmailAddressButton =
   Podaj adres email
 
 ## Create Password
-createPassword-createPasswordHeader = Stwórz hasło
+createPassword-createAPassword = Stwórz hasło
 createPassword-whatItIs =
-  Żeby zapobiec nieautoryzowanemu użyciu Twojego konta, 
-  wymagamy podania hasła. 
+  Żeby zapobiec nieautoryzowanemu użyciu Twojego konta,
+  wymagamy podania hasła.
 createPassword-createPasswordButton =
   Stwórz hasło
