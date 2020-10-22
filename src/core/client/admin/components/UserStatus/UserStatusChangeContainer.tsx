@@ -171,7 +171,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       });
       setShowBanned(false);
     },
-    [user, setShowBanned, banUser]
+    [banUser, user.id]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {

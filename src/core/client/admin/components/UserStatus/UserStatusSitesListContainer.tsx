@@ -77,7 +77,7 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   }, [viewerScopes]);
   const [showSites, setShowSites] = useState<boolean>(!!viewerIsScoped);
 
-  const { input: siteIDsInput } = useField<string[]>("siteIDs");
+  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
   const sites = useMemo(() => {
     if (
       viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
@@ -99,17 +99,19 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
     setShowSites(!showSites);
   }, [showSites, setShowSites]);
   const onChangeSite = useCallback(
-    (siteID: string, selectedIndex: number) => () => {
-      const changed = [...siteIDsInput.value];
-      if (selectedIndex >= 0) {
-        changed.splice(selectedIndex, 1);
+    (siteID: string) => () => {
+      const changed = [...selectedIDsInput.value];
+
+      const index = changed.indexOf(siteID);
+      if (index >= 0) {
+        changed.splice(index, 1);
       } else {
         changed.push(siteID);
       }
 
-      siteIDsInput.onChange(changed);
+      selectedIDsInput.onChange(changed);
     },
-    [siteIDsInput]
+    [selectedIDsInput]
   );
 
   return (
@@ -135,16 +137,15 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
           <FormField>
             <ListGroup>
               {sites.map((site) => {
-                const selectedIndex = siteIDsInput.value.indexOf(site.id);
                 const enabled = siteIsVisible(site.id, viewerScopes.sites);
-                const isChecked = selectedIndex >= 0;
+                const isChecked = selectedIDsInput.value.includes(site.id);
 
                 return (
                   <ListGroupRow key={site.id}>
                     <CheckBox
                       disabled={!enabled}
                       checked={isChecked}
-                      onChange={onChangeSite(site.id, selectedIndex)}
+                      onChange={onChangeSite(site.id)}
                     >
                       {site.name}
                     </CheckBox>

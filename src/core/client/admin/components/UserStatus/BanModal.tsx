@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -12,6 +13,7 @@ import {
   HorizontalGutter,
   Textarea,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
@@ -57,28 +59,46 @@ const BanModal: FunctionComponent<Props> = ({
     );
   }, [getMessage, username]);
 
-  const onFormSubmit = useCallback(
-    (input) => {
-      onConfirm(
-        input.rejectExistingComments,
-        input.emailMessage,
-        input.sites?.map((s: any) => s.id)
-      );
-    },
-    [onConfirm]
-  );
-
-  const initialSiteIDs = useMemo(() => {
+  const isSiteMod = useMemo(() => {
     if (
+      moderationScopesEnabled &&
       viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
       viewerScopes.sites &&
       viewerScopes.sites?.length > 0
     ) {
+      return true;
+    }
+    return false;
+  }, [moderationScopesEnabled, viewerScopes.role, viewerScopes.sites]);
+
+  const onFormSubmit = useCallback(
+    (input) => {
+      try {
+        if (isSiteMod) {
+          return { [FORM_ERROR]: "At least one site must be selected" };
+        }
+
+        onConfirm(
+          input.rejectExistingComments,
+          input.emailMessage,
+          input.selectedIDs
+        );
+
+        return;
+      } catch (err) {
+        return { [FORM_ERROR]: err.message };
+      }
+    },
+    [isSiteMod, onConfirm]
+  );
+
+  const initialSiteIDs = useMemo(() => {
+    if (isSiteMod) {
       return viewerScopes.sites ? viewerScopes.sites : [];
     }
 
     return userScopes.sites ? userScopes.sites : [];
-  }, [userScopes.sites, viewerScopes.role, viewerScopes.sites]);
+  }, [isSiteMod, userScopes.sites, viewerScopes.sites]);
 
   return (
     <ChangeStatusModal
@@ -118,20 +138,23 @@ const BanModal: FunctionComponent<Props> = ({
               rejectExistingComments: false,
               emailMessage: getDefaultMessage,
               siteIDs: initialSiteIDs,
+              selectedIDs: [],
             }}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  <Field type="checkbox" name="rejectExistingComments">
-                    {({ input }) => (
-                      <Localized id="community-banModal-reject-existing">
-                        <CheckBox {...input} id="banModal-rejectExisting">
-                          Reject all comments by this user
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  </Field>
+                  {!isSiteMod && (
+                    <Field type="checkbox" name="rejectExistingComments">
+                      {({ input }) => (
+                        <Localized id="community-banModal-reject-existing">
+                          <CheckBox {...input} id="banModal-rejectExisting">
+                            Reject all comments by this user
+                          </CheckBox>
+                        </Localized>
+                      )}
+                    </Field>
+                  )}
                   <Field type="checkbox" name="showMessage">
                     {({ input }) => (
                       <Localized id="community-banModal-customize">
@@ -162,6 +185,14 @@ const BanModal: FunctionComponent<Props> = ({
                     <UserStatusSitesListQuery
                       viewerScopes={viewerScopes}
                       userScopes={userScopes}
+                    />
+                  )}
+
+                  {submitError && (
+                    <CallOut
+                      color="error"
+                      title={submitError}
+                      titleWeight="semiBold"
                     />
                   )}
 
