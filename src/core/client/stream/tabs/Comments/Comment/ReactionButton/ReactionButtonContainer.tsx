@@ -44,8 +44,9 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
   const removeCommentReaction = useMutation(RemoveCommentReactionMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
+  const isLoggedIn = !!viewer;
   const handleClick = useCallback(async () => {
-    if (viewer === null) {
+    if (!isLoggedIn) {
       return showAuthPopup({ view: "SIGN_IN" });
     }
 
@@ -86,10 +87,10 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
     comment.revision,
     comment.viewerActionPresence?.reaction,
     createCommentReaction,
+    isLoggedIn,
     refreshViewer,
     removeCommentReaction,
     showAuthPopup,
-    viewer,
   ]);
 
   const {

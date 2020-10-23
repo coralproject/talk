@@ -31,7 +31,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
       try {
         await inviteUsers({
           role,
-          emails: emails.filter((email: string | null) => Boolean(email)),
+          emails: emails.filter((email: string | null) => !!email),
         });
         onFinish();
       } catch (error) {

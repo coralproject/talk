@@ -41,49 +41,6 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       },
       sessionStorage: createPromisifiedStorage(),
       settings: {
-        auth: {
-          integrations: {
-            facebook: {
-              enabled: false,
-              allowRegistration: true,
-              redirectURL: "http://localhost/facebook",
-              targetFilter: {
-                stream: true,
-              },
-            },
-            google: {
-              enabled: false,
-              allowRegistration: true,
-              redirectURL: "http://localhost/google",
-              targetFilter: {
-                stream: true,
-              },
-            },
-            oidc: {
-              enabled: false,
-              allowRegistration: true,
-              redirectURL: "http://localhost/oidc",
-              targetFilter: {
-                stream: true,
-              },
-            },
-            sso: {
-              enabled: false,
-              allowRegistration: true,
-              targetFilter: {
-                stream: true,
-                admin: true,
-              },
-            },
-            local: {
-              enabled: true,
-              allowRegistration: true,
-              targetFilter: {
-                stream: true,
-              },
-            },
-          },
-        },
         charCount: {
           enabled: true,
           min: 3,

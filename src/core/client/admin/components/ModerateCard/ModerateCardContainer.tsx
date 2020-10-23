@@ -276,7 +276,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <FadeInTransition active={Boolean(comment.enteredLive)}>
+      <FadeInTransition active={!!comment.enteredLive}>
         <ModerateCard
           id={comment.id}
           username={
