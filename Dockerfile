@@ -17,6 +17,7 @@ RUN mkdir -p dist/core/common/__generated__ && \
 
 # Run all application code and dependancy setup as a non-root user:
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#non-root-user
+RUN chown -R node /usr/src/app
 USER node
 
 # Install build static assets and clear caches.
