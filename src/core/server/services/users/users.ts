@@ -661,17 +661,12 @@ export async function updateUsernameByID(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
-  viewer: Pick<User, "id" | "role" | "moderationScopes">,
+  viewer: Pick<User, "id">,
   userID: string,
   role: GQLUSER_ROLE
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot update your own user role");
-  }
-
-  // only admins can promote to admin
-  if (viewer.role !== GQLUSER_ROLE.ADMIN && role === GQLUSER_ROLE.ADMIN) {
-    throw new Error("only admins can update users to administrators");
   }
 
   return updateUserRole(mongo, tenant.id, userID, role);
