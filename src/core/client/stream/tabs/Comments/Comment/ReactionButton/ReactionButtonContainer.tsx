@@ -8,6 +8,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { weControlAuth } from "coral-stream/common/authControl";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 
@@ -44,8 +45,13 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
   const removeCommentReaction = useMutation(RemoveCommentReactionMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
+  const isLoggedIn = !!viewer;
   const handleClick = useCallback(async () => {
-    if (viewer === null) {
+    if (!isLoggedIn) {
+      if (!weControlAuth(settings)) {
+        return;
+      }
+
       return showAuthPopup({ view: "SIGN_IN" });
     }
 
@@ -86,10 +92,11 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
     comment.revision,
     comment.viewerActionPresence?.reaction,
     createCommentReaction,
+    isLoggedIn,
     refreshViewer,
     removeCommentReaction,
+    settings,
     showAuthPopup,
-    viewer,
   ]);
 
   const {
@@ -159,6 +166,7 @@ const enhanced = withFragmentContainer<Props>({
         icon
         iconActive
       }
+      ...authControl_settings @relay(mask: false)
     }
   `,
 })(ReactionButtonContainer);

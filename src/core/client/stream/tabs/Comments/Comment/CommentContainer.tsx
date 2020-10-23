@@ -25,6 +25,7 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { weControlAuth } from "coral-stream/common/authControl";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -161,10 +162,17 @@ export const CommentContainer: FunctionComponent<Props> = ({
         commentID: comment.id,
       });
       setShowEditDialog(true);
-    } else {
+    } else if (weControlAuth(settings)) {
       void showAuthPopup({ view: "SIGN_IN" });
     }
-  }, [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
+  }, [
+    isLoggedIn,
+    settings,
+    eventEmitter,
+    comment.id,
+    setShowEditDialog,
+    showAuthPopup,
+  ]);
 
   const toggleShowReplyDialog = useCallback(() => {
     if (isLoggedIn) {
@@ -175,16 +183,16 @@ export const CommentContainer: FunctionComponent<Props> = ({
       }
 
       setShowReplyDialog((v) => !v);
-    } else {
+    } else if (weControlAuth(settings)) {
       void showAuthPopup({ view: "SIGN_IN" });
     }
   }, [
     isLoggedIn,
+    settings,
     showReplyDialog,
-    setShowReplyDialog,
-    showAuthPopup,
     eventEmitter,
-    comment,
+    comment.id,
+    showAuthPopup,
   ]);
 
   const isViewerBanned = !!viewer?.status.current.includes(
@@ -554,6 +562,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           open={showReportFlow}
                           viewer={viewer}
                           comment={comment}
+                          settings={settings}
                         />
                       )}
                   </ButtonsBar>
@@ -708,6 +717,8 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...UserTagsContainer_settings
             ...MediaSectionContainer_settings
             ...UsernameWithPopoverContainer_settings
+            ...authControl_settings @relay(mask: false)
+            ...ReportButton_settings
           }
         `,
       })(CommentContainer)

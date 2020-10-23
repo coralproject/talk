@@ -1,11 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 import Responsive from "react-responsive";
 
 import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { weControlAuth } from "coral-stream/common/authControl";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -14,6 +15,7 @@ import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
+import { ReportButton_settings } from "coral-stream/__generated__/ReportButton_settings.graphql";
 import { ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
 
 import styles from "./ReportButton.css";
@@ -24,6 +26,7 @@ interface Props {
 
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
+  settings: ReportButton_settings;
   viewer: ReportButton_viewer | null;
 }
 
@@ -33,26 +36,22 @@ const ReportButton: FunctionComponent<Props> = ({
   comment,
   viewer,
   open,
+  settings,
 }) => {
-  const onClickReport = useCallback(() => {
-    onClick();
-  }, [onClick]);
+  const isLoggedIn = !!viewer;
 
-  const isLoggedIn = useMemo(() => {
-    return Boolean(viewer);
-  }, [viewer]);
-
-  const isReported = useMemo(() => {
-    return (
-      comment.viewerActionPresence &&
-      (comment.viewerActionPresence.flag ||
-        comment.viewerActionPresence.dontAgree)
-    );
-  }, [comment]);
+  const isReported =
+    comment.viewerActionPresence &&
+    (comment.viewerActionPresence.flag ||
+      comment.viewerActionPresence.dontAgree);
 
   const signIn = useCallback(() => {
+    if (!weControlAuth(settings)) {
+      return;
+    }
+
     void showAuthPopup({ view: "SIGN_IN" });
-  }, [showAuthPopup]);
+  }, [settings, showAuthPopup]);
 
   if (isReported) {
     return (
@@ -100,7 +99,7 @@ const ReportButton: FunctionComponent<Props> = ({
         fontSize="small"
         fontWeight="semiBold"
         paddingSize="extraSmall"
-        onClick={isLoggedIn ? onClickReport : signIn}
+        onClick={isLoggedIn ? onClick : signIn}
         data-testid="comment-report-button"
       >
         <Flex alignItems="center" container="span">
@@ -135,6 +134,11 @@ const enhanced = withShowAuthPopupMutation(
           dontAgree
           flag
         }
+      }
+    `,
+    settings: graphql`
+      fragment ReportButton_settings on Settings {
+        ...authControl_settings @relay(mask: false)
       }
     `,
   })(ReportButton)

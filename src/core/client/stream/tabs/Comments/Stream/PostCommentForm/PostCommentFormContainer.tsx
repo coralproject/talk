@@ -216,9 +216,11 @@ export class PostCommentFormContainer extends Component<Props, State> {
   };
 
   private handleSignIn = () => {
-    if (weControlAuth(this.props.settings)) {
-      void this.props.showAuthPopup({ view: "SIGN_IN" });
+    if (!weControlAuth(this.props.settings)) {
+      return;
     }
+
+    void this.props.showAuthPopup({ view: "SIGN_IN" });
   };
 
   public render() {

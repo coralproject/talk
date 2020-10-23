@@ -70,8 +70,8 @@ class AuthConfigContainer extends React.Component<Props> {
       data.auth.integrations.oidc,
     ];
     if (
-      !integrations.some((integration) =>
-        Boolean(integration.enabled && integration.targetFilter.admin)
+      !integrations.some(
+        (integration) => integration.enabled && integration.targetFilter.admin
       )
     ) {
       cancel({
@@ -85,8 +85,8 @@ class AuthConfigContainer extends React.Component<Props> {
         ),
       });
     } else if (
-      !integrations.some((integration) =>
-        Boolean(integration.enabled && integration.targetFilter.stream)
+      !integrations.some(
+        (integration) => integration.enabled && integration.targetFilter.stream
       )
     ) {
       const confirmMessage = getMessage(
