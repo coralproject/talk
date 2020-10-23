@@ -17,7 +17,6 @@ import {
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
-import { weControlAuth } from "coral-stream/common/authControl";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -216,9 +215,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
   };
 
   private handleSignIn = () => {
-    if (weControlAuth(this.props.settings)) {
-      void this.props.showAuthPopup({ view: "SIGN_IN" });
-    }
+    void this.props.showAuthPopup({ view: "SIGN_IN" });
   };
 
   public render() {
@@ -315,7 +312,6 @@ const enhanced = withContext(({ sessionStorage }) => ({
           withFragmentContainer<Props>({
             settings: graphql`
               fragment PostCommentFormContainer_settings on Settings {
-                ...authControl_settings @relay(mask: false)
                 charCount {
                   enabled
                   min

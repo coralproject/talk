@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 import Responsive from "react-responsive";
 
@@ -34,21 +34,12 @@ const ReportButton: FunctionComponent<Props> = ({
   viewer,
   open,
 }) => {
-  const onClickReport = useCallback(() => {
-    onClick();
-  }, [onClick]);
+  const isLoggedIn = !!viewer;
 
-  const isLoggedIn = useMemo(() => {
-    return Boolean(viewer);
-  }, [viewer]);
-
-  const isReported = useMemo(() => {
-    return (
-      comment.viewerActionPresence &&
-      (comment.viewerActionPresence.flag ||
-        comment.viewerActionPresence.dontAgree)
-    );
-  }, [comment]);
+  const isReported =
+    comment.viewerActionPresence &&
+    (comment.viewerActionPresence.flag ||
+      comment.viewerActionPresence.dontAgree);
 
   const signIn = useCallback(() => {
     void showAuthPopup({ view: "SIGN_IN" });
@@ -100,7 +91,7 @@ const ReportButton: FunctionComponent<Props> = ({
         fontSize="small"
         fontWeight="semiBold"
         paddingSize="extraSmall"
-        onClick={isLoggedIn ? onClickReport : signIn}
+        onClick={isLoggedIn ? onClick : signIn}
         data-testid="comment-report-button"
       >
         <Flex alignItems="center" container="span">
