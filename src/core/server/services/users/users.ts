@@ -790,7 +790,7 @@ export async function demoteUser(
 export async function updateModerationScopes(
   mongo: Db,
   tenant: Tenant,
-  viewer: Pick<User, "id" | "role" | "moderationScopes">,
+  viewer: Pick<User, "id">,
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
