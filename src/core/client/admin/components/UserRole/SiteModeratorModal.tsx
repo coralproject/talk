@@ -30,8 +30,6 @@ interface Props {
   onFinish: (siteIDs: string[]) => Promise<void>;
   selectedSiteIDs?: string[];
   query: PropTypesOf<typeof SiteModeratorModalSiteFieldContainer>["query"];
-  viewerScoped: boolean;
-  viewerSites?: string[] | null;
 }
 
 const SiteModeratorModal: FunctionComponent<Props> = ({
@@ -41,8 +39,6 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   onCancel,
   selectedSiteIDs = [],
   query,
-  viewerSites,
-  viewerScoped,
 }) => {
   const onSubmit = useCallback(
     async (values: { siteIDs: string[] }) => {
@@ -94,11 +90,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                       and issue suspensions on the sites they are assigned.
                     </ModalBodyText>
                   </Localized>
-                  <SiteModeratorModalSiteFieldContainer
-                    query={query}
-                    viewerScoped={viewerScoped}
-                    viewerSites={viewerSites}
-                  />
+                  <SiteModeratorModalSiteFieldContainer query={query} />
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-siteModeratorModal-cancel">
                       <Button variant="flat" onClick={onCancel}>

@@ -16,15 +16,11 @@ import SiteModeratorModalSiteField from "./SiteModeratorModalSiteField";
 interface Props {
   query: SiteModeratorModalSiteFieldContainer_query;
   relay: RelayPaginationProp;
-  viewerScoped: boolean;
-  viewerSites?: string[] | null;
 }
 
 const SiteModeratorModalSiteFieldContainer: FunctionComponent<Props> = ({
   query,
   relay,
-  viewerSites,
-  viewerScoped,
 }) => {
   const sites = useMemo(
     () => query?.sites.edges.map((edge) => edge.node) || [],
@@ -40,7 +36,6 @@ const SiteModeratorModalSiteFieldContainer: FunctionComponent<Props> = ({
       <SiteModeratorModalSiteField
         loading={!query || isRefetching}
         sites={sites}
-        validSites={viewerScoped ? viewerSites || [] : null}
         onLoadMore={loadMore}
         hasMore={!isRefetching && relay.hasMore()}
         disableLoadMore={isLoadingMore}

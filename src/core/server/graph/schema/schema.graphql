@@ -6802,13 +6802,10 @@ type UpdateUserRolePayload {
 }
 
 ##################
-# promoteUserRole
+# promoteUser
 ##################
 
-input PromoteUserRoleInput {
-  """
-  userID is the ID of the User that should have their role updated.
-  """
+input PromoteUserInput {
   userID: ID!
 
   """
@@ -6817,7 +6814,32 @@ input PromoteUserRoleInput {
   clientMutationId: String!
 }
 
-type PromoteUserRolePayload {
+type PromoteUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
+# demoteUser
+##################
+
+input DemoteUserInput {
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DemoteUserPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -7863,13 +7885,23 @@ type Mutation {
   updateUserRole will update a given User's role.
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
-    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
+    @auth(roles: [ADMIN])
 
   """
-  promoteUser will allow you to promote a user to a moderator.
+  promoteUser will allow the viewer to add one or many scopes that applies to
+  the viewer. If the target user was not already a site moderator, their role is
+  set to site moderator.
   """
-  promoteUserRole(input: PromoteUserRoleInput!): PromoteUserRolePayload!
-    @auth(roles: [ADMIN, MODERATOR], unscoped: false)
+  promoteUser(input: PromoteUserInput!): PromoteUserPayload!
+    @auth(roles: [MODERATOR])
+
+  """
+  demoteUser will allow the viewer to remove one or many scopes that applies to
+  the viewer and the target user. If the target user does not have any remaining
+  scopes, they are set to commenter.
+  """
+  demoteUser(input: DemoteUserInput!): DemoteUserPayload!
+    @auth(roles: [MODERATOR])
 
   """
   updateUserModerationScopes will update the moderation scopes for a given user.
@@ -7878,7 +7910,7 @@ type Mutation {
   """
   updateUserModerationScopes(
     input: UpdateUserModerationScopesInput!
-  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN, MODERATOR], unscoped: true)
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
 
   """
   banUser will ban a specific User from interacting with Comments.

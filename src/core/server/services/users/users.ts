@@ -1,4 +1,4 @@
-import { intersection, isEqual, sortBy } from "lodash";
+import { intersection } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -56,8 +56,10 @@ import {
   FindOrCreateUserInput,
   ignoreUser,
   linkUsers,
+  mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
@@ -90,7 +92,7 @@ import {
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
-  isModerationScoped,
+  isSiteModerationScoped,
 } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -675,10 +677,10 @@ export async function updateRole(
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
-export async function promoteUserRole(
+export async function promoteUser(
   mongo: Db,
   tenant: Tenant,
-  viewer: Pick<User, "id" | "role" | "moderationScopes">,
+  viewer: User,
   userID: string
 ) {
   if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
@@ -691,11 +693,8 @@ export async function promoteUserRole(
     throw new Error("cannot promote yourself");
   }
 
-  if (
-    !viewer.moderationScopes ||
-    viewer.moderationScopes?.siteIDs?.length === 0
-  ) {
-    throw new Error("cannot promote user if we do not have moderation scopes");
+  if (!isSiteModerationScoped(viewer.moderationScopes)) {
+    throw new Error("viewer must be a site moderator");
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -703,45 +702,94 @@ export async function promoteUserRole(
     throw new UserNotFoundError(userID);
   }
 
+  if (user.role === GQLUSER_ROLE.ADMIN) {
+    throw new Error("user can't be an admin");
+  }
+
   if (
     user.role === GQLUSER_ROLE.MODERATOR &&
-    !isModerationScoped(user.moderationScopes)
+    !isSiteModerationScoped(user.moderationScopes)
   ) {
-    throw new Error("cannot promote an organization moderator");
+    throw new Error("user can't be an organization moderator");
+  }
+
+  // Merge the site moderation scopes.
+  let updated = await mergeUserSiteModerationScopes(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.moderationScopes.siteIDs
+  );
+
+  // If the user isn't a site moderator now, make them one!
+  if (updated.role !== GQLUSER_ROLE.MODERATOR) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      user.id,
+      GQLUSER_ROLE.MODERATOR
+    );
+  }
+
+  return updated;
+}
+
+export async function demoteUser(
+  mongo: Db,
+  tenant: Tenant,
+  viewer: User,
+  userID: string
+) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    throw new InternalError("feature flag not enabled", {
+      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
+    });
+  }
+
+  if (viewer.id === userID) {
+    throw new Error("cannot promote yourself");
+  }
+
+  if (!isSiteModerationScoped(viewer.moderationScopes)) {
+    throw new Error("viewer must be a site moderator");
+  }
+
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
   }
 
   if (user.role === GQLUSER_ROLE.ADMIN) {
-    throw new Error("cannot promote an admin");
+    throw new Error("user can't be an admin");
   }
 
-  // promote the user to our role
-  const roleResult = await updateUserRole(
-    mongo,
-    tenant.id,
-    userID,
-    viewer.role
-  );
-  if (roleResult.role !== viewer.role) {
-    throw new Error("failed to promote to role");
-  }
-
-  // promote user to our moderation scopes
-  const scopesResult = await updateUserModerationScopes(
-    mongo,
-    tenant.id,
-    userID,
-    viewer.moderationScopes
-  );
   if (
-    !isEqual(
-      sortBy(viewer.moderationScopes?.siteIDs),
-      sortBy(scopesResult.moderationScopes?.siteIDs)
-    )
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !isSiteModerationScoped(user.moderationScopes)
   ) {
-    throw new Error("failed to promote moderation scopes");
+    throw new Error("user can't be an organization moderator");
   }
 
-  return scopesResult;
+  // Pull the site moderation scopes.
+  let updated = await pullUserSiteModerationScopes(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.moderationScopes.siteIDs
+  );
+
+  // If the user doesn't have any more siteID's, demote the user role to a
+  // commenter.
+  if (updated.moderationScopes?.siteIDs?.length === 0) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      user.id,
+      GQLUSER_ROLE.COMMENTER
+    );
+  }
+
+  return updated;
 }
 
 export async function updateModerationScopes(

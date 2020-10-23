@@ -809,6 +809,58 @@ export async function updateUserRole(
   return result.value;
 }
 
+export async function mergeUserSiteModerationScopes(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  siteIDs: string[]
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $addToSet: {
+        "moderationScopes.siteIDs": { $each: siteIDs },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
+export async function pullUserSiteModerationScopes(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  siteIDs: string[]
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $pull: {
+        "moderationScopes.siteIDs": { $in: siteIDs },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
 export async function updateUserModerationScopes(
   mongo: Db,
   tenantID: string,

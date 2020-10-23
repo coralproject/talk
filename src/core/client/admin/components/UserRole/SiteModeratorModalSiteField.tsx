@@ -22,7 +22,6 @@ interface Props {
   hasMore: boolean;
   disableLoadMore: boolean;
   loading: boolean;
-  validSites: string[] | null;
 }
 
 const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
@@ -31,7 +30,6 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
   hasMore,
   disableLoadMore,
   loading,
-  validSites,
 }) => {
   const { input } = useField<string[]>("siteIDs");
   const onChange = useCallback(
@@ -60,10 +58,6 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
             return (
               <ListGroupRow key={site.id}>
                 <CheckBox
-                  disabled={
-                    (!!validSites && !validSites.includes(site.id)) ||
-                    selectedIndex >= 0
-                  }
                   checked={selectedIndex >= 0}
                   onChange={onChange(site.id, selectedIndex)}
                 >
