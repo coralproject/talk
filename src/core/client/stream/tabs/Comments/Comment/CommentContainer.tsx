@@ -25,7 +25,6 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import { weControlAuth } from "coral-stream/common/authControl";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -162,17 +161,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
         commentID: comment.id,
       });
       setShowEditDialog(true);
-    } else if (weControlAuth(settings)) {
+    } else {
       void showAuthPopup({ view: "SIGN_IN" });
     }
-  }, [
-    isLoggedIn,
-    settings,
-    eventEmitter,
-    comment.id,
-    setShowEditDialog,
-    showAuthPopup,
-  ]);
+  }, [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
 
   const toggleShowReplyDialog = useCallback(() => {
     if (isLoggedIn) {
@@ -183,17 +175,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
       }
 
       setShowReplyDialog((v) => !v);
-    } else if (weControlAuth(settings)) {
+    } else {
       void showAuthPopup({ view: "SIGN_IN" });
     }
-  }, [
-    isLoggedIn,
-    settings,
-    showReplyDialog,
-    eventEmitter,
-    comment.id,
-    showAuthPopup,
-  ]);
+  }, [isLoggedIn, showReplyDialog, eventEmitter, comment.id, showAuthPopup]);
 
   const isViewerBanned = !!viewer?.status.current.includes(
     GQLUSER_STATUS.BANNED
@@ -562,7 +547,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           open={showReportFlow}
                           viewer={viewer}
                           comment={comment}
-                          settings={settings}
                         />
                       )}
                   </ButtonsBar>
@@ -717,8 +701,6 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...UserTagsContainer_settings
             ...MediaSectionContainer_settings
             ...UsernameWithPopoverContainer_settings
-            ...authControl_settings @relay(mask: false)
-            ...ReportButton_settings
           }
         `,
       })(CommentContainer)

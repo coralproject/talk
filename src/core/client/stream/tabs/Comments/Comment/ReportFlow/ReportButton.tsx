@@ -6,7 +6,6 @@ import Responsive from "react-responsive";
 
 import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { weControlAuth } from "coral-stream/common/authControl";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -15,7 +14,6 @@ import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
-import { ReportButton_settings } from "coral-stream/__generated__/ReportButton_settings.graphql";
 import { ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
 
 import styles from "./ReportButton.css";
@@ -26,7 +24,6 @@ interface Props {
 
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
-  settings: ReportButton_settings;
   viewer: ReportButton_viewer | null;
 }
 
@@ -36,7 +33,6 @@ const ReportButton: FunctionComponent<Props> = ({
   comment,
   viewer,
   open,
-  settings,
 }) => {
   const isLoggedIn = !!viewer;
 
@@ -46,12 +42,8 @@ const ReportButton: FunctionComponent<Props> = ({
       comment.viewerActionPresence.dontAgree);
 
   const signIn = useCallback(() => {
-    if (!weControlAuth(settings)) {
-      return;
-    }
-
     void showAuthPopup({ view: "SIGN_IN" });
-  }, [settings, showAuthPopup]);
+  }, [showAuthPopup]);
 
   if (isReported) {
     return (
@@ -134,11 +126,6 @@ const enhanced = withShowAuthPopupMutation(
           dontAgree
           flag
         }
-      }
-    `,
-    settings: graphql`
-      fragment ReportButton_settings on Settings {
-        ...authControl_settings @relay(mask: false)
       }
     `,
   })(ReportButton)
