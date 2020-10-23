@@ -61,49 +61,6 @@ exports[`hide reply button 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -164,57 +121,6 @@ exports[`hide reply button 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -258,49 +164,6 @@ exports[`hide reply button 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -387,49 +250,6 @@ exports[`hide reply button 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -497,49 +317,6 @@ exports[`hide reply button 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -615,49 +392,6 @@ exports[`renders body only 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -726,57 +460,6 @@ exports[`renders body only 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -820,49 +503,6 @@ exports[`renders body only 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -949,49 +589,6 @@ exports[`renders body only 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -1059,49 +656,6 @@ exports[`renders body only 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -1177,49 +731,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": true,
                     },
@@ -1288,57 +799,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": true,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -1382,49 +842,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": true,
               },
@@ -1511,49 +928,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": true,
                 },
@@ -1621,49 +995,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": true,
               },
@@ -1739,49 +1070,6 @@ exports[`renders disabled reply when story is closed 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -1850,57 +1138,6 @@ exports[`renders disabled reply when story is closed 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -1944,49 +1181,6 @@ exports[`renders disabled reply when story is closed 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -2073,49 +1267,6 @@ exports[`renders disabled reply when story is closed 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -2183,49 +1334,6 @@ exports[`renders disabled reply when story is closed 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -2305,49 +1413,6 @@ exports[`renders in reply to 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -2420,57 +1485,6 @@ exports[`renders in reply to 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -2518,49 +1532,6 @@ exports[`renders in reply to 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -2656,49 +1627,6 @@ exports[`renders in reply to 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -2770,49 +1698,6 @@ exports[`renders in reply to 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -2888,49 +1773,6 @@ exports[`renders username and body 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -2999,57 +1841,6 @@ exports[`renders username and body 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -3093,49 +1884,6 @@ exports[`renders username and body 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -3222,49 +1970,6 @@ exports[`renders username and body 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -3332,49 +2037,6 @@ exports[`renders username and body 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -3461,49 +2123,6 @@ exports[`shows conversation link 1`] = `
                 readOnly={false}
                 settings={
                   Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
                     "disableCommenting": Object {
                       "enabled": false,
                     },
@@ -3572,57 +2191,6 @@ exports[`shows conversation link 1`] = `
                 }
                 onClick={[Function]}
                 open={false}
-                settings={
-                  Object {
-                    "auth": Object {
-                      "integrations": Object {
-                        "facebook": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/facebook",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "google": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/google",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "local": Object {
-                          "allowRegistration": true,
-                          "enabled": true,
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "oidc": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "redirectURL": "http://localhost/oidc",
-                          "targetFilter": Object {
-                            "stream": true,
-                          },
-                        },
-                        "sso": Object {
-                          "allowRegistration": true,
-                          "enabled": false,
-                          "targetFilter": Object {
-                            "admin": true,
-                            "stream": true,
-                          },
-                        },
-                      },
-                    },
-                    "disableCommenting": Object {
-                      "enabled": false,
-                    },
-                    "featureFlags": Array [],
-                  }
-                }
                 viewer={null}
               />
             </ButtonsBar>
@@ -3672,49 +2240,6 @@ exports[`shows conversation link 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
@@ -3801,49 +2326,6 @@ exports[`shows conversation link 1`] = `
             }
             settings={
               Object {
-                "auth": Object {
-                  "integrations": Object {
-                    "facebook": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/facebook",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "google": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/google",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "local": Object {
-                      "allowRegistration": true,
-                      "enabled": true,
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "oidc": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "redirectURL": "http://localhost/oidc",
-                      "targetFilter": Object {
-                        "stream": true,
-                      },
-                    },
-                    "sso": Object {
-                      "allowRegistration": true,
-                      "enabled": false,
-                      "targetFilter": Object {
-                        "admin": true,
-                        "stream": true,
-                      },
-                    },
-                  },
-                },
                 "disableCommenting": Object {
                   "enabled": false,
                 },
@@ -3911,49 +2393,6 @@ exports[`shows conversation link 1`] = `
           }
           settings={
             Object {
-              "auth": Object {
-                "integrations": Object {
-                  "facebook": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/facebook",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "google": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/google",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "local": Object {
-                    "allowRegistration": true,
-                    "enabled": true,
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "oidc": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "redirectURL": "http://localhost/oidc",
-                    "targetFilter": Object {
-                      "stream": true,
-                    },
-                  },
-                  "sso": Object {
-                    "allowRegistration": true,
-                    "enabled": false,
-                    "targetFilter": Object {
-                      "admin": true,
-                      "stream": true,
-                    },
-                  },
-                },
-              },
               "disableCommenting": Object {
                 "enabled": false,
               },
