@@ -52,9 +52,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
-import CaretContainer, {
-  RejectedTombstoneContainer,
-} from "./ModerationDropdown";
+import CaretContainer, { RejectedTombstoneContainer } from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
 import RemoveAnswered from "./RemoveAnswered";
@@ -625,9 +623,9 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             mode
           }
           ...CaretContainer_story
-          ...ReplyCommentFormContainer_story
-          ...PermalinkButtonContainer_story
           ...EditCommentFormContainer_story
+          ...PermalinkButtonContainer_story
+          ...ReplyCommentFormContainer_story
           ...UserTagsContainer_story
         }
       `,
@@ -668,18 +666,17 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             dontAgree
             flag
           }
-          ...ReplyCommentFormContainer_comment
-          ...EditCommentFormContainer_comment
-          ...ReactionButtonContainer_comment
-          ...ReportFlowContainer_comment
-          ...ReportButton_comment
           ...CaretContainer_comment
-          ...RejectedTombstoneContainer_comment
-          ...UserTagsContainer_comment
-          ...UsernameWithPopoverContainer_comment
-          ...UsernameContainer_comment
+          ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment
+          ...ReactionButtonContainer_comment
+          ...RejectedTombstoneContainer_comment
+          ...ReplyCommentFormContainer_comment
+          ...ReportButton_comment
+          ...ReportFlowContainer_comment
           ...UsernameContainer_comment
+          ...UsernameWithPopoverContainer_comment
+          ...UserTagsContainer_comment
         }
       `,
       settings: graphql`
@@ -689,13 +686,13 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           }
           featureFlags
           ...CaretContainer_settings
-          ...ReportFlowContainer_settings
+          ...EditCommentFormContainer_settings
+          ...MediaSectionContainer_settings
           ...ReactionButtonContainer_settings
           ...ReplyCommentFormContainer_settings
-          ...EditCommentFormContainer_settings
-          ...UserTagsContainer_settings
-          ...MediaSectionContainer_settings
+          ...ReportFlowContainer_settings
           ...UsernameWithPopoverContainer_settings
+          ...UserTagsContainer_settings
         }
       `,
     })(CommentContainer)

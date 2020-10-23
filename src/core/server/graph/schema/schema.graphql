@@ -2107,6 +2107,11 @@ type BanStatusHistory {
   message is sent to banned user via email.
   """
   message: String!
+
+  """
+  siteIDs are set when the ban was created to perform a site specific ban.
+  """
+  siteIDs: [String!]
 }
 
 """
@@ -2117,6 +2122,11 @@ type BanStatus {
   active when true, indicates that the given user is banned.
   """
   active: Boolean!
+
+  """
+  sites is a list of sites that the user has been site banned on.
+  """
+  sites: [Site!]
 
   """
   history is the list of all ban events against a specific User.
@@ -7101,6 +7111,11 @@ input BanUserInput {
   message: String!
 
   """
+  site ID's to scope the ban to.
+  """
+  siteIDs: [String!]
+
+  """
   whether or not to reject all the user's previous comments when banning them.
   """
   rejectExistingComments: Boolean
@@ -8071,7 +8086,7 @@ type Mutation {
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   removeUserBan will remove an active ban from a User if they have one.

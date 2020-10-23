@@ -45,6 +45,9 @@ const BanUserMutation = createMutation(
                       username
                     }
                   }
+                  sites {
+                    id
+                  }
                 }
               }
             }

@@ -68,6 +68,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
         <UserBanPopoverContainer
           comment={comment}
           story={story}
+          settings={settings}
           onDismiss={onDismiss}
         />
       )}
@@ -109,6 +110,11 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ModerationDropdownContainer_viewer on User {
       ...ModerationActionsContainer_viewer
+    }
+  `,
+  settings: graphql`
+    fragment ModerationDropdownContainer_settings on Settings {
+      ...UserBanPopoverContainer_settings
     }
   `,
 })(ModerationDropdownContainer);

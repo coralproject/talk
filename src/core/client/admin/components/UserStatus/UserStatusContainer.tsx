@@ -15,7 +15,10 @@ interface Props {
 const UserStatusContainer: FunctionComponent<Props> = (props) => {
   return (
     <UserStatus
-      banned={props.user.status.current.includes(GQLUSER_STATUS.BANNED)}
+      banned={
+        props.user.status.current.includes(GQLUSER_STATUS.BANNED) ||
+        props.user.status.ban?.sites?.length !== 0
+      }
       suspended={props.user.status.current.includes(GQLUSER_STATUS.SUSPENDED)}
       premod={props.user.status.current.includes(GQLUSER_STATUS.PREMOD)}
       warned={props.user.status.current.includes(GQLUSER_STATUS.WARNED)}
@@ -28,6 +31,11 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserStatusContainer_user on User {
       status {
         current
+        ban {
+          sites {
+            id
+          }
+        }
       }
     }
   `,

@@ -1,15 +1,17 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex } from "coral-ui/components/v2";
 
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_settings } from "coral-stream/__generated__/UserBanPopoverContainer_settings.graphql";
 import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
@@ -21,11 +23,13 @@ interface Props {
   onDismiss: () => void;
   comment: UserBanPopoverContainer_comment;
   story: UserBanPopoverContainer_story;
+  settings: UserBanPopoverContainer_settings;
 }
 
 const UserBanPopoverContainer: FunctionComponent<Props> = ({
   comment,
   story,
+  settings,
   onDismiss,
 }) => {
   const user = comment.author!;
@@ -33,6 +37,13 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const reject = useMutation(RejectCommentMutation);
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
+
+  const moderationScopesEnabled = useMemo(
+    () =>
+      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+      settings.multisite,
+    [settings]
+  );
 
   const onBan = useCallback(() => {
     void banUser({
@@ -45,7 +56,10 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         "Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments",
         { username: user.username }
       ),
+      // only do this if moderation scopes are enabled
+      siteIDs: moderationScopesEnabled ? [story.site.id] : [],
     });
+
     if (!rejected && comment.revision) {
       void reject({
         commentID: comment.id,
@@ -55,7 +69,20 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       });
     }
     onDismiss();
-  }, [user, banUser, onDismiss, localeBundles, comment, story]);
+  }, [
+    user.id,
+    user.username,
+    comment.id,
+    comment.revision,
+    localeBundles,
+    moderationScopesEnabled,
+    banUser,
+    rejected,
+    onDismiss,
+    story.site.id,
+    story.id,
+    reject,
+  ]);
   return (
     <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
@@ -116,6 +143,15 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment UserBanPopoverContainer_story on Story {
       id
+      site {
+        id
+      }
+    }
+  `,
+  settings: graphql`
+    fragment UserBanPopoverContainer_settings on Settings {
+      multisite
+      featureFlags
     }
   `,
 })(UserBanPopoverContainer);

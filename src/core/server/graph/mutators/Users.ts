@@ -263,6 +263,7 @@ export const Users = (ctx: GraphContext) => ({
     userID,
     message,
     rejectExistingComments = false,
+    siteIDs,
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
@@ -273,6 +274,7 @@ export const Users = (ctx: GraphContext) => ({
       userID,
       message,
       rejectExistingComments,
+      siteIDs,
       ctx.now
     ),
   warn: async (input: GQLWarnUserInput) =>
