@@ -17,7 +17,7 @@ const permissionMap = {
   // Mutation.updateSettings
   CHANGE_CONFIGURATION: [GQLUSER_ROLE.ADMIN],
   // Mutation.updateUserRole
-  CHANGE_ROLE: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
+  CHANGE_ROLE: [GQLUSER_ROLE.ADMIN],
   // Mutation.openStory
   // Mutation.closeStory
   CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
