@@ -16,6 +16,7 @@ import {
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
+  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -35,6 +36,7 @@ import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
 import {
   assertHasFeatureFlag,
+  hasFeatureFlag,
   linkUsersAvailable,
   Tenant,
 } from "coral-server/models/tenant";
