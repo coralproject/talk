@@ -446,6 +446,22 @@ export const retrieveCommentRepliesConnection = (
     },
   });
 
+export const retrieveFlattenedRepliesConnection = (
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  parentID: string,
+  input: CommentConnectionInput
+) =>
+  retrievePublishedCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      ...input.filter,
+      storyID,
+      ancestorIDs: [parentID],
+    },
+  });
+
 /**
  * retrieveCommentParentsConnection will return a comment connection used to
  * represent the parents of a given comment.

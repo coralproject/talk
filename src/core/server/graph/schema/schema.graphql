@@ -3218,6 +3218,12 @@ type Comment @cacheControl(maxAge: 5) {
     after: Cursor
   ): CommentsConnection!
 
+  flattenedReplies(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_ASC
+    after: Cursor
+  ): CommentsConnection!
+
   """
   parent is the immediate parent of a given comment.
   """

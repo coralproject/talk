@@ -307,4 +307,20 @@ export default (ctx: Context) => ({
       authorIDs
     )
   ),
+  flattenedReplies: (
+    storyID: string,
+    parentID: string,
+    { first, orderBy, after }: CommentToRepliesArgs
+  ) =>
+    retrieveCommentRepliesConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      storyID,
+      parentID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
 });
