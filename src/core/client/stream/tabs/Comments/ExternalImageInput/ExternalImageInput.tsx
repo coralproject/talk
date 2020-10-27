@@ -4,6 +4,8 @@ import React, {
   FunctionComponent,
   KeyboardEvent,
   useCallback,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -23,9 +25,16 @@ interface Props {
 
 const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [url, setURL] = useState<string>("");
+  const ref = useRef<HTMLInputElement>(null);
 
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setURL(evt.target.value);
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
   }, []);
 
   const onClick = useCallback(() => {
@@ -64,6 +73,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
               fullWidth
               variant="seamlessAdornment"
               color="streamBlue"
+              ref={ref}
             />
             <Localized id="comments-postComment-insertImage">
               <Button
