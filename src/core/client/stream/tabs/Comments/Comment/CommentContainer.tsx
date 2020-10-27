@@ -359,7 +359,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             parentAuthorName={comment.parent?.author?.username}
             staticUsername={
               comment.author && (
-                <Flex direction="row" alignItems="center">
+                <Flex direction="row" alignItems="center" wrap>
                   <UsernameContainer
                     className={cn(
                       styles.staticUsername,

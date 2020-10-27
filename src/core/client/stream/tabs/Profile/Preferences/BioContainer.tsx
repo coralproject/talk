@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -9,7 +9,12 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateMaxLength } from "coral-framework/lib/validation";
-import { Flex, HorizontalGutter, HorizontalRule } from "coral-ui/components/v2";
+import {
+  Flex,
+  HorizontalGutter,
+  HorizontalRule,
+  Icon,
+} from "coral-ui/components/v2";
 import {
   Button,
   CallOut,
@@ -34,7 +39,9 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
   const updateBio = useMutation(UpdateBioMutation);
   const onRemoveBio = useCallback(() => {
     void updateBio({ bio: null });
+    setRemoved(true);
   }, [updateBio]);
+  const [removed, setRemoved] = useState(false);
   const onSubmit = useCallback(
     async (formData: any) => {
       const { bio } = formData;
@@ -67,7 +74,14 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
         </Localized>
       </HorizontalGutter>
       <Form onSubmit={onSubmit} initialValues={{ bio: viewer.bio }}>
-        {({ handleSubmit, submitting, pristine, invalid, submitError }) => (
+        {({
+          handleSubmit,
+          submitting,
+          pristine,
+          invalid,
+          submitError,
+          submitSucceeded,
+        }) => (
           <form autoComplete="off" onSubmit={handleSubmit} id="bio-form">
             <HorizontalGutter>
               <Field
@@ -99,6 +113,28 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                 )}
               </Field>
 
+              {removed && (
+                <CallOut
+                  color="success"
+                  icon={<Icon size="sm">check_circle</Icon>}
+                  title={
+                    <Localized id="profile-bio-removed">
+                      Your bio has been removed
+                    </Localized>
+                  }
+                />
+              )}
+              {submitSucceeded && (
+                <CallOut
+                  color="success"
+                  icon={<Icon size="sm">check_circle</Icon>}
+                  title={
+                    <Localized id="profile-bio-success">
+                      Your bio has been updated
+                    </Localized>
+                  }
+                />
+              )}
               {submitError && <CallOut color="error">{submitError}</CallOut>}
               <Flex itemGutter className={styles.buttons}>
                 <Localized id="profile-bio-remove">
