@@ -1373,9 +1373,8 @@ type GiphyMediaConfiguration {
   """
   key is the API key for Giphy.
   """
-  key: String @auth(roles: [ADMIN])
+  key: String
 }
-
 type TwitterMediaConfiguration {
   """
   enabled is true when twitter media objects are enabled.

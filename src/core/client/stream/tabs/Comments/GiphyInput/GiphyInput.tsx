@@ -1,4 +1,7 @@
 import { Localized } from "@fluent/react/compat";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { IGif } from "@giphy/js-types";
+import { Grid } from "@giphy/react-components";
 import React, {
   ChangeEvent,
   FunctionComponent,
@@ -9,6 +12,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import useResizeObserver from "use-resize-observer";
+import useDebounce from "react-use/lib/useDebounce";
 
 import { GiphyGif } from "coral-common/types/giphy";
 import { useFetch } from "coral-framework/lib/relay";
@@ -32,25 +37,37 @@ import styles from "./GiphyInput.css";
 interface Props {
   onSelect: (gif: GiphyGif) => void;
   forwardRef?: Ref<HTMLInputElement>;
+  apiKey: string;
+  maxRating: string;
 }
 
-const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
+const GiphyInput: FunctionComponent<Props> = ({
+  onSelect,
+  apiKey,
+  maxRating,
+}) => {
   const gifSearchFetch = useFetch(GifSearchFetch);
   const [results, setResults] = useState<GiphyGif[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
+  const [debouncedInput, setDebouncedInput] = useState<string>("");
+  useDebounce(() => setQuery(debouncedInput), 500, [debouncedInput]);
+
   const [hasNextPage, setHasNextPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const ref = useRef<HTMLInputElement>(null);
-
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
+  const gf = new GiphyFetch(apiKey);
+  const fetchGifs = async (offset: number) =>
+    gf.search(query, { offset, limit: 10 });
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    setQuery(evt.target.value);
+    setDebouncedInput(evt.target.value);
   }, []);
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   }, []);
 
@@ -122,7 +139,7 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
   );
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} ref={ref}>
       <HorizontalGutter>
         <HorizontalGutter>
           <Localized id="comments-postComment-gifSearch">
@@ -132,7 +149,7 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
           </Localized>
           <TextField
             className={styles.input}
-            value={query}
+            value={debouncedInput}
             onChange={onChange}
             onKeyPress={onKeyPress}
             fullWidth
@@ -153,7 +170,7 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
                 </Button>
               </Localized>
             }
-            ref={ref}
+            ref={inputRef}
           />
         </HorizontalGutter>
         {isLoading && (
@@ -161,7 +178,16 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
             <p className={styles.loading}>Loading...</p>
           </Localized>
         )}
-        {results.length > 0 && (
+        {query && (
+          <Grid
+            fetchGifs={fetchGifs}
+            columns={4}
+            key={query}
+            width={width}
+            onGifClick={(result) => onClick(result)}
+          />
+        )}
+        {/* {results.length > 0 && (
           <div>
             <Flex className={styles.results} justifyContent="space-evenly">
               {results.slice(0, results.length / 2).map((result) => (
@@ -196,7 +222,7 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
                 ))}
             </Flex>
           </div>
-        )}
+        )} */}
         {error && (
           <CallOut
             color="error"
