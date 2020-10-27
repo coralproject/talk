@@ -362,6 +362,8 @@ profile-bio-description =
   less than 100 characters.
 profile-bio-remove = Remove
 profile-bio-update = Update
+profile-bio-success = Your bio has been successfully updated.
+profile-bio-removed = Your bio has been removed.
 
 
 ### Account Deletion

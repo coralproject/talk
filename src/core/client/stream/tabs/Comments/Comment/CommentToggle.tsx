@@ -29,7 +29,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
       onClick={props.toggleCollapsed}
       className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
     >
-      <Flex alignItems="center" spacing={1}>
+      <Flex alignItems="flex-start" spacing={1}>
         <Icon className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}>
           add
         </Icon>
@@ -38,11 +38,13 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
           justifyContent="space-between"
           alignItems="center"
           className={cn(styles.inner, CLASSES.comment.topBar.$root)}
+          wrap
         >
           <Flex
             direction="row"
             alignItems="center"
             justifyContent="space-between"
+            wrap
           >
             <Flex
               className={styles.username}
