@@ -1,14 +1,11 @@
 import { Environment } from "relay-runtime";
 
 import { CoralContext } from "coral-framework/lib/bootstrap";
-import { createMutationContainer } from "coral-framework/lib/relay";
+import { createMutation } from "coral-framework/lib/relay";
 
 export interface CompleteAccountInput {
   accessToken: string;
 }
-export type CompleteAccountMutation = (
-  input: CompleteAccountInput
-) => Promise<void>;
 
 export async function commit(
   environment: Environment,
@@ -19,7 +16,6 @@ export async function commit(
   window.close();
 }
 
-export const withCompleteAccountMutation = createMutationContainer(
-  "completeAccount",
-  commit
-);
+const CompleteAccountMutation = createMutation("completeAccount", commit);
+
+export default CompleteAccountMutation;
