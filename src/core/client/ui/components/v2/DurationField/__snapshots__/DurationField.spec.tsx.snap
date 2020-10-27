@@ -4,7 +4,7 @@ exports[`accepts invalid input 1`] = `
 <ForwardRef(forwardRef)
   itemGutter={true}
 >
-  <withPropsOnChange(TextField)
+  <ForwardRef(forwardRef)
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -71,7 +71,7 @@ exports[`renders correctly with default units 1`] = `
 <ForwardRef(forwardRef)
   itemGutter={true}
 >
-  <withPropsOnChange(TextField)
+  <ForwardRef(forwardRef)
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -138,7 +138,7 @@ exports[`renders correctly with specified units 1`] = `
 <ForwardRef(forwardRef)
   itemGutter={true}
 >
-  <withPropsOnChange(TextField)
+  <ForwardRef(forwardRef)
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -194,7 +194,7 @@ exports[`use best matching unit 1`] = `
 <ForwardRef(forwardRef)
   itemGutter={true}
 >
-  <withPropsOnChange(TextField)
+  <ForwardRef(forwardRef)
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -261,7 +261,7 @@ exports[`use initial unit if 0 1`] = `
 <ForwardRef(forwardRef)
   itemGutter={true}
 >
-  <withPropsOnChange(TextField)
+  <ForwardRef(forwardRef)
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"

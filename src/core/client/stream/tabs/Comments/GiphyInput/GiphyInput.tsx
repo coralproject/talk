@@ -3,8 +3,10 @@ import React, {
   ChangeEvent,
   FunctionComponent,
   KeyboardEvent,
+  Ref,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -29,6 +31,7 @@ import styles from "./GiphyInput.css";
 
 interface Props {
   onSelect: (gif: GiphyGif) => void;
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
@@ -39,9 +42,16 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const ref = useRef<HTMLInputElement>(null);
 
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setQuery(evt.target.value);
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
   }, []);
 
   useEffect(() => {
@@ -143,6 +153,7 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
                 </Button>
               </Localized>
             }
+            ref={ref}
           />
         </HorizontalGutter>
         {isLoading && (

@@ -70,7 +70,7 @@ export const createAxios = ({ name }: CreateAxiosOptions): Axios => {
       maxRedirects: 0,
     });
 
-    const ok = response.status >= 200 || response.status <= 299;
+    const ok = response.status >= 200 && response.status <= 299;
 
     return {
       ok,
