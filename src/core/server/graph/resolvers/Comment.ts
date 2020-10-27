@@ -99,12 +99,6 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.childCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
-  flattenedReplies: (c, input, ctx) =>
-    // If there is at least one reply, then use the connection loader, otherwise
-    // return a blank connection.
-    c.childCount > 0
-      ? ctx.loaders.Comments.flattenedReplies(c.storyID, c.id, input)
-      : createConnection(),
   replyCount: async ({ childIDs }, input, ctx) => {
     // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
     if (childIDs.length === 0) {

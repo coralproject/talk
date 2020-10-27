@@ -260,9 +260,9 @@ export default (ctx: Context) => ({
   forParent: (
     storyID: string,
     parentID: string,
-    { first, orderBy, after }: CommentToRepliesArgs
-  ) =>
-    retrieveCommentRepliesConnection(
+    { first, orderBy, after, flatten }: CommentToRepliesArgs
+  ) => {
+    return retrieveCommentRepliesConnection(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
@@ -271,8 +271,10 @@ export default (ctx: Context) => ({
         first: defaultTo(first, 10),
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
         after,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+      },
+      flatten
+    ).then(primeCommentsFromConnection(ctx));
+  },
   parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
     retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
       last: defaultTo(last, 1),

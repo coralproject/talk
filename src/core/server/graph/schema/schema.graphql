@@ -3216,12 +3216,7 @@ type Comment @cacheControl(maxAge: 5) {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-  ): CommentsConnection!
-
-  flattenedReplies(
-    first: Int = 10
-    orderBy: COMMENT_SORT = CREATED_AT_ASC
-    after: Cursor
+    flatten: Boolean
   ): CommentsConnection!
 
   """

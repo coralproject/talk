@@ -435,16 +435,25 @@ export const retrieveCommentRepliesConnection = (
   tenantID: string,
   storyID: string,
   parentID: string,
-  input: CommentConnectionInput
-) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
+  input: CommentConnectionInput,
+  flatten?: boolean
+) => {
+  const filter: any = {
+    ...input.filter,
+    storyID,
+  };
+
+  if (flatten) {
+    filter.ancestorIDs = parentID;
+  } else {
+    filter.parentID = parentID;
+  }
+
+  return retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
-    filter: {
-      ...input.filter,
-      storyID,
-      parentID,
-    },
+    filter,
   });
+};
 
 export const retrieveFlattenedRepliesConnection = (
   mongo: Db,

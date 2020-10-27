@@ -52,8 +52,12 @@ const enhanced = withPaginationContainer<
         status
         pending
         lastViewerAction
-        flattenedReplies(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "FlattenedReplyListContainer_flattenedReplies") {
+        replies(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          flatten: true
+        ) @connection(key: "FlattenedReplyListContainer_replies") {
           viewNewEdges {
             cursor
             node {
@@ -79,7 +83,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.comment && props.comment.flattenedReplies;
+      return props.comment && props.comment.replies;
     },
     getFragmentVariables(prevVars, totalCount) {
       return {
