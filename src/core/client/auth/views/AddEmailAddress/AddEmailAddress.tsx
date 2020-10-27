@@ -51,7 +51,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [setEmail]
+    [setDuplicateEmail, setEmail, setView]
   );
   const ref = useResizePopup();
 
