@@ -32,6 +32,10 @@ const UserStatusSitesListQuery: FunctionComponent<Props> = ({
             return <div>{error.message}</div>;
           }
 
+          if (!props) {
+            return null;
+          }
+
           if (props) {
             return (
               <UserStatusSitesListContainer
