@@ -1,10 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -72,22 +67,16 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   relay,
   viewerScopes,
 }) => {
-  const viewerIsScoped = useMemo(() => {
-    return viewerScopes.sites && viewerScopes.sites.length > 0;
-  }, [viewerScopes]);
+  const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
+  const viewerIsSiteMod =
+    viewerScopes.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
   const [showSites, setShowSites] = useState<boolean>(!!viewerIsScoped);
+  const sites = viewerIsSiteMod
+    ? viewerScopes.sites || []
+    : query?.sites.edges.map((edge) => edge.node) || [];
 
   const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
-  const sites = useMemo(() => {
-    if (
-      viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-      viewerScopes.sites &&
-      viewerScopes.sites.length > 0
-    ) {
-      return viewerScopes.sites || [];
-    }
-    return query?.sites.edges.map((edge) => edge.node) || [];
-  }, [query?.sites.edges, viewerScopes.role, viewerScopes.sites]);
+
   const [loadMore, isLoadingMore] = useLoadMore(relay, 1);
   const [, isRefetching] = useRefetch<
     UserStatusSitesListContainerPaginationQueryVariables

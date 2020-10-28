@@ -59,17 +59,11 @@ const BanModal: FunctionComponent<Props> = ({
     );
   }, [getMessage, username]);
 
-  const isSiteMod = useMemo(() => {
-    if (
-      moderationScopesEnabled &&
-      viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-      viewerScopes.sites &&
-      viewerScopes.sites?.length > 0
-    ) {
-      return true;
-    }
-    return false;
-  }, [moderationScopesEnabled, viewerScopes.role, viewerScopes.sites]);
+  const isSiteMod =
+    !!moderationScopesEnabled &&
+    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
+    !!viewerScopes.sites &&
+    viewerScopes.sites?.length > 0;
 
   const onFormSubmit = useCallback(
     (input) => {

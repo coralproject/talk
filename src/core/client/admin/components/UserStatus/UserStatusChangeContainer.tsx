@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -58,12 +53,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
 
-  const moderationScopesEnabled = useMemo(
-    () =>
-      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-      settings.multisite,
-    [settings.featureFlags, settings.multisite]
-  );
+  const moderationScopesEnabled =
+    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+    settings.multisite;
 
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {

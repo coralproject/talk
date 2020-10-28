@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -38,12 +38,9 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
 
-  const moderationScopesEnabled = useMemo(
-    () =>
-      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-      settings.multisite,
-    [settings]
-  );
+  const moderationScopesEnabled =
+    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+    settings.multisite;
 
   const onBan = useCallback(() => {
     void banUser({
