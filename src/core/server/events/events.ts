@@ -124,23 +124,6 @@ export const CommentReleasedCoralEvent = createCoralEvent<
   forward: [CommentEnteredCoralEvent],
 });
 
-export interface CommentReplyReleasedInput {
-  ancestorIDs: string[];
-  commentID: string;
-  storyID: string;
-}
-
-export type CommentReplyReleasedCoralEventPayload = CoralEventPayload<
-  CoralEventType.COMMENT_REPLY_RELEASED,
-  CommentReplyReleasedInput
->;
-
-export const CommentReplyReleasedCoralEvent = createCoralEvent<
-  CommentReplyReleasedCoralEventPayload
->(CoralEventType.COMMENT_REPLY_RELEASED, {
-  forward: [CommentEnteredCoralEvent],
-});
-
 export type StoryCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.STORY_CREATED,
   {

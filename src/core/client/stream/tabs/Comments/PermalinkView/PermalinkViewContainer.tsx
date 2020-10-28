@@ -51,24 +51,25 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
   useEffect(() => {
-    if (comment?.id) {
-      const disposable = subscribeToCommentEntered({
-        storyID: story.id,
-        ancestorID: comment.id,
-        liveDirectRepliesInsertion: true,
-        storyConnectionKey: "Stream_comments",
-      });
-      return () => {
-        disposable.dispose();
-      };
+    if (!comment?.id) {
+      return;
     }
-    return;
+    const disposable = subscribeToCommentEntered({
+      storyID: story.id,
+      ancestorID: comment.id,
+      liveDirectRepliesInsertion: true,
+      storyConnectionKey: "Stream_comments",
+    });
+    return () => {
+      disposable.dispose();
+    };
   }, [comment?.id, story.id, subscribeToCommentEntered]);
 
   useEffect(() => {
-    if (pym) {
-      setTimeout(() => pym.scrollParentToChildPos(0), 100);
+    if (!pym) {
+      return;
     }
+    setTimeout(() => pym.scrollParentToChildPos(0), 100);
   }, [pym]);
 
   const onShowAllComments = useCallback(
@@ -83,7 +84,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   );
 
   const showAllCommentsHref = useMemo(() => {
-    const url = (pym && pym.parentUrl) || window.location.href;
+    const url = pym?.parentUrl || window.location.href;
     return getURLWithCommentID(url, undefined);
   }, [pym]);
 

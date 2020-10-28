@@ -37,7 +37,6 @@ export class SubscriptionCoralEventListener
     CoralEventType.COMMENT_FEATURED,
     CoralEventType.COMMENT_RELEASED,
   ];
-  public readonly composite = [];
 
   private translate(
     type: SubscriptionCoralEventListenerPayloads["type"]

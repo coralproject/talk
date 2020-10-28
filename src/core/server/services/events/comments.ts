@@ -1,5 +1,6 @@
 import {
   CommentCreatedCoralEvent,
+  CommentEnteredCoralEvent,
   CommentEnteredModerationQueueCoralEvent,
   CommentFeaturedCoralEvent,
   CommentFlagCreatedCoralEvent,
@@ -7,7 +8,6 @@ import {
   CommentReactionCreatedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
-  CommentReplyReleasedCoralEvent,
   CommentStatusUpdatedCoralEvent,
 } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -92,15 +92,11 @@ export async function publishCommentReleased(
 
 export async function publishCommentReplyReleased(
   broker: CoralEventPublisherBroker,
-  comment: Pick<
-    Comment,
-    "id" | "storyID" | "parentID" | "ancestorIDs" | "status"
-  >
+  comment: Pick<Comment, "storyID" | "parentID" | "ancestorIDs" | "status">
 ) {
   if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
-    await CommentReplyReleasedCoralEvent.publish(broker, {
+    await CommentEnteredCoralEvent.publish(broker, {
       ancestorIDs: comment.ancestorIDs,
-      commentID: comment.id,
       storyID: comment.storyID,
     });
   }
