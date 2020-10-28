@@ -42,7 +42,7 @@ const SetAccessTokenMutation = createMutation(
       return;
     }
     // Clear current session, as we are starting a new one.
-    await clearSession(accessToken, ephemeral);
+    await clearSession(accessToken, { ephemeral });
   }
 );
 

@@ -188,7 +188,7 @@ function createManagedCoralContextProvider(
     // This is called every time a user session starts or ends.
     private clearSession = async (
       nextAccessToken?: string,
-      ephemeral?: boolean
+      options: { ephemeral?: boolean } = {}
     ) => {
       // Clear session storage.
       void this.state.context.sessionStorage.clear();
@@ -198,7 +198,7 @@ function createManagedCoralContextProvider(
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
-        ? ephemeral
+        ? options.ephemeral
           ? parseAccessToken(nextAccessToken)
           : storeAccessTokenInLocalStorage(nextAccessToken)
         : deleteAccessTokenFromLocalStorage();
