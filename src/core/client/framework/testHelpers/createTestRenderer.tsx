@@ -127,6 +127,10 @@ export default function createTestRenderer<
       allowTransition: true,
       history: [],
     },
+    tokenRefreshProvider: {
+      register: () => () => {},
+      refreshToken: () => "",
+    },
   };
 
   let testRenderer: ReactTestRenderer;

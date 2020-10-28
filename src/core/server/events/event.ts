@@ -31,7 +31,16 @@ export interface CoralEventPayload<
   readonly createdAt: Date;
 }
 
-export function createCoralEvent<T extends CoralEventPayload>(type: T["type"]) {
+export interface CoralEvent<T> {
+  publish: (broker: CoralEventPublisherBroker, data: T) => Promise<void>;
+}
+
+export function createCoralEvent<T extends CoralEventPayload>(
+  type: T["type"],
+  options: {
+    forward?: Array<CoralEvent<T["data"]>>;
+  } = {}
+): CoralEvent<T["data"]> {
   return {
     publish: async (broker: CoralEventPublisherBroker, data: T["data"]) => {
       const event: CoralEventPayload = {
@@ -45,7 +54,11 @@ export function createCoralEvent<T extends CoralEventPayload>(type: T["type"]) {
         { eventType: event.type, eventID: event.id },
         "publishing event"
       );
-      await broker.emit(event);
+      const promises: Promise<any>[] = [Promise.resolve(broker.emit(event))];
+      if (options.forward) {
+        promises.push(...options.forward.map((f) => f.publish(broker, data)));
+      }
+      await Promise.all(promises);
     },
   };
 }
