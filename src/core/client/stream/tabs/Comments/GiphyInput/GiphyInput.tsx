@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { GiphyFetch } from "@giphy/js-fetch-api";
+import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
 import { IGif } from "@giphy/js-types";
 import { Grid } from "@giphy/react-components";
 import React, {
@@ -9,33 +9,29 @@ import React, {
   Ref,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import useResizeObserver from "use-resize-observer";
 import useDebounce from "react-use/lib/useDebounce";
+import useResizeObserver from "use-resize-observer";
 
-import { GiphyGif } from "coral-common/types/giphy";
-import { useFetch } from "coral-framework/lib/relay";
 import {
-  BaseButton,
   Button,
   ButtonIcon,
-  Flex,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
 
-import { GIF_RESULTS_LIMIT, GifSearchFetch } from "./GifSearchFetch";
 import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GiphyInput.css";
 
+const APPROX_COL_WIDTH = 120;
+
 interface Props {
-  onSelect: (gif: GiphyGif) => void;
+  onSelect: (gif: IGif) => void;
   forwardRef?: Ref<HTMLInputElement>;
   apiKey: string;
   maxRating: string;
@@ -46,21 +42,20 @@ const GiphyInput: FunctionComponent<Props> = ({
   apiKey,
   maxRating,
 }) => {
-  const gifSearchFetch = useFetch(GifSearchFetch);
-  const [results, setResults] = useState<GiphyGif[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(0);
   const [query, setQuery] = useState<string>("");
   const [debouncedInput, setDebouncedInput] = useState<string>("");
   useDebounce(() => setQuery(debouncedInput), 500, [debouncedInput]);
 
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
   const gf = new GiphyFetch(apiKey);
   const fetchGifs = async (offset: number) =>
-    gf.search(query, { offset, limit: 10 });
+    gf.search(query, {
+      offset,
+      limit: 10,
+      rating: maxRating as SearchOptions["rating"],
+      sort: "relevant",
+    });
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setDebouncedInput(evt.target.value);
   }, []);
@@ -71,54 +66,6 @@ const GiphyInput: FunctionComponent<Props> = ({
     }
   }, []);
 
-  useEffect(() => {
-    async function search() {
-      try {
-        const res = await gifSearchFetch({ query, page });
-        const { pagination, data } = res;
-        if (pagination.total_count > pagination.offset * GIF_RESULTS_LIMIT) {
-          setHasNextPage(true);
-        } else {
-          setHasNextPage(false);
-        }
-        setError(null);
-        setResults(data);
-      } catch (err) {
-        setError(err.message);
-      }
-
-      setIsLoading(false);
-    }
-
-    let timeout: any | null = null;
-
-    if (query && query.length > 1) {
-      setIsLoading(true);
-
-      timeout = setTimeout(() => {
-        timeout = null;
-        void search();
-      }, 200);
-    } else {
-      setPage(0);
-      setResults([]);
-      setIsLoading(false);
-    }
-
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [query, page, setResults, setIsLoading, setPage, gifSearchFetch]);
-
-  const nextPage = useCallback(() => {
-    setPage((p) => p + 1);
-  }, []);
-  const prevPage = useCallback(() => {
-    setPage((p) => p - 1);
-  }, []);
-
   const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") {
       return;
@@ -127,11 +74,15 @@ const GiphyInput: FunctionComponent<Props> = ({
     e.preventDefault();
   }, []);
 
+  const gridColumns = useMemo(() => {
+    if (width < APPROX_COL_WIDTH * 2) {
+      return 2;
+    }
+    return Math.floor(width / APPROX_COL_WIDTH);
+  }, [width]);
+
   const onClick = useCallback(
-    (gif: GiphyGif) => {
-      setResults([]);
-      setPage(0);
-      setHasNextPage(false);
+    (gif: IGif) => {
       setQuery("");
       onSelect(gif);
     },
@@ -173,105 +124,32 @@ const GiphyInput: FunctionComponent<Props> = ({
             ref={inputRef}
           />
         </HorizontalGutter>
-        {isLoading && (
-          <Localized id="comments-postComment-gifSearch-loading">
-            <p className={styles.loading}>Loading...</p>
-          </Localized>
-        )}
-        {query && (
-          <Grid
-            fetchGifs={fetchGifs}
-            columns={4}
-            key={query}
-            width={width}
-            onGifClick={(result) => onClick(result)}
-          />
-        )}
-        {/* {results.length > 0 && (
-          <div>
-            <Flex className={styles.results} justifyContent="space-evenly">
-              {results.slice(0, results.length / 2).map((result) => (
-                <BaseButton
-                  key={result.id}
-                  onClick={() => onClick(result)}
-                  className={styles.result}
+        <div className={styles.grid}>
+          {query && (
+            <Grid
+              fetchGifs={fetchGifs}
+              hideAttribution
+              noLink={true}
+              gutter={4}
+              columns={gridColumns}
+              noResultsMessage={
+                <Localized
+                  id="comments-postComment-gifSearch-no-results"
+                  $query={query}
                 >
-                  <img
-                    src={result.images.fixed_height_downsampled.url}
-                    alt={result.title}
-                    className={styles.resultImg}
-                  />
-                </BaseButton>
-              ))}
-            </Flex>
-            <Flex className={styles.results} justifyContent="space-evenly">
-              {results
-                .slice(results.length / 2, results.length)
-                .map((result) => (
-                  <BaseButton
-                    className={styles.result}
-                    key={result.id}
-                    onClick={() => onClick(result)}
-                  >
-                    <img
-                      src={result.images.fixed_height_downsampled.url}
-                      alt={result.title}
-                      className={styles.resultImg}
-                    />
-                  </BaseButton>
-                ))}
-            </Flex>
-          </div>
-        )} */}
-        {error && (
-          <CallOut
-            color="error"
-            title={error}
-            titleWeight="semiBold"
-            icon={<Icon>error</Icon>}
-          />
-        )}
+                  <p className={styles.noResults}>
+                    No results found for "{query}"{" "}
+                  </p>
+                </Localized>
+              }
+              key={query}
+              width={width}
+              onGifClick={(result) => onClick(result)}
+            />
+          )}
+        </div>
+
         <GiphyAttribution />
-        {results.length > 0 && (
-          <Flex
-            justifyContent={
-              results.length > 0 && hasNextPage && page > 0
-                ? "space-between"
-                : "flex-end"
-            }
-          >
-            {results.length > 0 && page > 0 && (
-              <Button
-                onClick={prevPage}
-                variant="outlined"
-                color="stream"
-                iconLeft
-              >
-                <ButtonIcon>keyboard_arrow_left</ButtonIcon>
-                Previous
-              </Button>
-            )}
-            {results.length > 0 && hasNextPage && (
-              <Button
-                onClick={nextPage}
-                variant="outlined"
-                color="stream"
-                iconRight
-              >
-                Next
-                <ButtonIcon>keyboard_arrow_right</ButtonIcon>
-              </Button>
-            )}
-          </Flex>
-        )}
-        {!isLoading && !error && results.length === 0 && query.length > 1 && (
-          <Localized
-            id="comments-postComment-gifSearch-no-results"
-            $query={query}
-          >
-            <p className={styles.noResults}>No results found for "{query}" </p>
-          </Localized>
-        )}
       </HorizontalGutter>
     </div>
   );

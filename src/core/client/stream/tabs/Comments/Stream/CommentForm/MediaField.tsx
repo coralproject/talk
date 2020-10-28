@@ -1,8 +1,8 @@
+import { IGif } from "@giphy/js-types";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { GiphyGif } from "coral-common/types/giphy";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -55,7 +55,7 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: GiphyGif) =>
+    (gif: IGif) =>
       onChange({
         type: "giphy",
         id: gif.id,
