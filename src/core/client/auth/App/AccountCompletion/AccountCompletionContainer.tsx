@@ -58,7 +58,12 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     // If we don't have the email address, then link or add the email address to
     // the account.
     if (!hasEmail) {
-      if (duplicateEmail || viewer.duplicateEmail) {
+      if (
+        (duplicateEmail || viewer.duplicateEmail) &&
+        // User with a duplicate email might choose to use
+        // a different email address instead of linking.
+        currentView !== "ADD_EMAIL_ADDRESS"
+      ) {
         return "LINK_ACCOUNT";
       }
 
