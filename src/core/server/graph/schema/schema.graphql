@@ -2111,7 +2111,7 @@ type BanStatusHistory {
   """
   siteIDs are set when the ban was created to perform a site specific ban.
   """
-  siteIDs: [String!]
+  siteIDs: [ID!]
 }
 
 """
@@ -6900,7 +6900,7 @@ input ModerationScopesInput {
   siteIDs is an array of ID's that should be the list of sites that a moderator
   is limited to. If none are passed, it will remove the scoping for this User.
   """
-  siteIDs: [String!]
+  siteIDs: [ID!]
 }
 
 input UpdateUserModerationScopesInput {
@@ -7113,7 +7113,7 @@ input BanUserInput {
   """
   site ID's to scope the ban to.
   """
-  siteIDs: [String!]
+  siteIDs: [ID!]
 
   """
   whether or not to reject all the user's previous comments when banning them.
