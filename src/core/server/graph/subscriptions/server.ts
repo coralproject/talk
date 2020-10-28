@@ -145,7 +145,10 @@ function hasStoryViewer(
 export type OnConnectOptions = RequireProperty<
   Omit<GraphContextOptions, "tenant" | "disableCaching">,
   "signingConfig"
->;
+> &
+  Pick<AppOptions, "metrics">;
+
+const connections = new Map<IncomingMessage, number>();
 
 export function onConnect(options: OnConnectOptions): OnConnectFn {
   // Create the JWT verifiers that will be used to verify all the requests
@@ -154,11 +157,20 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
   // Return the per-connection operation.
   return async (connectionParams, socket) => {
-    logger.trace("a socket has connected");
-
     try {
       // Pull the upgrade request off of the connection.
       const req: IncomingMessage = socket.upgradeReq;
+
+      // Add the connection to the set if it isn't there already.
+      if (!connections.has(req)) {
+        connections.set(req, Date.now());
+        logger.trace(
+          { connections: connections.size },
+          "a socket has connected"
+        );
+
+        options.metrics.connectedWebsocketsTotalGauge.inc();
+      }
 
       // Get the hostname of the request.
       const hostname = getHostname(req);
@@ -288,11 +300,24 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 export type OnDisconnectOptions = RequireProperty<
   Omit<GraphContextOptions, "tenant" | "disableCaching">,
   "redis" | "pubsub"
->;
+> &
+  Pick<AppOptions, "metrics">;
 
 function onDisconnect(options: OnDisconnectOptions): OnDisconnectFn {
   return async (socket) => {
-    logger.trace("a socket has disconnected");
+    // Pull the upgrade request off of the connection.
+    const req: IncomingMessage = socket.upgradeReq;
+
+    const start = connections.get(req);
+    if (start) {
+      connections.delete(req);
+      logger.trace(
+        { connections: connections.size, sessionLength: Date.now() - start },
+        "a socket has disconnected"
+      );
+
+      options.metrics.connectedWebsocketsTotalGauge.dec();
+    }
 
     // If the socket has a clientID attached, then remove the story viewer
     // entry.
