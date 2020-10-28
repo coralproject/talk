@@ -2,6 +2,7 @@ import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,
+  createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -45,6 +46,7 @@ async function createTestRenderer(
         params.resolvers
       ),
       initLocalState: (localRecord, source, environment) => {
+        localRecord.setValue(createAccessToken(), "accessToken");
         localRecord.setValue("SIGN_IN", "authView");
         if (params.initLocalState) {
           params.initLocalState(localRecord, source, environment);
