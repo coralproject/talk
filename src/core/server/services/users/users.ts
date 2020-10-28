@@ -1079,7 +1079,7 @@ export async function ban(
     throw new UserNotFoundError(userID);
   }
 
-  let user: Readonly<User> | null = null;
+  let user: Readonly<User>;
 
   // Perform a site ban
   if (siteIDs && siteIDs.length > 0) {
