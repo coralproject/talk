@@ -85,8 +85,8 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   const hasMore = !isRefetching && relay.hasMore();
 
   const toggleShowSites = useCallback(() => {
-    setShowSites(!showSites);
-  }, [showSites, setShowSites]);
+    setShowSites((s) => !s);
+  }, [setShowSites]);
   const onChangeSite = useCallback(
     (siteID: string) => () => {
       const changed = [...selectedIDsInput.value];
