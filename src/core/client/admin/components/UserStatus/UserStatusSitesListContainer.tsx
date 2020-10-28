@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { useField } from "react-final-form";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -71,9 +76,16 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   const viewerIsSiteMod =
     viewerScopes.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
   const [showSites, setShowSites] = useState<boolean>(!!viewerIsScoped);
-  const sites = viewerIsSiteMod
-    ? viewerScopes.sites || []
-    : query?.sites.edges.map((edge) => edge.node) || [];
+
+  const sites = useMemo(() => {
+    const items = viewerIsSiteMod
+      ? viewerScopes.sites || []
+      : query?.sites.edges.map((edge) => edge.node) || [];
+
+    return viewerIsSiteMod
+      ? items.filter((i) => siteIsVisible(i.id, viewerScopes.sites))
+      : items;
+  }, [query?.sites.edges, viewerIsSiteMod, viewerScopes.sites]);
 
   const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
 
@@ -126,13 +138,11 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
           <FormField>
             <ListGroup>
               {sites.map((site) => {
-                const enabled = siteIsVisible(site.id, viewerScopes.sites);
                 const isChecked = selectedIDsInput.value.includes(site.id);
 
                 return (
                   <ListGroupRow key={site.id}>
                     <CheckBox
-                      disabled={!enabled}
                       checked={isChecked}
                       onChange={onChangeSite(site.id)}
                     >
