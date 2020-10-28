@@ -11,9 +11,10 @@ interface Props {
 }
 
 const Frame: FunctionComponent<Props> = ({ id, src, sandbox }) => {
-  const containerID = useMemo(() => {
-    return id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`;
-  }, [id]);
+  const containerID = useMemo(
+    () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
+    [id]
+  );
 
   useEffect(() => {
     // Create the configuration used for the iframe.
