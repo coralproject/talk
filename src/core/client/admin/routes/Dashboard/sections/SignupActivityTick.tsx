@@ -5,7 +5,7 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import {
   CHART_COLOR_MONO_100,
   CHART_COLOR_MONO_500,
-  CHART_COLOR_PRIMARY_DARK,
+  CHART_COLOR_PRIMARY_700,
 } from "./ChartColors";
 
 interface TickPayload {
@@ -37,6 +37,7 @@ const SignupActivityTick: FunctionComponent<Props> = ({
     weekday: "short",
   });
   const dayOfWeek = useMemo(() => dayOfWeekFormatter(payload.value), [
+    dayOfWeekFormatter,
     payload.value,
   ]);
   return (
@@ -45,7 +46,7 @@ const SignupActivityTick: FunctionComponent<Props> = ({
         x={0}
         y={0}
         dy={12}
-        fill={isToday ? CHART_COLOR_PRIMARY_DARK : CHART_COLOR_MONO_500}
+        fill={isToday ? CHART_COLOR_PRIMARY_700 : CHART_COLOR_MONO_500}
         fontSize={12}
         fontWeight={isToday ? 700 : 600}
         textAnchor="middle"
@@ -56,7 +57,7 @@ const SignupActivityTick: FunctionComponent<Props> = ({
         x={0}
         y={0}
         dy={28}
-        fill={isToday ? CHART_COLOR_PRIMARY_DARK : CHART_COLOR_MONO_100}
+        fill={isToday ? CHART_COLOR_PRIMARY_700 : CHART_COLOR_MONO_100}
         fontSize={12}
         fontWeight={isToday ? 700 : 500}
         textAnchor="middle"

@@ -1,9 +1,13 @@
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import {
+  GQLFEATURE_FLAG,
+  GQLUSER_ROLE,
+  GQLUSER_ROLE_RL,
+} from "coral-framework/schema";
 
 import { UserRoleChangeContainer_query } from "coral-admin/__generated__/UserRoleChangeContainer_query.graphql";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
@@ -11,6 +15,7 @@ import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRole
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
+import SiteModeratorActions from "./SiteModeratorActions";
 import UpdateUserModerationScopesMutation from "./UpdateUserModerationScopesMutation";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 import UserRoleChange from "./UserRoleChange";
@@ -51,19 +56,24 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
         moderationScopes: { siteIDs },
       });
     },
-    [user]
-  );
-  const canChangeRole = useMemo(
-    () => viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE),
-    [viewer, user]
+    [updateUserModerationScopes, user.id]
   );
 
-  const moderationScopesEnabled = useMemo(
-    () =>
-      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-      settings.multisite,
-    [settings]
-  );
+  const canChangeRole =
+    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
+
+  const moderationScopesEnabled =
+    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
+    settings.multisite;
+
+  const canPromoteDemote =
+    viewer.id !== user.id &&
+    viewer.role === GQLUSER_ROLE.MODERATOR &&
+    !!viewer.moderationScopes?.scoped;
+
+  if (canPromoteDemote) {
+    return <SiteModeratorActions viewer={viewer} user={user} />;
+  }
 
   if (!canChangeRole) {
     return (
@@ -96,6 +106,10 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserRoleChangeContainer_viewer on User {
       id
       role
+      moderationScopes {
+        scoped
+      }
+      ...SiteModeratorActions_viewer
     }
   `,
   user: graphql`
@@ -110,6 +124,7 @@ const enhanced = withFragmentContainer<Props>({
           name
         }
       }
+      ...SiteModeratorActions_user
     }
   `,
   settings: graphql`

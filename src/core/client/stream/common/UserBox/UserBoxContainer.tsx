@@ -14,7 +14,10 @@ import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated_
 import { UserBoxContainerLocal as Local } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
 import { supportsRegister, weControlAuth } from "../authControl";
-import { ShowAuthPopupMutation, withShowAuthPopupMutation } from "../AuthPopup";
+import AuthPopup, {
+  ShowAuthPopupMutation,
+  withShowAuthPopupMutation,
+} from "../AuthPopup";
 import UserBoxAuthenticated from "./UserBoxAuthenticated";
 import UserBoxUnauthenticated from "./UserBoxUnauthenticated";
 
@@ -61,14 +64,17 @@ export class UserBoxContainer extends Component<Props, State> {
     }
 
     return (
-      <UserBoxUnauthenticated
-        onSignIn={this.handleSignIn}
-        onRegister={
-          (supportsRegister(this.props.settings) && this.handleRegister) ||
-          undefined
-        }
-        showRegisterButton={supportsRegister(this.props.settings)}
-      />
+      <>
+        <AuthPopup />
+        <UserBoxUnauthenticated
+          onSignIn={this.handleSignIn}
+          onRegister={
+            (supportsRegister(this.props.settings) && this.handleRegister) ||
+            undefined
+          }
+          showRegisterButton={supportsRegister(this.props.settings)}
+        />
+      </>
     );
   }
 }

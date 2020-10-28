@@ -56,8 +56,10 @@ import {
   FindOrCreateUserInput,
   ignoreUser,
   linkUsers,
+  mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
@@ -90,6 +92,7 @@ import {
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
+  isSiteModerationScoped,
 } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -658,21 +661,136 @@ export async function updateUsernameByID(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id">,
+  viewer: Pick<User, "id">,
   userID: string,
   role: GQLUSER_ROLE
 ) {
-  if (user.id === userID) {
+  if (viewer.id === userID) {
     throw new Error("cannot update your own user role");
   }
 
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
+export async function promoteUser(
+  mongo: Db,
+  tenant: Tenant,
+  viewer: User,
+  userID: string
+) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    throw new InternalError("feature flag not enabled", {
+      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
+    });
+  }
+
+  if (viewer.id === userID) {
+    throw new Error("cannot promote yourself");
+  }
+
+  if (!isSiteModerationScoped(viewer.moderationScopes)) {
+    throw new Error("viewer must be a site moderator");
+  }
+
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  if (user.role === GQLUSER_ROLE.ADMIN) {
+    throw new Error("user can't be an admin");
+  }
+
+  if (
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !isSiteModerationScoped(user.moderationScopes)
+  ) {
+    throw new Error("user can't be an organization moderator");
+  }
+
+  // Merge the site moderation scopes.
+  let updated = await mergeUserSiteModerationScopes(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.moderationScopes.siteIDs
+  );
+
+  // If the user isn't a site moderator now, make them one!
+  if (updated.role !== GQLUSER_ROLE.MODERATOR) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      user.id,
+      GQLUSER_ROLE.MODERATOR
+    );
+  }
+
+  return updated;
+}
+
+export async function demoteUser(
+  mongo: Db,
+  tenant: Tenant,
+  viewer: User,
+  userID: string
+) {
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    throw new InternalError("feature flag not enabled", {
+      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
+    });
+  }
+
+  if (viewer.id === userID) {
+    throw new Error("cannot promote yourself");
+  }
+
+  if (!isSiteModerationScoped(viewer.moderationScopes)) {
+    throw new Error("viewer must be a site moderator");
+  }
+
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  if (user.role === GQLUSER_ROLE.ADMIN) {
+    throw new Error("user can't be an admin");
+  }
+
+  if (
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !isSiteModerationScoped(user.moderationScopes)
+  ) {
+    throw new Error("user can't be an organization moderator");
+  }
+
+  // Pull the site moderation scopes.
+  let updated = await pullUserSiteModerationScopes(
+    mongo,
+    tenant.id,
+    userID,
+    viewer.moderationScopes.siteIDs
+  );
+
+  // If the user doesn't have any more siteID's, demote the user role to a
+  // commenter.
+  if (updated.moderationScopes?.siteIDs?.length === 0) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      user.id,
+      GQLUSER_ROLE.COMMENTER
+    );
+  }
+
+  return updated;
+}
+
 export async function updateModerationScopes(
   mongo: Db,
   tenant: Tenant,
-  user: Pick<User, "id">,
+  viewer: Pick<User, "id">,
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
@@ -682,21 +800,23 @@ export async function updateModerationScopes(
     });
   }
 
-  if (user.id === userID) {
+  if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }
 
-  // Verify that the scopes referenced exist.
-  if (moderationScopes.siteIDs) {
-    const sites = await retrieveManySites(
-      mongo,
-      tenant.id,
-      moderationScopes.siteIDs
-    );
+  if (!moderationScopes.siteIDs) {
+    throw new Error("no sites specified in the moderation scopes");
+  }
 
-    if (sites.some((site) => site === null)) {
-      throw new Error("site specified does not exist");
-    }
+  const sites = await retrieveManySites(
+    mongo,
+    tenant.id,
+    moderationScopes.siteIDs
+  );
+  if (sites.some((site) => site === null)) {
+    throw new Error(
+      "some or all of the sites specified in the moderation scopes do not exist"
+    );
   }
 
   return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);

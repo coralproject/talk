@@ -6802,6 +6802,56 @@ type UpdateUserRolePayload {
 }
 
 ##################
+# promoteUser
+##################
+
+input PromoteUserInput {
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type PromoteUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
+# demoteUser
+##################
+
+input DemoteUserInput {
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DemoteUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
 # warnUser
 ##################
 input WarnUserInput {
@@ -7836,6 +7886,22 @@ type Mutation {
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
     @auth(roles: [ADMIN])
+
+  """
+  promoteUser will allow the viewer to add one or many scopes that applies to
+  the viewer. If the target user was not already a site moderator, their role is
+  set to site moderator.
+  """
+  promoteUser(input: PromoteUserInput!): PromoteUserPayload!
+    @auth(roles: [MODERATOR])
+
+  """
+  demoteUser will allow the viewer to remove one or many scopes that applies to
+  the viewer and the target user. If the target user does not have any remaining
+  scopes, they are set to commenter.
+  """
+  demoteUser(input: DemoteUserInput!): DemoteUserPayload!
+    @auth(roles: [MODERATOR])
 
   """
   updateUserModerationScopes will update the moderation scopes for a given user.

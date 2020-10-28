@@ -3,8 +3,10 @@ import React, {
   ChangeEvent,
   FunctionComponent,
   KeyboardEvent,
+  Ref,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -29,6 +31,7 @@ import styles from "./GiphyInput.css";
 
 interface Props {
   onSelect: (gif: GiphyGif) => void;
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
@@ -39,9 +42,16 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const ref = useRef<HTMLInputElement>(null);
 
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setQuery(evt.target.value);
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
   }, []);
 
   useEffect(() => {
@@ -116,7 +126,9 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
       <HorizontalGutter>
         <HorizontalGutter>
           <Localized id="comments-postComment-gifSearch">
-            <InputLabel>Search for a GIF</InputLabel>
+            <InputLabel htmlFor="coral-comments-postComment-gifSearch">
+              Search for a GIF
+            </InputLabel>
           </Localized>
           <TextField
             className={styles.input}
@@ -126,11 +138,22 @@ const GiphyInput: FunctionComponent<Props> = ({ onSelect }) => {
             fullWidth
             variant="seamlessAdornment"
             color="streamBlue"
+            id="coral-comments-postComment-gifSearch"
             adornment={
-              <Button color="stream" className={styles.searchButton}>
-                <ButtonIcon>search</ButtonIcon>
-              </Button>
+              <Localized
+                id="comments-postComment-gifSearch-search"
+                attrs={{ "aria-label": true }}
+              >
+                <Button
+                  color="stream"
+                  className={styles.searchButton}
+                  aria-label="Search"
+                >
+                  <ButtonIcon>search</ButtonIcon>
+                </Button>
+              </Localized>
             }
+            ref={ref}
           />
         </HorizontalGutter>
         {isLoading && (

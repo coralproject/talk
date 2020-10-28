@@ -214,7 +214,9 @@ export class PostCommentFormContainer extends Component<Props, State> {
     this.setState({ notLoggedInDraft: draft });
   };
 
-  private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
+  private handleSignIn = () => {
+    void this.props.showAuthPopup({ view: "SIGN_IN" });
+  };
 
   public render() {
     if (!this.state.initialized) {

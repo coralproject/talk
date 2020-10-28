@@ -37,7 +37,9 @@ export function hasModeratorRole(user: Pick<User, "role">) {
   return roleIsModerator(user.role);
 }
 
-export function isModerationScoped(moderationScopes?: UserModerationScopes) {
+export function isSiteModerationScoped(
+  moderationScopes?: UserModerationScopes
+): moderationScopes is Required<UserModerationScopes> {
   return (
     !!moderationScopes &&
     !!moderationScopes.siteIDs &&
@@ -65,7 +67,7 @@ export function canModerateUnscoped(
   // moderator.
   if (
     user.role === GQLUSER_ROLE.MODERATOR &&
-    isModerationScoped(user.moderationScopes)
+    isSiteModerationScoped(user.moderationScopes)
   ) {
     return false;
   }

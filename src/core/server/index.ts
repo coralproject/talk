@@ -147,6 +147,15 @@ class Server {
       }
     }
 
+    if (
+      this.config.get("nodejs_keep_alive_timeout") >=
+      this.config.get("nodejs_headers_timeout")
+    ) {
+      throw new Error(
+        "NODEJS_KEEP_ALIVE_TIMEOUT must be less than NODEJS_HEADERS_TIMEOUT"
+      );
+    }
+
     // Configure the error reporter.
     if (
       this.config.get("env") === "production" &&
@@ -351,14 +360,13 @@ class Server {
     // Start the application and store the resulting http.Server. The server
     // will return when the server starts listening. The NodeJS application will
     // not exit until all tasks are handled, which for an open socket, is never.
-    this.httpServer = await listenAndServe(app, port);
+    const server = await listenAndServe(app, port);
+
+    server.keepAliveTimeout = this.config.get("nodejs_keep_alive_timeout");
+    server.headersTimeout = this.config.get("nodejs_headers_timeout");
 
     // Setup subscriptions and attach it to the httpServer.
-    this.subscriptionServer = createSubscriptionServer(
-      this.httpServer,
-      this.schema,
-      options
-    );
+    createSubscriptionServer(server, this.schema, options);
 
     logger.info({ port }, "now listening");
   }

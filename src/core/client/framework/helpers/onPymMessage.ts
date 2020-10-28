@@ -8,8 +8,13 @@ function onPymMessage(
   child.onMessage(messageType, callback);
   return () => {
     if (!(messageType in child.messageHandlers)) {
-      // eslint-disable-next-line no-console
-      console.warn("Pym message handler already disposed.");
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `tried to dispose of message handler that didn't exist: ${messageType}`
+        );
+      }
+
       return;
     }
     const index = child.messageHandlers[messageType].indexOf(callback);

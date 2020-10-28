@@ -1,11 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders fully 1`] = `
-<UserBoxUnauthenticated
-  onRegister={[Function]}
-  onSignIn={[Function]}
-  showRegisterButton={true}
-/>
+<React.Fragment>
+  <AuthPopup />
+  <UserBoxUnauthenticated
+    onRegister={[Function]}
+    onSignIn={[Function]}
+    showRegisterButton={true}
+  />
+</React.Fragment>
 `;
 
 exports[`renders sso only 1`] = `null`;
@@ -13,16 +16,22 @@ exports[`renders sso only 1`] = `null`;
 exports[`renders sso only without logout button 1`] = `null`;
 
 exports[`renders without logout button 1`] = `
-<UserBoxUnauthenticated
-  onRegister={[Function]}
-  onSignIn={[Function]}
-  showRegisterButton={true}
-/>
+<React.Fragment>
+  <AuthPopup />
+  <UserBoxUnauthenticated
+    onRegister={[Function]}
+    onSignIn={[Function]}
+    showRegisterButton={true}
+  />
+</React.Fragment>
 `;
 
 exports[`renders without register button 1`] = `
-<UserBoxUnauthenticated
-  onSignIn={[Function]}
-  showRegisterButton={false}
-/>
+<React.Fragment>
+  <AuthPopup />
+  <UserBoxUnauthenticated
+    onSignIn={[Function]}
+    showRegisterButton={false}
+  />
+</React.Fragment>
 `;

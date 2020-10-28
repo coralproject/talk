@@ -9,9 +9,11 @@ import {
   cancelAccountDeletion,
   createToken,
   deactivateToken,
+  demoteUser,
   destroyModeratorNote,
   ignore,
   premod,
+  promoteUser,
   removeBan,
   removeIgnore,
   removePremod,
@@ -48,9 +50,11 @@ import {
   GQLDeactivateTokenInput,
   GQLDeleteModeratorNoteInput,
   GQLDeleteUserAccountInput,
+  GQLDemoteUserInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
   GQLPremodUserInput,
+  GQLPromoteUserInput,
   GQLRemovePremodUserInput,
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
@@ -224,6 +228,10 @@ export const Users = (ctx: GraphContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  promote: async (input: GQLPromoteUserInput) =>
+    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+  demote: async (input: GQLDemoteUserInput) =>
+    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>

@@ -178,14 +178,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     } else {
       void showAuthPopup({ view: "SIGN_IN" });
     }
-  }, [
-    isLoggedIn,
-    showReplyDialog,
-    setShowReplyDialog,
-    showAuthPopup,
-    eventEmitter,
-    comment,
-  ]);
+  }, [isLoggedIn, showReplyDialog, eventEmitter, comment.id, showAuthPopup]);
 
   const isViewerBanned = !!viewer?.status.current.includes(
     GQLUSER_STATUS.BANNED
@@ -366,7 +359,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             parentAuthorName={comment.parent?.author?.username}
             staticUsername={
               comment.author && (
-                <Flex direction="row" alignItems="center">
+                <Flex direction="row" alignItems="center" wrap>
                   <UsernameContainer
                     className={cn(
                       styles.staticUsername,

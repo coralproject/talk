@@ -82,6 +82,8 @@ comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
 comments-postCommentForm-gifSeach = Search for a GIF
+comments-postComment-gifSearch-search =
+  .aria-label = Search
 comments-postComment-gifSearch-loading = Loading...
 comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
@@ -360,6 +362,8 @@ profile-bio-description =
   less than 100 characters.
 profile-bio-remove = Remove
 profile-bio-update = Update
+profile-bio-success = Your bio has been successfully updated.
+profile-bio-removed = Your bio has been removed.
 
 
 ### Account Deletion
