@@ -53,14 +53,10 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
     ...user.consolidateUsernameStatus(username),
     userID,
   }),
-  ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => {
-    const banStatus = user.consolidateUserBanStatus(ban, ctx.now, ctx.site?.id);
-
-    return {
-      ...banStatus,
-      userID,
-    };
-  },
+  ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => ({
+    ...user.consolidateUserBanStatus(ban, ctx.now, ctx.site?.id),
+    userID,
+  }),
   suspension: ({ suspension, userID }): SuspensionStatusInput => ({
     ...user.consolidateUserSuspensionStatus(suspension),
     userID,
