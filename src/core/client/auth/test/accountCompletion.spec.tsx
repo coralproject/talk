@@ -3,13 +3,13 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
   wait,
   waitForElement,
   within,
-  act,
 } from "coral-framework/testHelpers";
 
 import create from "./create";
