@@ -175,9 +175,37 @@ it("renders account linking view", async () => {
     },
   });
   await act(async () => {
-    within(testRenderer.root).debug();
     await waitForElement(() =>
       within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
+});
+
+it("renders account linking view, but then switch to add email view", async () => {
+  const { testRenderer } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "",
+            username: "hans",
+            duplicateEmail: "my@email.com",
+          }),
+      },
+    },
+  });
+  await act(async () => {
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
+  const button = await waitForElement(() =>
+    within(testRenderer.root).getByText("Use a different email address")
+  );
+  await act(async () => {
+    button.props.onClick();
+    await waitForElement(() =>
+      within(testRenderer.root).queryByText("Add Email Address")
     );
   });
 });
