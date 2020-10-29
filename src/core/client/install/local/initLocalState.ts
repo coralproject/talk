@@ -23,7 +23,10 @@ export default async function initLocalState(
     clearHash();
 
     // Save the token in storage.
-    auth = storeAccessTokenInLocalStorage(params.accessToken);
+    auth = await storeAccessTokenInLocalStorage(
+      context.localStorage,
+      params.accessToken
+    );
   }
 
   initLocalBaseState(environment, context, auth);

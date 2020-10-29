@@ -2,14 +2,16 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
 
+export type View =
+  | "ADD_EMAIL_ADDRESS"
+  | "CREATE_PASSWORD"
+  | "CREATE_USERNAME"
+  | "LINK_ACCOUNT"
+  | "SIGN_IN";
+
 export interface SetAuthViewInput {
   // TODO: replace with generated typescript types.
-  view:
-    | "SIGN_IN"
-    | "ADD_EMAIL_ADDRESS"
-    | "CREATE_USERNAME"
-    | "CREATE_PASSWORD"
-    | "LINK_ACCOUNT";
+  view: View;
 }
 
 const SetAuthViewMutation = createMutation(

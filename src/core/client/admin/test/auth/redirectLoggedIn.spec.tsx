@@ -5,6 +5,7 @@ import {
 } from "coral-framework/schema";
 import {
   act,
+  createAccessToken,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -45,6 +46,7 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("SIGN_IN", "authView");
+      localRecord.setValue(createAccessToken(), "accessToken");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
