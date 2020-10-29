@@ -1,7 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
-  SubscriptionToCommentReplyCreatedResolver,
+  SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -53,15 +53,18 @@ it("direct replies to the permalink comment should immediately appear", async ()
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("current-tab-pane")
   );
-  expect(subscriptionHandler.has("commentReplyCreated")).toBe(true);
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
 
   expect(() =>
     within(container).getByTestID(`comment-${liveComment.id}`)
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
-    "commentReplyCreated",
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
     (variables) => {
+      if (variables.storyID !== story.id) {
+        return;
+      }
       if (variables.ancestorID !== rootComment.id) {
         return;
       }

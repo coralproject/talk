@@ -6,7 +6,6 @@ import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
-  combineDisposables,
   useLoadMore,
   useLocal,
   useMutation,
@@ -29,8 +28,7 @@ import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-st
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
-import UnansweredCommentCreatedSubscription from "./UnansweredCommentCreatedSubscription";
-import UnansweredCommentReleasedSubscription from "./UnansweredCommentReleasedSubscription";
+import CommentEnteredSubscription from "../AllCommentsTab/CommentEnteredSubscription";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
 
 import styles from "./UnansweredCommentsTabContainer.css";
@@ -41,16 +39,6 @@ interface Props {
   viewer: UnansweredCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
 }
-
-// eslint-disable-next-line no-unused-expressions
-graphql`
-  fragment UnansweredCommentsTabContainer_comment on Comment {
-    id
-    ...CommentContainer_comment
-    ...ReplyListContainer1_comment
-    ...IgnoredTombstoneOrHideContainer_comment
-  }
-`;
 
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
@@ -63,12 +51,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     `
   );
 
-  const subscribeToCommentCreated = useSubscription(
-    UnansweredCommentCreatedSubscription
-  );
-  const subscribeToCommentReleased = useSubscription(
-    UnansweredCommentReleasedSubscription
-  );
+  const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
   const live = useLive(props);
   const hasMore = props.relay.hasMore();
@@ -98,16 +81,12 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
         return;
     }
 
-    const disposable = combineDisposables(
-      subscribeToCommentCreated({
-        storyID: props.story.id,
-        orderBy: commentsOrderBy,
-      }),
-      subscribeToCommentReleased({
-        storyID: props.story.id,
-        orderBy: commentsOrderBy,
-      })
-    );
+    const disposable = subscribeToCommentEntered({
+      storyID: props.story.id,
+      orderBy: commentsOrderBy,
+      storyConnectionKey: "UnansweredStream_comments",
+      tag: GQLTAG.UNANSWERED,
+    });
 
     return () => {
       disposable.dispose();
@@ -117,8 +96,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     hasMore,
     live,
     props.story.id,
-    subscribeToCommentCreated,
-    subscribeToCommentReleased,
+    subscribeToCommentEntered,
   ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
@@ -258,19 +236,24 @@ const enhanced = withPaginationContainer<
             enabled
           }
         }
+        commentCounts {
+          tags {
+            UNANSWERED
+          }
+        }
         comments(first: $count, after: $cursor, orderBy: $orderBy, tag: $tag)
           @connection(key: "UnansweredStream_comments") {
           viewNewEdges {
             cursor
             node {
               enteredLive
-              ...UnansweredCommentsTabContainer_comment @relay(mask: false)
+              ...AllCommentsTabContainer_comment @relay(mask: false)
             }
           }
           edges {
             node {
               enteredLive
-              ...UnansweredCommentsTabContainer_comment @relay(mask: false)
+              ...AllCommentsTabContainer_comment @relay(mask: false)
             }
           }
         }

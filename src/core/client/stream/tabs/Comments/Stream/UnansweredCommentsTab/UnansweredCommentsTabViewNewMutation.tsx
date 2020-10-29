@@ -5,7 +5,7 @@ import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
 
 interface Input {
@@ -26,6 +26,7 @@ const UnansweredCommentsTabViewNewMutation = createMutation(
         "UnansweredStream_comments",
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+          tag: GQLTAG.UNANSWERED,
         }
       )!;
 

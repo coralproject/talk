@@ -372,27 +372,27 @@ exports[`renders sign up form 1`] = `
         </div>
       </div>
       <div
-        className="coral coral-login-subBar SignUp-subBar"
+        className="coral coral-login-subBar SignInWithLocalHeader-root"
         role="contentinfo"
       >
         <div
-          className="coral coral-login-signUp-alreadyHaveAccount SignUp-alreadyHaveAccount"
+          className="coral coral-login-signUp-alreadyHaveAccount SignInWithLocalHeader-alreadyHaveAccount"
         >
           Already have an account? 
-          <a
-            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignUp-signIn"
+          <button
+            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilySecondary Button-fontWeightSecondarySemiBold Button-colorPrimary Button-underline SignInWithLocalHeader-signIn"
             data-variant="flat"
             disabled={false}
-            href="http://localhost/?view=SIGN_IN"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
+            type="button"
           >
             Sign in
-          </a>
+          </button>
         </div>
       </div>
       <main

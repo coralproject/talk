@@ -12,7 +12,7 @@ import { GraphQLResponse, Observable, SubscribeFunction } from "relay-runtime";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { AccessTokenProvider } from "../auth";
-import clearCacheMiddleware from "./clearCacheMiddleware";
+import clearHTTPCacheMiddleware from "./clearHTTPCacheMiddleware";
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
@@ -61,11 +61,14 @@ export default function createNetwork(
 ) {
   return new RelayNetworkLayer(
     [
-      clearCacheMiddleware(clearCacheBefore),
+      // Send cache clearing headers until `clearCacheBefore` date
+      // to invalidate previous http cache. Usually used when the session changes
+      // through login or logout.
+      clearHTTPCacheMiddleware(clearCacheBefore),
       customErrorMiddleware,
       cacheMiddleware({
         size: 100, // max 100 requests
-        ttl: 15 * 60 * 1000, // 15 minutes
+        ttl: 30 * 1000, // 30 seconds
         clearOnMutation: true,
       }),
       urlMiddleware({

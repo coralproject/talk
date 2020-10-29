@@ -8318,21 +8318,26 @@ type Subscription {
     @auth(roles: [MODERATOR, ADMIN])
 
   """
+  commentEntered returns when a Comment is created or released anywhere in the Story.
+  """
+  commentEntered(storyID: ID!, ancestorID: ID): CommentCreatedPayload!
+
+  """
   commentCreated returns when a Comment is created on the top level of a Story
   that is visible.
   """
-  commentCreated(storyID: ID!): CommentCreatedPayload!
+  commentCreated(storyID: ID!): CommentCreatedPayload! @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReleased returns when a Comment on a premoderated stream is approved
   """
-  commentReleased(storyID: ID!): CommentReleasedPayload!
+  commentReleased(storyID: ID!): CommentReleasedPayload! @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.
   """
-  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
+  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload! @deprecated(reason: "Use commentEntered instead")
 
   """
   commentFeatured returns when a Comment is featured.

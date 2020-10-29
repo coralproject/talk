@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { ADMIN_REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -16,9 +16,9 @@ const SetRedirectPathMutation = createMutation(
     { localStorage }: CoralContext
   ) => {
     if (!input.path) {
-      await localStorage.removeItem(REDIRECT_PATH_KEY);
+      await localStorage.removeItem(ADMIN_REDIRECT_PATH_KEY);
     } else {
-      await localStorage.setItem(REDIRECT_PATH_KEY, input.path);
+      await localStorage.setItem(ADMIN_REDIRECT_PATH_KEY, input.path);
     }
 
     return commitLocalUpdate(environment, (store) => {

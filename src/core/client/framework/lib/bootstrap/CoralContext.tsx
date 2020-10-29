@@ -75,7 +75,7 @@ export interface CoralContext {
   /** Clear session data. */
   clearSession: (
     nextAccessToken?: string | null,
-    ephemeral?: boolean
+    options?: { ephemeral?: boolean }
   ) => Promise<void>;
 
   /** Change locale and rerender */

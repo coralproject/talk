@@ -1,6 +1,6 @@
 import { Middleware } from "react-relay-network-modern/es";
 
-const clearCacheMiddleware: (clearCacheBefore?: Date) => Middleware = (
+const clearHTTPCacheMiddleware: (clearCacheBefore?: Date) => Middleware = (
   clearCacheBefore
 ) => (next) => async (req) => {
   if (clearCacheBefore && new Date() < clearCacheBefore) {
@@ -11,4 +11,4 @@ const clearCacheMiddleware: (clearCacheBefore?: Date) => Middleware = (
   return next(req);
 };
 
-export default clearCacheMiddleware;
+export default clearHTTPCacheMiddleware;

@@ -1,13 +1,11 @@
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
-import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
   useMutation,
-  useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
@@ -22,7 +20,6 @@ import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__gene
 import { ReplyListContainer3_comment as Comment3Data } from "coral-stream/__generated__/ReplyListContainer3_comment.graphql";
 
 import { isPublished } from "../helpers";
-import CommentReplyCreatedSubscription from "./CommentReplyCreatedSubscription";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
@@ -75,43 +72,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       console.error(error);
     }
   }, [showAll, beginShowAllEvent, props.comment.id]);
-
-  const subscribeToCommentReplyCreated = useSubscription(
-    CommentReplyCreatedSubscription
-  );
-
-  const live = useLive(props);
-  useEffect(() => {
-    if (props.indentLevel !== 1) {
-      return;
-    }
-
-    // If the comment is pending, no need to subscribe the comment!
-    if (props.comment.pending) {
-      return;
-    }
-
-    // If live updates aren't enabled, don't subscribe!
-    if (!live) {
-      return;
-    }
-
-    const disposable = subscribeToCommentReplyCreated({
-      ancestorID: props.comment.id,
-      liveDirectRepliesInsertion: props.liveDirectRepliesInsertion,
-    });
-
-    return () => {
-      disposable.dispose();
-    };
-  }, [
-    live,
-    subscribeToCommentReplyCreated,
-    props.comment.id,
-    props.indentLevel,
-    props.comment.pending,
-    props.liveDirectRepliesInsertion,
-  ]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const onViewNew = useCallback(() => {
