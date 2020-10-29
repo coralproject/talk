@@ -14,7 +14,7 @@ import React, {
   useState,
 } from "react";
 import useDebounce from "react-use/lib/useDebounce";
-import useResizeObserver from "use-resize-observer";
+import useResizeObserver from "use-resize-observer/polyfilled";
 
 import {
   Button,
@@ -57,7 +57,7 @@ const GiphyInput: FunctionComponent<Props> = ({
         rating: maxRating as SearchOptions["rating"],
         sort: "relevant",
       });
-    }, [apiKey, maxRating]);
+  }, [apiKey, maxRating, query]);
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setDebouncedInput(evt.target.value);
   }, []);
