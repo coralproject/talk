@@ -1368,7 +1368,7 @@ type GiphyMediaConfiguration {
   """
   maximum allowed rating for gifs, g, pg, pg-13, r.
   """
-  maxRating: String @auth(roles: [ADMIN])
+  maxRating: String
 
   """
   key is the API key for Giphy.
@@ -8325,18 +8325,21 @@ type Subscription {
   commentCreated returns when a Comment is created on the top level of a Story
   that is visible.
   """
-  commentCreated(storyID: ID!): CommentCreatedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentCreated(storyID: ID!): CommentCreatedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReleased returns when a Comment on a premoderated stream is approved
   """
-  commentReleased(storyID: ID!): CommentReleasedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentReleased(storyID: ID!): CommentReleasedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.
   """
-  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentFeatured returns when a Comment is featured.
