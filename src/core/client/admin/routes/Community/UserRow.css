@@ -26,6 +26,9 @@
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
   line-height: 1.14;
+  line-break: anywhere;
+  word-break: break-word;
+  white-space: break-spaces;
 }
 
 .username {
