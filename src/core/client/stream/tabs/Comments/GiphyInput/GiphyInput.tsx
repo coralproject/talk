@@ -48,14 +48,16 @@ const GiphyInput: FunctionComponent<Props> = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
-  const gf = new GiphyFetch(apiKey);
-  const fetchGifs = async (offset: number) =>
-    gf.search(query, {
-      offset,
-      limit: 10,
-      rating: maxRating as SearchOptions["rating"],
-      sort: "relevant",
-    });
+  const fetchGifs = useMemo(() => {
+    const gf = new GiphyFetch(apiKey);
+    return async (offset: number) =>
+      gf.search(query, {
+        offset,
+        limit: 10,
+        rating: maxRating as SearchOptions["rating"],
+        sort: "relevant",
+      });
+    }, [apiKey, maxRating]);
   const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setDebouncedInput(evt.target.value);
   }, []);
