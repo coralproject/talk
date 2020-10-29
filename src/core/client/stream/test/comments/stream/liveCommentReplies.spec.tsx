@@ -3,7 +3,7 @@ import {
   GQLComment,
   GQLResolver,
   GQLStory,
-  SubscriptionToCommentReplyCreatedResolver,
+  SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -130,15 +130,18 @@ it("should show more replies", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentReplyCreated")).toBe(true);
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
   expect(() =>
     within(container).getByTestID(`comment-${commentData.id}`)
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
-    "commentReplyCreated",
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
     (variables) => {
-      if (variables.ancestorID !== rootComment.id) {
+      if (variables.storyID !== story.id) {
+        return;
+      }
+      if (variables.ancestorID) {
         return;
       }
       return {
@@ -164,7 +167,7 @@ it("should show Read More of this Conversation", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentReplyCreated")).toBe(true);
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
   expect(() =>
     within(testRenderer.root).getByText("Read More of this Conversation", {
       exact: false,
@@ -172,10 +175,13 @@ it("should show Read More of this Conversation", async () => {
     })
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentReplyCreatedResolver>(
-    "commentReplyCreated",
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
     (variables) => {
-      if (variables.ancestorID !== rootComment.id) {
+      if (variables.storyID !== story.id) {
+        return;
+      }
+      if (variables.ancestorID) {
         return;
       }
       return {
@@ -202,7 +208,7 @@ it("should not subscribe when story is closed", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentReplyCreated")).toBe(false);
+  expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });
 
 it("should not subscribe when commenting is disabled", async () => {
@@ -221,5 +227,5 @@ it("should not subscribe when commenting is disabled", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentReplyCreated")).toBe(false);
+  expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });

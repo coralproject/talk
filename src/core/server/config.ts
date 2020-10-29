@@ -363,6 +363,20 @@ const config = convict({
     default: false,
     env: "GRAPHQL_CACHE_HEADERS",
   },
+  nodejs_keep_alive_timeout: {
+    doc:
+      "Specifies the keep alive timeout to set for the HTTP server used by Coral.",
+    format: "ms",
+    default: ms("5s"),
+    env: "NODEJS_KEEP_ALIVE_TIMEOUT",
+  },
+  nodejs_headers_timeout: {
+    doc:
+      "Specifies the headers timeout to set for the HTTP server used by Coral.",
+    format: "ms",
+    default: ms("1m"),
+    env: "NODEJS_HEADERS_TIMEOUT",
+  },
 });
 
 export type Config = typeof config;

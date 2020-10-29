@@ -3,6 +3,7 @@ import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription
 
 import {
   CommentCreatedCoralEventPayload,
+  CommentEnteredCoralEventPayload,
   CommentEnteredModerationQueueCoralEventPayload,
   CommentFeaturedCoralEventPayload,
   CommentLeftModerationQueueCoralEventPayload,
@@ -18,6 +19,7 @@ type SubscriptionCoralEventListenerPayloads =
   | CommentLeftModerationQueueCoralEventPayload
   | CommentStatusUpdatedCoralEventPayload
   | CommentReplyCreatedCoralEventPayload
+  | CommentEnteredCoralEventPayload
   | CommentCreatedCoralEventPayload
   | CommentFeaturedCoralEventPayload
   | CommentReleasedCoralEventPayload;
@@ -30,6 +32,7 @@ export class SubscriptionCoralEventListener
     CoralEventType.COMMENT_LEFT_MODERATION_QUEUE,
     CoralEventType.COMMENT_STATUS_UPDATED,
     CoralEventType.COMMENT_REPLY_CREATED,
+    CoralEventType.COMMENT_ENTERED,
     CoralEventType.COMMENT_CREATED,
     CoralEventType.COMMENT_FEATURED,
     CoralEventType.COMMENT_RELEASED,
@@ -53,6 +56,8 @@ export class SubscriptionCoralEventListener
         return SUBSCRIPTION_CHANNELS.COMMENT_FEATURED;
       case CoralEventType.COMMENT_RELEASED:
         return SUBSCRIPTION_CHANNELS.COMMENT_RELEASED;
+      case CoralEventType.COMMENT_ENTERED:
+        return SUBSCRIPTION_CHANNELS.COMMENT_ENTERED;
     }
   }
 

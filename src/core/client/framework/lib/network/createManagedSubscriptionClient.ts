@@ -19,6 +19,11 @@ import {
 } from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 
+/** Time after an inactive client is closed */
+const STALE_CLIENT_TIMEOUT = 10 * 1000;
+
+const BATCH_PERIOD = 1000;
+
 /**
  * SubscriptionRequest contains the subscription
  * request data that comes from Relay.
@@ -111,9 +116,13 @@ export default function createManagedSubscriptionClient(
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
   let accessToken: string | undefined;
+  let closeStaleClientTimeout: any = null;
 
   // Start batching loop that runs every second.
-  batchLoop(requests, 1000);
+  batchLoop(requests, BATCH_PERIOD);
+
+  const hasActiveSubscriptions = () =>
+    requests.length > 0 && requests.some((r) => r.unsubscribe);
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -132,6 +141,11 @@ export default function createManagedSubscriptionClient(
     cacheConfig: CacheConfig,
     observer: any
   ) => {
+    if (closeStaleClientTimeout) {
+      clearTimeout(closeStaleClientTimeout);
+      closeStaleClientTimeout = null;
+    }
+
     // Capture request into an `SubscriptionRequest` object.
     const request: SubscriptionRequest = {
       operation,
@@ -236,7 +250,6 @@ export default function createManagedSubscriptionClient(
         }
         disposed = true;
 
-        let closed = false;
         const i = requests.findIndex((r) => r === request);
         if (i !== -1) {
           // Unsubscribe if available.
@@ -247,13 +260,19 @@ export default function createManagedSubscriptionClient(
           // Remove from requests list.
           requests.splice(i, 1);
 
-          // Close client if there is no active subscription.
-          if (
-            subscriptionClient &&
-            (requests.length === 0 || requests.every((r) => !r.unsubscribe))
-          ) {
-            closeClient();
-            closed = true;
+          // Start timeout routine for stale client if there is no active subscription.
+          if (subscriptionClient && !hasActiveSubscriptions()) {
+            // Close client if after timeout there are still no active subscriptions.
+            closeStaleClientTimeout = setTimeout(() => {
+              if (subscriptionClient && !hasActiveSubscriptions()) {
+                closeClient();
+                if (process.env.NODE_ENV !== "production") {
+                  window.console.debug(
+                    "subscription client disconnecting, no more subscriptions being tracked"
+                  );
+                }
+              }
+            }, STALE_CLIENT_TIMEOUT);
           }
         }
 
@@ -268,12 +287,6 @@ export default function createManagedSubscriptionClient(
             "with variables:",
             JSON.stringify(request.variables)
           );
-
-          if (closed) {
-            window.console.debug(
-              "subscription client disconnecting, no more subscriptions being tracked"
-            );
-          }
         }
       },
     };
