@@ -8,8 +8,8 @@ import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
 
+import SignInWithLocalHeader from "./SignInWithLocalHeader";
 import SignUpWithEmailContainer from "./SignUpWithEmailContainer";
 import SignUpWithFacebookContainer from "./SignUpWithFacebookContainer";
 import SignUpWithGoogleContainer from "./SignUpWithGoogleContainer";
@@ -18,9 +18,8 @@ import SignUpWithOIDCContainer from "./SignUpWithOIDCContainer";
 import styles from "./SignUp.css";
 
 interface Props {
-  onGotoSignIn: React.EventHandler<React.MouseEvent>;
-  signInHref: string;
-  emailEnabled?: boolean;
+  onSignIn: () => void;
+  localEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
@@ -30,17 +29,18 @@ interface Props {
 }
 
 const SignUp: FunctionComponent<Props> = ({
-  onGotoSignIn,
-  emailEnabled,
+  onSignIn,
+  localEnabled,
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
-  signInHref,
   auth,
 }) => {
   const ref = useResizePopup();
-  const oneClickUptegrationEnabled =
+
+  const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
+
   return (
     <div ref={ref} data-testid="signUp-container">
       <div role="banner">
@@ -57,56 +57,10 @@ const SignUp: FunctionComponent<Props> = ({
           </div>
         </Localized>
       </div>
-      {emailEnabled && (
-        <div
-          role="contentinfo"
-          className={cn(CLASSES.login.subBar, styles.subBar)}
-        >
-          <Localized
-            id="signUp-accountAvailableSignIn"
-            textlink={
-              <Button
-                color="primary"
-                variant="flat"
-                paddingSize="none"
-                fontSize="small"
-                fontFamily="secondary"
-                fontWeight="semiBold"
-                underline
-                onClick={onGotoSignIn}
-                href={signInHref}
-                className={styles.signIn}
-              />
-            }
-          >
-            <div
-              className={cn(
-                CLASSES.login.signUp.alreadyHaveAccount,
-                styles.alreadyHaveAccount
-              )}
-            >
-              Already have an account?{" "}
-              <Button
-                color="primary"
-                variant="flat"
-                paddingSize="none"
-                fontSize="small"
-                fontFamily="secondary"
-                fontWeight="bold"
-                underline
-                onClick={onGotoSignIn}
-                href={signInHref}
-                className={styles.signIn}
-              >
-                Sign In
-              </Button>
-            </div>
-          </Localized>
-        </div>
-      )}
+      {localEnabled && <SignInWithLocalHeader onSignIn={onSignIn} />}
       <Main data-testid="signUp-main">
-        {emailEnabled && <SignUpWithEmailContainer />}
-        {emailEnabled && oneClickUptegrationEnabled && <OrSeparator />}
+        {localEnabled && <SignUpWithEmailContainer />}
+        {localEnabled && oneClickIntegrationEnabled && <OrSeparator />}
         <HorizontalGutter>
           {facebookEnabled && <SignUpWithFacebookContainer auth={auth} />}
           {googleEnabled && <SignUpWithGoogleContainer auth={auth} />}

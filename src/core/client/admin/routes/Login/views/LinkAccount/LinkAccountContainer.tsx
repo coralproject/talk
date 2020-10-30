@@ -68,7 +68,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [linkAccount]
+    [duplicateEmail, linkAccount]
   );
   const changeEmail = useCallback(() => {
     setView({ view: "ADD_EMAIL_ADDRESS" });

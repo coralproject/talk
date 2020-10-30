@@ -188,6 +188,7 @@ it("successfully sets email", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
+
   const {
     form,
     emailAddressField,
@@ -197,23 +198,13 @@ it("successfully sets email", async () => {
       setEmail,
     },
   });
-  const submitButton = form.find(
-    (i) => i.type === "button" && i.props.type === "submit"
-  );
 
-  act(() => emailAddressField.props.onChange({ target: { value: email } }));
-  act(() =>
-    confirmEmailAddressField.props.onChange({
-      target: { value: email },
-    })
-  );
+  const event = { target: { value: email } };
 
-  act(() => {
-    form.props.onSubmit();
-  });
-  expect(emailAddressField.props.disabled).toBe(true);
-  expect(confirmEmailAddressField.props.disabled).toBe(true);
-  expect(submitButton.props.disabled).toBe(true);
+  act(() => emailAddressField.props.onChange(event));
+  act(() => confirmEmailAddressField.props.onChange(event));
+
+  await act(() => form.props.onSubmit());
 
   await wait(() => {
     expect(setEmail.called).toBe(true);

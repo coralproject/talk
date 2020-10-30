@@ -3,12 +3,13 @@ import { RecordProxy } from "relay-runtime";
 
 import { ManagedSubscriptionClient } from "../network";
 import { LOCAL_ID } from "../relay";
+import { PromisifiedStorage } from "../storage";
 import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 
 /**
  * ACCESS_TOKEN_KEY is the key in storage where the accessToken is stored.
  */
-const ACCESS_TOKEN_KEY = "coral:v2:accessToken";
+const ACCESS_TOKEN_KEY = "v2:accessToken";
 
 export interface AuthState {
   /**
@@ -43,10 +44,10 @@ export function parseAccessToken(accessToken: string): AuthState | null {
   return { accessToken, claims };
 }
 
-export function retrieveAccessToken() {
+export async function retrieveAccessToken(localStorage: PromisifiedStorage) {
   try {
     // Get the access token from storage.
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    const accessToken = await localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!accessToken) {
       // Looks like the access token wasn't in storage.
       return;
@@ -63,9 +64,10 @@ export function retrieveAccessToken() {
   }
 }
 
-export function storeAccessTokenInLocalStorage(
+export async function storeAccessTokenInLocalStorage(
+  localStorage: PromisifiedStorage,
   accessToken: string
-): AuthState | null {
+): Promise<AuthState | null> {
   // Parse the access token that's trying to be stored now. If it can't be
   // parsed, it can't be stored.
   const parsed = parseAccessToken(accessToken);
@@ -75,7 +77,7 @@ export function storeAccessTokenInLocalStorage(
 
   try {
     // Update the access token in storage.
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    await localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   } catch (err) {
     // TODO: (wyattjoh) add error reporting around this error
     // eslint-disable-next-line no-console
@@ -110,15 +112,16 @@ export function setAuthStateInLocalRecord(
   local.setValue(auth?.claims.jti || null, "accessTokenJTI");
 }
 
-export function replaceAccessTokenOnTheFly(
+export async function replaceAccessTokenOnTheFly(
   environment: Environment,
   subscriptionClient: ManagedSubscriptionClient,
+  localStorage: PromisifiedStorage,
   accessToken: string,
   options: { ephemeral?: boolean } = {}
 ) {
   const auth = options.ephemeral
     ? parseAccessToken(accessToken)
-    : storeAccessTokenInLocalStorage(accessToken);
+    : await storeAccessTokenInLocalStorage(localStorage, accessToken);
   if (!auth) {
     return;
   }
@@ -128,14 +131,15 @@ export function replaceAccessTokenOnTheFly(
   subscriptionClient.resume();
 }
 
-export function deleteAccessTokenFromLocalStorage() {
+export async function deleteAccessTokenFromLocalStorage(
+  localStorage: PromisifiedStorage
+) {
   try {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    await localStorage.removeItem(ACCESS_TOKEN_KEY);
   } catch (err) {
     // TODO: (wyattjoh) add error reporting around this error
     // eslint-disable-next-line no-console
     console.error("could not remove access token from storage", err);
   }
-
   return undefined;
 }
