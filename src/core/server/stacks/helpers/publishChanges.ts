@@ -9,6 +9,7 @@ import {
   publishCommentCreated,
   publishCommentReleased,
   publishCommentReplyCreated,
+  publishCommentReplyReleased,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
 } from "coral-server/services/events";
@@ -48,7 +49,11 @@ export default async function publishChanges(
     );
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
-      promises.push(publishCommentReleased(broker, input.after));
+      if (input.after.parentID) {
+        promises.push(publishCommentReplyReleased(broker, input.after));
+      } else {
+        promises.push(publishCommentReleased(broker, input.after));
+      }
     }
   } else {
     // This block is only hit if there is no before (if this is a new comment).

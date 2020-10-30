@@ -1,7 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
-  SubscriptionToCommentCreatedResolver,
+  SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
   act,
@@ -56,15 +56,18 @@ it("should view more when ordering by newest", async () => {
   );
   const commentData = comments[5];
 
-  expect(subscriptionHandler.has("commentCreated")).toBe(true);
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
   expect(() =>
     within(container).getByTestID(`comment-${commentData.id}`)
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
-    "commentCreated",
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
     (variables) => {
       if (variables.storyID !== story.id) {
+        return;
+      }
+      if (variables.ancestorID) {
         return;
       }
       return {
@@ -94,7 +97,7 @@ it("should load more when ordering by oldest", async () => {
   );
   const commentData = comments[5];
 
-  expect(subscriptionHandler.has("commentCreated")).toBe(true);
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
   expect(() =>
     within(testRenderer.root).getByText("Load More", {
       exact: false,
@@ -103,10 +106,13 @@ it("should load more when ordering by oldest", async () => {
   ).toThrow();
 
   await act(async () => {
-    subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
-      "commentCreated",
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
       (variables) => {
         if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
           return;
         }
         return {
@@ -147,10 +153,13 @@ it("should load more when ordering by oldest even when initial render was empty"
 
   const commentData = comments[5];
   await act(async () => {
-    subscriptionHandler.dispatch<SubscriptionToCommentCreatedResolver>(
-      "commentCreated",
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
       (variables) => {
         if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
           return;
         }
         return {
@@ -178,7 +187,7 @@ it("should not subscribe when story is closed", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentCreated")).toBe(false);
+  expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });
 
 it("should not subscribe when commenting is disabled", async () => {
@@ -197,5 +206,5 @@ it("should not subscribe when commenting is disabled", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  expect(subscriptionHandler.has("commentCreated")).toBe(false);
+  expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });

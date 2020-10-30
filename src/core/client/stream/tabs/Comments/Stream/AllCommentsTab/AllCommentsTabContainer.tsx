@@ -8,7 +8,6 @@ import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
-  combineDisposables,
   useLoadMore,
   useLocal,
   useMutation,
@@ -42,8 +41,7 @@ import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
-import CommentCreatedSubscription from "./CommentCreatedSubscription";
-import CommentReleasedSubscription from "./CommentReleasedSubscription";
+import CommentEnteredSubscription from "./CommentEnteredSubscription";
 import NoComments from "./NoComments";
 
 import styles from "./AllCommentsTabContainer.css";
@@ -78,10 +76,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       }
     `
   );
-  const subscribeToCommentCreated = useSubscription(CommentCreatedSubscription);
-  const subscribeToCommentReleased = useSubscription(
-    CommentReleasedSubscription
-  );
+  const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -111,28 +106,16 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         return;
     }
 
-    const disposable = combineDisposables(
-      subscribeToCommentCreated({
-        storyID: story.id,
-        orderBy: commentsOrderBy,
-      }),
-      subscribeToCommentReleased({
-        storyID: story.id,
-        orderBy: commentsOrderBy,
-      })
-    );
+    const disposable = subscribeToCommentEntered({
+      storyID: story.id,
+      orderBy: commentsOrderBy,
+      storyConnectionKey: "Stream_comments",
+    });
 
     return () => {
       disposable.dispose();
     };
-  }, [
-    commentsOrderBy,
-    hasMore,
-    live,
-    story.id,
-    subscribeToCommentCreated,
-    subscribeToCommentReleased,
-  ]);
+  }, [commentsOrderBy, hasMore, live, story.id, subscribeToCommentEntered]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
@@ -323,6 +306,9 @@ const enhanced = withPaginationContainer<
             enabled
           }
           mode
+        }
+        commentCounts {
+          totalPublished
         }
         comments(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "Stream_comments") {

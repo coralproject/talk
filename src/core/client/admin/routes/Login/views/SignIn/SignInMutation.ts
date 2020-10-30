@@ -12,7 +12,7 @@ const SignInMutation = createMutation(
     context: CoralContext
   ) => {
     const result = await signIn(context.rest, input);
-    await context.clearSession(result.token);
+    await context.clearSession(result.token, { ephemeral: true });
   }
 );
 

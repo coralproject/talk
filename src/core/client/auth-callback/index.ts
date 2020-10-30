@@ -1,30 +1,14 @@
-import { authRedirectBackTo as key } from "coral-framework/helpers/storageKeys";
+import { AUTH_REDIRECT_PATH_KEY as KEY } from "coral-framework/helpers/storageKeys";
 
 try {
   // Pull the redirection
-  const value = sessionStorage.getItem(key);
-  if (!value) {
-    throw new Error(`${key} session storage key not set`);
-  }
-
-  if (process.env.NODE_ENV === "production") {
-    // Remove the redirect URL that we pulled from sessionStorage.
-    sessionStorage.removeItem(key);
-  }
-
-  // Parse the URL from the redirect parameter, and pull out the pathname.
-  const parser = document.createElement("a");
-  parser.href = value;
-
-  const redirectBackTo = parser.pathname + parser.search;
+  const redirectBackTo = localStorage.getItem(KEY);
   if (!redirectBackTo) {
-    throw new Error(`url stored in the ${key} session storage key was invalid`);
+    throw new Error(`${KEY} storage key not set`);
   }
 
-  if (process.env.NODE_ENV !== "production") {
-    // Remove the redirect URL that we pulled from sessionStorage.
-    sessionStorage.removeItem(key);
-  }
+  // Remove the redirect URL that we pulled from storage.
+  localStorage.removeItem(KEY);
 
   // Now that we have a valid redirection URL, we should append the current
   // hash that includes the credentials or errors from the callback.

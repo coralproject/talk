@@ -28,7 +28,7 @@ const SetAccessTokenMutation = createMutation(
   async (
     environment: Environment,
     { accessToken, ephemeral, refresh }: SetAccessTokenInput,
-    { clearSession, subscriptionClient }: CoralContext
+    { clearSession, subscriptionClient, localStorage }: CoralContext
   ) => {
     if (refresh) {
       if (!accessToken) {
@@ -36,13 +36,19 @@ const SetAccessTokenMutation = createMutation(
         console.error("Empty token given when trying to refresh access token");
         return;
       }
-      replaceAccessTokenOnTheFly(environment, subscriptionClient, accessToken, {
-        ephemeral,
-      });
+      void replaceAccessTokenOnTheFly(
+        environment,
+        subscriptionClient,
+        localStorage,
+        accessToken,
+        {
+          ephemeral,
+        }
+      );
       return;
     }
     // Clear current session, as we are starting a new one.
-    await clearSession(accessToken, ephemeral);
+    await clearSession(accessToken, { ephemeral });
   }
 );
 

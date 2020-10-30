@@ -12,7 +12,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
 import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
-import SpinnerWhileRendering from "./SpinnerWhileRendering";
+import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
 import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
 interface Props {
