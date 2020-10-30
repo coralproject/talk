@@ -7,7 +7,11 @@ import { Button } from "coral-ui/components/v3";
 
 import styles from "./AddACommentButton.css";
 
-const AddACommentButton: FunctionComponent = () => {
+interface Props {
+  isQA?: boolean;
+}
+
+const AddACommentButton: FunctionComponent<Props> = ({ isQA = false }) => {
   const { pym } = useCoralContext();
   const onClick = useCallback(() => {
     if (!pym) {
@@ -29,7 +33,7 @@ const AddACommentButton: FunctionComponent = () => {
       >
         <Flex alignItems="center">
           <Icon className={styles.icon}>create</Icon>
-          <span>Add a Comment</span>
+          {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
         </Flex>
       </Button>
     </div>
