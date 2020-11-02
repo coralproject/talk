@@ -6,7 +6,7 @@ import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./Media.css";
 
-interface Props {
+export interface Props {
   id: string;
   url: string;
   still: string;

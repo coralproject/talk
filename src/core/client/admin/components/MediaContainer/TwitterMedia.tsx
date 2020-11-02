@@ -4,7 +4,7 @@ import Frame from "coral-framework/components/Frame";
 
 import styles from "./Media.css";
 
-interface Props {
+export interface Props {
   id: string;
   url: string;
   siteID: string;

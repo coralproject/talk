@@ -5,10 +5,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
-import ExternalMedia from "./ExternalMedia";
-import GiphyMedia from "./GiphyMedia";
-import TwitterMedia from "./TwitterMedia";
-import YouTubeMedia from "./YouTubeMedia";
+import Media from "./Media";
 
 interface Props {
   comment: MediaContainer_comment;
@@ -20,46 +17,18 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
     return null;
   }
 
-  switch (media.__typename) {
-    case "GiphyMedia":
-      return (
-        <GiphyMedia
-          still={media.still}
-          video={media.video}
-          title={media.title}
-          width={media.width}
-          height={media.height}
-        />
-      );
-    case "ExternalMedia":
-      return (
-        <ExternalMedia
-          id={comment.id}
-          url={media.url}
-          siteID={comment.site.id}
-        />
-      );
-    case "TwitterMedia":
-      return (
-        <TwitterMedia
-          id={comment.id}
-          url={media.url}
-          siteID={comment.site.id}
-        />
-      );
-    case "YouTubeMedia":
-      return (
-        <YouTubeMedia
-          id={comment.id}
-          url={media.url}
-          siteID={comment.site.id}
-          still={media.still}
-          title={media.title}
-        />
-      );
-    case "%other":
-      return null;
+  if (media.__typename === "%other") {
+    return null;
   }
+
+  return (
+    <Media
+      media={media}
+      type={media.__typename}
+      id={comment.id}
+      siteID={comment.site.id}
+    />
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({

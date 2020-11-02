@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import Frame from "coral-framework/components/Frame";
 
-interface Props {
+export interface Props {
   id: string;
   url: string;
   siteID: string;
