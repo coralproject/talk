@@ -1,15 +1,18 @@
-import { prefixStorage } from "../utils";
+import { InMemoryStorage, prefixStorage } from "../utils";
 import { Decorator } from "./types";
 
 const withPymStorage = (
-  storage: Storage,
+  storage: Storage | null,
   type: "localStorage" | "sessionStorage",
   prefix = "coral:"
 ): Decorator => (pym) => {
+  const prefixedStorage = storage
+    ? prefixStorage(storage, prefix)
+    : new InMemoryStorage();
+
   pym.onMessage(`pymStorage.${type}.request`, (msg: any) => {
     const { id, method, parameters } = JSON.parse(msg);
     const { n, key, value } = parameters;
-    const prefixedStorage = prefixStorage(storage, prefix);
 
     // Variable for the method return value.
     let result;
