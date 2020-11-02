@@ -3,7 +3,6 @@ import { EventEmitter2 } from "eventemitter2";
 import { stringifyQuery } from "coral-common/utils";
 import ensureNoEndSlash from "coral-common/utils/ensureNoEndSlash";
 import urls from "coral-framework/helpers/urls";
-import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
 import { RefreshAccessTokenCallback } from "./Coral";
 import {
@@ -19,12 +18,10 @@ import {
   withSetCommentID,
 } from "./decorators";
 import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
+import { FrameControl, FrameControlFactory } from "./FrameControl";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
-import PymControl, {
-  defaultPymControlFactory,
-  PymControlFactory,
-} from "./PymControl";
+import { defaultPymControlFactory } from "./PymFrameControl";
 
 export interface StreamEmbedConfig {
   storyID?: string;
@@ -43,139 +40,182 @@ export interface StreamEmbedConfig {
 }
 
 export class StreamEmbed {
-  private config: StreamEmbedConfig;
-  private pymControl?: PymControl;
-  private pymControlFactory: PymControlFactory;
+  /**
+   * Every interval rounded to this value in ms will be passed when creating the
+   * stream embed iframe to ensure that it is loaded fresh.
+   */
+  private readonly requestExpiryInterval = 15 * 60 * 1000; // 15 minutes
+
+  /**
+   * control provides an interface to the iFrame controller.
+   */
+  private readonly control: FrameControl;
+
+  /**
+   * eventEmitter provides an interface to events emitted by Coral.
+   */
+  private readonly eventEmitter: EventEmitter2;
+
   private ready = false;
-  private cancelAutoRender: OnIntersectCancellation | null = null;
+  private clearAutoRender: OnIntersectCancellation | null = null;
 
   constructor(
-    config: StreamEmbedConfig,
-    pymControlFactory = defaultPymControlFactory
+    {
+      id,
+      storyID,
+      storyURL,
+      commentID,
+      autoRender,
+      title,
+      eventEmitter,
+      rootURL,
+      accessToken,
+      bodyClassName,
+      enableDeprecatedEvents,
+      customCSSURL,
+      refreshAccessToken,
+    }: StreamEmbedConfig,
+    controlFactory: FrameControlFactory = defaultPymControlFactory
   ) {
-    this.config = config;
-    this.pymControlFactory = pymControlFactory;
-
-    // Detect if comment count injection is needed and add the count script.
-    injectCountScriptIfNeeded(config.rootURL);
-
-    if (config.commentID) {
-      // Delay emit of `showPermalink` event to allow
-      // user enough time to setup event listeners.
-      setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
+    const element = document.getElementById(id);
+    if (!element) {
+      throw new Error(`element with id ${id} was not found in the dom`);
     }
-    if (config.autoRender) {
-      if (config.commentID) {
-        this.render();
-      } else {
-        this.cancelAutoRender = onIntersect(
-          document.getElementById(config.id)!,
-          () => {
-            this.cancelAutoRender = null;
-            if (!this.rendered) {
-              this.render();
-            }
-          }
-        );
-      }
-    }
-    config.eventEmitter.once("ready", () => {
+
+    // Save a reference to the event emitter used by the application.
+    this.eventEmitter = eventEmitter;
+
+    // When the config emits that we're ready, then mark us as ready.
+    eventEmitter.once("ready", () => {
       this.ready = true;
     });
-  }
 
-  private assertRendered() {
-    if (!this.pymControl) {
-      throw new Error("Stream Embed must be rendered first");
-    }
-  }
-
-  public on(eventName: string, callback: (data: any) => void) {
-    return this.config.eventEmitter.on(eventName, callback);
-  }
-
-  public off(eventName: string, callback: (data: any) => void) {
-    return this.config.eventEmitter.off(eventName, callback);
-  }
-
-  public login(token: string) {
-    if (!this.ready) {
-      this.config.eventEmitter.once("ready", () => this.login(token));
-      return;
-    }
-    this.pymControl!.sendMessage("login", token);
-  }
-
-  public logout() {
-    if (!this.ready) {
-      this.config.eventEmitter.once("ready", () => this.logout());
-      return;
-    }
-    this.pymControl!.sendMessage("logout");
-  }
-
-  public remove() {
-    // If lazy render was enabled, just cancel it.
-    if (this.cancelAutoRender) {
-      this.cancelAutoRender();
-      this.cancelAutoRender = null;
-      return;
-    }
-    this.assertRendered();
-    this.pymControl!.remove();
-    this.pymControl = undefined;
-  }
-
-  public get rendered() {
-    return !!this.pymControl;
-  }
-
-  public render() {
-    if (this.pymControl) {
-      throw new Error("Stream Embed already rendered");
-    }
-
-    const externalConfig: ExternalConfig = {
-      accessToken: this.config.accessToken,
-      bodyClassName: this.config.bodyClassName,
-    };
-
-    const streamDecorators: ReadonlyArray<Decorator> = [
+    // Create the decorators that will be used by the controller.
+    const decorators: ReadonlyArray<Decorator> = [
       withIOSSafariWidthWorkaround,
       withAutoHeight,
       withClickEvent,
       withSetCommentID,
-      withEventEmitter(
-        this.config.eventEmitter,
-        this.config.enableDeprecatedEvents
-      ),
-      withLiveCommentCount(this.config.eventEmitter),
+      withEventEmitter(eventEmitter, enableDeprecatedEvents),
+      withLiveCommentCount(eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
-      withConfig(externalConfig),
+      withConfig({ accessToken, bodyClassName }),
       withKeypressEvent,
-      withRefreshAccessToken(this.config.refreshAccessToken),
+      withRefreshAccessToken(refreshAccessToken),
     ];
 
     const query = stringifyQuery({
-      storyID: this.config.storyID,
-      storyURL: this.config.storyURL,
-      commentID: this.config.commentID,
-      customCSSURL: this.config.customCSSURL,
+      storyID,
+      storyURL,
+      commentID,
+      customCSSURL,
+
+      // Add the version to the query string to ensure that every new version of
+      // the stream will cause stream pages to cache bust.
+      v: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
+
+      // Add the current date rounded to the nearest `this.expiry` to ensure
+      // that we cache bust. We already send `Cache-Control: no-store` but
+      // sometimes mobile browsers will not make the HTTP request when using the
+      // back button. This can be removed when we can reliably provide multiple
+      // versions of files via storage solutions.
+      ts:
+        Math.round(Date.now() / this.requestExpiryInterval) *
+        this.requestExpiryInterval,
     });
 
-    const url = `${ensureNoEndSlash(this.config.rootURL)}${urls.embed.stream}${
-      query ? `?${query}` : ""
-    }`;
-    this.pymControl = this.pymControlFactory({
-      id: this.config.id,
-      title: this.config.title,
-      decorators: streamDecorators,
-      url,
-    });
+    // Compose the stream URL for the iframe.
+    const streamURL = ensureNoEndSlash(rootURL) + urls.embed.stream;
+    const url = `${streamURL}?${query}`;
+
+    // Create the controller.
+    this.control = controlFactory({ id, title, decorators, url });
+
+    // Detect if comment count injection is needed and add the count script.
+    injectCountScriptIfNeeded(rootURL);
+
+    if (commentID) {
+      // Delay emit of `showPermalink` event to allow user enough time to setup
+      // event listeners.
+      setTimeout(() => eventEmitter.emit("showPermalink"), 0);
+    }
+
+    if (autoRender) {
+      if (commentID) {
+        // If we are going to auto-render this comment stream and we're on a
+        // specific comment, render the stream now so we can auto-scroll the
+        // user to the embed.
+        this.render();
+      } else {
+        // When the element is in view, then render the embed.
+        this.clearAutoRender = onIntersect(element, () => {
+          this.clearAutoRender = null;
+          this.render();
+        });
+      }
+    }
   }
-}
 
-export default function createStreamEmbed(config: StreamEmbedConfig) {
-  return new StreamEmbed(config);
+  public on(eventName: string, callback: (data: any) => void) {
+    return this.eventEmitter.on(eventName, callback);
+  }
+
+  public off(eventName: string, callback: (data: any) => void) {
+    return this.eventEmitter.off(eventName, callback);
+  }
+
+  public login(token: string) {
+    // If we aren't ready yet, once we are, send the login message.
+    if (!this.ready) {
+      this.eventEmitter.once("ready", () => {
+        this.control.sendMessage("login", token);
+      });
+      return;
+    }
+
+    this.control.sendMessage("login", token);
+  }
+
+  public logout() {
+    // If we aren't ready yet, once we are, send the logout message.
+    if (!this.ready) {
+      this.eventEmitter.once("ready", () => {
+        this.control.sendMessage("logout");
+      });
+      return;
+    }
+
+    this.control.sendMessage("logout");
+  }
+
+  public remove() {
+    // If auto render was enabled it means that the stream has not rendered yet,
+    // so just cancel the auto-render.
+    if (this.clearAutoRender) {
+      this.clearAutoRender();
+      this.clearAutoRender = null;
+      return;
+    }
+
+    // The control hasn't rendered yet, so do nothing.
+    if (!this.control.rendered) {
+      throw new Error("instance not mounted");
+    }
+
+    this.control.remove();
+  }
+
+  public get rendered() {
+    return this.control.rendered;
+  }
+
+  public render() {
+    // The control has already been rendered, so do nothing.
+    if (this.control.rendered) {
+      return;
+    }
+
+    this.control.render();
+  }
 }
