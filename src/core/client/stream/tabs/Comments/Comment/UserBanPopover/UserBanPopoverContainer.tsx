@@ -38,9 +38,13 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
 
-  const moderationScopesEnabled =
-    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-    settings.multisite;
+  // Not checking for multisite here due to permission issues.
+  // We shouldn't have this enabled unless we're already multisite
+  // anyways. Also, if we send site ID's and multisite is off, the
+  // backend will handle this.
+  const moderationScopesEnabled = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.SITE_MODERATOR
+  );
 
   const onBan = useCallback(() => {
     void banUser({
@@ -85,12 +89,25 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       <Localized id="comments-userBanPopover-title" $username={user.username}>
         <div className={styles.title}>Ban {user.username}?</div>
       </Localized>
-      <Localized id="comments-userBanPopover-description">
-        <span className={styles.description}>
-          Once banned, this user will no longer be able to comment, use
-          reactions, or report comments.
-        </span>
-      </Localized>
+      {moderationScopesEnabled ? (
+        <Localized
+          id="comments-userBanPopover-scopedDescription"
+          $sitename={story.site.name}
+        >
+          <span className={styles.description}>
+            Once banned from {story.site.name}, this user will no longer be able
+            to comment, use reactions, or report comments. This comment will
+            also be rejected.
+          </span>
+        </Localized>
+      ) : (
+        <Localized id="comments-userBanPopover-description">
+          <span className={styles.description}>
+            Once banned, this user will no longer be able to comment, use
+            reactions, or report comments.
+          </span>
+        </Localized>
+      )}
       <Flex
         justifyContent="flex-end"
         itemGutter="half"
@@ -142,12 +159,12 @@ const enhanced = withFragmentContainer<Props>({
       id
       site {
         id
+        name
       }
     }
   `,
   settings: graphql`
     fragment UserBanPopoverContainer_settings on Settings {
-      multisite
       featureFlags
     }
   `,
