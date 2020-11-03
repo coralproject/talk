@@ -1,14 +1,8 @@
 import { GraphQLResolveInfo } from "graphql";
+import { withFilter } from "graphql-subscriptions";
 
 import GraphContext from "../../context";
 import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
-
-type ResolverFn<TParent, TArgs, TContext> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => AsyncIterable<any>;
 
 type FilterFn<TParent, TArgs, TContext> = (
   parent: TParent,
@@ -29,51 +23,18 @@ interface SubscriptionResolver<TParent, TArgs, TResult> {
   resolve: Resolver<TParent, TArgs, TParent>;
 }
 
-/**
- * withFilter applies a filter to a async iterator.
- *
- * This duplicates the functionality of the withFilter function provided by the
- * `graphql-subscriptions` package without the memory leak as it uses native
- * async iterators instead.
- *
- * Solution provided by @brettjashford.
- *
- * https://github.com/apollographql/graphql-subscriptions/pull/209#issuecomment-713906710
- *
- * @param asyncIteratorFn the async iterator to use that's provided by the transport
- * @param filterFn the filter to apply for each iteration to check to see if we should sent it
- */
-function withFilter<TParent, TArgs>(
-  asyncIteratorFn: ResolverFn<TParent, TArgs, GraphContext>,
-  filterFn: FilterFn<TParent, TArgs, GraphContext>
-) {
-  return async function* (
-    source: TParent,
-    args: TArgs,
-    ctx: GraphContext,
-    info: GraphQLResolveInfo
-  ) {
-    const asyncIterator = asyncIteratorFn(source, args, ctx, info);
-    for await (const payload of asyncIterator) {
-      if (await filterFn(payload, args, ctx, info)) {
-        yield payload;
-      }
-    }
-  };
-}
-
 function createTenantAsyncIterator<TParent, TArgs, TResult>(
   channel: SUBSCRIPTION_CHANNELS
-): Resolver<TParent, TArgs, AsyncIterable<TResult>> {
+): Resolver<TParent, TArgs, AsyncIterator<TResult>> {
   return (source, args, ctx) =>
     // This is already technically returning an AsyncIterable, the Typescript
     // types are in fact wrong:
     //
     // https://github.com/davidyaha/graphql-redis-subscriptions/pull/255
     //
-    (ctx.pubsub.asyncIterator<TResult>(
+    ctx.pubsub.asyncIterator<TResult>(
       createSubscriptionChannelName(ctx.tenant.id, channel)
-    ) as unknown) as AsyncIterable<TResult>;
+    );
 }
 
 export function createSubscriptionChannelName(

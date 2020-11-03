@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
@@ -13,44 +12,37 @@ interface Props {
   auth: AuthData;
 }
 
+function isEnabled(integration: {
+  enabled: boolean;
+  targetFilter: { stream: boolean };
+  allowRegistration: boolean;
+}) {
+  return (
+    integration.enabled &&
+    integration.targetFilter.stream &&
+    integration.allowRegistration
+  );
+}
+
 const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
   const setView = useMutation(SetViewMutation);
-  const goToSignIn = useCallback(
-    (e: React.MouseEvent) => {
-      setView({ view: "SIGN_IN", history: "push" });
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-    },
-    [setView]
-  );
 
-  const integrations = auth.integrations;
+  const onSignIn = useCallback(() => {
+    setView({ view: "SIGN_IN", history: "push" });
+  }, [setView]);
+
+  const {
+    integrations: { local, facebook, google, oidc },
+  } = auth;
+
   return (
     <SignUp
-      signInHref={getViewURL("SIGN_IN")}
       auth={auth}
-      onGotoSignIn={goToSignIn}
-      emailEnabled={
-        integrations.local.enabled &&
-        integrations.local.targetFilter.stream &&
-        integrations.local.allowRegistration
-      }
-      facebookEnabled={
-        integrations.facebook.enabled &&
-        integrations.facebook.targetFilter.stream &&
-        integrations.facebook.allowRegistration
-      }
-      googleEnabled={
-        integrations.google.enabled &&
-        integrations.google.targetFilter.stream &&
-        integrations.google.allowRegistration
-      }
-      oidcEnabled={
-        integrations.oidc.enabled &&
-        integrations.oidc.targetFilter.stream &&
-        integrations.oidc.allowRegistration
-      }
+      onSignIn={onSignIn}
+      localEnabled={isEnabled(local)}
+      facebookEnabled={isEnabled(facebook)}
+      googleEnabled={isEnabled(google)}
+      oidcEnabled={isEnabled(oidc)}
     />
   );
 };
@@ -61,6 +53,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SignUpWithOIDCContainer_auth
       ...SignUpWithGoogleContainer_auth
       ...SignUpWithFacebookContainer_auth
+
       integrations {
         local {
           enabled
