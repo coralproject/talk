@@ -12,7 +12,7 @@ import {
 
 import {
   GQLUSER_ROLE,
-  GQLUSER_STATUS,
+  GQLUSER_STATUS_FILTER,
   QueryToUsersArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -36,10 +36,10 @@ const queryFilter = (query?: string): UserConnectionFilterInput => {
 
 const statusFilter = (
   now: Date,
-  status?: GQLUSER_STATUS
+  status?: GQLUSER_STATUS_FILTER
 ): UserConnectionFilterInput => {
   switch (status) {
-    case GQLUSER_STATUS.ACTIVE:
+    case GQLUSER_STATUS_FILTER.ACTIVE:
       return {
         "status.ban.active": false,
         "status.premod.active": false,
@@ -56,11 +56,13 @@ const statusFilter = (
           },
         },
       };
-    case GQLUSER_STATUS.BANNED:
+    case GQLUSER_STATUS_FILTER.BANNED:
       return { "status.ban.active": true };
-    case GQLUSER_STATUS.PREMOD:
+    case GQLUSER_STATUS_FILTER.SITE_BANNED:
+      return { "status.ban.siteIDs": { $exists: true, $not: { $size: 0 } } };
+    case GQLUSER_STATUS_FILTER.PREMOD:
       return { "status.premod.active": true };
-    case GQLUSER_STATUS.SUSPENDED:
+    case GQLUSER_STATUS_FILTER.SUSPENDED:
       return {
         "status.suspension.history": {
           $elemMatch: {

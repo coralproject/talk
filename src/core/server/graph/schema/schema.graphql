@@ -2373,6 +2373,38 @@ type UserStatus {
     )
 }
 
+enum USER_STATUS_FILTER {
+  """
+  ACTIVE is used when a User is not suspended or banned.
+  """
+  ACTIVE
+
+  """
+  BANNED is used when a User is banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is used when a User is currently suspended.
+  """
+  SUSPENDED
+
+  """
+  PREMOD is used when a User is currently set to require pre-moderation.
+  """
+  PREMOD
+
+  """
+  WARNED is used when a user has been warned about behaviour and has not acknowledged
+  """
+  WARNED
+
+  """
+  SITE_BANNED is used when a User is site banned.
+  """
+  SITE_BANNED
+}
+
 """
 USER_STATUS is used to describe the current state of a User. A User may exist in
 multiple states.
@@ -3943,7 +3975,7 @@ type Query {
     after: Cursor
     role: USER_ROLE
     query: String
-    status: USER_STATUS
+    status: USER_STATUS_FILTER
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
