@@ -1,5 +1,5 @@
-import Joi from "@hapi/joi";
 import { Redis } from "ioredis";
+import Joi from "joi";
 import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
