@@ -35,6 +35,8 @@ comments-reacted =
 ## User Statuses
 userStatus-active = Active
 userStatus-banned = Banned
+userStatus-banned-all = Banned (all)
+userStatus-banned-count = Banned ({$count})
 userStatus-suspended = Suspended
 userStatus-premod = Always pre-moderate
 userStatus-warned = Warned

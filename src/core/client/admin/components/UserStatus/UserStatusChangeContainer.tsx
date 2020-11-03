@@ -167,7 +167,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
-    return <UserStatusContainer user={user} />;
+    return <UserStatusContainer user={user} settings={settings} />;
   }
 
   return (
@@ -195,7 +195,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         fullWidth={fullWidth}
         bordered={bordered}
       >
-        <UserStatusContainer user={user} />
+        <UserStatusContainer user={user} settings={settings} />
       </UserStatusChange>
       <SuspendModal
         username={user.username}
@@ -274,6 +274,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       multisite
       featureFlags
+      ...UserStatusContainer_settings
     }
   `,
   viewer: graphql`
