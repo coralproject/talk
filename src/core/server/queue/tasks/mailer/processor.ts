@@ -1,6 +1,5 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { DOMLocalization } from "@fluent/dom/compat";
-import Joi from "@hapi/joi";
 import createDOMPurify from "dompurify";
 import {
   Message,
@@ -9,6 +8,7 @@ import {
   SMTPConnectionOptions,
 } from "emailjs";
 import htmlToText from "html-to-text";
+import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";

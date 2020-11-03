@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { isNull } from "lodash";
 
 import { TokenInvalidError } from "coral-server/errors";

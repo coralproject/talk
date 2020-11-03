@@ -1,6 +1,6 @@
-import Joi from "@hapi/joi";
 import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
+import Joi from "joi";
 import jwt, { KeyFunction, SignOptions, VerifyOptions } from "jsonwebtoken";
 import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
