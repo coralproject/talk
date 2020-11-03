@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";

@@ -25,6 +25,10 @@
   line-height: 1;
 }
 
+.selectFont option {
+  font-weight: normal;
+}
+
 .selectColor {
   color: var(--palette-text-500);
 }
