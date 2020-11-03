@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { DateTime } from "luxon";
 
 import { AppOptions } from "coral-server/app";

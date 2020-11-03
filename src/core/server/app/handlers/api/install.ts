@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { v4 as uuid } from "uuid";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";

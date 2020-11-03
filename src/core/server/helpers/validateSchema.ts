@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 function validateSchema<T extends {}>(schema: Joi.Schema, body: any): T {
   // Extract the schema from the body.
