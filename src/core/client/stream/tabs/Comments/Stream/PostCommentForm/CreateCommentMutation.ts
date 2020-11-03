@@ -15,7 +15,12 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLStory,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
@@ -225,9 +230,7 @@ async function commit(
                     total: 0,
                   },
                 },
-                tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
-                  ? [{ code: "STAFF" }]
-                  : [],
+                tags: [],
                 viewerActionPresence: {
                   reaction: false,
                   dontAgree: false,
@@ -260,6 +263,29 @@ async function commit(
           }
           sharedUpdater(environment, store, input);
           store.get(id)!.setValue(true, "pending");
+          const comment = store.get(id);
+          if (comment) {
+            const tags = comment.getLinkedRecords("tags");
+            if (tags) {
+              if (roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)) {
+                const roleTag = store.create(uuidGenerator(), "Tag");
+                roleTag.setValue(GQLTAG.FEATURED, "code");
+                tags.push(roleTag);
+              }
+              if (
+                storySettings.mode === GQLSTORY_MODE.QA &&
+                (!storySettings.experts ||
+                  storySettings.experts.every(
+                    (expert) => expert.id !== viewer.id
+                  ))
+              ) {
+                const unansweredTag = store.create(uuidGenerator(), "Tag");
+                unansweredTag.setValue(GQLTAG.UNANSWERED, "code");
+                tags.push(unansweredTag);
+              }
+              comment.setLinkedRecords(tags, "tags");
+            }
+          }
         },
         updater: (store) => {
           sharedUpdater(environment, store, input);
