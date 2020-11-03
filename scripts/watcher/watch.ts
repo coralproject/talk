@@ -1,5 +1,5 @@
-import Joi from "@hapi/joi";
 import chalk from "chalk";
+import Joi from "joi";
 import { pickBy } from "lodash";
 
 import SaneWatcher from "./SaneWatcher";

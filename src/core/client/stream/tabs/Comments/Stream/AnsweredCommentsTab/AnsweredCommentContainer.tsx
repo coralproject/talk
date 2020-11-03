@@ -23,6 +23,7 @@ import { AnsweredCommentContainer_story as StoryData } from "coral-stream/__gene
 import { AnsweredCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/AnsweredCommentContainer_viewer.graphql";
 
 import { CommentContainer, UserTagsContainer } from "../../Comment";
+import MediaSectionContainer from "../../Comment/MediaSection/MediaSectionContainer";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 
@@ -111,6 +112,11 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
         <HTMLContent className={CLASSES.featuredComment.content}>
           {comment.body || ""}
         </HTMLContent>
+        <MediaSectionContainer
+          comment={comment}
+          settings={settings}
+          defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+        />
         <Flex
           justifyContent="space-between"
           mt={2}
@@ -175,6 +181,9 @@ const enhanced = withSetCommentIDMutation(
           id
         }
         role
+        mediaSettings {
+          unfurlEmbeds
+        }
         ...UsernameWithPopoverContainer_viewer
         ...ReactionButtonContainer_viewer
         ...CommentContainer_viewer
@@ -204,6 +213,7 @@ const enhanced = withSetCommentIDMutation(
         createdAt
         lastViewerAction
         replyCount
+        ...MediaSectionContainer_comment
         ...UsernameWithPopoverContainer_comment
         ...ReactionButtonContainer_comment
         ...UserTagsContainer_comment
@@ -214,6 +224,7 @@ const enhanced = withSetCommentIDMutation(
         ...ReactionButtonContainer_settings
         ...UserTagsContainer_settings
         ...CommentContainer_settings
+        ...MediaSectionContainer_settings
         ...UsernameWithPopoverContainer_settings
       }
     `,

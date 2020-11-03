@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 export interface WatchOptions {
   ignore?: ReadonlyArray<string>;
