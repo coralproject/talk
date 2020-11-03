@@ -11,3 +11,7 @@
   line-height: 1;
   color: var(--palette-text-500);
 }
+
+.username {
+  line-break: anywhere;
+}
