@@ -29,7 +29,7 @@ const GifPreview: FunctionComponent<Props> = ({ onRemove, url, title }) => {
             Remove
           </Localized>
         </Button>
-        <img src={url} alt={title} />
+        <img src={url} alt={title} className={styles.image} />
       </div>
     </div>
   );
