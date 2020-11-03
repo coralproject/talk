@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { isNull, uniq } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
