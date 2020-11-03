@@ -41,7 +41,9 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
     >
       <HorizontalGutter spacing={2}>
         <div>
-          <Username className={CLASSES.userPopover.username}>
+          <Username
+            className={cn(styles.username, CLASSES.userPopover.username)}
+          >
             {user.username}
           </Username>
         </div>
