@@ -181,6 +181,11 @@ const enhanced = withSetCommentIDMutation(
     story: graphql`
       fragment FeaturedCommentContainer_story on Story {
         url
+        commentCounts {
+          tags {
+            FEATURED
+          }
+        }
         ...UserTagsContainer_story
       }
     `,

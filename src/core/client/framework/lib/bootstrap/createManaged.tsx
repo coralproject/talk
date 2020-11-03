@@ -188,7 +188,7 @@ function createManagedCoralContextProvider(
     // This is called every time a user session starts or ends.
     private clearSession = async (
       nextAccessToken?: string,
-      ephemeral?: boolean
+      options: { ephemeral?: boolean } = {}
     ) => {
       // Clear session storage.
       void this.state.context.sessionStorage.clear();
@@ -198,10 +198,13 @@ function createManagedCoralContextProvider(
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
-        ? ephemeral
+        ? options.ephemeral
           ? parseAccessToken(nextAccessToken)
-          : storeAccessTokenInLocalStorage(nextAccessToken)
-        : deleteAccessTokenFromLocalStorage();
+          : await storeAccessTokenInLocalStorage(
+              context.localStorage,
+              nextAccessToken
+            )
+        : await deleteAccessTokenFromLocalStorage(context.localStorage);
 
       // Create the new environment.
       const { environment, accessTokenProvider } = createRelayEnvironment(
@@ -346,8 +349,10 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales);
 
+  const localStorage = resolveLocalStorage(pym);
+
   // Get the access token from storage.
-  const auth = retrieveAccessToken();
+  const auth = await retrieveAccessToken(localStorage);
 
   /** clientID is sent to the server with every request */
   const clientID = uuid();
@@ -378,7 +383,7 @@ export default async function createManaged({
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),
-    localStorage: resolveLocalStorage(pym),
+    localStorage,
     sessionStorage: resolveSessionStorage(pym),
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,

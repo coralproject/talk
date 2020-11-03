@@ -1,6 +1,7 @@
 import { GQLSubscriptionTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 import { commentCreated } from "./commentCreated";
+import { commentEntered } from "./commentEntered";
 import { commentEnteredModerationQueue } from "./commentEnteredModerationQueue";
 import { commentFeatured } from "./commentFeatured";
 import { commentLeftModerationQueue } from "./commentLeftModerationQueue";
@@ -10,6 +11,7 @@ import { commentStatusUpdated } from "./commentStatusUpdated";
 
 export const Subscription: Required<GQLSubscriptionTypeResolver> = {
   commentCreated,
+  commentEntered,
   commentEnteredModerationQueue,
   commentLeftModerationQueue,
   commentReplyCreated,
@@ -25,3 +27,4 @@ export { CommentLeftModerationQueueInput } from "./commentLeftModerationQueue";
 export { CommentReleasedInput } from "./commentReleased";
 export { CommentReplyCreatedInput } from "./commentReplyCreated";
 export { CommentStatusUpdatedInput } from "./commentStatusUpdated";
+export { CommentEnteredInput } from "./commentEntered";

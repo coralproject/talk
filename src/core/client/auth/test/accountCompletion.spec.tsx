@@ -3,6 +3,7 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
@@ -110,8 +111,45 @@ it("renders account linking view", async () => {
       },
     },
   });
-  await waitForElement(() => within(root).getByTestID("linkAccount-container"));
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByTestID("linkAccount-container")
+    );
+  });
   within(root).getByText("my@email.com", { exact: false });
+});
+
+it("renders account linking view, but then switch to add email view", async () => {
+  const { testRenderer } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "",
+            username: "hans",
+            duplicateEmail: "my@email.com",
+          }),
+      },
+    },
+  });
+  await act(async () => {
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
+  const button = await waitForElement(() =>
+    within(testRenderer.root).getByText("Use a different email address", {
+      exact: false,
+    })
+  );
+  await act(async () => {
+    button.props.onClick();
+    await waitForElement(() =>
+      within(testRenderer.root).queryByText("Add Email Address", {
+        exact: false,
+      })
+    );
+  });
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {

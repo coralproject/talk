@@ -13,7 +13,7 @@ export async function commit(
   { rest, clearSession }: CoralContext
 ) {
   const result = await signIn(rest, pick(input, ["email", "password"]));
-  await clearSession(result.token);
+  await clearSession(result.token, { ephemeral: true });
 }
 
 const SignInMutation = createMutation("signIn", commit);

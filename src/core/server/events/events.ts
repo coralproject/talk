@@ -1,5 +1,6 @@
 import {
   CommentCreatedInput,
+  CommentEnteredInput,
   CommentEnteredModerationQueueInput,
   CommentFeaturedInput,
   CommentLeftModerationQueueInput,
@@ -72,6 +73,15 @@ export const CommentStatusUpdatedCoralEvent = createCoralEvent<
   CommentStatusUpdatedCoralEventPayload
 >(CoralEventType.COMMENT_STATUS_UPDATED);
 
+export type CommentEnteredCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_ENTERED,
+  CommentEnteredInput
+>;
+
+export const CommentEnteredCoralEvent = createCoralEvent<
+  CommentEnteredCoralEventPayload
+>(CoralEventType.COMMENT_ENTERED);
+
 export type CommentReplyCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_REPLY_CREATED,
   CommentReplyCreatedInput
@@ -79,7 +89,9 @@ export type CommentReplyCreatedCoralEventPayload = CoralEventPayload<
 
 export const CommentReplyCreatedCoralEvent = createCoralEvent<
   CommentReplyCreatedCoralEventPayload
->(CoralEventType.COMMENT_REPLY_CREATED);
+>(CoralEventType.COMMENT_REPLY_CREATED, {
+  forward: [CommentEnteredCoralEvent],
+});
 
 export type CommentCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_CREATED,
@@ -88,7 +100,9 @@ export type CommentCreatedCoralEventPayload = CoralEventPayload<
 
 export const CommentCreatedCoralEvent = createCoralEvent<
   CommentCreatedCoralEventPayload
->(CoralEventType.COMMENT_CREATED);
+>(CoralEventType.COMMENT_CREATED, {
+  forward: [CommentEnteredCoralEvent],
+});
 
 export type CommentFeaturedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_FEATURED,
@@ -106,7 +120,9 @@ export type CommentReleasedCoralEventPayload = CoralEventPayload<
 
 export const CommentReleasedCoralEvent = createCoralEvent<
   CommentReleasedCoralEventPayload
->(CoralEventType.COMMENT_RELEASED);
+>(CoralEventType.COMMENT_RELEASED, {
+  forward: [CommentEnteredCoralEvent],
+});
 
 export type StoryCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.STORY_CREATED,

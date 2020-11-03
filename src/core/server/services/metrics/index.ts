@@ -1,10 +1,11 @@
-import { Counter, Histogram } from "prom-client";
+import { Counter, Gauge, Histogram } from "prom-client";
 
 export interface Metrics {
   executedGraphQueriesTotalCounter: Counter<string>;
   graphQLExecutionTimingsHistogram: Histogram<string>;
   httpRequestsTotal: Counter<string>;
   httpRequestDurationMilliseconds: Histogram<string>;
+  connectedWebsocketsTotalGauge: Gauge<string>;
 }
 
 export function createMetrics(): Metrics {
@@ -35,10 +36,18 @@ export function createMetrics(): Metrics {
     labelNames: ["method", "handler"],
   });
 
+  const connectedWebsocketsTotalGauge = new Gauge({
+    name: "coral_connected_websockets_total",
+    help: "number of websocket connections being handled",
+  });
+
+  connectedWebsocketsTotalGauge.set(0);
+
   return {
     executedGraphQueriesTotalCounter,
     graphQLExecutionTimingsHistogram,
     httpRequestsTotal,
     httpRequestDurationMilliseconds,
+    connectedWebsocketsTotalGauge,
   };
 }
