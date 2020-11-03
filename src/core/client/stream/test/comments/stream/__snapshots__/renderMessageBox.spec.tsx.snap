@@ -249,6 +249,54 @@ exports[`renders message box when commenting disabled 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
+          <div
+            className="AllCommentsLinks-container"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -612,6 +660,54 @@ exports[`renders message box when logged in 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
+          <div
+            className="AllCommentsLinks-container"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -957,6 +1053,54 @@ exports[`renders message box when not logged in 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
+          <div
+            className="AllCommentsLinks-container"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -1202,6 +1346,54 @@ exports[`renders message box when story isClosed 1`] = `
             >
               There are no comments on this story.
             </div>
+          </div>
+          <div
+            className="AllCommentsLinks-container"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root"
+              >
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
           </div>
         </div>
       </section>

@@ -29,7 +29,6 @@ $linkColorActive: var(--palette-primary-800);
   margin-right: var(--spacing-1);
 }
 
-.border {
-  border-top: 1px solid var(--palette-grey-300);
+.container {
   padding-top: var(--spacing-2);
 }

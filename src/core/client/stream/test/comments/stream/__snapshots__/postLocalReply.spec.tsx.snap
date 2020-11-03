@@ -2038,5 +2038,53 @@ exports[`renders comment stream 1`] = `
       </div>
     </div>
   </div>
+  <div
+    className="AllCommentsLinks-container"
+  >
+    <button
+      className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+      data-variant="textUnderlined"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      title="Go to top of comments"
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        className="Icon-root Icon-sm ButtonIcon-root"
+      >
+        forum
+      </i>
+      <span>
+        Top of comments
+      </span>
+    </button>
+    <button
+      className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+      data-variant="textUnderlined"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      title="Go to top of article"
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        className="Icon-root Icon-sm ButtonIcon-root"
+      >
+        description
+      </i>
+      <span>
+        Top of article
+      </span>
+    </button>
+  </div>
 </div>
 `;

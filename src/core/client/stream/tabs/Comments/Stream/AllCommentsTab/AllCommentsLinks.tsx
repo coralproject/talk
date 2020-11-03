@@ -31,7 +31,7 @@ const AllCommentsLinks: FunctionComponent = () => {
   };
 
   return (
-    <div className={styles.border}>
+    <div className={styles.container}>
       <Button
         className={styles.link}
         title="Go to top of comments"
