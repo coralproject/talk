@@ -1,17 +1,22 @@
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql } from "react-relay";
 
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import {
+  useLocal,
   useMutation,
   withFragmentContainer,
-  withLocalStateContainer,
 } from "coral-framework/lib/relay";
 
-import { SignInContainer_auth as AuthData } from "coral-auth/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal as LocalData } from "coral-auth/__generated__/SignInContainerLocal.graphql";
+import { SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
+import { SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 
 import {
   ClearErrorMutation,
@@ -20,26 +25,40 @@ import {
 import SignIn from "./SignIn";
 
 interface Props {
-  local: LocalData;
-  auth: AuthData;
+  auth: SignInContainer_auth;
   clearError: ClearErrorMutation;
 }
 
-const SignInContainer: FunctionComponent<Props> = ({
-  auth,
-  local,
-  clearError,
-}) => {
+function isEnabled(integration: {
+  enabled: boolean;
+  targetFilter: { stream: boolean };
+}) {
+  return integration.enabled && integration.targetFilter.stream;
+}
+
+const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   const setView = useMutation(SetViewMutation);
+
+  const [{ error }] = useLocal<SignInContainerLocal>(graphql`
+    fragment SignInContainerLocal on Local {
+      error
+    }
+  `);
+
   const goToSignUp = useCallback(
     (e: React.MouseEvent) => {
       setView({ view: "SIGN_UP", history: "push" });
+
       if (e.preventDefault) {
         e.preventDefault();
       }
     },
     [setView]
   );
+
+  const {
+    integrations: { local, facebook, google, oidc },
+  } = auth;
 
   useEffect(() => {
     return () => {
@@ -48,100 +67,103 @@ const SignInContainer: FunctionComponent<Props> = ({
     };
   }, [clearError, auth]);
 
-  // If there's only one enabled auth integration, we should just perform
-  // the redirect now.
-  if (
-    !local.error &&
-    (!auth.integrations.local.enabled ||
-      !auth.integrations.local.targetFilter.stream)
-  ) {
-    // Local isn't enabled, so we can look into the rest of the integrations
-    // now.
-    const { facebook, google, oidc } = auth.integrations;
-    const enabledIntegrations = [facebook, google, oidc].filter(
-      ({ enabled, targetFilter: { stream } }) => enabled && stream
-    );
-    if (
-      enabledIntegrations.length === 1 &&
-      enabledIntegrations[0].redirectURL
-    ) {
-      redirectOAuth2(enabledIntegrations[0].redirectURL);
-
-      return null;
+  // Compute the redirectURL if supported.
+  const redirectURL = useMemo(() => {
+    // If there was an error, then we can't redirect the viewer.
+    if (error) {
+      return;
     }
+
+    // If the local integration is enabled, then we can't redirect the viewer.
+    if (isEnabled(local)) {
+      return;
+    }
+
+    const enabled = [facebook, google, oidc].filter((i) => isEnabled(i));
+
+    // If there is more than one integration enabled, or there is no
+    // integrations enabled, then we can't redirect the viewer.
+    if (enabled.length > 1 || enabled.length === 0) {
+      return;
+    }
+
+    const integration = enabled[0];
+
+    // If there is no url to redirect to, we can't redirect the viewer.
+    if (!integration.redirectURL) {
+      return;
+    }
+
+    return integration.redirectURL;
+  }, [error, facebook, google, local, oidc]);
+
+  useEffect(() => {
+    // If there's no url to redirect to, then we can't redirect the viewer.
+    if (!redirectURL) {
+      return;
+    }
+
+    redirectOAuth2(redirectURL);
+  }, [redirectURL]);
+
+  // If we are redirecting, then render nothing.
+  if (redirectURL) {
+    return null;
   }
 
-  const integrations = auth.integrations;
   return (
     <SignIn
-      error={local.error}
+      error={error}
       auth={auth}
       onGotoSignUp={goToSignUp}
-      emailEnabled={
-        integrations.local.enabled && integrations.local.targetFilter.stream
-      }
-      facebookEnabled={
-        integrations.facebook.enabled &&
-        integrations.facebook.targetFilter.stream
-      }
-      googleEnabled={
-        integrations.google.enabled && integrations.google.targetFilter.stream
-      }
-      oidcEnabled={
-        integrations.oidc.enabled && integrations.oidc.targetFilter.stream
-      }
+      emailEnabled={isEnabled(local)}
+      facebookEnabled={isEnabled(facebook)}
+      googleEnabled={isEnabled(google)}
+      oidcEnabled={isEnabled(oidc)}
       signUpHref={getViewURL("SIGN_UP")}
     />
   );
 };
 
 const enhanced = withClearErrorMutation(
-  withLocalStateContainer(
-    graphql`
-      fragment SignInContainerLocal on Local {
-        error
-      }
-    `
-  )(
-    withFragmentContainer<Props>({
-      auth: graphql`
-        fragment SignInContainer_auth on Auth {
-          ...SignInWithOIDCContainer_auth
-          ...SignInWithGoogleContainer_auth
-          ...SignInWithFacebookContainer_auth
-          integrations {
-            local {
-              enabled
-              targetFilter {
-                stream
-              }
+  withFragmentContainer<Props>({
+    auth: graphql`
+      fragment SignInContainer_auth on Auth {
+        ...SignInWithOIDCContainer_auth
+        ...SignInWithGoogleContainer_auth
+        ...SignInWithFacebookContainer_auth
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
             }
-            facebook {
-              enabled
-              redirectURL
-              targetFilter {
-                stream
-              }
+          }
+          facebook {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
             }
-            google {
-              enabled
-              redirectURL
-              targetFilter {
-                stream
-              }
+          }
+          google {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
             }
-            oidc {
-              enabled
-              redirectURL
-              targetFilter {
-                stream
-              }
+          }
+          oidc {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
             }
           }
         }
-      `,
-    })(SignInContainer)
-  )
+      }
+    `,
+  })(SignInContainer)
 );
 
 export default enhanced;

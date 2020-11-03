@@ -165,7 +165,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     ) &&
     local.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
     local.commentsTab === "ALL_COMMENTS" &&
-    !isQA &&
     !props.story.isClosed &&
     !props.settings.disableCommenting.enabled;
 
@@ -191,12 +190,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         onChangeTab("ALL_COMMENTS", false);
       } else {
         onChangeTab("FEATURED_COMMENTS", false);
-      }
-
-      // If we are in Q&A mode, we default to most voted
-      // sorting by default
-      if (props.story.settings.mode === GQLSTORY_MODE.QA) {
-        setLocal({ commentsOrderBy: "REACTION_DESC" });
       }
     }
   }, [local, setLocal, props, featuredCommentsCount, onChangeTab]);
@@ -233,7 +226,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         <CommunityGuidelinesContainer settings={props.settings} />
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton />
+            <AddACommentButton isQA={isQA} />
           ) : (
             <>
               <IntersectionProvider>

@@ -1,6 +1,6 @@
-import { authRedirectBackTo } from "coral-framework/helpers/storageKeys";
+import { AUTH_REDIRECT_PATH_KEY } from "coral-framework/helpers/storageKeys";
 
 export default function redirectOAuth2(redirectURL: string) {
-  sessionStorage.setItem(authRedirectBackTo, window.location.pathname);
+  localStorage.setItem(AUTH_REDIRECT_PATH_KEY, window.location.pathname);
   window.location.href = redirectURL;
 }

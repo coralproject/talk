@@ -3,7 +3,7 @@
 exports[`renders sign in 1`] = `
 <div>
   <div>
-    <withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(SignInContainer)))))
+    <withContext(createMutationContainer(Relay(SignInContainer)))
       auth={Object {}}
     />
   </div>
