@@ -1,6 +1,6 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { ADMIN_REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import {
   createInMemoryStorage,
@@ -25,7 +25,7 @@ it("Sets redirectPath", async () => {
     localStorage: createPromisifiedStorage(storage),
   } as any);
   expect(source.get(LOCAL_ID)!.redirectPath).toEqual("/path");
-  expect(storage.getItem(REDIRECT_PATH_KEY)).toEqual("/path");
+  expect(storage.getItem(ADMIN_REDIRECT_PATH_KEY)).toEqual("/path");
 });
 
 it("Removes redirectPath", async () => {
@@ -34,5 +34,5 @@ it("Removes redirectPath", async () => {
     localStorage: createPromisifiedStorage(storage),
   } as any);
   expect(source.get(LOCAL_ID)!.redirectPath).toEqual(null);
-  expect(storage.getItem(REDIRECT_PATH_KEY)).toEqual(null);
+  expect(storage.getItem(ADMIN_REDIRECT_PATH_KEY)).toEqual(null);
 });

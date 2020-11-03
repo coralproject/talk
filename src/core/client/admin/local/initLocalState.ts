@@ -1,11 +1,8 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { ADMIN_REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import {
-  AuthState,
-  storeAccessTokenInLocalStorage,
-} from "coral-framework/lib/auth";
+import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -32,19 +29,20 @@ export default async function initLocalState(
       error = params.error;
     }
 
-    // If there was an access token, store it.
+    // If there was an access token, parse it.
+    // `AccountCompletionContainer` will take care of storing it.
     if (params.accessToken) {
-      auth = storeAccessTokenInLocalStorage(params.accessToken);
+      auth = parseAccessToken(params.accessToken);
     }
 
     // As we are in the middle of an auth flow (given that there was something
     // in the hash) we should now grab the redirect path.
     redirectPath =
-      (await context.localStorage.getItem(REDIRECT_PATH_KEY)) || null;
+      (await context.localStorage.getItem(ADMIN_REDIRECT_PATH_KEY)) || null;
   } else {
     // There was no auth flow in progress (given that we're now loading without
     // a hash), so clear the redirect path just in case.
-    await context.localStorage.setItem(REDIRECT_PATH_KEY, "");
+    await context.localStorage.removeItem(ADMIN_REDIRECT_PATH_KEY);
   }
 
   initLocalBaseState(environment, context, auth);

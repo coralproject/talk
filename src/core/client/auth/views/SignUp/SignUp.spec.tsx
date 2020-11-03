@@ -11,13 +11,12 @@ const SignUpN = removeFragmentRefs(SignUp);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof SignUpN> = {
-    onGotoSignIn: noop,
-    emailEnabled: true,
+    onSignIn: noop,
+    localEnabled: true,
     facebookEnabled: true,
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
-    signInHref: "/signIn",
   };
   const renderer = createRenderer();
   renderer.render(<SignUpN {...props} />);
@@ -26,13 +25,12 @@ it("renders correctly", () => {
 
 it("renders without email sign up", () => {
   const props: PropTypesOf<typeof SignUpN> = {
-    onGotoSignIn: noop,
-    emailEnabled: false,
+    onSignIn: noop,
+    localEnabled: false,
     facebookEnabled: true,
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
-    signInHref: "/signIn",
   };
   const renderer = createRenderer();
   renderer.render(<SignUpN {...props} />);
