@@ -1,6 +1,8 @@
 import { AppOptions } from "coral-server/app";
-import { GoogleAuthenticator } from "coral-server/app/authenticators/google";
-import { getEnabledIntegration } from "coral-server/app/authenticators/google/helpers";
+import {
+  getEnabledIntegration,
+  GoogleAuthenticator,
+} from "coral-server/app/authenticators/google";
 
 import { oauth2Handler } from "./oauth2";
 

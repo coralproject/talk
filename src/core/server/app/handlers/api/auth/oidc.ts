@@ -1,6 +1,8 @@
 import { AppOptions } from "coral-server/app";
-import { OIDCAuthenticator } from "coral-server/app/authenticators/oidc";
-import { getEnabledIntegration } from "coral-server/services/oidc";
+import {
+  getEnabledIntegration,
+  OIDCAuthenticator,
+} from "coral-server/app/authenticators/oidc";
 
 import { oauth2Handler } from "./oauth2";
 

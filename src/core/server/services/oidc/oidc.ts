@@ -68,7 +68,6 @@ export const OIDCIDTokenSchema = Joi.object()
     (s) => s.optional()
   );
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   const { error } = OIDCIDTokenSchema.validate(token, {
     // OIDC ID tokens may contain many other fields we haven't seen.. We Just
@@ -175,42 +174,40 @@ export async function findOrCreateOIDCUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(mongo, tenant.id, profile);
-  if (!user) {
-    if (!integration.allowRegistration) {
-      throw new Error("registration is disabled");
-    }
-
-    // Try to extract the username from the following chain:
-    let username = preferred_username || nickname || name;
-    if (username) {
-      try {
-        validateUsername(username);
-      } catch (err) {
-        username = undefined;
-      }
-    }
-
-    // Create the new user, as one didn't exist before!
-    user = await findOrCreate(
-      mongo,
-      tenant,
-      {
-        username,
-        role: GQLUSER_ROLE.COMMENTER,
-        email,
-        emailVerified: email_verified,
-        avatar: picture,
-        profile,
-      },
-      {},
-      now
-    );
+  const user = await retrieveUserWithProfile(mongo, tenant.id, profile);
+  if (user) {
+    return user;
   }
 
-  // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
+  if (!integration.allowRegistration) {
+    throw new Error("registration is disabled");
+  }
 
-  return user;
+  // Try to extract the username from the following chain:
+  let username = preferred_username || nickname || name;
+  if (username) {
+    try {
+      validateUsername(username);
+    } catch (err) {
+      username = undefined;
+    }
+  }
+
+  // Create the new user, as one didn't exist before!
+  return await findOrCreate(
+    mongo,
+    tenant,
+    {
+      username,
+      role: GQLUSER_ROLE.COMMENTER,
+      email,
+      emailVerified: email_verified,
+      avatar: picture,
+      profile,
+    },
+    {},
+    now
+  );
 }
 
 export async function findOrCreateOIDCUserWithToken(

@@ -5,11 +5,11 @@ export function getEnabledIntegration(
   integration: GoogleAuthIntegration
 ): Required<GoogleAuthIntegration> {
   if (!integration.enabled) {
-    throw new IntegrationDisabled("facebook");
+    throw new IntegrationDisabled("google");
   }
 
   if (!integration.clientID || !integration.clientSecret) {
-    throw new IntegrationDisabled("facebook");
+    throw new IntegrationDisabled("google");
   }
 
   return integration as Required<GoogleAuthIntegration>;

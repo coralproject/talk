@@ -1,6 +1,8 @@
 import { AppOptions } from "coral-server/app";
-import { FacebookAuthenticator } from "coral-server/app/authenticators/facebook";
-import { getEnabledIntegration } from "coral-server/app/authenticators/facebook/helpers";
+import {
+  FacebookAuthenticator,
+  getEnabledIntegration,
+} from "coral-server/app/authenticators/facebook";
 
 import { oauth2Handler } from "./oauth2";
 
