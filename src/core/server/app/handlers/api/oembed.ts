@@ -1,5 +1,5 @@
-import Joi from "@hapi/joi";
 import { AppOptions } from "coral-server/app";
+import Joi from "joi";
 
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";

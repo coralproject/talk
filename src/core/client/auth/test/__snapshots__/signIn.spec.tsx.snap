@@ -10,139 +10,143 @@ exports[`auth configuration renders all auth enabled 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="coral coral-login-field SignInWithEmail-field"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+        className="coral coral-login-field SignInWithEmail-field"
       >
-        <label
-          className="InputLabel-root"
-          htmlFor="email"
-        >
-          Email address
-        </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
-          <input
-            className="TextField-input TextField-colorStreamBlue"
-            disabled={false}
-            id="email"
-            name="email"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="Email address"
-            type="email"
-            value=""
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      className="coral coral-login-field SignInWithEmail-field"
-    >
-      <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-      >
-        <label
-          className="InputLabel-root"
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <div
-          className="PasswordField-fullWidth PasswordField-root"
-        >
+          <label
+            className="InputLabel-root"
+            htmlFor="email"
+          >
+            Email address
+          </label>
           <div
-            className="PasswordField-wrapper"
+            className="TextField-root TextField-fullWidth"
           >
             <input
-              autoCapitalize="off"
-              autoComplete="off"
-              autoCorrect="off"
-              className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
-              data-testid="password-field"
+              className="TextField-input TextField-colorStreamBlue"
               disabled={false}
-              id="password"
-              name="password"
+              id="email"
+              name="email"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
-              placeholder="Password"
-              spellCheck={false}
-              type="password"
+              placeholder="Email address"
+              type="email"
               value=""
             />
-            <div
-              className="PasswordField-icon"
-              onClick={[Function]}
-              onKeyUp={[Function]}
-              role="button"
-              tabIndex={0}
-              title="Hide password"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm"
-              >
-                visibility
-              </i>
-            </div>
-          </div>
-        </div>
-        <div
-          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <div
-            className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
-          >
-            <a
-              className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
-              data-variant="flat"
-              disabled={false}
-              href="http://localhost/?view=FORGOT_PASSWORD"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-            >
-              Forgot your password?
-            </a>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="SignInWithEmail-actions"
-    >
-      <button
-        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
-        data-variant="filled"
-        disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
+      <div
+        className="coral coral-login-field SignInWithEmail-field"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-md SignInWithEmail-icon"
+          <label
+            className="InputLabel-root"
+            htmlFor="password"
           >
-            email
-          </i>
-          <span>
-            Sign in with Email
-          </span>
+            Password
+          </label>
+          <div
+            className="PasswordField-fullWidth PasswordField-root"
+          >
+            <div
+              className="PasswordField-wrapper"
+            >
+              <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
+                className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
+                data-testid="password-field"
+                disabled={false}
+                id="password"
+                name="password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Password"
+                spellCheck={false}
+                type="password"
+                value=""
+              />
+              <div
+                className="PasswordField-icon"
+                onClick={[Function]}
+                onKeyUp={[Function]}
+                role="button"
+                tabIndex={0}
+                title="Hide password"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  visibility
+                </i>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+          >
+            <div
+              className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
+            >
+              <a
+                className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
+                data-variant="flat"
+                disabled={false}
+                href="http://localhost/?view=FORGOT_PASSWORD"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+              >
+                Forgot your password?
+              </a>
+            </div>
+          </div>
         </div>
-      </button>
+      </div>
+      <div
+        className="SignInWithEmail-actions"
+      >
+        <button
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+          data-variant="filled"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-md SignInWithEmail-icon"
+            >
+              email
+            </i>
+            <span>
+              Sign in with Email
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
   </form>
   <div
@@ -386,139 +390,143 @@ exports[`renders sign in view 1`] = `
           onSubmit={[Function]}
         >
           <div
-            className="coral coral-login-field SignInWithEmail-field"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+              className="coral coral-login-field SignInWithEmail-field"
             >
-              <label
-                className="InputLabel-root"
-                htmlFor="email"
-              >
-                Email address
-              </label>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <input
-                  className="TextField-input TextField-colorStreamBlue"
-                  disabled={false}
-                  id="email"
-                  name="email"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder="Email address"
-                  type="email"
-                  value=""
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className="coral coral-login-field SignInWithEmail-field"
-          >
-            <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-            >
-              <label
-                className="InputLabel-root"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <div
-                className="PasswordField-fullWidth PasswordField-root"
-              >
+                <label
+                  className="InputLabel-root"
+                  htmlFor="email"
+                >
+                  Email address
+                </label>
                 <div
-                  className="PasswordField-wrapper"
+                  className="TextField-root TextField-fullWidth"
                 >
                   <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
-                    data-testid="password-field"
+                    className="TextField-input TextField-colorStreamBlue"
                     disabled={false}
-                    id="password"
-                    name="password"
+                    id="email"
+                    name="email"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    placeholder="Password"
-                    spellCheck={false}
-                    type="password"
+                    placeholder="Email address"
+                    type="email"
                     value=""
                   />
-                  <div
-                    className="PasswordField-icon"
-                    onClick={[Function]}
-                    onKeyUp={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Hide password"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
-                    >
-                      visibility
-                    </i>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-              >
-                <div
-                  className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
-                >
-                  <a
-                    className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
-                    data-variant="flat"
-                    disabled={false}
-                    href="http://localhost/?view=FORGOT_PASSWORD"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="SignInWithEmail-actions"
-          >
-            <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
-              data-variant="filled"
-              disabled={false}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
+            <div
+              className="coral coral-login-field SignInWithEmail-field"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-md SignInWithEmail-icon"
+                <label
+                  className="InputLabel-root"
+                  htmlFor="password"
                 >
-                  email
-                </i>
-                <span>
-                  Sign in with Email
-                </span>
+                  Password
+                </label>
+                <div
+                  className="PasswordField-fullWidth PasswordField-root"
+                >
+                  <div
+                    className="PasswordField-wrapper"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
+                      data-testid="password-field"
+                      disabled={false}
+                      id="password"
+                      name="password"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Password"
+                      spellCheck={false}
+                      type="password"
+                      value=""
+                    />
+                    <div
+                      className="PasswordField-icon"
+                      onClick={[Function]}
+                      onKeyUp={[Function]}
+                      role="button"
+                      tabIndex={0}
+                      title="Hide password"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        visibility
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                >
+                  <div
+                    className="coral coral-login-signInWithEmail-forgotPassword SignInWithEmail-forgotPassword"
+                  >
+                    <a
+                      className="BaseButton-root Button-base Button-flat Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline"
+                      data-variant="flat"
+                      disabled={false}
+                      href="http://localhost/?view=FORGOT_PASSWORD"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                    >
+                      Forgot your password?
+                    </a>
+                  </div>
+                </div>
               </div>
-            </button>
+            </div>
+            <div
+              className="SignInWithEmail-actions"
+            >
+              <button
+                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-upperCase Button-fullWidth"
+                data-variant="filled"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md SignInWithEmail-icon"
+                  >
+                    email
+                  </i>
+                  <span>
+                    Sign in with Email
+                  </span>
+                </div>
+              </button>
+            </div>
           </div>
         </form>
         <div
