@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { merge } from "lodash";
 import { OAuth2 } from "oauth";
 
 import { stringifyQuery } from "coral-common/utils";
@@ -63,7 +64,7 @@ export abstract class OAuth2Authenticator {
   private readonly authorizationURL: string;
   private readonly callbackPath: string;
   private readonly scope: string;
-  private readonly authorizationParams?: Record<string, string>;
+  private readonly authorizationParams: Record<string, string>;
 
   protected readonly client: OAuth2;
 
@@ -75,7 +76,7 @@ export abstract class OAuth2Authenticator {
     callbackPath,
     scope,
     signingConfig,
-    authorizationParams,
+    authorizationParams = {},
   }: Options) {
     this.clientID = clientID;
     this.authorizationURL = authorizationURL;
@@ -98,7 +99,11 @@ export abstract class OAuth2Authenticator {
     Promise<void>
   >;
 
-  protected redirect(req: Request<TenantCoralRequest>, res: Response) {
+  protected redirect(
+    req: Request<TenantCoralRequest>,
+    res: Response,
+    authorizationParams: Record<string, string> = {}
+  ) {
     // Take the authorization url so we can use it as the base for the
     // redirection.
     const authorizeURL = new URL(this.authorizationURL);
@@ -113,11 +118,12 @@ export abstract class OAuth2Authenticator {
     authorizeURL.searchParams.set("client_id", this.clientID);
     authorizeURL.searchParams.set("state", state);
 
-    // If we have extra authorization parameters, add them.
-    if (this.authorizationParams) {
-      for (const [key, value] of Object.entries(this.authorizationParams)) {
-        authorizeURL.searchParams.set(key, value);
-      }
+    // Prepare the extra parameters we should add for this request.
+    const params = merge({}, this.authorizationParams, authorizationParams);
+
+    // If we have extra authorization parameters for each request, add them.
+    for (const [key, value] of Object.entries(params)) {
+      authorizeURL.searchParams.set(key, value);
     }
 
     // Redirect the user to the authorize URL.

@@ -50,8 +50,8 @@ export function verifyState(req: Request, res: Response) {
     throw new Error("missing state parameter");
   }
 
-  // Ensure that the nonce is stored in the state.
-  if (compare(state, providedState)) {
-    throw new Error("state nonce mismatch");
+  // Ensure that the nonce is valid.
+  if (!compare(state, providedState)) {
+    throw new Error("state mismatch");
   }
 }

@@ -9,7 +9,8 @@ import {
 } from "coral-server/services/oidc";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { OAuth2Authenticator } from "./oauth2";
+import { OAuth2Authenticator } from "../oauth2";
+import { storeNonce, verifyNonce } from "./nonce";
 
 interface Options {
   mongo: Db;
@@ -44,7 +45,12 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
 
       // If we don't have a code on the request, then we should redirect the user.
       if (!req.query.code) {
-        return this.redirect(req, res);
+        // We're starting the authentication flow! Create the nonce.
+        const nonce = storeNonce(req, res);
+
+        // Redirect the user (Adding the nonce value to the authorization
+        // params).
+        return this.redirect(req, res, { nonce });
       }
 
       // Exchange the code for tokens.
@@ -64,6 +70,9 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
         this.integration.issuer,
         req.coral.now
       );
+
+      // Verify that the nonce is correct.
+      verifyNonce(req, res, token.nonce);
 
       // Find or create the user.
       const user = await findOrCreateOIDCUser(

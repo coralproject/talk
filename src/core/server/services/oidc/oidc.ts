@@ -39,6 +39,7 @@ export interface OIDCIDToken {
   name?: string;
   nickname?: string;
   preferred_username?: string;
+  nonce: string;
 }
 
 export const OIDCIDTokenSchema = Joi.object()
@@ -52,6 +53,7 @@ export const OIDCIDTokenSchema = Joi.object()
     name: Joi.string(),
     nickname: Joi.string(),
     preferred_username: Joi.string(),
+    nonce: Joi.string(),
   })
   .fork(
     [
