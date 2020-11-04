@@ -199,6 +199,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveWarning={handleRemoveWarning}
         fullWidth={fullWidth}
         bordered={bordered}
+        moderationScopesEnabled={moderationScopesEnabled}
       >
         <UserStatusContainer
           user={user}
