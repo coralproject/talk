@@ -103,10 +103,10 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
     return validateSchema(FacebookUserProfileSchema, profile);
   }
 
-  public authenticate: RequestHandler<TenantCoralRequest> = async (
-    req,
-    res
-  ) => {
+  public authenticate: RequestHandler<
+    TenantCoralRequest,
+    Promise<void>
+  > = async (req, res) => {
     try {
       const { tenant, now } = req.coral;
 

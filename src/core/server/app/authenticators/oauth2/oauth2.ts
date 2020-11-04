@@ -13,7 +13,7 @@ import {
 
 import { createAndStoreState, getAndClearState } from "./state";
 
-function redirectWithHash(res: Response, hash: Record<string, any>) {
+export function redirectWithHash(res: Response, hash: Record<string, any>) {
   res.redirect(`/embed/auth/callback${stringifyQuery(hash, "#")}`);
 }
 
@@ -93,7 +93,10 @@ export abstract class OAuth2Authenticator {
     );
   }
 
-  public abstract authenticate: RequestHandler<TenantCoralRequest>;
+  public abstract authenticate: RequestHandler<
+    TenantCoralRequest,
+    Promise<void>
+  >;
 
   protected redirect(req: Request<TenantCoralRequest>, res: Response) {
     // Take the authorization url so we can use it as the base for the
@@ -208,7 +211,7 @@ export abstract class OAuth2Authenticator {
     }
   }
 
-  public fail(err: Error, req: Request<TenantCoralRequest>, res: Response) {
+  protected fail(err: Error, req: Request<TenantCoralRequest>, res: Response) {
     return redirectWithHash(res, { error: err.message });
   }
 }

@@ -67,10 +67,10 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
     return validateSchema(GoogleUserProfileSchema, profile);
   }
 
-  public authenticate: RequestHandler<TenantCoralRequest> = async (
-    req,
-    res
-  ) => {
+  public authenticate: RequestHandler<
+    TenantCoralRequest,
+    Promise<void>
+  > = async (req, res) => {
     try {
       const { tenant, now } = req.coral;
 

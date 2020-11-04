@@ -35,10 +35,10 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
     this.mongo = mongo;
   }
 
-  public authenticate: RequestHandler<TenantCoralRequest> = async (
-    req,
-    res
-  ) => {
+  public authenticate: RequestHandler<
+    TenantCoralRequest,
+    Promise<void>
+  > = async (req, res) => {
     try {
       const { tenant, now } = req.coral;
 

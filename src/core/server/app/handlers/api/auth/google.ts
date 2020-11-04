@@ -1,40 +1,24 @@
 import { AppOptions } from "coral-server/app";
 import { GoogleAuthenticator } from "coral-server/app/authenticators/google";
 import { getEnabledIntegration } from "coral-server/app/authenticators/google/helpers";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-export const googleHandler = ({
-  tenantCache,
-  mongo,
-  signingConfig,
-}: AppOptions): RequestHandler<TenantCoralRequest> => {
-  const clients = new TenantCacheAdapter<GoogleAuthenticator>(tenantCache);
+import { oauth2Handler } from "./oauth2";
 
-  return async (req, res, next) => {
-    try {
-      const { tenant } = req.coral;
+type Options = Pick<AppOptions, "tenantCache" | "mongo" | "signingConfig">;
+
+export const googleHandler = ({ tenantCache, mongo, signingConfig }: Options) =>
+  oauth2Handler({
+    tenantCache,
+    authenticatorFn: (tenant) => {
       const integration = getEnabledIntegration(
         tenant.auth.integrations.google
       );
 
-      // Get or create the authenticator.
-      let authenticator = clients.get(tenant.id);
-      if (!authenticator) {
-        authenticator = new GoogleAuthenticator({
-          signingConfig,
-          mongo,
-          integration,
-          callbackPath: "/api/auth/google/callback",
-        });
-
-        clients.set(tenant.id, authenticator);
-      }
-
-      // Perform the authentication.
-      return authenticator.authenticate(req, res, next);
-    } catch (err) {
-      return next(err);
-    }
-  };
-};
+      return new GoogleAuthenticator({
+        signingConfig,
+        mongo,
+        integration,
+        callbackPath: "/api/auth/google/callback",
+      });
+    },
+  });
