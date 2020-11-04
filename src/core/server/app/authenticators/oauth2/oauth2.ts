@@ -4,6 +4,8 @@ import { OAuth2 } from "oauth";
 
 import { stringifyQuery } from "coral-common/utils";
 import { reconstructURL } from "coral-server/app/url";
+import { WrappedInternalError } from "coral-server/errors";
+import logger from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { JWTSigningConfig, signTokenString } from "coral-server/services/jwt";
 import {
@@ -206,6 +208,14 @@ export abstract class OAuth2Authenticator {
   }
 
   protected fail(err: Error, req: Request<TenantCoralRequest>, res: Response) {
-    return redirectWithHash(res, { error: err.message });
+    // Wrap the returned error with an authorization error.
+    const error = new WrappedInternalError(
+      err,
+      "an authentication error occurred"
+    );
+
+    logger.error({ err }, "an authentication error occurred for a user");
+
+    return redirectWithHash(res, { error: error.message });
   }
 }

@@ -4,9 +4,17 @@ import { getEnabledIntegration } from "coral-server/services/oidc";
 
 import { oauth2Handler } from "./oauth2";
 
-type Options = Pick<AppOptions, "tenantCache" | "mongo" | "signingConfig">;
+type Options = Pick<
+  AppOptions,
+  "tenantCache" | "mongo" | "signingConfig" | "redis"
+>;
 
-export const oidcHandler = ({ tenantCache, mongo, signingConfig }: Options) =>
+export const oidcHandler = ({
+  tenantCache,
+  mongo,
+  redis,
+  signingConfig,
+}: Options) =>
   oauth2Handler({
     tenantCache,
     authenticatorFn: (tenant) => {
@@ -15,6 +23,7 @@ export const oidcHandler = ({ tenantCache, mongo, signingConfig }: Options) =>
       return new OIDCAuthenticator({
         signingConfig,
         mongo,
+        redis,
         integration,
         callbackPath: "/api/auth/oidc/callback",
       });
