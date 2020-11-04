@@ -1,7 +1,8 @@
 import cookie from "cookie";
 import crypto from "crypto";
 import { CookieOptions, Request, Response } from "express";
-import compare from "tsscmp";
+
+import { REDIRECT_TO_PARAM } from "coral-common/constants";
 
 const COOKIE_NAME = "oauth2:state";
 const COOKIE_OPTIONS: CookieOptions = {
@@ -9,20 +10,39 @@ const COOKIE_OPTIONS: CookieOptions = {
   secure: true,
 };
 
-function createState() {
-  return crypto
+export interface StateData {
+  redirectTo: string;
+}
+
+function createState(data: StateData) {
+  const key = crypto
     .randomBytes(12)
     .toString("base64")
     .replace("+", "-")
     .replace("/", "_");
+
+  const state = JSON.stringify({ [key]: data });
+
+  return { state, key };
 }
 
 export function storeState(req: Request, res: Response): string {
-  const state = createState();
+  // Unpack the redirection.
+  const { [REDIRECT_TO_PARAM]: redirectTo } = req.query;
+  if (
+    !redirectTo ||
+    typeof redirectTo !== "string" ||
+    // Do not allow absolute urls to be used.
+    /\/\//.test(redirectTo)
+  ) {
+    throw new Error("invalid redirect parameter");
+  }
+
+  const { state, key } = createState({ redirectTo });
 
   res.cookie(COOKIE_NAME, state, COOKIE_OPTIONS);
 
-  return state;
+  return key;
 }
 
 export function verifyState(req: Request, res: Response) {
@@ -36,22 +56,35 @@ export function verifyState(req: Request, res: Response) {
   const cookies = cookie.parse(header);
 
   // Pull the state from the cookie.
-  const state = cookies[COOKIE_NAME];
-  if (!state || typeof state !== "string") {
+  const stateString = cookies[COOKIE_NAME];
+  if (!stateString || typeof stateString !== "string") {
     throw new Error("missing state cookie");
   }
 
   // Clear the cookie (because we're done with it now).
   res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
 
+  let state: Partial<Record<string, StateData>>;
+
+  // We expect that the state data is JSON encoded.
+  try {
+    state = JSON.parse(stateString);
+  } catch {
+    throw new Error("state data is corrupted");
+  }
+
   // Get the nonce that's stored on the query.
-  const { state: providedState } = req.query;
-  if (!providedState || typeof providedState !== "string") {
+  const { state: key } = req.query;
+  if (!key || typeof key !== "string") {
     throw new Error("missing state parameter");
   }
 
-  // Ensure that the nonce is valid.
-  if (!compare(state, providedState)) {
+  // Try to get the data from the state using the query key.
+  const data = state[key];
+
+  if (!data) {
     throw new Error("state mismatch");
   }
+
+  return data;
 }

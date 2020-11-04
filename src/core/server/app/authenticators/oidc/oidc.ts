@@ -15,7 +15,7 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
-import { OAuth2Authenticator } from "../oauth2";
+import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 import { storeNonce, verifyNonce } from "./nonce";
 
 interface Options {
@@ -88,10 +88,12 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
   public authenticate: RequestHandler<
     TenantCoralRequest,
     Promise<void>
-  > = async (req, res) => {
-    try {
-      const { tenant, now } = req.coral;
+  > = async (req, res, next) => {
+    const { tenant, now } = req.coral;
 
+    let response: ExchangeResponse;
+
+    try {
       // If we don't have a code on the request, then we should redirect the user.
       if (!req.query.code) {
         // We're starting the authentication flow! Create the nonce.
@@ -103,10 +105,19 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
       }
 
       // Exchange the code for tokens.
-      const {
-        params: { id_token: idToken },
-      } = await this.exchange(req, res);
+      response = await this.exchange(req, res);
+    } catch (err) {
+      return next(err);
+    }
 
+    const {
+      state,
+      tokens: {
+        params: { id_token: idToken },
+      },
+    } = response;
+
+    try {
       // Try to get the id_token out of the params.
       if (!idToken || typeof idToken !== "string") {
         throw new Error("no id_token provided");
@@ -124,9 +135,9 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
         now
       );
 
-      return this.success(user, req, res);
+      return this.success(state, user, req, res);
     } catch (err) {
-      return this.fail(err, req, res);
+      return this.fail(state, err, req, res);
     }
   };
 }

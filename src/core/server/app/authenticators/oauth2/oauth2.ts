@@ -14,10 +14,14 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
-import { storeState, verifyState } from "./state";
+import { StateData, storeState, verifyState } from "./state";
 
-export function redirectWithHash(res: Response, hash: Record<string, any>) {
-  res.redirect(`/embed/auth/callback${stringifyQuery(hash, "#")}`);
+export function redirectWithHash(
+  res: Response,
+  state: StateData,
+  hash: Record<string, any>
+) {
+  res.redirect(`${state.redirectTo}${stringifyQuery(hash, "#")}`);
 }
 
 function createOAuthError(
@@ -58,6 +62,11 @@ interface Options {
 interface OAuth2TokensResponse {
   accessToken: string;
   params: any;
+}
+
+export interface ExchangeResponse {
+  state: StateData;
+  tokens: OAuth2TokensResponse;
 }
 
 export abstract class OAuth2Authenticator {
@@ -171,7 +180,10 @@ export abstract class OAuth2Authenticator {
     });
   }
 
-  protected exchange(req: Request<TenantCoralRequest>, res: Response) {
+  protected async exchange(
+    req: Request<TenantCoralRequest>,
+    res: Response
+  ): Promise<ExchangeResponse> {
     const { code } = req.query;
     if (!code) {
       throw new Error("no code on request");
@@ -179,12 +191,16 @@ export abstract class OAuth2Authenticator {
 
     // Ensure that the passed state parameter matches the one we find in the
     // request.
-    verifyState(req, res);
+    const state = verifyState(req, res);
 
-    return this.getOAuth2AccessToken(code, this.redirectURI(req));
+    // Get the tokens from the client.
+    const tokens = await this.getOAuth2AccessToken(code, this.redirectURI(req));
+
+    return { state, tokens };
   }
 
   protected async success(
+    state: StateData,
     user: Readonly<User>,
     req: Request<TenantCoralRequest>,
     res: Response
@@ -201,13 +217,18 @@ export abstract class OAuth2Authenticator {
         now
       );
 
-      return redirectWithHash(res, { accessToken });
+      return redirectWithHash(res, state, { accessToken });
     } catch (err) {
-      return this.fail(err, req, res);
+      return this.fail(state, err, req, res);
     }
   }
 
-  protected fail(err: Error, req: Request<TenantCoralRequest>, res: Response) {
+  protected fail(
+    state: StateData,
+    err: Error,
+    req: Request<TenantCoralRequest>,
+    res: Response
+  ) {
     // Wrap the returned error with an authorization error.
     const error = new WrappedInternalError(
       err,
@@ -216,6 +237,6 @@ export abstract class OAuth2Authenticator {
 
     logger.error({ err }, "an authentication error occurred for a user");
 
-    return redirectWithHash(res, { error: error.message });
+    return redirectWithHash(res, state, { error: error.message });
   }
 }

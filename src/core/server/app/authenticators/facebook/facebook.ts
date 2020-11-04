@@ -14,7 +14,7 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-import { OAuth2Authenticator } from "../oauth2";
+import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 
 interface Options {
   mongo: Db;
@@ -106,18 +106,29 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
   public authenticate: RequestHandler<
     TenantCoralRequest,
     Promise<void>
-  > = async (req, res) => {
-    try {
-      const { tenant, now } = req.coral;
+  > = async (req, res, next) => {
+    const { tenant, now } = req.coral;
 
+    let response: ExchangeResponse;
+
+    try {
       // If we don't have a code on the request, then we should redirect the user.
       if (!req.query.code) {
         return this.redirect(req, res);
       }
 
       // Exchange the code for a token.
-      const { accessToken } = await this.exchange(req, res);
+      response = await this.exchange(req, res);
+    } catch (err) {
+      return next(err);
+    }
 
+    const {
+      state,
+      tokens: { accessToken },
+    } = response;
+
+    try {
       // Get the profile of the user.
       const { id, picture, email } = await this.getProfile(accessToken);
 
@@ -129,7 +140,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
       let user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
       if (user) {
-        return this.success(user, req, res);
+        return this.success(state, user, req, res);
       }
 
       if (!this.integration.allowRegistration) {
@@ -151,9 +162,9 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
         now
       );
 
-      return this.success(user, req, res);
+      return this.success(state, user, req, res);
     } catch (err) {
-      return this.fail(err, req, res);
+      return this.fail(state, err, req, res);
     }
   };
 }
