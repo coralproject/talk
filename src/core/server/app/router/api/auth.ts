@@ -6,6 +6,7 @@ import {
   forgotCheckHandler,
   forgotHandler,
   forgotResetHandler,
+  googleHandler,
   linkHandler,
   logoutHandler,
   oidcHandler,
@@ -13,11 +14,7 @@ import {
 } from "coral-server/app/handlers";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
-import {
-  authenticate,
-  wrapAuthn,
-  wrapOAuth2Authn,
-} from "coral-server/app/middleware/passport";
+import { authenticate, wrapAuthn } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
 import { createAPIRouter } from "./helpers";
@@ -65,7 +62,7 @@ export function createNewAuthRouter(
   router.get("/facebook", facebook);
   router.get("/facebook/callback", facebook);
 
-  const google = wrapOAuth2Authn(passport, app.signingConfig, "google");
+  const google = googleHandler(app);
 
   router.get("/google", google);
   router.get("/google/callback", google);
