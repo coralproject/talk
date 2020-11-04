@@ -49,6 +49,7 @@ interface Options {
   callbackPath: string;
   scope: string;
   signingConfig: JWTSigningConfig;
+  authorizationParams?: Record<string, string>;
 }
 
 interface OAuth2Response {
@@ -62,7 +63,9 @@ export abstract class OAuth2Authenticator {
   private readonly authorizationURL: string;
   private readonly callbackPath: string;
   private readonly scope: string;
-  private readonly client: OAuth2;
+  private readonly authorizationParams?: Record<string, string>;
+
+  protected readonly client: OAuth2;
 
   constructor({
     clientID,
@@ -72,12 +75,14 @@ export abstract class OAuth2Authenticator {
     callbackPath,
     scope,
     signingConfig,
+    authorizationParams,
   }: Options) {
     this.clientID = clientID;
     this.authorizationURL = authorizationURL;
     this.callbackPath = callbackPath;
     this.scope = scope;
     this.signingConfig = signingConfig;
+    this.authorizationParams = authorizationParams;
 
     this.client = new OAuth2(
       clientID,
@@ -105,6 +110,13 @@ export abstract class OAuth2Authenticator {
     authorizeURL.searchParams.set("client_id", this.clientID);
     authorizeURL.searchParams.set("state", state);
 
+    // If we have extra authorization parameters, add them.
+    if (this.authorizationParams) {
+      for (const [key, value] of Object.entries(this.authorizationParams)) {
+        authorizeURL.searchParams.set(key, value);
+      }
+    }
+
     // Redirect the user to the authorize URL.
     return res.redirect(authorizeURL.href);
   }
@@ -113,7 +125,23 @@ export abstract class OAuth2Authenticator {
     return reconstructURL(req, this.callbackPath);
   }
 
-  private getOAuth2Response(code: string, redirectURI: string) {
+  protected get(url: string, accessToken: string) {
+    return new Promise<string>((resolve, reject) => {
+      this.client.get(url, accessToken, (err, body) => {
+        if (err) {
+          return reject(err);
+        }
+
+        if (typeof body !== "string") {
+          throw new Error("failed to get response from client");
+        }
+
+        return resolve(body);
+      });
+    });
+  }
+
+  private getOAuth2AccessToken(code: string, redirectURI: string) {
     return new Promise<OAuth2Response>((resolve, reject) => {
       this.client.getOAuthAccessToken(
         code,
@@ -154,7 +182,7 @@ export abstract class OAuth2Authenticator {
       throw new Error("bad state parameter");
     }
 
-    return this.getOAuth2Response(code, this.redirectURI(req));
+    return this.getOAuth2AccessToken(code, this.redirectURI(req));
   }
 
   protected async success(

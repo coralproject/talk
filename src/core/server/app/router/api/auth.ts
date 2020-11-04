@@ -2,6 +2,7 @@ import bytes from "bytes";
 
 import { AppOptions } from "coral-server/app";
 import {
+  facebookHandler,
   forgotCheckHandler,
   forgotHandler,
   forgotResetHandler,
@@ -59,7 +60,7 @@ export function createNewAuthRouter(
   router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
-  const facebook = wrapOAuth2Authn(passport, app.signingConfig, "facebook");
+  const facebook = facebookHandler(app);
 
   router.get("/facebook", facebook);
   router.get("/facebook/callback", facebook);

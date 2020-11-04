@@ -6,7 +6,6 @@ import passport, { Authenticator } from "passport";
 
 import { stringifyQuery } from "coral-common/utils";
 import { AppOptions } from "coral-server/app";
-import FacebookStrategy from "coral-server/app/middleware/passport/strategies/facebook";
 import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "coral-server/app/middleware/passport/strategies/local";
@@ -45,9 +44,6 @@ export function createPassport(options: Options): passport.Authenticator {
 
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));
-
-  // Use the FacebookStrategy.
-  auth.use(new FacebookStrategy(options));
 
   // Use the GoogleStrategy.
   auth.use(new GoogleStrategy(options));
