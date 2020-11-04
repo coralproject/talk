@@ -25,7 +25,13 @@ interface Options {
 
 const FacebookUserProfileSchema = Joi.object().keys({
   id: Joi.string().required(),
-  picture: Joi.object().keys({}).optional(),
+  picture: Joi.object()
+    .keys({
+      data: Joi.object().keys({
+        url: Joi.string(),
+      }),
+    })
+    .optional(),
   email: Joi.string().email().optional(),
 });
 
