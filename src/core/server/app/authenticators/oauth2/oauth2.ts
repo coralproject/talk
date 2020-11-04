@@ -11,7 +11,7 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
-import { createAndStoreState, getAndClearState } from "./state";
+import { storeState, verifyState } from "./state";
 
 export function redirectWithHash(res: Response, hash: Record<string, any>) {
   res.redirect(`/embed/auth/callback${stringifyQuery(hash, "#")}`);
@@ -52,7 +52,7 @@ interface Options {
   authorizationParams?: Record<string, string>;
 }
 
-interface OAuth2Response {
+interface OAuth2TokensResponse {
   accessToken: string;
   params: any;
 }
@@ -104,7 +104,7 @@ export abstract class OAuth2Authenticator {
     const authorizeURL = new URL(this.authorizationURL);
 
     // Create and store state on the response.
-    const state = createAndStoreState(res);
+    const state = storeState(req, res);
 
     // Add additional parameters to the search params.
     authorizeURL.searchParams.set("response_type", "code");
@@ -145,7 +145,7 @@ export abstract class OAuth2Authenticator {
   }
 
   private getOAuth2AccessToken(code: string, redirectURI: string) {
-    return new Promise<OAuth2Response>((resolve, reject) => {
+    return new Promise<OAuth2TokensResponse>((resolve, reject) => {
       this.client.getOAuthAccessToken(
         code,
         {
@@ -171,19 +171,7 @@ export abstract class OAuth2Authenticator {
 
     // Ensure that the passed state parameter matches the one we find in the
     // request.
-    const providedState = req.query.state;
-    if (typeof providedState !== "string" || providedState.length === 0) {
-      throw new Error("bad state parameter");
-    }
-
-    const state = getAndClearState(req, res);
-    if (!state) {
-      throw new Error("bad state parameter");
-    }
-
-    if (providedState !== state) {
-      throw new Error("bad state parameter");
-    }
+    verifyState(req, res);
 
     return this.getOAuth2AccessToken(code, this.redirectURI(req));
   }
