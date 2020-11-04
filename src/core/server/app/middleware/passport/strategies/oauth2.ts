@@ -1,6 +1,5 @@
 import { Db } from "mongodb";
 import { Profile, Strategy as BaseStrategy, StrategyCreated } from "passport";
-import { VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { Config } from "coral-server/config";
@@ -70,7 +69,7 @@ export default abstract class OAuth2Strategy<
     accessToken: string,
     refreshToken: string,
     profile: Profile,
-    done: VerifyCallback
+    done: (err: Error | null, user?: Readonly<User>) => void
   ) => {
     try {
       const { tenant, now } = req.coral;
