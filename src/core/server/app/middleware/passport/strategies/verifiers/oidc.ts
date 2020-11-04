@@ -4,17 +4,15 @@ import { Db } from "mongodb";
 import { AppOptions } from "coral-server/app";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
-
-import { Verifier } from "../jwt";
 import {
   findOrCreateOIDCUserWithToken,
   getEnabledIntegration,
   isOIDCToken,
   OIDCIDToken,
-} from "../oidc";
+} from "coral-server/services/oidc";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 
-export { OIDCIDToken } from "../oidc";
+import { Verifier } from "../jwt";
 
 export type OIDCVerifierOptions = Pick<AppOptions, "mongo" | "tenantCache">;
 

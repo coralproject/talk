@@ -3,7 +3,6 @@ import { isUndefined, lowerCase, uniqBy } from "lodash";
 import { Db } from "mongodb";
 import { URL } from "url";
 
-import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -21,6 +20,7 @@ import {
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { I18n } from "coral-server/services/i18n";
+import { discover } from "coral-server/services/oidc/discover";
 
 import {
   GQLFEATURE_FLAG,

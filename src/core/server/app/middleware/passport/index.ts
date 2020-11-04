@@ -10,7 +10,6 @@ import FacebookStrategy from "coral-server/app/middleware/passport/strategies/fa
 import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "coral-server/app/middleware/passport/strategies/local";
-import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
 import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
@@ -43,9 +42,6 @@ export function createPassport(options: Options): passport.Authenticator {
 
   // Use the LocalStrategy.
   auth.use(createLocalStrategy(options));
-
-  // Use the OIDC Strategy.
-  auth.use(new OIDCStrategy(options));
 
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));

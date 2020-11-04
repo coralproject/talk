@@ -13,10 +13,11 @@ import {
   extractTokenFromRequest,
   StandardHeader,
 } from "coral-server/services/jwt";
+import { OIDCIDToken } from "coral-server/services/oidc";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 import { JWTToken, JWTVerifier } from "./verifiers/jwt";
-import { OIDCIDToken, OIDCVerifier } from "./verifiers/oidc";
+import { OIDCVerifier } from "./verifiers/oidc";
 import { SSOToken, SSOVerifier } from "./verifiers/sso";
 
 export type JWTStrategyOptions = Pick<
