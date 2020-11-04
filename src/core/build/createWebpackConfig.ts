@@ -215,6 +215,9 @@ export default function createWebpackConfig(
       pathinfo: !isProduction,
       // The dist folder.
       path: paths.appDistStatic,
+      // Configure the hash digest to use a longer hash.
+      hashFunction: "sha256",
+      hashDigestLength: 32,
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
