@@ -9,6 +9,7 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
       email_verified: true,
       nonce: "nonce",
     };
@@ -22,6 +23,7 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
       nonce: "nonce",
     };
 
@@ -37,6 +39,7 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
       email_verified: true,
       nonce: "nonce",
     };
@@ -53,6 +56,7 @@ describe("OIDCIDTokenSchema", () => {
       email_verified: true,
       name: "name",
       nickname: "nickname",
+      exp: Math.round(Date.now() / 1000) + 2000,
       nonce: "nonce",
     };
 
@@ -67,6 +71,7 @@ describe("OIDCIDTokenSchema", () => {
       email: "email",
       email_verified: false,
       nickname: "nickname",
+      exp: Math.round(Date.now() / 1000) + 2000,
       nonce: "nonce",
     };
 
@@ -81,6 +86,7 @@ describe("OIDCIDTokenSchema", () => {
       email: "email",
       email_verified: false,
       name: "name",
+      exp: Math.round(Date.now() / 1000) + 2000,
       nonce: "nonce",
     };
 
