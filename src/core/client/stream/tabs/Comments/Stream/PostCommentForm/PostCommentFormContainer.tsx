@@ -355,6 +355,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
                   messageBox {
                     enabled
                   }
+                  experts {
+                    id
+                  }
                   mode
                 }
               }

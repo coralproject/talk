@@ -956,7 +956,7 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = search by story title, author, url, id, etc.
+  .placeholder = search by story title or author.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 

@@ -15,7 +15,7 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLStory, GQLUSER_ROLE, GQLSTORY_MODE } from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
@@ -48,6 +48,7 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+  // updateFeaturedCount(environment, store, input, commentEdge);
   addCommentToStory(store, input, commentEdge);
 }
 
@@ -95,6 +96,37 @@ function addCommentToStory(
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
     }
+  }
+}
+
+function updateFeaturedCount(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput,
+  commentEdge: RecordProxy
+) {
+  const story = store.get(input.storyID);
+  if (story) {
+    const storySettings = story.getLinkedRecord("settings");
+    const mode = storySettings?.getValue("mode");
+    if (mode === GQLSTORY_MODE.QA) {
+      const viewer = getViewer(environment)!;
+      const experts = storySettings?.getLinkedRecords("experts");
+      if (
+        experts &&
+        experts.length > 0 &&
+        experts.some((exp) => exp.getValue("id") === viewer.id)
+      ) {
+        const tags = commentEdge.getLinkedRecords("tags");
+        // const featuredTag = store.create(uuidGenerator(), "Tag");
+      }
+    }
+
+    // if (storySettings) {
+    //   if (storySettings.getValue("mode") === GQLSTORY_MODE.QA) {
+
+    //   }
+    // }
   }
 }
 
