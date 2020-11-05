@@ -55,7 +55,7 @@ export default function createWebpackConfig(
 
   const isProduction = env.NODE_ENV === "production";
   const minimize = isProduction && !config.get("disableMinimize");
-  const treeShake = config.get("enableTreeShake");
+  const treeShake = isProduction || config.get("enableTreeShake");
   const enableBuildCache = !isProduction;
 
   const envStringified = {
@@ -190,8 +190,9 @@ export default function createWebpackConfig(
                   pure_getters: true,
                   side_effects: true,
                   unused: true,
+                  passes: 2,
                 },
-            mangle: minimize && {},
+            mangle: minimize,
             output: {
               comments: !minimize,
               // Turned on because emoji and regex is not minified properly using default
@@ -215,6 +216,9 @@ export default function createWebpackConfig(
       pathinfo: !isProduction,
       // The dist folder.
       path: paths.appDistStatic,
+      // Configure the hash digest to use a longer hash.
+      hashFunction: "sha256",
+      hashDigestLength: 32,
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
