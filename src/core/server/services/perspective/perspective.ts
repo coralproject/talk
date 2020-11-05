@@ -111,7 +111,7 @@ function formatBody(req: Request): object {
           ],
         },
         attributeScores: {
-          [status]: {
+          [req.body.commentStatus]: {
             summaryScore: {
               value: 1,
             },
