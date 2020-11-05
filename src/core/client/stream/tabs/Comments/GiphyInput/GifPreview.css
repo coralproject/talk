@@ -15,3 +15,7 @@
   top: 16px;
   right: 8px;
 }
+
+.image {
+  max-width: 100%;
+}

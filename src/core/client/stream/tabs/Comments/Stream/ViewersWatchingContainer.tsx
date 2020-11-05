@@ -130,7 +130,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
           title: styles.title,
           container: styles.container,
         }}
-        icon={<Icon size="md">play_circle_filled</Icon>}
+        icon={<Icon size="md">people_alt</Icon>}
         color="primary"
         title={
           <Localized id="comments-watchers" $count={viewerCount}>

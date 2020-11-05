@@ -73,7 +73,7 @@ const variables = {
   },
   /** Different font families currently in use. */
   fontFamily: {
-    primary: compat('"Open Sans"', "font-family-sans-serif"),
+    primary: compat('"Open Sans", sans-serif', "font-family-sans-serif"),
     secondary: compat('"Nunito"', "font-family-serif"),
   },
   /** Different font weights with matching values for the fonts. */
