@@ -50,6 +50,8 @@ comment-count-text =
 comments-allCommentsTab = Todos os comentários
 comments-featuredTab = Destaques
 comments-counter-shortNum = { SHORT_NUMBER($count) }
+comments-watchers = { SHORT_NUMBER($count) } online
+
 comments-featuredCommentTooltip-how = Como um comentário é destacado?
 comments-featuredCommentTooltip-handSelectedComments =
   Os comentários são selecionados por nossa equipe como merecedores de serem lidos.
@@ -80,10 +82,15 @@ comments-replyList-showAll = Mostrar Tudo
 comments-replyList-showMoreReplies = Carregar Mais
 
 comments-postCommentForm-gifSeach = Procurar por um GIF
+comments-postComment-gifSearch-search =
+  .aria-label = Pesquisar
 comments-postComment-gifSearch-loading = Carregando...
 comments-postComment-gifSearch-no-results = Nenhum resultado encontrado para {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Desenvolvido por giphy
+
+comments-postComment-pasteImage = Colar URL da imagem
+comments-postComment-insertImage = Inserir
 
 comments-postComment-confirmMedia-youtube = Adicionar este vídeo do YouTube ao final do seu comentário?
 comments-postComment-confirmMedia-twitter = Adicionar este Tweet ao final do seu comentário?
@@ -126,6 +133,11 @@ comments-rte-strikethrough =
 
 comments-rte-spoiler = Spoiler
 
+comments-rte-sarcasm = Sarcasmo
+
+comments-rte-externalImage =
+  .title = Imagem externa
+
 comments-remainingCharacters = { $remaining } caracteres restantes
 
 comments-postCommentFormFake-signInAndJoin = Entre e Participe da Conversa
@@ -154,6 +166,9 @@ comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
 comments-commentContainer-editButton = Editar
+
+comments-commentContainer-avatar =
+  .alt = Avatar de { $username }
 
 comments-editCommentForm-saveChanges = Salvar Mudanças
 comments-editCommentForm-cancel = Cancelar
@@ -230,6 +245,18 @@ comments-rejectedTombstone-moderateLink =
 
 comments-featuredTag = Destaques
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comentário feito por {$username}
+    *[other] {$reaction} ({$count}) comentário feito por {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comentário feito por {$username}
+    [one] {$reaction} comentário feito por {$username}
+    *[other] {$reaction} ({$count}) comentário feito por {$username}
+  }
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
@@ -261,10 +288,18 @@ qa-expert-tag = especialista
 
 qa-reaction-vote = Votar
 qa-reaction-voted = Votado
+
 qa-reaction-aria-vote =
-  .aria-label = Votar
-qa-reaction-voted =
-  .aria-label = Votado
+  .aria-label = {$count ->
+    [0] Vote no comentário de {$username}
+    *[other] Vote ({$count}) no comentário de {$username}
+  }
+qa-reaction-aria-voted =
+  .aria-label = {$count ->
+    [0] Votado no comentário de {$username}
+    [one] Votado no comentário de {$username}
+    *[other] Votado ({$count}) no comentário de {$username}
+  }
 
 qa-unansweredTab-doneAnswering = Feito
 
@@ -305,6 +340,10 @@ comments-embedLinks-hide-youtube = ESconder vídeo
 comments-embedLinks-show-twitter = Mostrar Tweet
 comments-embedLinks-hide-twitter = Esconder Tweet
 
+comments-embedLinks-show-external = Mostrar imagem
+comments-embedLinks-hide-external = Esconder imagem
+
+
 ### Featured Comments
 comments-featured-gotoConversation = Ir para a conversa
 comments-featured-replies = Respostas
@@ -315,6 +354,17 @@ profile-myCommentsTab = Meus comentários
 profile-myCommentsTab-comments = Meus comentários
 profile-accountTab = Conta
 profile-preferencesTab = Preferências
+
+### Bio
+profile-bio-title = Biografia
+profile-bio-description =
+  Escreva uma biografia para exibir publicamente em seu perfil. Deve conter
+  no máximo 100 caracteres.
+profile-bio-remove = Remover
+profile-bio-update = Atualizar
+profile-bio-success = Sua biografia foi atualizada com sucesso.
+profile-bio-removed = Sua biografia foi removida.
+
 
 ### Account Deletion
 
@@ -717,6 +767,8 @@ warning-explanation =
 warning-instructions =
   Para continuar participando das discussões, pressione o botão "Reconhecer" abaixo.
 warning-acknowledge = Reconhecer
+
+warning-notice = Sua conta recebeu uma advertência. Para continuar comentando, <a>verifique a mensagem de aviso</a>.
 
 profile-changeEmail-unverified = (Não verificado)
 profile-changeEmail-edit = Editar

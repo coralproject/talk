@@ -4,7 +4,7 @@ import { parseQuery } from "coral-common/utils";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
-import { default as create, StreamEmbed } from "./StreamEmbed";
+import { StreamEmbed } from "./StreamEmbed";
 
 export type RefreshAccessTokenCallback = (
   nextAccessToken: (token: string) => void
@@ -19,6 +19,7 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
+
   /**
    * refreshAccessToken is called to obtain a new access token when the current one has expired.
    * A parameter `nextAccessToken` is passed as the first argument that should be called with the
@@ -26,6 +27,7 @@ export interface Config {
    */
   refreshAccessToken?: RefreshAccessTokenCallback;
   enableDeprecatedEvents?: boolean;
+
   /** Allow setting className of body tag inside iframe */
   bodyClassName?: string;
   customCSSURL?: string;
@@ -40,7 +42,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     config.events(eventEmitter);
   }
 
-  return create({
+  return new StreamEmbed({
     title: "Coral Embed Stream",
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || resolveStoryURL(),
