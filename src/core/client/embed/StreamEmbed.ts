@@ -60,33 +60,19 @@ export class StreamEmbed {
   private clearAutoRender: OnIntersectCancellation | null = null;
 
   constructor(
-    {
-      id,
-      storyID,
-      storyURL,
-      commentID,
-      autoRender,
-      title,
-      eventEmitter,
-      rootURL,
-      accessToken,
-      bodyClassName,
-      enableDeprecatedEvents,
-      customCSSURL,
-      refreshAccessToken,
-    }: StreamEmbedConfig,
+    config: StreamEmbedConfig,
     controlFactory: FrameControlFactory = defaultPymControlFactory
   ) {
-    const element = document.getElementById(id);
+    const element = document.getElementById(config.id);
     if (!element) {
-      throw new Error(`element with id ${id} was not found in the dom`);
+      throw new Error(`element ${config.id} was not found`);
     }
 
     // Save a reference to the event emitter used by the application.
-    this.eventEmitter = eventEmitter;
+    this.eventEmitter = config.eventEmitter;
 
     // When the config emits that we're ready, then mark us as ready.
-    eventEmitter.once("ready", () => {
+    config.eventEmitter.once("ready", () => {
       this.ready = true;
     });
 
@@ -96,20 +82,23 @@ export class StreamEmbed {
       withAutoHeight,
       withClickEvent,
       withSetCommentID,
-      withEventEmitter(eventEmitter, enableDeprecatedEvents),
-      withLiveCommentCount(eventEmitter),
+      withEventEmitter(config.eventEmitter, config.enableDeprecatedEvents),
+      withLiveCommentCount(config.eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
-      withConfig({ accessToken, bodyClassName }),
+      withConfig({
+        accessToken: config.accessToken,
+        bodyClassName: config.bodyClassName,
+      }),
       withKeypressEvent,
-      withRefreshAccessToken(refreshAccessToken),
+      withRefreshAccessToken(config.refreshAccessToken),
     ];
 
     const query = stringifyQuery({
-      storyID,
-      storyURL,
-      commentID,
-      customCSSURL,
+      storyID: config.storyID,
+      storyURL: config.storyURL,
+      commentID: config.commentID,
+      customCSSURL: config.customCSSURL,
 
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
@@ -126,23 +115,28 @@ export class StreamEmbed {
     });
 
     // Compose the stream URL for the iframe.
-    const streamURL = ensureNoEndSlash(rootURL) + urls.embed.stream;
+    const streamURL = ensureNoEndSlash(config.rootURL) + urls.embed.stream;
     const url = `${streamURL}?${query}`;
 
     // Create the controller.
-    this.control = controlFactory({ id, title, decorators, url });
+    this.control = controlFactory({
+      id: config.id,
+      title: config.title,
+      decorators,
+      url,
+    });
 
     // Detect if comment count injection is needed and add the count script.
-    injectCountScriptIfNeeded(rootURL);
+    injectCountScriptIfNeeded(config.rootURL);
 
-    if (commentID) {
+    if (config.commentID) {
       // Delay emit of `showPermalink` event to allow user enough time to setup
       // event listeners.
-      setTimeout(() => eventEmitter.emit("showPermalink"), 0);
+      setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
     }
 
-    if (autoRender) {
-      if (commentID) {
+    if (config.autoRender) {
+      if (config.commentID) {
         // If we are going to auto-render this comment stream and we're on a
         // specific comment, render the stream now so we can auto-scroll the
         // user to the embed.

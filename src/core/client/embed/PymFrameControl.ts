@@ -21,11 +21,11 @@ export default class PymFrameControl implements FrameControl {
   private parent: pym.Parent | null;
   private cleanups: CleanupCallback[] | null;
 
-  constructor({ id, url, title, decorators }: FrameControlConfig) {
-    this.id = id;
-    this.url = url;
-    this.title = title;
-    this.decorators = decorators;
+  constructor(config: FrameControlConfig) {
+    this.id = config.id;
+    this.url = config.url;
+    this.title = config.title;
+    this.decorators = config.decorators;
   }
 
   public render() {
@@ -53,7 +53,7 @@ export default class PymFrameControl implements FrameControl {
 
   public sendMessage(id: string, message = "") {
     if (!this.rendered || !this.parent) {
-      throw new Error("instance is not mounted");
+      throw new Error("not mounted");
     }
 
     this.parent.sendMessage(id, message);
@@ -61,7 +61,7 @@ export default class PymFrameControl implements FrameControl {
 
   public remove() {
     if (!this.rendered || !this.parent || !this.cleanups) {
-      throw new Error("instance is not mounted");
+      throw new Error("not mounted");
     }
 
     this.cleanups.forEach((cb) => cb());

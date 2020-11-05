@@ -11,14 +11,16 @@ import qs from "querystringify";
  * In addition keys that have an undefined value are removed from the query.
  */
 export default function stringifyQuery(
-  obj: object,
+  obj: Record<string, any>,
   prefix?: string | boolean
 ): string {
-  const copy: any = { ...obj };
-  Object.keys(copy).forEach((key) => {
-    if (copy[key] === undefined) {
-      delete copy[key];
+  const copy: Record<string, any> = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] === undefined) {
+      return;
     }
+
+    copy[key] = obj[key];
   });
   return qs.stringify(copy, prefix);
 }
