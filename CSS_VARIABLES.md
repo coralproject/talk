@@ -181,7 +181,7 @@ Color palette that is used for indicating a warning and is usually yellow.
 
 Different font families currently in use.
 
-`--font-family-primary: "Open Sans";  /* Before 6.3.0: --font-family-sans-serif */`
+`--font-family-primary: "Open Sans", sans-serif;  /* Before 6.3.0: --font-family-sans-serif */`
 
 `--font-family-secondary: "Nunito";  /* Before 6.3.0: --font-family-serif */`
 

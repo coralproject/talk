@@ -258,6 +258,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             </Button>
           </Localized>
         )}
+        {!alternateOldestViewEnabled && <AllCommentsLinks />}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
@@ -272,7 +273,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               commentsOrderBy={commentsOrderBy}
             />
           )}
-          <AllCommentsLinks />
+          <div className={styles.borderedFooter}>
+            <AllCommentsLinks />
+          </div>
         </HorizontalGutter>
       )}
     </>
