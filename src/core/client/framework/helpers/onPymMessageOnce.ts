@@ -9,8 +9,7 @@ function onPymMessageOnce(
 ) {
   const dispose = onPymMessage(pym, messageType, (raw) => {
     callback(raw);
-    // Dispose next frame to not disrupt pym handling messages.
-    setTimeout(() => dispose());
+    dispose();
   });
   return dispose;
 }
