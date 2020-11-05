@@ -1,7 +1,8 @@
 import sinon from "sinon";
+import timekeeper from "timekeeper";
 
 import { Decorator } from "./decorators";
-import PymControl from "./PymControl";
+import PymFrameControl from "./PymFrameControl";
 
 describe("PymControl", () => {
   const container: HTMLElement = document.createElement("div");
@@ -13,21 +14,24 @@ describe("PymControl", () => {
     .withArgs(sinon.match.object)
     .returns(cleanupDecorator);
 
-  let control: PymControl;
+  let control: PymFrameControl;
   beforeAll(() => {
+    timekeeper.freeze(new Date(1589310827300));
     container.id = "pymcontrol-test-id";
     document.body.appendChild(container);
   });
   afterAll(() => {
+    timekeeper.reset();
     document.body.removeChild(container);
   });
   it("should create iframe", () => {
-    control = new PymControl({
+    control = new PymFrameControl({
       decorators: [withMockDecorator],
       id: container.id,
       url: "http://coralproject.net",
       title: "iFrame title",
     });
+    control.render();
     expect(container.innerHTML).toMatchSnapshot();
   });
   it("should send message", (done) => {
