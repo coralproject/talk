@@ -6,9 +6,12 @@ import {
 
 import { oauth2Handler } from "./oauth2";
 
-type Options = Pick<AppOptions, "tenantCache" | "mongo" | "signingConfig">;
+type Options = Pick<
+  AppOptions,
+  "tenantCache" | "mongo" | "signingConfig" | "config"
+>;
 
-export const googleHandler = ({ tenantCache, mongo, signingConfig }: Options) =>
+export const googleHandler = ({ tenantCache, ...options }: Options) =>
   oauth2Handler({
     tenantCache,
     authenticatorFn: (tenant) => {
@@ -17,8 +20,7 @@ export const googleHandler = ({ tenantCache, mongo, signingConfig }: Options) =>
       );
 
       return new GoogleAuthenticator({
-        signingConfig,
-        mongo,
+        ...options,
         integration,
         callbackPath: "/api/auth/google/callback",
       });

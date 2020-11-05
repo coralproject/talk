@@ -8,24 +8,17 @@ import { oauth2Handler } from "./oauth2";
 
 type Options = Pick<
   AppOptions,
-  "tenantCache" | "mongo" | "signingConfig" | "redis"
+  "tenantCache" | "mongo" | "signingConfig" | "redis" | "config"
 >;
 
-export const oidcHandler = ({
-  tenantCache,
-  mongo,
-  redis,
-  signingConfig,
-}: Options) =>
+export const oidcHandler = ({ tenantCache, ...options }: Options) =>
   oauth2Handler({
     tenantCache,
     authenticatorFn: (tenant) => {
       const integration = getEnabledIntegration(tenant.auth.integrations.oidc);
 
       return new OIDCAuthenticator({
-        signingConfig,
-        mongo,
-        redis,
+        ...options,
         integration,
         callbackPath: "/api/auth/oidc/callback",
       });

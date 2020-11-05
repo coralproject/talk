@@ -6,13 +6,12 @@ import {
 
 import { oauth2Handler } from "./oauth2";
 
-type Options = Pick<AppOptions, "tenantCache" | "mongo" | "signingConfig">;
+type Options = Pick<
+  AppOptions,
+  "tenantCache" | "mongo" | "signingConfig" | "config"
+>;
 
-export const facebookHandler = ({
-  tenantCache,
-  mongo,
-  signingConfig,
-}: Options) =>
+export const facebookHandler = ({ tenantCache, ...options }: Options) =>
   oauth2Handler({
     tenantCache,
     authenticatorFn: (tenant) => {
@@ -21,8 +20,7 @@ export const facebookHandler = ({
       );
 
       return new FacebookAuthenticator({
-        signingConfig,
-        mongo,
+        ...options,
         integration,
         callbackPath: "/api/auth/facebook/callback",
       });

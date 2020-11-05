@@ -2,6 +2,7 @@ import crypto from "crypto";
 import Joi from "joi";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { validateSchema } from "coral-server/helpers";
 import { FacebookAuthIntegration } from "coral-server/models/settings";
 import {
@@ -17,6 +18,7 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 
 interface Options {
+  config: Config;
   mongo: Db;
   signingConfig: JWTSigningConfig;
   integration: Required<FacebookAuthIntegration>;

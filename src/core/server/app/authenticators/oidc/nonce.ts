@@ -1,13 +1,9 @@
 import cookie from "cookie";
 import crypto from "crypto";
-import { CookieOptions, Request, Response } from "express";
+import { Request, Response } from "express";
 import compare from "tsscmp";
 
 const COOKIE_NAME = "oidc:nonce";
-const COOKIE_OPTIONS: CookieOptions = {
-  httpOnly: true,
-  secure: true,
-};
 
 function createNonce() {
   return crypto
@@ -17,10 +13,17 @@ function createNonce() {
     .replace("/", "_");
 }
 
-export function storeNonce(req: Request, res: Response): string {
+export function storeNonce(
+  req: Request,
+  res: Response,
+  secure: boolean
+): string {
   const nonce = createNonce();
 
-  res.cookie(COOKIE_NAME, nonce, COOKIE_OPTIONS);
+  res.cookie(COOKIE_NAME, nonce, {
+    httpOnly: true,
+    secure,
+  });
 
   return nonce;
 }
@@ -28,7 +31,8 @@ export function storeNonce(req: Request, res: Response): string {
 export function verifyNonce(
   req: Request,
   res: Response,
-  providedNonce: string
+  providedNonce: string,
+  secure: boolean
 ) {
   // Get the nonce from the cookie that's on the request.
   const header = req.headers.cookie;
@@ -46,7 +50,10 @@ export function verifyNonce(
   }
 
   // Clear the cookie (because we're done with it now).
-  res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    secure,
+  });
 
   // Ensure that the nonce matches.
   if (!compare(nonce, providedNonce)) {

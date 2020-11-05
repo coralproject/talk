@@ -1,14 +1,10 @@
 import cookie from "cookie";
 import crypto from "crypto";
-import { CookieOptions, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import { REDIRECT_TO_PARAM } from "coral-common/constants";
 
 const COOKIE_NAME = "oauth2:state";
-const COOKIE_OPTIONS: CookieOptions = {
-  httpOnly: true,
-  secure: true,
-};
 
 export interface StateData {
   redirectTo: string;
@@ -26,7 +22,11 @@ function createState(data: StateData) {
   return { state, key };
 }
 
-export function storeState(req: Request, res: Response): string {
+export function storeState(
+  req: Request,
+  res: Response,
+  secure: boolean
+): string {
   // Unpack the redirection.
   const { [REDIRECT_TO_PARAM]: redirectTo } = req.query;
   if (
@@ -40,12 +40,15 @@ export function storeState(req: Request, res: Response): string {
 
   const { state, key } = createState({ redirectTo });
 
-  res.cookie(COOKIE_NAME, state, COOKIE_OPTIONS);
+  res.cookie(COOKIE_NAME, state, {
+    httpOnly: true,
+    secure,
+  });
 
   return key;
 }
 
-export function verifyState(req: Request, res: Response) {
+export function verifyState(req: Request, res: Response, secure: boolean) {
   // Get the state from the cookie that's on the request.
   const header = req.headers.cookie;
   if (typeof header !== "string" || header.length === 0) {
@@ -62,7 +65,10 @@ export function verifyState(req: Request, res: Response) {
   }
 
   // Clear the cookie (because we're done with it now).
-  res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    secure,
+  });
 
   let state: Partial<Record<string, StateData>>;
 

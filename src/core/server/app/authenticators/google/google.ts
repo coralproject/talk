@@ -1,6 +1,7 @@
 import Joi from "joi";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { validateSchema } from "coral-server/helpers";
 import { GoogleAuthIntegration } from "coral-server/models/settings";
 import {
@@ -18,6 +19,7 @@ import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 interface Options {
   mongo: Db;
   signingConfig: JWTSigningConfig;
+  config: Config;
   integration: Required<GoogleAuthIntegration>;
   callbackPath: string;
 }

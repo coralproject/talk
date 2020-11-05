@@ -4,6 +4,7 @@ import { OAuth2 } from "oauth";
 
 import { stringifyQuery } from "coral-common/utils";
 import { reconstructURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { User } from "coral-server/models/user";
@@ -56,6 +57,7 @@ interface Options {
   callbackPath: string;
   scope: string;
   signingConfig: JWTSigningConfig;
+  config: Config;
   authorizationParams?: Record<string, string>;
 }
 
@@ -76,8 +78,9 @@ export abstract class OAuth2Authenticator {
   private readonly callbackPath: string;
   private readonly scope: string;
   private readonly authorizationParams: Record<string, string>;
+  private readonly client: OAuth2;
 
-  protected readonly client: OAuth2;
+  protected readonly secure: boolean;
 
   constructor({
     clientID,
@@ -87,6 +90,7 @@ export abstract class OAuth2Authenticator {
     callbackPath,
     scope,
     signingConfig,
+    config,
     authorizationParams = {},
   }: Options) {
     this.clientID = clientID;
@@ -94,6 +98,7 @@ export abstract class OAuth2Authenticator {
     this.callbackPath = callbackPath;
     this.scope = scope;
     this.signingConfig = signingConfig;
+    this.secure = config.get("force_ssl");
     this.authorizationParams = authorizationParams;
 
     this.client = new OAuth2(
@@ -120,7 +125,7 @@ export abstract class OAuth2Authenticator {
     const authorizeURL = new URL(this.authorizationURL);
 
     // Create and store state on the response.
-    const state = storeState(req, res);
+    const state = storeState(req, res, req.secure || this.secure);
 
     // Add additional parameters to the search params.
     authorizeURL.searchParams.set("response_type", "code");
@@ -191,7 +196,7 @@ export abstract class OAuth2Authenticator {
 
     // Ensure that the passed state parameter matches the one we find in the
     // request.
-    const state = verifyState(req, res);
+    const state = verifyState(req, res, req.secure || this.secure);
 
     // Get the tokens from the client.
     const tokens = await this.getOAuth2AccessToken(code, this.redirectURI(req));

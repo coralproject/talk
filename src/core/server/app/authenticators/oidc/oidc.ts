@@ -3,6 +3,7 @@ import { Redis } from "ioredis";
 import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { OIDCAuthIntegration } from "coral-server/models/settings";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import {
@@ -21,6 +22,7 @@ import { storeNonce, verifyNonce } from "./nonce";
 interface Options {
   mongo: Db;
   redis: Redis;
+  config: Config;
   signingConfig: JWTSigningConfig;
   integration: Required<OIDCAuthIntegration>;
   callbackPath: string;
@@ -61,7 +63,7 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
     );
 
     // Verify that the nonce is correct.
-    verifyNonce(req, res, token.nonce);
+    verifyNonce(req, res, token.nonce, req.secure || this.secure);
 
     // Get the time.
     const lastSeen = Math.round(now.getTime() / 1000);
@@ -97,7 +99,7 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
       // If we don't have a code on the request, then we should redirect the user.
       if (!req.query.code) {
         // We're starting the authentication flow! Create the nonce.
-        const nonce = storeNonce(req, res);
+        const nonce = storeNonce(req, res, req.secure || this.secure);
 
         // Redirect the user (Adding the nonce value to the authorization
         // params).
