@@ -503,6 +503,12 @@ export default function createWebpackConfig(
               exclude: [/\.(js|ts|tsx)$/, /\.html$/, /\.json$/],
               loader: require.resolve("file-loader"),
               options: {
+                // Because the resources loaded via CSS can sometimes be loaded
+                // directly from a CSS file, this will ensure that they are
+                // relative to those referencing files.
+                publicPath: (loaderPublicPath: string) => {
+                  return "../../" + loaderPublicPath;
+                },
                 name: isProduction
                   ? "assets/media/[name].[contenthash].[ext]"
                   : "assets/media/[name].[ext]",
