@@ -1,9 +1,28 @@
 import { EventEmitter2 } from "eventemitter2";
 import { omit } from "lodash";
-import sinon, { SinonMock } from "sinon";
+import sinon from "sinon";
+import timekeeper from "timekeeper";
 
-import { PymControlConfig } from "./PymControl";
+import { FrameControlConfig, FrameControlFactory } from "./FrameControl";
 import { StreamEmbed, StreamEmbedConfig } from "./StreamEmbed";
+
+function createPymFrameControlStub() {
+  return {
+    rendered: false,
+    render: sinon.stub(),
+    sendMessage: sinon.stub(),
+    remove: sinon.stub(),
+  };
+}
+
+beforeEach(() => {
+  timekeeper.freeze(new Date(1589310827300));
+  document.body.innerHTML = `<div id="container-id" />`;
+});
+
+afterEach(() => {
+  timekeeper.reset();
+});
 
 it("should throw when calling remove but was not rendered", () => {
   const config: StreamEmbedConfig = {
@@ -15,6 +34,7 @@ it("should throw when calling remove but was not rendered", () => {
   const streamEmbed = new StreamEmbed(config);
   expect(() => streamEmbed.remove()).toThrow();
 });
+
 it("should return rendered", () => {
   const config: StreamEmbedConfig = {
     title: "StreamEmbed",
@@ -22,17 +42,18 @@ it("should return rendered", () => {
     id: "container-id",
     rootURL: "http://localhost/",
   };
-  const pymControl = {
-    remove: sinon.stub(),
-  };
-  const fakeFactory: any = () => pymControl;
+  const pymControl = createPymFrameControlStub();
+  const fakeFactory: FrameControlFactory = () => pymControl;
   const streamEmbed = new StreamEmbed(config, fakeFactory);
   expect(streamEmbed.rendered).toBe(false);
   streamEmbed.render();
+  expect(pymControl.render.called).toBe(true);
+  pymControl.rendered = true;
   expect(streamEmbed.rendered).toBe(true);
   streamEmbed.remove();
-  expect(streamEmbed.rendered).toBe(false);
   expect(pymControl.remove.called).toBe(true);
+  pymControl.rendered = false;
+  expect(streamEmbed.rendered).toBe(false);
 });
 
 it("should relay events methods to event emitter", () => {
@@ -54,7 +75,7 @@ it("should relay events methods to event emitter", () => {
 });
 
 describe("should send login message to PymControl", () => {
-  let pymControlMock: SinonMock;
+  let pymControlMock: ReturnType<typeof createPymFrameControlStub>;
   let streamEmbed: StreamEmbed;
   let eventEmitter: EventEmitter2;
 
@@ -66,43 +87,34 @@ describe("should send login message to PymControl", () => {
       id: "container-id",
       rootURL: "http://localhost/",
     };
-    const pymControl = {
-      // eslint-disable-next-line:no-empty
-      sendMessage: () => {},
-    };
-    const fakeFactory: any = () => pymControl;
-    pymControlMock = sinon.mock(pymControl);
-    pymControlMock.expects("sendMessage").withArgs("login", "token");
+    pymControlMock = createPymFrameControlStub();
+    const fakeFactory: FrameControlFactory = () => pymControlMock;
     streamEmbed = new StreamEmbed(config, fakeFactory);
-  });
-
-  afterEach(() => {
-    pymControlMock.restore();
   });
 
   it("send login immediately when already ready", () => {
     streamEmbed.render();
     eventEmitter.emit("ready");
     streamEmbed.login("token");
-    pymControlMock.verify();
+    expect(pymControlMock.sendMessage.calledWith("login", "token")).toBe(true);
   });
 
   it("defer login until ready", () => {
     streamEmbed.login("token");
     streamEmbed.render();
     eventEmitter.emit("ready");
-    pymControlMock.verify();
+    expect(pymControlMock.sendMessage.calledWith("login", "token")).toBe(true);
   });
 
   it("do not call login when not ready", () => {
     streamEmbed.login("token");
     streamEmbed.render();
-    expect(() => pymControlMock.verify()).toThrow();
+    expect(pymControlMock.sendMessage.calledWith("login", "token")).toBe(false);
   });
 });
 
 describe("should send logout message to PymControl", () => {
-  let pymControlMock: SinonMock;
+  let pymControlMock: ReturnType<typeof createPymFrameControlStub>;
   let streamEmbed: StreamEmbed;
   let eventEmitter: EventEmitter2;
 
@@ -114,38 +126,29 @@ describe("should send logout message to PymControl", () => {
       id: "container-id",
       rootURL: "http://localhost/",
     };
-    const pymControl = {
-      // eslint-disable-next-line:no-empty
-      sendMessage: () => {},
-    };
-    const fakeFactory: any = () => pymControl;
-    pymControlMock = sinon.mock(pymControl);
-    pymControlMock.expects("sendMessage").withArgs("logout");
+    pymControlMock = createPymFrameControlStub();
+    const fakeFactory: FrameControlFactory = () => pymControlMock;
     streamEmbed = new StreamEmbed(config, fakeFactory);
-  });
-
-  afterEach(() => {
-    pymControlMock.restore();
   });
 
   it("send logout immediately when already ready", () => {
     streamEmbed.render();
     eventEmitter.emit("ready");
     streamEmbed.logout();
-    pymControlMock.verify();
+    expect(pymControlMock.sendMessage.calledWith("logout")).toBe(true);
   });
 
   it("defer logout until ready", () => {
     streamEmbed.logout();
     streamEmbed.render();
     eventEmitter.emit("ready");
-    pymControlMock.verify();
+    expect(pymControlMock.sendMessage.calledWith("logout")).toBe(true);
   });
 
   it("do not call logout when not ready", () => {
     streamEmbed.logout();
     streamEmbed.render();
-    expect(() => pymControlMock.verify()).toThrow();
+    expect(pymControlMock.sendMessage.calledWith("logout")).toBe(false);
   });
 });
 
@@ -156,10 +159,11 @@ it("should pass default values to pymControl", () => {
     id: "container-id",
     rootURL: "http://localhost/",
   };
-  let pymControlConfig: PymControlConfig | null = null;
-  const fakeFactory: any = (cfg: PymControlConfig) => {
+  let pymControlConfig: FrameControlConfig | null = null;
+  const pymControl = createPymFrameControlStub();
+  const fakeFactory: FrameControlFactory = (cfg: FrameControlConfig) => {
     pymControlConfig = cfg;
-    return {};
+    return pymControl;
   };
   const streamEmbed = new StreamEmbed(config, fakeFactory);
   streamEmbed.render();
@@ -176,10 +180,11 @@ it("should pass correct values to pymControl", () => {
     storyID: "story-id",
     storyURL: "story-url",
   };
-  let pymControlConfig: PymControlConfig | null = null;
-  const fakeFactory: any = (cfg: PymControlConfig) => {
+  let pymControlConfig: FrameControlConfig | null = null;
+  const pymControl = createPymFrameControlStub();
+  const fakeFactory: FrameControlFactory = (cfg: FrameControlConfig) => {
     pymControlConfig = cfg;
-    return {};
+    return pymControl;
   };
   const streamEmbed = new StreamEmbed(config, fakeFactory);
   streamEmbed.render();
@@ -195,8 +200,8 @@ it("should emit showPermalink", () => {
     rootURL: "http://localhost/",
     commentID: "comment-id",
   };
-  // eslint-disable-next-line:no-empty
-  const fakeFactory: any = () => ({});
+  const pymControl = createPymFrameControlStub();
+  const fakeFactory: FrameControlFactory = () => pymControl;
   const emitterMock = sinon.mock(config.eventEmitter);
   emitterMock.expects("emit").withArgs("showPermalink").once();
   // eslint-disable-next-line:no-unused-expression
