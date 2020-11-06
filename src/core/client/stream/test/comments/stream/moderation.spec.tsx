@@ -87,7 +87,7 @@ it("render moderate story link", async () => {
     selector: "a",
     exact: false,
   });
-  expect(link.props.href).toBe(`/admin/moderate/reported/stories/${story.id}`);
+  expect(link.props.href).toBe(`/admin/moderate/stories/${story.id}`);
 });
 
 it("feature and unfeature comment", async () => {
