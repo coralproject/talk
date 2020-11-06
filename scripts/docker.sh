@@ -63,7 +63,7 @@ then
 fi
 
 # build the repo, including the onbuild tagged versions.
-docker build -t coralproject/talk:latest "${ARGS}" -f Dockerfile .
+docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
 
 if [ "$1" = "deploy" ]
 then
