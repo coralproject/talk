@@ -132,10 +132,18 @@ jobs:
   release_static:
     docker:
       - image: google/cloud-sdk
-    working_directory: ~/coralproject/talk
     steps:
-      - attach_workspace:
-          at: ~/coralproject/talk
+      - setup_remote_docker:
+        # This is pinned to 19 to resolve a problem described here:
+        # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
+        version: 19.03.13
+      - run:
+          name: Copy static assets from docker container
+          command: |
+            CONTAINER_ID=$(docker create coralproject/talk:${CIRCLE_TAG/#v})
+            docker cp ${CONTAINER_ID}:/usr/src/app/dist/static static/
+            docker rm ${CONTAINER_ID}
+            find ./static -type f -name "*.gz" -print -delete
       - run:
           name: Authenticate Google Cloud SDK
           command: |
@@ -145,8 +153,7 @@ jobs:
       - run:
           name: Deploy static files to Google Cloud Storage Bucket
           command: |
-            find ./dist/static -type f -name "*.gz" -print -delete
-            gsutil -m cp -r -z "js,css,map,txt" ./dist/static/** gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/
+            gsutil -m cp -r -z "js,css,map,txt" ./static/** gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
