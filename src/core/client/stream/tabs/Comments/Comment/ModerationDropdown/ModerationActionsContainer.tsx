@@ -58,41 +58,29 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
+  const moderationLinkSuffix =
+    !!accessToken &&
+    settings.auth.integrations.sso.enabled &&
+    settings.auth.integrations.sso.targetFilter.admin &&
+    `#accessToken=${accessToken}`;
+
   const gotoModerateStoryHref = useMemo(() => {
     let link = getModerationLink({ storyID: story.id });
-    if (
-      accessToken &&
-      settings.auth.integrations.sso.enabled &&
-      settings.auth.integrations.sso.targetFilter.admin
-    ) {
-      link += `#accessToken=${accessToken}`;
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
     }
 
     return link;
-  }, [
-    story.id,
-    accessToken,
-    settings.auth.integrations.sso.enabled,
-    settings.auth.integrations.sso.targetFilter.admin,
-  ]);
+  }, [story.id, moderationLinkSuffix]);
 
   const gotoModerateCommentHref = useMemo(() => {
     let link = getModerationLink({ commentID: comment.id });
-    if (
-      accessToken &&
-      settings.auth.integrations.sso.enabled &&
-      settings.auth.integrations.sso.targetFilter.admin
-    ) {
-      link += `#accessToken=${accessToken}`;
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
     }
 
     return link;
-  }, [
-    comment.id,
-    accessToken,
-    settings.auth.integrations.sso.enabled,
-    settings.auth.integrations.sso.targetFilter.admin,
-  ]);
+  }, [comment.id, moderationLinkSuffix]);
 
   const onGotoModerate = useCallback(() => {
     emitGotoModerationEvent({ commentID: comment.id });
