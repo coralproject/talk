@@ -1,5 +1,6 @@
-import { OIDCIDTokenSchema } from "coral-server/app/middleware/passport/strategies/oidc";
-import { validate } from "coral-server/app/request/body";
+import { validateSchema } from "coral-server/helpers";
+
+import { OIDCIDTokenSchema } from "./oidc";
 
 describe("OIDCIDTokenSchema", () => {
   it("allows a valid payload", () => {
@@ -8,10 +9,12 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
       email_verified: true,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows an empty email_verified", () => {
@@ -20,9 +23,11 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual({
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual({
       ...token,
       email_verified: false,
     });
@@ -34,10 +39,12 @@ describe("OIDCIDTokenSchema", () => {
       iss: "iss",
       aud: "aud",
       email: "email",
+      exp: Math.round(Date.now() / 1000) + 2000,
       email_verified: true,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows a valid payload", () => {
@@ -49,9 +56,11 @@ describe("OIDCIDTokenSchema", () => {
       email_verified: true,
       name: "name",
       nickname: "nickname",
+      exp: Math.round(Date.now() / 1000) + 2000,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows an empty name", () => {
@@ -62,9 +71,11 @@ describe("OIDCIDTokenSchema", () => {
       email: "email",
       email_verified: false,
       nickname: "nickname",
+      exp: Math.round(Date.now() / 1000) + 2000,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows an empty nickname", () => {
@@ -75,8 +86,10 @@ describe("OIDCIDTokenSchema", () => {
       email: "email",
       email_verified: false,
       name: "name",
+      exp: Math.round(Date.now() / 1000) + 2000,
+      nonce: "nonce",
     };
 
-    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual(token);
   });
 });

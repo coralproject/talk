@@ -4,13 +4,9 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import passport, { Authenticator } from "passport";
 
-import { stringifyQuery } from "coral-common/utils";
 import { AppOptions } from "coral-server/app";
-import FacebookStrategy from "coral-server/app/middleware/passport/strategies/facebook";
-import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "coral-server/app/middleware/passport/strategies/local";
-import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
 import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
@@ -44,17 +40,8 @@ export function createPassport(options: Options): passport.Authenticator {
   // Use the LocalStrategy.
   auth.use(createLocalStrategy(options));
 
-  // Use the OIDC Strategy.
-  auth.use(new OIDCStrategy(options));
-
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));
-
-  // Use the FacebookStrategy.
-  auth.use(new FacebookStrategy(options));
-
-  // Use the GoogleStrategy.
-  auth.use(new GoogleStrategy(options));
 
   return auth;
 }
@@ -123,123 +110,12 @@ export async function handleSuccessfulLogin(
     res.header("Expires", "-1");
     res.header("Pragma", "no-cache");
 
-    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-    // // Compute the expiry date.
-    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
-    //   seconds: tenant.auth.sessionDuration,
-    // });
-    //
-    // res.cookie(
-    //   COOKIE_NAME,
-    //   token,
-    //   generateCookieOptions(req, expiresIn.toJSDate())
-    // );
-
     // Send back the details!
     res.json({ token });
   } catch (err) {
     return next(err);
   }
 }
-
-// NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-// const generateCookieOptions = (
-//   req: Request,
-//   expiresIn: Date
-// ): CookieOptions => ({
-//   path: "/api",
-//   httpOnly: true,
-//   secure: req.secure,
-//   // Chrome will ignore `SameSite: None` when not used in a secure context
-//   // anyways, so don't bother setting `None` when we're not secure. The only
-//   // time we aren't behind HTTPS is when we're testing/in development where the
-//   // the setting for `SameSite: Lax` would be OK.
-//   sameSite: req.secure ? "none" : "lax",
-//   expires: expiresIn,
-// });
-
-function redirectWithHash(
-  res: Response,
-  path: string,
-  hash: Record<string, any>
-) {
-  res.redirect(`${path}${stringifyQuery(hash, "#")}`);
-}
-
-export async function handleOAuth2Callback(
-  err: Error | null,
-  user: User | null,
-  signingConfig: JWTSigningConfig,
-  req: Request<TenantCoralRequest>,
-  res: Response
-) {
-  const path = "/embed/auth/callback";
-  if (!user) {
-    if (!err) {
-      // TODO: (wyattjoh) replace with better error
-      err = new Error("user not on request");
-    }
-
-    return redirectWithHash(res, path, { error: err.message });
-  }
-
-  try {
-    const { tenant, now } = req.coral;
-
-    // Grab the token.
-    const accessToken = await signTokenString(
-      signingConfig,
-      user,
-      tenant,
-      {},
-      now
-    );
-
-    // NOTE: disabled cookie support due to ITP/First Party Cookie bugs
-    // // Compute the expiry date.
-    // const expiresIn = DateTime.fromJSDate(coral.now).plus({
-    //   seconds: tenant.auth.sessionDuration,
-    // });
-    //
-    // res.cookie(
-    //   COOKIE_NAME,
-    //   accessToken,
-    //   generateCookieOptions(req, expiresIn.toJSDate())
-    // );
-
-    // Send back the details!
-    return redirectWithHash(res, path, { accessToken });
-  } catch (e) {
-    return redirectWithHash(res, path, { error: e.message });
-  }
-}
-
-/**
- * wrapCallbackAuthn will wrap a authenticators authenticate method with one that
- * will render a redirect script for a valid login by a compatible strategy.
- *
- * @param authenticator the base authenticator instance
- * @param signingConfig used to sign the tokens that are issued.
- * @param name the name of the authenticator to use
- * @param options any options to be passed to the authenticate call
- */
-export const wrapOAuth2Authn = (
-  authenticator: passport.Authenticator,
-  signingConfig: JWTSigningConfig,
-  name: string,
-  options?: any
-): RequestHandler<TenantCoralRequest> => (req, res, next) =>
-  authenticator.authenticate(
-    name,
-    { ...options, session: false },
-    async (err: Error | null, user: User | null) => {
-      try {
-        await handleOAuth2Callback(err, user, signingConfig, req, res);
-      } catch (e) {
-        return next(e);
-      }
-    }
-  )(req, res, next);
 
 /**
  * wrapAuthn will wrap a authenticators authenticate method with one that

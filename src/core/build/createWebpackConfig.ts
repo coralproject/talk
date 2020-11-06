@@ -601,11 +601,6 @@ export default function createWebpackConfig(
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
-        authCallback: [
-          ...ifBuild(paths.appPublicPath),
-          ...devServerEntries,
-          paths.appAuthCallbackIndex,
-        ],
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
@@ -647,13 +642,6 @@ export default function createWebpackConfig(
             filename: "auth.html",
             template: paths.appAuthHTML,
             chunks: ["auth"],
-            inject: "body",
-          }),
-          // Generates an `auth-callback.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "auth-callback.html",
-            template: paths.appAuthCallbackHTML,
-            chunks: ["authCallback"],
             inject: "body",
           }),
           // Generates an `install.html` file with the <script> injected.
