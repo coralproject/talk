@@ -16,6 +16,11 @@ job_node_defaults: &job_node_defaults
   environment:
     <<: *job_node_environment
 
+setup_remote_docker_defaults: &setup_remote_docker_defaults
+  # This is pinned to 19 to resolve a problem described here:
+  # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
+  version: 19.03.13
+
 version: 2.1
 jobs:
   # npm_dependencies will install the dependencies used by all other steps.
@@ -134,9 +139,7 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - setup_remote_docker:
-          # This is pinned to 19 to resolve a problem described here:
-          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
-          version: 19.03.13
+          <<: *setup_remote_docker_defaults
       - run:
           name: Copy static assets from docker container
           command: |
@@ -161,9 +164,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          # This is pinned to 19 to resolve a problem described here:
-          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
-          version: 19.03.13
+          <<: *setup_remote_docker_defaults
       - deploy:
           name: Test Building
           command: bash ./scripts/docker.sh
@@ -178,9 +179,7 @@ jobs:
           name: Verify release version
           command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
       - setup_remote_docker:
-          # This is pinned to 19 to resolve a problem described here:
-          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
-          version: 19.03.13
+          <<: *setup_remote_docker_defaults
       - deploy:
           name: Deploy the code
           command: bash ./scripts/docker.sh deploy
