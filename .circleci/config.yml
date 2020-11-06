@@ -16,6 +16,11 @@ job_node_defaults: &job_node_defaults
   environment:
     <<: *job_node_environment
 
+setup_remote_docker_defaults: &setup_remote_docker_defaults
+  # This is pinned to 19 to resolve a problem described here:
+  # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
+  version: 19.03.13
+
 version: 2.1
 jobs:
   # npm_dependencies will install the dependencies used by all other steps.
@@ -129,15 +134,37 @@ jobs:
           paths:
             - dist
 
+  release_static:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - setup_remote_docker:
+          <<: *setup_remote_docker_defaults
+      - run:
+          name: Copy static assets from docker container
+          command: |
+            CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
+            docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
+            docker rm "${CONTAINER_ID}"
+            find ./static -type f -name "*.gz" -print -delete
+      - run:
+          name: Authenticate Google Cloud SDK
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
+            gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
+      - run:
+          name: Deploy static files to Google Cloud Storage Bucket
+          command: |
+            gsutil -m cp -r -z "js,css,map,txt" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
+
   # docker_tests will test that the docker build process completes.
   docker_tests:
     <<: *job_node_defaults
     steps:
       - checkout
       - setup_remote_docker:
-          # This is pinned to 19 to resolve a problem described here:
-          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
-          version: 19.03.13
+          <<: *setup_remote_docker_defaults
       - deploy:
           name: Test Building
           command: bash ./scripts/docker.sh
@@ -152,9 +179,7 @@ jobs:
           name: Verify release version
           command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
       - setup_remote_docker:
-          # This is pinned to 19 to resolve a problem described here:
-          # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
-          version: 19.03.13
+          <<: *setup_remote_docker_defaults
       - deploy:
           name: Deploy the code
           command: bash ./scripts/docker.sh deploy
@@ -220,3 +245,9 @@ workflows:
             - lint
             - unit_tests
             - build
+      - release_static:
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - release_docker
