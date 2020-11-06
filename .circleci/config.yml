@@ -240,15 +240,15 @@ workflows:
           <<: *filter_release
           requires:
             - npm_dependencies
-      - release_static:
-          filters:
-            tags:
-              only: /^v.*/
-          requires:
-            - build
       - release_docker:
           <<: *filter_release
           requires:
             - lint
             - unit_tests
             - build
+      - release_static:
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - release_docker
