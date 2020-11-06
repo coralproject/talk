@@ -129,6 +129,25 @@ jobs:
           paths:
             - dist
 
+  release_static:
+    docker:
+      - image: google/cloud-sdk
+    working_directory: ~/coralproject/talk
+    steps:
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run:
+          name: Authenticate Google Cloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run:
+          name: Deploy static files to Google Cloud Storage Bucket
+          command: |
+            find ./dist/static -type f -name "*.gz" -print -delete
+            gsutil -m cp -r -z "js,css,map,txt" ./dist/static/** gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/
+
   # docker_tests will test that the docker build process completes.
   docker_tests:
     <<: *job_node_defaults
@@ -214,6 +233,12 @@ workflows:
           <<: *filter_release
           requires:
             - npm_dependencies
+      - release_static:
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - build
       - release_docker:
           <<: *filter_release
           requires:
