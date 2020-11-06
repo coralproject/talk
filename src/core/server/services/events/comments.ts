@@ -92,10 +92,14 @@ export async function publishCommentReleased(
 
 export async function publishCommentReplyReleased(
   broker: CoralEventPublisherBroker,
-  comment: Pick<Comment, "storyID" | "parentID" | "ancestorIDs" | "status">
+  comment: Pick<
+    Comment,
+    "id" | "storyID" | "parentID" | "ancestorIDs" | "status"
+  >
 ) {
   if (getDepth(comment) > 0 && hasPublishedStatus(comment)) {
     await CommentEnteredCoralEvent.publish(broker, {
+      commentID: comment.id,
       ancestorIDs: comment.ancestorIDs,
       storyID: comment.storyID,
     });

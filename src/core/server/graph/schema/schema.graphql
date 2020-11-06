@@ -8257,6 +8257,16 @@ type CommentCreatedPayload {
 }
 
 """
+CommentEnteredPayload is returned when a Comment is released on a Story.
+"""
+type CommentEnteredPayload {
+  """
+  comment is the new Comment that was released on the Story.
+  """
+  comment: Comment!
+}
+
+"""
 CommentReplyCreatedPayload is returned when a Comment is created as a reply to
 another Comment where the selected ancestor Comment is in the ancestor chain.
 """
@@ -8320,24 +8330,27 @@ type Subscription {
   """
   commentEntered returns when a Comment is created or released anywhere in the Story.
   """
-  commentEntered(storyID: ID!, ancestorID: ID): CommentCreatedPayload!
+  commentEntered(storyID: ID!, ancestorID: ID): CommentEnteredPayload!
 
   """
   commentCreated returns when a Comment is created on the top level of a Story
   that is visible.
   """
-  commentCreated(storyID: ID!): CommentCreatedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentCreated(storyID: ID!): CommentCreatedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReleased returns when a Comment on a premoderated stream is approved
   """
-  commentReleased(storyID: ID!): CommentReleasedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentReleased(storyID: ID!): CommentReleasedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.
   """
-  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload! @deprecated(reason: "Use commentEntered instead")
+  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
+    @deprecated(reason: "Use commentEntered instead")
 
   """
   commentFeatured returns when a Comment is featured.
