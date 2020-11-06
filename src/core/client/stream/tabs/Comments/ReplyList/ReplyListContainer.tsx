@@ -20,7 +20,7 @@ import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__gene
 import { ReplyListContainer3_comment as Comment3Data } from "coral-stream/__generated__/ReplyListContainer3_comment.graphql";
 
 import { isPublished } from "../helpers";
-import LocalReplyListContainer from "./LocalReplyListContainer";
+import { LastReplyListContainer } from "../LastReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
 
@@ -137,7 +137,8 @@ function createReplyListContainer(
   },
   query: GraphQLTaggedNode,
   ReplyListComponent?: Props["ReplyListComponent"],
-  localReply?: boolean
+  localReply?: boolean,
+  flatten?: boolean
 ) {
   return withProps({ indentLevel, ReplyListComponent, localReply })(
     withPaginationContainer<
@@ -162,6 +163,7 @@ function createReplyListContainer(
           cursor,
           orderBy: fragmentVariables.orderBy,
           commentID: props.comment.id,
+          flattenLastReply: !!flatten,
         };
       },
       query,
@@ -173,8 +175,15 @@ function createReplyListContainer(
  * LastReplyList uses the LocalReplyListContainer.
  */
 const LastReplyList: FunctionComponent<PropTypesOf<
-  typeof LocalReplyListContainer
->> = (props) => <LocalReplyListContainer {...props} indentLevel={4} />;
+  typeof LastReplyListContainer
+>> = (props) => (
+  <LastReplyListContainer
+    viewer={props.viewer}
+    comment={props.comment}
+    settings={props.settings}
+    story={props.story}
+  />
+);
 
 const ReplyListContainer3 = createReplyListContainer(
   3,
@@ -183,7 +192,7 @@ const ReplyListContainer3 = createReplyListContainer(
       fragment ReplyListContainer3_viewer on User {
         ...CommentContainer_viewer
         ...IgnoredTombstoneOrHideContainer_viewer
-        ...LocalReplyListContainer_viewer
+        ...LastReplyListContainer_viewer
       }
     `,
     settings: graphql`
@@ -191,7 +200,8 @@ const ReplyListContainer3 = createReplyListContainer(
         disableCommenting {
           enabled
         }
-        ...LocalReplyListContainer_settings
+
+        ...LastReplyListContainer_settings
         ...CommentContainer_settings
       }
     `,
@@ -206,7 +216,7 @@ const ReplyListContainer3 = createReplyListContainer(
           }
         }
         ...CommentContainer_story
-        ...LocalReplyListContainer_story
+        ...LastReplyListContainer_story
       }
     `,
     comment: graphql`
@@ -230,7 +240,7 @@ const ReplyListContainer3 = createReplyListContainer(
               enteredLive
               ...CommentContainer_comment
               ...IgnoredTombstoneOrHideContainer_comment
-              ...LocalReplyListContainer_comment
+              ...LastReplyListContainer_comment
             }
           }
           edges {
@@ -240,7 +250,7 @@ const ReplyListContainer3 = createReplyListContainer(
               enteredLive
               ...CommentContainer_comment
               ...IgnoredTombstoneOrHideContainer_comment
-              ...LocalReplyListContainer_comment
+              ...LastReplyListContainer_comment
             }
           }
         }
@@ -255,6 +265,7 @@ const ReplyListContainer3 = createReplyListContainer(
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenLastReply: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer3_comment
@@ -343,6 +354,7 @@ const ReplyListContainer2 = createReplyListContainer(
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenLastReply: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer2_comment
@@ -430,6 +442,7 @@ const ReplyListContainer1 = createReplyListContainer(
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenLastReply: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer1_comment

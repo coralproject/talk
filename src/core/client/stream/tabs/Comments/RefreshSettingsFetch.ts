@@ -15,7 +15,10 @@ const RefreshSettingsFetch = createFetch(
     return fetchQuery<QueryTypes>(
       environment,
       graphql`
-        query RefreshSettingsFetchQuery($storyID: ID!) {
+        query RefreshSettingsFetchQuery(
+          $storyID: ID!
+          $flattenLastReply: Boolean!
+        ) {
           settings {
             ...StreamContainer_settings
             ...PermalinkViewContainer_settings

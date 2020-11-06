@@ -59,6 +59,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       ancestorID: comment.id,
       liveDirectRepliesInsertion: true,
       storyConnectionKey: "Stream_comments",
+      flattenLastReply: true,
     });
     return () => {
       disposable.dispose();

@@ -148,7 +148,10 @@ export class EditCommentFormContainer extends Component<Props, State> {
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings({ storyID: this.props.story.id });
+          await this.props.refreshSettings({
+            storyID: this.props.story.id,
+            flattenLastReply: true,
+          });
         }
         return error.invalidArgs;
       }

@@ -51,6 +51,9 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
   local: { commentID, storyID, storyURL },
 }) => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
+
+  const flattenLastReply = true;
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -58,6 +61,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
           $commentID: ID!
           $storyID: ID
           $storyURL: String
+          $flattenLastReply: Boolean!
         ) {
           viewer {
             ...PermalinkViewContainer_viewer
@@ -77,6 +81,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
         commentID: commentID!,
         storyID,
         storyURL,
+        flattenLastReply,
       }}
       render={(data) => {
         if (handleIncompleteAccount(data)) {

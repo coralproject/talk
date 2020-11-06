@@ -176,6 +176,7 @@ const CommentEnteredSubscription = createSubscription(
         subscription CommentEnteredSubscription(
           $storyID: ID!
           $ancestorID: ID
+          $flattenLastReply: Boolean!
         ) {
           commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
             comment {
@@ -195,6 +196,7 @@ const CommentEnteredSubscription = createSubscription(
       variables: {
         storyID: variables.storyID,
         ancestorID: variables.ancestorID,
+        flattenLastReply: true, // TODO: pull this out properly
       },
       updater: (store) => {
         const rootField = store.getRootField("commentEntered");

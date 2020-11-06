@@ -118,7 +118,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           // not be seeing the reply form options as we we tombstone
           // deleted comments without revision history
           parentRevisionID: this.props.comment.revision!.id,
-          local: this.props.localReply,
+          local: this.props.localReply, // <-- set this to false for flatten replies
           nudge: this.state.nudge,
           body: input.body,
           media: input.media,
@@ -135,7 +135,10 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings({ storyID: this.props.story.id });
+          await this.props.refreshSettings({
+            storyID: this.props.story.id,
+            flattenLastReply: true,
+          });
         }
 
         if (shouldTriggerViewerRefresh(error.code)) {

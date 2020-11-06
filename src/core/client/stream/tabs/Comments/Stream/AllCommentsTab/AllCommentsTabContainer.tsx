@@ -110,6 +110,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       storyID: story.id,
       orderBy: commentsOrderBy,
       storyConnectionKey: "Stream_comments",
+      flattenLastReply: true,
     });
 
     return () => {
@@ -386,6 +387,7 @@ const enhanced = withPaginationContainer<
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
         storyID: story.id,
+        flattenLastReply: true, // TODO: pull this out properly
       };
     },
     query: graphql`
@@ -396,6 +398,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $flattenLastReply: Boolean!
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story

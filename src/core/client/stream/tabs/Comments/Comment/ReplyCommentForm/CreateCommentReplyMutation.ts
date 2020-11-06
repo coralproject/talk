@@ -29,6 +29,7 @@ import {
 
 export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
   local?: boolean;
+  flattenLastReply?: boolean;
 };
 
 function sharedUpdater(
@@ -128,7 +129,10 @@ graphql`
 `;
 /** end */
 const mutation = graphql`
-  mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
+  mutation CreateCommentReplyMutation(
+    $input: CreateCommentReplyInput!
+    $flattenLastReply: Boolean!
+  ) {
     createCommentReply(input: $input) {
       edge {
         cursor
@@ -200,6 +204,7 @@ async function commit(
             clientMutationId: clientMutationId.toString(),
             media: input.media,
           },
+          flattenLastReply: !!input.flattenLastReply,
         },
         optimisticResponse: {
           createCommentReply: {

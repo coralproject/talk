@@ -68,6 +68,7 @@ const StreamQuery: FunctionComponent<Props> = (props) => {
     local: { storyID, storyURL, commentsTab },
   } = props;
   const handleIncompleteAccount = useHandleIncompleteAccount();
+
   return (
     <>
       <QueryRenderer<QueryTypes>

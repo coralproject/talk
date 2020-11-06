@@ -54,6 +54,10 @@ const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
+
+  // get from local, whether we do flattenLastReply
+  const flattenLastReply = true;
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -61,6 +65,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
+          $flattenLastReply: Boolean!
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
@@ -78,6 +83,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
         storyID,
         storyURL,
         commentsOrderBy,
+        flattenLastReply,
       }}
       render={(data) => (props.preload ? null : render(data))}
     />

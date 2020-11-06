@@ -63,6 +63,7 @@ const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

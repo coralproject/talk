@@ -325,6 +325,9 @@ export default async function createManaged({
     };
   }
 
+  // Can we inject a document element with our feature flags / other settings
+  // from server and grab it here to inject into the local state?
+
   // Initialize i18n.
   const locales = [localesData.fallbackLocale];
   if (

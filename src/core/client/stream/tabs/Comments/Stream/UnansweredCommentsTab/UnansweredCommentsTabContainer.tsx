@@ -86,6 +86,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       orderBy: commentsOrderBy,
       storyConnectionKey: "UnansweredStream_comments",
       tag: GQLTAG.UNANSWERED,
+      flattenLastReply: true,
     });
 
     return () => {
@@ -310,6 +311,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
+        flattenLastReply: true, // TODO pull from feature flags?
       };
     },
     query: graphql`
@@ -320,6 +322,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $flattenLastReply: Boolean!
       ) {
         story(id: $storyID) {
           ...UnansweredCommentsTabContainer_story

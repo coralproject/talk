@@ -9,6 +9,8 @@ import { FlattenedReplyListContainer_story } from "coral-stream/__generated__/Fl
 import { FlattenedReplyListContainer_viewer } from "coral-stream/__generated__/FlattenedReplyListContainer_viewer.graphql";
 import { FlattenedReplyListContainerPaginationQueryVariables } from "coral-stream/__generated__/FlattenedReplyListContainerPaginationQuery.graphql";
 
+import { isPublished } from "../helpers";
+
 type FragmentVariables = Omit<
   FlattenedReplyListContainerPaginationQueryVariables,
   "commentID"
@@ -22,7 +24,21 @@ interface Props {
 }
 
 const FlattenedReplyListContainer: FunctionComponent<Props> = (props) => {
-  return <div>Hello</div>;
+  const comments =
+    props.comment.lastViewerAction && !isPublished(props.comment.status)
+      ? []
+      : props.comment.replies.edges.map((edge) => edge.node);
+
+  return (
+    <>
+      {comments.map((c) => (
+        <div key={c.id}>
+          <div>{c.id}</div>
+          <div>{c.body}</div>
+        </div>
+      ))}
+    </>
+  );
 };
 
 const enhanced = withPaginationContainer<
@@ -62,11 +78,13 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              body
             }
           }
           edges {
             node {
               id
+              body
             }
           }
         }

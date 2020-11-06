@@ -76,5 +76,7 @@ export default async function initLocalState(
     // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
+
+    localRecord.setValue(["FLATTEN_REPLIES"], "featureFlags");
   });
 }
