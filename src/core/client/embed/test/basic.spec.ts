@@ -1,4 +1,5 @@
 import mockConsole from "jest-mock-console";
+import timekeeper from "timekeeper";
 
 import * as Coral from "../";
 
@@ -7,10 +8,12 @@ import * as Coral from "../";
 describe("Basic integration test", () => {
   const container: HTMLElement = document.createElement("div");
   beforeAll(() => {
+    timekeeper.freeze(new Date(1589310827300));
     container.id = "basic-integration-test-id";
     document.body.appendChild(container);
   });
   afterAll(() => {
+    timekeeper.reset();
     document.body.removeChild(container);
   });
   it("should render iframe", () => {

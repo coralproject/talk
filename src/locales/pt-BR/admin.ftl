@@ -20,6 +20,18 @@ role-plural-moderator = Moderadores
 role-plural-staff = Staff
 role-plural-commenter = Comentadores
 
+comments-react =
+  .aria-label = {$count ->
+    [0] {$reaction} comentário feito por {$username}
+    *[other] {$reaction} ({$count}) comentário feito por {$username}
+  }
+comments-reacted =
+  .aria-label = {$count ->
+    [0] {$reaction} comentário feito por {$username}
+    [one] {$reaction} comentário feito por {$username}
+    *[other] {$reaction} ({$count}) comentário feito por {$username}
+  }
+
 ## User Statuses
 userStatus-active = Ativo
 userStatus-banned = Banido
@@ -366,6 +378,12 @@ configure-general-guidelines-explanation =
   <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
 
+#### Biografia
+configure-general-memberBio-title = Biografia dos usuários
+configure-general-memberBio-explanation =
+  Permita que os usuários adicionem uma biografia ao seu perfil. Nota: Isso pode aumentar a carga de trabalho do moderador, pois a biografia dos usuários pode ser reportada.
+configure-general-memberBio-label = Permitir biografia dos usuários
+
 #### Locale
 configure-general-locale-language = Linguagem
 configure-general-locale-chooseLanguage = Selecione a linguagem para o seu Coral community.
@@ -393,6 +411,7 @@ configure-general-embedLinks-desc = Permitir que os comentadores adicionem um v�
 configure-general-embedLinks-enableTwitterEmbeds = Permitir incorporações do Twitter
 configure-general-embedLinks-enableYouTubeEmbeds = Permitir incorporações do YouTube
 configure-general-embedLinks-enableGiphyEmbeds = Permitir GIFs do GIPHY
+configure-general-embedLinks-enableExternalEmbeds = Habilitar mídia externa
 
 configure-general-embedLinks-On = Sim
 configure-general-embedLinks-Off = Não
@@ -696,6 +715,7 @@ configure-moderation-akismet-explanation =
 
 #### Akismet
 configure-moderation-akismet-filter = Filtro de Detecção de Spam
+configure-moderation-akismet-ipBased = Detecção de spam baseada em IP
 configure-moderation-akismet-accountNote =
   Nota: Você deve adicionar seu(s) domínio(s) ativo(s)
   na sua conta Akismet: <externalLink>https://akismet.com/account/</externalLink>
@@ -850,6 +870,7 @@ moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 moderate-marker-preMod = Pré-Moderado
 moderate-marker-link = Link
 moderate-marker-bannedWord = Palavra Banida
+moderate-marker-bio = Biografia
 moderate-marker-possibleBannedWord = Possível Palavra Banida
 moderate-marker-suspectWord = Palavra Suspeita
 moderate-marker-possibleSuspectWord = Possível Palavra Suspeita
@@ -958,6 +979,7 @@ moderate-user-drawer-all-no-comments = {$username} não enviou comentários.
 moderate-user-drawer-rejected-no-comments = {$username} não tem comentários rejeitados.
 moderate-user-drawer-user-not-found = Usuário não encontrado.
 moderate-user-drawer-status-label = Status:
+moderate-user-drawer-bio-title = Biografia dos usuários
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> Sistema
 moderate-user-drawer-account-history-suspension-ended = Suspensão terminada
@@ -1042,6 +1064,15 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Mudar Função
 
+community-assignMySites = Atribuir meus sites
+community-removeMySites = Remover meus sites
+community-stillHaveSiteModeratorPrivileges = Eles ainda terão privilégios de moderador do site para:
+community-userNoLongerPermitted = O usuário não terá mais permissão para tomar decisões de moderação ou atribuir suspensões em:
+community-assignThisUser = Atribuir este usuário a
+community-assignYourSitesTo = Atribuir seus sites a <strong>{ $username }</strong>
+community-siteModeratorsArePermitted = Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
+community-removeSiteModeratorPermissions = Remover permissões de moderador do site
+
 community-filter-optGroupAudience =
   .label = Público
 community-filter-optGroupOrganization =
@@ -1060,6 +1091,9 @@ community-column-status = Status
 
 community-role-popover =
   .description = Um menu suspenso para alterar o papel do usuário
+
+community-siteModeratorActions-popover =
+  .description = Uma lista para promover/rebaixar um usuário dos sites
 
 community-userStatus-popover =
   .description = Um menu suspenso para alterar o status do usuário
@@ -1123,6 +1157,7 @@ community-siteModeratorModal-assignSitesDescription =
   Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
 community-siteModeratorModal-cancel = Cancelar
 community-siteModeratorModal-assign = Atribuir
+community-siteModeratorModal-remove = Remover
 community-siteModeratorModal-selectSites = Selecionar sites para moderar
 community-siteModeratorModal-noSites = Sem sites
 
@@ -1253,6 +1288,16 @@ configure-general-staff-label = Texto do crachá
 configure-general-staff-input =
   .placeholder = Ex: Staff
 configure-general-staff-preview = Pré-visualização
+configure-general-staff-moderator-input =
+  .placeholder = Ex: Moderador
+configure-general-staff-admin-input =
+  .placeholder = Ex: Admin
+configure-general-staff-preview = Pré-visualizar
+configure-general-staff-moderator-preview = Pré-visualizar
+configure-general-staff-admin-preview = Pré-visualizar
+configure-general-staff-member-label = Texto do crachá de membros staff
+configure-general-staff-admin-label = Texto do crachá de administradores
+configure-general-staff-moderator-label = Texto do crachá de moderadores
 
 configure-general-rte-title = Comentários em texto rico
 configure-general-rte-express = Dê à sua comunidade mais maneiras de se expressar além do texto simples com formatação de texto rico.
