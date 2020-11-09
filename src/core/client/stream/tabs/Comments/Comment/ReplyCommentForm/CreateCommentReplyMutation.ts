@@ -95,32 +95,41 @@ function tagExpertAnswers(
       featuredTag.setValue(GQLTAG.FEATURED, "code");
       commentEdge.setLinkedRecords(tags.concat(featuredTag), "tags");
     }
+
     const parentProxy = store.get(input.parentID);
     const parentTags = parentProxy?.getLinkedRecords("tags");
-    if (parentProxy && parentTags) {
-      parentProxy.setLinkedRecords(
-        remove(parentTags, (tag) => {
-          return tag.getValue("code") === GQLTAG.UNANSWERED;
-        }),
-        "tags"
-      );
-    }
+    const wasUnanswered =
+      parentTags &&
+      parentTags.find((t) => t.getValue("code") === GQLTAG.UNANSWERED);
 
-    // how do we know this is the first answer though
-    const commentCountsRecord = story.getLinkedRecord("commentCounts");
-    if (!commentCountsRecord) {
-      return;
-    }
-    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
-    if (tagsRecord) {
-      tagsRecord.setValue(
-        (tagsRecord.getValue("UNANSWERED") as number) - 1,
-        "UNANSWERED"
-      );
-      tagsRecord.setValue(
-        (tagsRecord.getValue("FEATURED") as number) + 1,
-        "FEATURED"
-      );
+    if (wasUnanswered) {
+      // remove unanswered tag from parent
+      if (parentProxy && parentTags && wasUnanswered) {
+        parentProxy.setLinkedRecords(
+          remove(parentTags, (tag) => {
+            return tag.getValue("code") === GQLTAG.UNANSWERED;
+          }),
+          "tags"
+        );
+      }
+
+      const commentCountsRecord = story.getLinkedRecord("commentCounts");
+      if (!commentCountsRecord) {
+        return;
+      }
+      const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+
+      // increment answered questions and decrement unanswered questions
+      if (tagsRecord) {
+        tagsRecord.setValue(
+          (tagsRecord.getValue("UNANSWERED") as number) - 1,
+          "UNANSWERED"
+        );
+        tagsRecord.setValue(
+          (tagsRecord.getValue("FEATURED") as number) + 1,
+          "FEATURED"
+        );
+      }
     }
   }
 }
@@ -299,8 +308,7 @@ async function commit(
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  // todo: fix
-                  tags: [],
+                  tags: parentComment.tags,
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
