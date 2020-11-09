@@ -996,6 +996,8 @@ export async function retrieveStoryCommentTagCounts(
       {
         [GQLTAG.FEATURED]: 0,
         [GQLTAG.UNANSWERED]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.QUESTION]: 0,
       }
     );
   });

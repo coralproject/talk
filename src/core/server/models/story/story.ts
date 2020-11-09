@@ -50,7 +50,7 @@ export interface StreamModeSettings {
 
 export type StorySettings = StreamModeSettings &
   GlobalModerationSettings &
-  Pick<GQLStorySettings, "messageBox" | "mode" | "experts">;
+  Pick<GQLStorySettings, "messageBox" | "mode">;
 
 export type StoryMetadata = GQLStoryMetadata;
 

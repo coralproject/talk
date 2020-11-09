@@ -3106,10 +3106,22 @@ enum TAG {
   EXPERT
 
   """
-  UNANSWERED is used when a Comment is written by a User and is unanswered
-  by an expert for that Comment's story.
+  UNANSWERED is used when a Comment is written by a user and has not been
+  answered by an expert on a Story that is set to Q&A.
   """
   UNANSWERED
+
+  """
+  REVIEW is used when a Comment is written with a rating on a Story that is set
+  to Ratings and Reviews.
+  """
+  REVIEW
+
+  """
+  QUESTION is used when a Comment is written without a rating on a Story
+  that is set to Ratings and Reviews.
+  """
+  QUESTION
 }
 
 """
@@ -3146,6 +3158,16 @@ type CommentTagCounts {
   UNANSWERED is the count of Comment's with the UNANSWERED tag.
   """
   UNANSWERED: Int!
+
+  """
+  REVIEW is the count of Comment's with the REVIEW tag.
+  """
+  REVIEW: Int!
+
+  """
+  QUESTION is the count of Comment's with the QUESTION tag.
+  """
+  QUESTION: Int!
 }
 
 """
@@ -3598,7 +3620,7 @@ type Story @cacheControl(maxAge: 30) {
     rating allows filtering for comments with a specific rating. If this feature
     has not been enabled on this tenant or story, this option has no effect.
     """
-    rating: Int
+    rating: Int @constraint(min: 1, max: 5)
 
     """
     This is a workaround to allow filtering for current Q&A
