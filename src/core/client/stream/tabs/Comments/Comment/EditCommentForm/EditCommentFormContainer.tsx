@@ -11,6 +11,7 @@ import {
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
@@ -150,7 +151,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({
             storyID: this.props.story.id,
-            flattenLastReply: true,
+            flattenLastReply: this.props.settings.featureFlags.includes(
+              GQLFEATURE_FLAG.FLATTEN_REPLIES
+            ),
           });
         }
         return error.invalidArgs;
@@ -280,6 +283,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             rte {
               ...RTEContainer_config
             }
+            featureFlags
           }
         `,
       })(EditCommentFormContainer)

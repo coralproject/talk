@@ -15,6 +15,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 
@@ -137,7 +138,9 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({
             storyID: this.props.story.id,
-            flattenLastReply: true,
+            flattenLastReply: this.props.settings.featureFlags.includes(
+              GQLFEATURE_FLAG.FLATTEN_REPLIES
+            ),
           });
         }
 
@@ -280,6 +283,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               rte {
                 ...RTEContainer_config
               }
+              featureFlags
             }
           `,
           story: graphql`

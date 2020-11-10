@@ -12,7 +12,11 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLTAG,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
@@ -86,7 +90,9 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       orderBy: commentsOrderBy,
       storyConnectionKey: "UnansweredStream_comments",
       tag: GQLTAG.UNANSWERED,
-      flattenLastReply: true,
+      flattenLastReply: props.settings.featureFlags.includes(
+        GQLFEATURE_FLAG.FLATTEN_REPLIES
+      ),
     });
 
     return () => {
@@ -96,6 +102,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     commentsOrderBy,
     hasMore,
     live,
+    props.settings.featureFlags,
     props.story.id,
     subscribeToCommentEntered,
   ]);
@@ -287,6 +294,7 @@ const enhanced = withPaginationContainer<
         }
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
+        featureFlags
       }
     `,
   },
@@ -311,7 +319,9 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
-        flattenLastReply: true, // TODO pull from feature flags?
+        flattenLastReply: props.settings.featureFlags.includes(
+          GQLFEATURE_FLAG.FLATTEN_REPLIES
+        ),
       };
     },
     query: graphql`

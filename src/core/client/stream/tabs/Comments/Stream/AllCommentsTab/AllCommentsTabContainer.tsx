@@ -69,12 +69,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   viewer,
   relay,
 }) => {
-  const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
+  const [{ commentsOrderBy, featureFlags }] = useLocal<
+    AllCommentsTabContainerLocal
+  >(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
         commentsOrderBy
+        featureFlags
       }
     `
+  );
+  const flattenLastReply = featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
   );
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -110,13 +116,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       storyID: story.id,
       orderBy: commentsOrderBy,
       storyConnectionKey: "Stream_comments",
-      flattenLastReply: true,
+      flattenLastReply,
     });
 
     return () => {
       disposable.dispose();
     };
-  }, [commentsOrderBy, hasMore, live, story.id, subscribeToCommentEntered]);
+  }, [
+    commentsOrderBy,
+    flattenLastReply,
+    hasMore,
+    live,
+    story.id,
+    subscribeToCommentEntered,
+  ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
@@ -379,7 +392,7 @@ const enhanced = withPaginationContainer<
         count: totalCount,
       };
     },
-    getVariables({ story }, { count, cursor }, fragmentVariables) {
+    getVariables({ story, settings }, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
@@ -387,7 +400,9 @@ const enhanced = withPaginationContainer<
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
         storyID: story.id,
-        flattenLastReply: true, // TODO: pull this out properly
+        flattenLastReply: settings.featureFlags.includes(
+          GQLFEATURE_FLAG.FLATTEN_REPLIES
+        ),
       };
     },
     query: graphql`

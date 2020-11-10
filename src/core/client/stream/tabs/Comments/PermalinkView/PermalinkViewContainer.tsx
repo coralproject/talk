@@ -12,9 +12,11 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
+  useLocal,
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
@@ -30,6 +32,7 @@ import { PermalinkViewContainer_comment as CommentData } from "coral-stream/__ge
 import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
+import { PermalinkViewContainerLocal } from "coral-stream/__generated__/PermalinkViewContainerLocal.graphql";
 
 import CommentEnteredSubscription from "../Stream/AllCommentsTab/CommentEnteredSubscription";
 import ConversationThreadContainer from "./ConversationThreadContainer";
@@ -50,6 +53,15 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
+  const [{ featureFlags }] = useLocal<PermalinkViewContainerLocal>(graphql`
+    fragment PermalinkViewContainerLocal on Local {
+      featureFlags
+    }
+  `);
+  const flattenLastReply = featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
+  );
+
   useEffect(() => {
     if (!comment?.id) {
       return;
@@ -59,12 +71,12 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       ancestorID: comment.id,
       liveDirectRepliesInsertion: true,
       storyConnectionKey: "Stream_comments",
-      flattenLastReply: true,
+      flattenLastReply,
     });
     return () => {
       disposable.dispose();
     };
-  }, [comment?.id, story.id, subscribeToCommentEntered]);
+  }, [comment, flattenLastReply, story.id, subscribeToCommentEntered]);
 
   useEffect(() => {
     if (!pym) {

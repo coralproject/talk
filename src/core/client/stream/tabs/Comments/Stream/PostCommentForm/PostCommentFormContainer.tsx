@@ -16,6 +16,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
   ShowAuthPopupMutation,
@@ -159,7 +160,9 @@ export class PostCommentFormContainer extends Component<Props, State> {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({
             storyID: this.props.story.id,
-            flattenLastReply: true,
+            flattenLastReply: this.props.settings.featureFlags.includes(
+              GQLFEATURE_FLAG.FLATTEN_REPLIES
+            ),
           });
         }
         if (shouldTriggerViewerRefresh(error.code)) {
@@ -344,6 +347,7 @@ const enhanced = withContext(({ sessionStorage }) => ({
                 rte {
                   ...RTEContainer_config
                 }
+                featureFlags
               }
             `,
             story: graphql`

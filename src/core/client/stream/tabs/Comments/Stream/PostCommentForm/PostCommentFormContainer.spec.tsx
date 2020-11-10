@@ -64,6 +64,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           strikethrough: false,
           spoiler: false,
         },
+        featureFlags: [],
       },
       viewer: {
         id: "viewer-id",

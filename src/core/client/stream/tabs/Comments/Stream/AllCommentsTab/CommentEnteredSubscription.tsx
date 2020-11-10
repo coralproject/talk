@@ -102,7 +102,8 @@ function determineDepthTillAncestor(
 function insertReply(
   store: RecordSourceSelectorProxy<unknown>,
   liveDirectRepliesInsertion: boolean,
-  ancestorID?: string | null
+  ancestorID?: string | null,
+  flattenLastReply?: boolean
 ) {
   const comment = store
     .getRootField("commentEntered")!
@@ -196,7 +197,7 @@ const CommentEnteredSubscription = createSubscription(
       variables: {
         storyID: variables.storyID,
         ancestorID: variables.ancestorID,
-        flattenLastReply: true, // TODO: pull this out properly
+        flattenLastReply: variables.flattenLastReply,
       },
       updater: (store) => {
         const rootField = store.getRootField("commentEntered");
@@ -243,7 +244,8 @@ const CommentEnteredSubscription = createSubscription(
           insertReply(
             store,
             Boolean(variables.liveDirectRepliesInsertion),
-            variables.ancestorID
+            variables.ancestorID,
+            variables.flattenLastReply
           );
           return;
         } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {

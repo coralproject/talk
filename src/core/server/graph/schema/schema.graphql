@@ -468,6 +468,13 @@ enum FEATURE_FLAG {
   the bottom of the stream when sorting the comment stream by oldest first.
   """
   ALTERNATE_OLDEST_FIRST_VIEW
+
+  """
+  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  FLATTEN_REPLIES
 }
 
 # The moderation mode of the site.

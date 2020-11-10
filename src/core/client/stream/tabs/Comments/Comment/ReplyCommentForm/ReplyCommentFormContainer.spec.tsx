@@ -67,6 +67,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           message: "",
         },
         rte: {},
+        featureFlags: [],
       },
     },
     add
