@@ -7,6 +7,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { GQLTAG } from "coral-framework/schema";
 import { Flex, Spinner } from "coral-ui/components/v2";
 
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
@@ -18,6 +19,7 @@ import SpinnerWhileRendering from "./SpinnerWhileRendering";
 interface Props {
   local: Local;
   preload?: boolean;
+  tag?: GQLTAG;
 }
 
 export const render = (data: QueryRenderData<QueryTypes>) => {
@@ -53,6 +55,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
+    tag,
   } = props;
   return (
     <QueryRenderer<QueryTypes>
@@ -61,13 +64,14 @@ const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
+          $tag: TAG
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
           }
           story: stream(id: $storyID, url: $storyURL) {
             ...AllCommentsTabContainer_story
-              @arguments(orderBy: $commentsOrderBy)
+              @arguments(orderBy: $commentsOrderBy, tag: $tag)
           }
           settings {
             ...AllCommentsTabContainer_settings
@@ -78,6 +82,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
         storyID,
         storyURL,
         commentsOrderBy,
+        tag,
       }}
       render={(data) => (props.preload ? null : render(data))}
     />

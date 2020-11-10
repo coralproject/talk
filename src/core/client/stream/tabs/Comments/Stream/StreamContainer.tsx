@@ -11,6 +11,7 @@ import {
   GQLCOMMENT_SORT,
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
+  GQLTAG,
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
@@ -132,12 +133,15 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     },
     [local.commentsOrderBy, setLocal, emitSetCommentsOrderByEvent, localStorage]
   );
+
   const onChangeTab = useCallback(
     (tab: COMMENTS_TAB, emit = true) => {
       if (local.commentsTab === tab) {
         return;
       }
+
       setLocal({ commentsTab: tab });
+
       if (emit) {
         emitSetCommentsTabEvent({ tab });
       }
@@ -155,7 +159,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
+
   const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
+  const isRR = props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   // The alternate view is only enabled when we have the feature flag, the sort
   // as oldest first, the story is not closed, and comments are not disabled.
@@ -183,16 +189,22 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     // If the comment tab is still in its uninitialized state, "NONE", then we
     // should evaluate that based on the featuredCommentsCount if we should show
     // the featured comments tab first or not.
-    if (local.commentsTab === "NONE") {
-      // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
-      // comments, then switch it to the all comments tab.
-      if (featuredCommentsCount === 0) {
-        onChangeTab("ALL_COMMENTS", false);
-      } else {
-        onChangeTab("FEATURED_COMMENTS", false);
-      }
+    if (local.commentsTab !== "NONE") {
+      return;
     }
-  }, [local, setLocal, props, featuredCommentsCount, onChangeTab]);
+
+    // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
+    // comments, then switch it to the all comments tab.
+    if (featuredCommentsCount > 0) {
+      return onChangeTab("FEATURED_COMMENTS", false);
+    }
+
+    if (isRR) {
+      return onChangeTab("REVIEWS", false);
+    }
+
+    onChangeTab("ALL_COMMENTS", false);
+  }, [local, setLocal, props, featuredCommentsCount, onChangeTab, isRR]);
 
   return (
     <>
@@ -218,7 +230,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             />
           </div>
         </Flex>
-
         <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
@@ -282,7 +293,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                         <span>Featured</span>
                       </Localized>
                     )}
-
                     <Counter
                       data-testid="comments-featuredCount"
                       size="sm"
@@ -332,45 +342,111 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   </Flex>
                 </Tab>
               )}
-              <Tab
-                tabID="ALL_COMMENTS"
-                className={cn(
-                  {
+              {!isRR && (
+                <Tab
+                  tabID="ALL_COMMENTS"
+                  className={cn(
+                    {
+                      [styles.fixedTab]: featuredCommentsCount > 0,
+                      [CLASSES.tabBarComments.activeTab]:
+                        local.commentsTab === "ALL_COMMENTS",
+                    },
+                    CLASSES.tabBarComments.allComments
+                  )}
+                  variant="streamSecondary"
+                >
+                  <Flex alignItems="center" spacing={1}>
+                    {isQA ? (
+                      <Localized id="qa-allCommentsTab">
+                        <span>All</span>
+                      </Localized>
+                    ) : (
+                      <Localized id="comments-allCommentsTab">
+                        <span>All Comments</span>
+                      </Localized>
+                    )}
+
+                    <Counter
+                      size="sm"
+                      className={CLASSES.counter}
+                      color={
+                        local.commentsTab === "ALL_COMMENTS"
+                          ? "inherit"
+                          : "grey"
+                      }
+                    >
+                      <Localized
+                        id="comments-counter-shortNum"
+                        $count={allCommentsCount}
+                      >
+                        {allCommentsCount}
+                      </Localized>
+                    </Counter>
+                  </Flex>
+                </Tab>
+              )}
+              {isRR && (
+                <Tab
+                  tabID="REVIEWS"
+                  className={cn({
                     [styles.fixedTab]: featuredCommentsCount > 0,
                     [CLASSES.tabBarComments.activeTab]:
-                      local.commentsTab === "ALL_COMMENTS",
-                  },
-                  CLASSES.tabBarComments.allComments
-                )}
-                variant="streamSecondary"
-              >
-                <Flex alignItems="center" spacing={1}>
-                  {isQA ? (
-                    <Localized id="qa-allCommentsTab">
-                      <span>All</span>
+                      local.commentsTab === "REVIEWS",
+                  })}
+                  variant="streamSecondary"
+                >
+                  <Flex alignItems="center" spacing={1}>
+                    <Localized id="rr-reviewsTab">
+                      <span>Reviews</span>
                     </Localized>
-                  ) : (
-                    <Localized id="comments-allCommentsTab">
-                      <span>All Comments</span>
-                    </Localized>
-                  )}
-
-                  <Counter
-                    size="sm"
-                    className={CLASSES.counter}
-                    color={
-                      local.commentsTab === "ALL_COMMENTS" ? "inherit" : "grey"
-                    }
-                  >
-                    <Localized
-                      id="comments-counter-shortNum"
-                      $count={allCommentsCount}
+                    <Counter
+                      size="sm"
+                      className={CLASSES.counter}
+                      color={
+                        local.commentsTab === "REVIEWS" ? "inherit" : "grey"
+                      }
                     >
-                      {allCommentsCount}
+                      <Localized
+                        id="comments-counter-shortNum"
+                        $count={props.story.commentCounts.tags.REVIEW}
+                      >
+                        {props.story.commentCounts.tags.REVIEW}
+                      </Localized>
+                    </Counter>
+                  </Flex>
+                </Tab>
+              )}
+              {isRR && (
+                <Tab
+                  tabID="QUESTIONS"
+                  className={cn({
+                    [styles.fixedTab]: featuredCommentsCount > 0,
+                    [CLASSES.tabBarComments.activeTab]:
+                      local.commentsTab === "QUESTIONS",
+                  })}
+                  variant="streamSecondary"
+                >
+                  <Flex alignItems="center" spacing={1}>
+                    <Localized id="rr-questionsTab">
+                      <span>Questions</span>
                     </Localized>
-                  </Counter>
-                </Flex>
-              </Tab>
+                    <Counter
+                      size="sm"
+                      className={CLASSES.counter}
+                      color={
+                        local.commentsTab === "QUESTIONS" ? "inherit" : "grey"
+                      }
+                    >
+                      <Localized
+                        id="comments-counter-shortNum"
+                        $count={props.story.commentCounts.tags.QUESTION}
+                      >
+                        {props.story.commentCounts.tags.QUESTION}
+                      </Localized>
+                    </Counter>
+                  </Flex>
+                </Tab>
+              )}
             </TabBar>
             <MatchMedia ltWidth="sm">
               {(matches) => {
@@ -402,21 +478,12 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             }}
           </MatchMedia>
           <TabContent activeTab={local.commentsTab}>
-            {isQA ? (
-              <TabPane
-                className={CLASSES.featuredCommentsTabPane.$root}
-                tabID="FEATURED_COMMENTS"
-              >
-                <AnsweredComments />
-              </TabPane>
-            ) : (
-              <TabPane
-                className={CLASSES.featuredCommentsTabPane.$root}
-                tabID="FEATURED_COMMENTS"
-              >
-                <FeaturedComments />
-              </TabPane>
-            )}
+            <TabPane
+              className={CLASSES.featuredCommentsTabPane.$root}
+              tabID="FEATURED_COMMENTS"
+            >
+              {isQA ? <AnsweredComments /> : <FeaturedComments />}
+            </TabPane>
             {isQA && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}
@@ -425,12 +492,30 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 <UnansweredCommentsTab />
               </TabPane>
             )}
-            <TabPane
-              className={CLASSES.allCommentsTabPane.$root}
-              tabID="ALL_COMMENTS"
-            >
-              <AllCommentsTab />
-            </TabPane>
+            {!isRR && (
+              <TabPane
+                className={CLASSES.allCommentsTabPane.$root}
+                tabID="ALL_COMMENTS"
+              >
+                <AllCommentsTab />
+              </TabPane>
+            )}
+            {isRR && (
+              <TabPane
+                className={CLASSES.allCommentsTabPane.$root}
+                tabID="REVIEWS"
+              >
+                <AllCommentsTab tag={GQLTAG.REVIEW} />
+              </TabPane>
+            )}
+            {isRR && (
+              <TabPane
+                className={CLASSES.allCommentsTabPane.$root}
+                tabID="QUESTIONS"
+              >
+                <AllCommentsTab tag={GQLTAG.QUESTION} />
+              </TabPane>
+            )}
           </TabContent>
         </HorizontalGutter>
       </HorizontalGutter>
@@ -452,6 +537,8 @@ const enhanced = withFragmentContainer<Props>({
         tags {
           FEATURED
           UNANSWERED
+          REVIEW
+          QUESTION
         }
       }
       ...CreateCommentMutation_story

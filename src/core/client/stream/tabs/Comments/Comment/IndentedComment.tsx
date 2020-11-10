@@ -2,18 +2,16 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
 
 import Indent from "../Indent";
-import Comment from "./Comment";
+import Comment, { CommentProps } from "./Comment";
 import CommentToggle from "./CommentToggle";
 
 import styles from "./IndentedComment.css";
 
-export interface IndentedCommentProps
-  extends Omit<PropTypesOf<typeof Comment>, "ref"> {
+export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   indentLevel?: number;
   blur?: boolean;
   toggleCollapsed?: () => void;

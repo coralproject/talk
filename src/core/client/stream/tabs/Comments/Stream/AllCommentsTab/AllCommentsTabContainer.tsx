@@ -192,10 +192,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         size="oneAndAHalf"
       >
         {story.comments.edges.length <= 0 && (
-          <NoComments
-            mode={story.settings.mode}
-            isClosed={story.isClosed}
-          ></NoComments>
+          <NoComments mode={story.settings.mode} isClosed={story.isClosed} />
         )}
         {story.comments.edges.length > 0 &&
           story.comments.edges.map(({ node: comment }, index) => (
@@ -300,6 +297,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+          tag: { type: "TAG" }
         ) {
         id
         isClosed
@@ -313,7 +311,7 @@ const enhanced = withPaginationContainer<
         commentCounts {
           totalPublished
         }
-        comments(first: $count, after: $cursor, orderBy: $orderBy)
+        comments(first: $count, after: $cursor, orderBy: $orderBy, tag: $tag)
           @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
