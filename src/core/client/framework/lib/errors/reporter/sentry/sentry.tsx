@@ -1,14 +1,26 @@
 import * as Sentry from "@sentry/react";
 import React, { FunctionComponent } from "react";
 
-import { ErrorReport, ErrorReporter, User } from "./reporter";
+import { ErrorReport, ErrorReporter, User } from "../reporter";
+import { FakeDebugTransport } from "./fakeDebugTransport";
 
 export class SentryErrorReporter implements ErrorReporter {
   public readonly ErrorBoundary?: FunctionComponent;
 
-  constructor(reporterFeedbackPrompt: boolean, dsn: string) {
+  constructor(
+    reporterFeedbackPrompt: boolean,
+    dsn: string,
+    options: {
+      offlineDebug?: boolean;
+    } = {}
+  ) {
     // Initialize sentry.
-    Sentry.init({ dsn, release: `coral@${process.env.TALK_VERSION}` });
+    Sentry.init({
+      dsn,
+      release: `coral@${process.env.TALK_VERSION}`,
+      debug: Boolean(options.offlineDebug),
+      transport: options.offlineDebug ? FakeDebugTransport : undefined,
+    });
     Sentry.setTag("domain", window.location.host);
 
     // Initialize the boundary if enabled.

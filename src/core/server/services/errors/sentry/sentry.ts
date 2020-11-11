@@ -3,7 +3,8 @@ import * as Sentry from "@sentry/node";
 import { version } from "coral-common/version";
 import logger from "coral-server/logger";
 
-import { ErrorReport, ErrorReporter, ErrorReporterScope } from "./reporter";
+import { ErrorReport, ErrorReporter, ErrorReporterScope } from "../reporter";
+import { FakeDebugTransport } from "./fakeDebugTransport";
 
 interface Context {
   user?: Sentry.User;
@@ -11,14 +12,28 @@ interface Context {
 }
 
 export class SentryErrorReporter extends ErrorReporter {
-  constructor(dsn: string) {
+  constructor(
+    dsn: string,
+    options: {
+      offlineDebug?: boolean;
+    } = {}
+  ) {
     // Setup the base error reporter.
     super();
 
-    logger.info({ reporter: "sentry" }, "now configuring error reporter");
+    const logData: any = { reporter: "sentry" };
+    if (options.offlineDebug) {
+      logData.offlineDebug = true;
+    }
+    logger.info(logData, "now configuring error reporter");
 
     // Initialize sentry.
-    Sentry.init({ dsn, release: `coral@${version}` });
+    Sentry.init({
+      dsn,
+      release: `coral@${version}`,
+      debug: Boolean(options.offlineDebug),
+      transport: options.offlineDebug ? FakeDebugTransport : undefined,
+    });
   }
 
   public report(err: any, scope: ErrorReporterScope): ErrorReport {

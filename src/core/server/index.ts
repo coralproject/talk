@@ -164,6 +164,10 @@ class Server {
       this.reporter = new SentryErrorReporter(
         this.config.get("sentry_backend_key")
       );
+    } else if (this.config.get("env") === "development") {
+      this.reporter = new SentryErrorReporter("http://debug@debug/1", {
+        offlineDebug: true,
+      });
     }
 
     // Load the graph schemas.
