@@ -214,6 +214,7 @@ async function commit(
                   id: uuidGenerator(),
                   media: null,
                 },
+                rating: null,
                 parent: null,
                 body: input.body || "",
                 editing: {
