@@ -103,9 +103,6 @@ export default class Popup extends Component<PopupProps> {
       return;
     }
     this.ref.onload = (e) => {
-      if (this.detectCloseInterval) {
-        clearInterval(this.detectCloseInterval);
-      }
       this.onLoad(e);
     };
 

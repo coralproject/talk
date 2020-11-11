@@ -2,19 +2,17 @@ import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
+import { getEnabledIntegration } from "coral-server/app/authenticators/oidc/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
+import {
+  findOrCreateOIDCUserWithToken,
+  isOIDCToken,
+  OIDCIDToken,
+} from "coral-server/services/oidc";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 
 import { Verifier } from "../jwt";
-import {
-  findOrCreateOIDCUserWithToken,
-  getEnabledIntegration,
-  isOIDCToken,
-  OIDCIDToken,
-} from "../oidc";
-
-export { OIDCIDToken } from "../oidc";
 
 export type OIDCVerifierOptions = Pick<AppOptions, "mongo" | "tenantCache">;
 

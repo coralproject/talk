@@ -1,6 +1,10 @@
-import { AUTH_REDIRECT_PATH_KEY } from "coral-framework/helpers/storageKeys";
+import qs from "querystringify";
+
+import { REDIRECT_TO_PARAM } from "coral-common/constants";
 
 export default function redirectOAuth2(redirectURL: string) {
-  localStorage.setItem(AUTH_REDIRECT_PATH_KEY, window.location.pathname);
-  window.location.href = redirectURL;
+  const redirectTo = window.location.pathname;
+  window.location.href = `${redirectURL}?${qs.stringify({
+    [REDIRECT_TO_PARAM]: redirectTo,
+  })}`;
 }

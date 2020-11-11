@@ -13,6 +13,7 @@ export interface Options {
   queue?: QUEUE_NAME;
   storyID?: string | null;
   siteID?: string | null;
+  commentID?: string | null;
   section?: SectionFilter | null;
 }
 
@@ -20,6 +21,7 @@ export default function getModerationLink({
   queue,
   storyID,
   siteID,
+  commentID,
   section,
 }: Options = {}) {
   const parts = [urls.admin.moderate];
@@ -34,6 +36,8 @@ export default function getModerationLink({
     parts.push("stories", encodeURIComponent(storyID));
   } else if (siteID) {
     parts.push("sites", encodeURIComponent(siteID));
+  } else if (commentID) {
+    parts.push("comment", commentID);
   }
 
   const path = parts.join("/");

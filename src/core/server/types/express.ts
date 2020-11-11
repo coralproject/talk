@@ -25,11 +25,11 @@ export interface Request<T = CoralRequest> extends ExpressRequest {
   user?: User;
 }
 
-export type RequestHandler<T = CoralRequest> = (
+export type RequestHandler<T = CoralRequest, V = void> = (
   req: Request<T>,
   res: Response,
   next: NextFunction
-) => void;
+) => V;
 
 export type ErrorRequestHandler = (
   err: Error,

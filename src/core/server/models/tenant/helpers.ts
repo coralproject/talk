@@ -2,18 +2,14 @@ import { FluentBundle } from "@fluent/bundle/compat";
 
 import { translate } from "coral-server/services/i18n";
 
-import {
-  GQLAuthIntegrations,
-  GQLFEATURE_FLAG,
-  GQLReactionConfiguration,
-  GQLStaffConfiguration,
-} from "coral-server/graph/schema/__generated__/types";
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
+import { AuthIntegrations } from "../settings";
 import { Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
   bundle: FluentBundle
-): GQLReactionConfiguration => ({
+): Tenant["reaction"] => ({
   // By default, the standard reaction style will use the Respect with the
   // handshake.
   label: translate(bundle, "Respect", "reaction-labelRespect"),
@@ -28,7 +24,7 @@ export const getDefaultReactionConfiguration = (
 
 export const getDefaultStaffConfiguration = (
   bundle: FluentBundle
-): GQLStaffConfiguration => ({
+): Tenant["staff"] => ({
   label: translate(bundle, "Staff", "staff-label"),
   adminLabel: translate(bundle, "Staff", "staff-label"),
   staffLabel: translate(bundle, "Staff", "staff-label"),
@@ -55,7 +51,7 @@ export function hasFeatureFlag(
 
 export function hasEnabledAuthIntegration(
   tenant: Pick<Tenant, "auth">,
-  integration: keyof GQLAuthIntegrations
+  integration: keyof AuthIntegrations
 ) {
   return tenant.auth.integrations[integration].enabled;
 }
