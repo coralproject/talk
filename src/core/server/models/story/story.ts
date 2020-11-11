@@ -481,7 +481,8 @@ export type StoryConnectionInput = ConnectionInput<Story>;
 export async function retrieveStoryConnection(
   mongo: Db,
   tenantID: string,
-  input: StoryConnectionInput
+  input: StoryConnectionInput,
+  textSearch = false
 ): Promise<Readonly<Connection<Readonly<Story>>>> {
   // Create the query.
   const query = new Query(collection(mongo)).where({ tenantID });
@@ -489,6 +490,11 @@ export async function retrieveStoryConnection(
   // If a filter is being applied, filter it as well.
   if (input.filter) {
     query.where(input.filter);
+  }
+
+  if (textSearch) {
+    query.project({ score: { $meta: "textScore" } });
+    query.orderBy({ score: { $meta: "textScore" } });
   }
 
   return retrieveConnection(input, query);
@@ -499,7 +505,9 @@ async function retrieveConnection(
   query: Query<Story>
 ): Promise<Readonly<Connection<Readonly<Story>>>> {
   // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
+  if (!query.orderBy) {
+    query.orderBy({ createdAt: -1 });
+  }
   if (input.after) {
     query.where({ createdAt: { $lt: input.after as Date } });
   }

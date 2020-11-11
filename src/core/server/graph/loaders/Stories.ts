@@ -200,18 +200,23 @@ export default (ctx: GraphContext) => ({
     }
   ),
   connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
-    retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
-      first: defaultTo(first, 10),
-      after,
-      filter: {
-        // Merge the site filter into the connection filter.
-        ...siteFilter(siteID),
-        // Merge the status filter into the connection filter.
-        ...statusFilter(ctx.tenant.closeCommenting, status, ctx.now),
-        // Merge the query filters into the query.
-        ...queryFilter(query),
+    retrieveStoryConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      {
+        first: defaultTo(first, 10),
+        after,
+        filter: {
+          // Merge the site filter into the connection filter.
+          ...siteFilter(siteID),
+          // Merge the status filter into the connection filter.
+          ...statusFilter(ctx.tenant.closeCommenting, status, ctx.now),
+          // Merge the query filters into the query.
+          ...queryFilter(query),
+        },
       },
-    }).then(primeStoriesFromConnection(ctx)),
+      !!query
+    ).then(primeStoriesFromConnection(ctx)),
   topStories: (siteID: string, { limit }: SiteToTopStoriesArgs) => {
     // Find top active stories in the last 24 hours.
     const start = DateTime.fromJSDate(ctx.now).minus({ hours: 24 }).toJSDate();
