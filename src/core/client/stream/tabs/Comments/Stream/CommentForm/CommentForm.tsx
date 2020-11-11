@@ -52,6 +52,8 @@ interface MediaProps {
 interface MediaConfig {
   giphy: {
     enabled: boolean;
+    key: string | null;
+    maxRating: string | null;
   };
   twitter: {
     enabled: boolean;
@@ -312,6 +314,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
                     siteID={props.siteID}
+                    giphyConfig={props.mediaConfig.giphy}
                   />
                 </div>
               </div>
