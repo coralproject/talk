@@ -3,7 +3,7 @@ import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
 import { IGif } from "@giphy/js-types";
 import { Grid } from "@giphy/react-components";
 import React, {
-  ChangeEvent,
+  ChangeEventHandler,
   FunctionComponent,
   KeyboardEvent,
   Ref,
@@ -42,26 +42,36 @@ const GiphyInput: FunctionComponent<Props> = ({
   apiKey,
   maxRating,
 }) => {
-  const [query, setQuery] = useState<string>("");
-  const [debouncedInput, setDebouncedInput] = useState<string>("");
-  useDebounce(() => setQuery(debouncedInput), 500, [debouncedInput]);
+  const [query, setQuery] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
+
   const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
-  const fetchGifs = useMemo(() => {
-    const gf = new GiphyFetch(apiKey);
-    return async (offset: number) =>
-      gf.search(query, {
+
+  const client = useMemo(() => new GiphyFetch(apiKey), [apiKey]);
+  const fetchGifs = useCallback(
+    async (offset: number) =>
+      client.search(query, {
         offset,
         limit: 10,
         rating: maxRating as SearchOptions["rating"],
         sort: "relevant",
-      });
-  }, [apiKey, maxRating, query]);
-  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    setDebouncedInput(evt.target.value);
+      }),
+    [client, maxRating, query]
+  );
+
+  // Instead of updating the query with every keystroke, debounce the change to
+  // that state parameter.
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [, cancelDebounce] = useDebounce(() => setQuery(debouncedQuery), 500, [
+    debouncedQuery,
+  ]);
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setDebouncedQuery(e.target.value);
   }, []);
 
+  // Focus on the input as soon as the input is available.
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -83,12 +93,14 @@ const GiphyInput: FunctionComponent<Props> = ({
     return Math.floor(width / APPROX_COL_WIDTH);
   }, [width]);
 
-  const onClick = useCallback(
+  const onGifClick = useCallback(
     (gif: IGif) => {
+      // Cancel any active timers that might cause the query to be changed.
+      cancelDebounce();
       setQuery("");
       onSelect(gif);
     },
-    [onSelect]
+    [cancelDebounce, onSelect]
   );
 
   return (
@@ -102,7 +114,7 @@ const GiphyInput: FunctionComponent<Props> = ({
           </Localized>
           <TextField
             className={styles.input}
-            value={debouncedInput}
+            value={debouncedQuery}
             onChange={onChange}
             onKeyPress={onKeyPress}
             fullWidth
@@ -146,11 +158,10 @@ const GiphyInput: FunctionComponent<Props> = ({
               }
               key={query}
               width={width}
-              onGifClick={(result) => onClick(result)}
+              onGifClick={onGifClick}
             />
           )}
         </div>
-
         <GiphyAttribution />
       </HorizontalGutter>
     </div>
