@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import FlattenedReplyListContainer from "coral-stream/tabs/Comments/FlattenedReplyList";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
 
@@ -9,6 +10,7 @@ import { LastReplyListContainer_comment } from "coral-stream/__generated__/LastR
 import { LastReplyListContainer_settings } from "coral-stream/__generated__/LastReplyListContainer_settings.graphql";
 import { LastReplyListContainer_story } from "coral-stream/__generated__/LastReplyListContainer_story.graphql";
 import { LastReplyListContainer_viewer } from "coral-stream/__generated__/LastReplyListContainer_viewer.graphql";
+import { LastReplyListContainerLocal } from "coral-stream/__generated__/LastReplyListContainerLocal.graphql";
 
 interface Props {
   viewer: LastReplyListContainer_viewer;
@@ -23,18 +25,14 @@ const LastReplyListContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
-  // Do this or pull in through settings?
-  // const [
-  //   {
-  //     flattenLastReply
-  //   },
-  // ] = useLocal<LastReplyListContainerLocal>(graphql`
-  //   fragment LastReplyListContainerLocal on Local {
-  //     flattenLastReply
-  //   }
-  // `);
-
-  const flattenLastReply = true;
+  const [{ featureFlags }] = useLocal<LastReplyListContainerLocal>(graphql`
+    fragment LastReplyListContainerLocal on Local {
+      featureFlags
+    }
+  `);
+  const flattenLastReply = featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
+  );
 
   if (flattenLastReply) {
     return (

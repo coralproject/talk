@@ -28,4 +28,6 @@ export interface StaticConfig {
    * available.
    */
   reporter?: ReporterConfig;
+
+  featureFlags: string[];
 }

@@ -1,5 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
+import { StaticConfig } from "coral-common/config";
 import { parseQuery } from "coral-common/utils";
 import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
@@ -77,6 +78,14 @@ export default async function initLocalState(
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
 
-    localRecord.setValue(["FLATTEN_REPLIES"], "featureFlags");
+    const staticConfigElement = document.getElementById("config");
+    if (staticConfigElement) {
+      const staticConfig: StaticConfig = JSON.parse(
+        staticConfigElement.innerText
+      );
+      localRecord.setValue(staticConfig.featureFlags, "featureFlags");
+    } else {
+      localRecord.setValue([], "featureFlags");
+    }
   });
 }
