@@ -56,6 +56,10 @@ export class SentryErrorReporter implements ErrorReporter {
 
   public setUser(user: User | null): void {
     const transformed = this.transformUser(user);
+    if (process.env.NODE_ENV === "development") {
+      // eslint-disable-next-line no-console
+      console.debug("sentry set user", transformed);
+    }
     Sentry.setUser(transformed);
   }
 }
