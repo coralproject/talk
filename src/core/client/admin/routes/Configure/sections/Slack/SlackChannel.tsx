@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, Ref, useCallback, useMemo } from "react";
 import { Field, useFormState } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
@@ -18,6 +18,7 @@ import {
   Label,
   TextField,
 } from "coral-ui/components/v2";
+import { withForwardRef } from "coral-ui/hocs";
 
 import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
@@ -30,6 +31,7 @@ interface Props {
   index: number;
   onRemoveClicked: (index: number) => void;
   form: FormApi;
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const SlackChannel: FunctionComponent<Props> = ({
@@ -38,6 +40,7 @@ const SlackChannel: FunctionComponent<Props> = ({
   index,
   onRemoveClicked,
   form,
+  forwardRef,
 }) => {
   const onRemove = useCallback(() => {
     onRemoveClicked(index);
@@ -126,6 +129,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                       spellCheck={false}
                       fullWidth
                       className={styles.textField}
+                      ref={forwardRef}
                       {...input}
                     />
                   </>
@@ -296,4 +300,4 @@ const SlackChannel: FunctionComponent<Props> = ({
   );
 };
 
-export default SlackChannel;
+export default withForwardRef(SlackChannel);
