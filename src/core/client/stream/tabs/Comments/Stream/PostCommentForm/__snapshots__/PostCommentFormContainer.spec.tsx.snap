@@ -45,6 +45,7 @@ exports[`renders correctly 1`] = `
       "id": "story-id",
       "isClosed": false,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -68,6 +69,7 @@ exports[`renders when commenting has been disabled (collapsing) 1`] = `
       "id": "story-id",
       "isClosed": false,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -126,6 +128,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
       "id": "story-id",
       "isClosed": false,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -149,6 +152,7 @@ exports[`renders when story has been closed (collapsing) 1`] = `
       "id": "story-id",
       "isClosed": true,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -207,6 +211,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
       "id": "story-id",
       "isClosed": true,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -272,6 +277,7 @@ exports[`renders when user is scheduled to be deleted 1`] = `
       "id": "story-id",
       "isClosed": false,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
@@ -331,6 +337,7 @@ exports[`renders with initialValues 1`] = `
       "id": "story-id",
       "isClosed": false,
       "settings": Object {
+        "experts": Array [],
         "messageBox": Object {
           "enabled": false,
         },
