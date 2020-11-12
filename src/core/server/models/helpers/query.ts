@@ -17,6 +17,7 @@ export type FilterQuery<T> = MongoFilterQuery<Writable<Partial<T>>>;
  */
 export default class Query<T> {
   public filter: FilterQuery<T>;
+  public projection: FilterQuery<T>;
 
   private collection: Collection<T>;
   private skip?: number;
@@ -35,6 +36,11 @@ export default class Query<T> {
    */
   public where(filter: FilterQuery<T>): Query<T> {
     this.filter = { ...this.filter, ...omitBy(filter, isUndefined) };
+    return this;
+  }
+
+  public project(projection: FilterQuery<T>): Query<T> {
+    this.projection = projection;
     return this;
   }
 
@@ -84,6 +90,10 @@ export default class Query<T> {
     );
 
     let cursor = this.collection.find(this.filter);
+
+    if (this.projection) {
+      cursor = cursor.project(this.projection);
+    }
 
     if (this.limit) {
       // Apply a limit if it exists.

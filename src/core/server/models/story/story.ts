@@ -10,7 +10,8 @@ import {
 } from "coral-server/errors";
 import {
   Connection,
-  ConnectionInput,
+  NodeToCursorTransformer,
+  OrderedConnectionInput,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
@@ -476,7 +477,12 @@ export async function removeStories(
   });
 }
 
-export type StoryConnectionInput = ConnectionInput<Story>;
+export enum STORY_SORT {
+  CREATED_AT_DESC = "CREATED_AT_DESC",
+  TEXT_SCORE = "TEXT_SCORE",
+}
+
+export type StoryConnectionInput = OrderedConnectionInput<Story, STORY_SORT>;
 
 export async function retrieveStoryConnection(
   mongo: Db,
@@ -494,18 +500,45 @@ export async function retrieveStoryConnection(
   return retrieveConnection(input, query);
 }
 
-async function retrieveConnection(
+const retrieveConnection = async (
   input: StoryConnectionInput,
   query: Query<Story>
-): Promise<Readonly<Connection<Readonly<Story>>>> {
-  // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
-  if (input.after) {
-    query.where({ createdAt: { $lt: input.after as Date } });
-  }
+): Promise<Readonly<Connection<Readonly<Story>>>> =>
+  resolveConnection(
+    applyInputToQuery(input, query),
+    input,
+    cursorGetterFactory(input)
+  );
 
-  // Return a connection.
-  return resolveConnection(query, input, (story) => story.createdAt);
+function cursorGetterFactory(
+  input: Pick<StoryConnectionInput, "orderBy" | "after">
+): NodeToCursorTransformer<Story> {
+  switch (input.orderBy) {
+    case STORY_SORT.CREATED_AT_DESC:
+      return (story) => story.createdAt;
+    case STORY_SORT.TEXT_SCORE:
+      return (_, index) =>
+        (input.after ? (input.after as number) : 0) + index + 1;
+  }
+}
+
+function applyInputToQuery(input: StoryConnectionInput, query: Query<Story>) {
+  switch (input.orderBy) {
+    case STORY_SORT.CREATED_AT_DESC:
+      query.orderBy({ createdAt: -1 });
+      if (input.after) {
+        query.where({ createdAt: { $lt: input.after as Date } });
+      }
+      return query;
+    case STORY_SORT.TEXT_SCORE:
+      // TODO: (wyattjoh) in MongoDB 4.4+ we don't have to project, remove after upgrading.
+      query.project({ score: { $meta: "textScore" } });
+      query.orderBy({ score: { $meta: "textScore" } });
+      if (input.after) {
+        query.after(input.after as number);
+      }
+      return query;
+  }
 }
 
 export async function retrieveActiveStories(
