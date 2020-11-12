@@ -36,8 +36,18 @@ export class SentryErrorReporter implements ErrorReporter {
   }
 
   public report(err: any): ErrorReport {
+    // Turn to error to have stacktrace information.
+    if (typeof err === "string") {
+      err = new Error(err);
+    }
+
     // Capture and report the error to Sentry.
     const id = Sentry.captureException(err);
+
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
 
     return { name: "sentry", id };
   }

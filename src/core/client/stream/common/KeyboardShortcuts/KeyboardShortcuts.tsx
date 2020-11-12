@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect } from "react";
 
 import { onPymMessage } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 
 interface KeyboardEventData {
   key: string;
@@ -115,11 +116,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
           data = event;
         }
       } catch (err) {
-        if (process.env.NODE_ENV !== "production") {
-          // eslint-disable-next-line no-console
-          console.error(err);
-        }
-
+        globalErrorReporter.report(err);
         return;
       }
 

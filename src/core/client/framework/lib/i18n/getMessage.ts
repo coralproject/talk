@@ -1,5 +1,7 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 
+import { globalErrorReporter } from "../errors";
+
 export default function getMessage<T extends {}>(
   bundles: FluentBundle[],
   key: string,
@@ -8,12 +10,15 @@ export default function getMessage<T extends {}>(
 ): string {
   const res = bundles.reduce((val, bundle) => {
     const message = bundle.getMessage(key);
-
-    // Warn in development about missing translations.
-    if (process.env.NODE_ENV !== "production" && !message) {
-      window.console.warn(
-        `Translation ${key} was not found for ${bundle.locales}`
-      );
+    if (!message) {
+      // Warn in development about missing translations.
+      if (bundle.locales.includes("en-US")) {
+        // Report missing english translations!
+        globalErrorReporter.report(`Missing English translation for "${key}"`);
+      } else if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.warn(`Translation ${key} was not found for ${bundle.locales}`);
+      }
     }
 
     // If the message, message value, or args are not available, just continue.
@@ -23,8 +28,8 @@ export default function getMessage<T extends {}>(
 
     const errors: Error[] = [];
     const formatted = bundle.formatPattern(message.value, args, errors);
-    if (process.env.NODE_ENV !== "production" && errors.length > 0) {
-      window.console.warn(
+    if (errors.length > 0) {
+      globalErrorReporter.report(
         `Translation ${key} encountered an error: ${errors
           .map((err) => err.message)
           .join(", ")}`

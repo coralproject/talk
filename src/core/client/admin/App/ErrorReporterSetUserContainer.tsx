@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { useEffectAtUnmount } from "coral-framework/hooks";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { ErrorReporterSetUserContainer_viewer } from "coral-stream/__generated__/ErrorReporterSetUserContainer_viewer.graphql";
@@ -14,19 +14,12 @@ interface Props {
 const ErrorReporterSetUserContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
-  const { reporter } = useCoralContext();
   useEffect(() => {
-    if (!reporter) {
-      return;
-    }
-    reporter.setUser(viewer);
-  }, [reporter, viewer]);
+    globalErrorReporter.setUser(viewer);
+  }, [viewer]);
 
   useEffectAtUnmount(() => {
-    if (!reporter) {
-      return;
-    }
-    reporter.setUser(null);
+    globalErrorReporter.setUser(null);
   });
   return null;
 };
