@@ -36,9 +36,9 @@ import {
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
-import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
-import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
-import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
+import { StreamContainer_settings } from "coral-stream/__generated__/StreamContainer_settings.graphql";
+import { StreamContainer_story } from "coral-stream/__generated__/StreamContainer_story.graphql";
+import { StreamContainer_viewer } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
 import {
   COMMENTS_TAB,
   StreamContainerLocal,
@@ -58,6 +58,7 @@ import { PostCommentFormContainer } from "./PostCommentForm";
 import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
+import { StoryRatingContainer } from "./StoryRating";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
@@ -67,9 +68,9 @@ import WarningContainer from "./Warning";
 import styles from "./StreamContainer.css";
 
 interface Props {
-  story: StoryData;
-  settings: SettingsData;
-  viewer: ViewerData | null;
+  story: StreamContainer_story;
+  settings: StreamContainer_settings;
+  viewer: StreamContainer_viewer | null;
 }
 
 interface TooltipTabProps extends Omit<PropTypesOf<typeof Tab>, "ref"> {
@@ -235,6 +236,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
+        {isRR && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
             <AddACommentButton isQA={isQA} />
@@ -547,6 +549,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PostCommentFormContainer_story
       ...PreviousCountSpyContainer_story
       ...StoryClosedTimeoutContainer_story
+      ...StoryRatingContainer_story
       ...ViewersWatchingContainer_story
     }
   `,

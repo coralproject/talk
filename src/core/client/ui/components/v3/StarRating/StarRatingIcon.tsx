@@ -11,11 +11,13 @@ import { Icon } from "coral-ui/components/v2";
 
 import styles from "./StarRatingIcon.css";
 
+type Fill = "star" | "star_half" | "star_border";
+
 interface Props {
   id?: string;
   value: number;
   checked: boolean;
-  filled: boolean;
+  fill: Fill;
   name?: string;
   readOnly?: boolean;
   onFocus?: FocusEventHandler<HTMLInputElement>;
@@ -27,7 +29,7 @@ interface Props {
 const StarRatingIcon: FunctionComponent<Props> = ({
   id,
   value,
-  filled,
+  fill,
   readOnly = false,
   ...props
 }) => {
@@ -40,7 +42,7 @@ const StarRatingIcon: FunctionComponent<Props> = ({
         aria-label={`${value} Star`}
         size="lg"
       >
-        {filled ? "star" : "star_border"}
+        {fill}
       </Icon>
     </Localized>
   );

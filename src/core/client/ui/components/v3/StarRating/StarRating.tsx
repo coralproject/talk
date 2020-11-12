@@ -4,6 +4,8 @@ import React, {
   FunctionComponent,
   MouseEvent,
   MouseEventHandler,
+  useCallback,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -16,6 +18,7 @@ import styles from "./StarRating.css";
 
 interface Props {
   rating: number;
+  precision?: number;
   name?: string;
   onRate?: (rating: number) => void;
 }
@@ -25,21 +28,22 @@ const STARS = [1, 2, 3, 4, 5];
 const StarRating: FunctionComponent<Props> = ({
   name,
   rating: currentRating,
+  precision = 0,
   onRate,
 }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const uuid = useUUID();
   const [hoverRating, setHoverRating] = useState(0);
 
-  const onBlur: FocusEventHandler = () => {
+  const onBlur: FocusEventHandler = useCallback(() => {
     setHoverRating(0);
-  };
+  }, []);
 
-  const onFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+  const onFocus: FocusEventHandler<HTMLInputElement> = useCallback((event) => {
     const value = parseInt(event.currentTarget.value, 10);
 
     setHoverRating(value);
-  };
+  }, []);
 
   const onMouseMove: MouseEventHandler = (event) => {
     if (!ref.current) {
@@ -58,50 +62,77 @@ const StarRating: FunctionComponent<Props> = ({
     setHoverRating(0);
   };
 
-  const onChange = (
-    event: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLInputElement>
-  ) => {
-    const target = event.target as HTMLInputElement;
-    const value = parseInt(target.value, 10);
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLInputElement>) => {
+      const target = event.target as HTMLInputElement;
+      const value = parseInt(target.value, 10);
 
-    if (onRate) {
-      onRate(value);
-    }
+      if (onRate) {
+        onRate(value);
+      }
 
-    setHoverRating(0);
-  };
+      setHoverRating(0);
+    },
+    [onRate]
+  );
 
   const readOnly = !name || !onRate;
-  const rating = hoverRating ? hoverRating : currentRating;
+
+  const rating = useMemo(() => {
+    if (!readOnly && hoverRating) {
+      return hoverRating;
+    }
+
+    if (!precision) {
+      return Math.floor(currentRating);
+    }
+
+    const rounder = Math.pow(10, precision);
+    return Math.floor(currentRating * rounder) / rounder;
+  }, [currentRating, hoverRating, precision, readOnly]);
+
+  const stars = useMemo(() => {
+    const props = {
+      readOnly,
+      name,
+      onFocus: !readOnly ? onFocus : undefined,
+      onBlur: !readOnly ? onBlur : undefined,
+      onChange: !readOnly ? onChange : undefined,
+      onClick: !readOnly ? onChange : undefined,
+    };
+
+    return STARS.map((star) => {
+      return (
+        <StarRatingIcon
+          id={`${uuid}-${star}`}
+          key={star}
+          checked={star === rating}
+          fill={
+            rating >= star
+              ? "star"
+              : rating + 0.5 === star
+              ? "star_half"
+              : "star_border"
+          }
+          value={star}
+          {...props}
+        />
+      );
+    });
+  }, [name, onBlur, onChange, onFocus, rating, readOnly, uuid]);
+
+  if (readOnly) {
+    return <span className={styles.root}>{stars}</span>;
+  }
 
   return (
     <span
       ref={ref}
       className={styles.root}
-      onMouseMove={!readOnly ? onMouseMove : undefined}
-      onMouseLeave={!readOnly ? onMouseLeave : undefined}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
     >
-      {STARS.map((value) => {
-        const checked = value === rating;
-        const filled = value <= rating;
-        const id = `${uuid}-${value}`;
-
-        return (
-          <StarRatingIcon
-            key={value}
-            id={id}
-            name={name}
-            readOnly={readOnly}
-            checked={checked}
-            filled={filled}
-            value={value}
-            onFocus={!readOnly ? onFocus : undefined}
-            onBlur={!readOnly ? onBlur : undefined}
-            onChange={!readOnly ? onChange : undefined}
-            onClick={!readOnly ? onChange : undefined}
-          />
-        );
-      })}
+      {stars}
     </span>
   );
 };

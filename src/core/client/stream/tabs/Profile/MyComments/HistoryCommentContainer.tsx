@@ -93,11 +93,15 @@ const enhanced = withSetCommentIDMutation(
             username
           }
         }
+        rating
         story {
           id
           url
           metadata {
             title
+          }
+          settings {
+            mode
           }
         }
         actionCounts {
