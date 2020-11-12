@@ -124,6 +124,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
                   disabled={false}
                   index={index}
                   onRemoveClicked={onRemoveChannel}
+                  form={form}
                 />
               ))
               // We're reversing here because we wanted the order of new items
