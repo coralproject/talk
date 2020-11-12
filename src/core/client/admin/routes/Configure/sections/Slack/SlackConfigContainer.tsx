@@ -122,23 +122,19 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
           <Localized id="configure-slack-addChannel">Add Channel</Localized>
         </Button>
         <FieldArray name="slack.channels">
-          {({ fields, meta }) =>
+          {({ fields }) =>
             fields.map((channel: any, index: number) => (
-              <>
-                <SlackChannel
-                  key={index}
-                  channel={channel}
-                  disabled={false}
-                  index={index}
-                  onRemoveClicked={onRemoveChannel}
-                  form={form}
-                  ref={
-                    fields.length && fields.length - 1 === index
-                      ? inputRef
-                      : null
-                  }
-                />
-              </>
+              <SlackChannel
+                key={index}
+                channel={channel}
+                disabled={false}
+                index={index}
+                onRemoveClicked={onRemoveChannel}
+                form={form}
+                ref={
+                  fields.length && fields.length - 1 === index ? inputRef : null
+                }
+              />
             ))
           }
         </FieldArray>
