@@ -164,8 +164,10 @@ const Bar: FunctionComponent<Props> = ({
                               <Icon size="md" className={styles.groupIcon}>
                                 search
                               </Icon>{" "}
-                              <Localized id="moderate-searchBar-searchResultsMostRecentFirst">
-                                <span>Search results (Most recent first)</span>
+                              <Localized id="moderate-searchBar-searchResultsMostRelevantFirst">
+                                <span>
+                                  Search results (Most relevant first)
+                                </span>
                               </Localized>
                             </>
                           }

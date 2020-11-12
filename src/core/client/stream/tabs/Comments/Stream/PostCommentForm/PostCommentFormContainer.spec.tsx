@@ -37,6 +37,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
             enabled: false,
           },
           mode: "COMMENTS",
+          experts: [],
         },
       },
       sessionStorage: createPromisifiedStorage(),

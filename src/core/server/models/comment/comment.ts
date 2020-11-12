@@ -676,16 +676,15 @@ export async function retrieveCommentConnection(
  * @param query the Query for the set of nodes that should have the connection
  *              configuration applied
  */
-async function retrieveConnection(
+const retrieveConnection = async (
   input: CommentConnectionInput,
   query: Query<Comment>
-): Promise<Readonly<Connection<Readonly<Comment>>>> {
-  // Apply some sorting options.
-  applyInputToQuery(input, query);
-
-  // Return a connection.
-  return resolveConnection(query, input, cursorGetterFactory(input));
-}
+): Promise<Readonly<Connection<Readonly<Comment>>>> =>
+  resolveConnection(
+    applyInputToQuery(input, query),
+    input,
+    cursorGetterFactory(input)
+  );
 
 function applyInputToQuery(
   input: CommentConnectionInput,
@@ -698,25 +697,25 @@ function applyInputToQuery(
       if (input.after) {
         query.where({ createdAt: { $lt: input.after as Date } });
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
         query.where({ createdAt: { $gt: input.after as Date } });
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.REPLIES_DESC:
       query.orderBy({ childCount: -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.REACTION_DESC:
       query.orderBy({ "actionCounts.REACTION": -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
-      break;
+      return query;
   }
 }
 
