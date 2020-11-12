@@ -170,14 +170,6 @@ export function mountClientRoutes(
     })
   );
   router.use(
-    "/embed/auth/callback",
-    createClientTargetRouter({
-      ...options,
-      cacheDuration: false,
-      entrypoint: entrypoints.get("authCallback"),
-    })
-  );
-  router.use(
     "/embed/auth",
     createClientTargetRouter({
       ...options,

@@ -1,5 +1,5 @@
-import Joi from "@hapi/joi";
 import { Redis } from "ioredis";
+import Joi from "joi";
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 

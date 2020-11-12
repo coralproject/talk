@@ -13,6 +13,7 @@ import { ShowModerationPopoverEvent } from "coral-stream/events";
 import { Dropdown } from "coral-ui/components/v2";
 
 import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
+import { ModerationDropdownContainer_settings } from "coral-stream/__generated__/ModerationDropdownContainer_settings.graphql";
 import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
 import { ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
 
@@ -25,6 +26,7 @@ interface Props {
   comment: ModerationDropdownContainer_comment;
   story: ModerationDropdownContainer_story;
   viewer: ModerationDropdownContainer_viewer;
+  settings: ModerationDropdownContainer_settings;
   onDismiss: () => void;
   scheduleUpdate: () => void;
 }
@@ -33,6 +35,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   comment,
   story,
   viewer,
+  settings,
   onDismiss,
   scheduleUpdate,
 }) => {
@@ -56,6 +59,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
             comment={comment}
             story={story}
             viewer={viewer}
+            settings={settings}
             onDismiss={onDismiss}
             onBan={onBan}
           />
@@ -95,6 +99,11 @@ const enhanced = withFragmentContainer<Props>({
       id
       ...ModerationActionsContainer_story
       ...UserBanPopoverContainer_story
+    }
+  `,
+  settings: graphql`
+    fragment ModerationDropdownContainer_settings on Settings {
+      ...ModerationActionsContainer_settings
     }
   `,
   viewer: graphql`

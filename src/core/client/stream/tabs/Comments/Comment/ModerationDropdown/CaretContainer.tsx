@@ -13,6 +13,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
+import { CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
 import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 
@@ -24,6 +25,7 @@ interface Props {
   comment: CaretContainer_comment;
   story: CaretContainer_story;
   viewer: CaretContainer_viewer;
+  settings: CaretContainer_settings;
 }
 
 const CaretContainer: FunctionComponent<Props> = (props) => {
@@ -43,6 +45,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
               comment={props.comment}
               story={props.story}
               viewer={props.viewer}
+              settings={props.settings}
               onDismiss={toggleVisibility}
               scheduleUpdate={scheduleUpdate}
             />
@@ -84,6 +87,11 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment CaretContainer_story on Story {
       ...ModerationDropdownContainer_story
+    }
+  `,
+  settings: graphql`
+    fragment CaretContainer_settings on Settings {
+      ...ModerationDropdownContainer_settings
     }
   `,
   viewer: graphql`

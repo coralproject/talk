@@ -1,16 +1,23 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { getModerationLink } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
+import { ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
+import { ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 
@@ -26,6 +33,7 @@ interface Props {
   comment: ModerationActionsContainer_comment;
   story: ModerationActionsContainer_story;
   viewer: ModerationActionsContainer_viewer;
+  settings: ModerationActionsContainer_settings;
   onDismiss: () => void;
   onBan: () => void;
 }
@@ -34,14 +42,45 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   comment,
   story,
   viewer,
+  settings,
   onDismiss,
   onBan,
 }) => {
+  const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
+    fragment ModerationActionsContainer_local on Local {
+      accessToken
+    }
+  `);
+
   const emitGotoModerationEvent = useViewerEvent(GotoModerationEvent);
   const approve = useMutation(ApproveCommentMutation);
   const feature = useMutation(FeatureCommentMutation);
   const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
+
+  const moderationLinkSuffix =
+    !!accessToken &&
+    settings.auth.integrations.sso.enabled &&
+    settings.auth.integrations.sso.targetFilter.admin &&
+    `#accessToken=${accessToken}`;
+
+  const gotoModerateStoryHref = useMemo(() => {
+    let link = getModerationLink({ storyID: story.id });
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
+    }
+
+    return link;
+  }, [story.id, moderationLinkSuffix]);
+
+  const gotoModerateCommentHref = useMemo(() => {
+    let link = getModerationLink({ commentID: comment.id });
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
+    }
+
+    return link;
+  }, [comment.id, moderationLinkSuffix]);
 
   const onGotoModerate = useCallback(() => {
     emitGotoModerationEvent({ commentID: comment.id });
@@ -230,7 +269,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             iconOpenInNew: styles.linkIcon,
             mouseHover: styles.mouseHover,
           }}
-          href={`/admin/moderate/comment/${comment.id}`}
+          href={gotoModerateCommentHref}
           target="_blank"
           onClick={onGotoModerate}
           anchor
@@ -246,7 +285,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             iconOpenInNew: styles.linkIcon,
             mouseHover: styles.mouseHover,
           }}
-          href={`/admin/moderate/reported/stories/${story.id}`}
+          href={gotoModerateStoryHref}
           target="_blank"
           onClick={onGotoModerate}
           anchor
@@ -271,6 +310,20 @@ const enhanced = withFragmentContainer<Props>({
       status
       tags {
         code
+      }
+    }
+  `,
+  settings: graphql`
+    fragment ModerationActionsContainer_settings on Settings {
+      auth {
+        integrations {
+          sso {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+        }
       }
     }
   `,
