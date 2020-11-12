@@ -8,6 +8,7 @@ import {
 } from "./types";
 
 export interface CommentEnteredInput extends SubscriptionPayload {
+  commentID: string;
   storyID: string;
   ancestorIDs?: string[];
 }

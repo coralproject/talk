@@ -13,6 +13,8 @@ exports[`renders correctly 1`] = `
       },
       "giphy": Object {
         "enabled": false,
+        "key": "",
+        "maxRating": "",
       },
       "twitter": Object {
         "enabled": false,
@@ -46,6 +48,8 @@ exports[`renders when commenting has been disabled 1`] = `
       },
       "giphy": Object {
         "enabled": false,
+        "key": "",
+        "maxRating": "",
       },
       "twitter": Object {
         "enabled": false,
@@ -79,6 +83,8 @@ exports[`renders when story has been closed 1`] = `
       },
       "giphy": Object {
         "enabled": false,
+        "key": "",
+        "maxRating": "",
       },
       "twitter": Object {
         "enabled": false,
@@ -117,6 +123,8 @@ exports[`renders with initialValues 1`] = `
       },
       "giphy": Object {
         "enabled": false,
+        "key": "",
+        "maxRating": "",
       },
       "twitter": Object {
         "enabled": false,

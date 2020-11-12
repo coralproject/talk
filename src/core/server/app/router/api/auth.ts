@@ -1,42 +1,26 @@
 import bytes from "bytes";
-import express from "express";
 
 import { AppOptions } from "coral-server/app";
 import {
+  facebookHandler,
   forgotCheckHandler,
   forgotHandler,
   forgotResetHandler,
+  googleHandler,
   linkHandler,
   logoutHandler,
+  oidcHandler,
   signupHandler,
 } from "coral-server/app/handlers";
-import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
-import {
-  authenticate,
-  wrapAuthn,
-  wrapOAuth2Authn,
-} from "coral-server/app/middleware/passport";
+import { authenticate, wrapAuthn } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
 import { createAPIRouter } from "./helpers";
 
 // REQUEST_MAX is the maximum request size for routes on this router.
 const REQUEST_MAX = bytes("100kb");
-
-function wrapPath(
-  app: AppOptions,
-  { passport }: Pick<RouterOptions, "passport">,
-  router: express.Router,
-  strategy: string,
-  path = `/${strategy}`
-) {
-  const handler = wrapOAuth2Authn(passport, app.signingConfig, strategy);
-
-  router.get(path, noCacheMiddleware, handler);
-  router.get(path + "/callback", noCacheMiddleware, handler);
-}
 
 export function createNewAuthRouter(
   app: AppOptions,
@@ -73,9 +57,20 @@ export function createNewAuthRouter(
   router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
-  wrapPath(app, { passport }, router, "facebook");
-  wrapPath(app, { passport }, router, "google");
-  wrapPath(app, { passport }, router, "oidc");
+  const facebook = facebookHandler(app);
+
+  router.get("/facebook", facebook);
+  router.get("/facebook/callback", facebook);
+
+  const google = googleHandler(app);
+
+  router.get("/google", google);
+  router.get("/google/callback", google);
+
+  const oidc = oidcHandler(app);
+
+  router.get("/oidc", oidc);
+  router.get("/oidc/callback", oidc);
 
   return router;
 }

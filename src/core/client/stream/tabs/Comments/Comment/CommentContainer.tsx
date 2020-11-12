@@ -468,6 +468,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                             comment={comment}
                             story={story}
                             viewer={viewer!}
+                            settings={settings}
                           />
                         )}
                       </Flex>
@@ -694,6 +695,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
               enabled
             }
             featureFlags
+            ...CaretContainer_settings
             ...ReportFlowContainer_settings
             ...ReactionButtonContainer_settings
             ...ReplyCommentFormContainer_settings
