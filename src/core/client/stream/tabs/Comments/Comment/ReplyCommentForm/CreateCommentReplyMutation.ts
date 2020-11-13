@@ -308,7 +308,7 @@ async function commit(
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: parentComment.tags,
+                  tags: parentComment.tags.map((tag) => ({ code: tag.code })),
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
