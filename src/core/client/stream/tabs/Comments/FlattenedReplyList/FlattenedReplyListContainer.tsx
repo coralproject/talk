@@ -9,6 +9,7 @@ import { FlattenedReplyListContainer_story } from "coral-stream/__generated__/Fl
 import { FlattenedReplyListContainer_viewer } from "coral-stream/__generated__/FlattenedReplyListContainer_viewer.graphql";
 import { FlattenedReplyListContainerPaginationQueryVariables } from "coral-stream/__generated__/FlattenedReplyListContainerPaginationQuery.graphql";
 
+import { CommentContainer } from "../Comment";
 import { isPublished } from "../helpers";
 
 type FragmentVariables = Omit<
@@ -23,19 +24,29 @@ interface Props {
   settings: FlattenedReplyListContainer_settings;
 }
 
-const FlattenedReplyListContainer: FunctionComponent<Props> = (props) => {
+const FlattenedReplyListContainer: FunctionComponent<Props> = ({
+  viewer,
+  story,
+  comment,
+  settings,
+}) => {
   const comments =
-    props.comment.lastViewerAction && !isPublished(props.comment.status)
+    comment.lastViewerAction && !isPublished(comment.status)
       ? []
-      : props.comment.replies.edges.map((edge) => edge.node);
+      : comment.replies.edges.map((edge) => edge.node);
 
   return (
     <>
       {comments.map((c) => (
-        <div key={c.id}>
-          <div>{c.id}</div>
-          <div>{c.body}</div>
-        </div>
+        <CommentContainer
+          key={comment.id}
+          viewer={viewer}
+          story={story}
+          comment={c}
+          settings={settings}
+          indentLevel={4}
+          localReply
+        />
       ))}
     </>
   );
@@ -49,12 +60,12 @@ const enhanced = withPaginationContainer<
   {
     viewer: graphql`
       fragment FlattenedReplyListContainer_viewer on User {
-        id
+        ...CommentContainer_viewer
       }
     `,
     story: graphql`
       fragment FlattenedReplyListContainer_story on Story {
-        id
+        ...CommentContainer_story
       }
     `,
     comment: graphql`
@@ -78,13 +89,13 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
-              body
+              ...CommentContainer_comment
             }
           }
           edges {
             node {
               id
-              body
+              ...CommentContainer_comment
             }
           }
         }
@@ -92,9 +103,7 @@ const enhanced = withPaginationContainer<
     `,
     settings: graphql`
       fragment FlattenedReplyListContainer_settings on Settings {
-        disableCommenting {
-          enabled
-        }
+        ...CommentContainer_settings
       }
     `,
   },

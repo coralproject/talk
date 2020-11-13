@@ -322,6 +322,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     .join(" ");
   const badgesClassName = badgesJoin ? badgesJoin : "";
 
+  const flattenLastReply = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
+  );
+
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
     return <RejectedTombstoneContainer comment={comment} />;
@@ -552,7 +556,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       )}
                   </ButtonsBar>
                 </Flex>
-                {showConversationLink && (
+                {showConversationLink && !flattenLastReply && (
                   <ShowConversationLink
                     className={CLASSES.comment.readMoreOfConversation}
                     id={`comments-commentContainer-showConversation-${comment.id}`}
