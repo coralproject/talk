@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withPaginationContainer } from "coral-framework/lib/relay";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { FlattenedReplyListContainer_comment } from "coral-stream/__generated__/FlattenedReplyListContainer_comment.graphql";
 import { FlattenedReplyListContainer_settings } from "coral-stream/__generated__/FlattenedReplyListContainer_settings.graphql";
@@ -10,6 +11,7 @@ import { FlattenedReplyListContainer_viewer } from "coral-stream/__generated__/F
 import { FlattenedReplyListContainerPaginationQueryVariables } from "coral-stream/__generated__/FlattenedReplyListContainerPaginationQuery.graphql";
 
 import { CommentContainer } from "../Comment";
+import CollapsableComment from "../Comment/CollapsableComment";
 import { isPublished } from "../helpers";
 
 type FragmentVariables = Omit<
@@ -38,15 +40,23 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
   return (
     <>
       {comments.map((c) => (
-        <CommentContainer
-          key={comment.id}
-          viewer={viewer}
-          story={story}
-          comment={c}
-          settings={settings}
-          indentLevel={4}
-          localReply
-        />
+        <HorizontalGutter key={c.id}>
+          <CollapsableComment>
+            {({ collapsed, toggleCollapsed }) => (
+              <CommentContainer
+                key={comment.id}
+                viewer={viewer}
+                story={story}
+                comment={c}
+                settings={settings}
+                indentLevel={4}
+                localReply
+                collapsed={collapsed}
+                toggleCollapsed={toggleCollapsed}
+              />
+            )}
+          </CollapsableComment>
+        </HorizontalGutter>
       ))}
     </>
   );
