@@ -99,11 +99,6 @@ const enhanced = withFragmentContainer<Props>({
       ...ModerationDropdownContainer_viewer
     }
   `,
-  settings: graphql`
-    fragment CaretContainer_settings on Settings {
-      ...ModerationDropdownContainer_settings
-    }
-  `,
 })(CaretContainer);
 
 export default enhanced;

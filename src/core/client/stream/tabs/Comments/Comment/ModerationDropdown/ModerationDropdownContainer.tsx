@@ -105,16 +105,12 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerationDropdownContainer_settings on Settings {
       ...ModerationActionsContainer_settings
+      ...UserBanPopoverContainer_settings
     }
   `,
   viewer: graphql`
     fragment ModerationDropdownContainer_viewer on User {
       ...ModerationActionsContainer_viewer
-    }
-  `,
-  settings: graphql`
-    fragment ModerationDropdownContainer_settings on Settings {
-      ...UserBanPopoverContainer_settings
     }
   `,
 })(ModerationDropdownContainer);
