@@ -20,6 +20,7 @@ import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDra
 import AccountHistoryAction, {
   HistoryActionProps,
 } from "./AccountHistoryAction";
+import { BanActionProps } from "./BanAction";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -216,6 +217,23 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     );
   }
 
+  const computeRowClass = (history: HistoryRecord, index: number) => {
+    if (index > 0 || (history.kind !== "ban" && history.kind !== "site-ban")) {
+      return styles.row;
+    }
+
+    const props = history.action as BanActionProps;
+    if (!props) {
+      return styles.row;
+    }
+
+    if (props.action === "created") {
+      return styles.rowBanned;
+    }
+
+    return styles.row;
+  };
+
   return (
     <HorizontalGutter size="double">
       <Table fullWidth>
@@ -229,7 +247,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
         </TableHead>
         <TableBody>
           {combinedHistory.map((history, index) => (
-            <TableRow key={index} className={styles.row}>
+            <TableRow key={index} className={computeRowClass(history, index)}>
               <TableCell className={styles.date}>
                 {formatter(history.date)}
               </TableCell>
