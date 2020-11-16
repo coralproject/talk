@@ -380,6 +380,7 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor,
+        tag: fragmentVariables.tag,
         orderBy: fragmentVariables.orderBy,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
@@ -394,10 +395,16 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $tag: TAG
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
-            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+            @arguments(
+              count: $count
+              cursor: $cursor
+              orderBy: $orderBy
+              tag: $tag
+            )
         }
       }
     `,

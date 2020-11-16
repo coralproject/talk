@@ -28,6 +28,7 @@ const StoryRatingContainer: FunctionComponent<Props> = ({ story }) => {
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment StoryRatingContainer_story on Story {
+      id
       metadata {
         title
       }

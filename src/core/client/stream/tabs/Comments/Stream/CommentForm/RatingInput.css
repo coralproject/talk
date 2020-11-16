@@ -1,0 +1,23 @@
+$border: 1px solid var(--palette-grey-300);
+
+.root {
+  border-top: $border;
+  border-left: $border;
+  border-right: $border;
+  border-radius: var(--round-corners);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-4);
+}
+
+.copy {
+  margin-bottom: var(--spacing-1);
+}
+
+.disabled {
+  background: var(--palette-background-input-disabled);
+  color: var(--palette-text-input-disabled);
+}

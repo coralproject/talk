@@ -213,7 +213,7 @@ async function commit(
                 lastViewerAction: null,
                 author: {
                   id: viewer.id,
-                  username: viewer.username,
+                  username: viewer.username || null,
                   createdAt: viewer.createdAt,
                   bio: viewer.bio,
                   badges: viewer.badges,

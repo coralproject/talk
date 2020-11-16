@@ -12,10 +12,6 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { ShowMoreOfConversationEvent } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
 import { CommentContainer } from "coral-stream/tabs/Comments/Comment";
 import IgnoredTombstoneOrHideContainer from "coral-stream/tabs/Comments/IgnoredTombstoneOrHideContainer";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
@@ -37,7 +33,6 @@ interface Props {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
-  setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
   relay: RelayPaginationProp;
 }
@@ -185,107 +180,105 @@ interface FragmentVariables {
 const enhanced = withContext((ctx) => ({
   pym: ctx.pym,
 }))(
-  withSetCommentIDMutation(
-    withPaginationContainer<
-      Props,
-      ConversationThreadContainerPaginationQueryVariables,
-      FragmentVariables
-    >(
-      {
-        story: graphql`
-          fragment ConversationThreadContainer_story on Story {
-            ...CommentContainer_story
-            ...LocalReplyListContainer_story
-            ...UserTagsContainer_story
-          }
-        `,
-        settings: graphql`
-          fragment ConversationThreadContainer_settings on Settings {
-            ...CommentContainer_settings
-            ...LocalReplyListContainer_settings
-            ...UserTagsContainer_settings
-          }
-        `,
-        comment: graphql`
-          fragment ConversationThreadContainer_comment on Comment
-            @argumentDefinitions(
-              count: { type: "Int!", defaultValue: 0 }
-              cursor: { type: "Cursor" }
-            ) {
+  withPaginationContainer<
+    Props,
+    ConversationThreadContainerPaginationQueryVariables,
+    FragmentVariables
+  >(
+    {
+      story: graphql`
+        fragment ConversationThreadContainer_story on Story {
+          ...CommentContainer_story
+          ...LocalReplyListContainer_story
+          ...UserTagsContainer_story
+        }
+      `,
+      settings: graphql`
+        fragment ConversationThreadContainer_settings on Settings {
+          ...CommentContainer_settings
+          ...LocalReplyListContainer_settings
+          ...UserTagsContainer_settings
+        }
+      `,
+      comment: graphql`
+        fragment ConversationThreadContainer_comment on Comment
+          @argumentDefinitions(
+            count: { type: "Int!", defaultValue: 0 }
+            cursor: { type: "Cursor" }
+          ) {
+          id
+          ...CommentContainer_comment
+          ...IgnoredTombstoneOrHideContainer_comment
+          rootParent {
             id
+            author {
+              id
+              username
+            }
+            createdAt
+            ...UserTagsContainer_comment
             ...CommentContainer_comment
             ...IgnoredTombstoneOrHideContainer_comment
-            rootParent {
-              id
-              author {
+          }
+          parentCount
+          parents(last: $count, before: $cursor)
+            @connection(key: "ConversationThread_parents") {
+            edges {
+              node {
                 id
-                username
-              }
-              createdAt
-              ...UserTagsContainer_comment
-              ...CommentContainer_comment
-              ...IgnoredTombstoneOrHideContainer_comment
-            }
-            parentCount
-            parents(last: $count, before: $cursor)
-              @connection(key: "ConversationThread_parents") {
-              edges {
-                node {
-                  id
-                  ...CommentContainer_comment
-                  ...LocalReplyListContainer_comment
-                  ...IgnoredTombstoneOrHideContainer_comment
-                }
+                ...CommentContainer_comment
+                ...LocalReplyListContainer_comment
+                ...IgnoredTombstoneOrHideContainer_comment
               }
             }
           }
-        `,
-        viewer: graphql`
-          fragment ConversationThreadContainer_viewer on User {
-            ...CommentContainer_viewer
-            ...LocalReplyListContainer_viewer
-            ...IgnoredTombstoneOrHideContainer_viewer
-          }
-        `,
+        }
+      `,
+      viewer: graphql`
+        fragment ConversationThreadContainer_viewer on User {
+          ...CommentContainer_viewer
+          ...LocalReplyListContainer_viewer
+          ...IgnoredTombstoneOrHideContainer_viewer
+        }
+      `,
+    },
+    {
+      direction: "backward",
+      getConnectionFromProps(props) {
+        return props.comment && props.comment.parents;
       },
-      {
-        direction: "backward",
-        getConnectionFromProps(props) {
-          return props.comment && props.comment.parents;
-        },
-        // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-        getFragmentVariables(prevVars, totalCount) {
-          return {
-            ...prevVars,
-            count: totalCount,
-          };
-        },
-        getVariables(props, { count, cursor }) {
-          return {
-            count,
-            cursor,
-            // commentID isn't specified as an @argument for the fragment, but it should be a
-            // variable available for the fragment under the query root.
-            commentID: props.comment.id,
-          };
-        },
-        query: graphql`
-          # Pagination query to be fetched upon calling 'loadMore'.
-          # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-          query ConversationThreadContainerPaginationQuery(
-            $count: Int!
-            $cursor: Cursor
-            $commentID: ID!
-          ) {
-            comment(id: $commentID) {
-              ...ConversationThreadContainer_comment
-                @arguments(count: $count, cursor: $cursor)
-            }
+      // This is also the default implementation of `getFragmentVariables` if it isn't provided.
+      getFragmentVariables(prevVars, totalCount) {
+        return {
+          ...prevVars,
+          count: totalCount,
+        };
+      },
+      getVariables(props, { count, cursor }) {
+        return {
+          count,
+          cursor,
+          // commentID isn't specified as an @argument for the fragment, but it should be a
+          // variable available for the fragment under the query root.
+          commentID: props.comment.id,
+        };
+      },
+      query: graphql`
+        # Pagination query to be fetched upon calling 'loadMore'.
+        # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+        query ConversationThreadContainerPaginationQuery(
+          $count: Int!
+          $cursor: Cursor
+          $commentID: ID!
+        ) {
+          comment(id: $commentID) {
+            ...ConversationThreadContainer_comment
+              @arguments(count: $count, cursor: $cursor)
           }
-        `,
-      }
-    )(ConversationThreadContainer)
-  )
+        }
+      `,
+    }
+  )(ConversationThreadContainer)
 );
 
 export default enhanced;

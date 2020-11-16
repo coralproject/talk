@@ -20,6 +20,7 @@ interface Props {
   fill: Fill;
   name?: string;
   readOnly?: boolean;
+  size?: "xl" | "lg";
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -31,6 +32,7 @@ const StarRatingIcon: FunctionComponent<Props> = ({
   value,
   fill,
   readOnly = false,
+  size = "lg",
   ...props
 }) => {
   const container = (
@@ -40,7 +42,7 @@ const StarRatingIcon: FunctionComponent<Props> = ({
         className={cn(styles.icons, !readOnly && styles.interactive)}
         tabIndex={value}
         aria-label={`${value} Star`}
-        size="lg"
+        size={size}
       >
         {fill}
       </Icon>

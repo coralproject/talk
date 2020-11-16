@@ -2,7 +2,6 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -17,17 +16,15 @@ let clientMutationId = 0;
 
 const DeleteModeratorNoteMutation = createMutation(
   "deleteModeratorNote",
-  (
-    environment: Environment,
-    input: MutationInput<MutationTypes>,
-    { uuidGenerator }: CoralContext
-  ) => {
+  (environment: Environment, input: MutationInput<MutationTypes>) => {
     const notes =
       lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map((note) => {
-        const createdBy = pick(note.createdBy, ["username", "id"]);
         return {
           ...pick(note, ["id", "body", "createdAt"]),
-          createdBy,
+          createdBy: {
+            id: note.createdBy.id,
+            username: note.createdBy.username || null,
+          },
         };
       }) || [];
     return commitMutationPromiseNormalized<MutationTypes>(environment, {

@@ -32,6 +32,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         site: {
           id: "site-id",
         },
+        viewerRating: null,
         settings: {
           messageBox: {
             enabled: false,

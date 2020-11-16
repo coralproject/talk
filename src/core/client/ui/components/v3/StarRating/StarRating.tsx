@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, {
   ChangeEvent,
   FocusEventHandler,
@@ -17,19 +18,23 @@ import StarRatingIcon from "./StarRatingIcon";
 import styles from "./StarRating.css";
 
 interface Props {
+  className?: string;
   rating: number;
   precision?: number;
   name?: string;
   onRate?: (rating: number) => void;
+  size?: "lg" | "xl";
 }
 
 const STARS = [1, 2, 3, 4, 5];
 
 const StarRating: FunctionComponent<Props> = ({
   name,
+  className,
   rating: currentRating,
   precision = 0,
   onRate,
+  size = "lg",
 }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const uuid = useUUID();
@@ -107,6 +112,7 @@ const StarRating: FunctionComponent<Props> = ({
           id={`${uuid}-${star}`}
           key={star}
           checked={star === rating}
+          size={size}
           fill={
             rating >= star
               ? "star"
@@ -119,16 +125,16 @@ const StarRating: FunctionComponent<Props> = ({
         />
       );
     });
-  }, [name, onBlur, onChange, onFocus, rating, readOnly, uuid]);
+  }, [name, onBlur, onChange, onFocus, rating, readOnly, size, uuid]);
 
   if (readOnly) {
-    return <span className={styles.root}>{stars}</span>;
+    return <span className={cn(styles.root, className)}>{stars}</span>;
   }
 
   return (
     <span
       ref={ref}
-      className={styles.root}
+      className={cn(styles.root, className)}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >

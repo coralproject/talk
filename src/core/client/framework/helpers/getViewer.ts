@@ -5,10 +5,12 @@ import { GQLUser } from "coral-framework/schema";
 
 import getViewerSourceID from "./getViewerSourceID";
 
-export default function getViewer(environment: Environment) {
+export default function getViewer<Viewer extends {} = GQLUser>(
+  environment: Environment
+) {
   const viewerID = getViewerSourceID(environment);
   if (!viewerID) {
     return null;
   }
-  return lookup<GQLUser>(environment, viewerID)!;
+  return lookup<Viewer>(environment, viewerID)!;
 }
