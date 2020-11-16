@@ -96,16 +96,46 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    const isBanned = user.status.ban.active;
+    const isSiteBanned = !!(
+      user.status.ban.sites && user.status.ban.sites.length > 0
+    );
+    let bannedSiteRecord: HistoryRecord | null = null;
+
     // Merge in all the ban status history items.
-    user.status.ban.history.forEach((record) => {
-      history.push({
-        kind: "ban",
-        action: {
-          action: record.active ? "created" : "removed",
-        },
-        date: new Date(record.createdAt),
-        takenBy: record.createdBy ? record.createdBy.username : system,
-      });
+    user.status.ban.history.forEach((record, index) => {
+      const siteBan = record.sites && record.sites.length > 0;
+
+      if (
+        (isBanned || isSiteBanned) &&
+        index === user.status.ban.history.length - 1
+      ) {
+        bannedSiteRecord = {
+          kind: siteBan ? "site-ban" : "ban",
+          action: {
+            action: record.active ? "created" : "removed",
+          },
+          date: new Date(record.createdAt),
+          takenBy: record.createdBy ? record.createdBy.username : system,
+          description:
+            isSiteBanned && !!user.status.ban.sites
+              ? user.status.ban.sites.map((s) => s.name).join(", ")
+              : "",
+        };
+      } else {
+        history.push({
+          kind: siteBan ? "site-ban" : "ban",
+          action: {
+            action: record.active ? "created" : "removed",
+          },
+          date: new Date(record.createdAt),
+          takenBy: record.createdBy ? record.createdBy.username : system,
+          description:
+            siteBan && record.sites
+              ? record.sites.map((s) => s.name).join(", ")
+              : "",
+        });
+      }
     });
 
     // Merge in all the premod history items.
@@ -160,8 +190,16 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     });
 
     // Sort the history so that it's in the right order.
-    return history.sort((a, b) => b.date.getTime() - a.date.getTime());
-  }, [user]);
+    const dateSortedHistory = history.sort(
+      (a, b) => b.date.getTime() - a.date.getTime()
+    );
+
+    if ((isBanned || isSiteBanned) && bannedSiteRecord !== null) {
+      dateSortedHistory.unshift(bannedSiteRecord);
+    }
+
+    return dateSortedHistory;
+  }, [system, user.status]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
@@ -241,6 +279,14 @@ const enhanced = withFragmentContainer<any>({
               username
             }
             createdAt
+            sites {
+              name
+            }
+          }
+          active
+          sites {
+            id
+            name
           }
         }
         premod {

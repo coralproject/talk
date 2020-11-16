@@ -15,5 +15,8 @@ export const BanStatusHistory: Required<GQLBanStatusHistoryTypeResolver<
   },
   createdAt: ({ createdAt }) => createdAt,
   message: ({ message }) => message,
-  siteIDs: ({ siteIDs }) => (siteIDs ? siteIDs : []),
+  sites: ({ siteIDs }, input, ctx) =>
+    siteIDs && siteIDs.length > 0
+      ? ctx.loaders.Sites.site.loadMany(siteIDs)
+      : [],
 };

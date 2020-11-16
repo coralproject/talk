@@ -2109,9 +2109,9 @@ type BanStatusHistory {
   message: String!
 
   """
-  siteIDs are set when the ban was created to perform a site specific ban.
+  sites are set when the ban was created to perform a site specific ban.
   """
-  siteIDs: [ID!]
+  sites: [Site!]
 }
 
 """
