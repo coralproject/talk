@@ -45,12 +45,12 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
             {({ collapsed, toggleCollapsed }) => (
               <CommentContainer
                 key={comment.id}
+                ancestorID={comment.id}
                 viewer={viewer}
                 story={story}
                 comment={c}
                 settings={settings}
                 indentLevel={4}
-                localReply
                 collapsed={collapsed}
                 toggleCollapsed={toggleCollapsed}
               />

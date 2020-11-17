@@ -96,6 +96,8 @@ interface Props {
   onRemoveAnswered?: () => void;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
+
+  ancestorID?: string;
 }
 
 export const CommentContainer: FunctionComponent<Props> = ({
@@ -118,6 +120,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   setCommentID,
   viewer,
   showAuthPopup,
+  ancestorID,
 }) => {
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -583,6 +586,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             story={story}
             onClose={toggleShowReplyDialog}
             localReply={localReply}
+            ancestorID={ancestorID}
           />
         )}
         {showRemoveAnswered && (

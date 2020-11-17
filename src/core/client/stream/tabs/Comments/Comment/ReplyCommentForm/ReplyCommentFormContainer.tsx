@@ -50,6 +50,7 @@ interface Props {
   localReply?: boolean;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
   refreshViewer: FetchProp<typeof RefreshViewerFetch>;
+  ancestorID?: string;
 }
 
 interface State {
@@ -115,6 +116,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         await this.props.createCommentReply({
           storyID: this.props.story.id,
           parentID: this.props.comment.id,
+          ancestorID: this.props.ancestorID,
           // Assuming comment revision exists otherwise we would
           // not be seeing the reply form options as we we tombstone
           // deleted comments without revision history

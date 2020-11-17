@@ -16,7 +16,12 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLComment,
+  GQLCOMMENT_SORT_RL,
+  GQLStory,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
@@ -30,6 +35,8 @@ import {
 export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
   local?: boolean;
   flattenLastReply?: boolean;
+  ancestorID?: string;
+  sortOrder?: string;
 };
 
 function sharedUpdater(
@@ -50,6 +57,7 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+
   if (input.local) {
     addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
@@ -65,10 +73,37 @@ function addCommentReplyToStory(
   input: CreateCommentReplyInput,
   commentEdge: RecordProxy
 ) {
+  if (input.ancestorID) {
+    addCommentEdgeToParent(
+      store,
+      "FlattenedReplyListContainer_replies",
+      input.ancestorID,
+      commentEdge,
+      { flatten: true, orderBy: "CREATED_AT_ASC" }
+    );
+  } else {
+    addCommentEdgeToParent(
+      store,
+      "ReplyList_replies",
+      input.parentID,
+      commentEdge,
+      { orderBy: "CREATED_AT_ASC" }
+    );
+  }
+}
+
+function addCommentEdgeToParent(
+  store: RecordSourceSelectorProxy,
+  connectionKey: string,
+  parentID: string,
+  commentEdge: RecordProxy,
+  filters: {
+    flatten?: boolean;
+    orderBy: GQLCOMMENT_SORT_RL;
+  }
+) {
   // Get parent proxy.
-  const parentProxy = store.get(input.parentID);
-  const connectionKey = "ReplyList_replies";
-  const filters = { orderBy: "CREATED_AT_ASC" };
+  const parentProxy = store.get(parentID);
 
   if (parentProxy) {
     const con = ConnectionHandler.getConnection(
@@ -76,6 +111,7 @@ function addCommentReplyToStory(
       connectionKey,
       filters
     );
+
     if (con) {
       ConnectionHandler.insertEdgeAfter(con, commentEdge);
     }
