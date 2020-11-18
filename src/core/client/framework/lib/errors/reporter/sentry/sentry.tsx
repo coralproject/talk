@@ -1,4 +1,4 @@
-import { RewriteFrames, Transaction } from "@sentry/integrations";
+import { RewriteFrames, Transaction, Dedupe } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import React, { FunctionComponent } from "react";
 
@@ -40,12 +40,21 @@ export class SentryErrorReporter implements ErrorReporter {
       offlineDebug?: boolean;
     } = {}
   ) {
+    // Whitelist current origin.
+    const whitelistUrls = [getOrigin(window.location.toString())];
+
+    // Also add STATIC_URI if it's being used (e.g. cdn)
+    if (__webpack_public_path__ !== "/") {
+      whitelistUrls.push(__webpack_public_path__);
+    }
+
     // Initialize sentry.
     Sentry.init({
       dsn,
       release: `coral@${process.env.TALK_VERSION}`,
       debug: Boolean(options.offlineDebug),
       transport: options.offlineDebug ? FakeDebugTransport : undefined,
+      whitelistUrls,
       beforeSend: (event) => {
         // Drop all events if query string includes `fbclid` string
         // See: https://github.com/getsentry/sentry-javascript/issues/1811.
@@ -65,6 +74,7 @@ export class SentryErrorReporter implements ErrorReporter {
             return frame;
           },
         }),
+        new Dedupe(),
         new Transaction(),
       ],
     });
