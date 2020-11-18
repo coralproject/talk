@@ -65,6 +65,7 @@
     "@fluent/dom": "^0.6.0",
     "@metascraper/helpers": "^5.11.6",
     "@rudderstack/rudder-sdk-node": "0.0.2",
+    "@sentry/integrations": "^5.27.4",
     "@sentry/node": "^5.27.3",
     "abort-controller": "^3.0.0",
     "akismet-api": "^5.0.0",

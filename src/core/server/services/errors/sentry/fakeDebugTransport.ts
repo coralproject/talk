@@ -12,7 +12,11 @@ import logger from "coral-server/logger";
  */
 export class FakeDebugTransport implements Transport {
   public sendEvent(event: SentryEvent): PromiseLike<SentryResponse> {
-    logger.debug({ reporter: "sentry" }, "sentry event", event);
+    logger.debug(
+      { reporter: "sentry" },
+      "sentry event",
+      JSON.stringify(event, null, 2)
+    );
     return Promise.resolve({
       status: Status.Success,
     });

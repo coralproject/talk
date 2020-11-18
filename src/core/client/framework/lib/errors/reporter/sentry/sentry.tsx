@@ -1,8 +1,34 @@
+import { RewriteFrames, Transaction } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import React, { FunctionComponent } from "react";
 
+import { ensureNoStartSlash, getOrigin } from "coral-common/utils";
 import { ErrorReport, ErrorReporter, User } from "../reporter";
 import { FakeDebugTransport } from "./fakeDebugTransport";
+
+declare const __webpack_public_path__: string;
+
+/**
+ * getAppFilename transforms a filename like http://localhost:8080/assets/js/embed.js to
+ * app:///assets/js/embed.js for sentry.
+ */
+export function getAppFilename(
+  filename: string,
+  location = window.location.toString(),
+  publicPath = __webpack_public_path__
+): string {
+  if (publicPath === "/") {
+    const origin = getOrigin(location);
+    if (filename.includes(origin)) {
+      const pathname = new URL(filename).pathname;
+      return `app:///static/${ensureNoStartSlash(pathname)}`;
+    }
+  } else if (filename.startsWith(publicPath)) {
+    const remaining = filename.substr(publicPath.length);
+    return `app:///static/${ensureNoStartSlash(remaining)}`;
+  }
+  return filename;
+}
 
 export class SentryErrorReporter implements ErrorReporter {
   public readonly ErrorBoundary?: FunctionComponent;
@@ -29,6 +55,18 @@ export class SentryErrorReporter implements ErrorReporter {
         // Otherwise just let it through
         return event;
       },
+      integrations: [
+        ...Sentry.defaultIntegrations,
+        new RewriteFrames({
+          iteratee: (frame) => {
+            if (frame.filename) {
+              frame.filename = getAppFilename(frame.filename);
+            }
+            return frame;
+          },
+        }),
+        new Transaction(),
+      ],
     });
     Sentry.setTag("domain", window.location.host);
 

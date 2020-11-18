@@ -1,3 +1,3 @@
-export default function ensureEndSlash(p: string) {
+export default function ensureNoEndSlash(p: string) {
   return p.replace(/\/$/, "");
 }

@@ -1,6 +1,8 @@
 export { default as animationFrame } from "./animationFrame";
 export { default as createTimeoutAt } from "./createTimeoutAt";
 export { default as ensureEndSlash } from "./ensureEndSlash";
+export { default as ensureStartSlash } from "./ensureStartSlash";
+export { default as ensureNoStartSlash } from "./ensureNoStartSlash";
 export { default as ensureNoEndSlash } from "./ensureNoEndSlash";
 export { default as getOrigin } from "./getOrigin";
 export { default as isBeforeDate } from "./isBeforeDate";

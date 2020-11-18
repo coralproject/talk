@@ -1,6 +1,9 @@
+import { RewriteFrames, Transaction } from "@sentry/integrations";
 import * as Sentry from "@sentry/node";
+import path from "path";
 
 import { version } from "coral-common/version";
+import { CoralError } from "coral-server/errors";
 import logger from "coral-server/logger";
 
 import { ErrorReport, ErrorReporter, ErrorReporterScope } from "../reporter";
@@ -9,6 +12,15 @@ import { FakeDebugTransport } from "./fakeDebugTransport";
 interface Context {
   user?: Sentry.User;
   tags: Record<string, string>;
+}
+
+// Return underlying cause of error if any otherwise return the error itself.
+function getErrorToReport(err: Error): Error {
+  const ret = (err instanceof CoralError && err.cause()) || err;
+  if (ret !== err) {
+    return getErrorToReport(ret);
+  }
+  return err;
 }
 
 export class SentryErrorReporter extends ErrorReporter {
@@ -33,6 +45,13 @@ export class SentryErrorReporter extends ErrorReporter {
       release: `coral@${version}`,
       debug: Boolean(options.offlineDebug),
       transport: options.offlineDebug ? FakeDebugTransport : undefined,
+      integrations: [
+        ...Sentry.defaultIntegrations,
+        new RewriteFrames({
+          root: path.join(process.cwd(), "src"),
+        }),
+        new Transaction(),
+      ],
     });
   }
 
@@ -66,8 +85,11 @@ export class SentryErrorReporter extends ErrorReporter {
       context.tags.domain = scope.tenantDomain;
     }
 
+    // Get the original cause of the error in case that it is wrapped.
+    const errorToReport = getErrorToReport(err);
+
     // Capture and report the error to Sentry.
-    const id = Sentry.captureException(err, context);
+    const id = Sentry.captureException(errorToReport, context);
 
     // Return the error report.
     return { name: "sentry", id };
