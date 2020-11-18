@@ -58,7 +58,7 @@ function sharedUpdater(
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
 
-  if (input.local) {
+  if (input.local && !input.ancestorID) {
     addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
     addCommentReplyToStory(store, input, commentEdge);

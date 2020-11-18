@@ -9,6 +9,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAllRepliesEvent } from "coral-stream/events";
 
@@ -123,6 +124,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       onViewNew={onViewNew}
       onRemoveAnswered={props.onRemoveAnswered}
       singleConversationView={props.singleConversationView}
+      flattenLastReply={props.settings.featureFlags.includes(
+        GQLFEATURE_FLAG.FLATTEN_REPLIES
+      )}
     />
   );
 };
@@ -200,7 +204,7 @@ const ReplyListContainer3 = createReplyListContainer(
         disableCommenting {
           enabled
         }
-
+        featureFlags
         ...LastReplyListContainer_settings
         ...CommentContainer_settings
       }
@@ -292,6 +296,7 @@ const ReplyListContainer2 = createReplyListContainer(
         disableCommenting {
           enabled
         }
+        featureFlags
         ...ReplyListContainer3_settings
         ...CommentContainer_settings
       }
@@ -380,6 +385,7 @@ const ReplyListContainer1 = createReplyListContainer(
         disableCommenting {
           enabled
         }
+        featureFlags
         ...ReplyListContainer2_settings
         ...CommentContainer_settings
       }

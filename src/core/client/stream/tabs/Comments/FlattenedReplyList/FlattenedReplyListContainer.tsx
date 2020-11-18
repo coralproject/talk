@@ -45,11 +45,6 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
   const [showAll, isLoadingShowAll] = useLoadMore(relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
 
-  const comments =
-    comment.lastViewerAction && !isPublished(comment.status)
-      ? []
-      : comment.replies.edges.map((edge) => edge.node);
-
   const onShowAll = useCallback(async () => {
     const showAllEvent = beginShowAllEvent({ commentID: comment.id });
     try {
@@ -61,6 +56,19 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
       console.error(error);
     }
   }, [beginShowAllEvent, comment.id, showAll]);
+
+  const viewNewCount = 0;
+  if (
+    comment.replies === null ||
+    (comment.replies.edges.length === 0 && viewNewCount === 0)
+  ) {
+    return null;
+  }
+
+  const comments =
+    comment.lastViewerAction && !isPublished(comment.status)
+      ? []
+      : comment.replies?.edges.map((edge) => edge.node);
 
   return (
     <>

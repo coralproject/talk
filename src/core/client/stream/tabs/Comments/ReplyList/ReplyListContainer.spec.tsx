@@ -41,6 +41,7 @@ it("renders correctly", () => {
       disableCommenting: {
         enabled: false,
       },
+      featureFlags: [],
     },
     relay: {
       hasMore: noop,
@@ -83,6 +84,7 @@ it("renders correctly when replies are empty", () => {
       disableCommenting: {
         enabled: false,
       },
+      featureFlags: [],
     },
     indentLevel: 1,
     ReplyListComponent: undefined,
@@ -122,6 +124,7 @@ describe("when has more replies", () => {
       disableCommenting: {
         enabled: false,
       },
+      featureFlags: [],
     },
     relay: {
       hasMore: () => true,

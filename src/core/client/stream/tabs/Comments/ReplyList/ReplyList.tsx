@@ -42,6 +42,7 @@ export interface ReplyListProps {
   onViewNew?: () => void;
   onRemoveAnswered?: () => void;
   singleConversationView?: boolean;
+  flattenLastReply?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
@@ -79,6 +80,11 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
                       showConversationLink={!!comment.showConversationLink}
                       onRemoveAnswered={props.onRemoveAnswered}
                       toggleCollapsed={toggleCollapsed}
+                      ancestorID={
+                        props.flattenLastReply && props.indentLevel === 3
+                          ? comment.id
+                          : undefined
+                      }
                     />
                     <div
                       className={cn({
