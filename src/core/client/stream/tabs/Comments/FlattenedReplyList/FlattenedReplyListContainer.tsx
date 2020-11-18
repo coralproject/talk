@@ -1,8 +1,15 @@
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent, useCallback } from "react";
+import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withPaginationContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import {
+  useLoadMore,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
+import { ShowAllRepliesEvent } from "coral-stream/events";
+import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { FlattenedReplyListContainer_comment } from "coral-stream/__generated__/FlattenedReplyListContainer_comment.graphql";
 import { FlattenedReplyListContainer_settings } from "coral-stream/__generated__/FlattenedReplyListContainer_settings.graphql";
@@ -13,6 +20,7 @@ import { FlattenedReplyListContainerPaginationQueryVariables } from "coral-strea
 import { CommentContainer } from "../Comment";
 import CollapsableComment from "../Comment/CollapsableComment";
 import { isPublished } from "../helpers";
+import Indent from "../Indent";
 
 type FragmentVariables = Omit<
   FlattenedReplyListContainerPaginationQueryVariables,
@@ -24,6 +32,7 @@ interface Props {
   story: FlattenedReplyListContainer_story;
   comment: FlattenedReplyListContainer_comment;
   settings: FlattenedReplyListContainer_settings;
+  relay: RelayPaginationProp;
 }
 
 const FlattenedReplyListContainer: FunctionComponent<Props> = ({
@@ -31,11 +40,27 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
   story,
   comment,
   settings,
+  relay,
 }) => {
+  const [showAll, isLoadingShowAll] = useLoadMore(relay, 999999999);
+  const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
+
   const comments =
     comment.lastViewerAction && !isPublished(comment.status)
       ? []
       : comment.replies.edges.map((edge) => edge.node);
+
+  const onShowAll = useCallback(async () => {
+    const showAllEvent = beginShowAllEvent({ commentID: comment.id });
+    try {
+      await showAll();
+      showAllEvent.success();
+    } catch (error) {
+      showAllEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [beginShowAllEvent, comment.id, showAll]);
 
   return (
     <>
@@ -58,6 +83,27 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
           </CollapsableComment>
         </HorizontalGutter>
       ))}
+      {relay.hasMore() && (
+        <Indent level={4} noBorder>
+          <Localized id="comments-replyList-showAll">
+            <Button
+              id={`coral-comments-replyList-showAll--${comment.id}`}
+              aria-controls={`coral-comments-replyList-log--${comment.id}`}
+              className={CLASSES.replyList.showAllButton}
+              onClick={onShowAll}
+              disabled={isLoadingShowAll}
+              variant="outlined"
+              color="mono"
+              fullWidth
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Show All Replies
+            </Button>
+          </Localized>
+        </Indent>
+      )}
     </>
   );
 };
