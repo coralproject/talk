@@ -26,7 +26,7 @@ export class SentryErrorReporter implements ErrorReporter {
         if (location.search.indexOf("fbclid") !== -1) {
           return null;
         }
-        // Otherwise just let it though
+        // Otherwise just let it through
         return event;
       },
     });
