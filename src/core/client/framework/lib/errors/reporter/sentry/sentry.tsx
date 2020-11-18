@@ -20,6 +20,15 @@ export class SentryErrorReporter implements ErrorReporter {
       release: `coral@${process.env.TALK_VERSION}`,
       debug: Boolean(options.offlineDebug),
       transport: options.offlineDebug ? FakeDebugTransport : undefined,
+      beforeSend: (event) => {
+        // Drop all events if query string includes `fbclid` string
+        // See: https://github.com/getsentry/sentry-javascript/issues/1811.
+        if (location.search.indexOf("fbclid") !== -1) {
+          return null;
+        }
+        // Otherwise just let it though
+        return event;
+      },
     });
     Sentry.setTag("domain", window.location.host);
 
