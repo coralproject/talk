@@ -9,3 +9,4 @@ export { default as useResizeObserver } from "./useResizeObserver";
 export { default as useToggleState } from "./useToggleState";
 export { default as useLive } from "./useLive";
 export { default as useVisibilityState } from "./useVisibilityState";
+export { default as usePersistedState } from "./usePersistedState";

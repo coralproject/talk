@@ -78,12 +78,12 @@ const translations: Record<Mode, Translations> = {
 interface Props {
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
-  initialValues?: any;
+  initialValues?: FormProps;
   max: number | null;
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
   min: number | null;
   mode?: Mode;
-  onChange?: (state: FormState<any>, form: FormApi) => void;
+  onChange?: (state: FormState<FormProps>, form: FormApi) => void;
   onSubmit: OnSubmit<FormSubmitProps>;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   showMessageBox?: boolean;

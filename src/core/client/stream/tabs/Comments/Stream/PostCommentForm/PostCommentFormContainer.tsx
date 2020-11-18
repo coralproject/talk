@@ -4,7 +4,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { usePersistedState } from "coral-framework/hooks";
 import {
   InvalidRequestError,
   ModerationNudgeError,
@@ -58,15 +58,6 @@ interface Props {
   commentsOrderBy?: COMMENT_SORT;
 }
 
-const contextKey = "postCommentFormBody";
-
-/**
- * A temporary variable to save draft when user is not logged in.
- * This will be restored after the stream has refreshed.
- */
-let preserveNotLoggedInDraft = "";
-let preserveNotLoggedInRatingsTab: Toggle | undefined;
-
 export const PostCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
@@ -75,7 +66,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   onChangeTab,
   commentsOrderBy,
 }) => {
-  const { sessionStorage } = useCoralContext();
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
   const createComment = useMutation(CreateCommentMutation);
@@ -84,12 +74,19 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   // nudge will turn on the nudging behavior on the server
   const [nudge, setNudge] = useState(true);
-  const [initialValues, setInitialValues] = useState<FormProps>();
-  const [draft, setDraft] = useState(preserveNotLoggedInDraft);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
-  const [toggle, setToggle] = useState<Toggle | undefined>(
-    preserveNotLoggedInRatingsTab
+
+  const [draft = "", setDraft, initialDraft] = usePersistedState<string>(
+    "PostCommentFormContainer:draft"
   );
+  const [toggle, setToggle] = usePersistedState<Toggle>(
+    "PostCommentFormContainer:toggle"
+  );
+
+  const [initialValues, setInitialValues] = useState<FormProps>();
+  useEffect(() => {
+    setInitialValues({ body: initialDraft || "" });
+  }, [initialDraft]);
 
   const initialized = !!initialValues;
 
@@ -101,27 +98,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-
-  useEffect(() => {
-    const init = async () => {
-      const body = await sessionStorage.getItem(contextKey);
-      if (body) {
-        return setInitialValues({ body });
-      }
-
-      return setInitialValues({ body: draft });
-    };
-
-    preserveNotLoggedInDraft = "";
-
-    void init();
-
-    return () => {
-      // Keep comment draft around. User might just have signed in and caused a
-      // reload.
-      preserveNotLoggedInDraft = draft;
-    };
-  }, [draft, sessionStorage]);
 
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
@@ -156,11 +132,12 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       }
 
       if (status !== "RETRY") {
-        if (input.rating) {
-          setToggle(undefined);
-        }
+        // We've submitted the comment, and it returned with a non-retry status,
+        // so clear out the persisted values and reset the form.
+        setToggle(undefined);
+        setDraft(undefined);
 
-        setDraft("");
+        setInitialValues({ body: "" });
         form
           .getRegisteredFields()
           .forEach((name) => form.resetFieldState(name));
@@ -207,11 +184,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       setSubmitStatus(null);
     }
 
-    if (state.values.body) {
-      void sessionStorage.setItem(contextKey, state.values.body);
-    } else {
-      void sessionStorage.removeItem(contextKey);
-    }
+    setDraft(state.values.body === RTE_RESET_VALUE ? "" : state.values.body);
 
     // Reset errors whenever user clears the form.
     if (
@@ -229,8 +202,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   const onToggle = (t: Toggle) => {
     if (!viewer) {
-      // Preserve the current tab we're switching to and trigger the sign in.
-      preserveNotLoggedInRatingsTab = t;
       handleSignIn();
       return;
     }
