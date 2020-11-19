@@ -330,3 +330,234 @@ it("handle story closed", async () => {
     expect(within(form).getByText("Submit").props.disabled).toBe(true);
   });
 });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders correctly", async () => {
+//   const props = createDefaultProps();
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => {
+//       expect(wrapper).toMatchSnapshot();
+//     });
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders with initialValues", async () => {
+//   const props = createDefaultProps();
+//   await act(async () => {
+//     await props.sessionStorage.setItem(contextKey, "Hello World!");
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => {
+//       expect(wrapper).toMatchSnapshot();
+//     });
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("save values", async () => {
+//   const props = createDefaultProps();
+
+//   await props.sessionStorage.setItem(contextKey, "Hello World!");
+
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+//   act(() => {
+//     wrapper
+//       .first()
+//       .props()
+//       .onChange({ values: { body: "changed" } });
+//   });
+
+//   await act(async () => {
+//     await wait(async () =>
+//       expect(await props.sessionStorage.getItem(contextKey)).toBe("changed")
+//     );
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("creates a comment", async () => {
+//   const storyID = "story-id";
+//   const input = { body: "Hello World!" };
+//   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
+//   const form = createForm({ onSubmit: noop });
+
+//   const props = createDefaultProps({
+//     createComment: createCommentStub,
+//     story: {
+//       id: storyID,
+//       isClosed: false,
+//     },
+//     commentsOrderBy: "CREATED_AT_ASC",
+//   });
+
+//   await act(async () => {
+//     await props.sessionStorage.setItem(contextKey, "Hello World!");
+//   });
+
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+//   act(() => {
+//     wrapper.first().props().onSubmit(input, form);
+//   });
+
+//   await act(async () => {
+//     await wait(() =>
+//       expect(
+//         createCommentStub.calledWith({
+//           ...input,
+//           storyID,
+//           nudge: true,
+//           commentsOrderBy: "CREATED_AT_ASC",
+//           media: undefined,
+//         })
+//       ).toBeTruthy()
+//     );
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when story has been closed (collapsing)", async () => {
+//   const props = createDefaultProps({
+//     story: {
+//       isClosed: true,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when commenting has been disabled (collapsing)", async () => {
+//   const props = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: true,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when story has been closed (non-collapsing)", async () => {
+//   const props = createDefaultProps({
+//     story: {
+//       isClosed: false,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const nextProps = createDefaultProps({
+//     story: {
+//       isClosed: true,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.setProps(nextProps);
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when commenting has been disabled (non-collapsing)", async () => {
+//   const props = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: false,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const nextProps = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: true,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.setProps(nextProps);
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when user is scheduled to be deleted", async () => {
+//   const props = createDefaultProps({
+//     viewer: {
+//       scheduledDeletionDate: new Date("2019-01-01").toISOString(),
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });

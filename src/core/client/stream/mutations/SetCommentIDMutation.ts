@@ -8,33 +8,32 @@ interface SetCommentIDInput {
   id: string | null;
 }
 
-const SetCommentIDMutation = createMutation(
-  "setCommentID",
-  async (
-    environment: Environment,
-    input: SetCommentIDInput,
-    { pym }: CoralContext
-  ) => {
-    return commitLocalUpdate(environment, (store) => {
-      const record = store.get(LOCAL_ID)!;
-      record.setValue(input.id, "commentID");
-      record.setValue("COMMENTS", "activeTab");
+export async function commit(
+  environment: Environment,
+  input: SetCommentIDInput,
+  { pym }: CoralContext
+) {
+  return commitLocalUpdate(environment, (store) => {
+    const record = store.get(LOCAL_ID)!;
+    record.setValue(input.id, "commentID");
+    record.setValue("COMMENTS", "activeTab");
 
-      // Change iframe url, this is important
-      // because it is used to cleanly initialized
-      // a user session.
-      window.history.replaceState(
-        window.history.state,
-        document.title,
-        getURLWithCommentID(location.href, input.id || undefined)
-      );
+    // Change iframe url, this is important
+    // because it is used to cleanly initialized
+    // a user session.
+    window.history.replaceState(
+      window.history.state,
+      document.title,
+      getURLWithCommentID(location.href, input.id || undefined)
+    );
 
-      if (pym) {
-        // This sets the comment id on the parent url.
-        pym.sendMessage("setCommentID", input.id || "");
-      }
-    });
-  }
-);
+    if (pym) {
+      // This sets the comment id on the parent url.
+      pym.sendMessage("setCommentID", input.id || "");
+    }
+  });
+}
+
+const SetCommentIDMutation = createMutation("setCommentID", commit);
 
 export default SetCommentIDMutation;
