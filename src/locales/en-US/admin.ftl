@@ -953,6 +953,7 @@ moderate-searchBar-currentlyModerating =
   .title = Currently moderating
 moderate-searchBar-searchResults = Search results
 moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent first)
+moderate-searchBar-searchResultsMostRelevantFirst = Search results (Most relevant first)
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
