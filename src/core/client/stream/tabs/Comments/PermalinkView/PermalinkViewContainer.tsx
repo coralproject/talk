@@ -58,9 +58,8 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       featureFlags
     }
   `);
-  const flattenLastReply = featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
+  const flattenLastReply =
+    featureFlags && featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
 
   useEffect(() => {
     if (!comment?.id) {

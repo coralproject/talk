@@ -79,9 +79,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       }
     `
   );
-  const flattenLastReply = featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
+  const flattenLastReply =
+    featureFlags && featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
   const live = useLive({ story, settings });

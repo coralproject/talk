@@ -15,7 +15,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
-import { MutationProp } from "coral-framework/lib/relay";
+import { MutationProp, useLocal } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import {
   GQLFEATURE_FLAG,
@@ -46,6 +46,7 @@ import { CommentContainer_comment as CommentData } from "coral-stream/__generate
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
+import { CommentContainerLocal } from "coral-stream/__generated__/CommentContainerLocal.graphql";
 
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
@@ -157,6 +158,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
   );
 
   const isLoggedIn = !!viewer;
+
+  const [{ featureFlags }] = useLocal<CommentContainerLocal>(graphql`
+    fragment CommentContainerLocal on Local {
+      featureFlags
+    }
+  `);
 
   const openEditDialog = useCallback(() => {
     if (isLoggedIn) {
@@ -325,9 +332,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
     .join(" ");
   const badgesClassName = badgesJoin ? badgesJoin : "";
 
-  const flattenLastReply = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
+  const flattenLastReply =
+    featureFlags && featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {

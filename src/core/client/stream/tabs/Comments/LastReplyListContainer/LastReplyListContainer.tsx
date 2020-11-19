@@ -30,9 +30,8 @@ const LastReplyListContainer: FunctionComponent<Props> = ({
       featureFlags
     }
   `);
-  const flattenLastReply = featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
+  const flattenLastReply =
+    featureFlags && featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
 
   if (flattenLastReply) {
     return (
