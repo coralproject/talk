@@ -7,6 +7,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Flex, Spinner } from "coral-ui/components/v2";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
@@ -52,11 +53,11 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 
 const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
-    local: { storyID, storyURL, commentsOrderBy },
+    local: { storyID, storyURL, commentsOrderBy, featureFlags },
   } = props;
 
-  // get from local, whether we do flattenLastReply
-  const flattenLastReply = true;
+  const flattenLastReply =
+    featureFlags && !!featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
 
   return (
     <QueryRenderer<QueryTypes>
@@ -96,6 +97,7 @@ const enhanced = withLocalStateContainer(
       storyID
       storyURL
       commentsOrderBy
+      featureFlags
     }
   `
 )(UnansweredCommentsTabQuery);

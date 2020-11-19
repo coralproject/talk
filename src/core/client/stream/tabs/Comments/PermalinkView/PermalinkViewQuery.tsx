@@ -7,6 +7,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay, Spinner } from "coral-ui/components/v2";
 
@@ -48,11 +49,12 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 };
 
 const PermalinkViewQuery: FunctionComponent<Props> = ({
-  local: { commentID, storyID, storyURL },
+  local: { commentID, storyID, storyURL, featureFlags },
 }) => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
 
-  const flattenLastReply = true;
+  const flattenLastReply =
+    featureFlags && !!featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES);
 
   return (
     <QueryRenderer<QueryTypes>
@@ -99,6 +101,7 @@ const enhanced = withLocalStateContainer(
       storyID
       commentID
       storyURL
+      featureFlags
     }
   `
 )(PermalinkViewQuery);
