@@ -19,6 +19,10 @@ export function getAppFilename(
   location = window.location.toString(),
   publicPath = __webpack_public_path__
 ): string {
+  // Only assets need an `app://` uri.
+  if (!filename.includes("/assets/")) {
+    return filename;
+  }
   if (publicPath === "/") {
     const origin = getOrigin(location);
     if (filename.includes(origin)) {

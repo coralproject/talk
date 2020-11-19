@@ -2,10 +2,16 @@ import { getAppFilename } from "./sentry";
 
 it("should return correct path", () => {
   const cases = [
+    // Non-assets does not need a translation.
     {
       args: ["http://localhost:8080/xyz", "http://localhost:8080/", "/"],
-      result: "app:///static/xyz",
+      result: "http://localhost:8080/xyz",
     },
+    {
+      args: ["http://localhost:8080/xyz?abc=1", "http://localhost:8080/", "/"],
+      result: "http://localhost:8080/xyz?abc=1",
+    },
+    // Assets.
     {
       args: [
         "http://localhost:8080/assets/js/embed.js",
