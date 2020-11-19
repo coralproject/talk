@@ -81,62 +81,68 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {comments.map((c) => (
-        <HorizontalGutter key={c.id}>
-          <CollapsableComment>
-            {({ collapsed, toggleCollapsed }) => (
-              <CommentContainer
-                key={comment.id}
-                ancestorID={comment.id}
-                viewer={viewer}
-                story={story}
-                comment={c}
-                settings={settings}
-                indentLevel={4}
-                collapsed={collapsed}
-                toggleCollapsed={toggleCollapsed}
-              />
-            )}
-          </CollapsableComment>
-        </HorizontalGutter>
-      ))}
-      {relay.hasMore() && (
-        <Indent level={4} noBorder>
-          <Localized id="comments-replyList-showAll">
-            <Button
-              id={`coral-comments-replyList-showAll--${comment.id}`}
-              aria-controls={`coral-comments-replyList-log--${comment.id}`}
-              className={CLASSES.replyList.showAllButton}
-              onClick={onShowAll}
-              disabled={isLoadingShowAll}
-              variant="outlined"
-              color="mono"
-              fullWidth
-              // Added for keyboard shortcut support.
-              data-key-stop
-              data-is-load-more
-            >
-              Show All Replies
-            </Button>
-          </Localized>
-        </Indent>
-      )}
-      {!!viewNewCount && (
-        <Indent level={4} noBorder>
-          <Localized id="comments-replyList-showMoreReplies">
-            <Button
-              aria-controls={`coral-comments-replyList-log--${comment.id}`}
-              onClick={onViewNew}
-              className={CLASSES.replyList.showMoreReplies}
-              variant="outlined"
-              color="mono"
-              fullWidth
-            >
-              Show More Replies
-            </Button>
-          </Localized>
-        </Indent>
-      )}
+      <HorizontalGutter
+        id={`coral-comments-replyList-log--${comment.id}`}
+        data-testid={`commentReplyList-${comment.id}`}
+        role="log"
+      >
+        {comments.map((c) => (
+          <HorizontalGutter key={c.id}>
+            <CollapsableComment>
+              {({ collapsed, toggleCollapsed }) => (
+                <CommentContainer
+                  key={comment.id}
+                  ancestorID={comment.id}
+                  viewer={viewer}
+                  story={story}
+                  comment={c}
+                  settings={settings}
+                  indentLevel={4}
+                  collapsed={collapsed}
+                  toggleCollapsed={toggleCollapsed}
+                />
+              )}
+            </CollapsableComment>
+          </HorizontalGutter>
+        ))}
+        {relay.hasMore() && (
+          <Indent level={4} noBorder>
+            <Localized id="comments-replyList-showAll">
+              <Button
+                id={`coral-comments-replyList-showAll--${comment.id}`}
+                aria-controls={`coral-comments-replyList-log--${comment.id}`}
+                className={CLASSES.replyList.showAllButton}
+                onClick={onShowAll}
+                disabled={isLoadingShowAll}
+                variant="outlined"
+                color="mono"
+                fullWidth
+                // Added for keyboard shortcut support.
+                data-key-stop
+                data-is-load-more
+              >
+                Show All Replies
+              </Button>
+            </Localized>
+          </Indent>
+        )}
+        {!!viewNewCount && (
+          <Indent level={4} noBorder>
+            <Localized id="comments-replyList-showMoreReplies">
+              <Button
+                aria-controls={`coral-comments-replyList-log--${comment.id}`}
+                onClick={onViewNew}
+                className={CLASSES.replyList.showMoreReplies}
+                variant="outlined"
+                color="mono"
+                fullWidth
+              >
+                Show More Replies
+              </Button>
+            </Localized>
+          </Indent>
+        )}
+      </HorizontalGutter>
     </>
   );
 };
