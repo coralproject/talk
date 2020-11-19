@@ -1,8 +1,10 @@
-import { RewriteFrames, Transaction, Dedupe } from "@sentry/integrations";
+import { Dedupe, RewriteFrames, Transaction } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import React, { FunctionComponent } from "react";
 
 import { ensureNoStartSlash, getOrigin } from "coral-common/utils";
+import supportedBrowsersRegExp from "coral-framework/helpers/supportedBrowsersRegExp";
+
 import { ErrorReport, ErrorReporter, User } from "../reporter";
 import { FakeDebugTransport } from "./fakeDebugTransport";
 
@@ -61,7 +63,11 @@ export class SentryErrorReporter implements ErrorReporter {
         if (location.search.indexOf("fbclid") !== -1) {
           return null;
         }
-        // Otherwise just let it through
+        // Drop non supported legacy browsers.
+        if (!supportedBrowsersRegExp.test(navigator.userAgent)) {
+          return null;
+        }
+        // Otherwise just let it through.
         return event;
       },
       integrations: [
@@ -74,7 +80,8 @@ export class SentryErrorReporter implements ErrorReporter {
             return frame;
           },
         }),
-        new Dedupe(),
+        // Include dedupe only in production.
+        ...(process.env.NODE_ENV === "production" ? [new Dedupe()] : []),
         new Transaction(),
       ],
     });
