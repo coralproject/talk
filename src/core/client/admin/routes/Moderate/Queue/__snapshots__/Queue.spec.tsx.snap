@@ -22,6 +22,7 @@ exports[`renders correctly with load more 1`] = `
   <UserHistoryDrawer
     onClose={[Function]}
     open={false}
+    setUserID={[Function]}
     userID=""
   />
   <ConversationModal
@@ -47,6 +48,7 @@ exports[`renders correctly without load more 1`] = `
   <UserHistoryDrawer
     onClose={[Function]}
     open={false}
+    setUserID={[Function]}
     userID=""
   />
   <ConversationModal

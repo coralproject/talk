@@ -21,6 +21,7 @@ interface Props {
   settings: UserHistoryDrawerAllComments_settings;
   viewer: UserHistoryDrawerAllComments_viewer;
   relay: RelayPaginationProp;
+  setUserID?: (id: string) => void;
 }
 
 const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
@@ -28,6 +29,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   settings,
   viewer,
   relay,
+  setUserID,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
@@ -67,6 +69,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
             hideUsername
             showStoryInfo
             mini
+            onUsernameClicked={setUserID}
           />
           {// Don't show horizontal rule after last comment
           index !== comments.length - 1 && <Divider />}

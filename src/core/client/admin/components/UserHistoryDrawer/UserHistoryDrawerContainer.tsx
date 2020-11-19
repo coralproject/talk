@@ -31,6 +31,7 @@ interface Props {
   settings: UserHistoryDrawerContainer_settings;
   viewer: UserHistoryDrawerContainer_viewer;
   onClose: () => void;
+  setUserID?: (id: string) => void;
 }
 
 const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
@@ -38,6 +39,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   user,
   viewer,
   onClose,
+  setUserID,
 }) => {
   const formatter = useDateTimeFormatter({
     month: "long",
@@ -127,7 +129,11 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       </HorizontalGutter>
       <Divider />
       <div className={styles.comments}>
-        <Tabs userID={user.id} notesCount={user.moderatorNotes.length} />
+        <Tabs
+          userID={user.id}
+          notesCount={user.moderatorNotes.length}
+          setUserID={setUserID}
+        />
       </div>
     </>
   );

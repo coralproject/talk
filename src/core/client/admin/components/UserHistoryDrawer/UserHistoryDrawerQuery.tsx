@@ -16,11 +16,13 @@ interface Props {
   onClose: () => void;
   firstFocusableRef: React.RefObject<any>;
   lastFocusableRef: React.RefObject<any>;
+  setUserID?: (id: string) => void;
 }
 
 const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
   userID,
   onClose,
+  setUserID,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -66,6 +68,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             user={props.user}
             settings={props.settings}
             viewer={props.viewer}
+            setUserID={setUserID}
           />
         );
       }}
