@@ -68,3 +68,5 @@ $user-drawer-status-label: var(--palette-text-500);
 
 .userStatusChange {
 }
+
+.tooltip {}
