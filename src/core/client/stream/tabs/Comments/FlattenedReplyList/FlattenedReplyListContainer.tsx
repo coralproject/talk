@@ -5,6 +5,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
+  useMutation,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -21,6 +22,7 @@ import { CommentContainer } from "../Comment";
 import CollapsableComment from "../Comment/CollapsableComment";
 import { isPublished } from "../helpers";
 import Indent from "../Indent";
+import FlattenedReplyListViewNewMutation from "./FlattenedReplyListViewNewMutation";
 
 type FragmentVariables = Omit<
   FlattenedReplyListContainerPaginationQueryVariables,
@@ -57,7 +59,14 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
     }
   }, [beginShowAllEvent, comment.id, showAll]);
 
-  const viewNewCount = 0;
+  const viewNew = useMutation(FlattenedReplyListViewNewMutation);
+  const onViewNew = useCallback(() => {
+    void viewNew({ commentID: comment.id, storyID: story.id });
+  }, [comment.id, story.id, viewNew]);
+
+  const viewNewCount =
+    (comment.replies.viewNewEdges && comment.replies.viewNewEdges.length) || 0;
+
   if (
     comment.replies === null ||
     (comment.replies.edges.length === 0 && viewNewCount === 0)
@@ -112,6 +121,22 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
           </Localized>
         </Indent>
       )}
+      {!!viewNewCount && (
+        <Indent level={4} noBorder>
+          <Localized id="comments-replyList-showMoreReplies">
+            <Button
+              aria-controls={`coral-comments-replyList-log--${comment.id}`}
+              onClick={onViewNew}
+              className={CLASSES.replyList.showMoreReplies}
+              variant="outlined"
+              color="mono"
+              fullWidth
+            >
+              Show More Replies
+            </Button>
+          </Localized>
+        </Indent>
+      )}
     </>
   );
 };
@@ -129,6 +154,7 @@ const enhanced = withPaginationContainer<
     `,
     story: graphql`
       fragment FlattenedReplyListContainer_story on Story {
+        id
         ...CommentContainer_story
       }
     `,
