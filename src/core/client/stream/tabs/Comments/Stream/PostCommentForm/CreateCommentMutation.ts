@@ -240,24 +240,12 @@ export const CreateCommentMutation = createMutation(
         break;
     }
 
-    let ratings = story.ratings
+    const ratings = story.ratings
       ? {
           count: story.ratings.count,
           average: story.ratings.average,
         }
       : null;
-    if (input.rating) {
-      const sum = ratings
-        ? ratings.average * ratings.count + input.rating
-        : input.rating;
-      const count = ratings ? ratings.count + 1 : 1;
-      const average = sum / count;
-
-      ratings = {
-        count,
-        average,
-      };
-    }
 
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
