@@ -9,8 +9,10 @@ import { hasFeatureFlag } from "coral-server/models/tenant";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
-import { GQLFEATURE_FLAG } from "core/client/framework/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 const StoryRatingsQuerySchema = Joi.object()
   .keys({
