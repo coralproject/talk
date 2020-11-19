@@ -1144,6 +1144,55 @@ export async function retrieveAuthorStoryRating(
   return comment;
 }
 
+export async function retrieveStoryRatings(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  const timer = createTimer();
+
+  const results = await collection<{
+    average: number;
+    count: number;
+  }>(mongo)
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          storyID,
+          // We only store ratings on parent comments.
+          parentID: null,
+          // We only want to calculate an average with the comments that are
+          // published.
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+          // We only want to look at comments that contain a rating.
+          rating: { $gt: 0 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          average: { $avg: "$rating" },
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .toArray();
+
+  // TODO: If this query becomes too expensive, we can use redis to help.
+  logger.info({ took: timer() }, "story ratings query");
+
+  if (results.length === 0) {
+    return { average: 0, count: 0 };
+  }
+
+  const { average, count } = results[0];
+
+  return { average, count };
+}
+
 export async function retrieveManyStoryRatings(
   mongo: Db,
   tenantID: string,
@@ -1204,7 +1253,7 @@ export async function retrieveManyStoryRatings(
     .toArray();
 
   // TODO: If this query becomes too expensive, we can use redis to help.
-  logger.info({ took: timer() }, "story ratings query");
+  logger.info({ took: timer() }, "multi story ratings query");
 
   return storyIDs.map(
     (storyID) =>
