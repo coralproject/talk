@@ -1,8 +1,8 @@
+import { IGif } from "@giphy/js-types";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { GiphyGif } from "coral-common/types/giphy";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -16,12 +16,19 @@ import { getMediaValidators } from "../../helpers";
 
 export type Widget = "giphy" | "external" | null;
 
+interface GiphyConfig {
+  key: string | null;
+  enabled: boolean;
+  maxRating: string | null;
+}
+
 interface Props {
   widget: Widget;
   setWidget: (widget: Widget) => void;
   siteID: string;
   pastedMedia: MediaLink | null;
   setPastedMedia: (media: MediaLink | null) => void;
+  giphyConfig: GiphyConfig;
 }
 
 interface Media {
@@ -38,6 +45,7 @@ const MediaField: FunctionComponent<Props> = ({
   siteID,
   pastedMedia,
   setPastedMedia,
+  giphyConfig,
 }) => {
   const {
     input: { value, onChange },
@@ -47,7 +55,7 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: GiphyGif) =>
+    (gif: IGif) =>
       onChange({
         type: "giphy",
         id: gif.id,
@@ -138,7 +146,14 @@ const MediaField: FunctionComponent<Props> = ({
           onRemove={onRemove}
         />
       ) : widget === "giphy" ? (
-        <GiphyInput onSelect={onGiphySelect} />
+        giphyConfig.key &&
+        giphyConfig.maxRating && (
+          <GiphyInput
+            onSelect={onGiphySelect}
+            apiKey={giphyConfig.key}
+            maxRating={giphyConfig.maxRating}
+          />
+        )
       ) : widget === "external" ? (
         <ExternalImageInput onSelect={onExternalImageSelect} />
       ) : null}

@@ -1368,14 +1368,13 @@ type GiphyMediaConfiguration {
   """
   maximum allowed rating for gifs, g, pg, pg-13, r.
   """
-  maxRating: String @auth(roles: [ADMIN])
+  maxRating: String
 
   """
   key is the API key for Giphy.
   """
-  key: String @auth(roles: [ADMIN])
+  key: String
 }
-
 type TwitterMediaConfiguration {
   """
   enabled is true when twitter media objects are enabled.

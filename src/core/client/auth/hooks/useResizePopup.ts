@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-import { useResizeObserver } from "coral-framework/hooks";
+import useResizeObserver from "use-resize-observer/polyfilled";
 
 import resizePopup from "../dom/resizePopup";
 
@@ -39,8 +39,8 @@ export default function useResizePopup() {
     };
   }, [pollPopupHeight]);
 
-  const ref = useResizeObserver(() => {
-    resizePopup();
+  const { ref } = useResizeObserver<HTMLDivElement>({
+    onResize: () => resizePopup(),
   });
   return ref;
 }

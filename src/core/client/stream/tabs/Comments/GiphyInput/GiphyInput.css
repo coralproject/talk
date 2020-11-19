@@ -39,3 +39,8 @@
   display: block;
   max-width: 100%;
 }
+
+.grid {
+  max-height: 300px;
+  overflow: scroll;
+}
