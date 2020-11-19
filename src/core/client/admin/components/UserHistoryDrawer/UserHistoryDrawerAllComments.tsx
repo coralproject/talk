@@ -47,9 +47,11 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
       <CallOut fullWidth>
         <Localized
           id="moderate-user-drawer-all-no-comments"
-          $username={user.username}
+          $username={user.username || user.email}
         >
-          <div>{user.username} has not submitted any comments.</div>
+          <div>
+            {user.username || user.email} has not submitted any comments.
+          </div>
         </Localized>
       </CallOut>
     );
@@ -108,6 +110,7 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
         ) {
         username
+        email
         allComments(first: $count, after: $cursor)
           @connection(key: "UserHistoryDrawer_allComments") {
           edges {
