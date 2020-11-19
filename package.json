@@ -421,7 +421,7 @@
     "*.{j,t}s{,x}": [
       "eslint"
     ],
-    "{package.json,src/core/client/framework/helpers/supportedBrowsersRegExp.ts,scripts/generateSupportedBrowsersRegExp.sh}": [
+    "{package.json,src/core/client/framework/helpers/supportedBrowsersRegExp.ts,scripts/generateSupportedBrowsersRegExp.ts}": [
       "npm run generate:supportedBrowsersRegExp -- --verify"
     ],
     "src/core/server/graph/schema/schema.graphql": [
