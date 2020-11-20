@@ -47,7 +47,7 @@ import {
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
 import {
-  assertHasFeatureFlag,
+  ensureFeatureFlag,
   hasFeatureFlag,
   Tenant,
 } from "coral-server/models/tenant";
@@ -77,6 +77,18 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
+  // Validate the mode if passed.
+  if (input.mode) {
+    switch (input.mode) {
+      case GQLSTORY_MODE.RATINGS_AND_REVIEWS:
+        ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+        break;
+      case GQLSTORY_MODE.QA:
+        ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
+        break;
+    }
+  }
+
   let siteID = null;
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
@@ -269,9 +281,9 @@ export async function update(
 
 function validateStoryMode(tenant: Tenant, mode: GQLSTORY_MODE) {
   if (mode === GQLSTORY_MODE.QA) {
-    assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
+    ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
   } else if (mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
-    assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+    ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
   }
 }
 

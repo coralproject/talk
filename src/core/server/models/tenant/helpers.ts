@@ -50,7 +50,7 @@ export function hasFeatureFlag(
   return false;
 }
 
-export function assertHasFeatureFlag(
+export function ensureFeatureFlag(
   tenant: Pick<Tenant, "featureFlags">,
   flag: GQLFEATURE_FLAG
 ) {

@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
+import { isStoryMode } from "coral-framework/helpers";
 import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
@@ -48,6 +49,10 @@ export default async function initLocalState(
 
     if (query.storyURL) {
       localRecord.setValue(query.storyURL, "storyURL");
+    }
+
+    if (query.storyMode && isStoryMode(query.storyMode)) {
+      localRecord.setValue(query.storyMode, "storyMode");
     }
 
     if (query.commentID) {

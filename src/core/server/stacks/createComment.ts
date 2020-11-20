@@ -28,7 +28,7 @@ import {
   Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
-import { assertHasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import {
@@ -136,7 +136,7 @@ const validateRating = async (
   rating: number
 ) => {
   // Ensure Tenant has ratings enabled.
-  assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
 
   // Check that the rating is within range.
   Joi.assert(rating, RatingSchema, "rating is not within range");

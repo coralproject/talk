@@ -67,6 +67,7 @@ type Local {
   authPopup: AuthPopup!
   storyID: String
   storyURL: String
+  storyMode: STORY_MODE
   commentID: String
   siteID: String
   commentsOrderBy: COMMENT_SORT!

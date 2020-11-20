@@ -35,7 +35,7 @@ import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
 import {
-  assertHasFeatureFlag,
+  ensureFeatureFlag,
   hasFeatureFlag,
   linkUsersAvailable,
   Tenant,
@@ -796,7 +796,7 @@ export async function updateModerationScopes(
   moderationScopes: UserModerationScopes
 ) {
   // Ensure Tenant has site moderators enabled.
-  assertHasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
+  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
 
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
