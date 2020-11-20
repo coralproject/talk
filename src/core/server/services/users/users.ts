@@ -1073,7 +1073,36 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
+  let user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
+
+  const supsensionStatus = consolidateUserSuspensionStatus(
+    targetUser.status.suspension
+  );
+
+  // remove suspension if present
+  if (supsensionStatus.active) {
+    user = await removeActiveUserSuspensions(
+      mongo,
+      tenant.id,
+      userID,
+      banner.id,
+      now
+    );
+  }
+
+  const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
+
+  // remove premod if present
+  if (premodStatus.active) {
+    user = await removeUserPremod(mongo, tenant.id, userID, banner.id, now);
+  }
+
+  // remove warning if present
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+
+  if (warningStatus.active) {
+    user = await removeUserWarning(mongo, tenant.id, userID, banner.id, now);
+  }
 
   if (rejectExistingComments) {
     await rejector.add({
