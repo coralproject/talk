@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import NotAvailable from "coral-admin/components/NotAvailable";
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useDateTimeFormatter } from "coral-framework/hooks";
@@ -61,7 +60,11 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 <span>{user.username}</span>
               ) : (
                 <Flex alignItems="center">
-                  <NotAvailable />
+                  <Localized id="moderate-user-drawer-username-not-available">
+                    <span className={styles.notAvailable}>
+                      Username not available
+                    </span>
+                  </Localized>
                   <Tooltip
                     id="recentCommentHistory-rejectionPopover"
                     title={

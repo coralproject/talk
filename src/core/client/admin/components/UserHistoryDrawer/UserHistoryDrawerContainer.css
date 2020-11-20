@@ -68,3 +68,7 @@ $user-drawer-status-label: var(--palette-text-500);
 
 .userStatusChange {
 }
+
+.notAvailable {
+  color: var(--palette-text-100);
+}
