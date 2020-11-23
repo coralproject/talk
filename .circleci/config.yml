@@ -247,6 +247,8 @@ workflows:
             - build
       - release_static:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^v.*/
           requires:
