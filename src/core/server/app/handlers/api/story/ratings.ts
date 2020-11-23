@@ -16,7 +16,7 @@ import {
 
 const StoryRatingsQuerySchema = Joi.object()
   .keys({
-    callback: Joi.string().required(),
+    callback: Joi.string().allow("").optional(),
     id: Joi.string().optional(),
     url: Joi.string().optional(),
   })
