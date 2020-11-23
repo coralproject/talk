@@ -12,6 +12,8 @@ import {
   Flex,
   HorizontalGutter,
   Icon,
+  Tooltip,
+  TooltipButton,
 } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
@@ -56,7 +58,42 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
         <HorizontalGutter spacing={3}>
           <HorizontalGutter spacing={2}>
             <Flex className={styles.username} spacing={2}>
-              <span>{user.username}</span>
+              {user.username ? (
+                <span>{user.username}</span>
+              ) : (
+                <Flex alignItems="center">
+                  <Localized id="moderate-user-drawer-username-not-available">
+                    <span className={styles.notAvailable}>
+                      Username not available
+                    </span>
+                  </Localized>
+                  <Tooltip
+                    id="recentCommentHistory-rejectionPopover"
+                    title={
+                      <Localized id="moderate-user-drawer-username-not-available-tooltip-title">
+                        <span>Username not available</span>
+                      </Localized>
+                    }
+                    body={
+                      <Localized id="moderate-user-drawer-username-not-available-tooltip-body">
+                        <span>User did not complete account setup process</span>
+                      </Localized>
+                    }
+                    button={({ toggleVisibility, ref }) => (
+                      <Localized
+                        id="moderate-user-drawer-username-not-available-tooltip-button"
+                        attrs={{ "aria-label": true }}
+                      >
+                        <TooltipButton
+                          aria-label="Toggle username not available tooltip"
+                          toggleVisibility={toggleVisibility}
+                          ref={ref}
+                        />
+                      </Localized>
+                    )}
+                  />
+                </Flex>
+              )}
               <div>
                 <UserBadgesContainer user={user} />
               </div>
