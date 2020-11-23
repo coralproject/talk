@@ -27,7 +27,11 @@ beforeEach(() => {
         (s) => s.throws(),
         (s) =>
           s
-            .withArgs(undefined, { id: storyWithDeepestReplies.id, url: null })
+            .withArgs(undefined, {
+              id: storyWithDeepestReplies.id,
+              url: null,
+              mode: null,
+            })
             .returns(storyWithDeepestReplies)
       ),
     },

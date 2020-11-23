@@ -18,7 +18,11 @@ beforeEach(() => {
         (s) => s.throws(),
         (s) =>
           s
-            .withArgs(undefined, { id: storyWithDeepReplies.id, url: null })
+            .withArgs(undefined, {
+              id: storyWithDeepReplies.id,
+              url: null,
+              mode: null,
+            })
             .returns(storyWithDeepReplies)
       ),
       settings: sinon.stub().returns(settings),
