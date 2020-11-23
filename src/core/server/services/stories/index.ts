@@ -79,14 +79,7 @@ export async function findOrCreate(
 ) {
   // Validate the mode if passed.
   if (input.mode) {
-    switch (input.mode) {
-      case GQLSTORY_MODE.RATINGS_AND_REVIEWS:
-        ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
-        break;
-      case GQLSTORY_MODE.QA:
-        ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
-        break;
-    }
+    validateStoryMode(tenant, input.mode);
   }
 
   let siteID = null;
@@ -97,6 +90,7 @@ export async function findOrCreate(
     if (!site) {
       throw new StoryURLInvalidError({
         storyURL: input.url,
+        tenantDomain: tenant.domain,
       });
     }
     siteID = site.id;
@@ -200,10 +194,7 @@ export async function remove(
   return removedStory;
 }
 
-// export type CreateStory = CreateStoryInput;
-export type CreateStory = Partial<
-  Pick<Story, "metadata" | "scrapedAt" | "closedAt" | "siteID">
->;
+export type CreateStory = Omit<CreateStoryInput, "siteID">;
 
 export async function create(
   mongo: Db,
@@ -212,20 +203,30 @@ export async function create(
   config: Config,
   storyID: string,
   storyURL: string,
-  { metadata, closedAt }: CreateStory,
+  { mode, metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
+  // Validate the mode if passed.
+  if (mode) {
+    validateStoryMode(tenant, mode);
+  }
+
+  // Validate the id.
+  if (!storyID) {
+    throw new Error("story id is required");
+  }
+
+  if (!storyURL) {
+    throw new StoryURLInvalidError({ storyURL, tenantDomain: tenant.domain });
+  }
+
   const site = await findSiteByURL(mongo, tenant.id, storyURL);
-  // // If the URL is provided, and the url is not associated with a site, then refuse
-  // // to create the Asset.
   if (!site) {
-    throw new StoryURLInvalidError({
-      storyURL,
-    });
+    throw new StoryURLInvalidError({ storyURL, tenantDomain: tenant.domain });
   }
 
   // Construct the input payload.
-  const input: CreateStoryInput = { metadata, closedAt, siteID: site.id };
+  const input: CreateStoryInput = { metadata, mode, closedAt, siteID: site.id };
   if (metadata) {
     input.scrapedAt = now;
   }
@@ -267,11 +268,10 @@ export async function update(
 ) {
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
-    // // If the URL is provided, and the url is not associated with a site, then refuse
-    // // to update the Asset.
     if (!site) {
       throw new StoryURLInvalidError({
         storyURL: input.url,
+        tenantDomain: tenant.domain,
       });
     }
   }

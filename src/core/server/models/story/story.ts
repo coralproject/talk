@@ -259,29 +259,38 @@ export async function findOrCreateStory(
 }
 
 export type CreateStoryInput = Partial<
-  Pick<Story, "metadata" | "scrapedAt" | "closedAt">
-> & {
-  siteID: string;
-};
+  Pick<Story, "metadata" | "scrapedAt" | "closedAt"> &
+    Pick<StorySettings, "mode">
+> &
+  Pick<Story, "siteID"> & {
+    mode?: GQLSTORY_MODE;
+  };
 
 export async function createStory(
   mongo: Db,
   tenantID: string,
   id: string,
   url: string,
-  input: CreateStoryInput,
+  { siteID, metadata, scrapedAt, closedAt, mode }: CreateStoryInput,
   now = new Date()
 ) {
   // Create the story.
   const story: Story = {
-    ...input,
     id,
     url,
     tenantID,
+    siteID,
+    metadata,
+    scrapedAt,
     createdAt: now,
+    closedAt,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
   };
+
+  if (mode) {
+    story.settings.mode = mode;
+  }
 
   try {
     // Insert the story into the database.

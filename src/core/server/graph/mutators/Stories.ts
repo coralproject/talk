@@ -58,7 +58,13 @@ export const Stories = (ctx: GraphContext) => ({
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
-      update(ctx.mongo, ctx.tenant, input.id, input.story, ctx.now),
+      update(
+        ctx.mongo,
+        ctx.tenant,
+        input.id,
+        omitBy(input.story, isNull),
+        ctx.now
+      ),
       {
         "input.story.url": [
           ERROR_CODES.STORY_URL_NOT_PERMITTED,
@@ -79,7 +85,7 @@ export const Stories = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.tenant,
       input.id,
-      input.settings,
+      omitBy(input.settings, isNull),
       ctx.now
     );
   },

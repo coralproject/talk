@@ -3527,8 +3527,7 @@ type StorySettings {
   messageBox: StoryMessageBox!
 
   """
-  mode is whether the story stream is in commenting or Q&A mode.
-  This will determine the appearance of the stream and how it functions.
+  mode is the specified mode that the story should be updated with.
   """
   mode: STORY_MODE!
 
@@ -5333,6 +5332,11 @@ input CreateStory {
   url is the url that the Story is located on.
   """
   url: String!
+
+  """
+  mode is the specified mode that the story should be created with.
+  """
+  mode: STORY_MODE
 
   """
   metadata is the set of information relating to this Story that would normally
