@@ -10,12 +10,14 @@ interface UserHistoryDrawerProps {
   open: boolean;
   onClose: () => void;
   userID?: string;
+  setUserID?: (id: string) => void;
 }
 
 const UserHistoryDrawer: FunctionComponent<UserHistoryDrawerProps> = ({
   open,
   onClose,
   userID,
+  setUserID,
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
@@ -27,6 +29,7 @@ const UserHistoryDrawer: FunctionComponent<UserHistoryDrawerProps> = ({
               onClose={onClose}
               firstFocusableRef={firstFocusableRef}
               lastFocusableRef={lastFocusableRef}
+              setUserID={setUserID}
             />
           )}
         </Card>

@@ -55,6 +55,13 @@ const UserTable: FunctionComponent<Props> = ({
     setUserDrawerUserID(undefined);
   }, [setUserDrawerUserID, setUserDrawerVisible]);
 
+  const onSetUserID = useCallback(
+    (userID: string) => {
+      setUserDrawerUserID(userID);
+    },
+    [setUserDrawerUserID]
+  );
+
   return (
     <HorizontalGutter size="double">
       <Table fullWidth>
@@ -116,6 +123,7 @@ const UserTable: FunctionComponent<Props> = ({
         userID={userDrawerUserID}
         open={userDrawerVisible}
         onClose={onHideUserDrawer}
+        setUserID={onSetUserID}
       />
     </HorizontalGutter>
   );
