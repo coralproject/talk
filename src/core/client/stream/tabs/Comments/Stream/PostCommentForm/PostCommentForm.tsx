@@ -1,6 +1,5 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -12,6 +11,7 @@ import { CreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 
 import CommentForm from "../CommentForm";
+import { OnChangeHandler } from "../CommentForm/CommentForm";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
@@ -83,7 +83,7 @@ interface Props {
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
   min: number | null;
   mode?: Mode;
-  onChange?: (state: FormState<FormProps>, form: FormApi) => void;
+  onChange?: OnChangeHandler;
   onSubmit: OnSubmit<FormSubmitProps>;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   showMessageBox?: boolean;

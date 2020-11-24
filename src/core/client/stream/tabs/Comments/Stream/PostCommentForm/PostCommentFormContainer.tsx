@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
@@ -30,6 +35,7 @@ import {
 
 import {
   getSubmitStatus,
+  isPublished,
   shouldTriggerSettingsRefresh,
   shouldTriggerViewerRefresh,
   SubmitStatus,
@@ -47,6 +53,7 @@ import PostCommentForm from "./PostCommentForm";
 import PostCommentFormClosed from "./PostCommentFormClosed";
 import PostCommentFormClosedSitewide from "./PostCommentFormClosedSitewide";
 import PostCommentFormFake from "./PostCommentFormFake";
+import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 import PostReviewOrQuestion, { Toggle } from "./PostReviewOrQuestion";
 
 interface Props {
@@ -179,22 +186,25 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     return;
   };
 
-  const handleOnChange: OnChangeHandler = (state, form) => {
-    if (submitStatus && state.dirty) {
-      setSubmitStatus(null);
-    }
+  const handleOnChange: OnChangeHandler = useCallback(
+    (state, form) => {
+      if (submitStatus && state.dirty) {
+        setSubmitStatus(null);
+      }
 
-    setDraft(state.values.body === RTE_RESET_VALUE ? "" : state.values.body);
+      setDraft(state.values.body === RTE_RESET_VALUE ? "" : state.values.body);
 
-    // Reset errors whenever user clears the form.
-    if (
-      state.touched &&
-      state.touched.body &&
-      (!state.values.body || state.values.body === RTE_RESET_VALUE)
-    ) {
-      (form as any).restart({ body: RTE_RESET_VALUE });
-    }
-  };
+      // Reset errors whenever user clears the form.
+      if (
+        state.touched &&
+        state.touched.body &&
+        (!state.values.body || state.values.body === RTE_RESET_VALUE)
+      ) {
+        (form as any).restart({ body: RTE_RESET_VALUE });
+      }
+    },
+    [setDraft, submitStatus]
+  );
 
   const handleSignIn = () => {
     void showAuthPopup({ view: "SIGN_IN" });
@@ -271,9 +281,9 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     ));
 
   const rating = story.viewerRating?.rating || undefined;
-  const showReview = story.viewerRating?.tags.some(
-    ({ code }) => code === GQLTAG.REVIEW
-  );
+  const showReview =
+    story.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW) &&
+    isPublished(story.viewerRating.status);
 
   const mode = isRatingsAndReviews
     ? toggle === "RATE_AND_REVIEW"
@@ -285,12 +295,15 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   if (isRatingsAndReviews && !toggle) {
     return (
-      <PostReviewOrQuestion
-        toggle={toggle}
-        rating={rating}
-        onShowReview={showReview ? onClickReview : undefined}
-        onToggle={onToggle}
-      />
+      <>
+        <PostReviewOrQuestion
+          toggle={toggle}
+          rating={rating}
+          onShowReview={showReview ? onClickReview : undefined}
+          onToggle={onToggle}
+        />
+        <PostCommentSubmitStatusContainer status={submitStatus} />
+      </>
     );
   }
 
@@ -369,6 +382,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       viewerRating {
         id
+        status
         tags {
           code
         }

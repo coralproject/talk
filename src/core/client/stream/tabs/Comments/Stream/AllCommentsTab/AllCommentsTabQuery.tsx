@@ -22,7 +22,7 @@ interface Props {
   tag?: GQLTAG;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>) => {
+export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -41,6 +41,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
           settings={data.props.settings}
           viewer={data.props.viewer}
           story={data.props.story}
+          tag={tag}
         />
       </SpinnerWhileRendering>
     );
@@ -95,7 +96,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         tag,
         storyMode: coerceStoryMode(storyMode),
       }}
-      render={(data) => (preload ? null : render(data))}
+      render={(data) => (preload ? null : render(data, tag))}
     />
   );
 };

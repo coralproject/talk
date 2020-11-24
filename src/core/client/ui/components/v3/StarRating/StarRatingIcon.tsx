@@ -36,8 +36,11 @@ const StarRatingIcon: FunctionComponent<Props> = ({
   ...props
 }) => {
   const container = (
-    // QUESTION: (wyattjoh) this doesn't seem to work...
-    <Localized id="framework-starRating" $value={value}>
+    <Localized
+      id="framework-starRating"
+      $value={value}
+      attrs={{ "aria-label": true }}
+    >
       <Icon
         className={cn(styles.icons, !readOnly && styles.interactive)}
         tabIndex={value}

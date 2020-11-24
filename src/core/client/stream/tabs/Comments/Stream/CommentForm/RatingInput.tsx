@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { useField } from "react-final-form";
 
+import { required } from "coral-framework/lib/validation";
 import { Typography } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
@@ -13,8 +14,8 @@ interface Props {
 
 const RatingInput: FunctionComponent<Props> = ({ disabled }) => {
   const {
-    input: { value, onChange, name },
-  } = useField<number>("rating", { initialValue: 0 });
+    input: { value = 0, onChange, name },
+  } = useField<number>("rating", { validate: required });
 
   return (
     <div className={cn(styles.root, disabled && styles.disabled)}>

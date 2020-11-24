@@ -16,7 +16,7 @@ const StoryRating: FunctionComponent<Props> = ({ title, average, count }) => {
         {average.toFixed(1)}
       </Typography>
       <Flex direction="column" alignItems="center" spacing={1}>
-        <StarRating rating={average} precision={2} />
+        <StarRating rating={average} precision={1} />
         <Typography variant="heading5" color="textSecondary">
           Based on {count} ratings
         </Typography>

@@ -162,9 +162,6 @@ comments-addAReviewForm-rte =
 comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
-# comments-addAReviewForm-userScheduledForDeletion-warning =
-#   Commenting is disabled when your account is scheduled for deletion.
-
 comments-replyButton-reply = Reply
 comments-replyButton =
   .aria-label = Reply to comment by {$username}

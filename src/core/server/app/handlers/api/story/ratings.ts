@@ -1,6 +1,7 @@
 import { Response } from "express";
 import Joi from "joi";
 
+import { roundRating } from "coral-common/utils";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { retrieveStoryRatings } from "coral-server/models/comment";
@@ -46,7 +47,7 @@ function respond(res: Response, story: StoryRatingsData["story"]) {
           id: story.id,
           url: story.url,
           ratings: {
-            average: Math.floor(story.ratings.average * 10) / 10,
+            average: roundRating(story.ratings.average),
             count: story.ratings.count,
           },
         }

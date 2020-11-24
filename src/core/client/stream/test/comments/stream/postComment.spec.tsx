@@ -14,6 +14,7 @@ import {
   createResolversStub,
   createSinonStub,
   findParentWithType,
+  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -155,11 +156,14 @@ const postACommentAndHandleNonPublishedComment = async (
     within(form).getByText("will be reviewed", { exact: false })
   );
 
-  await act(async () => dismiss(form, rte));
-
-  expect(
-    within(form).queryByText("will be reviewed", { exact: false })
-  ).toBeNull();
+  await act(async () => {
+    dismiss(form, rte);
+    await wait(() =>
+      expect(
+        within(form).queryByText("will be reviewed", { exact: false })
+      ).toBeNull()
+    );
+  });
 };
 
 it("post a comment and handle non-visible comment state (dismiss by click)", async () =>
@@ -311,13 +315,17 @@ it("handle story closed", async () => {
     { muteNetworkErrors: true }
   );
 
-  await act(() => rte.props.onChange("abc"));
-  await act(() => form.props.onSubmit());
+  // await act(() => );
+  await act(async () => {
+    rte.props.onChange("abc");
+    form.props.onSubmit();
 
-  // Change the story that we return to be closed.
-  returnStory = { ...stories[0], isClosed: true };
+    // Change the story that we return to be closed.
+    returnStory = { ...stories[0], isClosed: true };
 
-  // await waitForElement(() => within(form).getByText("Story is closed"));
+    await waitForElement(() => within(form).getByText("Story is closed"));
+  });
+
   expect(rte.props.disabled).toBe(true);
   expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });

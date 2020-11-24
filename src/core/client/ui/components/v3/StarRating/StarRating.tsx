@@ -11,6 +11,7 @@ import React, {
   useState,
 } from "react";
 
+import { roundRating } from "coral-common/utils";
 import { useUUID } from "coral-framework/hooks";
 
 import StarRatingIcon from "./StarRatingIcon";
@@ -88,12 +89,7 @@ const StarRating: FunctionComponent<Props> = ({
       return hoverRating;
     }
 
-    if (!precision) {
-      return Math.floor(currentRating);
-    }
-
-    const rounder = Math.pow(10, precision);
-    return Math.floor(currentRating * rounder) / rounder;
+    return roundRating(currentRating, precision);
   }, [currentRating, hoverRating, precision, readOnly]);
 
   const stars = useMemo(() => {
@@ -116,7 +112,7 @@ const StarRating: FunctionComponent<Props> = ({
           fill={
             rating >= star
               ? "star"
-              : rating + 0.5 === star
+              : rating + 0.5 >= star
               ? "star_half"
               : "star_border"
           }

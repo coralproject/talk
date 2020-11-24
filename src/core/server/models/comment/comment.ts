@@ -1136,6 +1136,9 @@ export async function retrieveAuthorStoryRating(
     storyID,
     authorID,
     parentID: null,
+    status: {
+      $in: [...PUBLISHED_STATUSES, GQLCOMMENT_STATUS.PREMOD],
+    },
     rating: { $gt: 0 },
   });
 

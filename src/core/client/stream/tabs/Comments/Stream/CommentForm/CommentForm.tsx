@@ -1,7 +1,7 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { FormApi, FormState } from "final-form";
+import { FormApi, FormState, FormSubscription } from "final-form";
 import React, {
   EventHandler,
   FunctionComponent,
@@ -10,7 +10,7 @@ import React, {
   useCallback,
   useState,
 } from "react";
-import { Field, Form, FormSpy } from "react-final-form";
+import { Field, Form } from "react-final-form";
 
 import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
@@ -31,6 +31,7 @@ import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
 import { RTELocalized } from "../../RTE/RTE";
+import FormSync from "./FormSync";
 import MediaField, { Widget } from "./MediaField";
 import RatingInput from "./RatingInput";
 
@@ -65,7 +66,10 @@ interface MediaConfig {
   };
 }
 
-export type OnChangeHandler = (state: FormState<any>, form: FormApi) => void;
+export type OnChangeHandler = (
+  state: FormState<FormProps, Partial<FormProps>>,
+  form: FormApi<FormProps>
+) => void;
 export type OnSubmitHandler = OnSubmit<FormSubmitProps>;
 
 export interface FormProps {
@@ -113,11 +117,41 @@ function createWidgetToggle(desiredWidget: Widget) {
   };
 }
 
-const CommentForm: FunctionComponent<Props> = (props) => {
-  const { mode = "comment" } = props;
+const subscription: FormSubscription = {
+  dirty: true,
+  values: true,
+  touched: true,
+};
+
+const CommentForm: FunctionComponent<Props> = ({
+  bodyInputID,
+  bodyLabel,
+  className,
+  classNameRoot,
+  disabled = false,
+  disabledMessage,
+  editableUntil,
+  expired,
+  initialValues,
+  max,
+  mediaConfig,
+  min,
+  mode = "comment",
+  onCancel,
+  onChange,
+  onFocus,
+  onSubmit,
+  placeholder,
+  placeHolderId,
+  rteConfig,
+  rteRef,
+  siteID,
+  submitStatus,
+  topBorder,
+}) => {
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
-  const { onSubmit, mediaConfig } = props;
+
   const onFormSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
@@ -199,8 +233,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
   const showExternalImageInput = mediaWidget === "external";
 
   return (
-    <div className={cn(CLASSES[props.classNameRoot].$root, props.className)}>
-      <Form onSubmit={onFormSubmit} initialValues={props.initialValues}>
+    <div className={cn(CLASSES[classNameRoot].$root, className)}>
+      <Form onSubmit={onFormSubmit} initialValues={initialValues}>
         {({
           handleSubmit,
           submitting,
@@ -216,38 +250,36 @@ const CommentForm: FunctionComponent<Props> = (props) => {
             id="comments-postCommentForm-form"
           >
             {mode === "rating" && (
-              <RatingInput disabled={submitting || props.disabled} />
+              <RatingInput disabled={submitting || disabled} />
             )}
             <HorizontalGutter>
-              <FormSpy
-                onChange={(state) => {
-                  return props.onChange && props.onChange(state, form);
-                }}
-              />
+              {onChange && (
+                <FormSync onChange={onChange} subscription={subscription} />
+              )}
               <div>
-                {props.bodyLabel}
+                {bodyLabel}
                 <div
                   className={cn(
                     styles.commentFormBox,
                     {
-                      [styles.noTopBorder]: !props.topBorder,
+                      [styles.noTopBorder]: !topBorder,
                     },
                     CLASSES.commentForm
                   )}
                 >
                   <Field
                     name="body"
-                    validate={getCommentBodyValidators(props.min, props.max)}
+                    validate={getCommentBodyValidators(min, max)}
                   >
                     {({ input }) => (
                       <Localized
-                        id={props.placeHolderId}
+                        id={placeHolderId}
                         attrs={{ placeholder: true }}
                       >
                         <RTEContainer
-                          inputID={props.bodyInputID}
-                          config={props.rteConfig}
-                          onFocus={props.onFocus}
+                          inputID={bodyInputID}
+                          config={rteConfig}
+                          onFocus={onFocus}
                           onWillPaste={(event) => {
                             if (
                               !(
@@ -263,13 +295,12 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             onBodyChange(html, values as FormProps, form);
                           }}
                           value={input.value}
-                          placeholder={props.placeholder}
-                          disabled={submitting || props.disabled}
-                          ref={props.rteRef || null}
+                          placeholder={placeholder}
+                          disabled={submitting || disabled}
+                          ref={rteRef || null}
                           toolbarButtons={
                             <>
-                              {props.mediaConfig &&
-                              props.mediaConfig.external.enabled ? (
+                              {mediaConfig && mediaConfig.external.enabled ? (
                                 <RTELocalized
                                   key="image"
                                   id="comments-rte-externalImage"
@@ -290,8 +321,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}
-                              {props.mediaConfig &&
-                              props.mediaConfig.giphy.enabled ? (
+                              {mediaConfig && mediaConfig.giphy.enabled ? (
                                 <RTEButton
                                   key="gif"
                                   disabled={
@@ -321,11 +351,11 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                     setWidget={setMediaWidget}
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
-                    siteID={props.siteID}
+                    siteID={siteID}
                   />
                 </div>
               </div>
-              {!props.expired && props.editableUntil && (
+              {!expired && editableUntil && (
                 <Message
                   className={CLASSES.editComment.remainingTime}
                   fullWidth
@@ -333,19 +363,19 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                   <MessageIcon>alarm</MessageIcon>
                   <Localized
                     id="comments-editCommentForm-editRemainingTime"
-                    time={<RelativeTime date={props.editableUntil} live />}
+                    time={<RelativeTime date={editableUntil} live />}
                   >
                     <span>{"Edit: <time></time> remaining"}</span>
                   </Localized>
                 </Message>
               )}
-              {props.disabled ? (
+              {disabled ? (
                 <>
-                  {props.disabledMessage && (
+                  {disabledMessage && (
                     <CallOut
                       className={CLASSES.editComment.expiredTime}
                       color="error"
-                      title={props.disabledMessage}
+                      title={disabledMessage}
                       titleWeight="semiBold"
                       icon={<Icon>error</Icon>}
                     />
@@ -382,11 +412,8 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                             icon={<Icon>error</Icon>}
                           />
                         )}
-                      {props.max && (
-                        <RemainingCharactersContainer
-                          value={value}
-                          max={props.max}
-                        />
+                      {max && (
+                        <RemainingCharactersContainer value={value} max={max} />
                       )}
                     </>
                   )}
@@ -404,15 +431,15 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                 <MatchMedia ltWidth="sm">
                   {(matches) => (
                     <>
-                      {props.onCancel && (
+                      {onCancel && (
                         <Localized id="comments-commentForm-cancel">
                           <Button
                             color="secondary"
                             variant="outlined"
                             disabled={submitting}
-                            onClick={props.onCancel}
+                            onClick={onCancel}
                             fullWidth={matches}
-                            className={CLASSES[props.classNameRoot].cancel}
+                            className={CLASSES[classNameRoot].cancel}
                             upperCase
                           >
                             Cancel
@@ -421,7 +448,7 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                       )}
                       <Localized
                         id={
-                          props.editableUntil
+                          editableUntil
                             ? "comments-commentForm-saveChanges"
                             : "comments-commentForm-submit"
                         }
@@ -432,22 +459,22 @@ const CommentForm: FunctionComponent<Props> = (props) => {
                           disabled={
                             hasValidationErrors ||
                             submitting ||
-                            props.disabled ||
-                            (!!props.editableUntil && pristine)
+                            disabled ||
+                            (!!editableUntil && pristine)
                           }
                           type="submit"
                           fullWidth={matches}
-                          className={CLASSES[props.classNameRoot].submit}
+                          className={CLASSES[classNameRoot].submit}
                           upperCase
                         >
-                          {props.editableUntil ? "Save changes" : "Submit"}
+                          {editableUntil ? "Save changes" : "Submit"}
                         </Button>
                       </Localized>
                     </>
                   )}
                 </MatchMedia>
               </Flex>
-              {props.submitStatus}
+              {submitStatus}
             </HorizontalGutter>
           </form>
         )}
