@@ -3,7 +3,6 @@ import Joi from "joi";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import {
-  Comment,
   getLatestRevision,
   retrieveFeaturedComments,
 } from "coral-server/models/comment";
@@ -23,12 +22,12 @@ interface FeaturedHandlerResponse {
     createdAt: Date;
     story: {
       id: string;
-      // url: string
-      // title: string | null;
-      // publishedAt: Date | null;
+      url: string;
+      title: string | null;
+      publishedAt: Date | null;
     };
     author: {
-      // username: string;
+      username: string | null;
       id: string | null;
     };
   }>;
@@ -55,7 +54,7 @@ export const featuredHander = ({
     );
     const data = await retrieveFeaturedComments(mongo, tenant.id, siteID, 5);
     const response: FeaturedHandlerResponse = {
-      comments: (data as Comment[]).map((comment) => {
+      comments: data.map((comment) => {
         const revision = getLatestRevision(comment);
         return {
           id: comment.id,
@@ -63,9 +62,13 @@ export const featuredHander = ({
           createdAt: revision.createdAt,
           story: {
             id: comment.storyID,
+            title: comment.story.metadata?.title || null,
+            url: comment.story.url,
+            publishedAt: comment.story.metadata?.publishedAt || null,
           },
           author: {
             id: comment.authorID,
+            username: comment.author.username || null,
           },
         };
       }),
