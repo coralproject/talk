@@ -1262,3 +1262,44 @@ export async function retrieveManyStoryRatings(
       results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
   );
 }
+
+export async function retrieveFeaturedComments(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  limit: number
+) {
+  const $match: FilterQuery<Comment> = {
+    tenantID,
+    siteID,
+    "tags.type": GQLTAG.FEATURED,
+    status: { $in: PUBLISHED_STATUSES },
+  };
+  const results = await collection(mongo)
+    .aggregate([
+      {
+        $match,
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "authorID",
+          foreignField: "id",
+          as: "author",
+        },
+      },
+      {
+        $lookup: {
+          from: "stories",
+          localField: "storyID",
+          foreignField: "id",
+          as: "story",
+        },
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: limit },
+    ])
+    .toArray();
+
+  return results;
+}

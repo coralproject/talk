@@ -9,3 +9,4 @@ export * from "./remoteMedia";
 export * from "./story";
 export * from "./user";
 export * from "./version";
+export * from "./comment";
