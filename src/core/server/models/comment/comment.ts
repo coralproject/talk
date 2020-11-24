@@ -1281,29 +1281,11 @@ export async function retrieveFeaturedComments(
     "tags.type": GQLTAG.FEATURED,
     status: { $in: PUBLISHED_STATUSES },
   };
-  const results = await collection<FeaturedComment>(mongo)
+  const results = await collection<Comment>(mongo)
     .aggregate([
       {
         $match,
       },
-      {
-        $lookup: {
-          from: "users",
-          localField: "authorID",
-          foreignField: "id",
-          as: "author",
-        },
-      },
-      {
-        $lookup: {
-          from: "stories",
-          localField: "storyID",
-          foreignField: "id",
-          as: "story",
-        },
-      },
-      { $unwind: "$author" },
-      { $unwind: "$story" },
       { $sort: { createdAt: -1 } },
       { $limit: limit },
     ])

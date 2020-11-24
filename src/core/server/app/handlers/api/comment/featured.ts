@@ -1,12 +1,21 @@
+import DataLoader from "dataloader";
 import Joi from "joi";
+import { compact } from "lodash";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
+import { createTimer } from "coral-server/helpers";
+import logger from "coral-server/logger";
 import {
   getLatestRevision,
   retrieveFeaturedComments,
 } from "coral-server/models/comment";
+import { retrieveSite } from "coral-server/models/site";
+import { retrieveManyStories } from "coral-server/models/story";
+import { retrieveManyUsers } from "coral-server/models/user";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+
+const FEATURED_COMMENTS_LIMIT = 5;
 
 export type FeaturedOptions = Pick<AppOptions, "mongo">;
 
@@ -22,7 +31,7 @@ interface FeaturedHandlerResponse {
     createdAt: Date;
     story: {
       id: string;
-      url: string;
+      url: string | null;
       title: string | null;
       publishedAt: Date | null;
     };
@@ -34,7 +43,7 @@ interface FeaturedHandlerResponse {
 }
 
 const FeaturedCommentsSchema = Joi.object().keys({
-  callback: Joi.string().allow("").optional(),
+  callback: Joi.string().required(),
   siteID: Joi.string().required(),
 });
 
@@ -52,27 +61,58 @@ export const featuredHander = ({
       FeaturedCommentsSchema,
       req.query
     );
-    const data = await retrieveFeaturedComments(mongo, tenant.id, siteID, 5);
+
+    const timer = createTimer();
+    // Check to see that this site does exist for this Tenant.
+    const site = await retrieveSite(mongo, tenant.id, siteID);
+    if (!site) {
+      throw new Error("site not found");
+    }
+
+    const getStories = new DataLoader((ids: string[]) =>
+      retrieveManyStories(mongo, tenant.id, ids)
+    );
+    const getAuthors = new DataLoader((ids: string[]) =>
+      retrieveManyUsers(mongo, tenant.id, ids)
+    );
+
+    const comments = await retrieveFeaturedComments(
+      mongo,
+      tenant.id,
+      siteID,
+      FEATURED_COMMENTS_LIMIT
+    );
+
+    const stories = await getStories.loadMany(
+      comments.map((comment) => comment.storyID)
+    );
+
+    const authorIDs = compact(comments.map((c) => c.authorID));
+    const authors = await getAuthors.loadMany(authorIDs);
+
     const response: FeaturedHandlerResponse = {
-      comments: data.map((comment) => {
+      comments: comments.map((comment) => {
         const revision = getLatestRevision(comment);
+        const story = stories.find((s) => s && s.id === comment.storyID);
+        const author = authors.find((a) => a && a.id === comment.authorID);
         return {
           id: comment.id,
           body: revision.body,
           createdAt: revision.createdAt,
           story: {
             id: comment.storyID,
-            title: comment.story.metadata?.title || null,
-            url: comment.story.url,
-            publishedAt: comment.story.metadata?.publishedAt || null,
+            title: story?.metadata?.title || null,
+            url: story?.url || null,
+            publishedAt: story?.metadata?.publishedAt || null,
           },
           author: {
             id: comment.authorID,
-            username: comment.author.username || null,
+            username: author?.username || null,
           },
         };
       }),
     };
+    logger.info({ responseTime: timer() }, "getting featured comments");
     res.jsonp(response);
   } catch (err) {
     return next(err);
