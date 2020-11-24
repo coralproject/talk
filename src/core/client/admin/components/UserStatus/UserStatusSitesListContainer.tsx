@@ -24,6 +24,7 @@ import {
   Label,
   ListGroup,
   ListGroupRow,
+  RadioButton,
   Spinner,
 } from "coral-ui/components/v2";
 
@@ -72,10 +73,22 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   relay,
   viewerScopes,
 }) => {
+  const viewerIsAdmin = viewerScopes.role === GQLUSER_ROLE.ADMIN;
+  const viewerIsOrgAdmin =
+    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
+    !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
   const viewerIsSiteMod =
     viewerScopes.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
-  const [showSites, setShowSites] = useState<boolean>(!!viewerIsScoped);
+  const viewerIsSingleSiteMod = !!(
+    viewerIsSiteMod &&
+    viewerScopes.sites &&
+    viewerScopes.sites.length === 1
+  );
+
+  const [showSites, setShowSites] = useState<boolean>(
+    !!(viewerIsScoped || viewerIsSingleSiteMod)
+  );
 
   const sites = useMemo(() => {
     const items = viewerIsSiteMod
@@ -96,9 +109,13 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   const loading = !query || isRefetching;
   const hasMore = !isRefetching && relay.hasMore();
 
-  const toggleShowSites = useCallback(() => {
-    setShowSites((s) => !s);
+  const onHideSites = useCallback(() => {
+    setShowSites(false);
   }, [setShowSites]);
+  const onShowSites = useCallback(() => {
+    setShowSites(true);
+  }, [setShowSites]);
+
   const onChangeSite = useCallback(
     (siteID: string) => () => {
       const changed = [...selectedIDsInput.value];
@@ -119,22 +136,33 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
     <IntersectionProvider>
       <FieldSet>
         <div className={styles.header}>
-          {viewerIsScoped ? (
-            <Localized id="community-banModal-selectSites">
-              <Label>Select sites to ban</Label>
-            </Localized>
-          ) : (
-            <FormField>
-              <CheckBox checked={showSites} onChange={toggleShowSites}>
-                <Localized id="community-banModal-selectSites">
-                  Select sites to ban
-                </Localized>
-              </CheckBox>
-            </FormField>
-          )}
+          <Localized id="community-banModal-banFrom">
+            <Label>Ban from</Label>
+          </Localized>
         </div>
 
-        {(viewerIsScoped || showSites) && (
+        {(viewerIsAdmin ||
+          viewerIsOrgAdmin ||
+          (viewerIsScoped && !viewerIsSingleSiteMod)) && (
+          <div className={styles.sitesToggle}>
+            <FormField>
+              <Localized id="community-banModal-allSites">
+                <RadioButton checked={!showSites} onChange={onHideSites}>
+                  All sites
+                </RadioButton>
+              </Localized>
+            </FormField>
+            <FormField>
+              <Localized id="community-banModal-specificSites">
+                <RadioButton checked={showSites} onChange={onShowSites}>
+                  Specific Sites
+                </RadioButton>
+              </Localized>
+            </FormField>
+          </div>
+        )}
+
+        {showSites && (
           <FormField>
             <ListGroup>
               {sites.map((site) => {
@@ -143,7 +171,7 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
                 return (
                   <ListGroupRow key={site.id}>
                     <CheckBox
-                      checked={isChecked}
+                      checked={isChecked || viewerIsSingleSiteMod}
                       onChange={onChangeSite(site.id)}
                     >
                       {site.name}

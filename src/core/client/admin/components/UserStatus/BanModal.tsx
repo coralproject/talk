@@ -68,17 +68,27 @@ const BanModal: FunctionComponent<Props> = ({
   const onFormSubmit = useCallback(
     (input) => {
       try {
+        let selectedIDs = input.selectedIDs || [];
+
+        // single site mods can only ban for their
+        // one assigned site, override anything else that
+        // might come through
         if (
           isSiteMod &&
-          (!input.selectedIDs || input.selectedIDs.length === 0)
+          viewerScopes.sites &&
+          viewerScopes.sites.length === 1
         ) {
+          selectedIDs = [viewerScopes.sites[0].id];
+        }
+
+        if (isSiteMod && (!selectedIDs || selectedIDs.length === 0)) {
           return { [FORM_ERROR]: "At least one site must be selected" };
         }
 
         onConfirm(
           input.rejectExistingComments,
           input.emailMessage,
-          input.selectedIDs
+          selectedIDs
         );
 
         return;
@@ -86,7 +96,7 @@ const BanModal: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [isSiteMod, onConfirm]
+    [isSiteMod, onConfirm, viewerScopes.sites]
   );
 
   const initialSiteIDs = useMemo(() => {

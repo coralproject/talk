@@ -1142,8 +1142,10 @@ community-banModal-banUser = Ban User
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
 
-community-banModal-selectSites = Select sites to ban
 community-banModal-noSites = No sites
+community-banModal-banFrom = Ban from
+community-banModal-allSites = All sites
+community-banModal-specificSites = Specific sites
 
 community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
 community-suspendModal-consequence =
