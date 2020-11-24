@@ -18,3 +18,5 @@ export { default as resolveStoryURL } from "./resolveStoryURL";
 export { default as roleIsAtLeast } from "./roleIsAtLeast";
 export { default as isLoggedIn } from "./isLoggedIn";
 export { default as urls } from "./urls";
+export { default as isStoryMode } from "./isStoryMode";
+export { default as coerceStoryMode } from "./coerceStoryMode";

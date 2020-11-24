@@ -92,7 +92,7 @@ beforeEach(() => {
             .withArgs(
               undefined,
               sinon
-                .match({ id: storyStub.id, url: null })
+                .match({ id: storyStub.id, url: null, mode: null })
                 .or(sinon.match({ id: storyStub.id }))
             )
             .returns(storyStub)

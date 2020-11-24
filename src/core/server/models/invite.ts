@@ -73,8 +73,11 @@ export async function redeemInviteFromEmail(
     { email, tenantID },
     {}
   );
+  if (!result.value) {
+    throw new Error("invite not found");
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function retrieveInviteFromEmail(

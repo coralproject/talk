@@ -42,6 +42,8 @@ function updateForNewestFirst(
     }
   )!;
   const linked = connection.getLinkedRecords("viewNewEdges") || [];
+
+  // QUESTION: connection here was undefined when using the RR review/question tabs
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
 }
 

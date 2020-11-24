@@ -18,6 +18,7 @@ import {
   GQLCOMMENT_SORT,
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
+  GQLTAG,
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
@@ -51,6 +52,7 @@ interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
+  tag?: GQLTAG;
 }
 
 // eslint-disable-next-line no-unused-expressions
@@ -68,6 +70,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
   relay,
+  tag,
 }) => {
   const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
@@ -106,16 +109,29 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         return;
     }
 
+    // WORKAROUND: because we don't update the story ratings when we subscribe, disable live updates for this.
+    if (tag === GQLTAG.REVIEW) {
+      return;
+    }
+
     const disposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: commentsOrderBy,
       storyConnectionKey: "Stream_comments",
+      tag,
     });
 
     return () => {
       disposable.dispose();
     };
-  }, [commentsOrderBy, hasMore, live, story.id, subscribeToCommentEntered]);
+  }, [
+    commentsOrderBy,
+    hasMore,
+    live,
+    story.id,
+    subscribeToCommentEntered,
+    tag,
+  ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
@@ -131,8 +147,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     }
   }, [loadMore, beginLoadMoreEvent, story.id]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: story.id }), [
+  const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
     story.id,
+    tag,
     viewMore,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
@@ -192,10 +209,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         size="oneAndAHalf"
       >
         {story.comments.edges.length <= 0 && (
-          <NoComments
-            mode={story.settings.mode}
-            isClosed={story.isClosed}
-          ></NoComments>
+          <NoComments mode={story.settings.mode} isClosed={story.isClosed} />
         )}
         {story.comments.edges.length > 0 &&
           story.comments.edges.map(({ node: comment }, index) => (
@@ -300,6 +314,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+          tag: { type: "TAG" }
         ) {
         id
         isClosed
@@ -313,7 +328,7 @@ const enhanced = withPaginationContainer<
         commentCounts {
           totalPublished
         }
-        comments(first: $count, after: $cursor, orderBy: $orderBy)
+        comments(first: $count, after: $cursor, orderBy: $orderBy, tag: $tag)
           @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
@@ -382,6 +397,7 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor,
+        tag: fragmentVariables.tag,
         orderBy: fragmentVariables.orderBy,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
@@ -396,10 +412,16 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $tag: TAG
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
-            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+            @arguments(
+              count: $count
+              cursor: $cursor
+              orderBy: $orderBy
+              tag: $tag
+            )
         }
       }
     `,

@@ -1,12 +1,10 @@
+import Joi from "joi";
+import { isNumber } from "lodash";
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
-import {
-  CommentNotFoundError,
-  CoralError,
-  StoryNotFoundError,
-} from "coral-server/errors";
+import { CoralError, StoryNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
@@ -20,20 +18,17 @@ import {
   createComment,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
-  retrieveComment,
+  retrieveAuthorStoryRating,
 } from "coral-server/models/comment";
+import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import {
-  getDepth,
-  hasAncestors,
-  hasPublishedStatus,
-} from "coral-server/models/comment/helpers";
-import {
+  isUserStoryExpert,
   resolveStoryMode,
   retrieveStory,
   Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import {
@@ -53,12 +48,17 @@ import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import approveComment from "./approveComment";
-import { publishChanges, updateAllCommentCounts } from "./helpers";
+import {
+  publishChanges,
+  retrieveParent,
+  updateAllCommentCounts,
+} from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -70,6 +70,7 @@ export type CreateComment = Omit<
   | "siteID"
   | "media"
 > & {
+  rating?: number;
   media?: CreateCommentMediaInput;
 };
 
@@ -95,23 +96,24 @@ const markCommentAsAnswered = async (
     return;
   }
 
-  // If we have no experts, there cannot be anyone
-  // providing expert answers.
-  if (!story.settings.expertIDs) {
+  // If the author is not an expert, then we can't mark the question as
+  // answered!
+  if (!isUserStoryExpert(story.settings, author.id)) {
     return;
   }
 
-  if (
-    // If we are the export on this story...
-    story.settings.expertIDs.some((id) => id === author.id) &&
-    // And this is the first reply (depth of 1)...
-    getDepth(comment) === 1
-  ) {
-    // We need to mark the parent question as answered.
-    // - Remove the unanswered tag.
-    // - Approve it since an expert has replied to it.
-    await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
-    await approveComment(
+  // If this comment is deeper than the first reply, or is a top level comment,
+  // then we can't mark it as answered!
+  if (getDepth(comment) !== 1) {
+    return;
+  }
+
+  // We need to mark the parent question as answered.
+  // - Remove the unanswered tag.
+  // - Approve it since an expert has replied to it.
+  await Promise.all([
+    removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED),
+    approveComment(
       mongo,
       redis,
       broker,
@@ -120,7 +122,35 @@ const markCommentAsAnswered = async (
       comment.parentRevisionID,
       author.id,
       now
-    );
+    ),
+  ]);
+};
+
+const RatingSchema = Joi.number().min(1).max(5).integer();
+
+const validateRating = async (
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  story: Story,
+  rating: number
+) => {
+  // Ensure Tenant has ratings enabled.
+  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+
+  // Check that the rating is within range.
+  Joi.assert(rating, RatingSchema, "rating is not within range");
+
+  // Check to see if this user has already submitted a comment with a rating
+  // on this story.
+  const existing = await retrieveAuthorStoryRating(
+    mongo,
+    tenant.id,
+    story.id,
+    author.id
+  );
+  if (existing) {
+    throw new Error("author has already written a comment with a rating");
   }
 };
 
@@ -155,20 +185,31 @@ export default async function create(
     throw new StoryNotFoundError(input.storyID);
   }
 
+  // Get the story mode of this Story.
+  const storyMode = resolveStoryMode(story.settings, tenant);
+
+  // Perform some extra validation depending on the story mode.
+  if (isNumber(input.rating)) {
+    if (storyMode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+      throw new Error(
+        "rating submitted on story not in ratings and review mode"
+      );
+    }
+
+    // Looks like the rating has been provided. Ensure that this is not a reply,
+    // because replies cannot have a rating.
+    if (input.parentID) {
+      throw new Error("replies cannot contain a rating");
+    }
+
+    // Validate that the rating is a valid number.
+    await validateRating(mongo, tenant, author, story, input.rating);
+  }
+
   const ancestorIDs: string[] = [];
-  if (input.parentID) {
-    // Check to see that the reference parent ID exists.
-    const parent = await retrieveComment(mongo, tenant.id, input.parentID);
-    if (!parent) {
-      throw new CommentNotFoundError(input.parentID);
-    }
-
-    // Check that the parent comment was visible.
-    if (!hasPublishedStatus(parent)) {
-      throw new CommentNotFoundError(parent.id);
-    }
-
-    ancestorIDs.push(input.parentID);
+  const parent = await retrieveParent(mongo, tenant.id, input);
+  if (parent) {
+    ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
       // Push the parent's ancestors id's into the comment's ancestor id's.
       ancestorIDs.push(...parent.ancestorIDs);
@@ -189,14 +230,16 @@ export default async function create(
   try {
     // Run the comment through the moderation phases.
     result = await processForModeration({
+      action: "NEW",
       log,
       mongo,
       redis,
       config,
-      action: "NEW",
       tenant,
       story,
+      storyMode,
       nudge,
+      parent,
       comment: { ...input, ancestorIDs },
       author,
       req,
@@ -214,8 +257,6 @@ export default async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata, tags } = result;
-
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
   // One of the situations where we could encounter a race is when the comment
@@ -228,10 +269,12 @@ export default async function create(
   // is added, that it can already know that the comment is already in the
   // queue.
   let actionCounts: EncodedCommentActionCounts = {};
-  if (actions.length > 0) {
+  if (result.actions.length > 0) {
     // Determine the unique actions, we will use this to compute the comment
     // action counts. This should match what is added below.
-    actionCounts = encodeActionCounts(...filterDuplicateActions(actions));
+    actionCounts = encodeActionCounts(
+      ...filterDuplicateActions(result.actions)
+    );
   }
 
   // Create the comment!
@@ -244,11 +287,11 @@ export default async function create(
       // Copy the current story section into the comment if it exists.
       section: story.metadata?.section,
       // Remap the tags to include the createdAt.
-      tags: tags.map((tag) => ({ type: tag, createdAt: now })),
-      body,
-      status,
+      tags: result.tags.map((tag) => ({ type: tag, createdAt: now })),
+      body: result.body,
+      status: result.status,
       ancestorIDs,
-      metadata,
+      metadata: result.metadata,
       actionCounts,
       media,
     },
@@ -256,7 +299,7 @@ export default async function create(
   );
 
   log = log.child(
-    { commentID: comment.id, status, revisionID: revision.id },
+    { commentID: comment.id, status: result.status, revisionID: revision.id },
     true
   );
 
@@ -290,13 +333,13 @@ export default async function create(
     log.trace("pushed child comment id onto parent");
   }
 
-  if (actions.length > 0) {
+  if (result.actions.length > 0) {
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
     await addCommentActions(
       mongo,
       tenant,
-      actions.map(
+      result.actions.map(
         (action): CreateAction => ({
           ...action,
           commentID: comment.id,

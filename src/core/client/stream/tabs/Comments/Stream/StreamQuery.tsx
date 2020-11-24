@@ -2,10 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { coerceStoryMode } from "coral-framework/helpers";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
@@ -16,10 +17,6 @@ import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQuer
 
 import { AllCommentsTabQuery } from "./AllCommentsTab";
 import StreamContainer from "./StreamContainer";
-
-interface Props {
-  local: Local;
-}
 
 export const render = (
   data: QueryRenderData<QueryTypes>,
@@ -63,20 +60,33 @@ export const render = (
   );
 };
 
-const StreamQuery: FunctionComponent<Props> = (props) => {
-  const {
-    local: { storyID, storyURL, commentsTab },
-  } = props;
+const StreamQuery: FunctionComponent = () => {
+  const [{ storyID, storyURL, storyMode, commentsTab }] = useLocal<
+    Local
+  >(graphql`
+    fragment StreamQueryLocal on Local {
+      storyID
+      storyURL
+      storyMode
+      commentsOrderBy
+      commentsTab
+    }
+  `);
+
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <>
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query StreamQuery($storyID: ID, $storyURL: String) {
+          query StreamQuery(
+            $storyID: ID
+            $storyURL: String
+            $storyMode: STORY_MODE
+          ) {
             viewer {
               ...StreamContainer_viewer
             }
-            story: stream(id: $storyID, url: $storyURL) {
+            story: stream(id: $storyID, url: $storyURL, mode: $storyMode) {
               ...StreamContainer_story
             }
             settings {
@@ -87,6 +97,7 @@ const StreamQuery: FunctionComponent<Props> = (props) => {
         variables={{
           storyID,
           storyURL,
+          storyMode: coerceStoryMode(storyMode),
         }}
         render={(data) => {
           if (handleIncompleteAccount(data)) {
@@ -99,15 +110,4 @@ const StreamQuery: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment StreamQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-      commentsTab
-    }
-  `
-)(StreamQuery);
-
-export default enhanced;
+export default StreamQuery;

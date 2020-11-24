@@ -12,16 +12,14 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
+  useMutation,
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
@@ -41,11 +39,11 @@ interface Props {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
-  setCommentID: SetCommentIDMutation;
 }
 
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
-  const { comment, story, viewer, settings, setCommentID } = props;
+  const { comment, story, viewer, settings } = props;
+  const setCommentID = useMutation(SetCommentIDMutation);
   const { pym, eventEmitter } = useCoralContext();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
@@ -158,41 +156,39 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<Props>({
-    story: graphql`
-      fragment PermalinkViewContainer_story on Story {
-        id
-        ...ConversationThreadContainer_story
-        ...ReplyListContainer1_story
-        ...CreateCommentMutation_story
-        ...CreateCommentReplyMutation_story
-      }
-    `,
-    comment: graphql`
-      fragment PermalinkViewContainer_comment on Comment {
-        id
-        ...ConversationThreadContainer_comment
-        ...ReplyListContainer1_comment
-      }
-    `,
-    viewer: graphql`
-      fragment PermalinkViewContainer_viewer on User {
-        ...ConversationThreadContainer_viewer
-        ...ReplyListContainer1_viewer
-        ...UserBoxContainer_viewer
-        ...CreateCommentMutation_viewer
-        ...CreateCommentReplyMutation_viewer
-      }
-    `,
-    settings: graphql`
-      fragment PermalinkViewContainer_settings on Settings {
-        ...ConversationThreadContainer_settings
-        ...ReplyListContainer1_settings
-        ...UserBoxContainer_settings
-      }
-    `,
-  })(PermalinkViewContainer)
-);
+const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment PermalinkViewContainer_story on Story {
+      id
+      ...ConversationThreadContainer_story
+      ...ReplyListContainer1_story
+      ...CreateCommentMutation_story
+      ...CreateCommentReplyMutation_story
+    }
+  `,
+  comment: graphql`
+    fragment PermalinkViewContainer_comment on Comment {
+      id
+      ...ConversationThreadContainer_comment
+      ...ReplyListContainer1_comment
+    }
+  `,
+  viewer: graphql`
+    fragment PermalinkViewContainer_viewer on User {
+      ...ConversationThreadContainer_viewer
+      ...ReplyListContainer1_viewer
+      ...UserBoxContainer_viewer
+      ...CreateCommentMutation_viewer
+      ...CreateCommentReplyMutation_viewer
+    }
+  `,
+  settings: graphql`
+    fragment PermalinkViewContainer_settings on Settings {
+      ...ConversationThreadContainer_settings
+      ...ReplyListContainer1_settings
+      ...UserBoxContainer_settings
+    }
+  `,
+})(PermalinkViewContainer);
 
 export default enhanced;

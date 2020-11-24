@@ -5,16 +5,14 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Flex, Icon, TextLink } from "coral-ui/components/v2";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
@@ -34,14 +32,12 @@ interface Props {
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
-  setCommentID: SetCommentIDMutation;
 }
 
 const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
-  const { comment, settings, story, viewer, setCommentID } = props;
-  const banned = Boolean(
-    viewer && viewer.status.current.includes(GQLUSER_STATUS.BANNED)
-  );
+  const { comment, settings, story, viewer } = props;
+  const setCommentID = useMutation(SetCommentIDMutation);
+  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const onGotoConversation = useCallback(
     (e: MouseEvent) => {
@@ -169,66 +165,64 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment AnsweredCommentContainer_viewer on User {
-        id
-        status {
-          current
-        }
-        ignoredUsers {
-          id
-        }
-        role
-        mediaSettings {
-          unfurlEmbeds
-        }
-        ...UsernameWithPopoverContainer_viewer
-        ...ReactionButtonContainer_viewer
-        ...CommentContainer_viewer
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment AnsweredCommentContainer_viewer on User {
+      id
+      status {
+        current
       }
-    `,
-    story: graphql`
-      fragment AnsweredCommentContainer_story on Story {
-        url
-        ...UserTagsContainer_story
-        ...CommentContainer_story
-      }
-    `,
-    comment: graphql`
-      fragment AnsweredCommentContainer_comment on Comment {
+      ignoredUsers {
         id
+      }
+      role
+      mediaSettings {
+        unfurlEmbeds
+      }
+      ...UsernameWithPopoverContainer_viewer
+      ...ReactionButtonContainer_viewer
+      ...CommentContainer_viewer
+    }
+  `,
+  story: graphql`
+    fragment AnsweredCommentContainer_story on Story {
+      url
+      ...UserTagsContainer_story
+      ...CommentContainer_story
+    }
+  `,
+  comment: graphql`
+    fragment AnsweredCommentContainer_comment on Comment {
+      id
+      author {
+        id
+        username
+      }
+      parent {
         author {
-          id
           username
         }
-        parent {
-          author {
-            username
-          }
-          ...CommentContainer_comment
-        }
-        body
-        createdAt
-        lastViewerAction
-        replyCount
-        ...MediaSectionContainer_comment
-        ...UsernameWithPopoverContainer_comment
-        ...ReactionButtonContainer_comment
-        ...UserTagsContainer_comment
+        ...CommentContainer_comment
       }
-    `,
-    settings: graphql`
-      fragment AnsweredCommentContainer_settings on Settings {
-        ...ReactionButtonContainer_settings
-        ...UserTagsContainer_settings
-        ...CommentContainer_settings
-        ...MediaSectionContainer_settings
-        ...UsernameWithPopoverContainer_settings
-      }
-    `,
-  })(AnsweredCommentContainer)
-);
+      body
+      createdAt
+      lastViewerAction
+      replyCount
+      ...MediaSectionContainer_comment
+      ...UsernameWithPopoverContainer_comment
+      ...ReactionButtonContainer_comment
+      ...UserTagsContainer_comment
+    }
+  `,
+  settings: graphql`
+    fragment AnsweredCommentContainer_settings on Settings {
+      ...ReactionButtonContainer_settings
+      ...UserTagsContainer_settings
+      ...CommentContainer_settings
+      ...MediaSectionContainer_settings
+      ...UsernameWithPopoverContainer_settings
+    }
+  `,
+})(AnsweredCommentContainer);
 
 export default enhanced;

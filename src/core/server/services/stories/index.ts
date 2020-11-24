@@ -22,7 +22,7 @@ import {
 } from "coral-server/models/comment";
 import { LiveConfiguration } from "coral-server/models/settings";
 import {
-  addExpert,
+  addStoryExpert,
   closeStory,
   createStory,
   CreateStoryInput,
@@ -31,9 +31,10 @@ import {
   findStory,
   FindStoryInput,
   openStory,
-  removeExpert,
   removeStories,
   removeStory,
+  removeStoryExpert,
+  resolveStoryMode,
   retrieveManyStories,
   retrieveStory,
   retrieveStorySections,
@@ -45,7 +46,11 @@ import {
   updateStorySettings,
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import {
+  ensureFeatureFlag,
+  hasFeatureFlag,
+  Tenant,
+} from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
@@ -72,6 +77,11 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
+  // Validate the mode if passed.
+  if (input.mode) {
+    validateStoryMode(tenant, input.mode);
+  }
+
   let siteID = null;
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
@@ -80,6 +90,7 @@ export async function findOrCreate(
     if (!site) {
       throw new StoryURLInvalidError({
         storyURL: input.url,
+        tenantDomain: tenant.domain,
       });
     }
     siteID = site.id;
@@ -183,10 +194,7 @@ export async function remove(
   return removedStory;
 }
 
-// export type CreateStory = CreateStoryInput;
-export type CreateStory = Partial<
-  Pick<Story, "metadata" | "scrapedAt" | "closedAt" | "siteID">
->;
+export type CreateStory = Omit<CreateStoryInput, "siteID">;
 
 export async function create(
   mongo: Db,
@@ -195,20 +203,30 @@ export async function create(
   config: Config,
   storyID: string,
   storyURL: string,
-  { metadata, closedAt }: CreateStory,
+  { mode, metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
+  // Validate the mode if passed.
+  if (mode) {
+    validateStoryMode(tenant, mode);
+  }
+
+  // Validate the id.
+  if (!storyID) {
+    throw new Error("story id is required");
+  }
+
+  if (!storyURL) {
+    throw new StoryURLInvalidError({ storyURL, tenantDomain: tenant.domain });
+  }
+
   const site = await findSiteByURL(mongo, tenant.id, storyURL);
-  // // If the URL is provided, and the url is not associated with a site, then refuse
-  // // to create the Asset.
   if (!site) {
-    throw new StoryURLInvalidError({
-      storyURL,
-    });
+    throw new StoryURLInvalidError({ storyURL, tenantDomain: tenant.domain });
   }
 
   // Construct the input payload.
-  const input: CreateStoryInput = { metadata, closedAt, siteID: site.id };
+  const input: CreateStoryInput = { metadata, mode, closedAt, siteID: site.id };
   if (metadata) {
     input.scrapedAt = now;
   }
@@ -250,17 +268,25 @@ export async function update(
 ) {
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
-    // // If the URL is provided, and the url is not associated with a site, then refuse
-    // // to update the Asset.
     if (!site) {
       throw new StoryURLInvalidError({
         storyURL: input.url,
+        tenantDomain: tenant.domain,
       });
     }
   }
 
   return updateStory(mongo, tenant.id, storyID, input, now);
 }
+
+function validateStoryMode(tenant: Tenant, mode: GQLSTORY_MODE) {
+  if (mode === GQLSTORY_MODE.QA) {
+    ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA);
+  } else if (mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    ensureFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS);
+  }
+}
+
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
 export async function updateSettings(
@@ -270,6 +296,11 @@ export async function updateSettings(
   input: UpdateStorySettings,
   now = new Date()
 ) {
+  // Validate the input mode.
+  if (input.mode) {
+    validateStoryMode(tenant, input.mode);
+  }
+
   return updateStorySettings(mongo, tenant.id, storyID, input, now);
 }
 
@@ -320,6 +351,17 @@ export async function merge(
   // We can only merge stories if they are all on the same site.
   if (uniq(stories.map(({ siteID }) => siteID)).length > 1) {
     throw new Error("cannot merge stories on different sites");
+  }
+
+  // We can only merge stories with the comments mode so if any of them are not
+  // comments, then error.
+  if (
+    stories.some(
+      ({ settings }) =>
+        resolveStoryMode(settings, tenant) !== GQLSTORY_MODE.COMMENTS
+    )
+  ) {
+    throw new Error("cannot merge stories not in comments mode");
   }
 
   // Move all the comment's from the source stories over to the destination
@@ -386,7 +428,7 @@ export async function merge(
   return destinationStory;
 }
 
-export async function addStoryExpert(
+export async function addExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -397,10 +439,10 @@ export async function addStoryExpert(
     throw new UserNotFoundError(userID);
   }
 
-  return addExpert(mongo, tenant.id, storyID, userID);
+  return addStoryExpert(mongo, tenant.id, storyID, userID);
 }
 
-export async function removeStoryExpert(
+export async function removeExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -411,7 +453,7 @@ export async function removeStoryExpert(
     throw new UserNotFoundError(userID);
   }
 
-  return removeExpert(mongo, tenant.id, storyID, userID);
+  return removeStoryExpert(mongo, tenant.id, storyID, userID);
 }
 
 export async function updateStoryMode(
@@ -420,6 +462,9 @@ export async function updateStoryMode(
   storyID: string,
   mode: GQLSTORY_MODE
 ) {
+  // Validate the mode.
+  validateStoryMode(tenant, mode);
+
   return setStoryMode(mongo, tenant.id, storyID, mode);
 }
 

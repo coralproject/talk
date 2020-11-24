@@ -5,16 +5,14 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -35,11 +33,11 @@ interface Props {
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
-  setCommentID: SetCommentIDMutation;
 }
 
 const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
-  const { comment, settings, story, viewer, setCommentID } = props;
+  const { comment, settings, story, viewer } = props;
+  const setCommentID = useMutation(SetCommentIDMutation);
   const banned = Boolean(
     viewer && viewer.status.current.includes(GQLUSER_STATUS.BANNED)
   );
@@ -54,7 +52,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       void setCommentID({ id: comment.id });
       return false;
     },
-    [setCommentID, comment]
+    [emitViewConversationEvent, comment.id, setCommentID]
   );
 
   return (
@@ -159,67 +157,65 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment FeaturedCommentContainer_viewer on User {
-        id
-        status {
-          current
-        }
-        ignoredUsers {
-          id
-        }
-        mediaSettings {
-          unfurlEmbeds
-        }
-        role
-        ...UsernameWithPopoverContainer_viewer
-        ...ReactionButtonContainer_viewer
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment FeaturedCommentContainer_viewer on User {
+      id
+      status {
+        current
       }
-    `,
-    story: graphql`
-      fragment FeaturedCommentContainer_story on Story {
-        url
-        commentCounts {
-          tags {
-            FEATURED
-          }
-        }
-        ...UserTagsContainer_story
-      }
-    `,
-    comment: graphql`
-      fragment FeaturedCommentContainer_comment on Comment {
+      ignoredUsers {
         id
+      }
+      mediaSettings {
+        unfurlEmbeds
+      }
+      role
+      ...UsernameWithPopoverContainer_viewer
+      ...ReactionButtonContainer_viewer
+    }
+  `,
+  story: graphql`
+    fragment FeaturedCommentContainer_story on Story {
+      url
+      commentCounts {
+        tags {
+          FEATURED
+        }
+      }
+      ...UserTagsContainer_story
+    }
+  `,
+  comment: graphql`
+    fragment FeaturedCommentContainer_comment on Comment {
+      id
+      author {
+        id
+        username
+      }
+      parent {
         author {
-          id
           username
         }
-        parent {
-          author {
-            username
-          }
-        }
-        body
-        createdAt
-        lastViewerAction
-        replyCount
-        ...UsernameWithPopoverContainer_comment
-        ...ReactionButtonContainer_comment
-        ...MediaSectionContainer_comment
-        ...UserTagsContainer_comment
       }
-    `,
-    settings: graphql`
-      fragment FeaturedCommentContainer_settings on Settings {
-        ...ReactionButtonContainer_settings
-        ...UserTagsContainer_settings
-        ...MediaSectionContainer_settings
-        ...UsernameWithPopoverContainer_settings
-      }
-    `,
-  })(FeaturedCommentContainer)
-);
+      body
+      createdAt
+      lastViewerAction
+      replyCount
+      ...UsernameWithPopoverContainer_comment
+      ...ReactionButtonContainer_comment
+      ...MediaSectionContainer_comment
+      ...UserTagsContainer_comment
+    }
+  `,
+  settings: graphql`
+    fragment FeaturedCommentContainer_settings on Settings {
+      ...ReactionButtonContainer_settings
+      ...UserTagsContainer_settings
+      ...MediaSectionContainer_settings
+      ...UsernameWithPopoverContainer_settings
+    }
+  `,
+})(FeaturedCommentContainer);
 
 export default enhanced;

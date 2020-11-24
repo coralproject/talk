@@ -199,7 +199,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
   }
 }
 
-const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
+const enhanced = withContext(({ browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(

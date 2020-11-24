@@ -37,7 +37,7 @@ import {
 export type Validator<T = any, V = any> = (v: T, values: V) => ReactNode;
 
 /**
- * createValidator returns a Validator that returns given `error` when `condition` is falsey.
+ * createValidator returns a Validator that returns given `error` when `condition` is falsy.
  */
 export function createValidator<T = any, V = any>(
   condition: (v: T, values: V) => boolean,
@@ -276,6 +276,19 @@ export const validateStrictURLList = createValidator((v) => {
  * filtering a validation operation.
  */
 export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
+
+/**
+ * composeSomeConditions will return true when some of the conditions return
+ * true, false if all return false.
+ *
+ * @param conditions conditions to use
+ */
+export function composeSomeConditions<T = any, V = any>(
+  ...conditions: Array<Condition<T, V>>
+): Condition<T, V> {
+  return (value, values) =>
+    conditions.some((condition) => condition(value, values));
+}
 
 /**
  * composeValidatorsWhen is the same as composeValidators except it will only

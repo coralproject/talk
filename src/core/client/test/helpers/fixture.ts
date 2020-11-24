@@ -275,6 +275,8 @@ export function createStory(
         tags: {
           FEATURED: 0,
           UNANSWERED: 0,
+          QUESTION: 0,
+          REVIEW: 0,
         },
       },
       site: data.site || createSite(),
