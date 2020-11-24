@@ -4,8 +4,6 @@ import { compact } from "lodash";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
-import { createTimer } from "coral-server/helpers";
-import logger from "coral-server/logger";
 import {
   getLatestRevision,
   retrieveFeaturedComments,
@@ -62,8 +60,6 @@ export const featuredHander = ({
       req.query
     );
 
-    const timer = createTimer();
-    // Check to see that this site does exist for this Tenant.
     const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {
       throw new Error("site not found");
@@ -112,7 +108,6 @@ export const featuredHander = ({
         };
       }),
     };
-    logger.info({ responseTime: timer() }, "getting featured comments");
     res.jsonp(response);
   } catch (err) {
     return next(err);
