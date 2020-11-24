@@ -11,9 +11,18 @@ export type SubmitStatus = "APPROVED" | "RETRY" | "IN_REVIEW" | "REJECTED";
 
 export default function getSubmitStatus(
   response:
-    | MutationResponse<CreateCommentMutation, "createComment">
-    | MutationResponse<CreateCommentReplyMutation, "createCommentReply">
-    | MutationResponse<EditCommentMutation, "editComment">
+    | Omit<
+        MutationResponse<CreateCommentMutation, "createComment">,
+        "clientMutationId"
+      >
+    | Omit<
+        MutationResponse<CreateCommentReplyMutation, "createCommentReply">,
+        "clientMutationId"
+      >
+    | Omit<
+        MutationResponse<EditCommentMutation, "editComment">,
+        "clientMutationId"
+      >
 ): SubmitStatus {
   const node = "edge" in response ? response.edge.node : response.comment;
   if (isInReview(node.status)) {

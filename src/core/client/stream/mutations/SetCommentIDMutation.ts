@@ -2,13 +2,11 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
-import { createMutationContainer, LOCAL_ID } from "coral-framework/lib/relay";
+import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
 
-export interface SetCommentIDInput {
+interface SetCommentIDInput {
   id: string | null;
 }
-
-export type SetCommentIDMutation = (input: SetCommentIDInput) => Promise<void>;
 
 export async function commit(
   environment: Environment,
@@ -36,7 +34,6 @@ export async function commit(
   });
 }
 
-export const withSetCommentIDMutation = createMutationContainer(
-  "setCommentID",
-  commit
-);
+const SetCommentIDMutation = createMutation("setCommentID", commit);
+
+export default SetCommentIDMutation;

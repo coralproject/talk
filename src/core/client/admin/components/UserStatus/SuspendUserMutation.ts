@@ -78,7 +78,7 @@ const SuspendUserMutation = createMutation(
                     },
                     createdBy: {
                       id: viewer.id,
-                      username: viewer.username,
+                      username: viewer.username || null,
                     },
                     createdAt: now.toISOString(),
                   },

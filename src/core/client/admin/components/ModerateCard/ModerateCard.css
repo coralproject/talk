@@ -28,6 +28,10 @@ $moderateCardLinkTextColor: $colors-teal-700;
   margin-right: calc(2 * var(--spacing-5));
 }
 
+.ratingsArea {
+  margin-bottom: var(--spacing-1);
+}
+
 .contentArea {
   position: relative;
 }

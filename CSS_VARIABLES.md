@@ -177,6 +177,8 @@ Color palette that is used for indicating a warning and is usually yellow.
 
 `--palette-warning-500: #FFE91F;  /* Before 6.3.0: --palette-warning-main */`
 
+`--palette-warning-900: #FFCC15;  /* Before 6.3.0: --palette-warning-main */`
+
 ### font-family
 
 Different font families currently in use.

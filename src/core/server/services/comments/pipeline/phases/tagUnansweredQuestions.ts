@@ -1,4 +1,3 @@
-import { resolveStoryMode } from "coral-server/models/story";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -8,14 +7,16 @@ import {
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
+import { isUserStoryExpert } from "coral-server/models/story";
 
 export const tagUnansweredQuestions: IntermediateModerationPhase = ({
+  author,
   comment,
   story,
-  tenant,
+  storyMode,
 }): IntermediatePhaseResult | void => {
   // We only show unanswered tags in Q&A.
-  if (resolveStoryMode(story.settings, tenant) !== GQLSTORY_MODE.QA) {
+  if (storyMode !== GQLSTORY_MODE.QA) {
     return;
   }
 
@@ -25,14 +26,10 @@ export const tagUnansweredQuestions: IntermediateModerationPhase = ({
     return;
   }
 
-  // If we have no experts, or the current author is
-  // not an expert, then this is an UNANSWERED comment.
-  if (
-    !story.settings.expertIDs ||
-    story.settings.expertIDs.every((id) => id !== comment.authorID)
-  ) {
-    return {
-      tags: [GQLTAG.UNANSWERED],
-    };
+  // If the author is a story expert, then it's not an unanswered comment!
+  if (isUserStoryExpert(story.settings, author.id)) {
+    return;
   }
+
+  return { tags: [GQLTAG.UNANSWERED] };
 };

@@ -308,6 +308,8 @@ export const baseStory = createFixture<GQLStory>({
     tags: {
       FEATURED: 0,
       UNANSWERED: 0,
+      REVIEW: 0,
+      QUESTION: 0,
     },
   },
   settings: {
@@ -338,6 +340,7 @@ export const baseComment = createFixture<GQLComment>({
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   replyCount: 0,
+  rating: NULL_VALUE,
   editing: {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",

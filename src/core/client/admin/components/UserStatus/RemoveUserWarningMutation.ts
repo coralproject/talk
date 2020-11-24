@@ -66,7 +66,7 @@ const RemoveUserWarningMutation = createMutation(
                     active: false,
                     createdBy: {
                       id: viewer.id,
-                      username: viewer.username,
+                      username: viewer.username || null,
                     },
                     createdAt: now.toISOString(),
                   },

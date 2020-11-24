@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
@@ -56,6 +57,6 @@ it("show member since", async () => {
   const username = within(comment).getByText(firstComment.author!.username!, {
     selector: "button",
   });
-  username.props.onClick();
+  act(() => username.props.onClick());
   within(comment).getByText("Member Since", { exact: false });
 });

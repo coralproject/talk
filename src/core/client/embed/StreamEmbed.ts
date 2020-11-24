@@ -26,6 +26,7 @@ import { defaultPymControlFactory } from "./PymFrameControl";
 export interface StreamEmbedConfig {
   storyID?: string;
   storyURL?: string;
+  storyMode?: string;
   commentID?: string;
   autoRender?: boolean;
   title: string;
@@ -97,6 +98,7 @@ export class StreamEmbed {
     const query = stringifyQuery({
       storyID: config.storyID,
       storyURL: config.storyURL,
+      storyMode: config.storyMode,
       commentID: config.commentID,
       customCSSURL: config.customCSSURL,
 

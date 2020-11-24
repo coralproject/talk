@@ -7,6 +7,7 @@ import {
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
+import { roleIsStaff } from "coral-server/models/user/helpers";
 
 function roleAsTag(role: GQLUSER_ROLE) {
   switch (role) {
@@ -21,14 +22,17 @@ function roleAsTag(role: GQLUSER_ROLE) {
   }
 }
 
-// If a given user is a staff member, always approve their comment.
-export const staff: IntermediateModerationPhase = ({
+export const tagStaff: IntermediateModerationPhase = ({
   author,
 }): IntermediatePhaseResult | void => {
-  const staffTag = roleAsTag(author.role);
-  if (staffTag) {
-    return {
-      tags: [staffTag],
-    };
+  if (!roleIsStaff(author.role)) {
+    return;
   }
+
+  const tag = roleAsTag(author.role);
+  if (!tag) {
+    return;
+  }
+
+  return { tags: [tag] };
 };

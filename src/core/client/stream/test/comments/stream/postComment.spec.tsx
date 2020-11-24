@@ -14,6 +14,7 @@ import {
   createResolversStub,
   createSinonStub,
   findParentWithType,
+  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -74,94 +75,94 @@ async function createTestRenderer(
 }
 
 it("post a comment", async () => {
-  await act(async () => {
-    const { rte, form, tabPane } = await createTestRenderer({
-      Mutation: {
-        createComment: sinon.stub().callsFake((_, data) => {
-          expectAndFail(data).toMatchObject({
-            input: {
-              storyID: stories[0].id,
-              body: "<b>Hello world!</b>",
+  const { rte, form, tabPane } = await createTestRenderer({
+    Mutation: {
+      createComment: sinon.stub().callsFake((_, data) => {
+        expectAndFail(data).toMatchObject({
+          input: {
+            storyID: stories[0].id,
+            body: "<b>Hello world!</b>",
+          },
+        });
+        return {
+          edge: {
+            cursor: "",
+            node: {
+              ...baseComment,
+              id: "comment-x",
+              author: commenters[0],
+              body: "<b>Hello world! (from server)</b>",
             },
-          });
-          return {
-            edge: {
-              cursor: "",
-              node: {
-                ...baseComment,
-                id: "comment-x",
-                author: commenters[0],
-                body: "<b>Hello world! (from server)</b>",
-              },
-            },
-            clientMutationId: data.input.clientMutationId,
-          };
-        }),
-      },
-    });
-
-    rte.props.onChange("<b>Hello world!</b>");
-
-    timekeeper.freeze(new Date(baseComment.createdAt));
-    form.props.onSubmit();
-    timekeeper.reset();
-
-    // Test optimistic response.
-    expect(
-      within(within(tabPane).queryAllByTestID(/^comment-/)[0]).toJSON()
-    ).toMatchSnapshot("optimistic response");
-
-    // Test for server response.
-    await waitForElement(() =>
-      within(within(tabPane).queryAllByTestID(/^comment-/)[0]).getByText(
-        "<b>Hello world! (from server)</b>"
-      )
-    );
+          },
+          clientMutationId: data.input.clientMutationId,
+        };
+      }),
+    },
   });
+
+  await act(() => rte.props.onChange("<b>Hello world!</b>"));
+
+  timekeeper.freeze(new Date(baseComment.createdAt));
+  await act(() => form.props.onSubmit());
+  timekeeper.reset();
+
+  // Test optimistic response.
+  expect(
+    within(within(tabPane).queryAllByTestID(/^comment-/)[0]).toJSON()
+  ).toMatchSnapshot("optimistic response");
+
+  // Test for server response.
+  await waitForElement(() =>
+    within(within(tabPane).queryAllByTestID(/^comment-/)[0]).getByText(
+      "<b>Hello world! (from server)</b>"
+    )
+  );
 });
 
 const postACommentAndHandleNonPublishedComment = async (
   dismiss: (form: ReactTestInstance, rte: ReactTestInstance) => void
 ) => {
-  await act(async () => {
-    const { rte, form } = await createTestRenderer({
-      Mutation: {
-        createComment: sinon.stub().callsFake((_, data) => {
-          expectAndFail(data).toMatchObject({
-            input: {
-              storyID: stories[0].id,
+  const { rte, form } = await createTestRenderer({
+    Mutation: {
+      createComment: sinon.stub().callsFake((_, data) => {
+        expectAndFail(data).toMatchObject({
+          input: {
+            storyID: stories[0].id,
+            body: "<b>Hello world!</b>",
+          },
+        });
+        return {
+          edge: {
+            cursor: "",
+            node: {
+              ...baseComment,
+              id: "comment-x",
+              status: "SYSTEM_WITHHELD",
+              author: commenters[0],
               body: "<b>Hello world!</b>",
             },
-          });
-          return {
-            edge: {
-              cursor: "",
-              node: {
-                ...baseComment,
-                id: "comment-x",
-                status: "SYSTEM_WITHHELD",
-                author: commenters[0],
-                body: "<b>Hello world!</b>",
-              },
-            },
-            clientMutationId: data.input.clientMutationId,
-          };
-        }),
-      },
-    });
+          },
+          clientMutationId: data.input.clientMutationId,
+        };
+      }),
+    },
+  });
 
-    rte.props.onChange("<b>Hello world!</b>");
-    form.props.onSubmit();
+  await act(() => rte.props.onChange("<b>Hello world!</b>"));
+  await act(() => form.props.onSubmit());
 
-    // Test after server response.
-    await waitForElement(() =>
-      within(form).getByText("will be reviewed", { exact: false })
-    );
+  // Test after server response.
+  await waitForElement(() =>
+    within(form).getByText("will be reviewed", { exact: false })
+  );
 
+  await act(async () => {
     dismiss(form, rte);
-    expect(
-      within(form).queryByText("will be reviewed", { exact: false })
-    ).toBeNull();
+    await wait(() =>
+      expect(
+        within(form).queryByText("will be reviewed", { exact: false })
+      ).toBeNull()
+    );
   });
 };
 
@@ -197,128 +198,125 @@ it("post a comment and handle server error", async () => {
 });
 
 it("handle moderation nudge error", async () => {
-  await act(async () => {
-    const { form, rte } = await createTestRenderer(
-      {
-        Mutation: {
-          createComment: createSinonStub(
-            (s) =>
-              s.onFirstCall().callsFake((_, data) => {
-                expectAndFail(data).toMatchObject({
-                  input: {
-                    storyID: stories[0].id,
+  const { form, rte } = await createTestRenderer(
+    {
+      Mutation: {
+        createComment: createSinonStub(
+          (s) =>
+            s.onFirstCall().callsFake((_, data) => {
+              expectAndFail(data).toMatchObject({
+                input: {
+                  storyID: stories[0].id,
+                  body: "<b>Hello world!</b>",
+                  nudge: true,
+                },
+              });
+              throw new ModerationNudgeError({
+                code: ERROR_CODES.TOXIC_COMMENT,
+              });
+            }),
+          (s) =>
+            s.onSecondCall().callsFake((_, data) => {
+              expectAndFail(data).toMatchObject({
+                input: {
+                  storyID: stories[0].id,
+                  body: "<b>Hello world!</b>",
+                  nudge: false,
+                },
+              });
+              return {
+                edge: {
+                  cursor: "",
+                  node: {
+                    ...baseComment,
+                    id: "comment-x",
+                    status: "SYSTEM_WITHHELD",
+                    author: commenters[0],
                     body: "<b>Hello world!</b>",
-                    nudge: true,
                   },
-                });
-                throw new ModerationNudgeError({
-                  code: ERROR_CODES.TOXIC_COMMENT,
-                });
-              }),
-            (s) =>
-              s.onSecondCall().callsFake((_, data) => {
-                expectAndFail(data).toMatchObject({
-                  input: {
-                    storyID: stories[0].id,
-                    body: "<b>Hello world!</b>",
-                    nudge: false,
-                  },
-                });
-                return {
-                  edge: {
-                    cursor: "",
-                    node: {
-                      ...baseComment,
-                      id: "comment-x",
-                      status: "SYSTEM_WITHHELD",
-                      author: commenters[0],
-                      body: "<b>Hello world!</b>",
-                    },
-                  },
-                  clientMutationId: data.input.clientMutationId,
-                };
-              })
-          ),
-        },
+                },
+                clientMutationId: data.input.clientMutationId,
+              };
+            })
+        ),
       },
-      { muteNetworkErrors: true }
-    );
+    },
+    { muteNetworkErrors: true }
+  );
 
-    rte.props.onChange("<b>Hello world!</b>");
-    form.props.onSubmit();
+  await act(() => rte.props.onChange("<b>Hello world!</b>"));
+  await act(() => form.props.onSubmit());
 
-    // Look for internal error being displayed.
-    await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
+  // Look for internal error being displayed.
+  await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
 
-    // Try again, now nudging should be disabled.
-    form.props.onSubmit();
+  // Try again, now nudging should be disabled.
+  await act(() => form.props.onSubmit());
 
-    // Comment should now go to moderation.
-    await waitForElement(() =>
-      within(form).getByText("will be reviewed", { exact: false })
-    );
-  });
+  // Comment should now go to moderation.
+  await waitForElement(() =>
+    within(form).getByText("will be reviewed", { exact: false })
+  );
 });
 
 it("handle disabled commenting error", async () => {
-  await act(async () => {
-    let createCommentCalled = false;
-    const { rte, form } = await createTestRenderer(
-      createResolversStub<GQLResolver>({
-        Mutation: {
-          createComment: () => {
-            createCommentCalled = true;
-            throw new InvalidRequestError({
-              code: ERROR_CODES.COMMENTING_DISABLED,
-            });
-          },
+  let createCommentCalled = false;
+  const { rte, form } = await createTestRenderer(
+    createResolversStub<GQLResolver>({
+      Mutation: {
+        createComment: () => {
+          createCommentCalled = true;
+          throw new InvalidRequestError({
+            code: ERROR_CODES.COMMENTING_DISABLED,
+          });
         },
-        Query: {
-          settings: () => {
-            if (!createCommentCalled) {
-              return settings;
-            }
-            return {
-              ...settings,
-              disableCommenting: {
-                enabled: true,
-                message: "commenting disabled",
-              },
-            };
-          },
+      },
+      Query: {
+        settings: () => {
+          if (!createCommentCalled) {
+            return settings;
+          }
+          return {
+            ...settings,
+            disableCommenting: {
+              enabled: true,
+              message: "commenting disabled",
+            },
+          };
         },
-      }),
-      { muteNetworkErrors: true }
-    );
+      },
+    }),
+    { muteNetworkErrors: true }
+  );
 
-    rte.props.onChange("abc");
-    form.props.onSubmit();
-    await waitForElement(() => within(form).getByText("commenting disabled"));
+  await act(() => rte.props.onChange("abc"));
+  await act(() => form.props.onSubmit());
+  await waitForElement(() => within(form).getByText("commenting disabled"));
 
-    expect(rte.props.disabled).toBe(true);
-    expect(within(form).getByText("Submit").props.disabled).toBe(true);
-  });
+  expect(rte.props.disabled).toBe(true);
+  expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });
 
 it("handle story closed", async () => {
-  await act(async () => {
-    let returnStory = stories[0];
-    const { rte, form } = await createTestRenderer(
-      {
-        Mutation: {
-          createComment: sinon.stub().callsFake(() => {
-            throw new InvalidRequestError({
-              code: ERROR_CODES.STORY_CLOSED,
-            });
-          }),
-        },
-        Query: {
-          story: sinon.stub().callsFake(() => returnStory),
-        },
+  let returnStory = stories[0];
+  const { rte, form } = await createTestRenderer(
+    {
+      Mutation: {
+        createComment: sinon.stub().callsFake(() => {
+          throw new InvalidRequestError({
+            code: ERROR_CODES.STORY_CLOSED,
+          });
+        }),
       },
-      { muteNetworkErrors: true }
-    );
+      Query: {
+        story: sinon.stub().callsFake(() => returnStory),
+      },
+    },
+    { muteNetworkErrors: true }
+  );
 
+  // await act(() => );
+  await act(async () => {
     rte.props.onChange("abc");
     form.props.onSubmit();
 
@@ -326,7 +324,239 @@ it("handle story closed", async () => {
     returnStory = { ...stories[0], isClosed: true };
 
     await waitForElement(() => within(form).getByText("Story is closed"));
-    expect(rte.props.disabled).toBe(true);
-    expect(within(form).getByText("Submit").props.disabled).toBe(true);
   });
+
+  expect(rte.props.disabled).toBe(true);
+  expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders correctly", async () => {
+//   const props = createDefaultProps();
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => {
+//       expect(wrapper).toMatchSnapshot();
+//     });
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders with initialValues", async () => {
+//   const props = createDefaultProps();
+//   await act(async () => {
+//     await props.sessionStorage.setItem(contextKey, "Hello World!");
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => {
+//       expect(wrapper).toMatchSnapshot();
+//     });
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("save values", async () => {
+//   const props = createDefaultProps();
+
+//   await props.sessionStorage.setItem(contextKey, "Hello World!");
+
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+//   act(() => {
+//     wrapper
+//       .first()
+//       .props()
+//       .onChange({ values: { body: "changed" } });
+//   });
+
+//   await act(async () => {
+//     await wait(async () =>
+//       expect(await props.sessionStorage.getItem(contextKey)).toBe("changed")
+//     );
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("creates a comment", async () => {
+//   const storyID = "story-id";
+//   const input = { body: "Hello World!" };
+//   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
+//   const form = createForm({ onSubmit: noop });
+
+//   const props = createDefaultProps({
+//     createComment: createCommentStub,
+//     story: {
+//       id: storyID,
+//       isClosed: false,
+//     },
+//     commentsOrderBy: "CREATED_AT_ASC",
+//   });
+
+//   await act(async () => {
+//     await props.sessionStorage.setItem(contextKey, "Hello World!");
+//   });
+
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+//   act(() => {
+//     wrapper.first().props().onSubmit(input, form);
+//   });
+
+//   await act(async () => {
+//     await wait(() =>
+//       expect(
+//         createCommentStub.calledWith({
+//           ...input,
+//           storyID,
+//           nudge: true,
+//           commentsOrderBy: "CREATED_AT_ASC",
+//           media: undefined,
+//         })
+//       ).toBeTruthy()
+//     );
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when story has been closed (collapsing)", async () => {
+//   const props = createDefaultProps({
+//     story: {
+//       isClosed: true,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when commenting has been disabled (collapsing)", async () => {
+//   const props = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: true,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.update();
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when story has been closed (non-collapsing)", async () => {
+//   const props = createDefaultProps({
+//     story: {
+//       isClosed: false,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const nextProps = createDefaultProps({
+//     story: {
+//       isClosed: true,
+//     },
+//     settings: {
+//       closeCommenting: {
+//         message: "story closed",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.setProps(nextProps);
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when commenting has been disabled (non-collapsing)", async () => {
+//   const props = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: false,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const nextProps = createDefaultProps({
+//     settings: {
+//       disableCommenting: {
+//         enabled: true,
+//         message: "commenting disabled",
+//       },
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   act(() => {
+//     wrapper.setProps(nextProps);
+//   });
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });
+
+// TODO: (wyattjoh) convert to integration test
+// it("renders when user is scheduled to be deleted", async () => {
+//   const props = createDefaultProps({
+//     viewer: {
+//       scheduledDeletionDate: new Date("2019-01-01").toISOString(),
+//     },
+//   });
+//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+//   await waitFor();
+
+//   await act(async () => {
+//     await wait(() => expect(wrapper).toMatchSnapshot());
+//   });
+// });

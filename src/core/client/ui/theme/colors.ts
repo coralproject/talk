@@ -55,7 +55,7 @@ const colors = {
   streamRed900: "#660C2B",
   yellow100: "#FFFACC",
   yellow500: "#FFE91F",
-  yellow900: "#FFD702",
+  yellow900: "#FFCC15",
   teal100: "#E2FAF7",
   teal200: "#C2F9EA",
   teal300: "#9FECDF",

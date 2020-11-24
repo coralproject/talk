@@ -48,6 +48,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           edited: false,
           editableUntil: "1995-12-17T03:24:30.000Z",
         },
+        rating: null,
         pending: false,
         tags: [],
         lastViewerAction: null,

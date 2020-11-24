@@ -48,6 +48,7 @@ exports[`hide reply button 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -111,6 +112,7 @@ exports[`hide reply button 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -154,6 +156,7 @@ exports[`hide reply button 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -172,6 +175,7 @@ exports[`hide reply button 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -206,6 +210,7 @@ exports[`hide reply button 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -241,6 +246,7 @@ exports[`hide reply button 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -308,6 +314,7 @@ exports[`hide reply button 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -380,6 +387,7 @@ exports[`renders body only 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -451,6 +459,7 @@ exports[`renders body only 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -494,6 +503,7 @@ exports[`renders body only 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -512,6 +522,7 @@ exports[`renders body only 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -546,6 +557,7 @@ exports[`renders body only 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -581,6 +593,7 @@ exports[`renders body only 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -648,6 +661,7 @@ exports[`renders body only 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -720,6 +734,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -791,6 +806,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -834,6 +850,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -852,6 +869,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -886,6 +904,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -921,6 +940,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -988,6 +1008,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1060,6 +1081,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1131,6 +1153,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1174,6 +1197,7 @@ exports[`renders disabled reply when story is closed 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1192,6 +1216,7 @@ exports[`renders disabled reply when story is closed 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1226,6 +1251,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -1261,6 +1287,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -1328,6 +1355,7 @@ exports[`renders disabled reply when story is closed 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1404,6 +1432,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1479,6 +1508,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1526,6 +1556,7 @@ exports[`renders in reply to 1`] = `
                 },
               },
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1545,6 +1576,7 @@ exports[`renders in reply to 1`] = `
         />
       }
       parentAuthorName="ParentAuthor"
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1583,6 +1615,7 @@ exports[`renders in reply to 1`] = `
                   },
                 },
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -1622,6 +1655,7 @@ exports[`renders in reply to 1`] = `
                   },
                 },
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -1693,6 +1727,7 @@ exports[`renders in reply to 1`] = `
                 },
               },
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1765,6 +1800,7 @@ exports[`renders username and body 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1836,6 +1872,7 @@ exports[`renders username and body 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -1879,6 +1916,7 @@ exports[`renders username and body 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -1897,6 +1935,7 @@ exports[`renders username and body 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -1931,6 +1970,7 @@ exports[`renders username and body 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -1966,6 +2006,7 @@ exports[`renders username and body 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -2033,6 +2074,7 @@ exports[`renders username and body 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -2116,6 +2158,7 @@ exports[`shows conversation link 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -2187,6 +2230,7 @@ exports[`shows conversation link 1`] = `
                     "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
+                    "rating": null,
                     "status": "NONE",
                     "tags": Array [],
                     "viewerActionPresence": Object {
@@ -2236,6 +2280,7 @@ exports[`shows conversation link 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {
@@ -2254,6 +2299,7 @@ exports[`shows conversation link 1`] = `
           }
         />
       }
+      rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
       staticUsername={
@@ -2288,6 +2334,7 @@ exports[`shows conversation link 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -2323,6 +2370,7 @@ exports[`shows conversation link 1`] = `
                 "lastViewerAction": null,
                 "parent": null,
                 "pending": false,
+                "rating": null,
                 "status": "NONE",
                 "tags": Array [],
                 "viewerActionPresence": Object {
@@ -2390,6 +2438,7 @@ exports[`shows conversation link 1`] = `
               "lastViewerAction": null,
               "parent": null,
               "pending": false,
+              "rating": null,
               "status": "NONE",
               "tags": Array [],
               "viewerActionPresence": Object {

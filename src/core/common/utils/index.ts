@@ -12,3 +12,4 @@ export { default as pascalCase } from "./pascalCase";
 export { default as pureMerge } from "./pureMerge";
 export { default as startsWith } from "./startsWith";
 export { default as stringifyQuery } from "./stringifyQuery";
+export { default as roundRating } from "./roundRating";
