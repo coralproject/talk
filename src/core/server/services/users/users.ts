@@ -1065,7 +1065,9 @@ export async function ban(
   if (
     // check if they are a site moderator
     banner.role === GQLUSER_ROLE.MODERATOR &&
-    banner.moderationScopes?.siteIDs?.length !== 0 &&
+    banner.moderationScopes &&
+    banner.moderationScopes.siteIDs &&
+    banner.moderationScopes.siteIDs.length !== 0 &&
     // ensure they've provided at least one site ID
     (!siteIDs || siteIDs.length === 0)
   ) {
