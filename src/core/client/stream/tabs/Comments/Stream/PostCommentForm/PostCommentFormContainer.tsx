@@ -339,6 +339,8 @@ const enhanced = withContext(({ sessionStorage }) => ({
                   }
                   giphy {
                     enabled
+                    key
+                    maxRating
                   }
                   external {
                     enabled
@@ -361,6 +363,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
                 settings {
                   messageBox {
                     enabled
+                  }
+                  experts {
+                    id
                   }
                   mode
                 }

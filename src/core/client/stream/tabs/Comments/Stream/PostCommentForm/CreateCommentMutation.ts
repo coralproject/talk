@@ -15,7 +15,12 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLStory,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
@@ -35,13 +40,13 @@ export type CreateCommentInput = MutationInput<MutationTypes> & {
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: CreateCommentInput
+  input: CreateCommentInput,
+  uuidGenerator: CoralContext["uuidGenerator"]
 ) {
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
   const status = commentEdge.getLinkedRecord("node")!.getValue("status");
-
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
     return;
@@ -49,6 +54,7 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+  tagUnansweredQuestions(environment, store, input, commentEdge, uuidGenerator);
   addCommentToStory(store, input, commentEdge);
 }
 
@@ -95,6 +101,51 @@ function addCommentToStory(
     });
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
+    }
+  }
+}
+
+function tagUnansweredQuestions(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput,
+  commentEdge: RecordProxy,
+  uuidGenerator: CoralContext["uuidGenerator"]
+) {
+  const node = commentEdge.getLinkedRecord("node");
+  if (!node) {
+    return;
+  }
+  const story = store.get(input.storyID);
+  if (!story) {
+    return;
+  }
+  const storySettings = story.getLinkedRecord("settings");
+  const mode = storySettings?.getValue("mode");
+  if (mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+  const viewer = getViewer(environment)!;
+  const experts = storySettings?.getLinkedRecords("experts");
+
+  // if there are no experts or the author is not an expert, the question is unanswered
+  if (!experts || experts.every((exp) => exp.getValue("id") !== viewer.id)) {
+    const tags = node.getLinkedRecords("tags");
+    if (tags) {
+      const featuredTag = store.create(uuidGenerator(), "Tag");
+      featuredTag.setValue(GQLTAG.UNANSWERED, "code");
+      node.setLinkedRecords(tags.concat(featuredTag), "tags");
+    }
+    const commentCountsRecord = story.getLinkedRecord("commentCounts");
+    if (!commentCountsRecord) {
+      return;
+    }
+    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+    if (tagsRecord) {
+      tagsRecord.setValue(
+        (tagsRecord.getValue("UNANSWERED") as number) + 1,
+        "UNANSWERED"
+      );
     }
   }
 }
@@ -263,11 +314,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
         },
       }
     );

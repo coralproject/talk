@@ -54,7 +54,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           max: 100,
         },
         media: {
-          giphy: { enabled: false },
+          giphy: { enabled: false, key: "", maxRating: "" },
           twitter: { enabled: false },
           youtube: { enabled: false },
           external: { enabled: false },

@@ -1,4 +1,4 @@
-import { pick } from "lodash";
+import { pick, remove } from "lodash";
 import { graphql } from "react-relay";
 import {
   ConnectionHandler,
@@ -20,6 +20,8 @@ import {
   GQLComment,
   GQLCOMMENT_SORT_RL,
   GQLStory,
+  GQLSTORY_MODE,
+  GQLTAG,
   GQLUSER_ROLE,
 } from "coral-framework/schema";
 import { CreateCommentReplyEvent } from "coral-stream/events";
@@ -42,7 +44,8 @@ export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: CreateCommentReplyInput
+  input: CreateCommentReplyInput,
+  uuidGenerator: CoralContext["uuidGenerator"]
 ) {
   const commentEdge = store
     .getRootField("createCommentReply")!
@@ -57,11 +60,82 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+  tagExpertAnswers(environment, store, input, commentEdge, uuidGenerator);
 
   if (input.local && !input.ancestorID) {
     addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
     addCommentReplyToStory(store, input, commentEdge);
+  }
+}
+
+function tagExpertAnswers(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentReplyInput,
+  commentEdge: RecordProxy,
+  uuidGenerator: CoralContext["uuidGenerator"]
+) {
+  const node = commentEdge.getLinkedRecord("node");
+  if (!node) {
+    return;
+  }
+  const story = store.get(input.storyID);
+  if (!story) {
+    return;
+  }
+  const storySettings = story.getLinkedRecord("settings");
+  const mode = storySettings?.getValue("mode");
+  if (mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+  const viewer = getViewer(environment)!;
+  const experts = storySettings?.getLinkedRecords("experts");
+
+  // if the author is an expert
+  if (experts && experts.some((exp) => exp.getValue("id") === viewer.id)) {
+    const tags = node.getLinkedRecords("tags");
+    if (tags) {
+      const featuredTag = store.create(uuidGenerator(), "Tag");
+      featuredTag.setValue(GQLTAG.FEATURED, "code");
+      commentEdge.setLinkedRecords(tags.concat(featuredTag), "tags");
+    }
+
+    const parentProxy = store.get(input.parentID);
+    const parentTags = parentProxy?.getLinkedRecords("tags");
+    const wasUnanswered =
+      parentTags &&
+      parentTags.find((t) => t.getValue("code") === GQLTAG.UNANSWERED);
+
+    if (wasUnanswered) {
+      // remove unanswered tag from parent
+      if (parentProxy && parentTags && wasUnanswered) {
+        parentProxy.setLinkedRecords(
+          remove(parentTags, (tag) => {
+            return tag.getValue("code") === GQLTAG.UNANSWERED;
+          }),
+          "tags"
+        );
+      }
+
+      const commentCountsRecord = story.getLinkedRecord("commentCounts");
+      if (!commentCountsRecord) {
+        return;
+      }
+      const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+
+      // increment answered questions and decrement unanswered questions
+      if (tagsRecord) {
+        tagsRecord.setValue(
+          (tagsRecord.getValue("UNANSWERED") as number) - 1,
+          "UNANSWERED"
+        );
+        tagsRecord.setValue(
+          (tagsRecord.getValue("FEATURED") as number) + 1,
+          "FEATURED"
+        );
+      }
+    }
   }
 }
 
@@ -271,7 +345,7 @@ async function commit(
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: [],
+                  tags: parentComment.tags.map((tag) => ({ code: tag.code })),
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
@@ -318,11 +392,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
         },
       }
     );

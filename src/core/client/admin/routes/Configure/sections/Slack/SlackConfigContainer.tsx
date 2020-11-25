@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback, useMemo, useRef } from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { graphql } from "react-relay";
 
@@ -29,6 +29,8 @@ interface Props {
 }
 
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onAddChannel = useCallback(() => {
     // We use push here because final form still has issues tracking new items
     // being inserted at the old array index.
@@ -47,6 +49,11 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
         staffComments: false,
       },
     });
+    setTimeout(() => {
+      if (inputRef && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
   }, [form]);
 
   const onRemoveChannel = useCallback(
@@ -116,20 +123,19 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
         </Button>
         <FieldArray name="slack.channels">
           {({ fields }) =>
-            fields
-              .map((channel: any, index: number) => (
-                <SlackChannel
-                  key={index}
-                  channel={channel}
-                  disabled={false}
-                  index={index}
-                  onRemoveClicked={onRemoveChannel}
-                />
-              ))
-              // We're reversing here because we wanted the order of new items
-              // added to be at the front, and we can only use `.push` and not
-              // `.insert` or `.unshift`.
-              .reverse()
+            fields.map((channel: any, index: number) => (
+              <SlackChannel
+                key={index}
+                channel={channel}
+                disabled={false}
+                index={index}
+                onRemoveClicked={onRemoveChannel}
+                form={form}
+                ref={
+                  fields.length && fields.length - 1 === index ? inputRef : null
+                }
+              />
+            ))
           }
         </FieldArray>
       </ConfigBox>
