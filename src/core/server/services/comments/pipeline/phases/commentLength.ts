@@ -4,16 +4,13 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
-import { supportsMediaType } from "coral-server/models/tenant";
+
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
-import {
-  GQLCharCount,
-  GQLSTORY_MODE,
-} from "coral-server/graph/schema/__generated__/types";
+import { GQLCharCount } from "coral-server/graph/schema/__generated__/types";
 
 function resolveBound(
   charCount: GQLCharCount,
@@ -32,7 +29,6 @@ export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
   media,
-  storyMode,
   comment,
 }): IntermediatePhaseResult | void => {
   const max = resolveBound(tenant.charCount, "max");
@@ -42,11 +38,11 @@ export const commentLength: IntermediateModerationPhase = ({
 
   if (
     // Check if a Giphy attachment is attached...
-    (supportsMediaType(tenant, "giphy") && media?.type === "external") ||
+    media?.type === "giphy" ||
     // Or a external image is attached...
-    (supportsMediaType(tenant, "external") && media?.type === "giphy") ||
+    media?.type === "external" ||
     // Or a rating is attached...
-    (storyMode === GQLSTORY_MODE.RATINGS_AND_REVIEWS && comment.rating)
+    comment.rating
   ) {
     // Then we don't need to check for a minimum!
     return;
