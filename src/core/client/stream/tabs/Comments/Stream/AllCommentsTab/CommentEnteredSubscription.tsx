@@ -99,11 +99,70 @@ function determineDepthTillAncestor(
   return depth;
 }
 
+function getFlattenedReplyAncestorID(comment: RecordProxy, depth: number) {
+  const iterations = depth - 3;
+
+  let cur: RecordProxy | null | undefined = comment;
+  let ancestorID: string | undefined | null = null;
+  for (let i = 0; i < iterations; i++) {
+    cur = cur.getLinkedRecord("parent");
+    ancestorID = cur.getValue("id") as string;
+  }
+
+  return ancestorID;
+}
+
+function insertFlattenedReply(
+  store: RecordSourceSelectorProxy<unknown>,
+  liveDirectRepliesInsertion: boolean,
+  ancestorID: string | null | undefined
+) {
+  if (!ancestorID) {
+    return;
+  }
+
+  const comment = store
+    .getRootField("commentEntered")!
+    .getLinkedRecord("comment")!;
+  const ancestorProxy = store.get(ancestorID)!;
+
+  const connectionKey = "FlattenedReplyListContainer_replies";
+  const filters = { orderBy: "CREATED_AT_ASC", flatten: true };
+  const connection = ConnectionHandler.getConnection(
+    ancestorProxy,
+    connectionKey,
+    filters
+  );
+  if (!connection) {
+    // If it has no connection, it could not have been
+    // in our visible tree.
+    return;
+  }
+
+  if (connection.getLinkedRecord("pageInfo")!.getValue("hasNextPage")) {
+    // It hasn't loaded all comments yet, ignore this one.
+    return;
+  }
+  const commentsEdge = store.create(
+    `edge-${comment.getValue("id")!}`,
+    "CommentsEdge"
+  );
+  commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
+  commentsEdge.setLinkedRecord(comment, "node");
+
+  if (liveDirectRepliesInsertion) {
+    ConnectionHandler.insertEdgeAfter(connection, commentsEdge);
+  } else {
+    const linked = connection.getLinkedRecords("viewNewEdges") || [];
+    connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+  }
+}
+
 function insertReply(
   store: RecordSourceSelectorProxy<unknown>,
   liveDirectRepliesInsertion: boolean,
   ancestorID?: string | null,
-  flattenLastReply?: boolean
+  flattenLastReply?: boolean | null
 ) {
   const comment = store
     .getRootField("commentEntered")!
@@ -114,6 +173,12 @@ function insertReply(
   const depth = determineDepthTillAncestor(comment, ancestorID);
   if (depth === null) {
     // could not trace back to ancestor, discard.
+    return;
+  }
+
+  if (depth >= 4 && flattenLastReply) {
+    const ancestor = getFlattenedReplyAncestorID(comment, depth);
+    insertFlattenedReply(store, liveDirectRepliesInsertion, ancestor);
     return;
   }
 
@@ -265,6 +330,7 @@ const CommentEnteredSubscription = createSubscription(
           );
           return;
         }
+
         throw new Error(
           `Unsupport new top level comment live updates for sort ${variables.orderBy}`
         );
