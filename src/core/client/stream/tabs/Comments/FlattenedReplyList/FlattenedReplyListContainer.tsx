@@ -66,10 +66,13 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
   }, [comment.id, story.id, viewNew]);
 
   const viewNewCount =
-    (comment.replies.viewNewEdges && comment.replies.viewNewEdges.length) || 0;
+    (comment.replies &&
+      comment.replies.viewNewEdges &&
+      comment.replies.viewNewEdges.length) ||
+    0;
 
   if (
-    comment.replies === null ||
+    !comment.replies ||
     (comment.replies.edges.length === 0 && viewNewCount === 0)
   ) {
     return null;
