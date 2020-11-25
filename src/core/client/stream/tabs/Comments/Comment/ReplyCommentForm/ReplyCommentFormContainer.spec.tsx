@@ -142,6 +142,7 @@ it("creates a comment", async () => {
     createCommentStub.calledWith({
       storyID,
       parentID: props.comment.id,
+      ancestorID: props.ancestorID,
       parentRevisionID: "revision-id",
       nudge: true,
       local: undefined,

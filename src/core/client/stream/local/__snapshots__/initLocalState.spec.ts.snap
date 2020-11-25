@@ -21,7 +21,8 @@ exports[`init local state 1`] = `
     },
     \\"activeTab\\": \\"COMMENTS\\",
     \\"profileTab\\": \\"MY_COMMENTS\\",
-    \\"commentsTab\\": \\"NONE\\"
+    \\"commentsTab\\": \\"NONE\\",
+    \\"featureFlags\\": []
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",

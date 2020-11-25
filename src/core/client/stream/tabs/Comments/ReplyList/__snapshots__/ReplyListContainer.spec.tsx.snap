@@ -44,6 +44,7 @@ exports[`renders correctly 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
           story={
@@ -77,6 +78,7 @@ exports[`renders correctly 1`] = `
               "disableCommenting": Object {
                 "enabled": false,
               },
+              "featureFlags": Array [],
             }
           }
           story={
@@ -98,6 +100,7 @@ exports[`renders correctly 1`] = `
     ]
   }
   disableShowAll={false}
+  flattenLastReply={false}
   indentLevel={1}
   localReply={false}
   onShowAll={[Function]}
@@ -107,6 +110,7 @@ exports[`renders correctly 1`] = `
       "disableCommenting": Object {
         "enabled": false,
       },
+      "featureFlags": Array [],
     }
   }
   story={
@@ -172,6 +176,7 @@ exports[`when has more replies renders hasMore 1`] = `
     ]
   }
   disableShowAll={false}
+  flattenLastReply={false}
   hasMore={true}
   indentLevel={1}
   localReply={false}
@@ -182,6 +187,7 @@ exports[`when has more replies renders hasMore 1`] = `
       "disableCommenting": Object {
         "enabled": false,
       },
+      "featureFlags": Array [],
     }
   }
   story={
@@ -245,6 +251,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
     ]
   }
   disableShowAll={true}
+  flattenLastReply={false}
   hasMore={true}
   indentLevel={1}
   localReply={false}
@@ -255,6 +262,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
       "disableCommenting": Object {
         "enabled": false,
       },
+      "featureFlags": Array [],
     }
   }
   story={
@@ -318,6 +326,7 @@ exports[`when has more replies when showing all enable show all button after loa
     ]
   }
   disableShowAll={false}
+  flattenLastReply={false}
   hasMore={true}
   indentLevel={1}
   localReply={false}
@@ -328,6 +337,7 @@ exports[`when has more replies when showing all enable show all button after loa
       "disableCommenting": Object {
         "enabled": false,
       },
+      "featureFlags": Array [],
     }
   }
   story={
