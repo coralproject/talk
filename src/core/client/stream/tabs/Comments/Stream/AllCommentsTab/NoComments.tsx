@@ -5,7 +5,12 @@ import { GQLSTORY_MODE } from "coral-framework/schema";
 import { CallOut } from "coral-ui/components/v2";
 
 interface Props {
-  mode: "COMMENTS" | "QA" | "%future added value";
+  mode:
+    | "COMMENTS"
+    | "QA"
+    | "RATINGS_AND_REVIEWS"
+    | "%future added value"
+    | null;
   isClosed: boolean;
 }
 
@@ -38,6 +43,24 @@ const NoComments: FunctionComponent<Props> = ({ mode, isClosed }) => {
         <Localized id="qa-noQuestionsYet">
           <CallOut fullWidth>
             There are no questions yet. Why don't you ask one?
+          </CallOut>
+        </Localized>
+      );
+    }
+  } else if (mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    if (isClosed) {
+      // QUESTION: (wyattjoh) verify copy
+      return (
+        <Localized id="rr-noReviewsAtAll">
+          <CallOut fullWidth>There are no reviews.</CallOut>
+        </Localized>
+      );
+    } else {
+      // QUESTION: (wyattjoh) verify copy
+      return (
+        <Localized id="rr-noReviewsYet">
+          <CallOut fullWidth>
+            There are no reviews yet. Why don't you write one?
           </CallOut>
         </Localized>
       );

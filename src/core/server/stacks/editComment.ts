@@ -22,7 +22,7 @@ import {
   validateEditable,
   YouTubeMedia,
 } from "coral-server/models/comment";
-import { retrieveStory } from "coral-server/models/story";
+import { resolveStoryMode, retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
@@ -37,7 +37,11 @@ import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { publishChanges, updateAllCommentCounts } from "./helpers";
+import {
+  publishChanges,
+  retrieveParent,
+  updateAllCommentCounts,
+} from "./helpers";
 
 /**
  * getLastCommentEditableUntilDate will return the `createdAt` date that will
@@ -87,6 +91,13 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
+  // If the original comment was a reply, then get it's parent!
+  const { parentID, parentRevisionID } = originalStaleComment;
+  const parent = await retrieveParent(mongo, tenant.id, {
+    parentID,
+    parentRevisionID,
+  });
+
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
   // get the maximum value for the `createdAt` time that would be permitted
@@ -111,6 +122,9 @@ export default async function edit(
   if (!story) {
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
+
+  // Get the story mode of this Story.
+  const storyMode = resolveStoryMode(story.settings, tenant);
 
   const lastRevision = getLatestRevision(originalStaleComment);
 
@@ -137,13 +151,15 @@ export default async function edit(
 
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
+    action: "EDIT",
     log,
     mongo,
     redis,
     config,
-    action: "EDIT",
     tenant,
     story,
+    storyMode,
+    parent,
     comment: {
       ...originalStaleComment,
       ...input,

@@ -1,5 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 
+import { InternalError } from "coral-server/errors";
 import { translate } from "coral-server/services/i18n";
 
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
@@ -47,6 +48,17 @@ export function hasFeatureFlag(
   }
 
   return false;
+}
+
+export function ensureFeatureFlag(
+  tenant: Pick<Tenant, "featureFlags">,
+  flag: GQLFEATURE_FLAG
+) {
+  if (!hasFeatureFlag(tenant, flag)) {
+    throw new InternalError("tenant does not have feature flag enabled", {
+      flag,
+    });
+  }
 }
 
 export function hasEnabledAuthIntegration(

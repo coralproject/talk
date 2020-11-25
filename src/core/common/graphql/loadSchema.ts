@@ -1,14 +1,11 @@
+import { addResolversToSchema } from "@graphql-tools/schema";
+import { IResolvers, IResolverValidationOptions } from "@graphql-tools/utils";
 import { getGraphQLProjectConfig } from "graphql-config";
-import {
-  addResolveFunctionsToSchema,
-  IResolvers,
-  IResolverValidationOptions,
-} from "graphql-tools";
 
 export default function loadSchema(
   projectName: string,
   resolvers: IResolvers,
-  resolverValidationOptions?: IResolverValidationOptions
+  options?: IResolverValidationOptions
 ) {
   // Load the configuration from the provided `.graphqlconfig` file.
   const config = getGraphQLProjectConfig(__dirname, projectName);
@@ -17,7 +14,5 @@ export default function loadSchema(
   const schema = config.getSchema();
 
   // Attach the resolvers to the schema.
-  addResolveFunctionsToSchema({ schema, resolvers, resolverValidationOptions });
-
-  return schema;
+  return addResolversToSchema(schema, resolvers, options);
 }

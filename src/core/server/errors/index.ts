@@ -257,7 +257,7 @@ export class CommentBodyExceedsMaxLengthError extends CoralError {
 }
 
 export class StoryURLInvalidError extends CoralError {
-  constructor(properties: { storyURL: string; tenantDomain?: string }) {
+  constructor(properties: { storyURL: string; tenantDomain: string }) {
     super({
       code: ERROR_CODES.STORY_URL_NOT_PERMITTED,
       context: { pvt: properties },
@@ -467,7 +467,7 @@ export class UserNotFoundError extends CoralError {
 
 export class StoryNotFoundError extends CoralError {
   constructor(storyID: string) {
-    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pvt: { storyID } } });
+    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pub: { storyID } } });
   }
 }
 

@@ -16,7 +16,12 @@ export interface Props {
   showProfileTab: boolean;
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;
-  mode: "%future added value" | "COMMENTS" | "QA" | null;
+  mode:
+    | "COMMENTS"
+    | "QA"
+    | "RATINGS_AND_REVIEWS"
+    | "%future added value"
+    | null;
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {

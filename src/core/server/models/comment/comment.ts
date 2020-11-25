@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import * as uuid from "uuid";
 
-import { Sub } from "coral-common/types";
+import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
@@ -114,6 +114,11 @@ export interface Comment extends TenantResource {
    * Comment.
    */
   tags: CommentTag[];
+
+  /**
+   * rating is the optional value for the current rating linked to this Comment.
+   */
+  rating?: number;
 
   /**
    * childCount is the count of direct replies. It is stored as a separate value
@@ -801,8 +806,11 @@ export async function updateCommentActionCounts(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    throw new CommentNotFoundError(id, revisionID);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**
@@ -987,6 +995,8 @@ export async function retrieveStoryCommentTagCounts(
       {
         [GQLTAG.FEATURED]: 0,
         [GQLTAG.UNANSWERED]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.QUESTION]: 0,
       }
     );
   });
@@ -1108,4 +1118,147 @@ export async function retrieveOngoingDiscussions(
   logger.info({ took: timer() }, "ongoing discussions query");
 
   return results;
+}
+
+export async function retrieveAuthorStoryRating(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  authorID: string
+) {
+  const timer = createTimer();
+
+  const comment = await collection<RequireProperty<Comment, "rating">>(
+    mongo
+  ).findOne({
+    tenantID,
+    storyID,
+    authorID,
+    parentID: null,
+    status: {
+      $in: [...PUBLISHED_STATUSES, GQLCOMMENT_STATUS.PREMOD],
+    },
+    rating: { $gt: 0 },
+  });
+
+  logger.info({ took: timer() }, "check comment rated query");
+
+  return comment;
+}
+
+export async function retrieveStoryRatings(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  const timer = createTimer();
+
+  const results = await collection<{
+    average: number;
+    count: number;
+  }>(mongo)
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          storyID,
+          // We only store ratings on parent comments.
+          parentID: null,
+          // We only want to calculate an average with the comments that are
+          // published.
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+          // We only want to look at comments that contain a rating.
+          rating: { $gt: 0 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          average: { $avg: "$rating" },
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .toArray();
+
+  // TODO: If this query becomes too expensive, we can use redis to help.
+  logger.info({ took: timer() }, "story ratings query");
+
+  if (results.length === 0) {
+    return { average: 0, count: 0 };
+  }
+
+  const { average, count } = results[0];
+
+  return { average, count };
+}
+
+export async function retrieveManyStoryRatings(
+  mongo: Db,
+  tenantID: string,
+  storyIDs: string[]
+) {
+  const timer = createTimer();
+
+  const results = await collection<{
+    _id: string;
+    average: number;
+    count: number;
+  }>(mongo)
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          storyID: {
+            $in: storyIDs,
+          },
+          // We only store ratings on parent comments.
+          parentID: null,
+          // We only want to calculate an average with the comments that are
+          // published.
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+          // We only want to look at comments that contain a rating.
+          rating: { $gt: 0 },
+        },
+      },
+      {
+        $group: {
+          _id: "$storyID",
+          average: { $avg: "$rating" },
+          count: { $sum: 1 },
+        },
+      },
+      // We could use the following if we're experiencing issues with double
+      // ratings being added.
+      // { $sort: { createdAt: -1 } },
+      // {
+      //   $group: {
+      //     _id: {
+      //       storyID: "$storyID",
+      //       authorID: "$authorID",
+      //     },
+      //     rating: { $first: "$rating" },
+      //   },
+      // },
+      // {
+      //   $group: {
+      //     _id: "$_id.storyID",
+      //     average: { $avg: "$rating" },
+      //     count: { $sum: 1 },
+      //   },
+      // },
+    ])
+    .toArray();
+
+  // TODO: If this query becomes too expensive, we can use redis to help.
+  logger.info({ took: timer() }, "multi story ratings query");
+
+  return storyIDs.map(
+    (storyID) =>
+      results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
+  );
 }

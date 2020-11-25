@@ -5,6 +5,7 @@ import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
+import { StarRating } from "coral-ui/components/v3";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
@@ -15,6 +16,7 @@ export interface CommentProps {
   className?: string;
   username: React.ReactNode;
   body: string | null;
+  rating?: number | null;
   createdAt: string;
   topBarRight?: React.ReactNode;
   footer?: React.ReactNode;
@@ -90,6 +92,9 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
           <InReplyTo username={props.parentAuthorName} />
         </div>
       )}
+
+      {props.rating && <StarRating rating={props.rating} />}
+
       <HorizontalGutter size="oneAndAHalf">
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}

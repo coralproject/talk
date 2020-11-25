@@ -10,6 +10,32 @@ interface CacheEntry {
   createdAt: number;
 }
 
+async function get(
+  redis: Redis,
+  ttl: number,
+  key: string
+): Promise<CacheEntry | null> {
+  const value = await redis.get(key);
+  if (!value) {
+    return null;
+  }
+
+  const { headers, ...entry }: CacheEntry = JSON.parse(value);
+
+  const ageMS = Math.floor(Date.now() - entry.createdAt);
+  if (ageMS >= ttl) {
+    return null;
+  }
+
+  return {
+    ...entry,
+    headers: {
+      ...headers,
+      age: Math.floor(ageMS / 1000),
+    },
+  };
+}
+
 const cacheMiddleware = (redis: Redis, ttl: number): RequestHandler => async (
   req,
   res,
@@ -20,18 +46,12 @@ const cacheMiddleware = (redis: Redis, ttl: number): RequestHandler => async (
   const log = logger.child({ key }, true);
 
   // Try to lookup the entry in the cache.
-  const value = await redis.get(key);
-  if (value) {
+  let entry = await get(redis, ttl, key);
+  if (entry) {
     log.debug("request was in the cache");
 
-    // Found an entry! Unpack it and sent the response!
-    const entry: CacheEntry = JSON.parse(value);
-
     // Set the headers on the request.
-    res.set({
-      ...entry.headers,
-      age: Math.floor((Date.now() - entry.createdAt) / 1000),
-    });
+    res.set(entry.headers);
 
     // Set the status on the request.
     res.status(entry.status);
@@ -48,7 +68,7 @@ const cacheMiddleware = (redis: Redis, ttl: number): RequestHandler => async (
     const ret = send(body);
 
     // Create a new cache entry.
-    const entry: CacheEntry = {
+    entry = {
       headers: res.getHeaders(),
       status: res.statusCode,
       body,

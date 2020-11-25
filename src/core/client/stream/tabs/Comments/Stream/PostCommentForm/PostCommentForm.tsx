@@ -1,11 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
@@ -13,6 +11,7 @@ import { CreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 
 import CommentForm from "../CommentForm";
+import { OnChangeHandler } from "../CommentForm/CommentForm";
 import MessageBoxContainer from "../MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 
@@ -31,83 +30,129 @@ interface FormProps {
 
 interface FormSubmitProps extends FormProps, FormError {}
 
-interface StorySettings {
-  settings?: {
-    mode?: "COMMENTS" | "QA" | "%future added value" | null;
-  };
+type Mode = "rating" | "question" | "comments";
+
+interface TranslationEntry {
+  id: string;
+  text: string;
 }
+
+interface Translations {
+  placeholder: TranslationEntry;
+  label: TranslationEntry;
+}
+
+const translations: Record<Mode, Translations> = {
+  rating: {
+    placeholder: {
+      id: "comments-addAReviewForm-rte",
+      text: "Add a review (optional)",
+    },
+    label: {
+      id: "comments-addAReviewForm-rteLabel",
+      text: "Add a review (optional)",
+    },
+  },
+  comments: {
+    placeholder: {
+      id: "comments-postCommentForm-rte",
+      text: "Post a comment",
+    },
+    label: {
+      id: "comments-postCommentForm-rteLabel",
+      text: "Post a comment",
+    },
+  },
+  question: {
+    placeholder: {
+      id: "qa-postQuestionForm-rte",
+      text: "Post a question",
+    },
+    label: {
+      id: "qa-postQuestionForm-rteLabel",
+      text: "Post a question",
+    },
+  },
+};
 
 interface Props {
-  onSubmit: OnSubmit<FormSubmitProps>;
-  onChange?: (state: FormState<any>, form: FormApi) => void;
-  initialValues?: any;
-  min: number | null;
-  max: number | null;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
-  submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
+  initialValues?: FormProps;
+  max: number | null;
+  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
+  min: number | null;
+  mode?: Mode;
+  onChange?: OnChangeHandler;
+  onSubmit: OnSubmit<FormSubmitProps>;
+  rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   showMessageBox?: boolean;
   siteID: string;
-  story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
-  rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
-  mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
+  story: PropTypesOf<typeof MessageBoxContainer>["story"];
+  submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
 }
 
-const PostCommentForm: FunctionComponent<Props> = (props) => {
-  const isQA =
-    props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
+const PostCommentForm: FunctionComponent<Props> = ({
+  disabled = false,
+  disabledMessage,
+  initialValues,
+  max,
+  mediaConfig,
+  min,
+  mode = "comments",
+  onChange,
+  onSubmit,
+  rteConfig,
+  showMessageBox,
+  siteID,
+  story,
+  submitStatus,
+}) => {
+  const translation = translations[mode];
+
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
+
   return (
     <div id={POST_COMMENT_FORM_ID} className={CLASSES.createComment.$root}>
-      {props.showMessageBox && (
+      {showMessageBox && (
         <MessageBoxContainer
-          story={props.story}
+          story={story}
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
       <CommentForm
-        siteID={props.siteID}
-        onSubmit={props.onSubmit}
-        onChange={props.onChange}
-        min={props.min}
-        topBorder={!props.showMessageBox}
-        initialValues={props.initialValues}
-        max={props.max}
-        disabled={props.disabled}
-        disabledMessage={props.disabledMessage}
-        rteConfig={props.rteConfig}
-        placeHolderId="comments-postCommentForm-rte"
-        placeholder="Post a comment"
-        mediaConfig={props.mediaConfig}
+        siteID={siteID}
+        onSubmit={onSubmit}
+        onChange={onChange}
+        min={min}
+        topBorder={!showMessageBox && mode !== "rating"}
+        initialValues={initialValues}
+        max={max}
+        disabled={disabled}
+        disabledMessage={disabledMessage}
+        mode={mode === "rating" ? "rating" : "comment"}
+        rteConfig={rteConfig}
+        placeHolderId={translation.placeholder.id}
+        placeholder={translation.placeholder.text}
+        mediaConfig={mediaConfig}
         onFocus={onFocus}
         classNameRoot="createComment"
         bodyInputID="comments-postCommentForm-field"
         bodyLabel={
-          isQA ? (
-            <Localized id="qa-postQuestionForm-rteLabel">
-              <AriaInfo
-                component="label"
-                htmlFor="comments-postCommentForm-field"
-              >
-                Post a question
-              </AriaInfo>
-            </Localized>
-          ) : (
-            <Localized id="comments-postCommentForm-rteLabel">
-              <AriaInfo
-                component="label"
-                htmlFor="comments-postCommentForm-field"
-              >
-                Post a comment
-              </AriaInfo>
-            </Localized>
-          )
+          <Localized id={translation.label.id}>
+            <AriaInfo
+              component="label"
+              htmlFor="comments-postCommentForm-field"
+            >
+              {translation.label.text}
+            </AriaInfo>
+          </Localized>
         }
         submitStatus={
-          <PostCommentSubmitStatusContainer status={props.submitStatus} />
+          <PostCommentSubmitStatusContainer status={submitStatus} />
         }
       />
     </div>

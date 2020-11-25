@@ -1,6 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
-import { FormApi, FormState } from "final-form";
 import React, {
   EventHandler,
   FunctionComponent,
@@ -17,6 +16,7 @@ import { PropTypesOf } from "coral-ui/types";
 
 import RTEContainer from "../../RTE";
 import CommentForm from "../../Stream/CommentForm";
+import { OnChangeHandler } from "../../Stream/CommentForm/CommentForm";
 import ReplyTo from "./ReplyTo";
 
 export interface ReplyCommentFormProps {
@@ -24,7 +24,7 @@ export interface ReplyCommentFormProps {
   className?: string;
   onSubmit: OnSubmit<any>;
   onCancel?: EventHandler<MouseEvent<any>>;
-  onChange?: (state: FormState<any>, form: FormApi) => void;
+  onChange?: OnChangeHandler;
   initialValues?: any;
   rteRef?: Ref<CoralRTE>;
   parentUsername: string | null;

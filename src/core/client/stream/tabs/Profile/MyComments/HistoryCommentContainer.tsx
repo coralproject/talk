@@ -3,12 +3,9 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { ViewConversationEvent } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 
 import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
 import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
@@ -18,18 +15,18 @@ import MediaSectionContainer from "../../Comments/Comment/MediaSection";
 import HistoryComment from "./HistoryComment";
 
 interface Props {
-  setCommentID: SetCommentIDMutation;
   story: StoryData;
   comment: CommentData;
   settings: SettingsData;
 }
 
 const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
+  const setCommentID = useMutation(SetCommentIDMutation);
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const handleGotoConversation = useCallback(
     (e: React.MouseEvent) => {
       if (props.story.id === props.comment.story.id) {
-        void props.setCommentID({ id: props.comment.id });
+        void setCommentID({ id: props.comment.id });
         emitViewConversationEvent({
           from: "COMMENT_HISTORY",
           commentID: props.comment.id,
@@ -65,49 +62,51 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<Props>({
-    story: graphql`
-      fragment HistoryCommentContainer_story on Story {
-        id
+const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment HistoryCommentContainer_story on Story {
+      id
+    }
+  `,
+  settings: graphql`
+    fragment HistoryCommentContainer_settings on Settings {
+      reaction {
+        label
+        icon
       }
-    `,
-    settings: graphql`
-      fragment HistoryCommentContainer_settings on Settings {
+      ...MediaSectionContainer_settings
+    }
+  `,
+  comment: graphql`
+    fragment HistoryCommentContainer_comment on Comment {
+      id
+      body
+      createdAt
+      replyCount
+      ...MediaSectionContainer_comment
+      parent {
+        author {
+          username
+        }
+      }
+      rating
+      story {
+        id
+        url
+        metadata {
+          title
+        }
+        settings {
+          mode
+        }
+      }
+      actionCounts {
         reaction {
-          label
-          icon
-        }
-        ...MediaSectionContainer_settings
-      }
-    `,
-    comment: graphql`
-      fragment HistoryCommentContainer_comment on Comment {
-        id
-        body
-        createdAt
-        replyCount
-        ...MediaSectionContainer_comment
-        parent {
-          author {
-            username
-          }
-        }
-        story {
-          id
-          url
-          metadata {
-            title
-          }
-        }
-        actionCounts {
-          reaction {
-            total
-          }
+          total
         }
       }
-    `,
-  })(HistoryCommentContainer)
-);
+    }
+  `,
+})(HistoryCommentContainer);
 
 export default enhanced;

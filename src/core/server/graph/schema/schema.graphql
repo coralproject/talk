@@ -468,6 +468,12 @@ enum FEATURE_FLAG {
   the bottom of the stream when sorting the comment stream by oldest first.
   """
   ALTERNATE_OLDEST_FIRST_VIEW
+
+  """
+  ENABLE_RATINGS_AND_REVIEWS when enabled will allow for the ratings and reviews
+  functionality to be enabled.
+  """
+  ENABLE_RATINGS_AND_REVIEWS
 }
 
 # The moderation mode of the site.
@@ -509,6 +515,12 @@ enum STORY_MODE {
   QA is used for when the story is in Q&A mode.
   """
   QA
+
+  """
+  RATINGS_AND_REVIEWS is used for when the story should be used for ratings and
+  reviews.
+  """
+  RATINGS_AND_REVIEWS
 }
 
 ################################################################################
@@ -3093,10 +3105,22 @@ enum TAG {
   EXPERT
 
   """
-  UNANSWERED is used when a Comment is written by a User and is unanswered
-  by an expert for that Comment's story.
+  UNANSWERED is used when a Comment is written by a user and has not been
+  answered by an expert on a Story that is set to Q&A.
   """
   UNANSWERED
+
+  """
+  REVIEW is used when a Comment is written with a rating on a Story that is set
+  to Ratings and Reviews.
+  """
+  REVIEW
+
+  """
+  QUESTION is used when a Comment is written without a rating on a Story
+  that is set to Ratings and Reviews.
+  """
+  QUESTION
 }
 
 """
@@ -3133,6 +3157,16 @@ type CommentTagCounts {
   UNANSWERED is the count of Comment's with the UNANSWERED tag.
   """
   UNANSWERED: Int!
+
+  """
+  REVIEW is the count of Comment's with the REVIEW tag.
+  """
+  REVIEW: Int!
+
+  """
+  QUESTION is the count of Comment's with the QUESTION tag.
+  """
+  QUESTION: Int!
 }
 
 """
@@ -3285,6 +3319,11 @@ type Comment @cacheControl(maxAge: 5) {
   site is the Site referenced by the Story for this Comment.
   """
   site: Site!
+
+  """
+  rating is the optional rating that is attached to the Comment.
+  """
+  rating: Int
 }
 
 type PageInfo {
@@ -3487,8 +3526,7 @@ type StorySettings {
   messageBox: StoryMessageBox!
 
   """
-  mode is whether the story stream is in commenting or Q&A mode.
-  This will determine the appearance of the stream and how it functions.
+  mode is the specified mode that the story should be updated with.
   """
   mode: STORY_MODE!
 
@@ -3513,6 +3551,20 @@ enum STORY_STATUS {
   CLOSED represents when a given Story is not open for commenting.
   """
   CLOSED
+}
+
+type StoryRatings {
+  """
+  average refers to the average rating across all ratings for the Story from
+  published comments.
+  """
+  average: Float!
+
+  """
+  count refers to the number of ratings that have been submitted that
+  contributes to the `average`.
+  """
+  count: Int!
 }
 
 """
@@ -3561,6 +3613,12 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+
+    """
+    rating allows filtering for comments with a specific rating. If this feature
+    has not been enabled on this tenant or story, this option has no effect.
+    """
+    rating: Int @constraint(min: 1, max: 5)
 
     """
     This is a workaround to allow filtering for current Q&A
@@ -3636,6 +3694,18 @@ type Story @cacheControl(maxAge: 30) {
   viewerCount is the number of viewers active on this Story.
   """
   viewerCount: Int
+
+  """
+  ratings is information about ratings that is attached to this story by
+  published comments.
+  """
+  ratings: StoryRatings
+
+  """
+  viewerRating is the Comment with a rating that the viewer has already added to
+  this story.
+  """
+  viewerRating: Comment
 }
 
 """
@@ -3764,7 +3834,7 @@ type Query {
   stream will load a specific story that can be identified by either an ID or a
   URL and will create the story if that feature is enabled.
   """
-  stream(id: ID, url: String): Story
+  stream(id: ID, url: String, mode: STORY_MODE): Story
 
   """
   stories returns filtered stories that can be paginated.
@@ -3979,6 +4049,11 @@ input CreateCommentInput {
   media is the optional media attachment to be added to a Comment.
   """
   media: CreateCommentMediaInput
+
+  """
+  rating is the optional rating that can be added to a Comment.
+  """
+  rating: Int
 }
 
 """
@@ -5256,6 +5331,11 @@ input CreateStory {
   url is the url that the Story is located on.
   """
   url: String!
+
+  """
+  mode is the specified mode that the story should be created with.
+  """
+  mode: STORY_MODE
 
   """
   metadata is the set of information relating to this Story that would normally

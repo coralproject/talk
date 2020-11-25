@@ -128,3 +128,9 @@ framework-durationField-unit =
     }
     *[other] unknown unit
   }
+
+framework-starRating =
+  .aria-label = { $value ->
+    [1] 1 Star
+    *[other] {$value} Stars
+  }

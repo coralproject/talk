@@ -1,8 +1,5 @@
-import {
-  attachDirectiveResolvers,
-  IResolvers,
-  SchemaDirectiveVisitor,
-} from "graphql-tools";
+import { attachDirectiveResolvers } from "@graphql-tools/schema";
+import { IResolvers, SchemaDirectiveVisitor } from "@graphql-tools/utils";
 
 import { loadSchema } from "coral-common/graphql";
 import auth from "coral-server/graph/directives/auth";

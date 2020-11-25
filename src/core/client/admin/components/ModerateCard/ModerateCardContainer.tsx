@@ -274,6 +274,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [comment]
   );
 
+  const isRR =
+    comment.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+
   return (
     <>
       <FadeInTransition active={!!comment.enteredLive}>
@@ -286,6 +289,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
+          rating={isRR ? comment.rating : null}
           highlight={highlight}
           inReplyTo={comment.parent && comment.parent.author}
           comment={comment}
@@ -358,6 +362,7 @@ const enhanced = withFragmentContainer<Props>({
       statusLiveUpdated
       createdAt
       body
+      rating
       revision {
         actionCounts {
           flag {
