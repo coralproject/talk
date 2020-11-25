@@ -12,7 +12,10 @@ import {
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
-import { FLATTENED_REPLIES_INDENT_START } from "coral-stream/constants";
+import {
+  FLATTENED_REPLIES_INDENT_LEVEL,
+  FLATTENED_REPLIES_INDENT_START,
+} from "coral-stream/constants";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
 
@@ -177,14 +180,14 @@ function insertReply(
     return;
   }
 
-  if (depth >= 4 && flattenLastReply) {
+  if (depth >= FLATTENED_REPLIES_INDENT_LEVEL && flattenLastReply) {
     const ancestor = getFlattenedReplyAncestorID(comment, depth);
     insertFlattenedReply(store, liveDirectRepliesInsertion, ancestor);
     return;
   }
 
   // Comment is just outside our visible depth.
-  if (depth >= 4) {
+  if (depth >= FLATTENED_REPLIES_INDENT_LEVEL) {
     // Inform last comment in visible tree about the available replies.
     // This will trigger to show the `Read More of this Conversation` link.
     const replyCount = (parentProxy.getValue("replyCount") as number) || 0;
