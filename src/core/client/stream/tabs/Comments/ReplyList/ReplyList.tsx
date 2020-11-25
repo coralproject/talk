@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { FLATTENED_REPLIES_INDENT_START } from "coral-stream/constants";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -81,7 +82,8 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
                       onRemoveAnswered={props.onRemoveAnswered}
                       toggleCollapsed={toggleCollapsed}
                       ancestorID={
-                        props.flattenLastReply && props.indentLevel === 3
+                        props.flattenLastReply &&
+                        props.indentLevel === FLATTENED_REPLIES_INDENT_START
                           ? comment.id
                           : undefined
                       }

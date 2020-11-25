@@ -9,6 +9,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { FLATTENED_REPLIES_INDENT_LEVEL } from "coral-stream/constants";
 import { ShowAllRepliesEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
@@ -97,7 +98,7 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
                   story={story}
                   comment={c}
                   settings={settings}
-                  indentLevel={4}
+                  indentLevel={FLATTENED_REPLIES_INDENT_LEVEL}
                   collapsed={collapsed}
                   toggleCollapsed={toggleCollapsed}
                 />
@@ -106,7 +107,7 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
           </HorizontalGutter>
         ))}
         {relay.hasMore() && (
-          <Indent level={4} noBorder>
+          <Indent level={FLATTENED_REPLIES_INDENT_LEVEL} noBorder>
             <Localized id="comments-replyList-showAll">
               <Button
                 id={`coral-comments-replyList-showAll--${comment.id}`}
@@ -127,7 +128,7 @@ const FlattenedReplyListContainer: FunctionComponent<Props> = ({
           </Indent>
         )}
         {!!viewNewCount && (
-          <Indent level={4} noBorder>
+          <Indent level={FLATTENED_REPLIES_INDENT_LEVEL} noBorder>
             <Localized id="comments-replyList-showMoreReplies">
               <Button
                 aria-controls={`coral-comments-replyList-log--${comment.id}`}

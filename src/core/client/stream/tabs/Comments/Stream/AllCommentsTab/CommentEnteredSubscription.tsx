@@ -12,6 +12,7 @@ import {
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
+import { FLATTENED_REPLIES_INDENT_START } from "coral-stream/constants";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
 
@@ -100,7 +101,7 @@ function determineDepthTillAncestor(
 }
 
 function getFlattenedReplyAncestorID(comment: RecordProxy, depth: number) {
-  const iterations = depth - 3;
+  const iterations = depth - FLATTENED_REPLIES_INDENT_START;
 
   let cur: RecordProxy | null | undefined = comment;
   let ancestorID: string | undefined | null = null;
