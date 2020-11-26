@@ -46,9 +46,9 @@ export interface ClientTargetHandlerOptions {
   defaultLocale: LanguageCode;
 
   /**
-   * viewTemplate is the html template to use.
+   * template is the html template name to use.
    */
-  viewTemplate?: string;
+  template?: "amp" | "client";
 
   /**
    * mongo is used when trying to infer a site from the request.
@@ -112,7 +112,7 @@ const clientHandler = ({
   enableCustomCSS,
   enableCustomCSSQuery,
   defaultLocale,
-  viewTemplate = "client",
+  template: viewTemplate = "client",
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
@@ -120,7 +120,7 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
-  res.render("client", {
+  res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI,
     entrypoint,
@@ -131,10 +131,10 @@ const clientHandler = ({
   });
 };
 
-function loadEntrypoints(manifestFile: string) {
+function loadEntrypoints(manifestFilename: string) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
-  const manifest = path.join(
+  const manifestFilepath = path.join(
     __dirname,
     "..",
     "..",
@@ -143,32 +143,31 @@ function loadEntrypoints(manifestFile: string) {
     "..",
     "dist",
     "static",
-    manifestFile
+    manifestFilename
   );
-  return Entrypoints.fromFile(manifest);
+
+  const entrypoints = Entrypoints.fromFile(manifestFilepath);
+  if (!entrypoints) {
+    logger.error(
+      { manifest: manifestFilepath },
+      "could not load the generated manifest, client routes will remain un-mounted"
+    );
+  }
+
+  return entrypoints;
 }
 
 export function mountClientRoutes(
   router: Router,
   { tenantCache, ...options }: MountClientRouteOptions
 ) {
-  const manifest = "asset-manifest.json";
-  const entrypoints = loadEntrypoints(manifest);
+  const entrypoints = loadEntrypoints("asset-manifest.json");
   if (!entrypoints) {
-    logger.error(
-      { manifest },
-      "could not load the generated manifest, client routes will remain un-mounted"
-    );
     return;
   }
 
-  const embedManifest = "embed-asset-manifest.json";
-  const embedEntrypoints = loadEntrypoints(embedManifest);
+  const embedEntrypoints = loadEntrypoints("embed-asset-manifest.json");
   if (!embedEntrypoints) {
-    logger.error(
-      { manifest: embedManifest },
-      "could not load the generated manifest, client routes will remain un-mounted"
-    );
     return;
   }
 
@@ -187,9 +186,10 @@ export function mountClientRoutes(
       ...options,
       cacheDuration: false,
       entrypoint: embedEntrypoints.get("main"),
-      viewTemplate: "amp",
+      template: "amp",
     })
   );
+
   router.use(
     "/embed/stream",
     createClientTargetRouter({
@@ -199,6 +199,7 @@ export function mountClientRoutes(
       entrypoint: entrypoints.get("stream"),
     })
   );
+
   router.use(
     "/embed/auth",
     createClientTargetRouter({
@@ -208,18 +209,15 @@ export function mountClientRoutes(
     })
   );
 
-  // Add the standalone targets.
   router.use(
     "/account",
-    // If we aren't already installed, redirect the user to the install page.
-    installedMiddleware(),
     createClientTargetRouter({
       ...options,
       cacheDuration: false,
       entrypoint: entrypoints.get("account"),
     })
   );
-  // Add the standalone targets.
+
   router.use(
     "/admin",
     // If we aren't already installed, redirect the user to the install page.
@@ -230,6 +228,7 @@ export function mountClientRoutes(
       entrypoint: entrypoints.get("admin"),
     })
   );
+
   router.use(
     "/install",
     // If we're already installed, redirect the user to the admin page.
