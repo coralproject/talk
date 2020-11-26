@@ -35,6 +35,7 @@ import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
 import {
+  ensureFeatureFlag,
   hasFeatureFlag,
   linkUsersAvailable,
   Tenant,
@@ -794,11 +795,8 @@ export async function updateModerationScopes(
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
+  // Ensure Tenant has site moderators enabled.
+  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
 
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
@@ -1073,7 +1071,36 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
+  let user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
+
+  const supsensionStatus = consolidateUserSuspensionStatus(
+    targetUser.status.suspension
+  );
+
+  // remove suspension if present
+  if (supsensionStatus.active) {
+    user = await removeActiveUserSuspensions(
+      mongo,
+      tenant.id,
+      userID,
+      banner.id,
+      now
+    );
+  }
+
+  const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
+
+  // remove premod if present
+  if (premodStatus.active) {
+    user = await removeUserPremod(mongo, tenant.id, userID, banner.id, now);
+  }
+
+  // remove warning if present
+  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+
+  if (warningStatus.active) {
+    user = await removeUserWarning(mongo, tenant.id, userID, banner.id, now);
+  }
 
   if (rejectExistingComments) {
     await rejector.add({

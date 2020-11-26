@@ -82,3 +82,10 @@ export function resolveStoryMode(
 
   return GQLSTORY_MODE.COMMENTS;
 }
+
+export function isUserStoryExpert(
+  storySettings: Story["settings"],
+  userID: string
+) {
+  return !!storySettings.expertIDs?.some((id) => id === userID);
+}

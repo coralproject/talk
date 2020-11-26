@@ -89,6 +89,10 @@ const Queue: FunctionComponent<Props> = ({
     }
   }, [comments, selectedComment]);
 
+  const onSetUserDrawerUserID = useCallback((userID: string) => {
+    setUserDrawerID(userID);
+  }, []);
+
   const onShowUserDrawer = useCallback((userID: string) => {
     setUserDrawerID(userID);
     setUserDrawerVisible(true);
@@ -163,6 +167,7 @@ const Queue: FunctionComponent<Props> = ({
         open={userDrawerVisible}
         onClose={onHideUserDrawer}
         userID={userDrawerId}
+        setUserID={onSetUserDrawerUserID}
       />
       <ConversationModal
         onUsernameClicked={onUsernameClickedFromModal}

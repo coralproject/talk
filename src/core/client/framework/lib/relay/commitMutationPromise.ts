@@ -1,8 +1,6 @@
 import { commitMutation } from "react-relay";
 import { Environment, MutationConfig, MutationParameters } from "relay-runtime";
 
-import { DeepPartial } from "coral-framework/types";
-
 import extractPayload from "./extractPayload";
 import { resolveModule } from "./helpers";
 
@@ -12,8 +10,8 @@ import { resolveModule } from "./helpers";
  */
 export type MutationPromiseConfig<T extends MutationParameters> = Omit<
   MutationConfig<T>,
-  "onCompleted" | "onError" | "optimisticResponse"
-> & { optimisticResponse?: DeepPartial<T["response"]> };
+  "onCompleted" | "onError"
+>;
 
 /**
  * Normalizes response and error from `commitMutationPromise`.

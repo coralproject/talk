@@ -27,9 +27,14 @@ type UserTabs =
 interface Props {
   userID: string;
   notesCount: number;
+  setUserID?: (id: string) => void;
 }
 
-const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
+const UserHistoryTabs: FunctionComponent<Props> = ({
+  userID,
+  notesCount,
+  setUserID,
+}) => {
   const [currentTab, setCurrentTab] = useState<UserTabs>("ALL_COMMENTS");
 
   const onTabChanged = useCallback(
@@ -115,7 +120,10 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
         <TabPane tabID="ALL_COMMENTS">
           <div className={styles.container}>
             <div className={styles.scrollable}>
-              <UserHistoryDrawerAllCommentsQuery userID={userID} />
+              <UserHistoryDrawerAllCommentsQuery
+                userID={userID}
+                setUserID={setUserID}
+              />
             </div>
           </div>
         </TabPane>

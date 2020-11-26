@@ -68,6 +68,7 @@ const variables = {
     warning: {
       100: compat(colors.yellow100, "palette-warning-main"),
       500: compat(colors.yellow500, "palette-warning-main"),
+      900: compat(colors.yellow900, "palette-warning-main"),
     },
     divider: "rgba(0, 0, 0, 0.12)",
   },

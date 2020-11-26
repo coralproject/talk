@@ -1,9 +1,9 @@
 import DataLoader from "dataloader";
-import { defaultTo, isNil, omitBy } from "lodash";
+import { defaultTo, isNil, isNumber, omitBy } from "lodash";
 import { DateTime } from "luxon";
 
 import { SectionFilter } from "coral-common/section";
-import Context from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
@@ -22,6 +22,7 @@ import {
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers";
+import { Story } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
@@ -31,6 +32,7 @@ import {
   GQLActionPresence,
   GQLCOMMENT_SORT,
   GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -64,6 +66,34 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
+const ratingFilter = (
+  tenant: Pick<Tenant, "featureFlags">,
+  story: Story,
+  rating?: number
+): CommentConnectionInput["filter"] => {
+  // If rating wasn't provided or was falsy (zero or negative), then do nothing.
+  if (!isNumber(rating)) {
+    return {};
+  }
+
+  // If the Tenant does not have the feature flag enabled, or the story does not
+  // have this mode enabled, do nothing.
+  if (
+    !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) ||
+    story.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS
+  ) {
+    return {};
+  }
+
+  // If the rating value is not a number or does not fall within bounds, then do
+  // nothing.
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return {};
+  }
+
+  return { rating };
+};
+
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
@@ -94,7 +124,7 @@ const sectionFilter = (
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeCommentsFromConnection = (ctx: Context) => (
+const primeCommentsFromConnection = (ctx: GraphContext) => (
   connection: Readonly<Connection<Readonly<Comment>>>
 ) => {
   if (!ctx.disableCaching) {
@@ -145,7 +175,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
   comments: Array<Readonly<Comment> | null>
 ): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
 
-export default (ctx: Context) => ({
+export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
       retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
@@ -241,22 +271,28 @@ export default (ctx: Context) => ({
         "tags.type": tag,
       },
     }).then(primeCommentsFromConnection(ctx)),
-  forStory: (
+  forStory: async (
     storyID: string,
-    { first, orderBy, after, tag }: StoryToCommentsArgs
-  ) =>
-    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
+    { first, orderBy, after, tag, rating }: StoryToCommentsArgs
+  ) => {
+    const story = await ctx.loaders.Stories.story.load(storyID);
+    if (!story) {
+      throw new Error("cannot get comments for a story that doesn't exist");
+    }
+
+    return retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
       first: defaultTo(first, 10),
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
       filter: {
-        // Ensure we filter by the requested tag
         ...tagFilter(tag),
+        ...ratingFilter(ctx.tenant, story, rating),
         // Only get Comments that are top level. If the client wants to load
         // another layer, they can request another nested connection.
         parentID: null,
       },
-    }).then(primeCommentsFromConnection(ctx)),
+    }).then(primeCommentsFromConnection(ctx));
+  },
   forParent: (
     storyID: string,
     parentID: string,

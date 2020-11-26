@@ -68,13 +68,23 @@ const UserRow: FunctionComponent<Props> = ({
             onClick={usernameClicked}
             className={styles.usernameButton}
           >
-            {username || <NotAvailable />}
+            {username || (
+              <Localized id="community-column-username-not-available">
+                <span className={styles.notAvailable}>
+                  Username not available
+                </span>
+              </Localized>
+            )}
           </Button>
         )}
       </TableCell>
       <TableCell className={styles.emailColumn}>
-        {<TextLink href={`mailto:${email}`}>{email}</TextLink> || (
-          <NotAvailable />
+        {email ? (
+          <TextLink href={`mailto:${email}`}>{email}</TextLink>
+        ) : (
+          <Localized id="community-column-email-not-available">
+            <span className={styles.notAvailable}>Email not available</span>
+          </Localized>
         )}
       </TableCell>
       <TableCell className={styles.memberSinceColumn}>{memberSince}</TableCell>

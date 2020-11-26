@@ -51,7 +51,7 @@ export interface StreamModeSettings {
 
 export type StorySettings = StreamModeSettings &
   GlobalModerationSettings &
-  Pick<GQLStorySettings, "messageBox" | "mode" | "experts">;
+  Pick<GQLStorySettings, "messageBox" | "mode">;
 
 export type StoryMetadata = GQLStoryMetadata;
 
@@ -109,6 +109,7 @@ export interface Story extends TenantResource {
 export interface UpsertStoryInput {
   id?: string;
   url: string;
+  mode?: GQLSTORY_MODE;
   siteID: string;
 }
 
@@ -120,7 +121,7 @@ export interface UpsertStoryResult {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id = uuid(), url, siteID }: UpsertStoryInput,
+  { id = uuid(), url, mode, siteID }: UpsertStoryInput,
   now = new Date()
 ): Promise<UpsertStoryResult> {
   // Create the story, optionally sourcing the id from the input, additionally
@@ -134,6 +135,10 @@ export async function upsertStory(
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
   };
+
+  if (mode) {
+    story.settings.mode = mode;
+  }
 
   try {
     // Perform the find and update operation to try and find and or create the
@@ -200,6 +205,7 @@ export async function findStory(
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;
+  mode?: GQLSTORY_MODE;
 }
 
 export interface FindOrCreateStoryResult {
@@ -210,7 +216,7 @@ export interface FindOrCreateStoryResult {
 export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: FindOrCreateStoryInput,
+  { id, url, mode }: FindOrCreateStoryInput,
   siteID: string | null,
   now = new Date()
 ): Promise<FindOrCreateStoryResult> {
@@ -223,6 +229,7 @@ export async function findOrCreateStory(
         {
           id,
           url,
+          mode,
           siteID,
         },
         now
@@ -249,33 +256,42 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert story without site ID");
   }
 
-  return upsertStory(mongo, tenantID, { url, siteID }, now);
+  return upsertStory(mongo, tenantID, { url, mode, siteID }, now);
 }
 
 export type CreateStoryInput = Partial<
-  Pick<Story, "metadata" | "scrapedAt" | "closedAt">
-> & {
-  siteID: string;
-};
+  Pick<Story, "metadata" | "scrapedAt" | "closedAt"> &
+    Pick<StorySettings, "mode">
+> &
+  Pick<Story, "siteID"> & {
+    mode?: GQLSTORY_MODE;
+  };
 
 export async function createStory(
   mongo: Db,
   tenantID: string,
   id: string,
   url: string,
-  input: CreateStoryInput,
+  { siteID, metadata, scrapedAt, closedAt, mode }: CreateStoryInput,
   now = new Date()
 ) {
   // Create the story.
   const story: Story = {
-    ...input,
     id,
     url,
     tenantID,
+    siteID,
+    metadata,
+    scrapedAt,
     createdAt: now,
+    closedAt,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
   };
+
+  if (mode) {
+    story.settings.mode = mode;
+  }
 
   try {
     // Insert the story into the database.
@@ -365,12 +381,15 @@ export async function updateStory(
       // document.
       { returnOriginal: false }
     );
+    if (!result.value) {
+      throw new StoryNotFoundError(id);
+    }
 
-    return result.value || null;
+    return result.value;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
-    if (input.url && err instanceof MongoError && err.code === 11000) {
+    if (err instanceof MongoError && err.code === 11000 && input.url) {
       throw new DuplicateStoryURLError(err, input.url, id);
     }
 
@@ -402,8 +421,11 @@ export async function updateStorySettings(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function openStory(
@@ -425,8 +447,11 @@ export async function openStory(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function closeStory(
@@ -448,8 +473,11 @@ export async function closeStory(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function removeStory(mongo: Db, tenantID: string, id: string) {
@@ -457,8 +485,11 @@ export async function removeStory(mongo: Db, tenantID: string, id: string) {
     id,
     tenantID,
   });
+  if (!result.value) {
+    throw new StoryNotFoundError(id);
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**
@@ -596,17 +627,12 @@ export const updateStoryCounts = (
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
 
-export async function addExpert(
+export async function addStoryExpert(
   mongo: Db,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -621,25 +647,19 @@ export async function addExpert(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to add expert to story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
-export async function removeExpert(
+export async function removeStoryExpert(
   mongo: Db,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -654,12 +674,11 @@ export async function removeExpert(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to remove expert from story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function setStoryMode(
@@ -668,11 +687,6 @@ export async function setStoryMode(
   storyID: string,
   mode: GQLSTORY_MODE
 ) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -687,12 +701,11 @@ export async function setStoryMode(
       returnOriginal: false,
     }
   );
-
-  if (!result.ok) {
-    throw new Error("unable to enable Q&A on story");
+  if (!result.value) {
+    throw new StoryNotFoundError(storyID);
   }
 
-  return result.value || null;
+  return result.value;
 }
 
 /**

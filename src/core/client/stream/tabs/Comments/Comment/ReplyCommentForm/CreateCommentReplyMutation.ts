@@ -291,7 +291,7 @@ async function commit(
                 lastViewerAction: null,
                 author: {
                   id: viewer.id,
-                  username: viewer.username,
+                  username: viewer.username || null,
                   createdAt: viewer.createdAt,
                   bio: viewer.bio,
                   badges: viewer.badges,
@@ -303,12 +303,13 @@ async function commit(
                   id: uuidGenerator(),
                   media: null,
                 },
+                rating: null,
                 parent: {
                   id: parentComment.id,
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: parentComment.tags,
+                  tags: parentComment.tags.map((tag) => ({ code: tag.code })),
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),

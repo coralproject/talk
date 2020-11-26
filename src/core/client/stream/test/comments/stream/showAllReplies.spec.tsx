@@ -80,7 +80,7 @@ beforeEach(() => {
         (s) => s.throws(),
         (s) =>
           s
-            .withArgs(undefined, { id: storyStub.id, url: null })
+            .withArgs(undefined, { id: storyStub.id, url: null, mode: null })
             .returns(storyStub)
       ),
     },

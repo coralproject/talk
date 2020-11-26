@@ -66,7 +66,7 @@ const WarnUserMutation = createMutation(
                     active: true,
                     createdBy: {
                       id: viewer.id,
-                      username: viewer.username,
+                      username: viewer.username || null,
                     },
                     createdAt: now.toISOString(),
                   },

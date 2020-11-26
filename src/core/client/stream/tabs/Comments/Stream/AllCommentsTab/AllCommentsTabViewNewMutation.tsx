@@ -5,28 +5,31 @@ import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
+
 import { incrementStoryCommentCounts } from "../../helpers";
 
 interface Input {
   storyID: string;
+  tag?: GQLTAG;
 }
 
 const AllCommentsTabViewNewMutation = createMutation(
   "viewNew",
   async (
     environment: Environment,
-    input: Input,
+    { storyID, tag }: Input,
     { eventEmitter }: CoralContext
   ) => {
     await commitLocalUpdatePromisified(environment, async (store) => {
-      const story = store.get(input.storyID)!;
+      const story = store.get(storyID)!;
       const connection = ConnectionHandler.getConnection(
         story,
         "Stream_comments",
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+          tag,
         }
       )!;
       const viewNewEdges = connection.getLinkedRecords(
@@ -42,10 +45,10 @@ const AllCommentsTabViewNewMutation = createMutation(
       });
 
       // Increment the count.
-      incrementStoryCommentCounts(store, input.storyID, viewNewEdges.length);
+      incrementStoryCommentCounts(store, storyID, viewNewEdges.length);
 
       ViewNewCommentsEvent.emit(eventEmitter, {
-        storyID: input.storyID,
+        storyID,
         count: viewNewEdges.length,
       });
       connection.setLinkedRecords([], "viewNewEdges");

@@ -154,8 +154,13 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-postCommentForm-userScheduledForDeletion-warning =
-  Commenting is disabled when your account is scheduled for deletion.
+comments-addAReviewForm-rteLabel = Add a review (optional)
+
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
 
 comments-replyButton-reply = Reply
 comments-replyButton =

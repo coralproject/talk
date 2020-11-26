@@ -981,6 +981,9 @@ moderate-user-drawer-rejected-no-comments = {$username} does not have any reject
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
 moderate-user-drawer-bio-title = Member bio
+moderate-user-drawer-username-not-available = Username not available
+moderate-user-drawer-username-not-available-tooltip-title = Username not available
+moderate-user-drawer-username-not-available-tooltip-body = User did not complete account setup process
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended
@@ -1084,6 +1087,8 @@ community-filter-allRoles = All Roles
 community-filter-allStatuses = All Statuses
 
 community-column-username = Username
+community-column-username-not-available = Username not available
+community-column-email-not-available = Email not available
 community-column-username-deleted = Deleted
 community-column-email = Email
 community-column-memberSince = Member Since

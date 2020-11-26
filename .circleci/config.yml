@@ -222,6 +222,8 @@ filter_release: &filter_release
 # only execute on a tagged release.
 filter_tagged_release: &filter_tagged_release
   filters:
+    branches:
+      ignore: /.*/
     tags:
       only: /^v.*/
 
