@@ -37,6 +37,7 @@ import LoginRoute from "./routes/Login";
 import ModerateRoute from "./routes/Moderate";
 import {
   ApprovedQueueRoute,
+  ModerationQueue,
   PendingQueueRoute,
   RejectedQueueRoute,
   ReportedQueueRoute,
@@ -57,7 +58,8 @@ export default makeRouteConfig(
           {...SingleModerateRoute.routeConfig}
         />
         <Route path="moderate" {...ModerateRoute.routeConfig}>
-          <Redirect from="/" to="/admin/moderate/reported" />
+          {/* <Redirect from="/" to="/admin/moderate/reported" /> */}
+          <Route path="/" Component={ModerationQueue} />
           <Route path="reported" {...ReportedQueueRoute.routeConfig} />
           <Route
             path="reported/stories/:storyID"
