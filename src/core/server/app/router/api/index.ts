@@ -19,6 +19,7 @@ import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
+import { createCommentRouter } from "./comment";
 import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
 import { createRemoteMediaRouter } from "./remoteMedia";
@@ -46,6 +47,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // We don't need auth for the story router, so mount it earlier.
   router.use("/story", createStoryRouter(app));
+  router.use("/comment", createCommentRouter(app));
 
   // Setup Passport middleware.
   router.use(passport.initialize());
