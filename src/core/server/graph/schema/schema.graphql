@@ -513,6 +513,11 @@ enum FEATURE_FLAG {
   functionality to be enabled.
   """
   ENABLE_RATINGS_AND_REVIEWS
+
+  """
+  ENABLE_AMP will enable support for embedding Coral within AMP pages.
+  """
+  ENABLE_AMP
 }
 
 # The moderation mode of the site.

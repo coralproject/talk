@@ -5,9 +5,12 @@ import { AppOptions } from "coral-server/app";
 import { extractParentsURL, getOrigin } from "coral-server/app/url";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { isURLPermitted } from "coral-server/services/sites/url";
 import { Request, RequestHandler } from "coral-server/types/express";
+
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 interface RequestQuery {
   parentUrl?: string;
@@ -69,30 +72,56 @@ async function retrieveSiteFromEmbed(
   return null;
 }
 
-type Options = Pick<AppOptions, "mongo">;
+async function retrieveOriginsFromRequest(
+  mongo: Db,
+  req: Request
+): Promise<string[]> {
+  const site = await retrieveSiteFromEmbed(mongo, req);
+  if (!site) {
+    return [];
+  }
+
+  return site.allowedOrigins;
+}
+
+type Options = Pick<AppOptions, "mongo"> & {
+  /**
+   * frameAncestorsDeny when true will prevent the request's page from being
+   * embedded on any page inside an iframe.
+   */
+  frameAncestorsDeny?: true;
+};
 
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
-export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
-  req,
-  res,
-  next
-) => {
-  // Initially, we do not allow any origins.
-  const site = await retrieveSiteFromEmbed(mongo, req);
+export const cspSiteMiddleware = ({
+  mongo,
+  frameAncestorsDeny,
+}: Options): RequestHandler => async (req, res, next) => {
+  res.setHeader("X-XSS-Protection", "1; mode=block");
 
-  // Grab the origins from the site.
-  const origins = site ? site.allowedOrigins : [];
+  // If the frame ancestors isn't being forced, and the tenant has AMP enabled,
+  // then don't add any headers!
+  if (
+    !frameAncestorsDeny &&
+    req.coral.tenant &&
+    hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.ENABLE_AMP)
+  ) {
+    return next();
+  }
+
+  // If the frame ancestors is being set to deny, then use an empty list,
+  // otherwise look it up from the request.
+  const origins = frameAncestorsDeny
+    ? []
+    : await retrieveOriginsFromRequest(mongo, req);
 
   res.setHeader(
     "Content-Security-Policy",
     generateContentSecurityPolicy(origins)
   );
-
-  // Add some fallbacks for IE.
   res.setHeader("X-Frame-Options", generateFrameOptions(req, origins));
-  res.setHeader("X-XSS-Protection", "1; mode=block");
 
   next();
 };

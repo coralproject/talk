@@ -72,9 +72,16 @@ export interface ClientTargetHandlerOptions {
   enableCustomCSSQuery?: boolean;
 
   /**
-   * cacheDuration is the cache duration that a given request should be cached for.
+   * cacheDuration is the cache duration that a given request should be cached
+   * for.
    */
   cacheDuration?: string | false;
+
+  /**
+   * disableFraming when true will prevent the page from being placed inside an
+   * iframe.
+   */
+  disableFraming?: true;
 }
 
 function createClientTargetRouter(options: ClientTargetHandlerOptions) {
@@ -82,7 +89,12 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   const router = express.Router();
 
   // Add CSP headers to the request, which only apply when serving HTML content.
-  router.use(cspSiteMiddleware(options));
+  router.use(
+    cspSiteMiddleware({
+      mongo: options.mongo,
+      frameAncestorsDeny: options.disableFraming,
+    })
+  );
 
   // Always send the cache headers.
   router.use(cacheHeadersMiddleware({ cacheDuration: options.cacheDuration }));
@@ -205,6 +217,7 @@ export function mountClientRoutes(
     createClientTargetRouter({
       ...options,
       cacheDuration: false,
+      disableFraming: true,
       entrypoint: entrypoints.get("auth"),
     })
   );
@@ -214,6 +227,7 @@ export function mountClientRoutes(
     createClientTargetRouter({
       ...options,
       cacheDuration: false,
+      disableFraming: true,
       entrypoint: entrypoints.get("account"),
     })
   );
@@ -225,6 +239,7 @@ export function mountClientRoutes(
     createClientTargetRouter({
       ...options,
       cacheDuration: false,
+      disableFraming: true,
       entrypoint: entrypoints.get("admin"),
     })
   );
@@ -239,6 +254,7 @@ export function mountClientRoutes(
     createClientTargetRouter({
       ...options,
       cacheDuration: false,
+      disableFraming: true,
       entrypoint: entrypoints.get("install"),
     })
   );
