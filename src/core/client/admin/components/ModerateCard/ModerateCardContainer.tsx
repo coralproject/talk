@@ -263,8 +263,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
-    if (!comment.revision || !comment.revision.actionCounts) {
+    if (!comment.revision) {
       return false;
+    }
+
+    if (!comment.revision.actionCounts) {
+      throw new Error(`action counts missing: ${comment.id}`);
     }
 
     const count =
