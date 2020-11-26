@@ -79,12 +79,11 @@ export const featuredHander = ({
       FEATURED_COMMENTS_LIMIT
     );
 
-    const stories = await getStories.loadMany(
-      comments.map((comment) => comment.storyID)
-    );
-
     const authorIDs = compact(comments.map((c) => c.authorID));
-    const authors = await getAuthors.loadMany(authorIDs);
+    const [stories, authors] = await Promise.all([
+      getStories.loadMany(comments.map((comment) => comment.storyID)),
+      getAuthors.loadMany(authorIDs),
+    ]);
 
     const response: FeaturedHandlerResponse = {
       comments: comments.map((comment) => {

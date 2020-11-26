@@ -1275,7 +1275,7 @@ export async function retrieveFeaturedComments(
     "tags.type": GQLTAG.FEATURED,
     status: { $in: PUBLISHED_STATUSES },
   };
-  const results = await collection<Comment>(mongo)
+  const results = await collection(mongo)
     .aggregate([
       {
         $match,
