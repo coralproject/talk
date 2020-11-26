@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "dbaeumer.vscode-eslint",
-    "kumar-harsh.graphql-for-vscode",
+    "graphql.vscode-graphql",
     "editorconfig.editorconfig",
     "ms-azuretools.vscode-cosmosdb",
     "mike-co.import-sorter"

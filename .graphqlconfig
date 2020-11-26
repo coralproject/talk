@@ -1,7 +1,0 @@
-{
-    "projects": {
-        "tenant": {
-            "schemaPath": "src/core/server/graph/schema/schema.graphql"
-        }
-    }
-}

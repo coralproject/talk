@@ -1,0 +1,41 @@
+projects:
+  server:
+    schema:
+      - './src/core/server/graph/schema/schema.graphql'
+      - './relay-compiler-directives-v10.0.1.graphql'
+    extensions:
+      languageService:
+        useSchemaFileDefinitions: true
+  stream:
+    schema:
+      - './src/core/server/graph/schema/schema.graphql'
+      - './src/core/client/stream/local/local.graphql'
+      - './relay-compiler-directives-v10.0.1.graphql'
+    include:
+      - './src/core/client/stream/**/*.ts'
+      - './src/core/client/stream/**/*.tsx'
+    extensions:
+      languageService:
+        useSchemaFileDefinitions: true
+  admin:
+    schema:
+      - './src/core/server/graph/schema/schema.graphql'
+      - './src/core/client/admin/local/local.graphql'
+      - './relay-compiler-directives-v10.0.1.graphql'
+    include:
+      - './src/core/client/admin/**/*.ts'
+      - './src/core/client/admin/**/*.tsx'
+    extensions:
+      languageService:
+        useSchemaFileDefinitions: true
+  auth:
+    schema:
+      - './src/core/server/graph/schema/schema.graphql'
+      - './src/core/client/auth/local/local.graphql'
+      - './relay-compiler-directives-v10.0.1.graphql'
+    include:
+      - './src/core/client/auth/**/*.ts'
+      - './src/core/client/auth/**/*.tsx'
+    extensions:
+      languageService:
+        useSchemaFileDefinitions: true
