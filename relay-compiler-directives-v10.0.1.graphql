@@ -8,40 +8,35 @@ directive @connection(
     dynamicKey_UNSTABLE: String
   ) on FIELD
 
-  directive @stream_connection(
-    key: String!
-    filters: [String]
-    handler: String
-    initial_count: Int!
-    if: Boolean = true
-    use_customized_batch: Boolean = false
-    dynamicKey_UNSTABLE: String
-  ) on FIELD
+directive @stream_connection(
+  key: String!
+  filters: [String]
+  handler: String
+  initial_count: Int!
+  if: Boolean = true
+  use_customized_batch: Boolean = false
+  dynamicKey_UNSTABLE: String
+) on FIELD
 
-
-  directive @deleteRecord on FIELD
-  directive @appendEdge(
-    connections: [String!]!
-  ) on FIELD
-  directive @prependEdge(
-    connections: [String!]!
-  ) on FIELD
-
+directive @deleteRecord on FIELD
+directive @appendEdge(
+  connections: [String!]!
+) on FIELD
+directive @prependEdge(
+  connections: [String!]!
+) on FIELD
 
 directive @inline on FRAGMENT_DEFINITION
 
+directive @match(key: String) on FIELD
 
-  directive @match(key: String) on FIELD
+directive @module(
+  name: String!
+) on FRAGMENT_SPREAD
 
-  directive @module(
-    name: String!
-  ) on FRAGMENT_SPREAD
-
-
-  directive @refetchable(
-    queryName: String!
-  ) on FRAGMENT_DEFINITION
-
+directive @refetchable(
+  queryName: String!
+) on FRAGMENT_DEFINITION
 
 directive @relay(
   # Marks a fragment as being backed by a GraphQLList.

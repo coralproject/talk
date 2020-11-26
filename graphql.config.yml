@@ -2,10 +2,6 @@ projects:
   tenant:
     schema:
       - './src/core/server/graph/schema/schema.graphql'
-      - './relay-compiler-directives-v10.0.1.graphql'
-    extensions:
-      languageService:
-        useSchemaFileDefinitions: true
   stream:
     schema:
       - './src/core/server/graph/schema/schema.graphql'
