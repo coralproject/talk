@@ -104,14 +104,8 @@ export default makeRouteConfig(
             path="approved/sites/:siteID"
             {...ApprovedQueueRoute.routeConfig}
           />
-          <Redirect
-            from="stories/:storyID"
-            to="/admin/moderate/reported/stories/:storyID"
-          />
-          <Redirect
-            from="sites/:siteID"
-            to="/admin/moderate/reported/sites/:siteID"
-          />
+          <Route path="stories/:storyID" Component={ModerationQueue} />
+          <Route path="sites/:siteID" Component={ModerationQueue} />
         </Route>
         <Route path="stories" {...StoriesRoute.routeConfig} />
         <Route path="dashboard" {...DashboardRoute.routeConfig} />

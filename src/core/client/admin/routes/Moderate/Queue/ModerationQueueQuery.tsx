@@ -1,19 +1,22 @@
+import { Match } from "found";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
-import ModerationQueue from "./ModerationQueue";
 
 import {
   ModerationQueueQuery as QueryTypes,
   ModerationQueueQueryResponse,
 } from "coral-admin/__generated__/ModerationQueueQuery.graphql";
 
+import ModerationQueue from "./ModerationQueue";
+
 interface Props {
   settings: ModerationQueueQueryResponse;
+  match: Match;
 }
 
-const ModerationQueueQuery: FunctionComponent<Props> = () => {
+const ModerationQueueQuery: FunctionComponent<Props> = ({ match }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -29,7 +32,13 @@ const ModerationQueueQuery: FunctionComponent<Props> = () => {
         if (!props) {
           return null;
         }
-        return <ModerationQueue mode={props.settings.moderation} />;
+        return (
+          <ModerationQueue
+            mode={props.settings.moderation}
+            siteID={match.params.siteID}
+            storyID={match.params.storyID}
+          />
+        );
       }}
     />
   );
