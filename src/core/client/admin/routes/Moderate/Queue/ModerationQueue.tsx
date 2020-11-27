@@ -24,13 +24,13 @@ const ModerationQueue: FunctionComponent<Props> = ({
     }
 
     if (siteID) {
-      suffix = `sites/${siteID}`;
+      suffix = `/sites/${siteID}`;
     } else if (storyID) {
-      suffix = `stories/${storyID}`;
+      suffix = `/stories/${storyID}`;
     }
 
     if (path) {
-      router.replace(`/admin/moderate/${path}/${suffix}`);
+      router.replace(`/admin/moderate/${path}${suffix}`);
     }
   }, [mode, router, siteID, storyID]);
   return null;
