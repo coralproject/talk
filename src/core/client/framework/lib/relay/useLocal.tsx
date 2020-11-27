@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   commitLocalUpdate,
   GraphQLTaggedNode,
@@ -6,6 +6,7 @@ import {
 } from "relay-runtime";
 import { ReaderClientExtension } from "relay-runtime/lib/util/ReaderNode";
 
+import { useEffectWhenChanged } from "coral-framework/hooks";
 import { OmitFragments } from "coral-framework/testHelpers/removeFragmentRefs";
 import { DeepPartial } from "coral-framework/types";
 
@@ -84,12 +85,22 @@ function applySimplified(
 function useLocal<T>(
   fragmentSpec: GraphQLTaggedNode
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
-  const selector = getLocalFragmentSelector(fragmentSpec);
+  const selector = useMemo(() => getLocalFragmentSelector(fragmentSpec), [
+    fragmentSpec,
+  ]);
 
   const { relayEnvironment } = useCoralContext();
-  const [local, setLocal] = useState<T>(
-    () => relayEnvironment.lookup(selector).data as any
-  );
+
+  const snapshot = useMemo(() => {
+    return relayEnvironment.lookup(selector);
+  }, [selector, relayEnvironment]);
+
+  const [local, setLocal] = useState<T>(() => snapshot.data as any);
+
+  useEffectWhenChanged(() => {
+    setLocal(snapshot.data as any);
+  }, [snapshot]);
+
   const localUpdate = useCallback(
     (update: LocalUpdater<T>) => {
       commitLocalUpdate(relayEnvironment, (store) => {
@@ -108,21 +119,15 @@ function useLocal<T>(
     },
     [relayEnvironment, selector.node.selections]
   );
-  const firstRun = useRef(true);
 
   useEffect(() => {
-    const snapshot = relayEnvironment.lookup(selector);
     const subscription = relayEnvironment.subscribe(snapshot, (update) =>
       setLocal(update.data as any)
     );
-    if (!firstRun) {
-      setLocal(snapshot.data as any);
-    }
-    firstRun.current = false;
     return () => {
       subscription.dispose();
     };
-  }, [relayEnvironment, selector]);
+  }, [relayEnvironment, selector, snapshot]);
   return [local, localUpdate];
 }
 

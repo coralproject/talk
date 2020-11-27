@@ -1,33 +1,35 @@
 import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 
+import { globalErrorReporter } from "../errors";
 import * as functions from "./functions";
 import { LocalesData } from "./locales";
 
-// Don't warn in production.
-let decorateWarnMissing = (bundle: FluentBundle) => bundle;
-
-// Warn about missing locales if we are not in production.
-if (process.env.NODE_ENV !== "production") {
-  decorateWarnMissing = (() => {
-    const warnings: string[] = [];
-    return (bundle: FluentBundle) => {
-      const original = bundle.hasMessage;
-      bundle.hasMessage = (id: string) => {
-        const result = original.apply(bundle, [id]);
-        if (!result) {
-          const warn = `${bundle.locales} translation for key "${id}" not found`;
-          if (!warnings.includes(warn)) {
+const decorateWarnMissing = (() => {
+  const warnings: string[] = [];
+  return (bundle: FluentBundle) => {
+    const original = bundle.hasMessage;
+    bundle.hasMessage = (id: string) => {
+      const result = original.apply(bundle, [id]);
+      if (!result) {
+        const warn = `${bundle.locales} translation for key "${id}" not found`;
+        if (!warnings.includes(warn)) {
+          if (bundle.locales.includes("en-US")) {
+            // Report missing english translations!
+            globalErrorReporter.report(
+              `Missing English translation for "${id}"`
+            );
+          } else if (process.env.NODE_ENV !== "production") {
             // eslint-disable-next-line no-console
             console.warn(warn);
-            warnings.push(warn);
           }
+          warnings.push(warn);
         }
-        return result;
-      };
-      return bundle;
+      }
+      return result;
     };
-  })();
-}
+    return bundle;
+  };
+})();
 
 /**
  * Given a locales array and the `data` from the `locales-loader`,

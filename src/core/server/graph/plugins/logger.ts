@@ -8,6 +8,7 @@ import { ErrorReporterScope } from "coral-server/services/errors";
 
 import {
   getOperationMetadata,
+  getOriginalError,
   getPersistedQueryMetadata,
   getWrappedOriginalError,
 } from "./helpers";
@@ -41,7 +42,7 @@ export function logAndReportError(
   }
 
   // Report the error and get back the report ID.
-  const report = ctx.reporter.report(err, scope);
+  const report = ctx.reporter.report(getOriginalError(err) || err, scope);
 
   // Log that we reported an error.
   ctx.logger.error({ err, report }, "graphql query error");
