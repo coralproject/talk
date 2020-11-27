@@ -58,7 +58,6 @@ export default makeRouteConfig(
           {...SingleModerateRoute.routeConfig}
         />
         <Route path="moderate" {...ModerateRoute.routeConfig}>
-          {/* <Redirect from="/" to="/admin/moderate/reported" /> */}
           <Route path="/" Component={ModerationQueue} />
           <Route path="reported" {...ReportedQueueRoute.routeConfig} />
           <Route
