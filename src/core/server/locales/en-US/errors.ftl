@@ -63,3 +63,4 @@ error-installationForbidden = { -product-name } is already installed. To install
 error-duplicateSiteOrigin = Allowed domains may only be associated with a single site.
 error-validation = A validation error occurred.
 error-userBioTooLong = Bio exceeds maximum length.
+error-commentEditWindowExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
