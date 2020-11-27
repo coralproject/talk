@@ -816,6 +816,12 @@ rr-basedOnRatings = { $count ->
   *[other] Based on { SHORT_NUMBER($count) } ratings
 }
 
+rr-allReviewsFilter = All reviews
+rr-starReviewsFilter = { $rating -> 
+  [1] 1 Star
+  *[other] { $rating } Stars
+}
+
 comments-addAReviewForm-rteLabel = Add a review (optional)
 
 comments-addAReviewForm-rte =
