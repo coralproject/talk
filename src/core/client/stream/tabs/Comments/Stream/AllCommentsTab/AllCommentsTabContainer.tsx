@@ -38,12 +38,12 @@ import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentEnteredSubscription from "./CommentEnteredSubscription";
-import NoComments from "./NoComments";
 
 import styles from "./AllCommentsTabContainer.css";
 
@@ -209,7 +209,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         size="oneAndAHalf"
       >
         {story.comments.edges.length <= 0 && (
-          <NoComments mode={story.settings.mode} isClosed={story.isClosed} />
+          <NoComments
+            mode={story.settings.mode}
+            isClosed={story.isClosed}
+            tag={tag}
+          />
         )}
         {story.comments.edges.length > 0 &&
           story.comments.edges.map(({ node: comment }, index) => (
