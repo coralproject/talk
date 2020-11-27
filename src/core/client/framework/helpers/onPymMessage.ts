@@ -1,5 +1,7 @@
 import { Child, MessageCallback } from "pym.js";
 
+import { globalErrorReporter } from "coral-framework/lib/errors";
+
 function onPymMessage(
   child: Child,
   messageType: string,
@@ -21,20 +23,14 @@ function onPymMessage(
     // Dispose next frame to not disrupt pym handling messages.
     setTimeout(() => {
       if (!(messageType in child.messageHandlers)) {
-        if (process.env.NODE_ENV !== "production") {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `tried to dispose of message handler that didn't exist: ${messageType}`
-          );
-        }
+        globalErrorReporter.report(
+          `tried to dispose of message handler that didn't exist: ${messageType}`
+        );
         return;
       }
       const index = child.messageHandlers[messageType].indexOf(wrappedCallback);
       if (index === -1) {
-        if (process.env.NODE_ENV !== "production") {
-          // eslint-disable-next-line no-console
-          console.warn("Pym message handler already disposed.");
-        }
+        globalErrorReporter.report(`Pym message handler already disposed.`);
         return;
       }
       child.messageHandlers[messageType].splice(index, 1);

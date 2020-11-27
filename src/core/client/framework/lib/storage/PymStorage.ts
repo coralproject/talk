@@ -1,6 +1,7 @@
 import { Child, Parent } from "pym.js";
 import { v1 as uuid } from "uuid";
 
+import { globalErrorReporter } from "../errors";
 import { PromisifiedStorage } from "./PromisifiedStorage";
 
 type Pym = Child | Parent;
@@ -63,9 +64,9 @@ class PymStorage implements PromisifiedStorage {
       if (id in this.requests) {
         this.requests[id].resolve(result);
         delete this.requests[id];
-      } else if (process.env.NODE_ENV !== "production") {
+      } else {
         // eslint-disable-next-line no-console
-        console.warn(
+        globalErrorReporter.report(
           `pymStorage.${this.type}.response for missing request: ${id}`
         );
       }
@@ -83,9 +84,8 @@ class PymStorage implements PromisifiedStorage {
       if (id in this.requests) {
         this.requests[id].reject(new Error(error));
         delete this.requests[id];
-      } else if (process.env.NODE_ENV !== "production") {
-        // eslint-disable-next-line no-console
-        console.warn(
+      } else {
+        globalErrorReporter.report(
           `pymStorage.${this.type}.error for missing request: ${id}`
         );
       }
