@@ -266,7 +266,6 @@ export function validateEditable(
 
   // Check to see if the edit window expired.
   if (comment.createdAt <= lastEditableCommentCreatedAt) {
-    // TODO: (wyattjoh) return better error
     throw new CommentEditWindowExpiredError(comment.id);
   }
 }
