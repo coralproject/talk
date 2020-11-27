@@ -138,7 +138,6 @@ function createRelayEnvironment(
 
     return local.accessToken as string | undefined;
   };
-  console.log(source);
   const environment = new Environment({
     network: createNetwork(
       subscriptionClient,

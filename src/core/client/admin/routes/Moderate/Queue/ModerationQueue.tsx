@@ -1,37 +1,20 @@
 import { useRouter } from "found";
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { FunctionComponent, useEffect } from "react";
 
-import { QueryRenderer } from "coral-framework/lib/relay";
+interface Props {
+  mode: "PRE" | "POST" | "%future added value" | null;
+}
 
-import { ModerationQueueQuery as QueryTypes } from "coral-admin/__generated__/ModerationQueueQuery.graphql";
-
-interface Props {}
-
-const ModerationQueue: FunctionComponent<Props> = () => {
+const ModerationQueue: FunctionComponent<Props> = ({ mode }) => {
   const { router } = useRouter();
-  return (
-    <QueryRenderer<QueryTypes>
-      query={graphql`
-        query ModerationQueueQuery {
-          settings {
-            moderation
-          }
-        }
-      `}
-      variables={{}}
-      render={({ props }) => {
-        if (!props) {
-          return null;
-        }
-        if (props.settings.moderation === "PRE") {
-          router.replace("/admin/moderate/pending");
-        } else {
-          router.replace("/admin/moderate/reported");
-        }
-      }}
-    />
-  );
+  useEffect(() => {
+    if (mode === "PRE") {
+      router.replace("/admin/moderate/pending");
+    } else if (mode === "POST") {
+      router.replace("/admin/moderate/reported");
+    }
+  }, [mode, router]);
+  return null;
 };
 
 export default ModerationQueue;
