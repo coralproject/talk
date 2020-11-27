@@ -1,0 +1,48 @@
+import {
+  commitLocalUpdate,
+  ConnectionHandler,
+  Environment,
+} from "relay-runtime";
+
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutation } from "coral-framework/lib/relay";
+
+export interface RemoveAnsweredMutationInput {
+  commentID: string;
+  storyID: string;
+}
+
+export async function commit(
+  environment: Environment,
+  input: RemoveAnsweredMutationInput,
+  context: CoralContext
+) {
+  return commitLocalUpdate(environment, (store) => {
+    const storyRecord = store.get(input.storyID);
+    const parentID = store
+      .get(input.commentID)
+      ?.getLinkedRecord("parent")
+      ?.getValue("id") as string;
+
+    if (!storyRecord || !parentID) {
+      return;
+    }
+
+    const connection = ConnectionHandler.getConnection(
+      storyRecord,
+      "UnansweredStream_comments",
+      {
+        orderBy: "CREATED_AT_DESC",
+        tag: "UNANSWERED",
+      }
+    );
+
+    if (!connection) {
+      return;
+    }
+
+    ConnectionHandler.deleteNode(connection, parentID);
+  });
+}
+
+export const RemoveAnsweredMutation = createMutation("removeAnswered", commit);

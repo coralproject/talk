@@ -48,7 +48,6 @@ type Props = BaseProps & {
    * instead of hiding behind a button.
    */
   liveDirectRepliesInsertion?: boolean;
-  onRemoveAnswered?: () => void;
   singleConversationView?: boolean | undefined;
 };
 
@@ -121,7 +120,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       localReply={props.localReply}
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
-      onRemoveAnswered={props.onRemoveAnswered}
       singleConversationView={props.singleConversationView}
     />
   );

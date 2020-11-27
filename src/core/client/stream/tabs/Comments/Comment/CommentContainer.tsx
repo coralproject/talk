@@ -57,6 +57,7 @@ import CaretContainer, {
 } from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
+import RemoveAnswered from "./RemoveAnswered";
 import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportFlowContainer, { ReportButton } from "./ReportFlow";
@@ -89,7 +90,6 @@ interface Props {
   hideAnsweredTag?: boolean;
   hideReportButton?: boolean;
   hideModerationCarat?: boolean;
-  onRemoveAnswered?: () => void;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
 }
@@ -104,7 +104,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
   highlight,
   indentLevel,
   localReply,
-  onRemoveAnswered,
   settings,
   showConversationLink,
   hideReportButton,
@@ -264,11 +263,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // Only show a button to clear removed answers if this comment is by an
   // expert, reply to a top level comment (question) with an answer.
   const showRemoveAnswered: boolean =
-    !comment.deleted &&
-    isQA &&
-    authorIsExpert &&
-    indentLevel === 1 &&
-    !!onRemoveAnswered;
+    !comment.deleted && isQA && authorIsExpert && indentLevel === 1;
 
   const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
 
@@ -580,16 +575,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           />
         )}
         {showRemoveAnswered && (
-          <Localized id="qa-unansweredTab-doneAnswering">
-            <Button
-              variant="regular"
-              color="regular"
-              className={styles.removeAnswered}
-              onClick={onRemoveAnswered}
-            >
-              Done
-            </Button>
-          </Localized>
+          <RemoveAnswered commentID={comment.id} storyID={story.id} />
         )}
       </HorizontalGutter>
     </div>
@@ -623,6 +609,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
       `,
       story: graphql`
         fragment CommentContainer_story on Story {
+          id
           url
           isClosed
           canModerate
