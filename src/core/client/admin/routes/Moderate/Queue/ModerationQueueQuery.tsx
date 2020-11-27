@@ -24,6 +24,7 @@ const ModerationQueueQuery: FunctionComponent<Props> = () => {
         }
       `}
       variables={{}}
+      fetchPolicy="store-and-network"
       render={({ props }) => {
         if (!props) {
           return null;
