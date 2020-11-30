@@ -42,6 +42,25 @@ export async function commit(
     }
 
     ConnectionHandler.deleteNode(connection, parentID);
+
+    const commentCountsRecord = storyRecord.getLinkedRecord("commentCounts");
+    if (!commentCountsRecord) {
+      return;
+    }
+
+    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+
+    // increment answered questions and decrement unanswered questions
+    if (tagsRecord) {
+      tagsRecord.setValue(
+        (tagsRecord.getValue("UNANSWERED") as number) - 1,
+        "UNANSWERED"
+      );
+      tagsRecord.setValue(
+        (tagsRecord.getValue("FEATURED") as number) + 1,
+        "FEATURED"
+      );
+    }
   });
 }
 
