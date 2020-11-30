@@ -41,6 +41,7 @@ export interface ReplyListProps {
   viewNewCount?: number;
   onViewNew?: () => void;
   singleConversationView?: boolean;
+  showRemoveAnswered?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
@@ -77,6 +78,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
                       disableReplies={props.disableReplies}
                       showConversationLink={!!comment.showConversationLink}
                       toggleCollapsed={toggleCollapsed}
+                      showRemoveAnswered={props.showRemoveAnswered}
                     />
                     <div
                       className={cn({

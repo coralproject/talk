@@ -92,6 +92,8 @@ interface Props {
   hideModerationCarat?: boolean;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
+
+  showRemoveAnswered?: boolean;
 }
 
 export const CommentContainer: FunctionComponent<Props> = ({
@@ -112,6 +114,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   eventEmitter,
   viewer,
   showAuthPopup,
+  showRemoveAnswered,
 }) => {
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
@@ -262,8 +265,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // Only show a button to clear removed answers if this comment is by an
   // expert, reply to a top level comment (question) with an answer.
-  const showRemoveAnswered: boolean =
-    !comment.deleted && isQA && authorIsExpert && indentLevel === 1;
+  const removeAnswered: boolean =
+    !comment.deleted &&
+    isQA &&
+    authorIsExpert &&
+    indentLevel === 1 &&
+    !!showRemoveAnswered;
 
   const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
 
@@ -574,7 +581,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             localReply={localReply}
           />
         )}
-        {showRemoveAnswered && (
+        {removeAnswered && (
           <RemoveAnswered commentID={comment.id} storyID={story.id} />
         )}
       </HorizontalGutter>

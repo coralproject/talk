@@ -179,6 +179,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
                     viewer={props.viewer}
                     comment={comment}
                     story={props.story}
+                    showRemoveAnswered={true}
                   />
                 </HorizontalGutter>
               </FadeInTransition>
