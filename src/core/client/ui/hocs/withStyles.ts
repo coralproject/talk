@@ -3,6 +3,8 @@ import {
   withPropsOnChange,
 } from "recompose";
 
+import { globalErrorReporter } from "coral-framework/lib/errors";
+
 /**
  * withStyles provides a property `classes: object` that
  * includes the classNames from `styles` and extensions from the
@@ -20,9 +22,8 @@ function withStyles<T>(
           resolvedClasses[k] += ` ${props.classes[k]}`;
         } else if (process.env.NODE_ENV === "test") {
           throw new Error(`Extending non existent className ${k}`);
-        } else if (process.env.NODE_ENV !== "production") {
-          // eslint-disable-next-line no-console
-          console.warn("Extending non existent className", k);
+        } else {
+          globalErrorReporter.report(`Extending non existent className ${k}`);
         }
       });
     }

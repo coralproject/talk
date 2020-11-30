@@ -11,7 +11,10 @@ import { LanguageCode } from "coral-common/helpers/i18n";
 import { onPymMessage } from "coral-framework/helpers";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
-import { ErrorReporter } from "coral-framework/lib/errors";
+import {
+  ErrorReporter,
+  setGlobalErrorReporter,
+} from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
@@ -168,7 +171,8 @@ function createManagedCoralContextProvider(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   initLocalState: InitLocalState,
-  localesData: LocalesData
+  localesData: LocalesData,
+  ErrorBoundary?: React.ComponentType
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
@@ -258,14 +262,10 @@ function createManagedCoralContextProvider(
       // If the boundary is available from the reporter (also, if it's
       // available) then use it to wrap the lower children for any error that
       // happens.
-
-      // NOTE: (wyattjoh) there should be another way to do this better...
-      const Boundary = this.state.context.reporter?.ErrorBoundary;
-
       return (
         <CoralContextProvider value={this.state.context}>
-          {Boundary ? (
-            <Boundary>{this.props.children}</Boundary>
+          {ErrorBoundary ? (
+            <ErrorBoundary>{this.props.children}</ErrorBoundary>
           ) : (
             this.props.children
           )}
@@ -317,6 +317,11 @@ export default async function createManaged({
   bundleConfig = {},
   tokenRefreshProvider,
 }: CreateContextArguments): Promise<ComponentType> {
+  // Set error reporter.
+  if (reporter) {
+    setGlobalErrorReporter(reporter);
+  }
+
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
@@ -379,7 +384,6 @@ export default async function createManaged({
     timeagoFormatter,
     pym,
     eventEmitter,
-    reporter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),
@@ -411,6 +415,7 @@ export default async function createManaged({
     subscriptionClient,
     clientID,
     initLocalState,
-    localesData
+    localesData,
+    reporter?.ErrorBoundary
   );
 }

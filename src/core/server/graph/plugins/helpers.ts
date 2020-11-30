@@ -117,7 +117,7 @@ function hoistCoralErrorExtensions(
 }
 
 /**
- * extractOriginalError will pull out the original error if available.
+ * getWrappedOriginalError will pull out the original error if available.
  *
  * @param err the error to have their original error extracted from.
  * @param ctx the Context to extract the environment state.

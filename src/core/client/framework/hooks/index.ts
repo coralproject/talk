@@ -8,4 +8,5 @@ export { default as useToken } from "./useToken";
 export { default as useToggleState } from "./useToggleState";
 export { default as useLive } from "./useLive";
 export { default as useVisibilityState } from "./useVisibilityState";
+export { default as useEffectAtUnmount } from "./useEffectAtUnmount";
 export { default as usePersistedState } from "./usePersistedState";

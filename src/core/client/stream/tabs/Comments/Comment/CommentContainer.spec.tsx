@@ -20,6 +20,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       eventEmitter: new EventEmitter2(),
       viewer: null,
       story: {
+        id: "story-0",
         url: "http://localhost/story",
         isClosed: false,
         canModerate: false,

@@ -480,6 +480,16 @@ export class CommentNotFoundError extends CoralError {
   }
 }
 
+export class CommentEditWindowExpiredError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.COMMENT_EDIT_WINDOW_EXPIRED,
+      context: { pvt: { commentID } },
+      reportable: false,
+    });
+  }
+}
+
 export class TenantNotFoundError extends CoralError {
   constructor(hostname: string) {
     super({
