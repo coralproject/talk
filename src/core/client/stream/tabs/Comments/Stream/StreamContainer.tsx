@@ -469,7 +469,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             {(matches) => {
               return matches ? (
                 <SortMenu
-                  className={styles.sortMenu}
                   orderBy={local.commentsOrderBy}
                   onChange={onChangeOrder}
                   reactionSortLabel={props.settings.reaction.sortLabel}

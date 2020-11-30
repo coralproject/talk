@@ -48,6 +48,10 @@ const RatingsFilterMenu: FunctionComponent<Props> = ({
       className={styles.root}
       value={value}
       onChange={onChange}
+      classes={{
+        selectFont: styles.selectFont,
+        selectColor: styles.selectColor,
+      }}
       fullWidth
     >
       <Localized id="rr-allReviewsFilter">
