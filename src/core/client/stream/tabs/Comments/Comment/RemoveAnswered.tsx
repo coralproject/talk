@@ -1,9 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
-import { useMutation } from "coral-framework/lib/relay";
-// import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { Button } from "coral-ui/components/v2";
+
+import { RemoveAnsweredLocal } from "coral-stream/__generated__/RemoveAnsweredLocal.graphql";
 
 import { RemoveAnsweredMutation } from "./RemoveAnsweredMutation";
 
@@ -17,9 +19,15 @@ interface Props {
 const RemoveAnswered: FunctionComponent<Props> = ({ commentID, storyID }) => {
   const removeAnswered = useMutation(RemoveAnsweredMutation);
 
+  const [{ commentsOrderBy }] = useLocal<RemoveAnsweredLocal>(graphql`
+    fragment RemoveAnsweredLocal on Local {
+      commentsOrderBy
+    }
+  `);
+
   const onRemove = useCallback(async () => {
-    await removeAnswered({ commentID, storyID });
-  }, [commentID, removeAnswered, storyID]);
+    await removeAnswered({ commentID, storyID, orderBy: commentsOrderBy });
+  }, [commentID, commentsOrderBy, removeAnswered, storyID]);
 
   return (
     <>

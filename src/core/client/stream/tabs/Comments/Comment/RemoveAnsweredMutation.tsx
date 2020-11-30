@@ -7,9 +7,12 @@ import {
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutation } from "coral-framework/lib/relay";
 
+import { COMMENT_SORT } from "coral-stream/__generated__/RemoveAnsweredLocal.graphql";
+
 export interface RemoveAnsweredMutationInput {
   commentID: string;
   storyID: string;
+  orderBy: COMMENT_SORT;
 }
 
 export async function commit(
@@ -32,7 +35,7 @@ export async function commit(
       storyRecord,
       "UnansweredStream_comments",
       {
-        orderBy: "CREATED_AT_DESC",
+        orderBy: input.orderBy,
         tag: "UNANSWERED",
       }
     );
