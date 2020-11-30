@@ -91,7 +91,7 @@ comments-postComment-gifSearch-search =
 comments-postComment-gifSearch-loading = Поиск...
 comments-postComment-gifSearch-no-results = Ничего не найдено по «{$query}»
 comments-postComment-gifSearch-powered-by-giphy =
-  .alt = Powered by giphy
+  .alt = Работает с помощью giphy
 
 comments-postComment-pasteImage = Вставить URL изображения
 comments-postComment-insertImage = Вставить
@@ -251,14 +251,14 @@ comments-featuredTag = Важный
 
 comments-react =
   .aria-label = {$count ->
-    [0] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    [0] {$reaction} комментариев от {$username}
+    *[other] {$reaction} ({$count}) комментариев от {$username}
   }
 comments-reacted =
   .aria-label = {$count ->
-    [0] {$reaction} comment by {$username}
-    [one] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    [0] {$reaction} комментариев от {$username}
+    [one] {$reaction} комментарий {$username}
+    *[other] {$reaction} ({$count}) комментариев от {$username}
   }
 
 ### Q&A
@@ -360,7 +360,7 @@ profile-preferencesTab = Настройки
 accountSettings-manage-account = Настройте свой аккаунт
 
 ### Bio
-profile-bio-title = Bio
+profile-bio-title = Биография
 profile-bio-description =
   Добавьте биографию, которая будет отображено в вашем профиле.
   Должна быть не более 100 символов.
