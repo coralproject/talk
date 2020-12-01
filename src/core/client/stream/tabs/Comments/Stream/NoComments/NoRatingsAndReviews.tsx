@@ -13,7 +13,7 @@ const NoRatingsAndReviews: FunctionComponent<Props> = ({ isClosed, tag }) => {
   if (isClosed) {
     if (tag === GQLTAG.REVIEW) {
       return (
-        <Localized id="rr-noReviewsAtAll">
+        <Localized id="ratingsAndReviews-noReviewsAtAll">
           <CallOut fullWidth>There are no reviews.</CallOut>
         </Localized>
       );
@@ -21,7 +21,7 @@ const NoRatingsAndReviews: FunctionComponent<Props> = ({ isClosed, tag }) => {
 
     if (tag === GQLTAG.QUESTION) {
       return (
-        <Localized id="rr-noQuestionsAtAll">
+        <Localized id="ratingsAndReviews-noQuestionsAtAll">
           <CallOut fullWidth>There are no questions.</CallOut>
         </Localized>
       );
@@ -32,7 +32,7 @@ const NoRatingsAndReviews: FunctionComponent<Props> = ({ isClosed, tag }) => {
 
   if (tag === GQLTAG.REVIEW) {
     return (
-      <Localized id="rr-noReviewsYet">
+      <Localized id="ratingsAndReviews-noReviewsYet">
         <CallOut fullWidth>
           There are no reviews yet. Why don't you write one?
         </CallOut>
@@ -42,7 +42,7 @@ const NoRatingsAndReviews: FunctionComponent<Props> = ({ isClosed, tag }) => {
 
   if (tag === GQLTAG.QUESTION) {
     return (
-      <Localized id="rr-noQuestionsYet">
+      <Localized id="ratingsAndReviews-noQuestionsYet">
         <CallOut fullWidth>
           There are no questions yet. Why don't you ask one?
         </CallOut>

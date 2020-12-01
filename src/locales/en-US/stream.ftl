@@ -798,26 +798,26 @@ profile-changeEmail-success = Your email has been successfully updated
 
 ## Ratings and Reviews
 
-rr-reviewsTab = Reviews
-rr-questionsTab = Questions
-rr-noReviewsAtAll = There are no reviews.
-rr-noQuestionsAtAll = There are no questions.
-rr-noReviewsYet = There are no reviews yet. Why don't you write one?
-rr-noQuestionsYet = There are no questions yet. Why don't you ask one?
-rr-selectARating = Select a rating
-rr-youRatedThis = You rated this
-rr-showReview = Show review
-  .title = { rr-showReview } 
-rr-rateAndReview = Rate and Review
-rr-askAQuestion = Ask a Question
-rr-basedOnRatings = { $count -> 
+ratingsAndReviews-reviewsTab = Reviews
+ratingsAndReviews-questionsTab = Questions
+ratingsAndReviews-noReviewsAtAll = There are no reviews.
+ratingsAndReviews-noQuestionsAtAll = There are no questions.
+ratingsAndReviews-noReviewsYet = There are no reviews yet. Why don't you write one?
+ratingsAndReviews-noQuestionsYet = There are no questions yet. Why don't you ask one?
+ratingsAndReviews-selectARating = Select a rating
+ratingsAndReviews-youRatedThis = You rated this
+ratingsAndReviews-showReview = Show review
+  .title = { ratingsAndReviews-showReview } 
+ratingsAndReviews-rateAndReview = Rate and Review
+ratingsAndReviews-askAQuestion = Ask a Question
+ratingsAndReviews-basedOnRatings = { $count -> 
   [0] No ratings yet
   [1] Based on 1 rating
   *[other] Based on { SHORT_NUMBER($count) } ratings
 }
 
-rr-allReviewsFilter = All reviews
-rr-starReviewsFilter = { $rating -> 
+ratingsAndReviews-allReviewsFilter = All reviews
+ratingsAndReviews-starReviewsFilter = { $rating -> 
   [1] 1 Star
   *[other] { $rating } Stars
 }

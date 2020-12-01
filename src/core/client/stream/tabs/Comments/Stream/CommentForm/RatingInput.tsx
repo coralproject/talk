@@ -20,7 +20,7 @@ const RatingInput: FunctionComponent<Props> = ({ disabled }) => {
 
   return (
     <div className={cn(styles.root, disabled && styles.disabled)}>
-      <Localized id="rr-selectARating">
+      <Localized id="ratingsAndReviews-selectARating">
         <Typography
           color="textDark"
           variant="bodyCopyBold"

@@ -30,11 +30,14 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           <div
             className={cn(styles.button, styles.rated, styles.showReviewButton)}
           >
-            <Localized id="rr-youRatedThis">
+            <Localized id="ratingsAndReviews-youRatedThis">
               <span className={styles.ratedThis}>You rated this</span>
             </Localized>
             <StarRating className={styles.icon} rating={rating} />
-            <Localized id="rr-showReview" attrs={{ title: true }}>
+            <Localized
+              id="ratingsAndReviews-showReview"
+              attrs={{ title: true }}
+            >
               <Button
                 variant="none"
                 onClick={onClickReview}
@@ -51,7 +54,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
             className={cn(styles.button, styles.rated)}
             disabled
           >
-            <Localized id="rr-youRatedThis">
+            <Localized id="ratingsAndReviews-youRatedThis">
               <span className={styles.ratedThis}>You rated this</span>
             </Localized>
             <StarRating rating={rating} />
@@ -71,7 +74,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           <Icon size="lg" className={styles.icon}>
             star_border
           </Icon>
-          <Localized id="rr-rateAndReview">
+          <Localized id="ratingsAndReviews-rateAndReview">
             <span>Rate and Review</span>
           </Localized>
         </Button>
@@ -89,7 +92,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
         <Icon size="lg" className={styles.icon}>
           help_outline
         </Icon>
-        <Localized id="rr-askAQuestion">
+        <Localized id="ratingsAndReviews-askAQuestion">
           <span>Ask a Question</span>
         </Localized>
       </Button>
