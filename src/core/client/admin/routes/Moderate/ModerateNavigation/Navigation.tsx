@@ -71,7 +71,7 @@ const Navigation: FunctionComponent<Props> = ({
 
   return (
     <SubBarNavigation>
-      {mode && mode === "POST" && (
+      {(mode === "POST" || (isNumber(reportedCount) && reportedCount > 0)) && (
         <NavigationLink to={moderationLinks[0]}>
           <Icon>flag</Icon>
           <Localized id="moderate-navigation-reported">
