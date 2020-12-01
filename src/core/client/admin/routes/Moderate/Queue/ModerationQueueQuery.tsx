@@ -2,6 +2,7 @@ import { Match } from "found";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { parseModerationOptions } from "coral-framework/helpers";
 import { QueryRenderer } from "coral-framework/lib/relay";
 
 import {
@@ -35,8 +36,7 @@ const ModerationQueueQuery: FunctionComponent<Props> = ({ match }) => {
         return (
           <ModerationQueue
             mode={props.settings.moderation}
-            siteID={match.params.siteID}
-            storyID={match.params.storyID}
+            pathOptions={parseModerationOptions(match)}
           />
         );
       }}

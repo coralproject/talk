@@ -1,31 +1,28 @@
 import { useRouter } from "found";
 import { FunctionComponent, useEffect } from "react";
 
-import { getModerationLink } from "coral-framework/helpers";
+import {
+  default as getModerationLink,
+  Options,
+} from "coral-framework/helpers/getModerationLink";
 
 interface Props {
   mode: "PRE" | "POST" | "%future added value" | null;
-  siteID?: string;
-  storyID?: string;
+  pathOptions: Omit<Options, "queue">;
 }
 
-const ModerationQueue: FunctionComponent<Props> = ({
-  mode,
-  siteID,
-  storyID,
-}) => {
+const ModerationQueue: FunctionComponent<Props> = ({ mode, pathOptions }) => {
   const { router } = useRouter();
   useEffect(() => {
     if (mode) {
       router.replace(
         getModerationLink({
           queue: mode === "PRE" ? "pending" : "reported",
-          storyID,
-          siteID,
+          ...pathOptions,
         })
       );
     }
-  }, [mode, router, siteID, storyID]);
+  }, [mode, router, pathOptions]);
   return null;
 };
 
