@@ -5,7 +5,6 @@ import { graphql } from "react-relay";
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import { AbilityType, can } from "coral-admin/permissions";
 import { roleIsAtLeast } from "coral-framework/helpers";
-import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { GQLUSER_ROLE } from "coral-framework/schema";
@@ -16,7 +15,6 @@ import NetworkError from "./NetworkError";
 import RestrictedContainer from "./RestrictedContainer";
 
 interface Props {
-  reporter: CoralContext["reporter"];
   match: Match;
   router: Router;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
@@ -90,31 +88,6 @@ function createAuthCheckRoute(check: CheckParams) {
       props.router.replace("/admin/login");
     }
 
-    public componentDidUpdate(prevProps: Props) {
-      // Whenever the viewer changes on this component, update the user on the
-      // reporter.
-      if (!this.props.reporter) {
-        return;
-      }
-
-      // Pull the viewer out of the next props (`this.props`) and the current
-      // props (`prevProps`) to compare them.
-      const next = this.props.data?.viewer || null;
-      const curr = prevProps.data?.viewer || null;
-
-      // If the next is different than current, then...
-      if (next !== curr) {
-        // If they are both provided then if the id of the viewer didn't change,
-        // then the user hasn't changed (at least, it hasn't changed enough to
-        // require another update to the reporter).
-        if (next && curr && next.id === curr.id) {
-          return;
-        }
-
-        this.props.reporter.setUser(next);
-      }
-    }
-
     public render() {
       if (this.props.error) {
         return <NetworkError />;
@@ -160,11 +133,7 @@ function createAuthCheckRoute(check: CheckParams) {
         }
       }
     `,
-  })(
-    withContext(({ reporter }) => ({ reporter }))(
-      withRouter(withMutation(SetRedirectPathMutation)(AuthCheckRoute))
-    )
-  );
+  })(withRouter(withMutation(SetRedirectPathMutation)(AuthCheckRoute)));
 
   return enhanced;
 }

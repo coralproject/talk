@@ -62,4 +62,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   DUPLICATE_SITE_ORIGIN: "error-duplicateSiteOrigin",
   VALIDATION: "error-validation",
   USER_BIO_TOO_LONG: "error-userBioTooLong",
+  COMMENT_EDIT_WINDOW_EXPIRED: "error-commentEditWindowExpired",
 };

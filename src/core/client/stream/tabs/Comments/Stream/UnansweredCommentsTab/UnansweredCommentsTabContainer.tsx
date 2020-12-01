@@ -122,10 +122,6 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     (props.story.comments.viewNewEdges &&
       props.story.comments.viewNewEdges.length) ||
     0;
-  const onRemoveAnswered = useCallback(() => {
-    const { relay } = props;
-    relay.refetchConnection(20);
-  }, [props]);
   return (
     <>
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -183,7 +179,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
                     viewer={props.viewer}
                     comment={comment}
                     story={props.story}
-                    onRemoveAnswered={onRemoveAnswered}
+                    showRemoveAnswered
                   />
                 </HorizontalGutter>
               </FadeInTransition>

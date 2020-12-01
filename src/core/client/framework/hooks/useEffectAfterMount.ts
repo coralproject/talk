@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  */
 export default function useEffectAfterMount(
   effect: React.EffectCallback,
-  deps?: ReadonlyArray<any> | undefined
+  deps: ReadonlyArray<any>
 ) {
   const mountedRef = useRef<boolean>(false);
   useEffect(() => {
@@ -15,5 +15,6 @@ export default function useEffectAfterMount(
       return;
     }
     return effect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }

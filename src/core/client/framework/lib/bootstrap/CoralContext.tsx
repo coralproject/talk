@@ -9,7 +9,6 @@ import { Environment } from "relay-runtime";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
 import { BrowserInfo } from "coral-framework/lib/browserInfo";
-import { ErrorReporter } from "coral-framework/lib/errors";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
@@ -83,11 +82,6 @@ export interface CoralContext {
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;
-
-  /**
-   * reporter is the designated ErrorReporter for this application.
-   */
-  reporter?: ErrorReporter;
 }
 
 export const CoralReactContext = React.createContext<CoralContext>({} as any);
