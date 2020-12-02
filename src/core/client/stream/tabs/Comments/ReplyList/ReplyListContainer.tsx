@@ -1,5 +1,10 @@
-import React, { FunctionComponent, useCallback } from "react";
-import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
+import React, { useCallback } from "react";
+import {
+  createFragmentContainer as createRelayFragmentContainer,
+  graphql,
+  GraphQLTaggedNode,
+  RelayPaginationProp,
+} from "react-relay";
 import { withProps } from "recompose";
 
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
@@ -9,28 +14,68 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
-import { PropTypesOf } from "coral-framework/types";
+import { Overwrite } from "coral-framework/types";
 import { ShowAllRepliesEvent } from "coral-stream/events";
 
-import { ReplyListContainer1_comment as CommentData } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
-import { ReplyListContainer1_settings as SettingsData } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
-import { ReplyListContainer1_story as StoryData } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
-import { ReplyListContainer1_viewer as ViewerData } from "coral-stream/__generated__/ReplyListContainer1_viewer.graphql";
+import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
+import { ReplyListContainer1_settings } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
+import { ReplyListContainer1_story } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
+import { ReplyListContainer1_viewer } from "coral-stream/__generated__/ReplyListContainer1_viewer.graphql";
 import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
+import { ReplyListContainer2_comment } from "coral-stream/__generated__/ReplyListContainer2_comment.graphql";
+import { ReplyListContainer2_settings } from "coral-stream/__generated__/ReplyListContainer2_settings.graphql";
+import { ReplyListContainer2_story } from "coral-stream/__generated__/ReplyListContainer2_story.graphql";
+import { ReplyListContainer2_viewer } from "coral-stream/__generated__/ReplyListContainer2_viewer.graphql";
+import { ReplyListContainer2PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer2PaginationQuery.graphql";
+import { ReplyListContainer3_comment } from "coral-stream/__generated__/ReplyListContainer3_comment.graphql";
+import { ReplyListContainer3_settings } from "coral-stream/__generated__/ReplyListContainer3_settings.graphql";
+import { ReplyListContainer3_story } from "coral-stream/__generated__/ReplyListContainer3_story.graphql";
+import { ReplyListContainer3_viewer } from "coral-stream/__generated__/ReplyListContainer3_viewer.graphql";
+import { ReplyListContainer3PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer3PaginationQuery.graphql";
+import { ReplyListContainerLast_comment } from "coral-stream/__generated__/ReplyListContainerLast_comment.graphql";
+import { ReplyListContainerLast_settings } from "coral-stream/__generated__/ReplyListContainerLast_settings.graphql";
+import { ReplyListContainerLast_story } from "coral-stream/__generated__/ReplyListContainerLast_story.graphql";
+import { ReplyListContainerLast_viewer } from "coral-stream/__generated__/ReplyListContainerLast_viewer.graphql";
 
 import { isPublished } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
 
+// Combine fragment types.
+type Viewer =
+  | ReplyListContainer1_viewer
+  | ReplyListContainer2_viewer
+  | ReplyListContainer3_viewer;
+
+type Comment =
+  | ReplyListContainer1_comment
+  | ReplyListContainer2_comment
+  | ReplyListContainer3_comment;
+
+type Story =
+  | ReplyListContainer1_story
+  | ReplyListContainer2_story
+  | ReplyListContainer3_story;
+
+type Settings =
+  | ReplyListContainer1_settings
+  | ReplyListContainer2_settings
+  | ReplyListContainer3_settings;
+
+type PaginationQuery =
+  | ReplyListContainer1PaginationQueryVariables
+  | ReplyListContainer2PaginationQueryVariables
+  | ReplyListContainer3PaginationQueryVariables;
+
 /**
  * BaseProps of the ReplyListContainer(s)
  */
 interface BaseProps {
-  viewer: ViewerData | null;
-  story: StoryData;
-  comment: CommentData;
-  settings: SettingsData;
+  viewer: Viewer | null;
+  story: Story;
+  comment: Comment;
+  settings: Settings;
   relay: RelayPaginationProp;
   /**
    * liveDirectRepliesInsertion if set to true,
@@ -55,7 +100,7 @@ type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } &
  * Like BaseProps but add the `NextReplyListComponent` property.
  */
 type Props = BaseProps & {
-  NextReplyListComponent: React.ComponentType<NextReplyListProps> | undefined;
+  NextReplyListComponent: React.ComponentType<NextReplyListProps> | null;
 };
 
 /* BEGIN - Comment fragments used by the ReplyListContainer */
@@ -100,23 +145,26 @@ graphql`
 `;
 // eslint-disable-next-line no-unused-expressions
 graphql`
+  fragment ReplyListContainer_repliesComment on Comment {
+    id
+    enteredLive
+    replyCount
+    ...CommentContainer_comment
+    ...IgnoredTombstoneOrHideContainer_comment
+  }
+`;
+// eslint-disable-next-line no-unused-expressions
+graphql`
   fragment ReplyListContainer_repliesConnection on CommentsConnection {
     viewNewEdges {
       cursor
       node {
-        id
-        enteredLive
-        ...CommentContainer_comment
-        ...IgnoredTombstoneOrHideContainer_comment
+        ...ReplyListContainer_repliesComment @relay(mask: false)
       }
     }
     edges {
       node {
-        id
-        enteredLive
-        replyCount
-        ...CommentContainer_comment
-        ...IgnoredTombstoneOrHideContainer_comment
+        ...ReplyListContainer_repliesComment @relay(mask: false)
       }
     }
   }
@@ -124,13 +172,12 @@ graphql`
 /* END - Comment fragments used by the ReplyListContainer */
 
 // TODO: (cvle) If this could be autogenerated.
-type FragmentVariables = Omit<
-  ReplyListContainer1PaginationQueryVariables,
-  "commentID"
->;
+type FragmentVariables = Omit<PaginationQuery, "commentID">;
 
 /**
  * ReplyListContainer handles the rendering of replies no matter which indent level.
+ * Exception: Without _Flatten Replies_ we are using `LocalReplyListContainer` as the last
+ * level.
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
@@ -152,6 +199,10 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     void viewNew({ commentID: props.comment.id, storyID: props.story.id });
   }, [props.comment.id, props.story.id, viewNew]);
 
+  if (!("replies" in props.comment)) {
+    return null;
+  }
+
   const viewNewCount =
     (props.comment.replies.viewNewEdges &&
       props.comment.replies.viewNewEdges.length) ||
@@ -169,20 +220,23 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     // Comment is not visible after a viewer action, so don't render it anymore.
     props.comment.lastViewerAction && !isPublished(props.comment.status)
       ? []
-      : props.comment.replies.edges.map((edge) => ({
-          ...edge.node,
-          replyListElement: props.NextReplyListComponent && (
-            // Important: Props are being passed here to the next level!
-            <props.NextReplyListComponent
-              viewer={props.viewer}
-              comment={edge.node}
-              story={props.story}
-              settings={props.settings}
-              indentLevel={indentLevel + 1}
-            />
-          ),
-          showConversationLink: indentLevel === 3 && edge.node.replyCount > 0,
-        }));
+      : // (cvle) TODO: Next two lines contain a typescript bug workaround...
+        (props.comment.replies.edges as any[]).map(
+          (edge: typeof props.comment.replies.edges[0]) => ({
+            ...edge.node,
+            replyListElement: props.NextReplyListComponent && (
+              // Important: Props are being passed here to the next level!
+              <props.NextReplyListComponent
+                viewer={props.viewer}
+                comment={edge.node}
+                story={props.story}
+                settings={props.settings}
+                indentLevel={indentLevel + 1}
+              />
+            ),
+            showConversationLink: indentLevel === 3 && edge.node.replyCount > 0,
+          })
+        );
   return (
     <ReplyList
       viewer={props.viewer}
@@ -221,66 +275,98 @@ function createReplyListContainer(options: {
   /** query for the pagination container */
   query: GraphQLTaggedNode;
   /** Next ReplyListContainer Component */
-  NextReplyListComponent?: Props["NextReplyListComponent"];
+  NextReplyListComponent: Props["NextReplyListComponent"] | null;
 }) {
   const { fragments, query, NextReplyListComponent } = options;
   const enhanced = withProps({ NextReplyListComponent })(
-    withPaginationContainer<
-      Props,
-      ReplyListContainer1PaginationQueryVariables,
-      FragmentVariables
-    >(fragments, {
-      direction: "forward",
-      getConnectionFromProps(props) {
-        return props.comment && props.comment.replies;
-      },
-      // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-      getFragmentVariables(prevVars, totalCount) {
-        return {
-          ...prevVars,
-          count: totalCount,
-        };
-      },
-      getVariables(props, { count, cursor }, fragmentVariables) {
-        return {
-          count,
-          cursor,
-          orderBy: fragmentVariables.orderBy,
-          commentID: props.comment.id,
-        };
-      },
-      query,
-    })(ReplyListContainer)
+    withPaginationContainer<Props, PaginationQuery, FragmentVariables>(
+      fragments,
+      {
+        direction: "forward",
+        getConnectionFromProps(props) {
+          return props.comment && props.comment.replies;
+        },
+        // This is also the default implementation of `getFragmentVariables` if it isn't provided.
+        getFragmentVariables(prevVars, totalCount) {
+          return {
+            ...prevVars,
+            count: totalCount,
+          };
+        },
+        getVariables(props, { count, cursor }, fragmentVariables) {
+          return {
+            count,
+            cursor,
+            orderBy: fragmentVariables.orderBy,
+            commentID: props.comment.id,
+          };
+        },
+        query,
+      }
+    )(ReplyListContainer)
   );
   return enhanced;
 }
 
-/**
- * LastReplyList uses the LocalReplyListContainer.
- */
-const LastReplyList: FunctionComponent<PropTypesOf<
-  typeof LocalReplyListContainer
->> = (props) => <LocalReplyListContainer {...props} indentLevel={4} />;
+const ReplyListContainerLast = createRelayFragmentContainer<
+  Overwrite<
+    BaseProps,
+    {
+      viewer: ReplyListContainerLast_viewer | null;
+      story: ReplyListContainerLast_story;
+      comment: ReplyListContainerLast_comment;
+      settings: ReplyListContainerLast_settings;
+    }
+  >
+>(
+  (props) => {
+    return (
+      <LocalReplyListContainer {...props} indentLevel={props.indentLevel!} />
+    );
+  },
+  {
+    viewer: graphql`
+      fragment ReplyListContainerLast_viewer on User {
+        ...LocalReplyListContainer_viewer
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainerLast_story on Story {
+        ...LocalReplyListContainer_story
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainerLast_comment on Comment {
+        ...LocalReplyListContainer_comment
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainerLast_settings on Settings {
+        ...LocalReplyListContainer_settings
+      }
+    `,
+  }
+);
 
 const ReplyListContainer3 = createReplyListContainer({
-  NextReplyListComponent: LastReplyList,
+  NextReplyListComponent: ReplyListContainerLast,
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer3_viewer on User {
         ...ReplyListContainer_viewer @relay(mask: false)
-        ...LocalReplyListContainer_viewer
+        ...ReplyListContainerLast_viewer
       }
     `,
     settings: graphql`
       fragment ReplyListContainer3_settings on Settings {
         ...ReplyListContainer_settings @relay(mask: false)
-        ...LocalReplyListContainer_settings
+        ...ReplyListContainerLast_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer3_story on Story {
         ...ReplyListContainer_story @relay(mask: false)
-        ...LocalReplyListContainer_story
+        ...ReplyListContainerLast_story
       }
     `,
     comment: graphql`
@@ -296,12 +382,12 @@ const ReplyListContainer3 = createReplyListContainer({
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
-              ...LocalReplyListContainer_comment
+              ...ReplyListContainerLast_comment
             }
           }
           edges {
             node {
-              ...LocalReplyListContainer_comment
+              ...ReplyListContainerLast_comment
             }
           }
         }

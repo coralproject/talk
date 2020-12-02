@@ -25,7 +25,7 @@ export interface ReplyListProps {
   comments: ReadonlyArray<
     {
       id: string;
-      replyListElement?: React.ReactElement<any>;
+      replyListElement?: React.ReactElement<any> | null;
       showConversationLink?: boolean;
       enteredLive?: boolean | null;
     } & PropTypesOf<typeof CommentContainer>["comment"] &

@@ -84,7 +84,7 @@ it("renders correctly when replies are empty", () => {
       },
     },
     indentLevel: 1,
-    NextReplyListComponent: undefined,
+    NextReplyListComponent: null,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -128,7 +128,7 @@ describe("when has more replies", () => {
     } as any,
     viewer: null,
     indentLevel: 1,
-    NextReplyListComponent: undefined,
+    NextReplyListComponent: null,
   };
 
   let wrapper: ShallowWrapper<any>;
