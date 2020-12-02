@@ -9,6 +9,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
+import { ModerateNavigationContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
 import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
 
 import ModerateCountsCommentEnteredSubscription from "./ModerateCountsCommentEnteredSubscription";
@@ -17,6 +18,7 @@ import Navigation from "./Navigation";
 
 interface Props {
   moderationQueues: ModerationQueuesData | null;
+  settings: SettingsData | null;
   story: StoryData | null;
   siteID: string | null;
   section?: SectionFilter | null;
@@ -63,6 +65,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       storyID={props.story && props.story.id}
       siteID={props.siteID}
       section={props.section}
+      mode={props.settings?.moderation}
     />
   );
 };
@@ -71,6 +74,11 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ModerateNavigationContainer_story on Story {
       id
+    }
+  `,
+  settings: graphql`
+    fragment ModerateNavigationContainer_settings on Settings {
+      moderation
     }
   `,
   moderationQueues: graphql`
