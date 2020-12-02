@@ -27,7 +27,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
 
   if (!options.disableClientRoutes) {
     // Prepare the client config to be injected on the page.
-    const config: StaticConfig = {
+    const staticConfig: StaticConfig = {
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",
@@ -38,7 +38,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       app.config.get("env") === "production" &&
       app.config.get("sentry_frontend_key")
     ) {
-      config.reporter = {
+      staticConfig.reporter = {
         name: "sentry",
         dsn: app.config.get("sentry_frontend_key"),
       };
@@ -53,7 +53,8 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       defaultLocale: app.config.get("default_locale") as LanguageCode,
       tenantCache: app.tenantCache,
       mongo: app.mongo,
-      config,
+      staticConfig,
+      config: app.config,
     });
   } else {
     logger.warn("client routes are disabled");

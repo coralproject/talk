@@ -1,11 +1,14 @@
+import { createCacheUrl } from "@ampproject/toolbox-cache-url";
 import builder from "content-security-policy-builder";
+import { compact, flatten } from "lodash";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
 import { extractParentsURL, getOrigin } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
-import { hasFeatureFlag } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { isURLPermitted } from "coral-server/services/sites/url";
 import { Request, RequestHandler } from "coral-server/types/express";
@@ -21,14 +24,9 @@ interface RequestQuery {
 
 async function retrieveSiteFromEmbed(
   mongo: Db,
-  req: Request
+  req: Request,
+  tenant: Tenant
 ): Promise<Site | null> {
-  const { tenant } = req.coral;
-  if (!tenant) {
-    // There is no tenant for the request, don't add any headers.
-    return null;
-  }
-
   // Attempt to detect the site based on the query parameters.
   const {
     storyURL = "",
@@ -72,19 +70,48 @@ async function retrieveSiteFromEmbed(
   return null;
 }
 
+async function retrieveAMPOrigins(
+  config: Config,
+  origins: string[]
+): Promise<string[]> {
+  const cacheDomains = config.get("amp_cache_domains");
+
+  // For each of the cache domains, we have to generate the amp equivalent.
+  const urls = await Promise.all(
+    cacheDomains.map((cacheDomain) =>
+      Promise.all(origins.map((origin) => createCacheUrl(cacheDomain, origin)))
+    )
+  );
+
+  return compact(flatten(urls).map((url) => getOrigin(url)));
+}
+
 async function retrieveOriginsFromRequest(
   mongo: Db,
+  config: Config,
   req: Request
 ): Promise<string[]> {
-  const site = await retrieveSiteFromEmbed(mongo, req);
-  if (!site) {
+  const { tenant } = req.coral;
+  if (!tenant) {
     return [];
   }
 
-  return site.allowedOrigins;
+  const site = await retrieveSiteFromEmbed(mongo, req, tenant);
+  if (!site || site.allowedOrigins.length === 0) {
+    return [];
+  }
+
+  const origins = site.allowedOrigins;
+
+  if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_AMP)) {
+    const amp = await retrieveAMPOrigins(config, origins);
+    origins.push(...amp);
+  }
+
+  return origins;
 }
 
-type Options = Pick<AppOptions, "mongo"> & {
+type Options = Pick<AppOptions, "mongo" | "config"> & {
   /**
    * frameAncestorsDeny when true will prevent the request's page from being
    * embedded on any page inside an iframe.
@@ -97,26 +124,16 @@ type Options = Pick<AppOptions, "mongo"> & {
  */
 export const cspSiteMiddleware = ({
   mongo,
+  config,
   frameAncestorsDeny,
 }: Options): RequestHandler => async (req, res, next) => {
-  res.setHeader("X-XSS-Protection", "1; mode=block");
-
-  // If the frame ancestors isn't being forced, and the tenant has AMP enabled,
-  // then don't add any headers!
-  if (
-    !frameAncestorsDeny &&
-    req.coral.tenant &&
-    hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.ENABLE_AMP)
-  ) {
-    return next();
-  }
-
   // If the frame ancestors is being set to deny, then use an empty list,
   // otherwise look it up from the request.
   const origins = frameAncestorsDeny
     ? []
-    : await retrieveOriginsFromRequest(mongo, req);
+    : await retrieveOriginsFromRequest(mongo, config, req);
 
+  res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader(
     "Content-Security-Policy",
     generateContentSecurityPolicy(origins)

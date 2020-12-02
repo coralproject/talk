@@ -1,4 +1,4 @@
-import { generateFrameOptions } from "coral-server/app/middleware/csp/tenant";
+import { generateFrameOptions } from "coral-server/app/middleware/csp";
 import { Request } from "coral-server/types/express";
 
 it("denies when the tenant has no specified domains", () => {

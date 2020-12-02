@@ -5,9 +5,10 @@ import path from "path";
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
-import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
+import { cspSiteMiddleware } from "coral-server/app/middleware/csp";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
+import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
@@ -36,9 +37,14 @@ export interface ClientTargetHandlerOptions {
   };
 
   /**
-   * config is the static config to be loaded into the template.
+   * config is the configuration for the application.
    */
-  config: StaticConfig;
+  config: Config;
+
+  /**
+   * staticConfig is the static config to be loaded into the template.
+   */
+  staticConfig: StaticConfig;
 
   /**
    * defaultLocale is the configured fallback locale for this installation.
@@ -91,6 +97,7 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   // Add CSP headers to the request, which only apply when serving HTML content.
   router.use(
     cspSiteMiddleware({
+      config: options.config,
       mongo: options.mongo,
       frameAncestorsDeny: options.disableFraming,
     })
@@ -113,13 +120,15 @@ interface MountClientRouteOptions {
   };
   defaultLocale: LanguageCode;
   tenantCache: TenantCache;
-  config: StaticConfig;
+  staticConfig: StaticConfig;
+
+  config: Config;
   mongo: Db;
 }
 
 const clientHandler = ({
   analytics,
-  config,
+  staticConfig: config,
   entrypoint,
   enableCustomCSS,
   enableCustomCSSQuery,
