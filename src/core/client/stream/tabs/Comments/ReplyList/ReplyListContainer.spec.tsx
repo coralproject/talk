@@ -29,8 +29,8 @@ it("renders correctly", () => {
       status: "NONE",
       replies: {
         edges: [
-          { node: { id: "comment-1", enteredLive: false } },
-          { node: { id: "comment-2", enteredLive: false } },
+          { node: { id: "comment-1", enteredLive: false, replyCount: 0 } },
+          { node: { id: "comment-2", enteredLive: false, replyCount: 0 } },
         ],
         viewNewEdges: [],
       },
@@ -48,8 +48,7 @@ it("renders correctly", () => {
     } as any,
     viewer: null,
     indentLevel: 1,
-    ReplyListComponent: () => null,
-    localReply: false,
+    NextReplyListComponent: () => null,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -85,8 +84,7 @@ it("renders correctly when replies are empty", () => {
       },
     },
     indentLevel: 1,
-    ReplyListComponent: undefined,
-    localReply: false,
+    NextReplyListComponent: undefined,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -110,8 +108,8 @@ describe("when has more replies", () => {
       status: "NONE",
       replies: {
         edges: [
-          { node: { id: "comment-1", enteredLive: false } },
-          { node: { id: "comment-2", enteredLive: false } },
+          { node: { id: "comment-1", enteredLive: false, replyCount: 0 } },
+          { node: { id: "comment-2", enteredLive: false, replyCount: 0 } },
         ],
         viewNewEdges: [],
       },
@@ -130,8 +128,7 @@ describe("when has more replies", () => {
     } as any,
     viewer: null,
     indentLevel: 1,
-    ReplyListComponent: undefined,
-    localReply: false,
+    NextReplyListComponent: undefined,
   };
 
   let wrapper: ShallowWrapper<any>;
