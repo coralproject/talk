@@ -406,7 +406,7 @@ const config = convict({
   amp_cache_domains: {
     doc: "Specifies the amp cache domains as a comma seperated list",
     format: "list",
-    default: ["cdn.ampproject.org", "www.bing-amp.com"],
+    default: ["cdn.ampproject.org"],
     env: "AMP_CACHE_DOMAINS",
   },
 });
