@@ -1,3 +1,5 @@
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
+
 /**
  * SentryReporterConfig is the ReporterConfig for the Sentry service.
  */
@@ -28,4 +30,9 @@ export interface StaticConfig {
    * available.
    */
   reporter?: ReporterConfig;
+
+  /**
+   * featureFlags are all the feature flags currently enabled on the tenant.
+   */
+  featureFlags: GQLFEATURE_FLAG[];
 }

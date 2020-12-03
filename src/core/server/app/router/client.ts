@@ -114,6 +114,8 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
+  config.featureFlags = req.coral.tenant?.featureFlags || [];
+
   res.render("client", {
     analytics,
     staticURI: config.staticURI,
