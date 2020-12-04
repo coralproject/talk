@@ -4,13 +4,12 @@ import { compact, flatten } from "lodash";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
-import { extractParentsURL, getOrigin } from "coral-server/app/url";
+import { getOrigin } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
-import { isURLPermitted } from "coral-server/services/sites/url";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
@@ -111,6 +110,20 @@ async function retrieveOriginsFromRequest(
   return origins;
 }
 
+/**
+ * getRequesterOrigin will get the origin of the requester from the request.
+ *
+ * @param req the request to get the origin from
+ */
+function getRequesterOrigin(req: Request): string | null {
+  const referer = req.get("Referer");
+  if (!referer) {
+    return null;
+  }
+
+  return getOrigin(referer);
+}
+
 type Options = Pick<AppOptions, "mongo" | "config"> & {
   /**
    * frameAncestorsDeny when true will prevent the request's page from being
@@ -133,14 +146,26 @@ export const cspSiteMiddleware = ({
     ? []
     : await retrieveOriginsFromRequest(mongo, config, req);
 
-  res.setHeader("X-XSS-Protection", "1; mode=block");
+  const frameOptions = generateFrameOptions(req, origins);
+  if (frameOptions) {
+    res.setHeader("X-Frame-Options", frameOptions);
+  }
+
+  // If we have AMP enabled, then we cannot send frame-ancestors because we
+  // can't predict the top level ancestor!
+  if (
+    req.coral.tenant &&
+    hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.ENABLE_AMP)
+  ) {
+    return next();
+  }
+
   res.setHeader(
     "Content-Security-Policy",
     generateContentSecurityPolicy(origins)
   );
-  res.setHeader("X-Frame-Options", generateFrameOptions(req, origins));
 
-  next();
+  return next();
 };
 
 function generateContentSecurityPolicy(allowedOrigins: string[]) {
@@ -152,43 +177,29 @@ function generateContentSecurityPolicy(allowedOrigins: string[]) {
   return builder({ directives: { frameAncestors } });
 }
 
-export function generateFrameOptions(req: Request, allowedOrigins: string[]) {
-  // If there aren't any domains, then we reject it.
+export function generateFrameOptions(
+  req: Request,
+  allowedOrigins: string[]
+): string | null {
+  // If there aren't any allowed origins, then we reject it!
   if (allowedOrigins.length === 0) {
     return "deny";
   }
 
-  // If there is only one domain on the tenant then return it!
-  if (allowedOrigins.length === 1) {
-    return `allow-from ${getOrigin(allowedOrigins[0])}`;
-  }
-
-  const parentsURL = extractParentsURL(req);
-  if (!parentsURL) {
+  // Try to get the requester origin. If we can't get it, then block the iframe
+  // from appearing. This requires that the referer is always passed.
+  const requesterOrigin = getRequesterOrigin(req);
+  if (!requesterOrigin) {
     return "deny";
   }
 
-  // Grab the parent's origin.
-  const parentsOrigin = getOrigin(parentsURL);
-  if (!parentsOrigin) {
+  // If the requester origin does not exist in the allowed origins, then don't
+  // do anything!
+  if (!allowedOrigins.includes(requesterOrigin)) {
     return "deny";
   }
 
-  // Determine if this origin is allowed.
-  if (!isURLPermitted({ allowedOrigins }, parentsURL)) {
-    return "deny";
-  }
-
-  // As we can only return a single domain in the `allow-from` directive as per
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-  // We need to find the domain that is asking so we can respond with the right
-  // result, sort of like CORS!
-  const allowFrom = allowedOrigins
-    .map((domain) => getOrigin(domain))
-    .find((origin) => origin === parentsOrigin);
-  if (!allowFrom) {
-    return "deny";
-  }
-
-  return `allow-from ${allowFrom}`;
+  // Returning null signals that we're not applying any `X-Frame-Options` to
+  // this request (the same as allowing it).
+  return null;
 }
