@@ -116,7 +116,7 @@ async function retrieveOriginsFromRequest(
  * @param req the request to get the origin from
  */
 function getRequesterOrigin(req: Request): string | null {
-  const referer = req.get("Referer");
+  const { referer } = req.headers;
   if (!referer) {
     return null;
   }

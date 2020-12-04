@@ -1,56 +1,54 @@
 import { generateFrameOptions } from "coral-server/app/middleware/csp";
 import { Request } from "coral-server/types/express";
 
-it("denies when the tenant has no specified domains", () => {
+it("denies when there is no permitted origins", () => {
   const origins: string[] = [];
   const req = {} as Request;
 
   expect(generateFrameOptions(req, origins)).toEqual("deny");
 });
 
-it("allow-from single domain when there is one domain", () => {
-  const origins: string[] = ["https://coralproject.net"];
-  const req = {} as Request;
-
-  expect(generateFrameOptions(req, origins)).toEqual(
-    "allow-from https://coralproject.net"
-  );
-});
-
-it("deny from the domain when it does not provide and there are multiple tenants domains", () => {
-  const origins: string[] = [
-    "https://coralproject.net",
-    "https://news.coralproject.net",
-  ];
-  const req = { headers: {}, query: { parentUrl: "" } } as Request;
-
-  expect(generateFrameOptions(req, origins)).toEqual("deny");
-});
-
-it("allows from the domain when it does not provide a match and there are multiple tenants domains", () => {
-  const origins: string[] = [
-    "https://coralproject.net",
-    "https://news.coralproject.net",
-  ];
+it("denies when there is no permitted origins", () => {
+  const origins: string[] = [];
   const req = {
-    headers: {},
-    query: { parentUrl: "https://blog.coralproject.net/a/page" },
+    headers: { referer: "https://blog.coralproject.net/a/page" },
   } as Request;
 
   expect(generateFrameOptions(req, origins)).toEqual("deny");
 });
 
-it("allows from the domain when it does provide a match and there are multiple tenants domains", () => {
+it("denies when there is no referer", () => {
+  const origins: string[] = [
+    "https://coralproject.net",
+    "https://news.coralproject.net",
+  ];
+  const req = { headers: {}, query: {} } as Request;
+
+  expect(generateFrameOptions(req, origins)).toEqual("deny");
+});
+
+it("denies when the referer does not match a permitted origin", () => {
   const origins: string[] = [
     "https://coralproject.net",
     "https://news.coralproject.net",
   ];
   const req = {
-    headers: {},
-    query: { parentUrl: "https://news.coralproject.net/a/page" },
+    headers: { referer: "https://blog.coralproject.net/a/page" },
+    query: {},
   } as Request;
 
-  expect(generateFrameOptions(req, origins)).toEqual(
-    "allow-from https://news.coralproject.net"
-  );
+  expect(generateFrameOptions(req, origins)).toEqual("deny");
+});
+
+it("allows when the referer matches a permitted origin", () => {
+  const origins: string[] = [
+    "https://coralproject.net",
+    "https://news.coralproject.net",
+  ];
+  const req = {
+    headers: { referer: "https://news.coralproject.net/a/page" },
+    query: {},
+  } as Request;
+
+  expect(generateFrameOptions(req, origins)).toEqual(null);
 });
