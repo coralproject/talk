@@ -118,6 +118,8 @@ sidebar:
           children:
             - title: GraphQL Overview
               url: /v5/api/overview/
+            - title: GraphQL Reference
+              url: /v5/api/graphql/
     - title: Version 4
       children:
         - title: Installation
