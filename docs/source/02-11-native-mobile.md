@@ -8,10 +8,10 @@ Integration with native mobile applications is done through web view, you will n
 1. Host your embed code (find your **Embed code** under **Configure** > **Organization** > **Site Details**) in an HTML page served over HTTPS. For example, `https://yoursitename.com/coral.html`
 2. Add the domain to the list of permitted domains for your site under **Configure** > **Organization** > **Site Details**
 3. Create a web view in your native application which points to this URL
-4. Pass an SSO access token through to the embed code to log in your user. See [Single Sign On](/talk/v5/integrating/sso/) for information on how to generate an SSO token. There are multiple ways to pass data from a native application to a web view, one method is to encode the access token in a query parameter on the URL (ex. `https://yoursitename.com/coral.html?accessToken=ssoToken`) and retrieve the token from the embed code. You can then pass through the `accessToken` option passed to `createStreamEmbed`:
+4. Pass an SSO access token through to the embed code to log in your user. See [Single Sign On](/talk/v5/integrating/sso/) for information on how to generate an SSO token. There are multiple ways to pass data from a native application to a web view, one method is to encode the access token in a query parameter on the URL hash (ex. `https://yoursitename.com/coral.html#accessToken=ssoToken`) and retrieve the token from the embed code. You can then pass through the `accessToken` option passed to `createStreamEmbed`:
 
 ```
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search.replace("#", "?"));
   const accessToken = urlParams.get("accessToken");
 
   [...]
@@ -23,6 +23,8 @@ Integration with native mobile applications is done through web view, you will n
   });
 
 ```
+
+**_note_**: Example URL uses a hash (`#`) instead of question mark (`?`) to prevent access token from being logged.
 
 This will initialize the Coral stream with a logged-in user.
 
