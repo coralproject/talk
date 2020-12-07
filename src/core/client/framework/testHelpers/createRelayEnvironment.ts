@@ -1,5 +1,5 @@
+import { IResolvers } from "@graphql-tools/utils";
 import { graphql, GraphQLSchema, parse } from "graphql";
-import { IResolvers } from "graphql-tools";
 import {
   CacheConfig,
   commitLocalUpdate,

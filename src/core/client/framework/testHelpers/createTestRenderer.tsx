@@ -1,5 +1,5 @@
+import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
-import { IResolvers } from "graphql-tools";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
