@@ -30,7 +30,7 @@
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
-    "generate": "npm-run-all generate:css-types generate:schema generate:relay",
+    "generate": "npm-run-all generate:css-types generate:schema generate:relay generate:introspection",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
     "generate:css-types": "tcm src/core/client/",

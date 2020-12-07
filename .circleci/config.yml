@@ -158,6 +158,10 @@ jobs:
           name: Deploy static files to Google Cloud Storage Bucket
           command: |
             gsutil -m cp -r -z "js,css,map,txt" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
+      - run:
+          name: Deploy introspection json to Google Cloud Storage Bucket
+          command: |
+            gsutil cp "introspection.json" "gs://${GOOGLE_CLOUD_BUCKET}"
 
   # upload release artifacts to sentry.
   release_sentry:
