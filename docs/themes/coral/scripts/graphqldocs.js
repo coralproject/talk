@@ -10,14 +10,14 @@ const docsScript = fs.readFileSync(
 
 hexo.extend.tag.register('graphqldocs', args => {
   const schema = args[0];
-  let fetcher = "";
+  let fetcher = '';
 
   if (schema.match(/^http[s]?/)) {
     fetcher = `
       function fetcher() {
         return fetch("${schema}").then((result) => result.json()).then((json) => {return {data: json}});
       }
-    `
+    `;
   } else {
     const filename = path.resolve(hexo.source_dir, schema);
     const introspectionQuery = fs.readFileSync(filename, { encoding: 'utf8' });
@@ -27,7 +27,7 @@ hexo.extend.tag.register('graphqldocs', args => {
             resolve({"data": ${introspectionQuery}});
         });
       }
-    `
+    `;
   }
 
   return stripIndent`
