@@ -1,6 +1,6 @@
 ---
 title: GraphQL API Reference
-permalink: /api/graphql/
+permalink: /v5/api/graphql/
 ---
 
 We provide all services that Talk can provide via the GraphQL API documented
@@ -12,4 +12,4 @@ interact with Talk's GraphQL endpoint.
 
 # GraphQL Schema
 
-{% graphqldocs _data/introspection.json %}
+{% graphqldocs "https://cdn.coral.coralproject.net/introspection.json" %}
