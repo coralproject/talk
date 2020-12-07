@@ -162,6 +162,7 @@ jobs:
           name: Deploy introspection json to Google Cloud Storage Bucket
           command: |
             gsutil cp "introspection.json" "gs://${GOOGLE_CLOUD_BUCKET}"
+            gsutil cp "introspection.json" "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
 
   # upload release artifacts to sentry.
   release_sentry:
