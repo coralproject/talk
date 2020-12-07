@@ -3,11 +3,11 @@
 import program from "commander";
 import spawn from "cross-spawn";
 import fs from "fs-extra";
+import { loadConfigSync } from "graphql-config";
 import path from "path";
 
-const config = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "../.graphqlconfig"), "utf8")
-);
+// Load the configuration from the provided `graphql-config` configuration file.
+const config = loadConfigSync({});
 
 program
   .version("0.1.0")
@@ -24,6 +24,27 @@ if (!program.schema) {
   process.exit(1);
 }
 
+// Get the GraphQLSchema from the configuration.
+const schemaConfig = config.getProject(program.schema).schema as
+  | string[]
+  | undefined;
+
+if (!schemaConfig) {
+  // eslint-disable-next-line no-console
+  console.error(
+    `SchemaPath for project ${program.schema} not found in graphql config`
+  );
+  process.exit(1);
+}
+
+if (schemaConfig.length > 1) {
+  // eslint-disable-next-line no-console
+  console.error(`Multiple schemas provided, but we expected only one`);
+  process.exit(1);
+}
+
+const schema = schemaConfig[0];
+
 if (!program.src) {
   // eslint-disable-next-line no-console
   console.error("Src not provided");
@@ -33,18 +54,6 @@ if (!program.src) {
 if (!config.projects) {
   // eslint-disable-next-line no-console
   console.error("Missing projects key in .graphqconfig");
-  process.exit(1);
-}
-if (!config.projects[program.schema]) {
-  // eslint-disable-next-line no-console
-  console.error(`Project ${program.schema} not found in .graphqconfig`);
-  process.exit(1);
-}
-if (!config.projects[program.schema].schemaPath) {
-  // eslint-disable-next-line no-console
-  console.error(
-    `SchemaPath for project ${program.schema} not found in .graphqconfig`
-  );
   process.exit(1);
 }
 
@@ -60,7 +69,7 @@ const args = [
   "--artifactDirectory",
   `${program.src}/__generated__`,
   "--schema",
-  config.projects[program.schema].schemaPath,
+  schema,
 ];
 
 // Set the persisted query path.

@@ -4,7 +4,10 @@ import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { CommentNotFoundError } from "coral-server/errors";
+import {
+  CommentEditWindowExpiredError,
+  CommentNotFoundError,
+} from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -263,8 +266,7 @@ export function validateEditable(
 
   // Check to see if the edit window expired.
   if (comment.createdAt <= lastEditableCommentCreatedAt) {
-    // TODO: (wyattjoh) return better error
-    throw new Error("edit window expired");
+    throw new CommentEditWindowExpiredError(comment.id);
   }
 }
 
@@ -1261,4 +1263,29 @@ export async function retrieveManyStoryRatings(
     (storyID) =>
       results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
   );
+}
+
+export async function retrieveFeaturedComments(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  limit: number
+) {
+  const $match: FilterQuery<Comment> = {
+    tenantID,
+    siteID,
+    "tags.type": GQLTAG.FEATURED,
+    status: { $in: PUBLISHED_STATUSES },
+  };
+  const results = await collection(mongo)
+    .aggregate([
+      {
+        $match,
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: limit },
+    ])
+    .toArray();
+
+  return results;
 }

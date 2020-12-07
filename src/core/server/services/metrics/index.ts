@@ -19,7 +19,7 @@ export function createMetrics(): Metrics {
   const graphQLExecutionTimingsHistogram = new Histogram({
     name: "coral_executed_graph_queries_timings",
     help: "timings for execution times of GraphQL operations",
-    buckets: [0.1, 5, 15, 50, 100, 500],
+    buckets: [0.1, 5, 15, 50, 100, 500, 750, 1000],
     labelNames: ["operation_type", "operation_name"],
   });
 
@@ -32,7 +32,7 @@ export function createMetrics(): Metrics {
   const httpRequestDurationMilliseconds = new Histogram({
     name: "http_request_duration_milliseconds",
     help: "Histogram of latencies for HTTP requests.",
-    buckets: [0.1, 5, 15, 50, 100, 500],
+    buckets: [0.1, 5, 15, 50, 100, 500, 750, 1000],
     labelNames: ["method", "handler"],
   });
 

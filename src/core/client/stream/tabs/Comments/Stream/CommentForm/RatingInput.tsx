@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { useField } from "react-final-form";
@@ -19,13 +20,15 @@ const RatingInput: FunctionComponent<Props> = ({ disabled }) => {
 
   return (
     <div className={cn(styles.root, disabled && styles.disabled)}>
-      <Typography
-        color="textDark"
-        variant="bodyCopyBold"
-        className={styles.copy}
-      >
-        Select a rating
-      </Typography>
+      <Localized id="ratingsAndReviews-selectARating">
+        <Typography
+          color="textDark"
+          variant="bodyCopyBold"
+          className={styles.copy}
+        >
+          Select a rating
+        </Typography>
+      </Localized>
       <StarRating name={name} rating={value} size="xl" onRate={onChange} />
     </div>
   );

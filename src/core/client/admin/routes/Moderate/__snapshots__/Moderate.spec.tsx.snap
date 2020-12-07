@@ -38,6 +38,11 @@ exports[`renders correctly 1`] = `
   >
     <Relay(ModerateNavigationContainer)
       moderationQueues={Object {}}
+      settings={
+        Object {
+          "multisite": false,
+        }
+      }
       siteID={null}
       story={Object {}}
     />

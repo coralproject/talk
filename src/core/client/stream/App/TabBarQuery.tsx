@@ -9,6 +9,7 @@ import {
 import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
 import { TabBarQueryLocal as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
 
+import ErrorReporterSetUserContainer from "./ErrorReporterSetUserContainer";
 import TabBarContainer from "./TabBarContainer";
 
 interface Props {
@@ -24,6 +25,7 @@ class TabBarQuery extends Component<Props> {
           query TabBarQuery($storyID: ID, $storyURL: String) {
             viewer {
               ...TabBarContainer_viewer
+              ...ErrorReporterSetUserContainer_viewer
             }
             story(id: $storyID, url: $storyURL) {
               ...TabBarContainer_story
@@ -42,12 +44,19 @@ class TabBarQuery extends Component<Props> {
             return <div>{error.message}</div>;
           }
 
+          const ErrorReporterSetUser = props ? (
+            <ErrorReporterSetUserContainer viewer={props.viewer} />
+          ) : null;
+
           return (
-            <TabBarContainer
-              settings={(props && props.settings) || null}
-              story={(props && props.story) || null}
-              viewer={(props && props.viewer) || null}
-            />
+            <>
+              {ErrorReporterSetUser}
+              <TabBarContainer
+                settings={(props && props.settings) || null}
+                story={(props && props.story) || null}
+                viewer={(props && props.viewer) || null}
+              />
+            </>
           );
         }}
       />

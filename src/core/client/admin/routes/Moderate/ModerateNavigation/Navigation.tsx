@@ -20,6 +20,7 @@ interface Props {
   section?: SectionFilter | null;
   router: Router;
   match: Match;
+  mode?: "PRE" | "POST" | "%future added value" | null;
 }
 
 const Navigation: FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ const Navigation: FunctionComponent<Props> = ({
   section,
   router,
   match,
+  mode,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
@@ -69,22 +71,24 @@ const Navigation: FunctionComponent<Props> = ({
 
   return (
     <SubBarNavigation>
-      <NavigationLink to={moderationLinks[0]}>
-        <Icon>flag</Icon>
-        <Localized id="moderate-navigation-reported">
-          <span>Reported</span>
-        </Localized>
-        {isNumber(reportedCount) && (
-          <Counter data-testid="moderate-navigation-reported-count">
-            <Localized
-              id="moderate-navigation-comment-count"
-              $count={reportedCount}
-            >
-              {reportedCount}
-            </Localized>
-          </Counter>
-        )}
-      </NavigationLink>
+      {(mode === "POST" || (isNumber(reportedCount) && reportedCount > 0)) && (
+        <NavigationLink to={moderationLinks[0]}>
+          <Icon>flag</Icon>
+          <Localized id="moderate-navigation-reported">
+            <span>Reported</span>
+          </Localized>
+          {isNumber(reportedCount) && (
+            <Counter data-testid="moderate-navigation-reported-count">
+              <Localized
+                id="moderate-navigation-comment-count"
+                $count={reportedCount}
+              >
+                {reportedCount}
+              </Localized>
+            </Counter>
+          )}
+        </NavigationLink>
+      )}
       <NavigationLink to={moderationLinks[1]}>
         <Icon>access_time</Icon>
         <Localized id="moderate-navigation-pending">

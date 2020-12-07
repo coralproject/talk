@@ -1,5 +1,7 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 
+import { globalErrorReporter } from "../errors";
+
 export default function format(
   bundles: FluentBundle[],
   key: string,
@@ -13,8 +15,8 @@ export default function format(
 
     const errors: Error[] = [];
     const formatted = bundle.formatPattern(message.value, args, errors);
-    if (process.env.NODE_ENV !== "production" && errors.length > 0) {
-      window.console.warn(
+    if (errors.length > 0) {
+      globalErrorReporter.report(
         `Translation ${key} encountered an error: ${errors
           .map((err) => err.message)
           .join(", ")}`

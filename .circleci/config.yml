@@ -134,6 +134,7 @@ jobs:
           paths:
             - dist
 
+  # release static assets to cdn.
   release_static:
     docker:
       - image: google/cloud-sdk
@@ -157,6 +158,27 @@ jobs:
           name: Deploy static files to Google Cloud Storage Bucket
           command: |
             gsutil -m cp -r -z "js,css,map,txt" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
+
+  # upload release artifacts to sentry.
+  release_sentry:
+    <<: *job_node_defaults
+    steps:
+      - setup_remote_docker:
+          <<: *setup_remote_docker_defaults
+      - run:
+          name: Copy dist from docker container
+          command: |
+            CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
+            docker cp "${CONTAINER_ID}:/usr/src/app/dist" dist/
+            docker rm "${CONTAINER_ID}"
+      - run:
+          name: Print sentry cli version
+          command: |
+            npx @sentry/cli -V
+      - run:
+          name: Upload source maps to sentry
+          command: |
+            npx @sentry/cli releases files "coral@${CIRCLE_TAG/#v}" upload-sourcemaps ./dist
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
@@ -193,6 +215,15 @@ filter_release: &filter_release
       only:
         - master
         - next
+    tags:
+      only: /^v.*/
+
+# filter_tagged_release will add the filters for a deploy job in a workflow to make it
+# only execute on a tagged release.
+filter_tagged_release: &filter_tagged_release
+  filters:
+    branches:
+      ignore: /.*/
     tags:
       only: /^v.*/
 
@@ -246,10 +277,10 @@ workflows:
             - unit_tests
             - build
       - release_static:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
+          <<: *filter_tagged_release
+          requires:
+            - release_docker
+      - release_sentry:
+          <<: *filter_tagged_release
           requires:
             - release_docker

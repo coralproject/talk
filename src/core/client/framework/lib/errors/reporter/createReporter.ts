@@ -11,6 +11,12 @@ interface Options {
   reporterFeedbackPrompt?: boolean;
 }
 
+function createDevelopmentReporter() {
+  return new SentryErrorReporter(false, "http://debug@debug/1", {
+    offlineDebug: true,
+  });
+}
+
 function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
   | ErrorReporter
   | undefined {
@@ -18,6 +24,9 @@ function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
   // page.
   const element = document.getElementById("config")!;
   if (!element) {
+    if (process.env.NODE_ENV === "development") {
+      return createDevelopmentReporter();
+    }
     return;
   }
 
@@ -26,8 +35,12 @@ function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
   // we are unable to parse it.
   const config: StaticConfig = JSON.parse(element.innerText);
 
-  // If no reporter is configured, we don't have to do anything.
+  // If no reporter is configured, we don't have to do anything, or
+  // use a custom reporter during development.
   if (!config.reporter) {
+    if (process.env.NODE_ENV === "development") {
+      return createDevelopmentReporter();
+    }
     return;
   }
 
