@@ -114,6 +114,8 @@ sidebar:
               url: /v5/integrating/events/
             - title: SEO & iframes
               url: /v5/seo/
+            - title: Native mobile applications
+              url: /v5/integrating/mobile/
         - title: API
           children:
             - title: GraphQL Overview
