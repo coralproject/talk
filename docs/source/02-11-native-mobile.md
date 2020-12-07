@@ -11,7 +11,7 @@ Integration with native mobile applications is done through web view, you will n
 4. Pass an SSO access token through to the embed code to log in your user. See [Single Sign On](/talk/v5/integrating/sso/) for information on how to generate an SSO token. There are multiple ways to pass data from a native application to a web view, one method is to encode the access token in a query parameter on the URL hash (ex. `https://yoursitename.com/coral.html#accessToken=ssoToken`) and retrieve the token from the embed code. You can then pass through the `accessToken` option passed to `createStreamEmbed`:
 
 ```
-  const urlParams = new URLSearchParams(window.location.search.replace("#", "?"));
+  const urlParams = new URLSearchParams(window.location.hash.replace("#", "?"));
   const accessToken = urlParams.get("accessToken");
 
   [...]
