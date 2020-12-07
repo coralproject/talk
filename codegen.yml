@@ -1,4 +1,4 @@
-schema: http://localhost:3000/api/graphql
+schema: ./src/core/server/graph/schema/schema.graphql
 generates:
   introspection.json:
     plugins:
