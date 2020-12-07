@@ -15,7 +15,7 @@ import createMetricsServer, {
 } from "coral-server/app";
 import config, { Config } from "coral-server/config";
 import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
-import getTenantSchema from "coral-server/graph/schema";
+import getSchema from "coral-server/graph/schema";
 import { createPubSubClient } from "coral-server/graph/subscriptions/pubsub";
 import { createSubscriptionServer } from "coral-server/graph/subscriptions/server";
 import logger from "coral-server/logger";
@@ -172,7 +172,7 @@ class Server {
     }
 
     // Load the graph schemas.
-    this.schema = getTenantSchema();
+    this.schema = getSchema();
 
     // Get the default locale. This is asserted here because the LanguageCode
     // is verified via Convict, but not typed, so this resolves that.

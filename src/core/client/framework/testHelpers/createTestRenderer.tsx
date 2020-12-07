@@ -72,7 +72,6 @@ export default function createTestRenderer<
       logNetwork: params.logNetwork,
       resolvers: params.resolvers as IResolvers<any, any>,
       muteNetworkErrors: params.muteNetworkErrors,
-      projectName: "tenant",
       subscriptionHandler,
     },
     initLocalState: (localRecord, source, env) => {
