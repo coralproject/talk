@@ -39,7 +39,8 @@ interface Props {
   section?: SectionFilter | null;
   settings:
     | (PropTypesOf<typeof ModerateSearchBarContainer>["settings"] &
-        PropTypesOf<typeof SiteSelectorContainer>["settings"])
+        PropTypesOf<typeof SiteSelectorContainer>["settings"] &
+        PropTypesOf<typeof ModerateNavigationContainer>["settings"])
     | null;
   children?: React.ReactNode;
   queueName: string;
@@ -107,6 +108,7 @@ const Moderate: FunctionComponent<Props> = ({
           story={story}
           siteID={routeParams.siteID || siteID || null}
           section={section}
+          settings={settings}
         />
       </SubBar>
       <div className={styles.background} />

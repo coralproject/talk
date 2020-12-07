@@ -17,10 +17,6 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   text-transform: uppercase;
 }
 
-.removeAnswered {
-  width: 100%;
-}
-
 .editButton {
   color: $commenterActionEditColor;
   &:hover,

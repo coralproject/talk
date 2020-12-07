@@ -9,6 +9,7 @@ export { default as getViewer } from "./getViewer";
 export { default as getViewerSourceID } from "./getViewerSourceID";
 export { default as injectConditionalPolyfills } from "./injectConditionalPolyfills";
 export { default as onPymMessage } from "./onPymMessage";
+export { default as parseModerationOptions } from "./parseModerationOptions";
 export { default as onPymMessageOnce } from "./onPymMessageOnce";
 export { default as polyfillCSSVars } from "./polyfillCSSVars";
 export { default as polyfillIntlLocale } from "./polyfillIntlLocale";
