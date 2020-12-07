@@ -2,11 +2,13 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { StarRating } from "coral-ui/components/v3";
 
 import styles from "./HistoryComment.css";
 
@@ -14,6 +16,7 @@ export interface HistoryCommentProps {
   id: string;
   body: string | null;
   createdAt: string;
+  rating: number | null;
   replyCount: number | null;
   reactionCount: number | null;
   reactionSettings: {
@@ -25,6 +28,9 @@ export interface HistoryCommentProps {
     metadata: {
       title: string | null;
     } | null;
+    settings: {
+      mode: string;
+    };
   };
   conversationURL: string;
   onGotoConversation: (e: React.MouseEvent) => void;
@@ -57,6 +63,8 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
           </div>
         )}
         <HorizontalGutter>
+          {props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS &&
+            props.rating && <StarRating rating={props.rating} />}
           <div className={styles.content}>
             {props.body && (
               <HTMLContent className={CLASSES.myComment.content}>

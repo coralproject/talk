@@ -2,7 +2,6 @@ import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
-import { countStoryViewers } from "coral-server/models/story/viewers";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   canModerate,
@@ -12,6 +11,7 @@ import { isLiveEnabled } from "coral-server/services/stories";
 
 import {
   GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
   GQLTAG,
@@ -58,6 +58,32 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     ),
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
+  viewerRating: (s, input, ctx) => {
+    if (
+      !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+    ) {
+      return null;
+    }
+
+    if (s.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+      return null;
+    }
+
+    return ctx.loaders.Stories.viewerRating(s.id);
+  },
+  ratings: (s, input, ctx) => {
+    if (
+      !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+    ) {
+      return null;
+    }
+
+    if (s.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+      return null;
+    }
+
+    return ctx.loaders.Stories.ratings.load(s.id);
+  },
   viewerCount: async (s, input, ctx) => {
     // If the feature flag isn't enabled, then we have nothing to return.
     if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.VIEWER_COUNT)) {
@@ -70,14 +96,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     }
 
     // Return the computed count!
-    return countStoryViewers(
-      ctx.redis,
-      {
-        tenantID: ctx.tenant.id,
-        siteID: s.siteID,
-        storyID: s.id,
-      },
-      ctx.config.get("story_viewer_timeout")
-    );
+    return ctx.loaders.Stories.viewerCount(s.siteID, s.id);
   },
 };

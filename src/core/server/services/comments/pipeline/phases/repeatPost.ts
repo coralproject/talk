@@ -26,6 +26,8 @@ export const repeatPost: IntermediateModerationPhase = async ({
   log,
   media,
 }): Promise<IntermediatePhaseResult | void> => {
+  // We don't have to screen a comment for a repeat post if the comment has no
+  // body text and it has no media.
   if (!bodyText && !media) {
     return;
   }

@@ -8,6 +8,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { useLive, useVisibilityState } from "coral-framework/hooks";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useInView } from "coral-framework/lib/intersection";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
@@ -53,10 +54,8 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
       // following useEffect.
       setLastRefreshed(Date.now());
     } catch (err) {
-      if (process.env.NODE_ENV !== "production") {
-        // eslint-disable-next-line no-console
-        console.error("couldn not refresh the story viewer count:", err);
-      }
+      // couldn not refresh the story viewer count
+      globalErrorReporter.report(err);
     }
   }, [refreshStoryViewerCount, story.id]);
 

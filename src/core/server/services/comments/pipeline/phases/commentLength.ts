@@ -4,48 +4,52 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
-import { supportsMediaType } from "coral-server/models/tenant";
+
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
+import { GQLCharCount } from "coral-server/graph/schema/__generated__/types";
+
+function resolveBound(
+  charCount: GQLCharCount,
+  key: keyof Omit<GQLCharCount, "enabled">,
+  defaultBound = 0
+) {
+  const bound = charCount[key];
+  if (charCount.enabled && !isNil(bound)) {
+    return bound;
+  }
+
+  return defaultBound;
+}
+
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
   bodyText,
   media,
+  comment,
 }): IntermediatePhaseResult | void => {
-  const length = bodyText.length;
-  let min: number | null = null;
-  let max: number | null = null;
-  if (tenant.charCount && tenant.charCount.enabled) {
-    if (!isNil(tenant.charCount.min)) {
-      min = tenant.charCount.min;
-    }
-    if (!isNil(tenant.charCount.max)) {
-      max = tenant.charCount.max;
-    }
-  }
-  if (!min) {
-    // Comment body should have at least 1 character.
-    min = 1;
-  }
-
-  // If the Giphy support is enabled, we don't need to check for a minimum!
-  if (
-    !(
-      supportsMediaType(tenant, "giphy") ||
-      supportsMediaType(tenant, "external")
-    ) ||
-    !media ||
-    (media.type !== "giphy" && media.type !== "external")
-  ) {
-    if (length < min) {
-      throw new CommentBodyTooShortError(min);
-    }
-  }
-
-  if (max && length > max) {
+  const max = resolveBound(tenant.charCount, "max");
+  if (max && bodyText.length > max) {
     throw new CommentBodyExceedsMaxLengthError(max);
+  }
+
+  if (
+    // Check if a Giphy attachment is attached...
+    media?.type === "giphy" ||
+    // Or a external image is attached...
+    media?.type === "external" ||
+    // Or a rating is attached...
+    comment.rating
+  ) {
+    // Then we don't need to check for a minimum!
+    return;
+  }
+
+  const min = resolveBound(tenant.charCount, "min", 1);
+  if (bodyText.length < min) {
+    throw new CommentBodyTooShortError(min);
   }
 };

@@ -166,6 +166,7 @@ const enhanced = withRouteConfig<Props>({
       settings {
         ...ModerateSearchBarContainer_settings
         ...SiteSelectorContainer_settings
+        ...ModerateNavigationContainer_settings
 
         featureFlags
       }

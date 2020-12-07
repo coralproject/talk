@@ -1,5 +1,5 @@
 import { getDepth } from "coral-server/models/comment";
-import { resolveStoryMode } from "coral-server/models/story";
+import { isUserStoryExpert } from "coral-server/models/story";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -12,27 +12,26 @@ import {
 
 export const tagExpertAnswers: IntermediateModerationPhase = ({
   author,
+  storyMode,
   story,
-  tenant,
   comment,
 }): IntermediatePhaseResult | void => {
-  if (
-    // If we're in Q&A mode...
-    resolveStoryMode(story.settings, tenant) === GQLSTORY_MODE.QA &&
-    // And we have experts for this story...
-    story.settings.expertIDs &&
-    // And the author is in expert list...
-    story.settings.expertIDs.some((id) => id === author.id)
-  ) {
-    // Assign this comment an expert tag!
-    const tags: GQLTAG[] = [GQLTAG.EXPERT];
-
-    // If this comment is the first reply in a thread (depth of 1)...
-    if (getDepth(comment) === 1) {
-      // Add the featured tag!
-      tags.push(GQLTAG.FEATURED);
-    }
-
-    return { tags };
+  // If we're not in Q&A mode, then do nothing!
+  if (storyMode !== GQLSTORY_MODE.QA) {
+    return;
   }
+
+  // If the author is not an expert on the story (or the story has no experts)
+  // then do nothing!
+  if (!isUserStoryExpert(story.settings, author.id)) {
+    return;
+  }
+
+  // If this comment is the first reply in a thread (depth of 1)...
+  if (getDepth(comment) === 1) {
+    // Add the featured tag!
+    return { tags: [GQLTAG.FEATURED, GQLTAG.EXPERT] };
+  }
+
+  return { tags: [GQLTAG.EXPERT] };
 };

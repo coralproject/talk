@@ -6,6 +6,7 @@ import { Config } from "coral-server/config";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
+  Comment,
   CreateCommentInput,
   RevisionMetadata,
 } from "coral-server/models/comment";
@@ -18,6 +19,7 @@ import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -59,34 +61,38 @@ export interface PhaseResult {
 }
 
 export interface ModerationPhaseContextInput {
-  mongo: Db;
-  redis: AugmentedRedis;
-  config: Config;
-  log: Logger;
-  story: Story;
-  tenant: Tenant;
-  comment: RequireProperty<
-    Partial<Omit<CreateCommentInput, "media">>,
-    "body" | "ancestorIDs"
-  > & {
-    /**
-     * id is used to provide the comment ID in the event this is a EDIT action.
-     */
-    id?: string;
-  };
-  author: User;
-  now: Date;
-  action: "NEW" | "EDIT";
-  nudge?: boolean;
-  req?: Request;
-  media?: CommentMedia;
+  readonly mongo: Db;
+  readonly redis: AugmentedRedis;
+  readonly config: Config;
+  readonly log: Logger;
+  readonly story: Readonly<Story>;
+  readonly tenant: Readonly<Tenant>;
+  readonly parent: Readonly<Comment> | null;
+  readonly comment: Readonly<
+    RequireProperty<
+      Partial<Omit<CreateCommentInput, "media" | "tags">>,
+      "body" | "ancestorIDs"
+    > & {
+      /**
+       * id is used to provide the comment ID in the event this is a EDIT action.
+       */
+      id?: string;
+    }
+  >;
+  readonly author: Readonly<User>;
+  readonly now: Date;
+  readonly action: "NEW" | "EDIT";
+  readonly nudge?: boolean;
+  readonly req?: Readonly<Request>;
+  readonly media?: Readonly<CommentMedia>;
+  readonly storyMode: GQLSTORY_MODE;
 }
 
 export interface ModerationPhaseContext extends ModerationPhaseContextInput {
   /**
    * bodyText is a text version of the comment body.
    */
-  bodyText: string;
+  readonly bodyText: string;
 }
 
 export type RootModerationPhase = (
@@ -97,8 +103,8 @@ export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 
 export interface IntermediateModerationPhaseContext
   extends ModerationPhaseContext {
-  metadata: RevisionMetadata;
-  tags: GQLTAG[];
+  readonly metadata: RevisionMetadata;
+  readonly tags: GQLTAG[];
 }
 
 export type IntermediateModerationPhase = (

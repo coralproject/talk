@@ -20,6 +20,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       eventEmitter: new EventEmitter2(),
       viewer: null,
       story: {
+        id: "story-0",
         url: "http://localhost/story",
         isClosed: false,
         canModerate: false,
@@ -48,6 +49,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           edited: false,
           editableUntil: "1995-12-17T03:24:30.000Z",
         },
+        rating: null,
         pending: false,
         tags: [],
         lastViewerAction: null,

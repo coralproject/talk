@@ -24,6 +24,7 @@ import {
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
+import { StarRating } from "coral-ui/components/v3";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import ApproveButton from "./ApproveButton";
@@ -85,6 +86,7 @@ interface Props {
   selectNext?: () => void;
   onBan: () => void;
   isQA?: boolean;
+  rating?: number | null;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -96,6 +98,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   inReplyTo,
   comment,
   settings,
+  rating,
   viewContextHref,
   status,
   featured,
@@ -239,6 +242,11 @@ const ModerateCard: FunctionComponent<Props> = ({
               </div>
             )}
           </div>
+          {rating && (
+            <div className={styles.ratingsArea}>
+              <StarRating rating={rating} />
+            </div>
+          )}
           <div className={styles.contentArea}>
             <div className={styles.content}>
               <CommentContent highlight={highlight} phrases={phrases}>

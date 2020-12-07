@@ -51,9 +51,11 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
       <CallOut fullWidth>
         <Localized
           id="moderate-user-drawer-rejected-no-comments"
-          $username={user.username}
+          $username={user.username || user.email}
         >
-          <div>{user.username} does not have any rejected comments.</div>
+          <div>
+            {user.username || user.email} does not have any rejected comments.
+          </div>
         </Localized>
       </CallOut>
     );
@@ -111,6 +113,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
+        email
         username
         rejectedComments(first: $count, after: $cursor)
           @connection(key: "UserHistoryDrawer_rejectedComments") {

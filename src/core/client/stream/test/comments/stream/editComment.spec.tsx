@@ -28,7 +28,11 @@ async function createTestRenderer(
         (s) => s.throws(),
         (s) =>
           s
-            .withArgs(undefined, { id: storyWithReplies.id, url: null })
+            .withArgs(undefined, {
+              id: storyWithReplies.id,
+              url: null,
+              mode: null,
+            })
             .returns(storyWithReplies)
       ),
       viewer: sinon.stub().returns(commenters[0]),

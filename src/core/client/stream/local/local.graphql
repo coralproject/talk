@@ -24,6 +24,8 @@ enum COMMENTS_TAB {
   FEATURED_COMMENTS
   ALL_COMMENTS
   UNANSWERED_COMMENTS
+  REVIEWS
+  QUESTIONS
 }
 
 enum COMMENT_VIEWER_ACTION {
@@ -65,9 +67,14 @@ type Local {
   authPopup: AuthPopup!
   storyID: String
   storyURL: String
+  storyMode: STORY_MODE
   commentID: String
   siteID: String
   commentsOrderBy: COMMENT_SORT!
+
+  # ratingFilter is the filter used to filter for a specific rating
+  ratingFilter: Int
+
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
 }

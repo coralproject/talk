@@ -6,13 +6,13 @@ import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { Story } from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
-  addStoryExpert,
+  addExpert,
   close,
   create,
   merge,
   open,
   remove,
-  removeStoryExpert,
+  removeExpert,
   update,
   updateSettings,
   updateStoryMode,
@@ -127,7 +127,7 @@ export const Stories = (ctx: GraphContext) => ({
       });
     }
 
-    return addStoryExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
+    return addExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
   removeStoryExpert: async (input: GQLRemoveStoryExpertInput) => {
     // Validate that this user is allowed to remove a story expert if the
@@ -138,11 +138,6 @@ export const Stories = (ctx: GraphContext) => ({
       });
     }
 
-    return removeStoryExpert(
-      ctx.mongo,
-      ctx.tenant,
-      input.storyID,
-      input.userID
-    );
+    return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
 });

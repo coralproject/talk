@@ -38,7 +38,7 @@ const UpdateBioMutation = createMutation(
           clientMutationId: (clientMutationId++).toString(),
           user: {
             id: viewer.id,
-            bio: input.bio,
+            bio: input.bio || null,
           },
         },
       },

@@ -13,6 +13,7 @@ export type RefreshAccessTokenCallback = (
 export interface Config {
   storyID?: string;
   storyURL?: string;
+  storyMode?: string;
   commentID?: string;
   rootURL?: string;
   id?: string;
@@ -46,6 +47,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     title: "Coral Embed Stream",
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || resolveStoryURL(),
+    storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
     id: config.id || "coral-embed-stream",
     rootURL: config.rootURL || getLocationOrigin(),

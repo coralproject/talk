@@ -15,7 +15,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
-import { MutationProp } from "coral-framework/lib/relay";
+import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import {
   GQLFEATURE_FLAG,
@@ -34,10 +34,7 @@ import {
   ShowReplyFormEvent,
   ViewConversationEvent,
 } from "coral-stream/events";
-import {
-  SetCommentIDMutation,
-  withSetCommentIDMutation,
-} from "coral-stream/mutations";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
@@ -60,6 +57,7 @@ import CaretContainer, {
 } from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
+import RemoveAnswered from "./RemoveAnswered";
 import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportFlowContainer, { ReportButton } from "./ReportFlow";
@@ -77,7 +75,6 @@ interface Props {
   eventEmitter: EventEmitter2;
   indentLevel?: number;
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
-  setCommentID: SetCommentIDMutation;
   /**
    * localReply will integrate the mutation response into
    * localReplies
@@ -93,9 +90,10 @@ interface Props {
   hideAnsweredTag?: boolean;
   hideReportButton?: boolean;
   hideModerationCarat?: boolean;
-  onRemoveAnswered?: () => void;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
+
+  showRemoveAnswered?: boolean;
 }
 
 export const CommentContainer: FunctionComponent<Props> = ({
@@ -108,17 +106,17 @@ export const CommentContainer: FunctionComponent<Props> = ({
   highlight,
   indentLevel,
   localReply,
-  onRemoveAnswered,
   settings,
   showConversationLink,
   hideReportButton,
   story,
   toggleCollapsed,
   eventEmitter,
-  setCommentID,
   viewer,
   showAuthPopup,
+  showRemoveAnswered,
 }) => {
+  const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
     showEditDialog,
@@ -258,6 +256,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // We are in a Q&A if the story mode is set to QA.
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+  const isRatingsAndReviews =
+    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   // Author is expert if comment is tagged Expert and the
   // story mode is Q&A.
@@ -266,12 +266,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // Only show a button to clear removed answers if this comment is by an
   // expert, reply to a top level comment (question) with an answer.
-  const showRemoveAnswered: boolean =
+  const removeAnswered: boolean =
     !comment.deleted &&
     isQA &&
     authorIsExpert &&
     indentLevel === 1 &&
-    !!onRemoveAnswered;
+    !!showRemoveAnswered;
 
   const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
 
@@ -351,6 +351,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             indentLevel={indentLevel}
             collapsed={collapsed}
             body={comment.body}
+            rating={isRatingsAndReviews ? comment.rating : null}
             createdAt={comment.createdAt}
             blur={!!comment.pending}
             showEditedMarker={comment.editing.edited}
@@ -581,17 +582,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
             localReply={localReply}
           />
         )}
-        {showRemoveAnswered && (
-          <Localized id="qa-unansweredTab-doneAnswering">
-            <Button
-              variant="regular"
-              color="regular"
-              className={styles.removeAnswered}
-              onClick={onRemoveAnswered}
-            >
-              Done
-            </Button>
-          </Localized>
+        {removeAnswered && (
+          <RemoveAnswered commentID={comment.id} storyID={story.id} />
         )}
       </HorizontalGutter>
     </div>
@@ -599,114 +591,114 @@ export const CommentContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
-  withSetCommentIDMutation(
-    withShowAuthPopupMutation(
-      withFragmentContainer<Props>({
-        viewer: graphql`
-          fragment CommentContainer_viewer on User {
+  withShowAuthPopupMutation(
+    withFragmentContainer<Props>({
+      viewer: graphql`
+        fragment CommentContainer_viewer on User {
+          id
+          status {
+            current
+          }
+          ignoredUsers {
             id
-            status {
-              current
-            }
-            ignoredUsers {
-              id
-            }
+          }
+          badges
+          role
+          scheduledDeletionDate
+          mediaSettings {
+            unfurlEmbeds
+          }
+          ...UsernameWithPopoverContainer_viewer
+          ...ReactionButtonContainer_viewer
+          ...ReportFlowContainer_viewer
+          ...ReportButton_viewer
+          ...CaretContainer_viewer
+        }
+      `,
+      story: graphql`
+        fragment CommentContainer_story on Story {
+          id
+          url
+          isClosed
+          canModerate
+          settings {
+            mode
+          }
+          ...CaretContainer_story
+          ...ReplyCommentFormContainer_story
+          ...PermalinkButtonContainer_story
+          ...EditCommentFormContainer_story
+          ...UserTagsContainer_story
+        }
+      `,
+      comment: graphql`
+        fragment CommentContainer_comment on Comment {
+          id
+          author {
+            id
+            username
+            avatar
             badges
-            role
-            scheduledDeletionDate
-            mediaSettings {
-              unfurlEmbeds
-            }
-            ...UsernameWithPopoverContainer_viewer
-            ...ReactionButtonContainer_viewer
-            ...ReportFlowContainer_viewer
-            ...ReportButton_viewer
-            ...CaretContainer_viewer
           }
-        `,
-        story: graphql`
-          fragment CommentContainer_story on Story {
-            url
-            isClosed
-            canModerate
-            settings {
-              mode
-            }
-            ...CaretContainer_story
-            ...ReplyCommentFormContainer_story
-            ...PermalinkButtonContainer_story
-            ...EditCommentFormContainer_story
-            ...UserTagsContainer_story
-          }
-        `,
-        comment: graphql`
-          fragment CommentContainer_comment on Comment {
-            id
+          parent {
             author {
-              id
               username
-              avatar
-              badges
             }
-            parent {
-              author {
-                username
-              }
-            }
-            body
-            createdAt
-            status
-            editing {
-              edited
-              editableUntil
-            }
-            tags {
-              code
-            }
-            pending
-            lastViewerAction
-            deleted
-            actionCounts {
-              reaction {
-                total
-              }
-            }
-            viewerActionPresence {
-              dontAgree
-              flag
-            }
-            ...ReplyCommentFormContainer_comment
-            ...EditCommentFormContainer_comment
-            ...ReactionButtonContainer_comment
-            ...ReportFlowContainer_comment
-            ...ReportButton_comment
-            ...CaretContainer_comment
-            ...RejectedTombstoneContainer_comment
-            ...UserTagsContainer_comment
-            ...UsernameWithPopoverContainer_comment
-            ...UsernameContainer_comment
-            ...MediaSectionContainer_comment
-            ...UsernameContainer_comment
           }
-        `,
-        settings: graphql`
-          fragment CommentContainer_settings on Settings {
-            disableCommenting {
-              enabled
-            }
-            featureFlags
-            ...CaretContainer_settings
-            ...ReportFlowContainer_settings
-            ...ReactionButtonContainer_settings
-            ...ReplyCommentFormContainer_settings
-            ...EditCommentFormContainer_settings
-            ...UserTagsContainer_settings
-            ...MediaSectionContainer_settings
-            ...UsernameWithPopoverContainer_settings
+          body
+          createdAt
+          status
+          rating
+          editing {
+            edited
+            editableUntil
           }
-        `,
-      })(CommentContainer)
-    )
+          tags {
+            code
+          }
+          pending
+          lastViewerAction
+          deleted
+          actionCounts {
+            reaction {
+              total
+            }
+          }
+          viewerActionPresence {
+            dontAgree
+            flag
+          }
+          ...ReplyCommentFormContainer_comment
+          ...EditCommentFormContainer_comment
+          ...ReactionButtonContainer_comment
+          ...ReportFlowContainer_comment
+          ...ReportButton_comment
+          ...CaretContainer_comment
+          ...RejectedTombstoneContainer_comment
+          ...UserTagsContainer_comment
+          ...UsernameWithPopoverContainer_comment
+          ...UsernameContainer_comment
+          ...MediaSectionContainer_comment
+          ...UsernameContainer_comment
+        }
+      `,
+      settings: graphql`
+        fragment CommentContainer_settings on Settings {
+          disableCommenting {
+            enabled
+          }
+          featureFlags
+          ...CaretContainer_settings
+          ...ReportFlowContainer_settings
+          ...ReactionButtonContainer_settings
+          ...ReplyCommentFormContainer_settings
+          ...EditCommentFormContainer_settings
+          ...UserTagsContainer_settings
+          ...MediaSectionContainer_settings
+          ...UsernameWithPopoverContainer_settings
+        }
+      `,
+    })(CommentContainer)
   )
 );
 

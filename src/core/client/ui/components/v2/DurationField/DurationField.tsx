@@ -97,7 +97,7 @@ const DurationField: FunctionComponent<Props> = ({
     if (!selectedUnit) {
       setSelectedUnit(convertFromSeconds(value, units).unit);
     }
-  }, [value]);
+  }, [selectedUnit, units, value]);
 
   const elementCallbacks = useMemo(
     () => units.map((k) => DURATION_UNIT_MAP[k]),
@@ -106,7 +106,7 @@ const DurationField: FunctionComponent<Props> = ({
 
   const { value: computedValue } = useMemo(
     () => convertFromSeconds(value, units, selectedUnit),
-    [value, selectedUnit]
+    [value, units, selectedUnit]
   );
 
   const handleValueChange = useCallback(

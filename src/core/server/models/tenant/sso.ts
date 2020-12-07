@@ -43,8 +43,11 @@ export async function deactivateTenantSSOSigningSecret(
       arrayFilters: [{ "signingSecrets.kid": kid }],
     }
   );
+  if (!result.value) {
+    throw new Error("tenant not found with id");
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function deleteTenantSSOSigningSecret(
@@ -66,6 +69,9 @@ export async function deleteTenantSSOSigningSecret(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    throw new Error("tenant not found with id");
+  }
 
-  return result.value || null;
+  return result.value;
 }

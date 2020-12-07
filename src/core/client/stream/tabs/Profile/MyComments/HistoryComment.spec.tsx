@@ -15,6 +15,7 @@ it("renders correctly", () => {
     body: "Hello World",
     createdAt: "2018-07-06T18:24:00.000Z",
     replyCount: 4,
+    rating: null,
     reactionCount: 0,
     reactionSettings: {
       label: "reaction",
@@ -24,6 +25,9 @@ it("renders correctly", () => {
     story: {
       metadata: {
         title: "Story Title",
+      },
+      settings: {
+        mode: "COMMENTS",
       },
     },
     conversationURL: "http://localhost/conversation",

@@ -262,17 +262,24 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
-  const highlight = useMemo(
-    () =>
-      comment.revision
-        ? comment.revision.actionCounts.flag.reasons
-            .COMMENT_DETECTED_BANNED_WORD +
-            comment.revision.actionCounts.flag.reasons
-              .COMMENT_DETECTED_SUSPECT_WORD >
-          0
-        : false,
-    [comment]
-  );
+  const highlight = useMemo(() => {
+    if (!comment.revision) {
+      return false;
+    }
+
+    if (!comment.revision.actionCounts) {
+      throw new Error(`action counts missing: ${comment.id}`);
+    }
+
+    const count =
+      comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD +
+      comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD;
+
+    return count > 0;
+  }, [comment]);
+
+  const isRatingsAndReviews =
+    comment.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   return (
     <>
@@ -286,6 +293,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
+          rating={isRatingsAndReviews ? comment.rating : null}
           highlight={highlight}
           inReplyTo={comment.parent && comment.parent.author}
           comment={comment}
@@ -358,6 +366,7 @@ const enhanced = withFragmentContainer<Props>({
       statusLiveUpdated
       createdAt
       body
+      rating
       revision {
         actionCounts {
           flag {
