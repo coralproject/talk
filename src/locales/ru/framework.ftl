@@ -40,12 +40,12 @@ framework-timeago-just-now = Прямо сейчас
 framework-timeago-time =
   { $value } { $unit ->
     [second] { $value ->
-      [one] секунда
+      [one] секунду
       [few] секунды
       *[many] секунд
     }
     [minute] { $value ->
-      [one] минута
+      [one] минуту
       [few] минуты
       *[many] минут
     }
@@ -60,7 +60,7 @@ framework-timeago-time =
       *[many] дней
     }
     [week] { $value ->
-      [one] неделя
+      [one] неделю
       [few] недели
       *[many] недель
     }
