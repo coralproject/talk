@@ -256,7 +256,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // We are in a Q&A if the story mode is set to QA.
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-  const isRR = story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+  const isRatingsAndReviews =
+    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   // Author is expert if comment is tagged Expert and the
   // story mode is Q&A.
@@ -350,7 +351,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             indentLevel={indentLevel}
             collapsed={collapsed}
             body={comment.body}
-            rating={isRR ? comment.rating : null}
+            rating={isRatingsAndReviews ? comment.rating : null}
             createdAt={comment.createdAt}
             blur={!!comment.pending}
             showEditedMarker={comment.editing.edited}

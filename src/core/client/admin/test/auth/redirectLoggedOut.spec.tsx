@@ -55,7 +55,7 @@ it("redirect when not logged in", async () => {
   await act(async () => {
     await wait(() => {
       expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
-        "/admin/moderate/reported"
+        "/admin/moderate"
       );
       expect(window.location.toString()).toBe("http://localhost/admin/login");
     });

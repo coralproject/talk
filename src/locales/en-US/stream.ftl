@@ -154,14 +154,6 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-addAReviewForm-rteLabel = Add a review (optional)
-
-comments-addAReviewForm-rte =
-  .placeholder = { comments-addAReviewForm-rteLabel }
-
-comments-addAReviewFormFake-rte =
-  .placeholder = { comments-addAReviewForm-rteLabel }
-
 comments-replyButton-reply = Reply
 comments-replyButton =
   .aria-label = Reply to comment by {$username}
@@ -803,3 +795,37 @@ profile-changeEmail-saveChanges = Save changes
 profile-changeEmail-email = Email
 profile-changeEmail-title = Email address
 profile-changeEmail-success = Your email has been successfully updated
+
+## Ratings and Reviews
+
+ratingsAndReviews-reviewsTab = Reviews
+ratingsAndReviews-questionsTab = Questions
+ratingsAndReviews-noReviewsAtAll = There are no reviews.
+ratingsAndReviews-noQuestionsAtAll = There are no questions.
+ratingsAndReviews-noReviewsYet = There are no reviews yet. Why don't you write one?
+ratingsAndReviews-noQuestionsYet = There are no questions yet. Why don't you ask one?
+ratingsAndReviews-selectARating = Select a rating
+ratingsAndReviews-youRatedThis = You rated this
+ratingsAndReviews-showReview = Show review
+  .title = { ratingsAndReviews-showReview } 
+ratingsAndReviews-rateAndReview = Rate and Review
+ratingsAndReviews-askAQuestion = Ask a Question
+ratingsAndReviews-basedOnRatings = { $count -> 
+  [0] No ratings yet
+  [1] Based on 1 rating
+  *[other] Based on { SHORT_NUMBER($count) } ratings
+}
+
+ratingsAndReviews-allReviewsFilter = All reviews
+ratingsAndReviews-starReviewsFilter = { $rating -> 
+  [1] 1 Star
+  *[other] { $rating } Stars
+}
+
+comments-addAReviewForm-rteLabel = Add a review (optional)
+
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
