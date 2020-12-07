@@ -12,6 +12,7 @@ export const tagReview: IntermediateModerationPhase = ({
   storyMode,
   comment,
   bodyText,
+  media,
 }): IntermediatePhaseResult | void => {
   // If we aren't in a ratings and review story mode, then don't do anything.
   if (storyMode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
@@ -24,7 +25,7 @@ export const tagReview: IntermediateModerationPhase = ({
   }
 
   // If a comment has no body text it can't be a review!
-  if (!bodyText) {
+  if (!bodyText && !media) {
     return;
   }
 

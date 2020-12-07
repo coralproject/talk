@@ -38,12 +38,13 @@ import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentEnteredSubscription from "./CommentEnteredSubscription";
-import NoComments from "./NoComments";
+import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
 
@@ -72,9 +73,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
 }) => {
-  const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
+  const [{ commentsOrderBy, ratingFilter }, setLocal] = useLocal<
+    AllCommentsTabContainerLocal
+  >(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
+        ratingFilter
         commentsOrderBy
       }
     `
@@ -133,6 +137,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     tag,
   ]);
 
+  const onChangeRating = useCallback((rating: number | null) => {
+    setLocal({ ratingFilter: rating });
+  }, []);
+
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
@@ -180,6 +188,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   return (
     <>
       <KeyboardShortcuts />
+      {tag === GQLTAG.REVIEW && (
+        <RatingsFilterMenu
+          rating={ratingFilter}
+          onChangeRating={onChangeRating}
+        />
+      )}
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
@@ -209,7 +223,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         size="oneAndAHalf"
       >
         {story.comments.edges.length <= 0 && (
-          <NoComments mode={story.settings.mode} isClosed={story.isClosed} />
+          <NoComments
+            mode={story.settings.mode}
+            isClosed={story.isClosed}
+            tag={tag}
+          />
         )}
         {story.comments.edges.length > 0 &&
           story.comments.edges.map(({ node: comment }, index) => (
@@ -315,6 +333,7 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
+          ratingFilter: { type: "Int" }
         ) {
         id
         isClosed
@@ -328,8 +347,13 @@ const enhanced = withPaginationContainer<
         commentCounts {
           totalPublished
         }
-        comments(first: $count, after: $cursor, orderBy: $orderBy, tag: $tag)
-          @connection(key: "Stream_comments") {
+        comments(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          tag: $tag
+          rating: $ratingFilter
+        ) @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
             node {
@@ -399,6 +423,7 @@ const enhanced = withPaginationContainer<
         cursor,
         tag: fragmentVariables.tag,
         orderBy: fragmentVariables.orderBy,
+        ratingFilter: fragmentVariables.ratingFilter,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
         storyID: story.id,
@@ -413,6 +438,7 @@ const enhanced = withPaginationContainer<
         $orderBy: COMMENT_SORT!
         $storyID: ID
         $tag: TAG
+        $ratingFilter: Int
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
@@ -421,6 +447,7 @@ const enhanced = withPaginationContainer<
               cursor: $cursor
               orderBy: $orderBy
               tag: $tag
+              ratingFilter: $ratingFilter
             )
         }
       }

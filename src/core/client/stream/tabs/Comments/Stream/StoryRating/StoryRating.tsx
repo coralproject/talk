@@ -1,6 +1,8 @@
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent } from "react";
+
 import { Flex, Typography } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
-import React, { FunctionComponent } from "react";
 
 interface Props {
   title?: string | null;
@@ -17,9 +19,11 @@ const StoryRating: FunctionComponent<Props> = ({ title, average, count }) => {
       </Typography>
       <Flex direction="column" alignItems="center" spacing={1}>
         <StarRating rating={average} precision={1} />
-        <Typography variant="heading5" color="textSecondary">
-          Based on {count} ratings
-        </Typography>
+        <Localized id="ratingsAndReviews-basedOnRatings" $count={count}>
+          <Typography variant="heading5" color="textSecondary">
+            Based on {count} ratings
+          </Typography>
+        </Localized>
       </Flex>
     </Flex>
   );
