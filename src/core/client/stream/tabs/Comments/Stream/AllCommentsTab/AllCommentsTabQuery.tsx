@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { coerceStoryMode } from "coral-framework/helpers";
+import { useEffectAtUnmount } from "coral-framework/hooks";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -57,16 +58,24 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
   preload = false,
   tag,
 }) => {
-  const [{ storyID, storyURL, storyMode, commentsOrderBy }] = useLocal<
-    Local
-  >(graphql`
+  const [
+    { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
+    setLocal,
+  ] = useLocal<Local>(graphql`
     fragment AllCommentsTabQueryLocal on Local {
       storyID
       storyURL
       storyMode
+      ratingFilter
       commentsOrderBy
     }
   `);
+
+  // When we swtich off of the AllCommentsTab, reset the rating filter.
+  useEffectAtUnmount(() => {
+    setLocal({ ratingFilter: null });
+  });
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -76,13 +85,18 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
           $commentsOrderBy: COMMENT_SORT
           $tag: TAG
           $storyMode: STORY_MODE
+          $ratingFilter: Int
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
           }
           story: stream(id: $storyID, url: $storyURL, mode: $storyMode) {
             ...AllCommentsTabContainer_story
-              @arguments(orderBy: $commentsOrderBy, tag: $tag)
+              @arguments(
+                orderBy: $commentsOrderBy
+                tag: $tag
+                ratingFilter: $ratingFilter
+              )
           }
           settings {
             ...AllCommentsTabContainer_settings
@@ -94,6 +108,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         storyURL,
         commentsOrderBy,
         tag,
+        ratingFilter,
         storyMode: coerceStoryMode(storyMode),
       }}
       render={(data) => (preload ? null : render(data, tag))}

@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -29,15 +30,22 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           <div
             className={cn(styles.button, styles.rated, styles.showReviewButton)}
           >
-            <span className={styles.ratedThis}>You rated this</span>
+            <Localized id="ratingsAndReviews-youRatedThis">
+              <span className={styles.ratedThis}>You rated this</span>
+            </Localized>
             <StarRating className={styles.icon} rating={rating} />
-            <Button
-              variant="none"
-              onClick={onClickReview}
-              className={styles.showReview}
+            <Localized
+              id="ratingsAndReviews-showReview"
+              attrs={{ title: true }}
             >
-              Show review
-            </Button>
+              <Button
+                variant="none"
+                onClick={onClickReview}
+                className={styles.showReview}
+              >
+                Show review
+              </Button>
+            </Localized>
           </div>
         ) : (
           <Button
@@ -46,7 +54,9 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
             className={cn(styles.button, styles.rated)}
             disabled
           >
-            <span className={styles.ratedThis}>You rated this</span>
+            <Localized id="ratingsAndReviews-youRatedThis">
+              <span className={styles.ratedThis}>You rated this</span>
+            </Localized>
             <StarRating rating={rating} />
           </Button>
         )
@@ -64,7 +74,9 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           <Icon size="lg" className={styles.icon}>
             star_border
           </Icon>
-          <span>Rate and Review</span>
+          <Localized id="ratingsAndReviews-rateAndReview">
+            <span>Rate and Review</span>
+          </Localized>
         </Button>
       )}
       <Button
@@ -80,7 +92,9 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
         <Icon size="lg" className={styles.icon}>
           help_outline
         </Icon>
-        <span>Ask a Question</span>
+        <Localized id="ratingsAndReviews-askAQuestion">
+          <span>Ask a Question</span>
+        </Localized>
       </Button>
     </Flex>
   );
