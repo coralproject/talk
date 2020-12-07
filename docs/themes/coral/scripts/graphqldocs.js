@@ -32,6 +32,7 @@ hexo.extend.tag.register('graphqldocs', args => {
 
   return stripIndent`
     <div id="graphql-docs"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.5.0/fetch.min.js" integrity="sha512-TXERecoxO85MPkCFqSG3LSe5nVimbZddhrPP2PwSMH5C5+kIoXi30bm1RgBckHQMkNCZN/i5FvHIvJuytp6ECw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.min.js" integrity="sha256-oj3q2t3QPvtdjo4M5gZfrAXyHEfTfvYdfRL2jA2ZfOY=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.min.js" integrity="sha256-sqgMIZkGTh7B/tF2nSyXc+tGBYCsfWiTl2II167jrOQ=" crossorigin="anonymous"></script>
     <script>${docsScript}</script>
