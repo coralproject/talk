@@ -13,6 +13,7 @@ import { HistoryCommentContainer_story as StoryData } from "coral-stream/__gener
 
 import MediaSectionContainer from "../../Comments/Comment/MediaSection";
 import HistoryComment from "./HistoryComment";
+import ReactionsToggleContainer from "./ReactionsToggleContainer";
 
 interface Props {
   story: StoryData;
@@ -40,8 +41,12 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
   return (
     <HistoryComment
       {...props.comment}
-      reactionCount={props.comment.actionCounts.reaction.total}
-      reactionSettings={props.settings.reaction}
+      reactions={
+        <ReactionsToggleContainer
+          comment={props.comment}
+          settings={props.settings}
+        />
+      }
       parentAuthorName={
         props.comment.parent &&
         props.comment.parent.author &&
@@ -70,10 +75,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment HistoryCommentContainer_settings on Settings {
-      reaction {
-        label
-        icon
-      }
+      ...ReactionsToggleContainer_settings
       ...MediaSectionContainer_settings
     }
   `,
@@ -100,11 +102,7 @@ const enhanced = withFragmentContainer<Props>({
           mode
         }
       }
-      actionCounts {
-        reaction {
-          total
-        }
-      }
+      ...ReactionsToggleContainer_comment
     }
   `,
 })(HistoryCommentContainer);

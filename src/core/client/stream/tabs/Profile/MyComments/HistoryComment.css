@@ -10,7 +10,7 @@ $commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
 
 .root:not(:first-child) {
   border-top: 1px solid var(--palette-divider);
-  padding-top: var(--spacing-3)
+  padding-top: var(--spacing-3);
 }
 
 .icon {
@@ -40,7 +40,8 @@ $commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
   align-items: center;
 }
 
-.viewConversation {}
+.viewConversation {
+}
 
 .viewConversationIcon {
   padding-right: var(--spacing-1);
@@ -88,7 +89,7 @@ $commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
 
 .container {
   border-bottom: 1px solid $commentsHistoryDividerColor;
-  padding-bottom: var(--spacing-3)
+  padding-bottom: var(--spacing-3);
 }
 
 .commentOn {
@@ -118,7 +119,7 @@ $commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
   line-height: 1.5;
-  color: #353F44;
+  color: #353f44;
 }
 
 .footer {

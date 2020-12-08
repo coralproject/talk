@@ -18,11 +18,6 @@ export interface HistoryCommentProps {
   createdAt: string;
   rating: number | null;
   replyCount: number | null;
-  reactionCount: number | null;
-  reactionSettings: {
-    label: string;
-    icon: string;
-  };
   parentAuthorName?: string | null;
   story: {
     metadata: {
@@ -35,6 +30,7 @@ export interface HistoryCommentProps {
   conversationURL: string;
   onGotoConversation: (e: React.MouseEvent) => void;
   media: React.ReactNode;
+  reactions: React.ReactNode;
 }
 
 const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
@@ -81,14 +77,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
         itemGutter="double"
         className={styles.footer}
       >
-        {!!props.reactionCount && (
-          <div className={cn(styles.reactions, CLASSES.myComment.reactions)}>
-            <Icon className={styles.icon}>{props.reactionSettings.icon}</Icon>
-            <span>
-              {props.reactionSettings.label} {props.reactionCount}
-            </span>
-          </div>
-        )}
+        {props.reactions}
         {!!props.replyCount && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
             <Icon className={styles.icon}>reply</Icon>
