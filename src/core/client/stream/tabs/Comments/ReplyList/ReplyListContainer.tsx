@@ -36,6 +36,11 @@ import { ReplyListContainerLast_comment } from "coral-stream/__generated__/Reply
 import { ReplyListContainerLast_settings } from "coral-stream/__generated__/ReplyListContainerLast_settings.graphql";
 import { ReplyListContainerLast_story } from "coral-stream/__generated__/ReplyListContainerLast_story.graphql";
 import { ReplyListContainerLast_viewer } from "coral-stream/__generated__/ReplyListContainerLast_viewer.graphql";
+import { ReplyListContainerLastFlattened_comment } from "coral-stream/__generated__/ReplyListContainerLastFlattened_comment.graphql";
+import { ReplyListContainerLastFlattened_settings } from "coral-stream/__generated__/ReplyListContainerLastFlattened_settings.graphql";
+import { ReplyListContainerLastFlattened_story } from "coral-stream/__generated__/ReplyListContainerLastFlattened_story.graphql";
+import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
+import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 
 import { isPublished } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
@@ -46,27 +51,32 @@ import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
 type Viewer =
   | ReplyListContainer1_viewer
   | ReplyListContainer2_viewer
-  | ReplyListContainer3_viewer;
+  | ReplyListContainer3_viewer
+  | ReplyListContainerLastFlattened_viewer;
 
 type Comment =
   | ReplyListContainer1_comment
   | ReplyListContainer2_comment
-  | ReplyListContainer3_comment;
+  | ReplyListContainer3_comment
+  | ReplyListContainerLastFlattened_comment;
 
 type Story =
   | ReplyListContainer1_story
   | ReplyListContainer2_story
-  | ReplyListContainer3_story;
+  | ReplyListContainer3_story
+  | ReplyListContainerLastFlattened_story;
 
 type Settings =
   | ReplyListContainer1_settings
   | ReplyListContainer2_settings
-  | ReplyListContainer3_settings;
+  | ReplyListContainer3_settings
+  | ReplyListContainerLastFlattened_settings;
 
 type PaginationQuery =
   | ReplyListContainer1PaginationQueryVariables
   | ReplyListContainer2PaginationQueryVariables
-  | ReplyListContainer3PaginationQueryVariables;
+  | ReplyListContainer3PaginationQueryVariables
+  | ReplyListContainerLastFlattenedPaginationQueryVariables;
 
 /**
  * BaseProps of the ReplyListContainer(s)
@@ -97,7 +107,8 @@ type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } &
   Pick<BaseProps, Exclude<keyof BaseProps, FragmentKeys<BaseProps> | "relay">>;
 
 /**
- * Like BaseProps but add the `NextReplyListComponent` property.
+ * Extends BaseProps by addding the `NextReplyListComponent` property for a
+ * complete list of props.
  */
 type Props = BaseProps & {
   NextReplyListComponent: React.ComponentType<NextReplyListProps> | null;
@@ -308,6 +319,71 @@ function createReplyListContainer(options: {
   return enhanced;
 }
 
+/**
+ * Creates a ReplyListContainer for the last level with slightly different
+ * fragments to flatten the replies.
+ */
+const ReplyListContainerLastFlattened = createReplyListContainer({
+  NextReplyListComponent: null,
+  fragments: {
+    viewer: graphql`
+      fragment ReplyListContainerLastFlattened_viewer on User {
+        ...ReplyListContainer_viewer @relay(mask: false)
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainerLastFlattened_settings on Settings {
+        ...ReplyListContainer_settings @relay(mask: false)
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainerLastFlattened_story on Story {
+        ...ReplyListContainer_story @relay(mask: false)
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainerLastFlattened_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int!", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        ) {
+        ...ReplyListContainer_comment @relay(mask: false)
+        replies(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          flatten: true
+        ) @connection(key: "ReplyList_replies", filters: ["orderBy"]) {
+          ...ReplyListContainer_repliesConnection @relay(mask: false)
+          edges {
+            __typename
+          }
+        }
+      }
+    `,
+  },
+  query: graphql`
+    # Pagination query to be fetched upon calling 'loadMore'.
+    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+    query ReplyListContainerLastFlattenedPaginationQuery(
+      $count: Int!
+      $cursor: Cursor
+      $orderBy: COMMENT_SORT!
+      $commentID: ID!
+    ) {
+      comment(id: $commentID) {
+        ...ReplyListContainerLastFlattened_comment
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+      }
+    }
+  `,
+});
+
+/**
+ * ReplyListContainerLast determines whether we use flatten replies or a
+ * local reply list.
+ */
 const ReplyListContainerLast = createRelayFragmentContainer<
   Overwrite<
     BaseProps,
@@ -320,29 +396,35 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   >
 >(
   (props) => {
-    return (
-      <LocalReplyListContainer {...props} indentLevel={props.indentLevel!} />
-    );
+    // eslint-disable-next-line no-constant-condition
+    if (true === true) {
+      return <ReplyListContainerLastFlattened {...props} />;
+    }
+    return <LocalReplyListContainer {...props} />;
   },
   {
     viewer: graphql`
       fragment ReplyListContainerLast_viewer on User {
         ...LocalReplyListContainer_viewer
+        ...ReplyListContainerLastFlattened_viewer
       }
     `,
     story: graphql`
       fragment ReplyListContainerLast_story on Story {
         ...LocalReplyListContainer_story
+        ...ReplyListContainerLastFlattened_story
       }
     `,
     comment: graphql`
       fragment ReplyListContainerLast_comment on Comment {
         ...LocalReplyListContainer_comment
+        ...ReplyListContainerLastFlattened_comment
       }
     `,
     settings: graphql`
       fragment ReplyListContainerLast_settings on Settings {
         ...LocalReplyListContainer_settings
+        ...ReplyListContainerLastFlattened_settings
       }
     `,
   }

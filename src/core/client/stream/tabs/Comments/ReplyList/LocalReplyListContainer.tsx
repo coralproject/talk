@@ -12,7 +12,7 @@ import { LocalReplyListContainer_viewer } from "coral-stream/__generated__/Local
 import ReplyList from "./ReplyList";
 
 interface Props {
-  indentLevel: number;
+  indentLevel?: number;
   viewer: LocalReplyListContainer_viewer | null;
   story: LocalReplyListContainer_story;
   comment: LocalReplyListContainer_comment;
