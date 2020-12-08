@@ -8,7 +8,7 @@ export const Reaction: GQLReactionTypeResolver<actions.CommentAction> = {
       const user = await ctx.loaders.Users.user.load(userID);
       return {
         username: user?.username,
-        id: user?.id,
+        userID,
       };
     }
 
