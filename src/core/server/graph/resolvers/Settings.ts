@@ -30,6 +30,7 @@ const PUBLIC_FEATURE_FLAGS = [
   GQLFEATURE_FLAG.READ_MORE_NEW_TAB,
   GQLFEATURE_FLAG.AVATARS,
   GQLFEATURE_FLAG.NEW_COMMENT_COUNT,
+  GQLFEATURE_FLAG.FLATTEN_REPLIES,
 ];
 
 type FlagFilter = (flag: GQLFEATURE_FLAG | string) => boolean;
@@ -41,7 +42,7 @@ const filterValidFeatureFlags = (ctx: GraphContext): FlagFilter => {
       FEATURE_FLAGS.includes(flag as GQLFEATURE_FLAG),
   ];
 
-  // For anonomous users or users without a moderator role, ensure we only send
+  // For anonymous users or users without a moderator role, ensure we only send
   // back the public flags.
   if (!ctx.user || !hasModeratorRole(ctx.user)) {
     filters.push((flag) =>

@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
-import injectConditionalPolyfills from "coral-framework/helpers/injectConditionalPolyfills";
-import potentiallyInjectAxe from "coral-framework/helpers/potentiallyInjectAxe";
 import { createManaged } from "coral-framework/lib/bootstrap";
-import { createReporter } from "coral-framework/lib/errors/reporter";
 
 import App from "./App";
 import { initLocalState } from "./local";
@@ -14,18 +11,9 @@ import localesData from "./locales";
 import "coral-ui/theme/admin.css";
 
 async function main() {
-  // Configure and load the error reporter.
-  const reporter = createReporter();
-
-  await injectConditionalPolyfills();
-
-  // Potentially inject react-axe for runtime a11y checks.
-  await potentiallyInjectAxe();
-
   const ManagedCoralContextProvider = await createManaged({
     localesData,
     initLocalState,
-    reporter,
     bundle: "install",
   });
 

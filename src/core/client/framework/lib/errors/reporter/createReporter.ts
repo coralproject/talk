@@ -1,4 +1,4 @@
-import { StaticConfig } from "coral-common/config";
+import getStaticConfig from "coral-framework/lib/getStaticConfig";
 
 import { ErrorReporter } from "./reporter";
 import { SentryErrorReporter } from "./sentry";
@@ -22,18 +22,13 @@ function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
   | undefined {
   // Parse and load the reporter configuration from the config element on the
   // page.
-  const element = document.getElementById("config")!;
-  if (!element) {
+  const config = getStaticConfig();
+  if (!config) {
     if (process.env.NODE_ENV === "development") {
       return createDevelopmentReporter();
     }
     return;
   }
-
-  // Parse the config from the element text, it should always be a valid JSON
-  // string if the element is available. We should allow the error to bubble if
-  // we are unable to parse it.
-  const config: StaticConfig = JSON.parse(element.innerText);
 
   // If no reporter is configured, we don't have to do anything, or
   // use a custom reporter during development.

@@ -1,3 +1,6 @@
+# This extends ./src/core/client/framework/lib/relay/local.graphql
+# with additional local types.
+
 enum VIEW {
   SIGN_UP
   SIGN_IN
@@ -58,11 +61,7 @@ extend type CommentsConnection {
   # Contains comment that came in live and is still behind the `View New` button.
   viewNewEdges: [CommentEdge!]
 }
-
-type Local {
-  accessToken: String
-  accessTokenExp: Int
-  accessTokenJTI: String
+extend type Local {
   activeTab: TAB!
   authPopup: AuthPopup!
   storyID: String
@@ -73,8 +72,4 @@ type Local {
   commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
-}
-
-extend type Query {
-  local: Local!
 }

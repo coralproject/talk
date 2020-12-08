@@ -1,9 +1,9 @@
-import { commitLocalUpdate, Environment } from "relay-runtime";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
 import { isStoryMode } from "coral-framework/helpers";
-import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
-import { CoralContext } from "coral-framework/lib/bootstrap";
+import { parseAccessToken } from "coral-framework/lib/auth";
+import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
 
@@ -13,11 +13,12 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+const initLocalState: InitLocalState = async ({
+  environment,
+  context,
+  auth = null,
+  ...rest
+}) => {
   const config = await getExternalConfig(context.pym);
   if (config) {
     if (config.accessToken) {
@@ -30,7 +31,12 @@ export default async function initLocalState(
     }
   }
 
-  initLocalBaseState(environment, context, auth);
+  await initLocalBaseState({
+    environment,
+    context,
+    auth,
+    ...rest,
+  });
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -82,4 +88,6 @@ export default async function initLocalState(
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
   });
-}
+};
+
+export default initLocalState;
