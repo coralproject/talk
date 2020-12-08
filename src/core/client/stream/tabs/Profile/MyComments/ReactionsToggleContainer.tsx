@@ -24,18 +24,33 @@ const ReactionsToggleContainer: FunctionComponent<Props> = ({
     return null;
   }
   return (
-    <div className={cn(styles.reactions, CLASSES.myComment.reactions)}>
-      <Icon className={styles.icon}>{settings.reaction.icon}</Icon>
-      <span>
-        {settings.reaction.label} {comment.actionCounts.reaction.total}
-      </span>
-    </div>
+    <>
+      <div className={cn(styles.reactions, CLASSES.myComment.reactions)}>
+        <Icon className={styles.icon}>{settings.reaction.icon}</Icon>
+        <span>
+          {settings.reaction.label} {comment.actionCounts.reaction.total}
+        </span>
+      </div>
+      {comment.reactions.nodes.map((n) => (
+        <div key={n.id}>{n.reacter?.username}</div>
+      ))}
+    </>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ReactionsToggleContainer_comment on Comment {
+      reactions {
+        nodes {
+          reaction {
+            id
+            reacter {
+              username
+            }
+          }
+        }
+      }
       actionCounts {
         reaction {
           total

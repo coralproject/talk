@@ -258,6 +258,45 @@ type DontAgreeActionCounts {
   total: Int!
 }
 
+type Reacter {
+  username: String
+  userID: String
+}
+
+type Reaction {
+  id: String
+  reacter: Reacter
+}
+
+type ReactionEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Reaction!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type ReactionsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [ReactionEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Reaction!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 type FlagReasonActionCounts {
   COMMENT_REPORTED_OFFENSIVE: Int!
   COMMENT_REPORTED_ABUSIVE: Int!
@@ -3277,6 +3316,14 @@ type Comment @cacheControl(maxAge: 5) {
   actionCounts stores the counts of all the actions for the Comment.
   """
   actionCounts: ActionCounts!
+
+  """
+  reactions is the actual Flags that were left by the Users or the system.
+  """
+  reactions(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): ReactionsConnection! @auth
 
   """
   flags is the actual Flags that were left by the Users or the system.
