@@ -7,7 +7,7 @@ export default function loadSchema(
   options?: IResolverValidationOptions
 ) {
   // Load the configuration from the provided `graphql-config` configuration file.
-  const schema = loadConfigSync({}).getDefault().getSchemaSync();
+  const schema = loadConfigSync({}).getProject("tenant").getSchemaSync();
 
   // Attach the resolvers to the schema.
   return addResolversToSchema(schema, resolvers, options);
