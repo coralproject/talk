@@ -11,7 +11,6 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { WordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/WordListConfigContainer_settings.graphql";
 
 import BannedWordListConfig from "./BannedWordListConfig";
-import PremodSuspectWordsConfig from "./PremoderateSuspectWordsConfig";
 import SuspectWordListConfig from "./SuspectWordListConfig";
 
 interface Props {
@@ -29,7 +28,6 @@ const WordListConfigContainer: React.FunctionComponent<Props> = ({
     <HorizontalGutter size="double" data-testid="configure-wordListContainer">
       <BannedWordListConfig disabled={submitting} />
       <SuspectWordListConfig disabled={submitting} />
-      <PremodSuspectWordsConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };
@@ -39,7 +37,6 @@ const enhanced = withFragmentContainer<Props>({
     fragment WordListConfigContainer_settings on Settings {
       ...SuspectWordListConfig_formValues @relay(mask: false)
       ...BannedWordListConfig_formValues @relay(mask: false)
-      ...PremoderateSuspectWordsConfig_settings @relay(mask: false)
     }
   `,
 })(WordListConfigContainer);
