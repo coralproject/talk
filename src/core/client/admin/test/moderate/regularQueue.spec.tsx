@@ -267,9 +267,12 @@ it("shows a moderate story", async () => {
       () => within(testRenderer.root).getAllByText("Moderate Story")[0]
     );
     transitionControl.allowTransition = false;
-    moderateStory.props.onClick({});
-    // Expect a routing request was made to the right url.
-    expect(transitionControl.history[0].pathname).toBe(
+    await act(async () => {
+      moderateStory.props.onClick({});
+    });
+
+    // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
+    expect(transitionControl.history[1].pathname).toBe(
       `/admin/moderate/stories/${reportedComments[0].story.id}`
     );
   });

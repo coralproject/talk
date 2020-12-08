@@ -377,6 +377,20 @@ const config = convict({
     default: ms("1m"),
     env: "NODEJS_HEADERS_TIMEOUT",
   },
+  google_cloud_profiler: {
+    doc:
+      "When enabled, will start the Google Cloud Profiler using the default application credentials.",
+    format: Boolean,
+    default: false,
+    env: "GOOGLE_CLOUD_PROFILER",
+  },
+  google_cloud_profiler_service_context: {
+    doc:
+      "Passed down to the Google Cloud Profiler if enabled as `{ serviceContext }`.",
+    format: Object,
+    default: {},
+    env: "GOOGLE_CLOUD_PROFILER_SERVICE_CONTEXT",
+  },
 });
 
 export type Config = typeof config;

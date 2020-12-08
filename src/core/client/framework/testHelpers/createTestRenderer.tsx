@@ -1,5 +1,5 @@
+import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
-import { IResolvers } from "graphql-tools";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
@@ -72,7 +72,6 @@ export default function createTestRenderer<
       logNetwork: params.logNetwork,
       resolvers: params.resolvers as IResolvers<any, any>,
       muteNetworkErrors: params.muteNetworkErrors,
-      projectName: "tenant",
       subscriptionHandler,
     },
     initLocalState: (localRecord, source, env) => {

@@ -71,6 +71,10 @@ type Local {
   commentID: String
   siteID: String
   commentsOrderBy: COMMENT_SORT!
+
+  # ratingFilter is the filter used to filter for a specific rating
+  ratingFilter: Int
+
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
 }
