@@ -177,9 +177,24 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // If we aren't warned.
     !warned;
 
+  const loadAll = useCallback(() => {
+    const loadMores = document.querySelectorAll<HTMLElement>(
+      "[data-is-load-more]"
+    );
+
+    if (!loadMores || loadMores.length === 0) {
+      return;
+    }
+
+    loadMores.forEach((el) => el.click());
+
+    setTimeout(loadAll, 300);
+  }, []);
+
   return (
     <>
       <KeyboardShortcuts />
+      <Button onClick={loadAll}>Load All</Button>
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button

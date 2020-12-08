@@ -360,6 +360,7 @@ export function createSettings() {
       premodEnabled: false,
       approvedCommentsThreshold: 2,
     },
+    premoderateSuspectWords: false,
     auth: {
       integrations: {
         local: {

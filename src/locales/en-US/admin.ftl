@@ -787,6 +787,15 @@ configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetailInstructions =
   Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
 
+configure-wordList-premodSuspectWords-title =
+  Pre-moderate comments containing suspect words
+configure-wordList-premodSuspectWords-description =
+  When this is active, any comments containing a suspect word will be
+  sent to pre-moderation to be reviewed before being allowed into the
+  comment stream.
+configure-moderation-premodSuspectWords-enable =
+  Enable suspect words pre-moderation
+
 ### Advanced
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-override =
