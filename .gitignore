@@ -21,4 +21,3 @@ dist
 *.css.d.ts
 __generated__
 persisted-queries.json
-introspection.json
