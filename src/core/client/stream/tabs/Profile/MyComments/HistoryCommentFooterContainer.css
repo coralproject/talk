@@ -92,3 +92,11 @@ $commentsHistoryReactionsUsernamesColor: var(--palette-text-500);
   padding-right: var(--spacing-3);
   padding-top: 2px;
 }
+
+.loadMoreReactions {
+  color: $commentsHistoryReactionsUsernamesColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  text-decoration: underline;
+}
