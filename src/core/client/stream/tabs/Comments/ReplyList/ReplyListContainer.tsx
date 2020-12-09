@@ -249,6 +249,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 story={props.story}
                 settings={props.settings}
                 indentLevel={indentLevel + 1}
+                singleConversationView={props.singleConversationView}
               />
             ),
             showConversationLink:
