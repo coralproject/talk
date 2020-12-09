@@ -21,7 +21,10 @@ interface Props {
   preload?: boolean;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>) => {
+export const render = (
+  data: QueryRenderData<QueryTypes>,
+  flattenReplies: boolean
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -40,6 +43,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
           settings={data.props.settings}
           viewer={data.props.viewer}
           story={data.props.story}
+          flattenReplies={flattenReplies}
         />
       </SpinnerWhileRendering>
     );
@@ -83,7 +87,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
         commentsOrderBy,
         flattenReplies,
       }}
-      render={(data) => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data, flattenReplies))}
     />
   );
 };

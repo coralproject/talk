@@ -61,6 +61,7 @@ const initLocalState: InitLocalState = async ({
       localRecord.setValue(query.storyMode, "storyMode");
     }
 
+    // This will trigger single comment view.
     if (query.commentID) {
       localRecord.setValue(query.commentID, "commentID");
     }

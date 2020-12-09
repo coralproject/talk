@@ -42,11 +42,7 @@ import { ReplyListContainerLastFlattened_story } from "coral-stream/__generated_
 import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 
-import {
-  isPublished,
-  lookupFlattenReplies,
-  useStaticFlattenReplies,
-} from "../helpers";
+import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
@@ -111,12 +107,14 @@ type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } &
   Pick<BaseProps, Exclude<keyof BaseProps, FragmentKeys<BaseProps> | "relay">>;
 
 /**
- * Extends BaseProps by addding the `NextReplyListComponent` property for a
- * complete list of props.
+ * These props are injected by HOCs defined in `createReplyListContainer`.
  */
-type Props = BaseProps & {
+interface InjectedProps {
   NextReplyListComponent: React.ComponentType<NextReplyListProps> | null;
-};
+  flattenReplies: boolean;
+}
+
+type Props = BaseProps & InjectedProps;
 
 /* BEGIN - Comment fragments used by the ReplyListContainer */
 // eslint-disable-next-line no-unused-expressions
@@ -195,7 +193,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  * level.
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
-  const flattenReplies = useStaticFlattenReplies();
+  const flattenReplies = props.flattenReplies;
   // We do local replies at the last level when flatten replies are not set.
   const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
 
@@ -298,7 +296,10 @@ function createReplyListContainer(options: {
   NextReplyListComponent: Props["NextReplyListComponent"] | null;
 }) {
   const { fragments, query, NextReplyListComponent } = options;
-  const enhanced = withProps({ NextReplyListComponent })(
+  const enhanced = withProps(() => ({
+    NextReplyListComponent,
+    flattenReplies: useStaticFlattenReplies(),
+  }))(
     withPaginationContainer<Props, PaginationQuery, FragmentVariables>(
       fragments,
       {
@@ -319,7 +320,7 @@ function createReplyListContainer(options: {
             cursor,
             orderBy: fragmentVariables.orderBy,
             commentID: props.comment.id,
-            flattenReplies: lookupFlattenReplies(props.relay.environment),
+            flattenReplies: props.flattenReplies,
           };
         },
         query,

@@ -23,7 +23,11 @@ interface Props {
   tag?: GQLTAG;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
+export const render = (
+  data: QueryRenderData<QueryTypes>,
+  flattenReplies: boolean,
+  tag?: GQLTAG
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -43,6 +47,7 @@ export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
           viewer={data.props.viewer}
           story={data.props.story}
           tag={tag}
+          flattenReplies={flattenReplies}
         />
       </SpinnerWhileRendering>
     );
@@ -100,7 +105,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         storyMode: coerceStoryMode(storyMode),
         flattenReplies,
       }}
-      render={(data) => (preload ? null : render(data, tag))}
+      render={(data) => (preload ? null : render(data, flattenReplies, tag))}
     />
   );
 };

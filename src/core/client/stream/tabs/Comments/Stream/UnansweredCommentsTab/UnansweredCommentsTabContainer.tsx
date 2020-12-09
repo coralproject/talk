@@ -26,7 +26,6 @@ import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/
 import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
 import { CommentContainer } from "../../Comment";
-import { lookupFlattenReplies } from "../../helpers";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import CommentEnteredSubscription from "../AllCommentsTab/CommentEnteredSubscription";
@@ -39,6 +38,7 @@ interface Props {
   settings: UnansweredCommentsTabContainer_settings;
   viewer: UnansweredCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
+  flattenReplies: boolean;
 }
 
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
@@ -307,7 +307,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
-        flattenReplies: lookupFlattenReplies(props.relay.environment),
+        flattenReplies: props.flattenReplies,
       };
     },
     query: graphql`

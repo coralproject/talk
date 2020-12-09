@@ -36,7 +36,6 @@ import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__
 
 import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
-import { lookupFlattenReplies } from "../../helpers";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -53,6 +52,7 @@ interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
+  flattenReplies: boolean;
   tag?: GQLTAG;
 }
 
@@ -394,7 +394,11 @@ const enhanced = withPaginationContainer<
         count: totalCount,
       };
     },
-    getVariables({ story, relay }, { count, cursor }, fragmentVariables) {
+    getVariables(
+      { story, flattenReplies },
+      { count, cursor },
+      fragmentVariables
+    ) {
       return {
         count,
         cursor,
@@ -403,7 +407,7 @@ const enhanced = withPaginationContainer<
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
         storyID: story.id,
-        flattenReplies: lookupFlattenReplies(relay.environment),
+        flattenReplies,
       };
     },
     query: graphql`
