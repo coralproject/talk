@@ -9,6 +9,7 @@ import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import logger from "coral-server/logger";
+import validFeatureFlagsFilter from "coral-server/models/user/validFeatureFlagsFilter";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
@@ -114,7 +115,9 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
-  config.featureFlags = req.coral.tenant?.featureFlags || [];
+  config.featureFlags =
+    req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
+    [];
 
   res.render("client", {
     analytics,
