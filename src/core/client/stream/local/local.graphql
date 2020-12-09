@@ -73,4 +73,5 @@ extend type Local {
   commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
+  flattenReplies: Boolean!
 }

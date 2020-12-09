@@ -89,10 +89,10 @@ interface BaseProps {
   relay: RelayPaginationProp;
   indentLevel?: number;
 
-  /* The following props are passed through every ReplyList leve l*/
+  /* The following props are passed through nested ReplyLists */
   allowTombstoneReveal?: boolean | undefined;
 
-  /* The following props are *NOT* passed through every ReplyList level */
+  /* The following props are *NOT* passed through nested ReplyLists */
   /**
    * liveDirectRepliesInsertion if set to true,
    * live replies to the first level of comments
@@ -254,6 +254,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 story={props.story}
                 settings={props.settings}
                 indentLevel={indentLevel + 1}
+                // Pass through props as commented in `BaseProps`.
                 allowTombstoneReveal={props.allowTombstoneReveal}
               />
             ),
