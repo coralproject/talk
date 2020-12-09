@@ -30,10 +30,14 @@ import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__gene
 import {
   incrementStoryCommentCounts,
   isPublished,
+  lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
-export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
+export type CreateCommentReplyInput = Omit<
+  MutationInput<MutationTypes>,
+  "flattenReplies"
+> & {
   local?: boolean;
 };
 
@@ -206,7 +210,10 @@ graphql`
 `;
 /** end */
 const mutation = graphql`
-  mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
+  mutation CreateCommentReplyMutation(
+    $input: CreateCommentReplyInput!
+    $flattenReplies: Boolean!
+  ) {
     createCommentReply(input: $input) {
       edge {
         cursor
@@ -278,6 +285,7 @@ async function commit(
             clientMutationId: clientMutationId.toString(),
             media: input.media,
           },
+          flattenReplies: lookupFlattenReplies(environment),
         },
         optimisticResponse: {
           createCommentReply: {

@@ -42,7 +42,11 @@ import { ReplyListContainerLastFlattened_story } from "coral-stream/__generated_
 import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 
-import { isPublished } from "../helpers";
+import {
+  isPublished,
+  lookupFlattenReplies,
+  useStaticFlattenReplies,
+} from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
@@ -191,6 +195,10 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  * level.
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
+  const flattenReplies = useStaticFlattenReplies();
+  // We do local replies at the last level when flatten replies are not set.
+  const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
+
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
   const showAllAndEmit = useCallback(async () => {
@@ -245,7 +253,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 indentLevel={indentLevel + 1}
               />
             ),
-            showConversationLink: indentLevel === 3 && edge.node.replyCount > 0,
+            showConversationLink:
+              atLastLevelLocalReply && edge.node.replyCount > 0,
           })
         );
   return (
@@ -259,7 +268,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       hasMore={props.relay.hasMore()}
       disableShowAll={isLoadingShowAll}
       indentLevel={indentLevel}
-      localReply={indentLevel === 3}
+      localReply={atLastLevelLocalReply}
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
       singleConversationView={props.singleConversationView}
@@ -310,6 +319,7 @@ function createReplyListContainer(options: {
             cursor,
             orderBy: fragmentVariables.orderBy,
             commentID: props.comment.id,
+            flattenReplies: lookupFlattenReplies(props.relay.environment),
           };
         },
         query,
@@ -353,7 +363,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
           first: $count
           after: $cursor
           orderBy: $orderBy
-          flatten: true
+          flatten: $flattenReplies
         ) @connection(key: "ReplyList_replies", filters: ["orderBy"]) {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           edges {
@@ -371,6 +381,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenReplies: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainerLastFlattened_comment
@@ -396,8 +407,8 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   >
 >(
   (props) => {
-    // eslint-disable-next-line no-constant-condition
-    if (true === true) {
+    const flattenReplies = useStaticFlattenReplies();
+    if (flattenReplies) {
       return <ReplyListContainerLastFlattened {...props} />;
     }
     return <LocalReplyListContainer {...props} />;
@@ -484,6 +495,7 @@ const ReplyListContainer3 = createReplyListContainer({
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenReplies: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer3_comment
@@ -547,6 +559,7 @@ const ReplyListContainer2 = createReplyListContainer({
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenReplies: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer2_comment
@@ -610,6 +623,7 @@ const ReplyListContainer1 = createReplyListContainer({
       $cursor: Cursor
       $orderBy: COMMENT_SORT!
       $commentID: ID!
+      $flattenReplies: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer1_comment

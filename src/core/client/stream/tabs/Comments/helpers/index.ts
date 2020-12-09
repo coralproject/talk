@@ -9,3 +9,5 @@ export { default as isRejected } from "./isRejected";
 export { default as isPublished } from "./isPublished";
 export { default as prependCommentEdgeToProfile } from "./prependCommentEdgeToProfile";
 export { default as getMediaValidators } from "./getMediaValidators";
+export { default as useStaticFlattenReplies } from "./useStaticFlattenReplies";
+export { default as lookupFlattenReplies } from "./lookupFlattenReplies";

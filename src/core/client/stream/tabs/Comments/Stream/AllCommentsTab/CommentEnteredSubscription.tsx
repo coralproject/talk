@@ -14,6 +14,7 @@ import {
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
+import { lookupFlattenReplies } from "../../helpers";
 
 function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,
@@ -157,8 +158,9 @@ function insertReply(
   }
 }
 
-type CommentEnteredVariables = SubscriptionVariables<
-  CommentEnteredSubscription
+type CommentEnteredVariables = Omit<
+  SubscriptionVariables<CommentEnteredSubscription>,
+  "flattenReplies"
 > & {
   /** orderBy that was supplied to the `comments` connection on Story */
   orderBy?: GQLCOMMENT_SORT_RL;
@@ -172,12 +174,13 @@ type CommentEnteredVariables = SubscriptionVariables<
 
 const CommentEnteredSubscription = createSubscription(
   "subscribeToCommentEntered",
-  (environment: Environment, variables: CommentEnteredVariables) =>
-    requestSubscription(environment, {
+  (environment: Environment, variables: CommentEnteredVariables) => {
+    return requestSubscription(environment, {
       subscription: graphql`
         subscription CommentEnteredSubscription(
           $storyID: ID!
           $ancestorID: ID
+          $flattenReplies: Boolean!
         ) {
           commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
             comment {
@@ -197,6 +200,7 @@ const CommentEnteredSubscription = createSubscription(
       variables: {
         storyID: variables.storyID,
         ancestorID: variables.ancestorID,
+        flattenReplies: lookupFlattenReplies(environment),
       },
       updater: (store) => {
         const rootField = store.getRootField("commentEntered");
@@ -267,7 +271,8 @@ const CommentEnteredSubscription = createSubscription(
           `Unsupport new top level comment live updates for sort ${variables.orderBy}`
         );
       },
-    })
+    });
+  }
 );
 
 export default CommentEnteredSubscription;

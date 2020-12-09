@@ -12,6 +12,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
 import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
 import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
@@ -54,6 +55,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
+  const flattenReplies = useStaticFlattenReplies();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -61,6 +63,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
+          $flattenReplies: Boolean!
         ) {
           viewer {
             ...UnansweredCommentsTabContainer_viewer
@@ -78,6 +81,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
         storyID,
         storyURL,
         commentsOrderBy,
+        flattenReplies,
       }}
       render={(data) => (props.preload ? null : render(data))}
     />

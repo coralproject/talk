@@ -14,6 +14,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
 import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../../helpers";
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
 import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
@@ -67,6 +68,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
       commentsOrderBy
     }
   `);
+  const flattenReplies = useStaticFlattenReplies();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -76,6 +78,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
           $commentsOrderBy: COMMENT_SORT
           $tag: TAG
           $storyMode: STORY_MODE
+          $flattenReplies: Boolean!
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
@@ -95,6 +98,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         commentsOrderBy,
         tag,
         storyMode: coerceStoryMode(storyMode),
+        flattenReplies,
       }}
       render={(data) => (preload ? null : render(data, tag))}
     />
