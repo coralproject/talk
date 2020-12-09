@@ -1,5 +1,5 @@
+import { IResolvers } from "@graphql-tools/utils";
 import { graphql, GraphQLSchema, parse } from "graphql";
-import { IResolvers } from "graphql-tools";
 import {
   CacheConfig,
   commitLocalUpdate,
@@ -34,8 +34,6 @@ import {
 import { SubscriptionHandler } from "./createSubscriptionHandler";
 
 export interface CreateRelayEnvironmentNetworkParams {
-  /** project name of graphql-config */
-  projectName: string;
   /** graphql resolvers */
   resolvers?: IResolvers<any, any>;
   /** If enabled, graphql responses will be logged to the console */
@@ -157,11 +155,9 @@ export default function createRelayEnvironment(
 ) {
   let network: INetwork = null as any;
   if (params.network) {
-    const schema = loadSchema(
-      params.network.projectName,
-      params.network.resolvers || {},
-      { requireResolversForResolveType: false }
-    );
+    const schema = loadSchema(params.network.resolvers || {}, {
+      requireResolversForResolveType: false,
+    });
     network = Network.create(
       wrapFetchWithLogger(createFetch({ schema }), {
         logResult: params.network.logNetwork,

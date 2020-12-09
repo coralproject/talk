@@ -267,7 +267,7 @@ export const CreateCommentMutation = createMutation(
 
     let tag: GQLTAG | undefined;
     if (input.rating) {
-      if (input.body.length > 0) {
+      if (input.body.length > 0 || input.media) {
         tag = GQLTAG.REVIEW;
       }
     } else if (storySettings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {

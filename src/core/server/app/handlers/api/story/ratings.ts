@@ -55,7 +55,7 @@ function respond(res: Response, story: StoryRatingsData["story"]) {
   });
 }
 
-export const ratingsHandler = ({
+export const ratingsJSONPHandler = ({
   mongo,
 }: AppOptions): RequestHandler<TenantCoralRequest> => async (
   req,

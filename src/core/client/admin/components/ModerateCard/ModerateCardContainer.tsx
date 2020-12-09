@@ -278,7 +278,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     return count > 0;
   }, [comment]);
 
-  const isRR =
+  const isRatingsAndReviews =
     comment.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   return (
@@ -293,7 +293,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
-          rating={isRR ? comment.rating : null}
+          rating={isRatingsAndReviews ? comment.rating : null}
           highlight={highlight}
           inReplyTo={comment.parent && comment.parent.author}
           comment={comment}

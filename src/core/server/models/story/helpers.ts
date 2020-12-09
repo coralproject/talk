@@ -71,8 +71,18 @@ export function resolveStoryMode(
   storySettings: Story["settings"],
   tenant: Pick<Tenant, "featureFlags">
 ) {
-  if (storySettings.mode) {
-    return storySettings.mode;
+  if (
+    storySettings.mode === GQLSTORY_MODE.QA &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA)
+  ) {
+    return GQLSTORY_MODE.QA;
+  }
+
+  if (
+    storySettings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
+  ) {
+    return GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   }
 
   // FEATURE_FLAG:DEFAULT_QA_STORY_MODE
