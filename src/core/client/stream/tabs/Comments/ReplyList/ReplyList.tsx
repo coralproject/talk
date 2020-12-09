@@ -40,7 +40,7 @@ export interface ReplyListProps {
   disableReplies?: boolean;
   viewNewCount?: number;
   onViewNew?: () => void;
-  singleConversationView?: boolean;
+  allowTombstoneReveal?: boolean;
   showRemoveAnswered?: boolean;
 }
 
@@ -60,7 +60,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           <IgnoredTombstoneOrHideContainer
             viewer={props.viewer}
             comment={comment}
-            singleConversationView={props.singleConversationView}
+            allowTombstoneReveal={props.allowTombstoneReveal}
           >
             <HorizontalGutter key={comment.id}>
               <CollapsableComment>

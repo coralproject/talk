@@ -17,7 +17,7 @@ interface Props {
   story: LocalReplyListContainer_story;
   comment: LocalReplyListContainer_comment;
   settings: LocalReplyListContainer_settings;
-  singleConversationView?: boolean;
+  allowTombstoneReveal?: boolean;
 }
 
 /**
@@ -40,7 +40,7 @@ export class LocalReplyListContainer extends Component<Props> {
         story={this.props.story}
         indentLevel={this.props.indentLevel}
         disableReplies
-        singleConversationView={this.props.singleConversationView}
+        allowTombstoneReveal={this.props.allowTombstoneReveal}
       />
     );
   }

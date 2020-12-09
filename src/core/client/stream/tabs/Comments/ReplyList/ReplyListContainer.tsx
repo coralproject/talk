@@ -87,6 +87,12 @@ interface BaseProps {
   comment: Comment;
   settings: Settings;
   relay: RelayPaginationProp;
+  indentLevel?: number;
+
+  /* The following props are passed through every ReplyList leve l*/
+  allowTombstoneReveal?: boolean | undefined;
+
+  /* The following props are *NOT* passed through every ReplyList level */
   /**
    * liveDirectRepliesInsertion if set to true,
    * live replies to the first level of comments
@@ -94,9 +100,7 @@ interface BaseProps {
    * instead of hiding behind a button.
    */
   liveDirectRepliesInsertion?: boolean;
-  singleConversationView?: boolean | undefined;
   showRemoveAnswered?: boolean;
-  indentLevel?: number;
 }
 
 /**
@@ -243,13 +247,14 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
             ...edge.node,
             replyListElement: props.NextReplyListComponent && (
               // Important: Props are being passed here to the next level!
+              // Not all of them are passed.
               <props.NextReplyListComponent
                 viewer={props.viewer}
                 comment={edge.node}
                 story={props.story}
                 settings={props.settings}
                 indentLevel={indentLevel + 1}
-                singleConversationView={props.singleConversationView}
+                allowTombstoneReveal={props.allowTombstoneReveal}
               />
             ),
             showConversationLink:
@@ -270,7 +275,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       localReply={atLastLevelLocalReply}
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
-      singleConversationView={props.singleConversationView}
+      allowTombstoneReveal={props.allowTombstoneReveal}
       showRemoveAnswered={props.showRemoveAnswered}
     />
   );
