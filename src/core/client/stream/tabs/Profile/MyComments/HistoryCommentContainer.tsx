@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { ViewConversationEvent } from "coral-stream/events";
@@ -13,7 +12,7 @@ import { HistoryCommentContainer_story as StoryData } from "coral-stream/__gener
 
 import MediaSectionContainer from "../../Comments/Comment/MediaSection";
 import HistoryComment from "./HistoryComment";
-import ReactionsToggleContainer from "./ReactionsToggleContainer";
+import HistoryCommentFooterContainer from "./HistoryCommentFooterContainer";
 
 interface Props {
   story: StoryData;
@@ -41,10 +40,11 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
   return (
     <HistoryComment
       {...props.comment}
-      reactions={
-        <ReactionsToggleContainer
+      footer={
+        <HistoryCommentFooterContainer
           comment={props.comment}
           settings={props.settings}
+          onGotoConversation={handleGotoConversation}
         />
       }
       parentAuthorName={
@@ -52,11 +52,6 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
         props.comment.parent.author &&
         props.comment.parent.author.username
       }
-      conversationURL={getURLWithCommentID(
-        props.comment.story.url,
-        props.comment.id
-      )}
-      onGotoConversation={handleGotoConversation}
       media={
         <MediaSectionContainer
           comment={props.comment}
@@ -75,7 +70,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment HistoryCommentContainer_settings on Settings {
-      ...ReactionsToggleContainer_settings
+      ...HistoryCommentFooterContainer_settings
       ...MediaSectionContainer_settings
     }
   `,
@@ -84,7 +79,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       body
       createdAt
-      replyCount
       ...MediaSectionContainer_comment
       parent {
         author {
@@ -102,7 +96,7 @@ const enhanced = withFragmentContainer<Props>({
           mode
         }
       }
-      ...ReactionsToggleContainer_comment
+      ...HistoryCommentFooterContainer_comment
     }
   `,
 })(HistoryCommentContainer);
