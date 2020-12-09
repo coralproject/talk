@@ -22,6 +22,7 @@ export default function create(params: CreateTestRendererParams) {
       authPopupRecord.setValue(false, "focus");
       authPopupRecord.setValue("", "href");
       localRecord.setLinkedRecord(authPopupRecord, "authPopup");
+      localRecord.setValue(false, "flattenReplies");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

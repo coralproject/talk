@@ -90,6 +90,7 @@ interface BaseProps {
   indentLevel?: number;
 
   /* The following props are passed through nested ReplyLists */
+  /* (don't forget to pass it down below in ReplyListContainer) */
   allowTombstoneReveal?: boolean | undefined;
 
   /* The following props are *NOT* passed through nested ReplyLists */
