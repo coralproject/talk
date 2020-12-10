@@ -45,6 +45,7 @@ import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { Queue } from "./Queue";
 import { Queues } from "./Queues";
+import { Reaction } from "./Reaction";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { RTEConfiguration } from "./RTEConfiguration";
@@ -118,6 +119,7 @@ const Resolvers: GQLResolver = {
   Query,
   Queue,
   Queues,
+  Reaction,
   RecentCommentHistory,
   RejectCommentPayload,
   RTEConfiguration,
