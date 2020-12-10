@@ -113,6 +113,15 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: (c) => decodeActionCounts(c.actionCounts),
+  reactions: ({ id }, { first, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first: defaultTo(first, 10),
+      after,
+      filter: {
+        actionType: ACTION_TYPE.REACTION,
+        commentID: id,
+      },
+    }),
   flags: ({ id }, { first, after }, ctx) =>
     ctx.loaders.CommentActions.connection({
       first: defaultTo(first, 10),
