@@ -1,11 +1,13 @@
 import { Db } from "mongodb";
 
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
-import { hasTag } from "coral-server/models/comment";
+import { getLatestRevision, hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { submitCommentAsSpam } from "coral-server/services/spam";
+import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
@@ -22,7 +24,8 @@ const rejectComment = async (
   commentID: string,
   commentRevisionID: string,
   moderatorID: string,
-  now: Date
+  now: Date,
+  request?: Request | undefined
 ) => {
   // Reject the comment.
   const result = await moderate(
@@ -36,6 +39,16 @@ const rejectComment = async (
     },
     now
   );
+
+  const revision = getLatestRevision(result.before);
+  if (
+    revision &&
+    tenant.integrations.akismet.enabled &&
+    (revision.actionCounts.COMMENT_REPORTED_SPAM > 0 ||
+      revision.actionCounts.COMMENT_DETECTED_SPAM > 0)
+  ) {
+    await submitCommentAsSpam(mongo, tenant, result.before, request);
+  }
 
   // If the comment hasn't been updated, skip the rest of the steps.
   if (!result.after) {
