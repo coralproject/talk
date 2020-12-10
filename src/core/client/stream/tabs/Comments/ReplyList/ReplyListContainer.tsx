@@ -427,26 +427,27 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   {
     viewer: graphql`
       fragment ReplyListContainerLast_viewer on User {
-        ...LocalReplyListContainer_viewer
-        ...ReplyListContainerLastFlattened_viewer
+        ...LocalReplyListContainer_viewer @skip(if: $flattenReplies)
+        ...ReplyListContainerLastFlattened_viewer @include(if: $flattenReplies)
       }
     `,
     story: graphql`
       fragment ReplyListContainerLast_story on Story {
-        ...LocalReplyListContainer_story
-        ...ReplyListContainerLastFlattened_story
+        ...LocalReplyListContainer_story @skip(if: $flattenReplies)
+        ...ReplyListContainerLastFlattened_story @include(if: $flattenReplies)
       }
     `,
     comment: graphql`
       fragment ReplyListContainerLast_comment on Comment {
-        ...LocalReplyListContainer_comment
-        ...ReplyListContainerLastFlattened_comment
+        ...LocalReplyListContainer_comment @skip(if: $flattenReplies)
+        ...ReplyListContainerLastFlattened_comment @include(if: $flattenReplies)
       }
     `,
     settings: graphql`
       fragment ReplyListContainerLast_settings on Settings {
-        ...LocalReplyListContainer_settings
+        ...LocalReplyListContainer_settings @skip(if: $flattenReplies)
         ...ReplyListContainerLastFlattened_settings
+          @include(if: $flattenReplies)
       }
     `,
   }
