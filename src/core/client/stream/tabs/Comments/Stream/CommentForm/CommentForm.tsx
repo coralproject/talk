@@ -296,6 +296,16 @@ const CommentForm: FunctionComponent<Props> = ({
                             input.onChange(html);
                             onBodyChange(html, values as FormProps, form);
                           }}
+                          onKeyPress={async (
+                            event: React.KeyboardEvent<Element>
+                          ) => {
+                            if (
+                              event.ctrlKey &&
+                              (event.key === "Enter" || event.keyCode === 13)
+                            ) {
+                              await onFormSubmit(values as any, form);
+                            }
+                          }}
                           value={input.value}
                           placeholder={placeholder}
                           disabled={submitting || disabled}
