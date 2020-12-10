@@ -374,6 +374,8 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
           orderBy: $orderBy
           flatten: $flattenReplies
         ) @connection(key: "ReplyList_replies", filters: ["orderBy"]) {
+          # We use the same key and exclude 'flatten' to essentially
+          # have the same connection key as the regular ReplyListContainers.
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           edges {
             __typename
