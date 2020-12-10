@@ -4,7 +4,7 @@ import { compact, flatten } from "lodash";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
-import { getOrigin } from "coral-server/app/url";
+import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
@@ -193,9 +193,18 @@ export function generateFrameOptions(
     return "deny";
   }
 
-  // If the requester origin does not exist in the allowed origins, then don't
-  // do anything!
+  // If the requester origin is the tenant origin, then allow it!
+  if (
+    req.coral.tenant &&
+    requesterOrigin ===
+      prefixSchemeIfRequired(req.secure, req.coral.tenant.domain).toLowerCase()
+  ) {
+    return null;
+  }
+
   if (!allowedOrigins.includes(requesterOrigin)) {
+    // If the requester origin does not exist in the allowed origins, then don't
+    // do anything!
     return "deny";
   }
 
