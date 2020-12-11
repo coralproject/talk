@@ -193,9 +193,11 @@ export function generateFrameOptions(
     return "deny";
   }
 
-  // If the requester origin is the tenant origin, then allow it!
+  // If the requester origin is the tenant origin, then allow it! Note that for
+  // development, the port is not included in the origin, but localhost isn't
+  // used in production so this shouldn't be an issue!
   if (
-    req.coral.tenant &&
+    req.coral?.tenant &&
     requesterOrigin ===
       prefixSchemeIfRequired(req.secure, req.coral.tenant.domain).toLowerCase()
   ) {
