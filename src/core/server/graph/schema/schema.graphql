@@ -1821,7 +1821,7 @@ type Settings @cacheControl(maxAge: 30) {
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
@@ -1833,7 +1833,7 @@ type Settings @cacheControl(maxAge: 30) {
   premodLinksEnable will put all comments that contain links into premod.
   """
   premodLinksEnable: Boolean
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
