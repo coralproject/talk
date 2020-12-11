@@ -3,13 +3,13 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
-import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FieldSet,
   FormField,
   FormFieldDescription,
   Label,
 } from "coral-ui/components/v2";
+import { Link } from "coral-ui/components/v3";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -79,11 +79,11 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized
           id="configure-moderation-premModeration-premodSuspectWordsDescription"
-          externalLink={<ExternalLink href="/admin/configure/wordList" />}
+          wordListLink={<Link href="/admin/configure/wordList" />}
         >
           <FormFieldDescription>
             You can view and edit your Suspect Word list{" "}
-            <ExternalLink href="/admin/configure/wordList">here</ExternalLink>
+            <Link href="/admin/configure/wordList">here</Link>
           </FormFieldDescription>
         </Localized>
         <OnOffField name="premoderateSuspectWords" disabled={disabled} />
