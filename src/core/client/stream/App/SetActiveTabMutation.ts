@@ -1,7 +1,11 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { CoralContext } from "coral-framework/lib/bootstrap";
-import { createMutationContainer, LOCAL_ID } from "coral-framework/lib/relay";
+import {
+  createMutation,
+  createMutationContainer,
+  LOCAL_ID,
+} from "coral-framework/lib/relay";
 import { SetMainTabEvent } from "coral-stream/events";
 
 export interface SetActiveTabInput {
@@ -23,6 +27,8 @@ export async function commit(
     }
   });
 }
+
+export const Mutation = createMutation("setActiveTab", commit);
 
 export const withSetActiveTabMutation = createMutationContainer(
   "setActiveTab",
