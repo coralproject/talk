@@ -59,7 +59,18 @@ export const wordList: IntermediateModerationPhase = ({
 
   // Test the comment for suspect words.
   const suspect = list.test(tenant, "suspect", timeout, bodyText);
-  if (suspect) {
+
+  if (tenant.premoderateSuspectWords && suspect) {
+    return {
+      status: GQLCOMMENT_STATUS.PREMOD,
+      actions: [
+        {
+          actionType: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
+        },
+      ],
+    };
+  } else if (suspect) {
     return {
       actions: [
         {

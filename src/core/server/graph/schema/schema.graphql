@@ -1955,6 +1955,15 @@ type Settings @cacheControl(maxAge: 30) {
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
+  premoderateSuspectWords when enabled will cause any comments that contain
+  suspect words to be sent to pre-moderation to be reviewed by a moderator prior
+  to being presented in stream.
+  """
+  premoderateSuspectWords: Boolean!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
   announcement is the currently active Announcement.
   """
   announcement: Announcement
@@ -5097,6 +5106,13 @@ input SettingsInput {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfigurationInput
+
+  """
+  premoderateSuspectWords when enabled will cause any comments that contain
+  suspect words to be sent to pre-moderation to be reviewed by a moderator prior
+  to being presented in stream.
+  """
+  premoderateSuspectWords: Boolean
 
   """
   rte is the configuration of the Rich-Text-Editor.
