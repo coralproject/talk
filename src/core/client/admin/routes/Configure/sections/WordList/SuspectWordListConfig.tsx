@@ -44,7 +44,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({
   >
     {premoderateSuspectWords ? (
       <Localized
-        id="configure-wordList-suspect-explanation"
+        id="configure-wordList-suspect-explanationSuspectWordsList "
         strong={<strong />}
       >
         <FormFieldDescription>

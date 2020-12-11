@@ -302,10 +302,8 @@ approved by a moderator.
                   >
                     You can view and edit your Suspect Word list 
                     <a
-                      className="ExternalLink-root"
+                      className="Link-root"
                       href="/admin/configure/wordList"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       here
                     </a>

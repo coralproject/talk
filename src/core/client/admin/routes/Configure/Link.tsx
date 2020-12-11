@@ -5,7 +5,7 @@ import styles from "./Link.css";
 
 interface Props {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   to: string | LocationDescriptor;
   exact?: boolean;
 }
