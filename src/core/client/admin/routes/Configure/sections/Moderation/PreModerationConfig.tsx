@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FieldSet,
   FormField,
@@ -19,6 +20,7 @@ graphql`
   fragment PreModerationConfig_formValues on Settings {
     moderation
     premodLinksEnable
+    premoderateSuspectWords
   }
 `;
 
@@ -68,6 +70,23 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Label>
         </Localized>
         <OnOffField name="premodLinksEnable" disabled={disabled} />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-moderation-premModeration-premodSuspectWordsEnable">
+          <Label component="legend">
+            Pre-moderate comments containing Suspect Words
+          </Label>
+        </Localized>
+        <Localized
+          id="configure-moderation-premModeration-premodSuspectWordsDescription"
+          externalLink={<ExternalLink href="/admin/configure/wordList" />}
+        >
+          <FormFieldDescription>
+            You can view and edit your Suspect Word list{" "}
+            <ExternalLink href="/admin/configure/wordList">here</ExternalLink>
+          </FormFieldDescription>
+        </Localized>
+        <OnOffField name="premoderateSuspectWords" disabled={disabled} />
       </FormField>
     </ConfigBox>
   );

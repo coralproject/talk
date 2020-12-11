@@ -713,6 +713,11 @@ configure-moderation-akismet-explanation =
   and are placed in the Pending Queue for review by a moderator.
   If approved by a moderator, the comment will be published.
 
+configure-moderation-premModeration-premodSuspectWordsEnable =
+  Pre-moderate comments containing Suspect Words
+configure-moderation-premModeration-premodSuspectWordsDescription  =
+  You can view and edit your Suspect Word list <externalLink>here</externalLink>
+
 #### Akismet
 configure-moderation-akismet-filter = Spam detection filter
 configure-moderation-akismet-ipBased = IP-based spam detection

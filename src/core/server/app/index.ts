@@ -4,7 +4,13 @@ import express, { Express } from "express";
 import enforceHTTPSMiddleware from "express-enforces-ssl";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
-import { hsts, noSniff, referrerPolicy, xssFilter } from "helmet";
+import {
+  hidePoweredBy,
+  hsts,
+  noSniff,
+  referrerPolicy,
+  xssFilter,
+} from "helmet";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -150,9 +156,9 @@ function configureApplication(options: AppOptions) {
   }
 
   // Configure security middleware and options.
-  parent.disable("x-powered-by");
+  parent.use(hidePoweredBy());
   parent.use(noSniff());
-  parent.use(referrerPolicy({ policy: "same-origin" }));
+  parent.use(referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
   parent.use(xssFilter());
 
   // Setup the view config.

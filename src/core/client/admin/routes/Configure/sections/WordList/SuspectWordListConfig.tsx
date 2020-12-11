@@ -22,14 +22,19 @@ graphql`
     wordList {
       suspect
     }
+    premoderateSuspectWords
   }
 `;
 
 interface Props {
   disabled: boolean;
+  premoderateSuspectWords?: boolean;
 }
 
-const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
+const SuspectWordListConfig: FunctionComponent<Props> = ({
+  disabled,
+  premoderateSuspectWords,
+}) => (
   <ConfigBox
     title={
       <Localized id="configure-wordList-suspect-bannedWordsAndPhrases">
@@ -37,13 +42,29 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
   >
-    <Localized id="configure-wordList-suspect-explanation" strong={<strong />}>
-      <FormFieldDescription>
-        Comments containing a word or phrase in the Suspect Words List are
-        placed into the Reported Queue for moderator review and are published
-        (if comments are not pre-moderated).
-      </FormFieldDescription>
-    </Localized>
+    {premoderateSuspectWords ? (
+      <Localized
+        id="configure-wordList-suspect-explanation"
+        strong={<strong />}
+      >
+        <FormFieldDescription>
+          Comments containing a word or phrase in the Suspect Words List are
+          placed into the Pending Queue for moderator review and are not
+          published unless approved by a moderator.
+        </FormFieldDescription>
+      </Localized>
+    ) : (
+      <Localized
+        id="configure-wordList-suspect-explanation"
+        strong={<strong />}
+      >
+        <FormFieldDescription>
+          Comments containing a word or phrase in the Suspect Words List are
+          placed into the Reported Queue for moderator review and are published
+          (if comments are not pre-moderated).
+        </FormFieldDescription>
+      </Localized>
+    )}
 
     <FormField>
       <FormFieldHeader>
