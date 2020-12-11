@@ -1,50 +1,7 @@
-import { Request } from "express";
-
 import {
   doesRequireSchemePrefixing,
-  extractParentsOrigin,
   prefixSchemeIfRequired,
 } from "coral-server/app/url";
-
-it("extracts the url when the parentUrl is not provided", () => {
-  const req = { headers: {}, query: {} } as Request;
-
-  expect(extractParentsOrigin(req)).toEqual(null);
-});
-
-it("extracts the url when the parentUrl is provided but is empty", () => {
-  const req = { headers: {}, query: { parentUrl: "" } } as Request;
-
-  expect(extractParentsOrigin(req)).toEqual(null);
-});
-
-it("extracts the url when the parentUrl is provided", () => {
-  const req = {
-    headers: {},
-    query: { parentUrl: "https://coralproject.net/" },
-  } as Request;
-
-  expect(extractParentsOrigin(req)).toEqual("https://coralproject.net");
-});
-
-it("extracts the url when the referer header is provided but is empty", () => {
-  const req = { headers: {}, query: {} } as Request;
-
-  req.headers.referer = "";
-
-  expect(extractParentsOrigin(req)).toEqual(null);
-});
-
-it("extracts the url when the referer header is provided", () => {
-  const req = {
-    headers: {},
-    query: {},
-  } as Request;
-
-  req.headers.referer = "https://coralproject.net/";
-
-  expect(extractParentsOrigin(req)).toEqual("https://coralproject.net");
-});
 
 it("does not do any prefixing", () => {
   expect(prefixSchemeIfRequired(true, "https://coralproject.net")).toEqual(

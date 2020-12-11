@@ -10,7 +10,12 @@
   <body>
     <script type="text/javascript">
       // This is only loaded in development, so include the React devtools hooks.
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+      try {
+        window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+      }
+      catch {
+        console.warn("React Devtools Global Hook not loaded")
+      }
     </script>
     <div id="app"></div>
   </body>

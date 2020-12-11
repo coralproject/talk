@@ -189,6 +189,7 @@ export const settings = createFixture<GQLSettings>({
     premodEnabled: false,
     approvedCommentsThreshold: 2,
   },
+  premoderateSuspectWords: false,
   media: {
     twitter: { enabled: false },
     giphy: { enabled: false },

@@ -58,34 +58,6 @@ exports[`renders profile 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
-    >
-      <a
-        className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
-        data-variant="textUnderlined"
-        href="http://localhost/stories/story-1?commentID=comment-0"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        target="_parent"
-      >
-        <div
-          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm HistoryComment-viewConversationIcon"
-          >
-            open_in_new
-          </i>
-          View Conversation
-        </div>
-      </a>
-    </div>
   </div>
   <div
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
@@ -138,34 +110,6 @@ exports[`renders profile 1`] = `
           />
         </div>
       </div>
-    </div>
-    <div
-      className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
-    >
-      <a
-        className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
-        data-variant="textUnderlined"
-        href="http://localhost/stories/story-1?commentID=comment-1"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        target="_parent"
-      >
-        <div
-          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm HistoryComment-viewConversationIcon"
-          >
-            open_in_new
-          </i>
-          View Conversation
-        </div>
-      </a>
     </div>
   </div>
   <button

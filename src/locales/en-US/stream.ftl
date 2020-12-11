@@ -807,17 +807,17 @@ ratingsAndReviews-noQuestionsYet = There are no questions yet. Why don't you ask
 ratingsAndReviews-selectARating = Select a rating
 ratingsAndReviews-youRatedThis = You rated this
 ratingsAndReviews-showReview = Show review
-  .title = { ratingsAndReviews-showReview } 
+  .title = { ratingsAndReviews-showReview }
 ratingsAndReviews-rateAndReview = Rate and Review
 ratingsAndReviews-askAQuestion = Ask a Question
-ratingsAndReviews-basedOnRatings = { $count -> 
+ratingsAndReviews-basedOnRatings = { $count ->
   [0] No ratings yet
   [1] Based on 1 rating
   *[other] Based on { SHORT_NUMBER($count) } ratings
 }
 
 ratingsAndReviews-allReviewsFilter = All reviews
-ratingsAndReviews-starReviewsFilter = { $rating -> 
+ratingsAndReviews-starReviewsFilter = { $rating ->
   [1] 1 Star
   *[other] { $rating } Stars
 }
@@ -829,3 +829,8 @@ comments-addAReviewForm-rte =
 
 comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
+
+stream-footer-links-top-of-article = Top of article
+stream-footer-links-top-of-comments = Top of comments
+stream-footer-links-profile = Profile & Replies
+stream-footer-links-discussions = More discussions

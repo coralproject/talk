@@ -274,6 +274,13 @@ export type Settings = GlobalModerationSettings &
     newCommenters: NewCommentersConfiguration;
 
     /**
+     * premoderateSuspectWords when enabled will cause any comments that contain
+     * suspect words to be sent to pre-moderation to be reviewed by a moderator prior
+     * to being presented in stream.
+     */
+    premoderateSuspectWords?: boolean;
+
+    /**
      * rte stores configuration for the rich text editor.
      */
     rte?: RTEConfiguration;
