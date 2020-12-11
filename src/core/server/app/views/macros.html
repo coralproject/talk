@@ -13,7 +13,7 @@
 {% endmacro %}
 
 {% macro js(src, integrity = "", prefix = "") %}
-    <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
+  <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
   {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
   {# {% if false %}
     <script type="application/javascript" src="{{ prefix }}{{ src }}" integrity="{{ integrity }}" crossorigin="anonymous"></script>

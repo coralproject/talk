@@ -717,6 +717,16 @@ export default function createWebpackConfig(
             filename: "storyButton.html",
             template: paths.appEmbedStoryButtonHTML,
             inject: "head",
+          }),
+          new HtmlWebpackPlugin({
+            filename: "amp.html",
+            template: paths.appEmbedAMPHTML,
+            inject: "head",
+          }),
+          new HtmlWebpackPlugin({
+            filename: "storyAMP.html",
+            template: paths.appEmbedStoryAMPHTML,
+            inject: false,
           })
         ),
         ...ifBuild(

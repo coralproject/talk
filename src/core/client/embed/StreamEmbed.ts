@@ -22,6 +22,7 @@ import { FrameControl, FrameControlFactory } from "./FrameControl";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import { defaultPymControlFactory } from "./PymFrameControl";
+import { coerceStorage } from "./utils";
 
 export interface StreamEmbedConfig {
   storyID?: string;
@@ -38,6 +39,7 @@ export interface StreamEmbedConfig {
   enableDeprecatedEvents?: boolean;
   customCSSURL?: string;
   refreshAccessToken?: RefreshAccessTokenCallback;
+  amp?: boolean;
 }
 
 export class StreamEmbed {
@@ -80,13 +82,13 @@ export class StreamEmbed {
     // Create the decorators that will be used by the controller.
     const decorators: ReadonlyArray<Decorator> = [
       withIOSSafariWidthWorkaround,
-      withAutoHeight,
+      withAutoHeight(!!config.amp),
       withClickEvent,
       withSetCommentID,
       withEventEmitter(config.eventEmitter, config.enableDeprecatedEvents),
       withLiveCommentCount(config.eventEmitter),
-      withPymStorage(localStorage, "localStorage"),
-      withPymStorage(sessionStorage, "sessionStorage"),
+      withPymStorage(coerceStorage("localStorage"), "localStorage"),
+      withPymStorage(coerceStorage("sessionStorage"), "sessionStorage"),
       withConfig({
         accessToken: config.accessToken,
         bodyClassName: config.bodyClassName,
