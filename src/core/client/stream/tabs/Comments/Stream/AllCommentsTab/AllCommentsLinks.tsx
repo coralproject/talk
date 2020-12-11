@@ -1,9 +1,11 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
+import CLASSES from "coral-stream/classes";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 
 import styles from "./AllCommentsLinks.css";
@@ -52,10 +54,10 @@ const AllCommentsLinks: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, CLASSES.streamFooter.$root)}>
       {showGoToProfile && (
         <Button
-          className={styles.link}
+          className={cn(styles.link, CLASSES.streamFooter.profileLink)}
           title="Go to profile and replies"
           onClick={onGoToProfile}
           variant="textUnderlined"
@@ -72,7 +74,7 @@ const AllCommentsLinks: FunctionComponent<Props> = ({
       )}
       {showGoToDiscussions && (
         <Button
-          className={styles.link}
+          className={cn(styles.link, CLASSES.streamFooter.discussionsLink)}
           title="Go to more discussions"
           onClick={onGoToDiscussions}
           variant="textUnderlined"
@@ -88,7 +90,7 @@ const AllCommentsLinks: FunctionComponent<Props> = ({
         </Button>
       )}
       <Button
-        className={styles.link}
+        className={cn(styles.link, CLASSES.streamFooter.commentsTopLink)}
         title="Go to top of comments"
         onClick={onGoToCommentsTop}
         variant="textUnderlined"
@@ -103,7 +105,7 @@ const AllCommentsLinks: FunctionComponent<Props> = ({
         </Localized>
       </Button>
       <Button
-        className={styles.link}
+        className={cn(styles.link, CLASSES.streamFooter.articleTopLink)}
         title="Go to top of article"
         onClick={onGoToArticleTop}
         variant="textUnderlined"
