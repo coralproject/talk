@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
@@ -185,6 +190,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // If we aren't warned.
     !warned;
 
+  const showGoToDiscussions = useMemo(
+    () =>
+      !!viewer &&
+      !!settings &&
+      settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+    [viewer, settings]
+  );
+
   return (
     <>
       <KeyboardShortcuts />
@@ -290,7 +303,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             </Button>
           </Localized>
         )}
-        {!alternateOldestViewEnabled && <AllCommentsLinks />}
+        {!alternateOldestViewEnabled && (
+          <AllCommentsLinks
+            showGoToDiscussions={showGoToDiscussions}
+            showGoToProfile={!!viewer}
+          />
+        )}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
@@ -306,7 +324,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <AllCommentsLinks />
+            <AllCommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!viewer}
+            />
           </div>
         </HorizontalGutter>
       )}
