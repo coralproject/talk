@@ -872,10 +872,10 @@ exports[`renders comment stream with community guidelines 1`] = `
             />
           </div>
           <div
-            className="AllCommentsLinks-container"
+            className="AllCommentsLinks-container coral coral-streamFooter"
           >
             <button
-              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
               data-variant="textUnderlined"
               onBlur={[Function]}
               onClick={[Function]}
@@ -897,7 +897,7 @@ exports[`renders comment stream with community guidelines 1`] = `
               </span>
             </button>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link"
+              className="BaseButton-root Button-root Button-sizeRegular AllCommentsLinks-sizeRegular Button-colorRegular AllCommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft AllCommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
               data-variant="textUnderlined"
               onBlur={[Function]}
               onClick={[Function]}

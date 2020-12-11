@@ -537,6 +537,39 @@ const CLASSES = {
   },
 
   /**
+   * streamFooter is the links that appear at the bottom of the comments stream
+   */
+  streamFooter: {
+    /**
+     * root is the container for all of the links
+     */
+    $root: "coral coral-streamFooter",
+
+    /**
+     * profileLink is the "profile and replies" link
+     */
+    profileLink: "coral coral-streamFooter-link coral-streamFooter-profileLink",
+
+    /**
+     * discussionsLink is the "more discussions" link
+     */
+    discussionsLink:
+      "coral coral-streamFooter-link coral-streamFooter-discussionsLink",
+
+    /**
+     * commentsTopLink is the "top of comments" link
+     */
+    commentsTopLink:
+      "coral coral-streamFooter-link coral-streamFooter-commentsTopLink",
+
+    /**
+     * articleTopLink is the "top of comments" link
+     */
+    articleTopLink:
+      "coral coral-streamFooter-link coral-streamFooter-articleTopLink",
+  },
+
+  /**
    * userPopover is the popover that appears when clicking on the username.
    */
   userPopover: {
