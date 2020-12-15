@@ -228,9 +228,7 @@ async function reconcilePluginDeps({ dryRun, upgradeRemote }) {
     } else if (results.fetchable.length === 0) {
       message = `Upgraded ${results.upgradable.length} new plugins.`;
     } else {
-      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
-        results.upgradable.length
-      } plugins.`;
+      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${results.upgradable.length} plugins.`;
     }
 
     console.log(`\n${status} ${message}`);
@@ -367,9 +365,7 @@ async function createSeedPlugin() {
     }
 
     console.log(
-      `✨ Yay! Plugin created! Find your plugin: ${
-        answers.pluginName
-      } in the ./plugins folder`
+      `✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the ./plugins folder`
     );
   }
 }

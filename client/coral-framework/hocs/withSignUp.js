@@ -121,7 +121,4 @@ const withSignUp = hoistStatics(WrappedComponent => {
   return WithSignUp;
 });
 
-export default compose(
-  withSettingsQuery,
-  withSignUp
-);
+export default compose(withSettingsQuery, withSignUp);

@@ -37,9 +37,7 @@ class DownvoteButton extends React.Component {
           className={cn(
             styles.button,
             {
-              [`${
-                styles.downvoted
-              } talk-plugin-downvote-downvoted`]: alreadyReacted,
+              [`${styles.downvoted} talk-plugin-downvote-downvoted`]: alreadyReacted,
             },
             `${plugin}-button`
           )}

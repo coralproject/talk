@@ -14,8 +14,8 @@ export const readableDuration = durAsHours => {
       ? t('download_request.days', durAsDays)
       : t('download_request.day', durAsDays)
     : durAsHours > 1
-      ? t('download_request.hours', durAsHours)
-      : t('download_request.hour', durAsHours);
+    ? t('download_request.hours', durAsHours)
+    : t('download_request.hour', durAsHours);
 };
 
 class DownloadCommentHistory extends Component {

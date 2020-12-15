@@ -103,10 +103,12 @@ class UserDetailComment extends React.Component {
             <TimeAgo className={styles.created} datetime={comment.created_at} />
             {comment.editing && comment.editing.edited ? (
               <span>
-                &nbsp;<span className={styles.editedMarker}>
+                &nbsp;
+                <span className={styles.editedMarker}>
                   ({t('comment.edited')})
                 </span>
-                &nbsp;<span
+                &nbsp;
+                <span
                   className={styles.bodyHistoryToggle}
                   onClick={this.toggleEditHistory}
                 >

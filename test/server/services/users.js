@@ -193,7 +193,10 @@ describe('services.UsersService', () => {
     it('should add user id to ignoredUsers set', async () => {
       const user = mockUsers[0];
       const usersToIgnore = [mockUsers[1], mockUsers[2]];
-      await UsersService.ignoreUsers(user.id, usersToIgnore.map(u => u.id));
+      await UsersService.ignoreUsers(
+        user.id,
+        usersToIgnore.map(u => u.id)
+      );
       const userAfterIgnoring = await UsersService.findById(user.id);
       expect(userAfterIgnoring.ignoresUsers.length).to.equal(2);
 
@@ -212,7 +215,10 @@ describe('services.UsersService', () => {
       await UsersService.setRole(usersToIgnore[0].id, 'STAFF');
 
       try {
-        await UsersService.ignoreUsers(user.id, usersToIgnore.map(u => u.id));
+        await UsersService.ignoreUsers(
+          user.id,
+          usersToIgnore.map(u => u.id)
+        );
       } catch (err) {
         expect(err.status).to.equal(400);
         expect(err.translation_key).to.equal('CANNOT_IGNORE_STAFF');

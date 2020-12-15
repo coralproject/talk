@@ -46,7 +46,8 @@ class AccountDeletionRequestedSign extends React.Component {
           <b>
             {' '}
             {t('delete_request.before')} {deletionScheduledFor}
-          </b>.
+          </b>
+          .
         </p>
         <div className={styles.actions}>
           <Button

@@ -160,9 +160,7 @@ async function searchUsers() {
             .map(({ id }) => id)
             .join(', ');
           return {
-            name: `${user.username} (${emails}) ${user.id.gray} - ${
-              user.role.gray
-            }`,
+            name: `${user.username} (${emails}) ${user.id.gray} - ${user.role.gray}`,
             value: user.id,
           };
         });

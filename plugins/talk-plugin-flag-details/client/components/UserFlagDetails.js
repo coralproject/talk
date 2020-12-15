@@ -28,9 +28,8 @@ class UserFlagDetails extends Component {
       <ul className={styles.detail}>
         {Object.keys(summaries).map(reason => (
           <li key={reason}>
-            {t(`flags.reasons.comment.${reason.toLowerCase()}`)} ({
-              summaries[reason].count
-            })
+            {t(`flags.reasons.comment.${reason.toLowerCase()}`)} (
+            {summaries[reason].count})
             <ul className={styles.subDetail}>
               {summaries[reason].actions.map(action => (
                 <li key={action.user.id}>

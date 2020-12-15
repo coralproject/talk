@@ -620,7 +620,8 @@ export default class Comment extends React.Component {
                 />
                 {comment.editing && comment.editing.edited ? (
                   <span>
-                    &nbsp;<span className={styles.editedMarker}>
+                    &nbsp;
+                    <span className={styles.editedMarker}>
                       ({t('comment.edited')})
                     </span>
                   </span>
@@ -634,22 +635,21 @@ export default class Comment extends React.Component {
               passthrough={slotPassthrough}
             />
 
-            {isActive &&
-              (currentUser && comment.user.id === currentUser.id) && (
-                /* User can edit/delete their own comment for a short window after posting */
-                <span className={cn(styles.topRight)}>
-                  {this.state.isEditable && (
-                    <a
-                      className={cn(styles.link, {
-                        [styles.active]: this.state.isEditing,
-                      })}
-                      onClick={this.onClickEdit}
-                    >
-                      {t('framework.edit')}
-                    </a>
-                  )}
-                </span>
-              )}
+            {isActive && currentUser && comment.user.id === currentUser.id && (
+              /* User can edit/delete their own comment for a short window after posting */
+              <span className={cn(styles.topRight)}>
+                {this.state.isEditable && (
+                  <a
+                    className={cn(styles.link, {
+                      [styles.active]: this.state.isEditing,
+                    })}
+                    onClick={this.onClickEdit}
+                  >
+                    {t('framework.edit')}
+                  </a>
+                )}
+              </span>
+            )}
             {!isActive && <InactiveCommentLabel status={comment.status} />}
           </div>
           <div className={styles.content}>

@@ -26,4 +26,6 @@ RUN yarn global add node-gyp@6.1.0 && \
     yarn build && \
     yarn cache clean
 
+USER node
+
 CMD ["yarn", "start"]

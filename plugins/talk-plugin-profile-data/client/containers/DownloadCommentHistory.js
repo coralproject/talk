@@ -28,10 +28,7 @@ class DownloadCommentHistoryContainer extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
 const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   withFragments({
     root: gql`
       fragment TalkDownloadCommentHistory_DownloadCommentHistorySection_root on RootQuery {

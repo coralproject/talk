@@ -9,9 +9,7 @@ function getPassthrough(props, omitProps) {
     if (Object.keys(slotProps).length) {
       /* eslint-disable no-console */
       console.warn(
-        `Slot '${
-          props.fill
-        }' passing through unknown props is deprecated, please use 'passthrough' instead`,
+        `Slot '${props.fill}' passing through unknown props is deprecated, please use 'passthrough' instead`,
         slotProps
       );
       /* eslint-enable no-console */
@@ -26,9 +24,7 @@ function getPassthrough(props, omitProps) {
     if (process.env.NODE_ENV !== 'production') {
       /* eslint-disable no-console */
       console.warn(
-        `Slot '${
-          props.fill
-        }' property 'queryData' is deprecated, please use 'passthrough' instead`
+        `Slot '${props.fill}' property 'queryData' is deprecated, please use 'passthrough' instead`
       );
       /* eslint-enable no-console */
     }

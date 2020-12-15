@@ -38,9 +38,7 @@ class RespectButton extends React.Component {
           className={cn(
             styles.button,
             {
-              [`${
-                styles.respected
-              } talk-plugin-respect-respected`]: alreadyReacted,
+              [`${styles.respected} talk-plugin-respect-respected`]: alreadyReacted,
             },
             `${plugin}-button`
           )}

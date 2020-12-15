@@ -44,14 +44,11 @@ if (WEBPACK) {
 
   // Connect to the Mongo instance.
   mongoose
-    .connect(
-      MONGO_URL,
-      {
-        config: {
-          autoIndex: CREATE_MONGO_INDEXES,
-        },
-      }
-    )
+    .connect(MONGO_URL, {
+      config: {
+        autoIndex: CREATE_MONGO_INDEXES,
+      },
+    })
     .catch(err => {
       console.error(err);
       process.exit(1);

@@ -15,7 +15,7 @@
     "common-tags": "^1.7.2",
     "hexo": "^3.6.0",
     "hexo-generator-index": "^0.2.0",
-    "hexo-renderer-marked": "^0.3.0",
+    "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-sass": "^0.3.2",
     "hexo-server": "^0.3.1",
     "lunr": "^2.1.6",

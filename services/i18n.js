@@ -87,10 +87,8 @@ const t = lang => (key, ...replacements) => {
   }
 
   // Handle replacements in the translation string.
-  return translation.replace(
-    /{(\d+)}/g,
-    (match, number) =>
-      !isUndefined(replacements[number]) ? replacements[number] : match
+  return translation.replace(/{(\d+)}/g, (match, number) =>
+    !isUndefined(replacements[number]) ? replacements[number] : match
   );
 };
 

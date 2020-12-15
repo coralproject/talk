@@ -130,9 +130,7 @@ const decorateWithHooks = (schema, hooks) =>
                   Joi.assert(hooks.pre, Joi.func().maxArity(4));
 
                   debug(
-                    `adding pre hook to resolver ${typeName}.${fieldName} from plugin '${
-                      plugin.name
-                    }'`
+                    `adding pre hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`
                   );
 
                   if (typeof hooks.pre !== 'function') {
@@ -149,9 +147,7 @@ const decorateWithHooks = (schema, hooks) =>
                   Joi.assert(hooks.pre, Joi.func().maxArity(5));
 
                   debug(
-                    `adding post hook to resolver ${typeName}.${fieldName} from plugin '${
-                      plugin.name
-                    }'`
+                    `adding post hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`
                   );
 
                   if (typeof hooks.post !== 'function') {
@@ -166,9 +162,7 @@ const decorateWithHooks = (schema, hooks) =>
                   break;
                 default:
                   throw new Error(
-                    `invalid hook '${hook}' on resolver ${typeName}.${fieldName} from plugin '${
-                      plugin.name
-                    }'`
+                    `invalid hook '${hook}' on resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`
                   );
               }
             });

@@ -198,11 +198,5 @@ const mapStateToProps = state => ({
  * })(MyComponent);
  */
 export default settings => {
-  return compose(
-    connect(
-      mapStateToProps,
-      null
-    ),
-    createHOC(settings)
-  );
+  return compose(connect(mapStateToProps, null), createHOC(settings));
 };

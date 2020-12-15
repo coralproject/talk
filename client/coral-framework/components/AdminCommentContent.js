@@ -62,9 +62,8 @@ function nl2br(body, keyPrefix) {
 function markPhrases(body, suspectWords, bannedWords, keyPrefix) {
   const regexp = getPhrasesRegexpMemoized(suspectWords, bannedWords);
   const tokens = body.split(regexp);
-  return tokens.map(
-    (token, i) =>
-      i % 3 === 2 ? <mark key={`${keyPrefix}_${i}`}>{token}</mark> : token
+  return tokens.map((token, i) =>
+    i % 3 === 2 ? <mark key={`${keyPrefix}_${i}`}>{token}</mark> : token
   );
 }
 
@@ -103,9 +102,8 @@ function markPhrasesHTML(text, suspectWords, bannedWords) {
     return text;
   }
   return tokens
-    .map(
-      (token, i) =>
-        i % 3 === 2 ? `<mark>${escapeHTML(token)}</mark>` : escapeHTML(token)
+    .map((token, i) =>
+      i % 3 === 2 ? `<mark>${escapeHTML(token)}</mark>` : escapeHTML(token)
     )
     .join('');
 }

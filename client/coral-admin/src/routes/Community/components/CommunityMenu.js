@@ -15,9 +15,7 @@ const CommunityMenu = ({ flaggedUsernamesCount = 0 }) => {
         <div>
           <Link
             to={flaggedPath}
-            className={`mdl-tabs__tab ${
-              styles.tab
-            } talk-admin-nav-flagged-accounts`}
+            className={`mdl-tabs__tab ${styles.tab} talk-admin-nav-flagged-accounts`}
             activeClassName={styles.active}
           >
             {t('community.flaggedaccounts')}

@@ -94,8 +94,8 @@ const CONFIG = {
   )
     ? process.env.TALK_LOGGING_LEVEL
     : process.env.NODE_ENV === 'test'
-      ? 'fatal'
-      : 'info',
+    ? 'fatal'
+    : 'info',
 
   // REVISION_HASH when using the docker build will contain the build hash that
   // it was built at.

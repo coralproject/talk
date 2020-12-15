@@ -20,7 +20,8 @@ class EditableCommentContent extends React.Component {
             <span>
               {t('edit_comment.edit_window_expired')}
               <span>
-                &nbsp;<a className={styles.link} onClick={this.props.onCancel}>
+                &nbsp;
+                <a className={styles.link} onClick={this.props.onCancel}>
                   {t('edit_comment.edit_window_expired_close')}
                 </a>
               </span>

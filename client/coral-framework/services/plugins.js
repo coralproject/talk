@@ -167,9 +167,7 @@ class PluginsService {
 
     if (size > 0 && slots.length > size) {
       console.warn(
-        `Slot[${slot}] supports a maximum of ${size} plugins providing slots, got ${
-          slots.length
-        }, will only use the first ${size}`
+        `Slot[${slot}] supports a maximum of ${size} plugins providing slots, got ${slots.length}, will only use the first ${size}`
       );
     }
 

@@ -23,7 +23,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OffTopicFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(OffTopicFilter);

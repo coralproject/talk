@@ -104,10 +104,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  connect(
-    mapStateToProps,
-    null
-  ),
+  connect(mapStateToProps, null),
   withCommentHistoryFragments,
   withFetchMore
 )(CommentHistoryContainer);

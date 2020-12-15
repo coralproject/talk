@@ -11,8 +11,8 @@ const { stripIndent } = require('common-tags');
 
 function getPluginList(config) {
   if (config && config.client) {
-    return config.client.map(
-      x => (typeof x === 'string' ? x : Object.keys(x)[0])
+    return config.client.map(x =>
+      typeof x === 'string' ? x : Object.keys(x)[0]
     );
   }
 

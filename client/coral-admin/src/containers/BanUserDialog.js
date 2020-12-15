@@ -77,10 +77,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withBanUser,
   withSetCommentStatus
 )(BanUserDialogContainer);

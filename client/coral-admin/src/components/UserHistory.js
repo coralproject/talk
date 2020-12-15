@@ -36,8 +36,8 @@ const readableDuration = (startDate, endDate) => {
       ? t('suspenduser.days', durAsDays)
       : t('suspenduser.day', durAsDays)
     : durAsHours > 1
-      ? t('suspenduser.hours', durAsHours)
-      : t('suspenduser.hour', durAsHours);
+    ? t('suspenduser.hours', durAsHours)
+    : t('suspenduser.hour', durAsHours);
 };
 
 const buildActionResponse = (typename, created_at, until, status) => {

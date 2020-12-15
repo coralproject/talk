@@ -7,7 +7,7 @@ const kue = require('../kue');
 const { version } = require('../../package.json');
 
 // Load the scraper with the rules.
-const metascraper = require('metascraper').load([
+const metascraper = require('metascraper')([
   require('metascraper-title')(),
   require('metascraper-description')(),
   require('metascraper-image')(),

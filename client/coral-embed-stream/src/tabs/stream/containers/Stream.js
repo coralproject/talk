@@ -505,10 +505,7 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   withFragments(fragments),
   withEmit,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
   // `talk-plugin-flags` has a custom error handling logic.
   withPostFlag({ notifyOnError: false }),

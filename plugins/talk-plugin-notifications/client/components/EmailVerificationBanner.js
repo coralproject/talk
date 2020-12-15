@@ -54,13 +54,11 @@ const EmailVerificationBanner = ({
       <EmailVerificationBannerError errorMessage={errorMessage} />
     )}
     {loading && <EmailVerificationBannerLoading />}
-    {!success &&
-      !errorMessage &&
-      !loading && (
-        <EmailVerificationBannerInfo
-          onResendEmailVerification={onResendEmailVerification}
-        />
-      )}
+    {!success && !errorMessage && !loading && (
+      <EmailVerificationBannerInfo
+        onResendEmailVerification={onResendEmailVerification}
+      />
+    )}
   </div>
 );
 

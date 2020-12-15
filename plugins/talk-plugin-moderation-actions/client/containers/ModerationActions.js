@@ -68,10 +68,7 @@ const mapDispatchToProps = dispatch =>
   );
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withFragments({
     root: gql`
       fragment TalkModerationActions_root on RootQuery {

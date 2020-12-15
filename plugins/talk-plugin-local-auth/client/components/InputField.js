@@ -63,11 +63,9 @@ const InputField = ({
             />
           </div>
           <div className={styles.detailItemMessage}>
-            {!errorMsg &&
-              showSuccess &&
-              value && (
-                <Icon className={styles.checkIcon} name="check_circle" />
-              )}
+            {!errorMsg && showSuccess && value && (
+              <Icon className={styles.checkIcon} name="check_circle" />
+            )}
             {errorMsg && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
           </div>
         </div>

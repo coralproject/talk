@@ -276,19 +276,19 @@ class Stream extends React.Component {
               enable={asset.settings.infoBoxEnable}
             />
             {this.renderQuestionBox()}
-            {!banned &&
-              temporarilySuspended && (
-                <RestrictedMessageBox>
-                  {t(
-                    'stream.temporarily_suspended',
-                    root.settings.organizationName,
-                    timeago(suspensionUntil)
-                  )}
-                </RestrictedMessageBox>
-              )}
+            {!banned && temporarilySuspended && (
+              <RestrictedMessageBox>
+                {t(
+                  'stream.temporarily_suspended',
+                  root.settings.organizationName,
+                  timeago(suspensionUntil)
+                )}
+              </RestrictedMessageBox>
+            )}
             {changedUsername && <ChangedUsername />}
-            {!banned &&
-              rejectedUsername && <ChangeUsername user={currentUser} />}
+            {!banned && rejectedUsername && (
+              <ChangeUsername user={currentUser} />
+            )}
             {banned && <BannedAccount />}
             {showCommentBox && (
               <CommentBox

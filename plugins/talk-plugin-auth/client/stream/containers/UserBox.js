@@ -10,7 +10,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ logout }, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserBox);
+export default connect(mapStateToProps, mapDispatchToProps)(UserBox);
