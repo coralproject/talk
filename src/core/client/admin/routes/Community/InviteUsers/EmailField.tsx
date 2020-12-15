@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
+import { Field, FieldProps } from "formik";
 import React, { FunctionComponent } from "react";
-import { Field } from "react-final-form";
 
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
@@ -11,26 +11,28 @@ interface Props {
   disabled: boolean;
 }
 
-const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
-  <FieldSet>
-    <Field name={`emails.${index}`} validate={validateEmail}>
-      {({ input, meta }) => (
-        <FormField>
-          <Localized id="community-invite-emailAddressLabel">
-            <Label htmlFor={input.name}>Email Address:</Label>
-          </Localized>
-          <TextField
-            {...input}
-            data-testid={`invite-users-email.${index}`}
-            color={colorFromMeta(meta)}
-            disabled={disabled}
-            fullWidth
-          />
-          <ValidationMessage meta={meta} fullWidth />
-        </FormField>
-      )}
-    </Field>
-  </FieldSet>
-);
+const EmailField: FunctionComponent<Props> = ({ index, disabled }) => {
+  return (
+    <FieldSet>
+      <Field name={`emails[${index}]`} validate={validateEmail}>
+        {({ field, meta }: FieldProps) => (
+          <FormField>
+            <Localized id="community-invite-emailAddressLabel">
+              <Label htmlFor={field.name}>Email Address:</Label>
+            </Localized>
+            <TextField
+              {...field}
+              data-testid={`invite-users-email.${index}`}
+              color={colorFromMeta(meta)}
+              disabled={disabled}
+              fullWidth
+            />
+            <ValidationMessage meta={meta} fullWidth />
+          </FormField>
+        )}
+      </Field>
+    </FieldSet>
+  );
+};
 
 export default EmailField;

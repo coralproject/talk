@@ -150,7 +150,8 @@
     "url-regex": "^5.0.0",
     "uuid": "^7.0.3",
     "verror": "^1.10.0",
-    "xregexp": "^4.3.0"
+    "xregexp": "^4.3.0",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
