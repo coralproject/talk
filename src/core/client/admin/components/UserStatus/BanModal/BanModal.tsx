@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
+import { Field, FieldProps, Formik, FormikProps } from "formik";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
@@ -9,12 +9,12 @@ import {
   CheckBox,
   Flex,
   HorizontalGutter,
-  Textarea,
 } from "coral-ui/components/v2";
 
-import ModalHeader from "../ModalHeader";
-import ModalHeaderUsername from "../ModalHeaderUsername";
-import ChangeStatusModal from "./ChangeStatusModal";
+import ModalHeader from "../../ModalHeader";
+import ModalHeaderUsername from "../../ModalHeaderUsername";
+import ChangeStatusModal from "../ChangeStatusModal";
+import BanMessageField from "./BanMessageField";
 
 import styles from "./BanModal.css";
 
@@ -81,7 +81,7 @@ const BanModal: FunctionComponent<Props> = ({
               </p>
             </Localized>
           </HorizontalGutter>
-          <Form
+          <Formik
             onSubmit={onFormSubmit}
             initialValues={{
               showMessage: false,
@@ -89,44 +89,28 @@ const BanModal: FunctionComponent<Props> = ({
               emailMessage: getDefaultMessage,
             }}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit }: FormikProps<any>) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
                   <Field type="checkbox" name="rejectExistingComments">
-                    {({ input }) => (
+                    {({ field }: FieldProps) => (
                       <Localized id="community-banModal-reject-existing">
-                        <CheckBox {...input} id="banModal-rejectExisting">
+                        <CheckBox {...field} id="banModal-rejectExisting">
                           Reject all comments by this user
                         </CheckBox>
                       </Localized>
                     )}
                   </Field>
                   <Field type="checkbox" name="showMessage">
-                    {({ input }) => (
+                    {({ field }: FieldProps) => (
                       <Localized id="community-banModal-customize">
-                        <CheckBox {...input} id="banModal-showMessage">
+                        <CheckBox {...field} id="banModal-showMessage">
                           Customize ban email message
                         </CheckBox>
                       </Localized>
                     )}
                   </Field>
-                  <Field name="showMessage" subscription={{ value: true }}>
-                    {({ input: { value } }) =>
-                      value ? (
-                        <Field name="emailMessage">
-                          {({ input }) => (
-                            <Textarea
-                              id="banModal-message"
-                              className={styles.textArea}
-                              fullwidth
-                              {...input}
-                            />
-                          )}
-                        </Field>
-                      ) : null
-                    }
-                  </Field>
-
+                  <BanMessageField />
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-banModal-cancel">
                       <Button variant="flat" onClick={onClose}>
@@ -142,7 +126,7 @@ const BanModal: FunctionComponent<Props> = ({
                 </HorizontalGutter>
               </form>
             )}
-          </Form>
+          </Formik>
         </HorizontalGutter>
       )}
     </ChangeStatusModal>
