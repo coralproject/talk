@@ -122,10 +122,7 @@ const withAuthorNameFragments = withFragments({
 });
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withAuthorNameFragments
 );
 

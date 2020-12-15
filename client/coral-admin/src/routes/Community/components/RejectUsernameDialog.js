@@ -36,9 +36,9 @@ class RejectUsernameDialog extends Component {
   }
 
   /*
-  * When an admin clicks to suspend a user a dialog is shown, this function
-  * handles the possible actions for that dialog.
-  */
+   * When an admin clicks to suspend a user a dialog is shown, this function
+   * handles the possible actions for that dialog.
+   */
   onActionClick = (stage, menuOption) => () => {
     const { rejectUsername, user } = this.props;
     const { stage } = this.state;
@@ -55,7 +55,10 @@ class RejectUsernameDialog extends Component {
       }
     };
 
-    const suspendModalActions = [[cancel, next], [cancel, suspend]];
+    const suspendModalActions = [
+      [cancel, next],
+      [cancel, suspend],
+    ];
     return suspendModalActions[stage][menuOption]();
   };
 

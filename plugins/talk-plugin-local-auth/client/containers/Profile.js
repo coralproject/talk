@@ -32,10 +32,7 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   withSetUsername,
   withUpdateEmailAddress,
   withData

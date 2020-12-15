@@ -16,13 +16,12 @@ const TextField = ({
       name={props.id}
       {...props}
     />
-    {showErrors &&
-      errorMsg && (
-        <span className={styles.errorMsg}>
-          <span className={styles.attention}>!</span>
-          {errorMsg}
-        </span>
-      )}
+    {showErrors && errorMsg && (
+      <span className={styles.errorMsg}>
+        <span className={styles.attention}>!</span>
+        {errorMsg}
+      </span>
+    )}
   </div>
 );
 

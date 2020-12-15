@@ -5,7 +5,4 @@ import CheckSpamHook from '../components/CheckSpamHook';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CheckSpamHook);
+export default connect(null, mapDispatchToProps)(CheckSpamHook);

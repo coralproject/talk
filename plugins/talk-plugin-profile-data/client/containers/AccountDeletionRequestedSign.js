@@ -18,10 +18,7 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   withCancelAccountDeletion,
   withData,
   excludeIf(({ root: { me } }) => !me || !me.scheduledDeletionDate)

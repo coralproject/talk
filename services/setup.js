@@ -66,13 +66,7 @@ module.exports = class SetupService {
   /**
    * This will perform the setup.
    */
-  static async setup(
-    ctx,
-    {
-      settings,
-      user: { email, password, username },
-    }
-  ) {
+  static async setup(ctx, { settings, user: { email, password, username } }) {
     // Validate the settings first.
     await SetupService.validate({
       settings,

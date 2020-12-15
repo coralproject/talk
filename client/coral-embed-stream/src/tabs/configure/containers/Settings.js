@@ -139,10 +139,7 @@ const mapDispatchToProps = dispatch =>
   );
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withSettingsFragments,
   withUpdateAssetSettings,
   withMergedSettings('asset.settings', 'pending', 'mergedSettings')

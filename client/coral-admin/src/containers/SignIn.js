@@ -55,7 +55,4 @@ SignInContainer.propTypes = {
   requireRecaptcha: PropTypes.bool.isRequired,
 };
 
-export default compose(
-  withSignIn,
-  withPopupAuthHandler
-)(SignInContainer);
+export default compose(withSignIn, withPopupAuthHandler)(SignInContainer);

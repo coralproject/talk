@@ -90,14 +90,12 @@ class AddEmailAddressDialog extends React.Component {
             onCancel={this.handleOnCancel}
           />
         )}
-        {step === 1 &&
-          !requireEmailConfirmation && (
-            <EmailAddressAdded onDone={this.handleDone} />
-          )}
-        {step === 1 &&
-          requireEmailConfirmation && (
-            <VerifyEmailAddress emailAddress={email} onDone={this.handleDone} />
-          )}
+        {step === 1 && !requireEmailConfirmation && (
+          <EmailAddressAdded onDone={this.handleDone} />
+        )}
+        {step === 1 && requireEmailConfirmation && (
+          <VerifyEmailAddress emailAddress={email} onDone={this.handleDone} />
+        )}
       </Dialog>
     );
   }
@@ -141,10 +139,7 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withAttachLocalAuth,
   withData,
   excludeIf(

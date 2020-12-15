@@ -26,9 +26,8 @@ const DeleteMyAccountFinalStep = props => (
 
     <p className={styles.description}>
       <strong> {t('delete_request.changed_your_mind')}</strong>{' '}
-      {t('delete_request.simply_go_to')} “<strong>
-        {t('delete_request.cancel_account_deletion_request')}.
-      </strong>”
+      {t('delete_request.simply_go_to')} “
+      <strong>{t('delete_request.cancel_account_deletion_request')}.</strong>”
     </p>
 
     <p className={styles.description}>
@@ -36,7 +35,8 @@ const DeleteMyAccountFinalStep = props => (
       {t('delete_request.feedback_copy')}{' '}
       <a href={`mailto:${props.organizationContactEmail}`}>
         {props.organizationContactEmail}
-      </a>.
+      </a>
+      .
     </p>
 
     <div className={cn(styles.actions, styles.columnView)}>

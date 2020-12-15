@@ -120,7 +120,4 @@ StoriesContainer.propTypes = {
   updateAssetState: PropTypes.func.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StoriesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(StoriesContainer);

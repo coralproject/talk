@@ -468,10 +468,7 @@ export default (reaction, options = {}) =>
         ${fragments.comment ? fragments.comment : ''}
       `,
       }),
-      connect(
-        mapStateToProps,
-        mapDispatchToProps
-      ),
+      connect(mapStateToProps, mapDispatchToProps),
       withDeleteReaction,
       withPostReaction
     );

@@ -36,9 +36,7 @@ module.exports = {
           if (!response.ok) {
             const responseText = await response.text();
             console.trace(
-              `Posting to Slack failed with HTTP code ${
-                response.status
-              } and body '${responseText}'`
+              `Posting to Slack failed with HTTP code ${response.status} and body '${responseText}'`
             );
           }
         });

@@ -161,9 +161,7 @@ class Plugin {
   require() {
     if (typeof this.path === 'undefined') {
       throw new Error(
-        `plugin '${
-          this.name
-        }' is not local and is not resolvable, plugin reconciliation may be required`
+        `plugin '${this.name}' is not local and is not resolvable, plugin reconciliation may be required`
       );
     }
 
@@ -178,9 +176,7 @@ class Plugin {
       ) {
         console.error(
           new Error(
-            `plugin '${
-              this.name
-            }' could not be loaded due to missing dependencies, plugin reconciliation may be required`
+            `plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconciliation may be required`
           )
         );
         throw e;
@@ -188,9 +184,7 @@ class Plugin {
 
       console.error(
         new Error(
-          `plugin '${this.name}' could not be required from '${this.path}': ${
-            e.message
-          }`
+          `plugin '${this.name}' could not be required from '${this.path}': ${e.message}`
         )
       );
       throw e;
@@ -270,9 +264,7 @@ class PluginSection {
           Joi.assert(
             hook,
             hookSchemas[hookName],
-            `Plugin '${
-              plugin.name
-            }' failed validation for the '${hookName}' hook`
+            `Plugin '${plugin.name}' failed validation for the '${hookName}' hook`
           );
         }
 

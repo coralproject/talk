@@ -65,7 +65,8 @@ class User extends React.Component {
                 <i className={cn('material-icons', styles.flagIcon)}>flag</i>
                 <span className={styles.flaggedByLabel}>
                   {t('community.flags')}({user.actions.length})
-                </span>:
+                </span>
+                :
                 {user.action_summaries.map((action, i) => {
                   return (
                     <span className={styles.flaggedBy} key={i}>

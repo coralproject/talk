@@ -445,9 +445,7 @@ module.exports = [
         let targets = fs.readdirSync(folder);
         if (targets.length === 0) {
           throw new Error(
-            `target plugin ${
-              plugin.name
-            } has no targets in it's target folder ${folder}`
+            `target plugin ${plugin.name} has no targets in it's target folder ${folder}`
           );
         }
 

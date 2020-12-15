@@ -58,10 +58,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  connect(
-    mapStateToProps,
-    null
-  ),
+  connect(mapStateToProps, null),
   withSetUsername,
   branch(props => !props.username, renderNothing)
 )(SetUsernameDialogContainer);

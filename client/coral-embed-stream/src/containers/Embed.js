@@ -354,10 +354,7 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   withPopupAuthHandler,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   branch(props => !props.checkedInitialLogin, renderComponent(Spinner)),
   withEmbedQuery
 )(EmbedContainer);

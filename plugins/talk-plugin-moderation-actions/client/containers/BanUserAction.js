@@ -33,11 +33,6 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  )
-);
+const enhance = compose(connect(null, mapDispatchToProps));
 
 export default enhance(BanUserActionContainer);

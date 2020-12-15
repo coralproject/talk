@@ -28,17 +28,16 @@ class ResendVerification extends React.Component {
           {t('error.email_not_verified', email)}
         </div>
         <div>
-          {!loading &&
-            !success && (
-              <Button
-                id="resendConfirmEmail"
-                cStyle="black"
-                onClick={this.handleSubmit}
-                full
-              >
-                {t('talk-plugin-auth.login.request_new_verify_email')}
-              </Button>
-            )}
+          {!loading && !success && (
+            <Button
+              id="resendConfirmEmail"
+              cStyle="black"
+              onClick={this.handleSubmit}
+              full
+            >
+              {t('talk-plugin-auth.login.request_new_verify_email')}
+            </Button>
+          )}
           {loading && <Spinner />}
           {success && <Success />}
         </div>

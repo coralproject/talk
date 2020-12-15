@@ -85,13 +85,7 @@ module.exports = {
   }),
   resolvers: {
     Comment: {
-      deepReplyCount(
-        { id },
-        args,
-        {
-          loaders: { Comments },
-        }
-      ) {
+      deepReplyCount({ id }, args, { loaders: { Comments } }) {
         return Comments.getDeepCount.load(id);
       },
     },

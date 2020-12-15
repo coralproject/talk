@@ -576,10 +576,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withQueueConfig(baseQueueConfig),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
   withModQueueQuery
 )(ModerationContainer);

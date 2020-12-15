@@ -22,10 +22,7 @@ const fragments = {
   `,
 };
 const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   withTags('featured', { fragments })
 );
 

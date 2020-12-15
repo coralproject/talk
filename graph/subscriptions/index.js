@@ -57,9 +57,9 @@ const onConnect = async (connectionParams, connection) => {
     );
 
     // Attach it to the upgrade request.
-    connection.upgradeReq.headers['authorization'] = `Bearer ${
-      connectionParams.token
-    }`;
+    connection.upgradeReq.headers[
+      'authorization'
+    ] = `Bearer ${connectionParams.token}`;
   }
 
   try {

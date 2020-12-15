@@ -93,9 +93,7 @@ describe('graph.mutations.createComment', () => {
         error: 'NOT_AUTHORIZED',
       },
     ].forEach(({ user, error }) => {
-      describe(`user.banned=${user.banned} user.suspended=${
-        user.suspended
-      }`, () => {
+      describe(`user.banned=${user.banned} user.suspended=${user.suspended}`, () => {
         it(
           error ? 'does not create the comment' : 'creates the comment',
           async () => {
@@ -195,7 +193,8 @@ describe('graph.mutations.createComment', () => {
           AssetModel.create({
             id: '123',
             settings: { disableCommenting: disabled },
-          }));
+          })
+        );
 
         it(
           error ? 'does not create the comment' : 'creates the comment',
@@ -233,7 +232,8 @@ describe('graph.mutations.createComment', () => {
     ].forEach(({ moderation, status }) => {
       describe(`moderation=${moderation}`, () => {
         beforeEach(() =>
-          AssetModel.create({ id: '123', settings: { moderation } }));
+          AssetModel.create({ id: '123', settings: { moderation } })
+        );
 
         it(`creates comment with status=${status}`, () => {
           const context = new Context({ user: new UserModel() });
@@ -261,7 +261,8 @@ describe('graph.mutations.createComment', () => {
         SettingsService.update({
           wordlist: { banned: ['WORST'], suspect: ['EH'] },
         }),
-      ]));
+      ])
+    );
 
     [
       {

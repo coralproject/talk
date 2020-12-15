@@ -574,12 +574,14 @@ class Users {
       );
 
       // See if any of these users aren't taken already.
-      const existingUsernames = (await User.find(
-        {
-          lowercaseUsername: { $in: lowercaseUsernameGuesses },
-        },
-        { lowercaseUsername: 1 }
-      )).map(({ lowercaseUsername }) => lowercaseUsername);
+      const existingUsernames = (
+        await User.find(
+          {
+            lowercaseUsername: { $in: lowercaseUsernameGuesses },
+          },
+          { lowercaseUsername: 1 }
+        )
+      ).map(({ lowercaseUsername }) => lowercaseUsername);
       if (existingUsernames.length === lowercaseUsernameGuesses.length) {
         // The number of found users is the same as the number of username
         // guesses, aka, all the usernames are taken.
