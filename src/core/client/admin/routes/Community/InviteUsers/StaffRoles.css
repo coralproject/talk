@@ -1,0 +1,9 @@
+$invite-form-text: var(--palette-text-500);
+
+.bodyText {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: 1.3;
+  color: $invite-form-text;
+}
