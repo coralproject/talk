@@ -1,19 +1,15 @@
 import { Localized } from "@fluent/react/compat";
-import { Field, FieldProps, Formik, FormikProps } from "formik";
+import { Formik, FormikProps } from "formik";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
-import {
-  Button,
-  CheckBox,
-  Flex,
-  HorizontalGutter,
-} from "coral-ui/components/v2";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import ModalHeader from "../../ModalHeader";
 import ModalHeaderUsername from "../../ModalHeaderUsername";
 import ChangeStatusModal from "../ChangeStatusModal";
+import { CheckBox } from "../Fields";
 import BanMessageField from "./BanMessageField";
 
 import styles from "./BanModal.css";
@@ -92,24 +88,19 @@ const BanModal: FunctionComponent<Props> = ({
             {({ handleSubmit }: FormikProps<any>) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  <Field type="checkbox" name="rejectExistingComments">
-                    {({ field }: FieldProps) => (
-                      <Localized id="community-banModal-reject-existing">
-                        <CheckBox {...field} id="banModal-rejectExisting">
-                          Reject all comments by this user
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  </Field>
-                  <Field type="checkbox" name="showMessage">
-                    {({ field }: FieldProps) => (
-                      <Localized id="community-banModal-customize">
-                        <CheckBox {...field} id="banModal-showMessage">
-                          Customize ban email message
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  </Field>
+                  <Localized id="community-banModal-reject-existing">
+                    <CheckBox
+                      name="rejectExistingComments"
+                      id="banModal-rejectExisting"
+                    >
+                      Reject all comments by this user
+                    </CheckBox>
+                  </Localized>
+                  <Localized id="community-banModal-customize">
+                    <CheckBox name="showMessage" id="banModal-showMessage">
+                      Customize ban email message
+                    </CheckBox>
+                  </Localized>
                   <BanMessageField />
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-banModal-cancel">
