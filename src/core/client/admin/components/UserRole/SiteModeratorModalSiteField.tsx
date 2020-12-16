@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
-import { useField } from "react-final-form";
+import { useField, FieldArray } from "formik";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import {
@@ -31,20 +31,19 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
   disableLoadMore,
   loading,
 }) => {
-  const { input } = useField<string[]>("siteIDs");
-  const onChange = useCallback(
-    (siteID: string, selectedIndex: number) => () => {
-      const changed = [...input.value];
-      if (selectedIndex >= 0) {
-        changed.splice(selectedIndex, 1);
-      } else {
-        changed.push(siteID);
-      }
+  // const onChange = useCallback(
+  //   (siteID: string, selectedIndex: number) => () => {
+  //     const changed = [...input.value];
+  //     if (selectedIndex >= 0) {
+  //       changed.splice(selectedIndex, 1);
+  //     } else {
+  //       changed.push(siteID);
+  //     }
 
-      input.onChange(changed);
-    },
-    [input]
-  );
+  //     input.onChange(changed);
+  //   },
+  //   [input]
+  // );
 
   return (
     <FieldSet>
@@ -53,19 +52,25 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
           <Label>Select sites to moderate</Label>
         </Localized>
         <ListGroup className={styles.listGroup}>
-          {sites.map((site) => {
-            const selectedIndex = input.value.indexOf(site.id);
-            return (
-              <ListGroupRow key={site.id}>
-                <CheckBox
-                  checked={selectedIndex >= 0}
-                  onChange={onChange(site.id, selectedIndex)}
-                >
-                  {site.name}
-                </CheckBox>
-              </ListGroupRow>
-            );
-          })}
+          <FieldArray name="emails">
+            {({ push }) => (
+              <>
+                {sites.map((site, index) => {
+                  // const selectedIndex = input.value.indexOf(site.id);
+                  return (
+                    <ListGroupRow key={site.id}>
+                      <CheckBox
+                      // checked={selectedIndex >= 0}
+                      // onChange={onChange(site.id, selectedIndex)}
+                      >
+                        {site.name}
+                      </CheckBox>
+                    </ListGroupRow>
+                  );
+                })}
+              </>
+            )}
+          </FieldArray>
           {!loading && sites.length === 0 && (
             <Localized id="community-siteModeratorModal-noSites">
               <span>No sites</span>
