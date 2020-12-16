@@ -142,6 +142,10 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
+  const featureFlags =
+    req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
+    [];
+
   res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI,
@@ -150,10 +154,7 @@ const clientHandler = ({
     locale,
     config: {
       ...config,
-      featureFlags:
-        req.coral.tenant?.featureFlags?.filter(
-          validFeatureFlagsFilter(req.user)
-        ) || [],
+      featureFlags,
     },
     customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
