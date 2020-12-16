@@ -1,9 +1,9 @@
 import { defaultRTEConfiguration } from "coral-server/models/settings";
+import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
   retrieveAnnouncementIfEnabled,
   Tenant,
 } from "coral-server/models/tenant";
-import validFeatureFlagsFilter from "coral-server/models/user/validFeatureFlagsFilter";
 
 import {
   GQLSettingsTypeResolver,

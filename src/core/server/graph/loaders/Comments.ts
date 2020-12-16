@@ -94,6 +94,19 @@ const ratingFilter = (
   return { rating };
 };
 
+const flattenFilter = (
+  parentID: string,
+  options: { enabled: boolean } = { enabled: true }
+): CommentConnectionInput["filter"] => {
+  if (options.enabled) {
+    return {
+      ancestorIDs: parentID,
+      parentID: undefined,
+    };
+  }
+  return {};
+};
+
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
@@ -307,8 +320,10 @@ export default (ctx: GraphContext) => ({
         first: defaultTo(first, 10),
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
         after,
-      },
-      flatten
+        filter: {
+          ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
+        },
+      }
     ).then(primeCommentsFromConnection(ctx)),
   parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
     retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
@@ -344,20 +359,4 @@ export default (ctx: GraphContext) => ({
       authorIDs
     )
   ),
-  flattenedReplies: (
-    storyID: string,
-    parentID: string,
-    { first, orderBy, after }: CommentToRepliesArgs
-  ) =>
-    retrieveCommentRepliesConnection(
-      ctx.mongo,
-      ctx.tenant.id,
-      storyID,
-      parentID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-        after,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
 });

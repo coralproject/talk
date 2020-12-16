@@ -32,5 +32,5 @@ export interface StaticConfig {
   /**
    * featureFlags are all the feature flags currently enabled on the tenant.
    */
-  featureFlags: any[];
+  featureFlags: string[];
 }

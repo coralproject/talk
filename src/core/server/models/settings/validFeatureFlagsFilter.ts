@@ -1,7 +1,7 @@
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
-import { hasModeratorRole } from "./helpers";
-import { User } from "./user";
+import { User } from "../user";
+import { hasModeratorRole } from "../user/helpers";
 
 /**
  * FEATURE_FLAGS is an array of all the valid feature flags.
