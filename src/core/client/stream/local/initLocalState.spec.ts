@@ -26,7 +26,7 @@ it("init local state", async () => {
   const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
   };
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   await waitFor();
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
 });
@@ -39,7 +39,7 @@ it("set storyID from query", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?storyID=${storyID}`
   );
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(source.get(LOCAL_ID)!.storyID).toBe(storyID);
   restoreHistoryLocation();
 });
@@ -52,7 +52,7 @@ it("set commentID from query", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?commentID=${commentID}`
   );
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(source.get(LOCAL_ID)!.commentID).toBe(commentID);
   restoreHistoryLocation();
 });

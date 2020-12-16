@@ -28,4 +28,9 @@ export interface StaticConfig {
    * available.
    */
   reporter?: ReporterConfig;
+
+  /**
+   * featureFlags are all the feature flags currently enabled on the tenant.
+   */
+  featureFlags: string[];
 }

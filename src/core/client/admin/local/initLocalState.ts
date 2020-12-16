@@ -1,19 +1,20 @@
-import { commitLocalUpdate, Environment } from "relay-runtime";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { ADMIN_REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
-import { CoralContext } from "coral-framework/lib/bootstrap";
+import { parseAccessToken } from "coral-framework/lib/auth";
+import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+const initLocalState: InitLocalState = async ({
+  environment,
+  context,
+  auth = null,
+  ...rest
+}) => {
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
   let error: string | null = null;
@@ -45,7 +46,7 @@ export default async function initLocalState(
     await context.localStorage.removeItem(ADMIN_REDIRECT_PATH_KEY);
   }
 
-  initLocalBaseState(environment, context, auth);
+  await initLocalBaseState({ environment, context, auth, ...rest });
 
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
@@ -54,4 +55,6 @@ export default async function initLocalState(
     localRecord.setValue("SIGN_IN", "authView");
     localRecord.setValue(error, "authError");
   });
-}
+};
+
+export default initLocalState;

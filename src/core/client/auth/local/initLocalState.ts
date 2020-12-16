@@ -1,19 +1,19 @@
-import { commitLocalUpdate, Environment } from "relay-runtime";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
 import { getParamsFromHashAndClearIt } from "coral-framework/helpers";
-import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
-import { CoralContext } from "coral-framework/lib/bootstrap";
+import { parseAccessToken } from "coral-framework/lib/auth";
+import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+const initLocalState: InitLocalState = async ({
+  environment,
+  auth = null,
+  ...rest
+}) => {
   const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
 
   if (accessToken) {
@@ -22,7 +22,7 @@ export default async function initLocalState(
     auth = parseAccessToken(accessToken);
   }
 
-  initLocalBaseState(environment, context, auth);
+  await initLocalBaseState({ environment, auth, ...rest });
 
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
@@ -36,4 +36,6 @@ export default async function initLocalState(
     // Set error.
     localRecord.setValue(error, "error");
   });
-}
+};
+
+export default initLocalState;

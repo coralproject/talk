@@ -1,9 +1,9 @@
-import { commitLocalUpdate, Environment } from "relay-runtime";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { createAndRetain } from "coral-framework/lib/relay";
 
-import { AuthState, setAuthStateInLocalRecord } from "../auth";
-import { CoralContext } from "../bootstrap";
+import { setAuthStateInLocalRecord } from "../auth";
+import { InitLocalState } from "../bootstrap/createManaged";
 
 /**
  * The Root Record of Client-Side Schema Extension must be of this type.
@@ -19,16 +19,13 @@ export const LOCAL_ID = "client:root.local";
  * initLocalBaseState will initialize the local base relay state. If as a part
  * of your target you need to change the auth state, you can do so by passing a
  * new auth state object into this function when committing.
- *
- * @param environment the initialized relay environment
- * @param context application context
- * @param auth application auth state
  */
-export function initLocalBaseState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+export const initLocalBaseState: InitLocalState = async ({
+  environment,
+  context,
+  auth = null,
+  staticConfig,
+}) => {
   commitLocalUpdate(environment, (source) => {
     const root = source.getRoot();
 
@@ -39,4 +36,4 @@ export function initLocalBaseState(
 
     setAuthStateInLocalRecord(local, auth);
   });
-}
+};

@@ -13,12 +13,14 @@ exports[`renders correctly 1`] = `
             "node": Object {
               "enteredLive": false,
               "id": "comment-1",
+              "replyCount": 0,
             },
           },
           Object {
             "node": Object {
               "enteredLive": false,
               "id": "comment-2",
+              "replyCount": 0,
             },
           },
         ],
@@ -32,13 +34,16 @@ exports[`renders correctly 1`] = `
       Object {
         "enteredLive": false,
         "id": "comment-1",
-        "replyListElement": <ReplyListComponent
+        "replyCount": 0,
+        "replyListElement": <NextReplyListComponent
           comment={
             Object {
               "enteredLive": false,
               "id": "comment-1",
+              "replyCount": 0,
             }
           }
+          indentLevel={2}
           settings={
             Object {
               "disableCommenting": Object {
@@ -65,13 +70,16 @@ exports[`renders correctly 1`] = `
       Object {
         "enteredLive": false,
         "id": "comment-2",
-        "replyListElement": <ReplyListComponent
+        "replyCount": 0,
+        "replyListElement": <NextReplyListComponent
           comment={
             Object {
               "enteredLive": false,
               "id": "comment-2",
+              "replyCount": 0,
             }
           }
+          indentLevel={2}
           settings={
             Object {
               "disableCommenting": Object {
@@ -141,12 +149,14 @@ exports[`when has more replies renders hasMore 1`] = `
             "node": Object {
               "enteredLive": false,
               "id": "comment-1",
+              "replyCount": 0,
             },
           },
           Object {
             "node": Object {
               "enteredLive": false,
               "id": "comment-2",
+              "replyCount": 0,
             },
           },
         ],
@@ -160,13 +170,15 @@ exports[`when has more replies renders hasMore 1`] = `
       Object {
         "enteredLive": false,
         "id": "comment-1",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
         "enteredLive": false,
         "id": "comment-2",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
     ]
@@ -214,12 +226,14 @@ exports[`when has more replies when showing all disables show all button 1`] = `
             "node": Object {
               "enteredLive": false,
               "id": "comment-1",
+              "replyCount": 0,
             },
           },
           Object {
             "node": Object {
               "enteredLive": false,
               "id": "comment-2",
+              "replyCount": 0,
             },
           },
         ],
@@ -233,13 +247,15 @@ exports[`when has more replies when showing all disables show all button 1`] = `
       Object {
         "enteredLive": false,
         "id": "comment-1",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
         "enteredLive": false,
         "id": "comment-2",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
     ]
@@ -287,12 +303,14 @@ exports[`when has more replies when showing all enable show all button after loa
             "node": Object {
               "enteredLive": false,
               "id": "comment-1",
+              "replyCount": 0,
             },
           },
           Object {
             "node": Object {
               "enteredLive": false,
               "id": "comment-2",
+              "replyCount": 0,
             },
           },
         ],
@@ -306,13 +324,15 @@ exports[`when has more replies when showing all enable show all button after loa
       Object {
         "enteredLive": false,
         "id": "comment-1",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
         "enteredLive": false,
         "id": "comment-2",
-        "replyListElement": undefined,
+        "replyCount": 0,
+        "replyListElement": null,
         "showConversationLink": false,
       },
     ]

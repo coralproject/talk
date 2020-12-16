@@ -1,9 +1,0 @@
-type Local {
-  accessToken: String
-  accessTokenExp: Int
-  accessTokenJTI: String
-}
-
-extend type Query {
-  local: Local!
-}

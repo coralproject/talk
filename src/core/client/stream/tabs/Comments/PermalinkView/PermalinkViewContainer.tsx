@@ -147,7 +147,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
               story={story}
               settings={settings}
               liveDirectRepliesInsertion
-              singleConversationView
+              allowTombstoneReveal
             />
           </div>
         </HorizontalGutter>
