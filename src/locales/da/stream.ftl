@@ -30,10 +30,13 @@ comments-noCommentsYet = Der er ingen kommentarer endnu.
 
 comments-streamQuery-storyNotFound = Historien blev ikke fundet
 
+comments-commentForm-cancel = Annuller
+comments-commentForm-saveChanges = Gem ændringer
+comments-commentForm-submit = Indsend
+
 comments-postCommentForm-submit = Indsend
 comments-replyList-showAll = Vis alt
 comments-replyList-showMoreReplies = Vis flere svar
-
 
 comments-viewNew =
   { $count ->

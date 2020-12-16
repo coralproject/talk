@@ -48,6 +48,10 @@ adaugi tu unul? 
 
 comments-streamQuery-storyNotFound = Subiectul nu a fost găsit
 
+comments-commentForm-cancel = Anulează
+comments-commentForm-saveChanges = Salvează modificările
+comments-commentForm-submit = Trimite
+
 comments-postCommentForm-submit = Trimite
 comments-replyList-showAll = Arată lista completă
 comments-replyList-showMoreReplies = Arată mai multe răspunsuri

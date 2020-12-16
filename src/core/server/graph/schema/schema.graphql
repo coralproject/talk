@@ -258,6 +258,45 @@ type DontAgreeActionCounts {
   total: Int!
 }
 
+type Reacter {
+  username: String
+  userID: String
+}
+
+type Reaction {
+  id: String
+  reacter: Reacter
+}
+
+type ReactionEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Reaction!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type ReactionsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [ReactionEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Reaction!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 type FlagReasonActionCounts {
   COMMENT_REPORTED_OFFENSIVE: Int!
   COMMENT_REPORTED_ABUSIVE: Int!
@@ -481,6 +520,11 @@ enum FEATURE_FLAG {
   sorted by date.
   """
   FLATTEN_REPLIES
+
+  """
+  ENABLE_AMP will enable support for embedding Coral within AMP pages.
+  """
+  ENABLE_AMP
 }
 
 # The moderation mode of the site.
@@ -1784,7 +1828,7 @@ type Settings @cacheControl(maxAge: 30) {
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
@@ -1796,7 +1840,7 @@ type Settings @cacheControl(maxAge: 30) {
   premodLinksEnable will put all comments that contain links into premod.
   """
   premodLinksEnable: Boolean
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
@@ -1919,6 +1963,15 @@ type Settings @cacheControl(maxAge: 30) {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfiguration!
+    @auth(roles: [ADMIN])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
+  premoderateSuspectWords when enabled will cause any comments that contain
+  suspect words to be sent to pre-moderation to be reviewed by a moderator prior
+  to being presented in stream.
+  """
+  premoderateSuspectWords: Boolean!
     @auth(roles: [ADMIN])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
@@ -3285,6 +3338,14 @@ type Comment @cacheControl(maxAge: 5) {
   actionCounts stores the counts of all the actions for the Comment.
   """
   actionCounts: ActionCounts!
+
+  """
+  reactions is the actual Flags that were left by the Users or the system.
+  """
+  reactions(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): ReactionsConnection! @auth
 
   """
   flags is the actual Flags that were left by the Users or the system.
@@ -5058,6 +5119,13 @@ input SettingsInput {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfigurationInput
+
+  """
+  premoderateSuspectWords when enabled will cause any comments that contain
+  suspect words to be sent to pre-moderation to be reviewed by a moderator prior
+  to being presented in stream.
+  """
+  premoderateSuspectWords: Boolean
 
   """
   rte is the configuration of the Rich-Text-Editor.

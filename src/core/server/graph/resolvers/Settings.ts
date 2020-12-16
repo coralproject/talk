@@ -27,4 +27,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   media: ({ media = {} }) => media,
   live: ({ live }): LiveConfigurationInput => live,
   memberBios: ({ memberBios = false }) => memberBios,
+  premoderateSuspectWords: ({ premoderateSuspectWords = false }) =>
+    premoderateSuspectWords,
 };

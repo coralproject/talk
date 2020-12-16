@@ -713,6 +713,11 @@ configure-moderation-akismet-explanation =
   and are placed in the Pending Queue for review by a moderator.
   If approved by a moderator, the comment will be published.
 
+configure-moderation-premModeration-premodSuspectWordsEnable =
+  Pre-moderate comments containing Suspect Words
+configure-moderation-premModeration-premodSuspectWordsDescription =
+  You can view and edit your Suspect Word list <wordListLink>here</wordListLink>
+
 #### Akismet
 configure-moderation-akismet-filter = Spam detection filter
 configure-moderation-akismet-ipBased = IP-based spam detection
@@ -783,6 +788,10 @@ configure-wordList-suspect-explanation =
   Comments containing a word or phrase in the Suspect Words List
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
+configure-wordList-suspect-explanationSuspectWordsList =
+  Comments containing a word or phrase in the Suspect Words List are
+  <strong>placed into the Pending Queue for moderator review and are not
+  published unless approved by a moderator.</strong>
 configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetailInstructions =
   Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.

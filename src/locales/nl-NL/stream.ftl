@@ -46,6 +46,10 @@ comments-noCommentsYet = Er zijn nog geen reacties. Wil je er één schrijven?
 
 comments-streamQuery-storyNotFound = Artikel niet gevonden
 
+comments-commentForm-cancel = Annuleren
+comments-commentForm-saveChanges = Bewaar wijzigingen
+comments-commentForm-submit = Plaats reactie
+
 comments-postCommentForm-submit = Plaats reactie
 comments-replyList-showAll = Toon alles
 comments-replyList-showMoreReplies = Laad meer reacties
