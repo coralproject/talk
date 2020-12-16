@@ -6,6 +6,7 @@ import {
   SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createFixture,
   createResolversStub,
   CreateTestRendererParams,
@@ -14,6 +15,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
 
 import { baseComment, baseStory, comments, settings } from "../../fixtures";
 import create from "./create";
@@ -195,6 +197,85 @@ it("should show Read More of this Conversation", async () => {
     exact: false,
     selector: "a",
   });
+});
+
+it("should flatten replies", async () => {
+  const { testRenderer, subscriptionHandler } = await createTestRenderer({
+    initLocalState: (local) => {
+      local.setValue(true, "flattenReplies");
+    },
+  });
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-allComments-log")
+  );
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
+
+  const showMoreReplies = await act(async () => {
+    /* Do stuff */
+    // Dispatch new comment.
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(comments[0], {
+            parent: getCommentRecursively(rootComment.replies, "my-comment-3"),
+          }),
+        };
+      }
+    );
+    // Dispatch new comment which is a reply to the comment above.
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(comments[1], {
+            parent: comments[0],
+          }),
+        };
+      }
+    );
+    /* Wait for results */
+    return await waitForElement(() =>
+      within(container).getByText("Show More Replies", { selector: "button" })
+    );
+  });
+
+  expect(() =>
+    within(container).getByText("Read More of this Conversation", {
+      exact: false,
+      selector: "a",
+    })
+  ).toThrow();
+
+  await act(async () => {
+    /* Do stuff */
+    // Click on show more replies.
+    showMoreReplies.props.onClick();
+    /* Wait for results */
+    await waitForElement(() =>
+      within(container).getByTestID(`comment-${comments[0].id}`)
+    );
+    await waitForElement(() =>
+      within(container).getByTestID(`comment-${comments[1].id}`)
+    );
+  });
+
+  // No reply lists after depth 4
+  expect(() =>
+    within(container).getByTestID(`commentReplyList-${comments[0].id}`)
+  ).toThrow();
 });
 
 it("should not subscribe when story is closed", async () => {

@@ -2,7 +2,6 @@ import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
-  RecordProxy,
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
@@ -12,8 +11,15 @@ import {
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
+
+import {
+  determineDepthTillAncestor,
+  getFlattenedReplyAncestorID,
+  lookupFlattenReplies,
+} from "../../helpers";
 
 function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,
@@ -72,59 +78,37 @@ function updateForOldestFirst(
   pageInfo.setValue(true, "hasNextPage");
 }
 
-/**
- * Returns depth until ancestor.
- */
-function determineDepthTillAncestor(
-  comment: RecordProxy,
-  ancestorID?: string | null
-) {
-  let depth = 0;
-  let cur: RecordProxy | null | undefined = comment;
-  while (cur) {
-    // Check whether or not the parent already exists in our cache.
-    cur = cur.getLinkedRecord("parent");
-    // Because we request the parent including its id in the the subscription below
-    // we can't just check for truthiness nor check the `id` field of the record to determine
-    // that it already exists in our cache. Therefore we check for another field that
-    // is part of the `CommentContainer_comment` fragment.
-    if (cur?.getValue("createdAt")) {
-      depth++;
-      // Stop when reaching base ancestor.
-      if (cur.getValue("id") === ancestorID) {
-        return depth;
-      }
-    } else if (depth === 0) {
-      return null;
-    }
-  }
-  return depth;
-}
-
 function insertReply(
   store: RecordSourceSelectorProxy<unknown>,
   liveDirectRepliesInsertion: boolean,
+  flattenReplies: boolean,
   ancestorID?: string | null
 ) {
   const comment = store
     .getRootField("commentEntered")!
     .getLinkedRecord("comment")!;
-  const parentID = comment.getLinkedRecord("parent")!.getValue("id")! as string;
-  const parentProxy = store.get(parentID)!;
-
   const depth = determineDepthTillAncestor(comment, ancestorID);
+
   if (depth === null) {
     // could not trace back to ancestor, discard.
     return;
   }
 
-  // Comment is just outside our visible depth.
-  if (depth >= 4) {
-    // Inform last comment in visible tree about the available replies.
-    // This will trigger to show the `Read More of this Conversation` link.
-    const replyCount = (parentProxy.getValue("replyCount") as number) || 0;
-    parentProxy.setValue(replyCount + 1, "replyCount");
-    return;
+  const outsideOfView = depth >= MAX_REPLY_INDENT_DEPTH;
+  let parentID = comment.getLinkedRecord("parent")!.getValue("id")! as string;
+  let parentProxy = store.get(parentID)!;
+
+  if (outsideOfView) {
+    if (!flattenReplies) {
+      // Inform last comment in visible tree about the available replies.
+      // This will trigger to show the `Read More of this Conversation` link.
+      const replyCount = (parentProxy.getValue("replyCount") as number) || 0;
+      parentProxy.setValue(replyCount + 1, "replyCount");
+      return;
+    }
+    // In flatten replies we change the parent to the last level ancestor.
+    parentID = getFlattenedReplyAncestorID(comment, depth)! as string;
+    parentProxy = store.get(parentID)!;
   }
 
   const connectionKey = "ReplyList_replies";
@@ -157,8 +141,9 @@ function insertReply(
   }
 }
 
-type CommentEnteredVariables = SubscriptionVariables<
-  CommentEnteredSubscription
+type CommentEnteredVariables = Omit<
+  SubscriptionVariables<CommentEnteredSubscription>,
+  "flattenReplies"
 > & {
   /** orderBy that was supplied to the `comments` connection on Story */
   orderBy?: GQLCOMMENT_SORT_RL;
@@ -172,12 +157,13 @@ type CommentEnteredVariables = SubscriptionVariables<
 
 const CommentEnteredSubscription = createSubscription(
   "subscribeToCommentEntered",
-  (environment: Environment, variables: CommentEnteredVariables) =>
-    requestSubscription(environment, {
+  (environment: Environment, variables: CommentEnteredVariables) => {
+    return requestSubscription(environment, {
       subscription: graphql`
         subscription CommentEnteredSubscription(
           $storyID: ID!
           $ancestorID: ID
+          $flattenReplies: Boolean!
         ) {
           commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
             comment {
@@ -197,6 +183,7 @@ const CommentEnteredSubscription = createSubscription(
       variables: {
         storyID: variables.storyID,
         ancestorID: variables.ancestorID,
+        flattenReplies: lookupFlattenReplies(environment),
       },
       updater: (store) => {
         const rootField = store.getRootField("commentEntered");
@@ -204,6 +191,7 @@ const CommentEnteredSubscription = createSubscription(
           return;
         }
 
+        const flattenReplies = lookupFlattenReplies(environment);
         const comment = rootField.getLinkedRecord("comment")!;
         const commentID = comment.getValue("id")! as string;
 
@@ -243,6 +231,7 @@ const CommentEnteredSubscription = createSubscription(
           insertReply(
             store,
             Boolean(variables.liveDirectRepliesInsertion),
+            flattenReplies,
             variables.ancestorID
           );
           return;
@@ -267,7 +256,8 @@ const CommentEnteredSubscription = createSubscription(
           `Unsupport new top level comment live updates for sort ${variables.orderBy}`
         );
       },
-    })
+    });
+  }
 );
 
 export default CommentEnteredSubscription;

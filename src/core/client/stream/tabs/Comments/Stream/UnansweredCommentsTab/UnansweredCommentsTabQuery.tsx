@@ -12,6 +12,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
 import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
 import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
@@ -20,7 +21,10 @@ interface Props {
   preload?: boolean;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>) => {
+export const render = (
+  data: QueryRenderData<QueryTypes>,
+  flattenReplies: boolean
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -39,6 +43,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
           settings={data.props.settings}
           viewer={data.props.viewer}
           story={data.props.story}
+          flattenReplies={flattenReplies}
         />
       </SpinnerWhileRendering>
     );
@@ -54,6 +59,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
+  const flattenReplies = useStaticFlattenReplies();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -61,6 +67,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
+          $flattenReplies: Boolean!
         ) {
           viewer {
             ...UnansweredCommentsTabContainer_viewer
@@ -78,8 +85,9 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
         storyID,
         storyURL,
         commentsOrderBy,
+        flattenReplies,
       }}
-      render={(data) => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data, flattenReplies))}
     />
   );
 };

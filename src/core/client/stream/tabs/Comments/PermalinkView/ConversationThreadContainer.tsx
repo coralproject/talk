@@ -129,7 +129,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                 <IgnoredTombstoneOrHideContainer
                   viewer={viewer}
                   comment={parent}
-                  singleConversationView={true}
+                  allowTombstoneReveal
                 >
                   <CommentContainer
                     comment={parent}
@@ -145,7 +145,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                       settings={settings}
                       comment={parent}
                       indentLevel={1}
-                      singleConversationView={true}
+                      allowTombstoneReveal={true}
                     />
                   )}
                 </IgnoredTombstoneOrHideContainer>

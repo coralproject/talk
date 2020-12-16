@@ -8,14 +8,21 @@ import {
 } from "coral-framework/lib/relay";
 
 import { RefreshSettingsFetchQuery as QueryTypes } from "coral-stream/__generated__/RefreshSettingsFetchQuery.graphql";
+import { lookupFlattenReplies } from "./helpers";
 
 const RefreshSettingsFetch = createFetch(
   "refreshSettings",
-  (environment: Environment, variables: FetchVariables<QueryTypes>) => {
+  (
+    environment: Environment,
+    variables: Omit<FetchVariables<QueryTypes>, "flattenReplies">
+  ) => {
     return fetchQuery<QueryTypes>(
       environment,
       graphql`
-        query RefreshSettingsFetchQuery($storyID: ID!) {
+        query RefreshSettingsFetchQuery(
+          $storyID: ID!
+          $flattenReplies: Boolean!
+        ) {
           settings {
             ...StreamContainer_settings
             ...PermalinkViewContainer_settings
@@ -28,7 +35,10 @@ const RefreshSettingsFetch = createFetch(
           }
         }
       `,
-      variables,
+      {
+        ...variables,
+        flattenReplies: lookupFlattenReplies(environment),
+      },
       { force: true }
     );
   }

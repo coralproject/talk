@@ -39,6 +39,7 @@ interface Props {
   settings: UnansweredCommentsTabContainer_settings;
   viewer: UnansweredCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
+  flattenReplies: boolean;
 }
 
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
@@ -298,6 +299,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
+        flattenReplies: props.flattenReplies,
       };
     },
     query: graphql`
@@ -308,6 +310,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $flattenReplies: Boolean!
       ) {
         story(id: $storyID) {
           ...UnansweredCommentsTabContainer_story

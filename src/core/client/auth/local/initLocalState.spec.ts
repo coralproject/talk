@@ -26,7 +26,7 @@ beforeEach(() => {
 });
 
 it("init local state", async () => {
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
 });
 
@@ -35,7 +35,7 @@ it("set view from query", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?view=${view}`
   );
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(source.get(LOCAL_ID)!.view).toBe(view);
   restoreHistoryLocation();
 });
@@ -44,7 +44,7 @@ it("get access token from url", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/#accessToken=${createAccessToken()}`
   );
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(JSON.stringify(source.get(LOCAL_ID), null, 2)).toMatchSnapshot();
   restoreHistoryLocation();
 });
@@ -53,7 +53,7 @@ it("get error from url", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/#error=error`
   );
-  await initLocalState(environment, context as any);
+  await initLocalState({ environment, context: context as any });
   expect(source.get(LOCAL_ID)!.error).toBe("error");
   restoreHistoryLocation();
 });

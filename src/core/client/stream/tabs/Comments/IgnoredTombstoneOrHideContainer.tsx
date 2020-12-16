@@ -22,14 +22,14 @@ interface Props {
   viewer: ViewerData | null;
   comment: CommentData;
   children: ReactNode;
-  singleConversationView?: boolean;
+  allowTombstoneReveal?: boolean;
 }
 
 const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   viewer,
   comment,
   children,
-  singleConversationView,
+  allowTombstoneReveal,
 }) => {
   const deleted = Boolean(!comment.author);
 
@@ -43,7 +43,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   const previouslyIgnored = usePrevious(ignored);
 
   useEffect(() => {
-    if (singleConversationView && ignored) {
+    if (allowTombstoneReveal && ignored) {
       setTombstone(true);
     }
 
@@ -57,7 +57,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     previouslyIgnored,
     tombstone,
     setTombstone,
-    singleConversationView,
+    allowTombstoneReveal,
   ]);
 
   const onShowComment = useCallback(() => {
@@ -93,7 +93,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
             {comment.author!.username}
           </span>
         </Localized>
-        {singleConversationView && (
+        {allowTombstoneReveal && (
           <Button
             variant="outlined"
             fontSize="small"
