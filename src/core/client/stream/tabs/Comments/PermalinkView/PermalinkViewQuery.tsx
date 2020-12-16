@@ -13,6 +13,7 @@ import { Delay, Spinner } from "coral-ui/components/v2";
 import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../helpers";
 import PermalinkViewContainer from "./PermalinkViewContainer";
 
 interface Props {
@@ -51,6 +52,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
   local: { commentID, storyID, storyURL },
 }) => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
+  const flattenReplies = useStaticFlattenReplies();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -58,6 +60,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
           $commentID: ID!
           $storyID: ID
           $storyURL: String
+          $flattenReplies: Boolean!
         ) {
           viewer {
             ...PermalinkViewContainer_viewer
@@ -77,6 +80,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
         commentID: commentID!,
         storyID,
         storyURL,
+        flattenReplies,
       }}
       render={(data) => {
         if (handleIncompleteAccount(data)) {

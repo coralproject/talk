@@ -515,6 +515,13 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
+  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  FLATTEN_REPLIES
+
+  """
   ENABLE_AMP will enable support for embedding Coral within AMP pages.
   """
   ENABLE_AMP
@@ -1821,7 +1828,7 @@ type Settings @cacheControl(maxAge: 30) {
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
@@ -1833,7 +1840,7 @@ type Settings @cacheControl(maxAge: 30) {
   premodLinksEnable will put all comments that contain links into premod.
   """
   premodLinksEnable: Boolean
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
@@ -3302,6 +3309,7 @@ type Comment @cacheControl(maxAge: 5) {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    flatten: Boolean
   ): CommentsConnection!
 
   """

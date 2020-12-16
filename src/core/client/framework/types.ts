@@ -2,5 +2,4 @@
 export { Overwrite, PropTypesOf } from "coral-ui/types";
 export { DeepPartial } from "coral-common/types";
 
-export type RelayEnumLiteral<T> = keyof T | "%future added value";
 export type OmitRefType<T> = Omit<T, " $refType">;

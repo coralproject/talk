@@ -28,6 +28,7 @@ import {
   publishChanges,
   updateAllCommentCounts,
 } from "coral-server/stacks/helpers";
+import { Request } from "coral-server/types/express";
 
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
 
@@ -35,6 +36,7 @@ import {
   publishCommentFlagCreated,
   publishCommentReactionCreated,
 } from "../events";
+import { submitCommentAsSpam } from "../spam";
 
 export type CreateAction = CreateActionInput;
 
@@ -341,7 +343,8 @@ export async function createFlag(
   tenant: Tenant,
   author: User,
   input: CreateCommentFlag,
-  now = new Date()
+  now = new Date(),
+  request?: Request | undefined
 ) {
   const { comment, action } = await addCommentAction(
     mongo,
@@ -368,6 +371,16 @@ export async function createFlag(
     ).catch((err) => {
       logger.error({ err }, "could not publish comment flag created");
     });
+
+    const revision = getLatestRevision(comment);
+    if (
+      revision &&
+      tenant.integrations.akismet.enabled &&
+      action.actionType === ACTION_TYPE.FLAG &&
+      action.reason === GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_SPAM
+    ) {
+      await submitCommentAsSpam(mongo, tenant, comment, request);
+    }
   }
 
   return comment;

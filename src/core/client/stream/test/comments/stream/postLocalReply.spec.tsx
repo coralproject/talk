@@ -1,13 +1,14 @@
-import { ReactTestRenderer } from "react-test-renderer";
-import sinon from "sinon";
-import timekeeper from "timekeeper";
-
+import { pureMerge } from "coral-common/utils";
+import { GQLResolver } from "coral-framework/schema";
 import {
   act,
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
+  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import {
   baseComment,
@@ -17,111 +18,109 @@ import {
 } from "../../fixtures";
 import create from "./create";
 
-let testRenderer: ReactTestRenderer;
-beforeEach(() => {
-  const resolvers = {
-    Query: {
-      settings: sinon.stub().returns(settings),
-      viewer: sinon.stub().returns(commenters[0]),
-      stream: createSinonStub(
-        (s) => s.throws(),
-        (s) =>
-          s
-            .withArgs(undefined, {
+const createTestRenderer = async (
+  params: CreateTestRendererParams<GQLResolver> = {}
+) => {
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          stream: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
               id: storyWithDeepestReplies.id,
               url: null,
               mode: null,
-            })
-            .returns(storyWithDeepestReplies)
-      ),
-    },
-    Mutation: {
-      createCommentReply: sinon.stub().callsFake((_: any, data: any) => {
-        expectAndFail(data.input).toMatchObject({
-          storyID: storyWithDeepestReplies.id,
-          parentID: "comment-with-deepest-replies-3",
-          parentRevisionID: "revision-0",
-          body: "<b>Hello world!</b>",
-        });
-        return {
-          edge: {
-            cursor: "",
-            node: {
-              ...baseComment,
-              id: "comment-x",
-              author: commenters[0],
-              body: "<b>Hello world! (from server)</b>",
-            },
+            });
+            return storyWithDeepestReplies;
           },
-          clientMutationId: data.input.clientMutationId,
-        };
+          viewer: () => commenters[0],
+          settings: () => settings,
+        },
       }),
-    },
-  };
-
-  ({ testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: (localRecord) => {
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
-  }));
-});
+  });
 
-it("renders comment stream", async () => {
-  const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
+  const streamLog = await act(
+    async () =>
+      await waitForElement(() =>
+        within(testRenderer.root).getByTestID("comments-allComments-log")
+      )
   );
-  // Wait for loading.
-  expect(within(streamLog).toJSON()).toMatchSnapshot();
-});
 
-it("post a reply", async () => {
-  const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
+  return {
+    testRenderer,
+    context,
+    streamLog,
+  };
+};
+
+it("post a local reply", async () => {
+  const commentBody = "PostLocalReply: Hello world!";
+  const { streamLog } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        createCommentReply: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            storyID: storyWithDeepestReplies.id,
+            parentID: "comment-with-deepest-replies-3",
+            parentRevisionID: "revision-0",
+            body: commentBody,
+          });
+          return {
+            edge: {
+              cursor: "",
+              node: {
+                ...baseComment,
+                id: "comment-x",
+                author: commenters[0],
+                body: commentBody + " (from server)",
+              },
+            },
+          };
+        },
+      },
+    }),
+  });
 
   const deepestReply = within(streamLog).getByTestID(
     "comment-comment-with-deepest-replies-3"
   );
 
-  // Open reply form.
-  act(() =>
-    within(deepestReply).getByTestID("comment-reply-button").props.onClick()
-  );
-
-  const form = await waitForElement(() =>
-    within(deepestReply).getByType("form")
-  );
-  expect(within(deepestReply).toJSON()).toMatchSnapshot("open reply form");
-
-  // Write reply .
-  act(() =>
-    testRenderer.root
-      .findByProps({
-        inputID: "comments-replyCommentForm-rte-comment-with-deepest-replies-3",
-      })
-      .props.onChange("<b>Hello world!</b>")
-  );
-
-  timekeeper.freeze(new Date(baseComment.createdAt));
-  act(() => {
-    form.props.onSubmit();
+  const form = await act(async () => {
+    /* Do stuff */
+    // Open reply form.
+    within(deepestReply)
+      .getByText("reply", { exact: false, selector: "button" })
+      .props.onClick();
+    /* Wait for result */
+    return await waitForElement(() => within(deepestReply).getByType("form"));
   });
 
-  const deepestReplyList = within(streamLog).getByTestID(
-    "commentReplyList-comment-with-deepest-replies-3"
-  );
-
-  // Test optimistic response.
-  expect(within(deepestReplyList).toJSON()).toMatchSnapshot(
-    "optimistic response"
-  );
-  timekeeper.reset();
-
-  // Test after server response.
   await act(async () => {
+    /* Do stuff */
+    // Write reply
+    const rte = await waitForRTE(streamLog, "Write a reply");
+    rte.props.onChange(commentBody);
+    form.props.onSubmit();
+    /* Wait for results */
+    const deepestReplyList = await waitForElement(() =>
+      within(streamLog).getByTestID(
+        "commentReplyList-comment-with-deepest-replies-3"
+      )
+    );
+    // optimistic result
+    await wait(() =>
+      within(deepestReplyList).getByText(commentBody, { exact: false })
+    );
+    // Final result
     await waitForElement(() =>
       within(deepestReplyList).getByText("(from server)", { exact: false })
     );

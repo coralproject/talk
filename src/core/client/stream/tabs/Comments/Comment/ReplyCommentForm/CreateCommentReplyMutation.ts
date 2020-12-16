@@ -9,9 +9,11 @@ import {
 
 import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  LOCAL_ID,
   lookup,
   MutationInput,
   MutationResponsePromise,
@@ -23,17 +25,24 @@ import {
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-framework/schema";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import {
+  determineDepthTillAncestor,
+  getFlattenedReplyAncestorID,
   incrementStoryCommentCounts,
   isPublished,
+  lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
-export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
+export type CreateCommentReplyInput = Omit<
+  MutationInput<MutationTypes>,
+  "flattenReplies"
+> & {
   local?: boolean;
 };
 
@@ -60,7 +69,7 @@ function sharedUpdater(
   if (input.local) {
     addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
-    addCommentReplyToStory(store, input, commentEdge);
+    addCommentReplyToStory(environment, store, input, commentEdge);
   }
 }
 
@@ -138,12 +147,41 @@ function tagExpertAnswers(
  * update integrates new comment into the CommentConnection.
  */
 function addCommentReplyToStory(
+  environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentReplyInput,
   commentEdge: RecordProxy
 ) {
+  const flattenReplies = lookupFlattenReplies(environment);
+  const singleCommentID = lookup(environment, LOCAL_ID).commentID;
+  const comment = commentEdge.getLinkedRecord("node")!;
+  const depth = determineDepthTillAncestor(comment, singleCommentID);
+
+  if (depth === null) {
+    // could not trace back to ancestor, that should not happen.
+    globalErrorReporter.report(
+      new Error("Couldn't find reply parent in Relay store")
+    );
+    return;
+  }
+
+  const outsideOfView = depth >= MAX_REPLY_INDENT_DEPTH;
+  let parentProxy = store.get(input.parentID)!;
+
+  if (outsideOfView) {
+    if (!flattenReplies) {
+      // This should never happen!
+      globalErrorReporter.report(
+        new Error("Reply should have been a local reply")
+      );
+      return;
+    }
+    // In flatten replies we change the parent to the last level ancestor.
+    const ancestorID = getFlattenedReplyAncestorID(comment, depth)! as string;
+    parentProxy = store.get(ancestorID)!;
+  }
+
   // Get parent proxy.
-  const parentProxy = store.get(input.parentID);
   const connectionKey = "ReplyList_replies";
   const filters = { orderBy: "CREATED_AT_ASC" };
 
@@ -206,7 +244,10 @@ graphql`
 `;
 /** end */
 const mutation = graphql`
-  mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
+  mutation CreateCommentReplyMutation(
+    $input: CreateCommentReplyInput!
+    $flattenReplies: Boolean!
+  ) {
     createCommentReply(input: $input) {
       edge {
         cursor
@@ -278,6 +319,7 @@ async function commit(
             clientMutationId: clientMutationId.toString(),
             media: input.media,
           },
+          flattenReplies: lookupFlattenReplies(environment),
         },
         optimisticResponse: {
           createCommentReply: {

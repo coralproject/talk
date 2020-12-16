@@ -117,6 +117,7 @@ it("post a reply", async () => {
                 id: "comment-x",
                 author: commenters[0],
                 body: "<b>Hello world! (from server)</b>",
+                parent: storyFixture.comments.edges[0].node,
               },
             },
           };
