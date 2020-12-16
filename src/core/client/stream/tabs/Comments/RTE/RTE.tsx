@@ -137,6 +137,7 @@ interface Props {
   onChange?: (html: string) => void;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
+  onKeyPress?: React.KeyboardEventHandler;
 
   disabled?: boolean;
 
@@ -168,6 +169,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     onBlur,
     features,
     onWillPaste,
+    onKeyPress,
     ...rest
   } = props;
 
@@ -297,6 +299,7 @@ const RTE: FunctionComponent<Props> = (props) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onWillPaste={onWillPaste}
+        onKeyPress={onKeyPress}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         ButtonComponent={RTEButton}
         {...rest}
