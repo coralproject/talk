@@ -13,7 +13,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLMODERATION_QUEUE } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
 import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
@@ -38,7 +38,10 @@ interface Props {
   storyID?: string | null;
   siteID?: string | null;
   section?: SectionFilter | null;
+  orderBy?: GQLCOMMENT_SORT;
 }
+
+const SORT_MODE = GQLCOMMENT_SORT.CREATED_AT_ASC;
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
@@ -71,7 +74,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
       siteID,
       section,
     });
-  }, [queueName, storyID, siteID, viewNew]);
+  }, [viewNew, queueName, storyID, siteID, section]);
 
   // Handle subscribing and unsubscribing to the subscriptions.
   useEffect(() => {
@@ -136,9 +139,16 @@ const createQueueRoute = (
   queueName: GQLMODERATION_QUEUE,
   queueQuery: GraphQLTaggedNode,
   paginationQuery: GraphQLTaggedNode,
-  emptyElement: React.ReactElement
+  emptyElement: React.ReactElement,
+  orderBy: GQLCOMMENT_SORT
 ) => {
   const enhanced = withRouteConfig<Props, any>({
+    prepareVariables: (params, match) => {
+      return {
+        ...params,
+        orderBy,
+      };
+    },
     query: queueQuery,
     cacheConfig: { force: true },
     render: function QueueRouteRender({ Component, data, match }) {
@@ -160,6 +170,7 @@ const createQueueRoute = (
             storyID={storyID}
             siteID={siteID}
             section={section}
+            orderBy={orderBy}
           />
         );
       }
@@ -178,6 +189,7 @@ const createQueueRoute = (
           storyID={storyID}
           siteID={siteID}
           section={section}
+          orderBy={orderBy}
         />
       );
     },
@@ -193,9 +205,10 @@ const createQueueRoute = (
             @argumentDefinitions(
               count: { type: "Int!", defaultValue: 5 }
               cursor: { type: "Cursor" }
+              orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
             ) {
             count
-            comments(first: $count, after: $cursor)
+            comments(first: $count, after: $cursor, orderBy: $orderBy)
               @connection(key: "Queue_comments") {
               viewNewEdges {
                 cursor
@@ -234,6 +247,7 @@ const createQueueRoute = (
           return {
             ...prevVars,
             count: totalCount,
+            orderBy,
           };
         },
         getVariables(props, { count, cursor }, fragmentVariables) {
@@ -241,6 +255,7 @@ const createQueueRoute = (
             ...fragmentVariables,
             count,
             cursor,
+            orderBy,
           };
         },
         query: paginationQuery,
@@ -259,10 +274,11 @@ export const PendingQueueRoute = createQueueRoute(
       $siteID: ID
       $count: Int
       $section: SectionFilter
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
-          ...QueueRoute_queue @arguments(count: $count)
+          ...QueueRoute_queue @arguments(count: $count, orderBy: $orderBy)
         }
       }
       settings {
@@ -282,10 +298,12 @@ export const PendingQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }
@@ -295,7 +313,8 @@ export const PendingQueueRoute = createQueueRoute(
     <EmptyMessage>
       Nicely done! There are no more pending comments to moderate.
     </EmptyMessage>
-  </Localized>
+  </Localized>,
+  SORT_MODE
 );
 
 export const ReportedQueueRoute = createQueueRoute(
@@ -305,10 +324,11 @@ export const ReportedQueueRoute = createQueueRoute(
       $storyID: ID
       $siteID: ID
       $section: SectionFilter
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
-          ...QueueRoute_queue
+          ...QueueRoute_queue @arguments(orderBy: $orderBy)
         }
       }
       settings {
@@ -328,10 +348,12 @@ export const ReportedQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }
@@ -341,7 +363,8 @@ export const ReportedQueueRoute = createQueueRoute(
     <EmptyMessage>
       Nicely done! There are no more reported comments to moderate.
     </EmptyMessage>
-  </Localized>
+  </Localized>,
+  SORT_MODE
 );
 
 export const UnmoderatedQueueRoute = createQueueRoute(
@@ -351,10 +374,11 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       $storyID: ID
       $siteID: ID
       $section: SectionFilter
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
-          ...QueueRoute_queue
+          ...QueueRoute_queue @arguments(orderBy: $orderBy)
         }
       }
       settings {
@@ -374,10 +398,12 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }
@@ -385,5 +411,6 @@ export const UnmoderatedQueueRoute = createQueueRoute(
   // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="moderate-emptyQueue-unmoderated">
     <EmptyMessage>Nicely done! All comments have been moderated.</EmptyMessage>
-  </Localized>
+  </Localized>,
+  SORT_MODE
 );

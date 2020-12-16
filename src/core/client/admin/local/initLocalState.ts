@@ -54,6 +54,7 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(redirectPath, "redirectPath");
     localRecord.setValue("SIGN_IN", "authView");
     localRecord.setValue(error, "authError");
+    localRecord.setValue("CREATED_AT_DESC", "moderationQueueSort");
   });
 };
 
