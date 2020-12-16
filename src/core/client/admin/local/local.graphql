@@ -1,7 +1,5 @@
-# Extend graph with local types
-type Network {
-  isOffline: Boolean!
-}
+# This extends ./src/core/client/framework/lib/relay/local.graphql
+# with additional local types.
 
 enum View {
   SIGN_IN
@@ -27,19 +25,11 @@ extend type CommentsConnection {
   viewNewEdges: [CommentEdge!]
 }
 
-type Local {
-  network: Network!
-  accessToken: String
-  accessTokenExp: Int
-  accessTokenJTI: String
+extend type Local {
   redirectPath: String
   authView: View
   authError: String
   # Duplicate email found when adding email during auth.
   authDuplicateEmail: String
   siteID: String
-}
-
-extend type Query {
-  local: Local!
 }

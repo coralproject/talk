@@ -443,15 +443,18 @@ export const retrieveCommentRepliesConnection = (
   storyID: string,
   parentID: string,
   input: CommentConnectionInput
-) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
+) => {
+  const filter: any = {
+    parentID,
+    ...input.filter,
+    storyID,
+  };
+
+  return retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
-    filter: {
-      ...input.filter,
-      storyID,
-      parentID,
-    },
+    filter,
   });
+};
 
 /**
  * retrieveCommentParentsConnection will return a comment connection used to

@@ -10,6 +10,7 @@ import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
+import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler } from "coral-server/types/express";
 
@@ -141,13 +142,20 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
+  const featureFlags =
+    req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
+    [];
+
   res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI,
     entrypoint,
     enableCustomCSS,
     locale,
-    config,
+    config: {
+      ...config,
+      featureFlags,
+    },
     customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };

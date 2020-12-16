@@ -70,3 +70,6 @@ export type FirstDeepPartial<T> = T extends object
       [P in keyof T]: DeepPartial<T[P]>;
     }
   : T;
+
+/** Turns an enum into a string literal type. */
+export type RelayEnumLiteral<T> = keyof T | "%future added value";

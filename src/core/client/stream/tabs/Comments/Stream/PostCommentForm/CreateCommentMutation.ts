@@ -25,11 +25,15 @@ import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.gr
 import {
   incrementStoryCommentCounts,
   isPublished,
+  lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 import incrementTagCommentCounts from "../../helpers/incrementTagCommentCounts";
 
-export type CreateCommentInput = MutationInput<MutationTypes> & {
+export type CreateCommentInput = Omit<
+  MutationInput<MutationTypes>,
+  "flattenReplies"
+> & {
   commentsOrderBy?: COMMENT_SORT;
   tag?: GQLTAG;
 };
@@ -200,7 +204,10 @@ graphql`
 /** end */
 
 const mutation = graphql`
-  mutation CreateCommentMutation($input: CreateCommentInput!) {
+  mutation CreateCommentMutation(
+    $input: CreateCommentInput!
+    $flattenReplies: Boolean!
+  ) {
     createComment(input: $input) {
       edge {
         cursor
@@ -307,6 +314,7 @@ export const CreateCommentMutation = createMutation(
               rating: input.rating,
               clientMutationId: clientMutationId.toString(),
             },
+            flattenReplies: lookupFlattenReplies(environment),
           },
           optimisticResponse: {
             createComment: {

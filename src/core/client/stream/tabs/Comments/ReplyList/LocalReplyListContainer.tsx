@@ -4,20 +4,20 @@ import { graphql } from "react-relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "coral-framework/types";
 
-import { LocalReplyListContainer_comment as CommentData } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
-import { LocalReplyListContainer_settings as SettingsData } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
-import { LocalReplyListContainer_story as StoryData } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";
-import { LocalReplyListContainer_viewer as ViewerData } from "coral-stream/__generated__/LocalReplyListContainer_viewer.graphql";
+import { LocalReplyListContainer_comment } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
+import { LocalReplyListContainer_settings } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
+import { LocalReplyListContainer_story } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";
+import { LocalReplyListContainer_viewer } from "coral-stream/__generated__/LocalReplyListContainer_viewer.graphql";
 
 import ReplyList from "./ReplyList";
 
 interface Props {
-  indentLevel: number;
-  viewer: ViewerData;
-  story: StoryData;
-  comment: CommentData;
-  settings: SettingsData;
-  singleConversationView?: boolean;
+  indentLevel?: number;
+  viewer: LocalReplyListContainer_viewer | null;
+  story: LocalReplyListContainer_story;
+  comment: LocalReplyListContainer_comment;
+  settings: LocalReplyListContainer_settings;
+  allowTombstoneReveal?: boolean;
 }
 
 /**
@@ -40,7 +40,7 @@ export class LocalReplyListContainer extends Component<Props> {
         story={this.props.story}
         indentLevel={this.props.indentLevel}
         disableReplies
-        singleConversationView={this.props.singleConversationView}
+        allowTombstoneReveal={this.props.allowTombstoneReveal}
       />
     );
   }

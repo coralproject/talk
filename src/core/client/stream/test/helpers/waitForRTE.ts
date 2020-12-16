@@ -20,7 +20,7 @@ export default function waitForRTE(instance: ReactTestInstance, label: string) {
     waitForElement(
       () =>
         findParentWithType(
-          within(instance).getByLabelText(label),
+          within(instance).getByLabelText(label, { exact: false }),
           // We'll use the RTE component here as an exception because the
           // jsdom does not support all of what is needed for rendering the
           // Rich Text Editor.

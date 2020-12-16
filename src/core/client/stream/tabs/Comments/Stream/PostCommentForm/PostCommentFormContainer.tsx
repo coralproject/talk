@@ -4,6 +4,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -78,6 +79,14 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const createComment = useMutation(CreateCommentMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setCommentID = useMutation(SetCommentIDMutation);
+
+  // keepFormWhenClosed controls the display state when the commenting has been
+  // closed. This value should not be updated when the props change, hence why
+  // we don't use any deps here!
+  const keepFormWhenClosed = useMemo(
+    () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
+    []
+  );
 
   // nudge will turn on the nudging behavior on the server
   const [nudge, setNudge] = useState(true);
@@ -231,7 +240,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     return null;
   }
 
-  if (!viewer) {
+  if (!keepFormWhenClosed) {
     if (settings.disableCommenting.enabled) {
       return (
         <PostCommentFormClosedSitewide
@@ -251,7 +260,9 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         />
       );
     }
+  }
 
+  if (!viewer) {
     if (isRatingsAndReviews) {
       return <PostReviewOrQuestion toggle={toggle} onToggle={onToggle} />;
     }

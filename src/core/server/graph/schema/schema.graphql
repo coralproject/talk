@@ -515,6 +515,13 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
+  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  FLATTEN_REPLIES
+
+  """
   ENABLE_AMP will enable support for embedding Coral within AMP pages.
   """
   ENABLE_AMP
@@ -3302,6 +3309,7 @@ type Comment @cacheControl(maxAge: 5) {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    flatten: Boolean
   ): CommentsConnection!
 
   """

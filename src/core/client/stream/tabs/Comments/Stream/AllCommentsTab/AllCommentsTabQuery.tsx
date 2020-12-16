@@ -15,6 +15,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
 import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../../helpers";
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
 import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
@@ -23,7 +24,11 @@ interface Props {
   tag?: GQLTAG;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
+export const render = (
+  data: QueryRenderData<QueryTypes>,
+  flattenReplies: boolean,
+  tag?: GQLTAG
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -43,6 +48,7 @@ export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
           viewer={data.props.viewer}
           story={data.props.story}
           tag={tag}
+          flattenReplies={flattenReplies}
         />
       </SpinnerWhileRendering>
     );
@@ -70,6 +76,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
       commentsOrderBy
     }
   `);
+  const flattenReplies = useStaticFlattenReplies();
 
   // When we swtich off of the AllCommentsTab, reset the rating filter.
   useEffectAtUnmount(() => {
@@ -85,6 +92,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
           $commentsOrderBy: COMMENT_SORT
           $tag: TAG
           $storyMode: STORY_MODE
+          $flattenReplies: Boolean!
           $ratingFilter: Int
         ) {
           viewer {
@@ -110,8 +118,9 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         tag,
         ratingFilter,
         storyMode: coerceStoryMode(storyMode),
+        flattenReplies,
       }}
-      render={(data) => (preload ? null : render(data, tag))}
+      render={(data) => (preload ? null : render(data, flattenReplies, tag))}
     />
   );
 };

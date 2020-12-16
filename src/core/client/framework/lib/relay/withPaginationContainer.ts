@@ -35,7 +35,7 @@ export interface ConnectionConfig<
   getConnectionFromProps?(props: P): ConnectionData | undefined | null;
   getFragmentVariables?: FragmentVariablesGetter<F>;
   getVariables(
-    props: P,
+    props: Omit<P, "relay">,
     paginationInfo: { count: number; cursor?: string },
     fragmentVariables: F
   ): V;

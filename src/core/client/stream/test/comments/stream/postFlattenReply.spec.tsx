@@ -8,6 +8,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
 import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import {
@@ -41,6 +42,7 @@ const createTestRenderer = async (
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
+      localRecord.setValue(true, "flattenReplies");
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
@@ -62,15 +64,15 @@ const createTestRenderer = async (
   };
 };
 
-it("post a local reply", async () => {
-  const commentBody = "PostLocalReply: Hello world!";
+it("post a flattened reply", async () => {
+  const commentBody = "PostFlattenReply: Hello world!";
   const { streamLog } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         createCommentReply: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             storyID: storyWithDeepestReplies.id,
-            parentID: "comment-with-deepest-replies-3",
+            parentID: "comment-with-deepest-replies-4",
             parentRevisionID: "revision-0",
             body: commentBody,
           });
@@ -82,6 +84,10 @@ it("post a local reply", async () => {
                 id: "comment-x",
                 author: commenters[0],
                 body: commentBody + " (from server)",
+                parent: getCommentRecursively(
+                  storyWithDeepestReplies.comments,
+                  "comment-with-deepest-replies-4"
+                ),
               },
             },
           };
@@ -91,7 +97,7 @@ it("post a local reply", async () => {
   });
 
   const deepestReply = within(streamLog).getByTestID(
-    "comment-comment-with-deepest-replies-3"
+    "comment-comment-with-deepest-replies-4"
   );
 
   const form = await act(async () => {
@@ -116,6 +122,12 @@ it("post a local reply", async () => {
         "commentReplyList-comment-with-deepest-replies-3"
       )
     );
+    // No reply list after depth 4
+    expect(() =>
+      within(streamLog).getByTestID(
+        "commentReplyList-comment-with-deepest-replies-4"
+      )
+    ).toThrow();
     // optimistic result
     await wait(() =>
       within(deepestReplyList).getByText(commentBody, { exact: false })

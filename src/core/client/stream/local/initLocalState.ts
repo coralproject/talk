@@ -1,23 +1,60 @@
-import { commitLocalUpdate, Environment } from "relay-runtime";
+import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
+import { StaticConfig } from "coral-common/config";
 import { parseQuery } from "coral-common/utils";
 import { isStoryMode } from "coral-framework/helpers";
-import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
-import { CoralContext } from "coral-framework/lib/bootstrap";
+import { parseAccessToken } from "coral-framework/lib/auth";
+import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
-import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
+import {
+  createAndRetain,
+  fetchQuery,
+  initLocalBaseState,
+} from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
+
+import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
+async function determineFeatureFlags(
+  environment: Environment,
+  staticConfig?: StaticConfig | null
+) {
+  const featureFlags = staticConfig?.featureFlags;
+  if (featureFlags) {
+    return featureFlags;
+  }
+  if (process.env.NODE_ENV === "development") {
+    // Send a graphql query to server during development to get the feature flags.
+    // The reason is that we don't have static config during development.
+    const data = await fetchQuery<initLocalStateQuery>(
+      environment,
+      graphql`
+        query initLocalStateQuery {
+          settings {
+            featureFlags
+          }
+        }
+      `,
+      {}
+    );
+    return data.settings.featureFlags as string[];
+  }
+  return [];
+}
+
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+const initLocalState: InitLocalState = async ({
+  environment,
+  context,
+  auth = null,
+  staticConfig,
+  ...rest
+}) => {
   const config = await getExternalConfig(context.pym);
   if (config) {
     if (config.accessToken) {
@@ -30,7 +67,15 @@ export default async function initLocalState(
     }
   }
 
-  initLocalBaseState(environment, context, auth);
+  await initLocalBaseState({
+    environment,
+    context,
+    auth,
+    staticConfig,
+    ...rest,
+  });
+
+  const featureFlags = await determineFeatureFlags(environment, staticConfig);
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -55,6 +100,7 @@ export default async function initLocalState(
       localRecord.setValue(query.storyMode, "storyMode");
     }
 
+    // This will trigger single comment view.
     if (query.commentID) {
       localRecord.setValue(query.commentID, "commentID");
     }
@@ -81,5 +127,13 @@ export default async function initLocalState(
     // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
+
+    // Flatten replies
+    localRecord.setValue(
+      featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
+      "flattenReplies"
+    );
   });
-}
+};
+
+export default initLocalState;
