@@ -16,7 +16,7 @@ import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, CallOut, HorizontalGutter } from "coral-ui/components/v2";
+import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
@@ -29,6 +29,7 @@ import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
 import CommentEnteredSubscription from "../AllCommentsTab/CommentEnteredSubscription";
+import NoComments from "../NoComments";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
 
 import styles from "./UnansweredCommentsTabContainer.css";
@@ -38,6 +39,7 @@ interface Props {
   settings: UnansweredCommentsTabContainer_settings;
   viewer: UnansweredCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
+  flattenReplies: boolean;
 }
 
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
@@ -122,10 +124,6 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     (props.story.comments.viewNewEdges &&
       props.story.comments.viewNewEdges.length) ||
     0;
-  const onRemoveAnswered = useCallback(() => {
-    const { relay } = props;
-    relay.refetchConnection(20);
-  }, [props]);
   return (
     <>
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -151,17 +149,8 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.length <= 0 && props.story.isClosed && (
-          <Localized id="qa-noQuestionsAtAll">
-            <CallOut fullWidth>There are no questions on this story.</CallOut>
-          </Localized>
-        )}
-        {comments.length <= 0 && !props.story.isClosed && (
-          <Localized id="qa-noQuestionsYet">
-            <CallOut fullWidth>
-              There are no questions yet. Why don't you ask one?
-            </CallOut>
-          </Localized>
+        {comments.length === 0 && (
+          <NoComments mode="QA" isClosed={props.story.isClosed} />
         )}
         {comments.length > 0 &&
           comments.map((comment) => (
@@ -183,7 +172,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
                     viewer={props.viewer}
                     comment={comment}
                     story={props.story}
-                    onRemoveAnswered={onRemoveAnswered}
+                    showRemoveAnswered
                   />
                 </HorizontalGutter>
               </FadeInTransition>
@@ -310,6 +299,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
+        flattenReplies: props.flattenReplies,
       };
     },
     query: graphql`
@@ -320,6 +310,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $flattenReplies: Boolean!
       ) {
         story(id: $storyID) {
           ...UnansweredCommentsTabContainer_story

@@ -13,10 +13,12 @@ import styles from "./UserHistoryDrawerAllCommentsQuery.css";
 
 interface Props {
   userID: string;
+  setUserID?: (id: string) => void;
 }
 
 const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
   userID,
+  setUserID,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -61,6 +63,7 @@ const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
             settings={props.settings}
             viewer={props.viewer}
             user={props.user}
+            setUserID={setUserID}
           />
         );
       }}

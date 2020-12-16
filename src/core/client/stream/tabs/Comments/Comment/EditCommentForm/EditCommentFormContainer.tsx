@@ -269,6 +269,8 @@ const enhanced = withContext(({ browserInfo }) => ({
               }
               giphy {
                 enabled
+                key
+                maxRating
               }
               external {
                 enabled

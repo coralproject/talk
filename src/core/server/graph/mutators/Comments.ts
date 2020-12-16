@@ -165,7 +165,8 @@ export const Comments = (ctx: GraphContext) => ({
           additionalDetails
         ),
       },
-      ctx.now
+      ctx.now,
+      ctx.req
     ),
   feature: async ({
     commentID,

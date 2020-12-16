@@ -4,7 +4,10 @@ import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { CommentNotFoundError } from "coral-server/errors";
+import {
+  CommentEditWindowExpiredError,
+  CommentNotFoundError,
+} from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -263,8 +266,7 @@ export function validateEditable(
 
   // Check to see if the edit window expired.
   if (comment.createdAt <= lastEditableCommentCreatedAt) {
-    // TODO: (wyattjoh) return better error
-    throw new Error("edit window expired");
+    throw new CommentEditWindowExpiredError(comment.id);
   }
 }
 
@@ -441,15 +443,18 @@ export const retrieveCommentRepliesConnection = (
   storyID: string,
   parentID: string,
   input: CommentConnectionInput
-) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
+) => {
+  const filter: any = {
+    parentID,
+    ...input.filter,
+    storyID,
+  };
+
+  return retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
-    filter: {
-      ...input.filter,
-      storyID,
-      parentID,
-    },
+    filter,
   });
+};
 
 /**
  * retrieveCommentParentsConnection will return a comment connection used to
@@ -681,16 +686,15 @@ export async function retrieveCommentConnection(
  * @param query the Query for the set of nodes that should have the connection
  *              configuration applied
  */
-async function retrieveConnection(
+const retrieveConnection = async (
   input: CommentConnectionInput,
   query: Query<Comment>
-): Promise<Readonly<Connection<Readonly<Comment>>>> {
-  // Apply some sorting options.
-  applyInputToQuery(input, query);
-
-  // Return a connection.
-  return resolveConnection(query, input, cursorGetterFactory(input));
-}
+): Promise<Readonly<Connection<Readonly<Comment>>>> =>
+  resolveConnection(
+    applyInputToQuery(input, query),
+    input,
+    cursorGetterFactory(input)
+  );
 
 function applyInputToQuery(
   input: CommentConnectionInput,
@@ -703,25 +707,25 @@ function applyInputToQuery(
       if (input.after) {
         query.where({ createdAt: { $lt: input.after as Date } });
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
         query.where({ createdAt: { $gt: input.after as Date } });
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.REPLIES_DESC:
       query.orderBy({ childCount: -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
-      break;
+      return query;
     case GQLCOMMENT_SORT.REACTION_DESC:
       query.orderBy({ "actionCounts.REACTION": -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
-      break;
+      return query;
   }
 }
 
@@ -1262,4 +1266,29 @@ export async function retrieveManyStoryRatings(
     (storyID) =>
       results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
   );
+}
+
+export async function retrieveFeaturedComments(
+  mongo: Db,
+  tenantID: string,
+  siteID: string,
+  limit: number
+) {
+  const $match: FilterQuery<Comment> = {
+    tenantID,
+    siteID,
+    "tags.type": GQLTAG.FEATURED,
+    status: { $in: PUBLISHED_STATUSES },
+  };
+  const results = await collection(mongo)
+    .aggregate([
+      {
+        $match,
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: limit },
+    ])
+    .toArray();
+
+  return results;
 }

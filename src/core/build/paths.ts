@@ -52,6 +52,8 @@ export default {
   appEmbedHTML: resolveSrc("core/client/embed/index.html"),
   appEmbedStoryHTML: resolveSrc("core/client/embed/story.html"),
   appEmbedStoryButtonHTML: resolveSrc("core/client/embed/storyButton.html"),
+  appEmbedAMPHTML: resolveSrc("core/client/embed/amp.html"),
+  appEmbedStoryAMPHTML: resolveSrc("core/client/embed/storyAMP.html"),
 
   appDistStatic: resolveApp("dist/static"),
   appPublic: resolveApp("public"),

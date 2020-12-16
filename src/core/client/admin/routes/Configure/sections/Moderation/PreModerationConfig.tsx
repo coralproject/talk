@@ -9,6 +9,7 @@ import {
   FormFieldDescription,
   Label,
 } from "coral-ui/components/v2";
+import { Link } from "coral-ui/components/v3";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -19,6 +20,7 @@ graphql`
   fragment PreModerationConfig_formValues on Settings {
     moderation
     premodLinksEnable
+    premoderateSuspectWords
   }
 `;
 
@@ -68,6 +70,23 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Label>
         </Localized>
         <OnOffField name="premodLinksEnable" disabled={disabled} />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-moderation-premModeration-premodSuspectWordsEnable">
+          <Label component="legend">
+            Pre-moderate comments containing Suspect Words
+          </Label>
+        </Localized>
+        <Localized
+          id="configure-moderation-premModeration-premodSuspectWordsDescription"
+          wordListLink={<Link href="/admin/configure/wordList" />}
+        >
+          <FormFieldDescription>
+            You can view and edit your Suspect Word list{" "}
+            <Link href="/admin/configure/wordList">here</Link>
+          </FormFieldDescription>
+        </Localized>
+        <OnOffField name="premoderateSuspectWords" disabled={disabled} />
       </FormField>
     </ConfigBox>
   );

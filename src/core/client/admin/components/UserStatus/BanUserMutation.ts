@@ -26,6 +26,15 @@ const BanUserMutation = createMutation(
               id
               status {
                 current
+                warning {
+                  active
+                }
+                premod {
+                  active
+                }
+                suspension {
+                  active
+                }
                 ban {
                   active
                   history {
@@ -70,6 +79,15 @@ const BanUserMutation = createMutation(
                     },
                   },
                 ],
+              },
+              warning: {
+                active: false,
+              },
+              suspension: {
+                active: false,
+              },
+              premod: {
+                active: false,
               },
             },
           },

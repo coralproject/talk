@@ -1,6 +1,7 @@
 import bytes from "bytes";
 import convict from "convict";
 import Joi from "joi";
+import { compact } from "lodash";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
 
@@ -44,6 +45,17 @@ convict.addFormat({
   },
   // Ensure that there is an ending slash.
   coerce: (url: string) => (url ? ensureEndSlash(url) : url),
+});
+
+// Add a custom format for a list of comma seperated strings.
+convict.addFormat({
+  name: "list",
+  validate: (list: string[]) => {
+    if (!list || list.length === 0) {
+      throw new Error("list should not contain empty entries");
+    }
+  },
+  coerce: (list: string) => compact(list.split(",").map((item) => item.trim())),
 });
 
 // Add a custom format that is a duration parsed with `ms` to used instead of
@@ -376,6 +388,26 @@ const config = convict({
     format: "ms",
     default: ms("1m"),
     env: "NODEJS_HEADERS_TIMEOUT",
+  },
+  google_cloud_profiler: {
+    doc:
+      "When enabled, will start the Google Cloud Profiler using the default application credentials.",
+    format: Boolean,
+    default: false,
+    env: "GOOGLE_CLOUD_PROFILER",
+  },
+  google_cloud_profiler_service_context: {
+    doc:
+      "Passed down to the Google Cloud Profiler if enabled as `{ serviceContext }`.",
+    format: Object,
+    default: {},
+    env: "GOOGLE_CLOUD_PROFILER_SERVICE_CONTEXT",
+  },
+  amp_cache_domains: {
+    doc: "Specifies the amp cache domains as a comma seperated list",
+    format: "list",
+    default: ["cdn.ampproject.org"],
+    env: "AMP_CACHE_DOMAINS",
   },
 });
 

@@ -25,11 +25,15 @@ import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.gr
 import {
   incrementStoryCommentCounts,
   isPublished,
+  lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 import incrementTagCommentCounts from "../../helpers/incrementTagCommentCounts";
 
-export type CreateCommentInput = MutationInput<MutationTypes> & {
+export type CreateCommentInput = Omit<
+  MutationInput<MutationTypes>,
+  "flattenReplies"
+> & {
   commentsOrderBy?: COMMENT_SORT;
   tag?: GQLTAG;
 };
@@ -37,13 +41,13 @@ export type CreateCommentInput = MutationInput<MutationTypes> & {
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: CreateCommentInput
+  input: CreateCommentInput,
+  uuidGenerator: CoralContext["uuidGenerator"]
 ) {
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
   const status = commentEdge.getLinkedRecord("node")!.getValue("status");
-
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
     return;
@@ -55,6 +59,7 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+  tagUnansweredQuestions(environment, store, input, commentEdge, uuidGenerator);
   addCommentToStory(store, input, commentEdge);
 }
 
@@ -107,6 +112,51 @@ function addCommentToStory(
   }
 }
 
+function tagUnansweredQuestions(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput,
+  commentEdge: RecordProxy,
+  uuidGenerator: CoralContext["uuidGenerator"]
+) {
+  const node = commentEdge.getLinkedRecord("node");
+  if (!node) {
+    return;
+  }
+  const story = store.get(input.storyID);
+  if (!story) {
+    return;
+  }
+  const storySettings = story.getLinkedRecord("settings");
+  const mode = storySettings?.getValue("mode");
+  if (mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+  const viewer = getViewer(environment)!;
+  const experts = storySettings?.getLinkedRecords("experts");
+
+  // if there are no experts or the author is not an expert, the question is unanswered
+  if (!experts || experts.every((exp) => exp.getValue("id") !== viewer.id)) {
+    const tags = node.getLinkedRecords("tags");
+    if (tags) {
+      const featuredTag = store.create(uuidGenerator(), "Tag");
+      featuredTag.setValue(GQLTAG.UNANSWERED, "code");
+      node.setLinkedRecords(tags.concat(featuredTag), "tags");
+    }
+    const commentCountsRecord = story.getLinkedRecord("commentCounts");
+    if (!commentCountsRecord) {
+      return;
+    }
+    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+    if (tagsRecord) {
+      tagsRecord.setValue(
+        (tagsRecord.getValue("UNANSWERED") as number) + 1,
+        "UNANSWERED"
+      );
+    }
+  }
+}
+
 /** These are needed to be included when querying for the stream. */
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -154,7 +204,10 @@ graphql`
 /** end */
 
 const mutation = graphql`
-  mutation CreateCommentMutation($input: CreateCommentInput!) {
+  mutation CreateCommentMutation(
+    $input: CreateCommentInput!
+    $flattenReplies: Boolean!
+  ) {
     createComment(input: $input) {
       edge {
         cursor
@@ -214,7 +267,7 @@ export const CreateCommentMutation = createMutation(
 
     let tag: GQLTAG | undefined;
     if (input.rating) {
-      if (input.body.length > 0) {
+      if (input.body.length > 0 || input.media) {
         tag = GQLTAG.REVIEW;
       }
     } else if (storySettings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
@@ -261,6 +314,7 @@ export const CreateCommentMutation = createMutation(
               rating: input.rating,
               clientMutationId: clientMutationId.toString(),
             },
+            flattenReplies: lookupFlattenReplies(environment),
           },
           optimisticResponse: {
             createComment: {
@@ -351,11 +405,11 @@ export const CreateCommentMutation = createMutation(
             if (expectPremoderation) {
               return;
             }
-            sharedUpdater(environment, store, { ...input, tag });
+            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
             store.get(id)!.setValue(true, "pending");
           },
           updater: (store) => {
-            sharedUpdater(environment, store, { ...input, tag });
+            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
           },
         }
       );

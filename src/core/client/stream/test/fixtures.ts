@@ -174,6 +174,10 @@ export const baseUser = createFixture<GQLUser>({
       active: false,
       history: [],
     },
+    premod: {
+      active: false,
+      history: [],
+    },
   },
   ignoredUsers: [],
   comments: {
@@ -352,6 +356,7 @@ export const baseComment = createFixture<GQLComment>({
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
   deleted: NULL_VALUE,
+  reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
 });
 
 export const comments = denormalizeComments(

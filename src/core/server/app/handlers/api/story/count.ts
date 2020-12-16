@@ -11,18 +11,23 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
 
-export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache" | "i18n">;
+export type JSONPCountOptions = Pick<
+  AppOptions,
+  "mongo" | "tenantCache" | "i18n"
+>;
 
-const StoryCountQuerySchema = Joi.object().keys({
-  // Required for JSONP support.
-  callback: Joi.string().allow("").optional(),
-  id: Joi.string().optional(),
-  url: Joi.string().optional(),
-  notext: Joi.string().allow("true", "false").required(),
-  ref: Joi.string().required(),
-});
+const StoryCountJSONPQuerySchema = Joi.object()
+  .keys({
+    // Required for JSONP support.
+    callback: Joi.string().allow("").optional(),
+    id: Joi.string().optional(),
+    url: Joi.string().optional(),
+    notext: Joi.string().allow("true", "false").required(),
+    ref: Joi.string().required(),
+  })
+  .or("id", "url");
 
-interface StoryCountQuery {
+interface StoryCountJSONPQuery {
   callback: string;
   id?: string;
   url?: string;
@@ -33,10 +38,10 @@ interface StoryCountQuery {
 /**
  * countHandler returns translated comment counts using JSONP.
  */
-export const countHandler = ({
+export const countJSONPHandler = ({
   mongo,
   i18n,
-}: CountOptions): RequestHandler<TenantCoralRequest> => async (
+}: JSONPCountOptions): RequestHandler<TenantCoralRequest> => async (
   req,
   res,
   next
@@ -45,8 +50,8 @@ export const countHandler = ({
     const { tenant } = req.coral;
 
     // Ensure we have something to query with.
-    const { id, url, notext, ref }: StoryCountQuery = validate(
-      StoryCountQuerySchema,
+    const { id, url, notext, ref }: StoryCountJSONPQuery = validate(
+      StoryCountJSONPQuerySchema,
       req.query
     );
 
@@ -88,6 +93,50 @@ export const countHandler = ({
 
     // Respond using jsonp.
     res.jsonp(data);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache">;
+
+const StoryCountQuerySchema = Joi.object()
+  .keys({
+    id: Joi.string().optional(),
+    url: Joi.string().optional(),
+  })
+  .or("id", "url");
+
+type StoryCountQuery =
+  | {
+      id: string;
+    }
+  | {
+      url: string;
+    };
+
+export const countHandler = ({
+  mongo,
+}: CountOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    // Ensure we have something to query with.
+    const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
+
+    // Try to query the story.
+    const story = await find(mongo, req.coral.tenant, query);
+    if (!story) {
+      return res.json({ count: null });
+    }
+
+    const count = calculateTotalPublishedCommentCount(
+      story.commentCounts.status
+    );
+
+    return res.json({ count });
   } catch (err) {
     return next(err);
   }

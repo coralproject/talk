@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { coerceStoryMode } from "coral-framework/helpers";
+import { useEffectAtUnmount } from "coral-framework/hooks";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -14,6 +15,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
 import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 
+import { useStaticFlattenReplies } from "../../helpers";
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
 import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
@@ -22,7 +24,11 @@ interface Props {
   tag?: GQLTAG;
 }
 
-export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
+export const render = (
+  data: QueryRenderData<QueryTypes>,
+  flattenReplies: boolean,
+  tag?: GQLTAG
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -42,6 +48,7 @@ export const render = (data: QueryRenderData<QueryTypes>, tag?: GQLTAG) => {
           viewer={data.props.viewer}
           story={data.props.story}
           tag={tag}
+          flattenReplies={flattenReplies}
         />
       </SpinnerWhileRendering>
     );
@@ -57,16 +64,25 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
   preload = false,
   tag,
 }) => {
-  const [{ storyID, storyURL, storyMode, commentsOrderBy }] = useLocal<
-    Local
-  >(graphql`
+  const [
+    { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
+    setLocal,
+  ] = useLocal<Local>(graphql`
     fragment AllCommentsTabQueryLocal on Local {
       storyID
       storyURL
       storyMode
+      ratingFilter
       commentsOrderBy
     }
   `);
+  const flattenReplies = useStaticFlattenReplies();
+
+  // When we swtich off of the AllCommentsTab, reset the rating filter.
+  useEffectAtUnmount(() => {
+    setLocal({ ratingFilter: null });
+  });
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -76,13 +92,19 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
           $commentsOrderBy: COMMENT_SORT
           $tag: TAG
           $storyMode: STORY_MODE
+          $flattenReplies: Boolean!
+          $ratingFilter: Int
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
           }
           story: stream(id: $storyID, url: $storyURL, mode: $storyMode) {
             ...AllCommentsTabContainer_story
-              @arguments(orderBy: $commentsOrderBy, tag: $tag)
+              @arguments(
+                orderBy: $commentsOrderBy
+                tag: $tag
+                ratingFilter: $ratingFilter
+              )
           }
           settings {
             ...AllCommentsTabContainer_settings
@@ -94,9 +116,11 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         storyURL,
         commentsOrderBy,
         tag,
+        ratingFilter,
         storyMode: coerceStoryMode(storyMode),
+        flattenReplies,
       }}
-      render={(data) => (preload ? null : render(data, tag))}
+      render={(data) => (preload ? null : render(data, flattenReplies, tag))}
     />
   );
 };

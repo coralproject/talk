@@ -75,7 +75,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
     const redirect = () =>
       router.push(
         getModerationLink({
-          queue: queueName as QUEUE_NAME,
+          queue: queueName === "default" ? undefined : queueName,
           // We'll grab the first site in the moderation scopes (a user can only
           // be scoped if there is at least one site).
           siteID: sites[0].id,
@@ -166,6 +166,7 @@ const enhanced = withRouteConfig<Props>({
       settings {
         ...ModerateSearchBarContainer_settings
         ...SiteSelectorContainer_settings
+        ...ModerateNavigationContainer_settings
 
         featureFlags
       }

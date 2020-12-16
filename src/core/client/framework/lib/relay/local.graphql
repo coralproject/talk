@@ -1,0 +1,12 @@
+# This local.graphql extension is used by all bundles.
+# These values are all initialized by calling `initLocalBaseState()`
+
+type Local {
+  accessToken: String
+  accessTokenExp: Int
+  accessTokenJTI: String
+}
+
+extend type Query {
+  local: Local!
+}

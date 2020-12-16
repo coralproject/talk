@@ -162,7 +162,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
 
   const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
-  const isRR = props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+  const isRatingsAndReviews =
+    props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   // The alternate view is only enabled when we have the feature flag, the sort
   // as oldest first, the story is not closed, and comments are not disabled.
@@ -200,12 +201,19 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       return onChangeTab("FEATURED_COMMENTS", false);
     }
 
-    if (isRR) {
+    if (isRatingsAndReviews) {
       return onChangeTab("REVIEWS", false);
     }
 
     onChangeTab("ALL_COMMENTS", false);
-  }, [local, setLocal, props, featuredCommentsCount, onChangeTab, isRR]);
+  }, [
+    local,
+    setLocal,
+    props,
+    featuredCommentsCount,
+    onChangeTab,
+    isRatingsAndReviews,
+  ]);
 
   return (
     <>
@@ -236,7 +244,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
         <CommunityGuidelinesContainer settings={props.settings} />
-        {isRR && <StoryRatingContainer story={props.story} />}
+        {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
             <AddACommentButton isQA={isQA} />
@@ -344,7 +352,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   </Flex>
                 </Tab>
               )}
-              {!isRR && (
+              {!isRatingsAndReviews && (
                 <Tab
                   tabID="ALL_COMMENTS"
                   className={cn(
@@ -387,7 +395,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   </Flex>
                 </Tab>
               )}
-              {isRR && (
+              {isRatingsAndReviews && (
                 <Tab
                   tabID="REVIEWS"
                   className={cn({
@@ -398,7 +406,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   variant="streamSecondary"
                 >
                   <Flex alignItems="center" spacing={1}>
-                    <Localized id="rr-reviewsTab">
+                    <Localized id="ratingsAndReviews-reviewsTab">
                       <span>Reviews</span>
                     </Localized>
                     <Counter
@@ -418,7 +426,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   </Flex>
                 </Tab>
               )}
-              {isRR && (
+              {isRatingsAndReviews && (
                 <Tab
                   tabID="QUESTIONS"
                   className={cn({
@@ -429,7 +437,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   variant="streamSecondary"
                 >
                   <Flex alignItems="center" spacing={1}>
-                    <Localized id="rr-questionsTab">
+                    <Localized id="ratingsAndReviews-questionsTab">
                       <span>Questions</span>
                     </Localized>
                     <Counter
@@ -469,7 +477,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             {(matches) => {
               return matches ? (
                 <SortMenu
-                  className={styles.sortMenu}
                   orderBy={local.commentsOrderBy}
                   onChange={onChangeOrder}
                   reactionSortLabel={props.settings.reaction.sortLabel}
@@ -494,7 +501,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 <UnansweredCommentsTab />
               </TabPane>
             )}
-            {!isRR && (
+            {!isRatingsAndReviews && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="ALL_COMMENTS"
@@ -502,7 +509,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 <AllCommentsTab />
               </TabPane>
             )}
-            {isRR && (
+            {isRatingsAndReviews && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="REVIEWS"
@@ -510,7 +517,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 <AllCommentsTab tag={GQLTAG.REVIEW} />
               </TabPane>
             )}
-            {isRR && (
+            {isRatingsAndReviews && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="QUESTIONS"

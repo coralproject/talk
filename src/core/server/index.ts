@@ -1,3 +1,4 @@
+import * as profiler from "@google-cloud/profiler";
 import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
@@ -14,7 +15,7 @@ import createMetricsServer, {
 } from "coral-server/app";
 import config, { Config } from "coral-server/config";
 import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
-import getTenantSchema from "coral-server/graph/schema";
+import getSchema from "coral-server/graph/schema";
 import { createPubSubClient } from "coral-server/graph/subscriptions/pubsub";
 import { createSubscriptionServer } from "coral-server/graph/subscriptions/server";
 import logger from "coral-server/logger";
@@ -164,10 +165,14 @@ class Server {
       this.reporter = new SentryErrorReporter(
         this.config.get("sentry_backend_key")
       );
+    } else if (this.config.get("env") === "development") {
+      this.reporter = new SentryErrorReporter("http://debug@debug/1", {
+        offlineDebug: true,
+      });
     }
 
     // Load the graph schemas.
-    this.schema = getTenantSchema();
+    this.schema = getSchema();
 
     // Get the default locale. This is asserted here because the LanguageCode
     // is verified via Convict, but not typed, so this resolves that.
@@ -193,6 +198,15 @@ class Server {
       throw new Error("server has already connected");
     }
     this.connected = true;
+
+    // Start the cloud profiler if enabled.
+    if (this.config.get("google_cloud_profiler")) {
+      await profiler.start({
+        serviceContext: this.config.get(
+          "google_cloud_profiler_service_context"
+        ),
+      });
+    }
 
     // Load the translations.
     await this.i18n.load();

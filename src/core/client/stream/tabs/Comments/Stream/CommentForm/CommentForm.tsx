@@ -54,6 +54,8 @@ interface MediaProps {
 interface MediaConfig {
   giphy: {
     enabled: boolean;
+    key: string | null;
+    maxRating: string | null;
   };
   twitter: {
     enabled: boolean;
@@ -294,6 +296,16 @@ const CommentForm: FunctionComponent<Props> = ({
                             input.onChange(html);
                             onBodyChange(html, values as FormProps, form);
                           }}
+                          onKeyPress={async (
+                            event: React.KeyboardEvent<Element>
+                          ) => {
+                            if (
+                              event.ctrlKey &&
+                              (event.key === "Enter" || event.keyCode === 13)
+                            ) {
+                              await onFormSubmit(values as any, form);
+                            }
+                          }}
                           value={input.value}
                           placeholder={placeholder}
                           disabled={submitting || disabled}
@@ -352,6 +364,7 @@ const CommentForm: FunctionComponent<Props> = ({
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
                     siteID={siteID}
+                    giphyConfig={mediaConfig.giphy}
                   />
                 </div>
               </div>
@@ -419,7 +432,8 @@ const CommentForm: FunctionComponent<Props> = ({
                   )}
                 </Field>
               )}
-              {submitError && (
+              {/* Only show the submit error when the stream hasn't been disabled */}
+              {!disabled && submitError && (
                 <CallOut
                   color="error"
                   title={submitError}

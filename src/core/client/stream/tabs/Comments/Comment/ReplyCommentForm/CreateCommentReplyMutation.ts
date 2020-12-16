@@ -1,4 +1,4 @@
-import { pick } from "lodash";
+import { pick, remove } from "lodash";
 import { graphql } from "react-relay";
 import {
   ConnectionHandler,
@@ -9,32 +9,48 @@ import {
 
 import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  LOCAL_ID,
   lookup,
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLComment,
+  GQLStory,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import {
+  determineDepthTillAncestor,
+  getFlattenedReplyAncestorID,
   incrementStoryCommentCounts,
   isPublished,
+  lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
-export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
+export type CreateCommentReplyInput = Omit<
+  MutationInput<MutationTypes>,
+  "flattenReplies"
+> & {
   local?: boolean;
 };
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: CreateCommentReplyInput
+  input: CreateCommentReplyInput,
+  uuidGenerator: CoralContext["uuidGenerator"]
 ) {
   const commentEdge = store
     .getRootField("createCommentReply")!
@@ -49,10 +65,81 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
+  tagExpertAnswers(environment, store, input, commentEdge, uuidGenerator);
   if (input.local) {
     addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
-    addCommentReplyToStory(store, input, commentEdge);
+    addCommentReplyToStory(environment, store, input, commentEdge);
+  }
+}
+
+function tagExpertAnswers(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentReplyInput,
+  commentEdge: RecordProxy,
+  uuidGenerator: CoralContext["uuidGenerator"]
+) {
+  const node = commentEdge.getLinkedRecord("node");
+  if (!node) {
+    return;
+  }
+  const story = store.get(input.storyID);
+  if (!story) {
+    return;
+  }
+  const storySettings = story.getLinkedRecord("settings");
+  const mode = storySettings?.getValue("mode");
+  if (mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+  const viewer = getViewer(environment)!;
+  const experts = storySettings?.getLinkedRecords("experts");
+
+  // if the author is an expert
+  if (experts && experts.some((exp) => exp.getValue("id") === viewer.id)) {
+    const tags = node.getLinkedRecords("tags");
+    if (tags) {
+      const featuredTag = store.create(uuidGenerator(), "Tag");
+      featuredTag.setValue(GQLTAG.FEATURED, "code");
+      commentEdge.setLinkedRecords(tags.concat(featuredTag), "tags");
+    }
+
+    const parentProxy = store.get(input.parentID);
+    const parentTags = parentProxy?.getLinkedRecords("tags");
+    const wasUnanswered =
+      parentTags &&
+      parentTags.find((t) => t.getValue("code") === GQLTAG.UNANSWERED);
+
+    if (wasUnanswered) {
+      // remove unanswered tag from parent
+      if (parentProxy && parentTags && wasUnanswered) {
+        parentProxy.setLinkedRecords(
+          remove(parentTags, (tag) => {
+            return tag.getValue("code") === GQLTAG.UNANSWERED;
+          }),
+          "tags"
+        );
+      }
+
+      const commentCountsRecord = story.getLinkedRecord("commentCounts");
+      if (!commentCountsRecord) {
+        return;
+      }
+      const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+
+      // increment answered questions and decrement unanswered questions
+      if (tagsRecord) {
+        tagsRecord.setValue(
+          (tagsRecord.getValue("UNANSWERED") as number) - 1,
+          "UNANSWERED"
+        );
+        tagsRecord.setValue(
+          (tagsRecord.getValue("FEATURED") as number) + 1,
+          "FEATURED"
+        );
+      }
+    }
   }
 }
 
@@ -60,12 +147,41 @@ function sharedUpdater(
  * update integrates new comment into the CommentConnection.
  */
 function addCommentReplyToStory(
+  environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentReplyInput,
   commentEdge: RecordProxy
 ) {
+  const flattenReplies = lookupFlattenReplies(environment);
+  const singleCommentID = lookup(environment, LOCAL_ID).commentID;
+  const comment = commentEdge.getLinkedRecord("node")!;
+  const depth = determineDepthTillAncestor(comment, singleCommentID);
+
+  if (depth === null) {
+    // could not trace back to ancestor, that should not happen.
+    globalErrorReporter.report(
+      new Error("Couldn't find reply parent in Relay store")
+    );
+    return;
+  }
+
+  const outsideOfView = depth >= MAX_REPLY_INDENT_DEPTH;
+  let parentProxy = store.get(input.parentID)!;
+
+  if (outsideOfView) {
+    if (!flattenReplies) {
+      // This should never happen!
+      globalErrorReporter.report(
+        new Error("Reply should have been a local reply")
+      );
+      return;
+    }
+    // In flatten replies we change the parent to the last level ancestor.
+    const ancestorID = getFlattenedReplyAncestorID(comment, depth)! as string;
+    parentProxy = store.get(ancestorID)!;
+  }
+
   // Get parent proxy.
-  const parentProxy = store.get(input.parentID);
   const connectionKey = "ReplyList_replies";
   const filters = { orderBy: "CREATED_AT_ASC" };
 
@@ -128,7 +244,10 @@ graphql`
 `;
 /** end */
 const mutation = graphql`
-  mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
+  mutation CreateCommentReplyMutation(
+    $input: CreateCommentReplyInput!
+    $flattenReplies: Boolean!
+  ) {
     createCommentReply(input: $input) {
       edge {
         cursor
@@ -200,6 +319,7 @@ async function commit(
             clientMutationId: clientMutationId.toString(),
             media: input.media,
           },
+          flattenReplies: lookupFlattenReplies(environment),
         },
         optimisticResponse: {
           createCommentReply: {
@@ -231,7 +351,7 @@ async function commit(
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: [],
+                  tags: parentComment.tags.map((tag) => ({ code: tag.code })),
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),
@@ -278,11 +398,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(environment, store, input);
+          sharedUpdater(environment, store, input, uuidGenerator);
         },
       }
     );

@@ -1,4 +1,6 @@
-import { InMemoryStorage, prefixStorage } from "../utils";
+import { createInMemoryStorage } from "coral-framework/lib/storage";
+
+import { prefixStorage } from "../utils";
 import { Decorator } from "./types";
 
 const withPymStorage = (
@@ -8,7 +10,7 @@ const withPymStorage = (
 ): Decorator => (pym) => {
   const prefixedStorage = storage
     ? prefixStorage(storage, prefix)
-    : new InMemoryStorage();
+    : createInMemoryStorage();
 
   pym.onMessage(`pymStorage.${type}.request`, (msg: any) => {
     const { id, method, parameters } = JSON.parse(msg);

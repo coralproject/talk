@@ -168,8 +168,8 @@ describe("all stories", () => {
       // Go to story.
       storyOption!.props.onClick({ button: 0, preventDefault: noop });
 
-      // Expect a routing request was made to the right url.
-      expect(transitionControl.history[0].pathname).toBe(
+      // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
+      expect(transitionControl.history[1].pathname).toBe(
         `/admin/moderate/stories/${story.id}`
       );
     });
@@ -213,9 +213,9 @@ describe("all stories", () => {
       // Go to story.
       seeAllOption!.props.onClick({ button: 0, preventDefault: noop });
 
-      // Expect a routing request was made to the right url.
-      expect(transitionControl.history[0].pathname).toBe("/admin/stories");
-      expect(transitionControl.history[0].search).toBe(`?q=${query}`);
+      // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
+      expect(transitionControl.history[1].pathname).toBe("/admin/stories");
+      expect(transitionControl.history[1].search).toBe(`?q=${query}`);
     });
   });
 });
@@ -268,8 +268,8 @@ describe("specified story", () => {
     // Activate moderate all.
     moderateAllOptions.props.onClick({ button: 0, preventDefault: noop });
 
-    // Expect a routing request was made to the right url.
-    expect(transitionControl.history[0].pathname).toBe(
+    // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
+    expect(transitionControl.history[1].pathname).toBe(
       "/admin/moderate/sites/site-1"
     );
   });

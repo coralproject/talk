@@ -16,6 +16,7 @@ import {
   retrieveManyStories,
   retrieveStoryConnection,
   Story,
+  STORY_SORT,
   StoryConnectionInput,
 } from "coral-server/models/story";
 import { countStoryViewers } from "coral-server/models/story/viewers";
@@ -216,6 +217,7 @@ export default (ctx: GraphContext) => ({
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
+      orderBy: query ? STORY_SORT.TEXT_SCORE : STORY_SORT.CREATED_AT_DESC,
       filter: {
         // Merge the site filter into the connection filter.
         ...siteFilter(siteID),

@@ -7,11 +7,19 @@ import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
 
+import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n";
-import { onPymMessage } from "coral-framework/helpers";
+import {
+  injectConditionalPolyfills,
+  onPymMessage,
+  potentiallyInjectAxe,
+} from "coral-framework/helpers";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
-import { ErrorReporter } from "coral-framework/lib/errors";
+import {
+  createReporter,
+  setGlobalErrorReporter,
+} from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
@@ -30,6 +38,7 @@ import {
   retrieveAccessToken,
   storeAccessTokenInLocalStorage,
 } from "../auth";
+import getStaticConfig from "../getStaticConfig";
 import { generateBundles, LocalesData } from "../i18n";
 import {
   createManagedSubscriptionClient,
@@ -42,11 +51,12 @@ import { LOCAL_ID } from "../relay";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
 
-export type InitLocalState = (
-  environment: Environment,
-  context: CoralContext,
-  auth?: AuthState | null
-) => void | Promise<void>;
+export type InitLocalState = (dependencies: {
+  environment: Environment;
+  context: CoralContext;
+  auth?: AuthState | null;
+  staticConfig?: StaticConfig | null;
+}) => void | Promise<void>;
 
 interface CreateContextArguments {
   /** Locales data that is returned by our `locales-loader`. */
@@ -65,9 +75,9 @@ interface CreateContextArguments {
   eventEmitter?: EventEmitter2;
 
   /**
-   * reporter is the designated ErrorReporter for this application.
+   * If true will prompt for additional details during error..
    */
-  reporter?: ErrorReporter;
+  reporterFeedbackPrompt?: boolean;
 
   /** bundle is the specific source of the connection */
   bundle: string;
@@ -168,7 +178,8 @@ function createManagedCoralContextProvider(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   initLocalState: InitLocalState,
-  localesData: LocalesData
+  localesData: LocalesData,
+  ErrorBoundary?: React.ComponentType
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
@@ -223,7 +234,12 @@ function createManagedCoralContextProvider(
       };
 
       // Initialize local state.
-      await initLocalState(newContext.relayEnvironment, newContext, auth);
+      await initLocalState({
+        environment: newContext.relayEnvironment,
+        context: newContext,
+        auth,
+        staticConfig: getStaticConfig(),
+      });
 
       // Update the subscription client access token.
       subscriptionClient.setAccessToken(accessTokenProvider());
@@ -258,14 +274,10 @@ function createManagedCoralContextProvider(
       // If the boundary is available from the reporter (also, if it's
       // available) then use it to wrap the lower children for any error that
       // happens.
-
-      // NOTE: (wyattjoh) there should be another way to do this better...
-      const Boundary = this.state.context.reporter?.ErrorBoundary;
-
       return (
         <CoralContextProvider value={this.state.context}>
-          {Boundary ? (
-            <Boundary>{this.props.children}</Boundary>
+          {ErrorBoundary ? (
+            <ErrorBoundary>{this.props.children}</ErrorBoundary>
           ) : (
             this.props.children
           )}
@@ -311,12 +323,24 @@ export default async function createManaged({
   initLocalState = noop,
   localesData,
   pym,
-  reporter,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
   bundle,
   bundleConfig = {},
   tokenRefreshProvider,
+  reporterFeedbackPrompt = false,
 }: CreateContextArguments): Promise<ComponentType> {
+  // Load any polyfills that are required.
+  await injectConditionalPolyfills();
+
+  // Potentially inject react-axe for runtime a11y checks.
+  await potentiallyInjectAxe(pym?.parentUrl);
+
+  const reporter = createReporter({ reporterFeedbackPrompt });
+  // Set error reporter.
+  if (reporter) {
+    setGlobalErrorReporter(reporter);
+  }
+
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
@@ -379,7 +403,6 @@ export default async function createManaged({
     timeagoFormatter,
     pym,
     eventEmitter,
-    reporter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage: new PostMessageService(),
@@ -397,7 +420,12 @@ export default async function createManaged({
   };
 
   // Initialize local state.
-  await initLocalState(context.relayEnvironment, context, auth);
+  await initLocalState({
+    environment: context.relayEnvironment,
+    context,
+    auth,
+    staticConfig: getStaticConfig(),
+  });
 
   // Set new token for the websocket connection.
   // TODO: (cvle) dynamically reset when token changes.
@@ -411,6 +439,7 @@ export default async function createManaged({
     subscriptionClient,
     clientID,
     initLocalState,
-    localesData
+    localesData,
+    reporter?.ErrorBoundary
   );
 }

@@ -27,7 +27,10 @@ const WordListConfigContainer: React.FunctionComponent<Props> = ({
   return (
     <HorizontalGutter size="double" data-testid="configure-wordListContainer">
       <BannedWordListConfig disabled={submitting} />
-      <SuspectWordListConfig disabled={submitting} />
+      <SuspectWordListConfig
+        disabled={submitting}
+        premoderateSuspectWords={settings.premoderateSuspectWords}
+      />
     </HorizontalGutter>
   );
 };

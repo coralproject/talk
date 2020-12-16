@@ -2,93 +2,14 @@ $commentsHistoryCommentOnLabelColor: var(--palette-text-100);
 $commentsHistoryStoryTitleColor: var(--palette-text-500);
 $commentsHistoryDividerColor: var(--palette-grey-200);
 
-$commentsHistoryReactionsColor: var(--palette-text-900);
-
-$commentsHistoryViewConversationColor: var(--palette-primary-500);
-$commentsHistoryViewConversationHoverColor: var(--palette-primary-300);
-$commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
-
 .root:not(:first-child) {
   border-top: 1px solid var(--palette-divider);
-  padding-top: var(--spacing-3)
-}
-
-.icon {
-  color: $commentsHistoryReactionsColor;
-  margin-right: calc(0.5 * var(--mini-unit));
-}
-
-.replies {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
-  font-size: var(--font-size-2);
-  line-height: 1;
-  color: $commentsHistoryReactionsColor;
-
-  display: inline-flex;
-  align-items: center;
-}
-
-.reactions {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
-  font-size: var(--font-size-2);
-  line-height: 1;
-  color: $commentsHistoryReactionsColor;
-
-  display: inline-flex;
-  align-items: center;
-}
-
-.viewConversation {}
-
-.viewConversationIcon {
-  padding-right: var(--spacing-1);
-}
-
-.sizeRegular {
-  font-size: var(--font-size-2);
-  line-height: 1;
-
-  &:not(.variantText) {
-    padding: 0px 0px;
-    &.iconLeft,
-    &.iconRight {
-      padding-left: var(--spacing-1);
-      padding-right: var(--spacing-1);
-    }
-  }
-}
-
-.variantTextUnderlined {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
-
-  text-decoration: underline;
-
-  &.colorRegular {
-    color: $commentsHistoryViewConversationColor;
-  }
-
-  &:not(.disabled) {
-    &.colorRegular {
-      &.mouseHover {
-        color: $commentsHistoryViewConversationHoverColor;
-        & > span {
-          text-decoration: underline;
-        }
-      }
-      &.active,
-      &:active {
-        color: $commentsHistoryViewConversationActiveColor;
-      }
-    }
-  }
+  padding-top: var(--spacing-3);
 }
 
 .container {
   border-bottom: 1px solid $commentsHistoryDividerColor;
-  padding-bottom: var(--spacing-3)
+  padding-bottom: var(--spacing-3);
 }
 
 .commentOn {
@@ -118,9 +39,5 @@ $commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
   line-height: 1.5;
-  color: #353F44;
-}
-
-.footer {
-  padding-top: var(--spacing-1);
+  color: #353f44;
 }

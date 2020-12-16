@@ -1,21 +1,16 @@
-import { Environment } from "relay-runtime";
-
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
-import {
-  AuthState,
-  storeAccessTokenInLocalStorage,
-} from "coral-framework/lib/auth";
-import { CoralContext } from "coral-framework/lib/bootstrap";
+import { storeAccessTokenInLocalStorage } from "coral-framework/lib/auth";
+import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { initLocalBaseState } from "coral-framework/lib/relay";
 
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(
-  environment: Environment,
-  context: CoralContext,
-  auth: AuthState | null = null
-) {
+const initLocalState: InitLocalState = async ({
+  context,
+  auth = null,
+  ...rest
+}) => {
   // Get all the parameters from the hash.
   const params = getParamsFromHash();
   if (params && params.accessToken) {
@@ -29,5 +24,10 @@ export default async function initLocalState(
     );
   }
 
-  initLocalBaseState(environment, context, auth);
-}
+  await initLocalBaseState({
+    context,
+    auth,
+    ...rest,
+  });
+};
+export default initLocalState;

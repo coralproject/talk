@@ -25,7 +25,7 @@ export interface ReplyListProps {
   comments: ReadonlyArray<
     {
       id: string;
-      replyListElement?: React.ReactElement<any>;
+      replyListElement?: React.ReactElement<any> | null;
       showConversationLink?: boolean;
       enteredLive?: boolean | null;
     } & PropTypesOf<typeof CommentContainer>["comment"] &
@@ -40,8 +40,8 @@ export interface ReplyListProps {
   disableReplies?: boolean;
   viewNewCount?: number;
   onViewNew?: () => void;
-  onRemoveAnswered?: () => void;
-  singleConversationView?: boolean;
+  allowTombstoneReveal?: boolean;
+  showRemoveAnswered?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
@@ -60,7 +60,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           <IgnoredTombstoneOrHideContainer
             viewer={props.viewer}
             comment={comment}
-            singleConversationView={props.singleConversationView}
+            allowTombstoneReveal={props.allowTombstoneReveal}
           >
             <HorizontalGutter key={comment.id}>
               <CollapsableComment>
@@ -77,8 +77,8 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
                       localReply={props.localReply}
                       disableReplies={props.disableReplies}
                       showConversationLink={!!comment.showConversationLink}
-                      onRemoveAnswered={props.onRemoveAnswered}
                       toggleCollapsed={toggleCollapsed}
+                      showRemoveAnswered={props.showRemoveAnswered}
                     />
                     <div
                       className={cn({

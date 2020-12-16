@@ -36,7 +36,7 @@ interface ActiveHandlerResponse {
   }>;
 }
 
-export const activeHandler = ({
+export const activeJSONPHandler = ({
   mongo,
 }: Options): RequestHandler<TenantCoralRequest> => async (req, res, next) => {
   try {

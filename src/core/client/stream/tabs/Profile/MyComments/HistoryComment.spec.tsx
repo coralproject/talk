@@ -1,4 +1,3 @@
-import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -14,13 +13,7 @@ it("renders correctly", () => {
     id: "comment-id",
     body: "Hello World",
     createdAt: "2018-07-06T18:24:00.000Z",
-    replyCount: 4,
     rating: null,
-    reactionCount: 0,
-    reactionSettings: {
-      label: "reaction",
-      icon: "icon",
-    },
     media: null,
     story: {
       metadata: {
@@ -30,8 +23,7 @@ it("renders correctly", () => {
         mode: "COMMENTS",
       },
     },
-    conversationURL: "http://localhost/conversation",
-    onGotoConversation: noop,
+    footer: null,
   };
   const renderer = createRenderer();
   renderer.render(<HistoryCommentN {...props} />);

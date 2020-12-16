@@ -39,3 +39,7 @@
   padding-left: var(--spacing-2);
   color: #DC8400;
 }
+
+.notAvailable {
+  color: var(--palette-text-100);
+}

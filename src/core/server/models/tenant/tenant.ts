@@ -261,6 +261,7 @@ export async function createTenant(
       premodEnabled: false,
       approvedCommentsThreshold: 2,
     },
+    premoderateSuspectWords: false,
     createdAt: now,
     slack: {
       channels: [],
