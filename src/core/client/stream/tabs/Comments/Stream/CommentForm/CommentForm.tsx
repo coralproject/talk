@@ -422,7 +422,8 @@ const CommentForm: FunctionComponent<Props> = ({
                   )}
                 </Field>
               )}
-              {submitError && (
+              {/* Only show the submit error when the stream hasn't been disabled */}
+              {!disabled && submitError && (
                 <CallOut
                   color="error"
                   title={submitError}
