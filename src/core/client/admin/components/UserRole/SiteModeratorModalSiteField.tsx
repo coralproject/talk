@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback } from "react";
-import { useField, FieldArray } from "formik";
+import { FieldArray, useField } from "formik";
+import React, { FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import {
@@ -31,19 +31,7 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
   disableLoadMore,
   loading,
 }) => {
-  // const onChange = useCallback(
-  //   (siteID: string, selectedIndex: number) => () => {
-  //     const changed = [...input.value];
-  //     if (selectedIndex >= 0) {
-  //       changed.splice(selectedIndex, 1);
-  //     } else {
-  //       changed.push(siteID);
-  //     }
-
-  //     input.onChange(changed);
-  //   },
-  //   [input]
-  // );
+  const [field] = useField("siteIDs");
 
   return (
     <FieldSet>
@@ -51,17 +39,25 @@ const SiteModeratorModalSiteField: FunctionComponent<Props> = ({
         <Localized id="community-siteModeratorModal-selectSites">
           <Label>Select sites to moderate</Label>
         </Localized>
+        <pre>{field.value}</pre>
         <ListGroup className={styles.listGroup}>
-          <FieldArray name="emails">
-            {({ push }) => (
+          <FieldArray name="siteIDs">
+            {({ push, remove }) => (
               <>
                 {sites.map((site, index) => {
-                  // const selectedIndex = input.value.indexOf(site.id);
                   return (
                     <ListGroupRow key={site.id}>
                       <CheckBox
-                      // checked={selectedIndex >= 0}
-                      // onChange={onChange(site.id, selectedIndex)}
+                        checked={
+                          field.value && field.value.indexOf(site.id) >= 0
+                        }
+                        onChange={(event) => {
+                          if (event.target.checked) {
+                            push(site.id);
+                          } else {
+                            remove(field.value.indexOf(site.id));
+                          }
+                        }}
                       >
                         {site.name}
                       </CheckBox>
