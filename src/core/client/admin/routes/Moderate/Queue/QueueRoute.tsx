@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
+import { MOD_QUEUE_SORT_ORDER } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -40,8 +41,6 @@ interface Props {
   section?: SectionFilter | null;
   orderBy?: GQLCOMMENT_SORT;
 }
-
-const SORT_MODE = GQLCOMMENT_SORT.CREATED_AT_ASC;
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
@@ -139,9 +138,13 @@ const createQueueRoute = (
   queueName: GQLMODERATION_QUEUE,
   queueQuery: GraphQLTaggedNode,
   paginationQuery: GraphQLTaggedNode,
-  emptyElement: React.ReactElement,
-  orderBy: GQLCOMMENT_SORT
+  emptyElement: React.ReactElement
 ) => {
+  const orderBy =
+    (localStorage.getItem(
+      `coral:${MOD_QUEUE_SORT_ORDER}`
+    ) as GQLCOMMENT_SORT) || GQLCOMMENT_SORT.CREATED_AT_DESC;
+
   const enhanced = withRouteConfig<Props, any>({
     prepareVariables: (params, match) => {
       return {
@@ -313,8 +316,7 @@ export const PendingQueueRoute = createQueueRoute(
     <EmptyMessage>
       Nicely done! There are no more pending comments to moderate.
     </EmptyMessage>
-  </Localized>,
-  SORT_MODE
+  </Localized>
 );
 
 export const ReportedQueueRoute = createQueueRoute(
@@ -363,8 +365,7 @@ export const ReportedQueueRoute = createQueueRoute(
     <EmptyMessage>
       Nicely done! There are no more reported comments to moderate.
     </EmptyMessage>
-  </Localized>,
-  SORT_MODE
+  </Localized>
 );
 
 export const UnmoderatedQueueRoute = createQueueRoute(
@@ -411,6 +412,5 @@ export const UnmoderatedQueueRoute = createQueueRoute(
   // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="moderate-emptyQueue-unmoderated">
     <EmptyMessage>Nicely done! All comments have been moderated.</EmptyMessage>
-  </Localized>,
-  SORT_MODE
+  </Localized>
 );
