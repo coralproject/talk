@@ -1,13 +1,20 @@
 import { Localized } from "@fluent/react/compat";
+import { Formik } from "formik";
 import React, { FunctionComponent } from "react";
-import { Form } from "react-final-form";
+import * as Yup from "yup";
 
-import EmailField from "coral-auth/components/EmailField";
-import SetPasswordField from "coral-auth/components/SetPasswordField";
-import UsernameField from "coral-auth/components/UsernameField";
-import { FormError, OnSubmit } from "coral-framework/lib/form";
+import {
+  PASSWORD_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+  USERNAME_REGEX,
+} from "coral-common/helpers/validate";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
+
+import EmailField from "./EmailField";
+import SetPasswordField from "./SetPasswordField";
+import UsernameField from "./UsernameField";
 
 import styles from "./SignUpWithEmail.css";
 
@@ -18,26 +25,44 @@ interface FormProps {
   confirmPassword: string;
 }
 
-interface FormSubmitProps extends FormProps, FormError {}
-
 interface Props {
-  onSubmit: OnSubmit<FormSubmitProps>;
+  onSubmit: (input: any) => void;
 }
+
+const SignupValidationSchema = Yup.object().shape({
+  email: Yup.string().email().required(),
+  username: Yup.string()
+    .matches(USERNAME_REGEX)
+    .min(USERNAME_MIN_LENGTH)
+    .max(USERNAME_MAX_LENGTH)
+    .required(),
+  password: Yup.string().min(PASSWORD_MIN_LENGTH).required(),
+});
 
 const SignUp: FunctionComponent<Props> = (props) => {
   return (
-    <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitting, submitError }) => (
+    <Formik
+      onSubmit={props.onSubmit}
+      initialValues={{
+        email: "",
+        username: "",
+        password: "",
+      }}
+      validationSchema={SignupValidationSchema}
+    >
+      {({ handleSubmit, isSubmitting, status }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          {submitError && <CallOut color="error" title={submitError} />}
+          {status && status.error && (
+            <CallOut color="error" title={status.error} />
+          )}
           <div className={styles.field}>
-            <EmailField disabled={submitting} />
+            <EmailField disabled={isSubmitting} />
           </div>
           <div className={styles.field}>
-            <UsernameField disabled={submitting} />
+            <UsernameField disabled={isSubmitting} />
           </div>
           <div className={styles.field}>
-            <SetPasswordField disabled={submitting} />
+            <SetPasswordField disabled={isSubmitting} />
           </div>
           <div className={styles.actions}>
             <Button
@@ -46,7 +71,7 @@ const SignUp: FunctionComponent<Props> = (props) => {
               fontSize="small"
               paddingSize="small"
               type="submit"
-              disabled={submitting}
+              disabled={isSubmitting}
               fullWidth
               upperCase
             >
@@ -62,7 +87,7 @@ const SignUp: FunctionComponent<Props> = (props) => {
           </div>
         </form>
       )}
-    </Form>
+    </Formik>
   );
 };
 
