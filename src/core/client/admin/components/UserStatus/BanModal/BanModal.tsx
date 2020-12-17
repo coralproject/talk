@@ -1,15 +1,15 @@
 import { Localized } from "@fluent/react/compat";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
-import ModalHeader from "../ModalHeader";
-import ModalHeaderUsername from "../ModalHeaderUsername";
-import ChangeStatusModal from "./ChangeStatusModal";
-import { CheckBox } from "./Fields";
+import ModalHeader from "../../ModalHeader";
+import ModalHeaderUsername from "../../ModalHeaderUsername";
+import ChangeStatusModal from "../ChangeStatusModal";
+import { CheckBox } from "../Fields";
 import BanMessageField from "./BanMessageField";
 
 import styles from "./BanModal.css";
@@ -85,7 +85,7 @@ const BanModal: FunctionComponent<Props> = ({
               emailMessage: getDefaultMessage,
             }}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit }: FormikProps<any>) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
                   <Localized id="community-banModal-reject-existing">
