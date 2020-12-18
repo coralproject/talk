@@ -96,7 +96,7 @@
     "cron": "^1.8.2",
     "csv-stringify": "^5.3.6",
     "dataloader": "1.4.0",
-    "dompurify": "^2.0.8",
+    "dompurify": "^2.0.17",
     "dotenv": "^8.2.0",
     "emailjs": "^3.2.0",
     "env-rewrite": "^1.0.2",
