@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import { FORM_ERROR } from "final-form";
+import { Formik } from "formik";
+// import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
-import { Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
@@ -41,15 +41,21 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   query,
 }) => {
   const onSubmit = useCallback(
-    async (values: { siteIDs: string[] }) => {
+    async (values: { siteIDs: string[] }, actions) => {
       try {
         await onFinish(values.siteIDs);
         return;
       } catch (err) {
         if (err instanceof InvalidRequestError) {
-          return err.invalidArgs;
+          actions.setStatus({
+            error: err.invalidArgs["FINAL_FORM/form-error"],
+          });
+          return;
         }
-        return { [FORM_ERROR]: err.message };
+        actions.setStatus({
+          error: err.message,
+        });
+        return;
       }
     },
     [onFinish]
@@ -62,11 +68,11 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
           <Flex justifyContent="flex-end">
             <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
           </Flex>
-          <Form
+          <Formik
             onSubmit={onSubmit}
             initialValues={{ siteIDs: selectedSiteIDs }}
           >
-            {({ handleSubmit, submitError, submitting }) => (
+            {({ handleSubmit, status, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
                   <Localized
@@ -79,9 +85,9 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                       <ModalHeaderUsername>{username}</ModalHeaderUsername>
                     </ModalHeader>
                   </Localized>
-                  {submitError && (
+                  {status && status.error && (
                     <CallOut color="error" fullWidth>
-                      {submitError}
+                      {status.error}
                     </CallOut>
                   )}
                   <Localized id="community-siteModeratorModal-assignSitesDescription">
@@ -100,7 +106,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                     <Localized id="community-siteModeratorModal-assign">
                       <Button
                         type="submit"
-                        disabled={submitting}
+                        disabled={isSubmitting}
                         ref={lastFocusableRef}
                       >
                         Assign
@@ -110,7 +116,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                 </HorizontalGutter>
               </form>
             )}
-          </Form>
+          </Formik>
         </Card>
       )}
     </Modal>

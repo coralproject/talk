@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { Field } from "react-final-form";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
-import { FieldSet, Label, RadioButton } from "coral-ui/components/v2";
+import { FieldSet, Label } from "coral-ui/components/v2";
+import RadioButton from "./Fields/RadioButton";
 
 interface Props {
   disabled: boolean;
@@ -15,45 +15,36 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
       <Label>Invite as:</Label>
     </Localized>
     <div>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.STAFF}>
-        {({ input }) => (
-          <Localized id="role-staff">
-            <RadioButton
-              {...input}
-              id={`${input.name}-staff`}
-              disabled={disabled}
-            >
-              Staff
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.MODERATOR}>
-        {({ input }) => (
-          <Localized id="role-moderator">
-            <RadioButton
-              {...input}
-              id={`${input.name}-moderator`}
-              disabled={disabled}
-            >
-              Moderator
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.ADMIN}>
-        {({ input }) => (
-          <Localized id="role-admin">
-            <RadioButton
-              {...input}
-              id={`${input.name}-admin`}
-              disabled={disabled}
-            >
-              Admin
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
+      <Localized id="role-staff">
+        <RadioButton
+          name="role"
+          id={`role-staff`}
+          value={GQLUSER_ROLE.STAFF}
+          disabled={disabled}
+        >
+          Staff
+        </RadioButton>
+      </Localized>
+      <Localized id="role-moderator">
+        <RadioButton
+          name="role"
+          id={`role-moderator`}
+          disabled={disabled}
+          value={GQLUSER_ROLE.MODERATOR}
+        >
+          Moderator
+        </RadioButton>
+      </Localized>
+      <Localized id="role-admin">
+        <RadioButton
+          name="role"
+          id={`role-admin`}
+          disabled={disabled}
+          value={GQLUSER_ROLE.ADMIN}
+        >
+          Admin
+        </RadioButton>
+      </Localized>
     </div>
   </FieldSet>
 );

@@ -1,8 +1,6 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { PropTypesOf } from "coral-framework/types";
-
 import { SignUpMutation, withSignUpMutation } from "./SignUpMutation";
 import SignUp from "./SignUpWithEmail";
 
@@ -11,10 +9,7 @@ interface SignUpContainerProps {
 }
 
 class SignUpContainer extends Component<SignUpContainerProps> {
-  private handleSubmit: PropTypesOf<typeof SignUp>["onSubmit"] = async (
-    input,
-    form
-  ) => {
+  private handleSubmit = async (input: any) => {
     try {
       await this.props.signUp({
         email: input.email,
