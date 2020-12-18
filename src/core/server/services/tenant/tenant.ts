@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import { isUndefined, lowerCase, uniqBy } from "lodash";
+import { isUndefined, toLower, uniqBy } from "lodash";
 import { Db } from "mongodb";
 import { URL } from "url";
 
@@ -38,11 +38,10 @@ function cleanWordlist(list: string[]): string[] {
       // For each phrase, trim any whitespace.
       .map((phrase) => phrase.trim())
       // Only allow truthy phrases (no empty strings)!
-      .filter((phrase) => !!phrase)
-      .sort(),
+      .filter((phrase) => !!phrase),
     // Only allow unique phrases. This ensures we don't discriminate based on
     // case.
-    lowerCase
+    toLower
   );
 }
 

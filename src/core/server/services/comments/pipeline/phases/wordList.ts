@@ -62,7 +62,7 @@ export const wordList: IntermediateModerationPhase = ({
 
   if (tenant.premoderateSuspectWords && suspect) {
     return {
-      status: GQLCOMMENT_STATUS.PREMOD,
+      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           actionType: ACTION_TYPE.FLAG,

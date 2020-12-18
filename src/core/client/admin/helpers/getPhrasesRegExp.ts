@@ -1,4 +1,4 @@
-import { lowerCase, uniqBy } from "lodash";
+import { toLower, uniqBy } from "lodash";
 
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
@@ -21,7 +21,7 @@ export function getPhrasesRegExp({
 
   // Because the banned and suspect word lists may sometimes overlap, we should
   // make this list as short as possible before compiling it into a RegExp.
-  const phrases = uniqBy<string>([...banned, ...suspect], lowerCase);
+  const phrases = uniqBy<string>([...banned, ...suspect], toLower);
 
   // The locale is passed down to us from the Graph, we can cast it to a
   // LanguageCode.
