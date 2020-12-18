@@ -9,7 +9,11 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_STATUS, GQLTAG } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-framework/schema";
 
 import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
 
@@ -23,6 +27,7 @@ const FeatureCommentMutation = createMutation(
       storyID?: string | null;
       siteID?: string | null;
       section?: SectionFilter | null;
+      orderBy?: GQLCOMMENT_SORT | null;
     },
     { uuidGenerator }: CoralContext
   ) =>
@@ -79,6 +84,7 @@ const FeatureCommentMutation = createMutation(
             "PENDING",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -86,6 +92,7 @@ const FeatureCommentMutation = createMutation(
             "REPORTED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -93,6 +100,7 @@ const FeatureCommentMutation = createMutation(
             "UNMODERATED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -100,6 +108,7 @@ const FeatureCommentMutation = createMutation(
             "REJECTED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
         ].filter((c) => c);

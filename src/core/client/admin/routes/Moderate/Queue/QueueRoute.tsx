@@ -9,6 +9,7 @@ import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
   useLoadMore,
+  useLocal,
   useMutation,
   useSubscription,
   withPaginationContainer,
@@ -19,6 +20,7 @@ import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-framework/schema";
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
 import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
 import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
+import { QueueRouteLocal } from "coral-admin/__generated__/QueueRouteLocal.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
@@ -58,6 +60,13 @@ export const QueueRoute: FunctionComponent<Props> = ({
   siteID = null,
   section,
 }) => {
+  const [{ moderationQueueSort }] = useLocal<QueueRouteLocal>(graphql`
+    fragment QueueRouteLocal on Local {
+      moderationQueueSort
+    }
+  `);
+  const orderBy = moderationQueueSort as GQLCOMMENT_SORT;
+
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
@@ -72,8 +81,9 @@ export const QueueRoute: FunctionComponent<Props> = ({
       storyID,
       siteID,
       section,
+      orderBy,
     });
-  }, [viewNew, queueName, storyID, siteID, section]);
+  }, [viewNew, queueName, storyID, siteID, section, orderBy]);
 
   // Handle subscribing and unsubscribing to the subscriptions.
   useEffect(() => {
@@ -81,6 +91,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
       queue: queueName,
       storyID,
       siteID,
+      orderBy,
       section,
     };
 
@@ -99,6 +110,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
     queueName,
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
+    orderBy,
   ]);
 
   // It's never the case really that the query has loaded but queue or settings

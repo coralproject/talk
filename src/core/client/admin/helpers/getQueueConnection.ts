@@ -7,6 +7,7 @@ import {
 
 import { SectionFilter } from "coral-common/section";
 import {
+  GQLCOMMENT_SORT_RL,
   GQLCOMMENT_STATUS,
   GQLMODERATION_QUEUE_RL,
 } from "coral-framework/schema";
@@ -16,6 +17,7 @@ export default function getQueueConnection(
   queue: GQLMODERATION_QUEUE_RL | "REJECTED" | "APPROVED",
   storyID?: string | null,
   siteID?: string | null,
+  orderBy?: GQLCOMMENT_SORT_RL | null,
   section?: SectionFilter | null
 ): RecordProxy | null | undefined {
   const root = store.getRoot();
@@ -24,6 +26,7 @@ export default function getQueueConnection(
       status: GQLCOMMENT_STATUS.REJECTED,
       storyID,
       siteID,
+      orderBy,
       section,
     });
   }
@@ -32,6 +35,7 @@ export default function getQueueConnection(
       status: GQLCOMMENT_STATUS.APPROVED,
       storyID,
       siteID,
+      orderBy,
       section,
     });
   }
@@ -48,5 +52,8 @@ export default function getQueueConnection(
   if (!queueRecord) {
     return undefined;
   }
-  return ConnectionHandler.getConnection(queueRecord, "Queue_comments");
+
+  return ConnectionHandler.getConnection(queueRecord, "Queue_comments", {
+    orderBy,
+  });
 }

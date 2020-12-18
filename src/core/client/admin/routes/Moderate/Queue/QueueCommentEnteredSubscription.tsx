@@ -8,7 +8,10 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT_RL,
+  GQLMODERATION_QUEUE_RL,
+} from "coral-framework/schema";
 
 import { QueueCommentEnteredSubscription } from "coral-admin/__generated__/QueueCommentEnteredSubscription.graphql";
 
@@ -17,6 +20,7 @@ function handleCommentEnteredModerationQueue(
   queue: GQLMODERATION_QUEUE_RL,
   storyID: string | null,
   siteID: string | null,
+  orderBy: GQLCOMMENT_SORT_RL | null,
   section?: SectionFilter | null
 ) {
   const rootField = store.getRootField("commentEnteredModerationQueue");
@@ -36,7 +40,15 @@ function handleCommentEnteredModerationQueue(
   const commentsEdge = store.create(edgeID, "CommentsEdge");
   commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
   commentsEdge.setLinkedRecord(comment, "node");
-  const connection = getQueueConnection(store, queue, storyID, siteID, section);
+  const connection = getQueueConnection(
+    store,
+    queue,
+    storyID,
+    siteID,
+    orderBy,
+    section
+  );
+
   if (connection) {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
@@ -55,12 +67,14 @@ const QueueSubscription = createSubscription(
           $storyID: ID
           $siteID: ID
           $section: SectionFilter
+          $orderBy: COMMENT_SORT
           $queue: MODERATION_QUEUE!
         ) {
           commentEnteredModerationQueue(
             storyID: $storyID
             siteID: $siteID
             section: $section
+            orderBy: $orderBy
             queue: $queue
           ) {
             comment {
@@ -78,6 +92,7 @@ const QueueSubscription = createSubscription(
           variables.queue,
           variables.storyID || null,
           variables.siteID || null,
+          variables.orderBy || null,
           variables.section
         );
       },

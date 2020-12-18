@@ -8509,6 +8509,7 @@ type Subscription {
     storyID: ID
     siteID: ID
     section: SectionFilter
+    orderBy: COMMENT_SORT
     queue: MODERATION_QUEUE
   ): CommentEnteredModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 
@@ -8520,6 +8521,7 @@ type Subscription {
     storyID: ID
     siteID: ID
     section: SectionFilter
+    orderBy: COMMENT_SORT
     queue: MODERATION_QUEUE
   ): CommentLeftModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 

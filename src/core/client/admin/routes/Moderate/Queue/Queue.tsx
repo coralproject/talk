@@ -8,6 +8,7 @@ import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
 import { useLocal } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
@@ -17,7 +18,6 @@ import { QueueLocal } from "coral-admin/__generated__/QueueLocal.graphql";
 import QueueWrapper from "./QueueWrapper";
 
 import styles from "./Queue.css";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 interface Props {
   comments: Array<
@@ -125,7 +125,6 @@ const Queue: FunctionComponent<Props> = ({
     setConversationCommentID("");
   }, []);
 
-  // moderationQueueSort
   const [{ moderationQueueSort }] = useLocal<QueueLocal>(graphql`
     fragment QueueLocal on Local {
       moderationQueueSort
