@@ -146,7 +146,7 @@ jobs:
           command: |
             CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
             docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
-            docker cp "${CONTAINER_ID}:/usr/src/core/server/graph/schema/__generated__/introspection.json" static/introspection.json
+            docker cp "${CONTAINER_ID}:/usr/src/app/src/core/server/graph/schema/__generated__/introspection.json" static/introspection.json
             docker rm "${CONTAINER_ID}"
             find ./static -type f -name "*.gz" -print -delete
       - run:
