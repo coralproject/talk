@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import React, { FunctionComponent } from "react";
 
 import { streamColorFromMeta } from "coral-framework/lib/form";
@@ -8,12 +8,9 @@ import { ValidationMessage } from "coral-ui/components/v3";
 
 import styles from "./SetPasswordField.css";
 
-interface Props {
-  disabled: boolean;
-}
-
-const SetPasswordField: FunctionComponent<Props> = (props) => {
+const SetPasswordField: FunctionComponent = () => {
   const [field, meta] = useField("password");
+  const { isSubmitting } = useFormikContext();
   return (
     <FormField>
       <Localized id="general-passwordLabel">
@@ -30,7 +27,7 @@ const SetPasswordField: FunctionComponent<Props> = (props) => {
           id={field.name}
           placeholder="Password"
           color={streamColorFromMeta(meta)}
-          disabled={props.disabled}
+          disabled={isSubmitting}
           fullWidth
         />
       </Localized>

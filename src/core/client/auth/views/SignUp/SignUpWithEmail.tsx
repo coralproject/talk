@@ -1,5 +1,4 @@
-import { Localized } from "@fluent/react/compat";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { FunctionComponent } from "react";
 import * as Yup from "yup";
 
@@ -16,11 +15,11 @@ import {
   USERNAME_TOO_SHORT,
   VALIDATION_REQUIRED,
 } from "coral-framework/lib/messages";
-import { Flex, Icon } from "coral-ui/components/v2";
-import { Button, CallOut } from "coral-ui/components/v3";
 
 import EmailField from "./EmailField";
 import SetPasswordField from "./SetPasswordField";
+import SignupError from "./SignupError";
+import SignUpSubmit from "./SignUpSubmit";
 import UsernameField from "./UsernameField";
 
 import styles from "./SignUpWithEmail.css";
@@ -58,43 +57,19 @@ const SignUp: FunctionComponent<Props> = (props) => {
       }}
       validationSchema={SignupValidationSchema}
     >
-      {({ handleSubmit, isSubmitting, status }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          {status && status.error && (
-            <CallOut color="error" title={status.error} />
-          )}
-          <div className={styles.field}>
-            <EmailField disabled={isSubmitting} />
-          </div>
-          <div className={styles.field}>
-            <UsernameField disabled={isSubmitting} />
-          </div>
-          <div className={styles.field}>
-            <SetPasswordField disabled={isSubmitting} />
-          </div>
-          <div className={styles.actions}>
-            <Button
-              variant="filled"
-              color="primary"
-              fontSize="small"
-              paddingSize="small"
-              type="submit"
-              disabled={isSubmitting}
-              fullWidth
-              upperCase
-            >
-              <Flex alignItems="center" justifyContent="center">
-                <Icon size="md" className={styles.icon}>
-                  email
-                </Icon>
-                <Localized id="signUp-signUpWithEmail">
-                  <span>Sign up with Email</span>
-                </Localized>
-              </Flex>
-            </Button>
-          </div>
-        </form>
-      )}
+      <Form autoComplete="off">
+        <SignupError />
+        <div className={styles.field}>
+          <EmailField />
+        </div>
+        <div className={styles.field}>
+          <UsernameField />
+        </div>
+        <div className={styles.field}>
+          <SetPasswordField />
+        </div>
+        <SignUpSubmit />
+      </Form>
     </Formik>
   );
 };

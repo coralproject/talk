@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import React, { FunctionComponent } from "react";
 
 import { streamColorFromMeta } from "coral-framework/lib/form";
@@ -8,12 +8,9 @@ import { ValidationMessage } from "coral-ui/components/v3";
 
 import styles from "./UsernameField.css";
 
-interface Props {
-  disabled: boolean;
-}
-
-const CreateUsernameField: FunctionComponent<Props> = (props) => {
+const CreateUsernameField: FunctionComponent = () => {
   const [field, meta] = useField("username");
+  const { isSubmitting } = useFormikContext();
   return (
     <FormField>
       <Localized id="general-usernameLabel">
@@ -28,7 +25,7 @@ const CreateUsernameField: FunctionComponent<Props> = (props) => {
           id={field.name}
           placeholder="Username"
           color={streamColorFromMeta(meta)}
-          disabled={props.disabled}
+          disabled={isSubmitting}
           fullWidth
         />
       </Localized>
