@@ -28,10 +28,16 @@ With Coral setup and running locally you can find your **Embed code** under **Co
 
 > **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.
 
+A full list of possible embed params can be found at: https://github.com/coralproject/talk/blob/next/src/core/client/embed/StreamEmbed.ts#L27
+
 
 ## Story Creation
 
-Lazy `Story` Creation enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream iFrame on your page. By default that script dynamically generates `Stories` in Coral for seamless integration.
+"Lazy Story Creation" enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream iFrame on your page. By default that script dynamically generates `Stories` in Coral for seamless integration. 
+
+
+Stories created by Lazy Story Creation will be scraped by the `scraper` job to retrieve their metadata. If the URL provided is not reachable by the scraper, then you can send an updateStory API call to provide story metadata to Coral. 
+
 
 ### storyURL
 
@@ -57,6 +63,12 @@ The url will be used by Coral to build user facing links, and should reference t
 ### storyID
 
 To more tightly couple Coral with your CMS you can provide your CMS's unique identifier to Coral by including a `storyID` parameter in the render function. Doing so will allow you to target the `Story` for later updates via Coral's Graphql API, such as updating the URL if it changes.
+
+## Updating Story URLs
+You need to notify Coral of the change when the published URL where a comment steam is embedded changes. If you try to render an existing `storyID` with a different `storyURL`, you will see a DUPLICATE_STORY_ID error. 
+
+You can use Coral's [GraphQL API](/talk/v5/api/overview/) or Coral’s [CLI](/talk/v5/configuration-cli-tools/) tool to update story URLs. 
+
 
 ## Integration via API
 
