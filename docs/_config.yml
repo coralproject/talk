@@ -116,6 +116,8 @@ sidebar:
               url: /v5/seo/
             - title: Native mobile applications
               url: /v5/integrating/mobile/
+            - title: Accelerated mobile pages
+              url: /v5/integrating/amp/
         - title: API
           children:
             - title: GraphQL Overview
