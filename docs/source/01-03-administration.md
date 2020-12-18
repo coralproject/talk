@@ -104,7 +104,11 @@ Comments with a toxicity score above the threshold will not be published and are
 
 If a comment exceeds the threshold, the commenter is warned that their comment may be toxic, and are given the chance to modify their comment before posting. If the revised comment is below the Toxicity Threshold, it is posted and displayed normally; however if the revised comment still exceeds the Toxicity Threshold, it is not displayed on the stream and instead is sent to the Pending queue for moderation.
 
-Perspective API uses machine learning based on existing databases of accepted/rejected comments to guess the probability that a comment is abusive and/or toxic. English is the default language, but experimental models are available in multiple languages. Sites can also work with Jigsaw to create an individualized data set specifically trained on their own comment history. Read more about Coral’s take on toxicity [on our blog](https://coralproject.net/blog/toxic-avenging/).
+Perspective API uses machine learning based on existing databases of accepted/rejected comments to guess the probability that a comment is abusive and/or toxic. 
+
+English is the default language, but experimental models are available in multiple languages. Coral supports English, Spanish and German models out of the box when you configure your preferred language setting in Coral. Additional models are available in other languages, which can be configured in Admin > Moderation > Toxic Comment Filter. 
+
+Sites can also work with Jigsaw to create an individualized data set specifically trained on their own comment history. Read more about Coral’s take on toxicity [on our blog](https://coralproject.net/blog/toxic-avenging/).
 
 ### Spam Detection Filter
 
