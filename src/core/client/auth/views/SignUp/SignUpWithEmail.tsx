@@ -9,6 +9,13 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/helpers/validate";
+import {
+  INVALID_CHARACTERS,
+  PASSWORD_TOO_SHORT,
+  USERNAME_TOO_LONG,
+  USERNAME_TOO_SHORT,
+  VALIDATION_REQUIRED,
+} from "coral-framework/lib/messages";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -18,11 +25,10 @@ import UsernameField from "./UsernameField";
 
 import styles from "./SignUpWithEmail.css";
 
-interface FormProps {
+interface FormValues {
   email: string;
   username: string;
   password: string;
-  confirmPassword: string;
 }
 
 interface Props {
@@ -30,18 +36,20 @@ interface Props {
 }
 
 const SignupValidationSchema = Yup.object().shape({
-  email: Yup.string().email().required(),
+  email: Yup.string().email(INVALID_CHARACTERS).required(VALIDATION_REQUIRED),
   username: Yup.string()
-    .matches(USERNAME_REGEX)
-    .min(USERNAME_MIN_LENGTH)
-    .max(USERNAME_MAX_LENGTH)
-    .required(),
-  password: Yup.string().min(PASSWORD_MIN_LENGTH).required(),
+    .matches(USERNAME_REGEX, INVALID_CHARACTERS)
+    .min(USERNAME_MIN_LENGTH, ({ min }) => USERNAME_TOO_SHORT(min))
+    .max(USERNAME_MAX_LENGTH, ({ max }) => USERNAME_TOO_LONG(max))
+    .required(VALIDATION_REQUIRED),
+  password: Yup.string()
+    .min(PASSWORD_MIN_LENGTH, ({ min }) => PASSWORD_TOO_SHORT(min))
+    .required(VALIDATION_REQUIRED),
 });
 
 const SignUp: FunctionComponent<Props> = (props) => {
   return (
-    <Formik
+    <Formik<FormValues>
       onSubmit={props.onSubmit}
       initialValues={{
         email: "",
