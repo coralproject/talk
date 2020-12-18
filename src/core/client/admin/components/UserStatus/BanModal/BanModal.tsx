@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik } from "formik";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -20,6 +20,12 @@ interface Props {
   onClose: () => void;
   onConfirm: (rejectExistingComments: boolean, message?: string) => void;
   getMessage: GetMessage;
+}
+
+interface FormValues {
+  rejectExistingComments: boolean;
+  emailMessage?: string;
+  showMessage: boolean;
 }
 
 const BanModal: FunctionComponent<Props> = ({
@@ -77,7 +83,7 @@ const BanModal: FunctionComponent<Props> = ({
               </p>
             </Localized>
           </HorizontalGutter>
-          <Formik
+          <Formik<FormValues>
             onSubmit={onFormSubmit}
             initialValues={{
               showMessage: false,
@@ -85,38 +91,36 @@ const BanModal: FunctionComponent<Props> = ({
               emailMessage: getDefaultMessage,
             }}
           >
-            {({ handleSubmit }: FormikProps<any>) => (
-              <form onSubmit={handleSubmit}>
-                <HorizontalGutter spacing={3}>
-                  <Localized id="community-banModal-reject-existing">
-                    <CheckBox
-                      name="rejectExistingComments"
-                      id="banModal-rejectExisting"
-                    >
-                      Reject all comments by this user
-                    </CheckBox>
+            <Form>
+              <HorizontalGutter spacing={3}>
+                <Localized id="community-banModal-reject-existing">
+                  <CheckBox
+                    name="rejectExistingComments"
+                    id="banModal-rejectExisting"
+                  >
+                    Reject all comments by this user
+                  </CheckBox>
+                </Localized>
+                <Localized id="community-banModal-customize">
+                  <CheckBox name="showMessage" id="banModal-showMessage">
+                    Customize ban email message
+                  </CheckBox>
+                </Localized>
+                <BanMessageField />
+                <Flex justifyContent="flex-end" itemGutter="half">
+                  <Localized id="community-banModal-cancel">
+                    <Button variant="flat" onClick={onClose}>
+                      Cancel
+                    </Button>
                   </Localized>
-                  <Localized id="community-banModal-customize">
-                    <CheckBox name="showMessage" id="banModal-showMessage">
-                      Customize ban email message
-                    </CheckBox>
+                  <Localized id="community-banModal-banUser">
+                    <Button type="submit" ref={lastFocusableRef}>
+                      Ban User
+                    </Button>
                   </Localized>
-                  <BanMessageField />
-                  <Flex justifyContent="flex-end" itemGutter="half">
-                    <Localized id="community-banModal-cancel">
-                      <Button variant="flat" onClick={onClose}>
-                        Cancel
-                      </Button>
-                    </Localized>
-                    <Localized id="community-banModal-banUser">
-                      <Button type="submit" ref={lastFocusableRef}>
-                        Ban User
-                      </Button>
-                    </Localized>
-                  </Flex>
-                </HorizontalGutter>
-              </form>
-            )}
+                </Flex>
+              </HorizontalGutter>
+            </Form>
           </Formik>
         </HorizontalGutter>
       )}

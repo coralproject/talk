@@ -1,20 +1,20 @@
 import { useField } from "formik";
 import React, { FunctionComponent } from "react";
 
-import { CheckBox } from "coral-ui/components/v2";
+import { CheckBox as CheckBoxComponent } from "coral-ui/components/v2";
 
 interface Props extends React.HTMLAttributes<HTMLInputElement> {
   name: string;
   children: React.ReactNode;
 }
 
-const Checkbox: FunctionComponent<Props> = ({ name, children, ...rest }) => {
+const CheckBox: FunctionComponent<Props> = ({ name, children, ...rest }) => {
   const [field] = useField(name);
   return (
-    <CheckBox {...field} {...rest}>
+    <CheckBoxComponent {...field} {...rest}>
       {children}
-    </CheckBox>
+    </CheckBoxComponent>
   );
 };
 
-export default Checkbox;
+export default CheckBox;
