@@ -10,7 +10,7 @@ Before submitting your Pull Request (or PR), please verify that:
 
 Refer to CONTRIBUTING.MD for more details.
 
-  https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md
+  https://github.com/coralproject/talk/blob/main/CONTRIBUTING.md
 
 -->
 
@@ -30,8 +30,8 @@ Any related Github issue should be linked by adding its URL to this section.
 <!--
 
 In this section, you should describe any changes to be made to the GraphQL
-schema file (located https://github.com/coralproject/talk/blob/master/src/core/server/graph/schema/schema.graphql) or any
-database model (located as types in the https://github.com/coralproject/talk/blob/master/src/core/server/models directory).
+schema file (located https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql) or any
+database model (located as types in the https://github.com/coralproject/talk/blob/main/src/core/server/models directory).
 
 If no changes were added to the GraphQL/Database Schema as a part of this PR,
 simply write "None".

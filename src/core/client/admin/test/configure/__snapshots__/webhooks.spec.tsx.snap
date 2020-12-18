@@ -71,7 +71,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -305,7 +305,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -425,7 +425,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -612,7 +612,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >

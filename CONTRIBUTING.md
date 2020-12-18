@@ -161,7 +161,7 @@ translations in [FTL](http://projectfluent.org/fluent/guide/) files in
 
 Strings are added or removed from localization bundles in the translation files
 as needed. Strings **MUST NOT** be _changed_ after they've been committed and
-pushed to master. Changing a string requires creating a new ID with a new name
+pushed to `main`. Changing a string requires creating a new ID with a new name
 (preferably descriptive instead of incremented) and deletion of the obsolete ID.
 It's often useful to add a comment above the string with info about how and
 where the string is used.
@@ -212,7 +212,7 @@ the API and the runtime on the server that powers resolving data from data
 sources. This heavily influences a lot of the decisions around how we create and
 consume it's API internally and how we expose it to others to interact with.
 
-There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/master/src/core/server/graph/schema/schema.graphql)
+There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql)
 that define the way we handle data in our API. We'll try to outline a few of
 them here with examples to help you understand their uses.
 
@@ -457,7 +457,7 @@ fragment on Comment {
 ```
 
 Here we see the `@auth` directive. It has documentation describing the various
-parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/master/src/core/server/graph/schema/schema.graphql)
+parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql)
 file, we'll discuss below what this particular set of parameters can be read as:
 
 - The roles that are allowed to access this information are `MODERATOR` and
