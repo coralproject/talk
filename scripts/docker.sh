@@ -80,7 +80,7 @@ then
   then
     deploy_tag
   else
-    if [ "${CIRCLE_BRANCH}" = "master" ]
+    if [ "${CIRCLE_BRANCH}" = "main" ]
     then
       deploy_latest
     else

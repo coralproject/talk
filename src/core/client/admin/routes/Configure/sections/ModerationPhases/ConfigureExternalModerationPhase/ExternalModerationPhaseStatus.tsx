@@ -42,13 +42,13 @@ const ExternalModerationPhaseStatus: FunctionComponent<Props> = ({ phase }) => {
         <Localized
           id="configure-moderationPhases-signingSecretDescription"
           externalLink={
-            <ExternalLink href="https://github.com/coralproject/talk/blob/master/EXTERNAL_MODERATION_PHASES.md#request-signing" />
+            <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing" />
           }
         >
           <FormFieldDescription>
             The following signing secret is used to sign request payloads sent
             to the URL. To learn more about webhook signing, visit our{" "}
-            <ExternalLink href="https://github.com/coralproject/talk/blob/master/EXTERNAL_MODERATION_PHASES.md#request-signing">
+            <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing">
               docs
             </ExternalLink>
             .

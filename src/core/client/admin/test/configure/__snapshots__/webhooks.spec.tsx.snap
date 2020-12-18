@@ -28,7 +28,7 @@ exports[`displays a list of webhook endpoints that have been configured 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Please 
+added or removed. Please
         <a
           className="ExternalLink-root"
           href="https://coralproject.net/contact/"
@@ -68,10 +68,10 @@ added or removed. Please
         >
           Configure an endpoint to send events to when events occur within
 Coral. These events will be JSON encoded and signed. To learn more
-about webhook signing, visit our 
+about webhook signing, visit our
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -168,7 +168,7 @@ about webhook signing, visit our
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    Details 
+                    Details
                     <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
@@ -215,7 +215,7 @@ about webhook signing, visit our
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    Details 
+                    Details
                     <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
@@ -262,7 +262,7 @@ exports[`goes to add new webhook endpoint when clicking add 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Please 
+added or removed. Please
         <a
           className="ExternalLink-root"
           href="https://coralproject.net/contact/"
@@ -302,10 +302,10 @@ added or removed. Please
         >
           Configure an endpoint to send events to when events occur within
 Coral. These events will be JSON encoded and signed. To learn more
-about webhook signing, visit our 
+about webhook signing, visit our
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -382,7 +382,7 @@ exports[`goes to the webhook endpoint configuration page when selected 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Please 
+added or removed. Please
         <a
           className="ExternalLink-root"
           href="https://coralproject.net/contact/"
@@ -422,10 +422,10 @@ added or removed. Please
         >
           Configure an endpoint to send events to when events occur within
 Coral. These events will be JSON encoded and signed. To learn more
-about webhook signing, visit our 
+about webhook signing, visit our
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -522,7 +522,7 @@ about webhook signing, visit our
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    Details 
+                    Details
                     <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
@@ -569,7 +569,7 @@ exports[`renders webhooks 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Please 
+added or removed. Please
         <a
           className="ExternalLink-root"
           href="https://coralproject.net/contact/"
@@ -609,10 +609,10 @@ added or removed. Please
         >
           Configure an endpoint to send events to when events occur within
 Coral. These events will be JSON encoded and signed. To learn more
-about webhook signing, visit our 
+about webhook signing, visit our
           <a
             className="ExternalLink-root"
-            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
+            href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >

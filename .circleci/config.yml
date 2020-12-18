@@ -218,8 +218,8 @@ filter_release: &filter_release
   filters:
     branches:
       only:
-        - master
-        - next
+        - main
+        - develop
     tags:
       only: /^v.*/
 
@@ -237,8 +237,8 @@ filter_develop: &filter_develop
   filters:
     branches:
       ignore:
-        - master
-        - next
+        - main
+        - develop
 
 workflows:
   build-test:
