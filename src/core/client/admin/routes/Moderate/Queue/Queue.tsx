@@ -1,18 +1,23 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ConversationModal from "coral-admin/components/ConversationModal";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
+import { useLocal } from "coral-framework/lib/relay";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
 
+import { QueueLocal } from "coral-admin/__generated__/QueueLocal.graphql";
+
 import QueueWrapper from "./QueueWrapper";
 
 import styles from "./Queue.css";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 interface Props {
   comments: Array<
@@ -120,6 +125,13 @@ const Queue: FunctionComponent<Props> = ({
     setConversationCommentID("");
   }, []);
 
+  // moderationQueueSort
+  const [{ moderationQueueSort }] = useLocal<QueueLocal>(graphql`
+    fragment QueueLocal on Local {
+      moderationQueueSort
+    }
+  `);
+
   return (
     <HorizontalGutter className={styles.root} size="double">
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -153,6 +165,20 @@ const Queue: FunctionComponent<Props> = ({
           />
         )}
       />
+
+      {Boolean(
+        viewNewCount &&
+          viewNewCount > 0 &&
+          moderationQueueSort === GQLCOMMENT_SORT.CREATED_AT_ASC
+      ) && (
+        <Flex justifyContent="center" className={styles.viewNewButtonContainer}>
+          <Localized id="moderate-queue-viewNew" $count={viewNewCount}>
+            <Button onClick={onViewNew} className={styles.viewNewButton}>
+              View {viewNewCount} new comments
+            </Button>
+          </Localized>
+        </Flex>
+      )}
 
       {hasMore && (
         <Flex justifyContent="center">
