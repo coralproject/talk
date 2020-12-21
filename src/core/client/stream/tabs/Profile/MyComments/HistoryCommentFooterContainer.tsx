@@ -32,41 +32,45 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
   relay,
   onGotoConversation,
 }) => {
-  const [areDetailsVisible, , toggleDetailVisibility] = useToggleState();
+  const [showDetails, , toggleDetailVisibility] = useToggleState();
   const [loadMore] = useLoadMore(relay, 2);
-  if (!comment.actionCounts.reaction.total) {
-    return null;
-  }
+
+  const hasReactions = comment.actionCounts.reaction.total > 0;
+  const hasReplies = comment.replyCount > 0;
+
   return (
     <>
       <Flex spacing={2}>
-        <BaseButton
-          onClick={toggleDetailVisibility}
-          className={cn(
-            styles.button,
-            styles.reactionsButton,
-            {
-              [styles.activeReactionsButton]: areDetailsVisible,
-            },
-            CLASSES.myComment.reactions
-          )}
-        >
-          <ButtonIcon>{settings.reaction.icon}</ButtonIcon>
-          <span className={cn(styles.reactionsButtonText)}>
-            {settings.reaction.label} {comment.actionCounts.reaction.total}
-          </span>
-          <ButtonIcon className={styles.buttonCaret}>
-            {areDetailsVisible ? "expand_less" : "expand_more"}
-          </ButtonIcon>
-        </BaseButton>
-        {!!comment.replyCount && (
+        {hasReactions && (
+          <BaseButton
+            onClick={toggleDetailVisibility}
+            className={cn(
+              styles.button,
+              styles.reactionsButton,
+              {
+                [styles.activeReactionsButton]: showDetails,
+              },
+              CLASSES.myComment.reactions
+            )}
+          >
+            <ButtonIcon>{settings.reaction.icon}</ButtonIcon>
+            <span className={cn(styles.reactionsButtonText)}>
+              {settings.reaction.label} {comment.actionCounts.reaction.total}
+            </span>
+
+            <ButtonIcon className={styles.buttonCaret}>
+              {showDetails ? "expand_less" : "expand_more"}
+            </ButtonIcon>
+          </BaseButton>
+        )}
+        {hasReplies && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
             <Icon className={styles.repliesIcon}>reply</Icon>
             <Localized
               id="profile-historyComment-replies"
               $replyCount={comment.replyCount}
             >
-              <span>{"Replies {$replyCount}"}</span>
+              <span>Replies {comment.replyCount}</span>
             </Localized>
           </div>
         )}
@@ -91,15 +95,19 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
           </Localized>
         </BaseButton>
       </Flex>
-      {areDetailsVisible && (
+      {showDetails && (
         <Flex className={styles.reacterUsernames} alignItems="flex-start">
           <Icon size="sm" className={styles.reacterUsernamesIcon}>
             {settings.reaction.icon}
           </Icon>
           <Flex spacing={1}>
-            {compact(
-              comment.reactions.edges.map((n) => n.node.reacter?.username)
-            ).join(", ")}
+            <span>
+              {compact(
+                comment.reactions.edges.map(
+                  ({ node: { reacter } }) => reacter?.username
+                )
+              ).join(", ")}
+            </span>
             {relay.hasMore() && (
               <BaseButton
                 className={styles.loadMoreReactions}
@@ -147,9 +155,6 @@ const enhanced = withPaginationContainer<
           url
           metadata {
             title
-          }
-          settings {
-            mode
           }
         }
         replyCount
