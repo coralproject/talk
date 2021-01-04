@@ -19,7 +19,11 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
   UserStatusInput
 >> = {
   current: (status, input, ctx) => {
-    const consolidatedStatus = user.consolidateUserStatus(status, ctx.now);
+    const consolidatedStatus = user.consolidateUserStatus(
+      status,
+      ctx.now,
+      ctx.site?.id
+    );
     const statuses: GQLUSER_STATUS[] = [];
 
     // If they are currently banned, then mark it.

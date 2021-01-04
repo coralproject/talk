@@ -11,25 +11,88 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 interface RequestQuery {
-  parentUrl?: string;
-  storyURL?: string;
-  storyID?: string;
-  siteID?: string;
+  parentUrl?: string | null;
+  storyURL?: string | null;
+  storyID?: string | null;
+  siteID?: string | null;
 }
 
-async function retrieveSiteFromEmbed(
-  mongo: Db,
+/**
+ * parseQueryFromRequest will parse the query from the request, either from the
+ * actual query on the url, or the referer header if made on a trusted origin.
+ *
+ * @param tenant the tenant associated with this request
+ * @param req the request in question
+ */
+function parseQueryFromRequest(
   tenant: Tenant,
   req: Request
-): Promise<Site | null> {
-  // Attempt to detect the site based on the query parameters.
-  const {
-    storyURL = "",
-    storyID = "",
-    parentUrl = "",
-    siteID = "",
-  }: RequestQuery = req.query;
+): RequestQuery | null {
+  // Check to see if the parameters are available on the query. If they are,
+  // return it.
+  if (
+    req.query.parentUrl ||
+    req.query.storyURL ||
+    req.query.storyID ||
+    req.query.siteID
+  ) {
+    return req.query;
+  }
 
+  // Looks like the parameters aren't available on the query, does this request
+  // have a referer header?
+  const { referer } = req.headers;
+  if (!referer) {
+    return null;
+  }
+
+  // Check to see if the referer is an embed link. If it is, we can infer the
+  // details there. We should do this by parsing the referer.
+  let parsed: URL;
+  try {
+    parsed = new URL(referer);
+  } catch {
+    return null;
+  }
+
+  // Ensure that the referer hostname.
+  if (parsed.hostname !== tenant.domain) {
+    return null;
+  }
+
+  // Ensure that the parsed path name is the embed stream.
+  if (parsed.pathname !== "/embed/stream") {
+    return null;
+  }
+
+  // Ensure we have some parameters in the query string.
+  if (!parsed.search) {
+    return null;
+  }
+
+  // Reconstruct the query by getting all the parts.
+  const query: RequestQuery = {
+    siteID: parsed.searchParams.get("siteID"),
+    storyURL: parsed.searchParams.get("storyURL"),
+    storyID: parsed.searchParams.get("storyID"),
+    parentUrl: parsed.searchParams.get("parentUrl"),
+  };
+
+  return query;
+}
+
+/**
+ * retrieveSiteFromQuery will get the site from the passed query.
+ *
+ * @param mongo the database connection
+ * @param tenant the tenant associated with this request
+ * @param query the query that was parsed for this request
+ */
+async function retrieveSiteFromQuery(
+  mongo: Db,
+  tenant: Tenant,
+  { storyURL, storyID, parentUrl, siteID }: RequestQuery
+): Promise<Site | null> {
   // If the siteID is available, use that.
   if (siteID) {
     return retrieveSite(mongo, tenant.id, siteID);
@@ -63,6 +126,35 @@ async function retrieveSiteFromEmbed(
   }
 
   return null;
+}
+
+/**
+ * retrieveSiteFromRequest will retrieve the site from the request in question.
+ *
+ * @param mongo the database connection
+ * @param tenant the tenant associated with this request
+ * @param req the request in question
+ */
+async function retrieveSiteFromRequest(
+  mongo: Db,
+  tenant: Tenant,
+  req: Request
+): Promise<Site | null> {
+  const query = parseQueryFromRequest(tenant, req);
+  if (!query) {
+    return null;
+  }
+
+  logger.debug({ query }, "parsed query from request");
+
+  const site = await retrieveSiteFromQuery(mongo, tenant, query);
+  if (!site) {
+    return null;
+  }
+
+  logger.debug({ siteID: site.id }, "found associated site from request");
+
+  return site;
 }
 
 interface Options {
@@ -111,7 +203,7 @@ export const tenantMiddleware = ({
 
     // Get the site associated with this request if it has a Tenant.
     if (tenant) {
-      const site = await retrieveSiteFromEmbed(mongo, tenant, req);
+      const site = await retrieveSiteFromRequest(mongo, tenant, req);
       if (site) {
         req.coral.site = site;
       }
