@@ -4,7 +4,11 @@ import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
-import { CoralError, StoryNotFoundError } from "coral-server/errors";
+import {
+  CoralError,
+  StoryNotFoundError,
+  UserSiteBanned,
+} from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
@@ -21,6 +25,7 @@ import {
   retrieveAuthorStoryRating,
 } from "coral-server/models/comment";
 import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
+import { retrieveSite } from "coral-server/models/site";
 import {
   isUserStoryExpert,
   resolveStoryMode,
@@ -183,6 +188,19 @@ export default async function create(
   const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     throw new StoryNotFoundError(input.storyID);
+  }
+
+  // Check if the user is banned on this site, if they are, throw an error right
+  // now.
+  // NOTE: this should be removed with attribute based auth checks.
+  if (author.status.ban.siteIDs?.includes(story.siteID)) {
+    // Get the site in question.
+    const site = await retrieveSite(mongo, tenant.id, story.siteID);
+    if (!site) {
+      throw new Error(`referenced site not found: ${story.siteID}`);
+    }
+
+    throw new UserSiteBanned(author.id, site.id, site.name);
   }
 
   // Get the story mode of this Story.

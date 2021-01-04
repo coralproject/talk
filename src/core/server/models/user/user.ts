@@ -2331,15 +2331,15 @@ export function consolidateUsernameStatus(
 }
 
 const computeBanActive = (ban: BanStatus, siteID?: string) => {
-  if (ban.active && (!ban.siteIDs || ban.siteIDs.length === 0)) {
+  if (ban.active) {
     return true;
   }
 
-  if (!siteID) {
-    return false;
+  if (siteID && ban.siteIDs?.includes(siteID)) {
+    return true;
   }
 
-  return !!ban.siteIDs?.includes(siteID);
+  return false;
 };
 
 export function consolidateUserBanStatus(
@@ -2348,7 +2348,6 @@ export function consolidateUserBanStatus(
 ) {
   return {
     ...ban,
-    siteIDs: ban.siteIDs ? ban.siteIDs : [],
     active: computeBanActive(ban, siteID),
   };
 }

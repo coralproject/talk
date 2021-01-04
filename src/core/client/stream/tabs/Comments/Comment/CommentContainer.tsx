@@ -52,7 +52,9 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
-import CaretContainer, { RejectedTombstoneContainer } from "./ModerationDropdown";
+import CaretContainer, {
+  RejectedTombstoneContainer,
+} from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
 import RemoveAnswered from "./RemoveAnswered";
