@@ -50,7 +50,7 @@ const initLocalState: InitLocalState = async ({
     await context.localStorage.removeItem(ADMIN_REDIRECT_PATH_KEY);
   }
 
-  await initLocalBaseState({ environment, context, auth, ...rest });
+  initLocalBaseState({ environment, context, auth, ...rest });
 
   const modQueueSortOrder = await context.localStorage.getItem(
     MOD_QUEUE_SORT_ORDER
