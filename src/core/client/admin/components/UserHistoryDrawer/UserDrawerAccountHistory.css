@@ -24,6 +24,14 @@
   box-shadow: none;
 }
 
+.rowBanned {
+  background-color: var(--palette-error-100);
+}
+
+.rowBanned:hover {
+  background-color: var(--palette-error-100);
+}
+
 .date {
   min-width: 80px;
 }

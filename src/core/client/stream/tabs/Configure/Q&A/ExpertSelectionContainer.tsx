@@ -315,7 +315,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
-          statusFilter: { type: "USER_STATUS" }
+          statusFilter: { type: "USER_STATUS_FILTER" }
           searchFilter: { type: "String" }
         ) {
         viewer {
@@ -379,7 +379,7 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $roleFilter: USER_ROLE
-        $statusFilter: USER_STATUS
+        $statusFilter: USER_STATUS_FILTER
         $searchFilter: String
       ) {
         ...ExpertSelectionContainer_query

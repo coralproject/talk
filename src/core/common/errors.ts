@@ -250,6 +250,12 @@ export enum ERROR_CODES {
   USER_BANNED = "USER_BANNED",
 
   /**
+   * USER_SITE_BANNED is returned when the user attempts to perform an action
+   * that is not permitted if they are banned on that site.
+   */
+  USER_SITE_BANNED = "USER_SITE_BANNED",
+
+  /**
    * USER_CANNOT_BE_IGNORED is returned when the user attempts to ignore
    * a user that is not allowed to be ignored. This is usually because the
    * user is staff member.

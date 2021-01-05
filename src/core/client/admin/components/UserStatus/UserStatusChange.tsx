@@ -41,6 +41,7 @@ interface Props {
   children: React.ReactNode;
   fullWidth?: boolean;
   bordered?: boolean;
+  moderationScopesEnabled?: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
@@ -59,6 +60,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   children,
   fullWidth = true,
   bordered = false,
+  moderationScopesEnabled = false,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -112,7 +114,13 @@ const UserStatusChange: FunctionComponent<Props> = ({
                 </DropdownButton>
               </Localized>
             ) : (
-              <Localized id="community-userStatus-suspend">
+              <Localized
+                id={
+                  moderationScopesEnabled
+                    ? "community-userStatus-suspendEverywhere"
+                    : "community-userStatus-suspend"
+                }
+              >
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -165,7 +173,13 @@ const UserStatusChange: FunctionComponent<Props> = ({
                 </DropdownButton>
               </Localized>
             ) : (
-              <Localized id="community-userStatus-warn">
+              <Localized
+                id={
+                  moderationScopesEnabled
+                    ? "community-userStatus-warnEverywhere"
+                    : "community-userStatus-warn"
+                }
+              >
                 <DropdownButton
                   className={styles.dropdownButton}
                   disabled={!onWarn}

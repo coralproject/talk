@@ -20,6 +20,7 @@ import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDra
 import AccountHistoryAction, {
   HistoryActionProps,
 } from "./AccountHistoryAction";
+import { BanActionProps } from "./BanAction";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -96,16 +97,46 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    const isBanned = user.status.ban.active;
+    const isSiteBanned = !!(
+      user.status.ban.sites && user.status.ban.sites.length > 0
+    );
+    let bannedSiteRecord: HistoryRecord | null = null;
+
     // Merge in all the ban status history items.
-    user.status.ban.history.forEach((record) => {
-      history.push({
-        kind: "ban",
-        action: {
-          action: record.active ? "created" : "removed",
-        },
-        date: new Date(record.createdAt),
-        takenBy: record.createdBy ? record.createdBy.username : system,
-      });
+    user.status.ban.history.forEach((record, index) => {
+      const siteBan = record.sites && record.sites.length > 0;
+
+      if (
+        (isBanned || isSiteBanned) &&
+        index === user.status.ban.history.length - 1
+      ) {
+        bannedSiteRecord = {
+          kind: siteBan ? "site-ban" : "ban",
+          action: {
+            action: record.active ? "created" : "removed",
+          },
+          date: new Date(record.createdAt),
+          takenBy: record.createdBy ? record.createdBy.username : system,
+          description:
+            isSiteBanned && !!user.status.ban.sites
+              ? user.status.ban.sites.map((s) => s.name).join(", ")
+              : "",
+        };
+      } else {
+        history.push({
+          kind: siteBan ? "site-ban" : "ban",
+          action: {
+            action: record.active ? "created" : "removed",
+          },
+          date: new Date(record.createdAt),
+          takenBy: record.createdBy ? record.createdBy.username : system,
+          description:
+            siteBan && record.sites
+              ? record.sites.map((s) => s.name).join(", ")
+              : "",
+        });
+      }
     });
 
     // Merge in all the premod history items.
@@ -160,8 +191,16 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     });
 
     // Sort the history so that it's in the right order.
-    return history.sort((a, b) => b.date.getTime() - a.date.getTime());
-  }, [user]);
+    const dateSortedHistory = history.sort(
+      (a, b) => b.date.getTime() - a.date.getTime()
+    );
+
+    if ((isBanned || isSiteBanned) && bannedSiteRecord !== null) {
+      dateSortedHistory.unshift(bannedSiteRecord);
+    }
+
+    return dateSortedHistory;
+  }, [system, user.status]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
@@ -178,6 +217,23 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     );
   }
 
+  const computeRowClass = (history: HistoryRecord, index: number) => {
+    if (index > 0 || (history.kind !== "ban" && history.kind !== "site-ban")) {
+      return styles.row;
+    }
+
+    const props = history.action as BanActionProps;
+    if (!props) {
+      return styles.row;
+    }
+
+    if (props.action === "created") {
+      return styles.rowBanned;
+    }
+
+    return styles.row;
+  };
+
   return (
     <HorizontalGutter size="double">
       <Table fullWidth>
@@ -191,7 +247,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
         </TableHead>
         <TableBody>
           {combinedHistory.map((history, index) => (
-            <TableRow key={index} className={styles.row}>
+            <TableRow key={index} className={computeRowClass(history, index)}>
               <TableCell className={styles.date}>
                 {formatter(history.date)}
               </TableCell>
@@ -241,6 +297,14 @@ const enhanced = withFragmentContainer<any>({
               username
             }
             createdAt
+            sites {
+              name
+            }
+          }
+          active
+          sites {
+            id
+            name
           }
         }
         premod {
