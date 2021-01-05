@@ -45,6 +45,9 @@ const BanUserMutation = createMutation(
                       username
                     }
                   }
+                  sites {
+                    id
+                  }
                 }
               }
             }
@@ -79,6 +82,10 @@ const BanUserMutation = createMutation(
                     },
                   },
                 ],
+                sites:
+                  input.siteIDs?.map((id) => {
+                    return { id };
+                  }) || [],
               },
               warning: {
                 active: false,

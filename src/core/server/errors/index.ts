@@ -697,6 +697,15 @@ export class UserBanned extends CoralError {
   }
 }
 
+export class UserSiteBanned extends CoralError {
+  constructor(userID: string, siteID: string, siteName: string) {
+    super({
+      code: ERROR_CODES.USER_SITE_BANNED,
+      context: { pvt: { siteID, userID }, pub: { siteName } },
+    });
+  }
+}
+
 export class UserSuspended extends CoralError {
   constructor(
     userID: string,

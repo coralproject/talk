@@ -16,7 +16,13 @@ export function createNewInstallRouter(app: AppOptions): Router {
   const router = createAPIRouter();
 
   // Allow the tenant to be passed on installations.
-  router.use(tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }));
+  router.use(
+    tenantMiddleware({
+      mongo: app.mongo,
+      cache: app.tenantCache,
+      passNoTenant: true,
+    })
+  );
 
   router.get("/", installCheckHandler(app));
   router.post("/", jsonMiddleware(REQUEST_MAX), installHandler(app));

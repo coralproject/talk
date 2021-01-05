@@ -9,6 +9,7 @@ import CoralEventListenerBroker, {
 } from "coral-server/events/publisher";
 import logger, { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
+import { Site } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -50,6 +51,7 @@ export interface GraphContextOptions {
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
   tenant: Tenant;
+  site?: Site;
   tenantCache: TenantCache;
   broker: CoralEventListenerBroker;
 }
@@ -76,6 +78,7 @@ export default class GraphContext {
   public readonly redis: AugmentedRedis;
   public readonly tenant: Tenant;
   public readonly tenantCache: TenantCache;
+  public readonly site?: Site;
 
   public readonly clientID?: string;
   public readonly persisted?: PersistedQuery;
@@ -103,6 +106,7 @@ export default class GraphContext {
     this.mongo = options.mongo;
     this.redis = options.redis;
     this.tenant = options.tenant;
+    this.site = options.site;
     this.tenantCache = options.tenantCache;
     this.scraperQueue = options.scraperQueue;
     this.mailerQueue = options.mailerQueue;

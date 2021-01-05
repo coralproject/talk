@@ -65,6 +65,7 @@ import {
   removeUserBan,
   removeUserIgnore,
   removeUserPremod,
+  removeUserSiteBan,
   removeUserWarning,
   retrieveUser,
   retrieveUserWithEmail,
@@ -73,6 +74,7 @@ import {
   setUserLastDownloadedAt,
   setUserLocalProfile,
   setUserUsername,
+  siteBanUser,
   suspendUser,
   updateUserAvatar,
   updateUserBio,
@@ -1055,8 +1057,23 @@ export async function ban(
   userID: string,
   message: string,
   rejectExistingComments: boolean,
+  siteIDs?: string[] | null,
   now = new Date()
 ) {
+  // site moderators must provide at least one site ID to ban the user on
+  // otherwise, they would be performing an organization wide ban.
+  if (
+    // check if they are a site moderator
+    banner.role === GQLUSER_ROLE.MODERATOR &&
+    banner.moderationScopes &&
+    banner.moderationScopes.siteIDs &&
+    banner.moderationScopes.siteIDs.length !== 0 &&
+    // ensure they've provided at least one site ID
+    (!siteIDs || siteIDs.length === 0)
+  ) {
+    throw new Error("site moderators must provide at least one site ID to ban");
+  }
+
   // Get the user being banned to check to see if the user already has an
   // existing ban.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
@@ -1064,55 +1081,74 @@ export async function ban(
     throw new UserNotFoundError(userID);
   }
 
-  // Check to see if the User is currently banned.
-  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
-  if (banStatus.active) {
-    throw new UserAlreadyBannedError();
-  }
+  let user: Readonly<User>;
 
-  // Ban the user.
-  let user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
-
-  const supsensionStatus = consolidateUserSuspensionStatus(
-    targetUser.status.suspension
-  );
-
-  // remove suspension if present
-  if (supsensionStatus.active) {
-    user = await removeActiveUserSuspensions(
+  // Perform a site ban
+  if (siteIDs && siteIDs.length > 0) {
+    user = await siteBanUser(
       mongo,
       tenant.id,
       userID,
       banner.id,
+      message,
+      siteIDs,
       now
     );
   }
+  // Otherwise, perform a regular ban
+  else {
+    // Check to see if the User is currently banned.
+    const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+    if (banStatus.active) {
+      throw new UserAlreadyBannedError();
+    }
 
-  const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
+    // Ban the user.
+    user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-  // remove premod if present
-  if (premodStatus.active) {
-    user = await removeUserPremod(mongo, tenant.id, userID, banner.id, now);
-  }
+    const supsensionStatus = consolidateUserSuspensionStatus(
+      targetUser.status.suspension
+    );
 
-  // remove warning if present
-  const warningStatus = consolidateUserWarningStatus(targetUser.status.warning);
+    // remove suspension if present
+    if (supsensionStatus.active) {
+      user = await removeActiveUserSuspensions(
+        mongo,
+        tenant.id,
+        userID,
+        banner.id,
+        now
+      );
+    }
 
-  if (warningStatus.active) {
-    user = await removeUserWarning(mongo, tenant.id, userID, banner.id, now);
-  }
+    const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
 
-  if (rejectExistingComments) {
-    await rejector.add({
-      tenantID: tenant.id,
-      authorID: userID,
-      moderatorID: banner.id,
-    });
+    // remove premod if present
+    if (premodStatus.active) {
+      user = await removeUserPremod(mongo, tenant.id, userID, banner.id, now);
+    }
+
+    // remove warning if present
+    const warningStatus = consolidateUserWarningStatus(
+      targetUser.status.warning
+    );
+
+    if (warningStatus.active) {
+      user = await removeUserWarning(mongo, tenant.id, userID, banner.id, now);
+    }
+
+    if (rejectExistingComments) {
+      await rejector.add({
+        tenantID: tenant.id,
+        authorID: userID,
+        moderatorID: banner.id,
+      });
+    }
   }
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
-  if (user.email) {
+  if (user?.email) {
     // Send the ban user email.
     await mailer.add({
       tenantID: tenant.id,
@@ -1386,7 +1422,7 @@ export async function removeSuspension(
 export async function removeBan(
   mongo: Db,
   tenant: Tenant,
-  user: User,
+  viewer: User,
   userID: string,
   now = new Date()
 ) {
@@ -1398,13 +1434,26 @@ export async function removeBan(
 
   // Check to see if the User is currently banned.
   const banStatus = consolidateUserBanStatus(targetUser.status.ban);
-  if (!banStatus.active) {
-    // The user is not ban currently, just return the user because we don't
-    // have to do anything.
-    return targetUser;
+
+  // Remove a regular ban
+  if (banStatus.active) {
+    return removeUserBan(mongo, tenant.id, userID, viewer.id, now);
+  }
+  // Remove a site ban
+  else if (banStatus.siteIDs && banStatus.siteIDs.length > 0) {
+    return removeUserSiteBan(
+      mongo,
+      tenant.id,
+      userID,
+      viewer.id,
+      now,
+      banStatus.siteIDs
+    );
   }
 
-  return removeUserBan(mongo, tenant.id, userID, user.id, now);
+  // The user is not ban currently, just return the user because we don't
+  // have to do anything.
+  return targetUser;
 }
 
 export async function ignore(

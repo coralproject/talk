@@ -3,6 +3,7 @@ import { NextFunction, Request as ExpressRequest, Response } from "express";
 import { RequireProperty } from "coral-common/types";
 import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
+import { Site } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -14,6 +15,7 @@ export interface CoralRequest {
     tenant: TenantCache;
   };
   tenant?: Tenant;
+  site?: Site;
   persisted?: PersistedQuery;
   logger: Logger;
 }

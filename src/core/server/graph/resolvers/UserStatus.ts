@@ -19,7 +19,11 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
   UserStatusInput
 >> = {
   current: (status, input, ctx) => {
-    const consolidatedStatus = user.consolidateUserStatus(status, ctx.now);
+    const consolidatedStatus = user.consolidateUserStatus(
+      status,
+      ctx.now,
+      ctx.site?.id
+    );
     const statuses: GQLUSER_STATUS[] = [];
 
     // If they are currently banned, then mark it.
@@ -53,8 +57,8 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
     ...user.consolidateUsernameStatus(username),
     userID,
   }),
-  ban: ({ ban, userID }): BanStatusInput => ({
-    ...user.consolidateUserBanStatus(ban),
+  ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => ({
+    ...user.consolidateUserBanStatus(ban, ctx.site?.id),
     userID,
   }),
   suspension: ({ suspension, userID }): SuspensionStatusInput => ({
