@@ -39,7 +39,7 @@ import {
   ApprovedQueueRoute,
   ModerationQueue,
   PendingQueueRoute,
-  RejectedQueueRoute,
+  RejectedQueueRouteConfig,
   ReportedQueueRoute,
   UnmoderatedQueueRoute,
 } from "./routes/Moderate/Queue";
@@ -87,15 +87,12 @@ export default makeRouteConfig(
             {...UnmoderatedQueueRoute.routeConfig}
           />
           <Route path="approved" {...ApprovedQueueRoute.routeConfig} />
-          <Route path="rejected" {...RejectedQueueRoute.routeConfig} />
+          <Route path="rejected" {...RejectedQueueRouteConfig} />
           <Route
             path="rejected/stories/:storyID"
-            {...RejectedQueueRoute.routeConfig}
+            {...RejectedQueueRouteConfig}
           />
-          <Route
-            path="rejected/sites/:siteID"
-            {...RejectedQueueRoute.routeConfig}
-          />
+          <Route path="rejected/sites/:siteID" {...RejectedQueueRouteConfig} />
           <Route
             path="approved/stories/:storyID"
             {...ApprovedQueueRoute.routeConfig}
