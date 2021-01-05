@@ -24,6 +24,7 @@ import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { retrieveSite } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { isSiteBanned } from "coral-server/models/user/helpers";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
   publishChanges,
@@ -107,7 +108,7 @@ async function addCommentAction(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (author.status.ban.siteIDs?.includes(siteID)) {
+  if (isSiteBanned(author, siteID)) {
     // Get the site in question.
     const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {

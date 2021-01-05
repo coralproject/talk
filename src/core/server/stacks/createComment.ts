@@ -35,6 +35,7 @@ import {
 } from "coral-server/models/story";
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { isSiteBanned } from "coral-server/models/user/helpers";
 import { removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
@@ -193,7 +194,7 @@ export default async function create(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (author.status.ban.siteIDs?.includes(story.siteID)) {
+  if (isSiteBanned(author, story.siteID)) {
     // Get the site in question.
     const site = await retrieveSite(mongo, tenant.id, story.siteID);
     if (!site) {
