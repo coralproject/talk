@@ -36,7 +36,7 @@ import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
 import ModerateRoute from "./routes/Moderate";
 import {
-  ApprovedQueueRoute,
+  ApprovedQueueRouteConfig,
   ModerationQueue,
   PendingQueueRoute,
   RejectedQueueRouteConfig,
@@ -86,7 +86,7 @@ export default makeRouteConfig(
             path="unmoderated/sites/:siteID"
             {...UnmoderatedQueueRoute.routeConfig}
           />
-          <Route path="approved" {...ApprovedQueueRoute.routeConfig} />
+          <Route path="approved" {...ApprovedQueueRouteConfig} />
           <Route path="rejected" {...RejectedQueueRouteConfig} />
           <Route
             path="rejected/stories/:storyID"
@@ -95,12 +95,9 @@ export default makeRouteConfig(
           <Route path="rejected/sites/:siteID" {...RejectedQueueRouteConfig} />
           <Route
             path="approved/stories/:storyID"
-            {...ApprovedQueueRoute.routeConfig}
+            {...ApprovedQueueRouteConfig}
           />
-          <Route
-            path="approved/sites/:siteID"
-            {...ApprovedQueueRoute.routeConfig}
-          />
+          <Route path="approved/sites/:siteID" {...ApprovedQueueRouteConfig} />
           <Route path="stories/:storyID" Component={ModerationQueue} />
           <Route path="sites/:siteID" Component={ModerationQueue} />
         </Route>
