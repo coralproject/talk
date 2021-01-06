@@ -3935,6 +3935,7 @@ type Query {
     section: SectionFilter
     tag: TAG
     query: String
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """

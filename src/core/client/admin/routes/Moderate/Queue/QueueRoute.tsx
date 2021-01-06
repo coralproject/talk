@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
-import { MOD_QUEUE_SORT_ORDER } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -36,6 +35,7 @@ import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 import QueueCommentEnteredSubscription from "./QueueCommentEnteredSubscription";
 import QueueCommentLeftSubscription from "./QueueCommentLeftSubscription";
+import { getQueueOrderBy } from "./queueOrderBy";
 import QueueViewNewMutation from "./QueueViewNewMutation";
 
 interface Props {
@@ -175,10 +175,7 @@ const createQueueRoute = (
   paginationQuery: GraphQLTaggedNode,
   emptyElement: React.ReactElement
 ) => {
-  const initialOrderBy =
-    (localStorage.getItem(
-      `coral:${MOD_QUEUE_SORT_ORDER}`
-    ) as GQLCOMMENT_SORT) || GQLCOMMENT_SORT.CREATED_AT_DESC;
+  const initialOrderBy = getQueueOrderBy();
 
   const enhanced = withRouteConfig<Props, any>({
     prepareVariables: (params, match) => {
