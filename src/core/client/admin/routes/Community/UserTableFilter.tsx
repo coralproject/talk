@@ -5,8 +5,8 @@ import { Field, Form } from "react-final-form";
 import {
   GQLUSER_ROLE,
   GQLUSER_ROLE_RL,
-  GQLUSER_STATUS,
-  GQLUSER_STATUS_RL,
+  GQLUSER_STATUS_FILTER,
+  GQLUSER_STATUS_FILTER_RL,
 } from "coral-framework/schema";
 import {
   Button,
@@ -29,12 +29,13 @@ import styles from "./UserTableFilter.css";
 interface Props {
   roleFilter: GQLUSER_ROLE_RL | null;
   onSetRoleFilter: (role: GQLUSER_ROLE_RL) => void;
-  statusFilter: GQLUSER_STATUS_RL | null;
-  onSetStatusFilter: (role: GQLUSER_STATUS_RL) => void;
+  statusFilter: GQLUSER_STATUS_FILTER_RL | null;
+  onSetStatusFilter: (role: GQLUSER_STATUS_FILTER_RL) => void;
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
   viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];
   settings: PropTypesOf<typeof InviteUsersContainer>["settings"];
+  moderationScopesEnabled: boolean;
 }
 
 const UserTableFilter: FunctionComponent<Props> = (props) => (
@@ -159,16 +160,25 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                   <Option value="">All Statuses</Option>
                 </Localized>
                 <Localized id="userStatus-active">
-                  <Option value={GQLUSER_STATUS.ACTIVE}>Active</Option>
+                  <Option value={GQLUSER_STATUS_FILTER.ACTIVE}>Active</Option>
                 </Localized>
                 <Localized id="userStatus-suspended">
-                  <Option value={GQLUSER_STATUS.SUSPENDED}>Suspended</Option>
+                  <Option value={GQLUSER_STATUS_FILTER.SUSPENDED}>
+                    Suspended
+                  </Option>
                 </Localized>
                 <Localized id="userStatus-banned">
-                  <Option value={GQLUSER_STATUS.BANNED}>Banned</Option>
+                  <Option value={GQLUSER_STATUS_FILTER.BANNED}>Banned</Option>
                 </Localized>
+                {props.moderationScopesEnabled && (
+                  <Localized id="userStatus-siteBanned">
+                    <Option value={GQLUSER_STATUS_FILTER.SITE_BANNED}>
+                      Site banned
+                    </Option>
+                  </Localized>
+                )}
                 <Localized id="userStatus-premod">
-                  <Option value={GQLUSER_STATUS.PREMOD}>
+                  <Option value={GQLUSER_STATUS_FILTER.PREMOD}>
                     Always Premoderate
                   </Option>
                 </Localized>

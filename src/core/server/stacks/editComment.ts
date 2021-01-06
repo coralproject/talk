@@ -2,7 +2,11 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
+import {
+  CommentNotFoundError,
+  StoryNotFoundError,
+  UserSiteBanned,
+} from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
@@ -22,9 +26,11 @@ import {
   validateEditable,
   YouTubeMedia,
 } from "coral-server/models/comment";
+import { retrieveSite } from "coral-server/models/site";
 import { resolveStoryMode, retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { isSiteBanned } from "coral-server/models/user/helpers";
 import {
   addCommentActions,
   CreateAction,
@@ -92,11 +98,24 @@ export default async function edit(
   }
 
   // If the original comment was a reply, then get it's parent!
-  const { parentID, parentRevisionID } = originalStaleComment;
+  const { parentID, parentRevisionID, siteID } = originalStaleComment;
   const parent = await retrieveParent(mongo, tenant.id, {
     parentID,
     parentRevisionID,
   });
+
+  // Check if the user is banned on this site, if they are, throw an error right
+  // now.
+  // NOTE: this should be removed with attribute based auth checks.
+  if (isSiteBanned(author, siteID)) {
+    // Get the site in question.
+    const site = await retrieveSite(mongo, tenant.id, siteID);
+    if (!site) {
+      throw new Error(`referenced site not found: ${siteID}`);
+    }
+
+    throw new UserSiteBanned(author.id, site.id, site.name);
+  }
 
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we

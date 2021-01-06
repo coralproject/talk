@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { CommentNotFoundError } from "coral-server/errors";
+import { CommentNotFoundError, UserSiteBanned } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
@@ -21,8 +21,10 @@ import {
   updateCommentActionCounts,
 } from "coral-server/models/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
+import { retrieveSite } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { isSiteBanned } from "coral-server/models/user/helpers";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
   publishChanges,
@@ -91,7 +93,8 @@ async function addCommentAction(
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
-  input: Omit<CreateActionInput, "storyID" | "siteID">,
+  input: Omit<CreateActionInput, "storyID" | "siteID" | "userID">,
+  author: User,
   now = new Date()
 ): Promise<AddCommentAction> {
   const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
@@ -99,11 +102,28 @@ async function addCommentAction(
     throw new CommentNotFoundError(input.commentID);
   }
 
+  // Grab some useful properties.
+  const { storyID, siteID } = oldComment;
+
+  // Check if the user is banned on this site, if they are, throw an error right
+  // now.
+  // NOTE: this should be removed with attribute based auth checks.
+  if (isSiteBanned(author, siteID)) {
+    // Get the site in question.
+    const site = await retrieveSite(mongo, tenant.id, siteID);
+    if (!site) {
+      throw new Error(`referenced site not found: ${siteID}`);
+    }
+
+    throw new UserSiteBanned(author.id, site.id, site.name);
+  }
+
   // Create the action creator input.
   const action: CreateAction = {
     ...input,
-    storyID: oldComment.storyID,
-    siteID: oldComment.siteID,
+    storyID,
+    siteID,
+    userID: author.id,
   };
 
   // Update the actions for the comment.
@@ -244,8 +264,8 @@ export async function createReaction(
       actionType: ACTION_TYPE.REACTION,
       commentID: input.commentID,
       commentRevisionID: input.commentRevisionID,
-      userID: author.id,
     },
+    author,
     now
   );
   if (action) {
@@ -304,8 +324,8 @@ export async function createDontAgree(
       commentID: input.commentID,
       commentRevisionID: input.commentRevisionID,
       additionalDetails: input.additionalDetails,
-      userID: author.id,
     },
+    author,
     now
   );
 
@@ -357,8 +377,8 @@ export async function createFlag(
       commentID: input.commentID,
       commentRevisionID: input.commentRevisionID,
       additionalDetails: input.additionalDetails,
-      userID: author.id,
     },
+    author,
     now
   );
   if (action) {

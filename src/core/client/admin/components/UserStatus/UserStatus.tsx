@@ -8,6 +8,9 @@ import styles from "./UserStatus.css";
 
 interface Props {
   banned: boolean;
+  bannedSiteCount?: number | null;
+  moderationScopesEnabled: boolean;
+
   suspended: boolean;
   premod: boolean;
   warned: boolean;
@@ -22,6 +25,31 @@ const render = (className: string, content: React.ReactNode) => (
 );
 
 const UserStatus: FunctionComponent<Props> = (props) => {
+  if (
+    props.moderationScopesEnabled &&
+    props.banned &&
+    props.bannedSiteCount &&
+    props.bannedSiteCount > 0
+  ) {
+    return render(
+      styles.error,
+      <Localized id="userStatus-banned-count" $count={props.bannedSiteCount}>
+        <div>Banned ({props.bannedSiteCount})</div>
+      </Localized>
+    );
+  }
+  if (
+    props.moderationScopesEnabled &&
+    props.banned &&
+    (!props.bannedSiteCount || props.bannedSiteCount === 0)
+  ) {
+    return render(
+      styles.error,
+      <Localized id="userStatus-banned-all">
+        <div>Banned (all)</div>
+      </Localized>
+    );
+  }
   if (props.banned) {
     return render(
       styles.error,

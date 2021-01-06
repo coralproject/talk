@@ -10,6 +10,7 @@ import {
   UserWarned,
 } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
+import { Site } from "coral-server/models/site";
 import {
   consolidateUserStatus,
   consolidateUserSuspensionStatus,
@@ -37,7 +38,8 @@ export interface AuthDirectiveArgs {
 
 function calculateAuthConditions(
   user: User,
-  now: Date
+  site?: Site,
+  now: Date = new Date()
 ): GQLUSER_AUTH_CONDITIONS[] {
   const conditions: GQLUSER_AUTH_CONDITIONS[] = [];
 
@@ -50,7 +52,7 @@ function calculateAuthConditions(
   }
 
   // Compute the user status.
-  const status = consolidateUserStatus(user.status, now);
+  const status = consolidateUserStatus(user.status, now, site?.id);
   if (status.ban.active) {
     conditions.push(GQLUSER_AUTH_CONDITIONS.BANNED);
   }
@@ -79,7 +81,7 @@ const auth: DirectiveResolverFn<
   next,
   src,
   { roles, userIDField, permit, unscoped = false }: AuthDirectiveArgs,
-  { user, now },
+  { user, site, now },
   info
 ) => {
   if (
@@ -92,7 +94,7 @@ const auth: DirectiveResolverFn<
 
   // If there is a user on the request.
   if (user) {
-    const conditions = calculateAuthConditionsMemoized(user, now);
+    const conditions = calculateAuthConditionsMemoized(user, site, now);
     if (
       // If the permit was not specified, then no conditions can exist on the
       // User, if they do error.

@@ -2107,6 +2107,11 @@ type BanStatusHistory {
   message is sent to banned user via email.
   """
   message: String!
+
+  """
+  sites are set when the ban was created to perform a site specific ban.
+  """
+  sites: [Site!]
 }
 
 """
@@ -2117,6 +2122,11 @@ type BanStatus {
   active when true, indicates that the given user is banned.
   """
   active: Boolean!
+
+  """
+  sites is a list of sites that the user has been site banned on.
+  """
+  sites: [Site!]
 
   """
   history is the list of all ban events against a specific User.
@@ -2361,6 +2371,38 @@ type UserStatus {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+}
+
+enum USER_STATUS_FILTER {
+  """
+  ACTIVE is used when a User is not suspended or banned.
+  """
+  ACTIVE
+
+  """
+  BANNED is used when a User is banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is used when a User is currently suspended.
+  """
+  SUSPENDED
+
+  """
+  PREMOD is used when a User is currently set to require pre-moderation.
+  """
+  PREMOD
+
+  """
+  WARNED is used when a user has been warned about behaviour and has not acknowledged
+  """
+  WARNED
+
+  """
+  SITE_BANNED is used when a User is site banned.
+  """
+  SITE_BANNED
 }
 
 """
@@ -3933,7 +3975,7 @@ type Query {
     after: Cursor
     role: USER_ROLE
     query: String
-    status: USER_STATUS
+    status: USER_STATUS_FILTER
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
@@ -6890,7 +6932,7 @@ input ModerationScopesInput {
   siteIDs is an array of ID's that should be the list of sites that a moderator
   is limited to. If none are passed, it will remove the scoping for this User.
   """
-  siteIDs: [String!]
+  siteIDs: [ID!]
 }
 
 input UpdateUserModerationScopesInput {
@@ -7099,6 +7141,11 @@ input BanUserInput {
   message is sent to banned user via email.
   """
   message: String!
+
+  """
+  site ID's to scope the ban to.
+  """
+  siteIDs: [ID!]
 
   """
   whether or not to reject all the user's previous comments when banning them.
@@ -8071,7 +8118,7 @@ type Mutation {
   banUser will ban a specific User from interacting with Comments.
   """
   banUser(input: BanUserInput!): BanUserPayload!
-    @auth(roles: [ADMIN, MODERATOR], unscoped: true)
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   removeUserBan will remove an active ban from a User if they have one.

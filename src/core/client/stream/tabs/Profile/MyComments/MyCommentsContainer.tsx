@@ -31,7 +31,7 @@ const MyCommentsContainer: FunctionComponent<Props> = ({
       {settings.accountFeatures.downloadComments && (
         <div className={styles.downloadComments}>
           <DownloadCommentsContainer viewer={viewer} />
-          <HorizontalRule></HorizontalRule>
+          <HorizontalRule />
         </div>
       )}
       <HorizontalGutter spacing={6}>

@@ -221,6 +221,10 @@ comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
   This comment will also be rejected.
+comments-userBanPopover-scopedDescription =
+  Once banned from {$sitename}, this user will
+  no longer be able to comment, use reactions, or report
+  comments. This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
 

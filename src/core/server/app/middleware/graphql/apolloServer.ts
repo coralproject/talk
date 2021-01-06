@@ -19,7 +19,7 @@ type ContextProviderOptions = Omit<AppOptions, "schema" | "metrics">;
 function contextProvider(options: ContextProviderOptions) {
   return ({ req }: { req: Request<TenantCoralRequest> }) => {
     // Grab the details from the Coral request.
-    const { id, now, tenant, logger, persisted } = req.coral;
+    const { id, now, tenant, site, logger, persisted } = req.coral;
 
     // Create some new options to store the tenant context details inside.
     const opts: GraphContextOptions = {
@@ -30,6 +30,7 @@ function contextProvider(options: ContextProviderOptions) {
       persisted,
       tenant,
       logger,
+      site,
     };
 
     // Add the user if there is one.

@@ -33,6 +33,9 @@ const RemoveUserBanMutation = createMutation(
                       username
                     }
                   }
+                  sites {
+                    id
+                  }
                 }
               }
             }
@@ -58,6 +61,7 @@ const RemoveUserBanMutation = createMutation(
               ban: {
                 active: false,
                 history: [],
+                sites: [],
               },
             },
           },
