@@ -4,7 +4,7 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { identity } from "lodash";
+import { identity, uniq } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -93,13 +93,13 @@ export default function createWebpackConfig(
     // Fallback locale if a translation was not found.
     // If not set, will use the text that is already
     // in the code base.
-    fallbackLocale: config.get("defaultLocale"),
+    fallbackLocale: config.get("fallbackLocale"),
 
     // Common fluent files are always included in the locale bundles.
     commonFiles: ["framework.ftl", "common.ftl", "ui.ftl"],
 
     // Locales that come with the main bundle. Others are loaded on demand.
-    bundled: [config.get("defaultLocale")],
+    bundled: uniq([config.get("defaultLocale"), config.get("fallbackLocale")]),
 
     // All available locales can be loadable on demand.
     // To restrict available locales set:
