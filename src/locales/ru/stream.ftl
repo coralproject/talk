@@ -717,7 +717,7 @@ configure-openStream-theStreamIsNowClosed = Комментирование в р
 
 configure-moderateThisStream = Модерировать этот раздел
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   Формат вопросов/ответов в настоящее время находится в активной разработке.
   Пожалуйста, сообщайте нам о любых проблемах при использовании данного функционала.
 

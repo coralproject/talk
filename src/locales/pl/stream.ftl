@@ -696,7 +696,7 @@ configure-openStream-description =
 configure-openStream-openStream = Otwórz
 configure-openStream-theStreamIsNowClosed = Strumień jest teraz zamknięty
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   Format Q&A jest teraz aktywnie rozwijany. Napisz do nas
   jeśli masz uwagi lub pytania.
 

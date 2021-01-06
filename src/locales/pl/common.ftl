@@ -7,3 +7,6 @@ common-banEmailTemplate =
 
 common-embedNotFound = Nie znaleźliśmy tego pliku. Być może został usunięty.
 common-networkError = Problem z połączeniem z siecią. Spróbuj odświeżyć okienko przeglądarki i otwórz ponownie.
+
+common-experimentalTag = Eksperymentalne
+common-experimentalTag-tooltip-title = Funkcja eksperymentalna
