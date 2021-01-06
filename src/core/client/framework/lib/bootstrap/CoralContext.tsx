@@ -95,11 +95,23 @@ export const CoralContextConsumer = CoralReactContext.Consumer;
 
 const parser = new DOMParser();
 
+function fallbackParseMarkup(str: string) {
+  const doc = document.implementation.createHTMLDocument("");
+  doc.documentElement.innerHTML = str;
+  return doc;
+}
+
 // Use this custom markup parser which works in IE11.
 function parseMarkup(str: string) {
-  const doc = parser.parseFromString(`<body>${str}</body>`, "text/html");
+  const html = `<body>${str}</body>`;
+  let doc = parser.parseFromString(html, "text/html");
+  // occasionally parser.parseFromString will not return document.body synchronously on iOS
+  if (!doc.body) {
+    doc = fallbackParseMarkup(html);
+  }
   return Array.from(doc.body.childNodes);
 }
+
 /**
  * In addition to just providing the context, CoralContextProvider also
  * renders the `LocalizationProvider` with the appropite data.
