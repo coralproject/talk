@@ -233,15 +233,6 @@ export function mountClientRoutes(
   );
 
   router.use(
-    "/embed/auth/callback",
-    createClientTargetRouter({
-      mongo,
-      ...options,
-      cacheDuration: false,
-      entrypoint: entrypoints.get("authCallback"),
-    })
-  );
-  router.use(
     "/embed/auth",
     createClientTargetRouter({
       mongo,

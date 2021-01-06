@@ -30,6 +30,12 @@ const config = convict({
     default: "en-US",
     env: "LOCALE",
   },
+  fallbackLocale: {
+    doc: "Specify the default fallback locale to use",
+    format: LOCALES,
+    default: "en-US",
+    env: "FALLBACK_LOCALE",
+  },
   generateReport: {
     doc: "Generate a report using webpack-bundle-analyzer",
     format: Boolean,
