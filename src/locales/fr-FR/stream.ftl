@@ -670,7 +670,7 @@ configure-openStream-theStreamIsNowClosed = The stream est maintenant fermé
 
 configure-moderateThisStream =
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   Le format Q&R est présentement en développement. Contactez-nous avec
   vos commentaires ou suggestions.
 
