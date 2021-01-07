@@ -7,14 +7,14 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
+import { Button, StarRating } from "coral-ui/components/v3";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
 import { FeaturedCommentContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
@@ -38,9 +38,10 @@ interface Props {
 const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
   const { comment, settings, story, viewer } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const banned = Boolean(
-    viewer && viewer.status.current.includes(GQLUSER_STATUS.BANNED)
-  );
+  const isBanned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const isRatingsAndReviews =
+    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const onGotoConversation = useCallback(
     (e: MouseEvent) => {
@@ -61,6 +62,9 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       data-testid={`featuredComment-${comment.id}`}
     >
       <HorizontalGutter>
+        {isRatingsAndReviews && comment.rating && (
+          <StarRating rating={comment.rating} />
+        )}
         <HTMLContent
           className={cn(styles.body, CLASSES.featuredComment.content)}
         >
@@ -110,7 +114,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
           comment={comment}
           settings={settings}
           viewer={viewer}
-          readOnly={banned}
+          readOnly={isBanned}
           className={CLASSES.featuredComment.actionBar.reactButton}
           reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
         />
@@ -183,6 +187,9 @@ const enhanced = withFragmentContainer<Props>({
           FEATURED
         }
       }
+      settings {
+        mode
+      }
       ...UserTagsContainer_story
     }
   `,
@@ -198,6 +205,7 @@ const enhanced = withFragmentContainer<Props>({
           username
         }
       }
+      rating
       body
       createdAt
       lastViewerAction
