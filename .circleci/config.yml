@@ -158,7 +158,7 @@ jobs:
       - run:
           name: Deploy static files to Google Cloud Storage Bucket
           command: |
-            gsutil -m -h "Cache-Control: public, max-age=86400" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
+            gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
       - run:
           name: Deploy introspection json to Google Cloud Storage Bucket
           command: |
