@@ -29,6 +29,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
@@ -295,6 +296,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     story.canModerate &&
     can(viewer, Ability.MODERATE) &&
     !hideModerationCarat;
+
+  const flattenReplies = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
+  );
 
   if (showEditDialog) {
     return (
@@ -580,6 +585,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
             story={story}
             onClose={toggleShowReplyDialog}
             localReply={localReply}
+            showJumpToComment={Boolean(
+              indentLevel &&
+                indentLevel >= MAX_REPLY_INDENT_DEPTH - 1 &&
+                flattenReplies
+            )}
           />
         )}
         {removeAnswered && (

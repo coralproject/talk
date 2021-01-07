@@ -1,4 +1,5 @@
 import { CoralRTE } from "@coralproject/rte";
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
@@ -17,17 +18,19 @@ import {
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
+import { Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
 import { ReplyCommentFormContainer_story as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 
 import {
-  getSubmitStatus,
   shouldTriggerSettingsRefresh,
   shouldTriggerViewerRefresh,
   SubmitStatus,
 } from "../../helpers";
+import { getSubmissionResponse } from "../../helpers/getSubmitStatus";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
@@ -49,6 +52,7 @@ interface Props {
   localReply?: boolean;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
   refreshViewer: FetchProp<typeof RefreshViewerFetch>;
+  showJumpToComment?: boolean;
 }
 
 interface State {
@@ -57,6 +61,8 @@ interface State {
   initialValues?: ReplyCommentFormProps["initialValues"];
   initialized: boolean;
   submitStatus: SubmitStatus | null;
+  showJumpToComment: boolean;
+  jumpToCommentID: string | null;
 }
 
 export class ReplyCommentFormContainer extends Component<Props, State> {
@@ -64,6 +70,8 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     nudge: true,
     initialized: false,
     submitStatus: null,
+    showJumpToComment: false,
+    jumpToCommentID: null,
   };
   private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
   private rteRef: CoralRTE | null = null;
@@ -110,7 +118,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
 
   private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async (input) => {
     try {
-      const submitStatus = getSubmitStatus(
+      const response = getSubmissionResponse(
         await this.props.createCommentReply({
           storyID: this.props.story.id,
           parentID: this.props.comment.id,
@@ -124,14 +132,22 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           media: input.media,
         })
       );
-      if (submitStatus !== "RETRY") {
+
+      if (response.status !== "RETRY") {
         void this.props.sessionStorage.removeItem(this.contextKey);
-        if (submitStatus === "APPROVED" && this.props.onClose) {
+
+        if (response.status === "APPROVED" && this.props.showJumpToComment) {
+          this.setState({
+            showJumpToComment: true,
+            jumpToCommentID: response.commentID,
+          });
+          return;
+        } else if (response.status === "APPROVED" && this.props.onClose) {
           this.props.onClose();
           return;
         }
       }
-      this.setState({ submitStatus, nudge: true });
+      this.setState({ submitStatus: response.status, nudge: true });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
@@ -186,9 +202,57 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
   };
 
+  private jumpToComment = (commentID: string | null, onClose?: () => void) => {
+    if (!commentID) {
+      return;
+    }
+
+    if (onClose) {
+      onClose();
+    }
+
+    const elementID = `comment-${commentID}`;
+    setTimeout(() => {
+      const element = document.getElementById(elementID);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
+  };
+
   public render() {
     if (!this.state.initialized) {
       return null;
+    }
+
+    if (this.state.showJumpToComment) {
+      return (
+        <CallOut
+          title={
+            <Localized id="comments-jumpToComment-title">
+              Your reply has posted below
+            </Localized>
+          }
+          icon={<Icon>question_answer</Icon>}
+          iconColor="none"
+          color="primary"
+        >
+          <Localized id="comments-jumpToComment-GoToReply">
+            <Button
+              onClick={() => {
+                this.jumpToComment(
+                  this.state.jumpToCommentID,
+                  this.props.onClose
+                );
+              }}
+              variant="flat"
+              underline
+            >
+              Go to reply
+            </Button>
+          </Localized>
+        </CallOut>
+      );
     }
     if (this.state.submitStatus && this.state.submitStatus !== "RETRY") {
       return (
