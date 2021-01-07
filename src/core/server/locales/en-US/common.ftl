@@ -13,6 +13,3 @@ comment-count =
   }</span>
 
 staff-label = Staff
-
-experimental-tag = Experimental
-experimental-tag-tooltip-title = Experimental feature

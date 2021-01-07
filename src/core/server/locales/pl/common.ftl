@@ -15,5 +15,3 @@ comment-count =
 
 staff-label = Redakcja
 
-experimental-tag = Eksperymentalne
-experimental-tag-tooltip-title = Funkcja eksperymentalna

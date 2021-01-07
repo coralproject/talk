@@ -15,12 +15,12 @@ const ExperimentalTag: FunctionComponent<Props> = ({ classes, content }) => {
   return (
     <Flex alignItems="center">
       <div className={classes.root}>
-        <Localized id="experimental-tag">Experimental</Localized>
+        <Localized id="common-experimentalTag">Experimental</Localized>
       </div>
       <Tooltip
-        id="experimental-tag-tooltip"
+        id="common-experimentalTag-tooltip"
         title={
-          <Localized id="experimental-tag-tooltip-title">
+          <Localized id="common-experimentalTag-tooltip-title">
             <span>Experimental feature</span>
           </Localized>
         }

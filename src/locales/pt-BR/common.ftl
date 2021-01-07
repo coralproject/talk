@@ -8,3 +8,6 @@ common-banEmailTemplate =
 
 common-embedNotFound = A mídia solicitada não foi encontrada. Ela pode ter sido excluída.
 common-networkError = Erro de rede. Por favor, atualize a página e tente novamente
+
+common-experimentalTag = Experimental
+common-experimentalTag-tooltip-title = Funcionalidade experimental
