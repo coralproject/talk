@@ -141,6 +141,43 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
         </li>
       </ul>
     </nav>
+    <div
+      className="QueueSort-root"
+    >
+      <span
+        className="SelectField-root"
+      >
+        <select
+          className="SelectField-select SelectField-selectFont SelectField-selectColor coral-selectField"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          value="CREATED_AT_DESC"
+        >
+          <option
+            value="CREATED_AT_DESC"
+          >
+            Newest
+          </option>
+          <option
+            value="CREATED_AT_ASC"
+          >
+            Oldest
+          </option>
+        </select>
+        <span
+          aria-hidden={true}
+          className="SelectField-afterWrapper"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            expand_more
+          </i>
+        </span>
+      </span>
+    </div>
   </div>
 </div>
 `;

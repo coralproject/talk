@@ -69,11 +69,11 @@ export const RejectedQueueRoute: FunctionComponent<RejectedQueueRouteProps> = (
     );
   }, [props.relay]);
 
-  if (!props.query.viewer) {
+  if (!props.query || !props.query.viewer) {
     return null;
   }
 
-  if (isRefetching || !props.query) {
+  if (isRefetching) {
     return <LoadingQueue />;
   }
 
@@ -130,7 +130,11 @@ const createRoute = () => {
             first: $count
             after: $cursor
             orderBy: $orderBy
-          ) @connection(key: "RejectedQueue_comments") {
+          )
+            @connection(
+              key: "RejectedQueue_comments"
+              filters: ["status", "storyID", "siteID", "section"]
+            ) {
             edges {
               node {
                 id

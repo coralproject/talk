@@ -53,7 +53,5 @@ export default function getQueueConnection(
     return undefined;
   }
 
-  return ConnectionHandler.getConnection(queueRecord, "Queue_comments", {
-    orderBy,
-  });
+  return ConnectionHandler.getConnection(queueRecord, "Queue_comments");
 }

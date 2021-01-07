@@ -68,11 +68,11 @@ export const ApprovedQueueRoute: FunctionComponent<ApprovedQueueRouteProps> = (
     );
   }, [props.relay]);
 
-  if (!props.query.viewer) {
+  if (!props.query || !props.query.viewer) {
     return null;
   }
 
-  if (isRefetching || !props.query) {
+  if (isRefetching) {
     return <LoadingQueue />;
   }
 
@@ -103,8 +103,6 @@ export const ApprovedQueueRoute: FunctionComponent<ApprovedQueueRouteProps> = (
 type FragmentVariables = ApprovedQueueRoutePaginationQueryVariables;
 
 const createRoute = () => {
-  // const initialOrderBy = getQueueOrderBy();
-
   const enhanced = (withPaginationContainer<
     ApprovedQueueRouteProps,
     ApprovedQueueRoutePaginationQueryVariables,
@@ -129,7 +127,11 @@ const createRoute = () => {
             first: $count
             after: $cursor
             orderBy: $orderBy
-          ) @connection(key: "ApprovedQueue_comments") {
+          )
+            @connection(
+              key: "ApprovedQueue_comments"
+              filters: ["status", "storyID", "siteID", "section"]
+            ) {
             edges {
               node {
                 id

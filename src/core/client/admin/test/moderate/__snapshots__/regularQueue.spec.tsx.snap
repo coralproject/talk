@@ -15,7 +15,7 @@ exports[`approves comment in reported queue: count should be 1 1`] = `
 
 exports[`approves comment in reported queue: dangling 1`] = `
 <div
-  className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
+  className="Card-root ModerateCard-root ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
   id="moderate-comment-comment-0"
   onClick={[Function]}
@@ -227,7 +227,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
         <button
           aria-label="Reject"
           className="BaseButton-root RejectButton-root"
-          disabled={true}
+          disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -245,8 +245,8 @@ exports[`approves comment in reported queue: dangling 1`] = `
         </button>
         <button
           aria-label="Approve"
-          className="BaseButton-root ApproveButton-root ApproveButton-invert"
-          disabled={true}
+          className="BaseButton-root ApproveButton-root"
+          disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
