@@ -73,6 +73,7 @@ type Request =
         commentStatus: "APPROVED" | "DELETED";
         storyURL: string;
         tenantURL: string;
+        model: string;
       };
     };
 
@@ -111,9 +112,9 @@ function formatBody(req: Request): object {
           ],
         },
         attributeScores: {
-          [req.body.commentStatus]: {
+          [req.body.model]: {
             summaryScore: {
-              value: 1,
+              value: req.body.commentStatus === "APPROVED" ? 0 : 1,
             },
           },
         },
