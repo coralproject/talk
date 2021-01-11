@@ -16,6 +16,7 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
@@ -86,6 +87,10 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     return getURLWithCommentID(url, undefined);
   }, [pym]);
 
+  const commentVisible = !!(
+    comment && comment.status !== GQLCOMMENT_STATUS.REJECTED
+  );
+
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.permalinkView.$root, {
@@ -125,14 +130,14 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
           </Localized>
         )}
       </Flex>
-      {!comment && (
+      {!commentVisible && (
         <CallOut>
           <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
             This comment has been removed or does not exist.
           </Localized>
         </CallOut>
       )}
-      {comment && (
+      {comment && commentVisible && (
         <HorizontalGutter>
           <ConversationThreadContainer
             viewer={viewer}
@@ -169,6 +174,7 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment PermalinkViewContainer_comment on Comment {
       id
+      status
       ...ConversationThreadContainer_comment
       ...ReplyListContainer1_comment
     }
