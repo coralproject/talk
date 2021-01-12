@@ -16,7 +16,6 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
@@ -30,6 +29,7 @@ import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 
+import { isPublished } from "../helpers";
 import CommentEnteredSubscription from "../Stream/AllCommentsTab/CommentEnteredSubscription";
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
@@ -87,9 +87,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     return getURLWithCommentID(url, undefined);
   }, [pym]);
 
-  const commentVisible = !!(
-    comment && comment.status !== GQLCOMMENT_STATUS.REJECTED
-  );
+  const commentVisible = comment && isPublished(comment.status);
 
   return (
     <HorizontalGutter
