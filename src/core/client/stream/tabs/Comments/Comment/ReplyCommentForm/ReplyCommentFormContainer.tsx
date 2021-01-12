@@ -1,11 +1,17 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import React, { Component } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { withContext } from "coral-framework/lib/bootstrap";
+import { useCoralContext, withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
   ModerationNudgeError,
@@ -34,6 +40,7 @@ import { getSubmissionResponse } from "../../helpers/getSubmitStatus";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
+import computeCommentElementID from "../commentElementID";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import {
   CreateCommentReplyMutation,
@@ -55,252 +62,238 @@ interface Props {
   showJumpToComment?: boolean;
 }
 
-interface State {
-  /** nudge will turn on the nudging behavior on the server */
-  nudge: boolean;
-  initialValues?: ReplyCommentFormProps["initialValues"];
-  initialized: boolean;
-  submitStatus: SubmitStatus | null;
-  showJumpToComment: boolean;
-  jumpToCommentID: string | null;
-}
+const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
+  const { pym } = useCoralContext();
 
-export class ReplyCommentFormContainer extends Component<Props, State> {
-  public state: State = {
-    nudge: true,
-    initialized: false,
-    submitStatus: null,
-    showJumpToComment: false,
-    jumpToCommentID: null,
-  };
-  private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
-  private rteRef: CoralRTE | null = null;
+  const [nudge, setNudge] = useState(true);
+  const [initialized, setInitialized] = useState(false);
+  const [initialValues, setInitialValues] = useState<
+    ReplyCommentFormProps["initialValues"] | undefined
+  >(undefined);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
+  const [showJumpToComment, setShowJumpToComment] = useState(false);
+  const [jumpToCommentID, setJumpToCommentID] = useState<string | null>(null);
 
-  constructor(props: Props) {
-    super(props);
-    void this.init();
-  }
+  const contextKey = `replyCommentFormBody-${props.comment.id}`;
+  const rteRef = useRef<CoralRTE | null>(null);
 
-  private handleRTERef = (rte: CoralRTE | null) => {
-    this.rteRef = rte;
-    if (this.rteRef && this.props.autofocus) {
-      // Delay focus a bit until iframe had a change to resize.
-      setTimeout(() => this.rteRef && this.rteRef.focus(), 100);
-    }
-  };
+  useEffect(() => {
+    async function fetchBody() {
+      const body = await props.sessionStorage.getItem(contextKey);
 
-  private async init() {
-    const body = await this.props.sessionStorage.getItem(this.contextKey);
-    if (body) {
-      this.setState({
-        initialValues: {
+      if (body) {
+        setInitialValues({
           body,
-        },
-      });
-    }
-    this.setState({
-      initialized: true,
-    });
-  }
-
-  private handleOnCancelOrDismiss = () => {
-    void this.props.sessionStorage.removeItem(this.contextKey);
-    if (this.props.onClose) {
-      this.props.onClose();
-    }
-  };
-
-  private disableNudge = () => {
-    if (this.state.nudge) {
-      this.setState({ nudge: false });
-    }
-  };
-
-  private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async (input) => {
-    try {
-      const response = getSubmissionResponse(
-        await this.props.createCommentReply({
-          storyID: this.props.story.id,
-          parentID: this.props.comment.id,
-          // Assuming comment revision exists otherwise we would
-          // not be seeing the reply form options as we we tombstone
-          // deleted comments without revision history
-          parentRevisionID: this.props.comment.revision!.id,
-          local: this.props.localReply,
-          nudge: this.state.nudge,
-          body: input.body,
-          media: input.media,
-        })
-      );
-
-      if (response.status !== "RETRY") {
-        void this.props.sessionStorage.removeItem(this.contextKey);
-
-        if (response.status === "APPROVED" && this.props.showJumpToComment) {
-          this.setState({
-            showJumpToComment: true,
-            jumpToCommentID: response.commentID,
-          });
-          return;
-        } else if (response.status === "APPROVED" && this.props.onClose) {
-          this.props.onClose();
-          return;
-        }
-      }
-      this.setState({ submitStatus: response.status, nudge: true });
-    } catch (error) {
-      if (error instanceof InvalidRequestError) {
-        if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings({ storyID: this.props.story.id });
-        }
-
-        if (shouldTriggerViewerRefresh(error.code)) {
-          await this.props.refreshViewer();
-        }
-
-        if (error.code === ERROR_CODES.USER_WARNED) {
-          return {
-            [FORM_ERROR]: <WarningError />,
-          };
-        }
-
-        return error.invalidArgs;
+        });
       }
 
-      /**
-       * Comment was caught in one of the moderation filters on the server.
-       * We give the user another change to submit the comment, and we
-       * turn off the nudging behavior on the next try.
-       */
-      if (error instanceof ModerationNudgeError) {
-        this.disableNudge();
-        return { [FORM_ERROR]: error.message };
+      setInitialized(true);
+    }
+
+    void fetchBody();
+  }, [contextKey, props.sessionStorage]);
+
+  const handleRTERef = useCallback(
+    (rte: CoralRTE | null) => {
+      rteRef.current = rte;
+      if (rteRef && props.autofocus) {
+        // Delay focus a bit until iframe had a change to resize.
+        setTimeout(
+          () => rteRef && rteRef.current && rteRef.current.focus(),
+          100
+        );
       }
+    },
+    [props]
+  );
 
-      // eslint-disable-next-line no-console
-      console.error(error);
+  const handleOnCancelOrDismiss = useCallback(() => {
+    void props.sessionStorage.removeItem(contextKey);
+    if (props.onClose) {
+      props.onClose();
     }
-    return;
-  };
+  }, [contextKey, props]);
 
-  private handleOnChange: ReplyCommentFormProps["onChange"] = (state, form) => {
-    if (state.values.body) {
-      void this.props.sessionStorage.setItem(
-        this.contextKey,
-        state.values.body
-      );
-    } else {
-      void this.props.sessionStorage.removeItem(this.contextKey);
+  const disableNudge = useCallback(() => {
+    if (nudge) {
+      setNudge(false);
     }
-    // Reset errors whenever user clears the form.
-    if (
-      state.touched &&
-      state.touched.body &&
-      (!state.values.body || state.values.body === RTE_RESET_VALUE)
-    ) {
-      (form as any).restart({ body: RTE_RESET_VALUE });
-    }
-  };
+  }, [nudge]);
 
-  private jumpToComment = (commentID: string | null, onClose?: () => void) => {
-    if (!commentID) {
+  const handleOnSubmit: ReplyCommentFormProps["onSubmit"] = useCallback(
+    async (input) => {
+      try {
+        const response = getSubmissionResponse(
+          await props.createCommentReply({
+            storyID: props.story.id,
+            parentID: props.comment.id,
+            // Assuming comment revision exists otherwise we would
+            // not be seeing the reply form options as we we tombstone
+            // deleted comments without revision history
+            parentRevisionID: props.comment.revision!.id,
+            local: props.localReply,
+            nudge,
+            body: input.body,
+            media: input.media,
+          })
+        );
+
+        if (response.status !== "RETRY") {
+          void props.sessionStorage.removeItem(contextKey);
+
+          if (response.status === "APPROVED" && props.showJumpToComment) {
+            setJumpToCommentID(response.commentID);
+            setShowJumpToComment(true);
+
+            return;
+          } else if (response.status === "APPROVED" && props.onClose) {
+            props.onClose();
+            return;
+          }
+        }
+
+        setNudge(true);
+        setSubmitStatus(response.status);
+      } catch (error) {
+        if (error instanceof InvalidRequestError) {
+          if (shouldTriggerSettingsRefresh(error.code)) {
+            await props.refreshSettings({ storyID: props.story.id });
+          }
+
+          if (shouldTriggerViewerRefresh(error.code)) {
+            await props.refreshViewer();
+          }
+
+          if (error.code === ERROR_CODES.USER_WARNED) {
+            return {
+              [FORM_ERROR]: <WarningError />,
+            };
+          }
+
+          return error.invalidArgs;
+        }
+
+        /**
+         * Comment was caught in one of the moderation filters on the server.
+         * We give the user another change to submit the comment, and we
+         * turn off the nudging behavior on the next try.
+         */
+        if (error instanceof ModerationNudgeError) {
+          disableNudge();
+          return { [FORM_ERROR]: error.message };
+        }
+
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+      return;
+    },
+    [contextKey, disableNudge, nudge, props]
+  );
+
+  const handleOnChange: ReplyCommentFormProps["onChange"] = useCallback(
+    (state, form) => {
+      if (state.values.body) {
+        void props.sessionStorage.setItem(contextKey, state.values.body);
+      } else {
+        void props.sessionStorage.removeItem(contextKey);
+      }
+      // Reset errors whenever user clears the form.
+      if (
+        state.touched &&
+        state.touched.body &&
+        (!state.values.body || state.values.body === RTE_RESET_VALUE)
+      ) {
+        form.restart({ body: RTE_RESET_VALUE });
+      }
+    },
+    [contextKey, props.sessionStorage]
+  );
+
+  const jumpToComment = useCallback(() => {
+    const commentID = jumpToCommentID;
+    if (!commentID || !pym) {
       return;
     }
 
-    if (onClose) {
-      onClose();
+    if (props.onClose) {
+      props.onClose();
     }
 
-    const elementID = `comment-${commentID}`;
+    const elementID = computeCommentElementID(commentID);
     setTimeout(() => {
-      const element = document.getElementById(elementID);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      pym.scrollParentToChildEl(elementID);
     }, 300);
-  };
+  }, [jumpToCommentID, props, pym]);
 
-  public render() {
-    if (!this.state.initialized) {
-      return null;
-    }
+  if (!initialized) {
+    return null;
+  }
 
-    if (this.state.showJumpToComment) {
-      return (
-        <CallOut
-          title={
-            <Localized id="comments-jumpToComment-title">
-              Your reply has posted below
-            </Localized>
-          }
-          icon={<Icon>question_answer</Icon>}
-          iconColor="none"
-          color="primary"
-        >
-          <Localized id="comments-jumpToComment-GoToReply">
-            <Button
-              onClick={() => {
-                this.jumpToComment(
-                  this.state.jumpToCommentID,
-                  this.props.onClose
-                );
-              }}
-              variant="flat"
-              underline
-            >
-              Go to reply
-            </Button>
-          </Localized>
-        </CallOut>
-      );
-    }
-    if (this.state.submitStatus && this.state.submitStatus !== "RETRY") {
-      return (
-        <ReplyEditSubmitStatus
-          status={this.state.submitStatus}
-          onDismiss={this.handleOnCancelOrDismiss}
-          buttonClassName={CLASSES.createReplyComment.dismiss}
-          inReviewClassName={CLASSES.createReplyComment.inReview}
-        />
-      );
-    }
+  if (showJumpToComment) {
     return (
-      <ReplyCommentForm
-        siteID={this.props.comment.site.id}
-        id={this.props.comment.id}
-        rteConfig={this.props.settings.rte}
-        onSubmit={this.handleOnSubmit}
-        onChange={this.handleOnChange}
-        mediaConfig={this.props.settings.media}
-        initialValues={this.state.initialValues}
-        onCancel={this.handleOnCancelOrDismiss}
-        rteRef={this.handleRTERef}
-        parentUsername={
-          this.props.comment.author && this.props.comment.author.username
+      <CallOut
+        title={
+          <Localized id="comments-jumpToComment-title">
+            Your reply has posted below
+          </Localized>
         }
-        min={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.min) ||
-          null
-        }
-        max={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.max) ||
-          null
-        }
-        disabled={
-          this.props.settings.disableCommenting.enabled ||
-          this.props.story.isClosed
-        }
-        disabledMessage={
-          (this.props.settings.disableCommenting.enabled &&
-            this.props.settings.disableCommenting.message) ||
-          this.props.settings.closeCommenting.message
-        }
+        icon={<Icon>question_answer</Icon>}
+        iconColor="none"
+        color="primary"
+      >
+        <Localized id="comments-jumpToComment-GoToReply">
+          <Button onClick={jumpToComment} variant="flat" underline>
+            Go to reply
+          </Button>
+        </Localized>
+      </CallOut>
+    );
+  }
+
+  if (submitStatus && submitStatus !== "RETRY") {
+    return (
+      <ReplyEditSubmitStatus
+        status={submitStatus}
+        onDismiss={handleOnCancelOrDismiss}
+        buttonClassName={CLASSES.createReplyComment.dismiss}
+        inReviewClassName={CLASSES.createReplyComment.inReview}
       />
     );
   }
-}
+
+  return (
+    <ReplyCommentForm
+      siteID={props.comment.site.id}
+      id={props.comment.id}
+      rteConfig={props.settings.rte}
+      onSubmit={handleOnSubmit}
+      onChange={handleOnChange}
+      mediaConfig={props.settings.media}
+      initialValues={initialValues}
+      onCancel={handleOnCancelOrDismiss}
+      rteRef={handleRTERef}
+      parentUsername={props.comment.author && props.comment.author.username}
+      min={
+        (props.settings.charCount.enabled && props.settings.charCount.min) ||
+        null
+      }
+      max={
+        (props.settings.charCount.enabled && props.settings.charCount.max) ||
+        null
+      }
+      disabled={
+        props.settings.disableCommenting.enabled || props.story.isClosed
+      }
+      disabledMessage={
+        (props.settings.disableCommenting.enabled &&
+          props.settings.disableCommenting.message) ||
+        props.settings.closeCommenting.message
+      }
+    />
+  );
+};
+
 const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   sessionStorage,
   // Disable autofocus on ios and enable for the rest.

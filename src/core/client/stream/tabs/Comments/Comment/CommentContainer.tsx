@@ -49,6 +49,7 @@ import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
+import commentElementID from "./commentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
@@ -345,8 +346,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         badgesClassName,
         className
       )}
-      id={`comment-${comment.id}`}
-      data-testid={`comment-${comment.id}`}
+      id={commentElementID(comment.id)}
+      data-testid={commentElementID(comment.id)}
       // Added for keyboard shortcut support.
       data-key-stop
     >
