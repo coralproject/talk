@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -34,9 +34,12 @@ import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
+import CommentsLinks from "../CommentsLinks";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import FeaturedCommentContainer from "./FeaturedCommentContainer";
+
+import styles from "./FeaturedCommentsContainer.css";
 
 interface Props {
   story: StoryData;
@@ -114,6 +117,14 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
     // If we aren't warned.
     !warned;
 
+  const showGoToDiscussions = useMemo(
+    () =>
+      !!props.viewer &&
+      !!props.settings &&
+      props.settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+    [props.viewer, props.settings]
+  );
+
   return (
     <>
       <HorizontalGutter
@@ -171,6 +182,12 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
               onChangeTab={onChangeTab}
             />
           )}
+          <div className={styles.borderedFooter}>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!props.viewer}
+            />
+          </div>
         </HorizontalGutter>
       )}
     </>
