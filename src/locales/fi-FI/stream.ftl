@@ -692,7 +692,7 @@ configure-openStream-theStreamIsNowClosed = Keskustelu on nyt suljettu
 
 configure-moderateThisStream =
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   K&V toiminnallisuutta kehitetään aktiivisesti.
   Ota yhteyttä jos haluat antaa palautetta tai kehitysehdotuksia.
 

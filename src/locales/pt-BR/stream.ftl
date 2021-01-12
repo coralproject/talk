@@ -705,7 +705,7 @@ configure-openStream-theStreamIsNowClosed = O fluxo agora está fechado
 
 configure-moderateThisStream =
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   O formato de perguntas e respostas está atualmente em desenvolvimento ativo. Entre em
   contato conosco para qualquer feedback ou solicitação.
 
