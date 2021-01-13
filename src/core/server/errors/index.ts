@@ -480,6 +480,15 @@ export class CommentNotFoundError extends CoralError {
   }
 }
 
+export class AuthorAlreadyHasRatedStory extends CoralError {
+  constructor(userID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.AUTHOR_ALREADY_HAS_RATED_STORY,
+      context: { pvt: { userID, storyID } },
+    });
+  }
+}
+
 export class CommentEditWindowExpiredError extends CoralError {
   constructor(commentID: string) {
     super({
