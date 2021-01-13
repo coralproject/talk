@@ -7,6 +7,8 @@ import parseModerationOptions from "coral-framework/helpers/parseModerationOptio
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
+  LOCAL_ID,
+  lookup,
   useLoadMore,
   useLocal,
   useMutation,
@@ -35,7 +37,6 @@ import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 import QueueCommentEnteredSubscription from "./QueueCommentEnteredSubscription";
 import QueueCommentLeftSubscription from "./QueueCommentLeftSubscription";
-import { getQueueOrderBy } from "./queueOrderBy";
 import QueueViewNewMutation from "./QueueViewNewMutation";
 
 interface Props {
@@ -175,10 +176,10 @@ const createQueueRoute = (
   paginationQuery: GraphQLTaggedNode,
   emptyElement: React.ReactElement
 ) => {
-  const initialOrderBy = getQueueOrderBy();
-
   const enhanced = withRouteConfig<Props, any>({
     prepareVariables: (params, match) => {
+      const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+        .moderationQueueSort;
       return {
         ...params,
         initialOrderBy,
@@ -193,7 +194,6 @@ const createQueueRoute = (
       }
 
       const { storyID, siteID, section } = parseModerationOptions(match);
-
       if (!data) {
         return (
           <Component
