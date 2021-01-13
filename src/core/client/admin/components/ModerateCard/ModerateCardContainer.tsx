@@ -36,6 +36,7 @@ import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
+import RemoveCommentMutation from "./RemoveCommentMutation";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
@@ -95,6 +96,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
   const banUser = useMutation(BanCommentUserMutation);
+  const removeComment = useMutation(RemoveCommentMutation);
 
   const scoped = useMemo(
     () =>
@@ -266,6 +268,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [comment, banUser, setShowBanModal]
   );
 
+  const handleRemove = useCallback(async () => {
+    await removeComment({ commentID: comment.id });
+  }, [comment.id, removeComment]);
+
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
@@ -316,6 +322,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onConversationClick={
             conversationClicked ? onConversationClicked : null
           }
+          onRemove={handleRemove}
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}

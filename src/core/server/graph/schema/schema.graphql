@@ -5951,6 +5951,34 @@ type UnfeatureCommentPayload {
 }
 
 ##################
+# removeComment
+##################
+
+input RemoveCommentInput {
+  """
+  commentID is the ID of the featured Comment that should be unfeatured.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveCommentPayload {
+  """
+  comment is the Comment that was unfeatured.
+  """
+  success: Boolean
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # setUsername
 ##################
 
@@ -7867,6 +7895,12 @@ type Mutation {
   """
   unfeatureComment(input: UnfeatureCommentInput!): UnfeatureCommentPayload!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeComment will remove the comment.
+  """
+  removeComment(input: RemoveCommentInput!): RemoveCommentPayload!
+    @auth(roles: [ADMIN])
 
   """
   createStory will create the provided Story.

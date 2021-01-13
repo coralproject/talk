@@ -1292,3 +1292,17 @@ export async function retrieveFeaturedComments(
 
   return results;
 }
+
+export async function removeComment(
+  mongo: Db,
+  tenantID: string,
+  commentID: string
+): Promise<boolean> {
+  const op = await collection(mongo).deleteOne({ tenantID, id: commentID });
+
+  if (!op || !op.result) {
+    return false;
+  }
+
+  return !!op.result.ok;
+}

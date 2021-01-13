@@ -3,7 +3,7 @@ import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { hasFeatureFlag } from "coral-server/models/tenant";
-import { addTag, removeTag } from "coral-server/services/comments";
+import { addTag, remove, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
@@ -30,6 +30,7 @@ import {
   GQLFEATURE_FLAG,
   GQLFeatureCommentInput,
   GQLRemoveCommentDontAgreeInput,
+  GQLRemoveCommentInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
   GQLUnfeatureCommentInput,
@@ -217,5 +218,8 @@ export const Comments = (ctx: GraphContext) => ({
     }
 
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+  },
+  remove: async ({ commentID }: WithoutMutationID<GQLRemoveCommentInput>) => {
+    return remove(ctx.mongo, ctx.tenant, commentID);
   },
 });

@@ -65,6 +65,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
   onConversationClick: (() => void) | null;
   onFocusOrClick: () => void;
+  onRemove: () => void;
   mini?: boolean;
   hideUsername?: boolean;
   selected?: boolean;
@@ -126,6 +127,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectPrev,
   onBan,
   isQA,
+  onRemove,
 }) => {
   const div = useRef<HTMLDivElement>(null);
 
@@ -352,6 +354,13 @@ const ModerateCard: FunctionComponent<Props> = ({
           </Flex>
           {moderatedBy}
         </Flex>
+        {deleted && (
+          <div>
+            <Button color="alert" onClick={onRemove}>
+              Remove
+            </Button>
+          </div>
+        )}
       </Flex>
     </Card>
   );
