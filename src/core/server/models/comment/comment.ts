@@ -1125,6 +1125,30 @@ export async function retrieveOngoingDiscussions(
   return results;
 }
 
+export async function hasAuthorStoryRating(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  authorID: string
+): Promise<boolean> {
+  const timer = createTimer();
+
+  const comment = await collection(mongo).findOne({
+    tenantID,
+    storyID,
+    authorID,
+    parentID: null,
+    status: {
+      $ne: GQLCOMMENT_STATUS.REJECTED,
+    },
+    rating: { $gt: 0 },
+  });
+
+  logger.info({ took: timer() }, "has comment rated query");
+
+  return !!comment;
+}
+
 export async function retrieveAuthorStoryRating(
   mongo: Db,
   tenantID: string,
