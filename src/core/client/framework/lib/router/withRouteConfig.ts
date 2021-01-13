@@ -1,64 +1,21 @@
-import { RouteMatch, RouteProps } from "found";
+import { RouteProps } from "found";
 import React from "react";
 
-import { resolveModule } from "../relay/helpers";
-
-type RouteConfig<Props = any, QueryResponse = undefined> = Partial<
-  Pick<RouteProps, "query" | "getQuery">
-> &
-  Partial<Pick<RouteProps, "data" | "getData" | "defer">> & {
-    cacheConfig?: {
-      force?: boolean;
-    };
-    prepareVariables?: (
-      params: Record<string, string>,
-      match: RouteMatch
-    ) => Record<string, any>;
-    render?: (args: {
-      error: Error;
-      data: QueryResponse | null;
-      retry: () => void;
-      match: RouteMatch;
-      Component: React.ComponentType<Partial<Props>>;
-    }) => React.ReactElement;
-  };
+import createRouteConfig, { RouteConfig } from "./createRouteConfig";
 
 function withRouteConfig<
   Props = any,
   QueryResponse = Props extends { data: infer T | null | undefined }
     ? T
     : undefined
->(config: RouteConfig<Props, QueryResponse>) {
+>(config: Omit<RouteConfig<Props, QueryResponse>, "Component">) {
   const hoc = <T>(component: React.ComponentType<T>) => {
-    (component as any).routeConfig = {
+    (component as any).routeConfig = createRouteConfig({
       ...config,
-      Component: component,
-      query: config.query ? resolveModule(config.query) : undefined,
-      getQuery: config.getQuery
-        ? (...args: any[]) => {
-            return resolveModule(config.getQuery(...args));
-          }
-        : undefined,
-      render: function WitRouteConfig({
-        error,
-        props: data,
-        retry,
-        match,
-        Component,
-      }: any) {
-        if (config.render) {
-          return config.render({ error, data, retry, match, Component });
-        }
-        return React.createElement(Component, {
-          error,
-          data,
-          retry,
-          match,
-        });
-      },
-    };
+      Component: component as any,
+    });
     return component as React.ComponentClass<T> & {
-      routeConfig: RouteConfig<QueryResponse>;
+      routeConfig: RouteProps;
     };
   };
   return hoc;

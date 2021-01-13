@@ -1,7 +1,8 @@
-import { FunctionComponent } from "react";
+import { ElementsRenderer } from "found";
 
 declare module "found" {
-  const ElementsRenderer: FunctionComponent<{
-    elements: ReactElementOrGroup[];
-  }>;
+  // TODO: (cvle) remove when merged https://github.com/4Catalyzer/found/pull/780
+  const ElementsRenderer: ElementsRenderer;
 }
+
+declare module "found/ResolverUtils";
