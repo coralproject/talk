@@ -8,7 +8,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { RejectCommentMutation as MutationTypes } from "coral-admin/__generated__/RejectCommentMutation.graphql";
 
@@ -19,10 +19,10 @@ const RejectCommentMutation = createMutation(
   (
     environment: Environment,
     input: MutationInput<MutationTypes> & {
-      storyID?: string | null;
-      siteID?: string | null;
-      section?: SectionFilter | null;
-      orderBy?: GQLCOMMENT_SORT | null;
+      storyID: string | null;
+      siteID: string | null;
+      section: SectionFilter | null;
+      orderBy: GQLCOMMENT_SORT_RL | null;
     }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {

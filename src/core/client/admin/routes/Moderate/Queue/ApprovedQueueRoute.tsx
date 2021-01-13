@@ -127,11 +127,7 @@ const createRoute = () => {
             first: $count
             after: $cursor
             orderBy: $orderBy
-          )
-            @connection(
-              key: "ApprovedQueue_comments"
-              filters: ["status", "storyID", "siteID", "section"]
-            ) {
+          ) @connection(key: "ApprovedQueue_comments", filters: []) {
             edges {
               node {
                 id

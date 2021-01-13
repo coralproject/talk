@@ -243,7 +243,7 @@ const createQueueRoute = (
             ) {
             count
             comments(first: $count, after: $cursor, orderBy: $orderBy)
-              @connection(key: "Queue_comments", filters: []) {
+              @connection(key: "Queue_comments") {
               viewNewEdges {
                 cursor
                 node {

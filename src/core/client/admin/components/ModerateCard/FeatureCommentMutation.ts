@@ -10,7 +10,7 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import {
-  GQLCOMMENT_SORT,
+  GQLCOMMENT_SORT_RL,
   GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-framework/schema";
@@ -24,10 +24,10 @@ const FeatureCommentMutation = createMutation(
   (
     environment: Environment,
     input: MutationInput<FeatureCommentMutation> & {
-      storyID?: string | null;
-      siteID?: string | null;
-      section?: SectionFilter | null;
-      orderBy?: GQLCOMMENT_SORT | null;
+      storyID: string | null;
+      siteID: string | null;
+      section: SectionFilter | null;
+      orderBy: GQLCOMMENT_SORT_RL | null;
     },
     { uuidGenerator }: CoralContext
   ) =>
