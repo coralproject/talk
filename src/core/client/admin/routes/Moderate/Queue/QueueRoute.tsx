@@ -105,28 +105,36 @@ export const QueueRoute: FunctionComponent<Props> = ({
 
   const hasMore = relay.hasMore();
 
-  // Handle subscribing and unsubscribing to the subscriptions.
+  // Handle subscribing/unsubscribe comment left
   useEffect(() => {
-    const vars = {
+    const commentLeftSub = subscribeToQueueCommentLeft({
       queue: queueName,
       storyID,
       siteID,
       orderBy,
       section,
-    };
+    });
 
-    const commentLeftSub = subscribeToQueueCommentLeft(vars);
-
-    const earlyDispose = () => {
+    return () => {
       commentLeftSub.dispose();
     };
+  }, [
+    orderBy,
+    queueName,
+    section,
+    siteID,
+    storyID,
+    subscribeToQueueCommentLeft,
+  ]);
 
+  // Handle subscribing/unsubscribe comment entered
+  useEffect(() => {
     switch (orderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
         // Oldest first when there is more than one page of content can't
         // possibly have new comments to show in view!
         if (hasMore) {
-          return earlyDispose;
+          return;
         }
 
         // We have all the comments for this story in view! Comments could load!
@@ -137,24 +145,28 @@ export const QueueRoute: FunctionComponent<Props> = ({
       default:
         // Only chronological sort supports top level live updates of incoming
         // comments.
-        return earlyDispose;
+        return;
     }
 
-    const commentEnteredSub = subscribeToQueueCommentEntered(vars);
+    const commentEnteredSub = subscribeToQueueCommentEntered({
+      queue: queueName,
+      storyID,
+      siteID,
+      orderBy,
+      section,
+    });
 
     return () => {
-      commentLeftSub.dispose();
       commentEnteredSub.dispose();
     };
   }, [
+    subscribeToQueueCommentEntered,
+    hasMore,
+    orderBy,
+    queueName,
     storyID,
     siteID,
     section,
-    queueName,
-    subscribeToQueueCommentEntered,
-    subscribeToQueueCommentLeft,
-    orderBy,
-    hasMore,
   ]);
 
   // It's never the case really that the query has loaded but queue or settings
