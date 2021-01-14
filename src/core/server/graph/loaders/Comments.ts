@@ -222,7 +222,7 @@ export default (ctx: GraphContext) => ({
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
-      orderBy: orderBy ? orderBy : GQLCOMMENT_SORT.CREATED_AT_DESC,
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       filter: {
         ...queryFilter(query),
         ...tagFilter(tag),
