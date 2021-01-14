@@ -40,7 +40,7 @@ import { getSubmissionResponse } from "../../helpers/getSubmitStatus";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
-import computeCommentElementID from "../commentElementID";
+import commentElementID from "../commentElementID";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import {
   CreateCommentReplyMutation,
