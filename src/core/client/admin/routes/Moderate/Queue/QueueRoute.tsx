@@ -6,7 +6,6 @@ import { SectionFilter } from "coral-common/section";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
-  combineDisposables,
   LOCAL_ID,
   lookup,
   useLoadMore,
@@ -108,12 +107,26 @@ export const QueueRoute: FunctionComponent<Props> = ({
 
   // Handle subscribing and unsubscribing to the subscriptions.
   useEffect(() => {
+    const vars = {
+      queue: queueName,
+      storyID,
+      siteID,
+      orderBy,
+      section,
+    };
+
+    const commentLeftSub = subscribeToQueueCommentLeft(vars);
+
+    const earlyDispose = () => {
+      commentLeftSub.dispose();
+    };
+
     switch (orderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
         // Oldest first when there is more than one page of content can't
         // possibly have new comments to show in view!
         if (hasMore) {
-          return;
+          return earlyDispose;
         }
 
         // We have all the comments for this story in view! Comments could load!
@@ -124,24 +137,14 @@ export const QueueRoute: FunctionComponent<Props> = ({
       default:
         // Only chronological sort supports top level live updates of incoming
         // comments.
-        return;
+        return earlyDispose;
     }
 
-    const vars = {
-      queue: queueName,
-      storyID,
-      siteID,
-      orderBy,
-      section,
-    };
-
-    const disposable = combineDisposables(
-      subscribeToQueueCommentEntered(vars),
-      subscribeToQueueCommentLeft(vars)
-    );
+    const commentEnteredSub = subscribeToQueueCommentEntered(vars);
 
     return () => {
-      disposable.dispose();
+      commentLeftSub.dispose();
+      commentEnteredSub.dispose();
     };
   }, [
     storyID,
