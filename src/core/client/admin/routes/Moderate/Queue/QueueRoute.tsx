@@ -85,14 +85,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
   });
 
   const orderBy = moderationQueueSort as GQLCOMMENT_SORT;
-
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
-  const subscribeToQueueCommentEntered = useSubscription(
-    QueueCommentEnteredSubscription
-  );
-  const subscribeToQueueCommentLeft = useSubscription(
-    QueueCommentLeftSubscription
-  );
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
     void viewNew({
@@ -104,8 +97,36 @@ export const QueueRoute: FunctionComponent<Props> = ({
     });
   }, [viewNew, queueName, storyID, siteID, section, orderBy]);
 
+  const subscribeToQueueCommentEntered = useSubscription(
+    QueueCommentEnteredSubscription
+  );
+  const subscribeToQueueCommentLeft = useSubscription(
+    QueueCommentLeftSubscription
+  );
+
+  const hasMore = relay.hasMore();
+
   // Handle subscribing and unsubscribing to the subscriptions.
   useEffect(() => {
+    switch (orderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        // Oldest first when there is more than one page of content can't
+        // possibly have new comments to show in view!
+        if (hasMore) {
+          return;
+        }
+
+        // We have all the comments for this story in view! Comments could load!
+        break;
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        // Newest first can always get more comments in view.
+        break;
+      default:
+        // Only chronological sort supports top level live updates of incoming
+        // comments.
+        return;
+    }
+
     const vars = {
       queue: queueName,
       storyID,
@@ -130,6 +151,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
     orderBy,
+    hasMore,
   ]);
 
   // It's never the case really that the query has loaded but queue or settings
