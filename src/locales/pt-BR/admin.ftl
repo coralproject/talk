@@ -713,6 +713,11 @@ configure-moderation-akismet-explanation =
   e são colocados na fila pendente para revisão por um moderador.
   Se aprovado por um moderador, o comentário será publicado.
 
+configure-moderation-premModeration-premodSuspectWordsEnable =
+  Pré-moderar comentários contendo Palavras Suspeitas
+configure-moderation-premModeration-premodSuspectWordsDescription =
+  Você pode ver e editar a Lista de Palavras Suspeitas <wordListLink>aqui</wordListLink>
+
 #### Akismet
 configure-moderation-akismet-filter = Filtro de Detecção de Spam
 configure-moderation-akismet-ipBased = Detecção de spam baseada em IP
@@ -783,6 +788,10 @@ configure-wordList-suspect-explanation =
   Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
   publicado (se os comentários não forem pré-moderados). </ strong>
+configure-wordList-suspect-explanationSuspectWordsList =
+  Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas são
+  <strong>enviados para a fila Pendente para revisão do moderador and não são
+  publicados a menos que o moderador aprove.</strong>
 configure-wordList-suspect-wordList = Lista de Palavras Suspeitas
 configure-wordList-suspect-wordListDetailInstructions =
   Separe palavras e frases suspeitas com uma nova linha. Palavras/frases não são sensíveis a caixa alta ou baixa.
@@ -953,6 +962,7 @@ moderate-searchBar-currentlyModerating =
   .title = Atualmente moderando
 moderate-searchBar-searchResults = Pesquisar resultados
 moderate-searchBar-searchResultsMostRecentFirst = Pesquisar resultados (Mais recentes primeiro)
+moderate-searchBar-searchResultsMostRelevantFirst = Pesquisar resultados (Mais relevantes primeiro)
 moderate-searchBar-moderateAllStories = Moderar todas as histórias
 moderate-searchBar-comboBoxTextField =
   .aria-label = Pesquisar ou pular para a história....
@@ -980,6 +990,9 @@ moderate-user-drawer-rejected-no-comments = {$username} não tem comentários re
 moderate-user-drawer-user-not-found = Usuário não encontrado.
 moderate-user-drawer-status-label = Status:
 moderate-user-drawer-bio-title = Biografia dos usuários
+moderate-user-drawer-username-not-available = Nome de usuário indisponível
+moderate-user-drawer-username-not-available-tooltip-title = Nome de usuário indisponível
+moderate-user-drawer-username-not-available-tooltip-body = Usuário não completou o processo de criação de conta
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> Sistema
 moderate-user-drawer-account-history-suspension-ended = Suspensão terminada
@@ -1083,6 +1096,8 @@ community-filter-allRoles = Todas as Funções
 community-filter-allStatuses = Todos os Status
 
 community-column-username = Nome do Usuário
+community-column-username-not-available = Nome de Usuário indisponível
+community-column-email-not-available = Email indisponível
 community-column-username-deleted = Deletado
 community-column-email = E-mail
 community-column-memberSince = Membro desde

@@ -352,4 +352,10 @@ export enum ERROR_CODES {
   USER_BIO_TOO_LONG = "USER_BIO_TOO_LONG",
 
   COMMENT_EDIT_WINDOW_EXPIRED = "COMMENT_EDIT_WINDOW_EXPIRED",
+
+  /**
+   * AUTHOR_ALREADY_HAS_RATED_STORY is returned when the author has already
+   * rated a story and attempts to do so again.
+   */
+  AUTHOR_ALREADY_HAS_RATED_STORY = "AUTHOR_ALREADY_HAS_RATED_STORY",
 }
