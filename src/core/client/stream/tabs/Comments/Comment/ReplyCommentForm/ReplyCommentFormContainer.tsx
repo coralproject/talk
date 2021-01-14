@@ -220,7 +220,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
       props.onClose();
     }
 
-    const elementID = computeCommentElementID(commentID);
+    const elementID = commentElementID(commentID);
     setTimeout(() => {
       pym.scrollParentToChildEl(elementID);
     }, 300);
