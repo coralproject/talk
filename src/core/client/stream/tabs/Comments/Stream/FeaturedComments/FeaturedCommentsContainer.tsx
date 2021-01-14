@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -117,13 +117,10 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
     // If we aren't warned.
     !warned;
 
-  const showGoToDiscussions = useMemo(
-    () =>
-      !!props.viewer &&
-      !!props.settings &&
-      props.settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
-    [props.viewer, props.settings]
-  );
+  const showGoToDiscussions =
+    !!props.viewer &&
+    !!props.settings &&
+    props.settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS);
 
   return (
     <>
