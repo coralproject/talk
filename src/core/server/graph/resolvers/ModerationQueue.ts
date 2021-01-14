@@ -30,7 +30,6 @@ export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInpu
     { first, after, orderBy },
     { mongo, tenant, logger }
   ) => {
-    logger.info({ connection, first, after, orderBy }, "WYATT");
     return retrieveCommentConnection(mongo, tenant.id, {
       ...connection,
       first: defaultTo(first, 10),
