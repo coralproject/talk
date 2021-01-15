@@ -65,3 +65,4 @@ error-duplicateSiteOrigin = Allowed domains may only be associated with a single
 error-validation = A validation error occurred.
 error-userBioTooLong = Bio exceeds maximum length.
 error-commentEditWindowExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
+error-authorAlreadyHasRatedStory = You’ve already submitted a rating on this page.

@@ -5,6 +5,7 @@ import { Db } from "mongodb";
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
 import {
+  AuthorAlreadyHasRatedStory,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -21,8 +22,8 @@ import {
   CommentMedia,
   createComment,
   CreateCommentInput,
+  hasAuthorStoryRating,
   pushChildCommentIDOntoParent,
-  retrieveAuthorStoryRating,
 } from "coral-server/models/comment";
 import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { retrieveSite } from "coral-server/models/site";
@@ -149,14 +150,14 @@ const validateRating = async (
 
   // Check to see if this user has already submitted a comment with a rating
   // on this story.
-  const existing = await retrieveAuthorStoryRating(
+  const existing = await hasAuthorStoryRating(
     mongo,
     tenant.id,
     story.id,
     author.id
   );
   if (existing) {
-    throw new Error("author has already written a comment with a rating");
+    throw new AuthorAlreadyHasRatedStory(author.id, story.id);
   }
 };
 
