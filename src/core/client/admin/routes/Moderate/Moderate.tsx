@@ -15,6 +15,7 @@ import { SubBar } from "coral-ui/components/v2/SubBar";
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
+import QueueSort from "./Queue/QueueSort/QueueSort";
 import { SectionSelectorContainer } from "./SectionSelector";
 import { SiteSelectorContainer } from "./SiteSelector";
 
@@ -110,6 +111,7 @@ const Moderate: FunctionComponent<Props> = ({
           section={section}
           settings={settings}
         />
+        <QueueSort />
       </SubBar>
       <div className={styles.background} />
       <MainLayout data-testid="moderate-main-container">

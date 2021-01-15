@@ -22,7 +22,7 @@ function useNotification() {
         dispatch({ type: "CLEAR_MESSAGE" });
       }, timeout);
     }
-    router.addTransitionHook(() => {
+    router.addNavigationListener(() => {
       dispatch({ type: "CLEAR_MESSAGE" });
       return true;
     });

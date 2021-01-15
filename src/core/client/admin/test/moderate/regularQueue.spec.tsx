@@ -1,5 +1,6 @@
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLResolver,
   ModerationQueueToCommentsResolver,
@@ -108,7 +109,10 @@ it("renders reported queue with comments", async () => {
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                    orderBy: "CREATED_AT_DESC",
+                  });
                   return {
                     edges: [
                       {
@@ -149,7 +153,10 @@ it("renders reported queue with comments", async () => {
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                    orderBy: "CREATED_AT_DESC",
+                  });
                   return {
                     edges: [
                       {
@@ -189,7 +196,10 @@ it("show details of comment with flags", async () => {
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                    orderBy: "CREATED_AT_DESC",
+                  });
                   return {
                     edges: [
                       {
@@ -240,7 +250,10 @@ it("shows a moderate story", async () => {
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                    orderBy: "CREATED_AT_DESC",
+                  });
                   return {
                     edges: [
                       {
@@ -286,7 +299,10 @@ it("renders reported queue with comments and load more", async () => {
           ({ variables, callCount }) => {
             switch (callCount) {
               case 0:
-                expectAndFail(variables).toEqual({ first: 5 });
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
                 return {
                   edges: [
                     {
@@ -307,6 +323,7 @@ it("renders reported queue with comments and load more", async () => {
                 expectAndFail(variables).toEqual({
                   first: 10,
                   after: reportedComments[1].createdAt,
+                  orderBy: "CREATED_AT_DESC",
                 });
                 return {
                   edges: [
@@ -407,7 +424,10 @@ it("approves comment in reported queue", async () => {
         count: 2,
         comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
           ({ variables }) => {
-            expectAndFail(variables).toEqual({ first: 5 });
+            expectAndFail(variables).toMatchObject({
+              first: 5,
+              orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+            });
             return {
               edges: [
                 {
@@ -447,13 +467,16 @@ it("approves comment in reported queue", async () => {
     const ApproveButton = await waitForElement(() =>
       within(comment).getByLabelText("Approve")
     );
-    ApproveButton.props.onClick();
 
-    // Snapshot dangling state of comment.
-    expect(toJSON(comment)).toMatchSnapshot("dangling");
+    await act(async () => {
+      ApproveButton.props.onClick();
 
-    // Wait until comment is gone.
-    await waitUntilThrow(() => getByTestID(testID));
+      // Snapshot dangling state of comment.
+      expect(toJSON(comment)).toMatchSnapshot("dangling");
+
+      // Wait until comment is gone.
+      await waitUntilThrow(() => getByTestID(testID));
+    });
 
     expect(approveCommentStub.called).toBe(true);
 
@@ -510,7 +533,10 @@ it("rejects comment in reported queue", async () => {
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                    orderBy: "CREATED_AT_DESC",
+                  });
                   return {
                     edges: [
                       {

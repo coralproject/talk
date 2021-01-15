@@ -1,26 +1,14 @@
-import { BrowserProtocol, queryMiddleware } from "farce";
-import { createFarceRouter, ElementsRenderer } from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
 
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
-import TransitionControl from "coral-framework/testHelpers/TransitionControl";
+import { createRouter } from "coral-framework/lib/router";
 
 import routeConfig from "../routeConfig";
 import NotFound from "../routes/NotFound";
 
-const Router = createFarceRouter({
-  historyProtocol: new BrowserProtocol(),
-  historyMiddlewares: [queryMiddleware],
+const Router = createRouter({
   routeConfig,
-  renderReady: function FarceRouterReady({ elements }) {
-    return (
-      <>
-        <ElementsRenderer elements={elements} />
-        {process.env.NODE_ENV === "test" && <TransitionControl />}
-      </>
-    );
-  },
   renderError: function FarceRouterError({ error }) {
     return <div>{error.status === 404 ? <NotFound /> : "Error"}</div>;
   },
@@ -29,7 +17,12 @@ const Router = createFarceRouter({
 const App: FunctionComponent = () => (
   <CoralContextConsumer>
     {({ relayEnvironment }) => (
-      <Router resolver={new Resolver(relayEnvironment)} />
+      <Router
+        resolver={new Resolver(relayEnvironment)}
+        matchContext={{
+          relayEnvironment,
+        }}
+      />
     )}
   </CoralContextConsumer>
 );

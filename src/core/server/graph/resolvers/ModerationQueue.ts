@@ -25,12 +25,16 @@ export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInpu
 
     return selector;
   },
-  comments: ({ connection }, { first, after }, { mongo, tenant }) => {
+  comments: (
+    { connection },
+    { first, after, orderBy },
+    { mongo, tenant, logger }
+  ) => {
     return retrieveCommentConnection(mongo, tenant.id, {
       ...connection,
       first: defaultTo(first, 10),
       after,
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
     });
   },
 };

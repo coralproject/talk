@@ -6,19 +6,30 @@ import { SectionFilter } from "coral-common/section";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
-  combineDisposables,
+  LOCAL_ID,
+  lookup,
   useLoadMore,
+  useLocal,
   useMutation,
+  useRefetch,
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLMODERATION_QUEUE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_SORT_RL,
+  GQLMODERATION_QUEUE,
+} from "coral-framework/schema";
+import { Spinner } from "coral-ui/components/v2";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
 import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
 import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
+import { QueueRouteLocal } from "coral-admin/__generated__/QueueRouteLocal.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
+import { QueueRoutePaginationReportedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationReportedQuery.graphql";
+import { QueueRoutePaginationUnmoderatedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationUnmoderatedQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
@@ -38,6 +49,7 @@ interface Props {
   storyID?: string | null;
   siteID?: string | null;
   section?: SectionFilter | null;
+  orderBy?: GQLCOMMENT_SORT;
 }
 
 // TODO: use generated types
@@ -56,13 +68,23 @@ export const QueueRoute: FunctionComponent<Props> = ({
   siteID = null,
   section,
 }) => {
+  const [{ moderationQueueSort }] = useLocal<QueueRouteLocal>(graphql`
+    fragment QueueRouteLocal on Local {
+      moderationQueueSort
+    }
+  `);
+
+  const [, isRefetching] = useRefetch<
+    | QueueRoutePaginationPendingQueryVariables
+    | QueueRoutePaginationReportedQueryVariables
+    | QueueRoutePaginationUnmoderatedQueryVariables
+  >(relay, {
+    orderBy: moderationQueueSort as GQLCOMMENT_SORT_RL,
+    count: 5,
+  });
+
+  const orderBy = moderationQueueSort as GQLCOMMENT_SORT;
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
-  const subscribeToQueueCommentEntered = useSubscription(
-    QueueCommentEnteredSubscription
-  );
-  const subscribeToQueueCommentLeft = useSubscription(
-    QueueCommentLeftSubscription
-  );
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
     void viewNew({
@@ -70,33 +92,81 @@ export const QueueRoute: FunctionComponent<Props> = ({
       storyID,
       siteID,
       section,
+      orderBy,
     });
-  }, [queueName, storyID, siteID, viewNew]);
+  }, [viewNew, queueName, storyID, siteID, section, orderBy]);
 
-  // Handle subscribing and unsubscribing to the subscriptions.
+  const subscribeToQueueCommentEntered = useSubscription(
+    QueueCommentEnteredSubscription
+  );
+  const subscribeToQueueCommentLeft = useSubscription(
+    QueueCommentLeftSubscription
+  );
+
+  const hasMore = relay.hasMore();
+
+  // Handle subscribing/unsubscribe comment left
   useEffect(() => {
-    const vars = {
+    const commentLeftSub = subscribeToQueueCommentLeft({
       queue: queueName,
       storyID,
       siteID,
+      orderBy,
       section,
-    };
-
-    const disposable = combineDisposables(
-      subscribeToQueueCommentEntered(vars),
-      subscribeToQueueCommentLeft(vars)
-    );
+    });
 
     return () => {
-      disposable.dispose();
+      commentLeftSub.dispose();
     };
   }, [
+    orderBy,
+    queueName,
+    section,
+    siteID,
+    storyID,
+    subscribeToQueueCommentLeft,
+  ]);
+
+  // Handle subscribing/unsubscribe comment entered
+  useEffect(() => {
+    switch (orderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        // Oldest first when there is more than one page of content can't
+        // possibly have new comments to show in view!
+        if (hasMore) {
+          return;
+        }
+
+        // We have all the comments for this story in view! Comments could load!
+        break;
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        // Newest first can always get more comments in view.
+        break;
+      default:
+        // Only chronological sort supports top level live updates of incoming
+        // comments.
+        return;
+    }
+
+    const commentEnteredSub = subscribeToQueueCommentEntered({
+      queue: queueName,
+      storyID,
+      siteID,
+      orderBy,
+      section,
+    });
+
+    return () => {
+      commentEnteredSub.dispose();
+    };
+  }, [
+    subscribeToQueueCommentEntered,
+    hasMore,
+    orderBy,
+    queueName,
     storyID,
     siteID,
     section,
-    queueName,
-    subscribeToQueueCommentEntered,
-    subscribeToQueueCommentLeft,
   ]);
 
   // It's never the case really that the query has loaded but queue or settings
@@ -109,6 +179,11 @@ export const QueueRoute: FunctionComponent<Props> = ({
 
   const viewNewCount =
     (queue.comments.viewNewEdges && queue.comments.viewNewEdges.length) || 0;
+
+  if (isRefetching) {
+    // TODO (Nick): make sure this doesn't clash with styles
+    return <Spinner />;
+  }
 
   return (
     <IntersectionProvider>
@@ -139,6 +214,15 @@ const createQueueRoute = (
   emptyElement: React.ReactElement
 ) => {
   const enhanced = withRouteConfig<Props, any>({
+    prepareVariables: (params, match) => {
+      const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+        .moderationQueueSort;
+      return {
+        ...params,
+        initialOrderBy,
+        count: 5,
+      };
+    },
     query: queueQuery,
     cacheConfig: { force: true },
     render: function QueueRouteRender({ Component, data, match }) {
@@ -147,7 +231,6 @@ const createQueueRoute = (
       }
 
       const { storyID, siteID, section } = parseModerationOptions(match);
-
       if (!data) {
         return (
           <Component
@@ -191,11 +274,12 @@ const createQueueRoute = (
         queue: graphql`
           fragment QueueRoute_queue on ModerationQueue
             @argumentDefinitions(
-              count: { type: "Int!", defaultValue: 5 }
+              count: { type: "Int!" }
               cursor: { type: "Cursor" }
+              orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
             ) {
             count
-            comments(first: $count, after: $cursor)
+            comments(first: $count, after: $cursor, orderBy: $orderBy)
               @connection(key: "Queue_comments") {
               viewNewEdges {
                 cursor
@@ -257,12 +341,14 @@ export const PendingQueueRoute = createQueueRoute(
     query QueueRoutePendingQuery(
       $storyID: ID
       $siteID: ID
-      $count: Int
+      $count: Int!
       $section: SectionFilter
+      $initialOrderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
-          ...QueueRoute_queue @arguments(count: $count)
+          ...QueueRoute_queue
+            @arguments(count: $count, orderBy: $initialOrderBy)
         }
       }
       settings {
@@ -282,10 +368,12 @@ export const PendingQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         pending {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }
@@ -305,10 +393,13 @@ export const ReportedQueueRoute = createQueueRoute(
       $storyID: ID
       $siteID: ID
       $section: SectionFilter
+      $count: Int!
+      $initialOrderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
           ...QueueRoute_queue
+            @arguments(count: $count, orderBy: $initialOrderBy)
         }
       }
       settings {
@@ -328,10 +419,12 @@ export const ReportedQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         reported {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }
@@ -350,11 +443,14 @@ export const UnmoderatedQueueRoute = createQueueRoute(
     query QueueRouteUnmoderatedQuery(
       $storyID: ID
       $siteID: ID
+      $count: Int!
       $section: SectionFilter
+      $initialOrderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
           ...QueueRoute_queue
+            @arguments(count: $count, orderBy: $initialOrderBy)
         }
       }
       settings {
@@ -374,10 +470,12 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       $section: SectionFilter
       $count: Int!
       $cursor: Cursor
+      $orderBy: COMMENT_SORT
     ) {
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {
         unmoderated {
-          ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
+          ...QueueRoute_queue
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     }

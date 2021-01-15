@@ -217,11 +217,12 @@ export default (ctx: GraphContext) => ({
     status,
     tag,
     query,
+    orderBy,
   }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       filter: {
         ...queryFilter(query),
         ...tagFilter(tag),
