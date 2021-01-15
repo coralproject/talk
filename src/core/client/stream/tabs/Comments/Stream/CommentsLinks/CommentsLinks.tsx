@@ -8,14 +8,14 @@ import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabM
 import CLASSES from "coral-stream/classes";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 
-import styles from "./AllCommentsLinks.css";
+import styles from "./CommentsLinks.css";
 
 interface Props {
   showGoToDiscussions: boolean;
   showGoToProfile: boolean;
 }
 
-const AllCommentsLinks: FunctionComponent<Props> = ({
+const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
   showGoToProfile,
 }) => {
@@ -123,4 +123,4 @@ const AllCommentsLinks: FunctionComponent<Props> = ({
   );
 };
 
-export default AllCommentsLinks;
+export default CommentsLinks;
