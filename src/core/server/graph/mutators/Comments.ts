@@ -220,6 +220,6 @@ export const Comments = (ctx: GraphContext) => ({
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
   },
   remove: async ({ commentID }: WithoutMutationID<GQLRemoveCommentInput>) => {
-    return remove(ctx.mongo, ctx.tenant, commentID);
+    return remove(ctx.mongo, ctx.redis, ctx.tenant, commentID);
   },
 });

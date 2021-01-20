@@ -1,10 +1,12 @@
 import { Db } from "mongodb";
 
+import { FirstDeepPartial } from "coral-common/types";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   Comment,
   CommentModerationQueueCounts,
   CommentStatusCounts,
+  RelatedCommentCounts,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { updateSiteCounts } from "coral-server/models/site";
@@ -63,6 +65,29 @@ function calculateStatus(
   };
 }
 
+export async function updateAllCounts(
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenantID: string,
+  storyID: string,
+  siteID: string,
+  commentCounts: FirstDeepPartial<RelatedCommentCounts>,
+  authorID?: string | null
+) {
+  // Update the story, site, and user comment counts.
+  await updateStoryCounts(mongo, tenantID, storyID, commentCounts);
+  await updateSiteCounts(mongo, tenantID, siteID, commentCounts);
+
+  if (authorID) {
+    await updateUserCommentCounts(mongo, tenantID, authorID, {
+      status: commentCounts.status,
+    });
+  }
+
+  // Update the shared counts.
+  await updateSharedCommentCounts(redis, tenantID, commentCounts);
+}
+
 export default async function updateAllCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
@@ -82,31 +107,19 @@ export default async function updateAllCommentCounts(
     after: { storyID, authorID, siteID },
   } = input;
 
-  // Update the story, site, and user comment counts.
-  await updateStoryCounts(mongo, tenant.id, storyID, {
-    action,
-    status,
-    moderationQueue,
-  });
-
-  await updateSiteCounts(mongo, tenant.id, siteID, {
-    action,
-    status,
-    moderationQueue,
-  });
-
-  if (authorID) {
-    await updateUserCommentCounts(mongo, tenant.id, authorID, {
+  await updateAllCounts(
+    mongo,
+    redis,
+    tenant.id,
+    storyID,
+    siteID,
+    {
+      action,
       status,
-    });
-  }
-
-  // Update the shared counts.
-  await updateSharedCommentCounts(redis, tenant.id, {
-    action,
-    status,
-    moderationQueue,
-  });
+      moderationQueue,
+    },
+    authorID
+  );
 
   return {
     action,
