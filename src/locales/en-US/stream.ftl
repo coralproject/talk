@@ -262,6 +262,9 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comment by {$username}
   }
 
+comments-jumpToComment-title = Your reply has posted below
+comments-jumpToComment-GoToReply = Go to reply
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A

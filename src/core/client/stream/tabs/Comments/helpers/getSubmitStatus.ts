@@ -9,6 +9,38 @@ import isRejected from "./isRejected";
 
 export type SubmitStatus = "APPROVED" | "RETRY" | "IN_REVIEW" | "REJECTED";
 
+interface SubmissionResponse {
+  status: SubmitStatus;
+  commentID: string;
+}
+
+export function getSubmissionResponse(
+  response:
+    | Omit<
+        MutationResponse<CreateCommentMutation, "createComment">,
+        "clientMutationId"
+      >
+    | Omit<
+        MutationResponse<CreateCommentReplyMutation, "createCommentReply">,
+        "clientMutationId"
+      >
+    | Omit<
+        MutationResponse<EditCommentMutation, "editComment">,
+        "clientMutationId"
+      >
+): SubmissionResponse {
+  const node = "edge" in response ? response.edge.node : response.comment;
+  const commentID = node.id;
+
+  if (isInReview(node.status)) {
+    return { status: "IN_REVIEW", commentID };
+  }
+  if (isRejected(node.status)) {
+    return { status: "REJECTED", commentID };
+  }
+  return { status: "APPROVED", commentID };
+}
+
 export default function getSubmitStatus(
   response:
     | Omit<
@@ -24,12 +56,6 @@ export default function getSubmitStatus(
         "clientMutationId"
       >
 ): SubmitStatus {
-  const node = "edge" in response ? response.edge.node : response.comment;
-  if (isInReview(node.status)) {
-    return "IN_REVIEW";
-  }
-  if (isRejected(node.status)) {
-    return "REJECTED";
-  }
-  return "APPROVED";
+  const r = getSubmissionResponse(response);
+  return r.status;
 }
