@@ -8,6 +8,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { ApproveCommentMutation as MutationTypes } from "coral-admin/__generated__/ApproveCommentMutation.graphql";
 
@@ -18,9 +19,10 @@ const ApproveCommentMutation = createMutation(
   (
     environment: Environment,
     input: MutationInput<MutationTypes> & {
-      storyID?: string | null;
-      siteID?: string | null;
-      section?: SectionFilter | null;
+      storyID: string | null;
+      siteID: string | null;
+      section: SectionFilter | null;
+      orderBy: GQLCOMMENT_SORT_RL | null;
     }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -105,6 +107,7 @@ const ApproveCommentMutation = createMutation(
             "REPORTED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -112,6 +115,7 @@ const ApproveCommentMutation = createMutation(
             "PENDING",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -119,6 +123,7 @@ const ApproveCommentMutation = createMutation(
             "UNMODERATED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
           getQueueConnection(
@@ -126,6 +131,7 @@ const ApproveCommentMutation = createMutation(
             "REJECTED",
             input.storyID,
             input.siteID,
+            input.orderBy,
             input.section
           ),
         ].filter((c) => c);

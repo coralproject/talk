@@ -23,7 +23,7 @@ class NavigationWarningContainer extends React.Component<Props> {
       "You have unsaved changes. Are you sure you want to continue?"
     );
 
-    this.removeTransitionHook = props.router.addTransitionHook(() =>
+    this.removeTransitionHook = props.router.addNavigationListener(() =>
       this.props.active ? warningMessage : undefined
     );
   }

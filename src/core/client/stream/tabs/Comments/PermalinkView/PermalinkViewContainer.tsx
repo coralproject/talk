@@ -29,6 +29,7 @@ import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 
+import { isPublished } from "../helpers";
 import CommentEnteredSubscription from "../Stream/AllCommentsTab/CommentEnteredSubscription";
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
@@ -86,6 +87,8 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     return getURLWithCommentID(url, undefined);
   }, [pym]);
 
+  const commentVisible = comment && isPublished(comment.status);
+
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.permalinkView.$root, {
@@ -125,14 +128,14 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
           </Localized>
         )}
       </Flex>
-      {!comment && (
+      {!commentVisible && (
         <CallOut>
           <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
             This comment has been removed or does not exist.
           </Localized>
         </CallOut>
       )}
-      {comment && (
+      {comment && commentVisible && (
         <HorizontalGutter>
           <ConversationThreadContainer
             viewer={viewer}
@@ -169,6 +172,7 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment PermalinkViewContainer_comment on Comment {
       id
+      status
       ...ConversationThreadContainer_comment
       ...ReplyListContainer1_comment
     }

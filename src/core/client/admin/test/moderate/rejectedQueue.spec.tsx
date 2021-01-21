@@ -1,10 +1,12 @@
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLResolver,
   MutationToApproveCommentResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -75,6 +77,7 @@ it("renders rejected queue with comments", async () => {
             storyID: null,
             siteID: null,
             section: null,
+            orderBy: "CREATED_AT_DESC",
           });
           return {
             edges: [
@@ -115,6 +118,7 @@ it("shows a moderate story", async () => {
             storyID: null,
             siteID: null,
             section: null,
+            orderBy: "CREATED_AT_DESC",
           });
           return {
             edges: [
@@ -154,12 +158,13 @@ it("renders rejected queue with comments and load more", async () => {
         comments: ({ variables, callCount }) => {
           switch (callCount) {
             case 0:
-              expectAndFail(variables).toEqual({
+              expectAndFail(variables).toMatchObject({
                 first: 5,
                 status: GQLCOMMENT_STATUS.REJECTED,
                 storyID: null,
                 siteID: null,
                 section: null,
+                orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
               });
               return {
                 edges: [
@@ -178,13 +183,14 @@ it("renders rejected queue with comments and load more", async () => {
                 },
               };
             default:
-              expectAndFail(variables).toEqual({
+              expectAndFail(variables).toMatchObject({
                 first: 10,
                 after: rejectedComments[1].createdAt,
                 status: GQLCOMMENT_STATUS.REJECTED,
                 storyID: null,
                 siteID: null,
                 section: null,
+                orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
               });
               return {
                 edges: [
@@ -214,7 +220,10 @@ it("renders rejected queue with comments and load more", async () => {
   const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
 
   const loadMore = await waitForElement(() => getByText("Load More"));
-  loadMore.props.onClick();
+
+  act(() => {
+    loadMore.props.onClick();
+  });
 
   // Wait for load more to disappear.
   await waitUntilThrow(() => getByText("Load More"));
@@ -279,6 +288,7 @@ it("approves comment in rejected queue", async () => {
             storyID: null,
             siteID: null,
             section: null,
+            orderBy: "CREATED_AT_DESC",
           });
           return {
             edges: [

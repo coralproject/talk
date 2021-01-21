@@ -1,5 +1,6 @@
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLMODERATION_QUEUE,
   GQLResolver,
@@ -49,7 +50,10 @@ async function createTestRenderer(
                 comments: createQueryResolverStub<
                   ModerationQueueToCommentsResolver
                 >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
+                  expectAndFail(variables).toMatchObject({
+                    first: 5,
+                    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+                  });
                   return {
                     edges: [
                       {

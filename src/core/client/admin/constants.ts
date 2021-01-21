@@ -10,3 +10,4 @@ export const HOTKEYS = {
   SEARCH: "ctrl+f",
   GUIDE: "shift+/",
 };
+export const MOD_QUEUE_SORT_ORDER = "v1:modQueueSortOrder";

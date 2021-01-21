@@ -43,10 +43,10 @@ import { CommentContainer } from "../../Comment";
 import CollapsableComment from "../../Comment/CollapsableComment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsLinks from "./AllCommentsLinks";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentEnteredSubscription from "./CommentEnteredSubscription";
 import RatingsFilterMenu from "./RatingsFilterMenu";
@@ -305,7 +305,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
         {!alternateOldestViewEnabled && (
-          <AllCommentsLinks
+          <CommentsLinks
             showGoToDiscussions={showGoToDiscussions}
             showGoToProfile={!!viewer}
           />
@@ -325,7 +325,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <AllCommentsLinks
+            <CommentsLinks
               showGoToDiscussions={showGoToDiscussions}
               showGoToProfile={!!viewer}
             />
