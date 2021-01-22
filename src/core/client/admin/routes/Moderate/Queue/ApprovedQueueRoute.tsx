@@ -12,7 +12,6 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
-import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { ApprovedQueueRoute_query } from "coral-admin/__generated__/ApprovedQueueRoute_query.graphql";
 import { ApprovedQueueRouteLocal } from "coral-admin/__generated__/ApprovedQueueRouteLocal.graphql";
@@ -47,9 +46,8 @@ export const ApprovedQueueRoute: FunctionComponent<Props> = (props) => {
 
   const [, isRefetching] = useRefetch<
     ApprovedQueueRoutePaginationQueryVariables
-  >(props.relay, {
-    orderBy: moderationQueueSort as GQLCOMMENT_SORT_RL,
-    count: 5,
+  >(props.relay, 5, {
+    orderBy: moderationQueueSort,
   });
 
   const loadMore = useCallback(() => {
@@ -114,7 +112,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment ApprovedQueueRoute_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
           storyID: { type: "ID" }
           siteID: { type: "ID" }
@@ -147,16 +145,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.comments;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
@@ -214,7 +204,6 @@ export const routeConfig = createRouteConfig<Props, ApprovedQueueRoute_query>({
     return {
       ...params,
       initialOrderBy,
-      count: 5,
     };
   },
   cacheConfig: { force: true },

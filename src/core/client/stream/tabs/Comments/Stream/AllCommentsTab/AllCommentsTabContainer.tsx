@@ -351,7 +351,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
@@ -428,16 +428,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps({ story }) {
       return story && story.comments;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(
       { story, flattenReplies },

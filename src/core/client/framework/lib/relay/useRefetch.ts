@@ -14,14 +14,15 @@ type IsRefetching = boolean;
  */
 export default function useRefetch<V = Variables>(
   relay: RelayPaginationProp,
-  variables: V = {} as any
+  totalCount: number,
+  variables: Omit<V, "count" | "cursor">
 ): [RefetchFunction, IsRefetching] {
   const [manualRefetchCount, setManualRefetchCount] = useState(0);
   const [refetching, setRefetching] = useState(false);
   useEffectWhenChanged(() => {
     setRefetching(true);
     const disposable = relay.refetchConnection(
-      10,
+      totalCount,
       (error) => {
         setRefetching(false);
         if (error) {

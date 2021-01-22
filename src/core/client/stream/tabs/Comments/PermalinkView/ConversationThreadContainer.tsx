@@ -203,7 +203,7 @@ const enhanced = withContext((ctx) => ({
       comment: graphql`
         fragment ConversationThreadContainer_comment on Comment
           @argumentDefinitions(
-            count: { type: "Int!", defaultValue: 0 }
+            count: { type: "Int", defaultValue: 0 }
             cursor: { type: "Cursor" }
           ) {
           id
@@ -246,13 +246,6 @@ const enhanced = withContext((ctx) => ({
       direction: "backward",
       getConnectionFromProps(props) {
         return props.comment && props.comment.parents;
-      },
-      // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-      getFragmentVariables(prevVars, totalCount) {
-        return {
-          ...prevVars,
-          count: totalCount,
-        };
       },
       getVariables(props, { count, cursor }) {
         return {

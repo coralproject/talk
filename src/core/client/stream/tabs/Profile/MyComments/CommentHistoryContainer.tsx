@@ -73,7 +73,7 @@ const enhanced = withPaginationContainer<
     viewer: graphql`
       fragment CommentHistoryContainer_viewer on User
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
         comments(first: $count, after: $cursor)
@@ -89,16 +89,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.viewer && props.viewer.comments;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
