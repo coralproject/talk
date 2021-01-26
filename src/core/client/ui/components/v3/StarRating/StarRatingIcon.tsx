@@ -7,6 +7,7 @@ import React, {
   MouseEventHandler,
 } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components/v2";
 
 import styles from "./StarRatingIcon.css";
@@ -42,7 +43,11 @@ const StarRatingIcon: FunctionComponent<Props> = ({
       attrs={{ "aria-label": true }}
     >
       <Icon
-        className={cn(styles.icons, !readOnly && styles.interactive)}
+        className={cn(
+          styles.icons,
+          !readOnly && styles.interactive,
+          CLASSES.ratingsAndReview.stars.icon
+        )}
         tabIndex={value}
         aria-label={`${value} Star`}
         size={size}
