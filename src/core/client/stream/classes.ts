@@ -1058,6 +1058,19 @@ const CLASSES = {
     },
     viewHistoryButton: "coral coral-discussions-viewHistoryButton",
   },
+
+  ratingsAndReview: {
+    noReviews: "coral coral-ratingsReview-noReviewsYet",
+    ratingsFilter: "coral coral-ratingsReview-filter",
+    stars: {
+      rating: "coral coral-ratingsReview-rating",
+      readonly: "coral coral-ratingsReview-rating-readonly",
+      icon: "coral coral-ratingsReview-icon",
+    },
+    input: {
+      title: "coral coral-ratingsReview-input-title",
+    },
+  },
 };
 
 export default CLASSES;
