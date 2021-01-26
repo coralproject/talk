@@ -4,6 +4,8 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Story } from "coral-server/models/story";
 import collections from "coral-server/services/mongodb/collections";
 
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+
 const BATCH_SIZE = 500;
 
 async function executeBulkOperations<T>(
@@ -118,6 +120,93 @@ async function deleteUserComments(
       },
     }
   );
+}
+
+function incCount(counts: any, id: string, amount: number) {
+  if (!counts[id]) {
+    counts[id] = 0;
+  }
+
+  counts[id] += amount;
+}
+
+export async function moveDeletedComments(
+  mongo: Db,
+  tenantID: string,
+  now: Date
+) {
+  const commentsBatch: any[] = [];
+
+  const siteCounts: any = {};
+  const userCounts: any = {};
+
+  const modQueueCounts = {
+    unmoderated: 0,
+    pending: 0,
+    reported: 0,
+  };
+
+  const cursor = collections
+    .comments(mongo)
+    .find({ tenantID, $lte: { deletedAt: now } });
+  while (await cursor.hasNext()) {
+    const action = await cursor.next();
+    if (!action) {
+      continue;
+    }
+
+    const revision =
+      action.revisions.length > 0
+        ? action.revisions[action.revisions.length - 1]
+        : null;
+    if (revision === null) {
+      continue;
+    }
+
+    const reject = () => {
+      commentsBatch.push({
+        updateOne: {
+          filter: { tenantID, id: action.id },
+          update: {
+            $set: { status: GQLCOMMENT_STATUS.REJECTED },
+          },
+        },
+      });
+      incCount(siteCounts, action.siteID, -1);
+      if (action.authorID) {
+        incCount(userCounts, action.authorID, -1);
+      }
+    };
+
+    const approve = () => {
+      commentsBatch.push({
+        updateOne: {
+          filter: { tenantID, id: action.id },
+          update: {
+            $set: { status: GQLCOMMENT_STATUS.APPROVED },
+          },
+        },
+      });
+
+      incCount(siteCounts, action.siteID, 1);
+      if (action.authorID) {
+        incCount(userCounts, action.authorID, 1);
+      }
+    };
+
+    switch (action.status) {
+      case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+        reject();
+        modQueueCounts.pending -= 1;
+        break;
+      case GQLCOMMENT_STATUS.PREMOD:
+      case GQLCOMMENT_STATUS.NONE:
+        approve();
+        modQueueCounts.unmoderated -= 1;
+        break;
+      default: // do nothing
+    }
+  }
 }
 
 export async function deleteUser(
