@@ -33,7 +33,6 @@ import { FeaturedCommentsContainerLocal } from "coral-stream/__generated__/Featu
 import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
-import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import CommentsLinks from "../CommentsLinks";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
@@ -132,18 +131,13 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
         spacing={3}
       >
         {comments.map((comment) => (
-          <IgnoredTombstoneOrHideContainer
+          <FeaturedCommentContainer
             key={comment.id}
             viewer={props.viewer}
+            settings={props.settings}
             comment={comment}
-          >
-            <FeaturedCommentContainer
-              viewer={props.viewer}
-              settings={props.settings}
-              comment={comment}
-              story={props.story}
-            />
-          </IgnoredTombstoneOrHideContainer>
+            story={props.story}
+          />
         ))}
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
@@ -218,7 +212,6 @@ const enhanced = withPaginationContainer<
             node {
               id
               ...FeaturedCommentContainer_comment
-              ...IgnoredTombstoneOrHideContainer_comment
             }
           }
         }
@@ -231,7 +224,6 @@ const enhanced = withPaginationContainer<
     viewer: graphql`
       fragment FeaturedCommentsContainer_viewer on User {
         ...FeaturedCommentContainer_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
         ...PostCommentFormContainer_viewer
         status {
           current

@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
@@ -25,14 +24,10 @@ import { UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated_
 import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
 import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
-import { CommentContainer } from "../../Comment";
-import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
-import { ReplyListContainer } from "../../ReplyList";
 import CommentEnteredSubscription from "../AllCommentsTab/CommentEnteredSubscription";
 import NoComments from "../NoComments";
+import UnansweredCommentsTabCommentContainer from "./UnansweredCommentsTabCommentContainer";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
-
-import styles from "./UnansweredCommentsTabContainer.css";
 
 interface Props {
   story: UnansweredCommentsTabContainer_story;
@@ -147,36 +142,20 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
         role="log"
         aria-live="polite"
         size="oneAndAHalf"
-        className={styles.stream}
       >
         {comments.length === 0 && (
           <NoComments mode="QA" isClosed={props.story.isClosed} />
         )}
         {comments.length > 0 &&
-          comments.map((comment) => (
-            <IgnoredTombstoneOrHideContainer
+          comments.map((comment, index) => (
+            <UnansweredCommentsTabCommentContainer
               key={comment.id}
               viewer={props.viewer}
               comment={comment}
-            >
-              <FadeInTransition active={Boolean(comment.enteredLive)}>
-                <HorizontalGutter>
-                  <CommentContainer
-                    viewer={props.viewer}
-                    settings={props.settings}
-                    comment={comment}
-                    story={props.story}
-                  />
-                  <ReplyListContainer
-                    settings={props.settings}
-                    viewer={props.viewer}
-                    comment={comment}
-                    story={props.story}
-                    showRemoveAnswered
-                  />
-                </HorizontalGutter>
-              </FadeInTransition>
-            </IgnoredTombstoneOrHideContainer>
+              story={props.story}
+              settings={props.settings}
+              isLast={index === comments.length - 1}
+            />
           ))}
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
@@ -235,31 +214,27 @@ const enhanced = withPaginationContainer<
           viewNewEdges {
             cursor
             node {
-              enteredLive
-              ...AllCommentsTabContainer_comment @relay(mask: false)
+              id
+              ...UnansweredCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
-              enteredLive
-              ...AllCommentsTabContainer_comment @relay(mask: false)
+              id
+              ...UnansweredCommentsTabCommentContainer_comment
             }
           }
         }
-        ...PostCommentFormContainer_story
-        ...CommentContainer_story
-        ...ReplyListContainer1_story
         ...CreateCommentReplyMutation_story
         ...CreateCommentMutation_story
+        ...UnansweredCommentsTabCommentContainer_story
       }
     `,
     viewer: graphql`
       fragment UnansweredCommentsTabContainer_viewer on User {
-        ...ReplyListContainer1_viewer
-        ...CommentContainer_viewer
+        ...UnansweredCommentsTabCommentContainer_viewer
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
         status {
           current
         }
@@ -273,8 +248,7 @@ const enhanced = withPaginationContainer<
         disableCommenting {
           enabled
         }
-        ...ReplyListContainer1_settings
-        ...CommentContainer_settings
+        ...UnansweredCommentsTabCommentContainer_settings
       }
     `,
   },

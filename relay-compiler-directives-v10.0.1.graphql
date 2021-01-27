@@ -71,6 +71,8 @@ directive @arguments (
   last: Int
   count: Int
   orderBy: COMMENT_SORT
+  tag: TAG
+  ratingFilter: Int
 ) on FRAGMENT_SPREAD
 
 directive @argumentDefinitions(
