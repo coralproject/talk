@@ -48,6 +48,19 @@ export function isSiteModerationScoped(
 }
 
 /**
+ * isSiteBanned is used to determine if the user is banned on the specific site.
+ *
+ * @param user the user to test if they are banned on a site
+ * @param siteID id of the site to check to see if the user is banned on
+ */
+export function isSiteBanned(
+  user: Pick<User, "status">,
+  siteID: string
+): boolean {
+  return !!user.status.ban.siteIDs?.includes(siteID);
+}
+
+/**
  * canModerateUnscoped will check if a given user is unscoped (without any
  * restrictions) on their moderation capacity.
  *
@@ -103,6 +116,7 @@ export function canModerate(
     user.moderationScopes &&
     siteID &&
     user.moderationScopes.siteIDs &&
+    user.moderationScopes.siteIDs.length > 0 &&
     !user.moderationScopes.siteIDs.includes(siteID)
   ) {
     return false;

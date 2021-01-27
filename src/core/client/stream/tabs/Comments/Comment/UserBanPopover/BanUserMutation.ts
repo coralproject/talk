@@ -36,6 +36,9 @@ const BanUserMutation = createMutation(
                   status {
                     ban {
                       active
+                      sites {
+                        id
+                      }
                     }
                     suspension {
                       active
@@ -67,6 +70,10 @@ const BanUserMutation = createMutation(
                 status: {
                   ban: {
                     active: true,
+                    sites:
+                      input.siteIDs?.map((id) => {
+                        return { id };
+                      }) || [],
                   },
                   suspension: {
                     active: false,

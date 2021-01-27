@@ -8,3 +8,6 @@ common-banEmailTemplate =
 
 common-embedNotFound = Requested media could not be found. May have been deleted.
 common-networkError = Network error. Please refresh your page and try again.
+
+common-experimentalTag = Experimental
+common-experimentalTag-tooltip-title = Experimental feature

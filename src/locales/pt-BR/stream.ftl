@@ -705,7 +705,7 @@ configure-openStream-theStreamIsNowClosed = O fluxo agora está fechado
 
 configure-moderateThisStream =
 
-qa-experimental-tag-tooltip-content =
+qa-experimentalTag-tooltip-content =
   O formato de perguntas e respostas está atualmente em desenvolvimento ativo. Entre em
   contato conosco para qualquer feedback ou solicitação.
 
@@ -794,3 +794,42 @@ profile-changeEmail-saveChanges = Salvar alterações
 profile-changeEmail-email = Email
 profile-changeEmail-title = Endereço de email
 profile-changeEmail-success = Seu e-mail foi atualizado com sucesso
+
+## Ratings and Reviews
+
+ratingsAndReviews-reviewsTab = Reviews
+ratingsAndReviews-questionsTab = Perguntas
+ratingsAndReviews-noReviewsAtAll = Não há reviews.
+ratingsAndReviews-noQuestionsAtAll = Não há perguntas.
+ratingsAndReviews-noReviewsYet = Ainda não há reviews. Por que você não escreve um?
+ratingsAndReviews-noQuestionsYet = Não há perguntas ainda. Por que você não faz uma?
+ratingsAndReviews-selectARating = Selecione uma Avaliação
+ratingsAndReviews-youRatedThis = Você avaliou isto.
+ratingsAndReviews-showReview = Exibir review
+  .title = { ratingsAndReviews-showReview }
+ratingsAndReviews-rateAndReview = Avaliar e escrever review
+ratingsAndReviews-askAQuestion = Faça uma Pergunta
+ratingsAndReviews-basedOnRatings = { $count ->
+  [0] Sem avaliações ainda
+  [1] Baseado em 1 avaliação
+  *[other] Baseado em { SHORT_NUMBER($count) } avaliações
+}
+
+ratingsAndReviews-allReviewsFilter = Todos os reviews
+ratingsAndReviews-starReviewsFilter = { $rating ->
+  [1] 1 Estrela
+  *[other] { $rating } Estrelas
+}
+
+comments-addAReviewForm-rteLabel = Adicione um review (opcional)
+
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+stream-footer-links-top-of-article = Topo do artigo
+stream-footer-links-top-of-comments = Topo dos comentários
+stream-footer-links-profile = Perfil & Respostas
+stream-footer-links-discussions = Mais discussões

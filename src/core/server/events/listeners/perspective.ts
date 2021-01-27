@@ -2,6 +2,7 @@ import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
 import { sendToPerspective } from "coral-server/services/perspective";
 
+import { TOXICITY_MODEL_DEFAULT } from "coral-common/constants";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { CommentStatusUpdatedCoralEventPayload } from "../events";
@@ -83,6 +84,9 @@ export class PerspectiveCoralEventListener
       // Get the timeout value.
       const timeout = ctx.config.get("perspective_timeout");
 
+      // Pull the custom model out.
+      const model = perspective.model || TOXICITY_MODEL_DEFAULT;
+
       // Get the response from perspective.
       const result = await sendToPerspective(
         { key: perspective.key, endpoint: perspective.endpoint, timeout },
@@ -95,6 +99,7 @@ export class PerspectiveCoralEventListener
             commentParentID: comment.parentID,
             commentStatus: status,
             storyURL: story.url,
+            model,
             tenantURL,
           },
         }

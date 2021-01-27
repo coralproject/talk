@@ -14,5 +14,3 @@ comment-count =
 
 staff-label = Staff
 
-experimental-tag = Experimental
-experimental-tag-tooltip-title = Funcionalidade experimental

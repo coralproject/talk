@@ -250,6 +250,12 @@ export enum ERROR_CODES {
   USER_BANNED = "USER_BANNED",
 
   /**
+   * USER_SITE_BANNED is returned when the user attempts to perform an action
+   * that is not permitted if they are banned on that site.
+   */
+  USER_SITE_BANNED = "USER_SITE_BANNED",
+
+  /**
    * USER_CANNOT_BE_IGNORED is returned when the user attempts to ignore
    * a user that is not allowed to be ignored. This is usually because the
    * user is staff member.
@@ -346,4 +352,10 @@ export enum ERROR_CODES {
   USER_BIO_TOO_LONG = "USER_BIO_TOO_LONG",
 
   COMMENT_EDIT_WINDOW_EXPIRED = "COMMENT_EDIT_WINDOW_EXPIRED",
+
+  /**
+   * AUTHOR_ALREADY_HAS_RATED_STORY is returned when the author has already
+   * rated a story and attempts to do so again.
+   */
+  AUTHOR_ALREADY_HAS_RATED_STORY = "AUTHOR_ALREADY_HAS_RATED_STORY",
 }

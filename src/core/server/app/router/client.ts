@@ -188,7 +188,7 @@ function loadEntrypoints(manifestFilename: string) {
 
 export function mountClientRoutes(
   router: Router,
-  { tenantCache, ...options }: MountClientRouteOptions
+  { tenantCache, mongo, ...options }: MountClientRouteOptions
 ) {
   const entrypoints = loadEntrypoints("asset-manifest.json");
   if (!entrypoints) {
@@ -203,6 +203,7 @@ export function mountClientRoutes(
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({
+      mongo,
       cache: tenantCache,
       passNoTenant: true,
     })
@@ -212,6 +213,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/stream/amp",
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       entrypoint: embedEntrypoints.get("main"),
@@ -222,6 +224,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/stream",
     createClientTargetRouter({
+      mongo,
       ...options,
       enableCustomCSS: true,
       enableCustomCSSQuery: true,
@@ -232,6 +235,7 @@ export function mountClientRoutes(
   router.use(
     "/embed/auth",
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       disableFraming: true,
@@ -242,6 +246,7 @@ export function mountClientRoutes(
   router.use(
     "/account",
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       disableFraming: true,
@@ -254,6 +259,7 @@ export function mountClientRoutes(
     // If we aren't already installed, redirect the user to the install page.
     installedMiddleware(),
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       disableFraming: true,
@@ -269,6 +275,7 @@ export function mountClientRoutes(
       redirectURL: "/admin",
     }),
     createClientTargetRouter({
+      mongo,
       ...options,
       cacheDuration: false,
       disableFraming: true,

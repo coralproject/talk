@@ -28,7 +28,7 @@ const DisableQA: FunctionComponent<Props> = ({
       <div className={styles.experimental}>
         <ExperimentalTag
           content={
-            <Localized id="qa-experimental-tag-tooltip-content">
+            <Localized id="qa-experimentalTag-tooltip-content">
               The Q&A format is currently in active development. Please contact
               us with any feedback or requests.
             </Localized>

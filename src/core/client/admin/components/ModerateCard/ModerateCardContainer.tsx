@@ -21,6 +21,7 @@ import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
+  GQLUSER_ROLE,
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 
@@ -129,7 +130,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [approveComment, comment, match, readOnly]);
+  }, [approveComment, comment.id, comment.revision, loadNext, match, readOnly]);
 
   const handleReject = useCallback(async () => {
     if (!comment.revision) {
@@ -152,7 +153,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
-  }, [rejectComment, comment, match, readOnly]);
+  }, [comment.revision, comment.id, readOnly, match, rejectComment, loadNext]);
 
   const handleFeature = useCallback(() => {
     if (!comment.revision) {
@@ -229,7 +230,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (setSelected) {
       setSelected();
     }
-  }, [selected, comment]);
+  }, [setSelected]);
 
   const handleBanModalClose = useCallback(() => {
     setShowBanModal(false);
@@ -247,12 +248,17 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [comment, setShowBanModal]);
 
   const handleBanConfirm = useCallback(
-    async (rejectExistingComments: boolean, message: string) => {
+    async (
+      rejectExistingComments: boolean,
+      message: string,
+      siteIDs: string[] | null | undefined
+    ) => {
       if (comment.author) {
         await banUser({
           userID: comment.author.id,
           message,
           rejectExistingComments,
+          siteIDs,
         });
       }
       setShowBanModal(false);
@@ -347,6 +353,16 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
         open={showBanModal}
         onClose={handleBanModalClose}
         onConfirm={handleBanConfirm}
+        viewerScopes={{
+          role: viewer.role,
+          sites: viewer.moderationScopes?.sites?.map((s) => s),
+        }}
+        userScopes={{
+          role: comment.author ? comment.author.role : GQLUSER_ROLE.COMMENTER,
+          sites: comment.author
+            ? comment.author.status.ban.sites?.map((s) => s)
+            : [],
+        }}
       />
     </>
   );
@@ -361,7 +377,14 @@ const enhanced = withFragmentContainer<Props>({
         username
         status {
           current
+          ban {
+            sites {
+              id
+              name
+            }
+          }
         }
+        role
       }
       statusLiveUpdated
       createdAt
@@ -430,8 +453,13 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment ModerateCardContainer_viewer on User {
+      role
       moderationScopes {
         scoped
+        sites {
+          id
+          name
+        }
       }
     }
   `,
