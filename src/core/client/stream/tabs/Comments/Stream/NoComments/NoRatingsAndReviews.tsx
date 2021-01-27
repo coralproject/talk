@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { GQLTAG } from "coral-framework/schema";
+import CLASSES from "coral-stream/classes";
 import { CallOut } from "coral-ui/components/v2";
 
 interface Props {
@@ -43,7 +44,7 @@ const NoRatingsAndReviews: FunctionComponent<Props> = ({ isClosed, tag }) => {
   if (tag === GQLTAG.QUESTION) {
     return (
       <Localized id="ratingsAndReviews-noQuestionsYet">
-        <CallOut fullWidth>
+        <CallOut fullWidth className={CLASSES.ratingsAndReview.noReviews}>
           There are no questions yet. Why don't you ask one?
         </CallOut>
       </Localized>
