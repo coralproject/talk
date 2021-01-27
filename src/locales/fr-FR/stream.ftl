@@ -255,6 +255,9 @@ comments-reacted =
     *[other] {$reaction} ({$count}) commentaire de {$username}
   }
 
+comments-permalink-copyLink = Copier le lien
+comments-permalink-linkCopied = Lien copié
+
 ### Q&A
 
 general-tabBar-qaTab = Q&R

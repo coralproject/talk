@@ -77,7 +77,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [roleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
   const [statusFilter] = useState<GQLUSER_STATUS_RL | null>(null);
-  const [, isRefetching] = useRefetch(relay, {
+  const [, isRefetching] = useRefetch(relay, 10, {
     searchFilter: searchFilter || null,
     roleFilter,
     statusFilter,
@@ -312,7 +312,7 @@ const enhanced = withPaginationContainer<
       fragment ExpertSelectionContainer_query on Query
         @argumentDefinitions(
           storyID: { type: "ID!" }
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
           statusFilter: { type: "USER_STATUS_FILTER" }
@@ -350,16 +350,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.users;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

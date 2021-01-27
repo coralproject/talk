@@ -13,6 +13,7 @@ import React, {
 
 import { roundRating } from "coral-common/utils";
 import { useUUID } from "coral-framework/hooks";
+import CLASSES from "coral-stream/classes";
 
 import StarRatingIcon from "./StarRatingIcon";
 
@@ -124,13 +125,27 @@ const StarRating: FunctionComponent<Props> = ({
   }, [name, onBlur, onChange, onFocus, rating, readOnly, size, uuid]);
 
   if (readOnly) {
-    return <span className={cn(styles.root, className)}>{stars}</span>;
+    return (
+      <span
+        className={cn(
+          styles.root,
+          CLASSES.ratingsAndReview.stars.readonly,
+          className
+        )}
+      >
+        {stars}
+      </span>
+    );
   }
 
   return (
     <span
       ref={ref}
-      className={cn(styles.root, className)}
+      className={cn(
+        styles.root,
+        CLASSES.ratingsAndReview.stars.rating,
+        className
+      )}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >

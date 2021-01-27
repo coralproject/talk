@@ -41,7 +41,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
       StoryTableContainerPaginationQueryVariables,
       "searchFilter" | "statusFilter" | "siteID"
     >
-  >(props.relay, {
+  >(props.relay, 10, {
     searchFilter: searchFilter || null,
     statusFilter,
     siteID: siteFilter,
@@ -92,7 +92,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment StoryTableContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           statusFilter: { type: "STORY_STATUS" }
           searchFilter: { type: "String" }
@@ -123,16 +123,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.stories;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

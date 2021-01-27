@@ -37,7 +37,7 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
     statusFilter,
     setStatusFilter,
   ] = useState<GQLUSER_STATUS_FILTER_RL | null>(null);
-  const [, isRefetching] = useRefetch(props.relay, {
+  const [, isRefetching] = useRefetch(props.relay, 10, {
     searchFilter: searchFilter || null,
     roleFilter,
     statusFilter,
@@ -90,7 +90,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment UserTableContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
           statusFilter: { type: "USER_STATUS_FILTER" }
@@ -125,16 +125,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.users;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

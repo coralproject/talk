@@ -80,7 +80,7 @@ const PermalinkPopover: FunctionComponent<Props> = ({
               <Icon size="sm" className={styles.icon}>
                 check_circle_outline
               </Icon>
-              <Localized id="comments-permalink-copyLink">
+              <Localized id="comments-permalink-linkCopied">
                 <span>Link copied</span>
               </Localized>
             </Flex>

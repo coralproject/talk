@@ -311,16 +311,8 @@ function createReplyListContainer(options: {
     withPaginationContainer<Props, PaginationQuery, FragmentVariables>(
       fragments,
       {
-        direction: "forward",
         getConnectionFromProps(props) {
           return props.comment && props.comment.replies;
-        },
-        // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-        getFragmentVariables(prevVars, totalCount) {
-          return {
-            ...prevVars,
-            count: totalCount,
-          };
         },
         getVariables(props, { count, cursor }, fragmentVariables) {
           return {
@@ -363,7 +355,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainerLastFlattened_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -477,7 +469,7 @@ const ReplyListContainer3 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer3_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -541,7 +533,7 @@ const ReplyListContainer2 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer2_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -605,7 +597,7 @@ const ReplyListContainer1 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer1_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
