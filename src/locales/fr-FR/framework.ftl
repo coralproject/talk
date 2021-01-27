@@ -36,7 +36,7 @@ framework-validation-deleteConfirmationInvalid = Confirmation incorrecte. Veuill
 framework-validation-invalidWebhookEndpointEventSelection = Sélectionnez au moins un événement à recevoir.
 framework-validation-media-url-invalid = Entrez une URL d'image valide (.png, .jpg, ou .gif)
 
-framework-timeago-just-now = à l'instant
+framework-timeago-just-now = A l'instant
 
 framework-timeago-time =
   { $value } { $unit ->
