@@ -49,13 +49,12 @@ export class LocalReplyListContainer extends Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LocalReplyListContainer_viewer on User {
-      ...CommentContainer_viewer
-      ...IgnoredTombstoneOrHideContainer_viewer
+      ...ReplyListCommentContainer_viewer
     }
   `,
   story: graphql`
     fragment LocalReplyListContainer_story on Story {
-      ...CommentContainer_story
+      ...ReplyListCommentContainer_story
     }
   `,
   comment: graphql`
@@ -63,14 +62,13 @@ const enhanced = withFragmentContainer<Props>({
       id
       localReplies {
         id
-        ...CommentContainer_comment
-        ...IgnoredTombstoneOrHideContainer_comment
+        ...ReplyListCommentContainer_comment
       }
     }
   `,
   settings: graphql`
     fragment LocalReplyListContainer_settings on Settings {
-      ...CommentContainer_settings
+      ...ReplyListCommentContainer_settings
     }
   `,
 })(LocalReplyListContainer);
