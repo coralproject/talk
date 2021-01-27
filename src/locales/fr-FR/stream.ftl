@@ -263,6 +263,9 @@ comments-reacted =
 comments-jumpToComment-title = Votre réponse a été publiée ci-dessous
 comments-jumpToComment-GoToReply = Aller à la réponse
 
+comments-permalink-copyLink = Copier le lien
+comments-permalink-linkCopied = Lien copié
+
 ### Q&A
 
 general-tabBar-qaTab = Q&R
