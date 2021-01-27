@@ -262,6 +262,9 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comment by {$username}
   }
 
+comments-jumpToComment-title = Your reply has posted below
+comments-jumpToComment-GoToReply = Go to reply
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
@@ -330,6 +333,9 @@ comments-stream-deleteAccount-callOut-cancel =
   Cancel account deletion request
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancel account deletion
+
+comments-permalink-copyLink = Copy link
+comments-permalink-linkCopied = Link copied
 
 ### Embed Links
 

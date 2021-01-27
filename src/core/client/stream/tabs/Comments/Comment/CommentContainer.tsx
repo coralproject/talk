@@ -29,6 +29,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
@@ -48,6 +49,7 @@ import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
+import commentElementID from "./commentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
@@ -296,6 +298,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     can(viewer, Ability.MODERATE) &&
     !hideModerationCarat;
 
+  const flattenReplies = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.FLATTEN_REPLIES
+  );
+
   if (showEditDialog) {
     return (
       <div data-testid={`comment-${comment.id}`}>
@@ -340,8 +346,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         badgesClassName,
         className
       )}
-      id={`comment-${comment.id}`}
-      data-testid={`comment-${comment.id}`}
+      id={commentElementID(comment.id)}
+      data-testid={commentElementID(comment.id)}
       // Added for keyboard shortcut support.
       data-key-stop
     >
@@ -580,6 +586,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
             story={story}
             onClose={toggleShowReplyDialog}
             localReply={localReply}
+            showJumpToComment={Boolean(
+              indentLevel &&
+                indentLevel >= MAX_REPLY_INDENT_DEPTH - 1 &&
+                flattenReplies
+            )}
           />
         )}
         {removeAnswered && (

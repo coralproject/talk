@@ -97,7 +97,7 @@ const enhanced = withPaginationContainer<
     comment: graphql`
       fragment ConversationModalContainer_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 1 }
+          count: { type: "Int", defaultValue: 1 }
           cursor: { type: "Cursor" }
         ) {
         id
@@ -123,19 +123,10 @@ const enhanced = withPaginationContainer<
     getConnectionFromProps(props) {
       return props.comment && props.comment.parents;
     },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
-    },
     getVariables(props, { count, cursor }) {
       return {
         count,
         cursor,
-        // commentID isn't specified as an @argument for the fragment, but it should be a
-        // variable available for the fragment under the query root.
         commentID: props.comment.id,
       };
     },
