@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 import { useField } from "react-final-form";
 
 import { required } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
 import { Typography } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
@@ -24,7 +25,7 @@ const RatingInput: FunctionComponent<Props> = ({ disabled }) => {
         <Typography
           color="textDark"
           variant="bodyCopyBold"
-          className={styles.copy}
+          className={cn(styles.copy, CLASSES.ratingsAndReview.input.title)}
         >
           Select a rating
         </Typography>

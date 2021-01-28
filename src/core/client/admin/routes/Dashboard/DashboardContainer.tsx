@@ -5,7 +5,6 @@ import MainLayout from "coral-admin/components/MainLayout";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
-  useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import {
@@ -40,9 +39,7 @@ interface Props {
 const DashboardContainer: React.FunctionComponent<Props> = (props) => {
   const [lastUpdated, setLastUpdated] = useState<string>(new Date().toString());
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const [, isRefetching] = useRefetch<
-    DashboardContainerPaginationQueryVariables
-  >(props.relay);
+
   const onRefetch = useCallback(() => {
     setLastUpdated(new Date().toString());
   }, []);
@@ -63,10 +60,10 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
             <Dropdown>
               <IntersectionProvider>
                 <DashboardSiteSelector
-                  loading={!props.query || isRefetching}
+                  loading={!props.query}
                   sites={sites}
                   onLoadMore={loadMore}
-                  hasMore={!isRefetching && props.relay.hasMore()}
+                  hasMore={props.relay.hasMore()}
                   disableLoadMore={isLoadingMore}
                 />
               </IntersectionProvider>
@@ -110,7 +107,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment DashboardContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
         ) {
         sites(first: $count, after: $cursor)
@@ -127,16 +124,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.sites;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
