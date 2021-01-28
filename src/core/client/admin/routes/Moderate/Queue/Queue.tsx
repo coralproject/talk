@@ -64,7 +64,7 @@ const Queue: FunctionComponent<Props> = ({
   useHotkey(HOTKEYS.ZEN, toggleView);
 
   // Turn into ref, so we can use them in the callback without
-  // creating a new callback when following varables changes.
+  // creating a new callback when following variables changes.
   const selectedCommentRef = useRef<number | null>(selectedComment);
   selectedCommentRef.current = selectedComment;
   const commentsRef = useRef<Props["comments"]>(comments);
