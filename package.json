@@ -24,6 +24,7 @@
     "clean": "gulp clean",
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
+    "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
