@@ -48,29 +48,33 @@ comment-count-text =
 ## Comments Tab
 
 comments-allCommentsTab = Tous les commentaires
-comments-featuredTab = En vedette
+comments-featuredTab = Mis en avant
 comments-counter-shortNum = { SHORT_NUMBER($count) }
-comments-watchers = { SHORT_NUMBER($count) } en ligne
+comments-watchers =
+  { $count  ->
+    [one] 1 personne regarde cette discussion
+    *[other] { SHORT_NUMBER($count) } personnes regardent cette discussion
+  }
 
-comments-featuredCommentTooltip-how = Comment un commentaire est déclaré "en vedette" ?
+comments-featuredCommentTooltip-how = Comment un commentaire est déclaré "mise en avant" ?
 comments-featuredCommentTooltip-handSelectedComments =
-  Les commentaires sont choisis par notre équipe comme dignes d'être lus.
+  Les commentaires sont choisis par notre équipe.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Basculer la bulle d'information des commentaires en vedette
-  .title = Basculer la bulle d'information des commentaires en vedette
+  .aria-label = Basculer la bulle d'information des commentaires mis en avant
+  .title = Basculer la bulle d'information des commentaires mis en avant
 
-comments-bannedInfo-bannedFromCommenting = Votre compte a été banni des commentaires.
+comments-bannedInfo-bannedFromCommenting = Votre compte a été banni.
 comments-bannedInfo-violatedCommunityGuidelines =
   Quelqu'un ayant accès à votre compte a enfreint les règles
   de notre communauté. En conséquence, votre compte a été banni.
   Vous ne pourrez plus commenter, réagir ou signaler des commentaires.
   Si vous pensez que cela a été fait par erreur,
-  veuillez contacter notre équipe communautaire.
+  veuillez contacter notre équipe.
 
-comments-noCommentsAtAll = Il n'y a aucun commentaire sur cet article.
+comments-noCommentsAtAll = Il n'y a aucun commentaire sur ce contenu.
 comments-noCommentsYet = Il n'y a pas de commentaire pour le moment. Souhaitez-vous en écrire un ?
 
-comments-streamQuery-storyNotFound = Pas d'article trouvé.
+comments-streamQuery-storyNotFound = Pas de contenu trouvé.
 
 comments-commentForm-cancel = Annuler
 comments-commentForm-saveChanges = Sauvegarder les changements
@@ -90,16 +94,16 @@ comments-postComment-pasteImage = Coller l'URL d'une image
 comments-postComment-insertImage = Insérer
 
 comments-postComment-confirmMedia-youtube = Ajouter cette vidéo Youtube à la fin de votre commentaire?
-comments-postComment-confirmMedia-twitter = Ajouter ce Tweet à la fin de votre commentaire?
+comments-postComment-confirmMedia-twitter = Ajouter ce tweet à la fin de votre commentaire?
 comments-postComment-confirmMedia-cancel = Annuler
-comments-postComment-confirmMedia-add-tweet = Ajouter le Tweet
+comments-postComment-confirmMedia-add-tweet = Ajouter le tweet
 comments-postComment-confirmMedia-add-video = Ajouter la vidéo
 comments-postComment-confirmMedia-remove = Retirer
 comments-commentForm-gifPreview-remove = Retirer
 comments-viewNew =
   { $count ->
-    [1] Voir {$count} nouveau commentaire
-    *[other] voir {$count} nouveaux commentaires
+    [1] Voir le nouveau commentaire
+    *[other] Voir les {$count} nouveaux commentaires
   }
 comments-loadMore = Charger plus
 
@@ -110,6 +114,7 @@ comments-permalinkPopover =
 comments-permalinkButton-share = Partager
 comments-permalinkButton =
   .aria-label = Partager le commentaire de {$username}
+comments-permalink-copyLink = Copier le lien
 comments-permalinkView-viewFullDiscussion = Voir toute la discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = Ce commentaire n'existe pas ou a été supprimé.
 
@@ -128,7 +133,7 @@ comments-rte-bulletedList =
 comments-rte-strikethrough =
   .title = Barré
 
-comments-rte-spoiler = Divulgâcheur
+comments-rte-spoiler = Divulgâcher
 
 comments-rte-sarcasm = Sarcasme
 
@@ -158,7 +163,7 @@ comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound
 
 comments-replyCommentForm-submit = Soumettre
 comments-replyCommentForm-cancel = Annuler
-comments-replyCommentForm-rte☺Label = Écrire une réponse
+comments-replyCommentForm-rteLabel = Écrire une réponse
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
@@ -185,7 +190,7 @@ comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Vous consultez actuellement une seule conversation
 comments-inReplyTo = En réponse à <Username></Username>
-comments-replyTo = Répondre à : <Username></Username>
+comments-replyingTo = Répondre à <Username></Username>
 
 comments-reportButton-report = Signaler
 comments-reportButton-reported = Signalé
@@ -222,8 +227,8 @@ comments-userBanPopover-ban = Bannir
 
 comments-moderationDropdown-popover =
   .description = Une bulle contextuelle pour la modération du commentaire
-comments-moderationDropdown-feature = En vedette
-comments-moderationDropdown-unfeature = Désactiver la mise en vedette
+comments-moderationDropdown-feature = Mis en avant
+comments-moderationDropdown-unfeature = Désactiver la mise en avant
 comments-moderationDropdown-approve = Approuver
 comments-moderationDropdown-approved = Approuvé
 comments-moderationDropdown-reject = Rejeter
@@ -240,7 +245,7 @@ comments-rejectedTombstone-title = Vous avez rejeté ce commentaire.
 comments-rejectedTombstone-moderateLink =
   Allez à la vue de la modération pour réviser cette décision
 
-comments-featuredTag = En vedette
+comments-featuredTag = Mis en avant
 
 comments-react =
   .aria-label = {$count ->
@@ -252,8 +257,11 @@ comments-reacted =
   .aria-label = {$count ->
     [0] {$reaction} commentaire de {$username}
     [one] {$reaction} commentaire de {$username}
-    *[other] {$reaction} ({$count}) commentaire de {$username}
+    *[other] {$reaction} ({$count}) commentaires de {$username}
   }
+
+comments-jumpToComment-title = Votre réponse a été publiée ci-dessous
+comments-jumpToComment-GoToReply = Aller à la réponse
 
 comments-permalink-copyLink = Copier le lien
 comments-permalink-linkCopied = Lien copié
@@ -267,7 +275,7 @@ qa-unansweredTab = Non répondu
 qa-allCommentsTab = Tous
 
 qa-noQuestionsAtAll =
-  Il n'y a aucune question sur cet article.
+  Il n'y a aucune question sur ce contenu.
 qa-noQuestionsYet =
   Il n'y a aucune question. Pourquoi ne pas en poser une?
 qa-viewNew =
@@ -321,7 +329,7 @@ comments-stream-deleteAccount-callOut-title =
 comments-stream-deleteAccount-callOut-receivedDesc =
   Une requête pour supprimer votre compte a été reçue à cette date : { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  Si vous voulez continuer de poster des commentaires, de répondre ou d'ajouter des réactions, vous devriez annuler votre requête de suppression de compte avant cette date { $date }.
+  Si vous voulez continuer à poster des commentaires, à répondre ou à ajouter des réactions, vous devez annuler votre requête de suppression de compte avant cette date { $date }.
 comments-stream-deleteAccount-callOut-cancel =
   Annuler la requête de suppression de compte
 
@@ -334,14 +342,14 @@ comments-embedLinks-hideEmbeds = Cacher les pièces jointes
 comments-embedLinks-show-giphy = Afficher les GIF
 comments-embedLinks-hide-giphy = Cacher les GIF
 
-comments-embedLinks-show-youtube = Afficher les video
-comments-embedLinks-hide-youtube = Cacher les video
+comments-embedLinks-show-youtube = Afficher les vidéos
+comments-embedLinks-hide-youtube = Cacher les vidéos
 
-comments-embedLinks-show-twitter = Afficher les Tweet
-comments-embedLinks-hide-twitter = Cacher les Tweet
+comments-embedLinks-show-twitter = Afficher les tweets
+comments-embedLinks-hide-twitter = Cacher les tweets
 
-comments-embedLinks-show-external = Afficher les image
-comments-embedLinks-hide-external = Cacher les image
+comments-embedLinks-show-external = Afficher les images
+comments-embedLinks-hide-external = Cacher les images
 
 ### Featured Comments
 comments-featured-gotoConversation = Aller sur la conversation
@@ -367,10 +375,10 @@ profile-accountDeletion-cancelAccountDeletion =
 profile-historyComment-viewConversation = Voir la conversation
 profile-historyComment-replies = Nombre de réponses : {$replyCount}
 profile-historyComment-commentHistory = Historique de commentaires
-profile-historyComment-story = Article : {$title}
+profile-historyComment-story = Contenu : {$title}
 profile-historyComment-comment-on = Commenter :
 profile-profileQuery-errorLoadingProfile = Une erreur est survenue lors du chargement de votre profil.
-profile-profileQuery-storyNotFound = Pas d'article trouvé
+profile-profileQuery-storyNotFound = Pas de contenu trouvé
 profile-commentHistory-loadMore = Charger plus
 profile-commentHistory-empty = Vous n'avez pas écrit de commentaire.
 profile-commentHistory-empty-subheading = Un historique de vos commentaires va apparaître ici.
@@ -380,7 +388,7 @@ profile-commentHistory-empty-subheading = Un historique de vos commentaires va a
 profile-preferences-mediaPreferences = Préférence des médias
 profile-preferences-mediaPreferences-alwaysShow = Toujours afficher les GIFs, Tweets, vidéos YouTube, etc.
 profile-preferences-mediaPreferences-thisMayMake = Cette option peut ralentir le chargement des commentaires
-profile-preferences-mediaPreferences-update = Mettre-à-jour
+profile-preferences-mediaPreferences-update = Mettre à jour
 profile-preferences-mediaPreferences-preferencesUpdated =
   Vos préférences ont été mises à jour
 
@@ -516,8 +524,8 @@ profile-account-notifications-emailNotifications = Notifications d'E-mail
 profile-account-notifications-emailNotifications = Notifications d'Email
 profile-account-notifications-receiveWhen = Recevoir des notifications lorsque :
 profile-account-notifications-onReply =  Mon commentaire reçoit une réponse.
-profile-account-notifications-onFeatured =  Mon commentaire est mis en vedette.
-profile-account-notifications-onStaffReplies = Un membre du staff répond à mon commentaire.
+profile-account-notifications-onFeatured =  Mon commentaire est mis en avant.
+profile-account-notifications-onStaffReplies = Un membre de l'équipe répond à mon commentaire.
 profile-account-notifications-onModeration = Mon commentaire en attente a été analysé.
 profile-account-notifications-sendNotifications = Envoyer des notifications :
 profile-account-notifications-sendNotifications-immediately = Immédiatement
@@ -763,3 +771,41 @@ profile-changeEmail-saveChanges = Sauvegarder les changements
 profile-changeEmail-email = Email
 profile-changeEmail-title = Adresse mail
 profile-changeEmail-success = Votre email a bien été mis à jour
+
+## Ratings and Reviews
+
+ratingsAndReviews-reviewsTab = Avis
+ratingsAndReviews-questionsTab = Questions
+ratingsAndReviews-noReviewsAtAll = Il n'y a pas d'avis.
+ratingsAndReviews-noQuestionsAtAll = Il n'y a pas de question.
+ratingsAndReviews-noReviewsYet = Il n'y a pas encore d'avis. Pourquoi ne pas en écrire un ?
+ratingsAndReviews-noQuestionsYet = Il n'y a pas encore de question. Pourquoi ne pas en écrire une ?
+ratingsAndReviews-selectARating = Choisir une note
+ratingsAndReviews-youRatedThis = Vous avez noté ceci
+  .title = { ratingsAndReviews-showReview }
+ratingsAndReviews-rateAndReview = Notes et avis
+ratingsAndReviews-askAQuestion = Poser une question
+ratingsAndReviews-basedOnRatings = { $count ->
+  [0] Pas de note
+  [1] Basé sur une note
+  *[other] Basé sur { SHORT_NUMBER($count) } notes
+}
+
+ratingsAndReviews-allReviewsFilter = Toues les avis
+ratingsAndReviews-starReviewsFilter = { $rating ->
+  [1] 1 étoile
+  *[other] { $rating } étoiles
+}
+
+comments-addAReviewForm-rteLabel = Ajouter un avis (optionnel)
+
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+stream-footer-links-top-of-article = Revenir au début du contenu
+stream-footer-links-top-of-comments = Revenir au début des commentaires
+stream-footer-links-profile = Profile et réponses
+stream-footer-links-discussions = Plus de discussions
