@@ -331,6 +331,9 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancel account deletion
 
+comments-permalink-copyLink = Copy link
+comments-permalink-linkCopied = Link copied
+
 ### Embed Links
 
 comments-embedLinks-showEmbeds = Show embeds

@@ -22,7 +22,7 @@ resetPassword-successfullyReset = Votre mot de passe a bien été réinitialisé
 resetPassword-youMayClose =
   Vous pouvez fermer la fenêtre et vous connecter en utilisant votre nouveau mot de passe.
 resetPassword-oopsSorry = Oups désolé!
-resetPassword-missingResetToken = Le jeton de réinitialisation semble manquant.
+resetPassword-missingResetToken = Le jeton de réinitialisation semble être absent.
 
 ## Email Confirmation
 
@@ -30,7 +30,7 @@ confirmEmail-emailConfirmation = Mail de confirmation
 confirmEmail-confirmEmail = Confirmez votre email
 confirmEmail-pleaseClickToConfirm =  Cliquez ci-dessous pour confirmer votre adresse email.
 confirmEmail-oopsSorry = Oups désolé !
-confirmEmail-missingConfirmToken = Le jeton de confirmation semble manquant.
+confirmEmail-missingConfirmToken = Le jeton de confirmation semble être absent.
 confirmEmail-successfullyConfirmed = Votre email a été confirmé.
 confirmEmail-youMayClose =
   Vous pouvez fermer cette fenêtre.
@@ -42,8 +42,8 @@ download-landingPage-description =
   Votre historique de commentaires sera téléchargé sous la forme d'un dossier .zip.
   Après avoir dézippé votre historique de commentaires,
   vous aurez des valeurs séparées par une virgule (ou un fichier .csv)
-  que vous pourrez facilement importer dans votre
-  application tableur préférée.
+  que vous pourrez facilement importer dans une
+  application tableur.
 download-landingPage-contentsDescription =
   Pour tous vos commentaires, les informations suivantes sont incluses :
 download-landingPage-contentsDate =
@@ -56,7 +56,7 @@ download-landingPage-contentsStoryUrl =
   Le lien de l'article où votre commentaire apparaît.
 download-landingPage-downloadComments =
 download-landingPage-download =
-  Télécharge mon historique de commentaires.
+  Télécharger mon historique de commentaires.
 download-landingPage-sorry = Votre lien de téléchargement n'est pas valide.
 
 ## Unsubscribe
@@ -70,3 +70,4 @@ unsubscribe-unsubscribedSuccessfully =
 unsubscribe-successfullyUnsubscribed = Vous ne recevrez désormais plus de notifications.
 unsubscribe-clickToConfirm = Cliquez ci-dessous pour confirmer que vous ne voulez plus recevoir de notifications.
 unsubscribe-confirm = Confirmer
+unsubscribe-youMayNowClose = Vous pouvez fermer cette fenêtre
