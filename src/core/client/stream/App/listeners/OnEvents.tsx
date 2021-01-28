@@ -18,6 +18,11 @@ export class OnEvents extends Component<Props> {
           value,
         })
       );
+
+      const rudder = (window as any).rudderanalytics;
+      if (rudder) {
+        rudder.track(eventName, value, () => {});
+      }
     });
   }
 
