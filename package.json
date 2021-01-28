@@ -237,7 +237,7 @@
     "@types/shallow-equals": "^1.0.0",
     "@types/simplemde": "^1.11.7",
     "@types/sinon": "^7.5.2",
-    "@types/source-map-support": "^0.5.1",
+    "@types/source-map-support": "^0.5.3",
     "@types/stack-trace": "0.0.29",
     "@types/stack-utils": "^1.0.1",
     "@types/uuid": "^7.0.2",
