@@ -5,7 +5,7 @@
  * Usage:
  * ```ts
  * import styles from "./Button.css";
- *
+ * ...
  * const css = useStyles(styles, classes);
  * return (
  *  <div className={css.root}></div>
