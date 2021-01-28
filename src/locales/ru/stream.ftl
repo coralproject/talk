@@ -118,6 +118,7 @@ comments-permalinkButton-share = Поделиться
 comments-permalinkButton =
   .aria-label = Поделиться
 comments-permalink-copyLink = Скопировать ссылку
+comments-permalink-linkCopied = Ссылка скопирована
 comments-permalinkView-viewFullDiscussion = Показать все
 comments-permalinkView-commentRemovedOrDoesNotExist = Этот комментарий был удален, либо его не существует.
 
