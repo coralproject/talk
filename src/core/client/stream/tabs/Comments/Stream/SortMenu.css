@@ -14,7 +14,7 @@
   line-height: 1.14;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: $breakpoints-mobile) {
   .selectFont {
     font-family: var(--font-family-primary);
     font-weight: var(--font-weight-primary-semi-bold);
