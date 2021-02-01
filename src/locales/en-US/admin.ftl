@@ -1423,5 +1423,4 @@ dashboard-comment-activity-tooltip-comments = Comments
 dashboard-comment-activity-legend = Average last 3 days
 
 conversation-modal-header-title = Conversation on:
-conversation-modal-header-moderate-link =
-  Moderate story
+conversation-modal-header-moderate-link = Moderate story
