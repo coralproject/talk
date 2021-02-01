@@ -26,7 +26,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "pt-BR": "Português brasileiro",
   es: "Español",
   de: "Deutsch",
-  "de-CH": "Deutsca-Schweizh",
+  "de-CH": "Deutsch-Schweiz",
   "nl-NL": "Nederlands",
   da: "Dansk",
   "fr-FR": "Francais",
