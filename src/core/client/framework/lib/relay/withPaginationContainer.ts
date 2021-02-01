@@ -11,7 +11,6 @@ import {
 import { PageInfo, Variables } from "relay-runtime";
 
 import { resolveModule, resolveModuleObject } from "./helpers";
-import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
 interface ConnectionData {
@@ -64,7 +63,5 @@ export default <T, QueryVariables, FragmentVariables>(
     }
   );
   result.displayName = wrapDisplayName(component, "Relay");
-  // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
-  // well supported yet in enzyme.
-  return hideForwardRef(result) as any;
+  return result as any;
 };
