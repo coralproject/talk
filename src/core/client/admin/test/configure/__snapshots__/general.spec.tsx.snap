@@ -208,6 +208,11 @@ exports[`renders configure general 1`] = `
                         Deutsch
                       </option>
                       <option
+                        value="de-CH"
+                      >
+                        Deutsch-Schweiz
+                      </option>
+                      <option
                         value="nl-NL"
                       >
                         Nederlands
