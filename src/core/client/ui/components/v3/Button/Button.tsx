@@ -1,10 +1,11 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { Ref } from "react";
+import React, { Ref, SFC } from "react";
 
 import { BaseButton } from "coral-ui/components/v2";
 import { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
-import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { withForwardRef } from "coral-ui/hocs";
+import useStyles from "coral-ui/hooks/useStyles";
 
 import styles from "./Button.css";
 
@@ -14,7 +15,9 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   target?: string;
   to?: string;
 
-  classes: typeof styles & BaseButtonProps["classes"];
+  classes?: Partial<
+    typeof styles & { keyboardFocus: string; mouesHover: string }
+  >;
   className?: string;
 
   fontFamily?: "primary" | "secondary" | "none";
@@ -35,94 +38,90 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-export class Button extends React.Component<Props> {
-  public render() {
-    const {
-      classes,
-      className,
-      variant = "filled",
-      color = "primary",
-      textAlign = "center",
-      fontSize = "small",
-      fontFamily = "primary",
-      fontWeight = "bold",
-      paddingSize = "small",
-      children,
-      disabled = false,
-      to,
-      upperCase = false,
-      underline = false,
-      fullWidth = false,
-      href,
-      forwardRef,
-      active,
-      ...rest
-    } = this.props;
+export const Button: SFC<Props> = ({
+  classes,
+  className,
+  variant = "filled",
+  color = "primary",
+  textAlign = "center",
+  fontSize = "small",
+  fontFamily = "primary",
+  fontWeight = "bold",
+  paddingSize = "small",
+  children,
+  disabled = false,
+  to,
+  upperCase = false,
+  underline = false,
+  fullWidth = false,
+  href,
+  forwardRef,
+  active,
+  ...rest
+}) => {
+  const css = useStyles(styles, classes);
+  const rootClassName = cn(
+    css.base,
+    {
+      [css.filled]: variant === "filled",
+      [css.outlined]: variant === "outlined",
+      [css.flat]: variant === "flat",
+      [css.active]: active,
+      [css.fontSizeExtraSmall]: fontSize === "extraSmall",
+      [css.fontSizeSmall]: fontSize === "small",
+      [css.fontSizeMedium]: fontSize === "medium",
+      [css.fontSizeLarge]: fontSize === "large",
+      [css.textAlignLeft]: textAlign === "left",
+      [css.textAlignCenter]: textAlign === "center",
+      [css.textAlignRight]: textAlign === "right",
+      [css.fontFamilyPrimary]: fontFamily === "primary",
+      [css.fontFamilySecondary]: fontFamily === "secondary",
+      [css.fontWeightPrimaryRegular]:
+        fontFamily === "primary" && fontWeight === "regular",
+      [css.fontWeightPrimarySemiBold]:
+        fontFamily === "primary" && fontWeight === "semiBold",
+      [css.fontWeightPrimaryBold]:
+        fontFamily === "primary" && fontWeight === "bold",
+      [css.fontWeightSecondaryRegular]:
+        fontFamily === "secondary" && fontWeight === "regular",
+      [css.fontWeightSecondarySemiBold]:
+        fontFamily === "secondary" && fontWeight === "semiBold",
+      [css.fontWeightSecondaryBold]:
+        fontFamily === "secondary" && fontWeight === "bold",
+      [css.paddingSizeExtraSmall]: paddingSize === "extraSmall",
+      [css.paddingSizeSmall]: paddingSize === "small",
+      [css.paddingSizeMedium]: paddingSize === "medium",
+      [css.paddingSizeLarge]: paddingSize === "large",
+      [css.colorPrimary]: color === "primary",
+      [css.colorSecondary]: color === "secondary",
+      [css.colorSuccess]: color === "success",
+      [css.colorError]: color === "error",
+      [css.disabled]: disabled,
+      [css.upperCase]: upperCase,
+      [css.underline]: underline,
+      [css.fullWidth]: fullWidth,
+    },
+    className
+  );
 
-    const rootClassName = cn(
-      classes.root,
-      classes.base,
-      {
-        [classes.filled]: variant === "filled",
-        [classes.outlined]: variant === "outlined",
-        [classes.flat]: variant === "flat",
-        [classes.active]: active,
-        [classes.fontSizeExtraSmall]: fontSize === "extraSmall",
-        [classes.fontSizeSmall]: fontSize === "small",
-        [classes.fontSizeMedium]: fontSize === "medium",
-        [classes.fontSizeLarge]: fontSize === "large",
-        [classes.textAlignLeft]: textAlign === "left",
-        [classes.textAlignCenter]: textAlign === "center",
-        [classes.textAlignRight]: textAlign === "right",
-        [classes.fontFamilyPrimary]: fontFamily === "primary",
-        [classes.fontFamilySecondary]: fontFamily === "secondary",
-        [classes.fontWeightPrimaryRegular]:
-          fontFamily === "primary" && fontWeight === "regular",
-        [classes.fontWeightPrimarySemiBold]:
-          fontFamily === "primary" && fontWeight === "semiBold",
-        [classes.fontWeightPrimaryBold]:
-          fontFamily === "primary" && fontWeight === "bold",
-        [classes.fontWeightSecondaryRegular]:
-          fontFamily === "secondary" && fontWeight === "regular",
-        [classes.fontWeightSecondarySemiBold]:
-          fontFamily === "secondary" && fontWeight === "semiBold",
-        [classes.fontWeightSecondaryBold]:
-          fontFamily === "secondary" && fontWeight === "bold",
-        [classes.paddingSizeExtraSmall]: paddingSize === "extraSmall",
-        [classes.paddingSizeSmall]: paddingSize === "small",
-        [classes.paddingSizeMedium]: paddingSize === "medium",
-        [classes.paddingSizeLarge]: paddingSize === "large",
-        [classes.colorPrimary]: color === "primary",
-        [classes.colorSecondary]: color === "secondary",
-        [classes.colorSuccess]: color === "success",
-        [classes.colorError]: color === "error",
-        [classes.disabled]: disabled,
-        [classes.upperCase]: upperCase,
-        [classes.underline]: underline,
-        [classes.fullWidth]: fullWidth,
-      },
-      className
-    );
+  return (
+    <BaseButton
+      className={rootClassName}
+      classes={pick(classes, "keyboardFocus", "mouseHover")}
+      disabled={disabled}
+      to={to}
+      href={href}
+      anchor={href ? true : false}
+      ref={forwardRef}
+      aria-pressed={active}
+      data-variant={variant}
+      {...rest}
+    >
+      {children}
+    </BaseButton>
+  );
+};
 
-    return (
-      <BaseButton
-        className={rootClassName}
-        classes={pick(classes, "keyboardFocus", "mouseHover")}
-        disabled={disabled}
-        to={to}
-        href={href}
-        anchor={href ? true : false}
-        ref={forwardRef}
-        aria-pressed={active}
-        data-variant={variant}
-        {...rest}
-      >
-        {children}
-      </BaseButton>
-    );
-  }
-}
-
-const enhanced = withForwardRef(withStyles(styles)(Button));
+const enhanced = withForwardRef(Button);
 
 export default enhanced;

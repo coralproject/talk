@@ -12,7 +12,6 @@ import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
-  useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
@@ -103,11 +102,8 @@ const UserStatusSitesListContainer: FunctionComponent<Props> = ({
   const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 1);
-  const [, isRefetching] = useRefetch<
-    UserStatusSitesListContainerPaginationQueryVariables
-  >(relay);
-  const loading = !query || isRefetching;
-  const hasMore = !isRefetching && relay.hasMore();
+  const loading = !query;
+  const hasMore = relay.hasMore();
 
   const onHideSites = useCallback(() => {
     setShowSites(false);
@@ -216,7 +212,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment UserStatusSitesListContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
         ) {
         sites(first: $count, after: $cursor)
@@ -232,16 +228,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.sites;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

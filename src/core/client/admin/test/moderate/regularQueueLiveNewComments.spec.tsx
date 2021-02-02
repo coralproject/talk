@@ -71,7 +71,8 @@ it("allows viewing new when new comments come in", async () => {
   >("commentEnteredModerationQueue", (variables) => {
     if (
       variables.storyID !== null ||
-      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED ||
+      variables.orderBy !== "CREATED_AT_DESC"
     ) {
       return;
     }

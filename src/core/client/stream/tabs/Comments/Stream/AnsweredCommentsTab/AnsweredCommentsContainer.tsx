@@ -18,7 +18,6 @@ import { AnsweredCommentsContainer_story as StoryData } from "coral-stream/__gen
 import { AnsweredCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/AnsweredCommentsContainer_viewer.graphql";
 import { AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
 
-import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import AnsweredCommentContainer from "./AnsweredCommentContainer";
 
 interface Props {
@@ -54,18 +53,13 @@ export const AnsweredCommentsContainer: FunctionComponent<Props> = (props) => {
       spacing={3}
     >
       {comments.map((comment) => (
-        <IgnoredTombstoneOrHideContainer
+        <AnsweredCommentContainer
           key={comment.id}
           viewer={props.viewer}
+          settings={props.settings}
           comment={comment}
-        >
-          <AnsweredCommentContainer
-            viewer={props.viewer}
-            settings={props.settings}
-            comment={comment}
-            story={props.story}
-          />
-        </IgnoredTombstoneOrHideContainer>
+          story={props.story}
+        />
       ))}
       {props.relay.hasMore() && (
         <Localized id="comments-loadMore">
@@ -101,7 +95,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AnsweredCommentsContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
@@ -112,7 +106,6 @@ const enhanced = withPaginationContainer<
             node {
               id
               ...AnsweredCommentContainer_comment
-              ...IgnoredTombstoneOrHideContainer_comment
             }
           }
         }
@@ -123,7 +116,6 @@ const enhanced = withPaginationContainer<
     viewer: graphql`
       fragment AnsweredCommentsContainer_viewer on User {
         ...AnsweredCommentContainer_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
         status {
           current
         }
@@ -139,16 +131,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.story && props.story.featuredComments;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

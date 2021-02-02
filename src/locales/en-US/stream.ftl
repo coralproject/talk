@@ -85,7 +85,7 @@ comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
-comments-postCommentForm-gifSeach = Search for a GIF
+comments-postCommentForm-gifSearch = Search for a GIF
 comments-postComment-gifSearch-search =
   .aria-label = Search
 comments-postComment-gifSearch-loading = Loading...
@@ -261,6 +261,9 @@ comments-reacted =
     [one] {$reaction} comment by {$username}
     *[other] {$reaction} ({$count}) comment by {$username}
   }
+
+comments-jumpToComment-title = Your reply has posted below
+comments-jumpToComment-GoToReply = Go to reply
 
 ### Q&A
 

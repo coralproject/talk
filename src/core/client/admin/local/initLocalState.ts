@@ -1,10 +1,14 @@
 import { commitLocalUpdate } from "relay-runtime";
 
-import { ADMIN_REDIRECT_PATH_KEY } from "coral-admin/constants";
+import {
+  ADMIN_REDIRECT_PATH_KEY,
+  MOD_QUEUE_SORT_ORDER,
+} from "coral-admin/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 /**
  * Initializes the local state, before we start the App.
@@ -48,12 +52,20 @@ const initLocalState: InitLocalState = async ({
 
   await initLocalBaseState({ environment, context, auth, ...rest });
 
+  const modQueueSortOrder = await context.localStorage.getItem(
+    MOD_QUEUE_SORT_ORDER
+  );
+
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
 
     localRecord.setValue(redirectPath, "redirectPath");
     localRecord.setValue("SIGN_IN", "authView");
     localRecord.setValue(error, "authError");
+    localRecord.setValue(
+      modQueueSortOrder ? modQueueSortOrder : GQLCOMMENT_SORT.CREATED_AT_DESC,
+      "moderationQueueSort"
+    );
   });
 };
 

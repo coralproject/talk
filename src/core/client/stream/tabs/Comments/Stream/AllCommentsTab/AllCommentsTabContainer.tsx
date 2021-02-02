@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -39,14 +37,11 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
-import { CommentContainer } from "../../Comment";
-import CollapsableComment from "../../Comment/CollapsableComment";
-import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
-import { ReplyListContainer } from "../../ReplyList";
+import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsLinks from "./AllCommentsLinks";
+import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentEnteredSubscription from "./CommentEnteredSubscription";
 import RatingsFilterMenu from "./RatingsFilterMenu";
@@ -61,16 +56,6 @@ interface Props {
   flattenReplies: boolean;
   tag?: GQLTAG;
 }
-
-// eslint-disable-next-line no-unused-expressions
-graphql`
-  fragment AllCommentsTabContainer_comment on Comment {
-    id
-    ...CommentContainer_comment
-    ...ReplyListContainer1_comment
-    ...IgnoredTombstoneOrHideContainer_comment
-  }
-`;
 
 export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   story,
@@ -245,45 +230,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         )}
         {story.comments.edges.length > 0 &&
           story.comments.edges.map(({ node: comment }, index) => (
-            <IgnoredTombstoneOrHideContainer
+            <AllCommentsTabCommentContainer
               key={comment.id}
               viewer={viewer}
               comment={comment}
-            >
-              <FadeInTransition active={!!comment.enteredLive}>
-                <CollapsableComment>
-                  {({ collapsed, toggleCollapsed }) => (
-                    <HorizontalGutter
-                      className={cn({
-                        [styles.borderedComment]:
-                          !collapsed && index < story.comments.edges.length - 1,
-                      })}
-                    >
-                      <CommentContainer
-                        collapsed={collapsed}
-                        viewer={viewer}
-                        settings={settings}
-                        comment={comment}
-                        story={story}
-                        toggleCollapsed={toggleCollapsed}
-                      />
-                      <div
-                        className={cn({
-                          [styles.hiddenReplies]: collapsed,
-                        })}
-                      >
-                        <ReplyListContainer
-                          settings={settings}
-                          viewer={viewer}
-                          comment={comment}
-                          story={story}
-                        />
-                      </div>
-                    </HorizontalGutter>
-                  )}
-                </CollapsableComment>
-              </FadeInTransition>
-            </IgnoredTombstoneOrHideContainer>
+              story={story}
+              settings={settings}
+              isLast={index === story.comments.edges.length - 1}
+            />
           ))}
         {hasMore && (
           <Localized id="comments-loadMore">
@@ -305,7 +259,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
         {!alternateOldestViewEnabled && (
-          <AllCommentsLinks
+          <CommentsLinks
             showGoToDiscussions={showGoToDiscussions}
             showGoToProfile={!!viewer}
           />
@@ -325,7 +279,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <AllCommentsLinks
+            <CommentsLinks
               showGoToDiscussions={showGoToDiscussions}
               showGoToProfile={!!viewer}
             />
@@ -351,7 +305,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
@@ -379,32 +333,29 @@ const enhanced = withPaginationContainer<
           viewNewEdges {
             cursor
             node {
-              enteredLive
-              ...AllCommentsTabContainer_comment @relay(mask: false)
+              id
+              ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
-              enteredLive
-              ...AllCommentsTabContainer_comment @relay(mask: false)
+              id
+              ...AllCommentsTabCommentContainer_comment
             }
           }
         }
         ...PostCommentFormContainer_story
-        ...CommentContainer_story
-        ...ReplyListContainer1_story
         ...CreateCommentReplyMutation_story
         ...CreateCommentMutation_story
         ...ViewersWatchingContainer_story
+        ...AllCommentsTabCommentContainer_story
       }
     `,
     viewer: graphql`
       fragment AllCommentsTabContainer_viewer on User {
-        ...ReplyListContainer1_viewer
-        ...CommentContainer_viewer
+        ...AllCommentsTabCommentContainer_viewer
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
         ...PostCommentFormContainer_viewer
         status {
           current
@@ -420,24 +371,15 @@ const enhanced = withPaginationContainer<
           enabled
         }
         featureFlags
-        ...ReplyListContainer1_settings
-        ...CommentContainer_settings
         ...PostCommentFormContainer_settings
         ...ViewersWatchingContainer_settings
+        ...AllCommentsTabCommentContainer_settings
       }
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps({ story }) {
       return story && story.comments;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(
       { story, flattenReplies },

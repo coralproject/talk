@@ -2,10 +2,15 @@ import { Match } from "found";
 
 import { Options } from "./getModerationLink";
 
-export default function parseModerationOptions(
-  match: Match
-): Omit<Options, "queue"> {
-  const options: Options = {};
+type ReturnType = Omit<Required<Options>, "queue">;
+
+export default function parseModerationOptions(match: Match): ReturnType {
+  const options: ReturnType = {
+    commentID: null,
+    section: null,
+    siteID: null,
+    storyID: null,
+  };
 
   if (match.params.storyID) {
     options.storyID = match.params.storyID;

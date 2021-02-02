@@ -42,6 +42,12 @@ interface CreateWebpackOptions {
 
 const publicPath = "/";
 
+/** These alias are required in production if you want to keep the profiling tools */
+const reactProfilerAlias = {
+  "react-dom$": "react-dom/profiling",
+  "scheduler/tracing": "scheduler/tracing-profiling",
+};
+
 export default function createWebpackConfig(
   config: Config,
   { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
@@ -54,6 +60,8 @@ export default function createWebpackConfig(
   const generateReport = config.get("generateReport");
 
   const isProduction = env.NODE_ENV === "production";
+  /** Enable react profiler support: https://kentcdodds.com/blog/profile-a-react-app-for-performance  */
+  const profilerSupport = isProduction && config.get("enableReactProfiler");
   const minimize = isProduction && !config.get("disableMinimize");
   const treeShake = isProduction || config.get("enableTreeShake");
   const enableBuildCache = !isProduction;
@@ -193,6 +201,8 @@ export default function createWebpackConfig(
                   passes: 2,
                 },
             mangle: minimize,
+            keep_classnames: profilerSupport,
+            keep_fnames: profilerSupport,
             output: {
               comments: !minimize,
               // Turned on because emoji and regex is not minified properly using default
@@ -244,6 +254,7 @@ export default function createWebpackConfig(
           extensions: [".js", ".ts", ".tsx"],
         }),
       ],
+      alias: profilerSupport ? reactProfilerAlias : {},
     },
     resolveLoader: {
       // Add path to our own loaders.

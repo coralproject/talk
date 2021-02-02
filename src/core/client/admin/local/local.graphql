@@ -32,4 +32,5 @@ extend type Local {
   # Duplicate email found when adding email during auth.
   authDuplicateEmail: String
   siteID: String
+  moderationQueueSort: COMMENT_SORT
 }

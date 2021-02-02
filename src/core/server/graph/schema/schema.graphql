@@ -525,6 +525,12 @@ enum FEATURE_FLAG {
   ENABLE_AMP will enable support for embedding Coral within AMP pages.
   """
   ENABLE_AMP
+
+  """
+  DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
+  overrides the configuration option available in the Admin UI for that tenant.
+  """
+  DISABLE_LIVE_UPDATES
 }
 
 # The moderation mode of the site.
@@ -598,6 +604,7 @@ type ModerationQueue {
   comments(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
   ): CommentsConnection!
 }
 
@@ -3934,6 +3941,7 @@ type Query {
     section: SectionFilter
     tag: TAG
     query: String
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -8508,6 +8516,7 @@ type Subscription {
     storyID: ID
     siteID: ID
     section: SectionFilter
+    orderBy: COMMENT_SORT
     queue: MODERATION_QUEUE
   ): CommentEnteredModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 
@@ -8519,6 +8528,7 @@ type Subscription {
     storyID: ID
     siteID: ID
     section: SectionFilter
+    orderBy: COMMENT_SORT
     queue: MODERATION_QUEUE
   ): CommentLeftModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
 

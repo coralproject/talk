@@ -1,6 +1,8 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Option, SelectField } from "coral-ui/components/v2";
 
 import styles from "./RatingsFilterMenu.css";
@@ -45,7 +47,7 @@ const RatingsFilterMenu: FunctionComponent<Props> = ({
   return (
     <SelectField
       id="coral-comments-ratingsFilterMenu"
-      className={styles.root}
+      className={cn(styles.root, CLASSES.ratingsAndReview.ratingsFilter)}
       value={value}
       onChange={onChange}
       classes={{

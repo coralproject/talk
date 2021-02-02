@@ -46,6 +46,7 @@ exports[`renders correctly 1`] = `
       siteID={null}
       story={Object {}}
     />
+    <QueueSort />
   </withPropsOnChange(SubBar)>
   <div
     className="Moderate-background"

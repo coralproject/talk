@@ -1,4 +1,10 @@
-import { Location, Match, Router, withRouter } from "found";
+import {
+  Location,
+  LocationDescriptorObject,
+  Match,
+  Router,
+  withRouter,
+} from "found";
 import React, { useEffect } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";
@@ -19,13 +25,15 @@ export interface TransitionControlData {
   /** allowTransition if set to false, will prevent router transitions from happening. */
   allowTransition: boolean;
   /** history contains all records of router transition requests. */
-  history: Location[];
+  history: Array<Location | LocationDescriptorObject>;
 }
 
 const TransitionControl: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
-    return props.router.addTransitionHook((location) => {
-      if (props.transitionControl) {
+    return props.router.addNavigationListener((location) => {
+      if (props.transitionControl && location) {
+        // location should be never null unless using `beforeUnload`
+        // https://github.com/4Catalyzer/farce#navigation-listeners.
         props.transitionControl.history.push(location);
         if (!props.transitionControl.allowTransition) {
           return false;
@@ -33,7 +41,7 @@ const TransitionControl: React.FunctionComponent<Props> = (props) => {
       }
       return;
     });
-  }, []);
+  }, [props.router, props.transitionControl]);
   return null;
 };
 

@@ -110,7 +110,7 @@ const enhanced = withPaginationContainer<
     user: graphql`
       fragment UserHistoryDrawerRejectedComments_user on User
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
         email
@@ -128,15 +128,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.user && props.user.rejectedComments;
-    },
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

@@ -3,7 +3,6 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
   useLoadMore,
-  useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
@@ -26,9 +25,7 @@ interface Props {
 
 const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const [, isRefetching] = useRefetch<
-    SiteSelectorContainerPaginationQueryVariables
-  >(props.relay);
+
   const { sites, scoped } = useMemo(() => {
     // If the viewer is moderation scoped, then only provide those sites.
     if (
@@ -55,11 +52,11 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
 
   return (
     <SiteSelector
-      loading={!props.query || isRefetching}
+      loading={!props.query}
       scoped={scoped}
       sites={sites}
       onLoadMore={loadMore}
-      hasMore={!isRefetching && props.relay.hasMore()}
+      hasMore={props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
       queueName={props.queueName}
       siteID={props.siteID}
@@ -78,7 +75,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment SiteSelectorContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
         ) {
         sites(first: $count, after: $cursor)
@@ -110,16 +107,8 @@ const enhanced = withPaginationContainer<
     `,
   },
   {
-    direction: "forward",
     getConnectionFromProps(props) {
       return props.query && props.query.sites;
-    },
-    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-    getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        count: totalCount,
-      };
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

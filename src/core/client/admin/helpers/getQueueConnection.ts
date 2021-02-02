@@ -7,7 +7,7 @@ import {
 
 import { SectionFilter } from "coral-common/section";
 import {
-  GQLCOMMENT_STATUS,
+  GQLCOMMENT_SORT_RL,
   GQLMODERATION_QUEUE_RL,
 } from "coral-framework/schema";
 
@@ -16,24 +16,15 @@ export default function getQueueConnection(
   queue: GQLMODERATION_QUEUE_RL | "REJECTED" | "APPROVED",
   storyID?: string | null,
   siteID?: string | null,
+  orderBy?: GQLCOMMENT_SORT_RL | null,
   section?: SectionFilter | null
 ): RecordProxy | null | undefined {
   const root = store.getRoot();
   if (queue === "REJECTED") {
-    return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
-      status: GQLCOMMENT_STATUS.REJECTED,
-      storyID,
-      siteID,
-      section,
-    });
+    return ConnectionHandler.getConnection(root, "RejectedQueue_comments");
   }
   if (queue === "APPROVED") {
-    return ConnectionHandler.getConnection(root, "ApprovedQueue_comments", {
-      status: GQLCOMMENT_STATUS.APPROVED,
-      storyID,
-      siteID,
-      section,
-    });
+    return ConnectionHandler.getConnection(root, "ApprovedQueue_comments");
   }
   const queuesRecord = root.getLinkedRecord("moderationQueues", {
     storyID,
@@ -48,5 +39,8 @@ export default function getQueueConnection(
   if (!queueRecord) {
     return undefined;
   }
-  return ConnectionHandler.getConnection(queueRecord, "Queue_comments");
+
+  return ConnectionHandler.getConnection(queueRecord, "Queue_comments", {
+    orderBy,
+  });
 }

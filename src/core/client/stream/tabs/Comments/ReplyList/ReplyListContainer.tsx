@@ -7,6 +7,7 @@ import {
 } from "react-relay";
 import { withProps } from "recompose";
 
+import useMemoizer from "coral-framework/hooks/useMemoizer";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
@@ -128,14 +129,13 @@ graphql`
     disableCommenting {
       enabled
     }
-    ...CommentContainer_settings
+    ...ReplyListCommentContainer_settings
   }
 `;
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment ReplyListContainer_viewer on User {
-    ...CommentContainer_viewer
-    ...IgnoredTombstoneOrHideContainer_viewer
+    ...ReplyListCommentContainer_viewer
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -149,7 +149,7 @@ graphql`
         enabled
       }
     }
-    ...CommentContainer_story
+    ...ReplyListCommentContainer_story
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -165,10 +165,8 @@ graphql`
 graphql`
   fragment ReplyListContainer_repliesComment on Comment {
     id
-    enteredLive
     replyCount
-    ...CommentContainer_comment
-    ...IgnoredTombstoneOrHideContainer_comment
+    ...ReplyListCommentContainer_comment
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -202,6 +200,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   // We do local replies at the last level when flatten replies are not set.
   const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
 
+  const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
   const showAllAndEmit = useCallback(async () => {
@@ -244,24 +243,38 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       ? []
       : // (cvle) TODO: Next two lines contain a typescript bug workaround...
         (props.comment.replies.edges as any[]).map(
-          (edge: typeof props.comment.replies.edges[0]) => ({
-            ...edge.node,
-            replyListElement: props.NextReplyListComponent && (
-              // Important: Props are being passed here to the next level!
-              // Not all of them are passed.
-              <props.NextReplyListComponent
-                viewer={props.viewer}
-                comment={edge.node}
-                story={props.story}
-                settings={props.settings}
-                indentLevel={indentLevel + 1}
-                // Pass through props as commented in `BaseProps`.
-                allowTombstoneReveal={props.allowTombstoneReveal}
-              />
-            ),
-            showConversationLink:
-              atLastLevelLocalReply && edge.node.replyCount > 0,
-          })
+          (edge: typeof props.comment.replies.edges[0]) =>
+            memoize(
+              edge.node.id,
+              {
+                ...edge.node,
+                replyListElement: props.NextReplyListComponent && (
+                  // Important: Props are being passed here to the next level!
+                  // Not all of them are passed.
+                  <props.NextReplyListComponent
+                    viewer={props.viewer}
+                    comment={edge.node}
+                    story={props.story}
+                    settings={props.settings}
+                    indentLevel={indentLevel + 1}
+                    // Pass through props as commented in `BaseProps`.
+                    allowTombstoneReveal={props.allowTombstoneReveal}
+                  />
+                ),
+                showConversationLink:
+                  atLastLevelLocalReply && edge.node.replyCount > 0,
+              },
+              [
+                edge.node,
+                props.viewer,
+                props.story,
+                props.settings,
+                indentLevel,
+                props.allowTombstoneReveal,
+                atLastLevelLocalReply,
+                props.NextReplyListComponent,
+              ]
+            )
         );
   return (
     <ReplyList
@@ -311,16 +324,8 @@ function createReplyListContainer(options: {
     withPaginationContainer<Props, PaginationQuery, FragmentVariables>(
       fragments,
       {
-        direction: "forward",
         getConnectionFromProps(props) {
           return props.comment && props.comment.replies;
-        },
-        // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-        getFragmentVariables(prevVars, totalCount) {
-          return {
-            ...prevVars,
-            count: totalCount,
-          };
         },
         getVariables(props, { count, cursor }, fragmentVariables) {
           return {
@@ -363,7 +368,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainerLastFlattened_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -477,7 +482,7 @@ const ReplyListContainer3 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer3_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -541,7 +546,7 @@ const ReplyListContainer2 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer2_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -605,7 +610,7 @@ const ReplyListContainer1 = createReplyListContainer({
     comment: graphql`
       fragment ReplyListContainer1_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {

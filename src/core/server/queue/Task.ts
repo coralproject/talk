@@ -87,7 +87,11 @@ export default class Task<T extends TenantResource, U = any> {
     // ran, we should throw an error to crash the process.
     void this.queue.process(async (job: Job<T>) => {
       const log = this.log.child(
-        { jobID: job.id, attemptsMade: job.attemptsMade },
+        {
+          jobID: job.id,
+          attemptsMade: job.attemptsMade,
+          tenantID: job.data.tenantID,
+        },
         true
       );
 
