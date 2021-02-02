@@ -7,49 +7,58 @@ exports[`renders correctly 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <FadeInTransition
-    active={false}
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    disableReplies={false}
+    indentLevel={1}
     key="comment-1"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-1",
-        }
+    localReply={false}
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-1"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
-  <FadeInTransition
-    active={false}
+    }
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-2",
+        "showConversationLink": true,
+      }
+    }
+    disableReplies={false}
+    indentLevel={1}
     key="comment-2"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-2",
-          "showConversationLink": true,
-        }
+    localReply={false}
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-2"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
+    }
+    showConversationLink={true}
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
 </ForwardRef(forwardRef)>
 `;
 
@@ -60,48 +69,52 @@ exports[`when there is more disables load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <FadeInTransition
-    active={false}
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    indentLevel={1}
     key="comment-1"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-1",
-        }
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-1"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
-  <FadeInTransition
-    active={false}
+    }
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    indentLevel={1}
     key="comment-2"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-2",
-        }
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-2"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
+    }
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
   <Indent
     level={1}
     noBorder={true}
@@ -135,48 +148,52 @@ exports[`when there is more renders a load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <FadeInTransition
-    active={false}
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    indentLevel={1}
     key="comment-1"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-1",
-        }
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-1"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
-  <FadeInTransition
-    active={false}
+    }
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
+  <Relay(ReplyListCommentContainer)
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    indentLevel={1}
     key="comment-2"
-  >
-    <Relay(IgnoredTombstoneOrHideContainer)
-      comment={
-        Object {
-          "id": "comment-2",
-        }
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
       }
-      viewer={null}
-    >
-      <ForwardRef(forwardRef)
-        key="comment-2"
-      >
-        <CollapsableComment>
-          <Component />
-        </CollapsableComment>
-      </ForwardRef(forwardRef)>
-    </Relay(IgnoredTombstoneOrHideContainer)>
-  </FadeInTransition>
+    }
+    story={
+      Object {
+        "id": "story-id",
+      }
+    }
+    viewer={null}
+  />
   <Indent
     level={1}
     noBorder={true}

@@ -57,20 +57,24 @@ async function attachExternalMedia(
   inputWidth?: string,
   inputHeight?: string
 ): Promise<ExternalMedia | undefined> {
-  const parsed = new URL(url);
-  if (!validateImagePathname(parsed.pathname)) {
-    throw new Error("cannot attach external image");
+  try {
+    const parsed = new URL(url);
+    if (!validateImagePathname(parsed.pathname)) {
+      throw new Error("cannot attach external image");
+    }
+
+    const width = inputWidth ? parseInt(inputWidth, 10) : undefined;
+    const height = inputHeight ? parseInt(inputHeight, 10) : undefined;
+
+    return {
+      type: "external",
+      url,
+      width,
+      height,
+    };
+  } catch (err) {
+    throw new WrappedInternalError(err, "cannot attach external media");
   }
-
-  const width = inputWidth ? parseInt(inputWidth, 10) : undefined;
-  const height = inputHeight ? parseInt(inputHeight, 10) : undefined;
-
-  return {
-    type: "external",
-    url,
-    width,
-    height,
-  };
 }
 
 async function attachOEmbedMedia(
