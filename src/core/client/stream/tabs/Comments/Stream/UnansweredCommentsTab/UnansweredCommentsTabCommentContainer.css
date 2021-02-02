@@ -1,0 +1,7 @@
+.borderedComment {
+  border-bottom: 1px solid var(--palette-divider);
+}
+
+.hiddenReplies {
+  display: none;
+}

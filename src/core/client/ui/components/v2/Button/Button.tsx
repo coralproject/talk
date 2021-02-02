@@ -1,8 +1,9 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { Ref } from "react";
+import React, { Ref, SFC } from "react";
 
-import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { withForwardRef } from "coral-ui/hocs";
+import useStyles from "coral-ui/hooks/useStyles";
 import { PropTypesOf } from "coral-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
@@ -17,9 +18,10 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   to?: string;
   /**
    * This prop can be used to add custom classnames.
-   * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & BaseButtonProps["classes"];
+  classes?: Partial<
+    typeof styles & { keyboardFocus: string; mouesHover: string }
+  >;
 
   /** Size of the button */
   size?: "small" | "regular" | "large";
@@ -66,86 +68,84 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   underline?: boolean;
 }
 
-export class Button extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    size: "regular",
-    variant: "regular",
-    color: "regular",
-    uppercase: true,
-  };
-  public render() {
-    const {
-      active,
-      classes,
-      color,
-      className,
-      children,
-      size,
-      fullWidth,
-      disabled,
-      forwardRef,
-      variant,
-      type,
-      uppercase,
-      iconLeft,
-      iconRight,
-      adornmentLeft,
-      adornmentRight,
-      underline,
-      to,
-      ...rest
-    } = this.props;
+export const Button: SFC<Props> = ({
+  active,
+  classes,
+  color,
+  className,
+  children,
+  size,
+  fullWidth,
+  disabled,
+  forwardRef,
+  variant,
+  type,
+  uppercase,
+  iconLeft,
+  iconRight,
+  adornmentLeft,
+  adornmentRight,
+  underline,
+  to,
+  ...rest
+}) => {
+  const css = useStyles(styles, classes);
+  const rootClassName = cn(
+    css.root,
+    {
+      [css.sizeSmall]: size === "small",
+      [css.sizeRegular]: size === "regular",
+      [css.sizeLarge]: size === "large",
+      [css.colorRegular]: color === "regular",
+      [css.colorAlert]: color === "alert",
+      [css.colorAlt]: color === "alt",
+      [css.colorMono]: color === "mono",
+      [css.colorDark]: color === "dark",
+      [css.colorStream]: color === "stream",
+      [css.variantRegular]: variant === "regular",
+      [css.variantFlat]: variant === "flat",
+      [css.variantOutline]: variant === "outlined",
+      [css.variantText]: variant === "text",
+      [css.variantUnderlined]: variant === "underlined",
+      [css.variantTextUnderlined]: variant === "textUnderlined",
+      [css.uppercase]: uppercase,
+      [css.fullWidth]: fullWidth,
+      [css.active]: active,
+      [css.disabled]: disabled,
+      [css.iconLeft]: iconLeft,
+      [css.iconRight]: iconRight,
+      [css.adornmentLeft]: adornmentLeft,
+      [css.adornmentRight]: adornmentRight,
+      [css.underline]: underline,
+    },
+    className
+  );
 
-    const rootClassName = cn(
-      classes.root,
-      {
-        [classes.sizeSmall]: size === "small",
-        [classes.sizeRegular]: size === "regular",
-        [classes.sizeLarge]: size === "large",
-        [classes.colorRegular]: color === "regular",
-        [classes.colorAlert]: color === "alert",
-        [classes.colorAlt]: color === "alt",
-        [classes.colorMono]: color === "mono",
-        [classes.colorDark]: color === "dark",
-        [classes.colorStream]: color === "stream",
-        [classes.variantRegular]: variant === "regular",
-        [classes.variantFlat]: variant === "flat",
-        [classes.variantOutline]: variant === "outlined",
-        [classes.variantText]: variant === "text",
-        [classes.variantUnderlined]: variant === "underlined",
-        [classes.variantTextUnderlined]: variant === "textUnderlined",
-        [classes.uppercase]: uppercase,
-        [classes.fullWidth]: fullWidth,
-        [classes.active]: active,
-        [classes.disabled]: disabled,
-        [classes.iconLeft]: iconLeft,
-        [classes.iconRight]: iconRight,
-        [classes.adornmentLeft]: adornmentLeft,
-        [classes.adornmentRight]: adornmentRight,
-        [classes.underline]: underline,
-      },
-      className
-    );
+  return (
+    <BaseButton
+      className={rootClassName}
+      classes={pick(classes, "keyboardFocus", "mouseHover")}
+      disabled={disabled}
+      ref={forwardRef}
+      type={type}
+      data-variant={variant}
+      to={to}
+      data-active={active}
+      aria-pressed={active}
+      {...rest}
+    >
+      {children}
+    </BaseButton>
+  );
+};
 
-    return (
-      <BaseButton
-        className={rootClassName}
-        classes={pick(classes, "keyboardFocus", "mouseHover")}
-        disabled={disabled}
-        ref={forwardRef}
-        type={type}
-        data-variant={variant}
-        to={to}
-        data-active={active}
-        aria-pressed={active}
-        {...rest}
-      >
-        {children}
-      </BaseButton>
-    );
-  }
-}
+Button.defaultProps = {
+  size: "regular",
+  variant: "regular",
+  color: "regular",
+  uppercase: true,
+};
 
-const enhanced = withForwardRef(withStyles(styles)(Button));
+const enhanced = withForwardRef(Button);
 export type ButtonProps = PropTypesOf<typeof enhanced>;
 export default enhanced;
