@@ -14,6 +14,15 @@
   line-height: 1.14;
 }
 
+@media screen and (max-width: $breakpoints-mobile) {
+  .selectFont {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-size: var(--font-size-4);
+    line-height: 1.14;
+  }
+}
+
 .selectColor {
   color: var(--palette-text-500);
 }
