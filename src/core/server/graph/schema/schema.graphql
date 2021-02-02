@@ -525,6 +525,12 @@ enum FEATURE_FLAG {
   ENABLE_AMP will enable support for embedding Coral within AMP pages.
   """
   ENABLE_AMP
+
+  """
+  DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
+  overrides the configuration option available in the Admin UI for that tenant.
+  """
+  DISABLE_LIVE_UPDATES
 }
 
 # The moderation mode of the site.
