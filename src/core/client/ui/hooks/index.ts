@@ -5,3 +5,4 @@ export { default as useComboBox } from "./useComboBox";
 export { default as useDateTimeFormat } from "./useDateTimeFormat";
 export { default as useDateTimeFormatter } from "./useDateTimeFormatter";
 export { default as useHotkey } from "./useHotkey";
+export { default as useStyles } from "./useStyles";

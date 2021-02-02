@@ -10,23 +10,23 @@ exports[`renders correctly 1`] = `
   }
 >
   <React.Fragment>
-    <withPropsOnChange(Button)
+    <Button
       blankAdornment={true}
     >
       Shortcuts
-    </withPropsOnChange(Button)>
-    <withPropsOnChange(Button)
+    </Button>
+    <Button
       href="https://github.com/coralproject/talk/issues/new"
       target="_blank"
     >
       Report Bug
-    </withPropsOnChange(Button)>
+    </Button>
     <withPropsOnChange(Divider) />
-    <withPropsOnChange(Button)
+    <Button
       blankAdornment={true}
     >
       Sign Out
-    </withPropsOnChange(Button)>
+    </Button>
   </React.Fragment>
 </Dropdown>
 `;
