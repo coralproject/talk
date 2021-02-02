@@ -1,24 +1,19 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import CommentContainer from "../Comment";
-import CollapsableComment from "../Comment/CollapsableComment";
-import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import Indent from "../Indent";
+import ReplyListCommentContainer from "./ReplyListCommentContainer";
 
 import styles from "./ReplyList.css";
 
 export interface ReplyListProps {
-  story: PropTypesOf<typeof CommentContainer>["story"];
-  viewer: PropTypesOf<typeof CommentContainer>["viewer"] &
-    PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["viewer"];
+  story: PropTypesOf<typeof ReplyListCommentContainer>["story"];
+  viewer: PropTypesOf<typeof ReplyListCommentContainer>["viewer"];
   comment: {
     id: string;
   };
@@ -27,11 +22,9 @@ export interface ReplyListProps {
       id: string;
       replyListElement?: React.ReactElement<any> | null;
       showConversationLink?: boolean;
-      enteredLive?: boolean | null;
-    } & PropTypesOf<typeof CommentContainer>["comment"] &
-      PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["comment"]
+    } & PropTypesOf<typeof ReplyListCommentContainer>["comment"]
   >;
-  settings: PropTypesOf<typeof CommentContainer>["settings"];
+  settings: PropTypesOf<typeof ReplyListCommentContainer>["settings"];
   onShowAll?: () => void;
   hasMore?: boolean;
   disableShowAll?: boolean;
@@ -53,46 +46,20 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
       className={styles.root}
     >
       {props.comments.map((comment) => (
-        <FadeInTransition
+        <ReplyListCommentContainer
           key={comment.id}
-          active={Boolean(comment.enteredLive)}
-        >
-          <IgnoredTombstoneOrHideContainer
-            viewer={props.viewer}
-            comment={comment}
-            allowTombstoneReveal={props.allowTombstoneReveal}
-          >
-            <HorizontalGutter key={comment.id}>
-              <CollapsableComment>
-                {({ collapsed, toggleCollapsed }) => (
-                  <>
-                    <CommentContainer
-                      key={comment.id}
-                      viewer={props.viewer}
-                      comment={comment}
-                      story={props.story}
-                      collapsed={collapsed}
-                      settings={props.settings}
-                      indentLevel={props.indentLevel}
-                      localReply={props.localReply}
-                      disableReplies={props.disableReplies}
-                      showConversationLink={!!comment.showConversationLink}
-                      toggleCollapsed={toggleCollapsed}
-                      showRemoveAnswered={props.showRemoveAnswered}
-                    />
-                    <div
-                      className={cn({
-                        [styles.hiddenReplies]: collapsed,
-                      })}
-                    >
-                      {comment.replyListElement}
-                    </div>
-                  </>
-                )}
-              </CollapsableComment>
-            </HorizontalGutter>
-          </IgnoredTombstoneOrHideContainer>
-        </FadeInTransition>
+          viewer={props.viewer}
+          comment={comment}
+          story={props.story}
+          settings={props.settings}
+          allowTombstoneReveal={props.allowTombstoneReveal}
+          localReply={props.localReply}
+          indentLevel={props.indentLevel}
+          disableReplies={props.disableReplies}
+          showRemoveAnswered={props.showRemoveAnswered}
+          showConversationLink={comment.showConversationLink}
+          replyListElement={comment.replyListElement}
+        />
       ))}
       {props.hasMore && (
         <Indent level={props.indentLevel} noBorder>

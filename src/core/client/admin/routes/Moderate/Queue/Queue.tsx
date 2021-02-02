@@ -1,11 +1,12 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback, useRef, useState } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ConversationModal from "coral-admin/components/ConversationModal";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
+import useMemoizer from "coral-framework/hooks/useMemoizer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
@@ -51,6 +52,7 @@ const Queue: FunctionComponent<Props> = ({
     false
   );
   const [conversationCommentID, setConversationCommentID] = useState("");
+  const memoize = useMemoizer();
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -61,9 +63,16 @@ const Queue: FunctionComponent<Props> = ({
 
   useHotkey(HOTKEYS.ZEN, toggleView);
 
+  // Turn into ref, so we can use them in the callback without
+  // creating a new callback when following variables changes.
+  const selectedCommentRef = useRef<number | null>(selectedComment);
+  selectedCommentRef.current = selectedComment;
+  const commentsRef = useRef<Props["comments"]>(comments);
+  commentsRef.current = comments;
+
   const selectNext = useCallback(() => {
-    const index = selectedComment || 0;
-    const nextComment = comments[index + 1];
+    const index = selectedCommentRef.current || 0;
+    const nextComment = commentsRef.current[index + 1];
     if (nextComment) {
       setSelectedComment(index + 1);
       const container: HTMLElement | null = document.getElementById(
@@ -73,11 +82,11 @@ const Queue: FunctionComponent<Props> = ({
         container.scrollIntoView();
       }
     }
-  }, [comments, selectedComment]);
+  }, []);
 
   const selectPrev = useCallback(() => {
-    const index = selectedComment || 0;
-    const prevComment = comments[index - 1];
+    const index = selectedCommentRef.current || 0;
+    const prevComment = commentsRef.current[index - 1];
     if (prevComment) {
       setSelectedComment(index - 1);
       const container: HTMLElement | null = document.getElementById(
@@ -87,7 +96,7 @@ const Queue: FunctionComponent<Props> = ({
         container.scrollIntoView();
       }
     }
-  }, [comments, selectedComment]);
+  }, []);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);
@@ -146,7 +155,7 @@ const Queue: FunctionComponent<Props> = ({
             showStoryInfo={Boolean(allStories)}
             onUsernameClicked={onShowUserDrawer}
             onConversationClicked={onShowConversationModal}
-            onSetSelected={() => setSelectedComment(i)}
+            onSetSelected={memoize(i, () => setSelectedComment(i))}
             selected={selectedComment === i}
             selectPrev={selectPrev}
             selectNext={selectNext}
