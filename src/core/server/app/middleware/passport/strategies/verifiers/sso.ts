@@ -172,7 +172,10 @@ export async function findOrCreateSSOUser(
   } else if (iat && needsSSOUpdate(decodedToken.user, user)) {
     // Get the SSO Profile.
     const profile = getSSOProfile(user);
-    if (profile && profile.lastIssuedAt < lastIssuedAt) {
+    if (
+      profile &&
+      (!profile.lastIssuedAt || profile.lastIssuedAt < lastIssuedAt)
+    ) {
       // The token presented to us has a newer issue date than the one
       // associated with this profile, we should update the user with new
       // details.

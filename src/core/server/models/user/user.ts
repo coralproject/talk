@@ -82,7 +82,7 @@ export interface OIDCProfile {
 export interface SSOProfile {
   type: "sso";
   id: string;
-  lastIssuedAt: Date;
+  lastIssuedAt?: Date;
 }
 
 export interface FacebookProfile {

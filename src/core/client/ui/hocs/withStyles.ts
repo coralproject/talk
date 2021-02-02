@@ -3,8 +3,6 @@ import {
   withPropsOnChange,
 } from "recompose";
 
-import { globalErrorReporter } from "coral-framework/lib/errors";
-
 /**
  * withStyles provides a property `classes: object` that
  * includes the classNames from `styles` and extensions from the
@@ -13,21 +11,16 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 function withStyles<T>(
   styles: T
 ): DefaultingInferableComponentEnhancer<{ classes?: Partial<T> }> {
-  const classes = { ...(styles as any) };
   return withPropsOnChange<any, any>(["classes"], (props) => {
-    const resolvedClasses = { ...classes };
+    const result = { ...styles };
     if (props.classes) {
       Object.keys(props.classes).forEach((k) => {
-        if (classes[k]) {
-          resolvedClasses[k] += ` ${props.classes[k]}`;
-        } else if (process.env.NODE_ENV === "test") {
-          throw new Error(`Extending non existent className ${k}`);
-        } else {
-          globalErrorReporter.report(`Extending non existent className ${k}`);
+        if ((styles as any)[k]) {
+          (result as any)[k] += ` ${props.classes[k]}`;
         }
       });
     }
-    return { classes: resolvedClasses };
+    return { classes: result };
   });
 }
 
