@@ -7,6 +7,7 @@ import {
 } from "react-relay";
 import { withProps } from "recompose";
 
+import useMemoizer from "coral-framework/hooks/useMemoizer";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
@@ -128,14 +129,13 @@ graphql`
     disableCommenting {
       enabled
     }
-    ...CommentContainer_settings
+    ...ReplyListCommentContainer_settings
   }
 `;
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment ReplyListContainer_viewer on User {
-    ...CommentContainer_viewer
-    ...IgnoredTombstoneOrHideContainer_viewer
+    ...ReplyListCommentContainer_viewer
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -149,7 +149,7 @@ graphql`
         enabled
       }
     }
-    ...CommentContainer_story
+    ...ReplyListCommentContainer_story
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -165,10 +165,8 @@ graphql`
 graphql`
   fragment ReplyListContainer_repliesComment on Comment {
     id
-    enteredLive
     replyCount
-    ...CommentContainer_comment
-    ...IgnoredTombstoneOrHideContainer_comment
+    ...ReplyListCommentContainer_comment
   }
 `;
 // eslint-disable-next-line no-unused-expressions
@@ -202,6 +200,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   // We do local replies at the last level when flatten replies are not set.
   const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
 
+  const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
   const showAllAndEmit = useCallback(async () => {
@@ -244,24 +243,38 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       ? []
       : // (cvle) TODO: Next two lines contain a typescript bug workaround...
         (props.comment.replies.edges as any[]).map(
-          (edge: typeof props.comment.replies.edges[0]) => ({
-            ...edge.node,
-            replyListElement: props.NextReplyListComponent && (
-              // Important: Props are being passed here to the next level!
-              // Not all of them are passed.
-              <props.NextReplyListComponent
-                viewer={props.viewer}
-                comment={edge.node}
-                story={props.story}
-                settings={props.settings}
-                indentLevel={indentLevel + 1}
-                // Pass through props as commented in `BaseProps`.
-                allowTombstoneReveal={props.allowTombstoneReveal}
-              />
-            ),
-            showConversationLink:
-              atLastLevelLocalReply && edge.node.replyCount > 0,
-          })
+          (edge: typeof props.comment.replies.edges[0]) =>
+            memoize(
+              edge.node.id,
+              {
+                ...edge.node,
+                replyListElement: props.NextReplyListComponent && (
+                  // Important: Props are being passed here to the next level!
+                  // Not all of them are passed.
+                  <props.NextReplyListComponent
+                    viewer={props.viewer}
+                    comment={edge.node}
+                    story={props.story}
+                    settings={props.settings}
+                    indentLevel={indentLevel + 1}
+                    // Pass through props as commented in `BaseProps`.
+                    allowTombstoneReveal={props.allowTombstoneReveal}
+                  />
+                ),
+                showConversationLink:
+                  atLastLevelLocalReply && edge.node.replyCount > 0,
+              },
+              [
+                edge.node,
+                props.viewer,
+                props.story,
+                props.settings,
+                indentLevel,
+                props.allowTombstoneReveal,
+                atLastLevelLocalReply,
+                props.NextReplyListComponent,
+              ]
+            )
         );
   return (
     <ReplyList

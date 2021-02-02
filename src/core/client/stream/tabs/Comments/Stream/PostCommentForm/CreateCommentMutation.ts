@@ -217,7 +217,7 @@ const mutation = graphql`
           tags {
             code
           }
-          ...AllCommentsTabContainer_comment @relay(mask: false)
+          ...AllCommentsTabCommentContainer_comment
           story {
             id
             ratings {
@@ -322,6 +322,7 @@ export const CreateCommentMutation = createMutation(
                 cursor: currentDate,
                 node: {
                   id,
+                  enteredLive: false,
                   createdAt: currentDate,
                   status: "NONE",
                   pending: false,

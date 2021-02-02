@@ -11,14 +11,12 @@ exports[`renders correctly 1`] = `
         "edges": Array [
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-1",
               "replyCount": 0,
             },
           },
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-2",
               "replyCount": 0,
             },
@@ -32,13 +30,11 @@ exports[`renders correctly 1`] = `
   comments={
     Array [
       Object {
-        "enteredLive": false,
         "id": "comment-1",
         "replyCount": 0,
         "replyListElement": <NextReplyListComponent
           comment={
             Object {
-              "enteredLive": false,
               "id": "comment-1",
               "replyCount": 0,
             }
@@ -68,13 +64,11 @@ exports[`renders correctly 1`] = `
         "showConversationLink": false,
       },
       Object {
-        "enteredLive": false,
         "id": "comment-2",
         "replyCount": 0,
         "replyListElement": <NextReplyListComponent
           comment={
             Object {
-              "enteredLive": false,
               "id": "comment-2",
               "replyCount": 0,
             }
@@ -147,14 +141,12 @@ exports[`when has more replies renders hasMore 1`] = `
         "edges": Array [
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-1",
               "replyCount": 0,
             },
           },
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-2",
               "replyCount": 0,
             },
@@ -168,14 +160,12 @@ exports[`when has more replies renders hasMore 1`] = `
   comments={
     Array [
       Object {
-        "enteredLive": false,
         "id": "comment-1",
         "replyCount": 0,
         "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
-        "enteredLive": false,
         "id": "comment-2",
         "replyCount": 0,
         "replyListElement": null,
@@ -224,14 +214,12 @@ exports[`when has more replies when showing all disables show all button 1`] = `
         "edges": Array [
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-1",
               "replyCount": 0,
             },
           },
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-2",
               "replyCount": 0,
             },
@@ -245,14 +233,12 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   comments={
     Array [
       Object {
-        "enteredLive": false,
         "id": "comment-1",
         "replyCount": 0,
         "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
-        "enteredLive": false,
         "id": "comment-2",
         "replyCount": 0,
         "replyListElement": null,
@@ -301,14 +287,12 @@ exports[`when has more replies when showing all enable show all button after loa
         "edges": Array [
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-1",
               "replyCount": 0,
             },
           },
           Object {
             "node": Object {
-              "enteredLive": false,
               "id": "comment-2",
               "replyCount": 0,
             },
@@ -322,14 +306,12 @@ exports[`when has more replies when showing all enable show all button after loa
   comments={
     Array [
       Object {
-        "enteredLive": false,
         "id": "comment-1",
         "replyCount": 0,
         "replyListElement": null,
         "showConversationLink": false,
       },
       Object {
-        "enteredLive": false,
         "id": "comment-2",
         "replyCount": 0,
         "replyListElement": null,

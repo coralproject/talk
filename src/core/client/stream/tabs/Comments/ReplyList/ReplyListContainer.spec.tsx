@@ -29,8 +29,8 @@ it("renders correctly", () => {
       status: "NONE",
       replies: {
         edges: [
-          { node: { id: "comment-1", enteredLive: false, replyCount: 0 } },
-          { node: { id: "comment-2", enteredLive: false, replyCount: 0 } },
+          { node: { id: "comment-1", replyCount: 0 } },
+          { node: { id: "comment-2", replyCount: 0 } },
         ],
         viewNewEdges: [],
       },
@@ -110,8 +110,8 @@ describe("when has more replies", () => {
       status: "NONE",
       replies: {
         edges: [
-          { node: { id: "comment-1", enteredLive: false, replyCount: 0 } },
-          { node: { id: "comment-2", enteredLive: false, replyCount: 0 } },
+          { node: { id: "comment-1", replyCount: 0 } },
+          { node: { id: "comment-2", replyCount: 0 } },
         ],
         viewNewEdges: [],
       },

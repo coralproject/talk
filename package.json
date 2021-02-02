@@ -345,7 +345,7 @@
     "react-final-form-arrays": "^3.1.2",
     "react-helmet": "^5.2.1",
     "react-popper": "^1.3.7",
-    "react-relay": "^10.0.1",
+    "react-relay": "github:coralproject/patched#react-relay-10.0.1",
     "react-relay-network-modern": "^5.0.0",
     "react-responsive": "^8.0.3",
     "react-test-renderer": "^16.13.1",
