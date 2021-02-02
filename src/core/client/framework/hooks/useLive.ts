@@ -1,5 +1,9 @@
 import { useMemo } from "react";
 
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
+
+import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
+
 interface Props {
   story: {
     isClosed: boolean;
@@ -13,6 +17,7 @@ interface Props {
     disableCommenting: {
       enabled: boolean;
     };
+    featureFlags?: ReadonlyArray<FEATURE_FLAG>;
   };
 }
 
@@ -24,7 +29,9 @@ const useLive = ({ story, settings }: Props) =>
       // Or the story is closed...
       story.isClosed ||
       // Or commenting is disabled...
-      settings.disableCommenting.enabled
+      settings.disableCommenting.enabled ||
+      // Or it is disabled at the tenant level via a feature flag
+      settings.featureFlags?.includes(GQLFEATURE_FLAG.DISABLE_LIVE_UPDATES)
     ) {
       // Then we aren't live!
       return false;
@@ -39,6 +46,7 @@ const useLive = ({ story, settings }: Props) =>
     story.isClosed,
     settings.disableCommenting.enabled,
     story.settings.live.enabled,
+    settings.featureFlags,
   ]);
 
 export default useLive;

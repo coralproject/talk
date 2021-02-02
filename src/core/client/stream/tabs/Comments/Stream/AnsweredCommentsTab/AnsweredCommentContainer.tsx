@@ -24,6 +24,7 @@ import { CommentContainer, UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection/MediaSectionContainer";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
+import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 
 import styles from "./AnsweredCommentContainer.css";
 
@@ -53,7 +54,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   );
 
   return (
-    <>
+    <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
       {comment.parent && (
         <CommentContainer
           viewer={props.viewer}
@@ -161,7 +162,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
           </Flex>
         </Flex>
       </div>
-    </>
+    </IgnoredTombstoneOrHideContainer>
   );
 };
 
@@ -182,6 +183,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UsernameWithPopoverContainer_viewer
       ...ReactionButtonContainer_viewer
       ...CommentContainer_viewer
+      ...IgnoredTombstoneOrHideContainer_viewer
     }
   `,
   story: graphql`
@@ -212,6 +214,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UsernameWithPopoverContainer_comment
       ...ReactionButtonContainer_comment
       ...UserTagsContainer_comment
+      ...IgnoredTombstoneOrHideContainer_comment
     }
   `,
   settings: graphql`

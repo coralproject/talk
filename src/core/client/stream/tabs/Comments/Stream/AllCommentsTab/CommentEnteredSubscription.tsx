@@ -175,7 +175,7 @@ const CommentEnteredSubscription = createSubscription(
               tags {
                 code
               }
-              ...AllCommentsTabContainer_comment
+              ...AllCommentsTabCommentContainer_comment
             }
           }
         }
