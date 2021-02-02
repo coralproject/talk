@@ -14,8 +14,8 @@ import {
   withForwardRef,
   withKeyboardFocus,
   withMouseHover,
-  withStyles,
 } from "coral-ui/hocs";
+import useStyles from "coral-ui/hooks/useStyles";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./BaseButton.css";
@@ -33,7 +33,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles;
+  classes?: Partial<typeof styles>;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement | HTMLAnchorElement>;
@@ -66,6 +66,8 @@ const BaseButton: FunctionComponent<Props> = ({
   type,
   ...rest
 }) => {
+  const css = useStyles(styles, classes);
+
   let Element: React.ComponentType<
     React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
       React.ClassAttributes<HTMLButtonElement | HTMLAnchorElement>
@@ -98,9 +100,9 @@ const BaseButton: FunctionComponent<Props> = ({
     rest.rel = "noopener noreferrer";
   }
 
-  const rootClassName = cn(classes.root, className, {
-    [classes.keyboardFocus]: keyboardFocus,
-    [classes.mouseHover]: mouseHover,
+  const rootClassName = cn(css.root, className, {
+    [css.keyboardFocus]: keyboardFocus,
+    [css.mouseHover]: mouseHover,
   });
 
   return (
@@ -108,8 +110,7 @@ const BaseButton: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withForwardRef(
-  withStyles(styles)(withMouseHover(withKeyboardFocus(BaseButton)))
-);
+const enhanced = withForwardRef(withMouseHover(withKeyboardFocus(BaseButton)));
+
 export type BaseButtonProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

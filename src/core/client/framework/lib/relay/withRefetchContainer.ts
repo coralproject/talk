@@ -10,7 +10,6 @@ import {
 } from "recompose";
 
 import { resolveModule } from "./helpers";
-import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
 /**
@@ -32,7 +31,5 @@ export default <T>(
     refetchQuery
   );
   result.displayName = wrapDisplayName(component, "Relay");
-  // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
-  // well supported yet in enzyme.
-  return hideForwardRef(result) as any;
+  return result as any;
 };

@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import { Flex } from "coral-ui/components/v2";
 import BaseButton, { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
 import Icon from "coral-ui/components/v2/Icon";
-import { withStyles } from "coral-ui/hocs";
+import useStyles from "coral-ui/hooks/useStyles";
 
 import styles from "./Button.css";
 
@@ -15,7 +15,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   to?: string;
   className?: string;
   onClick?: React.EventHandler<React.MouseEvent>;
-  classes: typeof styles;
+  classes?: Partial<typeof styles>;
   /**
    * adornment if set is rendered at the end of the button.
    */
@@ -40,13 +40,14 @@ const Button: FunctionComponent<Props> = ({
   adornment,
   ...rest
 }) => {
+  const css = useStyles(styles, classes);
   return (
     <BaseButton
       classes={{
-        root: cn(classes.root, className, {
-          [classes.blankAdornment]: blankAdornment,
+        root: cn(css.root, className, {
+          [css.blankAdornment]: blankAdornment,
         }),
-        mouseHover: cn({ [classes.mouseHover]: !disabled }),
+        mouseHover: cn({ [css.mouseHover]: !disabled }),
       }}
       href={href}
       onClick={onClick}
@@ -55,23 +56,23 @@ const Button: FunctionComponent<Props> = ({
       {...rest}
     >
       <Flex alignItems="center">
-        {icon && <div className={classes.iconBefore}>{icon}</div>}
+        {icon && <div className={css.iconBefore}>{icon}</div>}
         <div
           className={cn({
-            [classes.anchor]: Boolean(href),
+            [css.anchor]: Boolean(href),
           })}
         >
           {children}
         </div>
       </Flex>
-      {adornment && <div className={classes.iconAfter}>{adornment}</div>}
+      {adornment && <div className={css.iconAfter}>{adornment}</div>}
       {!adornment && rest.target === "_blank" && (
-        <div className={classes.iconAfter}>
-          <Icon className={classes.iconOpenInNew}>open_in_new</Icon>
+        <div className={css.iconAfter}>
+          <Icon className={css.iconOpenInNew}>open_in_new</Icon>
         </div>
       )}
     </BaseButton>
   );
 };
 
-export default withStyles(styles)(Button);
+export default Button;

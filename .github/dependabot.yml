@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Update npm packages if they're found daily.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Update docker dependencies if they're found daily.
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
