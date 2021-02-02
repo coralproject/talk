@@ -497,6 +497,10 @@ export async function isLiveEnabled(
     return false;
   }
 
+  if (tenant.featureFlags?.includes(GQLFEATURE_FLAG.DISABLE_LIVE_UPDATES)) {
+    return false;
+  }
+
   let settings: Partial<LiveConfiguration>;
 
   if (sourceIsStory(source)) {
