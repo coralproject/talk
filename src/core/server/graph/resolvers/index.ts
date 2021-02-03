@@ -57,6 +57,7 @@ import { SSOAuthIntegration } from "./SSOAuthIntegration";
 import { StaffConfiguration } from "./StaffConfig";
 import { Story } from "./Story";
 import { StoryRatings } from "./StoryRatings";
+import { StoryScrapingConfiguration } from "./StoryScrapingConfiguration";
 import { StorySettings } from "./StorySettings";
 import { Subscription } from "./Subscription";
 import { SuspensionStatus } from "./SuspensionStatus";
@@ -77,7 +78,6 @@ import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 const Resolvers: GQLResolver = {
   AkismetExternalIntegration,
   ApproveCommentPayload,
-  StaffConfiguration,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,
@@ -128,15 +128,17 @@ const Resolvers: GQLResolver = {
   Site,
   SlackConfiguration,
   SSOAuthIntegration,
+  StaffConfiguration,
   Story,
   StoryRatings,
+  StoryScrapingConfiguration,
   StorySettings,
   Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,
-  TwitterMediaConfiguration,
   Time,
+  TwitterMediaConfiguration,
   User,
   UserMediaSettings,
   UserModerationScopes,

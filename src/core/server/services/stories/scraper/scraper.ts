@@ -201,19 +201,21 @@ export async function scrape(
   const timeout = config.get("scrape_timeout");
   const size = config.get("scrape_max_response_size");
 
-  const { authentication, username, password } = tenant.stories.scraping;
-  const authEnabled = !!(authentication && username && password);
-  const authHeader = `Basic ${atob(`${username}:${password}`)}`;
-
-  // Get the metadata from the scraped html.
-  const metadata = await scraper.scrape({
+  const options: ScrapeOptions = {
     url: storyURL,
     timeout,
     size,
     customUserAgent: tenant.stories.scraping.customUserAgent,
     proxyURL: tenant.stories.scraping.proxyURL,
-    authorization: authEnabled ? authHeader : undefined,
-  });
+  };
+
+  const { authentication, username, password } = tenant.stories.scraping;
+  if (authentication && username && password) {
+    options.authorization = `Basic ${atob(`${username}:${password}`)}`;
+  }
+
+  // Get the metadata from the scraped html.
+  const metadata = await scraper.scrape(options);
   if (!metadata) {
     throw new Error("story at specified url not found");
   }
