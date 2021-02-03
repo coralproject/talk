@@ -177,6 +177,9 @@ export const settings = createFixture<GQLSettings>({
   stories: {
     scraping: {
       enabled: true,
+      authentication: false,
+      username: "",
+      password: "",
     },
     disableLazy: false,
   },
