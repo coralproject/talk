@@ -1,4 +1,7 @@
-FROM coralproject/talk:latest
+# TAG lets us override the target image that we're building the onbuild for.
+ARG TAG=latest
+
+FROM coralproject/talk:${TAG}
 
 # Setup the build arguments
 ONBUILD ARG TALK_ADDTL_COMMENTS_ON_LOAD_MORE=10
@@ -17,6 +20,9 @@ ONBUILD ARG TALK_DEFAULT_LAZY_RENDER
 # Bundle app source
 ONBUILD COPY . /usr/src/app
 
+# Revert to the root user so we can install.
+ONBUILD USER root
+
 # At this stage, we need to install the development dependencies again because
 # we need to have webpack available. We then build the new dependencies and
 # clear out the development dependencies again. After this we of course need to
@@ -25,3 +31,6 @@ ONBUILD RUN cli plugins reconcile && \
             yarn && \
             yarn build && \
             yarn cache clean
+
+# Revert to the node user for the CMD.
+ONBUILD USER node
