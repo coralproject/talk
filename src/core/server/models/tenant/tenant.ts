@@ -249,6 +249,7 @@ export async function createTenant(
     stories: {
       scraping: {
         enabled: true,
+        authentication: false,
       },
       disableLazy: false,
     },
