@@ -10,7 +10,11 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_SORT_RL,
+  GQLTAG,
+} from "coral-framework/schema";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
@@ -209,6 +213,7 @@ const CommentEnteredSubscription = createSubscription(
         const isTopLevelComent = !parent;
         if (
           variables.tag &&
+          variables.tag !== GQLTAG.UNANSWERED &&
           isTopLevelComent &&
           comment
             .getLinkedRecords("tags")

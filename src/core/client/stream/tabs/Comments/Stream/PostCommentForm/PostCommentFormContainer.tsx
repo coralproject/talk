@@ -117,14 +117,21 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
-      const response = await createComment({
+      const params: any = {
         storyID: story.id,
         nudge,
         commentsOrderBy,
         body: input.body,
         rating: input.rating,
         media: input.media,
-      });
+      };
+
+      if (tab === "UNANSWERED_COMMENTS") {
+        params.tag = GQLTAG.UNANSWERED;
+        params.connectionKey = "UnansweredStream_comments";
+      }
+
+      const response = await createComment(params);
 
       const status = getSubmitStatus(response);
 

@@ -36,6 +36,7 @@ export type CreateCommentInput = Omit<
 > & {
   commentsOrderBy?: COMMENT_SORT;
   tag?: GQLTAG;
+  connectionKey?: string;
 };
 
 function sharedUpdater(
@@ -91,7 +92,11 @@ function addCommentToStory(
 ) {
   // Get stream proxy.
   const streamProxy = store.get(input.storyID)!;
-  const connectionKey = "Stream_comments";
+
+  let connectionKey = "Stream_comments";
+  if (input.connectionKey) {
+    connectionKey = input.connectionKey;
+  }
 
   if (input.commentsOrderBy === "CREATED_AT_ASC") {
     const con = getConnection(streamProxy, connectionKey, {
@@ -406,11 +411,31 @@ export const CreateCommentMutation = createMutation(
             if (expectPremoderation) {
               return;
             }
-            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
+
+            if (tag) {
+              sharedUpdater(
+                environment,
+                store,
+                { ...input, tag },
+                uuidGenerator
+              );
+            } else {
+              sharedUpdater(environment, store, input, uuidGenerator);
+            }
+
             store.get(id)!.setValue(true, "pending");
           },
           updater: (store) => {
-            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
+            if (tag) {
+              sharedUpdater(
+                environment,
+                store,
+                { ...input, tag },
+                uuidGenerator
+              );
+            } else {
+              sharedUpdater(environment, store, input, uuidGenerator);
+            }
           },
         }
       );
