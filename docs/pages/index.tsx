@@ -1,6 +1,6 @@
-import Layout from "../components/Layout";
+import DocLayout from "../layouts/DocLayout";
 
 export default function Index() {
   // FIXME: implement
-  return <Layout pagePath="/docs">Here's Coral Docs!</Layout>;
+  return <DocLayout title="Coral Documentation">Here's Coral Docs!</DocLayout>;
 }

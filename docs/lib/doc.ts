@@ -9,14 +9,14 @@ import withNextLinks from "../remark/withNextLinks";
 
 const rootPath = path.join(process.cwd(), "docs", "content");
 
-interface Page {
+export interface Doc {
   frontMatter: Record<string, any>;
   mdxSource: MdxRemote.Source;
   filePath: string;
   pagePath: string;
 }
 
-export async function renderPage(pagePath: string): Promise<Page> {
+export async function renderDoc(pagePath: string): Promise<Doc> {
   const filePath = path.join(rootPath, `${pagePath}.mdx`);
   const source = fs.readFileSync(filePath, "utf8");
 
@@ -42,7 +42,7 @@ export async function renderPage(pagePath: string): Promise<Page> {
   };
 }
 
-export function getPages() {
+export function getDocs() {
   const files = fs.readdirSync(rootPath);
 
   return files

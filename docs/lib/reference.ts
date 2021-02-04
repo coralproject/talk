@@ -10,7 +10,7 @@ export function getReferences() {
 
 export interface Reference {
   pagePath: string;
-  reference: {
+  type: {
     kind: string;
     name: string;
     description: string | null;
@@ -22,15 +22,15 @@ export async function renderReference(
   name: string
 ): Promise<Reference | undefined> {
   const KIND = kind.toUpperCase();
-  const ref = introspection.__schema.types.find((type) => {
-    return type.kind === KIND && type.name === name;
-  });
-  if (!ref) {
+  const type = introspection.__schema.types.find(
+    (t) => t.kind === KIND && t.name === name
+  );
+  if (!type) {
     return;
   }
 
   return {
     pagePath: `/reference/${kind}/${name}`,
-    reference: ref,
+    type,
   };
 }

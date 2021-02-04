@@ -1,7 +1,7 @@
 sidebar:
-  - category: Getting Started
+  - title: Getting Started
     items:
       - title: Installation
-        url: /installation
+        href: /installation
       - title: Development
-        url: /development
+        href: /development

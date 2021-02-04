@@ -1,35 +1,65 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import hydrate from "next-mdx-remote/hydrate";
 import { ParsedUrlQuery } from "querystring";
+import { FunctionComponent } from "react";
 
-import DocsPage, { DocsPageProps } from "../components/DocsPage";
-import { getPages, renderPage } from "../lib/page";
+import MDXComponents from "../components/MDXComponents";
+import PageHeader from "../components/PageHeader";
+import DocLayout from "../layouts/DocLayout";
+import { Doc, getDocs, renderDoc } from "../lib/doc";
 
-export default function DocsPageLayout(props: DocsPageProps) {
-  return <DocsPage {...props} />;
+interface Props {
+  doc: Doc;
 }
+
+const DocPage: FunctionComponent<Props> = ({
+  doc: { frontMatter, mdxSource },
+}) => {
+  // Note that the next-mdx-remote wraps the server components in an additional
+  // div which will cause the error in the console:
+  //
+  //  Did not expect server HTML to contain a <div> in <div>.
+  //
+  // This is expected.
+  const content = hydrate(mdxSource, {
+    components: MDXComponents,
+  });
+
+  return (
+    <DocLayout title={frontMatter.title}>
+      <PageHeader
+        title={frontMatter.title}
+        description={frontMatter.description}
+      />
+      <div className="markdown">{content}</div>
+    </DocLayout>
+  );
+};
 
 interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
-export const getStaticProps: GetStaticProps<DocsPageProps, Params> = async ({
+export const getStaticProps: GetStaticProps<Props, Params> = async ({
   params,
 }) => {
   if (!params?.slug) {
     return { notFound: true };
   }
 
-  const staticProps = await renderPage(params.slug);
+  const { slug } = params;
+
+  const doc = await renderDoc(slug);
 
   return {
     props: {
-      staticProps,
+      doc,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const pages = getPages();
+  const pages = getDocs();
 
   return {
     paths: pages.map(({ slug }) => ({
@@ -40,3 +70,5 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     fallback: false,
   };
 };
+
+export default DocPage;
