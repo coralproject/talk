@@ -148,17 +148,6 @@ function tagUnansweredQuestions(
       featuredTag.setValue(GQLTAG.UNANSWERED, "code");
       node.setLinkedRecords(tags.concat(featuredTag), "tags");
     }
-    const commentCountsRecord = story.getLinkedRecord("commentCounts");
-    if (!commentCountsRecord) {
-      return;
-    }
-    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
-    if (tagsRecord) {
-      tagsRecord.setValue(
-        (tagsRecord.getValue("UNANSWERED") as number) + 1,
-        "UNANSWERED"
-      );
-    }
   }
 }
 
