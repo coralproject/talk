@@ -35,6 +35,9 @@ export interface CoralContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
+  /** DOM Window. */
+  window: Window;
+
   /** Local Storage */
   localStorage: PromisifiedStorage;
 
@@ -96,6 +99,7 @@ export const CoralContextConsumer = CoralReactContext.Consumer;
 const parser = new DOMParser();
 
 function fallbackParseMarkup(str: string) {
+  // eslint-disable-next-line no-restricted-globals
   const doc = document.implementation.createHTMLDocument("");
   doc.documentElement.innerHTML = str;
   return doc;
@@ -130,6 +134,7 @@ export const CoralContextProvider: FunctionComponent<{
           registerClickFarAway: value.registerClickFarAway,
           mediaQueryValues: value.mediaQueryValues,
           locales: value.locales,
+          window: value.window,
         }}
       >
         {children}

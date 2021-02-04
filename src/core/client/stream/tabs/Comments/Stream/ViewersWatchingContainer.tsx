@@ -8,6 +8,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { useLive, useVisibilityState } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useInView } from "coral-framework/lib/intersection";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
@@ -34,6 +35,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   story,
   settings,
 }) => {
+  const { window } = useCoralContext();
   const { inView, intersectionRef } = useInView();
   const [lastRefreshed, setLastRefreshed] = useState<number>(Date.now());
   const [refreshed, setRefreshed] = useState(false);

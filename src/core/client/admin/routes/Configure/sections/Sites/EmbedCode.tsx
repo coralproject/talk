@@ -2,6 +2,7 @@ import { stripIndent } from "common-tags";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { CopyButton } from "coral-framework/components";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
 import { HorizontalGutter, Textarea } from "coral-ui/components/v2";
@@ -14,9 +15,10 @@ interface Props {
 }
 
 const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
+  const { window } = useCoralContext();
   const embed = useMemo(() => {
     // Get the origin of the current page.
-    const origin = getLocationOrigin();
+    const origin = getLocationOrigin(window);
 
     // Optionally use the staticURI for configuration.
     const script = staticURI || origin;

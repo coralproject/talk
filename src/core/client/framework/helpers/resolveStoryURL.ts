@@ -1,7 +1,7 @@
 import { getLocationOrigin } from "coral-framework/utils";
 
-function resolveStoryURL() {
-  const canonical = document.querySelector(
+function resolveStoryURL(window: Window) {
+  const canonical = window.document.querySelector(
     'link[rel="canonical"]'
   ) as HTMLLinkElement;
   if (canonical) {
@@ -13,7 +13,7 @@ function resolveStoryURL() {
     "This page does not include a canonical link tag. Coral has inferred this story_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
   );
 
-  return getLocationOrigin() + window.location.pathname;
+  return getLocationOrigin(window) + window.location.pathname;
 }
 
 export default resolveStoryURL;

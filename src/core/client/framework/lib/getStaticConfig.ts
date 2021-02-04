@@ -1,9 +1,9 @@
 import { StaticConfig } from "coral-common/config";
 
-export default function getStaticConfig() {
+export default function getStaticConfig(window: Window) {
   // Parse and load the reporter configuration from the config element on the
   // page.
-  const element = document.getElementById("config")!;
+  const element = window.document.getElementById("config")!;
   if (!element) {
     return null;
   }

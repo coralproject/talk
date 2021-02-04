@@ -13,12 +13,13 @@ import { PropTypesOf } from "coral-ui/types";
 import Backdrop from "../Backdrop";
 import NoScroll from "../NoScroll";
 import TrapFocus from "../TrapFocus";
+import { useUIContext } from "../UIContext";
 
 import styles from "./Modal.css";
 
-function appendDivNode() {
-  const div = document.createElement("div");
-  document.body.append(div);
+function appendDivNode(window: Window) {
+  const div = window.document.createElement("div");
+  window.document.body.append(div);
   div.setAttribute("data-portal", "modal");
   return div;
 }
@@ -29,11 +30,11 @@ function appendDivNode() {
  *
  * @param open whether the modal is open or not.
  */
-function useDOMNode(open: boolean) {
+function useDOMNode(window: Window, open: boolean) {
   const [modalDOMNode, setModalDOMNode] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
     if (open) {
-      const node = appendDivNode();
+      const node = appendDivNode(window);
       setModalDOMNode(node);
       return () => {
         node.parentElement!.removeChild(node);
@@ -41,7 +42,7 @@ function useDOMNode(open: boolean) {
       };
     }
     return;
-  }, [open]);
+  }, [open, window]);
   return modalDOMNode;
 }
 
@@ -73,9 +74,10 @@ const Modal: FunctionComponent<ModalProps> = ({
   disableScroll = false,
   ...rest
 }) => {
+  const { window } = useUIContext();
   const rootClassName = cn(classes.root, className);
 
-  const modalDOMNode = useDOMNode(Boolean(open));
+  const modalDOMNode = useDOMNode(window, Boolean(open));
   const handleEscapeKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.keyCode === 27) {

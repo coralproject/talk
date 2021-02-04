@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
@@ -28,6 +29,7 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
+import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import {
@@ -150,6 +152,7 @@ function createRelayEnvironment(
   };
   const environment = new Environment({
     network: createNetwork(
+      `${getLocationOrigin(window)}/api/graphql`,
       subscriptionClient,
       clientID,
       accessTokenProvider,
@@ -238,7 +241,7 @@ function createManagedCoralContextProvider(
         environment: newContext.relayEnvironment,
         context: newContext,
         auth,
-        staticConfig: getStaticConfig(),
+        staticConfig: getStaticConfig(window),
       });
 
       // Update the subscription client access token.
@@ -299,7 +302,7 @@ function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
     return createPymStorage(pym, "localStorage");
   }
   // Use promisified, prefixed local storage.
-  return createPromisifiedStorage(createLocalStorage());
+  return createPromisifiedStorage(createLocalStorage(window));
 }
 
 /**
@@ -311,7 +314,7 @@ function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
     return createPymStorage(pym, "sessionStorage");
   }
   // Use promisified, prefixed session storage.
-  return createPromisifiedStorage(createSessionStorage());
+  return createPromisifiedStorage(createSessionStorage(window));
 }
 
 /**
@@ -329,13 +332,14 @@ export default async function createManaged({
   tokenRefreshProvider,
   reporterFeedbackPrompt = false,
 }: CreateContextArguments): Promise<ComponentType> {
+  const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
-  await injectConditionalPolyfills();
+  await injectConditionalPolyfills(window, browserInfo);
 
   // Potentially inject react-axe for runtime a11y checks.
-  await potentiallyInjectAxe(pym?.parentUrl);
+  await potentiallyInjectAxe(pym?.parentUrl, browserInfo);
 
-  const reporter = createReporter({ reporterFeedbackPrompt });
+  const reporter = createReporter(window, { reporterFeedbackPrompt });
   // Set error reporter.
   if (reporter) {
     setGlobalErrorReporter(reporter);
@@ -371,7 +375,7 @@ export default async function createManaged({
   }
 
   const localeBundles = await generateBundles(locales, localesData);
-  await polyfillIntlLocale(locales);
+  await polyfillIntlLocale(locales, browserInfo);
 
   const localStorage = resolveLocalStorage(pym);
 
@@ -405,10 +409,10 @@ export default async function createManaged({
     eventEmitter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
-    postMessage: new PostMessageService(),
+    postMessage: new PostMessageService(window),
     localStorage,
     sessionStorage: resolveSessionStorage(pym),
-    browserInfo: getBrowserInfo(),
+    browserInfo,
     uuidGenerator: uuid,
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
@@ -417,6 +421,7 @@ export default async function createManaged({
     // managed CoralContextProvider.
     changeLocale: (locale?: LanguageCode) => Promise.resolve(),
     tokenRefreshProvider,
+    window,
   };
 
   // Initialize local state.
@@ -424,7 +429,7 @@ export default async function createManaged({
     environment: context.relayEnvironment,
     context,
     auth,
-    staticConfig: getStaticConfig(),
+    staticConfig: getStaticConfig(window),
   });
 
   // Set new token for the websocket connection.

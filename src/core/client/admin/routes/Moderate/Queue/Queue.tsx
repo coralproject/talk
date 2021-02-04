@@ -7,6 +7,7 @@ import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
 import useMemoizer from "coral-framework/hooks/useMemoizer";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
@@ -44,6 +45,7 @@ const Queue: FunctionComponent<Props> = ({
   viewNewCount,
   onViewNew,
 }) => {
+  const { window } = useCoralContext();
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
@@ -75,28 +77,28 @@ const Queue: FunctionComponent<Props> = ({
     const nextComment = commentsRef.current[index + 1];
     if (nextComment) {
       setSelectedComment(index + 1);
-      const container: HTMLElement | null = document.getElementById(
+      const container: HTMLElement | null = window.document.getElementById(
         `moderate-comment-${nextComment.id}`
       );
       if (container) {
         container.scrollIntoView();
       }
     }
-  }, []);
+  }, [window.document]);
 
   const selectPrev = useCallback(() => {
     const index = selectedCommentRef.current || 0;
     const prevComment = commentsRef.current[index - 1];
     if (prevComment) {
       setSelectedComment(index - 1);
-      const container: HTMLElement | null = document.getElementById(
+      const container: HTMLElement | null = window.document.getElementById(
         `moderate-comment-${prevComment.id}`
       );
       if (container) {
         container.scrollIntoView();
       }
     }
-  }, []);
+  }, [window.document]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);

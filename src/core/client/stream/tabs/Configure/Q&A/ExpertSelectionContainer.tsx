@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import {
   useLoadMore,
   useMutation,
@@ -65,6 +66,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   query,
   relay,
 }) => {
+  const { window } = useCoralContext();
   const users = computeUsers(query);
   const experts = computeExperts(query);
   const [removedExperts, setRemovedExperts] = useState(
@@ -109,11 +111,11 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     [clearSearchFilter, searchRootRef]
   );
   useEffect(() => {
-    document.addEventListener("mousedown", onClickOutside);
+    window.document.addEventListener("mousedown", onClickOutside);
     return () => {
-      document.removeEventListener("mousedown", onClickOutside);
+      window.document.removeEventListener("mousedown", onClickOutside);
     };
-  }, [onClickOutside]);
+  }, [onClickOutside, window.document]);
 
   const onAddExpert = useCallback(
     (id: string) => {
@@ -123,7 +125,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
       });
       clearSearchFilter();
     },
-    [addExpertMutation, clearSearchFilter]
+    [addExpertMutation, clearSearchFilter, storyID]
   );
   const onRemoveExpert = useCallback(
     (id: string, username: string | null, email: string | null) => {
@@ -141,7 +143,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
         },
       ]);
     },
-    [removeExpertMutation, removedExperts, setRemovedExperts]
+    [removeExpertMutation, removedExperts, storyID]
   );
 
   const onSubmitSearch = useCallback(() => {

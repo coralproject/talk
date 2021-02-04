@@ -16,6 +16,8 @@ export interface UIContextProps {
   registerClickFarAway?: ClickFarAwayRegister;
 
   locales?: string[];
+
+  window: Window;
 }
 
 const UIContext = React.createContext<UIContextProps>({} as any);

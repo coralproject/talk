@@ -2,6 +2,7 @@ import { toLower, uniqBy } from "lodash";
 
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
+import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
 
 export interface GetPhrasesRegExpOptions {
   locale: string;
@@ -77,7 +78,7 @@ export default function (options: GetPhrasesRegExpOptions) {
     try {
       cache.value = getPhrasesRegExp(options);
     } catch (err) {
-      window.console.error(err);
+      globalErrorReporter.report(err);
       return null;
     }
   }

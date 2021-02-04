@@ -3,8 +3,8 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { CopyButton } from "coral-framework/components";
-
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
 import { Icon } from "coral-ui/components/v2";
@@ -23,6 +23,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
+  const { window } = useCoralContext();
   return (
     <>
       <div className={styles.label}>
@@ -55,7 +56,9 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
       </div>
       <div className={styles.buttonContainer}>
         <CopyButton
-          text={`${getLocationOrigin()}/admin/moderate/comment/${comment.id}`}
+          text={`${getLocationOrigin(window)}/admin/moderate/comment/${
+            comment.id
+          }`}
           variant="regular"
           color="regular"
           innerCopied={

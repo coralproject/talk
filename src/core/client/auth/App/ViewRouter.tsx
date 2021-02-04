@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect } from "react";
 import { SetViewMutation } from "coral-auth/mutations";
 import { View } from "coral-auth/mutations/SetViewMutation";
 import { parseQuery } from "coral-common/utils";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 
 /**
@@ -10,6 +11,7 @@ import { useMutation } from "coral-framework/lib/relay";
  * parses the `?view=` and calls the `setView` mutation.
  */
 const ViewRouter: FunctionComponent = () => {
+  const { window } = useCoralContext();
   const setView = useMutation(SetViewMutation);
   useEffect(() => {
     window.onpopstate = () => {
@@ -19,7 +21,7 @@ const ViewRouter: FunctionComponent = () => {
     return () => {
       window.onpopstate = null;
     };
-  }, [setView]);
+  }, [setView, window]);
   return null;
 };
 

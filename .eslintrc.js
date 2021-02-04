@@ -151,10 +151,13 @@ const jestOverrides = {
   env: {
     jest: true,
   },
-  files: ["test/**/*.ts", "test/**/*.tsx"],
+  files: ["test/**/*.ts", "test/**/*.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
   globals: {
     expectAndFail: "readonly",
     fail: "readonly",
+  },
+  rules: {
+    "no-restricted-globals": "off",
   },
 };
 
@@ -217,6 +220,30 @@ module.exports = {
     "no-irregular-whitespace": "off",
     "no-multiple-empty-lines": "off",
     "no-new-wrappers": "error",
+    "no-restricted-globals": [
+      "error",
+      {
+        name: "window",
+        message:
+          "Get it from 'CoralContext' if possible. Otherwise ignore and make sure using 'window' globally will work in all environments: 'SSR', 'Testing', and 'Browser'",
+      },
+      {
+        name: "document",
+        message: "Replace with `window.document`",
+      },
+      {
+        name: "localStorage",
+        message: "Replace with `window.localStorage`",
+      },
+      {
+        name: "sessionStorage",
+        message: "Replace with `window.sessionStorage`",
+      },
+      {
+        name: "confirm",
+        message: "Replace with `window.confirm`",
+      },
+    ],
     "no-prototype-builtins": "error",
     "no-shadow": "error",
     "no-throw-literal": "error",

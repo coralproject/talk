@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { Button } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -24,6 +25,7 @@ const CopyButton: FunctionComponent<Props> = ({
   innerCopied,
   ...rest
 }) => {
+  const { window } = useCoralContext();
   const [copied, setCopied] = useState(false);
   const handleCopy = useCallback(() => {
     setCopied(true);
@@ -42,7 +44,7 @@ const CopyButton: FunctionComponent<Props> = ({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [copied]);
+  }, [copied, window]);
 
   return (
     <CopyToClipboard text={text} onCopy={handleCopy}>

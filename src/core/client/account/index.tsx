@@ -23,6 +23,7 @@ async function main() {
     </ManagedCoralContextProvider>
   );
 
+  // eslint-disable-next-line no-restricted-globals
   ReactDOM.render(<Index />, document.getElementById("app"));
 }
 

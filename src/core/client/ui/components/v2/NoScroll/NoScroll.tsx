@@ -1,5 +1,7 @@
 import { FunctionComponent, useEffect } from "react";
 
+import { useUIContext } from "../UIContext";
+
 import styles from "./NoScroll.css";
 
 interface Props {
@@ -11,11 +13,12 @@ interface Props {
 let instances = 0;
 
 const NoScroll: FunctionComponent<Props> = ({ active }) => {
+  const { window } = useUIContext();
   useEffect(() => {
     if (active) {
       if (instances++ === 0) {
         // Add className.
-        document.body.className = document.body.className
+        window.document.body.className = window.document.body.className
           .split(/\s+/)
           .filter((s) => s)
           .concat(styles.noScroll)
@@ -26,7 +29,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
       return () => {
         if (--instances === 0) {
           // Remove className.
-          document.body.className = document.body.className
+          window.document.body.className = window.document.body.className
             .split(/\s+/)
             .filter((s) => s && s !== styles.noScroll)
             .join(" ");
@@ -34,7 +37,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
       };
     }
     return;
-  }, [active]);
+  }, [active, window]);
   return null;
 };
 

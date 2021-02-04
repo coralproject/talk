@@ -50,7 +50,7 @@ export default function markHTMLNode(parentNode: Node, expression: RegExp) {
     const replacement = markPhrasesHTML(node.textContent, expression);
     if (replacement) {
       // Create the new span node to replace the old node with.
-      const newNode = document.createElement("span");
+      const newNode = parentNode.ownerDocument!.createElement("span");
       newNode.innerHTML = replacement;
       parentNode.replaceChild(newNode, node);
     }

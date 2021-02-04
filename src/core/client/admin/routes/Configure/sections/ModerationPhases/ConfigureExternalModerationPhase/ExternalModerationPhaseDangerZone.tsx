@@ -58,6 +58,7 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
       "Enabling the external moderation phase will start to send moderation queries to this URL. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await enableExternalModerationPhase({ id: phase.id });
     }
@@ -69,6 +70,7 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
       "Disabling this external moderation phase will stop any new moderation queries from being sent to this URL. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await disableExternalModerationPhase({ id: phase.id });
     }
@@ -81,6 +83,7 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
       "Deleting this external moderation phase will stop any new moderation queries from being sent to this URL and will remove all the associated settings. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await deleteExternalModerationPhase({ id: phase.id });
 

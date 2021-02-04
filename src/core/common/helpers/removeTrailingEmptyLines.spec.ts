@@ -1,6 +1,7 @@
 import removeTrailingEmptyLines from "./removeTrailingEmptyLines";
 
 function createNodeWithHTML(html: string) {
+  // eslint-disable-next-line no-restricted-globals
   const el = document.createElement("div");
   el.innerHTML = html;
   return el;

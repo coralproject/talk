@@ -16,6 +16,7 @@ declare const __webpack_public_path__: string;
  */
 export function getAppFilename(
   filename: string,
+  // eslint-disable-next-line no-restricted-globals
   location = window.location.toString(),
   publicPath = __webpack_public_path__
 ): string {
@@ -47,6 +48,7 @@ export class SentryErrorReporter implements ErrorReporter {
     } = {}
   ) {
     // Whitelist current origin.
+    // eslint-disable-next-line no-restricted-globals
     const whitelistUrls = [getOrigin(window.location.toString())];
 
     // Also add STATIC_URI if it's being used (e.g. cdn)
@@ -89,7 +91,6 @@ export class SentryErrorReporter implements ErrorReporter {
         new Transaction(),
       ],
     });
-    Sentry.setTag("domain", window.location.host);
 
     // Initialize the boundary if enabled.
 
@@ -108,6 +109,9 @@ export class SentryErrorReporter implements ErrorReporter {
     if (typeof err === "string") {
       err = new Error(err);
     }
+
+    // eslint-disable-next-line no-restricted-globals
+    Sentry.setTag("domain", window.location.host);
 
     // Capture and report the error to Sentry.
     const id = Sentry.captureException(err);

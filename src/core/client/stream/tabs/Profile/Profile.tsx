@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -40,6 +41,7 @@ export interface ProfileProps {
 }
 
 const Profile: FunctionComponent<ProfileProps> = (props) => {
+  const { window } = useCoralContext();
   const emitSetProfileTabEvent = useViewerEvent(SetProfileTabEvent);
   const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {
@@ -60,7 +62,14 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         setLocal({ profileTab: tab });
       }
     },
-    [setLocal, local.profileTab, props.ssoURL, props.isSSO]
+    [
+      props.isSSO,
+      props.ssoURL,
+      local.profileTab,
+      emitSetProfileTabEvent,
+      setLocal,
+      window,
+    ]
   );
 
   const showAccountTab = useMemo(() => {

@@ -227,7 +227,8 @@ export default function createManagedSubscriptionClient(
       // Debug subscriptions being logged. These should be kept here to help
       // with debugging subscriptions.
       if (process.env.NODE_ENV !== "production") {
-        window.console.debug(
+        // eslint-disable-next-line no-console
+        console.debug(
           `+1 [${requests.length - 1} + 1 = ${
             requests.length
           }] subscribe called for subscription:`,
@@ -267,7 +268,8 @@ export default function createManagedSubscriptionClient(
               if (subscriptionClient && !hasActiveSubscriptions()) {
                 closeClient();
                 if (process.env.NODE_ENV !== "production") {
-                  window.console.debug(
+                  // eslint-disable-next-line no-console
+                  console.debug(
                     "subscription client disconnecting, no more subscriptions being tracked"
                   );
                 }
@@ -279,7 +281,8 @@ export default function createManagedSubscriptionClient(
         // Debug subscriptions being logged. These should be kept here to help
         // with debugging subscriptions.
         if (process.env.NODE_ENV !== "production") {
-          window.console.debug(
+          // eslint-disable-next-line no-console
+          console.debug(
             `-1 [${requests.length + 1} - 1 = ${
               requests.length
             }] dispose called for subscription:`,

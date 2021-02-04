@@ -4,15 +4,18 @@ type PostMessageHandler = (value: any, name: string) => void;
  * Wrapper around the HTML postMessage API.
  */
 export class PostMessageService {
+  private window: Window;
   private origin: string;
   private scope: string;
 
-  constructor(
-    scope = "coral",
-    origin = `${location.protocol}//${location.host}`
-  ) {
+  constructor(window: Window, scope = "coral", origin = "") {
+    this.window = window;
     this.origin = origin;
     this.scope = scope;
+
+    if (!this.origin) {
+      this.origin = `${window.location.protocol}//${window.location.host}`;
+    }
   }
 
   /**
@@ -60,9 +63,9 @@ export class PostMessageService {
       handler(event.data.value, event.data.name);
     };
     // Attach the listener to the target.
-    window.addEventListener("message", listener);
+    this.window.addEventListener("message", listener);
     return () => {
-      window.removeEventListener("message", listener);
+      this.window.removeEventListener("message", listener);
     };
   }
 }

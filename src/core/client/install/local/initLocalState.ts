@@ -12,10 +12,10 @@ const initLocalState: InitLocalState = async ({
   ...rest
 }) => {
   // Get all the parameters from the hash.
-  const params = getParamsFromHash();
+  const params = getParamsFromHash(context.window);
   if (params && params.accessToken) {
     // As there's an access token in the hash, let's clear it.
-    clearHash();
+    clearHash(context.window);
 
     // Save the token in storage.
     auth = await storeAccessTokenInLocalStorage(

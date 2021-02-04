@@ -15,8 +15,8 @@ interface KeyStop {
   element: HTMLElement;
 }
 
-const getKeyStops = () =>
-  document.querySelectorAll<HTMLElement>("[data-key-stop]");
+const getKeyStops = (window: Window) =>
+  window.document.querySelectorAll<HTMLElement>("[data-key-stop]");
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
   const id = element.id;
@@ -29,8 +29,11 @@ const toKeyStop = (element: HTMLElement): KeyStop => {
   };
 };
 
-const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
-  const stops = getKeyStops();
+const findNextElement = (
+  currentStop: KeyStop | null,
+  window: Window
+): KeyStop | null => {
+  const stops = getKeyStops(window);
   if (stops.length === 0) {
     return null;
   }
@@ -58,8 +61,11 @@ const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
   return toKeyStop(stops[0]);
 };
 
-const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
-  const stops = getKeyStops();
+const findPreviousElement = (
+  currentStop: KeyStop | null,
+  window: Window
+): KeyStop | null => {
+  const stops = getKeyStops(window);
   if (stops.length === 0) {
     return null;
   }
@@ -88,7 +94,7 @@ const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
 };
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
-  const { pym } = useCoralContext();
+  const { pym, window } = useCoralContext();
   useEffect(() => {
     if (!pym) {
       return;
@@ -122,9 +128,9 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
 
       let stop: KeyStop | null = null;
       if (data.shiftKey && data.key === "C") {
-        stop = findPreviousElement(currentStop);
+        stop = findPreviousElement(currentStop, window);
       } else if (data.key === "c") {
-        stop = findNextElement(currentStop);
+        stop = findNextElement(currentStop, window);
       }
 
       if (!stop) {
@@ -147,7 +153,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       unsubscribe();
       window.removeEventListener("keypress", handle);
     };
-  }, [pym]);
+  }, [pym, window]);
 
   return null;
 };

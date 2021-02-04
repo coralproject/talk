@@ -7,6 +7,7 @@ import { AriaInfo } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
+import withUIContext from "../UIContext/withUIContext";
 import Arrow from "./Arrow";
 
 import styles from "./Popover.css";
@@ -58,6 +59,7 @@ interface PopoverProps {
   eventsEnabled?: PropTypesOf<typeof Popper>["eventsEnabled"];
   positionFixed?: PropTypesOf<typeof Popper>["positionFixed"];
   dark?: boolean;
+  window: Window;
 }
 
 interface State {
@@ -106,11 +108,19 @@ class Popover extends React.Component<PopoverProps> {
   };
 
   public componentDidMount() {
-    document.addEventListener("keydown", this.handleEsc, true);
+    this.props.window.document.addEventListener(
+      "keydown",
+      this.handleEsc,
+      true
+    );
   }
 
   public componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleEsc, true);
+    this.props.window.document.removeEventListener(
+      "keydown",
+      this.handleEsc,
+      true
+    );
   }
 
   public render() {
@@ -203,6 +213,8 @@ class Popover extends React.Component<PopoverProps> {
   }
 }
 
-const enhanced = withStyles(styles)(Popover);
+const enhanced = withStyles(styles)(
+  withUIContext(({ window }) => ({ window }))(Popover)
+);
 
 export default enhanced;

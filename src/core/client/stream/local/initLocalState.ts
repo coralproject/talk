@@ -63,7 +63,7 @@ const initLocalState: InitLocalState = async ({
     }
     // append body class name if set in config.
     if (config.bodyClassName) {
-      document.body.classList.add(config.bodyClassName);
+      context.window.document.body.classList.add(config.bodyClassName);
     }
   }
 

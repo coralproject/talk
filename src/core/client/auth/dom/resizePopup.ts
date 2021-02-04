@@ -1,4 +1,4 @@
-function resizePopup() {
+function resizePopup(window: Window) {
   const innerHeight = window.document.body.offsetHeight;
 
   try {
@@ -12,11 +12,11 @@ function resizePopup() {
 }
 
 let resizedAlready = false;
-export default function resizeOncePerFrame() {
+export default function resizeOncePerFrame(window: Window) {
   if (resizedAlready) {
     return;
   }
   resizedAlready = true;
   requestAnimationFrame(() => setTimeout(() => (resizedAlready = false), 0));
-  resizePopup();
+  resizePopup(window);
 }

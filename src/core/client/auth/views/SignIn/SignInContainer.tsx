@@ -9,6 +9,7 @@ import { graphql } from "react-relay";
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { redirectOAuth2 } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   useLocal,
   useMutation,
@@ -38,6 +39,7 @@ function isEnabled(integration: {
 
 const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   const setView = useMutation(SetViewMutation);
+  const { window } = useCoralContext();
 
   const [{ error }] = useLocal<SignInContainerLocal>(graphql`
     fragment SignInContainerLocal on Local {
@@ -103,8 +105,8 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       return;
     }
 
-    redirectOAuth2(redirectURL);
-  }, [redirectURL]);
+    redirectOAuth2(window, redirectURL);
+  }, [redirectURL, window]);
 
   // If we are redirecting, then render nothing.
   if (redirectURL) {
@@ -120,7 +122,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       facebookEnabled={isEnabled(facebook)}
       googleEnabled={isEnabled(google)}
       oidcEnabled={isEnabled(oidc)}
-      signUpHref={getViewURL("SIGN_UP")}
+      signUpHref={getViewURL("SIGN_UP", window)}
     />
   );
 };

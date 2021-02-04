@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
 import path from "path";
@@ -103,7 +104,7 @@ export default function createTestRenderer<
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService(),
+    postMessage: new PostMessageService(window),
     browserInfo: params.browserInfo || {
       supports: {
         cssVariables: true,
@@ -130,6 +131,7 @@ export default function createTestRenderer<
       register: () => () => {},
       refreshToken: () => "",
     },
+    window,
   };
 
   let testRenderer: ReactTestRenderer;
