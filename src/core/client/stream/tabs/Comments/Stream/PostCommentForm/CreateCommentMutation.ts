@@ -11,6 +11,7 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
@@ -147,6 +148,23 @@ function tagUnansweredQuestions(
       const featuredTag = store.create(uuidGenerator(), "Tag");
       featuredTag.setValue(GQLTAG.UNANSWERED, "code");
       node.setLinkedRecords(tags.concat(featuredTag), "tags");
+    }
+  }
+
+  // Only manually increment Unanswered count when we're not actively on
+  // the Unanswered questions tab.
+  const local = lookup(environment, LOCAL_ID);
+  if (local.commentsTab !== "UNANSWERED_COMMENTS") {
+    const commentCountsRecord = story.getLinkedRecord("commentCounts");
+    if (!commentCountsRecord) {
+      return;
+    }
+    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+    if (tagsRecord) {
+      tagsRecord.setValue(
+        (tagsRecord.getValue("UNANSWERED") as number) + 1,
+        "UNANSWERED"
+      );
     }
   }
 }
