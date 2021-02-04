@@ -21,12 +21,16 @@ export default function withNextLinks() {
       // Ensure that the URL does not have `/docs` as a prefix, that's the job
       // of the <Link /> component.
 
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Found url using /docs prefix "${node.url}", remove this prefix`
-      );
+      let { url } = node;
 
-      const url = node.url.replace(/^\/docs/, "");
+      if (/^\/docs/.test(url)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Found url using /docs prefix "${node.url}", remove this prefix`
+        );
+
+        url = url.replace(/^\/docs/, "");
+      }
 
       parent.children = [
         ...parent.children.slice(0, index),
