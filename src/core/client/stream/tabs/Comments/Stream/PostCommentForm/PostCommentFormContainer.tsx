@@ -10,7 +10,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { usePersistedState } from "coral-framework/hooks";
+import { usePersistedLocalState } from "coral-framework/hooks";
 import {
   InvalidRequestError,
   ModerationNudgeError,
@@ -92,10 +92,10 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const [nudge, setNudge] = useState(true);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
-  const [draft = "", setDraft, initialDraft] = usePersistedState<string>(
+  const [draft = "", setDraft, initialDraft] = usePersistedLocalState<string>(
     "PostCommentFormContainer:draft"
   );
-  const [toggle, setToggle] = usePersistedState<Toggle>(
+  const [toggle, setToggle] = usePersistedLocalState<Toggle>(
     "PostCommentFormContainer:toggle"
   );
 
