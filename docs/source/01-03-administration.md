@@ -159,6 +159,7 @@ This option can be disabled by setting the environment variable: [DISABLE_LIVE_U
 ### Permitted Domains
 
 List of domains where your Coral instance is allowed to be embedded. List each domain and subdomain in use separately and include the scheme for example: `http://localhost:3000`, `https://staging.yourdomain.com`, `http://yourdomain.com`, `https://yourdomain.com`, etc.
+(Note: in v6, the permitted domains live in Organization > Sites > <SITE_NAME> > Details) 
 
 ### Story Creation Settings
 Advanced settings for how stories are created within Coral; such as if stories are to be automatically created when they are published from your CMS. 
