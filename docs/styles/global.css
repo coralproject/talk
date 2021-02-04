@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles for content rendered from markdown. */
+
+.markdown {
+  & > *,
+  /*
+   * The following extra rule is required because next-mdx-remote wraps another
+   * <div /> serverside.
+   */
+  & > div > * {
+    @apply mb-4;
+  }
+
+  & a {
+    @apply underline text-coral;
+
+    &:hover {
+      @apply text-coral-dark;
+    }
+  }
+
+  & pre,
+  & blockquote {
+    @apply p-4 rounded;
+  }
+
+  & pre {
+    @apply bg-gray-800 text-white;
+  }
+
+  & ul {
+    @apply list-disc list-inside;
+  }
+
+  & h2 {
+    @apply text-2xl my-6;
+  }
+
+  & blockquote {
+    @apply bg-indigo-400 text-white;
+  }
+}
+
+/* Styles for code blocks with syntax highlighting provided by prismjs. */
+
+.token {
+  &.comment {
+    @apply text-gray-300;
+  }
+
+  &.property,
+  &.tag,
+  &.boolean,
+  &.number,
+  &.constant,
+  &.symbol,
+  &.deleted {
+    @apply text-red-300;
+  }
+
+  &.function,
+  &.class-name {
+    @apply text-yellow-300;
+  }
+
+  &.operator,
+  &.entity,
+  &.url {
+    @apply text-yellow-400;
+  }
+
+  &.variable {
+    @apply text-pink-300;
+  }
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  display: inline-block;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid currentColor;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  display: inline-block;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid currentColor;
+}

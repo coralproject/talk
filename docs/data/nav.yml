@@ -1,0 +1,7 @@
+sidebar:
+  - category: Getting Started
+    items:
+      - title: Installation
+        url: /installation
+      - title: Development
+        url: /development
