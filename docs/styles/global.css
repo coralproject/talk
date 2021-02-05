@@ -22,6 +22,10 @@
     }
   }
 
+  & pre {
+    @apply overflow-x-auto;
+  }
+
   & pre,
   & blockquote {
     @apply p-4 rounded;
@@ -35,6 +39,12 @@
     @apply text-2xl my-6;
   }
 
+  & h2,
+  & h3,
+  & h4 {
+    @apply text-gray-700;
+  }
+
   & blockquote {
     @apply bg-indigo-400 text-white;
   }
@@ -43,12 +53,12 @@
 /* Styles for code blocks with syntax highlighting provided by prismjs. */
 
 pre {
-  @apply bg-gray-800 text-white;
+  @apply bg-gray-100 text-black;
 }
 
 .token {
   &.comment {
-    @apply text-gray-300;
+    @apply text-gray-400;
   }
 
   &.property,
@@ -58,22 +68,22 @@ pre {
   &.constant,
   &.symbol,
   &.deleted {
-    @apply text-red-300;
+    @apply text-red-400;
   }
 
   &.function,
   &.class-name {
-    @apply text-yellow-300;
+    @apply text-red-500;
   }
 
   &.operator,
   &.entity,
   &.url {
-    @apply text-yellow-400;
+    @apply text-red-600;
   }
 
   &.variable {
-    @apply text-pink-300;
+    @apply text-red-700;
   }
 }
 

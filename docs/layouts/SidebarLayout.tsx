@@ -88,11 +88,15 @@ export type Nav = Array<{
 interface SidebarNavProps {
   nav: Nav;
   currentPagePath: string;
+  navIsOpen: boolean;
+  setNavIsOpen: (open: boolean) => void;
 }
 
 const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
   nav,
   currentPagePath,
+  navIsOpen,
+  setNavIsOpen,
 }) => {
   const activeItemRef = useRef<HTMLLIElement>(null);
   const scrollRef = useRef<HTMLElement>(null);
@@ -127,55 +131,103 @@ const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
         scrollRect.height / 2 +
         activeItemRect.height / 2;
     }
-  }, [currentPagePath]);
+  }, [currentPagePath, navIsOpen]);
 
   return (
-    <aside className="flex-none w-80 overflow-x-hidden">
-      <nav
-        ref={scrollRef}
-        className="fixed top-24 bottom-0 w-80 overflow-y-auto overflow-x-hidden border-r text-sm"
+    <>
+      <button
+        type="button"
+        // fixed z-50 bottom-4 right-4 w-16 h-16 rounded-full bg-gray-900 text-white block lg:hidden
+        className="bg-coral hover:bg-coral-dark text-white rounded-full p-4 fixed bottom-4 right-4 z-50 lg:hidden"
+        // className="bg-coral hover:bg-coral-dark z-20 text-white rounded-full p-4 fixed bottom-4 right-4 lg:hidden"
+        onClick={() => {
+          setNavIsOpen(!navIsOpen);
+        }}
       >
-        <ul className="pt-4 pb-10">
-          {nav.map((group) => (
-            <NavGroup key={group.title} title={group.title}>
-              {group.items.map((item) =>
-                item.items ? (
-                  <NavItemGroup
-                    key={item.href}
-                    title={item.title}
-                    active={currentPagePath.startsWith(item.href)}
-                  >
-                    {item.items.map((subItem) => (
-                      <NavItem
-                        key={subItem.href}
-                        title={subItem.title}
-                        url={subItem.href}
-                        active={currentPagePath === subItem.href}
-                        ref={
-                          currentPagePath === subItem.href
-                            ? activeItemRef
-                            : undefined
-                        }
-                      />
-                    ))}
-                  </NavItemGroup>
-                ) : (
-                  <NavItem
-                    key={item.href}
-                    title={item.title}
-                    url={item.href}
-                    active={currentPagePath === item.href}
-                    ref={
-                      currentPagePath === item.href ? activeItemRef : undefined
-                    }
-                  />
-                )
-              )}
-            </NavGroup>
-          ))}
-        </ul>
-      </nav>
-    </aside>
+        {navIsOpen ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              fill="currentColor"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+              fill="currentColor"
+            />
+          </svg>
+        )}
+      </button>
+      <aside
+        className={cn(
+          "flex-none fixed lg:static z-40 inset-0 h-full bg-black bg-opacity-25 w-full lg:bg-transparent lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-80 lg:block",
+          {
+            hidden: !navIsOpen,
+          }
+        )}
+      >
+        <nav
+          ref={scrollRef}
+          className="h-full overflow-y-auto scrolling-touch bottom-0 lg:h-auto lg:block lg:fixed lg:w-80 lg:bg-transparent overflow-hidden lg:top-24 bg-white mr-24 lg:mr-0 text-sm border-r"
+        >
+          <ul className="pt-4 pb-10">
+            {nav.map((group) => (
+              <NavGroup key={group.title} title={group.title}>
+                {group.items.map((item) =>
+                  item.items ? (
+                    <NavItemGroup
+                      key={item.href}
+                      title={item.title}
+                      active={currentPagePath.startsWith(item.href)}
+                    >
+                      {item.items.map((subItem) => (
+                        <NavItem
+                          key={subItem.href}
+                          title={subItem.title}
+                          url={subItem.href}
+                          active={currentPagePath === subItem.href}
+                          ref={
+                            currentPagePath === subItem.href
+                              ? activeItemRef
+                              : undefined
+                          }
+                        />
+                      ))}
+                    </NavItemGroup>
+                  ) : (
+                    <NavItem
+                      key={item.href}
+                      title={item.title}
+                      url={item.href}
+                      active={currentPagePath === item.href}
+                      ref={
+                        currentPagePath === item.href
+                          ? activeItemRef
+                          : undefined
+                      }
+                    />
+                  )
+                )}
+              </NavGroup>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </>
   );
 };
 
