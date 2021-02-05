@@ -2,9 +2,13 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent } from "react";
 
-import PageHeader from "../../components/PageHeader";
-import DocumentationLayout from "../../layouts/DocumentationLayout";
-import { getReferences, Reference, renderReference } from "../../lib/reference";
+import PageHeader from "../../../components/PageHeader";
+import DocumentationLayout from "../../../layouts/DocumentationLayout";
+import {
+  getReferences,
+  Reference,
+  renderReference,
+} from "../../../lib/reference";
 
 interface Props {
   reference: Reference;
@@ -28,17 +32,18 @@ const ReferencePage: FunctionComponent<Props> = ({
 };
 
 interface Params extends ParsedUrlQuery {
-  slug: string[];
+  kind: string;
+  name: string;
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ({
   params,
 }) => {
-  if (!params?.slug) {
+  if (!params) {
     return { notFound: true };
   }
 
-  const [kind, name] = params.slug;
+  const { kind, name } = params;
 
   const reference = await renderReference(kind, name);
   if (!reference) {
@@ -58,7 +63,8 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   return {
     paths: references.map(({ kind, name }) => ({
       params: {
-        slug: [kind.toLowerCase(), name],
+        kind: kind.toLowerCase(),
+        name,
       },
     })),
     fallback: false,
