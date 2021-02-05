@@ -184,7 +184,7 @@ exports[`renders message box when commenting disabled 1`] = `
             className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
+              className="SelectField-select SortMenu-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -595,7 +595,7 @@ exports[`renders message box when logged in 1`] = `
             className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
+              className="SelectField-select SortMenu-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -1010,7 +1010,7 @@ exports[`renders message box when not logged in 1`] = `
             className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
+              className="SelectField-select SortMenu-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
@@ -1304,7 +1304,7 @@ exports[`renders message box when story isClosed 1`] = `
             className="SelectField-root coral coral-sortMenu"
           >
             <select
-              className="SelectField-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
+              className="SelectField-select SortMenu-select SelectField-selectFont SortMenu-selectFont SelectField-selectColor SortMenu-selectColor coral-selectField"
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
