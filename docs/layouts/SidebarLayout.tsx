@@ -1,7 +1,7 @@
 import cn from "classnames";
 import Link from "next/link";
-
-import { FunctionComponent, useState } from "react";
+import { forwardRef, FunctionComponent, useRef, useState } from "react";
+import { useIsomorphicLayoutEffect } from "react-use";
 
 interface NavGroupProps {
   title: string;
@@ -52,9 +52,9 @@ interface NavItemProps {
   url: string;
 }
 
-const NavItem: FunctionComponent<NavItemProps> = ({ active, title, url }) => {
-  return (
-    <li>
+const NavItem = forwardRef<HTMLLIElement, NavItemProps>(
+  ({ active, title, url }, ref) => (
+    <li ref={ref}>
       <Link href={url}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a
@@ -70,8 +70,8 @@ const NavItem: FunctionComponent<NavItemProps> = ({ active, title, url }) => {
         </a>
       </Link>
     </li>
-  );
-};
+  )
+);
 
 export type Nav = Array<{
   title: string;
@@ -94,9 +94,47 @@ const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
   nav,
   currentPagePath,
 }) => {
+  const activeItemRef = useRef<HTMLLIElement>(null);
+  const scrollRef = useRef<HTMLElement>(null);
+
+  // This will scroll to the active menu element. This was copied from how
+  // Tailwind CSS's documentation does the same thing.
+  //
+  // https://github.com/tailwindlabs/tailwindcss.com/blob/205d003aded3de506a633c4eb00eab094555888e/src/layouts/SidebarLayout.js#L40-L53
+  //
+  useIsomorphicLayoutEffect(() => {
+    if (!activeItemRef.current || !scrollRef.current) {
+      return;
+    }
+
+    const scrollRect = scrollRef.current.getBoundingClientRect();
+    const activeItemRect = activeItemRef.current.getBoundingClientRect();
+
+    const top = activeItemRef.current.offsetTop;
+
+    // For some reason, the heights of the rectangle are not being read as
+    // numbers by eslint.
+    //
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    const bottom = top - scrollRect.height + activeItemRect.height;
+
+    if (
+      scrollRef.current.scrollTop > top ||
+      scrollRef.current.scrollTop < bottom
+    ) {
+      scrollRef.current.scrollTop =
+        activeItemRef.current.offsetTop -
+        scrollRect.height / 2 +
+        activeItemRect.height / 2;
+    }
+  }, [currentPagePath]);
+
   return (
     <aside className="flex-none w-80 overflow-x-hidden">
-      <nav className="fixed top-24 bottom-0 w-80 overflow-y-auto overflow-x-hidden border-r text-sm">
+      <nav
+        ref={scrollRef}
+        className="fixed top-24 bottom-0 w-80 overflow-y-auto overflow-x-hidden border-r text-sm"
+      >
         <ul className="pt-4 pb-10">
           {nav.map((group) => (
             <NavGroup key={group.title} title={group.title}>
@@ -113,6 +151,11 @@ const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
                         title={subItem.title}
                         url={subItem.href}
                         active={currentPagePath === subItem.href}
+                        ref={
+                          currentPagePath === subItem.href
+                            ? activeItemRef
+                            : undefined
+                        }
                       />
                     ))}
                   </NavItemGroup>
@@ -122,6 +165,9 @@ const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
                     title={item.title}
                     url={item.href}
                     active={currentPagePath === item.href}
+                    ref={
+                      currentPagePath === item.href ? activeItemRef : undefined
+                    }
                   />
                 )
               )}
