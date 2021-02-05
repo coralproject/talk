@@ -3,16 +3,18 @@ import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent } from "react";
 
 import PageHeader from "../../components/PageHeader";
-import DocLayout from "../../layouts/DocLayout";
+import DocumentationLayout from "../../layouts/DocumentationLayout";
 import { getReferences, Reference, renderReference } from "../../lib/reference";
 
 interface Props {
   reference: Reference;
 }
 
-const ReferencePage: FunctionComponent<Props> = ({ reference: { type } }) => {
+const ReferencePage: FunctionComponent<Props> = ({
+  reference: { type, pagePath },
+}) => {
   return (
-    <DocLayout title={type.name}>
+    <DocumentationLayout title={type.name} currentPagePath={pagePath}>
       {/* FIXME: implement */}
       <PageHeader title={type.name} description={type.description} />
       <div className="markdown">
@@ -21,7 +23,7 @@ const ReferencePage: FunctionComponent<Props> = ({ reference: { type } }) => {
           {JSON.stringify({ reference: type }, null, 2)}
         </pre>
       </div>
-    </DocLayout>
+    </DocumentationLayout>
   );
 };
 

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
 
 import reference from "../data/__generated__/sidebar.json";
@@ -18,13 +17,17 @@ const nav: Nav = [
 
 interface Props {
   title: string;
+  currentPagePath: string;
 }
 
-const DocLayout: FunctionComponent<Props> = ({ children, ...props }) => {
-  const router = useRouter();
+const DocumentationLayout: FunctionComponent<Props> = ({
+  children,
+  currentPagePath,
+  ...props
+}) => {
   let title = props.title;
-  if (router.pathname !== "/") {
-    title += ` - Coral Documentation`;
+  if (currentPagePath !== "/") {
+    title += ` - Coral`;
   }
 
   return (
@@ -37,9 +40,7 @@ const DocLayout: FunctionComponent<Props> = ({ children, ...props }) => {
       <main className="text-gray-500">
         <Header />
         <div className="flex">
-          <aside className="flex-none w-80 overflow-y-visible">
-            <SidebarLayout nav={nav} />
-          </aside>
+          <SidebarLayout nav={nav} currentPagePath={currentPagePath} />
           <div className="flex-auto flex flex-col">
             <Callout />
             <article className="px-8">{children}</article>
@@ -50,4 +51,4 @@ const DocLayout: FunctionComponent<Props> = ({ children, ...props }) => {
   );
 };
 
-export default DocLayout;
+export default DocumentationLayout;

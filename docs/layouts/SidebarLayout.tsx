@@ -1,6 +1,6 @@
 import cn from "classnames";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
 import { FunctionComponent, useState } from "react";
 
 interface NavGroupProps {
@@ -64,6 +64,7 @@ const NavItem: FunctionComponent<NavItemProps> = ({ active, title, url }) => {
               ? "bg-gray-100 text-coral hover:text-coral-dark border-r-4 border-coral font-bold"
               : "text-gray-500 hover:text-gray-500"
           )}
+          title={title}
         >
           {title}
         </a>
@@ -86,46 +87,51 @@ export type Nav = Array<{
 
 interface SidebarNavProps {
   nav: Nav;
+  currentPagePath: string;
 }
 
-const SidebarNav: FunctionComponent<SidebarNavProps> = ({ nav }) => {
-  const router = useRouter();
-
+const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
+  nav,
+  currentPagePath,
+}) => {
   return (
-    <nav className="border-r fixed w-80 overflow-y-auto text-sm">
-      <ul>
-        {nav.map((group) => (
-          <NavGroup key={group.title} title={group.title}>
-            {group.items.map((item) =>
-              item.items ? (
-                <NavItemGroup
-                  key={item.href}
-                  title={item.title}
-                  active={router.pathname.startsWith(item.href)}
-                >
-                  {item.items.map((subItem) => (
-                    <NavItem
-                      key={subItem.href}
-                      title={subItem.title}
-                      url={subItem.href}
-                      active={router.pathname === subItem.href}
-                    />
-                  ))}
-                </NavItemGroup>
-              ) : (
-                <NavItem
-                  key={item.href}
-                  title={item.title}
-                  url={item.href}
-                  active={router.pathname === item.href}
-                />
-              )
-            )}
-          </NavGroup>
-        ))}
-      </ul>
-    </nav>
+    <aside className="flex-none w-80 overflow-x-hidden">
+      <div className="hidden lg:block h-12 pointer-events-none absolute inset-x-0 z-10 bg-gradient-to-b from-white"></div>
+      <nav className="fixed top-24 bottom-0 w-80 overflow-y-auto overflow-x-hidden border-r text-sm">
+        <ul className="pt-4 pb-10">
+          {nav.map((group) => (
+            <NavGroup key={group.title} title={group.title}>
+              {group.items.map((item) =>
+                item.items ? (
+                  <NavItemGroup
+                    key={item.href}
+                    title={item.title}
+                    active={currentPagePath.startsWith(item.href)}
+                  >
+                    {item.items.map((subItem) => (
+                      <NavItem
+                        key={subItem.href}
+                        title={subItem.title}
+                        url={subItem.href}
+                        active={currentPagePath === subItem.href}
+                      />
+                    ))}
+                  </NavItemGroup>
+                ) : (
+                  <NavItem
+                    key={item.href}
+                    title={item.title}
+                    url={item.href}
+                    active={currentPagePath === item.href}
+                  />
+                )
+              )}
+            </NavGroup>
+          ))}
+        </ul>
+      </nav>
+    </aside>
   );
 };
 
-export default SidebarNav;
+export default SidebarLayout;

@@ -27,10 +27,6 @@
     @apply p-4 rounded;
   }
 
-  & pre {
-    @apply bg-gray-800 text-white;
-  }
-
   & ul {
     @apply list-disc list-inside;
   }
@@ -45,6 +41,10 @@
 }
 
 /* Styles for code blocks with syntax highlighting provided by prismjs. */
+
+pre {
+  @apply bg-gray-800 text-white;
+}
 
 .token {
   &.comment {

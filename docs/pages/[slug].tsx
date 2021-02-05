@@ -5,15 +5,15 @@ import { FunctionComponent } from "react";
 
 import MDXComponents from "../components/MDXComponents";
 import PageHeader from "../components/PageHeader";
-import DocLayout from "../layouts/DocLayout";
-import { Doc, getDocs, renderDoc } from "../lib/doc";
+import DocumentationLayout from "../layouts/DocumentationLayout";
+import { Doc, getDocs, renderDoc } from "../lib/documentation";
 
 interface Props {
   doc: Doc;
 }
 
 const DocPage: FunctionComponent<Props> = ({
-  doc: { frontMatter, mdxSource },
+  doc: { frontMatter, mdxSource, pagePath },
 }) => {
   // Note that the next-mdx-remote wraps the server components in an additional
   // div which will cause the error in the console:
@@ -26,13 +26,13 @@ const DocPage: FunctionComponent<Props> = ({
   });
 
   return (
-    <DocLayout title={frontMatter.title}>
+    <DocumentationLayout title={frontMatter.title} currentPagePath={pagePath}>
       <PageHeader
         title={frontMatter.title}
         description={frontMatter.description}
       />
       <div className="markdown">{content}</div>
-    </DocLayout>
+    </DocumentationLayout>
   );
 };
 

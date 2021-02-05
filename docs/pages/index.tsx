@@ -1,6 +1,10 @@
-import DocLayout from "../layouts/DocLayout";
+import DocumentationLayout from "../layouts/DocumentationLayout";
 
 export default function Index() {
   // FIXME: implement
-  return <DocLayout title="Coral Documentation">Here's Coral Docs!</DocLayout>;
+  return (
+    <DocumentationLayout title="Coral Documentation" currentPagePath="/">
+      Here's Coral Docs!
+    </DocumentationLayout>
+  );
 }
