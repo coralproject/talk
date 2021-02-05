@@ -96,7 +96,6 @@ const SidebarLayout: FunctionComponent<SidebarNavProps> = ({
 }) => {
   return (
     <aside className="flex-none w-80 overflow-x-hidden">
-      <div className="hidden lg:block h-12 pointer-events-none absolute inset-x-0 z-10 bg-gradient-to-b from-white"></div>
       <nav className="fixed top-24 bottom-0 w-80 overflow-y-auto overflow-x-hidden border-r text-sm">
         <ul className="pt-4 pb-10">
           {nav.map((group) => (
