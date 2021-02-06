@@ -26,7 +26,18 @@ export async function renderDoc(pagePath: string): Promise<Doc> {
     mdxOptions: {
       remarkPlugins: [
         require("remark-slug"),
-        require("remark-autolink-headings"),
+        [
+          require("remark-autolink-headings"),
+          {
+            linkProperties: {
+              className: ["anchor"],
+            },
+            content: {
+              type: "element",
+              tagName: "span",
+            },
+          },
+        ],
         require("remark-code-titles"),
         withNextLinks,
       ],
