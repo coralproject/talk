@@ -3,7 +3,11 @@ module.exports = {
     applyComplexClasses: true,
   },
   purge: {
-    content: ["./docs/pages/**/*.tsx", "./docs/components/**/*.tsx"],
+    content: [
+      "./docs/pages/**/*.tsx",
+      "./docs/components/**/*.tsx",
+      "./docs/layouts/**/*.tsx",
+    ],
   },
   theme: {
     extend: {
