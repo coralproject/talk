@@ -11,7 +11,9 @@ const rootPath = path.join(process.cwd(), "docs", "__generated__", "reference");
 import introspection from "../__generated__/introspection.json";
 
 export function getReferences() {
-  return introspection.__schema.types;
+  return introspection.__schema.types.filter(
+    ({ name }) => !name.startsWith("__")
+  );
 }
 
 export interface Reference {
