@@ -35,6 +35,18 @@
     @apply list-disc list-inside;
   }
 
+  & header {
+    @apply my-10;
+
+    & h1 {
+      @apply text-3xl font-extrabold text-gray-900 my-1;
+    }
+
+    & p {
+      @apply text-lg;
+    }
+  }
+
   & h2 {
     @apply text-2xl my-6;
   }
@@ -43,6 +55,21 @@
   & h3,
   & h4 {
     @apply text-gray-700;
+  }
+
+  & .anchor {
+    @apply absolute invisible;
+
+    margin-left: -1em;
+    padding-right: 0.5em;
+
+    &:after {
+      content: "#";
+    }
+  }
+
+  & *:hover > .anchor {
+    @apply visible;
   }
 
   & blockquote {

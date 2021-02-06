@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Router } from "next/router";
 import { FunctionComponent, useEffect, useState } from "react";
 
-import reference from "../data/__generated__/sidebar.json";
+import reference from "../__generated__/reference/sidebar.json";
 
 import Callout from "../components/Callout";
 import Header from "../components/Header";

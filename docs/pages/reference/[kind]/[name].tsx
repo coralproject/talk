@@ -1,8 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import hydrate from "next-mdx-remote/hydrate";
 import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent } from "react";
 
-import PageHeader from "../../../components/PageHeader";
+import MDXComponents from "../../../components/MDXComponents";
 import DocumentationLayout from "../../../layouts/DocumentationLayout";
 import {
   getReferences,
@@ -15,18 +16,21 @@ interface Props {
 }
 
 const ReferencePage: FunctionComponent<Props> = ({
-  reference: { type, pagePath },
+  reference: { mdxSource, pagePath, frontMatter },
 }) => {
+  // Note that the next-mdx-remote wraps the server components in an additional
+  // div which will cause the error in the console:
+  //
+  //  Did not expect server HTML to contain a <div> in <div>.
+  //
+  // This is expected.
+  const content = hydrate(mdxSource, {
+    components: MDXComponents,
+  });
+
   return (
-    <DocumentationLayout title={type.name} currentPagePath={pagePath}>
-      {/* FIXME: implement */}
-      <PageHeader title={type.name} description={type.description} />
-      <div className="markdown">
-        <p>Follows is the current introspection data for this type.</p>
-        <pre className="text-xs mt-8">
-          {JSON.stringify({ reference: type }, null, 2)}
-        </pre>
-      </div>
+    <DocumentationLayout title={frontMatter.title} currentPagePath={pagePath}>
+      <div className="markdown">{content}</div>
     </DocumentationLayout>
   );
 };
