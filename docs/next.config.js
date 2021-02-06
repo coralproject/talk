@@ -1,7 +1,9 @@
 const withYaml = require("next-plugin-yaml");
 
 module.exports = withYaml({
-  basePath: "/docs",
+  basePath: process.env.BASE_PATH
+    ? process.env.BASE_PATH.replace(/^\//, "")
+    : "/docs",
   webpack: (config, { dev, isServer }) => {
     // Replace React with Preact only in client production build
     if (!dev && !isServer) {
