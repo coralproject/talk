@@ -1,3 +1,7 @@
+// Apply all the configuration provided in the .env file if it isn't already in
+// the environment.
+require("dotenv").config();
+
 const withYaml = require("next-plugin-yaml");
 
 module.exports = withYaml({
