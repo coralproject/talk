@@ -537,6 +537,11 @@ enum FEATURE_FLAG {
   `X-Coral-Template` header.
   """
   EMAIL_META
+
+  """
+  Enables the chat UI for displaying a new Chat story mode.
+  """
+  CHAT
 }
 
 # The moderation mode of the site.
@@ -3770,6 +3775,11 @@ type Story @cacheControl(maxAge: 30) {
     the future, we want a dedicated edge for unansweredComments.
     """
     tag: TAG
+
+    """
+    When true, this edge will return all comments regardless of reply depth.
+    """
+    flatten: Boolean
   ): CommentsConnection!
 
   """
