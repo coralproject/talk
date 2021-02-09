@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { required } from "coral-framework/lib/validation";
-import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
+import ReactionButton from "coral-stream/shared/ReactionButton";
 import {
   FieldSet,
   Flex,
