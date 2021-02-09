@@ -11,14 +11,14 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
+import { shouldTriggerViewerRefresh } from "coral-stream/tabs/Comments/helpers";
+import RefreshViewerFetch from "coral-stream/tabs/Comments/RefreshViewerFetch";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import { ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
 import { ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
-import { shouldTriggerViewerRefresh } from "../../helpers";
-import RefreshViewerFetch from "../../RefreshViewerFetch";
 import CreateCommentDisagreeMutation from "./CreateCommentDisagreeMutation";
 import CreateCommentFlagMutation from "./CreateCommentFlagMutation";
 import ReportCommentForm from "./ReportCommentForm";

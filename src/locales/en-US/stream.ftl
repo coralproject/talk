@@ -20,6 +20,7 @@ general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-configure = Configure
+general-tabBar-live = Live
 
 general-tabBar-aria-comments =
   .aria-label = Comments

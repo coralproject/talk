@@ -145,6 +145,25 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               )}
             </Tab>
           )}
+
+          <Tab
+            className={cn({
+              [styles.smallTab]: !matches,
+            })}
+            tabID="LIVE"
+            variant="streamPrimary"
+            localizationId="general-tabBar-aria-configure"
+          >
+            {matches ? (
+              <Localized id="general-tabBar-live">
+                <span>Live</span>
+              </Localized>
+            ) : (
+              <div>
+                <Icon size="md">play_arrow</Icon>
+              </div>
+            )}
+          </Tab>
         </TabBar>
       )}
     </MatchMedia>

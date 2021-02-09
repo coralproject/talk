@@ -37,6 +37,10 @@ import {
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
+import { ReactionButtonContainer } from "coral-stream/shared/ReactionButton";
+import ReportFlowContainer, {
+  ReportButton,
+} from "coral-stream/shared/ReportFlow";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
@@ -58,11 +62,9 @@ import CaretContainer, {
   RejectedTombstoneContainer,
 } from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
-import ReactionButtonContainer from "./ReactionButton";
 import RemoveAnswered from "./RemoveAnswered";
 import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
-import ReportFlowContainer, { ReportButton } from "./ReportFlow";
 import ShowConversationLink from "./ShowConversationLink";
 import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer, { commentHasTags } from "./UserTagsContainer";

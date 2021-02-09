@@ -13,6 +13,7 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { ReactionButtonContainer } from "coral-stream/shared/ReactionButton";
 import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
@@ -23,7 +24,6 @@ import { FeaturedCommentContainer_viewer as ViewerData } from "coral-stream/__ge
 
 import { UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection";
-import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 
