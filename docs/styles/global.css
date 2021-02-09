@@ -32,7 +32,13 @@
   }
 
   & ul {
-    @apply list-disc list-inside;
+    @apply list-disc;
+    @apply pl-4;
+  }
+
+  & ol {
+    @apply list-decimal;
+    @apply pl-4;
   }
 
   & header {
@@ -75,6 +81,10 @@
   & blockquote {
     @apply bg-indigo-400 text-white;
   }
+}
+
+code {
+  @apply bg-gray-100 text-black;
 }
 
 /* Styles for code blocks with syntax highlighting provided by prismjs. */
