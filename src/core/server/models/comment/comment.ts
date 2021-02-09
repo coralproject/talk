@@ -7,6 +7,7 @@ import { dotize } from "coral-common/utils/dotize";
 import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
+  CommentRevisionNotFoundError,
 } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -812,7 +813,7 @@ export async function updateCommentActionCounts(
     }
   );
   if (!result.value) {
-    throw new CommentNotFoundError(id, revisionID);
+    throw new CommentRevisionNotFoundError(id, revisionID);
   }
 
   return result.value;
