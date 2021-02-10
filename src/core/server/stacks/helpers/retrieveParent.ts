@@ -1,6 +1,9 @@
 import { Db } from "mongodb";
 
-import { CommentNotFoundError } from "coral-server/errors";
+import {
+  CommentNotFoundError,
+  CommentRevisionNotFoundError,
+} from "coral-server/errors";
 import {
   getLatestRevision,
   hasPublishedStatus,
@@ -19,19 +22,19 @@ async function retrieveParent(
   // Check to see that the reference parent ID exists.
   const parent = await retrieveComment(mongo, tenantID, input.parentID);
   if (!parent) {
-    throw new CommentNotFoundError(input.parentID, input.parentRevisionID);
+    throw new CommentNotFoundError(input.parentID);
   }
 
   // Check to see that the most recent revision matches the one we just replied
   // to.
   const revision = getLatestRevision(parent);
   if (revision.id !== input.parentRevisionID) {
-    throw new CommentNotFoundError(parent.id, input.parentRevisionID);
+    throw new CommentRevisionNotFoundError(parent.id, input.parentRevisionID);
   }
 
   // Check that the parent comment was visible.
   if (!hasPublishedStatus(parent)) {
-    throw new CommentNotFoundError(parent.id, input.parentRevisionID);
+    throw new CommentRevisionNotFoundError(parent.id, input.parentRevisionID);
   }
 
   return parent;

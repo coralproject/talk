@@ -1,6 +1,9 @@
 import { Db } from "mongodb";
 
-import { CommentNotFoundError } from "coral-server/errors";
+import {
+  CommentNotFoundError,
+  CommentRevisionNotFoundError,
+} from "coral-server/errors";
 import {
   createCommentModerationAction,
   CreateCommentModerationActionInput,
@@ -26,7 +29,7 @@ export default async function moderate(
   // Get the comment that we're moderating.
   const comment = await retrieveComment(mongo, tenant.id, input.commentID);
   if (!comment) {
-    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
+    throw new CommentNotFoundError(input.commentID);
   }
 
   // Get the latest revision on that comment.
@@ -37,7 +40,10 @@ export default async function moderate(
     // The revision has been updated since then! Ensure that this revision ID
     // does exist.
     if (!hasRevision(comment, input.commentRevisionID)) {
-      throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
+      throw new CommentRevisionNotFoundError(
+        input.commentID,
+        input.commentRevisionID
+      );
     }
 
     // The comment has this revision, it just isn't the latest one. Return the
@@ -58,7 +64,10 @@ export default async function moderate(
     input.status
   );
   if (!result) {
-    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
+    throw new CommentRevisionNotFoundError(
+      input.commentID,
+      input.commentRevisionID
+    );
   }
 
   // Create the moderation action in the audit log.
