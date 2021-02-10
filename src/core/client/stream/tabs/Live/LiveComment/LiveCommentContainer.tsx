@@ -38,7 +38,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       <div>{comment.body}</div>
       <div>{comment.createdAt}</div>
 
-      <div>
+      <div id={`comment-${comment.id}`}>
         {viewer && (
           <ReactionButtonContainer
             reactedClassName=""
