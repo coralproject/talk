@@ -472,10 +472,19 @@ export class StoryNotFoundError extends CoralError {
 }
 
 export class CommentNotFoundError extends CoralError {
-  constructor(commentID: string, commentRevisionID?: string) {
+  constructor(commentID: string) {
     super({
       code: ERROR_CODES.COMMENT_NOT_FOUND,
-      context: { pvt: { commentID, commentRevisionID } },
+      context: { pub: { commentID } },
+    });
+  }
+}
+
+export class CommentRevisionNotFoundError extends CoralError {
+  constructor(commentID: string, commentRevisionID: string) {
+    super({
+      code: ERROR_CODES.COMMENT_NOT_FOUND,
+      context: { pub: { commentID, commentRevisionID } },
     });
   }
 }
