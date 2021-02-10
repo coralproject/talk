@@ -9,59 +9,45 @@ import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.
 import LiveStream from "./LiveStream";
 
 const LiveTabQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL, storyMode }] = useLocal<
-    LiveTabQueryLocal
-  >(graphql`
+  const [{ storyID, storyURL }] = useLocal<LiveTabQueryLocal>(graphql`
     fragment LiveTabQueryLocal on Local {
       storyID
       storyURL
-      storyMode
     }
   `);
+
+  if (!storyURL) {
+    return null;
+  }
 
   return (
     <QueryRenderer<LiveTabQuery>
       query={graphql`
-        query LiveTabQuery(
-          $storyID: ID
-          $storyURL: String
-          $storyMode: STORY_MODE
-        ) {
+        query LiveTabQuery($storyID: ID, $storyURL: String!) {
           viewer {
             ...LiveStreamContainer_viewer
           }
           settings {
             ...LiveStreamContainer_settings
           }
-          story: stream(id: $storyID, url: $storyURL, mode: $storyMode) {
+          story: stream(id: $storyID, url: $storyURL) {
             id
-            comments(first: 20, orderBy: CREATED_AT_DESC) {
-              edges {
-                node {
-                  ...LiveCommentContainer_comment
-                }
-              }
-            }
+            ...LiveStreamContainer_story
           }
         }
       `}
       variables={{
         storyID,
         storyURL,
-        storyMode,
       }}
       render={(data) => {
         if (!data || !data.props || !data.props.story) {
           return null;
         }
 
-        const comments = data.props.story.comments.edges.map((e) => {
-          return e.node;
-        });
-
         return (
           <LiveStream
-            comments={comments}
+            story={data.props.story}
             viewer={data.props.viewer}
             settings={data.props.settings}
           />

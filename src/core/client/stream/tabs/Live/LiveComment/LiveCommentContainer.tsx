@@ -36,10 +36,12 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     <div className={styles.comment}>
       <div>{comment.author?.username}</div>
       <div>{comment.body}</div>
+      <div>{comment.createdAt}</div>
 
       <div>
         {viewer && (
           <ReactionButtonContainer
+            reactedClassName=""
             comment={comment}
             settings={settings}
             viewer={viewer}
