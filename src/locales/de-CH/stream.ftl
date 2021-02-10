@@ -44,7 +44,7 @@ comment-count-text =
     [one] Kommentar
     *[other] Kommentare
   }
-  
+
 ## Comments Tab
 
 comments-commentForm-submit = Kommentar abschicken
@@ -70,7 +70,7 @@ comments-bannedInfo-bannedFromCommenting = Dein Account wurde vom Kommentieren b
 comments-bannedInfo-violatedCommunityGuidelines =
   Jemand mit Zugriff zu deinem Account hat gegen die Community Richtlinien
   verstossen. Als Result wurde dein Account blockiert. Du kannst nicht mehr kommentieren,
-  andere Kommentare liken oder melden. Wenn du denkst, dass dein Account 
+  auf andere Kommentare reagieren oder melden. Wenn du denkst, dass dein Account
   fälschlicherweise blockiert wurde, melde dich bitte an unser Community Team.
 
 comments-noCommentsAtAll = Dieser Artikel hat keine Kommentare.
@@ -220,11 +220,11 @@ comments-userIgnorePopover-cancel = Abbrechen
 comments-userBanPopover-title = {$username} blockieren?
 comments-userBanPopover-description =
   Wenn der User blockiert wird, wird er nicht mehr kommentieren,
-  liken oder Kommentare melden können.
+  Reaktionen nutzen, oder Kommentare melden können.
   Dieser Kommentar wird ebenfalls abgewiesen.
 comments-userBanPopover-scopedDescription =
   Wenn der User von {$sitename} blockiert wird, wird er nicht mehr kommentieren,
-  liken oder Kommentare melden können.
+  Reaktionen nutzen, oder Kommentare melden können.
   Dieser Kommentar wird ebenfalls abgewiesen.
 comments-userBanPopover-cancel = Abbrechen
 comments-userBanPopover-ban = Blockieren
@@ -328,7 +328,7 @@ comments-stream-deleteAccount-callOut-title =
 comments-stream-deleteAccount-callOut-receivedDesc =
   Eine Anfrage um deinen Account zu löschen, wurde am { $date } erhalten.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  Wenn du weiter kommentieren, Antworten oder liken möchtest, kannst
+  Wenn du weiter kommentieren, Antworten oder Reaktionen nutzen möchtest, kannst
   du deine Anfrage bezgl. der Löschung deines Accounts bis { $date } zurückziehen.
 comments-stream-deleteAccount-callOut-cancel =
   Anfrage zur Account Löschung zurückziehen
@@ -412,7 +412,7 @@ profile-preferences-mediaPreferences-preferencesUpdated =
 profile-account-ignoredCommenters = Ignorierte Kommentatoren
 profile-account-ignoredCommenters-description =
   Du kannst andere Kommentatoren ignorieren, indem du auf ihren Benutzernamen
-  klickst und dann Ignorieren auswählst. Wenn du jemanden ignorierst, werden 
+  klickst und dann Ignorieren auswählst. Wenn du jemanden ignorierst, werden
   alle Kommentare dieses Benutzers vor dir verborgen. Kommentatoren, welche
   du ignorierst, können weiterhin deine Kommentare sehen.
 profile-account-ignoredCommenters-empty = Momentan ignorierst du niemanden
@@ -503,7 +503,7 @@ profile-account-deleteAccount-pages-whenSec2Header =
   Kann ich weiterhin Kommentare schreiben bis mein Account gelöscht wird?
 profile-account-deleteAccount-pages-whenSec2Content =
   Nein. Sobald du die Löschung deines Accounts beantragt hast, kannst du keine
-  Kommentare mehr schreiben, auf Kommentare antworten oder liken.
+  Kommentare mehr schreiben, auf Kommentare antworten oder Reaktionen nutzen.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Meine Kommentare herunterladen?
 profile-account-deleteAccount-pages-downloadSubHeader = Meine Kommentare herunterladen
@@ -665,8 +665,8 @@ configure-enableLiveUpdates-enable = Aktivieren
 configure-disableLiveUpdates-title = Live Updates deaktivieren
 configure-disableLiveUpdates-description =
   Wenn deaktiviert, werden Kommentare nicht sofort aktualisiert sobald neue Kommentare und Antworten
-  eingereicht werden. Es ist nötig die Seite neu zu laden. Wir empfehlen diese Einstellung wenn es 
-  zur unüblichen Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare 
+  eingereicht werden. Es ist nötig die Seite neu zu laden. Wir empfehlen diese Einstellung wenn es
+  zur unüblichen Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare
   dadurch langsamer laden,
 configure-disableLiveUpdates-disable = Deaktivieren
 
@@ -726,7 +726,7 @@ configure-enableQA-title =
 configure-enableQA-switchToQA =
   Zum Q&A Format wechseln
 configure-enableQA-description =
-  Das Q&A Format erlaubt erlaubt Community Mitgliedern Fragen einzureichen, welche 
+  Das Q&A Format erlaubt erlaubt Community Mitgliedern Fragen einzureichen, welche
   von ausgewählten Experten beantwortet werden können.
 configure-enableQA-enableQA = Zum Q&A wechseln
 configure-enableQA-streamIsNowComments =
@@ -734,7 +734,7 @@ configure-enableQA-streamIsNowComments =
 
 configure-disableQA-title = Diesen Q&A konfigurieren
 configure-disableQA-description =
-  Das Q&A Format erlaubt Community Mitgliedern Fragen einzureichen, welche 
+  Das Q&A Format erlaubt Community Mitgliedern Fragen einzureichen, welche
   von ausgewählten Experten beantwortet werden können.
 configure-disableQA-disableQA = Zu Kommentare wechseln
 configure-disableQA-streamIsNowQA =
@@ -770,7 +770,7 @@ suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   In Übereinstimmung mit den Community Richtlinien von { $organization } wurde dein
   Account vorübergehend suspendiert. Während du suspendiert bist, kannst du nicht
-  kommentieren, liken oder Kommentare melden.
+  kommentieren, Reaktionen nutzen oder Kommentare melden.
 suspendInfo-until-pleaseRejoinThe =
   Bitte trete der Konversation auf { $until } wieder bei.
 
