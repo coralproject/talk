@@ -39,6 +39,7 @@ error-tenantInstalledAlready = Tenant has already been installed.
 error-userNotEntitled = You are not authorized to access that resource.
 error-storyNotFound = Story ({$storyID}) not found.
 error-commentNotFound = Comment ({$commentID}) not found.
+error-commentRevisionNotFound = Comment ({ $commentID }) with revision ({ $commentRevisionID }) not found.
 error-invalidCredentials = Email and/or password combination incorrect.
 error-toxicComment = Are you sure? The language in this comment might violate our community guidelines. You can edit the comment or submit it for moderator review.
 error-spamComment = The language in this comment looks like spam. You can edit the comment or submit it anyway for moderator review.

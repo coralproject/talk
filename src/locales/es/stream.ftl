@@ -28,6 +28,13 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Alternar el consejo sobre comentarios resaltados
 
+comments-bannedInfo-bannedFromCommenting = Su cuenta ha sido bloqueada para poder comentar.
+comments-bannedInfo-violatedCommunityGuidelines =
+  Alguien con acceso a su cuenta ha violado nuestras directrices de la comunidad. 
+  Como resultado, su cuenta ha sido bloqueada. 
+  Ya no podrás comentar, respetar o reportar comentarios. Si usted piensa
+  que esto se ha hecho por error, póngase en contacto con nuestro equipo de la comunidad.
+
 comments-noCommentsYet = ¿No hay comentarios. Por qué no escribes uno?
 
 comments-streamQuery-storyNotFound = Historia no encontrada
@@ -299,10 +306,13 @@ comments-reportPopover-reportThisComment = Reportar este comentario
 comments-reportPopover-whyAreYouReporting = ¿Por qué estás reportando este comentario?
 
 comments-reportPopover-reasonOffensive = Este comentario es ofensivo
+comments-reportPopover-reasonAbusive = Este es un comportamiento abusivo
 comments-reportPopover-reasonIDisagree = No estoy de acuerdo con este comentario
 comments-reportPopover-reasonSpam = Esto parece un anuncio o marketing
 comments-reportPopover-reasonOther = Otro
 
+comments-reportPopover-additionalInformation =
+  Información Adicional <optional>Opcional</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
   Por favor, deje cualquier información adicional que pueda ser útil para nuestros moderadores. (Opcional)
 
@@ -406,3 +416,23 @@ comments-tombstone-ignore = Este comentario está escondido porque usted ha igno
 comments-tombstone-showComment = Mostrar comentario
 comments-tombstone-deleted =
   Este comentario ya no está disponible. El comentarista ha eliminado su cuenta.
+
+suspendInfo-heading =
+suspendInfo-heading-yourAccountHasBeen =
+  Su cuenta ha sido suspendida temporalmente para poder comentar
+suspendInfo-info =
+suspendInfo-description-inAccordanceWith =
+  De acuerdo con las directrices de la comunidad de { $organization }, tu
+  cuenta ha sido suspendida temporalmente. Mientras esté suspendida 
+  no podrás comentar, respetar o denunciar comentarios.
+suspendInfo-until-pleaseRejoinThe =
+  Vuelva a unirse a la conversación el { $until }
+
+warning-heading = Tu cuenta ha recibido una advertencia
+warning-explanation =
+  De acuerdo con nuestras pautas de la comunidad, se ha emitido una advertencia a su cuenta.
+warning-instructions =
+  Para continuar participando en las discusiones, presione el botón "Reconocer" a continuación.
+warning-acknowledge = Reconocer
+
+warning-notice = Su cuenta ha recibido una advertencia. Para continuar participando, <a> revise el mensaje de advertencia </a>.
