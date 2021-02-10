@@ -12,6 +12,10 @@ const defaultStyle: Partial<CSSStyleDeclaration> = {
   pointerEvents: "none",
 };
 
+/**
+ * This is used to generate the render targets.
+ * You can add more here.
+ */
 const renderTargetsConfig: Record<string, RenderTargetOptions> = {
   modal: {
     disableScroll: true,
@@ -62,6 +66,13 @@ function initRenderTargets(
   return result;
 }
 
+/**
+ * withRenderTargets creates and manages render targets as defined in
+ * `renderTargetsConfig`.
+ *
+ * @param url url to stream embed
+ * @param id id of stream embed
+ */
 const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
   const frames = initRenderTargets(url, id);
   const targetsDisablingScroll: string[] = [];
