@@ -54,6 +54,7 @@ const SortMenu: FunctionComponent<Props> = (props) => {
         onClick={onClickSelectField}
         fullWidth={props.fullWidth}
         classes={{
+          select: styles.select,
           selectFont: styles.selectFont,
           selectColor: styles.selectColor,
         }}
