@@ -97,7 +97,7 @@ resetPassword-resetPasswordButton = Passwort zurücksetzen
 
 ## Create Username
 
-createUsername-createUsernameHeader =
+createUsername-createUsernameHeader = Benutzername erstellen
 createUsername-createAUsername = Benutzername erstellen
 createUsername-whatItIs =
   Dein Benutzername wird bei all deinen Kommentaren angezeigt.
@@ -107,22 +107,22 @@ createUsername-createUsernameButton = Benutzername erstellen
 addEmailAddress-addEmailAddressHeader = Email Adresse hinzufügen
 
 addEmailAddress-whatItIs =
-  Zu deiner Sicherheit müsst du deinem Account eine Email Adresse hinzufügen.
-  Deine Email Adresse wird verwendet, damit du:
+  Zu deiner Sicherheit musst du deinem Account eine Email Adresse hinzufügen.
+  Deine Email Adresse wird verwendet, um:
 
 addEmailAddress-receiveUpdates =
-  Erhalte Updates bezüglich Änderungen an deinem Account
+  Updates bezüglich bezüglich Änderungen an deinem Account zu erhalten.
   (Email Adresse, Benutzername, Passwort, usw.)
 
 addEmailAddress-allowDownload =
-  Erlaube den Download deiner Kommentare.
+  Kommentare herunterzuladen.
 
 addEmailAddress-sendNotifications =
-  Senden von Kommentar-Benachrichtigungen, welche du ausgewählt hast,
+  Kommentar-Benachrichtigungen, welche du ausgewählt hast,
   zu erhalten.
 
 addEmailAddress-addEmailAddressButton =
-  Email Adresse hinzufügen.
+  Eine Email Adresse hinzufügen.
 
 ## Create Password
 createPassword-createPasswordHeader =

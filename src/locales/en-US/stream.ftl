@@ -69,7 +69,7 @@ comments-bannedInfo-bannedFromCommenting = Your account has been banned from com
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community
   guidelines. As a result, your account has been banned. You will no
-  longer be able to comment, respect or report comments. If you think
+  longer be able to comment, use reactions or report comments. If you think
   this has been done in error, please contact our community team.
 
 comments-noCommentsAtAll = There are no comments on this story.
@@ -768,7 +768,7 @@ suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   In accordance with { $organization }'s community guidelines your
   account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments.
+  be able to comment, use reactions or report comments.
 suspendInfo-until-pleaseRejoinThe =
   Please rejoin the conversation on { $until }
 
