@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -18,6 +19,7 @@ import { LiveStreamContainer_story } from "coral-stream/__generated__/LiveStream
 import { LiveStreamContainer_viewer } from "coral-stream/__generated__/LiveStreamContainer_viewer.graphql";
 import { LiveStreamContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveStreamContainerPaginationQuery.graphql";
 
+import AfterComments from "./AfterComments";
 import LiveCommentContainer from "./LiveComment";
 
 import styles from "./LiveStream.css";
@@ -27,6 +29,7 @@ interface Props {
   settings: LiveStreamContainer_settings;
   story: LiveStreamContainer_story;
   relay: RelayPaginationProp;
+  cursor: string;
 }
 
 const LiveStream: FunctionComponent<Props> = ({
@@ -34,14 +37,34 @@ const LiveStream: FunctionComponent<Props> = ({
   settings,
   story,
   relay,
+  cursor,
 }) => {
-  const before = story.before;
-  // const after = afterStory.after;
-  const beforeComments = before?.edges.map((e: { node: any }) => e.node) || [];
-  // const afterComments = after?.edges.map((e: { node: any }) => e.node) || [];
-
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const [scrollEnabled, setScrollEnabled] = useState(false);
+  const [scrollId, setScrollId] = useState<string | null>(null);
+
+  const beforeComments = useMemo(() => {
+    const before = story.before;
+    const comments = before?.edges.map((e: { node: any }) => e.node) || [];
+
+    return comments.slice().reverse();
+  }, [story]);
+
+  const beforeCommentsRender = useMemo(() => {
+    return (
+      <>
+        {beforeComments.map((c: any) => (
+          <div key={c.id}>
+            <LiveCommentContainer
+              comment={c}
+              viewer={viewer}
+              settings={settings}
+            />
+          </div>
+        ))}
+      </>
+    );
+  }, [beforeComments, settings, viewer]);
 
   const containerRef = useRef(null);
   const beginRef = useRef(null);
@@ -56,15 +79,47 @@ const LiveStream: FunctionComponent<Props> = ({
     const containerRect = (container as any).getBoundingClientRect();
     const beginRect = (begin as any).getBoundingClientRect();
 
-    if (containerRect.y - beginRect.y < 100 && !isLoadingMore) {
+    if (
+      containerRect.y - beginRect.y < 100 &&
+      !isLoadingMore &&
+      scrollEnabled
+    ) {
+      if (beforeComments.length > 0) {
+        setScrollId(`comment-${beforeComments[0].id}`);
+      }
+
       try {
+        setScrollEnabled(false);
         await loadMore();
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+
+        setTimeout(() => {
+          if (scrollId) {
+            const el = document.getElementById(scrollId);
+
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              (container as any).scrollTo(0, rect.top);
+            }
+
+            setScrollEnabled(true);
+            setScrollId(null);
+          }
+        }, 500);
+      } catch (err) {
+        // ignore
       }
     }
-  }, [beginRef, containerRef, scrollEnabled, isLoadingMore, loadMore]);
+  }, [
+    beforeComments,
+    beginRef,
+    containerRef,
+    scrollEnabled,
+    setScrollEnabled,
+    scrollId,
+    setScrollId,
+    isLoadingMore,
+    loadMore,
+  ]);
 
   const endRef = useRef(null);
   useEffect(() => {
@@ -87,27 +142,13 @@ const LiveStream: FunctionComponent<Props> = ({
       ref={containerRef}
     >
       <div ref={beginRef} />
-      {beforeComments
-        .slice()
-        .reverse()
-        .map((c: any) => (
-          <div key={c.id}>
-            <LiveCommentContainer
-              comment={c}
-              viewer={viewer}
-              settings={settings}
-            />
-          </div>
-        ))}
-      {/* {afterComments.map((c: any) => (
-        <div key={c.id}>
-          <LiveCommentContainer
-            comment={c}
-            viewer={viewer}
-            settings={settings}
-          />
-        </div>
-      ))} */}
+      {beforeCommentsRender}
+      <AfterComments
+        story={story}
+        viewer={viewer}
+        settings={settings}
+        cursor={cursor}
+      />
       <div ref={endRef} />
     </div>
   );
@@ -148,16 +189,19 @@ const enhanced = withPaginationContainer<
             hasNextPage
           }
         }
+        ...AfterCommentsContainer_story
       }
     `,
     viewer: graphql`
       fragment LiveStreamContainer_viewer on User {
         ...LiveCommentContainer_viewer
+        ...AfterCommentsContainer_viewer
       }
     `,
     settings: graphql`
       fragment LiveStreamContainer_settings on Settings {
         ...LiveCommentContainer_settings
+        ...AfterCommentsContainer_settings
       }
     `,
   },
@@ -165,10 +209,14 @@ const enhanced = withPaginationContainer<
     getConnectionFromProps({ story }) {
       return story && story.before;
     },
-    getVariables({ story }, { count, cursor }, fragmentVariables) {
+    getVariables(
+      { story, cursor },
+      { count, cursor: paginationCursor = cursor },
+      fragmentVariables
+    ) {
       return {
         count,
-        cursor,
+        cursor: paginationCursor,
         includeBefore: true,
         includeAfter: true,
         storyID: story.id,

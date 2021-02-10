@@ -50,6 +50,7 @@ const LiveTabQuery: FunctionComponent = () => {
             story={data.props.story}
             viewer={data.props.viewer}
             settings={data.props.settings}
+            cursor={new Date().toISOString()}
           />
         );
       }}
