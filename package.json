@@ -447,7 +447,7 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "15 kB"
+      "maxSize": "17 kB"
     },
     {
       "path": "./dist/static/assets/js/count.js",
