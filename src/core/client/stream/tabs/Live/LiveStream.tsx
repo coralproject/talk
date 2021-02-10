@@ -41,7 +41,6 @@ const LiveStream: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const [scrollEnabled, setScrollEnabled] = useState(false);
-  const [scrollId, setScrollId] = useState<string | null>(null);
 
   const beforeComments = useMemo(() => {
     const before = story.before;
@@ -68,6 +67,26 @@ const LiveStream: FunctionComponent<Props> = ({
 
   const containerRef = useRef(null);
   const beginRef = useRef(null);
+
+  const scrollToID = useCallback(
+    (id: string) => {
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+
+      if (id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView();
+        }
+
+        setScrollEnabled(true);
+      }
+    },
+    [containerRef, setScrollEnabled]
+  );
+
   const onScroll = useCallback(async () => {
     const container = containerRef.current;
     const begin = beginRef.current;
@@ -81,44 +100,32 @@ const LiveStream: FunctionComponent<Props> = ({
 
     if (
       containerRect.y - beginRect.y < 100 &&
+      relay.hasMore() &&
       !isLoadingMore &&
       scrollEnabled
     ) {
-      if (beforeComments.length > 0) {
-        setScrollId(`comment-${beforeComments[0].id}`);
-      }
-
       try {
         setScrollEnabled(false);
         await loadMore();
 
-        setTimeout(() => {
-          if (scrollId) {
-            const el = document.getElementById(scrollId);
+        if (beforeComments.length > 0) {
+          const id = `comment-${beforeComments[0].__id}`;
 
-            if (el) {
-              const rect = el.getBoundingClientRect();
-              (container as any).scrollTo(0, rect.top);
-            }
-
-            setScrollEnabled(true);
-            setScrollId(null);
-          }
-        }, 500);
+          window.requestAnimationFrame(() => {
+            scrollToID(id);
+          });
+        }
       } catch (err) {
         // ignore
       }
     }
   }, [
-    beforeComments,
-    beginRef,
-    containerRef,
     scrollEnabled,
-    setScrollEnabled,
-    scrollId,
-    setScrollId,
+    relay,
     isLoadingMore,
     loadMore,
+    beforeComments,
+    scrollToID,
   ]);
 
   const endRef = useRef(null);
