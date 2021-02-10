@@ -22,8 +22,8 @@ function extractBundleConfig() {
 }
 
 async function main() {
-  const { modal, footer } = parseQuery(location.search);
-  if (modal || footer) {
+  const { renderTarget } = parseQuery(location.search);
+  if (renderTarget) {
     // Load any polyfills that are required.
     await injectConditionalPolyfills(window, getBrowserInfo(window));
     window.document.body.style.background = "transparent";

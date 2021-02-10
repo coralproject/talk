@@ -34,7 +34,7 @@ function createRenderTarget(
   options: RenderTargetOptions
 ): HTMLIFrameElement {
   const frame = document.createElement("iframe");
-  frame.src = url + "&modal=true";
+  frame.src = url + "&renderTarget=true";
   frame.id = name;
   frame.name = name;
   (frame as any).allowTransparency = "true";
