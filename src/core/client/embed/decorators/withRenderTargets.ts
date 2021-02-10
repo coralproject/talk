@@ -77,6 +77,22 @@ const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
   const frames = initRenderTargets(url, id);
   const targetsDisablingScroll: string[] = [];
 
+  if (!document.getElementById("coral-embed-style")) {
+    const headElements = document.getElementsByTagName("head");
+    if (headElements.length > 0) {
+      const head = headElements[0];
+      const style = document.createElement("style");
+      style.id = "coral-embed-style";
+      style.type = "text/css";
+      style.innerHTML =
+        "body.coralBodyNoScroll { overflow: hidden; !important }";
+      head.appendChild(style);
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn("Coral: Head Element was not found.");
+    }
+  }
+
   // Listen to frame actions.
   pym.onMessage("renderTargetAction", (raw: string) => {
     const { action, target } = JSON.parse(raw);

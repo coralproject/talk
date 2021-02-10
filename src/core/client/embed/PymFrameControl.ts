@@ -36,22 +36,6 @@ export default class PymFrameControl implements FrameControl {
 
     const name = `${this.id}_iframe`;
 
-    if (!document.getElementById("coral-embed-style")) {
-      const headElements = document.getElementsByTagName("head");
-      if (headElements.length > 0) {
-        const head = headElements[0];
-        const style = document.createElement("style");
-        style.id = "coral-embed-style";
-        style.type = "text/css";
-        style.innerHTML =
-          "body.coralBodyNoScroll { overflow: hidden; !important }";
-        head.appendChild(style);
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn("Coral: Head Element was not found.");
-      }
-    }
-
     // Create the new pym.Parent that when created will create the iFrame.
     const parent = new pym.Parent(this.id, this.url, {
       title: this.title,
