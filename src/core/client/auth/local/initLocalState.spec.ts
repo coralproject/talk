@@ -15,6 +15,8 @@ let source: RecordSource;
 const context = {
   localStorage: window.localStorage,
   sessionStorage: window.sessionStorage,
+  window,
+  renderWindow: window,
 };
 
 beforeEach(() => {

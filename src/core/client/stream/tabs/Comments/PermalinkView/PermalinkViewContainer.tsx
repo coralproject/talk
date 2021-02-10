@@ -85,7 +85,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const showAllCommentsHref = useMemo(() => {
     const url = pym?.parentUrl || window.location.href;
     return getURLWithCommentID(url, undefined);
-  }, [pym]);
+  }, [pym?.parentUrl, window.location.href]);
 
   const commentVisible = comment && isPublished(comment.status);
 

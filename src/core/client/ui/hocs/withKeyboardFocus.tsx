@@ -64,9 +64,10 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
     };
 
     public render() {
+      const { window, ...rest } = this.props;
       return (
         <Workaround
-          {...this.props}
+          {...rest}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           keyboardFocus={this.state.keyboardFocus}
@@ -75,7 +76,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
     }
   }
 
-  return withUIContext(({ window }) => ({ window }))(
+  return withUIContext(({ renderWindow }) => ({ window: renderWindow }))(
     WithKeyboardFocus as React.ComponentClass<any>
   );
 });

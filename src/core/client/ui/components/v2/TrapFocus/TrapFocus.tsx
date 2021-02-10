@@ -60,5 +60,7 @@ export class TrapFocus extends React.Component<TrapFocusProps> {
   }
 }
 
-const enhanced = withUIContext(({ window }) => ({ window }))(TrapFocus);
+const enhanced = withUIContext(({ renderWindow }) => ({
+  window: renderWindow,
+}))(TrapFocus);
 export default enhanced;

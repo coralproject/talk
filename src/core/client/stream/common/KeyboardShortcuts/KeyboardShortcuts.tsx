@@ -94,7 +94,7 @@ const findPreviousElement = (
 };
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
-  const { pym, window } = useCoralContext();
+  const { pym, renderWindow } = useCoralContext();
   useEffect(() => {
     if (!pym) {
       return;
@@ -128,9 +128,9 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
 
       let stop: KeyStop | null = null;
       if (data.shiftKey && data.key === "C") {
-        stop = findPreviousElement(currentStop, window);
+        stop = findPreviousElement(currentStop, renderWindow);
       } else if (data.key === "c") {
-        stop = findNextElement(currentStop, window);
+        stop = findNextElement(currentStop, renderWindow);
       }
 
       if (!stop) {
@@ -147,13 +147,13 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
     };
 
     const unsubscribe = onPymMessage(pym, "keypress", handle);
-    window.addEventListener("keypress", handle);
+    renderWindow.addEventListener("keypress", handle);
 
     return () => {
       unsubscribe();
-      window.removeEventListener("keypress", handle);
+      renderWindow.removeEventListener("keypress", handle);
     };
-  }, [pym, window]);
+  }, [pym, renderWindow]);
 
   return null;
 };

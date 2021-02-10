@@ -132,6 +132,7 @@ export default function createTestRenderer<
       refreshToken: () => "",
     },
     window,
+    renderWindow: window,
   };
 
   let testRenderer: ReactTestRenderer;

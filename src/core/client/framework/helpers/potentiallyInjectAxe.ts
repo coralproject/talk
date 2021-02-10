@@ -47,7 +47,7 @@ export default async function potentiallyInjectAxe(
     rules: [
       {
         id: "page-has-heading-one",
-        enabled: !areWeInIframe(),
+        enabled: !areWeInIframe(window),
       },
       {
         id: "html-has-lang",

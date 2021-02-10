@@ -93,6 +93,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
     refreshViewer,
     removeCommentReaction,
     showAuthPopup,
+    window.document,
   ]);
 
   const {

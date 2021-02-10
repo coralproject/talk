@@ -18,7 +18,7 @@ import { RefreshTokenHandlerAuthControlQuery } from "coral-stream/__generated__/
 import {
   ShowAuthPopupMutation,
   waitTillAuthPopupIsClosed,
-} from "../common/AuthPopup";
+} from "../../common/AuthPopup";
 import getPymRefreshAccessToken from "./getPymRefreshAccessToken";
 
 const authControlQuery = graphql`

@@ -245,6 +245,8 @@ export class Popup extends Component<PopupProps> {
   }
 }
 
-const enhanced = withUIContext(({ window }) => ({ window }))(Popup);
+const enhanced = withUIContext(({ renderWindow }) => ({
+  window: renderWindow,
+}))(Popup);
 
 export default enhanced;

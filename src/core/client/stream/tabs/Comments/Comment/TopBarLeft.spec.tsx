@@ -15,6 +15,7 @@ it("renders correctly on small screens", () => {
     mediaQueryValues: {
       width: 320,
     },
+    renderWindow: window,
   };
 
   const testRenderer = TestRenderer.create(
@@ -34,6 +35,7 @@ it("renders correctly on big screens", () => {
     mediaQueryValues: {
       width: 1600,
     },
+    renderWindow: window,
   };
 
   const testRenderer = TestRenderer.create(

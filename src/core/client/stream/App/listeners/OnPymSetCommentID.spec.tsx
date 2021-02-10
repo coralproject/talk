@@ -35,6 +35,7 @@ it("Sets comment id", () => {
       },
     } as any,
     relayEnvironment,
+    window,
   };
   createRenderer().render(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
@@ -51,6 +52,7 @@ it("Sets comment id to null when empty", () => {
       },
     } as any,
     relayEnvironment,
+    window,
   };
   createRenderer().render(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);

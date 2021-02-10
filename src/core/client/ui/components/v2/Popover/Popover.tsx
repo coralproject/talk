@@ -137,6 +137,7 @@ class Popover extends React.Component<PopoverProps> {
       modifiers,
       eventsEnabled,
       dark,
+      window,
       ...rest
     } = this.props;
 
@@ -214,7 +215,7 @@ class Popover extends React.Component<PopoverProps> {
 }
 
 const enhanced = withStyles(styles)(
-  withUIContext(({ window }) => ({ window }))(Popover)
+  withUIContext(({ renderWindow }) => ({ window: renderWindow }))(Popover)
 );
 
 export default enhanced;

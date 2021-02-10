@@ -1,11 +1,5 @@
 import cn from "classnames";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import ReactDOM from "react-dom";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
@@ -13,38 +7,9 @@ import { PropTypesOf } from "coral-ui/types";
 import Backdrop from "../Backdrop";
 import NoScroll from "../NoScroll";
 import TrapFocus from "../TrapFocus";
-import { useUIContext } from "../UIContext";
+import Portal from "./Portal";
 
 import styles from "./Modal.css";
-
-function appendDivNode(window: Window) {
-  const div = window.document.createElement("div");
-  window.document.body.append(div);
-  div.setAttribute("data-portal", "modal");
-  return div;
-}
-
-/**
- * useDOMNode is a React hook that returns a DOM node
- * to be used as a portal for the modal.
- *
- * @param open whether the modal is open or not.
- */
-function useDOMNode(window: Window, open: boolean) {
-  const [modalDOMNode, setModalDOMNode] = useState<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (open) {
-      const node = appendDivNode(window);
-      setModalDOMNode(node);
-      return () => {
-        node.parentElement!.removeChild(node);
-        setModalDOMNode(null);
-      };
-    }
-    return;
-  }, [open, window]);
-  return modalDOMNode;
-}
 
 export interface ModalProps {
   onClose?: (
@@ -61,9 +26,10 @@ export interface ModalProps {
   open?: boolean;
   children?: PropTypesOf<typeof TrapFocus>["children"];
   disableScroll?: boolean;
+  PortalElement?: React.ReactElement;
 }
 
-const Modal: FunctionComponent<ModalProps> = ({
+export const Modal: FunctionComponent<ModalProps> = ({
   classes,
   open,
   onClose,
@@ -72,12 +38,11 @@ const Modal: FunctionComponent<ModalProps> = ({
   onEscapeKeyDown,
   children,
   disableScroll = false,
+  PortalElement,
   ...rest
 }) => {
-  const { window } = useUIContext();
   const rootClassName = cn(classes.root, className);
 
-  const modalDOMNode = useDOMNode(window, Boolean(open));
   const handleEscapeKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.keyCode === 27) {
@@ -103,15 +68,11 @@ const Modal: FunctionComponent<ModalProps> = ({
     [onBackdropClick, onClose]
   );
 
-  if (open && modalDOMNode) {
-    return ReactDOM.createPortal(
+  if (open) {
+    const content = (
       <div role="dialog" className={rootClassName} {...rest}>
-        <NoScroll active={open} />
-        <Backdrop
-          active={open}
-          data-testid="backdrop"
-          onClick={handleBackdropClick}
-        />
+        <NoScroll active />
+        <Backdrop active data-testid="backdrop" onClick={handleBackdropClick} />
         <div
           role="presentation"
           className={cn(
@@ -128,11 +89,18 @@ const Modal: FunctionComponent<ModalProps> = ({
             </div>
           </div>
         </div>
-      </div>,
-      modalDOMNode
+      </div>
     );
+    if (!PortalElement) {
+      return content;
+    }
+    return React.cloneElement(PortalElement, { children: content });
   }
   return null;
+};
+
+Modal.defaultProps = {
+  PortalElement: <Portal />,
 };
 
 const enhanced = withStyles(styles)(Modal);

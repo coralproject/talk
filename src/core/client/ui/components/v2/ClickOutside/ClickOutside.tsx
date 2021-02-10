@@ -89,11 +89,11 @@ const ClickOutsideWithContext: FunctionComponent<ClickOutsideProps> = (
   props
 ) => (
   <UIContext.Consumer>
-    {({ registerClickFarAway, window }) => (
+    {({ registerClickFarAway, renderWindow }) => (
       <ClickOutside
         {...props}
         registerClickFarAway={registerClickFarAway}
-        window={window}
+        window={renderWindow}
       />
     )}
   </UIContext.Consumer>

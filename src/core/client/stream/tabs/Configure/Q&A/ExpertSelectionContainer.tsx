@@ -96,6 +96,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     setSearchFilter("");
   }, [setSearchFilter, setTempSearchFilter]);
 
+  // TODO: (cvle) Use <OnClickOutside> component.
   const onClickOutside = useCallback(
     (e: any) => {
       if (

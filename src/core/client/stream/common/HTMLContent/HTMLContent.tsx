@@ -79,7 +79,7 @@ function registerSpoilerTagHandler(window: Window) {
   };
 }
 
-function transform(window: Window, source: string | Node) {
+export function transform(window: Window, source: string | Node) {
   // Sanitize source.
   const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(window, source);
 

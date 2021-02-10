@@ -29,6 +29,7 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
+import areWeInIframe from "coral-framework/utils/areWeInIframe";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
@@ -123,17 +124,6 @@ export const timeagoFormatter: Formatter = (value, unit, suffix) => {
     </Localized>
   );
 };
-
-/**
- * Returns true if we are in an iframe.
- */
-function areWeInIframe() {
-  try {
-    return window.self !== window.top;
-  } catch (e) {
-    return true;
-  }
-}
 
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
@@ -297,7 +287,7 @@ function createManagedCoralContextProvider(
  * resolveLocalStorage decides which local storage to use in the context
  */
 function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe()) {
+  if (pym && areWeInIframe(window)) {
     // Use local storage over pym when we have pym and are in an iframe.
     return createPymStorage(pym, "localStorage");
   }
@@ -309,7 +299,7 @@ function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
  * resolveSessionStorage decides which session storage to use in the context
  */
 function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe()) {
+  if (pym && areWeInIframe(window)) {
     // Use session storage over pym when we have pym and are in an iframe.
     return createPymStorage(pym, "sessionStorage");
   }
@@ -422,6 +412,7 @@ export default async function createManaged({
     changeLocale: (locale?: LanguageCode) => Promise.resolve(),
     tokenRefreshProvider,
     window,
+    renderWindow: window,
   };
 
   // Initialize local state.

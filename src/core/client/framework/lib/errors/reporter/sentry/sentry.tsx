@@ -5,7 +5,12 @@ import React, { FunctionComponent } from "react";
 import { ensureNoStartSlash, getOrigin } from "coral-common/utils";
 import supportedBrowsersRegExp from "coral-framework/helpers/supportedBrowsersRegExp";
 
-import { ErrorReport, ErrorReporter, User } from "../reporter";
+import {
+  ErrorReport,
+  ErrorReporter,
+  ErrorReporterScope,
+  User,
+} from "../reporter";
 import { FakeDebugTransport } from "./fakeDebugTransport";
 
 declare const __webpack_public_path__: string;
@@ -104,7 +109,7 @@ export class SentryErrorReporter implements ErrorReporter {
     }
   }
 
-  public report(err: any): ErrorReport {
+  public report(err: any, scope: ErrorReporterScope = {}): ErrorReport {
     // Turn to error to have stacktrace information.
     if (typeof err === "string") {
       err = new Error(err);
@@ -114,7 +119,17 @@ export class SentryErrorReporter implements ErrorReporter {
     Sentry.setTag("domain", window.location.host);
 
     // Capture and report the error to Sentry.
-    const id = Sentry.captureException(err);
+    const contexts: Record<string, Record<string, unknown>> = {};
+    if (scope.componentStack) {
+      // Like how Sentry does: https://github.com/getsentry/sentry-javascript/blob/master/packages/react/src/errorboundary.tsx
+      contexts.react = {
+        componentStack: scope.componentStack,
+      };
+    }
+
+    const id = Sentry.captureException(err, {
+      contexts,
+    });
 
     if (process.env.NODE_ENV !== "production") {
       // eslint-disable-next-line no-console

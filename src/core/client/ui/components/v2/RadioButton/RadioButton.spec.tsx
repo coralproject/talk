@@ -3,6 +3,7 @@ import TestRenderer from "react-test-renderer";
 
 import { PropTypesOf } from "coral-ui/types";
 
+import UIContext, { UIContextProps } from "../UIContext";
 import RadioButton from "./RadioButton";
 
 it("renders correctly", () => {
@@ -13,6 +14,13 @@ it("renders correctly", () => {
     value: "true",
     children: "Yes I agree",
   };
-  const renderer = TestRenderer.create(<RadioButton {...props} />);
-  expect(renderer.toJSON()).toMatchSnapshot();
+  const context: UIContextProps = {
+    renderWindow: window,
+  };
+  const testRenderer = TestRenderer.create(
+    <UIContext.Provider value={context}>
+      {<RadioButton {...props} />}
+    </UIContext.Provider>
+  );
+  expect(testRenderer.toJSON()).toMatchSnapshot();
 });

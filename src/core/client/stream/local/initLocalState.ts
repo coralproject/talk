@@ -55,7 +55,7 @@ const initLocalState: InitLocalState = async ({
   staticConfig,
   ...rest
 }) => {
-  const config = await getExternalConfig(context.pym);
+  const config = await getExternalConfig(context.window, context.pym);
   if (config) {
     if (config.accessToken) {
       // Access tokens passed via the config should not be persisted.

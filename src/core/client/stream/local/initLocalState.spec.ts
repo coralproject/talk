@@ -25,6 +25,8 @@ beforeEach(() => {
 it("init local state", async () => {
   const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
+    window,
+    renderWindow: window,
   };
   await initLocalState({ environment, context: context as any });
   await waitFor();
@@ -47,6 +49,8 @@ it("set storyID from query", async () => {
 it("set commentID from query", async () => {
   const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
+    window,
+    renderWindow: window,
   };
   const commentID = "comment-id";
   const restoreHistoryLocation = replaceHistoryLocation(

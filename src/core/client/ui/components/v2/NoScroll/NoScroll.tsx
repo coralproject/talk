@@ -13,12 +13,12 @@ interface Props {
 let instances = 0;
 
 const NoScroll: FunctionComponent<Props> = ({ active }) => {
-  const { window } = useUIContext();
+  const { renderWindow } = useUIContext();
   useEffect(() => {
     if (active) {
       if (instances++ === 0) {
         // Add className.
-        window.document.body.className = window.document.body.className
+        renderWindow.document.body.className = renderWindow.document.body.className
           .split(/\s+/)
           .filter((s) => s)
           .concat(styles.noScroll)
@@ -29,7 +29,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
       return () => {
         if (--instances === 0) {
           // Remove className.
-          window.document.body.className = window.document.body.className
+          renderWindow.document.body.className = renderWindow.document.body.className
             .split(/\s+/)
             .filter((s) => s && s !== styles.noScroll)
             .join(" ");
@@ -37,7 +37,7 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
       };
     }
     return;
-  }, [active, window]);
+  }, [active, renderWindow]);
   return null;
 };
 
