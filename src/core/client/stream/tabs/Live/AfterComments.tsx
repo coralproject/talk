@@ -92,7 +92,7 @@ const enhanced = withPaginationContainer<
   },
   {
     getConnectionFromProps({ story }) {
-      return story && story.before;
+      return story && story.after;
     },
     getVariables(
       { story, cursor },
