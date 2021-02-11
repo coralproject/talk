@@ -301,7 +301,15 @@ export default (ctx: GraphContext) => ({
     }).then(primeCommentsFromConnection(ctx)),
   forStory: async (
     storyID: string,
-    { first, orderBy, after, tag, rating, flatten }: StoryToCommentsArgs
+    {
+      first,
+      orderBy,
+      after,
+      tag,
+      rating,
+      flatten,
+      inclusive,
+    }: StoryToCommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -312,6 +320,7 @@ export default (ctx: GraphContext) => ({
       first: defaultTo(first, 10),
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
+      inclusive: defaultTo(inclusive, false),
       filter: {
         ...tagFilter(tag),
         ...ratingFilter(ctx.tenant, story, rating),

@@ -3771,6 +3771,12 @@ type Story @cacheControl(maxAge: 30) {
     When true, this edge will return all comments regardless of reply depth.
     """
     flatten: Boolean
+
+    """
+    When true, will include the cursor value in the returned edges. This
+    currently only supports date ordered sorts.
+    """
+    inclusive: Boolean
   ): CommentsConnection!
 
   """

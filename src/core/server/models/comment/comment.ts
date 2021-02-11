@@ -706,13 +706,21 @@ function applyInputToQuery(
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ createdAt: -1 });
       if (input.after) {
-        query.where({ createdAt: { $lt: input.after as Date } });
+        if (input.inclusive) {
+          query.where({ createdAt: { $lte: input.after as Date } });
+        } else {
+          query.where({ createdAt: { $lt: input.after as Date } });
+        }
       }
       return query;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
-        query.where({ createdAt: { $gt: input.after as Date } });
+        if (input.inclusive) {
+          query.where({ createdAt: { $gte: input.after as Date } });
+        } else {
+          query.where({ createdAt: { $gt: input.after as Date } });
+        }
       }
       return query;
     case GQLCOMMENT_SORT.REPLIES_DESC:
