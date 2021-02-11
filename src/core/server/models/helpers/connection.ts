@@ -38,6 +38,12 @@ export interface ConnectionInput<T> {
    * filter is an optional query that can be used to constrain the result set.
    */
   filter?: FilterQuery<T>;
+
+  /**
+   * inclusive will optionally include the cursor value in the result set for
+   * supported connection.
+   */
+  inclusive?: boolean;
 }
 
 export interface OrderedConnectionInput<T, U> extends ConnectionInput<T> {
