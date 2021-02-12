@@ -31,7 +31,6 @@ import {
   OnChangeHandler,
   OnSubmitHandler,
 } from "coral-stream/tabs/Comments/Stream/CommentForm/CommentForm";
-import { CreateCommentMutation } from "coral-stream/tabs/Comments/Stream/PostCommentForm/CreateCommentMutation";
 import PostCommentForm from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentForm";
 import PostCommentFormClosed from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosed";
 import PostCommentFormClosedSitewide from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosedSitewide";
@@ -49,6 +48,8 @@ import { LivePostCommentFormContainer_story } from "coral-stream/__generated__/L
 import { LivePostCommentFormContainer_viewer } from "coral-stream/__generated__/LivePostCommentFormContainer_viewer.graphql";
 import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
+import { LiveCreateCommentMutation } from "./LiveCreateCommentMutation";
+
 interface Props {
   settings: LivePostCommentFormContainer_settings;
   viewer: LivePostCommentFormContainer_viewer | null;
@@ -64,7 +65,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
 }) => {
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
-  const createComment = useMutation(CreateCommentMutation);
+  const createComment = useMutation(LiveCreateCommentMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
 
   // keepFormWhenClosed controls the display state when the commenting has been
@@ -105,11 +106,10 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         nudge,
         commentsOrderBy,
         body: input.body,
-        rating: input.rating,
         media: input.media,
       });
 
-      const status = getSubmitStatus(response);
+      const status = getSubmitStatus(response as any);
 
       if (status !== "RETRY") {
         // We've submitted the comment, and it returned with a non-retry status,

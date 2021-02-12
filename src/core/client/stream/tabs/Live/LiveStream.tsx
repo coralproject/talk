@@ -166,7 +166,7 @@ const LiveStream: FunctionComponent<Props> = ({
         settings={settings}
         story={story}
         viewer={viewer}
-        commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_DESC}
+        commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
       />
     </>
   );
