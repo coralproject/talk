@@ -209,6 +209,11 @@ export function mountClientRoutes(
     })
   );
 
+  router.use("/embed", (req, res, next) => {
+    res.set("Cross-Origin-Opener-Policy", "same-origin");
+    next();
+  });
+
   // Add the embed targets.
   router.use(
     "/embed/stream/amp",
