@@ -109,7 +109,7 @@ const LiveStream: FunctionComponent<Props> = ({
         await loadMore();
 
         if (beforeComments.length > 0) {
-          const id = `comment-${beforeComments[0].__id}`;
+          const id = `comment-${beforeComments[0].id}`;
 
           window.requestAnimationFrame(() => {
             scrollToID(id);
@@ -143,21 +143,23 @@ const LiveStream: FunctionComponent<Props> = ({
   }, [endRef, setScrollEnabled]);
 
   return (
-    <div
-      className={styles.streamContainer}
-      onScroll={onScroll}
-      ref={containerRef}
-    >
-      <div ref={beginRef} />
-      {beforeCommentsRender}
-      <AfterComments
-        story={story}
-        viewer={viewer}
-        settings={settings}
-        cursor={cursor}
-      />
-      <div ref={endRef} />
-    </div>
+    <>
+      <div
+        className={styles.streamContainer}
+        onScroll={onScroll}
+        ref={containerRef}
+      >
+        <div ref={beginRef} />
+        {beforeCommentsRender}
+        <AfterComments
+          story={story}
+          viewer={viewer}
+          settings={settings}
+          cursor={cursor}
+        />
+        <div ref={endRef} />
+      </div>
+    </>
   );
 };
 
@@ -188,6 +190,7 @@ const enhanced = withPaginationContainer<
           edges {
             cursor
             node {
+              id
               ...LiveCommentContainer_comment
             }
           }
@@ -197,18 +200,21 @@ const enhanced = withPaginationContainer<
           }
         }
         ...AfterCommentsContainer_story
+        ...PostCommentFormContainer_story
       }
     `,
     viewer: graphql`
       fragment LiveStreamContainer_viewer on User {
         ...LiveCommentContainer_viewer
         ...AfterCommentsContainer_viewer
+        ...PostCommentFormContainer_viewer
       }
     `,
     settings: graphql`
       fragment LiveStreamContainer_settings on Settings {
         ...LiveCommentContainer_settings
         ...AfterCommentsContainer_settings
+        ...PostCommentFormContainer_settings
       }
     `,
   },

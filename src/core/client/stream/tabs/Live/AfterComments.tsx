@@ -69,6 +69,7 @@ const enhanced = withPaginationContainer<
           edges {
             cursor
             node {
+              id
               ...LiveCommentContainer_comment
             }
           }
