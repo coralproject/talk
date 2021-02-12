@@ -153,6 +153,7 @@ const LiveStream: FunctionComponent<Props> = ({
       >
         <div ref={beginRef} />
         {beforeCommentsRender}
+        <div>-- BEFORE/AFTER --</div>
         <AfterComments
           story={story}
           viewer={viewer}
@@ -194,6 +195,7 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: CREATED_AT_DESC
           first: $count
+          inclusive: true
         ) @connection(key: "Chat_before", filters: ["orderBy"]) {
           edges {
             cursor
@@ -207,7 +209,7 @@ const enhanced = withPaginationContainer<
             hasNextPage
           }
         }
-        ...AfterCommentsContainer_story
+        ...AfterCommentsContainer_story @arguments(cursor: $cursor)
         ...LivePostCommentFormContainer_story
       }
     `,
