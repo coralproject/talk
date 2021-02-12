@@ -43,7 +43,7 @@ import { ReplyListContainerLastFlattened_story } from "coral-stream/__generated_
 import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 
-import { isPublished, useStaticFlattenReplies } from "../helpers";
+import { isPublished, useStaticFlattenReplies } from "../../shared/helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";

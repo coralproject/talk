@@ -3,10 +3,10 @@ import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { ReactionButtonContainer } from "coral-stream/shared/ReactionButton";
+import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import ReportFlowContainer, {
   ReportButton,
-} from "coral-stream/shared/ReportFlow";
+} from "coral-stream/tabs/shared/ReportFlow";
 import { Divider } from "coral-ui/components/v2";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";

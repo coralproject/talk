@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { RefreshSettingsFetchQuery as QueryTypes } from "coral-stream/__generated__/RefreshSettingsFetchQuery.graphql";
-import { lookupFlattenReplies } from "./helpers";
+import { lookupFlattenReplies } from "../shared/helpers";
 
 const RefreshSettingsFetch = createFetch(
   "refreshSettings",

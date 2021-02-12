@@ -19,7 +19,7 @@ import {
   determineDepthTillAncestor,
   getFlattenedReplyAncestorID,
   lookupFlattenReplies,
-} from "../../helpers";
+} from "../../../shared/helpers";
 
 function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,

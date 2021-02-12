@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { getHTMLCharacterLength } from "../helpers";
+import { getHTMLCharacterLength } from "../../shared/helpers";
 import RemainingCharacters from "./RemainingCharacters";
 
 interface Props {

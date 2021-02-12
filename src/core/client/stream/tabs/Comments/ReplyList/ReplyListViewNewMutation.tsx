@@ -6,7 +6,7 @@ import {
   createMutation,
 } from "coral-framework/lib/relay";
 import { ShowMoreRepliesEvent } from "coral-stream/events";
-import { incrementStoryCommentCounts } from "../helpers";
+import { incrementStoryCommentCounts } from "../../shared/helpers";
 
 interface ReplyListViewNewMutationInput {
   storyID: string;

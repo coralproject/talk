@@ -27,7 +27,7 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { getCommentBodyValidators } from "../../helpers";
+import { getCommentBodyValidators } from "../../../shared/helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
 import { RTELocalized } from "../../RTE/RTE";
