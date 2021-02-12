@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
@@ -16,6 +16,10 @@ const LiveTabQuery: FunctionComponent = () => {
     }
   `);
 
+  const cursor = useMemo(() => {
+    return new Date().toISOString();
+  }, []);
+
   if (!storyURL) {
     return null;
   }
@@ -23,7 +27,7 @@ const LiveTabQuery: FunctionComponent = () => {
   return (
     <QueryRenderer<LiveTabQuery>
       query={graphql`
-        query LiveTabQuery($storyID: ID, $storyURL: String!) {
+        query LiveTabQuery($storyID: ID, $storyURL: String!, $cursor: Cursor) {
           viewer {
             ...LiveStreamContainer_viewer
           }
@@ -32,13 +36,14 @@ const LiveTabQuery: FunctionComponent = () => {
           }
           story: stream(id: $storyID, url: $storyURL) {
             id
-            ...LiveStreamContainer_story
+            ...LiveStreamContainer_story @arguments(cursor: $cursor)
           }
         }
       `}
       variables={{
         storyID,
         storyURL,
+        cursor,
       }}
       render={(data) => {
         if (!data || !data.props || !data.props.story) {
@@ -50,7 +55,7 @@ const LiveTabQuery: FunctionComponent = () => {
             story={data.props.story}
             viewer={data.props.viewer}
             settings={data.props.settings}
-            cursor={new Date().toISOString()}
+            cursor={cursor}
           />
         );
       }}
