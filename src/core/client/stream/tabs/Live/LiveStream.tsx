@@ -12,6 +12,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 
 import { LiveStreamContainer_settings } from "coral-stream/__generated__/LiveStreamContainer_settings.graphql";
@@ -21,6 +22,7 @@ import { LiveStreamContainerPaginationQueryVariables } from "coral-stream/__gene
 
 import AfterComments from "./AfterComments";
 import LiveCommentContainer from "./LiveComment";
+import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveStream.css";
 
@@ -159,6 +161,12 @@ const LiveStream: FunctionComponent<Props> = ({
         />
         <div ref={endRef} />
       </div>
+      <LivePostCommentFormContainer
+        settings={settings}
+        story={story}
+        viewer={viewer}
+        commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_DESC}
+      />
     </>
   );
 };
@@ -200,21 +208,21 @@ const enhanced = withPaginationContainer<
           }
         }
         ...AfterCommentsContainer_story
-        ...PostCommentFormContainer_story
+        ...LivePostCommentFormContainer_story
       }
     `,
     viewer: graphql`
       fragment LiveStreamContainer_viewer on User {
         ...LiveCommentContainer_viewer
         ...AfterCommentsContainer_viewer
-        ...PostCommentFormContainer_viewer
+        ...LivePostCommentFormContainer_viewer
       }
     `,
     settings: graphql`
       fragment LiveStreamContainer_settings on Settings {
         ...LiveCommentContainer_settings
         ...AfterCommentsContainer_settings
-        ...PostCommentFormContainer_settings
+        ...LivePostCommentFormContainer_settings
       }
     `,
   },
