@@ -13,7 +13,7 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { ReactionButtonContainer } from "coral-stream/shared/ReactionButton";
+import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import { Flex, Icon, TextLink } from "coral-ui/components/v2";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";

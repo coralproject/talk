@@ -37,7 +37,7 @@ import {
   isPublished,
   lookupFlattenReplies,
   prependCommentEdgeToProfile,
-} from "../../helpers";
+} from "../../../shared/helpers";
 
 export type CreateCommentReplyInput = Omit<
   MutationInput<MutationTypes>,

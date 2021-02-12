@@ -37,10 +37,10 @@ import {
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { ReactionButtonContainer } from "coral-stream/shared/ReactionButton";
+import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import ReportFlowContainer, {
   ReportButton,
-} from "coral-stream/shared/ReportFlow";
+} from "coral-stream/tabs/shared/ReportFlow";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
@@ -49,7 +49,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
-import { isPublished } from "../helpers";
+import { isPublished } from "../../shared/helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";

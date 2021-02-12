@@ -10,8 +10,8 @@ import {
 } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
-import { shouldTriggerViewerRefresh } from "coral-stream/tabs/Comments/helpers";
 import RefreshViewerFetch from "coral-stream/tabs/Comments/RefreshViewerFetch";
+import { shouldTriggerViewerRefresh } from "coral-stream/tabs/shared/helpers";
 
 import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
 import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";

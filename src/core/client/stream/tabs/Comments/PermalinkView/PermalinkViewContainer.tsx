@@ -29,7 +29,7 @@ import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 
-import { isPublished } from "../helpers";
+import { isPublished } from "../../shared/helpers";
 import CommentEnteredSubscription from "../Stream/AllCommentsTab/CommentEnteredSubscription";
 import ConversationThreadContainer from "./ConversationThreadContainer";
 

@@ -12,7 +12,7 @@ import {
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
-import { getMediaValidators } from "../../helpers";
+import { getMediaValidators } from "../../../shared/helpers";
 
 export type Widget = "giphy" | "external" | null;
 

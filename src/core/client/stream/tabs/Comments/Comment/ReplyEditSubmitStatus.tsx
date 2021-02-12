@@ -5,7 +5,7 @@ import React from "react";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { SubmitStatus } from "../helpers/getSubmitStatus";
+import { SubmitStatus } from "../../shared/helpers/getSubmitStatus";
 
 interface Props {
   status: SubmitStatus;

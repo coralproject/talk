@@ -11,8 +11,8 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
-import { shouldTriggerViewerRefresh } from "coral-stream/tabs/Comments/helpers";
 import RefreshViewerFetch from "coral-stream/tabs/Comments/RefreshViewerFetch";
+import { shouldTriggerViewerRefresh } from "coral-stream/tabs/shared/helpers";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SubmitStatus } from "../../helpers/getSubmitStatus";
+import { SubmitStatus } from "../../../shared/helpers/getSubmitStatus";
 import PostCommentInReviewMessage from "./PostCommentInReviewMessage";
 import PostCommentRejectedMessage from "./PostCommentRejectedMessage";
 

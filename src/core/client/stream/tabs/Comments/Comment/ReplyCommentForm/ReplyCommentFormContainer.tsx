@@ -35,8 +35,8 @@ import {
   shouldTriggerSettingsRefresh,
   shouldTriggerViewerRefresh,
   SubmitStatus,
-} from "../../helpers";
-import { getSubmissionResponse } from "../../helpers/getSubmitStatus";
+} from "../../../shared/helpers";
+import { getSubmissionResponse } from "../../../shared/helpers/getSubmitStatus";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";

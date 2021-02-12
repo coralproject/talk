@@ -40,7 +40,7 @@ import {
   shouldTriggerSettingsRefresh,
   shouldTriggerViewerRefresh,
   SubmitStatus,
-} from "../../helpers";
+} from "../../../shared/helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
