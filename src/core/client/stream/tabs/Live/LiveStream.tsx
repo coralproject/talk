@@ -69,6 +69,7 @@ const LiveStream: FunctionComponent<Props> = ({
 
   const containerRef = useRef(null);
   const beginRef = useRef(null);
+  const endRef = useRef(null);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -100,6 +101,7 @@ const LiveStream: FunctionComponent<Props> = ({
     const containerRect = (container as any).getBoundingClientRect();
     const beginRect = (begin as any).getBoundingClientRect();
 
+    // Check to load previous comments
     if (
       containerRect.y - beginRect.y < 100 &&
       relay.hasMore() &&
@@ -130,7 +132,6 @@ const LiveStream: FunctionComponent<Props> = ({
     scrollToID,
   ]);
 
-  const endRef = useRef(null);
   useEffect(() => {
     if (!endRef.current) {
       return;
