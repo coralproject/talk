@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { useEffectAfterMount } from "coral-framework/hooks";
 import {
   useSubscription,
   withPaginationContainer,
@@ -22,6 +23,7 @@ interface Props {
   story: AfterCommentsContainer_story;
   relay: RelayPaginationProp;
   cursor: string;
+  onCommentsChanged: () => void;
 }
 
 const AfterComments: FunctionComponent<Props> = ({
@@ -29,6 +31,7 @@ const AfterComments: FunctionComponent<Props> = ({
   settings,
   story,
   relay,
+  onCommentsChanged,
 }) => {
   const after = story.after;
   const afterComments = after?.edges.map((e: { node: any }) => e.node) || [];
@@ -48,6 +51,10 @@ const AfterComments: FunctionComponent<Props> = ({
       disposable.dispose();
     };
   }, [story.id, subscribeToCommentEntered]);
+
+  useEffectAfterMount(() => {
+    onCommentsChanged();
+  }, [story.after, onCommentsChanged]);
 
   return (
     <>
