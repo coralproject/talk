@@ -6,7 +6,7 @@ import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
-import LiveStream from "./LiveStream";
+import LiveStreamContainer from "./LiveStreamContainer";
 
 const LiveTabQuery: FunctionComponent = () => {
   const [{ storyID, storyURL }] = useLocal<LiveTabQueryLocal>(graphql`
@@ -51,7 +51,7 @@ const LiveTabQuery: FunctionComponent = () => {
         }
 
         return (
-          <LiveStream
+          <LiveStreamContainer
             story={data.props.story}
             viewer={data.props.viewer}
             settings={data.props.settings}
