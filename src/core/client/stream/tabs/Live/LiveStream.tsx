@@ -44,6 +44,10 @@ const LiveStream: FunctionComponent<Props> = ({
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const [scrollEnabled, setScrollEnabled] = useState(false);
 
+  const containerRef = useRef<any>(null);
+  const beginRef = useRef<any>(null);
+  const endRef = useRef<any>(null);
+
   const beforeComments = useMemo(() => {
     const before = story.before;
     const comments = before?.edges.map((e: { node: any }) => e.node) || [];
@@ -66,10 +70,6 @@ const LiveStream: FunctionComponent<Props> = ({
       </>
     );
   }, [beforeComments, settings, viewer]);
-
-  const containerRef = useRef(null);
-  const beginRef = useRef(null);
-  const endRef = useRef(null);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -98,8 +98,8 @@ const LiveStream: FunctionComponent<Props> = ({
       return;
     }
 
-    const containerRect = (container as any).getBoundingClientRect();
-    const beginRect = (begin as any).getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    const beginRect = begin.getBoundingClientRect();
 
     // Check to load previous comments
     if (
@@ -137,12 +137,19 @@ const LiveStream: FunctionComponent<Props> = ({
       return;
     }
 
-    const end = endRef.current as any;
+    // Scroll to bottom
+    const end = endRef.current;
     end.scrollIntoView();
 
-    setTimeout(() => {
+    // Enable scroll in a bit
+    const timeoutReg = setTimeout(() => {
       setScrollEnabled(true);
     }, 300);
+
+    // Cleanup
+    return () => {
+      clearTimeout(timeoutReg);
+    };
   }, [endRef, setScrollEnabled]);
 
   return (
