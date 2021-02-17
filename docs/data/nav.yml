@@ -39,3 +39,9 @@ sidebar:
     items:
       - title: GraphQL Overview
         href: /graphql
+  - title: FAQ & Troubleshooting
+    items:
+      - title: FAQ
+        href: /faq
+      - title: Troubleshooting tips
+        href: /troubleshooting
