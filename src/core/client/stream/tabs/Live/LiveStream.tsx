@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { useEffectAtUnmount } from "coral-framework/hooks";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -41,8 +42,10 @@ const LiveStream: FunctionComponent<Props> = ({
   relay,
   cursor,
 }) => {
+  const scrollEnabled = useRef(false);
+
+  const [tailing, setTailing] = useState(false);
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
-  const [scrollEnabled, setScrollEnabled] = useState(false);
 
   const containerRef = useRef<any>(null);
   const beginRef = useRef<any>(null);
@@ -84,15 +87,16 @@ const LiveStream: FunctionComponent<Props> = ({
           el.scrollIntoView();
         }
 
-        setScrollEnabled(true);
+        scrollEnabled.current = true;
       }
     },
-    [containerRef, setScrollEnabled]
+    [containerRef, scrollEnabled]
   );
 
   const onScroll = useCallback(async () => {
     const container = containerRef.current;
     const begin = beginRef.current;
+    const end = endRef.current;
 
     if (!container || !begin || !scrollEnabled) {
       return;
@@ -100,16 +104,17 @@ const LiveStream: FunctionComponent<Props> = ({
 
     const containerRect = container.getBoundingClientRect();
     const beginRect = begin.getBoundingClientRect();
+    const endRect = end.getBoundingClientRect();
 
     // Check to load previous comments
     if (
       containerRect.y - beginRect.y < 100 &&
       relay.hasMore() &&
       !isLoadingMore &&
-      scrollEnabled
+      scrollEnabled.current
     ) {
       try {
-        setScrollEnabled(false);
+        scrollEnabled.current = false;
         await loadMore();
 
         if (beforeComments.length > 0) {
@@ -123,6 +128,8 @@ const LiveStream: FunctionComponent<Props> = ({
         // ignore
       }
     }
+
+    setTailing(Math.abs(containerRect.bottom - endRect.bottom) <= 5);
   }, [
     scrollEnabled,
     relay,
@@ -130,7 +137,20 @@ const LiveStream: FunctionComponent<Props> = ({
     loadMore,
     beforeComments,
     scrollToID,
+    endRef,
+    setTailing,
   ]);
+
+  const scrollToEnd = useCallback(
+    (behavior?: string) => {
+      // const end = endRef.current;
+      // end.scrollIntoView({ behavior });
+
+      const height = containerRef.current.scrollHeight;
+      containerRef.current.scroll({ left: 0, top: height, behavior });
+    },
+    [containerRef]
+  );
 
   useEffect(() => {
     if (!endRef.current) {
@@ -138,19 +158,44 @@ const LiveStream: FunctionComponent<Props> = ({
     }
 
     // Scroll to bottom
-    const end = endRef.current;
-    end.scrollIntoView();
+    scrollToEnd();
+    setTailing(true);
 
     // Enable scroll in a bit
     const timeoutReg = setTimeout(() => {
-      setScrollEnabled(true);
+      scrollEnabled.current = true;
     }, 300);
 
     // Cleanup
     return () => {
       clearTimeout(timeoutReg);
     };
-  }, [endRef, setScrollEnabled]);
+  }, [endRef, scrollToEnd, scrollEnabled]);
+
+  const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
+  const afterCommentsChanged = useCallback(() => {
+    if (!tailing) {
+      return;
+    }
+
+    scrollEnabled.current = false;
+    scrollToEnd("smooth");
+
+    if (scrollToAfterTimeout.current) {
+      clearTimeout(scrollToAfterTimeout.current);
+    }
+
+    scrollToAfterTimeout.current = setTimeout(() => {
+      scrollEnabled.current = true;
+    }, 300);
+  }, [scrollToEnd, tailing]);
+
+  useEffectAtUnmount(() => {
+    if (!scrollToAfterTimeout.current) {
+      return;
+    }
+    clearTimeout(scrollToAfterTimeout.current);
+  });
 
   return (
     <>
@@ -167,8 +212,9 @@ const LiveStream: FunctionComponent<Props> = ({
           viewer={viewer}
           settings={settings}
           cursor={cursor}
+          onCommentsChanged={afterCommentsChanged}
         />
-        <div ref={endRef} />
+        <div id="after" ref={endRef} />
       </div>
       <LivePostCommentFormContainer
         settings={settings}
