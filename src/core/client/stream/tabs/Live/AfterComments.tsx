@@ -30,7 +30,6 @@ const AfterComments: FunctionComponent<Props> = ({
   viewer,
   settings,
   story,
-  relay,
   onCommentsChanged,
 }) => {
   const after = story.after;
