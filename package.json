@@ -286,7 +286,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "eventemitter2": "^6.4.3",
     "farce": "^0.4.5",
     "final-form": "^4.20.1",
