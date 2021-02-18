@@ -273,6 +273,6 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentContainer_settings
     }
   `,
-} as any)(LiveChatContainer);
+})(LiveChatContainer);
 
 export default enhanced;
