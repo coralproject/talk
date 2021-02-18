@@ -34,6 +34,15 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
   return (
     <div className={styles.comment}>
+      {comment.parent && (
+        <div>
+          <div>{comment.parent.author?.username}</div>
+          <div>{comment.parent.body}</div>
+          <div>{comment.parent.createdAt}</div>
+          <div>---</div>
+        </div>
+      )}
+
       <div>{comment.author?.username}</div>
       <div>{comment.body}</div>
       <div>{comment.createdAt}</div>
@@ -88,6 +97,14 @@ const enhanced = withFragmentContainer<Props>({
       }
       body
       createdAt
+      parent {
+        author {
+          id
+          username
+        }
+        createdAt
+        body
+      }
 
       ...ReportButton_comment
       ...ReportFlowContainer_comment
