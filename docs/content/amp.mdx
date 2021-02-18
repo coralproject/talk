@@ -4,9 +4,19 @@ title: Accelerated Mobile Page
 
 [AMP](https://amp.dev/) is a light-weight, stripped down HTML page that aims to improve reader experience. Coral comes with [AMP](https://amp.dev/) support.
 
+## Enable AMP Support
+
+Go to _Advanced Section_ in _Configure_ and enable _Accelerated Mobile Pages_.
+
+<blockquote>
+  Note: With AMP enabled, the embed won't be protected by the <code>frame-ancestors</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors">(MDN)</a>
+  <span> header</span> and relies on <code>X-Frame-Options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">(MDN)</a>
+  <span> instead</span>.
+</blockquote>
+
 ## How to integrate
 
-Put the following code into your _AMP_ page and replace `{{ CORAL_DOMAIN_NAME }}` and `{{ CORAL_STORY_URL }}` with the
+Then put the following code into your _AMP_ page and replace `{{ CORAL_DOMAIN_NAME }}` and `{{ CORAL_STORY_URL }}` with the
 corresponding values. You can also pass `storyID` instead of `storyURL` by using `?storyID={{ CORAL_STORY_ID }}`.
 
 ```html
