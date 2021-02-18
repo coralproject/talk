@@ -3,12 +3,12 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useState,
 } from "react";
 import { graphql } from "react-relay";
 
 import { useEffectAfterMount, useEffectAtUnmount } from "coral-framework/hooks";
 import {
+  useLocal,
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -19,6 +19,7 @@ import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatCont
 import { LiveChatContainer_viewer } from "coral-stream/__generated__/LiveChatContainer_viewer.graphql";
 import { LiveChatContainerAfterComment } from "coral-stream/__generated__/LiveChatContainerAfterComment.graphql";
 import { LiveChatContainerBeforeComment } from "coral-stream/__generated__/LiveChatContainerBeforeComment.graphql";
+import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
@@ -55,13 +56,24 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   settings,
   story,
 }) => {
+  const [
+    {
+      liveChat: { tailing },
+    },
+    setLocal,
+  ] = useLocal<LiveChatContainerLocal>(graphql`
+    fragment LiveChatContainerLocal on Local {
+      liveChat {
+        tailing
+      }
+    }
+  `);
+
   const containerRef = useRef<any | null>(null);
   const beginRef = useRef<any | null>(null);
   const endRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
-
-  const [tailing, setTailing] = useState(false);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -80,6 +92,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       }
     },
     [containerRef, scrollEnabled]
+  );
+
+  const setTailing = useCallback(
+    (value: boolean) => {
+      setLocal({ liveChat: { tailing: value } });
+    },
+    [setLocal]
   );
 
   const onScroll = useCallback(async () => {
@@ -138,7 +157,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
 
     setTailing(atBottom);
-    window.localStorage.setItem(`tailing:${story.id}`, `${atBottom}`);
   }, [
     afterHasMore,
     beforeComments,
@@ -148,7 +166,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     loadMoreAfter,
     loadMoreBefore,
     scrollToID,
-    story.id,
+    setTailing,
   ]);
 
   const scrollToEnd = useCallback(
@@ -170,7 +188,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     // Scroll to bottom
     scrollToEnd();
     setTailing(true);
-    window.localStorage.setItem(`tailing:${story.id}`, `${true}`);
 
     // Enable scroll in a bit
     const timeoutReg = setTimeout(() => {
@@ -181,7 +198,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutReg);
     };
-  }, [endRef, scrollToEnd, scrollEnabled, story.id]);
+  }, [endRef, scrollToEnd, scrollEnabled, story.id, setTailing]);
 
   const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
 

@@ -6,7 +6,12 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 import AppContainer from "coral-stream/App";
-import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "coral-stream/local";
+import {
+  AUTH_POPUP_ID,
+  AUTH_POPUP_TYPE,
+  LIVE_CHAT_STATE_ID,
+  LIVE_CHAT_STATE_TYPE,
+} from "coral-stream/local";
 
 export default function create(params: CreateTestRendererParams) {
   return createTestRenderer("stream", <AppContainer disableListeners />, {
@@ -23,6 +28,16 @@ export default function create(params: CreateTestRendererParams) {
       authPopupRecord.setValue("", "href");
       localRecord.setLinkedRecord(authPopupRecord, "authPopup");
       localRecord.setValue(false, "flattenReplies");
+
+      const liveChatState = createAndRetain(
+        environment,
+        source,
+        LIVE_CHAT_STATE_ID,
+        LIVE_CHAT_STATE_TYPE
+      );
+      liveChatState.setValue(false, "tailing");
+      localRecord.setLinkedRecord(liveChatState, "liveChat");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

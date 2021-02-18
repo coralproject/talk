@@ -16,7 +16,12 @@ import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
-import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
+import {
+  AUTH_POPUP_ID,
+  AUTH_POPUP_TYPE,
+  LIVE_CHAT_STATE_ID,
+  LIVE_CHAT_STATE_TYPE,
+} from "./constants";
 
 async function determineFeatureFlags(
   environment: Environment,
@@ -81,8 +86,8 @@ const initLocalState: InitLocalState = async ({
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
     "CREATED_AT_DESC";
 
-  commitLocalUpdate(environment, (s) => {
-    const root = s.getRoot();
+  commitLocalUpdate(environment, (source) => {
+    const root = source.getRoot();
     const localRecord = root.getLinkedRecord("local")!;
 
     // Parse query params
@@ -111,7 +116,7 @@ const initLocalState: InitLocalState = async ({
     // Create authPopup Record
     const authPopupRecord = createAndRetain(
       environment,
-      s,
+      source,
       AUTH_POPUP_ID,
       AUTH_POPUP_TYPE
     );
@@ -133,6 +138,15 @@ const initLocalState: InitLocalState = async ({
       featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
       "flattenReplies"
     );
+
+    const liveChatState = createAndRetain(
+      environment,
+      source,
+      LIVE_CHAT_STATE_ID,
+      LIVE_CHAT_STATE_TYPE
+    );
+    liveChatState.setValue(false, "tailing");
+    localRecord.setLinkedRecord(liveChatState, "liveChat");
   });
 };
 
