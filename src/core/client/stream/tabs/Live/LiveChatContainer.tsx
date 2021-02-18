@@ -28,12 +28,12 @@ import styles from "./LiveChatContainer.css";
 
 interface Props {
   beforeComments: LiveChatContainerBeforeComment;
-  beforeHasMore: () => boolean;
+  beforeHasMore: boolean;
   loadMoreBefore: () => Promise<void>;
   isLoadingMoreBefore: boolean;
 
   afterComments: LiveChatContainerAfterComment;
-  afterHasMore: () => boolean;
+  afterHasMore: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 
@@ -48,6 +48,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   loadMoreBefore,
   isLoadingMoreBefore,
   afterComments,
+  afterHasMore,
   viewer,
   settings,
   story,
@@ -95,7 +96,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     // Check to load previous comments
     if (
       containerRect.y - beginRect.y < 100 &&
-      beforeHasMore() &&
+      beforeHasMore &&
       !isLoadingMoreBefore &&
       scrollEnabled.current
     ) {
@@ -190,7 +191,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (!tailing) {
+    if (afterHasMore) {
       return;
     }
 
@@ -203,7 +204,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, subscribeToCommentEntered, tailing]);
+  }, [story.id, subscribeToCommentEntered, afterHasMore]);
 
   return (
     <>
