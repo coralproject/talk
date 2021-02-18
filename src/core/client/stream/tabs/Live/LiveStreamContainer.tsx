@@ -40,11 +40,11 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
             isLoadingMoreAfter,
           }) => (
             <LiveChatContainer
-              beforeComments={beforeComments as any}
+              beforeComments={beforeComments}
               beforeHasMore={beforeHasMore}
               loadMoreBefore={loadMoreBefore}
               isLoadingMoreBefore={isLoadingMoreBefore}
-              afterComments={afterComments as any}
+              afterComments={afterComments}
               afterHasMore={afterHasMore}
               loadMoreAfter={loadMoreAfter}
               isLoadingMoreAfter={isLoadingMoreAfter}
