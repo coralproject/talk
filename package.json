@@ -198,7 +198,7 @@
     "@types/helmet": "^0.0.45",
     "@types/html-to-text": "^1.4.31",
     "@types/html-webpack-plugin": "^3.2.3",
-    "@types/ioredis": "^4.14.9",
+    "@types/ioredis": "^4.19.4",
     "@types/jest": "^26.0.13",
     "@types/jest-axe": "^3.5.0",
     "@types/jsdom": "^16.2.0",
