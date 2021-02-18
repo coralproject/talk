@@ -741,7 +741,7 @@ export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
 export async function retrieveManyUsers(
   mongo: Db,
   tenantID: string,
-  ids: string[]
+  ids: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     tenantID,
@@ -820,7 +820,7 @@ export async function mergeUserSiteModerationScopes(
   mongo: Db,
   tenantID: string,
   id: string,
-  siteIDs: string[]
+  siteIDs: ReadonlyArray<string>
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
@@ -846,7 +846,7 @@ export async function pullUserSiteModerationScopes(
   mongo: Db,
   tenantID: string,
   id: string,
-  siteIDs: string[]
+  siteIDs: ReadonlyArray<string>
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
