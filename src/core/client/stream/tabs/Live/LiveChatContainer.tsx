@@ -49,6 +49,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   afterComments,
   afterHasMore,
+  loadMoreAfter,
+  isLoadingMoreAfter,
   viewer,
   settings,
   story,
@@ -112,17 +114,41 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           });
         }
       } catch (err) {
-        // ignore
+        // ignore for now
       }
     }
 
-    setTailing(Math.abs(containerRect.bottom - endRect.bottom) <= 5);
+    let atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+
+    if (
+      atBottom &&
+      afterHasMore &&
+      !isLoadingMoreAfter &&
+      scrollEnabled.current
+    ) {
+      try {
+        scrollEnabled.current = false;
+        await loadMoreAfter();
+        scrollEnabled.current = true;
+      } catch (err) {
+        // ignore for now
+      }
+    }
+
+    atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+
+    setTailing(atBottom);
+    window.localStorage.setItem(`tailing:${story.id}`, `${atBottom}`);
   }, [
+    afterHasMore,
     beforeComments,
     beforeHasMore,
+    isLoadingMoreAfter,
     isLoadingMoreBefore,
+    loadMoreAfter,
     loadMoreBefore,
     scrollToID,
+    story.id,
   ]);
 
   const scrollToEnd = useCallback(
@@ -144,6 +170,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     // Scroll to bottom
     scrollToEnd();
     setTailing(true);
+    window.localStorage.setItem(`tailing:${story.id}`, `${true}`);
 
     // Enable scroll in a bit
     const timeoutReg = setTimeout(() => {
@@ -154,7 +181,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutReg);
     };
-  }, [endRef, scrollToEnd, scrollEnabled]);
+  }, [endRef, scrollToEnd, scrollEnabled, story.id]);
 
   const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -191,10 +218,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (afterHasMore) {
-      return;
-    }
-
     const disposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,

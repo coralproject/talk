@@ -17,6 +17,13 @@ import { LiveCommentEnteredSubscription } from "coral-stream/__generated__/LiveC
 
 import { isPublished } from "../shared/helpers";
 
+function liveInsertionEnabled(storyID: string): boolean {
+  const key = `tailing:${storyID}`;
+  const rawValue = window.localStorage.getItem(key);
+
+  return rawValue === "true";
+}
+
 function insertComment(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
@@ -34,10 +41,23 @@ function insertComment(
     }
   )!;
 
-  const edge = ConnectionHandler.createEdge(store, comment, comment, "");
+  const liveInsertion = liveInsertionEnabled(storyID);
 
-  if (connection) {
-    ConnectionHandler.insertEdgeAfter(connection, edge);
+  if (liveInsertion) {
+    const edge = ConnectionHandler.createEdge(store, comment, comment, "");
+
+    if (connection) {
+      ConnectionHandler.insertEdgeAfter(connection, edge);
+    }
+  } else {
+    const pageInfo = connection.getLinkedRecord("pageInfo")!;
+    // Should not be falsy because Relay uses this information to determine
+    // whether or not new data is available to load.
+    if (!pageInfo.getValue("endCursor")) {
+      // Set cursor to oldest date, to load from the beginning.
+      pageInfo.setValue(new Date().toISOString(), "endCursor");
+    }
+    pageInfo.setValue(true, "hasNextPage");
   }
 }
 
