@@ -4,6 +4,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENT_BODY_EXCEEDS_MAX_LENGTH: "error-commentBodyExceedsMaxLength",
   COMMENT_BODY_TOO_SHORT: "error-commentBodyTooShort",
   COMMENT_NOT_FOUND: "error-commentNotFound",
+  COMMENT_REVISION_NOT_FOUND: "error-commentRevisionNotFound",
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
