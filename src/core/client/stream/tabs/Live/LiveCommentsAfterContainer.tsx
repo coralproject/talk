@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 import { FragmentRefs } from "relay-runtime";
 
@@ -14,7 +14,7 @@ interface RenderProps {
   afterComments: {
     readonly " $fragmentRefs": FragmentRefs<"LiveChatContainerAfterComment">;
   }[];
-  afterHasMore: () => boolean;
+  afterHasMore: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 }
@@ -35,16 +35,14 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
-  const after = story.after;
-  const afterComments = after?.edges.map((e) => e.node);
-
-  const hasMore = useCallback(() => {
-    return relay.hasMore();
-  }, [relay]);
+  const afterComments = useMemo(() => {
+    return story.after.edges.map((e) => e.node);
+  }, [story.after]);
+  const afterHasMore = story.after.pageInfo.hasNextPage;
 
   return children({
     afterComments,
-    afterHasMore: hasMore,
+    afterHasMore,
     loadMoreAfter: loadMore,
     isLoadingMoreAfter: isLoadingMore,
   });

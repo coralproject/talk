@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 import { FragmentRefs } from "relay-runtime";
 
@@ -14,7 +14,7 @@ interface RenderProps {
   beforeComments: {
     readonly " $fragmentRefs": FragmentRefs<"LiveChatContainerBeforeComment">;
   }[];
-  beforeHasMore: () => boolean;
+  beforeHasMore: boolean;
   loadMoreBefore: () => Promise<void>;
   isLoadingMoreBefore: boolean;
 }
@@ -36,19 +36,14 @@ const LiveCommentsBeforeContainer: FunctionComponent<Props> = ({
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
   const beforeComments = useMemo(() => {
-    const before = story.before;
-    const comments = before?.edges.map((e) => e.node) || [];
-
+    const comments = story.before.edges.map((e) => e.node) || [];
     return comments.slice().reverse();
-  }, [story]);
-
-  const hasMore = useCallback(() => {
-    return relay.hasMore();
-  }, [relay]);
+  }, [story.before]);
+  const beforeHasMore = story.before.pageInfo.hasNextPage;
 
   return children({
     beforeComments,
-    beforeHasMore: hasMore,
+    beforeHasMore,
     loadMoreBefore: loadMore,
     isLoadingMoreBefore: isLoadingMore,
   });
@@ -90,8 +85,6 @@ const enhanced = withPaginationContainer<
             hasNextPage
           }
         }
-        ...AfterCommentsContainer_story @arguments(cursor: $cursor)
-        ...LivePostCommentFormContainer_story
       }
     `,
   },
