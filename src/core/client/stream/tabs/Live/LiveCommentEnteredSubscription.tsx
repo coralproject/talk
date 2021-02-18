@@ -8,6 +8,8 @@ import {
 
 import {
   createSubscription,
+  LOCAL_ID,
+  lookup,
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
@@ -17,14 +19,14 @@ import { LiveCommentEnteredSubscription } from "coral-stream/__generated__/LiveC
 
 import { isPublished } from "../shared/helpers";
 
-function liveInsertionEnabled(storyID: string): boolean {
-  const key = `tailing:${storyID}`;
-  const rawValue = window.localStorage.getItem(key);
+function liveInsertionEnabled(environment: Environment): boolean {
+  const liveChat = lookup(environment, LOCAL_ID).liveChat;
 
-  return rawValue === "true";
+  return liveChat.tailing;
 }
 
 function insertComment(
+  environment: Environment,
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
@@ -41,7 +43,7 @@ function insertComment(
     }
   )!;
 
-  const liveInsertion = liveInsertionEnabled(storyID);
+  const liveInsertion = liveInsertionEnabled(environment);
 
   if (liveInsertion) {
     const edge = ConnectionHandler.createEdge(store, comment, comment, "");
@@ -152,10 +154,18 @@ const LiveCommentEnteredSubscription = createSubscription(
         comment.setValue(true, "enteredLive");
 
         if (!isTopLevelComent) {
-          // TODO: figure out how replies work in chat first
+          insertComment(
+            environment,
+            store,
+            variables.storyID,
+            variables.storyConnectionKey,
+            comment,
+            variables.tag
+          );
           return;
         } else {
           insertComment(
+            environment,
             store,
             variables.storyID,
             variables.storyConnectionKey,
