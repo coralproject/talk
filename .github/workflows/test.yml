@@ -7,6 +7,11 @@ on:
       - main
       - develop
 
+env:
+  NODE_ENV: "test"
+  WEBPACK_MAX_CORES: "2"
+  NODE_OPTIONS: "--max-old-space-size=7168"
+
 jobs:
   lint:
     runs-on: ubuntu-18.04
