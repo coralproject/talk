@@ -22,6 +22,11 @@ role-plural-commenter = Commentaristas
 userStatus-active = Activo
 userStatus-banned = Prohibido
 userStatus-suspended = Suspendido
+userStatus-premod = Siempre pre-moderar
+userStatus-warned = Advertido
+
+queue-sortMenu-newest = Más nuevo
+queue-sortMenu-oldest = Más viejo
 
 ## Navigation
 navigation-moderate = Moderar
@@ -57,6 +62,13 @@ login-signIn-passwordLabel = Contraseña
 login-signIn-passwordTextField =
   .placeholder = Contraseña
 
+## moderate
+moderate-navigation-reported = Reportados
+moderate-navigation-pending = Pendientes
+moderate-navigation-unmoderated = No-moderados
+moderate-navigation-rejected = Rechazados
+moderate-navigation-approved = Aprobados
+
 ## Community
 
 community-banModal-areYouSure = ¿Estás seguro que quieres banear a <username></username>?
@@ -78,6 +90,14 @@ community-suspendModal-duration-86400 = 24 horas
 community-suspendModal-duration-604800 = 7 días
 community-suspendModal-cancel = Cancelar
 community-suspendModal-suspendUser = Suspender Usuario
+
+community-suspendModal-customize = Personalizar el mensaje de correo electrónico de suspensión
+
+community-suspendModal-success =
+  <strong>{ $username }</strong> ha sido suspendido por <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Cerrar
+community-suspendModal-selectDuration = Seleccione la duración de la suspensión
 
 community-premodModal-areYouSure =
   ¿Estás seguro que siempre quieres pre-moderar a <strong>{ $username }</strong>?
