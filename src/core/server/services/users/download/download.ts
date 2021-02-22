@@ -7,6 +7,7 @@ import { kebabCase } from "lodash";
 import { Db } from "mongodb";
 
 import { createDateFormatter } from "coral-common/date";
+import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import {
   getURLWithCommentID,
@@ -93,14 +94,14 @@ export async function sendUserDownload(
    * flush out the batchfor the next run.
    */
   const writeAndFlushBatch = async () => {
-    const stories = await getStories.loadMany(
-      commentBatch.map(({ storyID }) => storyID)
-    );
+    const stories = await getStories
+      .loadMany(commentBatch.map(({ storyID }) => storyID))
+      .then(mapErrorsToNull);
 
     for (let i = 0; i < commentBatch.length; i++) {
       const comment = commentBatch[i];
       const story = stories[i];
-      if (!story) {
+      if (!story || story instanceof Error) {
         continue;
       }
 

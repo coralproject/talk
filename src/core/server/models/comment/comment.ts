@@ -7,6 +7,7 @@ import { dotize } from "coral-common/utils/dotize";
 import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
+  CommentRevisionNotFoundError,
 } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -394,7 +395,7 @@ export async function retrieveComment(mongo: Db, tenantID: string, id: string) {
 export async function retrieveManyComments(
   mongo: Db,
   tenantID: string,
-  ids: string[]
+  ids: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     id: {
@@ -812,7 +813,7 @@ export async function updateCommentActionCounts(
     }
   );
   if (!result.value) {
-    throw new CommentNotFoundError(id, revisionID);
+    throw new CommentRevisionNotFoundError(id, revisionID);
   }
 
   return result.value;
@@ -940,7 +941,7 @@ export async function removeCommentTag(
 export async function retrieveStoryCommentTagCounts(
   mongo: Db,
   tenantID: string,
-  storyIDs: string[]
+  storyIDs: ReadonlyArray<string>
 ): Promise<GQLCommentTagCounts[]> {
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
@@ -1011,7 +1012,7 @@ export async function retrieveManyRecentStatusCounts(
   mongo: Db,
   tenantID: string,
   since: Date,
-  authorIDs: string[]
+  authorIDs: ReadonlyArray<string>
 ) {
   // Get all the statuses for the given date stamp.
   const cursor = collection<{
@@ -1227,7 +1228,7 @@ export async function retrieveStoryRatings(
 export async function retrieveManyStoryRatings(
   mongo: Db,
   tenantID: string,
-  storyIDs: string[]
+  storyIDs: ReadonlyArray<string>
 ) {
   const timer = createTimer();
 
