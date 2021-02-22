@@ -20,13 +20,13 @@ module.exports = {
         teal: {
           DEFAULT: "#59c3c3",
           light: "#ACE0E0",
-          dark: "#42849A"
+          dark: "#42849A",
         },
         navy: {
           DEFAULT: "#17255A",
           light: "#2F3B6B",
-          dark: "#0D193F"
-        }
+          dark: "#0D193F",
+        },
       },
     },
   },
