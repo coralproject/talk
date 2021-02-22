@@ -5,30 +5,32 @@ sidebar:
         href: /installation
       - title: Development
         href: /development
-      - title: Configuration
-        href: /configuration
+  - title: Configuration
+    items:
       - title: Admin Settings
         href: /administration
-      - title: CLI Tools
-        href: /cli
-  - title: Integration
+      - title: GDPR Compliance
+        href: /gdpr
+      - title: Email and Notifications
+        href: /notifications
+      - title: Moderating with Slack
+        href: /slack
+  - title: Technical Integration
     items:
       - title: CMS Integration
         href: /cms
+      - title: Environment variables
+        href: /environment-variables
+      - title: CLI Tools
+        href: /cli
       - title: Single Sign-On
         href: /sso
       - title: Other Auth Strategies
         href: /auth
       - title: Custom CSS
         href: /css
-      - title: Email and Notifications
-        href: /notifications
-      - title: GDPR Compliance
-        href: /gdpr
       - title: Comment Counts
         href: /counts
-      - title: Moderating with Slack
-        href: /slack
       - title: Event Tracking
         href: /events
       - title: SEO and iFrames
@@ -45,3 +47,5 @@ sidebar:
         href: /faq
       - title: Troubleshooting tips
         href: /troubleshooting
+      - title: IE11 Compatibility
+        href: /ie11
