@@ -22,8 +22,16 @@
     }
   }
 
+  & code {
+    @apply p-1 rounded bg-gray-100 text-black;
+  }
+
   & pre {
     @apply overflow-x-auto;
+
+    & code {
+      @apply p-0 bg-transparent text-black;
+    }
   }
 
   & pre,
@@ -79,23 +87,27 @@
   }
 
   & blockquote {
-    @apply bg-indigo-400 text-white;
-  }
-}
+    @apply bg-navy-light text-white;
 
-code {
-  @apply bg-gray-100 text-black;
+    & p > code {
+      @apply bg-navy p-1 rounded text-white;
+    }
+  }
 }
 
 /* Styles for code blocks with syntax highlighting provided by prismjs. */
 
 pre {
-  @apply bg-gray-100 text-black;
+  @apply bg-gray-100;
 }
 
 .token {
   &.comment {
     @apply text-gray-400;
+  }
+
+  &.attr-value {
+    @apply text-gray-700;
   }
 
   &.property,
@@ -104,12 +116,14 @@ pre {
   &.number,
   &.constant,
   &.symbol,
+  &.punctuation,
   &.deleted {
     @apply text-red-400;
   }
 
   &.function,
-  &.class-name {
+  &.class-name,
+  &.maybe-class-name {
     @apply text-red-500;
   }
 
@@ -119,7 +133,8 @@ pre {
     @apply text-red-600;
   }
 
-  &.variable {
+  &.variable,
+  &.attr-name {
     @apply text-red-700;
   }
 }

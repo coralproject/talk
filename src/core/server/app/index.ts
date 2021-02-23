@@ -14,7 +14,6 @@ import {
 } from "helmet";
 import http from "http";
 import { Db } from "mongodb";
-import next from "next";
 import nunjucks from "nunjucks";
 import path from "path";
 import { register } from "prom-client";
@@ -138,7 +137,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   if (config.get("mount_documentation")) {
     logger.debug("mounting documentation routes");
-    configureDocumentation(options);
+    await configureDocumentation(options);
   } else {
     logger.debug("not mounting documentation routes");
   }
@@ -239,8 +238,11 @@ function configureApplicationViews(options: AppOptions) {
   parent.set("view engine", "html");
 }
 
-function configureDocumentation({ parent, config }: AppOptions) {
-  const app = next({
+async function configureDocumentation({ parent, config }: AppOptions) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const next = await import("next");
+
+  const app = next.default({
     dir: path.join(__dirname, "..", "..", "..", "..", "docs"),
     dev: config.get("env") !== "production",
   });
@@ -254,7 +256,7 @@ function configureDocumentation({ parent, config }: AppOptions) {
     .then(() => {
       logger.info("documentation has been prepared");
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       logger.fatal({ err }, "could not prepare documentation");
     });
 
