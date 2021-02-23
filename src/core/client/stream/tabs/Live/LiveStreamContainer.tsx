@@ -16,6 +16,7 @@ interface Props {
   viewer: LiveStreamContainer_viewer | null;
   settings: LiveStreamContainer_settings;
   cursor: string;
+  cursorSet?: boolean;
 }
 
 const LiveStreamContainer: FunctionComponent<Props> = ({
@@ -23,6 +24,7 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   cursor,
+  cursorSet,
 }) => {
   return (
     <LiveCommentsBeforeContainer story={story} cursor={cursor}>
@@ -51,6 +53,7 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               story={story}
+              cursorSet={cursorSet}
             />
           )}
         </LiveCommentsAfterContainer>
