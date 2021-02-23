@@ -21,6 +21,7 @@ const LiveTabQuery: FunctionComponent = () => {
   const context = useCoralContext();
 
   const [cursor, setCursor] = useState<string | null>(null);
+  const [cursorWasSet, setCursorWasSet] = useState<boolean>(false);
 
   useEffect(() => {
     const loadCursor = async () => {
@@ -34,13 +35,14 @@ const LiveTabQuery: FunctionComponent = () => {
 
       if (current) {
         setCursor(new Date(current.cursor).toISOString());
+        setCursorWasSet(true);
       } else {
         setCursor(new Date().toISOString());
       }
     };
 
     void loadCursor();
-  }, [context.localStorage, storyID, storyURL]);
+  }, [context.localStorage, storyID, storyURL, setCursorWasSet]);
 
   if (!storyURL) {
     return null;
@@ -82,6 +84,7 @@ const LiveTabQuery: FunctionComponent = () => {
             viewer={data.props.viewer}
             settings={data.props.settings}
             cursor={cursor}
+            cursorSet={cursorWasSet}
           />
         );
       }}

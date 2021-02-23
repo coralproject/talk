@@ -44,6 +44,8 @@ interface Props {
   viewer: LiveChatContainer_viewer | null;
   settings: LiveChatContainer_settings;
   story: LiveChatContainer_story;
+
+  cursorSet?: boolean;
 }
 
 const LiveChatContainer: FunctionComponent<Props> = ({
@@ -58,6 +60,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   story,
+  cursorSet,
 }) => {
   const context = useCoralContext();
   const [
@@ -80,6 +83,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const containerRef = useRef<any | null>(null);
   const beginRef = useRef<any | null>(null);
   const endRef = useRef<any | null>(null);
+  const beforeAfterRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
   const lastScrollTop = useRef(0);
@@ -187,6 +191,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     ]
   );
 
+  const scrollToBeforeAfter = useCallback(
+    (behavior?: string) => {
+      const beforeAfter = beforeAfterRef.current;
+      beforeAfter.scrollIntoView({ behavior });
+    },
+    [beforeAfterRef]
+  );
+
   const scrollToEnd = useCallback(
     (behavior?: string) => {
       // const end = endRef.current;
@@ -203,9 +215,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    // Scroll to bottom
-    scrollToEnd();
-    setTailing(true);
+    if (cursorSet) {
+      scrollToBeforeAfter();
+    } else {
+      scrollToEnd();
+      setTailing(true);
+    }
 
     if (containerRef.current) {
       lastScrollTop.current = containerRef.current.scrollTop;
@@ -220,7 +235,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutReg);
     };
-  }, [endRef, scrollToEnd, scrollEnabled, story.id, setTailing]);
+  }, [
+    endRef,
+    scrollToEnd,
+    scrollEnabled,
+    story.id,
+    setTailing,
+    cursorSet,
+    scrollToBeforeAfter,
+  ]);
 
   const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -318,7 +341,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             onInView={onCommentVisible}
           />
         ))}
-        <div>-- BEFORE/AFTER --</div>
+        <div id="before-after" ref={beforeAfterRef}>
+          -- BEFORE/AFTER --
+        </div>
         {afterComments.map((c) => (
           <LiveCommentContainer
             key={c.id}
