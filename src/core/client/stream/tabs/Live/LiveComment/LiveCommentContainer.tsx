@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useRef } from "react";
 import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
+import { useInView } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import ReportFlowContainer, {
@@ -19,62 +20,80 @@ interface Props {
   viewer: LiveCommentContainer_viewer | null;
   comment: LiveCommentContainer_comment;
   settings: LiveCommentContainer_settings;
+  onInView: (
+    visible: boolean,
+    id: string,
+    createdAt: string,
+    cursor: string
+  ) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
   comment,
   viewer,
   settings,
+  onInView,
 }) => {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { inView, intersectionRef } = useInView();
+
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
   const isViewerBanned = false;
   const isViewerSuspended = false;
   const isViewerWarned = false;
 
+  useEffect(() => {
+    if (inView) {
+      onInView(inView, comment.id, comment.createdAt, comment.createdAt);
+    }
+  }, [comment.createdAt, comment.id, inView, onInView]);
+
   return (
-    <div className={styles.comment}>
-      {comment.parent && (
-        <div>
-          <div>{comment.parent.author?.username}</div>
-          <div>{comment.parent.body}</div>
-          <div>{comment.parent.createdAt}</div>
-          <div>---</div>
+    <div ref={rootRef}>
+      <div className={styles.comment} ref={intersectionRef}>
+        {comment.parent && (
+          <div>
+            <div>{comment.parent.author?.username}</div>
+            <div>{comment.parent.body}</div>
+            <div>{comment.parent.createdAt}</div>
+            <div>---</div>
+          </div>
+        )}
+
+        <div>{comment.author?.username}</div>
+        <div>{comment.body}</div>
+        <div>{comment.createdAt}</div>
+
+        <div id={`comment-${comment.id}`}>
+          {viewer && (
+            <ReactionButtonContainer
+              reactedClassName=""
+              comment={comment}
+              settings={settings}
+              viewer={viewer}
+              readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
+              isQA={false}
+            />
+          )}
+          <ReportButton
+            onClick={toggleShowReportFlow}
+            open={showReportFlow}
+            viewer={viewer}
+            comment={comment}
+          />
         </div>
-      )}
-
-      <div>{comment.author?.username}</div>
-      <div>{comment.body}</div>
-      <div>{comment.createdAt}</div>
-
-      <div id={`comment-${comment.id}`}>
-        {viewer && (
-          <ReactionButtonContainer
-            reactedClassName=""
+        {showReportFlow && (
+          <ReportFlowContainer
+            viewer={viewer}
             comment={comment}
             settings={settings}
-            viewer={viewer}
-            readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
-            isQA={false}
+            onClose={toggleShowReportFlow}
           />
         )}
-        <ReportButton
-          onClick={toggleShowReportFlow}
-          open={showReportFlow}
-          viewer={viewer}
-          comment={comment}
-        />
-      </div>
-      {showReportFlow && (
-        <ReportFlowContainer
-          viewer={viewer}
-          comment={comment}
-          settings={settings}
-          onClose={toggleShowReportFlow}
-        />
-      )}
 
-      <Divider />
+        <Divider />
+      </div>
     </div>
   );
 };

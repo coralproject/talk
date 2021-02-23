@@ -31,6 +31,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",
       featureFlags: [],
+      storyID: "",
     };
 
     // If sentry is configured, then add it's config to the config.

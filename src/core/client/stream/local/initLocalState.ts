@@ -95,6 +95,8 @@ const initLocalState: InitLocalState = async ({
 
     if (query.storyID) {
       localRecord.setValue(query.storyID, "storyID");
+    } else if (staticConfig && staticConfig.storyID) {
+      localRecord.setValue(staticConfig.storyID, "storyID");
     }
 
     if (query.storyURL) {
