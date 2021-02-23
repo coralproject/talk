@@ -7,6 +7,8 @@ import React, {
 import { graphql } from "react-relay";
 
 import { useEffectAfterMount, useEffectAtUnmount } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLocal,
   useSubscription,
@@ -21,6 +23,7 @@ import { LiveChatContainerAfterComment } from "coral-stream/__generated__/LiveCh
 import { LiveChatContainerBeforeComment } from "coral-stream/__generated__/LiveChatContainerBeforeComment.graphql";
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 
+import CursorState from "./CursorState";
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
@@ -56,13 +59,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   settings,
   story,
 }) => {
+  const context = useCoralContext();
   const [
     {
+      storyID,
+      storyURL,
       liveChat: { tailing },
     },
     setLocal,
   ] = useLocal<LiveChatContainerLocal>(graphql`
     fragment LiveChatContainerLocal on Local {
+      storyID
+      storyURL
       liveChat {
         tailing
       }
@@ -74,6 +82,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const endRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
+  const lastScrollTop = useRef(0);
+  const scrollDir = useRef(0);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -101,73 +111,81 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  const onScroll = useCallback(async () => {
-    const container = containerRef.current;
-    const begin = beginRef.current;
-    const end = endRef.current;
+  const onScroll = useCallback(
+    async (e) => {
+      const container = containerRef.current;
+      const begin = beginRef.current;
+      const end = endRef.current;
 
-    if (!container || !begin || !scrollEnabled) {
-      return;
-    }
+      if (!container || !begin || !scrollEnabled) {
+        return;
+      }
 
-    const containerRect = container.getBoundingClientRect();
-    const beginRect = begin.getBoundingClientRect();
-    const endRect = end.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const beginRect = begin.getBoundingClientRect();
+      const endRect = end.getBoundingClientRect();
 
-    // Check to load previous comments
-    if (
-      containerRect.y - beginRect.y < 100 &&
-      beforeHasMore &&
-      !isLoadingMoreBefore &&
-      scrollEnabled.current
-    ) {
-      try {
-        scrollEnabled.current = false;
-        await loadMoreBefore();
+      scrollDir.current = container.scrollTop - lastScrollTop.current;
 
-        if (beforeComments.length > 0) {
-          const id = `comment-${beforeComments[0].id}`;
+      // Check to load previous comments
+      if (
+        containerRect.y - beginRect.y < 100 &&
+        beforeHasMore &&
+        !isLoadingMoreBefore &&
+        scrollEnabled.current
+      ) {
+        try {
+          scrollEnabled.current = false;
+          await loadMoreBefore();
 
-          window.requestAnimationFrame(() => {
-            scrollToID(id);
-          });
+          if (beforeComments.length > 0) {
+            const id = `comment-${beforeComments[0].id}`;
+
+            window.requestAnimationFrame(() => {
+              scrollToID(id);
+              lastScrollTop.current = container.scrollTop;
+            });
+          }
+        } catch (err) {
+          // ignore for now
         }
-      } catch (err) {
-        // ignore for now
       }
-    }
 
-    let atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+      let atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
 
-    if (
-      atBottom &&
-      afterHasMore &&
-      !isLoadingMoreAfter &&
-      scrollEnabled.current
-    ) {
-      try {
-        scrollEnabled.current = false;
-        await loadMoreAfter();
-        scrollEnabled.current = true;
-      } catch (err) {
-        // ignore for now
+      if (
+        atBottom &&
+        afterHasMore &&
+        !isLoadingMoreAfter &&
+        scrollEnabled.current
+      ) {
+        try {
+          scrollEnabled.current = false;
+          await loadMoreAfter();
+          scrollEnabled.current = true;
+        } catch (err) {
+          // ignore for now
+        }
       }
-    }
 
-    atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+      atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
 
-    setTailing(atBottom);
-  }, [
-    afterHasMore,
-    beforeComments,
-    beforeHasMore,
-    isLoadingMoreAfter,
-    isLoadingMoreBefore,
-    loadMoreAfter,
-    loadMoreBefore,
-    scrollToID,
-    setTailing,
-  ]);
+      setTailing(atBottom);
+
+      lastScrollTop.current = container.scrollTop;
+    },
+    [
+      afterHasMore,
+      beforeComments,
+      beforeHasMore,
+      isLoadingMoreAfter,
+      isLoadingMoreBefore,
+      loadMoreAfter,
+      loadMoreBefore,
+      scrollToID,
+      setTailing,
+    ]
+  );
 
   const scrollToEnd = useCallback(
     (behavior?: string) => {
@@ -188,6 +206,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     // Scroll to bottom
     scrollToEnd();
     setTailing(true);
+
+    if (containerRef.current) {
+      lastScrollTop.current = containerRef.current.scrollTop;
+    }
 
     // Enable scroll in a bit
     const timeoutReg = setTimeout(() => {
@@ -246,20 +268,54 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     };
   }, [story.id, subscribeToCommentEntered, afterHasMore]);
 
+  const onCommentVisible = useCallback(
+    async (visible: boolean, id: string, createdAt: string, cursor: string) => {
+      const key = `liveCursor:${storyID}:${storyURL}`;
+
+      const rawValue = await context.localStorage.getItem(key);
+      let current: CursorState | null = null;
+      if (rawValue) {
+        current = JSON.parse(rawValue);
+      }
+
+      if (current && new Date(createdAt) > new Date(current.createdAt)) {
+        await context.localStorage.setItem(
+          key,
+          JSON.stringify({
+            createdAt,
+            cursor,
+          })
+        );
+      } else if (!current) {
+        await context.localStorage.setItem(
+          key,
+          JSON.stringify({
+            createdAt,
+            cursor,
+          })
+        );
+      }
+    },
+    [context.localStorage, storyID, storyURL]
+  );
+
   return (
-    <>
+    <IntersectionProvider>
       <div
+        id="live-chat-comments"
         className={styles.streamContainer}
         onScroll={onScroll}
         ref={containerRef}
       >
         <div id="begin" ref={beginRef} />
+
         {beforeComments.map((c) => (
           <LiveCommentContainer
             key={c.id}
             comment={c}
             viewer={viewer}
             settings={settings}
+            onInView={onCommentVisible}
           />
         ))}
         <div>-- BEFORE/AFTER --</div>
@@ -269,8 +325,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             comment={c}
             viewer={viewer}
             settings={settings}
+            onInView={onCommentVisible}
           />
         ))}
+
         <div id="end" ref={endRef} />
       </div>
       <LivePostCommentFormContainer
@@ -279,7 +337,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         viewer={viewer}
         commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
       />
-    </>
+    </IntersectionProvider>
   );
 };
 
@@ -299,6 +357,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveChatContainer_story on Story {
       id
+      url
       ...LivePostCommentFormContainer_story
     }
   `,

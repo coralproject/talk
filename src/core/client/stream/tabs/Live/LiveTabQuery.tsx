@@ -1,11 +1,14 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
+import { Spinner } from "coral-ui/components/v2";
 
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
+import CursorState from "./CursorState";
 import LiveStreamContainer from "./LiveStreamContainer";
 
 const LiveTabQuery: FunctionComponent = () => {
@@ -15,13 +18,36 @@ const LiveTabQuery: FunctionComponent = () => {
       storyURL
     }
   `);
+  const context = useCoralContext();
 
-  const cursor = useMemo(() => {
-    return new Date().toISOString();
-  }, []);
+  const [cursor, setCursor] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadCursor = async () => {
+      const key = `liveCursor:${storyID}:${storyURL}`;
+
+      const rawValue = await context.localStorage.getItem(key);
+      let current: CursorState | null = null;
+      if (rawValue) {
+        current = JSON.parse(rawValue);
+      }
+
+      if (current) {
+        setCursor(new Date(current.cursor).toISOString());
+      } else {
+        setCursor(new Date().toISOString());
+      }
+    };
+
+    void loadCursor();
+  }, [context.localStorage, storyID, storyURL]);
 
   if (!storyURL) {
     return null;
+  }
+
+  if (!cursor) {
+    return <Spinner />;
   }
 
   return (

@@ -43,6 +43,11 @@ type AuthPopup {
   view: VIEW
 }
 
+type LiveChatCursor {
+  storyID: String!
+  cursor: String!
+}
+
 type LiveChatState {
   tailing: Boolean
 }
