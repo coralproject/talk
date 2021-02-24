@@ -21,6 +21,7 @@ interface Props {
   story: LiveCommentReplyContainer_story;
   comment: LiveCommentReplyContainer_comment;
 
+  visible: boolean;
   onClose: () => void;
 }
 
@@ -30,40 +31,50 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   story,
   comment,
   onClose,
+  visible,
 }) => {
-  const onSubmitted = useCallback(() => {}, []);
+  const onSubmitted = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  if (!visible) {
+    return null;
+  }
 
   if (!comment.revision) {
     return null;
   }
 
   return (
-    <div className={styles.root}>
-      <Button className={styles.closeButton} onClick={onClose} color="none">
-        <Icon className={styles.closeIcon}>cancel</Icon>
-      </Button>
-      <div className={styles.parent}>
-        <Flex justifyContent="flex-start" alignItems="center">
-          <div className={styles.replyTo}>Replying to:</div>
-          <div className={styles.username}>
-            {comment.author ? comment.author.username || "" : ""}
+    <>
+      <div className={styles.overlay}></div>
+      <div className={styles.root}>
+        <Button className={styles.closeButton} onClick={onClose} color="none">
+          <Icon className={styles.closeIcon}>cancel</Icon>
+        </Button>
+        <div className={styles.parent}>
+          <Flex justifyContent="flex-start" alignItems="center">
+            <div className={styles.replyTo}>Replying to:</div>
+            <div className={styles.username}>
+              {comment.author ? comment.author.username || "" : ""}
+            </div>
+          </Flex>
+          <div>
+            <TimeStamp>{comment.createdAt}</TimeStamp>
+            <div dangerouslySetInnerHTML={{ __html: comment.body || "" }}></div>
           </div>
-        </Flex>
-        <div>
-          <TimeStamp>{comment.createdAt}</TimeStamp>
-          <div dangerouslySetInnerHTML={{ __html: comment.body || "" }}></div>
         </div>
-      </div>
 
-      <LiveCreateCommentReplyFormContainer
-        settings={settings}
-        viewer={viewer}
-        story={story}
-        parentID={comment.id}
-        parentRevisionID={comment.revision.id}
-        onSubmitted={onSubmitted}
-      />
-    </div>
+        <LiveCreateCommentReplyFormContainer
+          settings={settings}
+          viewer={viewer}
+          story={story}
+          parentID={comment.id}
+          parentRevisionID={comment.revision.id}
+          onSubmitted={onSubmitted}
+        />
+      </div>
+    </>
   );
 };
 

@@ -16,7 +16,6 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
-import { Modal } from "coral-ui/components/v2";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -400,15 +399,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         <div id="end" ref={endRef} />
       </div>
       {replyVisible && focusedComment && storyID && viewer && (
-        <Modal open={replyVisible}>
-          <LiveCommentReplyContainer
-            settings={settings}
-            viewer={viewer}
-            story={story}
-            comment={focusedComment as any}
-            onClose={onCloseReply}
-          />
-        </Modal>
+        <LiveCommentReplyContainer
+          settings={settings}
+          viewer={viewer}
+          story={story}
+          comment={focusedComment as any}
+          visible={replyVisible}
+          onClose={onCloseReply}
+        />
       )}
       <LivePostCommentFormContainer
         settings={settings}
