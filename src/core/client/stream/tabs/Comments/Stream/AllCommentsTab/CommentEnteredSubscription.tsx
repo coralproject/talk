@@ -175,17 +175,6 @@ const CommentEnteredSubscription = createSubscription(
               tags {
                 code
               }
-              story {
-                commentCounts {
-                  totalPublished
-                  tags {
-                    FEATURED
-                    UNANSWERED
-                    REVIEW
-                    QUESTION
-                  }
-                }
-              }
               ...AllCommentsTabCommentContainer_comment
             }
           }

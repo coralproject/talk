@@ -323,8 +323,6 @@ const enhanced = withPaginationContainer<
         commentCounts {
           totalPublished
           tags {
-            FEATURED
-            UNANSWERED
             REVIEW
             QUESTION
           }
