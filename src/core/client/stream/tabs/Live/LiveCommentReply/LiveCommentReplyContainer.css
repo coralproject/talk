@@ -1,10 +1,26 @@
 .root {
-  width: 100%;
-  background: white;
+  background-color: white;
 
   font-family: var(--font-family-primary);
   font-size: var(--font-size-3);
-  color: var(--palette-text-primary)
+  color: var(--palette-text-primary);
+
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}
+
+.overlay {
+  z-index: 999;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  background-color: rgba(125, 125, 125, 0.5);
 }
 
 .parent {
