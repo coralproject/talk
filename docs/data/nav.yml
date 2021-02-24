@@ -39,10 +39,6 @@ sidebar:
         href: /mobile
       - title: Accelerated Mobile Pages
         href: /amp
-  - title: API
-    items:
-      - title: GraphQL Overview
-        href: /graphql
   - title: FAQ & Troubleshooting
     items:
       - title: FAQ
@@ -51,3 +47,7 @@ sidebar:
         href: /troubleshooting
       - title: IE11 Compatibility
         href: /ie11
+  - title: GraphQL API
+    items:
+      - title: Getting Started
+        href: /graphql

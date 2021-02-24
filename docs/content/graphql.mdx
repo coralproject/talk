@@ -1,6 +1,6 @@
 ---
 title: Getting Started with the Coral API
-description:
+description: Coral exposes a GraphQL API for performing administrative tasks.
 ---
 
 The Coral API is a [GraphQL API](https://graphql.org/). A GraphQL API exposes
@@ -11,16 +11,15 @@ fetch only the specific data that they need for their application.
 See [the API reference](/reference/object/Query) for type-by-type and
 field-by-field documentation.
 
-You can also explore the Coral API using the integrated GraphiQL IDE on a
+You can also explore the Coral API using the integrated [GraphiQL IDE](#graphiql-ide) on a
 running instance of Coral.
 
 ## Requirements
 
-- Applications must authenticate with an access token.
-- Only administrative users can integrate with the API directly.
-
-> Note: This means that the Coral API cannot be used for a native app integration
-> which would require non-administrative users to interact with the API.
+- Applications must authenticate with an [access token](#get-an-access-token).
+- Only administrative users can integrate with the API directly. **This means
+  that the Coral API cannot be used for a native app integration which would
+  require non-administrative users to interact with the API.**
 
 ## Quick Start
 
@@ -121,17 +120,15 @@ APIs.
 It is not required to enable the `/graphiql` playground to use Coral’s GraphQL
 API. The playground simply provides an easy way to explore and interact with
 Coral’s GraphQL schema. You can enable the GraphiQL IDE interface at
-http://localhost:3000/graphiql when running in development. You can do this by
-adding:
+[http://localhost:8080/graphiql](http://localhost:8080/graphiql) when running in
+development. You can do this by adding:
 
 ```bash
 ENABLE_GRAPHIQL=true
 ```
 
-To your environment. **We do not recommend using this in production environments
+In your environment. **We do not recommend using this in production environments
 as it will disable many security features used by the application!**
-
-<!-- TODO: document how to authenticate to GraphiQL -->
 
 ## Persisted Queries
 
