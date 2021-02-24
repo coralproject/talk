@@ -36,6 +36,7 @@ interface Props {
     cursor: string
   ) => void;
   onReplyTo: (comment: LiveCommentReplyContainer_comment) => void;
+  onShowConversation: (comment: LiveCommentReplyContainer_comment) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -44,6 +45,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   settings,
   onInView,
   onReplyTo,
+  onShowConversation,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const { inView, intersectionRef } = useInView();
@@ -67,6 +69,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
     onReplyTo(comment as any);
   }, [comment, onReplyTo]);
+
+  const onConversation = useCallback(() => {
+    if (!comment || !comment.revision) {
+      return;
+    }
+
+    onShowConversation(comment as any);
+  }, [comment, onShowConversation]);
 
   return (
     <div ref={rootRef} className={styles.root}>
@@ -138,6 +148,15 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
               />
             </Button>
           )}
+          {comment.replyCount > 0 && (
+            <Button
+              className={styles.conversationButton}
+              variant="none"
+              onClick={onConversation}
+            >
+              Conversation
+            </Button>
+          )}
         </div>
         {showReportFlow && (
           <ReportFlowContainer
@@ -181,6 +200,7 @@ const enhanced = withFragmentContainer<Props>({
         createdAt
         body
       }
+      replyCount
 
       ...ReportButton_comment
       ...ReportFlowContainer_comment

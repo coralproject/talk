@@ -74,6 +74,8 @@
 
 .chatIcon {
   color: var(--palette-text-900);
+
+  margin-right: var(--spacing-2);
 }
 
 .conversationTitle {

@@ -359,7 +359,16 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       setShowConversation(false);
       setReplyVisible(true);
     },
-    [setReplyVisible, setFocusedComment]
+    [setReplyVisible, setFocusedComment, setShowConversation]
+  );
+
+  const onShowConversation = useCallback(
+    (comment: LiveCommentReplyContainer_comment) => {
+      setFocusedComment(comment);
+      setShowConversation(true);
+      setReplyVisible(true);
+    },
+    [setReplyVisible, setFocusedComment, setShowConversation]
   );
 
   const onCloseReply = useCallback(() => {
@@ -413,6 +422,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             settings={settings}
             onInView={onCommentVisible}
             onReplyTo={onShowReplyDialog}
+            onShowConversation={onShowConversation}
           />
         ))}
 
@@ -436,6 +446,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             settings={settings}
             onInView={onCommentVisible}
             onReplyTo={onShowReplyDialog}
+            onShowConversation={onShowConversation}
           />
         ))}
 
