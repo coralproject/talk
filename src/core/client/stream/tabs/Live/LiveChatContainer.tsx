@@ -105,7 +105,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const containerRef = useRef<any | null>(null);
   const beginRef = useRef<any | null>(null);
-  const endRef = useRef<any | null>(null);
   const beforeAfterRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
@@ -150,7 +149,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     async (e) => {
       const container = containerRef.current;
       const begin = beginRef.current;
-      const end = endRef.current;
 
       if (!container || !begin || !scrollEnabled) {
         return;
@@ -158,7 +156,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
       const containerRect = container.getBoundingClientRect();
       const beginRect = begin.getBoundingClientRect();
-      const endRect = end.getBoundingClientRect();
 
       scrollDir.current = container.scrollTop - lastScrollTop.current;
 
@@ -186,7 +183,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         }
       }
 
-      let atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+      let atBottom =
+        Math.abs(
+          container.scrollTop -
+            (container.scrollHeight - container.offsetHeight)
+        ) < 5;
 
       if (
         atBottom &&
@@ -203,7 +204,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         }
       }
 
-      atBottom = Math.abs(containerRect.bottom - endRect.bottom) <= 5;
+      atBottom =
+        Math.abs(
+          container.scrollTop -
+            (container.scrollHeight - container.offsetHeight)
+        ) < 5;
 
       setTailing(atBottom);
 
@@ -232,9 +237,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollToEnd = useCallback(
     (behavior?: ScrollOptions["behavior"]) => {
-      // const end = endRef.current;
-      // end.scrollIntoView({ behavior });
-
       const height = containerRef.current.scrollHeight;
       scrollElement(containerRef.current, { left: 0, top: height, behavior });
     },
@@ -242,10 +244,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (!endRef.current) {
-      return;
-    }
-
     if (cursorSet) {
       scrollToBeforeAfter();
     } else {
@@ -267,7 +265,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       clearTimeout(timeoutReg);
     };
   }, [
-    endRef,
     scrollToEnd,
     scrollEnabled,
     story.id,
@@ -451,8 +448,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             onShowConversation={onShowConversation}
           />
         ))}
-
-        <div id="end" ref={endRef} />
       </div>
       {newReplyID && (
         <div className={styles.scrollToNewReply}>
