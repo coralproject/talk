@@ -13,13 +13,15 @@ import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton
 import ReportFlowContainer, {
   ReportButton,
 } from "coral-stream/tabs/shared/ReportFlow";
-import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
+import { Flex, Timestamp } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
+
+import ShortcutIcon from "../ShortcutIcon";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -72,13 +74,19 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
         {comment.parent && (
           <div className={styles.parent}>
             <Flex justifyContent="flex-start" alignItems="center">
-              <Icon className={styles.parentArrow}>reply</Icon>
+              <ShortcutIcon
+                width="36px"
+                height="20px"
+                className={styles.parentArrow}
+              />
               <div className={styles.parentUser}>
                 {comment.parent.author?.username}
               </div>
               <div
                 className={styles.parentBody}
-                dangerouslySetInnerHTML={{ __html: comment.parent?.body || "" }}
+                dangerouslySetInnerHTML={{
+                  __html: comment.parent?.body || "",
+                }}
               ></div>
             </Flex>
           </div>
@@ -123,7 +131,11 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
               variant="none"
               onClick={onReply}
             >
-              <Icon className={styles.replyIcon}>reply</Icon>
+              <ShortcutIcon
+                width="16px"
+                height="16px"
+                className={styles.replyIcon}
+              />
             </Button>
           )}
         </div>
