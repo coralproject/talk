@@ -30,6 +30,24 @@ import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
 
+/**
+ * scrollElement is a version of Element.scroll but also works in older browsers.
+ *
+ * TODO: (cvle) for some reason polyfilling Element.prototype failed.
+ */
+function scrollElement(element: Element, options: ScrollToOptions) {
+  if (element.scroll) {
+    element.scroll(options);
+  } else {
+    if (options.left !== undefined) {
+      element.scrollLeft = options.left;
+    }
+    if (options.top !== undefined) {
+      element.scrollTop = options.top;
+    }
+  }
+}
+
 interface Props {
   beforeComments: LiveChatContainerBeforeComment;
   beforeHasMore: boolean;
@@ -200,12 +218,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   const scrollToEnd = useCallback(
-    (behavior?: string) => {
+    (behavior?: ScrollOptions["behavior"]) => {
       // const end = endRef.current;
       // end.scrollIntoView({ behavior });
 
       const height = containerRef.current.scrollHeight;
-      containerRef.current.scroll({ left: 0, top: height, behavior });
+      scrollElement(containerRef.current, { left: 0, top: height, behavior });
     },
     [containerRef]
   );
