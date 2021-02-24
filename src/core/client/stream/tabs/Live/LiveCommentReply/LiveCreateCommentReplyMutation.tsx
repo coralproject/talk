@@ -94,8 +94,7 @@ function sharedUpdater(
 ) {
   const commentEdge = store
     .getRootField("createCommentReply")!
-    .getLinkedRecord("edge")!
-    .getLinkedRecord("parent");
+    .getLinkedRecord("edge")!;
 
   const streamProxy = store.get(input.storyID)!;
   const connectionKey = "Chat_after";
