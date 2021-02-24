@@ -352,6 +352,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const onShowReplyDialog = useCallback(
     (comment: LiveCommentReplyContainer_comment) => {
+      const el = document.getElementById(`comment-${comment.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+
       setFocusedComment(comment);
       setShowConversation(false);
       setReplyVisible(true);
