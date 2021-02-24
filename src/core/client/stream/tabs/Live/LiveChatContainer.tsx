@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from "react";
 import { graphql } from "react-relay";
 
@@ -15,6 +16,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { Modal } from "coral-ui/components/v2";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -22,10 +24,12 @@ import { LiveChatContainer_viewer } from "coral-stream/__generated__/LiveChatCon
 import { LiveChatContainerAfterComment } from "coral-stream/__generated__/LiveChatContainerAfterComment.graphql";
 import { LiveChatContainerBeforeComment } from "coral-stream/__generated__/LiveChatContainerBeforeComment.graphql";
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
+import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
 import CursorState from "./CursorState";
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
+import LiveCommentReplyContainer from "./LiveCommentReply/LiveCommentReplyContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
@@ -106,6 +110,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const scrollEnabled = useRef(false);
   const lastScrollTop = useRef(0);
   const scrollDir = useRef(0);
+
+  const [
+    focusedComment,
+    setFocusedComment,
+  ] = useState<LiveCommentReplyContainer_comment | null>(null);
+  const [replyVisible, setReplyVisible] = useState(false);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -340,6 +350,19 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.localStorage, storyID, storyURL]
   );
 
+  const onShowReply = useCallback(
+    (comment: LiveCommentReplyContainer_comment) => {
+      setFocusedComment(comment);
+      setReplyVisible(true);
+    },
+    [setReplyVisible, setFocusedComment]
+  );
+
+  const onCloseReply = useCallback(() => {
+    setFocusedComment(null);
+    setReplyVisible(false);
+  }, [setReplyVisible, setFocusedComment]);
+
   return (
     <IntersectionProvider>
       <div
@@ -357,6 +380,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
+            onReplyTo={onShowReply}
           />
         ))}
         <div id="before-after" ref={beforeAfterRef}>
@@ -369,11 +393,23 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
+            onReplyTo={onShowReply}
           />
         ))}
 
         <div id="end" ref={endRef} />
       </div>
+      {replyVisible && focusedComment && storyID && viewer && (
+        <Modal open={replyVisible}>
+          <LiveCommentReplyContainer
+            settings={settings}
+            viewer={viewer}
+            story={story}
+            comment={focusedComment as any}
+            onClose={onCloseReply}
+          />
+        </Modal>
+      )}
       <LivePostCommentFormContainer
         settings={settings}
         story={story}
@@ -402,18 +438,21 @@ const enhanced = withFragmentContainer<Props>({
       id
       url
       ...LivePostCommentFormContainer_story
+      ...LiveCommentReplyContainer_story
     }
   `,
   viewer: graphql`
     fragment LiveChatContainer_viewer on User {
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
+      ...LiveCommentReplyContainer_viewer
     }
   `,
   settings: graphql`
     fragment LiveChatContainer_settings on Settings {
       ...LivePostCommentFormContainer_settings
       ...LiveCommentContainer_settings
+      ...LiveCommentReplyContainer_settings
     }
   `,
 })(LiveChatContainer);
