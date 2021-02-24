@@ -1,13 +1,7 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import React, { FunctionComponent, useCallback, useRef } from "react";
 import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
-import { useInView } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import ReportFlowContainer, {
@@ -21,6 +15,7 @@ import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCo
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
+import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
 
 import styles from "./LiveCommentContainer.css";
@@ -50,7 +45,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   onShowConversation,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const { inView, intersectionRef } = useInView();
 
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -58,11 +52,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   const isViewerSuspended = false;
   const isViewerWarned = false;
 
-  useEffect(() => {
-    if (inView) {
-      onInView(inView, comment.id, comment.createdAt, cursor);
-    }
-  }, [comment.createdAt, comment.id, cursor, inView, onInView]);
+  const inView = useCallback(() => {
+    onInView(true, comment.id, comment.createdAt, cursor);
+  }, [comment.createdAt, comment.id, cursor, onInView]);
 
   const onReply = useCallback(() => {
     if (!comment || !comment.revision) {
@@ -82,7 +74,8 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
   return (
     <div ref={rootRef} className={styles.root}>
-      <div className={styles.comment} ref={intersectionRef}>
+      <div className={styles.comment}>
+        <InView onInView={inView} />
         {comment.parent && (
           <div className={styles.parent}>
             <Flex justifyContent="flex-start" alignItems="center">
