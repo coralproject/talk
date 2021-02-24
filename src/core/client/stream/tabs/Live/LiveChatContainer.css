@@ -1,4 +1,6 @@
 .streamContainer {
+  position: relative;
+
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -8,4 +10,18 @@
 .replyModal {
   background: white;
   width: 100%;
+}
+
+.scrollToNewReply {
+  position: relative;
+
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: 0px;
+  z-index: 998;
+
+  text-align: center;
+
+  background: transparent;
 }

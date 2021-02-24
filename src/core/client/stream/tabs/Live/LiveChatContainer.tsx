@@ -16,6 +16,8 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { Icon } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -115,6 +117,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setFocusedComment,
   ] = useState<LiveCommentReplyContainer_comment | null>(null);
   const [replyVisible, setReplyVisible] = useState(false);
+  const [newReplyID, setNewReplyID] = useState<string | null>(null);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -362,6 +365,33 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setReplyVisible(false);
   }, [setReplyVisible, setFocusedComment]);
 
+  const onReplySubmitted = useCallback(
+    (commentID?: string) => {
+      if (commentID) {
+        setNewReplyID(commentID);
+      }
+
+      setReplyVisible(false);
+      setFocusedComment(null);
+    },
+    [setReplyVisible, setFocusedComment]
+  );
+
+  const scrollToNewReply = useCallback(() => {
+    if (!newReplyID) {
+      return;
+    }
+
+    const el = document.getElementById(`comment-${newReplyID}`);
+    if (!el) {
+      return;
+    }
+
+    el.scrollIntoView({ behavior: "smooth" });
+
+    setNewReplyID(null);
+  }, [newReplyID, setNewReplyID]);
+
   return (
     <IntersectionProvider>
       <div
@@ -398,6 +428,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
         <div id="end" ref={endRef} />
       </div>
+      {newReplyID && (
+        <div className={styles.scrollToNewReply}>
+          <Button onClick={scrollToNewReply} color="primary">
+            Reply posted below <Icon>arrow_downward</Icon>
+          </Button>
+        </div>
+      )}
       {replyVisible && focusedComment && storyID && viewer && (
         <LiveCommentReplyContainer
           settings={settings}
@@ -406,6 +443,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           comment={focusedComment as any}
           visible={replyVisible}
           onClose={onCloseReply}
+          onSubmitted={onReplySubmitted}
         />
       )}
       <LivePostCommentFormContainer

@@ -25,6 +25,7 @@ interface Props {
   visible?: boolean;
   showReplies?: boolean;
   onClose: () => void;
+  onSubmitted: (commentID?: string) => void;
 }
 
 const LiveCommentReplyContainer: FunctionComponent<Props> = ({
@@ -33,10 +34,11 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   story,
   comment,
   onClose,
+  onSubmitted,
   visible,
   showReplies,
 }) => {
-  const onSubmitted = useCallback(() => {
+  const close = useCallback(() => {
     onClose();
   }, [onClose]);
 
@@ -52,7 +54,7 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
     <>
       <div className={styles.overlay}></div>
       <div className={styles.root}>
-        <Button className={styles.closeButton} onClick={onClose} color="none">
+        <Button className={styles.closeButton} onClick={close} color="none">
           <Icon className={styles.closeIcon}>cancel</Icon>
         </Button>
         <div className={styles.parent}>
