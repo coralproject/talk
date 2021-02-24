@@ -28,6 +28,7 @@ import styles from "./LiveCommentContainer.css";
 interface Props {
   viewer: LiveCommentContainer_viewer | null;
   comment: LiveCommentContainer_comment;
+  cursor: string;
   settings: LiveCommentContainer_settings;
   onInView: (
     visible: boolean,
@@ -41,6 +42,7 @@ interface Props {
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
   comment,
+  cursor,
   viewer,
   settings,
   onInView,
@@ -58,9 +60,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (inView) {
-      onInView(inView, comment.id, comment.createdAt, comment.createdAt);
+      onInView(inView, comment.id, comment.createdAt, cursor);
     }
-  }, [comment.createdAt, comment.id, inView, onInView]);
+  }, [comment.createdAt, comment.id, cursor, inView, onInView]);
 
   const onReply = useCallback(() => {
     if (!comment || !comment.revision) {

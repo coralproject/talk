@@ -22,8 +22,8 @@ import { Button } from "coral-ui/components/v3";
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
 import { LiveChatContainer_viewer } from "coral-stream/__generated__/LiveChatContainer_viewer.graphql";
-import { LiveChatContainerAfterComment } from "coral-stream/__generated__/LiveChatContainerAfterComment.graphql";
-import { LiveChatContainerBeforeComment } from "coral-stream/__generated__/LiveChatContainerBeforeComment.graphql";
+import { LiveChatContainerAfterCommentEdge } from "coral-stream/__generated__/LiveChatContainerAfterCommentEdge.graphql";
+import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveChatContainerBeforeCommentEdge.graphql";
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
@@ -54,12 +54,12 @@ function scrollElement(element: Element, options: ScrollToOptions) {
 }
 
 interface Props {
-  beforeComments: LiveChatContainerBeforeComment;
+  beforeComments: LiveChatContainerBeforeCommentEdge;
   beforeHasMore: boolean;
   loadMoreBefore: () => Promise<void>;
   isLoadingMoreBefore: boolean;
 
-  afterComments: LiveChatContainerAfterComment;
+  afterComments: LiveChatContainerAfterCommentEdge;
   afterHasMore: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
@@ -174,7 +174,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           await loadMoreBefore();
 
           if (beforeComments.length > 0) {
-            const id = `comment-${beforeComments[0].id}`;
+            const id = `comment-${beforeComments[0].node.id}`;
 
             window.requestAnimationFrame(() => {
               scrollToID(id);
@@ -414,10 +414,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       >
         <div id="begin" ref={beginRef} />
 
-        {beforeComments.map((c) => (
+        {beforeComments.map((e) => (
           <LiveCommentContainer
-            key={c.id}
-            comment={c}
+            key={e.node.id}
+            comment={e.node}
+            cursor={e.cursor}
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
@@ -438,10 +439,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           )}
         </div>
 
-        {afterComments.map((c) => (
+        {afterComments.map((e) => (
           <LiveCommentContainer
-            key={c.id}
-            comment={c}
+            key={e.node.id}
+            comment={e.node}
+            cursor={e.cursor}
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
@@ -483,15 +485,23 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   beforeComments: graphql`
-    fragment LiveChatContainerBeforeComment on Comment @relay(plural: true) {
-      id
-      ...LiveCommentContainer_comment
+    fragment LiveChatContainerBeforeCommentEdge on CommentEdge
+      @relay(plural: true) {
+      cursor
+      node {
+        id
+        ...LiveCommentContainer_comment
+      }
     }
   `,
   afterComments: graphql`
-    fragment LiveChatContainerAfterComment on Comment @relay(plural: true) {
-      id
-      ...LiveCommentContainer_comment
+    fragment LiveChatContainerAfterCommentEdge on CommentEdge
+      @relay(plural: true) {
+      cursor
+      node {
+        id
+        ...LiveCommentContainer_comment
+      }
     }
   `,
   story: graphql`

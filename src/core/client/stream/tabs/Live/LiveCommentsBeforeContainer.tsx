@@ -11,9 +11,11 @@ import { LiveCommentsBeforeContainer_story } from "coral-stream/__generated__/Li
 import { LiveCommentsBeforeContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentsBeforeContainerPaginationQuery.graphql";
 
 interface RenderProps {
-  beforeComments: {
-    readonly " $fragmentRefs": FragmentRefs<"LiveChatContainerBeforeComment">;
-  }[];
+  beforeComments: ReadonlyArray<{
+    readonly " $fragmentRefs": FragmentRefs<
+      "LiveChatContainerBeforeCommentEdge"
+    >;
+  }>;
   beforeHasMore: boolean;
   loadMoreBefore: () => Promise<void>;
   isLoadingMoreBefore: boolean;
@@ -36,7 +38,7 @@ const LiveCommentsBeforeContainer: FunctionComponent<Props> = ({
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
   const beforeComments = useMemo(() => {
-    const comments = story.before.edges.map((e) => e.node) || [];
+    const comments = story.before.edges || [];
     return comments.slice().reverse();
   }, [story.before]);
   const beforeHasMore = story.before.pageInfo.hasNextPage;
@@ -75,13 +77,9 @@ const enhanced = withPaginationContainer<
           inclusive: true
         ) @connection(key: "Chat_before", filters: ["orderBy"]) {
           edges {
-            cursor
-            node {
-              ...LiveChatContainerBeforeComment
-            }
+            ...LiveChatContainerBeforeCommentEdge
           }
           pageInfo {
-            endCursor
             hasNextPage
           }
         }
