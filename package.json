@@ -30,7 +30,7 @@
     "clean": "gulp clean",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
-    "docs:watch": "PORT=8080 next-remote-watch --root docs docs/content docs/data",
+    "docs:watch": "npm run generate:docs && PORT=8080 next-remote-watch --root docs docs/content docs/data",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "docz": "docz",
     "export:docs": "next export docs",
