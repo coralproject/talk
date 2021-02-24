@@ -68,7 +68,8 @@
         if (accessToken) {
           headers["Authorization"] = `Bearer ${accessToken}`;
         } else {
-          window.location.replace("/admin");
+          localStorage.setItem("coral:v1:adminRedirectPath", "/graphiql");
+          window.location.replace("/admin/login");
         }
 
         GraphQLPlayground.init(document.getElementById("root"), {
@@ -78,6 +79,7 @@
           settings: {
             "editor.reuseHeaders": true,
             "tracing.tracingSupported": false,
+            "schema.polling.interval": 5 * 60 * 1000,
           },
         });
       });
