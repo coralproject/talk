@@ -91,6 +91,8 @@
 }
 
 .conversationButton {
+  float: right;
+
   border-width: 0px;
   border-style: none;
 
