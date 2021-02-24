@@ -27,7 +27,7 @@
   }
 
   & pre {
-    @apply overflow-x-auto;
+    @apply overflow-x-auto border border-gray-200;
 
     & code {
       @apply p-0 bg-transparent text-black;
@@ -62,7 +62,11 @@
   }
 
   & h2 {
-    @apply text-2xl my-6;
+    @apply text-2xl font-bold pb-3 my-10 border-b border-gray-200;
+  }
+
+  & h3 {
+    @apply text-xl font-bold;
   }
 
   & h2,
