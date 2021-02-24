@@ -34,9 +34,11 @@ const LiveTabQuery: FunctionComponent = () => {
       }
 
       if (current) {
-        setCursor(new Date(current.cursor).toISOString());
+        setCursor(current.cursor);
         setCursorWasSet(true);
       } else {
+        // TODO (Nick): we probably want to not set a cursor
+        // directly like this.
         setCursor(new Date().toISOString());
       }
     };

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 import { FragmentRefs } from "relay-runtime";
 
@@ -11,9 +11,11 @@ import { LiveCommentsAfterContainer_story } from "coral-stream/__generated__/Liv
 import { LiveCommentsAfterContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentsAfterContainerPaginationQuery.graphql";
 
 interface RenderProps {
-  afterComments: {
-    readonly " $fragmentRefs": FragmentRefs<"LiveChatContainerAfterComment">;
-  }[];
+  afterComments: ReadonlyArray<{
+    readonly " $fragmentRefs": FragmentRefs<
+      "LiveChatContainerAfterCommentEdge"
+    >;
+  }>;
   afterHasMore: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
@@ -35,13 +37,10 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
-  const afterComments = useMemo(() => {
-    return story.after.edges.map((e) => e.node);
-  }, [story.after]);
   const afterHasMore = story.after.pageInfo.hasNextPage;
 
   return children({
-    afterComments,
+    afterComments: story.after.edges,
     afterHasMore,
     loadMoreAfter: loadMore,
     isLoadingMoreAfter: isLoadingMore,
@@ -73,13 +72,9 @@ const enhanced = withPaginationContainer<
           first: $count
         ) @connection(key: "Chat_after", filters: ["orderBy"]) {
           edges {
-            cursor
-            node {
-              ...LiveChatContainerAfterComment
-            }
+            ...LiveChatContainerAfterCommentEdge
           }
           pageInfo {
-            endCursor
             hasNextPage
           }
         }
