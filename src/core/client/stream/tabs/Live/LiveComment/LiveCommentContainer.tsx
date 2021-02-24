@@ -13,7 +13,7 @@ import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton
 import ReportFlowContainer, {
   ReportButton,
 } from "coral-stream/tabs/shared/ReportFlow";
-import { Divider } from "coral-ui/components/v2";
+import { Divider, Flex, Icon, Timestamp } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
@@ -70,17 +70,35 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     <div ref={rootRef}>
       <div className={styles.comment} ref={intersectionRef}>
         {comment.parent && (
-          <div>
-            <div>{comment.parent.author?.username}</div>
-            <div>{comment.parent.body}</div>
-            <div>{comment.parent.createdAt}</div>
-            <div>---</div>
+          <div className={styles.parent}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon className={styles.parentArrow}>reply</Icon>
+              <div className={styles.parentUser}>
+                {comment.parent.author?.username}
+              </div>
+              <div
+                className={styles.parentBody}
+                dangerouslySetInnerHTML={{ __html: comment.parent?.body || "" }}
+              ></div>
+            </Flex>
           </div>
         )}
 
-        <div>{comment.author?.username}</div>
-        <div>{comment.body}</div>
-        <div>{comment.createdAt}</div>
+        <Flex justifyContent="flex-start" alignItems="flex-start">
+          <div className={styles.avatar}></div>
+          <div className={styles.container}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <div className={styles.username}>{comment.author?.username}</div>
+              <Timestamp className={styles.timestamp}>
+                {comment.createdAt}
+              </Timestamp>
+            </Flex>
+            <div
+              className={styles.body}
+              dangerouslySetInnerHTML={{ __html: comment.body || "" }}
+            ></div>
+          </div>
+        </Flex>
 
         <div id={`comment-${comment.id}`}>
           {viewer && (
@@ -99,7 +117,15 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             comment={comment}
           />
-          {!comment.parent && <Button onClick={onReply}>Reply</Button>}
+          {!comment.parent && (
+            <Button
+              className={styles.replyButton}
+              variant="none"
+              onClick={onReply}
+            >
+              <Icon className={styles.replyIcon}>reply</Icon>
+            </Button>
+          )}
         </div>
         {showReportFlow && (
           <ReportFlowContainer

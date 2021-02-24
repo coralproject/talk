@@ -1,4 +1,84 @@
 .comment {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+
   margin-top: var(--spacing-1);
   margint-bottom: var(--spacing-1);
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  background: grey;
+  border-radius: 5px;
+
+  margin-right: var(--spacing-1);
+}
+
+.container {
+  width: calc(100% - 40px);
+  background-color: var(--palette-grey-100);
+
+  padding: var(--spacing-1);
+  border-radius: 5px;
+}
+
+.username {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-family-primary-semi-bold);
+
+  margin-right: var(--spacing-1);
+}
+
+.timestamp {
+  font-size: var(--font-size-1);
+}
+
+.body {
+  font-size: var(--font-size-2);
+}
+
+.parent {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-1);
+
+  margin-left: 34px;
+
+  width: 100%;
+}
+
+.parentUser {
+  font-weight: var(--font-weight-primary-semi-bold);
+
+  margin-right: var(--spacing-1);
+}
+
+.parentBody {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  margin-right: var(--spacing-1);
+}
+
+.parentArrow {
+  transform: scaleX(-1);
+
+  font-size: var(--font-size-1);
+  color: var(--palette-text-100);
+
+  margin-right: var(--spacing-1);
+}
+
+.replyButton {
+  border-width: 0px;
+  border-style: none;
+}
+
+.replyIcon {
+  font-size: var(--font-size-icon-sm);
+  width: var(--font-size-icon-sm);
+
+  color: var(--palette-text-100);
 }
