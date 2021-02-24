@@ -13,7 +13,7 @@ import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton
 import ReportFlowContainer, {
   ReportButton,
 } from "coral-stream/tabs/shared/ReportFlow";
-import { Divider, Flex, Icon, Timestamp } from "coral-ui/components/v2";
+import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
@@ -67,7 +67,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   }, [comment, onReplyTo]);
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className={styles.root}>
       <div className={styles.comment} ref={intersectionRef}>
         {comment.parent && (
           <div className={styles.parent}>
@@ -135,8 +135,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             onClose={toggleShowReportFlow}
           />
         )}
-
-        <Divider />
       </div>
     </div>
   );
