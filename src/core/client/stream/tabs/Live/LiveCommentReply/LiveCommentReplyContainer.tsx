@@ -11,6 +11,7 @@ import { LiveCommentReplyContainer_settings } from "coral-stream/__generated__/L
 import { LiveCommentReplyContainer_story } from "coral-stream/__generated__/LiveCommentReplyContainer_story.graphql";
 import { LiveCommentReplyContainer_viewer } from "coral-stream/__generated__/LiveCommentReplyContainer_viewer.graphql";
 
+import LiveCommentRepliesQuery from "./LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
 import styles from "./LiveCommentReplyContainer.css";
@@ -21,7 +22,8 @@ interface Props {
   story: LiveCommentReplyContainer_story;
   comment: LiveCommentReplyContainer_comment;
 
-  visible: boolean;
+  visible?: boolean;
+  showReplies?: boolean;
   onClose: () => void;
 }
 
@@ -32,6 +34,7 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   comment,
   onClose,
   visible,
+  showReplies,
 }) => {
   const onSubmitted = useCallback(() => {
     onClose();
@@ -64,6 +67,8 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
             <div dangerouslySetInnerHTML={{ __html: comment.body || "" }}></div>
           </div>
         </div>
+
+        {showReplies && <LiveCommentRepliesQuery commentID={comment.id} />}
 
         <LiveCreateCommentReplyFormContainer
           settings={settings}
