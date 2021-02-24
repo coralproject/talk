@@ -47,6 +47,7 @@ function insertComment(
 
   if (liveInsertion) {
     const edge = ConnectionHandler.createEdge(store, comment, comment, "");
+    edge.setValue(new Date().toISOString(), "cursor");
 
     if (connection) {
       ConnectionHandler.insertEdgeAfter(connection, edge);
