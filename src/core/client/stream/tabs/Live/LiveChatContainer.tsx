@@ -118,6 +118,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   ] = useState<LiveCommentReplyContainer_comment | null>(null);
   const [replyVisible, setReplyVisible] = useState(false);
   const [newReplyID, setNewReplyID] = useState<string | null>(null);
+  const [showConversation, setShowConversation] = useState(false);
 
   const scrollToID = useCallback(
     (id: string) => {
@@ -352,9 +353,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.localStorage, storyID, storyURL]
   );
 
-  const onShowReply = useCallback(
+  const onShowReplyDialog = useCallback(
     (comment: LiveCommentReplyContainer_comment) => {
       setFocusedComment(comment);
+      setShowConversation(false);
       setReplyVisible(true);
     },
     [setReplyVisible, setFocusedComment]
@@ -362,6 +364,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const onCloseReply = useCallback(() => {
     setFocusedComment(null);
+    setShowConversation(false);
     setReplyVisible(false);
   }, [setReplyVisible, setFocusedComment]);
 
@@ -409,7 +412,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
-            onReplyTo={onShowReply}
+            onReplyTo={onShowReplyDialog}
           />
         ))}
 
@@ -432,7 +435,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             onInView={onCommentVisible}
-            onReplyTo={onShowReply}
+            onReplyTo={onShowReplyDialog}
           />
         ))}
 
@@ -454,6 +457,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           visible={replyVisible}
           onClose={onCloseReply}
           onSubmitted={onReplySubmitted}
+          showConversation={showConversation}
         />
       )}
       <LivePostCommentFormContainer
