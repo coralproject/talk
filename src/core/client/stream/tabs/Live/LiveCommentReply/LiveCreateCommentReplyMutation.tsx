@@ -96,6 +96,12 @@ function sharedUpdater(
     .getRootField("createCommentReply")!
     .getLinkedRecord("edge")!;
 
+  if (!commentEdge) {
+    return;
+  }
+
+  commentEdge.setValue(new Date().toISOString(), "cursor");
+
   const streamProxy = store.get(input.storyID)!;
   const connectionKey = "Chat_after";
 
@@ -103,7 +109,7 @@ function sharedUpdater(
     orderBy: "CREATED_AT_ASC",
   });
 
-  if (connection && commentEdge) {
+  if (connection) {
     ConnectionHandler.insertEdgeAfter(connection, commentEdge);
   }
 }
