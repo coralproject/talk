@@ -2,7 +2,6 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import TimeStamp from "coral-stream/common/Timestamp";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -11,6 +10,7 @@ import { LiveCommentReplyContainer_settings } from "coral-stream/__generated__/L
 import { LiveCommentReplyContainer_story } from "coral-stream/__generated__/LiveCommentReplyContainer_story.graphql";
 import { LiveCommentReplyContainer_viewer } from "coral-stream/__generated__/LiveCommentReplyContainer_viewer.graphql";
 
+import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentRepliesQuery from "./LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
@@ -23,7 +23,7 @@ interface Props {
   comment: LiveCommentReplyContainer_comment;
 
   visible?: boolean;
-  showReplies?: boolean;
+  showConversation?: boolean;
   onClose: () => void;
   onSubmitted: (commentID?: string) => void;
 }
@@ -36,7 +36,7 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   onClose,
   onSubmitted,
   visible,
-  showReplies,
+  showConversation,
 }) => {
   const close = useCallback(() => {
     onClose();
@@ -57,20 +57,31 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
         <Button className={styles.closeButton} onClick={close} color="none">
           <Icon className={styles.closeIcon}>cancel</Icon>
         </Button>
-        <div className={styles.parent}>
-          <Flex justifyContent="flex-start" alignItems="center">
-            <div className={styles.replyTo}>Replying to:</div>
-            <div className={styles.username}>
-              {comment.author ? comment.author.username || "" : ""}
-            </div>
-          </Flex>
-          <div>
-            <TimeStamp>{comment.createdAt}</TimeStamp>
-            <div dangerouslySetInnerHTML={{ __html: comment.body || "" }}></div>
-          </div>
-        </div>
 
-        {showReplies && <LiveCommentRepliesQuery commentID={comment.id} />}
+        {!showConversation ? (
+          <div className={styles.title}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <ShortcutIcon
+                width="14px"
+                height="14px"
+                className={styles.replyingToIcon}
+              />
+              <div className={styles.replyingTo}>Replying to</div>
+              <div className={styles.username}>
+                {comment.author ? comment.author.username || "" : ""}
+              </div>
+            </Flex>
+          </div>
+        ) : (
+          <div className={styles.title}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon className={styles.chatIcon}>chat</Icon>
+              <div className={styles.conversationTitle}>Conversation</div>
+            </Flex>
+          </div>
+        )}
+
+        {showConversation && <LiveCommentRepliesQuery commentID={comment.id} />}
 
         <LiveCreateCommentReplyFormContainer
           settings={settings}
