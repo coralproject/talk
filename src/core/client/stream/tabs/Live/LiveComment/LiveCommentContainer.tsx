@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useRef } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
@@ -9,10 +14,12 @@ import ReportFlowContainer, {
   ReportButton,
 } from "coral-stream/tabs/shared/ReportFlow";
 import { Divider } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
+import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -26,6 +33,7 @@ interface Props {
     createdAt: string,
     cursor: string
   ) => void;
+  onReplyTo: (comment: LiveCommentReplyContainer_comment) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -33,6 +41,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   onInView,
+  onReplyTo,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const { inView, intersectionRef } = useInView();
@@ -48,6 +57,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       onInView(inView, comment.id, comment.createdAt, comment.createdAt);
     }
   }, [comment.createdAt, comment.id, inView, onInView]);
+
+  const onReply = useCallback(() => {
+    if (!comment || !comment.revision) {
+      return;
+    }
+
+    onReplyTo(comment as any);
+  }, [comment, onReplyTo]);
 
   return (
     <div ref={rootRef}>
@@ -82,6 +99,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             comment={comment}
           />
+          {!comment.parent && <Button onClick={onReply}>Reply</Button>}
         </div>
         {showReportFlow && (
           <ReportFlowContainer
@@ -110,6 +128,9 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment LiveCommentContainer_comment on Comment {
       id
+      revision {
+        id
+      }
       author {
         id
         username
@@ -128,6 +149,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportButton_comment
       ...ReportFlowContainer_comment
       ...ReactionButtonContainer_comment
+      ...LiveCommentReplyContainer_comment
     }
   `,
   settings: graphql`
