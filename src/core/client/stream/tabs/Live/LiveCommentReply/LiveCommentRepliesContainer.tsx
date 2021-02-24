@@ -1,10 +1,15 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useRef } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withPaginationContainer } from "coral-framework/lib/relay";
+import {
+  useLoadMore,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
 import { LiveCommentRepliesContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesContainerPaginationQuery.graphql";
+
+import styles from "./LiveCommentRepliesContainer.css";
 
 interface Props {
   comment: LiveCommentRepliesContainer_comment;
@@ -15,13 +20,45 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   comment,
   relay,
 }) => {
-  // const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+
+  const rootRef = useRef<any | null>(null);
+
+  const onScroll = useCallback(async () => {
+    const root = rootRef.current;
+    if (!root) {
+      return;
+    }
+
+    const atBottom =
+      Math.abs(root.scrollTop - (root.scrollHeight - root.offsetHeight)) < 5;
+
+    if (atBottom && relay.hasMore() && !isLoadingMore) {
+      try {
+        await loadMore();
+      } catch (err) {
+        // ignore for now
+      }
+    }
+  }, [rootRef, relay, isLoadingMore, loadMore]);
 
   return (
-    <div>
-      {comment.replies.edges.map((c) => {
-        return <div key={`chat-reply-${c.node.id}`}>{c.node.id}</div>;
-      })}
+    <div onScroll={onScroll} className={styles.root} ref={rootRef}>
+      <div>
+        <div>{comment.id}</div>
+        <div>{comment.body || ""}</div>
+      </div>
+      <div>---</div>
+      <div>
+        {comment.replies.edges.map((c) => {
+          return (
+            <div key={`chat-reply-${c.node.id}`}>
+              <div>{c.node.id}</div>
+              <div>{c.node.body || ""}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -44,6 +81,7 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
         ) {
         id
+        body
         replies(
           flatten: true
           after: $cursor
@@ -54,6 +92,7 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              body
             }
           }
           pageInfo {
@@ -88,11 +127,13 @@ const enhanced = withPaginationContainer<
             viewNewEdges {
               node {
                 id
+                body
               }
             }
             edges {
               node {
                 id
+                body
               }
             }
           }
