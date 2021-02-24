@@ -25,3 +25,21 @@
 
   background: transparent;
 }
+
+.newhr {
+  flex-grow: 1;
+
+  border-color: var(--palette-primary-500);
+}
+
+.newDiv {
+  flex-shrink: 0;
+  width: 85px;
+
+  text-align: center;
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+
+  color: var(--palette-primary-500);
+}

@@ -16,7 +16,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
-import { Icon } from "coral-ui/components/v2";
+import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
@@ -224,7 +224,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const scrollToBeforeAfter = useCallback(
     (behavior?: string) => {
       const beforeAfter = beforeAfterRef.current;
-      beforeAfter.scrollIntoView({ behavior });
+      beforeAfter.scrollIntoView({ behavior, block: "center" });
     },
     [beforeAfterRef]
   );
@@ -387,7 +387,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    el.scrollIntoView({ behavior: "smooth" });
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
 
     setNewReplyID(null);
   }, [newReplyID, setNewReplyID]);
@@ -412,9 +412,19 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             onReplyTo={onShowReply}
           />
         ))}
+
         <div id="before-after" ref={beforeAfterRef}>
-          -- BEFORE/AFTER --
+          {afterComments && afterComments.length > 0 && (
+            <Flex justifyContent="center" alignItems="center">
+              <hr className={styles.newhr} />
+              <div className={styles.newDiv}>
+                New <Icon size="md">arrow_downward</Icon>
+              </div>
+              <hr className={styles.newhr} />
+            </Flex>
+          )}
         </div>
+
         {afterComments.map((c) => (
           <LiveCommentContainer
             key={c.id}

@@ -63,7 +63,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment LiveCommentsBeforeContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
         ) {
         id
