@@ -85,17 +85,16 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
   const [nudge, setNudge] = useState(true);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
-  const [draft = "", setDraft, initialDraft] = usePersistedState<string>(
-    "LiveCreateCommentReplyFormContainer:draft"
-  );
   const [, setToggle] = usePersistedState<Toggle>(
     "LiveCreateCommentReplyFormContainer:toggle"
   );
 
   const [initialValues, setInitialValues] = useState<FormProps>();
   useEffect(() => {
-    setInitialValues({ body: initialDraft || "" });
-  }, [initialDraft]);
+    setInitialValues({ body: "" });
+  }, []);
+
+  const setDraft = useCallback(() => {}, []);
 
   const initialized = !!initialValues;
 
@@ -121,7 +120,6 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         // We've submitted the comment, and it returned with a non-retry status,
         // so clear out the persisted values and reset the form.
         setToggle(undefined);
-        setDraft(undefined);
 
         setInitialValues({ body: "" });
         form
@@ -179,8 +177,6 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         setSubmitStatus(null);
       }
 
-      setDraft(state.values.body === RTE_RESET_VALUE ? "" : state.values.body);
-
       // Reset errors whenever user clears the form.
       if (
         state.touched &&
@@ -190,7 +186,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         (form as any).restart({ body: RTE_RESET_VALUE });
       }
     },
-    [setDraft, submitStatus]
+    [submitStatus]
   );
 
   const handleSignIn = () => {
@@ -227,7 +223,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
     return (
       <PostCommentFormFake
         rteConfig={settings.rte}
-        draft={draft}
+        draft={""}
         onDraftChange={setDraft}
         story={story}
         showMessageBox={story.settings.messageBox.enabled}
