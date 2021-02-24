@@ -37,6 +37,8 @@ sidebar:
         href: /seo
       - title: Native Mobile Apps
         href: /mobile
+      - title: Accelerated Mobile Pages
+        href: /amp
   - title: API
     items:
       - title: GraphQL Overview
