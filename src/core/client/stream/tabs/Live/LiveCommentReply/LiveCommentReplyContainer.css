@@ -1,0 +1,38 @@
+.root {
+  width: 100%;
+  background: white;
+
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+  color: var(--palette-text-primary)
+}
+
+.parent {
+  margin-bottom: var(--spacing-2);
+}
+
+.replyTo {
+  font-size: var(--font-size-2);
+  margin-right: var(--spacing-1);
+}
+
+.username {
+  font-size: var(--font-size-2);
+  color: var(--palette-text-500);
+}
+
+.closeButton {
+  float: right;
+
+  border-width: 0px;
+  border-style: none;
+}
+
+.closeIcon {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: var(--font-size-3);
+  color: var(--palette-text-100);
+}

@@ -2,6 +2,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import TimeStamp from "coral-stream/common/Timestamp";
+import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
@@ -10,6 +12,8 @@ import { LiveCommentReplyContainer_story } from "coral-stream/__generated__/Live
 import { LiveCommentReplyContainer_viewer } from "coral-stream/__generated__/LiveCommentReplyContainer_viewer.graphql";
 
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
+
+import styles from "./LiveCommentReplyContainer.css";
 
 interface Props {
   settings: LiveCommentReplyContainer_settings;
@@ -34,15 +38,23 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
-      <Button onClick={onClose} color="error">
-        X
+    <div className={styles.root}>
+      <Button className={styles.closeButton} onClick={onClose} color="none">
+        <Icon className={styles.closeIcon}>cancel</Icon>
       </Button>
-      <div>Replying to:</div>
-      <div>
-        {comment.createdAt}
-        {comment.body}
+      <div className={styles.parent}>
+        <Flex justifyContent="flex-start" alignItems="center">
+          <div className={styles.replyTo}>Replying to:</div>
+          <div className={styles.username}>
+            {comment.author ? comment.author.username || "" : ""}
+          </div>
+        </Flex>
+        <div>
+          <TimeStamp>{comment.createdAt}</TimeStamp>
+          <div dangerouslySetInnerHTML={{ __html: comment.body || "" }}></div>
+        </div>
       </div>
+
       <LiveCreateCommentReplyFormContainer
         settings={settings}
         viewer={viewer}
