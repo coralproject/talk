@@ -1559,6 +1559,22 @@ type StoryScrapingConfiguration {
   requests made during the scraping process.
   """
   customUserAgent: String
+
+  """
+  authentication is whether alternative authentication credentials have been
+  provided for scraping activities.
+  """
+  authentication: Boolean!
+
+  """
+  username is the username to use with basic authentication for scraping jobs.
+  """
+  username: String
+
+  """
+  password is the password to use with basic authentication for scraping jobs.
+  """
+  password: String
 }
 
 """
@@ -4814,6 +4830,22 @@ input StoryScrapingConfigurationInput {
   requests made during the scraping process.
   """
   customUserAgent: String
+
+  """
+  authentication is whether alternative authentication credentials have been
+  provided for scraping activities.
+  """
+  authentication: Boolean!
+
+  """
+  username is the username to use with basic authentication for scraping jobs.
+  """
+  username: String
+
+  """
+  password is the password to use with basic authentication for scraping jobs.
+  """
+  password: String
 }
 
 """

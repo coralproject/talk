@@ -75,7 +75,7 @@
     "@rudderstack/rudder-sdk-node": "0.0.2",
     "@sentry/integrations": "^5.29.2",
     "@sentry/node": "^5.29.2",
-    "@sentry/types": "^5.29.2",
+    "@sentry/types": "^6.2.0",
     "abort-controller": "^3.0.0",
     "akismet-api": "^5.0.0",
     "apollo-server-express": "^2.18.1",
@@ -280,6 +280,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.6.1",
+    "es6-object-assign": "^1.1.0",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jsdoc": "^28.5.1",
@@ -447,7 +448,7 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "15 kB"
+      "maxSize": "17 kB"
     },
     {
       "path": "./dist/static/assets/js/count.js",
