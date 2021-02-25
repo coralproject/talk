@@ -1,26 +1,52 @@
-import React, { FunctionComponent, useCallback, useRef } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
   useLoadMore,
+  useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
 import { LiveCommentRepliesContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesContainerPaginationQuery.graphql";
+
+import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
 
 import styles from "./LiveCommentRepliesContainer.css";
 
 interface Props {
   comment: LiveCommentRepliesContainer_comment;
+  storyID: string;
   relay: RelayPaginationProp;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   comment,
   relay,
+  storyID,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+  const subscribeToCommentEntered = useSubscription(
+    LiveReplyCommentEnteredSubscription
+  );
+  useEffect(() => {
+    const disposable = subscribeToCommentEntered({
+      storyID,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
+      connectionKey: "Chat_replies",
+      parentID: comment.id,
+    });
+
+    return () => {
+      disposable.dispose();
+    };
+  }, [storyID, comment.id, subscribeToCommentEntered]);
 
   const rootRef = useRef<any | null>(null);
 

@@ -9,9 +9,13 @@ import LiveCommentRepliesContainer from "./LiveCommentRepliesContainer";
 
 interface Props {
   commentID: string;
+  storyID: string;
 }
 
-const LiveCommentRepliesQuery: FunctionComponent<Props> = ({ commentID }) => {
+const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
+  commentID,
+  storyID,
+}) => {
   return (
     <QueryRenderer<any>
       query={graphql`
@@ -29,7 +33,12 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({ commentID }) => {
           return null;
         }
 
-        return <LiveCommentRepliesContainer comment={data.props.comment} />;
+        return (
+          <LiveCommentRepliesContainer
+            comment={data.props.comment}
+            storyID={storyID}
+          />
+        );
       }}
     />
   );

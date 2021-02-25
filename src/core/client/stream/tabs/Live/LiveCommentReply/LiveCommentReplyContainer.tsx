@@ -81,7 +81,9 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        {showConversation && <LiveCommentRepliesQuery commentID={comment.id} />}
+        {showConversation && (
+          <LiveCommentRepliesQuery commentID={comment.id} storyID={story.id} />
+        )}
 
         <LiveCreateCommentReplyFormContainer
           settings={settings}
