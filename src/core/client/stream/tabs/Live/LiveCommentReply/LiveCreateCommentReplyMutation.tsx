@@ -11,7 +11,12 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLComment,
+  GQLCOMMENT_SORT,
+  GQLStory,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { LiveCreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/LiveCreateCommentReplyMutation.graphql";
@@ -87,11 +92,10 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function sharedUpdater(
+function insertIntoLiveChat(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentReplyInput,
-  uuidGenerator: CoralContext["uuidGenerator"]
+  input: LiveCreateCommentReplyInput
 ) {
   const commentEdge = store
     .getRootField("createCommentReply")!
@@ -113,6 +117,43 @@ function sharedUpdater(
   if (connection) {
     ConnectionHandler.insertEdgeAfter(connection, commentEdge);
   }
+}
+
+function insertIntoReplyChat(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: LiveCreateCommentReplyInput
+) {
+  const commentEdge = store
+    .getRootField("createCommentReply")!
+    .getLinkedRecord("edge")!;
+
+  if (!commentEdge) {
+    return;
+  }
+
+  commentEdge.setValue(new Date().toISOString(), "cursor");
+
+  const connectionKey = "Chat_replies";
+  const comment = commentEdge.getLinkedRecord("node")!;
+  const parent = comment.getLinkedRecord("parent")!;
+
+  const connection = getConnection(parent, connectionKey, {
+    orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
+  });
+
+  if (connection) {
+    ConnectionHandler.insertEdgeAfter(connection, commentEdge);
+  }
+}
+
+function sharedUpdater(
+  environment: Environment,
+  store: RecordSourceSelectorProxy,
+  input: LiveCreateCommentReplyInput
+) {
+  insertIntoLiveChat(environment, store, input);
+  insertIntoReplyChat(environment, store, input);
 }
 
 async function commit(
@@ -236,11 +277,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(environment, store, input, uuidGenerator);
+          sharedUpdater(environment, store, input);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(environment, store, input, uuidGenerator);
+          sharedUpdater(environment, store, input);
         },
       }
     );
