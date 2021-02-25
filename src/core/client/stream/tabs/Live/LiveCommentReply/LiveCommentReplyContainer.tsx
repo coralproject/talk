@@ -18,7 +18,7 @@ import styles from "./LiveCommentReplyContainer.css";
 
 interface Props {
   settings: LiveCommentReplyContainer_settings;
-  viewer: LiveCommentReplyContainer_viewer;
+  viewer: LiveCommentReplyContainer_viewer | null;
   story: LiveCommentReplyContainer_story;
   comment: LiveCommentReplyContainer_comment;
 

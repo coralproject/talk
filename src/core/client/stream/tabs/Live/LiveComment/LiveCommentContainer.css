@@ -6,8 +6,7 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
 
-  margin-top: var(--spacing-1);
-  margint-bottom: var(--spacing-1);
+  margint-bottom: var(--spacing-2);
 
   width: 100%;
 }
@@ -57,10 +56,20 @@
 }
 
 .conversationButton {
-  float: right;
-
   border-width: 0px;
   border-style: none;
 
   color: var(--palette-primary-500);
+}
+
+.actionBar {
+}
+
+.leftActions {
+  flex-shrink: 0;
+  width: 250px;
+}
+
+.rightActions {
+  flex-grow: 1;
 }

@@ -105,44 +105,60 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
         />
 
         <div id={`comment-${comment.id}`}>
-          {viewer && (
-            <ReactionButtonContainer
-              reactedClassName=""
-              comment={comment}
-              settings={settings}
-              viewer={viewer}
-              readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
-              isQA={false}
-            />
-          )}
-          <ReportButton
-            onClick={toggleShowReportFlow}
-            open={showReportFlow}
-            viewer={viewer}
-            comment={comment}
-          />
-          {!comment.parent && (
-            <Button
-              className={styles.replyButton}
-              variant="none"
-              onClick={onReply}
-            >
-              <ShortcutIcon
-                width="16px"
-                height="16px"
-                className={styles.replyIcon}
-              />
-            </Button>
-          )}
-          {comment.replyCount > 0 && (
-            <Button
-              className={styles.conversationButton}
-              variant="none"
-              onClick={onConversation}
-            >
-              Conversation
-            </Button>
-          )}
+          <Flex
+            justifyContent="flex-start"
+            alignItems="center"
+            className={styles.actionBar}
+          >
+            <div className={styles.leftActions}>
+              {viewer && (
+                <ReactionButtonContainer
+                  reactedClassName=""
+                  comment={comment}
+                  settings={settings}
+                  viewer={viewer}
+                  readOnly={
+                    isViewerBanned || isViewerSuspended || isViewerWarned
+                  }
+                  isQA={false}
+                />
+              )}
+              {viewer && (
+                <ReportButton
+                  onClick={toggleShowReportFlow}
+                  open={showReportFlow}
+                  viewer={viewer}
+                  comment={comment}
+                />
+              )}
+              {!comment.parent && viewer && (
+                <Button
+                  className={styles.replyButton}
+                  variant="none"
+                  onClick={onReply}
+                >
+                  <ShortcutIcon
+                    width="16px"
+                    height="16px"
+                    className={styles.replyIcon}
+                  />
+                </Button>
+              )}
+            </div>
+
+            <Flex className={styles.rightActions} justifyContent="flex-end">
+              {comment.replyCount > 0 && (
+                <Button
+                  className={styles.conversationButton}
+                  variant="none"
+                  onClick={onConversation}
+                  paddingSize="extraSmall"
+                >
+                  Conversation
+                </Button>
+              )}
+            </Flex>
+          </Flex>
         </div>
         {showReportFlow && (
           <ReportFlowContainer
