@@ -73,6 +73,7 @@ const mutation = graphql`
           }
           parent {
             id
+            replyCount
             tags {
               code
             }
