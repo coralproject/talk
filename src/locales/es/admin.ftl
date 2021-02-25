@@ -116,3 +116,30 @@ community-warnModal-message-required = Requerido
 community-warnModal-message-description = Explique a este usuario cómo debe cambiar su comportamiento en su sitio.
 community-warnModal-cancel = Cancelar
 community-warnModal-warnUser = Advertir usuario
+
+## Invite
+
+dashboard-heading-last-updated = Última actualización:
+
+dashboard-today-heading = Actividad de hoy
+dashboard-today-new-comments = Nuevos comentarios
+dashboard-alltime-new-comments = Total de todos los tiempos
+dashboard-today-rejections = Tasa de rechazo
+dashboard-alltime-rejections = Promedio de todos los tiempos
+dashboard-today-staff-comments = Comentarios del equipo
+dashboard-alltime-staff-comments = Total de todos los tiempos
+dashboard-today-signups = Nuevos miembros de la comunidad
+dashboard-alltime-signups = Total de miembros
+dashboard-today-bans = Miembros baneados
+dashboard-alltime-bans = Total de miembros baneados
+
+dashboard-top-stories-today-heading = Las historias más comentadas de hoy
+dashboard-top-stories-table-header-story = Historias
+dashboard-top-stories-table-header-comments = Comentarios
+dashboard-top-stories-no-comments = No hay comentarios hoy
+
+dashboard-commenters-activity-heading = Nuevos miembros de la comunidad esta semana
+
+dashboard-comment-activity-heading = Actividad de comentarios por hora
+dashboard-comment-activity-tooltip-comments = Comentarios
+dashboard-comment-activity-legend = Promedio de los últimos 3 días
