@@ -3,8 +3,10 @@ import {
   CommentStatusUpdatedCoralEventPayload,
   CoralEventType,
 } from "coral-server/events";
+import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
+import { IgnoredUser } from "coral-server/models/user";
 
 import { NotificationCategory } from "./category";
 
@@ -34,10 +36,9 @@ export const reply: NotificationCategory<Payloads> = {
     }
 
     // Get the parent comment's author.
-    const [author, parentAuthor] = await ctx.users.loadMany([
-      comment.authorID,
-      parent.authorID,
-    ]);
+    const [author, parentAuthor] = await ctx.users
+      .loadMany([comment.authorID, parent.authorID])
+      .then(mapErrorsToNull);
     if (!author || !parentAuthor) {
       return null;
     }
@@ -55,7 +56,11 @@ export const reply: NotificationCategory<Payloads> = {
 
     // Check to see if this user is ignoring the user who replied to their
     // comment.
-    if (parentAuthor.ignoredUsers.some((user) => user.id === author.id)) {
+    if (
+      parentAuthor.ignoredUsers.some(
+        (ignoredUser: IgnoredUser) => ignoredUser.id === author.id
+      )
+    ) {
       return null;
     }
 
