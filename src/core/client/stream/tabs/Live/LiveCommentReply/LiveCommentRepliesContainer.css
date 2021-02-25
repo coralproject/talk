@@ -3,3 +3,20 @@
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
+.comment {
+  margin-bottom: var(--spacing-2);
+}
+
+.replyMarker {
+  flex-shrink: 0;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 2px;
+  background-color: var(--palette-primary-700);
+
+  margin-right: var(--spacing-1);
+}

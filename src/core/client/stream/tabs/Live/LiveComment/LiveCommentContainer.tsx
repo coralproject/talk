@@ -7,7 +7,7 @@ import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton
 import ReportFlowContainer, {
   ReportButton,
 } from "coral-stream/tabs/shared/ReportFlow";
-import { Flex, Timestamp } from "coral-ui/components/v2";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
@@ -17,6 +17,7 @@ import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/Li
 
 import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
+import LiveCommentBody from "./LiveCommentBody";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -97,21 +98,11 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        <Flex justifyContent="flex-start" alignItems="flex-start">
-          <div className={styles.avatar}></div>
-          <div className={styles.container}>
-            <Flex justifyContent="flex-start" alignItems="center">
-              <div className={styles.username}>{comment.author?.username}</div>
-              <Timestamp className={styles.timestamp}>
-                {comment.createdAt}
-              </Timestamp>
-            </Flex>
-            <div
-              className={styles.body}
-              dangerouslySetInnerHTML={{ __html: comment.body || "" }}
-            ></div>
-          </div>
-        </Flex>
+        <LiveCommentBody
+          author={comment.author}
+          createdAt={comment.createdAt}
+          body={comment.body}
+        />
 
         <div id={`comment-${comment.id}`}>
           {viewer && (

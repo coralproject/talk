@@ -12,10 +12,12 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { Flex } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
 import { LiveCommentRepliesContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesContainerPaginationQuery.graphql";
 
+import LiveCommentBody from "../LiveComment/LiveCommentBody";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
 
 import styles from "./LiveCommentRepliesContainer.css";
@@ -70,17 +72,25 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
 
   return (
     <div onScroll={onScroll} className={styles.root} ref={rootRef}>
-      <div>
-        <div>{comment.id}</div>
-        <div>{comment.body || ""}</div>
+      <div className={styles.comment}>
+        <LiveCommentBody
+          author={comment.author}
+          body={comment.body}
+          createdAt={comment.createdAt}
+        />
       </div>
-      <div>---</div>
       <div>
         {comment.replies.edges.map((c) => {
           return (
-            <div key={`chat-reply-${c.node.id}`}>
-              <div>{c.node.id}</div>
-              <div>{c.node.body || ""}</div>
+            <div key={`chat-reply-${c.node.id}`} className={styles.comment}>
+              <Flex justifyContent="flex-start" alignItems="stretch">
+                <div className={styles.replyMarker}></div>
+                <LiveCommentBody
+                  author={c.node.author}
+                  body={c.node.body}
+                  createdAt={c.node.createdAt}
+                />
+              </Flex>
             </div>
           );
         })}
@@ -108,6 +118,10 @@ const enhanced = withPaginationContainer<
         ) {
         id
         body
+        createdAt
+        author {
+          username
+        }
         replies(
           flatten: true
           after: $cursor
@@ -119,6 +133,10 @@ const enhanced = withPaginationContainer<
             node {
               id
               body
+              createdAt
+              author {
+                username
+              }
             }
           }
           pageInfo {
@@ -160,6 +178,10 @@ const enhanced = withPaginationContainer<
               node {
                 id
                 body
+                createdAt
+                author {
+                  username
+                }
               }
             }
           }
