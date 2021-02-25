@@ -42,6 +42,15 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
     onClose();
   }, [onClose]);
 
+  const submit = useCallback(
+    (commentID?: string | undefined) => {
+      if (!showConversation) {
+        onSubmitted(commentID);
+      }
+    },
+    [onSubmitted, showConversation]
+  );
+
   if (!visible) {
     return null;
   }
@@ -91,7 +100,7 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
           story={story}
           parentID={comment.id}
           parentRevisionID={comment.revision.id}
-          onSubmitted={onSubmitted}
+          onSubmitted={submit}
         />
       </div>
     </>

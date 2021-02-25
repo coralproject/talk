@@ -383,6 +383,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const onReplySubmitted = useCallback(
     (commentID?: string) => {
+      if (showConversation) {
+        return;
+      }
+
       if (commentID) {
         setNewReplyID(commentID);
       }
@@ -390,7 +394,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       setReplyVisible(false);
       setFocusedComment(null);
     },
-    [setReplyVisible, setFocusedComment]
+    [showConversation, setNewReplyID, setReplyVisible, setFocusedComment]
   );
 
   const scrollToNewReply = useCallback(() => {
