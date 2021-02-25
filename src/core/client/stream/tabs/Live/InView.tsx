@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect } from "react";
 
 import { useInView } from "coral-framework/lib/intersection";
 
+import styles from "./InView.css";
+
 interface InViewProps {
   onInView: () => void;
 }
@@ -15,7 +17,7 @@ const InView: FunctionComponent<InViewProps> = ({ onInView }) => {
     }
   }, [inView, onInView]);
 
-  return <div ref={intersectionRef}></div>;
+  return <div className={styles.root} ref={intersectionRef}></div>;
 };
 
 export default InView;
