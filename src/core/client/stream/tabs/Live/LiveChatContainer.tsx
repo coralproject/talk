@@ -28,6 +28,7 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
 import CursorState from "./CursorState";
+import InView from "./InView";
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentReplyContainer from "./LiveCommentReply/LiveCommentReplyContainer";
@@ -108,6 +109,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const beforeAfterRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
+  const afterCommentsIncoming = useRef(false);
   const lastScrollTop = useRef(0);
   const scrollDir = useRef(0);
 
@@ -118,25 +120,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const [replyVisible, setReplyVisible] = useState(false);
   const [newReplyID, setNewReplyID] = useState<string | null>(null);
   const [showConversation, setShowConversation] = useState(false);
-
-  const scrollToID = useCallback(
-    (id: string) => {
-      const container = containerRef.current;
-      if (!container) {
-        return;
-      }
-
-      if (id) {
-        const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView();
-        }
-
-        scrollEnabled.current = true;
-      }
-    },
-    [containerRef, scrollEnabled]
-  );
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -154,57 +137,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         return;
       }
 
-      const containerRect = container.getBoundingClientRect();
-      const beginRect = begin.getBoundingClientRect();
-
       scrollDir.current = container.scrollTop - lastScrollTop.current;
 
-      // Check to load previous comments
-      if (
-        containerRect.y - beginRect.y < 100 &&
-        beforeHasMore &&
-        !isLoadingMoreBefore &&
-        scrollEnabled.current
-      ) {
-        try {
-          scrollEnabled.current = false;
-          await loadMoreBefore();
-
-          if (beforeComments.length > 0) {
-            const id = `comment-${beforeComments[0].node.id}`;
-
-            window.requestAnimationFrame(() => {
-              scrollToID(id);
-              lastScrollTop.current = container.scrollTop;
-            });
-          }
-        } catch (err) {
-          // ignore for now
-        }
-      }
-
-      let atBottom =
-        Math.abs(
-          container.scrollTop -
-            (container.scrollHeight - container.offsetHeight)
-        ) < 5;
-
-      if (
-        atBottom &&
-        afterHasMore &&
-        !isLoadingMoreAfter &&
-        scrollEnabled.current
-      ) {
-        try {
-          scrollEnabled.current = false;
-          await loadMoreAfter();
-          scrollEnabled.current = true;
-        } catch (err) {
-          // ignore for now
-        }
-      }
-
-      atBottom =
+      const atBottom =
         Math.abs(
           container.scrollTop -
             (container.scrollHeight - container.offsetHeight)
@@ -214,17 +149,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
       lastScrollTop.current = container.scrollTop;
     },
-    [
-      afterHasMore,
-      beforeComments,
-      beforeHasMore,
-      isLoadingMoreAfter,
-      isLoadingMoreBefore,
-      loadMoreAfter,
-      loadMoreBefore,
-      scrollToID,
-      setTailing,
-    ]
+    [setTailing]
   );
 
   const scrollToBeforeAfter = useCallback(
@@ -275,21 +200,28 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  const scrollToPreBefore = useCallback(() => {
+    const el = document.getElementById("pre-before");
+    if (el) {
+      el.scrollIntoView();
+    }
+  }, []);
+
   const afterCommentsChanged = useCallback(() => {
-    if (!tailing) {
-      return;
+    if (tailing && !afterCommentsIncoming.current) {
+      scrollEnabled.current = false;
+      scrollToEnd("smooth");
+
+      if (scrollToAfterTimeout.current) {
+        clearTimeout(scrollToAfterTimeout.current);
+      }
+
+      scrollToAfterTimeout.current = setTimeout(() => {
+        scrollEnabled.current = true;
+      }, 300);
     }
 
-    scrollEnabled.current = false;
-    scrollToEnd("smooth");
-
-    if (scrollToAfterTimeout.current) {
-      clearTimeout(scrollToAfterTimeout.current);
-    }
-
-    scrollToAfterTimeout.current = setTimeout(() => {
-      scrollEnabled.current = true;
-    }, 300);
+    afterCommentsIncoming.current = false;
   }, [scrollToEnd, tailing]);
 
   useEffectAfterMount(() => {
@@ -406,54 +338,91 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewReplyID(null);
   }, [newReplyID, setNewReplyID]);
 
+  const onBeginInView = useCallback(async () => {
+    if (beforeHasMore && !isLoadingMoreBefore && scrollEnabled.current) {
+      try {
+        scrollEnabled.current = false;
+        scrollToPreBefore();
+        await loadMoreBefore();
+        scrollEnabled.current = true;
+      } catch (err) {
+        // ignore for now
+      }
+    }
+  }, [beforeHasMore, isLoadingMoreBefore, loadMoreBefore, scrollToPreBefore]);
+
+  const onEndInView = useCallback(async () => {
+    if (afterHasMore && !isLoadingMoreAfter && !afterCommentsIncoming.current) {
+      try {
+        afterCommentsIncoming.current = true;
+        setTailing(false);
+        await loadMoreAfter();
+      } catch (err) {
+        // ignore for now
+      }
+    }
+  }, [afterHasMore, isLoadingMoreAfter, loadMoreAfter, setTailing]);
+
   return (
-    <IntersectionProvider>
-      <div
-        id="live-chat-comments"
-        className={styles.streamContainer}
-        onScroll={onScroll}
-        ref={containerRef}
-      >
-        <div id="begin" ref={beginRef} />
+    <>
+      <IntersectionProvider>
+        <div
+          id="live-chat-comments"
+          className={styles.streamContainer}
+          onScroll={onScroll}
+          ref={containerRef}
+        >
+          <div id="begin" ref={beginRef} className={styles.begin}>
+            <InView onInView={onBeginInView} />
+          </div>
+          <div id="pre-before"></div>
 
-        {beforeComments.map((e) => (
-          <LiveCommentContainer
-            key={e.node.id}
-            comment={e.node}
-            cursor={e.cursor}
-            viewer={viewer}
-            settings={settings}
-            onInView={onCommentVisible}
-            onReplyTo={onShowReplyDialog}
-            onShowConversation={onShowConversation}
-          />
-        ))}
+          {beforeComments.map((e) => (
+            <LiveCommentContainer
+              key={e.node.id}
+              comment={e.node}
+              cursor={e.cursor}
+              viewer={viewer}
+              settings={settings}
+              onInView={onCommentVisible}
+              onReplyTo={onShowReplyDialog}
+              onShowConversation={onShowConversation}
+            />
+          ))}
 
-        <div id="before-after" ref={beforeAfterRef}>
-          {afterComments && afterComments.length > 0 && (
-            <Flex justifyContent="center" alignItems="center">
-              <hr className={styles.newhr} />
-              <div className={styles.newDiv}>
-                New <Icon size="md">arrow_downward</Icon>
-              </div>
-              <hr className={styles.newhr} />
-            </Flex>
-          )}
+          <div id="before-after" ref={beforeAfterRef}>
+            {afterComments && afterComments.length > 0 && (
+              <Flex justifyContent="center" alignItems="center">
+                <hr className={styles.newhr} />
+                <div className={styles.newDiv}>
+                  New <Icon size="md">arrow_downward</Icon>
+                </div>
+                <hr className={styles.newhr} />
+              </Flex>
+            )}
+          </div>
+
+          {afterComments.map((e) => (
+            <LiveCommentContainer
+              key={e.node.id}
+              comment={e.node}
+              cursor={e.cursor}
+              viewer={viewer}
+              settings={settings}
+              onInView={onCommentVisible}
+              onReplyTo={onShowReplyDialog}
+              onShowConversation={onShowConversation}
+            />
+          ))}
+
+          <div id="pre-end"></div>
+          <div id="end" className={styles.end}>
+            <InView onInView={onEndInView} />
+          </div>
+          <div className={styles.endFooter}></div>
         </div>
+      </IntersectionProvider>
 
-        {afterComments.map((e) => (
-          <LiveCommentContainer
-            key={e.node.id}
-            comment={e.node}
-            cursor={e.cursor}
-            viewer={viewer}
-            settings={settings}
-            onInView={onCommentVisible}
-            onReplyTo={onShowReplyDialog}
-            onShowConversation={onShowConversation}
-          />
-        ))}
-      </div>
       {newReplyID && (
         <div className={styles.scrollToNewReply}>
           <Button onClick={scrollToNewReply} color="primary">
@@ -479,7 +448,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         viewer={viewer}
         commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
       />
-    </IntersectionProvider>
+    </>
   );
 };
 

@@ -33,7 +33,12 @@ const LiveTabQuery: FunctionComponent = () => {
         current = JSON.parse(rawValue);
       }
 
-      if (current) {
+      if (
+        current &&
+        current.cursor !== undefined &&
+        current.cursor !== null &&
+        current.cursor !== ""
+      ) {
         setCursor(current.cursor);
         setCursorWasSet(true);
       } else {
