@@ -197,6 +197,12 @@ export enum ERROR_CODES {
   COMMENT_NOT_FOUND = "COMMENT_NOT_FOUND",
 
   /**
+   * COMMENT_REVISION_NOT_FOUND is returned when a Comment was found but the
+   * targeted revision was not found.
+   */
+  COMMENT_REVISION_NOT_FOUND = "COMMENT_REVISION_NOT_FOUND",
+
+  /**
    * AUTHENTICATION_ERROR is returned when a general authentication error has
    * occurred and the request can not be processed.
    */

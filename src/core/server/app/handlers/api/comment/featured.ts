@@ -4,6 +4,7 @@ import { compact } from "lodash";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
+import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import {
   getLatestRevision,
   retrieveFeaturedComments,
@@ -81,14 +82,18 @@ export const featuredHander = ({
 
     const authorIDs = compact(comments.map((c) => c.authorID));
     const [stories, authors] = await Promise.all([
-      getStories.loadMany(comments.map((comment) => comment.storyID)),
-      getAuthors.loadMany(authorIDs),
+      getStories
+        .loadMany(comments.map((comment) => comment.storyID))
+        .then(mapErrorsToNull),
+      getAuthors.loadMany(authorIDs).then(mapErrorsToNull),
     ]);
 
     const response: FeaturedHandlerResponse = {
       comments: comments.map((comment) => {
         const revision = getLatestRevision(comment);
-        const story = stories.find((s) => s && s.id === comment.storyID);
+        const story = stories.find(
+          (s) => s && !(s instanceof Error) && s.id === comment.storyID
+        );
         const author = authors.find((a) => a && a.id === comment.authorID);
         return {
           id: comment.id,
