@@ -1,0 +1,33 @@
+.avatar {
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+  background: grey;
+  border-radius: 5px;
+
+  margin-right: var(--spacing-1);
+}
+
+.container {
+  flex-grow: 1;
+  background-color: var(--palette-grey-100);
+
+  padding: var(--spacing-2);
+  border-radius: 5px;
+}
+
+.username {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-family-primary-semi-bold);
+
+  margin-right: var(--spacing-1);
+}
+
+.timestamp {
+  font-size: var(--font-size-1);
+}
+
+.body {
+  font-size: var(--font-size-2);
+}
