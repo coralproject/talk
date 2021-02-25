@@ -109,9 +109,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const beforeAfterRef = useRef<any | null>(null);
 
   const scrollEnabled = useRef(false);
-  const afterCommentsIncoming = useRef(false);
   const lastScrollTop = useRef(0);
   const scrollDir = useRef(0);
+
+  const afterCommentsIncoming = useRef(false);
+  const beforeCommentsIncoming = useRef(false);
+  const beforeCommentScrollID = useRef<string | null>(null);
 
   const [
     focusedComment,
@@ -199,13 +202,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   ]);
 
   const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
-
-  const scrollToPreBefore = useCallback(() => {
-    const el = document.getElementById("pre-before");
-    if (el) {
-      el.scrollIntoView();
-    }
-  }, []);
+  const beforeScrollToTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const afterCommentsChanged = useCallback(() => {
     if (tailing && !afterCommentsIncoming.current) {
@@ -224,15 +221,88 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     afterCommentsIncoming.current = false;
   }, [scrollToEnd, tailing]);
 
+  /** Before Scroll */
+
+  const clearBeforeScrollState = useCallback(() => {
+    beforeCommentsIncoming.current = false;
+    beforeCommentScrollID.current = null;
+  }, []);
+
+  const scrollToTargetComment = useCallback(() => {
+    if (!beforeCommentScrollID.current) {
+      return;
+    }
+
+    const el = document.getElementById(
+      `comment-${beforeCommentScrollID.current}-top`
+    );
+    if (el) {
+      el.scrollIntoView();
+    }
+  }, []);
+
+  const scrollToTargetCommentAndClear = useCallback(() => {
+    scrollToTargetComment();
+    setTimeout(clearBeforeScrollState, 150);
+  }, [clearBeforeScrollState, scrollToTargetComment]);
+
+  const beforeCommentsChanged = useCallback(() => {
+    if (beforeScrollToTimeout.current) {
+      clearTimeout(beforeScrollToTimeout.current);
+    }
+
+    beforeScrollToTimeout.current = setTimeout(
+      scrollToTargetCommentAndClear,
+      150
+    );
+  }, [scrollToTargetCommentAndClear]);
+
+  const onBeginInView = useCallback(async () => {
+    if (
+      beforeHasMore &&
+      !isLoadingMoreBefore &&
+      !beforeCommentsIncoming.current
+    ) {
+      try {
+        beforeCommentsIncoming.current = true;
+        setTailing(false);
+
+        if (beforeComments.length > 0) {
+          beforeCommentScrollID.current = beforeComments[0].node.id;
+        }
+
+        scrollToTargetComment();
+        await loadMoreBefore();
+      } catch (err) {
+        // ignore for now
+      }
+    }
+  }, [
+    beforeComments,
+    beforeHasMore,
+    isLoadingMoreBefore,
+    loadMoreBefore,
+    scrollToTargetComment,
+    setTailing,
+  ]);
+
+  /** Before Scroll END */
+
+  useEffectAfterMount(() => {
+    beforeCommentsChanged();
+  }, [beforeComments, beforeCommentsChanged]);
+
   useEffectAfterMount(() => {
     afterCommentsChanged();
   }, [afterComments, afterCommentsChanged]);
 
   useEffectAtUnmount(() => {
-    if (!scrollToAfterTimeout.current) {
-      return;
+    if (scrollToAfterTimeout.current) {
+      clearTimeout(scrollToAfterTimeout.current);
     }
-    clearTimeout(scrollToAfterTimeout.current);
+    if (beforeScrollToTimeout.current) {
+      clearTimeout(beforeScrollToTimeout.current);
+    }
   });
 
   const subscribeToCommentEntered = useSubscription(
@@ -337,19 +407,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
     setNewReplyID(null);
   }, [newReplyID, setNewReplyID]);
-
-  const onBeginInView = useCallback(async () => {
-    if (beforeHasMore && !isLoadingMoreBefore && scrollEnabled.current) {
-      try {
-        scrollEnabled.current = false;
-        scrollToPreBefore();
-        await loadMoreBefore();
-        scrollEnabled.current = true;
-      } catch (err) {
-        // ignore for now
-      }
-    }
-  }, [beforeHasMore, isLoadingMoreBefore, loadMoreBefore, scrollToPreBefore]);
 
   const onEndInView = useCallback(async () => {
     if (afterHasMore && !isLoadingMoreAfter && !afterCommentsIncoming.current) {

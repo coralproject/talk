@@ -73,7 +73,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   }, [comment, onShowConversation]);
 
   return (
-    <div ref={rootRef} className={styles.root}>
+    <div ref={rootRef} className={styles.root} id={`comment-${comment.id}-top`}>
       <div className={styles.comment}>
         <InView onInView={inView} />
         {comment.parent && (
