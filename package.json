@@ -108,7 +108,7 @@
     "graphql": "^14.6.0",
     "graphql-config": "^3.2.0",
     "graphql-fields": "2.0.3",
-    "graphql-playground-html": "^1.6.27",
+    "graphql-playground-html": "^1.6.29",
     "graphql-redis-subscriptions": "^2.2.1",
     "graphql-subscriptions": "^1.1.0",
     "he": "^1.2.0",
