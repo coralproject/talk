@@ -6,13 +6,13 @@ import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { getMediaValidators } from "../../../shared/helpers";
 import {
   MediaConfirmPrompt,
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
-import { getMediaValidators } from "../../../shared/helpers";
 
 export type Widget = "giphy" | "external" | null;
 
