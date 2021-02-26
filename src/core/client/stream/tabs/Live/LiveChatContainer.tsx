@@ -491,7 +491,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           </Button>
         </div>
       )}
-      {replyVisible && focusedComment && storyID && (
+      {replyVisible && focusedComment && (
         <LiveCommentReplyContainer
           settings={settings}
           viewer={viewer}
