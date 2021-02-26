@@ -75,7 +75,7 @@ const DocumentationLayout: FunctionComponent<Props> = ({
           />
           <div
             className={cn(
-              "flex-auto flex flex-col min-w-0 lg:overflow-visible lg:max-h-full lg:static",
+              "flex-auto flex flex-col min-w-0 lg:overflow-visible lg:max-h-full lg:static mb-20",
               {
                 "overflow-hidden max-h-screen fixed": navIsOpen,
               }

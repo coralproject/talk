@@ -23,12 +23,6 @@ const Header: FunctionComponent = () => {
       </div>
       <div className="flex-auto border-b mx-8 flex items-center justify-between">
         <Search />
-        {process.env.NEXT_PUBLIC_ENABLE_GRAPHIQL === "true" && (
-          <Link href="/graphiql">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a>GraphiQL</a>
-          </Link>
-        )}
       </div>
     </div>
   );

@@ -29,4 +29,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   memberBios: ({ memberBios = false }) => memberBios,
   premoderateSuspectWords: ({ premoderateSuspectWords = false }) =>
     premoderateSuspectWords,
+  stories: ({ stories }) => stories,
 };

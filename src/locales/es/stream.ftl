@@ -306,10 +306,13 @@ comments-reportPopover-reportThisComment = Reportar este comentario
 comments-reportPopover-whyAreYouReporting = ¿Por qué estás reportando este comentario?
 
 comments-reportPopover-reasonOffensive = Este comentario es ofensivo
+comments-reportPopover-reasonAbusive = Este es un comportamiento abusivo
 comments-reportPopover-reasonIDisagree = No estoy de acuerdo con este comentario
 comments-reportPopover-reasonSpam = Esto parece un anuncio o marketing
 comments-reportPopover-reasonOther = Otro
 
+comments-reportPopover-additionalInformation =
+  Información Adicional <optional>Opcional</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
   Por favor, deje cualquier información adicional que pueda ser útil para nuestros moderadores. (Opcional)
 

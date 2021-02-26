@@ -16,7 +16,7 @@ Go to _Advanced Section_ in _Configure_ and enable _Accelerated Mobile Pages_.
 
 ## How to integrate
 
-Then put the following code into your _AMP_ page and replace `{{ CORAL_DOMAIN_NAME }}` and `{{ CORAL_STORY_URL }}` with the
+Put the following code into your _AMP_ page and replace `{{ CORAL_DOMAIN_NAME }}` and `{{ CORAL_STORY_URL }}` with the
 corresponding values. You can also pass `storyID` instead of `storyURL` by using `?storyID={{ CORAL_STORY_ID }}`.
 
 ```html
@@ -38,7 +38,7 @@ have to create and host an html page – let's call it `amp.html` – with the f
 output and replace `{{ CORAL_DOMAIN_NAME }}` with the appropriate values.
 
 This page is then used in `src` of `<amp-iframe>` above. It must be accessed over `https`
-and live in a different domain than the `amp` page. For example: `src="https://{{ MY_AMP_PAGE }}?storyURL={{ CORAL_STORY_URL }}"`.
+and live on a different domain than the `amp` page. For example: `src="https://{{ MY_AMP_PAGE }}?storyURL={{ CORAL_STORY_URL }}"`.
 
 ```html
 <!DOCTYPE html>
