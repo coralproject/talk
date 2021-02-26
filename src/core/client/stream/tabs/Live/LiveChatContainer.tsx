@@ -27,7 +27,7 @@ import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/L
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
 
-import CursorState from "./CursorState";
+import CursorState from "./cursorState";
 import InView from "./InView";
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
