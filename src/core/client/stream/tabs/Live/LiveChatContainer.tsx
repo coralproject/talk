@@ -184,7 +184,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     }
 
     // Enable scroll in a bit
-    const timeoutReg = setTimeout(() => {
+    const timeoutReg = window.setTimeout(() => {
       scrollEnabled.current = true;
     }, 300);
 
@@ -201,8 +201,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     scrollToBeforeAfter,
   ]);
 
-  const scrollToAfterTimeout = useRef<NodeJS.Timeout | null>(null);
-  const beforeScrollToTimeout = useRef<NodeJS.Timeout | null>(null);
+  const scrollToAfterTimeout = useRef<number | null>(null);
+  const beforeScrollToTimeout = useRef<number | null>(null);
 
   const afterCommentsChanged = useCallback(() => {
     if (tailing && !afterCommentsIncoming.current) {
@@ -213,7 +213,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         clearTimeout(scrollToAfterTimeout.current);
       }
 
-      scrollToAfterTimeout.current = setTimeout(() => {
+      scrollToAfterTimeout.current = window.setTimeout(() => {
         scrollEnabled.current = true;
       }, 300);
     }
@@ -243,7 +243,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollToTargetCommentAndClear = useCallback(() => {
     scrollToTargetComment();
-    setTimeout(clearBeforeScrollState, 150);
+    window.setTimeout(clearBeforeScrollState, 150);
   }, [clearBeforeScrollState, scrollToTargetComment]);
 
   const beforeCommentsChanged = useCallback(() => {
@@ -251,7 +251,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       clearTimeout(beforeScrollToTimeout.current);
     }
 
-    beforeScrollToTimeout.current = setTimeout(
+    beforeScrollToTimeout.current = window.setTimeout(
       scrollToTargetCommentAndClear,
       150
     );
