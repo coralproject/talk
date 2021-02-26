@@ -22,7 +22,10 @@ exports[`init local state 1`] = `
     \\"activeTab\\": \\"COMMENTS\\",
     \\"profileTab\\": \\"MY_COMMENTS\\",
     \\"commentsTab\\": \\"NONE\\",
-    \\"flattenReplies\\": false
+    \\"flattenReplies\\": false,
+    \\"liveChat\\": {
+      \\"__ref\\": \\"client:root.local.liveChat\\"
+    }
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",
@@ -30,6 +33,11 @@ exports[`init local state 1`] = `
     \\"open\\": false,
     \\"focus\\": false,
     \\"href\\": \\"\\"
+  },
+  \\"client:root.local.liveChat\\": {
+    \\"__id\\": \\"client:root.local.liveChat\\",
+    \\"__typename\\": \\"LiveChatState\\",
+    \\"tailing\\": false
   }
 }"
 `;
