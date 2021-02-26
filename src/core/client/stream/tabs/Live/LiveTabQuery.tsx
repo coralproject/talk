@@ -8,7 +8,7 @@ import { Spinner } from "coral-ui/components/v2";
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
-import CursorState from "./CursorState";
+import CursorState from "./cursorState";
 import LiveStreamContainer from "./LiveStreamContainer";
 
 const LiveTabQuery: FunctionComponent = () => {
