@@ -7,3 +7,4 @@ export { default as Markdown } from "./Markdown";
 export { default as FadeInTransition } from "./FadeInTransition";
 export { default as DurationField, DURATION_UNIT } from "./DurationField";
 export { default as LocaleField } from "./LocaleField";
+export { default as ErrorBoundary, withErrorBoundary } from "./ErrorBoundary";

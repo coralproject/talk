@@ -6,7 +6,8 @@ import styles from "./ModalHeader.css";
 
 interface Props {
   onClose: () => void;
-  focusableRef: RefObject<any>;
+  focusableRef?: RefObject<any>;
+  children?: React.ReactNode;
 }
 
 const ModalHeader: FunctionComponent<Props> = ({

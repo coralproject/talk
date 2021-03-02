@@ -50,7 +50,7 @@ export interface RadioButtonProps {
   keyboardFocus: boolean;
 }
 
-class RadioButton extends Component<RadioButtonProps> {
+export class RadioButton extends Component<RadioButtonProps> {
   public state = {
     randomID: uuid(),
   };

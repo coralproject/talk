@@ -8,3 +8,4 @@ export { default as withKeypressEvent } from "./withKeypressEvent";
 export { default as withLiveCommentCount } from "./withLiveCommentCount";
 export { default as withPymStorage } from "./withPymStorage";
 export { default as withSetCommentID } from "./withSetCommentID";
+export { default as withRenderTargets } from "./withRenderTargets";

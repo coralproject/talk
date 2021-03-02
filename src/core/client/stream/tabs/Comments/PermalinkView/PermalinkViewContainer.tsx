@@ -45,7 +45,7 @@ interface Props {
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const { pym, eventEmitter } = useCoralContext();
+  const { pym, eventEmitter, window } = useCoralContext();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -85,7 +85,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const showAllCommentsHref = useMemo(() => {
     const url = pym?.parentUrl || window.location.href;
     return getURLWithCommentID(url, undefined);
-  }, [pym]);
+  }, [pym?.parentUrl, window.location.href]);
 
   const commentVisible = comment && isPublished(comment.status);
 

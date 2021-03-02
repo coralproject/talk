@@ -1,6 +1,6 @@
 import { Environment } from "relay-runtime";
 
-import { getBrowserInfo } from "../browserInfo";
+import { hasProxyPolyfill } from "coral-framework/helpers/polyfillProxy";
 
 /**
  * RecordSourceProxy has the same shape as the underlying Schema Type, but
@@ -56,7 +56,7 @@ const createProxy = <T = any>(
   // IE11 does not have Proxy support and the polyfill only supports
   // a subset of features under special circumstances.
   // https://github.com/GoogleChrome/proxy-polyfill
-  if (!getBrowserInfo().supports.proxyObject) {
+  if (hasProxyPolyfill()) {
     target = recordSource;
     delete proxy.ownKeys;
     delete proxy.getOwnPropertyDescriptor;

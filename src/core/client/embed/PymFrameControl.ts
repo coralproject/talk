@@ -34,11 +34,13 @@ export default class PymFrameControl implements FrameControl {
       return;
     }
 
+    const name = `${this.id}_iframe`;
+
     // Create the new pym.Parent that when created will create the iFrame.
     const parent = new pym.Parent(this.id, this.url, {
       title: this.title,
-      id: `${this.id}_iframe`,
-      name: `${this.id}_iframe`,
+      id: name,
+      name,
     });
 
     // Run all the decorators on the parent, and capture any cleanup functions.

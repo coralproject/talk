@@ -18,7 +18,7 @@ exports[`accepts invalid input 1`] = `
     textAlignCenter={true}
     value="this is so invalid"
   />
-  <withPropsOnChange(WithKeyboardFocus)
+  <withPropsOnChange(withUIContext(WithKeyboardFocus))
     aria-label="unit"
     classes={
       Object {
@@ -63,7 +63,7 @@ exports[`accepts invalid input 1`] = `
         hour
       </Option>
     </Localized>
-  </withPropsOnChange(WithKeyboardFocus)>
+  </withPropsOnChange(withUIContext(WithKeyboardFocus))>
 </ForwardRef(forwardRef)>
 `;
 
@@ -85,7 +85,7 @@ exports[`renders correctly with default units 1`] = `
     textAlignCenter={true}
     value=""
   />
-  <withPropsOnChange(WithKeyboardFocus)
+  <withPropsOnChange(withUIContext(WithKeyboardFocus))
     aria-label="unit"
     classes={
       Object {
@@ -130,7 +130,7 @@ exports[`renders correctly with default units 1`] = `
         week
       </Option>
     </Localized>
-  </withPropsOnChange(WithKeyboardFocus)>
+  </withPropsOnChange(withUIContext(WithKeyboardFocus))>
 </ForwardRef(forwardRef)>
 `;
 
@@ -152,7 +152,7 @@ exports[`renders correctly with specified units 1`] = `
     textAlignCenter={true}
     value=""
   />
-  <withPropsOnChange(WithKeyboardFocus)
+  <withPropsOnChange(withUIContext(WithKeyboardFocus))
     aria-label="unit"
     classes={
       Object {
@@ -186,7 +186,7 @@ exports[`renders correctly with specified units 1`] = `
         hour
       </Option>
     </Localized>
-  </withPropsOnChange(WithKeyboardFocus)>
+  </withPropsOnChange(withUIContext(WithKeyboardFocus))>
 </ForwardRef(forwardRef)>
 `;
 
@@ -208,7 +208,7 @@ exports[`use best matching unit 1`] = `
     textAlignCenter={true}
     value="1"
   />
-  <withPropsOnChange(WithKeyboardFocus)
+  <withPropsOnChange(withUIContext(WithKeyboardFocus))
     aria-label="unit"
     classes={
       Object {
@@ -253,7 +253,7 @@ exports[`use best matching unit 1`] = `
         hour
       </Option>
     </Localized>
-  </withPropsOnChange(WithKeyboardFocus)>
+  </withPropsOnChange(withUIContext(WithKeyboardFocus))>
 </ForwardRef(forwardRef)>
 `;
 
@@ -275,7 +275,7 @@ exports[`use initial unit if 0 1`] = `
     textAlignCenter={true}
     value="0"
   />
-  <withPropsOnChange(WithKeyboardFocus)
+  <withPropsOnChange(withUIContext(WithKeyboardFocus))
     aria-label="unit"
     classes={
       Object {
@@ -320,6 +320,6 @@ exports[`use initial unit if 0 1`] = `
         hour
       </Option>
     </Localized>
-  </withPropsOnChange(WithKeyboardFocus)>
+  </withPropsOnChange(withUIContext(WithKeyboardFocus))>
 </ForwardRef(forwardRef)>
 `;

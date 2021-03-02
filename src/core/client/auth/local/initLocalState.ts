@@ -12,9 +12,12 @@ import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 const initLocalState: InitLocalState = async ({
   environment,
   auth = null,
+  context,
   ...rest
 }) => {
-  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
+  const { error = null, accessToken = null } = getParamsFromHashAndClearIt(
+    context.window
+  );
 
   if (accessToken) {
     // If there was an access token, parse it.
@@ -22,7 +25,7 @@ const initLocalState: InitLocalState = async ({
     auth = parseAccessToken(accessToken);
   }
 
-  await initLocalBaseState({ environment, auth, ...rest });
+  await initLocalBaseState({ environment, auth, context, ...rest });
 
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;

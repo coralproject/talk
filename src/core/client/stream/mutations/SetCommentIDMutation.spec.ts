@@ -27,7 +27,11 @@ afterEach(() => {
 
 it("Sets comment id", async () => {
   const id = "comment1-id";
-  await commit(environment, { id }, {} as any);
+  const context = {
+    window,
+    renderWindow: window,
+  };
+  await commit(environment, { id }, context as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   expect(parseQuery(location.search).commentID).toEqual(id);
 });
@@ -38,6 +42,8 @@ it("Should call setCommentID in pym", async () => {
     pym: {
       sendMessage: sinon.mock().once().withArgs("setCommentID", id),
     },
+    window,
+    renderWindow: window,
   };
   await commit(environment, { id }, context as any);
   await waitFor();
@@ -50,6 +56,8 @@ it("Should call setCommentID in pym with empty id", async () => {
     pym: {
       sendMessage: sinon.mock().once().withArgs("setCommentID", ""),
     },
+    window,
+    renderWindow: window,
   };
   await commit(environment, { id: null }, context as any);
   await waitFor();

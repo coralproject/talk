@@ -5,7 +5,12 @@ import sinon from "sinon";
 
 import { act } from "coral-framework/testHelpers";
 
+import UIContext, { UIContextProps } from "../UIContext";
 import Modal from "./Modal";
+
+const context: UIContextProps = {
+  renderWindow: window,
+};
 
 const createNodeMock = () => ({
   focus: noop,
@@ -16,9 +21,11 @@ it("renders correctly", () => {
   let testRenderer: ReactTestRenderer;
   act(() => {
     testRenderer = TestRenderer.create(
-      <Modal>
-        <div>Test</div>
-      </Modal>,
+      <UIContext.Provider value={context}>
+        <Modal>
+          <div>Test</div>
+        </Modal>
+      </UIContext.Provider>,
       { createNodeMock }
     );
   });
@@ -26,9 +33,11 @@ it("renders correctly", () => {
   expect(document.body.lastChild).toBeNull();
   act(() => {
     testRenderer.update(
-      <Modal open>
-        <div>Test</div>
-      </Modal>
+      <UIContext.Provider value={context}>
+        <Modal open>
+          <div>Test</div>
+        </Modal>
+      </UIContext.Provider>
     );
   });
   expect(testRenderer!.toJSON()).toMatchSnapshot();
@@ -49,9 +58,11 @@ it("relays backdrop click events", () => {
   let testRenderer: ReactTestRenderer;
   act(() => {
     testRenderer = TestRenderer.create(
-      <Modal open onBackdropClick={onBackdropClick} onClose={onClose}>
-        <div>Test</div>
-      </Modal>,
+      <UIContext.Provider value={context}>
+        <Modal open onBackdropClick={onBackdropClick} onClose={onClose}>
+          <div>Test</div>
+        </Modal>
+      </UIContext.Provider>,
       { createNodeMock }
     );
   });
@@ -74,9 +85,11 @@ it("relays esc events", () => {
   let testRenderer: ReactTestRenderer;
   act(() => {
     testRenderer = TestRenderer.create(
-      <Modal open onEscapeKeyDown={onEscapeKeyDown} onClose={onClose}>
-        <div>Test</div>
-      </Modal>,
+      <UIContext.Provider value={context}>
+        <Modal open onEscapeKeyDown={onEscapeKeyDown} onClose={onClose}>
+          <div>Test</div>
+        </Modal>
+      </UIContext.Provider>,
       { createNodeMock }
     );
   });

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import startsWith from "coral-common/utils/startsWith";
 
 export default function buildURL({

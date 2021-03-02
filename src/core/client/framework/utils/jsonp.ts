@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  * Initiate a jsonp request.
  *
@@ -11,7 +12,7 @@ function jsonp(
   args: Record<string, string | number | undefined>
 ) {
   // Create the script element.
-  const script = document.createElement("script");
+  const script = window.document.createElement("script");
   script.src = `${endpoint}?callback=${callback}`;
 
   // For each of the arguments, add to the source string.
@@ -30,7 +31,7 @@ function jsonp(
     });
 
   // Attach the script to the body.
-  document.body.appendChild(script);
+  window.document.body.appendChild(script);
 }
 
 export default jsonp;

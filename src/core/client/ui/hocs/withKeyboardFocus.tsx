@@ -1,6 +1,8 @@
 import React, { FocusEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
+import withUIContext from "coral-ui/components/v2/UIContext/withUIContext";
+
 interface InjectedProps {
   onFocus: React.EventHandler<FocusEvent<any>>;
   onBlur: React.EventHandler<FocusEvent<any>>;
@@ -27,17 +29,17 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
 
     constructor(props: any) {
       super(props);
-      // docz uses SSR with no access to window or document.
-      if (typeof document !== "undefined") {
-        document.addEventListener("mousedown", this.handleMouseDown);
-      }
+      this.props.window.document.addEventListener(
+        "mousedown",
+        this.handleMouseDown
+      );
     }
 
     public componentWillUnmount() {
-      // docz uses SSR with no access to window or document.
-      if (typeof document !== "undefined") {
-        document.removeEventListener("mousedown", this.handleMouseDown);
-      }
+      this.props.window.document.removeEventListener(
+        "mousedown",
+        this.handleMouseDown
+      );
     }
 
     private handleFocus: React.EventHandler<FocusEvent<any>> = (event) => {
@@ -62,9 +64,10 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
     };
 
     public render() {
+      const { window, ...rest } = this.props;
       return (
         <Workaround
-          {...this.props}
+          {...rest}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           keyboardFocus={this.state.keyboardFocus}
@@ -73,7 +76,9 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
     }
   }
 
-  return WithKeyboardFocus as React.ComponentClass<any>;
+  return withUIContext(({ renderWindow }) => ({ window: renderWindow }))(
+    WithKeyboardFocus as React.ComponentClass<any>
+  );
 });
 
 export default withKeyboardFocus;

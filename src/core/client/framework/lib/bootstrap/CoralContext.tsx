@@ -35,6 +35,19 @@ export interface CoralContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
+  /**
+   * This is the window, where the React code is running.
+   * Usually this is same as the global `window` object.
+   */
+  window: Window;
+
+  /**
+   * This is the window, we are rendering to,
+   * this is different from `window` above, when we
+   * are rendering to another frame.
+   */
+  renderWindow: Window;
+
   /** Local Storage */
   localStorage: PromisifiedStorage;
 
@@ -96,6 +109,7 @@ export const CoralContextConsumer = CoralReactContext.Consumer;
 const parser = new DOMParser();
 
 function fallbackParseMarkup(str: string) {
+  // eslint-disable-next-line no-restricted-globals
   const doc = document.implementation.createHTMLDocument("");
   doc.documentElement.innerHTML = str;
   return doc;
@@ -112,6 +126,16 @@ function parseMarkup(str: string) {
   return Array.from(doc.body.childNodes);
 }
 
+export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
+  return {
+    timeagoFormatter: ctx.timeagoFormatter,
+    registerClickFarAway: ctx.registerClickFarAway,
+    mediaQueryValues: ctx.mediaQueryValues,
+    locales: ctx.locales,
+    renderWindow: ctx.renderWindow,
+  };
+}
+
 /**
  * In addition to just providing the context, CoralContextProvider also
  * renders the `LocalizationProvider` with the appropite data.
@@ -124,14 +148,7 @@ export const CoralContextProvider: FunctionComponent<{
       bundles={value.localeBundles}
       parseMarkup={parseMarkup}
     >
-      <UIContext.Provider
-        value={{
-          timeagoFormatter: value.timeagoFormatter,
-          registerClickFarAway: value.registerClickFarAway,
-          mediaQueryValues: value.mediaQueryValues,
-          locales: value.locales,
-        }}
-      >
+      <UIContext.Provider value={getUIContextPropsFromCoralContext(value)}>
         {children}
       </UIContext.Provider>
     </LocalizationProvider>

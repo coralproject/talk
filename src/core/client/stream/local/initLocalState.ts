@@ -55,7 +55,7 @@ const initLocalState: InitLocalState = async ({
   staticConfig,
   ...rest
 }) => {
-  const config = await getExternalConfig(context.pym);
+  const config = await getExternalConfig(context.window, context.pym);
   if (config) {
     if (config.accessToken) {
       // Access tokens passed via the config should not be persisted.
@@ -63,7 +63,7 @@ const initLocalState: InitLocalState = async ({
     }
     // append body class name if set in config.
     if (config.bodyClassName) {
-      document.body.classList.add(config.bodyClassName);
+      context.window.document.body.classList.add(config.bodyClassName);
     }
   }
 

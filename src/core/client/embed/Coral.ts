@@ -47,11 +47,11 @@ export function createStreamEmbed(config: Config): StreamEmbed {
   return new StreamEmbed({
     title: "Coral Embed Stream",
     storyID: config.storyID || query.storyID,
-    storyURL: config.storyURL || query.storyURL || resolveStoryURL(),
+    storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
     storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
     id: config.id || "coral-embed-stream",
-    rootURL: config.rootURL || getLocationOrigin(),
+    rootURL: config.rootURL || getLocationOrigin(window),
     autoRender: config.autoRender,
     eventEmitter,
     accessToken: config.accessToken,

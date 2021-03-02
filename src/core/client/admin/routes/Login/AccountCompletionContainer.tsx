@@ -2,6 +2,7 @@ import { RouterState, withRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
+import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
 import {
   useLocal,
   useMutation,
@@ -100,7 +101,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
         await completeAccount({ accessToken: accessToken! });
         router.replace(redirectPath || "/admin");
       } catch (err) {
-        window.console.error(err);
+        globalErrorReporter.report(err);
       }
     }
 

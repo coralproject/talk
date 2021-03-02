@@ -1,16 +1,18 @@
+import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
+
 import clearHash from "./clearHash";
 import getParamsFromHash from "./getParamsFromHash";
 
-export default function getParamsFromHashAndClearIt() {
+export default function getParamsFromHashAndClearIt(window: Window) {
   try {
-    const params = getParamsFromHash() || {};
+    const params = getParamsFromHash(window) || {};
 
     // Clear the hash contents.
-    clearHash();
+    clearHash(window);
 
     return params;
   } catch (err) {
-    window.console.error(err);
+    globalErrorReporter.report(err);
     return {};
   }
 }

@@ -1,31 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<div
-  className="HTMLContent-root"
-  dangerouslySetInnerHTML={
-    Object {
-      "__html": "<span>Hello world</span>",
-    }
-  }
-/>
-`;
+exports[`renders correctly 1`] = `"<span>Hello world</span>"`;
 
 exports[`sanitizes evil html 1`] = `
-<div
-  className="HTMLContent-root"
-  dangerouslySetInnerHTML={
-    Object {
-      "__html": "
-        <span>Hello world</span>
-      ",
-    }
-  }
-/>
+"
+    <span>Hello world</span>
+  "
 `;
 
 exports[`transform spoiler tags 1`] = `
 "
-        <span class=\\"coral-rte-spoiler\\" onmousedown=\\"javascript: event.preventDefault()\\" onclick=\\"handleCoralSpoilerButton(this, event)\\" onkeydown=\\"handleCoralSpoilerButton(this, event)\\" role=\\"button\\" title=\\"Reveal spoiler\\" tabindex=\\"0\\"><span aria-hidden=\\"true\\">Spoiler</span></span>
-      "
+    <span class=\\"coral-rte-spoiler\\" onmousedown=\\"javascript: event.preventDefault()\\" onclick=\\"handleCoralSpoilerButton(this, event)\\" onkeydown=\\"handleCoralSpoilerButton(this, event)\\" role=\\"button\\" title=\\"Reveal spoiler\\" tabindex=\\"0\\"><span aria-hidden=\\"true\\">Spoiler</span></span>
+  "
 `;

@@ -18,6 +18,7 @@ import React, {
 } from "react";
 
 import { createSanitize } from "coral-common/helpers/sanitize";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
@@ -39,7 +40,10 @@ interface RTEFeatures {
   sarcasm?: boolean;
 }
 
-const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
+const createSanitizeToDOMFragment = (
+  window: Window,
+  features: RTEFeatures = {}
+) => {
   /** Resused Sanitize instance */
   const sanitize = createSanitize(window, {
     features: {
@@ -53,7 +57,7 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
     },
   });
   return (html: string) => {
-    const frag = document.createDocumentFragment();
+    const frag = window.document.createDocumentFragment();
     if (html) {
       const sanitized = sanitize(html);
       while (sanitized.firstChild) {
@@ -173,9 +177,10 @@ const RTE: FunctionComponent<Props> = (props) => {
     ...rest
   } = props;
 
+  const { window } = useCoralContext();
   const sanitizeToDOMFragment = useMemo(() => {
-    return createSanitizeToDOMFragment(features);
-  }, [features]);
+    return createSanitizeToDOMFragment(window, features);
+  }, [features, window]);
 
   const featureElements = useMemo(() => {
     const x = [];

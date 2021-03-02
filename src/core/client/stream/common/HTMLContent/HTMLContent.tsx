@@ -7,6 +7,7 @@ import {
   createSanitize,
   Sanitize,
 } from "coral-common/helpers/sanitize";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 
 import styles from "./HTMLContent.css";
 
@@ -14,6 +15,7 @@ import styles from "./HTMLContent.css";
  * Sanitize html content and find spoiler tags.
  */
 const sanitizeAndFindSpoilerTags: (
+  window: Window,
   source: string | Node
 ) => [HTMLElement, Element[]] = (() => {
   /** Resused instance */
@@ -22,7 +24,7 @@ const sanitizeAndFindSpoilerTags: (
   /** Found spoiler tags during sanitization will be placed here. */
   let spoilerTags: Element[] = [];
 
-  return (source: string | Node): [HTMLElement, Element[]] => {
+  return (window: Window, source: string | Node): [HTMLElement, Element[]] => {
     if (!sanitize) {
       sanitize = createSanitize(window, {
         // Allow all rte features to be displayed.
@@ -50,12 +52,12 @@ const sanitizeAndFindSpoilerTags: (
 /**
  * Makes sure SpoilerTag Handler is registered in `global`.
  */
-function registerSpoilerTagHandler() {
-  if ("handleCoralSpoilerButton" in global) {
+function registerSpoilerTagHandler(window: Window) {
+  if ("handleCoralSpoilerButton" in window) {
     return;
   }
   // Add global spoiler tag handler `handleCoralSpoilerButton`.
-  (global as any).handleCoralSpoilerButton = (
+  (window as any).handleCoralSpoilerButton = (
     el: HTMLElement,
     event: MouseEvent | KeyboardEvent
   ) => {
@@ -77,12 +79,12 @@ function registerSpoilerTagHandler() {
   };
 }
 
-function transform(source: string | Node) {
+export function transform(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(source);
+  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(window, source);
 
   // Make sure spoiler tag handler exists.
-  registerSpoilerTagHandler();
+  registerSpoilerTagHandler(window);
 
   // Attach event handlers to spoiler tags.
   spoilerTags.forEach((node) => {
@@ -106,11 +108,14 @@ interface HTMLContentProps {
 const HTMLContent: FunctionComponent<HTMLContentProps> = ({
   children,
   className,
-}) => (
-  <div
-    className={cn(styles.root, className)}
-    dangerouslySetInnerHTML={{ __html: transform(children) }}
-  />
-);
+}) => {
+  const { window } = useCoralContext();
+  return (
+    <div
+      className={cn(styles.root, className)}
+      dangerouslySetInnerHTML={{ __html: transform(window, children) }}
+    />
+  );
+};
 
 export default HTMLContent;

@@ -19,10 +19,20 @@ export interface ClickOutsideProps {
    */
   registerClickFarAway?: ClickFarAwayRegister;
 
+  /**
+   * Allow you to change the `Window` reference.
+   */
+  window?: Window;
+
   children: React.ReactNode;
 }
 
 export class ClickOutside extends React.Component<ClickOutsideProps> {
+  public static defaultProps: Partial<ClickOutsideProps> = {
+    // eslint-disable-next-line no-restricted-globals
+    window,
+  };
+
   public domNode: Element | null = null;
   private unlisten?: ClickFarAwayUnlistenCallback;
 
@@ -44,7 +54,11 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
     // TODO: find another solution to `findDOMNode`.
     // eslint-disable-next-line react/no-find-dom-node
     this.domNode = findDOMNode(this) as Element;
-    document.addEventListener("click", this.handleClick, true);
+    this.props.window!.document.addEventListener(
+      "click",
+      this.handleClick,
+      true
+    );
 
     // Listen to far away clicks.
     if (this.props.registerClickFarAway) {
@@ -53,7 +67,11 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   }
 
   public componentWillUnmount() {
-    document.removeEventListener("click", this.handleClick, true);
+    this.props.window!.document.removeEventListener(
+      "click",
+      this.handleClick,
+      true
+    );
 
     // Unlisten to far away clicks.
     if (this.unlisten) {
@@ -71,8 +89,12 @@ const ClickOutsideWithContext: FunctionComponent<ClickOutsideProps> = (
   props
 ) => (
   <UIContext.Consumer>
-    {({ registerClickFarAway }) => (
-      <ClickOutside {...props} registerClickFarAway={registerClickFarAway} />
+    {({ registerClickFarAway, renderWindow }) => (
+      <ClickOutside
+        {...props}
+        registerClickFarAway={registerClickFarAway}
+        window={renderWindow}
+      />
     )}
   </UIContext.Consumer>
 );

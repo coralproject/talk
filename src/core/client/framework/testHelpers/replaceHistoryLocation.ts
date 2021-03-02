@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 type RestoreHistoryFunction = () => void;
 
 export default function replaceHistoryLocation(

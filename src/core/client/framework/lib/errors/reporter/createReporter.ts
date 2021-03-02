@@ -17,12 +17,13 @@ function createDevelopmentReporter() {
   });
 }
 
-function createReporter({ reporterFeedbackPrompt = false }: Options = {}):
-  | ErrorReporter
-  | undefined {
+function createReporter(
+  window: Window,
+  { reporterFeedbackPrompt = false }: Options = {}
+): ErrorReporter | undefined {
   // Parse and load the reporter configuration from the config element on the
   // page.
-  const config = getStaticConfig();
+  const config = getStaticConfig(window);
   if (!config) {
     if (process.env.NODE_ENV === "development") {
       return createDevelopmentReporter();

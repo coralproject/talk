@@ -23,7 +23,7 @@ it("Broadcasts events to pym", () => {
   };
 
   createRenderer().render(
-    <OnEvents pym={pym as any} eventEmitter={eventEmitter} />
+    <OnEvents pym={pym as any} eventEmitter={eventEmitter} window={window} />
   );
   expect(pym.sendMessage.calledOnce).toBe(true);
 });

@@ -11,7 +11,7 @@ interface SetCommentIDInput {
 export async function commit(
   environment: Environment,
   input: SetCommentIDInput,
-  { pym }: CoralContext
+  { pym, window }: CoralContext
 ) {
   return commitLocalUpdate(environment, (store) => {
     const record = store.get(LOCAL_ID)!;
@@ -23,7 +23,7 @@ export async function commit(
     // a user session.
     window.history.replaceState(
       window.history.state,
-      document.title,
+      window.document.title,
       getURLWithCommentID(location.href, input.id || undefined)
     );
 
