@@ -154,7 +154,7 @@
     "xregexp": "^4.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
+    "@babel/core": "^7.13.8",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
