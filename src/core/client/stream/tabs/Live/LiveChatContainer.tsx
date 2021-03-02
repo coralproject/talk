@@ -110,11 +110,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollEnabled = useRef(false);
   const lastScrollTop = useRef(0);
-  const scrollDir = useRef(0);
-
-  const afterCommentsIncoming = useRef(false);
-  const beforeCommentsIncoming = useRef(false);
-  const beforeCommentScrollID = useRef<string | null>(null);
 
   const [
     focusedComment,
@@ -129,30 +124,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       setLocal({ liveChat: { tailing: value } });
     },
     [setLocal]
-  );
-
-  const onScroll = useCallback(
-    async (e) => {
-      const container = containerRef.current;
-      const begin = beginRef.current;
-
-      if (!container || !begin || !scrollEnabled) {
-        return;
-      }
-
-      scrollDir.current = container.scrollTop - lastScrollTop.current;
-
-      const atBottom =
-        Math.abs(
-          container.scrollTop -
-            (container.scrollHeight - container.offsetHeight)
-        ) < 5;
-
-      setTailing(atBottom);
-
-      lastScrollTop.current = container.scrollTop;
-    },
-    [setTailing]
   );
 
   const scrollToBeforeAfter = useCallback(
@@ -172,6 +143,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
+    if (beforeCommentsIncoming.current || afterCommentsIncoming.current) {
+      return;
+    }
+
     if (cursorSet) {
       scrollToBeforeAfter();
     } else {
@@ -201,61 +176,62 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     scrollToBeforeAfter,
   ]);
 
-  const scrollToAfterTimeout = useRef<number | null>(null);
-  const beforeScrollToTimeout = useRef<number | null>(null);
+  /** Scroll */
 
-  const afterCommentsChanged = useCallback(() => {
-    if (tailing && !afterCommentsIncoming.current) {
-      scrollEnabled.current = false;
-      scrollToEnd("smooth");
+  const prevScrollHeight = useRef<number | null>(null);
+  const prevScrollTop = useRef<number | null>(null);
 
-      if (scrollToAfterTimeout.current) {
-        clearTimeout(scrollToAfterTimeout.current);
-      }
+  const clearScrollStateTimeout = useRef<number | null>(null);
+  const clearScrollState = useCallback(() => {
+    prevScrollHeight.current = null;
+    prevScrollTop.current = null;
+    beforeCommentsIncoming.current = false;
+    afterCommentsIncoming.current = false;
+  }, []);
 
-      scrollToAfterTimeout.current = window.setTimeout(() => {
-        scrollEnabled.current = true;
-      }, 300);
+  const maintainPrevScrollState = useCallback(() => {
+    if (prevScrollHeight.current !== null && prevScrollTop.current !== null) {
+      const currentHeight = containerRef.current.scrollHeight;
+
+      const prevScroll = prevScrollTop.current > 0 ? prevScrollTop.current : 0;
+      const offset = currentHeight - prevScrollHeight.current;
+
+      containerRef.current.scrollTop = offset + prevScroll;
+    }
+  }, []);
+
+  const maintainPrevScrollStateAndClear = useCallback(() => {
+    maintainPrevScrollState();
+
+    if (clearScrollStateTimeout.current) {
+      clearTimeout(clearScrollStateTimeout.current);
     }
 
-    afterCommentsIncoming.current = false;
-  }, [scrollToEnd, tailing]);
+    clearScrollStateTimeout.current = window.setTimeout(clearScrollState, 300);
+  }, [clearScrollState, maintainPrevScrollState]);
+
+  /** Scroll END */
 
   /** Before Scroll */
 
-  const clearBeforeScrollState = useCallback(() => {
-    beforeCommentsIncoming.current = false;
-    beforeCommentScrollID.current = null;
-  }, []);
-
-  const scrollToTargetComment = useCallback(() => {
-    if (!beforeCommentScrollID.current) {
-      return;
-    }
-
-    const el = document.getElementById(
-      `comment-${beforeCommentScrollID.current}-top`
-    );
-    if (el) {
-      el.scrollIntoView();
-    }
-  }, []);
-
-  const scrollToTargetCommentAndClear = useCallback(() => {
-    scrollToTargetComment();
-    window.setTimeout(clearBeforeScrollState, 150);
-  }, [clearBeforeScrollState, scrollToTargetComment]);
+  const beforeCommentsIncoming = useRef(false);
+  const beforeMaintainScrollStateTimeout = useRef<number | null>(null);
 
   const beforeCommentsChanged = useCallback(() => {
-    if (beforeScrollToTimeout.current) {
-      clearTimeout(beforeScrollToTimeout.current);
+    if (beforeMaintainScrollStateTimeout.current) {
+      clearTimeout(beforeMaintainScrollStateTimeout.current);
     }
 
-    beforeScrollToTimeout.current = window.setTimeout(
-      scrollToTargetCommentAndClear,
-      150
-    );
-  }, [scrollToTargetCommentAndClear]);
+    const isSafari = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    if (isSafari) {
+      beforeMaintainScrollStateTimeout.current = window.setTimeout(
+        maintainPrevScrollStateAndClear,
+        500
+      );
+    } else {
+      maintainPrevScrollStateAndClear();
+    }
+  }, [maintainPrevScrollStateAndClear]);
 
   const onBeginInView = useCallback(async () => {
     if (
@@ -265,28 +241,143 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     ) {
       try {
         beforeCommentsIncoming.current = true;
-        setTailing(false);
 
-        if (beforeComments.length > 0) {
-          beforeCommentScrollID.current = beforeComments[0].node.id;
-        }
+        prevScrollHeight.current = containerRef.current.scrollHeight;
+        prevScrollTop.current = containerRef.current.scrollTop;
 
-        scrollToTargetComment();
         await loadMoreBefore();
       } catch (err) {
         // ignore for now
       }
     }
-  }, [
-    beforeComments,
-    beforeHasMore,
-    isLoadingMoreBefore,
-    loadMoreBefore,
-    scrollToTargetComment,
-    setTailing,
-  ]);
+  }, [beforeHasMore, isLoadingMoreBefore, loadMoreBefore]);
+
+  useEffectAtUnmount(() => {
+    if (beforeMaintainScrollStateTimeout.current) {
+      clearTimeout(beforeMaintainScrollStateTimeout.current);
+    }
+    if (clearScrollStateTimeout.current) {
+      clearTimeout(clearScrollStateTimeout.current);
+    }
+  });
 
   /** Before Scroll END */
+
+  /** After Scroll */
+
+  const afterCommentsIncoming = useRef(false);
+  const afterMaintainScrollStateTimeout = useRef<number | null>(null);
+  const tailingScrollTimeout = useRef<number | null>(null);
+  const afterTailingScrollTimeout = useRef<number | null>(null);
+
+  const paginateNewAfterComments = useCallback(() => {
+    if (afterMaintainScrollStateTimeout.current) {
+      clearTimeout(afterMaintainScrollStateTimeout.current);
+    }
+
+    const isSafari = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    if (isSafari) {
+      afterMaintainScrollStateTimeout.current = window.setTimeout(
+        maintainPrevScrollStateAndClear,
+        500
+      );
+    } else {
+      maintainPrevScrollStateAndClear();
+    }
+  }, [maintainPrevScrollStateAndClear]);
+
+  const afterTailingScroll = useCallback(() => {
+    scrollEnabled.current = true;
+  }, []);
+
+  const performTailingScroll = useCallback(() => {
+    scrollEnabled.current = false;
+    scrollToEnd("smooth");
+
+    if (afterTailingScrollTimeout.current) {
+      window.clearTimeout(afterTailingScrollTimeout.current);
+    }
+
+    afterTailingScrollTimeout.current = window.setTimeout(
+      afterTailingScroll,
+      100
+    );
+  }, [afterTailingScroll, scrollToEnd]);
+
+  const afterCommentsChanged = useCallback(() => {
+    if (afterCommentsIncoming.current && !tailing) {
+      paginateNewAfterComments();
+    } else if (tailing) {
+      if (tailingScrollTimeout.current) {
+        window.clearTimeout(tailingScrollTimeout.current);
+      }
+
+      scrollEnabled.current = false;
+      tailingScrollTimeout.current = window.setTimeout(
+        performTailingScroll,
+        100
+      );
+    }
+  }, [paginateNewAfterComments, performTailingScroll, tailing]);
+
+  useEffectAtUnmount(() => {
+    if (afterMaintainScrollStateTimeout.current) {
+      clearTimeout(afterMaintainScrollStateTimeout.current);
+    }
+  });
+
+  const onEndInView = useCallback(async () => {
+    if (
+      afterHasMore &&
+      !isLoadingMoreAfter &&
+      !afterCommentsIncoming.current &&
+      !tailing
+    ) {
+      try {
+        afterCommentsIncoming.current = true;
+        setTailing(false);
+        await loadMoreAfter();
+      } catch (err) {
+        // ignore for now
+      }
+    }
+  }, [afterHasMore, isLoadingMoreAfter, loadMoreAfter, setTailing, tailing]);
+
+  /** After Scroll END */
+
+  /** Tailing Scroll */
+
+  const onScroll = useCallback(
+    async (e) => {
+      const container = containerRef.current;
+      const begin = beginRef.current;
+
+      if (!container || !begin || !scrollEnabled) {
+        return;
+      }
+
+      const atBottom =
+        Math.abs(
+          container.scrollTop -
+            (container.scrollHeight - container.offsetHeight)
+        ) < 5;
+
+      setTailing(atBottom);
+    },
+    [setTailing]
+  );
+
+  const onTailingInView = useCallback(async () => {
+    if (
+      !afterHasMore &&
+      !isLoadingMoreAfter &&
+      !afterCommentsIncoming.current
+    ) {
+      setTailing(true);
+    }
+  }, [afterHasMore, isLoadingMoreAfter, setTailing]);
+
+  /** Tailing Scroll END */
 
   useEffectAfterMount(() => {
     beforeCommentsChanged();
@@ -295,15 +386,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   useEffectAfterMount(() => {
     afterCommentsChanged();
   }, [afterComments, afterCommentsChanged]);
-
-  useEffectAtUnmount(() => {
-    if (scrollToAfterTimeout.current) {
-      clearTimeout(scrollToAfterTimeout.current);
-    }
-    if (beforeScrollToTimeout.current) {
-      clearTimeout(beforeScrollToTimeout.current);
-    }
-  });
 
   const subscribeToCommentEntered = useSubscription(
     LiveCommentEnteredSubscription
@@ -412,26 +494,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewReplyID(null);
   }, [newReplyID, setNewReplyID]);
 
-  const onEndInView = useCallback(async () => {
-    if (afterHasMore && !isLoadingMoreAfter && !afterCommentsIncoming.current) {
-      try {
-        afterCommentsIncoming.current = true;
-        setTailing(false);
-        await loadMoreAfter();
-      } catch (err) {
-        // ignore for now
-      }
-    }
-  }, [afterHasMore, isLoadingMoreAfter, loadMoreAfter, setTailing]);
-
   return (
     <>
       <IntersectionProvider>
         <div
           id="live-chat-comments"
           className={styles.streamContainer}
-          onScroll={onScroll}
           ref={containerRef}
+          onScroll={onScroll}
         >
           <div id="begin" ref={beginRef} className={styles.begin}>
             <InView onInView={onBeginInView} />
@@ -476,9 +546,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             />
           ))}
 
-          <div id="pre-end"></div>
           <div id="end" className={styles.end}>
             <InView onInView={onEndInView} />
+          </div>
+          <div id="tailing" className={styles.tailing}>
+            <InView onInView={onTailingInView} />
           </div>
           <div className={styles.endFooter}></div>
         </div>
