@@ -1,5 +1,6 @@
+import { GQLLocal } from "coral-admin/schema";
 import { pureMerge } from "coral-common/utils";
-import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
+import { lookupLocal } from "coral-framework/lib/relay";
 import {
   act,
   createQueryResolverStub,
@@ -54,7 +55,7 @@ it("redirect when not logged in", async () => {
   const { context } = await createTestRenderer();
   await act(async () => {
     await wait(() => {
-      expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+      expect(lookupLocal<GQLLocal>(context.relayEnvironment).redirectPath).toBe(
         "/admin/moderate"
       );
       expect(window.location.toString()).toBe("http://localhost/admin/login");

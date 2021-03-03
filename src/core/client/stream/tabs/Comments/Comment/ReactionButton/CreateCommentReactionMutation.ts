@@ -40,8 +40,8 @@ async function commit(
   input: CreateCommentReactionInput,
   { eventEmitter }: Pick<CoralContext, "eventEmitter">
 ) {
-  const currentCount = lookup(environment, input.commentID).actionCounts
-    .reaction.total;
+  const currentCount = lookup<GQLComment>(environment, input.commentID)!
+    .actionCounts.reaction.total;
 
   const createCommentReactionEvent = CreateCommentReactionEvent.begin(
     eventEmitter,

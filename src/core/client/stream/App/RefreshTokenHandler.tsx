@@ -4,14 +4,14 @@ import { graphql } from "react-relay";
 import waitFor from "coral-common/helpers/waitFor";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
-  LOCAL_ID,
-  lookup,
+  lookupLocal,
   lookupQuery,
   retainQuery,
   useMutation,
 } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
 import { weControlAuth } from "coral-stream/common/authControl";
+import { GQLLocal } from "coral-stream/schema";
 
 import { RefreshTokenHandlerAuthControlQuery } from "coral-stream/__generated__/RefreshTokenHandlerAuthControlQuery.graphql";
 
@@ -98,7 +98,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
         await waitFor(0);
       }
       // Return current access token.
-      return lookup(relayEnvironment, LOCAL_ID).accessToken;
+      return lookupLocal<GQLLocal>(relayEnvironment).accessToken;
     });
   }, [
     tokenRefreshProvider,
