@@ -11,15 +11,12 @@ interface Props {
   commentID: string;
   storyID: string;
   cursor: string;
-
-  jumpToReply: (cursor: string) => void;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   commentID,
   storyID,
   cursor,
-  jumpToReply,
 }) => {
   return (
     <QueryRenderer<LiveCommentRepliesQuery>
@@ -45,7 +42,6 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             comment={data.props.comment}
             storyID={storyID}
             cursor={cursor}
-            jumpToReply={jumpToReply}
           />
         );
       }}

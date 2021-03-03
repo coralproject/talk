@@ -35,8 +35,6 @@ interface Props {
 
   storyID: string;
   comment: LiveCommentRepliesContainer_comment;
-
-  setCursor: (cursor: string) => void;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -50,7 +48,6 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   isLoadingMoreAfter,
   storyID,
   comment,
-  setCursor,
 }) => {
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
@@ -68,28 +65,51 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
     };
   }, [storyID, comment.id, subscribeToCommentEntered]);
 
-  const rootRef = useRef<any | null>(null);
+  const repliesRef = useRef<any | null>(null);
 
   const onScroll = useCallback(async () => {
-    const root = rootRef.current;
-    if (!root) {
+    const replies = repliesRef.current;
+    if (!replies) {
       return;
     }
 
     const atBottom =
-      Math.abs(root.scrollTop - (root.scrollHeight - root.offsetHeight)) < 5;
+      Math.abs(
+        replies.scrollTop - (replies.scrollHeight - replies.offsetHeight)
+      ) < 5;
 
-    if (atBottom && afterHasMore && !isLoadingMoreAfter) {
+    const atTop = replies.scrollTop < 5;
+
+    if (atTop && beforeHasMore && !isLoadingMoreBefore && !isLoadingMoreAfter) {
+      try {
+        await loadMoreBefore();
+      } catch (err) {
+        // ignore for now
+      }
+    }
+    if (
+      atBottom &&
+      afterHasMore &&
+      !isLoadingMoreAfter &&
+      !isLoadingMoreBefore
+    ) {
       try {
         await loadMoreAfter();
       } catch (err) {
         // ignore for now
       }
     }
-  }, [afterHasMore, isLoadingMoreAfter, loadMoreAfter]);
+  }, [
+    afterHasMore,
+    beforeHasMore,
+    isLoadingMoreAfter,
+    isLoadingMoreBefore,
+    loadMoreAfter,
+    loadMoreBefore,
+  ]);
 
   return (
-    <div onScroll={onScroll} className={styles.root} ref={rootRef}>
+    <>
       <div className={styles.comment}>
         <LiveCommentBody
           author={comment.author}
@@ -97,7 +117,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           createdAt={comment.createdAt}
         />
       </div>
-      <div>
+      <div onScroll={onScroll} className={styles.replies} ref={repliesRef}>
         {beforeComments.map((e) => {
           return (
             <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
@@ -127,7 +147,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
 
