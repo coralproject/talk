@@ -495,7 +495,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    const el = document.getElementById(`comment-${newReply.id}`);
+    const el = document.getElementById(`comment-${newReply.id}-bottom`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
     }
@@ -514,7 +514,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       window.clearTimeout(scrollToReplyTimeout.current);
     }
 
-    window.setTimeout(scrollToReply, 100);
+    window.setTimeout(scrollToReply, 300);
   }, [newReply, setCursor, scrollToReply]);
 
   return (
