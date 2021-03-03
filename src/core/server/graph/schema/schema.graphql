@@ -3379,7 +3379,17 @@ type Comment @cacheControl(maxAge: 5) {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+
+    """
+    When true, this edge will return all comments regardless of reply depth.
+    """
     flatten: Boolean
+
+    """
+    When true, will include the cursor value in the returned edges. This
+    currently only supports date ordered sorts.
+    """
+    inclusive: Boolean
   ): CommentsConnection!
 
   """
