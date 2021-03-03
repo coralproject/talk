@@ -98,7 +98,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
         await waitFor(0);
       }
       // Return current access token.
-      return lookupLocal<GQLLocal>(relayEnvironment).accessToken;
+      return lookupLocal<GQLLocal>(relayEnvironment).accessToken || "";
     });
   }, [
     tokenRefreshProvider,
