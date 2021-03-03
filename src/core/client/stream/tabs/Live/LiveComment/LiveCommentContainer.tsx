@@ -100,7 +100,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 fontSize="none"
                 fontWeight="none"
                 textAlign="left"
-                onClick={onConversation}
+                onClick={onConversationParent}
               >
                 <Flex justifyContent="flex-start" alignItems="center">
                   <div className={styles.parentUser}>
