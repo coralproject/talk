@@ -1,6 +1,8 @@
 import GraphContext from "coral-server/graph/context";
 import { hasFeatureFlag } from "coral-server/models/tenant";
+import { checkFlag } from "coral-server/services/comments";
 import { approveComment, rejectComment } from "coral-server/stacks";
+import { GQLCheckFlagInput } from "core/client/framework/schema/__generated__/types";
 
 import {
   GQLApproveCommentInput,
@@ -47,5 +49,8 @@ export const Actions = (ctx: GraphContext) => ({
       ctx.user!.id,
       ctx.now
     );
+  },
+  checkFlag: async (input: GQLCheckFlagInput) => {
+    return checkFlag(ctx.mongo, ctx.tenant, input.flagID, ctx.now);
   },
 });

@@ -5,6 +5,7 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
   ACTION_TYPE,
+  checkCommentFlag,
   CommentAction,
   CreateActionInput,
   createActions,
@@ -404,4 +405,13 @@ export async function createFlag(
   }
 
   return comment;
+}
+
+export async function checkFlag(
+  mongo: Db,
+  tenant: Tenant,
+  id: string,
+  checkedAt: Date
+) {
+  return checkCommentFlag(mongo, tenant.id, id, checkedAt);
 }

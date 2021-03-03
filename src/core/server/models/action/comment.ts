@@ -134,6 +134,11 @@ export interface CommentAction extends TenantResource {
    * metadata is arbitrary information stored for this Action.
    */
   metadata?: Record<string, any>;
+
+  /**
+   * Stores the date that this action was checked on.
+   */
+  checkedAt?: Date;
 }
 
 const ActionSchema = Joi.compile([
@@ -722,4 +727,26 @@ export async function mergeManyStoryActions(
       },
     }
   );
+}
+
+export async function checkCommentFlag(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  checkedAt: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      actionType: ACTION_TYPE.FLAG,
+    },
+    {
+      $set: {
+        checkedAt,
+      },
+    }
+  );
+
+  return result.value || null;
 }

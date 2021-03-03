@@ -25,4 +25,5 @@ export const Flag: GQLFlagTypeResolver<actions.CommentAction> = {
 
     return null;
   },
+  checkedAt: ({ checkedAt }) => checkedAt,
 };

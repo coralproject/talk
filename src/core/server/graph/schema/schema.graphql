@@ -316,6 +316,11 @@ type FlagReasonActionCounts {
 
 type Flag {
   """
+  ID of this Flag.
+  """
+  id: ID!
+
+  """
   flagger is the User that created the Flag. If this is null, then the system
   created the Flag.
   """
@@ -333,6 +338,11 @@ type Flag {
   created or is relevant.
   """
   additionalDetails: String
+
+  """
+  The date that this Flag was checked at.
+  """
+  checkedAt: Time
 }
 
 type FlagEdge {
@@ -4079,6 +4089,12 @@ type Query {
   """
   externalModerationPhase(id: ID!): ExternalModerationPhase
     @auth(roles: [ADMIN])
+
+  """
+  Flags that have been made across all comments on this organization.
+  """
+  flags(first: Int = 10 @constraint(max: 50), after: Cursor): FlagsConnection!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -7796,11 +7812,41 @@ type UpdateSitePayload {
 }
 
 input TestSMTPInput {
+  """
+  clientMutationId is required for Relay support.
+  """
   clientMutationId: String!
 }
 
 type TestSMTPPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
   clientMutationId: String!
+}
+
+input CheckFlagInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  ID of the Flag to check.
+  """
+  flagID: ID!
+}
+
+type CheckFlagPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  The possibly checked Flag.
+  """
+  flag: Flag
 }
 
 ##################
@@ -8394,6 +8440,9 @@ type Mutation {
   testSMTP sends a test email.
   """
   testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
+
+  checkFlag(input: CheckFlagInput!): CheckFlagPayload
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
