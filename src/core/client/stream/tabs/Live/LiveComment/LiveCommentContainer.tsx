@@ -65,6 +65,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     onReplyTo(comment as any);
   }, [comment, onReplyTo]);
 
+  const onConversationParent = useCallback(() => {
+    if (!comment || !comment.parent) {
+      return;
+    }
+
+    onShowConversation(comment.parent as any);
+  }, [comment, onShowConversation]);
+
   const onConversation = useCallback(() => {
     if (!comment || !comment.revision) {
       return;
@@ -85,15 +93,27 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 height="20px"
                 className={styles.parentArrow}
               />
-              <div className={styles.parentUser}>
-                {comment.parent.author?.username}
-              </div>
-              <div
-                className={styles.parentBody}
-                dangerouslySetInnerHTML={{
-                  __html: comment.parent?.body || "",
-                }}
-              ></div>
+              <Button
+                variant="none"
+                paddingSize="none"
+                fontFamily="none"
+                fontSize="none"
+                fontWeight="none"
+                textAlign="left"
+                onClick={onConversation}
+              >
+                <Flex justifyContent="flex-start" alignItems="center">
+                  <div className={styles.parentUser}>
+                    {comment.parent.author?.username}
+                  </div>
+                  <div
+                    className={styles.parentBody}
+                    dangerouslySetInnerHTML={{
+                      __html: comment.parent?.body || "",
+                    }}
+                  ></div>
+                </Flex>
+              </Button>
             </Flex>
           </div>
         )}
@@ -124,18 +144,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 />
               )}
               {viewer && (
-                <ReportButton
-                  onClick={toggleShowReportFlow}
-                  open={showReportFlow}
-                  viewer={viewer}
-                  comment={comment}
-                />
-              )}
-              {!comment.parent && viewer && (
                 <Button
                   className={styles.replyButton}
                   variant="none"
-                  onClick={onReply}
+                  onClick={comment.parent ? onConversationParent : onReply}
                 >
                   <ShortcutIcon
                     width="16px"
@@ -144,9 +156,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                   />
                 </Button>
               )}
-            </div>
-
-            <Flex className={styles.rightActions} justifyContent="flex-end">
               {comment.replyCount > 0 && (
                 <Button
                   className={styles.conversationButton}
@@ -156,6 +165,17 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 >
                   Conversation
                 </Button>
+              )}
+            </div>
+
+            <Flex className={styles.rightActions} justifyContent="flex-end">
+              {viewer && (
+                <ReportButton
+                  onClick={toggleShowReportFlow}
+                  open={showReportFlow}
+                  viewer={viewer}
+                  comment={comment}
+                />
               )}
             </Flex>
           </Flex>
@@ -195,6 +215,13 @@ const enhanced = withFragmentContainer<Props>({
       body
       createdAt
       parent {
+        id
+        parent {
+          id
+        }
+        revision {
+          id
+        }
         author {
           id
           username
