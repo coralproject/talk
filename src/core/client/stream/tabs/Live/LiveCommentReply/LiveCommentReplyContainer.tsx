@@ -42,24 +42,17 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
     onClose();
   }, [onClose]);
 
-  const [cursor, setCursor] = useState(new Date(0).toISOString());
+  const [cursor] = useState(new Date(0).toISOString());
 
   const submit = useCallback(
     (commentID: string | undefined, cur: string) => {
       if (!showConversation) {
-        onSubmitted(commentID, cursor);
+        onSubmitted(commentID, cur);
       } else {
-        setCursor(cur);
+        // TODO: set cursor and cause refresh
       }
     },
-    [cursor, onSubmitted, showConversation]
-  );
-
-  const jumpToReply = useCallback(
-    (cur: string) => {
-      setCursor(cur);
-    },
-    [setCursor]
+    [onSubmitted, showConversation]
   );
 
   if (!visible) {
@@ -106,7 +99,6 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
             commentID={comment.id}
             storyID={story.id}
             cursor={cursor}
-            jumpToReply={jumpToReply}
           />
         )}
 

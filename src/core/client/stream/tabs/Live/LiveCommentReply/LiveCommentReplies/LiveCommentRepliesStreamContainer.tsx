@@ -13,14 +13,12 @@ interface Props {
   comment: LiveCommentRepliesStreamContainer_comment;
   storyID: string;
   cursor: string;
-  jumpToReply: (cursor: string) => void;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   comment,
   storyID,
   cursor,
-  jumpToReply,
 }) => {
   return (
     <LiveCommentRepliesBeforeContainer comment={comment} cursor={cursor}>
@@ -48,7 +46,6 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               isLoadingMoreAfter={isLoadingMoreAfter}
               comment={comment}
               storyID={storyID}
-              setCursor={jumpToReply}
             />
           )}
         </LiveCommentRepliesAfterContainer>
