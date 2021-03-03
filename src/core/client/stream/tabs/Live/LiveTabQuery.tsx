@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -51,6 +56,17 @@ const LiveTabQuery: FunctionComponent = () => {
     void loadCursor();
   }, [context.localStorage, storyID, storyURL, setCursorWasSet]);
 
+  const updateCursor = useCallback(
+    (c: string) => {
+      if (!c) {
+        return;
+      }
+
+      setCursor(c);
+    },
+    [setCursor]
+  );
+
   if (!storyURL) {
     return null;
   }
@@ -92,6 +108,7 @@ const LiveTabQuery: FunctionComponent = () => {
             settings={data.props.settings}
             cursor={cursor}
             cursorSet={cursorWasSet}
+            setCursor={updateCursor}
           />
         );
       }}
