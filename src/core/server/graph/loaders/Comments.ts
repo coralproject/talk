@@ -333,7 +333,7 @@ export default (ctx: GraphContext) => ({
   forParent: (
     storyID: string,
     parentID: string,
-    { first, orderBy, after, flatten }: CommentToRepliesArgs
+    { first, orderBy, after, flatten, inclusive }: CommentToRepliesArgs
   ) =>
     retrieveCommentRepliesConnection(
       ctx.mongo,
@@ -344,6 +344,7 @@ export default (ctx: GraphContext) => ({
         first: defaultTo(first, 10),
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
         after,
+        inclusive: defaultTo(inclusive, false),
         filter: {
           ...flattenedRepliesFilter(
             parentID,
