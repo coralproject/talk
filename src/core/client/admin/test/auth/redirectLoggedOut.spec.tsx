@@ -1,10 +1,6 @@
 import { pureMerge } from "coral-common/utils";
 import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import {
-  GQLResolver,
-  QueryToModerationQueuesResolver,
-} from "coral-framework/schema";
-import {
   act,
   createQueryResolverStub,
   createResolversStub,
@@ -12,6 +8,10 @@ import {
   replaceHistoryLocation,
   wait,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  QueryToModerationQueuesResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

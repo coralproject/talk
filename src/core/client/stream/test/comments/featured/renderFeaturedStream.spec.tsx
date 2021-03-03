@@ -1,5 +1,4 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver, StoryToCommentsResolver } from "coral-framework/schema";
 import {
   createQueryResolverStub,
   createResolversStub,
@@ -7,6 +6,10 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  StoryToCommentsResolver,
+} from "coral-framework/testHelpers/schema";
 
 import { settings, storyWithFeaturedComments } from "../../fixtures";
 import create from "./create";

@@ -1,13 +1,13 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { GQLUser, GQLUSER_STATUS } from "coral-admin/schema";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
 
 import { RemoveUserBanMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserBanMutation.graphql";
 

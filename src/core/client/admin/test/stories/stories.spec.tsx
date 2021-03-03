@@ -2,12 +2,6 @@ import { noop } from "lodash";
 
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLResolver,
-  GQLSTORY_STATUS,
-  MutationToCloseStoryResolver,
-  MutationToOpenStoryResolver,
-} from "coral-framework/schema";
-import {
   act,
   createMutationResolverStub,
   createResolversStub,
@@ -19,6 +13,12 @@ import {
   waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  GQLSTORY_STATUS,
+  MutationToCloseStoryResolver,
+  MutationToOpenStoryResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

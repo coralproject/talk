@@ -1,7 +1,6 @@
 import sinon, { SinonStub } from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -10,6 +9,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

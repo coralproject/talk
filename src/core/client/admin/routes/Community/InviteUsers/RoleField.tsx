@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { FieldSet, Label, RadioButton } from "coral-ui/components/v2";
 
 interface Props {

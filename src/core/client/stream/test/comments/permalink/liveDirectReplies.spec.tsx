@@ -1,14 +1,14 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLResolver,
-  SubscriptionToCommentEnteredResolver,
-} from "coral-framework/schema";
-import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  SubscriptionToCommentEnteredResolver,
+} from "coral-framework/testHelpers/schema";
 
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";

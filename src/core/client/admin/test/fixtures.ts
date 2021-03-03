@@ -4,6 +4,7 @@ import {
 } from "coral-common/constants";
 import TIME from "coral-common/time";
 import { pureMerge } from "coral-common/utils";
+import { createFixture, createFixtures } from "coral-framework/testHelpers";
 import {
   GQLComment,
   GQLCOMMENT_FLAG_REASON,
@@ -25,8 +26,7 @@ import {
   GQLUSER_STATUS,
   GQLUsersConnection,
   GQLWEBHOOK_EVENT_NAME,
-} from "coral-framework/schema";
-import { createFixture, createFixtures } from "coral-framework/testHelpers";
+} from "coral-framework/testHelpers/schema";
 import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({

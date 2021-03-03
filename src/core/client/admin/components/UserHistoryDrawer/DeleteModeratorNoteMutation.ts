@@ -2,13 +2,13 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { GQLUser } from "coral-admin/schema";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLUser } from "coral-framework/schema";
 
 import { DeleteModeratorNoteMutation as MutationTypes } from "coral-admin/__generated__/DeleteModeratorNoteMutation.graphql";
 

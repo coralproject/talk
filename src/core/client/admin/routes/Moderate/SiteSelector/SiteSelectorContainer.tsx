@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { GQLFEATURE_FLAG } from "coral-admin/schema";
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
 import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
 import { SiteSelectorContainer_settings } from "coral-admin/__generated__/SiteSelectorContainer_settings.graphql";

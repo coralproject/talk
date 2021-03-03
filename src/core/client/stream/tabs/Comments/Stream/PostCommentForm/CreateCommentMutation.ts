@@ -14,8 +14,8 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_ROLE } from "coral-stream/schema";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 import { CreateCommentMutation_story } from "coral-stream/__generated__/CreateCommentMutation_story.graphql";

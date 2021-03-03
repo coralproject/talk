@@ -1,11 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
+import { GQLSTORY_STATUS } from "coral-admin/schema";
 
 interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
-  children: GQLSTORY_STATUS_RL;
+  children: GQLSTORY_STATUS;
 }
 
 function createElement(

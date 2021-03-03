@@ -7,12 +7,12 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-stream/schema";
 import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 

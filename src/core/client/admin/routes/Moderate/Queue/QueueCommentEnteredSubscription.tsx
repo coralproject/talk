@@ -2,25 +2,22 @@ import { graphql } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import {
   createSubscription,
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT_RL,
-  GQLMODERATION_QUEUE_RL,
-} from "coral-framework/schema";
 
 import { QueueCommentEnteredSubscription } from "coral-admin/__generated__/QueueCommentEnteredSubscription.graphql";
 
 function updateForOldestFirst(
   store: RecordSourceSelectorProxy<unknown>,
-  queue: GQLMODERATION_QUEUE_RL,
+  queue: GQLMODERATION_QUEUE,
   storyID: string | null,
   siteID: string | null,
-  orderBy: GQLCOMMENT_SORT_RL | null,
+  orderBy: GQLCOMMENT_SORT | null,
   section?: SectionFilter | null
 ) {
   const rootField = store.getRootField("commentEnteredModerationQueue");
@@ -63,10 +60,10 @@ function updateForOldestFirst(
 
 function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,
-  queue: GQLMODERATION_QUEUE_RL,
+  queue: GQLMODERATION_QUEUE,
   storyID: string | null,
   siteID: string | null,
-  orderBy: GQLCOMMENT_SORT_RL | null,
+  orderBy: GQLCOMMENT_SORT | null,
   section?: SectionFilter | null
 ) {
   const rootField = store.getRootField("commentEnteredModerationQueue");
@@ -103,10 +100,10 @@ function updateForNewestFirst(
 
 function handleCommentEnteredModerationQueue(
   store: RecordSourceSelectorProxy<unknown>,
-  queue: GQLMODERATION_QUEUE_RL,
+  queue: GQLMODERATION_QUEUE,
   storyID: string | null,
   siteID: string | null,
-  orderBy: GQLCOMMENT_SORT_RL | null,
+  orderBy: GQLCOMMENT_SORT | null,
   section?: SectionFilter | null
 ) {
   if (orderBy === "CREATED_AT_DESC") {

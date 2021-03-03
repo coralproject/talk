@@ -3,7 +3,6 @@ import timekeeper from "timekeeper";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { GQLResolver } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -11,6 +10,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import { commenters, settings, stories } from "../../fixtures";

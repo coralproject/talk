@@ -9,7 +9,7 @@ import {
   QueryRenderer,
   useLocal,
 } from "coral-framework/lib/relay";
-import { GQLTAG } from "coral-framework/schema";
+import { GQLTAG } from "coral-stream/schema";
 import { Flex, Spinner } from "coral-ui/components/v2";
 
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";

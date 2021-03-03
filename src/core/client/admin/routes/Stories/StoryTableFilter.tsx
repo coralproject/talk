@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
+import { GQLSTORY_STATUS } from "coral-admin/schema";
 import {
   Button,
   FieldSet,
@@ -18,8 +18,8 @@ import {
 import styles from "./StoryTableFilter.css";
 
 interface Props {
-  statusFilter: GQLSTORY_STATUS_RL | null;
-  onSetStatusFilter: (status: GQLSTORY_STATUS_RL) => void;
+  statusFilter: GQLSTORY_STATUS | null;
+  onSetStatusFilter: (status: GQLSTORY_STATUS) => void;
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
 }

@@ -1,10 +1,7 @@
 import createDOMPurify, { DOMPurifyI } from "dompurify";
 
 import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
-
-// TODO: Reaching directly into coral-framework for the types. Maybe having
-// types in coral-common instead? 🤔
-import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
+import { GQLRTEConfiguration } from "coral-common/schema";
 
 export interface RTEFeatures {
   bold?: boolean;

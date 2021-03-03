@@ -1,12 +1,12 @@
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 interface QueueViewNewInput {
   storyID: string | null;

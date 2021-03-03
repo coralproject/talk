@@ -1,9 +1,5 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLResolver,
-  QueryToModerationQueuesResolver,
-} from "coral-framework/schema";
-import {
   act,
   createAccessToken,
   createQueryResolverStub,
@@ -12,6 +8,10 @@ import {
   replaceHistoryLocation,
   wait,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  QueryToModerationQueuesResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

@@ -3,8 +3,8 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Form, FormSpy } from "react-final-form";
 
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { useMutation } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
   CallOut,

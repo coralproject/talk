@@ -1,12 +1,12 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { GQLSTORY_STATUS } from "coral-admin/schema";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_STATUS } from "coral-framework/schema";
 
 import { CloseStoryMutation as MutationTypes } from "coral-admin/__generated__/CloseStoryMutation.graphql";
 

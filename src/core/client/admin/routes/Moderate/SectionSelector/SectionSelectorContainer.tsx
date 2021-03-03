@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { GQLFEATURE_FLAG } from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import { QUEUE_NAME } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
 import { SectionSelectorContainer_query } from "coral-admin/__generated__/SectionSelectorContainer_query.graphql";
 

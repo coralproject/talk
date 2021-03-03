@@ -7,13 +7,6 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT,
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
-  GQLTAG,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
@@ -24,6 +17,13 @@ import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_STATUS,
+} from "coral-stream/schema";
 import {
   Counter,
   Flex,

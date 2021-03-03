@@ -4,10 +4,10 @@ import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import { AbilityType, can } from "coral-admin/permissions";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { roleIsAtLeast } from "coral-framework/helpers";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import { AuthCheckRouteQueryResponse } from "coral-admin/__generated__/AuthCheckRouteQuery.graphql";
 

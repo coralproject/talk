@@ -2,6 +2,13 @@ import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import {
+  GQLComment,
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+  GQLTag,
+  GQLTAG,
+} from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -9,11 +16,6 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT_RL,
-  GQLCOMMENT_STATUS,
-  GQLTAG,
-} from "coral-framework/schema";
 
 import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
 
@@ -27,7 +29,7 @@ const FeatureCommentMutation = createMutation(
       storyID: string | null;
       siteID: string | null;
       section: SectionFilter | null;
-      orderBy: GQLCOMMENT_SORT_RL | null;
+      orderBy: GQLCOMMENT_SORT | null;
     },
     { uuidGenerator }: CoralContext
   ) =>
@@ -68,10 +70,10 @@ const FeatureCommentMutation = createMutation(
         storyID: input.storyID,
       },
       optimisticUpdater: (store) => {
-        const comment = store.get(input.commentID)!;
+        const comment = store.get<GQLComment>(input.commentID)!;
         const tags = comment.getLinkedRecords("tags");
         if (tags) {
-          const newTag = store.create(uuidGenerator(), "Tag");
+          const newTag = store.create<GQLTag>(uuidGenerator(), "Tag");
           newTag.setValue(GQLTAG.FEATURED, "code");
           comment.setLinkedRecords(tags.concat(newTag), "tags");
           comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");

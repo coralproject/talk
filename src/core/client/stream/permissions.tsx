@@ -1,6 +1,6 @@
 import { mapValues } from "lodash";
 
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-stream/schema";
 
 /**
  * permissionMap describes what abilities certain roles have.
@@ -29,10 +29,10 @@ export const Ability = mapValues(permissionMap, (_, key) => key) as {
  *
  * Example: `can(props.me, Ability.CHANGE_ROLE)`.
  */
-export function can(viewer: { role: GQLUSER_ROLE_RL }, ability: AbilityType) {
+export function can(viewer: { role: GQLUSER_ROLE }, ability: AbilityType) {
   if (!viewer) {
     return false;
   }
 
-  return permissionMap[ability].includes(viewer.role as GQLUSER_ROLE);
+  return permissionMap[ability].includes(viewer.role as any);
 }

@@ -17,17 +17,17 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
+import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import {
   GQLCOMMENT_SORT,
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_STATUS,
-} from "coral-framework/schema";
-import { PropTypesOf } from "coral-framework/types";
-import CLASSES from "coral-stream/classes";
-import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
-import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+} from "coral-stream/schema";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 

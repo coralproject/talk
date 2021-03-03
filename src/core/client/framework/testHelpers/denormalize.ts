@@ -4,7 +4,7 @@ import {
   GQLStory,
   GQLTAG,
   GQLTag,
-} from "coral-framework/schema";
+} from "coral-framework/testHelpers/schema";
 import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 import createFixture, { Fixture } from "./createFixture";

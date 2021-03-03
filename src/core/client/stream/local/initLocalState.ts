@@ -11,7 +11,7 @@ import {
   fetchQuery,
   initLocalBaseState,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG } from "coral-stream/schema";
 
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 

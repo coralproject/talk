@@ -6,7 +6,6 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 import { ModerateCountsCommentLeftSubscription } from "coral-admin/__generated__/ModerateCountsCommentLeftSubscription.graphql";
 
@@ -18,7 +17,7 @@ const ModerateCountsCommentLeftSubscription = createSubscription(
     environment: Environment,
     variables: SubscriptionVariables<ModerateCountsCommentLeftSubscription>
   ) =>
-    requestSubscription(environment, {
+    requestSubscription<ModerateCountsCommentLeftSubscription>(environment, {
       subscription: graphql`
         subscription ModerateCountsCommentLeftSubscription(
           $storyID: ID
@@ -32,7 +31,7 @@ const ModerateCountsCommentLeftSubscription = createSubscription(
       variables,
       updater: (store) => {
         const root = store.getRootField("commentLeftModerationQueue")!;
-        const queue = root.getValue("queue") as GQLMODERATION_QUEUE;
+        const queue = root.getValue("queue");
         const change = -1;
         changeQueueCount(store, change, queue, variables.storyID);
       },

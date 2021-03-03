@@ -18,15 +18,15 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+import { CreateCommentReplyEvent } from "coral-stream/events";
 import {
   GQLComment,
   GQLStory,
   GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
-} from "coral-framework/schema";
-import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
-import { CreateCommentReplyEvent } from "coral-stream/events";
+} from "coral-stream/schema";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 

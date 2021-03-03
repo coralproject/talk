@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import {
+  GQLFEATURE_FLAG,
+  GQLUSER_ROLE,
+  GQLUSER_STATUS_FILTER,
+} from "coral-admin/schema";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import {
-  GQLFEATURE_FLAG,
-  GQLUSER_ROLE_RL,
-  GQLUSER_STATUS_FILTER_RL,
-} from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { UserTableContainer_query as QueryData } from "coral-admin/__generated__/UserTableContainer_query.graphql";
@@ -32,11 +32,11 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
-  const [roleFilter, setRoleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
+  const [roleFilter, setRoleFilter] = useState<GQLUSER_ROLE | null>(null);
   const [
     statusFilter,
     setStatusFilter,
-  ] = useState<GQLUSER_STATUS_FILTER_RL | null>(null);
+  ] = useState<GQLUSER_STATUS_FILTER | null>(null);
   const [, isRefetching] = useRefetch(props.relay, 10, {
     searchFilter: searchFilter || null,
     roleFilter,

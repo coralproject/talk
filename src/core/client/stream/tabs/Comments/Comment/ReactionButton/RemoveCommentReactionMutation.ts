@@ -10,8 +10,8 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLComment } from "coral-framework/schema";
 import { RemoveCommentReactionEvent } from "coral-stream/events";
+import { GQLComment } from "coral-stream/schema";
 
 import { RemoveCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/RemoveCommentReactionMutation.graphql";
 

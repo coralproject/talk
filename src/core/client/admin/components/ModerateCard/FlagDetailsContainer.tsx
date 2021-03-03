@@ -2,9 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { GQLCOMMENT_FLAG_REASON } from "coral-admin/schema";
 import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import {

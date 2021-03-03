@@ -3,7 +3,6 @@ import sinon from "sinon";
 import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { GQLResolver } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -14,6 +13,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import { settings, users } from "../fixtures";

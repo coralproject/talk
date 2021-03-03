@@ -4,10 +4,10 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,

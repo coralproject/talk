@@ -3,11 +3,11 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
-import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { CreateCommentFocusEvent } from "coral-stream/events";
+import { GQLSTORY_MODE } from "coral-stream/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 

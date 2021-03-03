@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG } from "coral-stream/schema";
 
 import { PreviousCountSpyContainer_settings } from "coral-stream/__generated__/PreviousCountSpyContainer_settings.graphql";
 import { PreviousCountSpyContainer_story } from "coral-stream/__generated__/PreviousCountSpyContainer_story.graphql";

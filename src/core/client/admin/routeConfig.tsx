@@ -1,7 +1,7 @@
 import { makeRouteConfig, Redirect, Route } from "found";
 import React from "react";
 
-import { GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 
 import MainRoute from "./App/MainRoute";
 import { Ability } from "./permissions";

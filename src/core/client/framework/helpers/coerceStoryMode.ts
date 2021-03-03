@@ -1,4 +1,4 @@
-import { GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLSTORY_MODE } from "coral-common/schema";
 
 import isStoryMode from "./isStoryMode";
 

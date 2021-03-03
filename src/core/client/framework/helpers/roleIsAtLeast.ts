@@ -1,14 +1,14 @@
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-common/schema";
 
-const hierarchy: GQLUSER_ROLE_RL[] = [
+const hierarchy: GQLUSER_ROLE[] = [
   GQLUSER_ROLE.COMMENTER,
   GQLUSER_ROLE.STAFF,
   GQLUSER_ROLE.MODERATOR,
   GQLUSER_ROLE.ADMIN,
 ];
 export default function roleIsAtLeast(
-  role: GQLUSER_ROLE_RL,
-  atLeast: GQLUSER_ROLE_RL
+  role: GQLUSER_ROLE,
+  atLeast: GQLUSER_ROLE
 ) {
   [role, atLeast].forEach((r) => {
     if (!hierarchy.includes(r)) {

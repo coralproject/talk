@@ -4,13 +4,13 @@ import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
+import { GQLSettings } from "coral-admin/schema";
 import { DeepNullable } from "coral-common/types";
 import {
   purgeMetadata,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSettings } from "coral-framework/schema";
 import { AppNotification, Button, CallOut, Flex } from "coral-ui/components/v2";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";

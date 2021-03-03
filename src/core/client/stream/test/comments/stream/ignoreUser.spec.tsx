@@ -1,5 +1,4 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver, GQLStory } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -7,6 +6,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver, GQLStory } from "coral-framework/testHelpers/schema";
 
 import {
   commenters,
