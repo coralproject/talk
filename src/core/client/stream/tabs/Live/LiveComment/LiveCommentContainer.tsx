@@ -189,6 +189,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           />
         )}
       </div>
+      <div id={`comment-${comment.id}-bottom`}></div>
     </div>
   );
 };
