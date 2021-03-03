@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -11,7 +11,7 @@ import { LiveCommentReplyContainer_story } from "coral-stream/__generated__/Live
 import { LiveCommentReplyContainer_viewer } from "coral-stream/__generated__/LiveCommentReplyContainer_viewer.graphql";
 
 import ShortcutIcon from "../ShortcutIcon";
-import LiveCommentRepliesQuery from "./LiveCommentRepliesQuery";
+import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
 import styles from "./LiveCommentReplyContainer.css";
@@ -42,13 +42,24 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
     onClose();
   }, [onClose]);
 
+  const [cursor, setCursor] = useState(new Date(0).toISOString());
+
   const submit = useCallback(
-    (commentID: string | undefined, cursor: string) => {
+    (commentID: string | undefined, cur: string) => {
       if (!showConversation) {
         onSubmitted(commentID, cursor);
+      } else {
+        setCursor(cur);
       }
     },
-    [onSubmitted, showConversation]
+    [cursor, onSubmitted, showConversation]
+  );
+
+  const jumpToReply = useCallback(
+    (cur: string) => {
+      setCursor(cur);
+    },
+    [setCursor]
   );
 
   if (!visible) {
@@ -91,7 +102,12 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
         )}
 
         {showConversation && (
-          <LiveCommentRepliesQuery commentID={comment.id} storyID={story.id} />
+          <LiveCommentRepliesQuery
+            commentID={comment.id}
+            storyID={story.id}
+            cursor={cursor}
+            jumpToReply={jumpToReply}
+          />
         )}
 
         <LiveCreateCommentReplyFormContainer

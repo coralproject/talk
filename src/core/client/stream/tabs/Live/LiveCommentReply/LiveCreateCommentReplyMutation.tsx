@@ -134,7 +134,7 @@ function insertIntoReplyChat(
 
   commentEdge.setValue(new Date().toISOString(), "cursor");
 
-  const connectionKey = "Chat_replies";
+  const connectionKey = "Replies_after";
   const comment = commentEdge.getLinkedRecord("node")!;
   const parent = comment.getLinkedRecord("parent")!;
 
