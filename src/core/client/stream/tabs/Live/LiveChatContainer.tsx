@@ -70,6 +70,12 @@ interface Props {
   story: LiveChatContainer_story;
 
   cursorSet?: boolean;
+  setCursor: (cursor: string) => void;
+}
+
+interface Reply {
+  id: string;
+  cursor: string;
 }
 
 const LiveChatContainer: FunctionComponent<Props> = ({
@@ -85,6 +91,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   settings,
   story,
   cursorSet,
+  setCursor,
 }) => {
   const context = useCoralContext();
   const [
@@ -116,7 +123,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setFocusedComment,
   ] = useState<LiveCommentReplyContainer_comment | null>(null);
   const [replyVisible, setReplyVisible] = useState(false);
-  const [newReplyID, setNewReplyID] = useState<string | null>(null);
+  const [newReply, setNewReply] = useState<Reply | null>(null);
   const [showConversation, setShowConversation] = useState(false);
 
   const setTailing = useCallback(
@@ -464,35 +471,51 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [setReplyVisible, setFocusedComment]);
 
   const onReplySubmitted = useCallback(
-    (commentID?: string) => {
+    (commentID: string | undefined, cursor: string) => {
       if (showConversation) {
         return;
       }
 
-      if (commentID) {
-        setNewReplyID(commentID);
+      if (cursor && commentID) {
+        setNewReply({
+          id: commentID,
+          cursor,
+        });
       }
 
       setReplyVisible(false);
       setFocusedComment(null);
     },
-    [showConversation, setNewReplyID, setReplyVisible, setFocusedComment]
+    [showConversation, setNewReply, setReplyVisible, setFocusedComment]
   );
 
-  const scrollToNewReply = useCallback(() => {
-    if (!newReplyID) {
+  const scrollToReplyTimeout = useRef<number | null>(null);
+  const scrollToReply = useCallback(() => {
+    if (!newReply) {
       return;
     }
 
-    const el = document.getElementById(`comment-${newReplyID}`);
-    if (!el) {
+    const el = document.getElementById(`comment-${newReply.id}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    setNewReply(null);
+  }, [newReply, setNewReply]);
+
+  const jumpToNewReply = useCallback(() => {
+    if (!newReply) {
       return;
     }
 
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    setCursor(newReply.cursor);
 
-    setNewReplyID(null);
-  }, [newReplyID, setNewReplyID]);
+    if (scrollToReplyTimeout.current) {
+      window.clearTimeout(scrollToReplyTimeout.current);
+    }
+
+    window.setTimeout(scrollToReply, 100);
+  }, [newReply, setCursor, scrollToReply]);
 
   return (
     <>
@@ -556,9 +579,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       </IntersectionProvider>
 
-      {newReplyID && (
+      {newReply && (
         <div className={styles.scrollToNewReply}>
-          <Button onClick={scrollToNewReply} color="primary">
+          <Button onClick={jumpToNewReply} color="primary">
             Reply posted below <Icon>arrow_downward</Icon>
           </Button>
         </div>

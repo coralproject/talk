@@ -57,7 +57,7 @@ interface Props {
   parentID: string;
   parentRevisionID: string;
 
-  onSubmitted: (commentID?: string) => void;
+  onSubmitted: (commentID?: string, cursor: string) => void;
 }
 
 const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
@@ -136,7 +136,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         status !== "REJECTED" &&
         status !== "IN_REVIEW"
       ) {
-        onSubmitted(response.edge.node.id);
+        onSubmitted(response.edge.node.id, response.edge.cursor);
       }
     } catch (error) {
       if (error instanceof InvalidRequestError) {

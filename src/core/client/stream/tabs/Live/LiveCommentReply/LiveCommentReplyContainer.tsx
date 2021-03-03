@@ -25,7 +25,7 @@ interface Props {
   visible?: boolean;
   showConversation?: boolean;
   onClose: () => void;
-  onSubmitted: (commentID?: string) => void;
+  onSubmitted: (commentID: string | undefined, cursor: string) => void;
 }
 
 const LiveCommentReplyContainer: FunctionComponent<Props> = ({
@@ -43,9 +43,9 @@ const LiveCommentReplyContainer: FunctionComponent<Props> = ({
   }, [onClose]);
 
   const submit = useCallback(
-    (commentID?: string | undefined) => {
+    (commentID: string | undefined, cursor: string) => {
       if (!showConversation) {
-        onSubmitted(commentID);
+        onSubmitted(commentID, cursor);
       }
     },
     [onSubmitted, showConversation]
