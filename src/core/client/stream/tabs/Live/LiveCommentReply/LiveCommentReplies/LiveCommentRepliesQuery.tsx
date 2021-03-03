@@ -3,30 +3,37 @@ import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
 
-// import { LiveCommentRepliesQuery } from "coral-stream/__generated__/LiveCommentRepliesQuery.graphql";
+import { LiveCommentRepliesQuery } from "coral-stream/__generated__/LiveCommentRepliesQuery.graphql";
 
-import LiveCommentRepliesContainer from "./LiveCommentRepliesContainer";
+import LiveCommentRepliesStreamContainer from "./LiveCommentRepliesStreamContainer";
 
 interface Props {
   commentID: string;
   storyID: string;
+  cursor: string;
+
+  jumpToReply: (cursor: string) => void;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   commentID,
   storyID,
+  cursor,
+  jumpToReply,
 }) => {
   return (
-    <QueryRenderer<any>
+    <QueryRenderer<LiveCommentRepliesQuery>
       query={graphql`
-        query LiveCommentRepliesQuery($commentID: ID!) {
+        query LiveCommentRepliesQuery($commentID: ID!, $cursor: Cursor) {
           comment(id: $commentID) {
-            ...LiveCommentRepliesContainer_comment
+            ...LiveCommentRepliesStreamContainer_comment
+              @arguments(cursor: $cursor)
           }
         }
       `}
       variables={{
         commentID,
+        cursor,
       }}
       render={(data) => {
         if (!data || !data.props || !data.props.comment) {
@@ -34,9 +41,11 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <LiveCommentRepliesContainer
+          <LiveCommentRepliesStreamContainer
             comment={data.props.comment}
             storyID={storyID}
+            cursor={cursor}
+            jumpToReply={jumpToReply}
           />
         );
       }}

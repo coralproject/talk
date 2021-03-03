@@ -57,7 +57,7 @@ interface Props {
   parentID: string;
   parentRevisionID: string;
 
-  onSubmitted: (commentID?: string, cursor: string) => void;
+  onSubmitted: (commentID: string | undefined, cursor: string) => void;
 }
 
 const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
