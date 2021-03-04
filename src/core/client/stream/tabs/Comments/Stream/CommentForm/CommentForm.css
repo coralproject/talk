@@ -1,6 +1,10 @@
 $commentsBorder: var(--palette-grey-300);
 $rteButtonActive: #ddd;
 
+.root {
+  position: relative;
+}
+
 .commentFormBox {
   border: 1px solid $commentsBorder;
   border-radius: var(--round-corners);
@@ -15,4 +19,19 @@ $rteButtonActive: #ddd;
 
 .icon {
   margin-right: 2px;
+}
+
+.chatContent {
+  min-height: 0px;
+  width: calc(100% - 28px);
+}
+
+.chatSubmitButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding-left: var(--spacing-1);
+  padding-right: var(--spacing-1);
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
 }

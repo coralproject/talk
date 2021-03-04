@@ -1,3 +1,4 @@
+import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
@@ -5,6 +6,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -31,7 +33,6 @@ import {
   OnChangeHandler,
   OnSubmitHandler,
 } from "coral-stream/tabs/Comments/Stream/CommentForm/CommentForm";
-import PostCommentForm from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentForm";
 import PostCommentFormClosed from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosed";
 import PostCommentFormClosedSitewide from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosedSitewide";
 import PostCommentFormFake from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormFake";
@@ -49,6 +50,7 @@ import { LivePostCommentFormContainer_viewer } from "coral-stream/__generated__/
 import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import { LiveCreateCommentMutation } from "./LiveCreateCommentMutation";
+import LivePostCommentForm from "./LivePostCommentForm";
 
 interface Props {
   settings: LivePostCommentFormContainer_settings;
@@ -63,6 +65,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   story,
   commentsOrderBy,
 }) => {
+  const rteRef = useRef<CoralRTE | null>(null);
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
   const createComment = useMutation(LiveCreateCommentMutation);
@@ -99,65 +102,91 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
     story.isClosed ||
     !!viewer?.scheduledDeletionDate;
 
-  const handleOnSubmit: OnSubmitHandler = async (input, form) => {
-    try {
-      const response = await createComment({
-        storyID: story.id,
-        nudge,
-        commentsOrderBy,
-        body: input.body,
-        media: input.media,
-      });
+  const handleOnSubmit: OnSubmitHandler = useCallback(
+    async (input, form) => {
+      try {
+        const response = await createComment({
+          storyID: story.id,
+          nudge,
+          commentsOrderBy,
+          body: input.body,
+          media: input.media,
+        });
 
-      const status = getSubmitStatus(response as any);
+        const status = getSubmitStatus(response as any);
 
-      if (status !== "RETRY") {
-        // We've submitted the comment, and it returned with a non-retry status,
-        // so clear out the persisted values and reset the form.
-        setToggle(undefined);
-        setDraft(undefined);
+        if (status !== "RETRY") {
+          // We've submitted the comment, and it returned with a non-retry status,
+          // so clear out the persisted values and reset the form.
+          setToggle(undefined);
+          setDraft(undefined);
 
-        setInitialValues({ body: "" });
-        form
-          .getRegisteredFields()
-          .forEach((name) => form.resetFieldState(name));
-        form.initialize({ body: RTE_RESET_VALUE });
-      }
-
-      setNudge(true);
-      setSubmitStatus(status);
-    } catch (error) {
-      if (error instanceof InvalidRequestError) {
-        if (shouldTriggerSettingsRefresh(error.code)) {
-          await refreshSettings({ storyID: story.id });
-        }
-        if (shouldTriggerViewerRefresh(error.code)) {
-          await refreshViewer();
+          setInitialValues({ body: "" });
+          form
+            .getRegisteredFields()
+            .forEach((name) => form.resetFieldState(name));
+          form.initialize({ body: RTE_RESET_VALUE });
         }
 
-        if (error.code === ERROR_CODES.USER_WARNED) {
-          return {
-            [FORM_ERROR]: <WarningError />,
-          };
+        setNudge(true);
+        setSubmitStatus(status);
+      } catch (error) {
+        if (error instanceof InvalidRequestError) {
+          if (shouldTriggerSettingsRefresh(error.code)) {
+            await refreshSettings({ storyID: story.id });
+          }
+          if (shouldTriggerViewerRefresh(error.code)) {
+            await refreshViewer();
+          }
+
+          if (error.code === ERROR_CODES.USER_WARNED) {
+            return {
+              [FORM_ERROR]: <WarningError />,
+            };
+          }
+
+          return error.invalidArgs;
         }
 
-        return error.invalidArgs;
+        /**
+         * Comment was caught in one of the moderation filters on the server.
+         * We give the user another change to submit the comment, and we
+         * turn off the nudging behavior on the next try.
+         */
+        if (error instanceof ModerationNudgeError) {
+          setNudge(false);
+          return { [FORM_ERROR]: error.message };
+        }
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
+      return;
+    },
+    [
+      commentsOrderBy,
+      createComment,
+      nudge,
+      refreshSettings,
+      refreshViewer,
+      setDraft,
+      setToggle,
+      story.id,
+    ]
+  );
 
-      /**
-       * Comment was caught in one of the moderation filters on the server.
-       * We give the user another change to submit the comment, and we
-       * turn off the nudging behavior on the next try.
-       */
-      if (error instanceof ModerationNudgeError) {
-        setNudge(false);
-        return { [FORM_ERROR]: error.message };
-      }
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-    return;
-  };
+  const handleOnSubmitAndRefocus: OnSubmitHandler = useCallback(
+    async (input, form) => {
+      const result = await handleOnSubmit(input, form);
+      // @cvle: Verified that this doesn't need a `clearTimeout` :-)
+      setTimeout(() => {
+        if (rteRef.current) {
+          rteRef.current.focus();
+        }
+      }, 100);
+      return result;
+    },
+    [handleOnSubmit]
+  );
 
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
@@ -236,11 +265,9 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <PostCommentForm
-        mode={"comments"}
+      <LivePostCommentForm
         siteID={story.site.id}
-        story={story}
-        onSubmit={handleOnSubmit}
+        onSubmit={handleOnSubmitAndRefocus}
         onChange={handleOnChange}
         initialValues={initialValues}
         mediaConfig={settings.media}
@@ -250,7 +277,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         disabled={disabled}
         disabledMessage={disabledMessage}
         submitStatus={submitStatus}
-        showMessageBox={false}
+        rteRef={rteRef}
       />
     </>
   );

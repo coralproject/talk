@@ -407,6 +407,20 @@ export const CreateCommentFocusEvent = createViewerEvent("createCommentFocus");
 export const ReplyCommentFocusEvent = createViewerEvent("replyCommentFocus");
 
 /**
+ * This event is emitted when the viewer focus on the RTE on live chat
+ */
+export const LiveCreateCommentFocusEvent = createViewerEvent(
+  "liveCreateCommentFocus"
+);
+
+/**
+ * This event is emitted when the viewer focus on the RTE on live chat
+ */
+export const LiveReplyCommentFocusEvent = createViewerEvent(
+  "liveReplyCommentFocus"
+);
+
+/**
  * This event is emitted when the viewer exits the single conversation.
  */
 export const ViewFullDiscussionEvent = createViewerEvent<{

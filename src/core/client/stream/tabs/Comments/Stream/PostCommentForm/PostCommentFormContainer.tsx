@@ -115,85 +115,99 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
-  const handleOnSubmit: OnSubmitHandler = async (input, form) => {
-    try {
-      const response = await createComment({
-        storyID: story.id,
-        nudge,
-        commentsOrderBy,
-        body: input.body,
-        rating: input.rating,
-        media: input.media,
-      });
+  const handleOnSubmit: OnSubmitHandler = useCallback(
+    async (input, form) => {
+      try {
+        const response = await createComment({
+          storyID: story.id,
+          nudge,
+          commentsOrderBy,
+          body: input.body,
+          rating: input.rating,
+          media: input.media,
+        });
 
-      const status = getSubmitStatus(response);
+        const status = getSubmitStatus(response);
 
-      // Change tab *after* successfully creating comment to try avoiding race condition.
-      if (onChangeTab) {
-        if (
-          response.edge.node.tags.some(({ code }) => code === GQLTAG.REVIEW)
-        ) {
-          if (tab !== "REVIEWS") {
-            onChangeTab("REVIEWS");
+        // Change tab *after* successfully creating comment to try avoiding race condition.
+        if (onChangeTab) {
+          if (
+            response.edge.node.tags.some(({ code }) => code === GQLTAG.REVIEW)
+          ) {
+            if (tab !== "REVIEWS") {
+              onChangeTab("REVIEWS");
+            }
+          } else if (
+            response.edge.node.tags.some(({ code }) => code === GQLTAG.QUESTION)
+          ) {
+            if (tab !== "QUESTIONS") {
+              onChangeTab("QUESTIONS");
+            }
+          } else if (tab === "FEATURED_COMMENTS") {
+            onChangeTab("ALL_COMMENTS");
           }
-        } else if (
-          response.edge.node.tags.some(({ code }) => code === GQLTAG.QUESTION)
-        ) {
-          if (tab !== "QUESTIONS") {
-            onChangeTab("QUESTIONS");
+        }
+
+        if (status !== "RETRY") {
+          // We've submitted the comment, and it returned with a non-retry status,
+          // so clear out the persisted values and reset the form.
+          setToggle(undefined);
+          setDraft(undefined);
+
+          setInitialValues({ body: "" });
+          form
+            .getRegisteredFields()
+            .forEach((name) => form.resetFieldState(name));
+          form.initialize({ body: RTE_RESET_VALUE });
+        }
+
+        setNudge(true);
+        setSubmitStatus(status);
+      } catch (error) {
+        if (error instanceof InvalidRequestError) {
+          if (shouldTriggerSettingsRefresh(error.code)) {
+            await refreshSettings({ storyID: story.id });
           }
-        } else if (tab === "FEATURED_COMMENTS") {
-          onChangeTab("ALL_COMMENTS");
-        }
-      }
+          if (shouldTriggerViewerRefresh(error.code)) {
+            await refreshViewer();
+          }
 
-      if (status !== "RETRY") {
-        // We've submitted the comment, and it returned with a non-retry status,
-        // so clear out the persisted values and reset the form.
-        setToggle(undefined);
-        setDraft(undefined);
+          if (error.code === ERROR_CODES.USER_WARNED) {
+            return {
+              [FORM_ERROR]: <WarningError />,
+            };
+          }
 
-        setInitialValues({ body: "" });
-        form
-          .getRegisteredFields()
-          .forEach((name) => form.resetFieldState(name));
-        form.initialize({ body: RTE_RESET_VALUE });
-      }
-
-      setNudge(true);
-      setSubmitStatus(status);
-    } catch (error) {
-      if (error instanceof InvalidRequestError) {
-        if (shouldTriggerSettingsRefresh(error.code)) {
-          await refreshSettings({ storyID: story.id });
-        }
-        if (shouldTriggerViewerRefresh(error.code)) {
-          await refreshViewer();
+          return error.invalidArgs;
         }
 
-        if (error.code === ERROR_CODES.USER_WARNED) {
-          return {
-            [FORM_ERROR]: <WarningError />,
-          };
+        /**
+         * Comment was caught in one of the moderation filters on the server.
+         * We give the user another change to submit the comment, and we
+         * turn off the nudging behavior on the next try.
+         */
+        if (error instanceof ModerationNudgeError) {
+          setNudge(false);
+          return { [FORM_ERROR]: error.message };
         }
-
-        return error.invalidArgs;
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
-
-      /**
-       * Comment was caught in one of the moderation filters on the server.
-       * We give the user another change to submit the comment, and we
-       * turn off the nudging behavior on the next try.
-       */
-      if (error instanceof ModerationNudgeError) {
-        setNudge(false);
-        return { [FORM_ERROR]: error.message };
-      }
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-    return;
-  };
+      return;
+    },
+    [
+      commentsOrderBy,
+      createComment,
+      nudge,
+      onChangeTab,
+      refreshSettings,
+      refreshViewer,
+      setDraft,
+      setToggle,
+      story.id,
+      tab,
+    ]
+  );
 
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {

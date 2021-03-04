@@ -14,7 +14,9 @@ import React, {
   FocusEvent,
   FunctionComponent,
   Ref,
+  useCallback,
   useMemo,
+  useState,
 } from "react";
 
 import { createSanitize } from "coral-common/helpers/sanitize";
@@ -63,6 +65,8 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
     return frag;
   };
 };
+
+const isValueEmpty = (value: string) => !value || value === RTE_RESET_VALUE;
 
 // Use a special Localized version that forwards
 // ref and passes the api prop to the children.
@@ -137,7 +141,7 @@ interface Props {
   onChange?: (html: string) => void;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
-  onKeyPress?: React.KeyboardEventHandler;
+  onKeyDown?: React.KeyboardEventHandler;
 
   disabled?: boolean;
 
@@ -148,6 +152,8 @@ interface Props {
   toolbarButtons?: React.ReactElement | null;
 
   onWillPaste?: (event: PasteEvent) => void;
+
+  autoHideToolbar?: boolean;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -169,13 +175,43 @@ const RTE: FunctionComponent<Props> = (props) => {
     onBlur,
     features,
     onWillPaste,
-    onKeyPress,
+    onKeyDown,
+    autoHideToolbar,
     ...rest
   } = props;
 
   const sanitizeToDOMFragment = useMemo(() => {
     return createSanitizeToDOMFragment(features);
   }, [features]);
+
+  /* Handle focus */
+  const [focus, setFocus] = useState(false);
+  const rteOnFocus = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onFocus) {
+        onFocus(event);
+      }
+      /* Currently we only set focus, when autoHideToolbar is set, could change in the future */
+      if (!autoHideToolbar) {
+        return;
+      }
+      setFocus(true);
+    },
+    [onFocus, autoHideToolbar]
+  );
+  const rteOnBlur = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onBlur) {
+        onBlur(event);
+      }
+      /* Currently we only set focus, when autoHideToolbar is set, could change in the future */
+      if (!autoHideToolbar) {
+        return;
+      }
+      setFocus(false);
+    },
+    [onBlur, autoHideToolbar]
+  );
 
   const featureElements = useMemo(() => {
     const x = [];
@@ -260,6 +296,8 @@ const RTE: FunctionComponent<Props> = (props) => {
     return x;
   }, [features]);
 
+  const resolvedValue = value || defaultValue || RTE_RESET_VALUE;
+
   return (
     <div role="none">
       <CoralRTE
@@ -280,7 +318,9 @@ const RTE: FunctionComponent<Props> = (props) => {
           toolbarClassName,
           styles.toolbar,
           {
-            [styles.toolbarHidden]: featureElements.length === 0,
+            [styles.toolbarHidden]:
+              featureElements.length === 0 ||
+              (autoHideToolbar && isValueEmpty(resolvedValue) && !focus),
           }
         )}
         contentContainerClassName={cn(
@@ -290,16 +330,16 @@ const RTE: FunctionComponent<Props> = (props) => {
         )}
         contentClassNameDisabled={styles.disabled}
         onChange={onChange}
-        value={value || defaultValue || "<div><br></div>"}
+        value={resolvedValue}
         disabled={disabled}
         placeholder={placeholder}
         features={featureElements}
         ref={forwardRef}
         toolbarPosition="bottom"
-        onBlur={onBlur}
-        onFocus={onFocus}
+        onBlur={rteOnBlur}
+        onFocus={rteOnFocus}
         onWillPaste={onWillPaste}
-        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         ButtonComponent={RTEButton}
         {...rest}

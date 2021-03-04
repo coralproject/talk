@@ -1,6 +1,7 @@
+import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, Ref, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
@@ -90,6 +91,7 @@ interface Props {
   siteID: string;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
+  rteRef?: Ref<CoralRTE>;
 }
 
 const PostCommentForm: FunctionComponent<Props> = ({
@@ -107,6 +109,7 @@ const PostCommentForm: FunctionComponent<Props> = ({
   siteID,
   story,
   submitStatus,
+  rteRef,
 }) => {
   const translation = translations[mode];
 
@@ -124,6 +127,7 @@ const PostCommentForm: FunctionComponent<Props> = ({
         />
       )}
       <CommentForm
+        rteRef={rteRef}
         siteID={siteID}
         onSubmit={onSubmit}
         onChange={onChange}
