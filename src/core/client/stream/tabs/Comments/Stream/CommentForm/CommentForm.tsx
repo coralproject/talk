@@ -100,7 +100,7 @@ interface Props {
   submitStatus?: React.ReactNode;
   classNameRoot: "createComment" | "editComment" | "createReplyComment";
   mediaConfig: MediaConfig;
-  mode?: "rating" | "comment";
+  mode?: "rating" | "comment" | "chat";
   placeholder: string;
   placeHolderId: string;
   bodyInputID: string;
@@ -124,6 +124,19 @@ const subscription: FormSubscription = {
   values: true,
   touched: true,
 };
+
+const ErrorCallout: FunctionComponent<{ error: any; className?: string }> = ({
+  error,
+  className,
+}) => (
+  <CallOut
+    className={className}
+    color="error"
+    title={error}
+    titleWeight="semiBold"
+    icon={<Icon>error</Icon>}
+  />
+);
 
 const CommentForm: FunctionComponent<Props> = ({
   bodyInputID,
@@ -235,7 +248,7 @@ const CommentForm: FunctionComponent<Props> = ({
   const showExternalImageInput = mediaWidget === "external";
 
   return (
-    <div className={cn(CLASSES[classNameRoot].$root, className)}>
+    <div className={cn(CLASSES[classNameRoot].$root, className, styles.root)}>
       <Form onSubmit={onFormSubmit} initialValues={initialValues}>
         {({
           handleSubmit,
@@ -282,6 +295,9 @@ const CommentForm: FunctionComponent<Props> = ({
                           inputID={bodyInputID}
                           config={rteConfig}
                           onFocus={onFocus}
+                          contentClassName={cn({
+                            [styles.chatContent]: mode === "chat",
+                          })}
                           onWillPaste={(event) => {
                             if (
                               !(
@@ -296,20 +312,29 @@ const CommentForm: FunctionComponent<Props> = ({
                             input.onChange(html);
                             onBodyChange(html, values as FormProps, form);
                           }}
-                          onKeyPress={async (
-                            event: React.KeyboardEvent<Element>
-                          ) => {
+                          onKeyDown={(event: React.KeyboardEvent<Element>) => {
                             if (
-                              event.ctrlKey &&
+                              hasValidationErrors ||
+                              submitting ||
+                              disabled ||
+                              (!!editableUntil && pristine)
+                            ) {
+                              return;
+                            }
+                            if (
+                              (mode === "chat" || event.ctrlKey) &&
+                              !event.shiftKey &&
                               (event.key === "Enter" || event.keyCode === 13)
                             ) {
-                              await onFormSubmit(values as any, form);
+                              void handleSubmit();
+                              event.preventDefault();
                             }
                           }}
                           value={input.value}
                           placeholder={placeholder}
                           disabled={submitting || disabled}
                           ref={rteRef || null}
+                          autoHideToolbar={mode === "chat"}
                           toolbarButtons={
                             <>
                               {mediaConfig && mediaConfig.external.enabled ? (
@@ -385,12 +410,9 @@ const CommentForm: FunctionComponent<Props> = ({
               {disabled ? (
                 <>
                   {disabledMessage && (
-                    <CallOut
+                    <ErrorCallout
+                      error={disabledMessage}
                       className={CLASSES.editComment.expiredTime}
-                      color="error"
-                      title={disabledMessage}
-                      titleWeight="semiBold"
-                      icon={<Icon>error</Icon>}
                     />
                   )}
                 </>
@@ -418,12 +440,7 @@ const CommentForm: FunctionComponent<Props> = ({
                       {touched &&
                         (error ||
                           (localSubmitError && !dirtySinceLastSubmit)) && (
-                          <CallOut
-                            color="error"
-                            title={error || localSubmitError}
-                            titleWeight="semiBold"
-                            icon={<Icon>error</Icon>}
-                          />
+                          <ErrorCallout error={error || localSubmitError} />
                         )}
                       {max && (
                         <RemainingCharactersContainer value={value} max={max} />
@@ -433,63 +450,83 @@ const CommentForm: FunctionComponent<Props> = ({
                 </Field>
               )}
               {/* Only show the submit error when the stream hasn't been disabled */}
-              {!disabled && submitError && (
-                <CallOut
-                  color="error"
-                  title={submitError}
-                  titleWeight="semiBold"
-                  icon={<Icon>error</Icon>}
-                />
-              )}
-              <Flex justifyContent="flex-end" spacing={1}>
-                <MatchMedia ltWidth="sm">
-                  {(matches) => (
-                    <>
-                      {onCancel && (
-                        <Localized id="comments-commentForm-cancel">
+              {!disabled && submitError && <ErrorCallout error={submitError} />}
+              {mode !== "chat" && (
+                <Flex justifyContent="flex-end" spacing={1}>
+                  <MatchMedia ltWidth="sm">
+                    {(matches) => (
+                      <>
+                        {onCancel && (
+                          <Localized id="comments-commentForm-cancel">
+                            <Button
+                              color="secondary"
+                              variant="outlined"
+                              disabled={submitting}
+                              onClick={onCancel}
+                              fullWidth={matches}
+                              className={CLASSES[classNameRoot].cancel}
+                              upperCase
+                            >
+                              Cancel
+                            </Button>
+                          </Localized>
+                        )}
+                        <Localized
+                          id={
+                            editableUntil
+                              ? "comments-commentForm-saveChanges"
+                              : "comments-commentForm-submit"
+                          }
+                        >
                           <Button
-                            color="secondary"
-                            variant="outlined"
-                            disabled={submitting}
-                            onClick={onCancel}
+                            color="primary"
+                            variant="filled"
+                            disabled={
+                              hasValidationErrors ||
+                              submitting ||
+                              disabled ||
+                              (!!editableUntil && pristine)
+                            }
+                            type="submit"
                             fullWidth={matches}
-                            className={CLASSES[classNameRoot].cancel}
+                            className={CLASSES[classNameRoot].submit}
                             upperCase
                           >
-                            Cancel
+                            {editableUntil ? "Save changes" : "Submit"}
                           </Button>
                         </Localized>
-                      )}
-                      <Localized
-                        id={
-                          editableUntil
-                            ? "comments-commentForm-saveChanges"
-                            : "comments-commentForm-submit"
-                        }
-                      >
-                        <Button
-                          color="primary"
-                          variant="filled"
-                          disabled={
-                            hasValidationErrors ||
-                            submitting ||
-                            disabled ||
-                            (!!editableUntil && pristine)
-                          }
-                          type="submit"
-                          fullWidth={matches}
-                          className={CLASSES[classNameRoot].submit}
-                          upperCase
-                        >
-                          {editableUntil ? "Save changes" : "Submit"}
-                        </Button>
-                      </Localized>
-                    </>
-                  )}
-                </MatchMedia>
-              </Flex>
+                      </>
+                    )}
+                  </MatchMedia>
+                </Flex>
+              )}
               {submitStatus}
             </HorizontalGutter>
+            {mode === "chat" && (
+              <Localized
+                id={
+                  editableUntil
+                    ? "comments-commentForm-chatSaveChanges"
+                    : "comments-commentForm-chatSubmit"
+                }
+              >
+                <Button
+                  color="primary"
+                  variant="filled"
+                  disabled={
+                    hasValidationErrors ||
+                    submitting ||
+                    disabled ||
+                    (!!editableUntil && pristine)
+                  }
+                  type="submit"
+                  className={styles.chatSubmitButton}
+                  title={editableUntil ? "Save changes" : "Submit"}
+                >
+                  <Icon>send</Icon>
+                </Button>
+              </Localized>
+            )}
           </form>
         )}
       </Form>
