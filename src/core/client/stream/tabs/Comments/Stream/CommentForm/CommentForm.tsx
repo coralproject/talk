@@ -334,7 +334,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           placeholder={placeholder}
                           disabled={submitting || disabled}
                           ref={rteRef || null}
-                          autoHideToolbar={mode === "chat"}
+                          autoHideToolbar={false}
                           toolbarButtons={
                             <>
                               {mediaConfig && mediaConfig.external.enabled ? (
