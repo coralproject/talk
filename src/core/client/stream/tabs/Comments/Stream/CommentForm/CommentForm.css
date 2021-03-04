@@ -23,11 +23,12 @@ $rteButtonActive: #ddd;
 
 .chatContent {
   min-height: 0px;
-  width: calc(100% - 28px);
+  padding-right: 36px;
 }
 
 .chatSubmitButton {
   position: absolute;
+  z-index: 1;
   top: 8px;
   right: 8px;
   padding-left: var(--spacing-1);
