@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useRef } from "react";
 import { graphql } from "react-relay";
 
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
@@ -106,12 +107,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                   <div className={styles.parentUser}>
                     {comment.parent.author?.username}
                   </div>
-                  <div
-                    className={styles.parentBody}
-                    dangerouslySetInnerHTML={{
-                      __html: comment.parent?.body || "",
-                    }}
-                  ></div>
+                  <div className={styles.parentBody}>
+                    {getHTMLPlainText(comment.parent?.body || "")}
+                  </div>
                 </Flex>
               </Button>
             </Flex>
