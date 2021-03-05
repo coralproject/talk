@@ -73,7 +73,7 @@ interface Props {
   setCursor: (cursor: string) => void;
 }
 
-interface Reply {
+interface NewComment {
   id: string;
   cursor: string;
 }
@@ -123,7 +123,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setFocusedComment,
   ] = useState<LiveCommentConversationContainer_comment | null>(null);
   const [conversationVisible, setConversationVisible] = useState(false);
-  const [newReply, setNewReply] = useState<Reply | null>(null);
+  const [newComment, setNewComment] = useState<NewComment | null>(null);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -411,6 +411,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const onCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {
+      // Set the constant updating cursor
       const key = `liveCursor:${storyID}:${storyURL}`;
 
       const rawValue = await context.localStorage.getItem(key);
@@ -436,8 +437,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           })
         );
       }
+
+      // Hide the "Jump to new comment" button if we can see its target comment
+      if (newComment && newComment.id === id) {
+        setNewComment(null);
+      }
     },
-    [context.localStorage, storyID, storyURL]
+    [context.localStorage, newComment, storyID, storyURL]
   );
 
   const onShowReplyDialog = useCallback(
@@ -468,31 +474,44 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollToCommentTimeout = useRef<number | null>(null);
   const scrollToComment = useCallback(() => {
-    if (!newReply) {
+    if (!newComment) {
       return;
     }
 
-    const el = document.getElementById(`comment-${newReply.id}-bottom`);
+    const el = document.getElementById(`comment-${newComment.id}-bottom`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
     }
 
-    setNewReply(null);
-  }, [newReply, setNewReply]);
+    setNewComment(null);
+  }, [newComment, setNewComment]);
 
   const jumpToComment = useCallback(() => {
-    if (!newReply) {
+    if (!newComment) {
       return;
     }
 
-    setCursor(newReply.cursor);
+    setCursor(newComment.cursor);
 
     if (scrollToCommentTimeout.current) {
       window.clearTimeout(scrollToCommentTimeout.current);
     }
 
     window.setTimeout(scrollToComment, 300);
-  }, [newReply, setCursor, scrollToComment]);
+  }, [newComment, setCursor, scrollToComment]);
+
+  const onCommentSubmitted = useCallback(
+    (commentID: string, cursor: string) => {
+      if (!commentID || !cursor) {
+        return;
+      }
+
+      if (!tailing) {
+        setNewComment({ id: commentID, cursor });
+      }
+    },
+    [tailing, setNewComment]
+  );
 
   return (
     <>
@@ -556,10 +575,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       </IntersectionProvider>
 
-      {newReply && (
+      {newComment && (
         <div className={styles.scrollToNewReply}>
           <Button onClick={jumpToComment} color="primary">
-            Reply posted below <Icon>arrow_downward</Icon>
+            Comment posted below <Icon>arrow_downward</Icon>
           </Button>
         </div>
       )}
@@ -578,6 +597,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         story={story}
         viewer={viewer}
         commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+        onSubmitted={onCommentSubmitted}
       />
     </>
   );

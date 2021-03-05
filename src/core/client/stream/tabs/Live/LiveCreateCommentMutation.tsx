@@ -44,6 +44,9 @@ function sharedUpdater(
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
+
+  commentEdge.setValue(new Date().toISOString(), "cursor");
+
   const status = commentEdge.getLinkedRecord("node")!.getValue("status");
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {

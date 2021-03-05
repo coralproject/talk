@@ -59,6 +59,8 @@ interface Props {
   viewer: LivePostCommentFormContainer_viewer | null;
   story: LivePostCommentFormContainer_story;
   commentsOrderBy?: COMMENT_SORT;
+
+  onSubmitted: (commentID: string | undefined, cursor: string) => void;
 }
 
 export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
@@ -66,6 +68,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   viewer,
   story,
   commentsOrderBy,
+  onSubmitted,
 }) => {
   const rteRef = useRef<CoralRTE | null>(null);
   const refreshSettings = useFetch(RefreshSettingsFetch);
@@ -132,6 +135,14 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
 
         setNudge(true);
         setSubmitStatus(status);
+
+        if (
+          status !== "RETRY" &&
+          status !== "REJECTED" &&
+          status !== "IN_REVIEW"
+        ) {
+          onSubmitted(response.edge.node.id, response.edge.cursor);
+        }
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           if (shouldTriggerSettingsRefresh(error.code)) {
@@ -168,6 +179,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
       commentsOrderBy,
       createComment,
       nudge,
+      onSubmitted,
       refreshSettings,
       refreshViewer,
       setDraft,
