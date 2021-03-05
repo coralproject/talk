@@ -14,9 +14,7 @@ import React, {
   FocusEvent,
   FunctionComponent,
   Ref,
-  useCallback,
   useMemo,
-  useState,
 } from "react";
 
 import { createSanitize } from "coral-common/helpers/sanitize";
@@ -153,7 +151,7 @@ interface Props {
 
   onWillPaste?: (event: PasteEvent) => void;
 
-  autoHideToolbar?: boolean;
+  showToolbar?: boolean;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -176,42 +174,13 @@ const RTE: FunctionComponent<Props> = (props) => {
     features,
     onWillPaste,
     onKeyDown,
-    autoHideToolbar,
+    showToolbar,
     ...rest
   } = props;
 
   const sanitizeToDOMFragment = useMemo(() => {
     return createSanitizeToDOMFragment(features);
   }, [features]);
-
-  /* Handle focus */
-  const [focus, setFocus] = useState(false);
-  const rteOnFocus = useCallback(
-    (event: React.FocusEvent<Element>) => {
-      if (onFocus) {
-        onFocus(event);
-      }
-      /* Currently we only set focus, when autoHideToolbar is set, could change in the future */
-      if (!autoHideToolbar) {
-        return;
-      }
-      setFocus(true);
-    },
-    [onFocus, autoHideToolbar]
-  );
-  const rteOnBlur = useCallback(
-    (event: React.FocusEvent<Element>) => {
-      if (onBlur) {
-        onBlur(event);
-      }
-      /* Currently we only set focus, when autoHideToolbar is set, could change in the future */
-      if (!autoHideToolbar) {
-        return;
-      }
-      setFocus(false);
-    },
-    [onBlur, autoHideToolbar]
-  );
 
   const featureElements = useMemo(() => {
     const x = [];
@@ -320,7 +289,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           {
             [styles.toolbarHidden]:
               featureElements.length === 0 ||
-              (autoHideToolbar && isValueEmpty(resolvedValue) && !focus),
+              (!showToolbar && isValueEmpty(resolvedValue)),
           }
         )}
         contentContainerClassName={cn(
@@ -336,8 +305,8 @@ const RTE: FunctionComponent<Props> = (props) => {
         features={featureElements}
         ref={forwardRef}
         toolbarPosition="bottom"
-        onBlur={rteOnBlur}
-        onFocus={rteOnFocus}
+        onBlur={onBlur}
+        onFocus={onFocus}
         onWillPaste={onWillPaste}
         onKeyDown={onKeyDown}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
@@ -346,6 +315,10 @@ const RTE: FunctionComponent<Props> = (props) => {
       />
     </div>
   );
+};
+
+RTE.defaultProps = {
+  showToolbar: true,
 };
 
 export default RTE;

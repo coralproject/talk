@@ -2,17 +2,16 @@ import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
 import React, {
   EventHandler,
+  FocusEvent,
   FunctionComponent,
   MouseEvent,
   Ref,
-  useCallback,
 } from "react";
 
-import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
-import { LiveCreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
+
 import CommentForm from "../Comments/Stream/CommentForm";
 import { OnChangeHandler } from "../Comments/Stream/CommentForm/CommentForm";
 import PostCommentSubmitStatusContainer from "../Comments/Stream/PostCommentForm/PostCommentSubmitStatusContainer";
@@ -32,14 +31,13 @@ export interface LiveCommentFormProps {
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
+  showToolbar?: boolean;
+  onFocus?: EventHandler<FocusEvent>;
+  onBlur?: EventHandler<FocusEvent>;
 }
 
 const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   const inputID = `comments-LiveCommentForm-rte`;
-  const emitFocusEvent = useViewerEvent(LiveCreateCommentFocusEvent);
-  const onFocus = useCallback(() => {
-    emitFocusEvent();
-  }, [emitFocusEvent]);
   // TODO @cvle.
   const classNameRoot = "createComment";
 
@@ -56,7 +54,8 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         disabled={props.disabled}
         classNameRoot={classNameRoot}
         disabledMessage={props.disabledMessage}
-        onFocus={onFocus}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
         onCancel={props.onCancel}
         mediaConfig={props.mediaConfig}
         placeHolderId="comments-liveCommentForm-rte"
@@ -76,6 +75,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         submitStatus={
           <PostCommentSubmitStatusContainer status={props.submitStatus} />
         }
+        showToolbar={props.showToolbar}
       />
     </div>
   );
