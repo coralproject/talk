@@ -383,7 +383,7 @@ exports[`renders message box when logged in 1`] = `
         />
       </div>
       <div
-        className="coral coral-createComment"
+        className="coral coral-createComment CommentForm-root"
       >
         <form
           autoComplete="off"

@@ -332,7 +332,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root"
+      className="coral coral-editComment EditCommentForm-root CommentForm-root"
     >
       <form
         autoComplete="off"
@@ -553,7 +553,7 @@ exports[`edit a comment: edit form 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root"
+      className="coral coral-editComment EditCommentForm-root CommentForm-root"
     >
       <form
         autoComplete="off"
@@ -774,7 +774,7 @@ exports[`edit a comment: optimistic response 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root"
+      className="coral coral-editComment EditCommentForm-root CommentForm-root"
     >
       <form
         autoComplete="off"
@@ -1889,7 +1889,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root"
+      className="coral coral-editComment EditCommentForm-root CommentForm-root"
     >
       <form
         autoComplete="off"
