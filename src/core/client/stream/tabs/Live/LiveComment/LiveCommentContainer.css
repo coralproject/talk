@@ -44,34 +44,3 @@
 
   color: var(--palette-grey-500);
 }
-
-.replyButton:hover {
-  border-width: 0px;
-  border-style: none;
-
-  color: var(--palette-grey-600);
-}
-
-.replyIcon {
-  transform: scaleX(-1);
-}
-
-.conversationButton {
-  border-width: 0px;
-  border-style: none;
-
-  color: var(--palette-primary-500);
-}
-
-.actionBar {
-  margin-left: calc(30px + var(--spacing-2));
-}
-
-.leftActions {
-  flex-shrink: 0;
-  width: 250px;
-}
-
-.rightActions {
-  flex-grow: 1;
-}

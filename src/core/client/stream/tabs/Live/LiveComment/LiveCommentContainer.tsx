@@ -4,10 +4,7 @@ import { graphql } from "react-relay";
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
-import ReportFlowContainer, {
-  ReportButton,
-} from "coral-stream/tabs/shared/ReportFlow";
+import { ReportFlowContainer } from "coral-stream/tabs/shared/ReportFlow";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -18,6 +15,7 @@ import { LiveCommentConversationContainer_comment } from "coral-stream/__generat
 
 import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
+import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
 import LiveCommentBody from "./LiveCommentBody";
 
 import styles from "./LiveCommentContainer.css";
@@ -52,9 +50,11 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
-  const isViewerBanned = false;
-  const isViewerSuspended = false;
-  const isViewerWarned = false;
+  const ignored = Boolean(
+    comment.author &&
+      viewer &&
+      viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
+  );
 
   const inView = useCallback(() => {
     onInView(true, comment.id, comment.createdAt, cursor);
@@ -83,6 +83,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
     onShowConversation(comment as any);
   }, [comment, onShowConversation]);
+
+  if (ignored) {
+    return null;
+  }
 
   return (
     <div ref={rootRef} className={styles.root} id={`comment-${comment.id}-top`}>
@@ -125,60 +129,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
         />
 
         <div id={`comment-${comment.id}`}>
-          <Flex
-            justifyContent="flex-start"
-            alignItems="center"
-            className={styles.actionBar}
-          >
-            <div className={styles.leftActions}>
-              {viewer && (
-                <ReactionButtonContainer
-                  reactedClassName=""
-                  comment={comment}
-                  settings={settings}
-                  viewer={viewer}
-                  readOnly={
-                    isViewerBanned || isViewerSuspended || isViewerWarned
-                  }
-                  isQA={false}
-                />
-              )}
-              {viewer && (
-                <Button
-                  className={styles.replyButton}
-                  variant="none"
-                  onClick={comment.parent ? onConversationParent : onReply}
-                >
-                  <ShortcutIcon
-                    width="16px"
-                    height="16px"
-                    className={styles.replyIcon}
-                  />
-                </Button>
-              )}
-              {comment.replyCount > 0 && (
-                <Button
-                  className={styles.conversationButton}
-                  variant="none"
-                  onClick={onConversation}
-                  paddingSize="extraSmall"
-                >
-                  Conversation
-                </Button>
-              )}
-            </div>
-
-            <Flex className={styles.rightActions} justifyContent="flex-end">
-              {viewer && (
-                <ReportButton
-                  onClick={toggleShowReportFlow}
-                  open={showReportFlow}
-                  viewer={viewer}
-                  comment={comment}
-                />
-              )}
-            </Flex>
-          </Flex>
+          <LiveCommentActionsContainer
+            comment={comment}
+            viewer={viewer}
+            settings={settings}
+            onReply={onReply}
+            onConversation={onConversation}
+            onToggleReport={toggleShowReportFlow}
+          />
         </div>
         {showReportFlow && (
           <ReportFlowContainer
@@ -198,9 +156,11 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LiveCommentContainer_viewer on User {
       id
+      ignoredUsers {
+        id
+      }
       ...ReportFlowContainer_viewer
-      ...ReportButton_viewer
-      ...ReactionButtonContainer_viewer
+      ...LiveCommentActionsContainer_viewer
     }
   `,
   comment: graphql`
@@ -232,16 +192,15 @@ const enhanced = withFragmentContainer<Props>({
       }
       replyCount
 
-      ...ReportButton_comment
       ...ReportFlowContainer_comment
-      ...ReactionButtonContainer_comment
+      ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
     }
   `,
   settings: graphql`
     fragment LiveCommentContainer_settings on Settings {
       ...ReportFlowContainer_settings
-      ...ReactionButtonContainer_settings
+      ...LiveCommentActionsContainer_settings
     }
   `,
 })(LiveCommentContainer);
