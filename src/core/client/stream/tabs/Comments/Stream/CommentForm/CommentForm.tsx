@@ -9,6 +9,7 @@ import React, {
   Ref,
   useCallback,
   useState,
+  FocusEvent,
 } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -92,7 +93,8 @@ interface Props {
   disabledMessage?: React.ReactNode;
   bodyLabel: React.ReactNode;
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
-  onFocus?: () => void;
+  onFocus?: EventHandler<FocusEvent>;
+  onBlur?: EventHandler<FocusEvent>;
   rteRef?: Ref<CoralRTE>;
   onCancel?: EventHandler<MouseEvent<any>>;
   editableUntil?: string;
@@ -107,6 +109,7 @@ interface Props {
   siteID: string;
   topBorder?: boolean;
   className?: string;
+  showToolbar?: boolean;
 }
 
 function createWidgetToggle(desiredWidget: Widget) {
@@ -155,6 +158,7 @@ const CommentForm: FunctionComponent<Props> = ({
   onCancel,
   onChange,
   onFocus,
+  onBlur,
   onSubmit,
   placeholder,
   placeHolderId,
@@ -163,6 +167,7 @@ const CommentForm: FunctionComponent<Props> = ({
   siteID,
   submitStatus,
   topBorder,
+  showToolbar,
 }) => {
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
@@ -295,6 +300,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           inputID={bodyInputID}
                           config={rteConfig}
                           onFocus={onFocus}
+                          onBlur={onBlur}
                           contentClassName={cn({
                             [styles.chatContent]: mode === "chat",
                           })}
@@ -334,7 +340,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           placeholder={placeholder}
                           disabled={submitting || disabled}
                           ref={rteRef || null}
-                          autoHideToolbar={false}
+                          showToolbar={showToolbar}
                           toolbarButtons={
                             <>
                               {mediaConfig && mediaConfig.external.enabled ? (
