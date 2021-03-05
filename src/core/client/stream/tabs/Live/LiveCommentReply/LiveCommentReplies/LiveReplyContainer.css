@@ -1,0 +1,12 @@
+.root {
+  width: 100%;
+}
+
+.comment {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+
+  margint-bottom: var(--spacing-2);
+
+  width: 100%;
+}

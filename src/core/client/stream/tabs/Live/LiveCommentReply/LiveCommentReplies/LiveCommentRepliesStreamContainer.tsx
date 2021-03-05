@@ -4,6 +4,8 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { LiveCommentRepliesStreamContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_comment.graphql";
+import { LiveCommentRepliesStreamContainer_settings } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_settings.graphql";
+import { LiveCommentRepliesStreamContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_viewer.graphql";
 
 import LiveCommentRepliesAfterContainer from "./LiveCommentRepliesAfterContainer";
 import LiveCommentRepliesBeforeContainer from "./LiveCommentRepliesBeforeContainer";
@@ -11,12 +13,16 @@ import LiveCommentRepliesContainer from "./LiveCommentRepliesContainer";
 
 interface Props {
   comment: LiveCommentRepliesStreamContainer_comment;
+  viewer: LiveCommentRepliesStreamContainer_viewer | null;
+  settings: LiveCommentRepliesStreamContainer_settings;
   storyID: string;
   cursor: string;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   comment,
+  viewer,
+  settings,
   storyID,
   cursor,
 }) => {
@@ -45,6 +51,8 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               loadMoreAfter={loadMoreAfter}
               isLoadingMoreAfter={isLoadingMoreAfter}
               comment={comment}
+              viewer={viewer}
+              settings={settings}
               storyID={storyID}
             />
           )}
@@ -61,6 +69,16 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentRepliesBeforeContainer_comment @arguments(cursor: $cursor)
       ...LiveCommentRepliesAfterContainer_comment @arguments(cursor: $cursor)
       ...LiveCommentRepliesContainer_comment
+    }
+  `,
+  viewer: graphql`
+    fragment LiveCommentRepliesStreamContainer_viewer on User {
+      ...LiveCommentRepliesContainer_viewer
+    }
+  `,
+  settings: graphql`
+    fragment LiveCommentRepliesStreamContainer_settings on Settings {
+      ...LiveCommentRepliesContainer_settings
     }
   `,
 })(LiveCommentRepliesStreamContainer);
