@@ -25,13 +25,13 @@ import { LiveChatContainer_viewer } from "coral-stream/__generated__/LiveChatCon
 import { LiveChatContainerAfterCommentEdge } from "coral-stream/__generated__/LiveChatContainerAfterCommentEdge.graphql";
 import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveChatContainerBeforeCommentEdge.graphql";
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
-import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
+import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
 
 import CursorState from "./cursorState";
 import InView from "./InView";
 import { LiveCommentContainer } from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
-import LiveCommentReplyContainer from "./LiveCommentReply/LiveCommentReplyContainer";
+import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
@@ -121,10 +121,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const [
     focusedComment,
     setFocusedComment,
-  ] = useState<LiveCommentReplyContainer_comment | null>(null);
-  const [replyVisible, setReplyVisible] = useState(false);
+  ] = useState<LiveCommentConversationContainer_comment | null>(null);
+  const [conversationVisible, setConversationVisible] = useState(false);
   const [newReply, setNewReply] = useState<Reply | null>(null);
-  const [showConversation, setShowConversation] = useState(false);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -442,55 +441,33 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   const onShowReplyDialog = useCallback(
-    (comment: LiveCommentReplyContainer_comment) => {
+    (comment: LiveCommentConversationContainer_comment) => {
       const el = document.getElementById(`comment-${comment.id}`);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "end" });
       }
 
       setFocusedComment(comment);
-      setShowConversation(false);
-      setReplyVisible(true);
+      setConversationVisible(true);
     },
-    [setReplyVisible, setFocusedComment, setShowConversation]
+    [setConversationVisible, setFocusedComment]
   );
 
   const onShowConversation = useCallback(
-    (comment: LiveCommentReplyContainer_comment) => {
+    (comment: LiveCommentConversationContainer_comment) => {
       setFocusedComment(comment);
-      setShowConversation(true);
-      setReplyVisible(true);
+      setConversationVisible(true);
     },
-    [setReplyVisible, setFocusedComment, setShowConversation]
+    [setConversationVisible, setFocusedComment]
   );
 
-  const onCloseReply = useCallback(() => {
+  const onCloseConversation = useCallback(() => {
     setFocusedComment(null);
-    setShowConversation(false);
-    setReplyVisible(false);
-  }, [setReplyVisible, setFocusedComment]);
+    setConversationVisible(false);
+  }, [setConversationVisible, setFocusedComment]);
 
-  const onReplySubmitted = useCallback(
-    (commentID: string | undefined, cursor: string) => {
-      if (showConversation) {
-        return;
-      }
-
-      if (cursor && commentID) {
-        setNewReply({
-          id: commentID,
-          cursor,
-        });
-      }
-
-      setReplyVisible(false);
-      setFocusedComment(null);
-    },
-    [showConversation, setNewReply, setReplyVisible, setFocusedComment]
-  );
-
-  const scrollToReplyTimeout = useRef<number | null>(null);
-  const scrollToReply = useCallback(() => {
+  const scrollToCommentTimeout = useRef<number | null>(null);
+  const scrollToComment = useCallback(() => {
     if (!newReply) {
       return;
     }
@@ -503,19 +480,19 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewReply(null);
   }, [newReply, setNewReply]);
 
-  const jumpToNewReply = useCallback(() => {
+  const jumpToComment = useCallback(() => {
     if (!newReply) {
       return;
     }
 
     setCursor(newReply.cursor);
 
-    if (scrollToReplyTimeout.current) {
-      window.clearTimeout(scrollToReplyTimeout.current);
+    if (scrollToCommentTimeout.current) {
+      window.clearTimeout(scrollToCommentTimeout.current);
     }
 
-    window.setTimeout(scrollToReply, 300);
-  }, [newReply, setCursor, scrollToReply]);
+    window.setTimeout(scrollToComment, 300);
+  }, [newReply, setCursor, scrollToComment]);
 
   return (
     <>
@@ -581,21 +558,19 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
       {newReply && (
         <div className={styles.scrollToNewReply}>
-          <Button onClick={jumpToNewReply} color="primary">
+          <Button onClick={jumpToComment} color="primary">
             Reply posted below <Icon>arrow_downward</Icon>
           </Button>
         </div>
       )}
-      {replyVisible && focusedComment && (
-        <LiveCommentReplyContainer
+      {conversationVisible && focusedComment && (
+        <LiveCommentConversationContainer
           settings={settings}
           viewer={viewer}
           story={story}
           comment={focusedComment as any}
-          visible={replyVisible}
-          onClose={onCloseReply}
-          onSubmitted={onReplySubmitted}
-          showConversation={showConversation}
+          visible={conversationVisible}
+          onClose={onCloseConversation}
         />
       )}
       <LivePostCommentFormContainer
@@ -634,21 +609,21 @@ const enhanced = withFragmentContainer<Props>({
       id
       url
       ...LivePostCommentFormContainer_story
-      ...LiveCommentReplyContainer_story
+      ...LiveCommentConversationContainer_story
     }
   `,
   viewer: graphql`
     fragment LiveChatContainer_viewer on User {
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
-      ...LiveCommentReplyContainer_viewer
+      ...LiveCommentConversationContainer_viewer
     }
   `,
   settings: graphql`
     fragment LiveChatContainer_settings on Settings {
       ...LivePostCommentFormContainer_settings
       ...LiveCommentContainer_settings
-      ...LiveCommentReplyContainer_settings
+      ...LiveCommentConversationContainer_settings
     }
   `,
 })(LiveChatContainer);

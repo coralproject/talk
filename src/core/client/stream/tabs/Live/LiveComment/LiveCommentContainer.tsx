@@ -14,7 +14,7 @@ import { Button } from "coral-ui/components/v3";
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
-import { LiveCommentReplyContainer_comment } from "coral-stream/__generated__/LiveCommentReplyContainer_comment.graphql";
+import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
 
 import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
@@ -33,8 +33,10 @@ interface Props {
     createdAt: string,
     cursor: string
   ) => void;
-  onReplyTo: (comment: LiveCommentReplyContainer_comment) => void;
-  onShowConversation: (comment: LiveCommentReplyContainer_comment) => void;
+  onReplyTo: (comment: LiveCommentConversationContainer_comment) => void;
+  onShowConversation: (
+    comment: LiveCommentConversationContainer_comment
+  ) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -233,7 +235,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportButton_comment
       ...ReportFlowContainer_comment
       ...ReactionButtonContainer_comment
-      ...LiveCommentReplyContainer_comment
+      ...LiveCommentConversationContainer_comment
     }
   `,
   settings: graphql`
