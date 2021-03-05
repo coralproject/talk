@@ -446,19 +446,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.localStorage, newComment, storyID, storyURL]
   );
 
-  const onShowReplyDialog = useCallback(
-    (comment: LiveCommentConversationContainer_comment) => {
-      const el = document.getElementById(`comment-${comment.id}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "end" });
-      }
-
-      setFocusedComment(comment);
-      setConversationVisible(true);
-    },
-    [setConversationVisible, setFocusedComment]
-  );
-
   const onShowConversation = useCallback(
     (comment: LiveCommentConversationContainer_comment) => {
       setFocusedComment(comment);
@@ -535,7 +522,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onInView={onCommentVisible}
-              onReplyTo={onShowReplyDialog}
+              onReplyTo={onShowConversation}
               onShowConversation={onShowConversation}
             />
           ))}
@@ -560,7 +547,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onInView={onCommentVisible}
-              onReplyTo={onShowReplyDialog}
+              onReplyTo={onShowConversation}
               onShowConversation={onShowConversation}
             />
           ))}
