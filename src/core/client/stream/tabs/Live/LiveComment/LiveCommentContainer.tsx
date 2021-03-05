@@ -43,7 +43,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   onInView,
-  onReplyTo,
   onShowConversation,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -59,14 +58,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   const inView = useCallback(() => {
     onInView(true, comment.id, comment.createdAt, cursor);
   }, [comment.createdAt, comment.id, cursor, onInView]);
-
-  const onReply = useCallback(() => {
-    if (!comment || !comment.revision) {
-      return;
-    }
-
-    onReplyTo(comment as any);
-  }, [comment, onReplyTo]);
 
   const onConversationParent = useCallback(() => {
     if (!comment || !comment.parent) {
@@ -133,8 +124,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             comment={comment}
             viewer={viewer}
             settings={settings}
-            onReply={onReply}
-            onConversation={onConversation}
+            onReply={comment.parent ? onConversationParent : onConversation}
+            onConversation={
+              comment.parent ? onConversationParent : onConversation
+            }
             onToggleReport={toggleShowReportFlow}
           />
         </div>
