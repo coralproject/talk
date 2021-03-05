@@ -268,7 +268,7 @@ exports[`post a reply: open reply form 1`] = `
     </div>
     <div>
       <div
-        className="coral coral-createReplyComment"
+        className="coral coral-createReplyComment CommentForm-root"
       >
         <form
           autoComplete="off"
