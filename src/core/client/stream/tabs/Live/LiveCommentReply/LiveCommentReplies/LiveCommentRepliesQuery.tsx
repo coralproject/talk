@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { Spinner } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesQuery } from "coral-stream/__generated__/LiveCommentRepliesQuery.graphql";
 
@@ -26,6 +27,12 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             ...LiveCommentRepliesStreamContainer_comment
               @arguments(cursor: $cursor)
           }
+          viewer {
+            ...LiveCommentRepliesStreamContainer_viewer
+          }
+          settings {
+            ...LiveCommentRepliesStreamContainer_settings
+          }
         }
       `}
       variables={{
@@ -33,13 +40,21 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
         cursor,
       }}
       render={(data) => {
-        if (!data || !data.props || !data.props.comment) {
-          return null;
+        if (
+          !data ||
+          !data.props ||
+          !data.props.comment ||
+          !data.props.viewer ||
+          !data.props.settings
+        ) {
+          return <Spinner />;
         }
 
         return (
           <LiveCommentRepliesStreamContainer
             comment={data.props.comment}
+            viewer={data.props.viewer}
+            settings={data.props.settings}
             storyID={storyID}
             cursor={cursor}
           />

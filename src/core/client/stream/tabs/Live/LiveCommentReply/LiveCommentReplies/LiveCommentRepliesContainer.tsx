@@ -14,11 +14,13 @@ import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { Flex } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
+import { LiveCommentRepliesContainer_settings } from "coral-stream/__generated__/LiveCommentRepliesContainer_settings.graphql";
+import { LiveCommentRepliesContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesContainer_viewer.graphql";
 import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerAfterCommentEdge.graphql";
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
 
-import LiveCommentBody from "../../LiveComment/LiveCommentBody";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
+import LiveReplyContainer from "./LiveReplyContainer";
 
 import styles from "./LiveCommentRepliesContainer.css";
 
@@ -35,6 +37,8 @@ interface Props {
 
   storyID: string;
   comment: LiveCommentRepliesContainer_comment;
+  viewer: LiveCommentRepliesContainer_viewer | null;
+  settings: LiveCommentRepliesContainer_settings;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -48,6 +52,8 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   isLoadingMoreAfter,
   storyID,
   comment,
+  viewer,
+  settings,
 }) => {
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
@@ -111,10 +117,10 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   return (
     <>
       <div className={styles.comment}>
-        <LiveCommentBody
-          author={comment.author}
-          body={comment.body}
-          createdAt={comment.createdAt}
+        <LiveReplyContainer
+          comment={comment}
+          viewer={viewer}
+          settings={settings}
         />
       </div>
       <div onScroll={onScroll} className={styles.replies} ref={repliesRef}>
@@ -123,10 +129,11 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
             <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
               <Flex justifyContent="flex-start" alignItems="stretch">
                 <div className={styles.replyMarker}></div>
-                <LiveCommentBody
-                  author={e.node.author}
-                  body={e.node.body}
-                  createdAt={e.node.createdAt}
+                <LiveReplyContainer
+                  comment={e.node}
+                  viewer={viewer}
+                  settings={settings}
+                  cursor={e.cursor}
                 />
               </Flex>
             </div>
@@ -137,10 +144,11 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
             <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
               <Flex justifyContent="flex-start" alignItems="stretch">
                 <div className={styles.replyMarker}></div>
-                <LiveCommentBody
-                  author={e.node.author}
-                  body={e.node.body}
-                  createdAt={e.node.createdAt}
+                <LiveReplyContainer
+                  comment={e.node}
+                  viewer={viewer}
+                  settings={settings}
+                  cursor={e.cursor}
                 />
               </Flex>
             </div>
@@ -163,6 +171,7 @@ const enhanced = withFragmentContainer<Props>({
         author {
           username
         }
+        ...LiveReplyContainer_comment
       }
     }
   `,
@@ -177,6 +186,7 @@ const enhanced = withFragmentContainer<Props>({
         author {
           username
         }
+        ...LiveReplyContainer_comment
       }
     }
   `,
@@ -188,6 +198,17 @@ const enhanced = withFragmentContainer<Props>({
       author {
         username
       }
+      ...LiveReplyContainer_comment
+    }
+  `,
+  viewer: graphql`
+    fragment LiveCommentRepliesContainer_viewer on User {
+      ...LiveReplyContainer_viewer
+    }
+  `,
+  settings: graphql`
+    fragment LiveCommentRepliesContainer_settings on Settings {
+      ...LiveReplyContainer_settings
     }
   `,
 })(LiveCommentRepliesContainer);

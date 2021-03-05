@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -39,22 +39,6 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   const isViewerSuspended = false;
   const isViewerWarned = false;
 
-  const conversation = useCallback(() => {
-    if (onConversation) {
-      onConversation();
-    }
-  }, [onConversation]);
-  const reply = useCallback(() => {
-    if (onReply) {
-      onReply();
-    }
-  }, [onReply]);
-  const toggleReport = useCallback(() => {
-    if (onToggleReport) {
-      onToggleReport();
-    }
-  }, [onToggleReport]);
-
   return (
     <Flex
       justifyContent="flex-start"
@@ -72,11 +56,11 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             isQA={false}
           />
         )}
-        {viewer && (
+        {viewer && ((comment.parent && onConversation) || onReply) && (
           <Button
             className={styles.replyButton}
             variant="none"
-            onClick={comment.parent ? conversation : reply}
+            onClick={comment.parent ? onConversation : onReply}
           >
             <ShortcutIcon
               width="16px"
@@ -85,11 +69,11 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             />
           </Button>
         )}
-        {comment.replyCount > 0 && (
+        {comment.replyCount > 0 && onConversation && (
           <Button
             className={styles.conversationButton}
             variant="none"
-            onClick={conversation}
+            onClick={onConversation}
             paddingSize="extraSmall"
           >
             Conversation
@@ -98,9 +82,9 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
       </div>
 
       <Flex className={styles.rightActions} justifyContent="flex-end">
-        {viewer && (
+        {viewer && onToggleReport && (
           <ReportButton
-            onClick={toggleReport}
+            onClick={onToggleReport}
             open={showReport}
             viewer={viewer}
             comment={comment}
