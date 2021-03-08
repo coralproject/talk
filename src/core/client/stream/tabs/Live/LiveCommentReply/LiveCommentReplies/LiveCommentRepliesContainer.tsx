@@ -15,6 +15,7 @@ import { Flex } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
 import { LiveCommentRepliesContainer_settings } from "coral-stream/__generated__/LiveCommentRepliesContainer_settings.graphql";
+import { LiveCommentRepliesContainer_story } from "coral-stream/__generated__/LiveCommentRepliesContainer_story.graphql";
 import { LiveCommentRepliesContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesContainer_viewer.graphql";
 import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerAfterCommentEdge.graphql";
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
@@ -35,7 +36,7 @@ interface Props {
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 
-  storyID: string;
+  story: LiveCommentRepliesContainer_story;
   comment: LiveCommentRepliesContainer_comment;
   viewer: LiveCommentRepliesContainer_viewer | null;
   settings: LiveCommentRepliesContainer_settings;
@@ -50,7 +51,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   afterHasMore,
   loadMoreAfter,
   isLoadingMoreAfter,
-  storyID,
+  story,
   comment,
   viewer,
   settings,
@@ -60,7 +61,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   );
   useEffect(() => {
     const disposable = subscribeToCommentEntered({
-      storyID,
+      storyID: story.id,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
       connectionKey: "Replies_after",
       parentID: comment.id,
@@ -69,7 +70,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [storyID, comment.id, subscribeToCommentEntered]);
+  }, [story.id, comment.id, subscribeToCommentEntered]);
 
   const repliesRef = useRef<any | null>(null);
 
@@ -118,6 +119,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
     <>
       <div className={styles.comment}>
         <LiveReplyContainer
+          story={story}
           comment={comment}
           viewer={viewer}
           settings={settings}
@@ -130,6 +132,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
               <Flex justifyContent="flex-start" alignItems="stretch">
                 <div className={styles.replyMarker}></div>
                 <LiveReplyContainer
+                  story={story}
                   comment={e.node}
                   viewer={viewer}
                   settings={settings}
@@ -145,6 +148,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
               <Flex justifyContent="flex-start" alignItems="stretch">
                 <div className={styles.replyMarker}></div>
                 <LiveReplyContainer
+                  story={story}
                   comment={e.node}
                   viewer={viewer}
                   settings={settings}
@@ -160,6 +164,12 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment LiveCommentRepliesContainer_story on Story {
+      id
+      ...LiveReplyContainer_story
+    }
+  `,
   beforeComments: graphql`
     fragment LiveCommentRepliesContainerBeforeCommentEdge on CommentEdge
       @relay(plural: true) {
