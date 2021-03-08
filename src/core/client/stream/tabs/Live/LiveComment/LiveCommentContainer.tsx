@@ -10,6 +10,7 @@ import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
+import { LiveCommentContainer_story } from "coral-stream/__generated__/LiveCommentContainer_story.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
 
@@ -21,6 +22,7 @@ import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
 import styles from "./LiveCommentContainer.css";
 
 interface Props {
+  story: LiveCommentContainer_story;
   viewer: LiveCommentContainer_viewer | null;
   comment: LiveCommentContainer_comment;
   cursor: string;
@@ -38,6 +40,7 @@ interface Props {
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
+  story,
   comment,
   cursor,
   viewer,
@@ -121,6 +124,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
         <div id={`comment-${comment.id}`}>
           <LiveCommentActionsContainer
+            story={story}
             comment={comment}
             viewer={viewer}
             settings={settings}
@@ -146,6 +150,11 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment LiveCommentContainer_story on Story {
+      ...LiveCommentActionsContainer_story
+    }
+  `,
   viewer: graphql`
     fragment LiveCommentContainer_viewer on User {
       id

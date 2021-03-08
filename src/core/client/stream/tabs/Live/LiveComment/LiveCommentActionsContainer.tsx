@@ -1,14 +1,18 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "relay-runtime";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { getModerationLink } from "coral-framework/helpers";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { Ability, can } from "coral-stream/permissions";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import { ReportButton } from "coral-stream/tabs/shared/ReportFlow";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentActionsContainer_comment } from "coral-stream/__generated__/LiveCommentActionsContainer_comment.graphql";
+import { LiveCommentActionsContainer_local } from "coral-stream/__generated__/LiveCommentActionsContainer_local.graphql";
 import { LiveCommentActionsContainer_settings } from "coral-stream/__generated__/LiveCommentActionsContainer_settings.graphql";
+import { LiveCommentActionsContainer_story } from "coral-stream/__generated__/LiveCommentActionsContainer_story.graphql";
 import { LiveCommentActionsContainer_viewer } from "coral-stream/__generated__/LiveCommentActionsContainer_viewer.graphql";
 
 import ShortcutIcon from "../ShortcutIcon";
@@ -16,6 +20,7 @@ import ShortcutIcon from "../ShortcutIcon";
 import styles from "./LiveCommentActionsContainer.css";
 
 interface Props {
+  story: LiveCommentActionsContainer_story;
   comment: LiveCommentActionsContainer_comment;
   viewer: LiveCommentActionsContainer_viewer | null;
   settings: LiveCommentActionsContainer_settings;
@@ -27,6 +32,7 @@ interface Props {
 }
 
 const LiveCommentActionsContainer: FunctionComponent<Props> = ({
+  story,
   comment,
   viewer,
   settings,
@@ -38,6 +44,30 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   const isViewerBanned = false;
   const isViewerSuspended = false;
   const isViewerWarned = false;
+
+  const [{ accessToken }] = useLocal<LiveCommentActionsContainer_local>(graphql`
+    fragment LiveCommentActionsContainer_local on Local {
+      accessToken
+    }
+  `);
+
+  const showModerationCaret: boolean =
+    !!viewer && story.canModerate && can(viewer, Ability.MODERATE);
+
+  const moderationLinkSuffix =
+    !!accessToken &&
+    settings.auth.integrations.sso.enabled &&
+    settings.auth.integrations.sso.targetFilter.admin &&
+    `#accessToken=${accessToken}`;
+
+  const gotoModerateCommentHref = useMemo(() => {
+    let link = getModerationLink({ commentID: comment.id });
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
+    }
+
+    return link;
+  }, [comment.id, moderationLinkSuffix]);
 
   return (
     <Flex
@@ -90,14 +120,31 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             comment={comment}
           />
         )}
+        {showModerationCaret && (
+          <Button
+            href={gotoModerateCommentHref}
+            target="_blank"
+            variant="flat"
+            fontSize="small"
+            paddingSize="extraSmall"
+          >
+            Moderate
+          </Button>
+        )}
       </Flex>
     </Flex>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment LiveCommentActionsContainer_story on Story {
+      canModerate
+    }
+  `,
   viewer: graphql`
     fragment LiveCommentActionsContainer_viewer on User {
+      role
       ...ReportFlowContainer_viewer
       ...ReportButton_viewer
       ...ReactionButtonContainer_viewer
@@ -105,6 +152,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   comment: graphql`
     fragment LiveCommentActionsContainer_comment on Comment {
+      id
       parent {
         id
       }
@@ -119,6 +167,16 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveCommentActionsContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...ReactionButtonContainer_settings
+      auth {
+        integrations {
+          sso {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+        }
+      }
     }
   `,
 })(LiveCommentActionsContainer);

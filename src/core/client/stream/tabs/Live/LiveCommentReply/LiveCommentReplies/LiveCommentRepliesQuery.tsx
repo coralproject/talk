@@ -22,7 +22,14 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   return (
     <QueryRenderer<LiveCommentRepliesQuery>
       query={graphql`
-        query LiveCommentRepliesQuery($commentID: ID!, $cursor: Cursor) {
+        query LiveCommentRepliesQuery(
+          $storyID: ID!
+          $commentID: ID!
+          $cursor: Cursor
+        ) {
+          story(id: $storyID) {
+            ...LiveCommentRepliesStreamContainer_story
+          }
           comment(id: $commentID) {
             ...LiveCommentRepliesStreamContainer_comment
               @arguments(cursor: $cursor)
@@ -37,6 +44,7 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
       `}
       variables={{
         commentID,
+        storyID,
         cursor,
       }}
       render={(data) => {
@@ -45,7 +53,8 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
           !data.props ||
           !data.props.comment ||
           !data.props.viewer ||
-          !data.props.settings
+          !data.props.settings ||
+          !data.props.story
         ) {
           return <Spinner />;
         }
@@ -55,7 +64,7 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             comment={data.props.comment}
             viewer={data.props.viewer}
             settings={data.props.settings}
-            storyID={storyID}
+            story={data.props.story}
             cursor={cursor}
           />
         );

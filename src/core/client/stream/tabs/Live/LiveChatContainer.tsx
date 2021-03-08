@@ -517,6 +517,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           {beforeComments.map((e) => (
             <LiveCommentContainer
               key={e.node.id}
+              story={story}
               comment={e.node}
               cursor={e.cursor}
               viewer={viewer}
@@ -542,6 +543,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           {afterComments.map((e) => (
             <LiveCommentContainer
               key={e.node.id}
+              story={story}
               comment={e.node}
               cursor={e.cursor}
               viewer={viewer}
@@ -617,6 +619,7 @@ const enhanced = withFragmentContainer<Props>({
       url
       ...LivePostCommentFormContainer_story
       ...LiveCommentConversationContainer_story
+      ...LiveCommentContainer_story
     }
   `,
   viewer: graphql`
