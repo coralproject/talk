@@ -1,9 +1,10 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { UsernameWithPopoverContainer } from "coral-stream/tabs/Comments/Comment/Username";
-import { Flex, Timestamp } from "coral-ui/components/v2";
+import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
 
 import { LiveCommentBodyContainer_comment } from "coral-stream/__generated__/LiveCommentBodyContainer_comment.graphql";
 import { LiveCommentBodyContainer_settings } from "coral-stream/__generated__/LiveCommentBodyContainer_settings.graphql";
@@ -24,7 +25,19 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <Flex justifyContent="flex-start" alignItems="flex-start">
-      <div className={styles.avatar}></div>
+      {comment.author && comment.author.avatar ? (
+        <img
+          src={comment.author.avatar}
+          className={styles.avatar}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          alt={`Avatar for ${comment.author.username}`}
+        />
+      ) : (
+        <div className={cn(styles.avatar, styles.emptyAvatar)}>
+          <Icon className={styles.avatarIcon}>person</Icon>
+        </div>
+      )}
       <div className={styles.container}>
         <Flex justifyContent="flex-start" alignItems="center">
           {comment.author && viewer && (
@@ -67,6 +80,7 @@ const enhanced = withFragmentContainer<Props>({
       author {
         id
         username
+        avatar
       }
       ...UsernameWithPopoverContainer_comment
     }

@@ -3,10 +3,29 @@
 
   width: 30px;
   height: 30px;
-  background: grey;
   border-radius: 5px;
 
   margin-right: var(--spacing-1);
+
+  font-size: var(--font-size-1);
+}
+
+.emptyAvatar {
+  background: grey;
+
+  font-size: 30px;
+  width: 30px;
+
+  color: white;
+}
+
+.avatarIcon {
+  vertical-align: top;
+
+  font-size: 30px;
+  width: 30px;
+
+  color: white;
 }
 
 .container {
@@ -15,10 +34,6 @@
 
   padding: var(--spacing-2);
   border-radius: 5px;
-}
-
-.usernameButton {
-
 }
 
 .username {
