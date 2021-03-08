@@ -15,7 +15,7 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLUSER_STATUS } from "coral-framework/schema";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -110,6 +110,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       }
     }
   `);
+
+  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
+  const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+
+  const showCommentForm = !banned && !suspended && !warned;
 
   const containerRef = useRef<any | null>(null);
   const beginRef = useRef<any | null>(null);
@@ -581,13 +587,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           onClose={onCloseConversation}
         />
       )}
-      <LivePostCommentFormContainer
-        settings={settings}
-        story={story}
-        viewer={viewer}
-        commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-        onSubmitted={onCommentSubmitted}
-      />
+      {showCommentForm && (
+        <LivePostCommentFormContainer
+          settings={settings}
+          story={story}
+          viewer={viewer}
+          commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+          onSubmitted={onCommentSubmitted}
+        />
+      )}
     </>
   );
 };
@@ -624,6 +632,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveChatContainer_viewer on User {
+      status {
+        current
+      }
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
       ...LiveCommentConversationContainer_viewer
