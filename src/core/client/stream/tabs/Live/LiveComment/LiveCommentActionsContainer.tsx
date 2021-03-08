@@ -119,14 +119,18 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
       </div>
 
       <Flex className={styles.rightActions} justifyContent="flex-end">
-        {viewer && onToggleReport && (
-          <ReportButton
-            onClick={onToggleReport}
-            open={showReport}
-            viewer={viewer}
-            comment={comment}
-          />
-        )}
+        {viewer &&
+          !isViewerBanned &&
+          !isViewerSuspended &&
+          !isViewerWarned &&
+          onToggleReport && (
+            <ReportButton
+              onClick={onToggleReport}
+              open={showReport}
+              viewer={viewer}
+              comment={comment}
+            />
+          )}
         {showModerationCaret && (
           <Button
             href={gotoModerateCommentHref}

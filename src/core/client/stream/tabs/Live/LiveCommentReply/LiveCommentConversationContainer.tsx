@@ -5,6 +5,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
+import { GQLUSER_STATUS } from "coral-framework/schema/__generated__/types";
 import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
 import { LiveCommentConversationContainer_settings } from "coral-stream/__generated__/LiveCommentConversationContainer_settings.graphql";
 import { LiveCommentConversationContainer_story } from "coral-stream/__generated__/LiveCommentConversationContainer_story.graphql";
@@ -36,6 +37,12 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   onSubmitted,
   visible,
 }) => {
+  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
+  const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+
+  const showReplyForm = !banned && !suspended && !warned;
+
   const close = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -87,14 +94,16 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           cursor={cursor}
         />
 
-        <LiveCreateCommentReplyFormContainer
-          settings={settings}
-          viewer={viewer}
-          story={story}
-          parentID={comment.id}
-          parentRevisionID={comment.revision.id}
-          onSubmitted={submit}
-        />
+        {showReplyForm && (
+          <LiveCreateCommentReplyFormContainer
+            settings={settings}
+            viewer={viewer}
+            story={story}
+            parentID={comment.id}
+            parentRevisionID={comment.revision.id}
+            onSubmitted={submit}
+          />
+        )}
       </div>
     </>
   );
@@ -110,6 +119,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveCommentConversationContainer_viewer on User {
+      status {
+        current
+      }
       ...LiveCommentContainer_viewer
       ...LiveCreateCommentReplyFormContainer_viewer
     }
