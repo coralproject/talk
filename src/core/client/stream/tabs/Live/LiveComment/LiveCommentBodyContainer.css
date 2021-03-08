@@ -17,14 +17,27 @@
   border-radius: 5px;
 }
 
+.usernameButton {
+
+}
+
 .username {
+  display: flex;
+  justify-content: center;
+
+  line-height: 1.14;
+  font-family: var(--font-family-primary);
   font-size: var(--font-size-1);
   font-weight: var(--font-family-primary-semi-bold);
+  font-style: normal;
 
   margin-right: var(--spacing-1);
 }
 
 .timestamp {
+  display: flex;
+  justify-content: center;
+
   font-size: var(--font-size-1);
 }
 
