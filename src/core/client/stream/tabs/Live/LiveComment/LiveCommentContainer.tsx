@@ -16,7 +16,7 @@ import { LiveCommentConversationContainer_comment } from "coral-stream/__generat
 import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
-import LiveCommentBody from "./LiveCommentBody";
+import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -113,10 +113,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        <LiveCommentBody
-          author={comment.author}
-          createdAt={comment.createdAt}
-          body={comment.body}
+        <LiveCommentBodyContainer
+          comment={comment}
+          settings={settings}
+          viewer={viewer}
         />
 
         <div id={`comment-${comment.id}`}>
@@ -154,6 +154,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
+      ...LiveCommentBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -188,12 +189,14 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
+      ...LiveCommentBodyContainer_comment
     }
   `,
   settings: graphql`
     fragment LiveCommentContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
+      ...LiveCommentBodyContainer_settings
     }
   `,
 })(LiveCommentContainer);

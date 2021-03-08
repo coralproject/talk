@@ -10,7 +10,7 @@ import { LiveReplyContainer_settings } from "coral-stream/__generated__/LiveRepl
 import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyContainer_viewer.graphql";
 
 import LiveCommentActionsContainer from "../../LiveComment/LiveCommentActionsContainer";
-import LiveCommentBody from "../../LiveComment/LiveCommentBody";
+import LiveCommentBodyContainer from "../../LiveComment/LiveCommentBodyContainer";
 
 import styles from "./LiveReplyContainer.css";
 
@@ -51,10 +51,10 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   return (
     <div ref={rootRef} className={styles.root} id={`comment-${comment.id}-top`}>
       <div className={styles.comment}>
-        <LiveCommentBody
-          author={comment.author}
-          createdAt={comment.createdAt}
-          body={comment.body}
+        <LiveCommentBodyContainer
+          comment={comment}
+          settings={settings}
+          viewer={viewer}
         />
 
         <div id={`comment-${comment.id}`}>
@@ -88,6 +88,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
+      ...LiveCommentBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -122,12 +123,14 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
+      ...LiveCommentBodyContainer_comment
     }
   `,
   settings: graphql`
     fragment LiveReplyContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
+      ...LiveCommentBodyContainer_settings
     }
   `,
 })(LiveReplyContainer);
