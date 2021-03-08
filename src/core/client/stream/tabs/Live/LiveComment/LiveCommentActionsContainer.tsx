@@ -3,6 +3,7 @@ import { graphql } from "relay-runtime";
 
 import { getModerationLink } from "coral-framework/helpers";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import { ReportButton } from "coral-stream/tabs/shared/ReportFlow";
@@ -41,9 +42,15 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   showReport,
   onToggleReport,
 }) => {
-  const isViewerBanned = false;
-  const isViewerSuspended = false;
-  const isViewerWarned = false;
+  const isViewerBanned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.BANNED
+  );
+  const isViewerSuspended = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
+  );
+  const isViewerWarned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.WARNED
+  );
 
   const [{ accessToken }] = useLocal<LiveCommentActionsContainer_local>(graphql`
     fragment LiveCommentActionsContainer_local on Local {
@@ -145,6 +152,9 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LiveCommentActionsContainer_viewer on User {
       role
+      status {
+        current
+      }
       ...ReportFlowContainer_viewer
       ...ReportButton_viewer
       ...ReactionButtonContainer_viewer
