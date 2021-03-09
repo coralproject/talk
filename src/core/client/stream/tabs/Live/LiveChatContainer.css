@@ -12,20 +12,6 @@
   width: 100%;
 }
 
-.scrollToNewReply {
-  position: relative;
-
-  top: -40px;
-  left: 0;
-  width: 100%;
-  height: 0px;
-  z-index: 998;
-
-  text-align: center;
-
-  background: transparent;
-}
-
 .newhr {
   flex-grow: 1;
 
@@ -58,4 +44,30 @@
 
 .endFooter {
   height: 5px;
+}
+
+.scrollToNewReply {
+  position: relative;
+
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: 0px;
+  z-index: 998;
+
+  text-align: center;
+
+  background: transparent;
+}
+
+.jumpButton {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  margin-right: 1px;
+}
+
+.jumpButtonClose {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }

@@ -374,9 +374,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             (container.scrollHeight - container.offsetHeight)
         ) < 5;
 
-      setTailing(atBottom);
+      setTailing(atBottom && !afterHasMore);
     },
-    [setTailing]
+    [afterHasMore, setTailing]
   );
 
   const onTailingInView = useCallback(async () => {
@@ -506,6 +506,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [tailing, setNewComment]
   );
 
+  const closeJumpToComment = useCallback(() => {
+    if (!newComment) {
+      return;
+    }
+
+    setNewComment(null);
+  }, [newComment, setNewComment]);
+
   return (
     <>
       <IntersectionProvider>
@@ -572,9 +580,25 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
       {newComment && (
         <div className={styles.scrollToNewReply}>
-          <Button onClick={jumpToComment} color="primary">
-            Comment posted below <Icon>arrow_downward</Icon>
-          </Button>
+          <Flex justifyContent="center" alignItems="center">
+            <Flex alignItems="center">
+              <Button
+                onClick={jumpToComment}
+                color="primary"
+                className={styles.jumpButton}
+              >
+                Comment posted below <Icon>arrow_downward</Icon>
+              </Button>
+              <Button
+                onClick={closeJumpToComment}
+                color="primary"
+                aria-valuetext="close"
+                className={styles.jumpButtonClose}
+              >
+                <Icon>close</Icon>
+              </Button>
+            </Flex>
+          </Flex>
         </div>
       )}
       {conversationVisible && focusedComment && (
