@@ -41,6 +41,24 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   // TODO @cvle.
   const classNameRoot = "createComment";
 
+  // TODO @nick-funk, hook up media config when we have designs
+  const mediaConfig = {
+    external: {
+      enabled: false,
+    },
+    youtube: {
+      enabled: false,
+    },
+    twitter: {
+      enabled: false,
+    },
+    giphy: {
+      enabled: false,
+      key: "",
+      maxRating: "",
+    },
+  };
+
   return (
     <div>
       <CommentForm
@@ -57,7 +75,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         onCancel={props.onCancel}
-        mediaConfig={props.mediaConfig}
+        mediaConfig={mediaConfig}
         placeHolderId="comments-liveCommentForm-rte"
         placeholder="Write a message..."
         bodyInputID={inputID}
