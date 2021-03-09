@@ -54,8 +54,18 @@
   justify-content: center;
 
   font-size: var(--font-size-1);
+
+  margin-left: var(--spacing-1);
 }
 
 .body {
   font-size: var(--font-size-2);
+}
+
+.tag {
+  font-size: var(--font-size-1);
+}
+
+.badge {
+  font-size: var(--font-size-1);
 }
