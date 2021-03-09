@@ -58,6 +58,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           comment={comment}
           settings={settings}
           viewer={viewer}
+          story={story}
         />
 
         <div id={`reply-${comment.id}`}>
@@ -87,6 +88,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveReplyContainer_story on Story {
       ...LiveCommentActionsContainer_story
+      ...LiveCommentBodyContainer_story
     }
   `,
   viewer: graphql`
