@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { UserBoxContainer } from "coral-stream/common/UserBox";
 
 import { LiveStreamContainer_settings } from "coral-stream/__generated__/LiveStreamContainer_settings.graphql";
 import { LiveStreamContainer_story } from "coral-stream/__generated__/LiveStreamContainer_story.graphql";
@@ -29,39 +30,42 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
   setCursor,
 }) => {
   return (
-    <LiveCommentsBeforeContainer story={story} cursor={cursor}>
-      {({
-        beforeComments,
-        beforeHasMore,
-        loadMoreBefore,
-        isLoadingMoreBefore,
-      }) => (
-        <LiveCommentsAfterContainer story={story} cursor={cursor}>
-          {({
-            afterComments,
-            afterHasMore,
-            loadMoreAfter,
-            isLoadingMoreAfter,
-          }) => (
-            <LiveChatContainer
-              beforeComments={beforeComments}
-              beforeHasMore={beforeHasMore}
-              loadMoreBefore={loadMoreBefore}
-              isLoadingMoreBefore={isLoadingMoreBefore}
-              afterComments={afterComments}
-              afterHasMore={afterHasMore}
-              loadMoreAfter={loadMoreAfter}
-              isLoadingMoreAfter={isLoadingMoreAfter}
-              viewer={viewer}
-              settings={settings}
-              story={story}
-              cursorSet={cursorSet}
-              setCursor={setCursor}
-            />
-          )}
-        </LiveCommentsAfterContainer>
-      )}
-    </LiveCommentsBeforeContainer>
+    <>
+      <UserBoxContainer viewer={viewer} settings={settings} />
+      <LiveCommentsBeforeContainer story={story} cursor={cursor}>
+        {({
+          beforeComments,
+          beforeHasMore,
+          loadMoreBefore,
+          isLoadingMoreBefore,
+        }) => (
+          <LiveCommentsAfterContainer story={story} cursor={cursor}>
+            {({
+              afterComments,
+              afterHasMore,
+              loadMoreAfter,
+              isLoadingMoreAfter,
+            }) => (
+              <LiveChatContainer
+                beforeComments={beforeComments}
+                beforeHasMore={beforeHasMore}
+                loadMoreBefore={loadMoreBefore}
+                isLoadingMoreBefore={isLoadingMoreBefore}
+                afterComments={afterComments}
+                afterHasMore={afterHasMore}
+                loadMoreAfter={loadMoreAfter}
+                isLoadingMoreAfter={isLoadingMoreAfter}
+                viewer={viewer}
+                settings={settings}
+                story={story}
+                cursorSet={cursorSet}
+                setCursor={setCursor}
+              />
+            )}
+          </LiveCommentsAfterContainer>
+        )}
+      </LiveCommentsBeforeContainer>
+    </>
   );
 };
 
@@ -77,11 +81,13 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LiveStreamContainer_viewer on User {
       ...LiveChatContainer_viewer
+      ...UserBoxContainer_viewer
     }
   `,
   settings: graphql`
     fragment LiveStreamContainer_settings on Settings {
       ...LiveChatContainer_settings
+      ...UserBoxContainer_settings
     }
   `,
 })(LiveStreamContainer);
