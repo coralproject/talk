@@ -49,36 +49,6 @@ exports[`renders comment stream 1`] = `
           </div>
         </button>
       </li>
-      <li
-        className="Tab-root"
-        id="tab-LIVE"
-        role="presentation"
-      >
-        <button
-          aria-controls="tabPane-LIVE"
-          aria-label="Configure"
-          aria-selected={false}
-          className="BaseButton-root Tab-button Tab-streamPrimary TabBar-smallTab"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          role="tab"
-          title="My Profile"
-          type="button"
-        >
-          <div>
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-md"
-            >
-              play_arrow
-            </i>
-          </div>
-        </button>
-      </li>
     </ul>
   </nav>
   <main>
