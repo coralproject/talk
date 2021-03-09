@@ -93,7 +93,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             isQA={false}
           />
         )}
-        {viewer && ((comment.parent && onConversation) || onReply) && (
+        {((comment.parent && onConversation) || onReply) && (
           <Button
             className={styles.replyButton}
             variant="none"
