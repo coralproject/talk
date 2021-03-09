@@ -18,6 +18,9 @@ interface Props {
   viewer: LiveCommentRepliesStreamContainer_viewer | null;
   settings: LiveCommentRepliesStreamContainer_settings;
   cursor: string;
+
+  tailing: boolean;
+  setTailing: (value: boolean) => void;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
@@ -26,6 +29,8 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   cursor,
+  tailing,
+  setTailing,
 }) => {
   return (
     <LiveCommentRepliesBeforeContainer comment={comment} cursor={cursor}>
@@ -55,6 +60,8 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               story={story}
+              tailing={tailing}
+              setTailing={setTailing}
             />
           )}
         </LiveCommentRepliesAfterContainer>

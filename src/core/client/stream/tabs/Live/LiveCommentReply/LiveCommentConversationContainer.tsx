@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback, useRef, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -28,6 +28,11 @@ interface Props {
   onSubmitted?: (commentID: string | undefined, cursor: string) => void;
 }
 
+interface NewComment {
+  id: string;
+  cursor: string;
+}
+
 const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
@@ -43,20 +48,55 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
   const showReplyForm = !banned && !suspended && !warned;
 
+  const [newComment, setNewComment] = useState<NewComment | null>(null);
+  const [tailing, setTailing] = useState<boolean>(false);
+
   const close = useCallback(() => {
     onClose();
   }, [onClose]);
 
-  const [cursor] = useState(new Date(0).toISOString());
+  const [cursor, setCursor] = useState(new Date(0).toISOString());
 
   const submit = useCallback(
     (commentID: string | undefined, cur: string) => {
+      if (commentID) {
+        setNewComment({
+          id: commentID,
+          cursor: cur,
+        });
+      }
+
       if (onSubmitted) {
         onSubmitted(commentID, cur);
       }
     },
-    [onSubmitted]
+    [onSubmitted, setNewComment]
   );
+
+  const afterJumpTimeout = useRef<number | null>(null);
+  const afterJumpToComment = useCallback(() => {
+    if (newComment) {
+      const id = `reply-${newComment.id}-bottom`;
+      const el = document.getElementById(id);
+
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    setNewComment(null);
+  }, [newComment, setNewComment]);
+  const jumpToComment = useCallback(() => {
+    if (newComment && newComment.cursor) {
+      setCursor(newComment.cursor);
+    }
+
+    if (afterJumpTimeout.current) {
+      clearTimeout(afterJumpTimeout.current);
+    }
+
+    afterJumpTimeout.current = window.setTimeout(afterJumpToComment, 300);
+  }, [afterJumpToComment, newComment]);
 
   if (!visible) {
     return null;
@@ -92,7 +132,17 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           commentID={comment.id}
           storyID={story.id}
           cursor={cursor}
+          tailing={tailing}
+          setTailing={setTailing}
         />
+
+        {newComment && (
+          <div className={styles.scrollToNewReply}>
+            <Button onClick={jumpToComment} color="primary">
+              Reply posted below <Icon>arrow_downward</Icon>
+            </Button>
+          </div>
+        )}
 
         {showReplyForm && (
           <LiveCreateCommentReplyFormContainer

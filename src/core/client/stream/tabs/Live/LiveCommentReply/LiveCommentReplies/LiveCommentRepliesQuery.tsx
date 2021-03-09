@@ -12,12 +12,17 @@ interface Props {
   commentID: string;
   storyID: string;
   cursor: string;
+
+  tailing: boolean;
+  setTailing: (value: boolean) => void;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   commentID,
   storyID,
   cursor,
+  tailing,
+  setTailing,
 }) => {
   return (
     <QueryRenderer<LiveCommentRepliesQuery>
@@ -66,6 +71,8 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             settings={data.props.settings}
             story={data.props.story}
             cursor={cursor}
+            tailing={tailing}
+            setTailing={setTailing}
           />
         );
       }}
