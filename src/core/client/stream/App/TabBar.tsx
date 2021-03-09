@@ -8,7 +8,12 @@ import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "CHAT"
+  | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
@@ -20,6 +25,7 @@ export interface Props {
     | "COMMENTS"
     | "QA"
     | "RATINGS_AND_REVIEWS"
+    | "CHAT"
     | "%future added value"
     | null;
 }
@@ -145,25 +151,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               )}
             </Tab>
           )}
-
-          <Tab
-            className={cn({
-              [styles.smallTab]: !matches,
-            })}
-            tabID="LIVE"
-            variant="streamPrimary"
-            localizationId="general-tabBar-aria-configure"
-          >
-            {matches ? (
-              <Localized id="general-tabBar-live">
-                <span>Live</span>
-              </Localized>
-            ) : (
-              <div>
-                <Icon size="md">play_arrow</Icon>
-              </div>
-            )}
-          </Tab>
         </TabBar>
       )}
     </MatchMedia>

@@ -589,6 +589,11 @@ enum STORY_MODE {
   reviews.
   """
   RATINGS_AND_REVIEWS
+
+  """
+  CHAT is used for when the story should be used for a live chat.
+  """
+  CHAT
 }
 
 ################################################################################
