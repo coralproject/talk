@@ -57,7 +57,6 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
           !data ||
           !data.props ||
           !data.props.comment ||
-          !data.props.viewer ||
           !data.props.settings ||
           !data.props.story
         ) {
