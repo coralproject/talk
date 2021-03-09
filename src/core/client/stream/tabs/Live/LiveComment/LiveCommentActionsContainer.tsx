@@ -123,6 +123,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           !isViewerBanned &&
           !isViewerSuspended &&
           !isViewerWarned &&
+          !showModerationCaret &&
           onToggleReport && (
             <ReportButton
               onClick={onToggleReport}
