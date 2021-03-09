@@ -21,7 +21,7 @@ import {
   LiveChatOpenConversationEvent,
 } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -39,6 +39,7 @@ import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConv
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
+import { Localized } from "@fluent/react/compat";
 
 /**
  * scrollElement is a version of Element.scroll but also works in older browsers.
@@ -535,6 +536,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      {afterComments.length === 0 && beforeComments.length === 0 && (
+        <Localized id="comments-noCommentsYet">
+          <CallOut color="primary">
+            There are no comments yet. Why don't you write one?
+          </CallOut>
+        </Localized>
+      )}
       <IntersectionProvider>
         <div
           id="live-chat-comments"
