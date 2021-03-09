@@ -94,6 +94,10 @@ createComment.error
 - <a href="#featureComment">featureComment</a>
 - <a href="#gotoModeration">gotoModeration</a>
 - <a href="#ignoreUser">ignoreUser</a>
+- <a href="#liveChatLoadBefore">liveChatLoadBefore</a>
+- <a href="#liveChatOpenConversation">liveChatOpenConversation</a>
+- <a href="#liveCreateCommentFocus">liveCreateCommentFocus</a>
+- <a href="#liveReplyCommentFocus">liveReplyCommentFocus</a>
 - <a href="#loadMoreAllComments">loadMoreAllComments</a>
 - <a href="#loadMoreFeaturedComments">loadMoreFeaturedComments</a>
 - <a href="#loadMoreHistoryComments">loadMoreHistoryComments</a>
@@ -307,6 +311,21 @@ createComment.error
       };
   }
   ```
+- <a id="liveChatLoadBefore">**liveChatLoadBefore**</a>: 
+  ```ts
+  {
+      storyID: string;
+  }
+  ```
+- <a id="liveChatOpenConversation">**liveChatOpenConversation**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
+  }
+  ```
+- <a id="liveCreateCommentFocus">**liveCreateCommentFocus**</a>: This event is emitted when the viewer focus on the RTE on live chat
+- <a id="liveReplyCommentFocus">**liveReplyCommentFocus**</a>: This event is emitted when the viewer focus on the RTE on live chat
 - <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.
   ```ts
   {

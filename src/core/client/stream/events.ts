@@ -636,3 +636,12 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
     code?: string;
   };
 }>("cancelAccountDeletionEvent");
+
+export const LiveChatLoadBeforeEvent = createViewerEvent<{
+  storyID: string;
+}>("liveChatLoadBeforeEvent");
+
+export const LiveChatOpenConversationEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+}>("liveChatOpenConversationEvent");
