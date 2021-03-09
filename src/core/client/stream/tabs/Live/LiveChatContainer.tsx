@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
   useCallback,
@@ -39,7 +40,6 @@ import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConv
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
-import { Localized } from "@fluent/react/compat";
 
 /**
  * scrollElement is a version of Element.scroll but also works in older browsers.
