@@ -75,7 +75,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
   const afterJumpTimeout = useRef<number | null>(null);
   const afterJumpToComment = useCallback(() => {
-    if (newComment) {
+    if (newComment && !tailing) {
       const id = `reply-${newComment.id}-bottom`;
       const el = document.getElementById(id);
 
@@ -85,7 +85,8 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
     }
 
     setNewComment(null);
-  }, [newComment, setNewComment]);
+  }, [newComment, tailing]);
+
   const jumpToComment = useCallback(() => {
     if (newComment && newComment.cursor) {
       setCursor(newComment.cursor);
@@ -97,6 +98,14 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
     afterJumpTimeout.current = window.setTimeout(afterJumpToComment, 300);
   }, [afterJumpToComment, newComment]);
+
+  const closeJumpToComment = useCallback(() => {
+    if (!newComment) {
+      return;
+    }
+
+    setNewComment(null);
+  }, [newComment, setNewComment]);
 
   if (!visible) {
     return null;
@@ -138,9 +147,25 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
         {newComment && (
           <div className={styles.scrollToNewReply}>
-            <Button onClick={jumpToComment} color="primary">
-              Reply posted below <Icon>arrow_downward</Icon>
-            </Button>
+            <Flex justifyContent="center" alignItems="center">
+              <Flex alignItems="center">
+                <Button
+                  onClick={jumpToComment}
+                  color="primary"
+                  className={styles.jumpButton}
+                >
+                  Comment posted below <Icon>arrow_downward</Icon>
+                </Button>
+                <Button
+                  onClick={closeJumpToComment}
+                  color="primary"
+                  aria-valuetext="close"
+                  className={styles.jumpButtonClose}
+                >
+                  <Icon>close</Icon>
+                </Button>
+              </Flex>
+            </Flex>
           </div>
         )}
 
