@@ -16,6 +16,10 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLUSER_STATUS } from "coral-framework/schema";
+import {
+  LiveChatLoadBeforeEvent,
+  LiveChatOpenConversationEvent,
+} from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -257,12 +261,22 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         prevScrollHeight.current = containerRef.current.scrollHeight;
         prevScrollTop.current = containerRef.current.scrollTop;
 
+        LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+        });
+
         await loadMoreBefore();
       } catch (err) {
         // ignore for now
       }
     }
-  }, [beforeHasMore, isLoadingMoreBefore, loadMoreBefore]);
+  }, [
+    beforeHasMore,
+    context.eventEmitter,
+    isLoadingMoreBefore,
+    loadMoreBefore,
+    story.id,
+  ]);
 
   useEffectAtUnmount(() => {
     if (beforeMaintainScrollStateTimeout.current) {
@@ -454,10 +468,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const onShowConversation = useCallback(
     (comment: LiveCommentConversationContainer_comment) => {
+      LiveChatOpenConversationEvent.emit(context.eventEmitter, {
+        storyID: story.id,
+        commentID: comment.id,
+      });
+
       setFocusedComment(comment);
       setConversationVisible(true);
     },
-    [setConversationVisible, setFocusedComment]
+    [context.eventEmitter, story.id]
   );
 
   const onCloseConversation = useCallback(() => {
