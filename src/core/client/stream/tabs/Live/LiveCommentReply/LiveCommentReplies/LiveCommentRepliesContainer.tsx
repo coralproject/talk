@@ -40,6 +40,9 @@ interface Props {
   comment: LiveCommentRepliesContainer_comment;
   viewer: LiveCommentRepliesContainer_viewer | null;
   settings: LiveCommentRepliesContainer_settings;
+
+  tailing: boolean;
+  setTailing: (value: boolean) => void;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -55,6 +58,8 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   comment,
   viewer,
   settings,
+  tailing,
+  setTailing,
 }) => {
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
@@ -106,6 +111,10 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
         // ignore for now
       }
     }
+
+    if (atBottom && !afterHasMore && !isLoadingMoreAfter) {
+      setTailing(true);
+    }
   }, [
     afterHasMore,
     beforeHasMore,
@@ -113,6 +122,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
     isLoadingMoreBefore,
     loadMoreAfter,
     loadMoreBefore,
+    setTailing,
   ]);
 
   return (

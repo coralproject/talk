@@ -52,7 +52,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   }
 
   return (
-    <div ref={rootRef} className={styles.root} id={`comment-${comment.id}-top`}>
+    <div ref={rootRef} className={styles.root} id={`reply-${comment.id}-top`}>
       <div className={styles.comment}>
         <LiveCommentBodyContainer
           comment={comment}
@@ -60,7 +60,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           viewer={viewer}
         />
 
-        <div id={`comment-${comment.id}`}>
+        <div id={`reply-${comment.id}`}>
           <LiveCommentActionsContainer
             story={story}
             comment={comment}
@@ -78,7 +78,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           />
         )}
       </div>
-      <div id={`comment-${comment.id}-bottom`}></div>
+      <div id={`reply-${comment.id}-bottom`}></div>
     </div>
   );
 };
