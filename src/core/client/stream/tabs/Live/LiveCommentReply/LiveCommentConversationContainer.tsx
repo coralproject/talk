@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useCallback, useRef, useState } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { LiveJumpToReplyEvent } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -42,6 +44,8 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   onSubmitted,
   visible,
 }) => {
+  const context = useCoralContext();
+
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
@@ -90,6 +94,12 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   const jumpToComment = useCallback(() => {
     if (newComment && newComment.cursor) {
       setCursor(newComment.cursor);
+
+      LiveJumpToReplyEvent.emit(context.eventEmitter, {
+        storyID: story.id,
+        commentID: newComment.id,
+        viewerID: viewer ? viewer.id : "",
+      });
     }
 
     if (afterJumpTimeout.current) {
@@ -97,7 +107,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
     }
 
     afterJumpTimeout.current = window.setTimeout(afterJumpToComment, 300);
-  }, [afterJumpToComment, newComment]);
+  }, [afterJumpToComment, context.eventEmitter, newComment, story.id, viewer]);
 
   const closeJumpToComment = useCallback(() => {
     if (!newComment) {
@@ -154,7 +164,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
                   color="primary"
                   className={styles.jumpButton}
                 >
-                  Comment posted below <Icon>arrow_downward</Icon>
+                  Reply posted below <Icon>arrow_downward</Icon>
                 </Button>
                 <Button
                   onClick={closeJumpToComment}
@@ -194,6 +204,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveCommentConversationContainer_viewer on User {
+      id
       status {
         current
       }

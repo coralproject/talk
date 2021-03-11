@@ -20,6 +20,7 @@ import { GQLCOMMENT_SORT, GQLUSER_STATUS } from "coral-framework/schema";
 import {
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
+  LiveJumpToCommentEvent,
 } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
@@ -264,6 +265,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
         LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
           storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
         });
 
         await loadMoreBefore();
@@ -277,6 +279,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     isLoadingMoreBefore,
     loadMoreBefore,
     story.id,
+    viewer,
   ]);
 
   useEffectAtUnmount(() => {
@@ -467,17 +470,40 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.localStorage, newComment, storyID, storyURL]
   );
 
-  const onShowConversation = useCallback(
-    (comment: LiveCommentConversationContainer_comment) => {
+  const onShowConv = useCallback(
+    (comment: LiveCommentConversationContainer_comment, type: string) => {
       LiveChatOpenConversationEvent.emit(context.eventEmitter, {
         storyID: story.id,
         commentID: comment.id,
+        viewerID: viewer ? viewer.id : "",
+        type,
       });
 
       setFocusedComment(comment);
       setConversationVisible(true);
     },
-    [context.eventEmitter, story.id]
+    [context.eventEmitter, story.id, viewer]
+  );
+
+  const onReplyTo = useCallback(
+    (comment: LiveCommentConversationContainer_comment) => {
+      onShowConv(comment, "reply");
+    },
+    [onShowConv]
+  );
+
+  const onShowConversation = useCallback(
+    (comment: LiveCommentConversationContainer_comment) => {
+      onShowConv(comment, "conversation");
+    },
+    [onShowConv]
+  );
+
+  const onParentConversation = useCallback(
+    (parent: LiveCommentConversationContainer_comment) => {
+      onShowConv(parent, "parent");
+    },
+    [onShowConv]
   );
 
   const onCloseConversation = useCallback(() => {
@@ -506,12 +532,25 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
     setCursor(newComment.cursor);
 
+    LiveJumpToCommentEvent.emit(context.eventEmitter, {
+      storyID: story.id,
+      commentID: newComment.id,
+      viewerID: viewer ? viewer.id : "",
+    });
+
     if (scrollToCommentTimeout.current) {
       window.clearTimeout(scrollToCommentTimeout.current);
     }
 
     window.setTimeout(scrollToComment, 300);
-  }, [newComment, setCursor, scrollToComment]);
+  }, [
+    newComment,
+    setCursor,
+    scrollToComment,
+    story.id,
+    viewer,
+    context.eventEmitter,
+  ]);
 
   const onCommentSubmitted = useCallback(
     (commentID: string, cursor: string) => {
@@ -564,8 +603,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onInView={onCommentVisible}
-              onReplyTo={onShowConversation}
+              onReplyTo={onReplyTo}
               onShowConversation={onShowConversation}
+              onParentConversation={onParentConversation}
             />
           ))}
 
@@ -592,6 +632,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               onInView={onCommentVisible}
               onReplyTo={onShowConversation}
               onShowConversation={onShowConversation}
+              onParentConversation={onParentConversation}
             />
           ))}
 
@@ -615,7 +656,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
                 color="primary"
                 className={styles.jumpButton}
               >
-                Comment posted below <Icon>arrow_downward</Icon>
+                Message posted below <Icon>arrow_downward</Icon>
               </Button>
               <Button
                 onClick={closeJumpToComment}
@@ -684,6 +725,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveChatContainer_viewer on User {
+      id
       status {
         current
       }
