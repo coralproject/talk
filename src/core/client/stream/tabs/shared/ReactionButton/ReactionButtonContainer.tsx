@@ -29,6 +29,7 @@ interface Props {
   className?: string;
   reactedClassName: string;
   isQA?: boolean;
+  isChat?: boolean;
 }
 
 const ReactionButtonContainer: FunctionComponent<Props> = ({
@@ -39,6 +40,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   className,
   reactedClassName,
   isQA = false,
+  isChat = false,
 }) => {
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
@@ -121,6 +123,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       iconActive={iconActive}
       readOnly={readOnly}
       isQA={isQA}
+      isChat={isChat}
       author={comment.author?.username}
     />
   );

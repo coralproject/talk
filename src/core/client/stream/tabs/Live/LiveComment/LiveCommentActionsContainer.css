@@ -14,6 +14,8 @@
 
 .replyIcon {
   transform: scaleX(-1);
+
+  margin-right: var(--spacing-1);
 }
 
 .conversationButton {
@@ -21,6 +23,10 @@
   border-style: none;
 
   color: var(--palette-primary-500);
+}
+
+.conversationIcon {
+  margin-right: var(--spacing-1);
 }
 
 .actionBar {

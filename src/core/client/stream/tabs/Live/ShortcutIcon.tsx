@@ -5,12 +5,14 @@ interface Props {
   height: string;
   className?: string;
   fill?: string;
+  ariaLabel?: string;
 }
 
 const ShortcutIcon: FunctionComponent<Props> = ({
   width,
   height,
   className,
+  ariaLabel,
   fill,
 }) => {
   return (
@@ -22,6 +24,7 @@ const ShortcutIcon: FunctionComponent<Props> = ({
       width={width}
       height={height}
       className={className}
+      aria-label={ariaLabel}
     >
       <g>
         <path d="M0,0h24v24H0V0z" fill="none" />
