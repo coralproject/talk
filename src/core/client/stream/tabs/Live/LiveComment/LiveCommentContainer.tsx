@@ -37,6 +37,9 @@ interface Props {
   onShowConversation: (
     comment: LiveCommentConversationContainer_comment
   ) => void;
+  onParentConversation: (
+    parent: LiveCommentConversationContainer_comment
+  ) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -47,6 +50,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   settings,
   onInView,
   onShowConversation,
+  onParentConversation,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -67,8 +71,8 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    onShowConversation(comment.parent as any);
-  }, [comment, onShowConversation]);
+    onParentConversation(comment.parent as any);
+  }, [comment, onParentConversation]);
 
   const onConversation = useCallback(() => {
     if (!comment || !comment.revision) {

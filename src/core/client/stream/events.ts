@@ -639,9 +639,29 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
 
 export const LiveChatLoadBeforeEvent = createViewerEvent<{
   storyID: string;
+  viewerID: string;
 }>("liveChatLoadBeforeEvent");
 
 export const LiveChatOpenConversationEvent = createViewerEvent<{
   storyID: string;
   commentID: string;
+  type: string;
+  viewerID: string;
 }>("liveChatOpenConversationEvent");
+
+export const LiveJumpToCommentEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveJumpToCommentEvent");
+
+export const LiveJumpToReplyEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveJumpToReplyEvent");
+
+export const LiveJumpToNewestEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveJumpToNewestEvent");
