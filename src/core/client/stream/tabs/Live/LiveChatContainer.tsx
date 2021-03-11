@@ -605,6 +605,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       </IntersectionProvider>
 
+      {/* TODO: Refactoring canditate */}
       {newComment && (
         <div className={styles.scrollToNewReply}>
           <Flex justifyContent="center" alignItems="center">

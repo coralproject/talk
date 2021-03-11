@@ -93,7 +93,8 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         submitStatus={
           <PostCommentSubmitStatusContainer status={props.submitStatus} />
         }
-        showToolbar={props.showToolbar}
+        autoHideToolbar
+        focusAfterSubmit
       />
     </div>
   );

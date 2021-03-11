@@ -4,12 +4,13 @@ import cn from "classnames";
 import { FormApi, FormState, FormSubscription } from "final-form";
 import React, {
   EventHandler,
+  FocusEvent,
   FunctionComponent,
   MouseEvent,
   Ref,
   useCallback,
+  useRef,
   useState,
-  FocusEvent,
 } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -31,7 +32,7 @@ import { Button, CallOut } from "coral-ui/components/v3";
 import { getCommentBodyValidators } from "../../../shared/helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
-import { RTELocalized } from "../../RTE/RTE";
+import { RTE_RESET_VALUE, RTELocalized } from "../../RTE/RTE";
 import FormSync from "./FormSync";
 import MediaField, { Widget } from "./MediaField";
 import RatingInput from "./RatingInput";
@@ -109,8 +110,11 @@ interface Props {
   siteID: string;
   topBorder?: boolean;
   className?: string;
-  showToolbar?: boolean;
+  focusAfterSubmit?: boolean;
+  autoHideToolbar?: boolean;
 }
+
+const isValueEmpty = (value: string) => !value || value === RTE_RESET_VALUE;
 
 function createWidgetToggle(desiredWidget: Widget) {
   return (widget: Widget) => {
@@ -167,18 +171,42 @@ const CommentForm: FunctionComponent<Props> = ({
   siteID,
   submitStatus,
   topBorder,
-  showToolbar,
+  autoHideToolbar,
+  focusAfterSubmit,
 }) => {
+  const myRTERef = useRef<CoralRTE | null>(null);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
 
+  const setRTERef = useCallback(
+    (ref: CoralRTE | null) => {
+      if (rteRef) {
+        if ("current" in rteRef) {
+          (rteRef as any).current = ref;
+        } else {
+          rteRef(ref);
+        }
+        myRTERef.current = ref;
+      }
+    },
+    [rteRef]
+  );
   const onFormSubmit = useCallback(
-    (values: FormSubmitProps, form: FormApi) => {
+    async (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
       setPastedMedia(null);
 
       // Submit the form.
-      return onSubmit(values, form);
+      const result = await onSubmit(values, form);
+      if (focusAfterSubmit) {
+        // @cvle: Verified that this doesn't need a `clearTimeout` :-)
+        setTimeout(() => {
+          if (myRTERef.current) {
+            myRTERef.current.focus();
+          }
+        }, 100);
+      }
+      return result;
     },
     [onSubmit, setPastedMedia]
   );
@@ -241,6 +269,49 @@ const CommentForm: FunctionComponent<Props> = ({
     [setPastedMedia, mediaConfig]
   );
 
+  /* Handle showing toolbar */
+  const currentBodyRef = useRef("");
+  const [showToolbar, setShowToolbar] = useState(!autoHideToolbar);
+  const handleOnChange: OnChangeHandler = useCallback(
+    (state, form) => {
+      // Track current body value to determine wheter or not we want to
+      // auto hide the toolbar if enabled.
+      currentBodyRef.current = state.values.body;
+      if (onChange) {
+        return onChange(state, form);
+      }
+    },
+    [onChange]
+  );
+  const rteOnFocus = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onFocus) {
+        onFocus(event);
+      }
+      if (!autoHideToolbar) {
+        return;
+      }
+      setShowToolbar(true);
+    },
+    [autoHideToolbar, onFocus]
+  );
+  const rteOnBlur = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onBlur) {
+        onBlur(event);
+      }
+      if (!autoHideToolbar) {
+        return;
+      }
+      if (!isValueEmpty(currentBodyRef.current)) {
+        // Don't hide toolbar when there is still content.
+        return;
+      }
+      setShowToolbar(false);
+    },
+    [autoHideToolbar, onBlur]
+  );
+
   const toggleExternalImageInput = useCallback(() => {
     setMediaWidget(createWidgetToggle("external"));
   }, []);
@@ -273,9 +344,7 @@ const CommentForm: FunctionComponent<Props> = ({
               <RatingInput disabled={submitting || disabled} />
             )}
             <HorizontalGutter>
-              {onChange && (
-                <FormSync onChange={onChange} subscription={subscription} />
-              )}
+              <FormSync onChange={handleOnChange} subscription={subscription} />
               <div>
                 {bodyLabel}
                 <div
@@ -299,8 +368,8 @@ const CommentForm: FunctionComponent<Props> = ({
                         <RTEContainer
                           inputID={bodyInputID}
                           config={rteConfig}
-                          onFocus={onFocus}
-                          onBlur={onBlur}
+                          onFocus={rteOnFocus}
+                          onBlur={rteOnBlur}
                           contentClassName={cn({
                             [styles.chatContent]: mode === "chat",
                           })}
@@ -339,7 +408,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           value={input.value}
                           placeholder={placeholder}
                           disabled={submitting || disabled}
-                          ref={rteRef || null}
+                          ref={setRTERef}
                           showToolbar={showToolbar}
                           toolbarButtons={
                             <>

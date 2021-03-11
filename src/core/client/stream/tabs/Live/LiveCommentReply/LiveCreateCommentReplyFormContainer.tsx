@@ -189,41 +189,14 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
     ]
   );
 
-  const isSubmittingRef = useRef(false);
-  const handleOnSubmitAndRefocus: OnSubmitHandler = useCallback(
-    async (input, form) => {
-      isSubmittingRef.current = true;
-      const result = await handleOnSubmit(input, form);
-      isSubmittingRef.current = false;
-      // @cvle: Verified that this doesn't need a `clearTimeout` :-)
-      setTimeout(() => {
-        if (rteRef.current) {
-          rteRef.current.focus();
-        }
-      }, 100);
-      return result;
-    },
-    [handleOnSubmit]
-  );
-
   /* Handle focus */
-  const [showToolbar, setShowToolbar] = useState(false);
   const emitFocusEvent = useViewerEvent(LiveReplyCommentFocusEvent);
   const onFocus = useCallback(
     (event: React.FocusEvent<Element>) => {
-      setShowToolbar(true);
       emitFocusEvent();
     },
     [emitFocusEvent]
   );
-  const onBlur = useCallback((event: React.FocusEvent<Element>) => {
-    if (isSubmittingRef.current) {
-      // Don't hide toolbar when we are submitting.
-      // Somehow form looses focus after submitting, but
-      return;
-    }
-    setShowToolbar(false);
-  }, []);
 
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
@@ -302,7 +275,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
     <>
       <LiveReplyCommentForm
         siteID={story.site.id}
-        onSubmit={handleOnSubmitAndRefocus}
+        onSubmit={handleOnSubmit}
         onChange={handleOnChange}
         initialValues={initialValues}
         mediaConfig={settings.media}
@@ -313,9 +286,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         disabledMessage={disabledMessage}
         submitStatus={submitStatus}
         rteRef={rteRef}
-        onBlur={onBlur}
         onFocus={onFocus}
-        showToolbar={showToolbar}
       />
     </>
   );

@@ -64,8 +64,6 @@ const createSanitizeToDOMFragment = (features: RTEFeatures = {}) => {
   };
 };
 
-const isValueEmpty = (value: string) => !value || value === RTE_RESET_VALUE;
-
 // Use a special Localized version that forwards
 // ref and passes the api prop to the children.
 // This is currently required in order for the RTE
@@ -265,8 +263,6 @@ const RTE: FunctionComponent<Props> = (props) => {
     return x;
   }, [features]);
 
-  const resolvedValue = value || defaultValue || RTE_RESET_VALUE;
-
   return (
     <div role="none">
       <CoralRTE
@@ -288,8 +284,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           styles.toolbar,
           {
             [styles.toolbarHidden]:
-              featureElements.length === 0 ||
-              (!showToolbar && isValueEmpty(resolvedValue)),
+              featureElements.length === 0 || !showToolbar,
           }
         )}
         contentContainerClassName={cn(
@@ -299,7 +294,7 @@ const RTE: FunctionComponent<Props> = (props) => {
         )}
         contentClassNameDisabled={styles.disabled}
         onChange={onChange}
-        value={resolvedValue}
+        value={value || defaultValue || RTE_RESET_VALUE}
         disabled={disabled}
         placeholder={placeholder}
         features={featureElements}
