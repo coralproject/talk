@@ -14,6 +14,7 @@ import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
 import CursorState from "./cursorState";
+import useHeartbeat from "./Heartbeat";
 import LiveStreamContainer from "./LiveStreamContainer";
 
 const LiveTabQuery: FunctionComponent = () => {
@@ -66,6 +67,14 @@ const LiveTabQuery: FunctionComponent = () => {
     },
     [setCursor]
   );
+
+  const heartbeatIntervalMs = 1000;
+  const reloadOnIdle = useCallback((timePassedSeconds: number) => {
+    if (timePassedSeconds > 3 * heartbeatIntervalMs) {
+      window.location.reload();
+    }
+  }, []);
+  useHeartbeat(reloadOnIdle, heartbeatIntervalMs);
 
   if (!storyURL) {
     return null;
