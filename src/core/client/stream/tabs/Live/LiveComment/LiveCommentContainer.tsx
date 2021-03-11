@@ -103,9 +103,13 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 textAlign="left"
                 onClick={onConversationParent}
               >
-                <Flex justifyContent="flex-start" alignItems="center">
+                <Flex
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  className={styles.parentButton}
+                >
                   <div className={styles.parentUser}>
-                    {comment.parent.author?.username}
+                    {comment.parent.author?.username}:
                   </div>
                   <div className={styles.parentBody}>
                     {getHTMLPlainText(comment.parent?.body || "")}
