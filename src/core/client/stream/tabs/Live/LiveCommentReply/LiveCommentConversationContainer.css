@@ -69,7 +69,9 @@
   font-weight: normal;
   font-variant: normal;
   font-size: var(--font-size-3);
-  color: var(--palette-text-100);
+  color: var(--palette-grey-700);
+
+  width: 16px;
 }
 
 .chatIcon {
