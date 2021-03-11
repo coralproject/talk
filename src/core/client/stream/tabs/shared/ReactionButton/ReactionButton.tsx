@@ -19,6 +19,7 @@ interface ReactionButtonProps {
   readOnly?: boolean;
   className?: string;
   isQA?: boolean;
+  isChat?: boolean;
   author?: string | null;
 }
 
@@ -53,15 +54,16 @@ function render(props: ReactionButtonProps) {
       paddingSize="extraSmall"
     >
       <Flex alignItems="center" container="span">
-        {props.isQA ? (
-          <Icon className={styles.icon}>arrow_upward</Icon>
-        ) : (
+        {props.isChat && <Icon className={styles.icon}>thumb_up</Icon>}
+        {props.isQA && <Icon className={styles.icon}>arrow_upward</Icon>}
+        {!props.isQA && !props.isChat && (
           <Icon className={styles.icon}>
             {reacted ? (iconActive ? iconActive : icon) : icon}
           </Icon>
         )}
-        <Responsive minWidth={400}>
-          {props.isQA ? (
+
+        {props.isQA && (
+          <Responsive minWidth={400}>
             <span>
               {reacted ? (
                 <Localized id="qa-reaction-voted">Voted</Localized>
@@ -69,10 +71,19 @@ function render(props: ReactionButtonProps) {
                 <Localized id="qa-reaction-vote">Vote</Localized>
               )}
             </span>
-          ) : (
+          </Responsive>
+        )}
+        {props.isChat && (
+          <Responsive minWidth={400}>
+            <span>{reacted ? `Rec'd` : `Rec`}</span>
+          </Responsive>
+        )}
+        {!props.isQA && !props.isChat && (
+          <Responsive minWidth={400}>
             <span>{reacted ? labelActive : label}</span>
-          )}
-        </Responsive>
+          </Responsive>
+        )}
+
         {!!totalReactions && (
           <span className={styles.totalReactions}>{totalReactions}</span>
         )}

@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useMemo } from "react";
+import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
 import { getModerationLink } from "coral-framework/helpers";
@@ -7,7 +8,7 @@ import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import { ReportButton } from "coral-stream/tabs/shared/ReportFlow";
-import { Flex } from "coral-ui/components/v2";
+import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentActionsContainer_comment } from "coral-stream/__generated__/LiveCommentActionsContainer_comment.graphql";
@@ -91,6 +92,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
             isQA={false}
+            isChat
           />
         )}
         {((comment.parent && onConversation) || onReply) && (
@@ -99,11 +101,17 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             variant="none"
             onClick={comment.parent ? onConversation : onReply}
           >
-            <ShortcutIcon
-              width="16px"
-              height="16px"
-              className={styles.replyIcon}
-            />
+            <Flex justifyContent="flex-start" alignItems="center">
+              <ShortcutIcon
+                width="16px"
+                height="16px"
+                className={styles.replyIcon}
+                ariaLabel="Reply"
+              />
+              <Responsive minWidth={400}>
+                <span>Reply</span>
+              </Responsive>
+            </Flex>
           </Button>
         )}
         {comment.replyCount > 0 && onConversation && (
@@ -113,7 +121,17 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             onClick={onConversation}
             paddingSize="extraSmall"
           >
-            Conversation
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon
+                className={styles.conversationIcon}
+                aria-label="Read conversation"
+              >
+                forum
+              </Icon>
+              <Responsive minWidth={400}>
+                <span>Read Conversation</span>
+              </Responsive>
+            </Flex>
           </Button>
         )}
       </div>
