@@ -36,14 +36,18 @@
   border-radius: 5px;
 }
 
+.header {
+  margin-bottom: var(--spacing-1);
+}
+
 .username {
   display: flex;
   justify-content: center;
 
   line-height: 1.14;
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-1);
-  font-weight: var(--font-family-primary-semi-bold);
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-3);
   font-style: normal;
 
   margin-right: var(--spacing-1);
@@ -55,7 +59,7 @@
 
   font-size: var(--font-size-1);
 
-  margin-left: var(--spacing-1);
+  margin-left: var(--spacing-2);
 }
 
 .body {
@@ -63,9 +67,9 @@
 }
 
 .tag {
-  font-size: var(--font-size-1);
+  font-size: var(--font-size-2);
 }
 
 .badge {
-  font-size: var(--font-size-1);
+  font-size: var(--font-size-2);
 }

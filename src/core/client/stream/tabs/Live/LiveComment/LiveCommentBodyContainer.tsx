@@ -44,7 +44,11 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
         </div>
       )}
       <div className={styles.container}>
-        <Flex justifyContent="flex-start" alignItems="center">
+        <Flex
+          justifyContent="flex-start"
+          alignItems="center"
+          className={styles.header}
+        >
           {comment.author && viewer && (
             <UsernameWithPopoverContainer
               className={styles.username}
