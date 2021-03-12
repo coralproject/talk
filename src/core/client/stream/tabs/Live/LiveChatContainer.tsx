@@ -16,7 +16,11 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLUSER_STATUS } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLSTORY_STATUS,
+  GQLUSER_STATUS,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
   LiveChatLoadBeforeEvent,
@@ -601,13 +605,22 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {afterComments.length === 0 && beforeComments.length === 0 && (
-        <Localized id="comments-noCommentsYet">
-          <CallOut color="primary">
-            There are no comments yet. Why don't you write one?
-          </CallOut>
-        </Localized>
-      )}
+      {story.status === GQLSTORY_STATUS.OPEN &&
+        afterComments.length === 0 &&
+        beforeComments.length === 0 && (
+          <Localized id="comments-noCommentsYet">
+            <CallOut color="primary">
+              There are no comments yet. Why don't you write one?
+            </CallOut>
+          </Localized>
+        )}
+      {story.status === GQLSTORY_STATUS.CLOSED &&
+        afterComments.length === 0 &&
+        beforeComments.length === 0 && (
+          <Localized id="comments-noCommentsAtAll">
+            <CallOut color="mono">There are no comments on this story.</CallOut>
+          </Localized>
+        )}
       <IntersectionProvider>
         <div
           id="live-chat-comments"
@@ -746,6 +759,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveChatContainer_story on Story {
       id
       url
+      status
       ...LivePostCommentFormContainer_story
       ...LiveCommentConversationContainer_story
       ...LiveCommentContainer_story
