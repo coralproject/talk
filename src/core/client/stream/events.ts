@@ -645,7 +645,7 @@ export const LiveChatLoadBeforeEvent = createViewerEvent<{
 export const LiveChatOpenConversationEvent = createViewerEvent<{
   storyID: string;
   commentID: string;
-  type: "conversation" | "parent";
+  type: "conversation" | "parent" | "reply" | "replyToParent";
   viewerID: string;
 }>("liveChatOpenConversationEvent");
 

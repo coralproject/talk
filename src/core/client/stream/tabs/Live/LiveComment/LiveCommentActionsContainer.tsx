@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
@@ -27,8 +27,8 @@ interface Props {
   viewer: LiveCommentActionsContainer_viewer | null;
   settings: LiveCommentActionsContainer_settings;
 
-  onConversation?: () => void;
-  onReply?: () => void;
+  onConversation?: (comment: LiveCommentActionsContainer_comment) => void;
+  onReply?: (comment: LiveCommentActionsContainer_comment) => void;
   showReport?: boolean;
   onToggleReport?: () => void;
 }
@@ -77,6 +77,22 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
     return link;
   }, [comment.id, moderationLinkSuffix]);
 
+  const conversation = useCallback(() => {
+    if (!onConversation) {
+      return;
+    }
+
+    onConversation(comment);
+  }, [comment, onConversation]);
+
+  const reply = useCallback(() => {
+    if (!onReply) {
+      return;
+    }
+
+    onReply(comment);
+  }, [comment, onReply]);
+
   return (
     <Flex
       justifyContent="flex-start"
@@ -95,30 +111,24 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             isChat
           />
         )}
-        {((comment.parent && onConversation) || onReply) && (
-          <Button
-            className={styles.replyButton}
-            variant="none"
-            onClick={comment.parent ? onConversation : onReply}
-          >
-            <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon
-                width="16px"
-                height="16px"
-                className={styles.replyIcon}
-                ariaLabel="Reply"
-              />
-              <Responsive minWidth={400}>
-                <span>Reply</span>
-              </Responsive>
-            </Flex>
-          </Button>
-        )}
+        <Button className={styles.replyButton} variant="none" onClick={reply}>
+          <Flex justifyContent="flex-start" alignItems="center">
+            <ShortcutIcon
+              width="16px"
+              height="16px"
+              className={styles.replyIcon}
+              ariaLabel="Reply"
+            />
+            <Responsive minWidth={400}>
+              <span>Reply</span>
+            </Responsive>
+          </Flex>
+        </Button>
         {comment.replyCount > 0 && onConversation && (
           <Button
             className={styles.conversationButton}
             variant="none"
-            onClick={onConversation}
+            onClick={conversation}
             paddingSize="extraSmall"
           >
             <Flex justifyContent="flex-start" alignItems="center">

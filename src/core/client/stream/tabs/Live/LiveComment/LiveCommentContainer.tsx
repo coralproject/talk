@@ -32,8 +32,13 @@ interface Props {
     createdAt: string,
     cursor: string
   ) => void;
+
   onShowConversation: (comment: LiveCommentContainer_comment) => void;
-  onParentConversation: (
+  onShowParentConversation: (
+    parent: NonNullable<LiveCommentContainer_comment["parent"]>
+  ) => void;
+  onReplyToComment: (comment: LiveCommentContainer_comment) => void;
+  onReplyToParent: (
     parent: NonNullable<LiveCommentContainer_comment["parent"]>
   ) => void;
 }
@@ -46,7 +51,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   settings,
   onInView,
   onShowConversation,
-  onParentConversation,
+  onShowParentConversation,
+  onReplyToComment,
+  onReplyToParent,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -62,21 +69,27 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     onInView(true, comment.id, comment.createdAt, cursor);
   }, [comment.createdAt, comment.id, cursor, onInView]);
 
-  const onConversationParent = useCallback(() => {
-    if (!comment || !comment.parent) {
+  const parentConversation = useCallback(() => {
+    const parent = comment.parent;
+    if (!parent) {
       return;
     }
 
-    onParentConversation(comment.parent);
-  }, [comment, onParentConversation]);
+    onShowParentConversation(parent);
+  }, [comment.parent, onShowParentConversation]);
 
-  const onConversation = useCallback(() => {
-    if (!comment || !comment.revision) {
-      return;
-    }
-
+  const conversation = useCallback(() => {
     onShowConversation(comment);
   }, [comment, onShowConversation]);
+
+  const reply = useCallback(() => {
+    const parent = comment.parent;
+    if (parent) {
+      onReplyToParent(parent);
+    } else {
+      onReplyToComment(comment);
+    }
+  }, [comment, onReplyToComment, onReplyToParent]);
 
   if (ignored) {
     return null;
@@ -101,7 +114,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                 fontSize="none"
                 fontWeight="none"
                 textAlign="left"
-                onClick={onConversationParent}
+                onClick={parentConversation}
               >
                 <Flex
                   justifyContent="flex-start"
@@ -133,10 +146,8 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             comment={comment}
             viewer={viewer}
             settings={settings}
-            onReply={comment.parent ? onConversationParent : onConversation}
-            onConversation={
-              comment.parent ? onConversationParent : onConversation
-            }
+            onReply={reply}
+            onConversation={conversation}
             onToggleReport={toggleShowReportFlow}
           />
         </div>
