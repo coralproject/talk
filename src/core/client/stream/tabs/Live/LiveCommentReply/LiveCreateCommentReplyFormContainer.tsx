@@ -37,7 +37,6 @@ import {
 } from "coral-stream/tabs/Comments/Stream/CommentForm/CommentForm";
 import PostCommentFormClosed from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosed";
 import PostCommentFormClosedSitewide from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosedSitewide";
-import PostCommentFormFake from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormFake";
 import { Toggle } from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostReviewOrQuestion";
 import {
   getSubmitStatus,
@@ -50,6 +49,7 @@ import { LiveCreateCommentReplyFormContainer_settings } from "coral-stream/__gen
 import { LiveCreateCommentReplyFormContainer_story } from "coral-stream/__generated__/LiveCreateCommentReplyFormContainer_story.graphql";
 import { LiveCreateCommentReplyFormContainer_viewer } from "coral-stream/__generated__/LiveCreateCommentReplyFormContainer_viewer.graphql";
 
+import LivePostCommentFormFake from "../LivePostCommentFormFake";
 import { LiveCreateCommentReplyMutation } from "./LiveCreateCommentReplyMutation";
 import LiveReplyCommentForm from "./LiveReplyCommentForm";
 
@@ -83,7 +83,8 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
   // we don't use any deps here!
   const keepFormWhenClosed = useMemo(
     () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
-    [settings.disableCommenting.enabled, story.isClosed, viewer]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   // nudge will turn on the nudging behavior on the server
@@ -191,12 +192,9 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
 
   /* Handle focus */
   const emitFocusEvent = useViewerEvent(LiveReplyCommentFocusEvent);
-  const onFocus = useCallback(
-    (event: React.FocusEvent<Element>) => {
-      emitFocusEvent();
-    },
-    [emitFocusEvent]
-  );
+  const onFocus = useCallback(() => {
+    emitFocusEvent();
+  }, [emitFocusEvent]);
 
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
@@ -230,7 +228,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         <PostCommentFormClosedSitewide
           story={story}
           message={settings.disableCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
+          showMessageBox={false}
         />
       );
     }
@@ -240,7 +238,7 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
         <PostCommentFormClosed
           story={story}
           message={settings.closeCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
+          showMessageBox={false}
         />
       );
     }
@@ -248,13 +246,12 @@ const LiveCreateCommentReplyFormContainer: FunctionComponent<Props> = ({
 
   if (!viewer) {
     return (
-      <PostCommentFormFake
+      <LivePostCommentFormFake
         rteConfig={settings.rte}
         draft={""}
         onDraftChange={setDraft}
-        story={story}
-        showMessageBox={story.settings.messageBox.enabled}
         onSignIn={handleSignIn}
+        onFocus={onFocus}
       />
     );
   }
@@ -335,25 +332,10 @@ const enhanced = withFragmentContainer<Props>({
       site {
         id
       }
-      viewerRating {
-        id
-        status
-        tags {
-          code
-        }
-        rating
-      }
       settings {
-        messageBox {
-          enabled
-        }
-        experts {
-          id
-        }
         live {
           enabled
         }
-        mode
         moderation
       }
       ...MessageBoxContainer_story

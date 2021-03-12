@@ -372,7 +372,7 @@ const CommentForm: FunctionComponent<Props> = ({
                       config={rteConfig}
                       onFocus={rteOnFocus}
                       onBlur={rteOnBlur}
-                      contentClassName={cn({
+                      contentClassName={cn(styles.content, {
                         [styles.chatContent]: mode === "chat",
                       })}
                       onWillPaste={(event) => {

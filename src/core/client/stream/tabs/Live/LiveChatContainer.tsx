@@ -168,8 +168,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const scrollToEnd = useCallback(
     (behavior?: ScrollOptions["behavior"]) => {
-      const height = containerRef.current.scrollHeight;
-      scrollElement(containerRef.current, { left: 0, top: height, behavior });
+      if (containerRef.current) {
+        const height = containerRef.current.scrollHeight;
+        scrollElement(containerRef.current, { left: 0, top: height, behavior });
+      }
     },
     [containerRef]
   );
@@ -603,8 +605,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewComment(null);
   }, [newComment, setNewComment]);
 
+  const handleRTEChange = useCallback(() => {
+    if (tailing) {
+      requestAnimationFrame(() => scrollToEnd());
+    }
+  }, [scrollToEnd, tailing]);
+
   return (
-    <>
+    <div className={styles.root}>
+      <div className={styles.filler}></div>
       {story.status === GQLSTORY_STATUS.OPEN &&
         afterComments.length === 0 &&
         beforeComments.length === 0 && (
@@ -722,15 +731,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         />
       )}
       {showCommentForm && (
-        <LivePostCommentFormContainer
-          settings={settings}
-          story={story}
-          viewer={viewer}
-          commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-          onSubmitted={onCommentSubmitted}
-        />
+        <div onFocus={handleRTEChange}>
+          <LivePostCommentFormContainer
+            settings={settings}
+            story={story}
+            viewer={viewer}
+            commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+            onSubmitted={onCommentSubmitted}
+            onChange={handleRTEChange}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

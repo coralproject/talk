@@ -326,7 +326,7 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <div
                         aria-placeholder="Write a reply"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                        className="RTE.module-contentEditable coral coral-rte-content CommentForm-content RTE-content"
                         id="comments-replyCommentForm-rte-comment-0"
                       />
                       <div
