@@ -68,6 +68,14 @@ const LiveTabQuery: FunctionComponent = () => {
     [setCursor]
   );
 
+  // this is a possibly undesirable way to detect that
+  // the page has come back from sleeping (likely due to
+  // mobile phone locking and unlocking). We will want to
+  // look into some more optimal solutions that detect when
+  // we have re-awakened our running javascript environment
+  // and correctly refresh the query using relay and any
+  // underlying socket connections instead of just brute
+  // forcing the whole iframe reload.
   const heartbeatIntervalMs = 1000;
   const reloadOnIdle = useCallback((timePassedSeconds: number) => {
     if (timePassedSeconds > 3 * heartbeatIntervalMs) {
