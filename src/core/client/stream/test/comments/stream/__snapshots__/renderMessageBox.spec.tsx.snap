@@ -393,7 +393,9 @@ exports[`renders message box when logged in 1`] = `
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <div>
+            <div
+              className="CommentForm-rteContainer"
+            >
               <label
                 className="AriaInfo-root"
                 htmlFor="comments-postCommentForm-field"

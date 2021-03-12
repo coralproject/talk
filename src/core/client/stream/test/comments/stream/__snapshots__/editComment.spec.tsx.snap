@@ -342,7 +342,9 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="CommentForm-rteContainer"
+          >
             <label
               className="AriaInfo-root"
               htmlFor="comments-editCommentForm-rte-comment-with-replies"
@@ -563,7 +565,9 @@ exports[`edit a comment: edit form 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="CommentForm-rteContainer"
+          >
             <label
               className="AriaInfo-root"
               htmlFor="comments-editCommentForm-rte-comment-with-replies"
@@ -784,7 +788,9 @@ exports[`edit a comment: optimistic response 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="CommentForm-rteContainer"
+          >
             <label
               className="AriaInfo-root"
               htmlFor="comments-editCommentForm-rte-comment-with-replies"
@@ -1899,7 +1905,9 @@ exports[`shows expiry message: edit time expired 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="CommentForm-rteContainer"
+          >
             <label
               className="AriaInfo-root"
               htmlFor="comments-editCommentForm-rte-comment-with-replies"
