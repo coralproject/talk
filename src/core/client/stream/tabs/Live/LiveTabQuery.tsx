@@ -14,8 +14,8 @@ import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
 import CursorState from "./cursorState";
-import useHeartbeat from "./Heartbeat";
 import LiveStreamContainer from "./LiveStreamContainer";
+import useOnResumeActive from "./useOnResumeActive";
 
 const LiveTabQuery: FunctionComponent = () => {
   const [{ storyID, storyURL }] = useLocal<LiveTabQueryLocal>(graphql`
@@ -76,13 +76,13 @@ const LiveTabQuery: FunctionComponent = () => {
   // and correctly refresh the query using relay and any
   // underlying socket connections instead of just brute
   // forcing the whole iframe reload.
-  const heartbeatIntervalMs = 1000;
-  const reloadOnIdle = useCallback((timePassedSeconds: number) => {
-    if (timePassedSeconds > 3 * heartbeatIntervalMs) {
-      window.location.reload();
-    }
+  const reload = useCallback(() => {
+    window.location.reload();
   }, []);
-  useHeartbeat(reloadOnIdle, heartbeatIntervalMs);
+  useOnResumeActive(reload, {
+    intervalMs: 500,
+    thresholdMs: 1500,
+  });
 
   if (!storyURL) {
     return null;
