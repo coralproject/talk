@@ -85,10 +85,11 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
       return;
     }
 
+    const withinBottomDelta = 8;
     const atBottom =
       Math.abs(
         replies.scrollTop - (replies.scrollHeight - replies.offsetHeight)
-      ) < 5;
+      ) < withinBottomDelta;
 
     const atTop = replies.scrollTop < 5;
 
