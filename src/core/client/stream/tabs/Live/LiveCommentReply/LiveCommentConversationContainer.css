@@ -103,6 +103,8 @@
 .jumpButton {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 
   margin-right: 1px;
 }
@@ -110,4 +112,6 @@
 .jumpButtonClose {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
