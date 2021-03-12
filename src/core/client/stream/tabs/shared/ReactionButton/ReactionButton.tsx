@@ -6,6 +6,8 @@ import Responsive from "react-responsive";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
+import LiveReactIcon from "./LiveReactIcon";
+
 import styles from "./ReactionButton.css";
 
 interface ReactionButtonProps {
@@ -54,7 +56,9 @@ function render(props: ReactionButtonProps) {
       paddingSize="extraSmall"
     >
       <Flex alignItems="center" container="span">
-        {props.isChat && <Icon className={styles.icon}>thumb_up</Icon>}
+        {props.isChat && (
+          <LiveReactIcon className={styles.icon} width="16" height="16" />
+        )}
         {props.isQA && <Icon className={styles.icon}>arrow_upward</Icon>}
         {!props.isQA && !props.isChat && (
           <Icon className={styles.icon}>
