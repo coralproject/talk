@@ -568,7 +568,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       window.clearTimeout(scrollToCommentTimeout.current);
     }
 
-    window.setTimeout(scrollToComment, 300);
+    scrollToCommentTimeout.current = window.setTimeout(scrollToComment, 300);
   }, [
     newComment,
     setCursor,
