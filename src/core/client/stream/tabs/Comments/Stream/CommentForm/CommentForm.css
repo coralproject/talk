@@ -29,6 +29,10 @@ $rteButtonActive: #ddd;
   margin-right: 2px;
 }
 
+.content {
+  max-height: 300px;
+}
+
 .chatContent {
   min-height: 0px;
   padding-right: 36px;

@@ -367,7 +367,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                   >
                     <div
                       aria-placeholder="Edit comment"
-                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                      className="RTE.module-contentEditable coral coral-rte-content CommentForm-content RTE-content"
                       id="comments-editCommentForm-rte-comment-with-replies"
                     />
                   </div>
@@ -590,7 +590,7 @@ exports[`edit a comment: edit form 1`] = `
                   >
                     <div
                       aria-placeholder="Edit comment"
-                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                      className="RTE.module-contentEditable coral coral-rte-content CommentForm-content RTE-content"
                       id="comments-editCommentForm-rte-comment-with-replies"
                     />
                   </div>
@@ -813,7 +813,7 @@ exports[`edit a comment: optimistic response 1`] = `
                   >
                     <div
                       aria-placeholder="Edit comment"
-                      className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
+                      className="RTE.module-contentEditable coral coral-rte-content CommentForm-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
                       id="comments-editCommentForm-rte-comment-with-replies"
                     />
                   </div>
@@ -1930,7 +1930,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                   >
                     <div
                       aria-placeholder="Edit comment"
-                      className="RTE.module-contentEditable coral coral-rte-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
+                      className="RTE.module-contentEditable coral coral-rte-content CommentForm-content RTE-content RTE-disabled RTE.module-contentEditableDisabled"
                       id="comments-editCommentForm-rte-comment-with-replies"
                     />
                   </div>

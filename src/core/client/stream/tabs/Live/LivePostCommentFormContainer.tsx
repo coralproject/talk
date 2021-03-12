@@ -37,7 +37,6 @@ import {
 } from "coral-stream/tabs/Comments/Stream/CommentForm/CommentForm";
 import PostCommentFormClosed from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosed";
 import PostCommentFormClosedSitewide from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormClosedSitewide";
-import PostCommentFormFake from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostCommentFormFake";
 import { Toggle } from "coral-stream/tabs/Comments/Stream/PostCommentForm/PostReviewOrQuestion";
 import {
   getSubmitStatus,
@@ -53,6 +52,7 @@ import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.gr
 
 import { LiveCreateCommentMutation } from "./LiveCreateCommentMutation";
 import LivePostCommentForm from "./LivePostCommentForm";
+import LivePostCommentFormFake from "./LivePostCommentFormFake";
 
 interface Props {
   settings: LivePostCommentFormContainer_settings;
@@ -61,6 +61,7 @@ interface Props {
   commentsOrderBy?: COMMENT_SORT;
 
   onSubmitted: (commentID: string | undefined, cursor: string) => void;
+  onChange: (body: string) => void;
 }
 
 export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
@@ -69,6 +70,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   story,
   commentsOrderBy,
   onSubmitted,
+  onChange,
 }) => {
   const rteRef = useRef<CoralRTE | null>(null);
   const refreshSettings = useFetch(RefreshSettingsFetch);
@@ -81,7 +83,8 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   // we don't use any deps here!
   const keepFormWhenClosed = useMemo(
     () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
-    [settings.disableCommenting.enabled, story.isClosed, viewer]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   // nudge will turn on the nudging behavior on the server
@@ -99,8 +102,6 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   useEffect(() => {
     setInitialValues({ body: initialDraft || "" });
   }, [initialDraft]);
-
-  const initialized = !!initialValues;
 
   const disabled =
     settings.disableCommenting.enabled ||
@@ -190,15 +191,20 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
 
   /* Handle focus */
   const emitFocusEvent = useViewerEvent(LiveCreateCommentFocusEvent);
-  const onFocus = useCallback(
-    (event: React.FocusEvent<Element>) => {
-      emitFocusEvent();
-    },
-    [emitFocusEvent]
-  );
+  const onFocus = useCallback(() => {
+    emitFocusEvent();
+  }, [emitFocusEvent]);
 
+  const handleDraftChange = useCallback(
+    (body: string) => {
+      setDraft(body);
+      onChange(body);
+    },
+    [onChange, setDraft]
+  );
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
+      onChange(state.values.body);
       if (submitStatus && state.dirty) {
         setSubmitStatus(null);
       }
@@ -214,16 +220,12 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         (form as any).restart({ body: RTE_RESET_VALUE });
       }
     },
-    [setDraft, submitStatus]
+    [onChange, setDraft, submitStatus]
   );
 
   const handleSignIn = () => {
     void showAuthPopup({ view: "SIGN_IN" });
   };
-
-  if (!initialized) {
-    return null;
-  }
 
   if (!keepFormWhenClosed) {
     if (settings.disableCommenting.enabled) {
@@ -231,7 +233,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         <PostCommentFormClosedSitewide
           story={story}
           message={settings.disableCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
+          showMessageBox={false}
         />
       );
     }
@@ -241,7 +243,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         <PostCommentFormClosed
           story={story}
           message={settings.closeCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
+          showMessageBox={false}
         />
       );
     }
@@ -249,13 +251,12 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
 
   if (!viewer) {
     return (
-      <PostCommentFormFake
+      <LivePostCommentFormFake
         rteConfig={settings.rte}
         draft={draft}
-        onDraftChange={setDraft}
-        story={story}
-        showMessageBox={story.settings.messageBox.enabled}
+        onDraftChange={handleDraftChange}
         onSignIn={handleSignIn}
+        onFocus={onFocus}
       />
     );
   }
@@ -335,23 +336,6 @@ const enhanced = withFragmentContainer<Props>({
       isClosed
       site {
         id
-      }
-      viewerRating {
-        id
-        status
-        tags {
-          code
-        }
-        rating
-      }
-      settings {
-        messageBox {
-          enabled
-        }
-        experts {
-          id
-        }
-        mode
       }
       ...MessageBoxContainer_story
     }
