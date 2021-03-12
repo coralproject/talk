@@ -17,6 +17,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLUSER_STATUS } from "coral-framework/schema";
+import { PropTypesOf } from "coral-framework/types";
 import {
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
@@ -31,11 +32,11 @@ import { LiveChatContainer_viewer } from "coral-stream/__generated__/LiveChatCon
 import { LiveChatContainerAfterCommentEdge } from "coral-stream/__generated__/LiveChatContainerAfterCommentEdge.graphql";
 import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveChatContainerBeforeCommentEdge.graphql";
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
-import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
+import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import CursorState from "./cursorState";
 import InView from "./InView";
-import { LiveCommentContainer } from "./LiveComment";
+import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
@@ -58,6 +59,14 @@ function scrollElement(element: Element, options: ScrollToOptions) {
       element.scrollTop = options.top;
     }
   }
+}
+
+interface ConversationViewState {
+  visible: boolean;
+  comment?:
+    | PropTypesOf<typeof LiveCommentConversationContainer>["comment"]
+    | null;
+  type?: "conversation" | "parent";
 }
 
 interface Props {
@@ -130,11 +139,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const scrollEnabled = useRef(false);
   const lastScrollTop = useRef(0);
 
-  const [
-    focusedComment,
-    setFocusedComment,
-  ] = useState<LiveCommentConversationContainer_comment | null>(null);
-  const [conversationVisible, setConversationVisible] = useState(false);
+  const [conversationView, setConversationView] = useState<
+    ConversationViewState
+  >({
+    visible: false,
+  });
+
   const [newComment, setNewComment] = useState<NewComment | null>(null);
 
   const setTailing = useCallback(
@@ -471,7 +481,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   const onShowConv = useCallback(
-    (comment: LiveCommentConversationContainer_comment, type: string) => {
+    (
+      comment:
+        | LiveCommentContainer_comment
+        | NonNullable<LiveCommentContainer_comment["parent"]>,
+      type: Required<ConversationViewState>["type"]
+    ) => {
       LiveChatOpenConversationEvent.emit(context.eventEmitter, {
         storyID: story.id,
         commentID: comment.id,
@@ -479,37 +494,39 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         type,
       });
 
-      setFocusedComment(comment);
-      setConversationVisible(true);
+      setConversationView({
+        visible: true,
+        comment,
+        type,
+      });
     },
     [context.eventEmitter, story.id, viewer]
   );
 
-  const onReplyTo = useCallback(
-    (comment: LiveCommentConversationContainer_comment) => {
-      onShowConv(comment, "reply");
-    },
-    [onShowConv]
-  );
-
-  const onShowConversation = useCallback(
-    (comment: LiveCommentConversationContainer_comment) => {
+  const onShowConversation = useCallback<
+    PropTypesOf<typeof LiveCommentContainer>["onShowConversation"]
+  >(
+    (comment) => {
       onShowConv(comment, "conversation");
     },
     [onShowConv]
   );
 
-  const onParentConversation = useCallback(
-    (parent: LiveCommentConversationContainer_comment) => {
+  const onParentConversation = useCallback<
+    PropTypesOf<typeof LiveCommentContainer>["onParentConversation"]
+  >(
+    (parent) => {
       onShowConv(parent, "parent");
     },
     [onShowConv]
   );
 
   const onCloseConversation = useCallback(() => {
-    setFocusedComment(null);
-    setConversationVisible(false);
-  }, [setConversationVisible, setFocusedComment]);
+    setConversationView({
+      visible: false,
+      comment: null,
+    });
+  }, [setConversationView]);
 
   const scrollToCommentTimeout = useRef<number | null>(null);
   const scrollToComment = useCallback(() => {
@@ -603,7 +620,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onInView={onCommentVisible}
-              onReplyTo={onReplyTo}
               onShowConversation={onShowConversation}
               onParentConversation={onParentConversation}
             />
@@ -630,7 +646,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onInView={onCommentVisible}
-              onReplyTo={onShowConversation}
               onShowConversation={onShowConversation}
               onParentConversation={onParentConversation}
             />
@@ -670,13 +685,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           </Flex>
         </div>
       )}
-      {conversationVisible && focusedComment && (
+      {conversationView.visible && conversationView.comment && (
         <LiveCommentConversationContainer
           settings={settings}
           viewer={viewer}
           story={story}
-          comment={focusedComment as any}
-          visible={conversationVisible}
+          comment={conversationView.comment}
+          visible={conversationView.visible}
           onClose={onCloseConversation}
         />
       )}

@@ -189,6 +189,11 @@ const CLASSES = {
      * cancel is the button for cancelling the post.
      */
     cancel: "coral coral-createComment-cancel",
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**
@@ -230,6 +235,11 @@ const CLASSES = {
       text: "coral coral-createReplyComment-replyToText",
       username: "coral coral-createReplyComment-replyToUsername",
     },
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**
@@ -276,6 +286,11 @@ const CLASSES = {
      * dimiss is the button to dismiss the message after submit.
      */
     dismiss: "coral coral-editComment-dismiss",
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**
