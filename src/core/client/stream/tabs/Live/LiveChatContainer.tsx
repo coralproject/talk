@@ -397,6 +397,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     async (e) => {
       const container = containerRef.current;
       const begin = beginRef.current;
+      const withinBottomDelta = 8;
 
       if (!container || !begin || !scrollEnabled) {
         return;
@@ -406,7 +407,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         Math.abs(
           container.scrollTop -
             (container.scrollHeight - container.offsetHeight)
-        ) < 5;
+        ) < withinBottomDelta;
 
       setTailing(atBottom && !afterHasMore);
     },
