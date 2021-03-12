@@ -12,7 +12,6 @@ import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCom
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
 import { LiveCommentContainer_story } from "coral-stream/__generated__/LiveCommentContainer_story.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
-import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
 
 import InView from "../InView";
 import ShortcutIcon from "../ShortcutIcon";
@@ -33,12 +32,9 @@ interface Props {
     createdAt: string,
     cursor: string
   ) => void;
-  onReplyTo: (comment: LiveCommentConversationContainer_comment) => void;
-  onShowConversation: (
-    comment: LiveCommentConversationContainer_comment
-  ) => void;
+  onShowConversation: (comment: LiveCommentContainer_comment) => void;
   onParentConversation: (
-    parent: LiveCommentConversationContainer_comment
+    parent: NonNullable<LiveCommentContainer_comment["parent"]>
   ) => void;
 }
 
@@ -71,7 +67,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    onParentConversation(comment.parent as any);
+    onParentConversation(comment.parent);
   }, [comment, onParentConversation]);
 
   const onConversation = useCallback(() => {
@@ -79,7 +75,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    onShowConversation(comment as any);
+    onShowConversation(comment);
   }, [comment, onShowConversation]);
 
   if (ignored) {
@@ -202,6 +198,7 @@ const enhanced = withFragmentContainer<Props>({
         }
         createdAt
         body
+        ...LiveCommentConversationContainer_comment
       }
       replyCount
 

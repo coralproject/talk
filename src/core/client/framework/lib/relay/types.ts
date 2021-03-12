@@ -1,6 +1,6 @@
 import { _RefType } from "react-relay";
 
-type UnpackReadonlyArray<T> = T extends ReadonlyArray<infer U> ? U : T;
+import { UnpackReadonlyArray } from "coral-common/types";
 
 export type FragmentKeys<T> = Exclude<
   {
