@@ -31,9 +31,9 @@ export interface LiveCommentFormProps {
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
-  showToolbar?: boolean;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
+  autoFocus?: boolean;
 }
 
 const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
@@ -93,6 +93,8 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         submitStatus={
           <PostCommentSubmitStatusContainer status={props.submitStatus} />
         }
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={props.autoFocus}
         autoHideToolbar
         focusAfterSubmit
       />
