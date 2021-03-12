@@ -77,7 +77,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
     return link;
   }, [comment.id, moderationLinkSuffix]);
 
-  const conversation = useCallback(() => {
+  const handleOnConversation = useCallback(() => {
     if (!onConversation) {
       return;
     }
@@ -85,7 +85,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
     onConversation(comment);
   }, [comment, onConversation]);
 
-  const reply = useCallback(() => {
+  const handleOnReply = useCallback(() => {
     if (!onReply) {
       return;
     }
@@ -111,7 +111,11 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             isChat
           />
         )}
-        <Button className={styles.replyButton} variant="none" onClick={reply}>
+        <Button
+          className={styles.replyButton}
+          variant="none"
+          onClick={handleOnReply}
+        >
           <Flex justifyContent="flex-start" alignItems="center">
             <ShortcutIcon
               width="16px"
@@ -128,7 +132,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           <Button
             className={styles.conversationButton}
             variant="none"
-            onClick={conversation}
+            onClick={handleOnConversation}
             paddingSize="extraSmall"
           >
             <Flex justifyContent="flex-start" alignItems="center">
