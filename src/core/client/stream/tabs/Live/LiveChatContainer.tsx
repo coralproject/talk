@@ -66,7 +66,7 @@ interface ConversationViewState {
   comment?:
     | PropTypesOf<typeof LiveCommentConversationContainer>["comment"]
     | null;
-  type?: "conversation" | "parent";
+  type?: "conversation" | "parent" | "reply" | "replyToParent";
 }
 
 interface Props {
@@ -503,19 +503,28 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.eventEmitter, story.id, viewer]
   );
 
-  const onShowConversation = useCallback<
-    PropTypesOf<typeof LiveCommentContainer>["onShowConversation"]
-  >(
-    (comment) => {
+  const onReplyToComment = useCallback(
+    (comment: LiveCommentContainer_comment) => {
+      onShowConv(comment, "reply");
+    },
+    [onShowConv]
+  );
+  const onReplyToParent = useCallback(
+    (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
+      onShowConv(parent, "replyToParent");
+    },
+    [onShowConv]
+  );
+
+  const onShowConversation = useCallback(
+    (comment: LiveCommentContainer_comment) => {
       onShowConv(comment, "conversation");
     },
     [onShowConv]
   );
 
-  const onParentConversation = useCallback<
-    PropTypesOf<typeof LiveCommentContainer>["onParentConversation"]
-  >(
-    (parent) => {
+  const onShowParentConversation = useCallback(
+    (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
       onShowConv(parent, "parent");
     },
     [onShowConv]
@@ -621,7 +630,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               settings={settings}
               onInView={onCommentVisible}
               onShowConversation={onShowConversation}
-              onParentConversation={onParentConversation}
+              onShowParentConversation={onShowParentConversation}
+              onReplyToComment={onReplyToComment}
+              onReplyToParent={onReplyToParent}
             />
           ))}
 
@@ -647,7 +658,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               settings={settings}
               onInView={onCommentVisible}
               onShowConversation={onShowConversation}
-              onParentConversation={onParentConversation}
+              onShowParentConversation={onShowParentConversation}
+              onReplyToComment={onReplyToComment}
+              onReplyToParent={onReplyToParent}
             />
           ))}
 

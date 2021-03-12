@@ -326,7 +326,7 @@ createComment.error
   {
       storyID: string;
       commentID: string;
-      type: "conversation" | "parent";
+      type: "conversation" | "parent" | "reply" | "replyToParent";
       viewerID: string;
   }
   ```
