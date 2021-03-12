@@ -105,7 +105,8 @@ function insertIntoLiveChat(
     return;
   }
 
-  commentEdge.setValue(new Date().toISOString(), "cursor");
+  const node = commentEdge.getLinkedRecord("node");
+  commentEdge.setValue(node!.getValue("createdAt"), "cursor");
 
   const streamProxy = store.get(input.storyID)!;
   const connectionKey = "Chat_after";
