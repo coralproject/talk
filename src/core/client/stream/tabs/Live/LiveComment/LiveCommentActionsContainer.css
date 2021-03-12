@@ -1,3 +1,7 @@
+.action {
+  font-size: var(--font-size-1);
+}
+
 .replyButton {
   border-width: 0px;
   border-style: none;
@@ -34,6 +38,11 @@
 }
 
 .leftActions {
+  flex-shrink: 0;
+  width: 150px;
+}
+
+.leftActionsWide {
   flex-shrink: 0;
   width: 300px;
 }

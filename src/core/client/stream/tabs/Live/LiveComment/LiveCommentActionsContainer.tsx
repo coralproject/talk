@@ -93,13 +93,9 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
     onReply(comment);
   }, [comment, onReply]);
 
-  return (
-    <Flex
-      justifyContent="flex-start"
-      alignItems="center"
-      className={styles.actionBar}
-    >
-      <div className={styles.leftActions}>
+  const leftActions = useMemo(() => {
+    return (
+      <>
         {viewer && (
           <ReactionButtonContainer
             reactedClassName=""
@@ -109,6 +105,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
             isQA={false}
             isChat
+            className={styles.action}
           />
         )}
         <Button
@@ -124,7 +121,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
               ariaLabel="Reply"
             />
             <Responsive minWidth={400}>
-              <span>Reply</span>
+              <span className={styles.action}>Reply</span>
             </Responsive>
           </Flex>
         </Button>
@@ -143,12 +140,37 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
                 forum
               </Icon>
               <Responsive minWidth={400}>
-                <span>Read Conversation</span>
+                <span className={styles.action}>Read Conversation</span>
               </Responsive>
             </Flex>
           </Button>
         )}
-      </div>
+      </>
+    );
+  }, [
+    comment,
+    handleOnConversation,
+    handleOnReply,
+    isViewerBanned,
+    isViewerSuspended,
+    isViewerWarned,
+    onConversation,
+    settings,
+    viewer,
+  ]);
+
+  return (
+    <Flex
+      justifyContent="flex-start"
+      alignItems="center"
+      className={styles.actionBar}
+    >
+      <Responsive minWidth={400}>
+        <div className={styles.leftActionsWide}>{leftActions}</div>
+      </Responsive>
+      <Responsive maxWidth={400}>
+        <div className={styles.leftActions}>{leftActions}</div>
+      </Responsive>
 
       <Flex className={styles.rightActions} justifyContent="flex-end">
         {viewer &&
