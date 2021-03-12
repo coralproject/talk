@@ -278,7 +278,9 @@ exports[`post a reply: open reply form 1`] = `
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
-            <div>
+            <div
+              className="CommentForm-rteContainer"
+            >
               <label
                 className="AriaInfo-root"
                 htmlFor="comments-replyCommentForm-rte-comment-0"
