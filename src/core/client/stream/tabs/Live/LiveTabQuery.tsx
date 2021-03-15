@@ -81,7 +81,7 @@ const LiveTabQuery: FunctionComponent = () => {
   }, []);
   useOnResumeActive(reload, {
     intervalMs: 500,
-    thresholdMs: 3000,
+    thresholdMs: 8000,
   });
 
   if (!storyURL) {
