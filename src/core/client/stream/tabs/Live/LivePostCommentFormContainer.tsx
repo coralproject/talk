@@ -61,7 +61,6 @@ interface Props {
   commentsOrderBy?: COMMENT_SORT;
 
   onSubmitted: (commentID: string | undefined, cursor: string) => void;
-  onChange: (body: string) => void;
 }
 
 export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
@@ -70,7 +69,6 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   story,
   commentsOrderBy,
   onSubmitted,
-  onChange,
 }) => {
   const rteRef = useRef<CoralRTE | null>(null);
   const refreshSettings = useFetch(RefreshSettingsFetch);
@@ -198,13 +196,11 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   const handleDraftChange = useCallback(
     (body: string) => {
       setDraft(body);
-      onChange(body);
     },
-    [onChange, setDraft]
+    [setDraft]
   );
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
-      onChange(state.values.body);
       if (submitStatus && state.dirty) {
         setSubmitStatus(null);
       }
@@ -220,7 +216,7 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         (form as any).restart({ body: RTE_RESET_VALUE });
       }
     },
-    [onChange, setDraft, submitStatus]
+    [setDraft, submitStatus]
   );
 
   const handleSignIn = () => {

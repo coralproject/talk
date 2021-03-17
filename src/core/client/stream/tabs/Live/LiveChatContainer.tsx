@@ -6,9 +6,10 @@ import React, {
   useRef,
   useState,
 } from "react";
+import ContentLoader from "react-content-loader";
 import { graphql } from "react-relay";
+import { Virtuoso } from "react-virtuoso";
 
-import { useEffectAfterMount, useEffectAtUnmount } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
@@ -23,6 +24,7 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  LiveChatLoadAfterEvent,
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
   LiveJumpToCommentEvent,
@@ -39,31 +41,12 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import CursorState from "./cursorState";
-import InView from "./InView";
 import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 
 import styles from "./LiveChatContainer.css";
-
-/**
- * scrollElement is a version of Element.scroll but also works in older browsers.
- *
- * TODO: (cvle) for some reason polyfilling Element.prototype failed.
- */
-function scrollElement(element: Element, options: ScrollToOptions) {
-  if (element.scroll) {
-    element.scroll(options);
-  } else {
-    if (options.left !== undefined) {
-      element.scrollLeft = options.left;
-    }
-    if (options.top !== undefined) {
-      element.scrollTop = options.top;
-    }
-  }
-}
 
 interface ConversationViewState {
   visible: boolean;
@@ -97,6 +80,24 @@ interface NewComment {
   cursor: string;
 }
 
+const Skeleton = (props: any) => (
+  <ContentLoader
+    speed={2}
+    width={476}
+    height={45}
+    viewBox="0 0 476 45"
+    backgroundColor="#f3f3f3"
+    foregroundColor="#ecebeb"
+    {...props}
+  >
+    <rect x="2" y="3" rx="3" ry="3" width="30" height="30" />
+    <rect x="39" y="7" rx="3" ry="3" width="300" height="6" />
+    <rect x="39" y="21" rx="3" ry="3" width="300" height="6" />
+    <rect x="39" y="34" rx="3" ry="3" width="150" height="6" />
+  </ContentLoader>
+);
+
+const START_INDEX = 10000;
 const LiveChatContainer: FunctionComponent<Props> = ({
   beforeComments,
   beforeHasMore,
@@ -135,13 +136,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
 
   const showCommentForm = !banned && !suspended && !warned;
-
   const containerRef = useRef<any | null>(null);
-  const beginRef = useRef<any | null>(null);
-  const beforeAfterRef = useRef<any | null>(null);
-
-  const scrollEnabled = useRef(false);
-  const lastScrollTop = useRef(0);
 
   const [conversationView, setConversationView] = useState<
     ConversationViewState
@@ -157,282 +152,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     },
     [setLocal]
   );
-
-  const scrollToBeforeAfter = useCallback(
-    (behavior?: string) => {
-      const beforeAfter = beforeAfterRef.current;
-      beforeAfter.scrollIntoView({ behavior, block: "center" });
-    },
-    [beforeAfterRef]
-  );
-
-  const scrollToEnd = useCallback(
-    (behavior?: ScrollOptions["behavior"]) => {
-      if (containerRef.current) {
-        const height = containerRef.current.scrollHeight;
-        scrollElement(containerRef.current, { left: 0, top: height, behavior });
-      }
-    },
-    [containerRef]
-  );
-
-  useEffect(() => {
-    if (beforeCommentsIncoming.current || afterCommentsIncoming.current) {
-      return;
-    }
-
-    if (cursorSet) {
-      scrollToBeforeAfter();
-    } else {
-      scrollToEnd();
-      setTailing(true);
-    }
-
-    if (containerRef.current) {
-      lastScrollTop.current = containerRef.current.scrollTop;
-    }
-
-    // Enable scroll in a bit
-    const timeoutReg = window.setTimeout(() => {
-      scrollEnabled.current = true;
-    }, 300);
-
-    // Cleanup
-    return () => {
-      clearTimeout(timeoutReg);
-    };
-  }, [
-    scrollToEnd,
-    scrollEnabled,
-    story.id,
-    setTailing,
-    cursorSet,
-    scrollToBeforeAfter,
-  ]);
-
-  /** Scroll */
-
-  const prevScrollHeight = useRef<number | null>(null);
-  const prevScrollTop = useRef<number | null>(null);
-
-  const clearScrollStateTimeout = useRef<number | null>(null);
-  const clearScrollState = useCallback(() => {
-    prevScrollHeight.current = null;
-    prevScrollTop.current = null;
-    beforeCommentsIncoming.current = false;
-    afterCommentsIncoming.current = false;
-  }, []);
-
-  const maintainPrevScrollState = useCallback(() => {
-    if (prevScrollHeight.current !== null && prevScrollTop.current !== null) {
-      const currentHeight = containerRef.current.scrollHeight;
-
-      const prevScroll = prevScrollTop.current > 0 ? prevScrollTop.current : 0;
-      const offset = currentHeight - prevScrollHeight.current;
-
-      containerRef.current.scrollTop = offset + prevScroll;
-    }
-  }, []);
-
-  const maintainPrevScrollStateAndClear = useCallback(() => {
-    maintainPrevScrollState();
-
-    if (clearScrollStateTimeout.current) {
-      clearTimeout(clearScrollStateTimeout.current);
-    }
-
-    clearScrollStateTimeout.current = window.setTimeout(clearScrollState, 300);
-  }, [clearScrollState, maintainPrevScrollState]);
-
-  /** Scroll END */
-
-  /** Before Scroll */
-
-  const beforeCommentsIncoming = useRef(false);
-  const beforeMaintainScrollStateTimeout = useRef<number | null>(null);
-
-  const beforeCommentsChanged = useCallback(() => {
-    if (beforeMaintainScrollStateTimeout.current) {
-      clearTimeout(beforeMaintainScrollStateTimeout.current);
-    }
-
-    const isSafari = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    if (isSafari) {
-      beforeMaintainScrollStateTimeout.current = window.setTimeout(
-        maintainPrevScrollStateAndClear,
-        500
-      );
-    } else {
-      maintainPrevScrollStateAndClear();
-    }
-  }, [maintainPrevScrollStateAndClear]);
-
-  const onBeginInView = useCallback(async () => {
-    if (
-      beforeHasMore &&
-      !isLoadingMoreBefore &&
-      !beforeCommentsIncoming.current
-    ) {
-      try {
-        beforeCommentsIncoming.current = true;
-
-        prevScrollHeight.current = containerRef.current.scrollHeight;
-        prevScrollTop.current = containerRef.current.scrollTop;
-
-        LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
-          storyID: story.id,
-          viewerID: viewer ? viewer.id : "",
-        });
-
-        await loadMoreBefore();
-      } catch (err) {
-        // ignore for now
-      }
-    }
-  }, [
-    beforeHasMore,
-    context.eventEmitter,
-    isLoadingMoreBefore,
-    loadMoreBefore,
-    story.id,
-    viewer,
-  ]);
-
-  useEffectAtUnmount(() => {
-    if (beforeMaintainScrollStateTimeout.current) {
-      clearTimeout(beforeMaintainScrollStateTimeout.current);
-    }
-    if (clearScrollStateTimeout.current) {
-      clearTimeout(clearScrollStateTimeout.current);
-    }
-  });
-
-  /** Before Scroll END */
-
-  /** After Scroll */
-
-  const afterCommentsIncoming = useRef(false);
-  const afterMaintainScrollStateTimeout = useRef<number | null>(null);
-  const tailingScrollTimeout = useRef<number | null>(null);
-  const afterTailingScrollTimeout = useRef<number | null>(null);
-
-  const paginateNewAfterComments = useCallback(() => {
-    if (afterMaintainScrollStateTimeout.current) {
-      clearTimeout(afterMaintainScrollStateTimeout.current);
-    }
-
-    const isSafari = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    if (isSafari) {
-      afterMaintainScrollStateTimeout.current = window.setTimeout(
-        maintainPrevScrollStateAndClear,
-        500
-      );
-    } else {
-      maintainPrevScrollStateAndClear();
-    }
-  }, [maintainPrevScrollStateAndClear]);
-
-  const afterTailingScroll = useCallback(() => {
-    scrollEnabled.current = true;
-  }, []);
-
-  const performTailingScroll = useCallback(() => {
-    scrollEnabled.current = false;
-    scrollToEnd("smooth");
-
-    if (afterTailingScrollTimeout.current) {
-      window.clearTimeout(afterTailingScrollTimeout.current);
-    }
-
-    afterTailingScrollTimeout.current = window.setTimeout(
-      afterTailingScroll,
-      100
-    );
-  }, [afterTailingScroll, scrollToEnd]);
-
-  const afterCommentsChanged = useCallback(() => {
-    if (afterCommentsIncoming.current && !tailing) {
-      paginateNewAfterComments();
-    } else if (tailing) {
-      if (tailingScrollTimeout.current) {
-        window.clearTimeout(tailingScrollTimeout.current);
-      }
-
-      scrollEnabled.current = false;
-      tailingScrollTimeout.current = window.setTimeout(
-        performTailingScroll,
-        100
-      );
-    }
-  }, [paginateNewAfterComments, performTailingScroll, tailing]);
-
-  useEffectAtUnmount(() => {
-    if (afterMaintainScrollStateTimeout.current) {
-      clearTimeout(afterMaintainScrollStateTimeout.current);
-    }
-  });
-
-  const onEndInView = useCallback(async () => {
-    if (
-      afterHasMore &&
-      !isLoadingMoreAfter &&
-      !afterCommentsIncoming.current &&
-      !tailing
-    ) {
-      try {
-        afterCommentsIncoming.current = true;
-        setTailing(false);
-        await loadMoreAfter();
-      } catch (err) {
-        // ignore for now
-      }
-    }
-  }, [afterHasMore, isLoadingMoreAfter, loadMoreAfter, setTailing, tailing]);
-
-  /** After Scroll END */
-
-  /** Tailing Scroll */
-
-  const onScroll = useCallback(
-    async (e) => {
-      const container = containerRef.current;
-      const begin = beginRef.current;
-      const withinBottomDelta = 8;
-
-      if (!container || !begin || !scrollEnabled) {
-        return;
-      }
-
-      const atBottom =
-        Math.abs(
-          container.scrollTop -
-            (container.scrollHeight - container.offsetHeight)
-        ) < withinBottomDelta;
-
-      setTailing(atBottom && !afterHasMore);
-    },
-    [afterHasMore, setTailing]
-  );
-
-  const onTailingInView = useCallback(async () => {
-    if (
-      !afterHasMore &&
-      !isLoadingMoreAfter &&
-      !afterCommentsIncoming.current
-    ) {
-      setTailing(true);
-    }
-  }, [afterHasMore, isLoadingMoreAfter, setTailing]);
-
-  /** Tailing Scroll END */
-
-  useEffectAfterMount(() => {
-    beforeCommentsChanged();
-  }, [beforeComments, beforeCommentsChanged]);
-
-  useEffectAfterMount(() => {
-    afterCommentsChanged();
-  }, [afterComments, afterCommentsChanged]);
 
   const subscribeToCommentEntered = useSubscription(
     LiveCommentEnteredSubscription
@@ -544,20 +263,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     });
   }, [setConversationView]);
 
-  const scrollToCommentTimeout = useRef<number | null>(null);
-  const scrollToComment = useCallback(() => {
-    if (!newComment) {
-      return;
-    }
-
-    const el = document.getElementById(`comment-${newComment.id}-bottom`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-
-    setNewComment(null);
-  }, [newComment, setNewComment]);
-
   const jumpToComment = useCallback(() => {
     if (!newComment) {
       return;
@@ -571,19 +276,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       viewerID: viewer ? viewer.id : "",
     });
 
-    if (scrollToCommentTimeout.current) {
-      window.clearTimeout(scrollToCommentTimeout.current);
-    }
-
-    scrollToCommentTimeout.current = window.setTimeout(scrollToComment, 300);
-  }, [
-    newComment,
-    setCursor,
-    scrollToComment,
-    story.id,
-    viewer,
-    context.eventEmitter,
-  ]);
+    // scrollToComment
+  }, [newComment, setCursor, story.id, viewer, context.eventEmitter]);
 
   const onCommentSubmitted = useCallback(
     (commentID: string, cursor: string) => {
@@ -606,11 +300,87 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewComment(null);
   }, [newComment, setNewComment]);
 
-  const handleRTEChange = useCallback(() => {
-    if (tailing) {
-      requestAnimationFrame(() => scrollToEnd());
-    }
-  }, [scrollToEnd, tailing]);
+  // Render an item or a loading indicator.
+  const itemContent = useCallback(
+    (index) => {
+      index = index - (START_INDEX - beforeComments.length);
+      if (index < beforeComments.length) {
+        const e = beforeComments[index];
+        return (
+          <div>
+            {index === 0 && isLoadingMoreBefore && <Skeleton />}
+            <LiveCommentContainer
+              key={e.node.id}
+              story={story}
+              comment={e.node}
+              cursor={e.cursor}
+              viewer={viewer}
+              settings={settings}
+              onInView={onCommentVisible}
+              onShowConversation={onShowConversation}
+              onShowParentConversation={onShowParentConversation}
+              onReplyToComment={onReplyToComment}
+              onReplyToParent={onReplyToParent}
+            />
+          </div>
+        );
+      } else if (index < beforeComments.length + afterComments.length) {
+        let marker: React.ReactElement | null = null;
+        if (index === beforeComments.length) {
+          marker = (
+            <div id="before-after" style={{ minHeight: "1px" }}>
+              {afterComments && afterComments.length > 0 && (
+                <Flex justifyContent="center" alignItems="center">
+                  <hr className={styles.newhr} />
+                  <div className={styles.newDiv}>
+                    New <Icon size="md">arrow_downward</Icon>
+                  </div>
+                  <hr className={styles.newhr} />
+                </Flex>
+              )}
+            </div>
+          );
+        }
+        const e = afterComments[index - beforeComments.length];
+        return (
+          <div>
+            {marker}
+            <LiveCommentContainer
+              key={e.node.id}
+              story={story}
+              comment={e.node}
+              cursor={e.cursor}
+              viewer={viewer}
+              settings={settings}
+              onInView={onCommentVisible}
+              onShowConversation={onShowConversation}
+              onShowParentConversation={onShowParentConversation}
+              onReplyToComment={onReplyToComment}
+              onReplyToParent={onReplyToParent}
+            />
+            {index === beforeComments.length + afterComments.length - 1 &&
+              isLoadingMoreAfter && <Skeleton />}
+          </div>
+        );
+      } else {
+        throw new Error(`Index out of bounds: ${index}`);
+      }
+    },
+    [
+      afterComments,
+      beforeComments,
+      isLoadingMoreAfter,
+      isLoadingMoreBefore,
+      onCommentVisible,
+      onReplyToComment,
+      onReplyToParent,
+      onShowConversation,
+      onShowParentConversation,
+      settings,
+      story,
+      viewer,
+    ]
+  );
 
   return (
     <div className={styles.root}>
@@ -632,69 +402,37 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
       <IntersectionProvider>
-        <div
+        <Virtuoso
+          firstItemIndex={10000 - beforeComments.length}
           id="live-chat-comments"
           className={styles.streamContainer}
           ref={containerRef}
-          onScroll={onScroll}
-        >
-          <div id="begin" ref={beginRef} className={styles.begin}>
-            <InView onInView={onBeginInView} />
-          </div>
-          <div id="pre-before"></div>
-
-          {beforeComments.map((e) => (
-            <LiveCommentContainer
-              key={e.node.id}
-              story={story}
-              comment={e.node}
-              cursor={e.cursor}
-              viewer={viewer}
-              settings={settings}
-              onInView={onCommentVisible}
-              onShowConversation={onShowConversation}
-              onShowParentConversation={onShowParentConversation}
-              onReplyToComment={onReplyToComment}
-              onReplyToParent={onReplyToParent}
-            />
-          ))}
-
-          <div id="before-after" ref={beforeAfterRef}>
-            {afterComments && afterComments.length > 0 && (
-              <Flex justifyContent="center" alignItems="center">
-                <hr className={styles.newhr} />
-                <div className={styles.newDiv}>
-                  New <Icon size="md">arrow_downward</Icon>
-                </div>
-                <hr className={styles.newhr} />
-              </Flex>
-            )}
-          </div>
-
-          {afterComments.map((e) => (
-            <LiveCommentContainer
-              key={e.node.id}
-              story={story}
-              comment={e.node}
-              cursor={e.cursor}
-              viewer={viewer}
-              settings={settings}
-              onInView={onCommentVisible}
-              onShowConversation={onShowConversation}
-              onShowParentConversation={onShowParentConversation}
-              onReplyToComment={onReplyToComment}
-              onReplyToParent={onReplyToParent}
-            />
-          ))}
-
-          <div id="end" className={styles.end}>
-            <InView onInView={onEndInView} />
-          </div>
-          <div id="tailing" className={styles.tailing}>
-            <InView onInView={onTailingInView} />
-          </div>
-          <div className={styles.endFooter}></div>
-        </div>
+          totalCount={beforeComments.length + afterComments.length}
+          initialTopMostItemIndex={beforeComments.length - 1}
+          itemContent={itemContent}
+          alignToBottom
+          followOutput="smooth"
+          overscan={{ main: 500, reverse: 500 }}
+          atTopStateChange={(atTop: boolean) => {
+            if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+              void loadMoreBefore();
+              LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
+                storyID: story.id,
+                viewerID: viewer ? viewer.id : "",
+              });
+            }
+          }}
+          atBottomStateChange={(atBottom: boolean) => {
+            if (atBottom && afterHasMore && !isLoadingMoreAfter) {
+              void loadMoreAfter();
+              LiveChatLoadAfterEvent.emit(context.eventEmitter, {
+                storyID: story.id,
+                viewerID: viewer ? viewer.id : "",
+              });
+            }
+            setTailing(atBottom);
+          }}
+        />
       </IntersectionProvider>
 
       {/* TODO: Refactoring canditate */}
@@ -732,16 +470,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         />
       )}
       {showCommentForm && (
-        <div onFocus={handleRTEChange}>
-          <LivePostCommentFormContainer
-            settings={settings}
-            story={story}
-            viewer={viewer}
-            commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-            onSubmitted={onCommentSubmitted}
-            onChange={handleRTEChange}
-          />
-        </div>
+        <LivePostCommentFormContainer
+          settings={settings}
+          story={story}
+          viewer={viewer}
+          commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+          onSubmitted={onCommentSubmitted}
+        />
       )}
     </div>
   );

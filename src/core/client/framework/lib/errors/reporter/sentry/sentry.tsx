@@ -88,6 +88,7 @@ export class SentryErrorReporter implements ErrorReporter {
         ...(process.env.NODE_ENV === "production" ? [new Dedupe()] : []),
         new Transaction(),
       ],
+      ignoreErrors: ["ResizeObserver loop limit exceeded"],
     });
     Sentry.setTag("domain", window.location.host);
 
