@@ -158,6 +158,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
+    if (afterHasMore && !tailing) {
+      return;
+    }
     const disposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
@@ -167,7 +170,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, subscribeToCommentEntered, afterHasMore]);
+  }, [story.id, subscribeToCommentEntered, afterHasMore, tailing]);
 
   const onCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {
