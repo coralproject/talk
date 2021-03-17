@@ -66,7 +66,7 @@ function sharedUpdater(
 function getConnection(
   streamProxy: RecordProxy | null,
   connectionKey: string,
-  filters: any
+  filters?: any
 ) {
   if (!streamProxy) {
     return null;
@@ -94,18 +94,12 @@ function addCommentToStory(
   const connectionKey = "Chat_after";
 
   if (input.commentsOrderBy === "CREATED_AT_ASC") {
-    const con = getConnection(streamProxy, connectionKey, {
-      orderBy: "CREATED_AT_ASC",
-      tag: input.tag,
-    });
+    const con = getConnection(streamProxy, connectionKey, {});
     if (con) {
       ConnectionHandler.insertEdgeAfter(con, commentEdge);
     }
   } else {
-    const con = getConnection(streamProxy, connectionKey, {
-      orderBy: "CREATED_AT_DESC",
-      tag: input.tag,
-    });
+    const con = getConnection(streamProxy, connectionKey, {});
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
     }

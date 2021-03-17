@@ -13,7 +13,6 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { LiveCommentEnteredSubscription } from "coral-stream/__generated__/LiveCommentEnteredSubscription.graphql";
 
@@ -29,18 +28,13 @@ function insertComment(
   environment: Environment,
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
-  storyConnectionKey: string,
-  comment: RecordProxy,
-  tag?: string
+  comment: RecordProxy
 ) {
   const story = store.get(storyID)!;
-  const connection = ConnectionHandler.getConnection(
+  const afterConnection = ConnectionHandler.getConnection(story, "Chat_after")!;
+  const beforeConnection = ConnectionHandler.getConnection(
     story,
-    storyConnectionKey,
-    {
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-      tag,
-    }
+    "Chat_before"
   )!;
 
   const liveInsertion = liveInsertionEnabled(environment);
@@ -49,34 +43,30 @@ function insertComment(
     const edge = ConnectionHandler.createEdge(store, comment, comment, "");
     edge.setValue(comment.getValue("createdAt"), "cursor");
 
-    if (connection) {
-      ConnectionHandler.insertEdgeAfter(connection, edge);
+    if (afterConnection) {
+      ConnectionHandler.insertEdgeAfter(afterConnection, edge);
     }
   } else {
-    const pageInfo = connection.getLinkedRecord("pageInfo")!;
+    const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
     // Should not be falsy because Relay uses this information to determine
     // whether or not new data is available to load.
-    if (!pageInfo.getValue("endCursor")) {
+    if (!pageInfoAfter.getValue("endCursor")) {
+      const beforeEdges = beforeConnection.getLinkedRecords("edges")!;
+      const endCursor =
+        beforeEdges.length > 0
+          ? beforeEdges[0].getValue("cursor")
+          : new Date(0).toISOString();
       // Set cursor to oldest date, to load from the beginning.
-      pageInfo.setValue(comment.getValue("createdAt"), "endCursor");
+      pageInfoAfter.setValue(endCursor, "endCursor");
     }
-    pageInfo.setValue(true, "hasNextPage");
+    pageInfoAfter.setValue(true, "hasNextPage");
   }
 }
 
 type CommentEnteredVariables = Omit<
   SubscriptionVariables<LiveCommentEnteredSubscription>,
   "flattenReplies"
-> & {
-  /** orderBy that was supplied to the `comments` connection on Story */
-  orderBy?: GQLCOMMENT_SORT_RL;
-  /** Tag that was supplied to the `comments` connection on Story */
-  tag?: string;
-  /** If set together with ancestorID, direct replies to the ancestor will immediately displayed */
-  liveDirectRepliesInsertion?: boolean;
-  /** The relay connection key to find the commments on the story */
-  storyConnectionKey: string;
-};
+>;
 
 const LiveCommentEnteredSubscription = createSubscription(
   "subscribeToCommentEntered",
@@ -132,49 +122,8 @@ const LiveCommentEnteredSubscription = createSubscription(
           return;
         }
 
-        const parent = comment.getLinkedRecord("parent");
-        const isTopLevelComent = !parent;
-        if (
-          variables.tag &&
-          isTopLevelComent &&
-          comment
-            .getLinkedRecords("tags")
-            ?.every((r) => r.getValue("code") !== variables.tag)
-        ) {
-          if (process.env.NODE_ENV !== "production") {
-            // eslint-disable-next-line no-console
-            console.debug(
-              "commentEnteredSupscription:",
-              "Skipped comment not including tag",
-              variables.tag
-            );
-          }
-          return;
-        }
-
         comment.setValue(true, "enteredLive");
-
-        if (!isTopLevelComent) {
-          insertComment(
-            environment,
-            store,
-            variables.storyID,
-            variables.storyConnectionKey,
-            comment,
-            variables.tag
-          );
-          return;
-        } else {
-          insertComment(
-            environment,
-            store,
-            variables.storyID,
-            variables.storyConnectionKey,
-            comment,
-            variables.tag
-          );
-          return;
-        }
+        insertComment(environment, store, variables.storyID, comment);
       },
     });
   }

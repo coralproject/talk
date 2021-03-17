@@ -158,19 +158,16 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (afterHasMore && !tailing) {
+    // There is no need for checking tailing here.
+    if (afterHasMore) {
       return;
     }
-    const disposable = subscribeToCommentEntered({
-      storyID: story.id,
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-      storyConnectionKey: "Chat_after",
-    });
+    const disposable = subscribeToCommentEntered({ storyID: story.id });
 
     return () => {
       disposable.dispose();
     };
-  }, [story.id, subscribeToCommentEntered, afterHasMore, tailing]);
+  }, [story.id, subscribeToCommentEntered, afterHasMore]);
 
   const onCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {
@@ -361,10 +358,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               onReplyToComment={onReplyToComment}
               onReplyToParent={onReplyToParent}
             />
-            {index === beforeComments.length + afterComments.length - 1 &&
-              isLoadingMoreAfter && <Skeleton />}
           </div>
         );
+      } else if (index === beforeComments.length + afterComments.length) {
+        return <Skeleton />;
       } else {
         throw new Error(`Index out of bounds: ${index}`);
       }
@@ -372,7 +369,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [
       afterComments,
       beforeComments,
-      isLoadingMoreAfter,
       isLoadingMoreBefore,
       onCommentVisible,
       onReplyToComment,
@@ -410,7 +406,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           id="live-chat-comments"
           className={styles.streamContainer}
           ref={containerRef}
-          totalCount={beforeComments.length + afterComments.length}
+          totalCount={
+            beforeComments.length +
+            afterComments.length +
+            (isLoadingMoreAfter ? 1 : 0)
+          }
           initialTopMostItemIndex={beforeComments.length - 1}
           itemContent={itemContent}
           alignToBottom
