@@ -58,7 +58,7 @@ function insertComment(
     // whether or not new data is available to load.
     if (!pageInfo.getValue("endCursor")) {
       // Set cursor to oldest date, to load from the beginning.
-      pageInfo.setValue(new Date().toISOString(), "endCursor");
+      pageInfo.setValue(comment.getValue("createdAt"), "endCursor");
     }
     pageInfo.setValue(true, "hasNextPage");
   }
