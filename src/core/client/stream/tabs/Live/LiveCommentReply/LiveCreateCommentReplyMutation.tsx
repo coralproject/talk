@@ -111,9 +111,7 @@ function insertIntoLiveChat(
   const streamProxy = store.get(input.storyID)!;
   const connectionKey = "Chat_after";
 
-  const connection = getConnection(streamProxy, connectionKey, {
-    orderBy: "CREATED_AT_ASC",
-  });
+  const connection = getConnection(streamProxy, connectionKey);
 
   if (connection) {
     ConnectionHandler.insertEdgeAfter(connection, commentEdge);

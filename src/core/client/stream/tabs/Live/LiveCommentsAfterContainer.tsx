@@ -61,7 +61,6 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment LiveCommentsAfterContainer_story on Story
         @argumentDefinitions(
-          inclusive: { type: "Boolean", defaultValue: false }
           count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
@@ -71,8 +70,7 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: CREATED_AT_ASC
           first: $count
-          inclusive: $inclusive
-        ) @connection(key: "Chat_after", filters: ["orderBy"]) {
+        ) @connection(key: "Chat_after", filters: []) {
           edges {
             ...LiveChatContainerAfterCommentEdge
           }
@@ -96,7 +94,6 @@ const enhanced = withPaginationContainer<
         count,
         cursor: paginationCursor,
         storyID: story.id,
-        inclusive: story.after.edges.length === 0,
       };
     },
     query: graphql`
@@ -104,11 +101,10 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $storyID: ID
-        $inclusive: Boolean!
       ) {
         story(id: $storyID) {
           ...LiveCommentsAfterContainer_story
-            @arguments(count: $count, cursor: $cursor, inclusive: $inclusive)
+            @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

@@ -75,7 +75,7 @@ const enhanced = withPaginationContainer<
           orderBy: CREATED_AT_DESC
           first: $count
           inclusive: true
-        ) @connection(key: "Chat_before", filters: ["orderBy"]) {
+        ) @connection(key: "Chat_before", filters: []) {
           edges {
             ...LiveChatContainerBeforeCommentEdge
           }
