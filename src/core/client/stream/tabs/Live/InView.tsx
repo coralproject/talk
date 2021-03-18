@@ -5,16 +5,14 @@ import { useInView } from "coral-framework/lib/intersection";
 import styles from "./InView.css";
 
 interface InViewProps {
-  onInView: () => void;
+  onInView: (visible: boolean) => void;
 }
 
 const InView: FunctionComponent<InViewProps> = ({ onInView }) => {
   const { inView, intersectionRef } = useInView();
 
   useEffect(() => {
-    if (inView) {
-      onInView();
-    }
+    onInView(inView);
   }, [inView, onInView]);
 
   return <div className={styles.root} ref={intersectionRef}></div>;
