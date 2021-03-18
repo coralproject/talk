@@ -102,6 +102,8 @@ createComment.error
 - <a href="#liveJumpToNewest">liveJumpToNewest</a>
 - <a href="#liveJumpToReply">liveJumpToReply</a>
 - <a href="#liveReplyCommentFocus">liveReplyCommentFocus</a>
+- <a href="#liveStartTailing">liveStartTailing</a>
+- <a href="#liveStopTailing">liveStopTailing</a>
 - <a href="#loadMoreAllComments">loadMoreAllComments</a>
 - <a href="#loadMoreFeaturedComments">loadMoreFeaturedComments</a>
 - <a href="#loadMoreHistoryComments">loadMoreHistoryComments</a>
@@ -363,6 +365,20 @@ createComment.error
   }
   ```
 - <a id="liveReplyCommentFocus">**liveReplyCommentFocus**</a>: This event is emitted when the viewer focus on the RTE on live chat
+- <a id="liveStartTailing">**liveStartTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveStopTailing">**liveStopTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
 - <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.
   ```ts
   {
