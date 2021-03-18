@@ -28,6 +28,7 @@ import {
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
   LiveJumpToCommentEvent,
+  LiveJumpToNewestEvent,
   LiveStartTailingEvent,
   LiveStopTailingEvent,
 } from "coral-stream/events";
@@ -312,6 +313,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment(null);
   }, [newlyPostedComment, setNewlyPostedComment]);
 
+  const jumpToLive = useCallback(() => {
+    setCursor(new Date().toISOString());
+
+    LiveJumpToNewestEvent.emit(context.eventEmitter, {
+      storyID: story.id,
+      viewerID: viewer ? viewer.id : "",
+    });
+  }, [context.eventEmitter, story.id, viewer, setCursor]);
+
   // Render an item or a loading indicator.
   const itemContent = useCallback(
     (index) => {
@@ -478,13 +488,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
       {/* TODO: Refactoring canditate */}
       {newlyPostedComment && (
-        <div className={styles.scrollToNewReply}>
+        <div className={styles.jumpToContainer}>
           <Flex justifyContent="center" alignItems="center">
             <Flex alignItems="center">
               <Button
                 onClick={jumpToComment}
                 color="primary"
-                className={styles.jumpButton}
+                className={styles.jumpToReplyButton}
               >
                 Message posted below <Icon>arrow_downward</Icon>
               </Button>
@@ -492,9 +502,25 @@ const LiveChatContainer: FunctionComponent<Props> = ({
                 onClick={closeJumpToComment}
                 color="primary"
                 aria-valuetext="close"
-                className={styles.jumpButtonClose}
+                className={styles.jumpToReplyButtonClose}
               >
                 <Icon>close</Icon>
+              </Button>
+            </Flex>
+          </Flex>
+        </div>
+      )}
+      {/* TODO: Refactoring canditate */}
+      {!newlyPostedComment && !tailing && afterHasMore && (
+        <div className={styles.jumpToContainer}>
+          <Flex justifyContent="center" alignItems="center">
+            <Flex alignItems="center">
+              <Button
+                onClick={jumpToLive}
+                color="primary"
+                className={styles.jumpButton}
+              >
+                Jump to live <Icon>arrow_downward</Icon>
               </Button>
             </Flex>
           </Flex>
