@@ -8,7 +8,10 @@ import {
 } from "coral-framework/lib/relay";
 
 import { LiveCommentsBeforeContainer_story } from "coral-stream/__generated__/LiveCommentsBeforeContainer_story.graphql";
+import { LiveCommentsBeforeContainer_viewer } from "coral-stream/__generated__/LiveCommentsBeforeContainer_viewer.graphql";
 import { LiveCommentsBeforeContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentsBeforeContainerPaginationQuery.graphql";
+
+import filterIgnoredComments from "./helpers/filterIgnoredComments";
 
 interface RenderProps {
   beforeComments: ReadonlyArray<{
@@ -25,6 +28,7 @@ type RenderPropsCallback = (props: RenderProps) => React.ReactElement;
 
 interface Props {
   story: LiveCommentsBeforeContainer_story;
+  viewer: LiveCommentsBeforeContainer_viewer | null;
   relay: RelayPaginationProp;
   cursor: string;
   children: RenderPropsCallback;
@@ -32,15 +36,25 @@ interface Props {
 
 const LiveCommentsBeforeContainer: FunctionComponent<Props> = ({
   story,
+  viewer,
   relay,
   children,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
+  const initialIgnoredUsers = useMemo(
+    () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [viewer?.id]
+  );
+
   const beforeComments = useMemo(() => {
     const comments = story.before.edges || [];
-    return comments.slice().reverse();
-  }, [story.before]);
+    return filterIgnoredComments(
+      initialIgnoredUsers,
+      comments.slice().reverse()
+    );
+  }, [initialIgnoredUsers, story.before.edges]);
   const beforeHasMore = story.before.pageInfo.hasNextPage;
 
   return children({
@@ -79,10 +93,23 @@ const enhanced = withPaginationContainer<
         ) @connection(key: "Chat_before", filters: []) {
           edges {
             ...LiveChatContainerBeforeCommentEdge
+            node {
+              author {
+                id
+              }
+            }
           }
           pageInfo {
             hasNextPage
           }
+        }
+      }
+    `,
+    viewer: graphql`
+      fragment LiveCommentsBeforeContainer_viewer on User {
+        id
+        ignoredUsers {
+          id
         }
       }
     `,

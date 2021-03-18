@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 import { FragmentRefs } from "relay-runtime";
 
@@ -8,7 +8,10 @@ import {
 } from "coral-framework/lib/relay";
 
 import { LiveCommentsAfterContainer_story } from "coral-stream/__generated__/LiveCommentsAfterContainer_story.graphql";
+import { LiveCommentsAfterContainer_viewer } from "coral-stream/__generated__/LiveCommentsAfterContainer_viewer.graphql";
 import { LiveCommentsAfterContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentsAfterContainerPaginationQuery.graphql";
+
+import filterIgnoredComments from "./helpers/filterIgnoredComments";
 
 interface RenderProps {
   afterComments: ReadonlyArray<{
@@ -25,6 +28,7 @@ type RenderPropsCallback = (props: RenderProps) => React.ReactElement;
 
 interface Props {
   story: LiveCommentsAfterContainer_story;
+  viewer: LiveCommentsAfterContainer_viewer | null;
   relay: RelayPaginationProp;
   cursor: string;
   children: RenderPropsCallback;
@@ -32,6 +36,7 @@ interface Props {
 
 const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
   story,
+  viewer,
   relay,
   children,
 }) => {
@@ -39,8 +44,18 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
 
   const afterHasMore = story.after.pageInfo.hasNextPage;
 
+  const initialIgnoredUsers = useMemo(
+    () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [viewer?.id]
+  );
+  const filtered = useMemo(
+    () => filterIgnoredComments(initialIgnoredUsers, story.after.edges),
+    [initialIgnoredUsers, story.after.edges]
+  );
+
   return children({
-    afterComments: story.after.edges,
+    afterComments: filtered,
     afterHasMore,
     loadMoreAfter: loadMore,
     isLoadingMoreAfter: isLoadingMore,
@@ -75,10 +90,23 @@ const enhanced = withPaginationContainer<
         ) @connection(key: "Chat_after", filters: []) {
           edges {
             ...LiveChatContainerAfterCommentEdge
+            node {
+              author {
+                id
+              }
+            }
           }
           pageInfo {
             hasNextPage
           }
+        }
+      }
+    `,
+    viewer: graphql`
+      fragment LiveCommentsAfterContainer_viewer on User {
+        id
+        ignoredUsers {
+          id
         }
       }
     `,

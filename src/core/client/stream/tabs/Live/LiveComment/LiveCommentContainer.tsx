@@ -1,12 +1,15 @@
+import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useCallback, useRef } from "react";
 import { graphql } from "react-relay";
 
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import { ReportFlowContainer } from "coral-stream/tabs/shared/ReportFlow";
 import { Flex } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
+import { Button, Tombstone } from "coral-ui/components/v3";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCommentContainer_settings.graphql";
@@ -95,7 +98,22 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   }, [comment, onReplyToComment, onReplyToParent]);
 
   if (ignored) {
-    return null;
+    return (
+      <Tombstone
+        className={cn(CLASSES.ignoredTombstone, styles.tombstone)}
+        fullWidth
+      >
+        <Localized
+          id="comments-tombstone-ignore"
+          $username={comment.author!.username}
+        >
+          <span>
+            This comment is hidden because you ignored{" "}
+            {comment.author!.username}
+          </span>
+        </Localized>
+      </Tombstone>
+    );
   }
 
   return (
@@ -177,7 +195,6 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveCommentContainer_viewer on User {
-      id
       ignoredUsers {
         id
       }
@@ -189,9 +206,6 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment LiveCommentContainer_comment on Comment {
       id
-      revision {
-        id
-      }
       author {
         id
         username
@@ -200,22 +214,12 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       parent {
         id
-        parent {
-          id
-        }
-        revision {
-          id
-        }
         author {
-          id
           username
         }
-        createdAt
         body
         ...LiveCommentConversationContainer_comment
       }
-      replyCount
-
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
