@@ -108,23 +108,25 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             className={styles.action}
           />
         )}
-        <Button
-          className={styles.replyButton}
-          variant="none"
-          onClick={handleOnReply}
-        >
-          <Flex justifyContent="flex-start" alignItems="center">
-            <ShortcutIcon
-              width="16px"
-              height="16px"
-              className={styles.replyIcon}
-              ariaLabel="Reply"
-            />
-            <Responsive minWidth={400}>
-              <span className={styles.action}>Reply</span>
-            </Responsive>
-          </Flex>
-        </Button>
+        {onReply && (
+          <Button
+            className={styles.replyButton}
+            variant="none"
+            onClick={handleOnReply}
+          >
+            <Flex justifyContent="flex-start" alignItems="center">
+              <ShortcutIcon
+                width="16px"
+                height="16px"
+                className={styles.replyIcon}
+                ariaLabel="Reply"
+              />
+              <Responsive minWidth={400}>
+                <span className={styles.action}>Reply</span>
+              </Responsive>
+            </Flex>
+          </Button>
+        )}
         {comment.replyCount > 0 && onConversation && (
           <Button
             className={styles.conversationButton}
