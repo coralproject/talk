@@ -17,7 +17,6 @@ interface Props {
   viewer: LiveStreamContainer_viewer | null;
   settings: LiveStreamContainer_settings;
   cursor: string;
-  cursorSet?: boolean;
   setCursor: (cursor: string) => void;
 }
 
@@ -26,7 +25,6 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   cursor,
-  cursorSet,
   setCursor,
 }) => {
   return (
@@ -58,7 +56,6 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
                 viewer={viewer}
                 settings={settings}
                 story={story}
-                cursorSet={cursorSet}
                 setCursor={setCursor}
               />
             )}
@@ -72,9 +69,15 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveStreamContainer_story on Story
-      @argumentDefinitions(cursor: { type: "Cursor" }) {
-      ...LiveCommentsBeforeContainer_story @arguments(cursor: $cursor)
-      ...LiveCommentsAfterContainer_story @arguments(cursor: $cursor)
+      @argumentDefinitions(
+        cursor: { type: "Cursor" }
+        inclusiveAfter: { type: "Boolean!" }
+        inclusiveBefore: { type: "Boolean!" }
+      ) {
+      ...LiveCommentsBeforeContainer_story
+        @arguments(cursor: $cursor, inclusive: $inclusiveBefore)
+      ...LiveCommentsAfterContainer_story
+        @arguments(cursor: $cursor, inclusive: $inclusiveAfter)
       ...LiveChatContainer_story
     }
   `,

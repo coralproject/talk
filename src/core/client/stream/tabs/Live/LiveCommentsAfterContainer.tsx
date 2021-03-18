@@ -63,6 +63,7 @@ const enhanced = withPaginationContainer<
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
+          inclusive: { type: "Boolean!" }
         ) {
         id
         after: comments(
@@ -70,6 +71,7 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: CREATED_AT_ASC
           first: $count
+          inclusive: $inclusive
         ) @connection(key: "Chat_after", filters: []) {
           edges {
             ...LiveChatContainerAfterCommentEdge
@@ -104,7 +106,7 @@ const enhanced = withPaginationContainer<
       ) {
         story(id: $storyID) {
           ...LiveCommentsAfterContainer_story
-            @arguments(count: $count, cursor: $cursor)
+            @arguments(count: $count, cursor: $cursor, inclusive: false)
         }
       }
     `,

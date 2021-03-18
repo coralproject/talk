@@ -65,9 +65,12 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
 
-  const inView = useCallback(() => {
-    onInView(true, comment.id, comment.createdAt, cursor);
-  }, [comment.createdAt, comment.id, cursor, onInView]);
+  const handleInView = useCallback(
+    (visible: boolean) => {
+      onInView(visible, comment.id, comment.createdAt, cursor);
+    },
+    [comment.createdAt, comment.id, cursor, onInView]
+  );
 
   const handleOnShowParentConversation = useCallback(() => {
     const parent = comment.parent;
@@ -98,7 +101,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   return (
     <div ref={rootRef} className={styles.root} id={`comment-${comment.id}-top`}>
       <div className={styles.comment}>
-        <InView onInView={inView} />
+        <InView onInView={handleInView} />
         {comment.parent && (
           <div className={styles.parent}>
             <Flex justifyContent="flex-start" alignItems="center">

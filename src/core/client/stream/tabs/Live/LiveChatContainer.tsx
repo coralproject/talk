@@ -71,7 +71,6 @@ interface Props {
   settings: LiveChatContainer_settings;
   story: LiveChatContainer_story;
 
-  cursorSet?: boolean;
   setCursor: (cursor: string) => void;
 }
 
@@ -111,7 +110,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   story,
-  cursorSet,
   setCursor,
 }) => {
   const context = useCoralContext();
@@ -145,7 +143,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     visible: false,
   });
 
-  const [newComment, setNewComment] = useState<NewComment | null>(null);
+  const [
+    newlyPostedComment,
+    setNewlyPostedComment,
+  ] = useState<NewComment | null>(null);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -172,6 +173,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const handleCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {
+      if (!visible) {
+        return;
+      }
       // Set the constant updating cursor
       const key = `liveCursor:${storyID}:${storyURL}`;
 
@@ -181,15 +185,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         current = JSON.parse(rawValue);
       }
 
-      if (current && new Date(createdAt) > new Date(current.createdAt)) {
-        await context.localStorage.setItem(
-          key,
-          JSON.stringify({
-            createdAt,
-            cursor,
-          })
-        );
-      } else if (!current) {
+      if (
+        !current ||
+        (current && new Date(createdAt) > new Date(current.createdAt))
+      ) {
         await context.localStorage.setItem(
           key,
           JSON.stringify({
@@ -200,11 +199,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       }
 
       // Hide the "Jump to new comment" button if we can see its target comment
-      if (newComment && newComment.id === id) {
-        setNewComment(null);
+      if (newlyPostedComment && newlyPostedComment.id === id) {
+        setNewlyPostedComment(null);
       }
     },
-    [context.localStorage, newComment, storyID, storyURL]
+    [context.localStorage, newlyPostedComment, storyID, storyURL]
   );
 
   const showConversation = useCallback(
@@ -265,18 +264,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [setConversationView]);
 
   const jumpToComment = useCallback(() => {
-    if (!newComment) {
+    if (!newlyPostedComment) {
       return;
     }
 
-    setCursor(newComment.cursor);
+    setCursor(newlyPostedComment.cursor);
 
     LiveJumpToCommentEvent.emit(context.eventEmitter, {
       storyID: story.id,
-      commentID: newComment.id,
+      commentID: newlyPostedComment.id,
       viewerID: viewer ? viewer.id : "",
     });
-  }, [newComment, setCursor, story.id, viewer, context.eventEmitter]);
+  }, [newlyPostedComment, setCursor, story.id, viewer, context.eventEmitter]);
 
   const handleCommentSubmitted = useCallback(
     (commentID: string, cursor: string) => {
@@ -284,20 +283,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         return;
       }
 
-      if (!tailing) {
-        setNewComment({ id: commentID, cursor });
+      if (!tailing && !newlyPostedComment) {
+        setNewlyPostedComment({ id: commentID, cursor });
       }
     },
-    [tailing, setNewComment]
+    [tailing, newlyPostedComment]
   );
 
   const closeJumpToComment = useCallback(() => {
-    if (!newComment) {
+    if (!newlyPostedComment) {
       return;
     }
 
-    setNewComment(null);
-  }, [newComment, setNewComment]);
+    setNewlyPostedComment(null);
+  }, [newlyPostedComment, setNewlyPostedComment]);
 
   // Render an item or a loading indicator.
   const itemContent = useCallback(
@@ -464,7 +463,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       </IntersectionProvider>
 
       {/* TODO: Refactoring canditate */}
-      {newComment && (
+      {newlyPostedComment && (
         <div className={styles.scrollToNewReply}>
           <Flex justifyContent="center" alignItems="center">
             <Flex alignItems="center">
