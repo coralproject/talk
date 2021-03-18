@@ -97,7 +97,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
   const submit = useCallback(
     (commentID: string | undefined, cur: string) => {
-      if (commentID) {
+      if (commentID && !newlyPostedReply && !tailing) {
         setNewlyPostedReply({
           id: commentID,
           cursor: cur,
@@ -108,7 +108,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
         onSubmitted(commentID, cur);
       }
     },
-    [onSubmitted, setNewlyPostedReply]
+    [newlyPostedReply, onSubmitted, tailing]
   );
 
   const jumpToReply = useCallback(() => {
