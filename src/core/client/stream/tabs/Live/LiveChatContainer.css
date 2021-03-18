@@ -7,9 +7,6 @@
 
 .streamContainer {
   position: relative;
-
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .replyModal {
@@ -33,22 +30,6 @@
   font-weight: var(--font-weight-primary-bold);
 
   color: var(--palette-primary-500);
-}
-
-.begin {
-  height: 5px;
-}
-
-.end {
-  height: 5px;
-}
-
-.tailing {
-  height: 5px;
-}
-
-.endFooter {
-  height: 5px;
 }
 
 .scrollToNewReply {
