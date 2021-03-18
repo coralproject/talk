@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
@@ -14,6 +14,7 @@ import { LiveReplyContainer_settings } from "coral-stream/__generated__/LiveRepl
 import { LiveReplyContainer_story } from "coral-stream/__generated__/LiveReplyContainer_story.graphql";
 import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyContainer_viewer.graphql";
 
+import InView from "../../InView";
 import LiveCommentActionsContainer from "../../LiveComment/LiveCommentActionsContainer";
 import LiveCommentBodyContainer from "../../LiveComment/LiveCommentBodyContainer";
 
@@ -33,6 +34,10 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
+
+  const handleInView = useCallback((visible: boolean) => {
+    // TODO: (cvle) handle in view
+  }, []);
 
   const ignored = Boolean(
     comment.author &&
@@ -62,6 +67,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   return (
     <div className={styles.root} id={`reply-${comment.id}-top`}>
       <div className={styles.comment}>
+        <InView onInView={handleInView} />
         <LiveCommentBodyContainer
           comment={comment}
           settings={settings}

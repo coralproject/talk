@@ -9,7 +9,6 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useLocal,
@@ -267,9 +266,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
-          <IntersectionProvider>
-            <ViewersWatchingContainer story={story} settings={settings} />
-          </IntersectionProvider>
+          <ViewersWatchingContainer story={story} settings={settings} />
           {showCommentForm && (
             <PostCommentFormContainer
               story={story}
