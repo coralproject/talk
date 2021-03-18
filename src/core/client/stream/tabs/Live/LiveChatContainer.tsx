@@ -383,7 +383,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
       if (atTop && beforeHasMore && !isLoadingMoreBefore) {
-        void loadMoreBefore();
+        // void loadMoreBefore();
         LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
@@ -441,7 +441,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         )}
       <IntersectionProvider>
         <Virtuoso
-          firstItemIndex={10000 - beforeComments.length}
+          firstItemIndex={START_INDEX - beforeComments.length}
           id="live-chat-comments"
           className={styles.streamContainer}
           ref={containerRef}
