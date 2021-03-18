@@ -28,6 +28,8 @@ import {
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
   LiveJumpToCommentEvent,
+  LiveStartTailingEvent,
+  LiveStopTailingEvent,
 } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
@@ -151,8 +153,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const setTailing = useCallback(
     (value: boolean) => {
       setLocal({ liveChat: { tailing: value } });
+
+      if (value) {
+        LiveStartTailingEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      } else {
+        LiveStopTailingEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
     },
-    [setLocal]
+    [context.eventEmitter, setLocal, story.id, viewer]
   );
 
   const subscribeToCommentEntered = useSubscription(
