@@ -53,6 +53,8 @@ interface Props {
 
   tailing: boolean;
   setTailing: (value: boolean) => void;
+
+  onCommentInView: (visible: boolean, commentID: string) => void;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -70,6 +72,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   settings,
   tailing,
   setTailing,
+  onCommentInView,
 }) => {
   const { eventEmitter } = useCoralContext();
   const [height, setHeight] = useState(0);
@@ -151,6 +154,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
                 comment={e.node}
                 viewer={viewer}
                 settings={settings}
+                onInView={onCommentInView}
               />
             </Flex>
           </div>
@@ -166,6 +170,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
                 comment={e.node}
                 viewer={viewer}
                 settings={settings}
+                onInView={onCommentInView}
               />
             </Flex>
           </div>
@@ -176,7 +181,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
         throw new Error(`Index out of bounds: ${index}`);
       }
     },
-    [afterComments, beforeComments, settings, story, viewer]
+    [afterComments, beforeComments, onCommentInView, settings, story, viewer]
   );
 
   return (
@@ -187,6 +192,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           comment={comment}
           viewer={viewer}
           settings={settings}
+          onInView={onCommentInView}
         />
       </div>
       <Virtuoso

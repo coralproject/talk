@@ -15,6 +15,8 @@ interface Props {
 
   tailing: boolean;
   setTailing: (value: boolean) => void;
+
+  onCommentInView: (visible: boolean, commentID: string) => void;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
@@ -23,6 +25,7 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   cursor,
   tailing,
   setTailing,
+  onCommentInView,
 }) => {
   if (!cursor) {
     return <Spinner />;
@@ -78,6 +81,7 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             cursor={cursor}
             tailing={tailing}
             setTailing={setTailing}
+            onCommentInView={onCommentInView}
           />
         );
       }}

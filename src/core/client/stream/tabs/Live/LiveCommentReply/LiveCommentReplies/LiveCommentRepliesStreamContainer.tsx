@@ -21,6 +21,8 @@ interface Props {
 
   tailing: boolean;
   setTailing: (value: boolean) => void;
+
+  onCommentInView: (visible: boolean, commentID: string) => void;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
@@ -31,6 +33,7 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   cursor,
   tailing,
   setTailing,
+  onCommentInView,
 }) => {
   return (
     <LiveCommentRepliesBeforeContainer
@@ -70,6 +73,7 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               story={story}
               tailing={tailing}
               setTailing={setTailing}
+              onCommentInView={onCommentInView}
             />
           )}
         </LiveCommentRepliesAfterContainer>
