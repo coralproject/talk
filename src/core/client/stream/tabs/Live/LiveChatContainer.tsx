@@ -303,6 +303,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const itemContent = useCallback(
     (index) => {
       index = index - (START_INDEX - beforeComments.length);
+      if (index < 0) {
+        throw new Error(`Unexpected index < 0, was '${index}'`);
+      }
       if (index < beforeComments.length) {
         const e = beforeComments[index];
         return (
