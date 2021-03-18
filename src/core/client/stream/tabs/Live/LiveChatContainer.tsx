@@ -9,7 +9,6 @@ import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLocal,
   useSubscription,
@@ -445,25 +444,23 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             <CallOut color="mono">There are no comments on this story.</CallOut>
           </Localized>
         )}
-      <IntersectionProvider>
-        <Virtuoso
-          firstItemIndex={START_INDEX - beforeComments.length}
-          id="live-chat-comments"
-          className={styles.streamContainer}
-          totalCount={
-            beforeComments.length +
-            afterComments.length +
-            (isLoadingMoreAfter ? 1 : 0)
-          }
-          initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
-          itemContent={itemContent}
-          alignToBottom
-          followOutput="smooth"
-          overscan={OVERSCAN}
-          atTopStateChange={handleAtTopStateChange}
-          atBottomStateChange={handleAtBottomStateChange}
-        />
-      </IntersectionProvider>
+      <Virtuoso
+        firstItemIndex={START_INDEX - beforeComments.length}
+        id="live-chat-comments"
+        className={styles.streamContainer}
+        totalCount={
+          beforeComments.length +
+          afterComments.length +
+          (isLoadingMoreAfter ? 1 : 0)
+        }
+        initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+        itemContent={itemContent}
+        alignToBottom
+        followOutput="smooth"
+        overscan={OVERSCAN}
+        atTopStateChange={handleAtTopStateChange}
+        atBottomStateChange={handleAtBottomStateChange}
+      />
 
       {/* TODO: Refactoring canditate */}
       {newlyPostedComment && (

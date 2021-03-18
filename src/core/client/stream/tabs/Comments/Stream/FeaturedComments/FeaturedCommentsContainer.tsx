@@ -6,7 +6,6 @@ import {
   useViewerEvent,
   useViewerNetworkEvent,
 } from "coral-framework/lib/events";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useLocal,
@@ -157,12 +156,10 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
-          <IntersectionProvider>
-            <ViewersWatchingContainer
-              story={props.story}
-              settings={props.settings}
-            />
-          </IntersectionProvider>
+          <ViewersWatchingContainer
+            story={props.story}
+            settings={props.settings}
+          />
           {showCommentForm && (
             <PostCommentFormContainer
               story={props.story}
