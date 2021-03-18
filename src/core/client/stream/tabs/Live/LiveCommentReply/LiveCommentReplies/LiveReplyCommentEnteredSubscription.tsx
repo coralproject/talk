@@ -11,7 +11,7 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
+import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 import {
   determineDepthTillAncestor,
   isPublished,
@@ -40,9 +40,7 @@ function insertComment(
     return;
   }
 
-  const connection = ConnectionHandler.getConnection(parent, connectionKey, {
-    orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-  });
+  const connection = ConnectionHandler.getConnection(parent, connectionKey);
 
   if (!connection) {
     return;

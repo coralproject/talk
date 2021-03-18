@@ -6,7 +6,7 @@
   color: var(--palette-text-primary);
 
   z-index: 1000;
-  position: fixed;
+  position: absolute;
   left: 0;
   width: 100%;
   bottom: 0;
@@ -17,7 +17,7 @@
 
 .overlay {
   z-index: 999;
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;

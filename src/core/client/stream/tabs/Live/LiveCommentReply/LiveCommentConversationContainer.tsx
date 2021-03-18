@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useCallback, useRef, useState } from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import { commitLocalUpdate, graphql } from "react-relay";
+import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -44,7 +45,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   onSubmitted,
   visible,
 }) => {
-  const context = useCoralContext();
+  const { eventEmitter, relayEnvironment } = useCoralContext();
 
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
@@ -52,7 +53,9 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
   const showReplyForm = !banned && !suspended && !warned;
 
-  const [newComment, setNewComment] = useState<NewComment | null>(null);
+  const [newlyPostedReply, setNewlyPostedReply] = useState<NewComment | null>(
+    null
+  );
   const [tailing, setTailing] = useState<boolean>(false);
 
   const close = useCallback(() => {
@@ -61,10 +64,36 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
   const [cursor, setCursor] = useState(new Date(0).toISOString());
 
+  // The pagination container wouldn't allow us to start a new connection
+  // by refetching with a different cursor. So we delete the connection first,
+  // before starting the refetch.
+  const deleteConnectionsAndSetCursor = useCallback(
+    (s: string) => {
+      commitLocalUpdate(relayEnvironment, (store) => {
+        // TODO: (cvle) use `getConnectionID` after update:
+        // https://github.com/facebook/relay/pull/3332
+        const commentRecord = store.get(comment.id)!;
+        const chatAfter = ConnectionHandler.getConnection(
+          commentRecord,
+          "Replies_after"
+        )!;
+        const chatBefore = ConnectionHandler.getConnection(
+          commentRecord,
+          "Replies_before"
+        )!;
+        store.delete(chatAfter.getValue("__id") as string);
+        store.delete(chatBefore.getValue("__id") as string);
+      });
+      setCursor("");
+      setTimeout(() => setCursor(s), 0);
+    },
+    [comment.id, relayEnvironment]
+  );
+
   const submit = useCallback(
     (commentID: string | undefined, cur: string) => {
       if (commentID) {
-        setNewComment({
+        setNewlyPostedReply({
           id: commentID,
           cursor: cur,
         });
@@ -74,48 +103,34 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
         onSubmitted(commentID, cur);
       }
     },
-    [onSubmitted, setNewComment]
+    [onSubmitted, setNewlyPostedReply]
   );
 
-  const afterJumpTimeout = useRef<number | null>(null);
-  const afterJumpToComment = useCallback(() => {
-    if (newComment && !tailing) {
-      const id = `reply-${newComment.id}-bottom`;
-      const el = document.getElementById(id);
+  const jumpToReply = useCallback(() => {
+    if (newlyPostedReply && newlyPostedReply.cursor) {
+      deleteConnectionsAndSetCursor(newlyPostedReply.cursor);
 
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-
-    setNewComment(null);
-  }, [newComment, tailing]);
-
-  const jumpToComment = useCallback(() => {
-    if (newComment && newComment.cursor) {
-      setCursor(newComment.cursor);
-
-      LiveJumpToReplyEvent.emit(context.eventEmitter, {
+      LiveJumpToReplyEvent.emit(eventEmitter, {
         storyID: story.id,
-        commentID: newComment.id,
+        commentID: newlyPostedReply.id,
         viewerID: viewer ? viewer.id : "",
       });
     }
+  }, [
+    deleteConnectionsAndSetCursor,
+    eventEmitter,
+    newlyPostedReply,
+    story.id,
+    viewer,
+  ]);
 
-    if (afterJumpTimeout.current) {
-      clearTimeout(afterJumpTimeout.current);
-    }
-
-    afterJumpTimeout.current = window.setTimeout(afterJumpToComment, 300);
-  }, [afterJumpToComment, context.eventEmitter, newComment, story.id, viewer]);
-
-  const closeJumpToComment = useCallback(() => {
-    if (!newComment) {
+  const closeJumpToReply = useCallback(() => {
+    if (!newlyPostedReply) {
       return;
     }
 
-    setNewComment(null);
-  }, [newComment, setNewComment]);
+    setNewlyPostedReply(null);
+  }, [newlyPostedReply, setNewlyPostedReply]);
 
   if (!visible) {
     return null;
@@ -155,19 +170,19 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           setTailing={setTailing}
         />
 
-        {newComment && (
+        {newlyPostedReply && (
           <div className={styles.scrollToNewReply}>
             <Flex justifyContent="center" alignItems="center">
               <Flex alignItems="center">
                 <Button
-                  onClick={jumpToComment}
+                  onClick={jumpToReply}
                   color="primary"
                   className={styles.jumpButton}
                 >
                   Reply posted below <Icon>arrow_downward</Icon>
                 </Button>
                 <Button
-                  onClick={closeJumpToComment}
+                  onClick={closeJumpToReply}
                   color="primary"
                   aria-valuetext="close"
                   className={styles.jumpButtonClose}

@@ -24,6 +24,9 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   tailing,
   setTailing,
 }) => {
+  if (!cursor) {
+    return <Spinner />;
+  }
   return (
     <QueryRenderer<LiveCommentRepliesQuery>
       query={graphql`
@@ -53,6 +56,9 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
         cursor,
       }}
       render={(data) => {
+        if (data.error) {
+          return <div>{data.error.message}</div>;
+        }
         if (
           !data ||
           !data.props ||

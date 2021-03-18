@@ -97,6 +97,8 @@ createComment.error
 - <a href="#liveChatLoadAfter">liveChatLoadAfter</a>
 - <a href="#liveChatLoadBefore">liveChatLoadBefore</a>
 - <a href="#liveChatOpenConversation">liveChatOpenConversation</a>
+- <a href="#liveChatRepliesLoadAfter">liveChatRepliesLoadAfter</a>
+- <a href="#liveChatRepliesLoadBefore">liveChatRepliesLoadBefore</a>
 - <a href="#liveCreateCommentFocus">liveCreateCommentFocus</a>
 - <a href="#liveJumpToComment">liveJumpToComment</a>
 - <a href="#liveJumpToNewest">liveJumpToNewest</a>
@@ -337,6 +339,20 @@ createComment.error
       storyID: string;
       commentID: string;
       type: "conversation" | "parent" | "reply" | "replyToParent";
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatRepliesLoadAfter">**liveChatRepliesLoadAfter**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatRepliesLoadBefore">**liveChatRepliesLoadBefore**</a>: 
+  ```ts
+  {
+      storyID: string;
       viewerID: string;
   }
   ```

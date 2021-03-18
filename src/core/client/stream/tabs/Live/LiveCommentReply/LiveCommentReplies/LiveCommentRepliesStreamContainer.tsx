@@ -33,14 +33,22 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   setTailing,
 }) => {
   return (
-    <LiveCommentRepliesBeforeContainer comment={comment} cursor={cursor}>
+    <LiveCommentRepliesBeforeContainer
+      comment={comment}
+      viewer={viewer}
+      cursor={cursor}
+    >
       {({
         beforeComments,
         beforeHasMore,
         loadMoreBefore,
         isLoadingMoreBefore,
       }) => (
-        <LiveCommentRepliesAfterContainer comment={comment} cursor={cursor}>
+        <LiveCommentRepliesAfterContainer
+          comment={comment}
+          viewer={viewer}
+          cursor={cursor}
+        >
           {({
             afterComments,
             afterHasMore,
@@ -87,6 +95,8 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LiveCommentRepliesStreamContainer_viewer on User {
       ...LiveCommentRepliesContainer_viewer
+      ...LiveCommentRepliesBeforeContainer_viewer
+      ...LiveCommentRepliesAfterContainer_viewer
     }
   `,
   settings: graphql`
