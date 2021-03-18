@@ -30,14 +30,22 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
   return (
     <>
       <UserBoxContainer viewer={viewer} settings={settings} />
-      <LiveCommentsBeforeContainer story={story} cursor={cursor}>
+      <LiveCommentsBeforeContainer
+        story={story}
+        viewer={viewer}
+        cursor={cursor}
+      >
         {({
           beforeComments,
           beforeHasMore,
           loadMoreBefore,
           isLoadingMoreBefore,
         }) => (
-          <LiveCommentsAfterContainer story={story} cursor={cursor}>
+          <LiveCommentsAfterContainer
+            story={story}
+            viewer={viewer}
+            cursor={cursor}
+          >
             {({
               afterComments,
               afterHasMore,
@@ -85,6 +93,8 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveStreamContainer_viewer on User {
       ...LiveChatContainer_viewer
       ...UserBoxContainer_viewer
+      ...LiveCommentsBeforeContainer_viewer
+      ...LiveCommentsAfterContainer_viewer
     }
   `,
   settings: graphql`

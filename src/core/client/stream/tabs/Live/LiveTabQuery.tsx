@@ -43,7 +43,7 @@ const LiveTabQuery: FunctionComponent = () => {
     const loadCursor = async () => {
       const key = `liveCursor:${storyID}:${storyURL}`;
 
-      const rawValue = await context.localStorage.getItem(key);
+      const rawValue = await context.sessionStorage.getItem(key);
       let current: CursorState | null = null;
       if (rawValue) {
         current = JSON.parse(rawValue);
@@ -58,7 +58,7 @@ const LiveTabQuery: FunctionComponent = () => {
     };
 
     void loadCursor();
-  }, [context.localStorage, storyID, storyURL]);
+  }, [context.sessionStorage, storyID, storyURL]);
 
   const { relayEnvironment } = useCoralContext();
 

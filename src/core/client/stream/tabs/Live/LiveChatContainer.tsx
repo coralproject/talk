@@ -193,7 +193,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       // Set the constant updating cursor
       const key = `liveCursor:${storyID}:${storyURL}`;
 
-      const rawValue = await context.localStorage.getItem(key);
+      const rawValue = await context.sessionStorage.getItem(key);
       let current: CursorState | null = null;
       if (rawValue) {
         current = JSON.parse(rawValue);
@@ -203,7 +203,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         !current ||
         (current && new Date(createdAt) > new Date(current.createdAt))
       ) {
-        await context.localStorage.setItem(
+        await context.sessionStorage.setItem(
           key,
           JSON.stringify({
             createdAt,
@@ -217,7 +217,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         setNewlyPostedComment(null);
       }
     },
-    [context.localStorage, newlyPostedComment, storyID, storyURL]
+    [context.sessionStorage, newlyPostedComment, storyID, storyURL]
   );
 
   const showConversation = useCallback(
