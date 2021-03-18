@@ -97,7 +97,8 @@ const Skeleton = (props: any) => (
   </ContentLoader>
 );
 
-const START_INDEX = 10000;
+const START_INDEX = 100000;
+const OVERSCAN = { main: 500, reverse: 500 };
 const LiveChatContainer: FunctionComponent<Props> = ({
   beforeComments,
   beforeHasMore,
@@ -169,7 +170,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     };
   }, [story.id, subscribeToCommentEntered, afterHasMore]);
 
-  const onCommentVisible = useCallback(
+  const handleCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {
       // Set the constant updating cursor
       const key = `liveCursor:${storyID}:${storyURL}`;
@@ -206,7 +207,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.localStorage, newComment, storyID, storyURL]
   );
 
-  const onShowConv = useCallback(
+  const showConversation = useCallback(
     (
       comment:
         | LiveCommentContainer_comment
@@ -229,34 +230,34 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [context.eventEmitter, story.id, viewer]
   );
 
-  const onReplyToComment = useCallback(
+  const handleReplyToComment = useCallback(
     (comment: LiveCommentContainer_comment) => {
-      onShowConv(comment, "reply");
+      showConversation(comment, "reply");
     },
-    [onShowConv]
+    [showConversation]
   );
-  const onReplyToParent = useCallback(
+  const handleReplyToParent = useCallback(
     (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
-      onShowConv(parent, "replyToParent");
+      showConversation(parent, "replyToParent");
     },
-    [onShowConv]
+    [showConversation]
   );
 
-  const onShowConversation = useCallback(
+  const handleShowConversation = useCallback(
     (comment: LiveCommentContainer_comment) => {
-      onShowConv(comment, "conversation");
+      showConversation(comment, "conversation");
     },
-    [onShowConv]
+    [showConversation]
   );
 
-  const onShowParentConversation = useCallback(
+  const handleShowParentConversation = useCallback(
     (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
-      onShowConv(parent, "parent");
+      showConversation(parent, "parent");
     },
-    [onShowConv]
+    [showConversation]
   );
 
-  const onCloseConversation = useCallback(() => {
+  const handleCloseConversation = useCallback(() => {
     setConversationView({
       visible: false,
       comment: null,
@@ -275,11 +276,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       commentID: newComment.id,
       viewerID: viewer ? viewer.id : "",
     });
-
-    // scrollToComment
   }, [newComment, setCursor, story.id, viewer, context.eventEmitter]);
 
-  const onCommentSubmitted = useCallback(
+  const handleCommentSubmitted = useCallback(
     (commentID: string, cursor: string) => {
       if (!commentID || !cursor) {
         return;
@@ -316,11 +315,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               cursor={e.cursor}
               viewer={viewer}
               settings={settings}
-              onInView={onCommentVisible}
-              onShowConversation={onShowConversation}
-              onShowParentConversation={onShowParentConversation}
-              onReplyToComment={onReplyToComment}
-              onReplyToParent={onReplyToParent}
+              onInView={handleCommentVisible}
+              onShowConversation={handleShowConversation}
+              onShowParentConversation={handleShowParentConversation}
+              onReplyToComment={handleReplyToComment}
+              onReplyToParent={handleReplyToParent}
             />
           </div>
         );
@@ -352,11 +351,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               cursor={e.cursor}
               viewer={viewer}
               settings={settings}
-              onInView={onCommentVisible}
-              onShowConversation={onShowConversation}
-              onShowParentConversation={onShowParentConversation}
-              onReplyToComment={onReplyToComment}
-              onReplyToParent={onReplyToParent}
+              onInView={handleCommentVisible}
+              onShowConversation={handleShowConversation}
+              onShowParentConversation={handleShowParentConversation}
+              onReplyToComment={handleReplyToComment}
+              onReplyToParent={handleReplyToParent}
             />
           </div>
         );
@@ -370,17 +369,57 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       afterComments,
       beforeComments,
       isLoadingMoreBefore,
-      onCommentVisible,
-      onReplyToComment,
-      onReplyToParent,
-      onShowConversation,
-      onShowParentConversation,
+      handleCommentVisible,
+      handleReplyToComment,
+      handleReplyToParent,
+      handleShowConversation,
+      handleShowParentConversation,
       settings,
       story,
       viewer,
     ]
   );
 
+  const handleAtTopStateChange = useCallback(
+    (atTop: boolean) => {
+      if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+        void loadMoreBefore();
+        LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
+    },
+    [
+      beforeHasMore,
+      context.eventEmitter,
+      isLoadingMoreBefore,
+      loadMoreBefore,
+      story.id,
+      viewer,
+    ]
+  );
+  const handleAtBottomStateChange = useCallback(
+    (atBottom: boolean) => {
+      if (atBottom && afterHasMore && !isLoadingMoreAfter) {
+        void loadMoreAfter();
+        LiveChatLoadAfterEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
+      setTailing(atBottom);
+    },
+    [
+      afterHasMore,
+      context.eventEmitter,
+      isLoadingMoreAfter,
+      loadMoreAfter,
+      setTailing,
+      story.id,
+      viewer,
+    ]
+  );
   return (
     <div className={styles.root}>
       <div className={styles.filler}></div>
@@ -415,26 +454,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           itemContent={itemContent}
           alignToBottom
           followOutput="smooth"
-          overscan={{ main: 500, reverse: 500 }}
-          atTopStateChange={(atTop: boolean) => {
-            if (atTop && beforeHasMore && !isLoadingMoreBefore) {
-              void loadMoreBefore();
-              LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
-                storyID: story.id,
-                viewerID: viewer ? viewer.id : "",
-              });
-            }
-          }}
-          atBottomStateChange={(atBottom: boolean) => {
-            if (atBottom && afterHasMore && !isLoadingMoreAfter) {
-              void loadMoreAfter();
-              LiveChatLoadAfterEvent.emit(context.eventEmitter, {
-                storyID: story.id,
-                viewerID: viewer ? viewer.id : "",
-              });
-            }
-            setTailing(atBottom);
-          }}
+          overscan={OVERSCAN}
+          atTopStateChange={handleAtTopStateChange}
+          atBottomStateChange={handleAtBottomStateChange}
         />
       </IntersectionProvider>
 
@@ -469,7 +491,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           story={story}
           comment={conversationView.comment}
           visible={conversationView.visible}
-          onClose={onCloseConversation}
+          onClose={handleCloseConversation}
         />
       )}
       {showCommentForm && (
@@ -478,7 +500,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           story={story}
           viewer={viewer}
           commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-          onSubmitted={onCommentSubmitted}
+          onSubmitted={handleCommentSubmitted}
         />
       )}
     </div>
