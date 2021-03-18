@@ -25,6 +25,7 @@ interface Props {
   viewer: LiveReplyContainer_viewer | null;
   comment: LiveReplyContainer_comment;
   settings: LiveReplyContainer_settings;
+  onInView: (visible: boolean, commentID: string) => void;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -32,12 +33,16 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   comment,
   viewer,
   settings,
+  onInView,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
-  const handleInView = useCallback((visible: boolean) => {
-    // TODO: (cvle) handle in view
-  }, []);
+  const handleInView = useCallback(
+    (visible: boolean) => {
+      onInView(visible, comment.id);
+    },
+    [onInView, comment.id]
+  );
 
   const ignored = Boolean(
     comment.author &&

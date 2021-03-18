@@ -132,6 +132,19 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
     setNewlyPostedReply(null);
   }, [newlyPostedReply, setNewlyPostedReply]);
 
+  const handleCommentInView = useCallback(
+    (commentVisible: boolean, commentID: string) => {
+      if (
+        commentVisible &&
+        newlyPostedReply &&
+        commentID === newlyPostedReply.id
+      ) {
+        setNewlyPostedReply(null);
+      }
+    },
+    [newlyPostedReply]
+  );
+
   if (!visible) {
     return null;
   }
@@ -168,6 +181,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           cursor={cursor}
           tailing={tailing}
           setTailing={setTailing}
+          onCommentInView={handleCommentInView}
         />
 
         {newlyPostedReply && (
