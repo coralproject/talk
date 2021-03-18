@@ -11,12 +11,7 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import {
-  GQLComment,
-  GQLCOMMENT_SORT,
-  GQLStory,
-  GQLUSER_ROLE,
-} from "coral-framework/schema";
+import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { LiveCreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/LiveCreateCommentReplyMutation.graphql";
@@ -137,9 +132,7 @@ function insertIntoReplyChat(
   const comment = commentEdge.getLinkedRecord("node")!;
   const parent = comment.getLinkedRecord("parent")!;
 
-  const connection = getConnection(parent, connectionKey, {
-    orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-  });
+  const connection = getConnection(parent, connectionKey);
 
   if (connection) {
     ConnectionHandler.insertEdgeAfter(connection, commentEdge);
@@ -223,13 +216,13 @@ async function commit(
                 },
                 rating: null,
                 parent: {
-                  createdAt: new Date().toISOString(),
+                  createdAt: parentComment.createdAt,
                   id: parentComment.id,
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: [],
-                  body: "",
+                  tags: parentComment.tags,
+                  body: parentComment.body,
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),

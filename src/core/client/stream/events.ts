@@ -647,6 +647,16 @@ export const LiveChatLoadAfterEvent = createViewerEvent<{
   viewerID: string;
 }>("liveChatLoadAfterEvent");
 
+export const LiveChatRepliesLoadBeforeEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatRepliesLoadBeforeEvent");
+
+export const LiveChatRepliesLoadAfterEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatRepliesLoadAfterEvent");
+
 export const LiveChatOpenConversationEvent = createViewerEvent<{
   storyID: string;
   commentID: string;

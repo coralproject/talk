@@ -2,15 +2,21 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useRef,
+  useState,
 } from "react";
 import { graphql } from "react-relay";
+import { Virtuoso } from "react-virtuoso";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import {
+  LiveChatRepliesLoadAfterEvent,
+  LiveChatRepliesLoadBeforeEvent,
+} from "coral-stream/events";
 import { Flex } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
@@ -20,10 +26,14 @@ import { LiveCommentRepliesContainer_viewer } from "coral-stream/__generated__/L
 import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerAfterCommentEdge.graphql";
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
 
+import LiveSkeleton from "../../LiveSkeleton";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
 import LiveReplyContainer from "./LiveReplyContainer";
 
 import styles from "./LiveCommentRepliesContainer.css";
+
+const START_INDEX = 100000;
+const OVERSCAN = { main: 500, reverse: 500 };
 
 interface Props {
   beforeComments: LiveCommentRepliesContainerBeforeCommentEdge;
@@ -61,10 +71,15 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   tailing,
   setTailing,
 }) => {
+  const { eventEmitter } = useCoralContext();
+  const [height, setHeight] = useState(0);
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
   );
   useEffect(() => {
+    if (afterHasMore) {
+      return;
+    }
     const disposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
@@ -75,59 +90,97 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, comment.id, subscribeToCommentEntered]);
+  }, [story.id, comment.id, subscribeToCommentEntered, afterHasMore]);
 
-  const repliesRef = useRef<any | null>(null);
-
-  const onScroll = useCallback(async () => {
-    const replies = repliesRef.current;
-    if (!replies) {
-      return;
-    }
-
-    const withinBottomDelta = 8;
-    const atBottom =
-      Math.abs(
-        replies.scrollTop - (replies.scrollHeight - replies.offsetHeight)
-      ) < withinBottomDelta;
-
-    const atTop = replies.scrollTop < 5;
-
-    if (atTop && beforeHasMore && !isLoadingMoreBefore && !isLoadingMoreAfter) {
-      try {
-        await loadMoreBefore();
-      } catch (err) {
-        // ignore for now
+  const handleAtTopStateChange = useCallback(
+    (atTop: boolean) => {
+      if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+        void loadMoreBefore();
+        LiveChatRepliesLoadBeforeEvent.emit(eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
       }
-    }
-    if (
-      atBottom &&
-      afterHasMore &&
-      !isLoadingMoreAfter &&
-      !isLoadingMoreBefore
-    ) {
-      try {
-        await loadMoreAfter();
-      } catch (err) {
-        // ignore for now
+    },
+    [
+      beforeHasMore,
+      eventEmitter,
+      isLoadingMoreBefore,
+      loadMoreBefore,
+      story.id,
+      viewer,
+    ]
+  );
+  const handleAtBottomStateChange = useCallback(
+    (atBottom: boolean) => {
+      if (atBottom && afterHasMore && !isLoadingMoreAfter) {
+        void loadMoreAfter();
+        LiveChatRepliesLoadAfterEvent.emit(eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
       }
-    }
+      setTailing(atBottom);
+    },
+    [
+      afterHasMore,
+      eventEmitter,
+      isLoadingMoreAfter,
+      loadMoreAfter,
+      setTailing,
+      story.id,
+      viewer,
+    ]
+  );
 
-    if (atBottom && !afterHasMore && !isLoadingMoreAfter) {
-      setTailing(true);
-    }
-  }, [
-    afterHasMore,
-    beforeHasMore,
-    isLoadingMoreAfter,
-    isLoadingMoreBefore,
-    loadMoreAfter,
-    loadMoreBefore,
-    setTailing,
-  ]);
+  // Render an item or a loading indicator.
+  const itemContent = useCallback(
+    (index) => {
+      index = index - (START_INDEX - beforeComments.length);
+      if (index < 0) {
+        throw new Error(`Unexpected index < 0, was '${index}'`);
+      }
+      if (index < beforeComments.length) {
+        const e = beforeComments[index];
+        return (
+          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+            <Flex justifyContent="flex-start" alignItems="stretch">
+              <div className={styles.replyMarker}></div>
+              <LiveReplyContainer
+                story={story}
+                comment={e.node}
+                viewer={viewer}
+                settings={settings}
+              />
+            </Flex>
+          </div>
+        );
+      } else if (index < beforeComments.length + afterComments.length) {
+        const e = afterComments[index - beforeComments.length];
+        return (
+          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+            <Flex justifyContent="flex-start" alignItems="stretch">
+              <div className={styles.replyMarker}></div>
+              <LiveReplyContainer
+                story={story}
+                comment={e.node}
+                viewer={viewer}
+                settings={settings}
+              />
+            </Flex>
+          </div>
+        );
+      } else if (index === beforeComments.length + afterComments.length) {
+        return <LiveSkeleton />;
+      } else {
+        throw new Error(`Index out of bounds: ${index}`);
+      }
+    },
+    [afterComments, beforeComments, settings, story, viewer]
+  );
 
   return (
-    <>
+    <div>
       <div className={styles.comment}>
         <LiveReplyContainer
           story={story}
@@ -136,41 +189,30 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           settings={settings}
         />
       </div>
-      <div onScroll={onScroll} className={styles.replies} ref={repliesRef}>
-        {beforeComments.map((e) => {
-          return (
-            <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
-              <Flex justifyContent="flex-start" alignItems="stretch">
-                <div className={styles.replyMarker}></div>
-                <LiveReplyContainer
-                  story={story}
-                  comment={e.node}
-                  viewer={viewer}
-                  settings={settings}
-                  cursor={e.cursor}
-                />
-              </Flex>
-            </div>
-          );
-        })}
-        {afterComments.map((e) => {
-          return (
-            <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
-              <Flex justifyContent="flex-start" alignItems="stretch">
-                <div className={styles.replyMarker}></div>
-                <LiveReplyContainer
-                  story={story}
-                  comment={e.node}
-                  viewer={viewer}
-                  settings={settings}
-                  cursor={e.cursor}
-                />
-              </Flex>
-            </div>
-          );
-        })}
-      </div>
-    </>
+      <Virtuoso
+        className={styles.replies}
+        style={{ height }}
+        firstItemIndex={START_INDEX - beforeComments.length}
+        totalCount={
+          beforeComments.length +
+          afterComments.length +
+          (isLoadingMoreAfter ? 1 : 0)
+        }
+        initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+        itemContent={itemContent}
+        alignToBottom
+        followOutput="smooth"
+        overscan={OVERSCAN}
+        atTopStateChange={handleAtTopStateChange}
+        atBottomStateChange={handleAtBottomStateChange}
+        totalListHeightChanged={(h) => {
+          if (height >= 300) {
+            return;
+          }
+          setHeight(h);
+        }}
+      />
+    </div>
   );
 };
 
@@ -224,6 +266,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveCommentRepliesContainer_viewer on User {
+      id
       ...LiveReplyContainer_viewer
     }
   `,

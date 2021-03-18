@@ -3,10 +3,8 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react";
-import ContentLoader from "react-content-loader";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
@@ -48,6 +46,7 @@ import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
+import LiveSkeleton from "./LiveSkeleton";
 
 import styles from "./LiveChatContainer.css";
 
@@ -81,23 +80,6 @@ interface NewComment {
   id: string;
   cursor: string;
 }
-
-const Skeleton = (props: any) => (
-  <ContentLoader
-    speed={2}
-    width={476}
-    height={45}
-    viewBox="0 0 476 45"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb"
-    {...props}
-  >
-    <rect x="2" y="3" rx="3" ry="3" width="30" height="30" />
-    <rect x="39" y="7" rx="3" ry="3" width="300" height="6" />
-    <rect x="39" y="21" rx="3" ry="3" width="300" height="6" />
-    <rect x="39" y="34" rx="3" ry="3" width="150" height="6" />
-  </ContentLoader>
-);
 
 const START_INDEX = 100000;
 const OVERSCAN = { main: 500, reverse: 500 };
@@ -138,8 +120,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
 
   const showCommentForm = !banned && !suspended && !warned;
-  const containerRef = useRef<any | null>(null);
-
   const [conversationView, setConversationView] = useState<
     ConversationViewState
   >({
@@ -333,7 +313,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         const e = beforeComments[index];
         return (
           <div>
-            {index === 0 && isLoadingMoreBefore && <Skeleton />}
+            {index === 0 && isLoadingMoreBefore && <LiveSkeleton />}
             <LiveCommentContainer
               key={e.node.id}
               story={story}
@@ -386,7 +366,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           </div>
         );
       } else if (index === beforeComments.length + afterComments.length) {
-        return <Skeleton />;
+        return <LiveSkeleton />;
       } else {
         throw new Error(`Index out of bounds: ${index}`);
       }
@@ -470,13 +450,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           firstItemIndex={START_INDEX - beforeComments.length}
           id="live-chat-comments"
           className={styles.streamContainer}
-          ref={containerRef}
           totalCount={
             beforeComments.length +
             afterComments.length +
             (isLoadingMoreAfter ? 1 : 0)
           }
-          initialTopMostItemIndex={beforeComments.length - 1}
+          initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
           itemContent={itemContent}
           alignToBottom
           followOutput="smooth"

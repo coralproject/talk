@@ -121,6 +121,9 @@ const LiveTabQuery: FunctionComponent = () => {
         inclusiveAfter: paginationState.inclusiveAfter,
       }}
       render={(data) => {
+        if (data.error) {
+          return <div>{data.error.message}</div>;
+        }
         if (!data || !data.props || !data.props.story) {
           return null;
         }

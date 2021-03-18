@@ -1,11 +1,11 @@
 .replies {
+  position: relative;
+  min-height: 1px;
   max-height: 300px;
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .comment {
-  margin-bottom: var(--spacing-2);
+  padding-top: var(--spacing-2);
 }
 
 .replyMarker {

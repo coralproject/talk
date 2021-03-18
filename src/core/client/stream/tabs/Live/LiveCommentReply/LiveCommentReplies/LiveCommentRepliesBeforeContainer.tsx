@@ -1,6 +1,5 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
-import { FragmentRefs } from "relay-runtime";
 
 import {
   useLoadMore,
@@ -8,23 +7,13 @@ import {
 } from "coral-framework/lib/relay";
 
 import { LiveCommentRepliesBeforeContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesBeforeContainer_comment.graphql";
+import { LiveCommentRepliesBeforeContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesBeforeContainer_viewer.graphql";
 import { LiveCommentRepliesBeforeContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesBeforeContainerPaginationQuery.graphql";
 
+import filterIgnoredComments from "../../helpers/filterIgnoredComments";
+
 interface RenderProps {
-  beforeComments: ReadonlyArray<{
-    readonly cursor: string;
-    readonly node: {
-      readonly id: string;
-      readonly body: string | null;
-      readonly createdAt: string;
-      readonly author: {
-        readonly username: string | null;
-      } | null;
-    };
-    readonly " $fragmentRefs": FragmentRefs<
-      "LiveCommentRepliesContainerBeforeCommentEdge"
-    >;
-  }>;
+  beforeComments: LiveCommentRepliesBeforeContainer_comment["before"]["edges"];
   beforeHasMore: boolean;
   loadMoreBefore: () => Promise<void>;
   isLoadingMoreBefore: boolean;
@@ -34,12 +23,14 @@ type RenderPropsCallback = (props: RenderProps) => React.ReactElement;
 
 interface Props {
   comment: LiveCommentRepliesBeforeContainer_comment;
+  viewer: LiveCommentRepliesBeforeContainer_viewer | null;
   relay: RelayPaginationProp;
   cursor: string;
   children: RenderPropsCallback;
 }
 
 const LiveCommentRepliesBeforeContainer: FunctionComponent<Props> = ({
+  viewer,
   comment,
   relay,
   children,
@@ -48,8 +39,22 @@ const LiveCommentRepliesBeforeContainer: FunctionComponent<Props> = ({
 
   const beforeHasMore = comment.before.pageInfo.hasNextPage;
 
+  const initialIgnoredUsers = useMemo(
+    () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [viewer?.id]
+  );
+
+  const beforeComments = useMemo(() => {
+    const comments = comment.before.edges || [];
+    return filterIgnoredComments(
+      initialIgnoredUsers,
+      comments.slice().reverse()
+    );
+  }, [initialIgnoredUsers, comment.before.edges]);
+
   return children({
-    beforeComments: comment.before.edges,
+    beforeComments,
     beforeHasMore,
     loadMoreBefore: loadMore,
     isLoadingMoreBefore: isLoadingMore,
@@ -74,34 +79,32 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
         ) {
         id
-        body
-        createdAt
-        author {
-          username
-        }
         before: replies(
           flatten: true
           after: $cursor
           orderBy: CREATED_AT_DESC
           first: $count
           inclusive: true
-        ) @connection(key: "Replies_before", filters: ["orderBy"]) {
+        ) @connection(key: "Replies_before", filters: []) {
           edges {
             ...LiveCommentRepliesContainerBeforeCommentEdge
-            cursor
             node {
-              id
-              body
-              createdAt
               author {
-                username
+                id
               }
             }
           }
           pageInfo {
-            endCursor
             hasNextPage
           }
+        }
+      }
+    `,
+    viewer: graphql`
+      fragment LiveCommentRepliesBeforeContainer_viewer on User {
+        id
+        ignoredUsers {
+          id
         }
       }
     `,
@@ -118,10 +121,7 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor: paginationCursor,
-        includeBefore: true,
-        includeAfter: true,
         commentID: comment.id,
-        flattenReplies: true,
       };
     },
     query: graphql`

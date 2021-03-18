@@ -1,9 +1,13 @@
-import React, { FunctionComponent, useRef } from "react";
+import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import { ReportFlowContainer } from "coral-stream/tabs/shared/ReportFlow";
+import { Tombstone } from "coral-ui/components/v3";
 
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 import { LiveReplyContainer_settings } from "coral-stream/__generated__/LiveReplyContainer_settings.graphql";
@@ -20,13 +24,6 @@ interface Props {
   viewer: LiveReplyContainer_viewer | null;
   comment: LiveReplyContainer_comment;
   settings: LiveReplyContainer_settings;
-  onInView?: (
-    visible: boolean,
-    id: string,
-    createdAt: string,
-    cursor: string
-  ) => void;
-  cursor?: string;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -34,11 +31,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   comment,
   viewer,
   settings,
-  onInView,
-  cursor,
 }) => {
-  const rootRef = useRef<HTMLDivElement>(null);
-
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
   const ignored = Boolean(
@@ -48,11 +41,26 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   );
 
   if (ignored) {
-    return null;
+    return (
+      <Tombstone
+        className={cn(CLASSES.ignoredTombstone, styles.tombstone)}
+        fullWidth
+      >
+        <Localized
+          id="comments-tombstone-ignore"
+          $username={comment.author!.username}
+        >
+          <span>
+            This comment is hidden because you ignored{" "}
+            {comment.author!.username}
+          </span>
+        </Localized>
+      </Tombstone>
+    );
   }
 
   return (
-    <div ref={rootRef} className={styles.root} id={`reply-${comment.id}-top`}>
+    <div className={styles.root} id={`reply-${comment.id}-top`}>
       <div className={styles.comment}>
         <LiveCommentBodyContainer
           comment={comment}
