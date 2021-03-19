@@ -64,6 +64,7 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
                 viewer={viewer}
                 settings={settings}
                 story={story}
+                cursor={cursor}
                 setCursor={setCursor}
               />
             )}
