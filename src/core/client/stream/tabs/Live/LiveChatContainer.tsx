@@ -28,6 +28,7 @@ import {
   LiveJumpToNewestEvent,
   LiveStartTailingEvent,
   LiveStopTailingEvent,
+  LiveSubmitCommentWhenNotTailingEvent,
 } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
@@ -277,11 +278,17 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         return;
       }
 
-      if (!tailing && !newlyPostedComment) {
+      if (!tailing) {
         setNewlyPostedComment({ id: commentID, cursor });
+
+        LiveSubmitCommentWhenNotTailingEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          commentID,
+          viewerID: viewer ? viewer.id : "",
+        });
       }
     },
-    [tailing, newlyPostedComment]
+    [context.eventEmitter, story.id, tailing, viewer]
   );
 
   const closeJumpToComment = useCallback(() => {
