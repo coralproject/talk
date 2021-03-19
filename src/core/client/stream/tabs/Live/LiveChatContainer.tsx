@@ -3,6 +3,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -25,7 +26,8 @@ import {
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
   LiveJumpToCommentEvent,
-  LiveJumpToNewestEvent,
+  LiveJumpToLiveEvent,
+  LiveJumpToNewEvent,
   LiveStartTailingEvent,
   LiveStopTailingEvent,
   LiveSubmitCommentWhenNotTailingEvent,
@@ -42,6 +44,7 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import CursorState from "./cursorState";
+import InView from "./InView";
 import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
@@ -73,6 +76,7 @@ interface Props {
   settings: LiveChatContainer_settings;
   story: LiveChatContainer_story;
 
+  cursor: string;
   setCursor: (cursor: string) => void;
 }
 
@@ -96,6 +100,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   settings,
   story,
   setCursor,
+  cursor: currentCursor,
 }) => {
   const context = useCoralContext();
   const [
@@ -130,6 +135,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     newlyPostedComment,
     setNewlyPostedComment,
   ] = useState<NewComment | null>(null);
+
+  const [cursorIsVisible, setCursorIsVisible] = useState(false);
+  const [showJumpToLive, setShowJumpToLive] = useState(false);
+  const mostRecentViewedCursor = useRef<string | null>(null);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -193,12 +202,22 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         );
       }
 
+      if (new Date(createdAt) > new Date(currentCursor)) {
+        mostRecentViewedCursor.current = createdAt;
+      }
+
       // Hide the "Jump to new comment" button if we can see its target comment
       if (newlyPostedComment && newlyPostedComment.id === id) {
         setNewlyPostedComment(null);
       }
     },
-    [context.sessionStorage, newlyPostedComment, storyID, storyURL]
+    [
+      context.sessionStorage,
+      currentCursor,
+      newlyPostedComment,
+      storyID,
+      storyURL,
+    ]
   );
 
   const showConversation = useCallback(
@@ -299,14 +318,39 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment(null);
   }, [newlyPostedComment, setNewlyPostedComment]);
 
+  const jumpToNew = useCallback(() => {
+    setCursor(currentCursor);
+
+    LiveJumpToNewEvent.emit(context.eventEmitter, {
+      storyID: story.id,
+      viewerID: viewer ? viewer.id : "",
+    });
+  }, [setCursor, currentCursor, context.eventEmitter, story.id, viewer]);
+
   const jumpToLive = useCallback(() => {
     setCursor(new Date().toISOString());
 
-    LiveJumpToNewestEvent.emit(context.eventEmitter, {
+    LiveJumpToLiveEvent.emit(context.eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
   }, [context.eventEmitter, story.id, viewer, setCursor]);
+
+  const onScroll = useCallback(() => {
+    setShowJumpToLive(
+      !!(
+        mostRecentViewedCursor.current &&
+        new Date(mostRecentViewedCursor.current) > new Date(currentCursor) &&
+        !newlyPostedComment &&
+        !tailing &&
+        afterHasMore
+      )
+    );
+  }, [afterHasMore, currentCursor, newlyPostedComment, tailing]);
+
+  const handleCursorInView = useCallback((visible: boolean) => {
+    setCursorIsVisible(visible);
+  }, []);
 
   // Render an item or a loading indicator.
   const itemContent = useCallback(
@@ -340,6 +384,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         if (index === beforeComments.length) {
           marker = (
             <div id="before-after" style={{ minHeight: "1px" }}>
+              <InView onInView={handleCursorInView} />
               {afterComments && afterComments.length > 0 && (
                 <Flex justifyContent="center" alignItems="center">
                   <hr className={styles.newhr} />
@@ -378,17 +423,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       }
     },
     [
-      afterComments,
       beforeComments,
+      afterComments,
       isLoadingMoreBefore,
-      handleCommentVisible,
-      handleReplyToComment,
-      handleReplyToParent,
-      handleShowConversation,
-      handleShowParentConversation,
-      settings,
       story,
       viewer,
+      settings,
+      handleCommentVisible,
+      handleShowConversation,
+      handleShowParentConversation,
+      handleReplyToComment,
+      handleReplyToParent,
+      handleCursorInView,
     ]
   );
 
@@ -467,6 +513,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         overscan={OVERSCAN}
         atTopStateChange={handleAtTopStateChange}
         atBottomStateChange={handleAtBottomStateChange}
+        onScroll={onScroll}
       />
 
       {/* TODO: Refactoring canditate */}
@@ -493,8 +540,29 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           </Flex>
         </div>
       )}
+
+      {!cursorIsVisible &&
+        !showJumpToLive &&
+        !newlyPostedComment &&
+        !tailing &&
+        afterHasMore && (
+          <div className={styles.jumpToContainer}>
+            <Flex justifyContent="center" alignItems="center">
+              <Flex alignItems="center">
+                <Button
+                  onClick={jumpToNew}
+                  color="primary"
+                  className={styles.jumpButton}
+                >
+                  New messages <Icon>arrow_downward</Icon>
+                </Button>
+              </Flex>
+            </Flex>
+          </div>
+        )}
+
       {/* TODO: Refactoring canditate */}
-      {!newlyPostedComment && !tailing && afterHasMore && (
+      {showJumpToLive && (
         <div className={styles.jumpToContainer}>
           <Flex justifyContent="center" alignItems="center">
             <Flex alignItems="center">

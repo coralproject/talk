@@ -676,10 +676,15 @@ export const LiveJumpToReplyEvent = createViewerEvent<{
   viewerID: string;
 }>("liveJumpToReplyEvent");
 
-export const LiveJumpToNewestEvent = createViewerEvent<{
+export const LiveJumpToNewEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveJumpToNewestEvent");
+}>("liveJumpToNewEvent");
+
+export const LiveJumpToLiveEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveJumpToLiveEvent");
 
 export const LiveStartTailingEvent = createViewerEvent<{
   storyID: string;

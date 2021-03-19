@@ -101,7 +101,8 @@ createComment.error
 - <a href="#liveChatRepliesLoadBefore">liveChatRepliesLoadBefore</a>
 - <a href="#liveCreateCommentFocus">liveCreateCommentFocus</a>
 - <a href="#liveJumpToComment">liveJumpToComment</a>
-- <a href="#liveJumpToNewest">liveJumpToNewest</a>
+- <a href="#liveJumpToLive">liveJumpToLive</a>
+- <a href="#liveJumpToNew">liveJumpToNew</a>
 - <a href="#liveJumpToReply">liveJumpToReply</a>
 - <a href="#liveReplyCommentFocus">liveReplyCommentFocus</a>
 - <a href="#liveStartTailing">liveStartTailing</a>
@@ -366,7 +367,14 @@ createComment.error
       viewerID: string;
   }
   ```
-- <a id="liveJumpToNewest">**liveJumpToNewest**</a>: 
+- <a id="liveJumpToLive">**liveJumpToLive**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveJumpToNew">**liveJumpToNew**</a>: 
   ```ts
   {
       storyID: string;
