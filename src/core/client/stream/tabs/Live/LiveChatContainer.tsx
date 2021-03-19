@@ -202,22 +202,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         );
       }
 
-      if (new Date(createdAt) > new Date(currentCursor)) {
-        mostRecentViewedCursor.current = createdAt;
-      }
+      mostRecentViewedCursor.current = createdAt;
 
       // Hide the "Jump to new comment" button if we can see its target comment
       if (newlyPostedComment && newlyPostedComment.id === id) {
         setNewlyPostedComment(null);
       }
     },
-    [
-      context.sessionStorage,
-      currentCursor,
-      newlyPostedComment,
-      storyID,
-      storyURL,
-    ]
+    [context.sessionStorage, newlyPostedComment, storyID, storyURL]
   );
 
   const showConversation = useCallback(
@@ -319,7 +311,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [newlyPostedComment, setNewlyPostedComment]);
 
   const jumpToNew = useCallback(() => {
-    setCursor(currentCursor);
+    // TODO: figure out why setting the cursor to its same
+    // value causes the stream's before and after to come back null.
+    //
+    // For now, I'm subtracting 1 ms from the time. Unlikely this will
+    // cause an issue unless the user can somehow click this 1000 times
+    // or more in one second. Which seems highly improbable.
+    const target = new Date(new Date(currentCursor).getTime() - 1);
+    setCursor(target.toISOString());
 
     LiveJumpToNewEvent.emit(context.eventEmitter, {
       storyID: story.id,
@@ -340,7 +339,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setShowJumpToLive(
       !!(
         mostRecentViewedCursor.current &&
-        new Date(mostRecentViewedCursor.current) > new Date(currentCursor) &&
+        new Date(mostRecentViewedCursor.current) >= new Date(currentCursor) &&
         !newlyPostedComment &&
         !tailing &&
         afterHasMore
