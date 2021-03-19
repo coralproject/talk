@@ -106,6 +106,7 @@ createComment.error
 - <a href="#liveReplyCommentFocus">liveReplyCommentFocus</a>
 - <a href="#liveStartTailing">liveStartTailing</a>
 - <a href="#liveStopTailing">liveStopTailing</a>
+- <a href="#liveSubmitCommentWhenNotTailing">liveSubmitCommentWhenNotTailing</a>
 - <a href="#loadMoreAllComments">loadMoreAllComments</a>
 - <a href="#loadMoreFeaturedComments">loadMoreFeaturedComments</a>
 - <a href="#loadMoreHistoryComments">loadMoreHistoryComments</a>
@@ -393,6 +394,14 @@ createComment.error
   {
       storyID: string;
       viewerID: string;
+  }
+  ```
+- <a id="liveSubmitCommentWhenNotTailing">**liveSubmitCommentWhenNotTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+      commentID: string;
   }
   ```
 - <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.

@@ -690,3 +690,9 @@ export const LiveStopTailingEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
 }>("liveStopTailingEvent");
+
+export const LiveSubmitCommentWhenNotTailingEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+  commentID: string;
+}>("liveSubmitCommentWhenNotTailingEvent");
