@@ -42,7 +42,10 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
-  const afterHasMore = story.after.pageInfo.hasNextPage;
+  const afterHasMore =
+    story.after && story.after.pageInfo
+      ? story.after.pageInfo.hasNextPage
+      : false;
 
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
@@ -50,8 +53,12 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
     [viewer?.id]
   );
   const filtered = useMemo(
-    () => filterIgnoredComments(initialIgnoredUsers, story.after.edges),
-    [initialIgnoredUsers, story.after.edges]
+    () =>
+      filterIgnoredComments(
+        initialIgnoredUsers,
+        story.after && story.after.edges ? story.after.edges : []
+      ),
+    [initialIgnoredUsers, story.after]
   );
 
   return children({

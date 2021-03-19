@@ -49,13 +49,17 @@ const LiveCommentsBeforeContainer: FunctionComponent<Props> = ({
   );
 
   const beforeComments = useMemo(() => {
-    const comments = story.before.edges || [];
+    const comments =
+      story.before && story.before.edges ? story.before.edges : [];
     return filterIgnoredComments(
       initialIgnoredUsers,
       comments.slice().reverse()
     );
-  }, [initialIgnoredUsers, story.before.edges]);
-  const beforeHasMore = story.before.pageInfo.hasNextPage;
+  }, [initialIgnoredUsers, story.before]);
+  const beforeHasMore =
+    story.before && story.before.pageInfo
+      ? story.before.pageInfo.hasNextPage
+      : false;
 
   return children({
     beforeComments,

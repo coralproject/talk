@@ -37,7 +37,10 @@ const LiveCommentRepliesBeforeContainer: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
-  const beforeHasMore = comment.before.pageInfo.hasNextPage;
+  const beforeHasMore =
+    comment.before && comment.before.pageInfo
+      ? comment.before.pageInfo.hasNextPage
+      : false;
 
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
@@ -46,12 +49,13 @@ const LiveCommentRepliesBeforeContainer: FunctionComponent<Props> = ({
   );
 
   const beforeComments = useMemo(() => {
-    const comments = comment.before.edges || [];
+    const comments =
+      comment.before && comment.before.edges ? comment.before.edges : [];
     return filterIgnoredComments(
       initialIgnoredUsers,
       comments.slice().reverse()
     );
-  }, [initialIgnoredUsers, comment.before.edges]);
+  }, [comment.before, initialIgnoredUsers]);
 
   return children({
     beforeComments,

@@ -37,15 +37,23 @@ const LiveCommentRepliesAfterContainer: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
-  const afterHasMore = comment.after.pageInfo.hasNextPage;
+  const afterHasMore =
+    comment.after && comment.after.pageInfo
+      ? comment.after.pageInfo.hasNextPage
+      : false;
+
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [viewer?.id]
   );
   const filtered = useMemo(
-    () => filterIgnoredComments(initialIgnoredUsers, comment.after.edges),
-    [initialIgnoredUsers, comment.after.edges]
+    () =>
+      filterIgnoredComments(
+        initialIgnoredUsers,
+        comment.after && comment.after.edges ? comment.after.edges : []
+      ),
+    [initialIgnoredUsers, comment.after]
   );
 
   return children({
