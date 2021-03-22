@@ -18,6 +18,8 @@ import CursorState from "./cursorState";
 import LiveStreamContainer from "./LiveStreamContainer";
 import useOnResumeActive from "./useOnResumeActive";
 
+import styles from "./LiveTabQuery.css";
+
 interface PaginationState {
   cursor: string;
   inclusiveAfter: boolean;
@@ -122,10 +124,10 @@ const LiveTabQuery: FunctionComponent = () => {
       }}
       render={(data) => {
         if (data.error) {
-          return <div>{data.error.message}</div>;
+          return <div className={styles.root}>{data.error.message}</div>;
         }
         if (!data || !data.props || !data.props.story) {
-          return null;
+          return <div className={styles.root}></div>;
         }
 
         // The pagination container wouldn't allow us to start a new connection
@@ -152,16 +154,26 @@ const LiveTabQuery: FunctionComponent = () => {
             inclusiveAfter: true,
             inclusiveBefore: false,
           });
+
+          window.requestAnimationFrame(() => {
+            const el = document.getElementById("live-chat-footer");
+            if (el) {
+              el.scrollIntoView();
+            }
+          });
         };
 
         return (
-          <LiveStreamContainer
-            story={data.props.story}
-            viewer={data.props.viewer}
-            settings={data.props.settings}
-            cursor={paginationState.cursor}
-            setCursor={deleteConnectionsAndSetCursor}
-          />
+          <>
+            <LiveStreamContainer
+              story={data.props.story}
+              viewer={data.props.viewer}
+              settings={data.props.settings}
+              cursor={paginationState.cursor}
+              setCursor={deleteConnectionsAndSetCursor}
+            />
+            <div id="live-chat-footer"></div>
+          </>
         );
       }}
     />
