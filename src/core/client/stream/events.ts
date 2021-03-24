@@ -640,64 +640,64 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
 export const LiveChatLoadBeforeEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveChatLoadBeforeEvent");
+}>("liveChatLoadBeforeEvent", { category: "liveChat" });
 
 export const LiveChatLoadAfterEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveChatLoadAfterEvent");
+}>("liveChatLoadAfterEvent", { category: "liveChat" });
 
 export const LiveChatRepliesLoadBeforeEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveChatRepliesLoadBeforeEvent");
+}>("liveChatRepliesLoadBeforeEvent", { category: "liveChat" });
 
 export const LiveChatRepliesLoadAfterEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveChatRepliesLoadAfterEvent");
+}>("liveChatRepliesLoadAfterEvent", { category: "liveChat" });
 
 export const LiveChatOpenConversationEvent = createViewerEvent<{
   storyID: string;
   commentID: string;
   type: "conversation" | "parent" | "reply" | "replyToParent";
   viewerID: string;
-}>("liveChatOpenConversationEvent");
+}>("liveChatOpenConversationEvent", { category: "liveChat" });
 
 export const LiveJumpToCommentEvent = createViewerEvent<{
   storyID: string;
   commentID: string;
   viewerID: string;
-}>("liveJumpToCommentEvent");
+}>("liveJumpToCommentEvent", { category: "liveChat" });
 
 export const LiveJumpToReplyEvent = createViewerEvent<{
   storyID: string;
   commentID: string;
   viewerID: string;
-}>("liveJumpToReplyEvent");
+}>("liveJumpToReplyEvent", { category: "liveChat" });
 
 export const LiveJumpToNewEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveJumpToNewEvent");
+}>("liveJumpToNewEvent", { category: "liveChat" });
 
 export const LiveJumpToLiveEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveJumpToLiveEvent");
+}>("liveJumpToLiveEvent", { category: "liveChat" });
 
 export const LiveStartTailingEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveStartTailingEvent");
+}>("liveStartTailingEvent", { category: "liveChat" });
 
 export const LiveStopTailingEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
-}>("liveStopTailingEvent");
+}>("liveStopTailingEvent", { category: "liveChat" });
 
 export const LiveSubmitCommentWhenNotTailingEvent = createViewerEvent<{
   storyID: string;
   viewerID: string;
   commentID: string;
-}>("liveSubmitCommentWhenNotTailingEvent");
+}>("liveSubmitCommentWhenNotTailingEvent", { category: "liveChat" });
