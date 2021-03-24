@@ -76,13 +76,18 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
         const chatAfter = ConnectionHandler.getConnection(
           commentRecord,
           "Replies_after"
-        )!;
+        );
         const chatBefore = ConnectionHandler.getConnection(
           commentRecord,
           "Replies_before"
-        )!;
-        store.delete(chatAfter.getValue("__id") as string);
-        store.delete(chatBefore.getValue("__id") as string);
+        );
+
+        if (chatAfter) {
+          store.delete(chatAfter.getValue("__id") as string);
+        }
+        if (chatBefore) {
+          store.delete(chatBefore.getValue("__id") as string);
+        }
       });
       setCursor("");
       setTimeout(() => setCursor(s), 0);

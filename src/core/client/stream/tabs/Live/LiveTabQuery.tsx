@@ -141,13 +141,18 @@ const LiveTabQuery: FunctionComponent = () => {
             const chatAfter = ConnectionHandler.getConnection(
               storyRecord,
               "Chat_after"
-            )!;
+            );
             const chatBefore = ConnectionHandler.getConnection(
               storyRecord,
               "Chat_before"
-            )!;
-            store.delete(chatAfter.getValue("__id") as string);
-            store.delete(chatBefore.getValue("__id") as string);
+            );
+
+            if (chatAfter) {
+              store.delete(chatAfter.getValue("__id") as string);
+            }
+            if (chatBefore) {
+              store.delete(chatBefore.getValue("__id") as string);
+            }
           });
           setPaginationState({
             cursor: s,
