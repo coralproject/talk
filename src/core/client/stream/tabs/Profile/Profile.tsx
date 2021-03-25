@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -22,6 +23,7 @@ import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import MyCommentsContainer from "./MyComments";
 import PreferencesContainer from "./Preferences";
+import { ProfileContainer } from "./ProfileContainer";
 import AccountSettingsContainer from "./Settings";
 
 export interface ProfileProps {
@@ -36,7 +38,8 @@ export interface ProfileProps {
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof AccountSettingsContainer>["settings"] &
     PropTypesOf<typeof MyCommentsContainer>["settings"] &
-    PropTypesOf<typeof PreferencesContainer>["settings"];
+    PropTypesOf<typeof PreferencesContainer>["settings"] &
+    PropTypesOf<typeof ProfileContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = (props) => {
@@ -44,6 +47,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
   const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {
       profileTab
+      storyMode
     }
   `);
   const onTabClick = useCallback(
@@ -73,6 +77,10 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
     return false;
   }, [props.ssoURL, props.isSSO]);
 
+  const isLiveChat =
+    props.settings.featureFlags.some((f) => f === GQLFEATURE_FLAG.CHAT) &&
+    local.storyMode === GQLSTORY_MODE.CHAT;
+
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
@@ -83,18 +91,20 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         onTabClick={onTabClick}
         className={CLASSES.tabBarMyProfile.$root}
       >
-        <Tab
-          tabID="MY_COMMENTS"
-          variant="streamSecondary"
-          className={cn(CLASSES.tabBarMyProfile.myComments, {
-            [CLASSES.tabBarMyProfile.active]:
-              local.profileTab === "MY_COMMENTS",
-          })}
-        >
-          <Localized id="profile-myCommentsTab-comments">
-            <span>My comments</span>
-          </Localized>
-        </Tab>
+        {!isLiveChat && (
+          <Tab
+            tabID="MY_COMMENTS"
+            variant="streamSecondary"
+            className={cn(CLASSES.tabBarMyProfile.myComments, {
+              [CLASSES.tabBarMyProfile.active]:
+                local.profileTab === "MY_COMMENTS",
+            })}
+          >
+            <Localized id="profile-myCommentsTab-comments">
+              <span>My comments</span>
+            </Localized>
+          </Tab>
+        )}
         <Tab
           tabID="PREFERENCES"
           variant="streamSecondary"
@@ -122,16 +132,18 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         )}
       </TabBar>
       <TabContent activeTab={local.profileTab}>
-        <TabPane
-          className={CLASSES.myCommentsTabPane.$root}
-          tabID="MY_COMMENTS"
-        >
-          <MyCommentsContainer
-            settings={props.settings}
-            viewer={props.viewer}
-            story={props.story}
-          />
-        </TabPane>
+        {!isLiveChat && (
+          <TabPane
+            className={CLASSES.myCommentsTabPane.$root}
+            tabID="MY_COMMENTS"
+          >
+            <MyCommentsContainer
+              settings={props.settings}
+              viewer={props.viewer}
+              story={props.story}
+            />
+          </TabPane>
+        )}
         <TabPane
           className={CLASSES.preferencesTabPane.$root}
           tabID="PREFERENCES"
