@@ -11,7 +11,7 @@ import {
   fetchQuery,
   initLocalBaseState,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
@@ -129,7 +129,15 @@ const initLocalState: InitLocalState = async ({
 
     // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
-    localRecord.setValue("MY_COMMENTS", "profileTab");
+
+    if (
+      featureFlags.some((f) => f === GQLFEATURE_FLAG.CHAT) &&
+      query.storyMode === GQLSTORY_MODE.CHAT
+    ) {
+      localRecord.setValue("PREFERENCES", "profileTab");
+    } else {
+      localRecord.setValue("MY_COMMENTS", "profileTab");
+    }
 
     // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
