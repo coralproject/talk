@@ -94,20 +94,23 @@ createComment.error
 - <a href="#featureComment">featureComment</a>
 - <a href="#gotoModeration">gotoModeration</a>
 - <a href="#ignoreUser">ignoreUser</a>
+- <a href="#liveChatJumpToComment">liveChatJumpToComment</a>
+- <a href="#liveChatJumpToLive">liveChatJumpToLive</a>
+- <a href="#liveChatJumpToNew">liveChatJumpToNew</a>
+- <a href="#liveChatJumpToReply">liveChatJumpToReply</a>
 - <a href="#liveChatLoadAfter">liveChatLoadAfter</a>
 - <a href="#liveChatLoadBefore">liveChatLoadBefore</a>
 - <a href="#liveChatOpenConversation">liveChatOpenConversation</a>
+- <a href="#liveChatOpenParent">liveChatOpenParent</a>
+- <a href="#liveChatOpenReply">liveChatOpenReply</a>
+- <a href="#liveChatOpenReplyToParent">liveChatOpenReplyToParent</a>
 - <a href="#liveChatRepliesLoadAfter">liveChatRepliesLoadAfter</a>
 - <a href="#liveChatRepliesLoadBefore">liveChatRepliesLoadBefore</a>
+- <a href="#liveChatStartTailing">liveChatStartTailing</a>
+- <a href="#liveChatStopTailing">liveChatStopTailing</a>
+- <a href="#liveChatSubmitCommentWhenNotTailing">liveChatSubmitCommentWhenNotTailing</a>
 - <a href="#liveCreateCommentFocus">liveCreateCommentFocus</a>
-- <a href="#liveJumpToComment">liveJumpToComment</a>
-- <a href="#liveJumpToLive">liveJumpToLive</a>
-- <a href="#liveJumpToNew">liveJumpToNew</a>
-- <a href="#liveJumpToReply">liveJumpToReply</a>
 - <a href="#liveReplyCommentFocus">liveReplyCommentFocus</a>
-- <a href="#liveStartTailing">liveStartTailing</a>
-- <a href="#liveStopTailing">liveStopTailing</a>
-- <a href="#liveSubmitCommentWhenNotTailing">liveSubmitCommentWhenNotTailing</a>
 - <a href="#loadMoreAllComments">loadMoreAllComments</a>
 - <a href="#loadMoreFeaturedComments">loadMoreFeaturedComments</a>
 - <a href="#loadMoreHistoryComments">loadMoreHistoryComments</a>
@@ -321,6 +324,36 @@ createComment.error
       };
   }
   ```
+- <a id="liveChatJumpToComment">**liveChatJumpToComment**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatJumpToLive">**liveChatJumpToLive**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatJumpToNew">**liveChatJumpToNew**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatJumpToReply">**liveChatJumpToReply**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
+      viewerID: string;
+  }
+  ```
 - <a id="liveChatLoadAfter">**liveChatLoadAfter**</a>: 
   ```ts
   {
@@ -340,7 +373,30 @@ createComment.error
   {
       storyID: string;
       commentID: string;
-      type: "conversation" | "parent" | "reply" | "replyToParent";
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatOpenParent">**liveChatOpenParent**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatOpenReply">**liveChatOpenReply**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatOpenReplyToParent">**liveChatOpenReplyToParent**</a>: 
+  ```ts
+  {
+      storyID: string;
+      commentID: string;
       viewerID: string;
   }
   ```
@@ -358,60 +414,30 @@ createComment.error
       viewerID: string;
   }
   ```
+- <a id="liveChatStartTailing">**liveChatStartTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatStopTailing">**liveChatStopTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+  }
+  ```
+- <a id="liveChatSubmitCommentWhenNotTailing">**liveChatSubmitCommentWhenNotTailing**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
+      commentID: string;
+  }
+  ```
 - <a id="liveCreateCommentFocus">**liveCreateCommentFocus**</a>: This event is emitted when the viewer focus on the RTE on live chat
-- <a id="liveJumpToComment">**liveJumpToComment**</a>: 
-  ```ts
-  {
-      storyID: string;
-      commentID: string;
-      viewerID: string;
-  }
-  ```
-- <a id="liveJumpToLive">**liveJumpToLive**</a>: 
-  ```ts
-  {
-      storyID: string;
-      viewerID: string;
-  }
-  ```
-- <a id="liveJumpToNew">**liveJumpToNew**</a>: 
-  ```ts
-  {
-      storyID: string;
-      viewerID: string;
-  }
-  ```
-- <a id="liveJumpToReply">**liveJumpToReply**</a>: 
-  ```ts
-  {
-      storyID: string;
-      commentID: string;
-      viewerID: string;
-  }
-  ```
 - <a id="liveReplyCommentFocus">**liveReplyCommentFocus**</a>: This event is emitted when the viewer focus on the RTE on live chat
-- <a id="liveStartTailing">**liveStartTailing**</a>: 
-  ```ts
-  {
-      storyID: string;
-      viewerID: string;
-  }
-  ```
-- <a id="liveStopTailing">**liveStopTailing**</a>: 
-  ```ts
-  {
-      storyID: string;
-      viewerID: string;
-  }
-  ```
-- <a id="liveSubmitCommentWhenNotTailing">**liveSubmitCommentWhenNotTailing**</a>: 
-  ```ts
-  {
-      storyID: string;
-      viewerID: string;
-      commentID: string;
-  }
-  ```
 - <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.
   ```ts
   {

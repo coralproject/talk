@@ -4,7 +4,7 @@ import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { LiveJumpToReplyEvent } from "coral-stream/events";
+import { LiveChatJumpToReplyEvent } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -116,7 +116,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
       setNewlyPostedReply(null);
       deleteConnectionsAndSetCursor(newlyPostedReply.cursor);
 
-      LiveJumpToReplyEvent.emit(eventEmitter, {
+      LiveChatJumpToReplyEvent.emit(eventEmitter, {
         storyID: story.id,
         commentID: newlyPostedReply.id,
         viewerID: viewer ? viewer.id : "",
