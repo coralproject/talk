@@ -70,7 +70,14 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   }
 
   return (
-    <div className={styles.root} id={`reply-${comment.id}-top`}>
+    <div
+      className={cn(
+        styles.root,
+        CLASSES.comment.$root,
+        `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
+      )}
+      id={`reply-${comment.id}-top`}
+    >
       <div className={styles.comment}>
         <InView onInView={handleInView} />
         <LiveCommentBodyContainer
@@ -149,6 +156,11 @@ const enhanced = withFragmentContainer<Props>({
         body
       }
       replyCount
+      actionCounts {
+        reaction {
+          total
+        }
+      }
 
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
