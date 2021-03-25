@@ -103,14 +103,11 @@ export function createViewerNetworkEvent<
  *
  * @param name name of the event
  */
-export function createViewerEvent<T>(
-  name: string,
-  extra?: Record<string, any>
-): ViewerEvent<T> {
+export function createViewerEvent<T>(name: string): ViewerEvent<T> {
   return {
     name,
     emit: ((eventEmitter, data) => {
-      eventEmitter.emit(name, { ...extra, ...data });
+      eventEmitter.emit(name, data);
     }) as ViewerEvent<T>["emit"],
   };
 }

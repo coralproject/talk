@@ -22,15 +22,18 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  LiveChatJumpToCommentEvent,
+  LiveChatJumpToLiveEvent,
+  LiveChatJumpToNewEvent,
   LiveChatLoadAfterEvent,
   LiveChatLoadBeforeEvent,
   LiveChatOpenConversationEvent,
-  LiveJumpToCommentEvent,
-  LiveJumpToLiveEvent,
-  LiveJumpToNewEvent,
-  LiveStartTailingEvent,
-  LiveStopTailingEvent,
-  LiveSubmitCommentWhenNotTailingEvent,
+  LiveChatOpenParentEvent,
+  LiveChatOpenReplyEvent,
+  LiveChatOpenReplyToParentEvent,
+  LiveChatStartTailingEvent,
+  LiveChatStopTailingEvent,
+  LiveChatSubmitCommentWhenNotTailingEvent,
 } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
@@ -143,12 +146,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       setLocal({ liveChat: { tailing: value } });
 
       if (value) {
-        LiveStartTailingEvent.emit(context.eventEmitter, {
+        LiveChatStartTailingEvent.emit(context.eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
       } else {
-        LiveStopTailingEvent.emit(context.eventEmitter, {
+        LiveChatStopTailingEvent.emit(context.eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
@@ -217,12 +220,31 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         | NonNullable<LiveCommentContainer_comment["parent"]>,
       type: Required<ConversationViewState>["type"]
     ) => {
-      LiveChatOpenConversationEvent.emit(context.eventEmitter, {
-        storyID: story.id,
-        commentID: comment.id,
-        viewerID: viewer ? viewer.id : "",
-        type,
-      });
+      if (type === "conversation") {
+        LiveChatOpenConversationEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          commentID: comment.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      } else if (type === "parent") {
+        LiveChatOpenParentEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          commentID: comment.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      } else if (type === "reply") {
+        LiveChatOpenReplyEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          commentID: comment.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      } else if (type === "replyToParent") {
+        LiveChatOpenReplyToParentEvent.emit(context.eventEmitter, {
+          storyID: story.id,
+          commentID: comment.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
 
       setConversationView({
         visible: true,
@@ -274,7 +296,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
     setCursor(newlyPostedComment.cursor);
 
-    LiveJumpToCommentEvent.emit(context.eventEmitter, {
+    LiveChatJumpToCommentEvent.emit(context.eventEmitter, {
       storyID: story.id,
       commentID: newlyPostedComment.id,
       viewerID: viewer ? viewer.id : "",
@@ -290,7 +312,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       if (!tailing) {
         setNewlyPostedComment({ id: commentID, cursor });
 
-        LiveSubmitCommentWhenNotTailingEvent.emit(context.eventEmitter, {
+        LiveChatSubmitCommentWhenNotTailingEvent.emit(context.eventEmitter, {
           storyID: story.id,
           commentID,
           viewerID: viewer ? viewer.id : "",
@@ -318,7 +340,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     const target = new Date(new Date(currentCursor).getTime() - 1);
     setCursor(target.toISOString());
 
-    LiveJumpToNewEvent.emit(context.eventEmitter, {
+    LiveChatJumpToNewEvent.emit(context.eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
@@ -327,7 +349,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const jumpToLive = useCallback(() => {
     setCursor(new Date().toISOString());
 
-    LiveJumpToLiveEvent.emit(context.eventEmitter, {
+    LiveChatJumpToLiveEvent.emit(context.eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
