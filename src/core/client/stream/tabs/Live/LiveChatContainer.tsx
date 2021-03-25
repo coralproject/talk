@@ -44,7 +44,6 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import CursorState from "./cursorState";
-import InView from "./InView";
 import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
@@ -136,7 +135,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment,
   ] = useState<NewComment | null>(null);
 
-  const [cursorIsVisible, setCursorIsVisible] = useState(false);
   const [showJumpToLive, setShowJumpToLive] = useState(false);
   const mostRecentViewedCursor = useRef<string | null>(null);
 
@@ -347,10 +345,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     );
   }, [afterHasMore, currentCursor, newlyPostedComment, tailing]);
 
-  const handleCursorInView = useCallback((visible: boolean) => {
-    setCursorIsVisible(visible);
-  }, []);
-
   // Render an item or a loading indicator.
   const itemContent = useCallback(
     (index) => {
@@ -383,7 +377,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         if (index === beforeComments.length) {
           marker = (
             <div id="before-after" style={{ minHeight: "1px" }}>
-              <InView onInView={handleCursorInView} />
               {afterComments && afterComments.length > 0 && (
                 <Flex justifyContent="center" alignItems="center">
                   <hr className={styles.newhr} />
@@ -433,7 +426,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       handleShowParentConversation,
       handleReplyToComment,
       handleReplyToParent,
-      handleCursorInView,
     ]
   );
 
@@ -465,7 +457,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           viewerID: viewer ? viewer.id : "",
         });
       }
-      setTailing(atBottom);
+      setTailing(atBottom && !afterHasMore);
     },
     [
       afterHasMore,
@@ -540,25 +532,21 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
 
-      {!cursorIsVisible &&
-        !showJumpToLive &&
-        !newlyPostedComment &&
-        !tailing &&
-        afterHasMore && (
-          <div className={styles.jumpToContainer}>
-            <Flex justifyContent="center" alignItems="center">
-              <Flex alignItems="center">
-                <Button
-                  onClick={jumpToNew}
-                  color="primary"
-                  className={styles.jumpButton}
-                >
-                  New messages <Icon>arrow_downward</Icon>
-                </Button>
-              </Flex>
+      {!showJumpToLive && !newlyPostedComment && !tailing && afterHasMore && (
+        <div className={styles.jumpToContainer}>
+          <Flex justifyContent="center" alignItems="center">
+            <Flex alignItems="center">
+              <Button
+                onClick={jumpToNew}
+                color="primary"
+                className={styles.jumpButton}
+              >
+                New messages <Icon>arrow_downward</Icon>
+              </Button>
             </Flex>
-          </div>
-        )}
+          </Flex>
+        </div>
+      )}
 
       {/* TODO: Refactoring canditate */}
       {showJumpToLive && (
