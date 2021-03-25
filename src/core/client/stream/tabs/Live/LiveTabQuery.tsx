@@ -8,6 +8,7 @@ import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
@@ -149,9 +150,21 @@ const LiveTabQuery: FunctionComponent = () => {
 
             if (chatAfter) {
               store.delete(chatAfter.getValue("__id") as string);
+            } else {
+              const err = new Error(`Chat_after connection is ${chatAfter}`);
+              globalErrorReporter.report(err);
+              if (process.env.NODE_ENV !== "production") {
+                throw err;
+              }
             }
             if (chatBefore) {
               store.delete(chatBefore.getValue("__id") as string);
+            } else {
+              const err = new Error(`Chat_before connection is ${chatBefore}`);
+              globalErrorReporter.report(err);
+              if (process.env.NODE_ENV !== "production") {
+                throw err;
+              }
             }
           });
           setPaginationState({

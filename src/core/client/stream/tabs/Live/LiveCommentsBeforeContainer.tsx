@@ -2,6 +2,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 import { FragmentRefs } from "relay-runtime";
 
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -41,6 +42,22 @@ const LiveCommentsBeforeContainer: FunctionComponent<Props> = ({
   children,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+
+  if (!story.before) {
+    const err = new Error(`Chat_before connection is ${story.before}`);
+    globalErrorReporter.report(err);
+    if (process.env.NODE_ENV !== "production") {
+      throw err;
+    }
+  } else if (!story.before.pageInfo) {
+    const err = new Error(
+      `PageInfo of Chat_before connection is ${story.before.pageInfo}`
+    );
+    globalErrorReporter.report(err);
+    if (process.env.NODE_ENV !== "production") {
+      throw err;
+    }
+  }
 
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
