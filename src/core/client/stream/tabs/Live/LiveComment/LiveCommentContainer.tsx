@@ -44,6 +44,10 @@ interface Props {
   onReplyToParent: (
     parent: NonNullable<LiveCommentContainer_comment["parent"]>
   ) => void;
+
+  onEdit?: (comment: LiveCommentContainer_comment) => void;
+  editing?: boolean;
+  onCancelEditing?: () => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -57,6 +61,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   onShowParentConversation,
   onReplyToComment,
   onReplyToParent,
+  onEdit,
+  editing,
+  onCancelEditing,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -96,6 +103,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       onReplyToComment(comment);
     }
   }, [comment, onReplyToComment, onReplyToParent]);
+
+  const handleOnEdit = useCallback(() => {
+    if (!onEdit) {
+      return;
+    }
+
+    onEdit(comment);
+  }, [onEdit, comment]);
 
   if (ignored) {
     return (
@@ -167,6 +182,8 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           settings={settings}
           viewer={viewer}
           story={story}
+          highlighted={editing}
+          onCancel={editing ? onCancelEditing : undefined}
         />
 
         <div id={`comment-${comment.id}`}>
@@ -178,6 +195,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
             onReply={handleOnReply}
             onConversation={handleOnConversation}
             onToggleReport={toggleShowReportFlow}
+            onEdit={editing ? undefined : handleOnEdit}
           />
         </div>
         {showReportFlow && (
@@ -237,6 +255,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
       ...LiveCommentBodyContainer_comment
+      ...LiveEditCommentFormContainer_comment
     }
   `,
   settings: graphql`

@@ -163,7 +163,6 @@ const mutation = graphql`
           tags {
             code
           }
-          ...LiveCommentContainer_comment
           story {
             id
             ratings {
@@ -172,6 +171,8 @@ const mutation = graphql`
             }
             ...LiveCreateCommentMutation_story @relay(mask: false)
           }
+          ...LiveCommentContainer_comment
+          ...LiveEditCommentFormContainer_comment
         }
       }
       clientMutationId

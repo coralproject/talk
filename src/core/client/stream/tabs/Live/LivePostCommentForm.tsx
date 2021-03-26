@@ -32,6 +32,7 @@ export interface LiveCommentFormProps {
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showToolbar?: boolean;
+  editableUntil?: string;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
 }

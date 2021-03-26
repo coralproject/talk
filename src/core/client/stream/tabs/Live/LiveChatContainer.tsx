@@ -50,6 +50,7 @@ import CursorState from "./cursorState";
 import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
+import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
 
@@ -85,6 +86,11 @@ interface Props {
 interface NewComment {
   id: string;
   cursor: string;
+}
+
+interface EditingCommentViewState {
+  visible: boolean;
+  comment: LiveCommentContainer_comment;
 }
 
 const START_INDEX = 100000;
@@ -140,6 +146,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   const [showJumpToLive, setShowJumpToLive] = useState(false);
   const mostRecentViewedCursor = useRef<string | null>(null);
+
+  const [
+    editingComment,
+    setEditingComment,
+  ] = useState<EditingCommentViewState | null>(null);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -367,6 +378,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     );
   }, [afterHasMore, currentCursor, newlyPostedComment, tailing]);
 
+  const handleOnEdit = useCallback((comment: LiveCommentContainer_comment) => {
+    setEditingComment({ comment, visible: true });
+  }, []);
+  const handleOnCloseEdit = useCallback(() => {
+    setEditingComment(null);
+  }, [setEditingComment]);
+  const handleRefreshSettingsFromEdit = useCallback(
+    async (refreshSettings: { storyID: string }) => {},
+    []
+  );
+  const handleCancelEdit = useCallback(() => {
+    setEditingComment(null);
+  }, []);
+
   // Render an item or a loading indicator.
   const itemContent = useCallback(
     (index) => {
@@ -391,6 +416,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               onShowParentConversation={handleShowParentConversation}
               onReplyToComment={handleReplyToComment}
               onReplyToParent={handleReplyToParent}
+              onEdit={handleOnEdit}
+              editing={
+                !!(
+                  editingComment &&
+                  editingComment.visible &&
+                  editingComment.comment.id === e.node.id
+                )
+              }
+              onCancelEditing={handleCancelEdit}
             />
           </div>
         );
@@ -427,6 +461,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               onShowParentConversation={handleShowParentConversation}
               onReplyToComment={handleReplyToComment}
               onReplyToParent={handleReplyToParent}
+              onEdit={handleOnEdit}
+              editing={
+                !!(
+                  editingComment &&
+                  editingComment.visible &&
+                  editingComment.comment.id === e.node.id
+                )
+              }
+              onCancelEditing={handleCancelEdit}
             />
           </div>
         );
@@ -448,6 +491,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       handleShowParentConversation,
       handleReplyToComment,
       handleReplyToParent,
+      handleOnEdit,
+      editingComment,
     ]
   );
 
@@ -596,7 +641,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           onClose={handleCloseConversation}
         />
       )}
-      {showCommentForm && (
+      {editingComment && editingComment.visible && (
+        <LiveEditCommentFormContainer
+          comment={editingComment.comment}
+          story={story}
+          settings={settings}
+          viewer={viewer}
+          onClose={handleOnCloseEdit}
+          onRefreshSettings={handleRefreshSettingsFromEdit}
+          autofocus
+        />
+      )}
+      {!editingComment && showCommentForm && (
         <LivePostCommentFormContainer
           settings={settings}
           story={story}
@@ -638,6 +694,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LivePostCommentFormContainer_story
       ...LiveCommentConversationContainer_story
       ...LiveCommentContainer_story
+      ...LiveEditCommentFormContainer_story
     }
   `,
   viewer: graphql`
@@ -649,6 +706,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
       ...LiveCommentConversationContainer_viewer
+      ...LiveEditCommentFormContainer_viewer
     }
   `,
   settings: graphql`
@@ -656,6 +714,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LivePostCommentFormContainer_settings
       ...LiveCommentContainer_settings
       ...LiveCommentConversationContainer_settings
+      ...LiveEditCommentFormContainer_settings
     }
   `,
 })(LiveChatContainer);

@@ -33,6 +33,17 @@
   margin-right: var(--spacing-1);
 }
 
+.editButton {
+  border-width: 0px;
+  border-style: none;
+
+  color: var(--palette-primary-500);
+}
+
+.editIcon {
+  margin-right: var(--spacing-1);
+}
+
 .actionBar {
   margin-left: calc(30px + var(--spacing-2));
 }

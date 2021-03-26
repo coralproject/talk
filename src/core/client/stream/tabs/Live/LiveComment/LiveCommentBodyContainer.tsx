@@ -1,5 +1,6 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
+import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -7,6 +8,7 @@ import { UserTagsContainer } from "coral-stream/tabs/Comments/Comment";
 import AuthorBadges from "coral-stream/tabs/Comments/Comment/AuthorBadges";
 import { UsernameWithPopoverContainer } from "coral-stream/tabs/Comments/Comment/Username";
 import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentBodyContainer_comment } from "coral-stream/__generated__/LiveCommentBodyContainer_comment.graphql";
 import { LiveCommentBodyContainer_settings } from "coral-stream/__generated__/LiveCommentBodyContainer_settings.graphql";
@@ -20,6 +22,10 @@ interface Props {
   comment: LiveCommentBodyContainer_comment;
   settings: LiveCommentBodyContainer_settings;
   viewer: LiveCommentBodyContainer_viewer | null;
+
+  highlighted?: boolean;
+
+  onCancel?: () => void;
 }
 
 const LiveCommentBodyContainer: FunctionComponent<Props> = ({
@@ -27,6 +33,8 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   viewer,
+  highlighted,
+  onCancel,
 }) => {
   return (
     <Flex justifyContent="flex-start" alignItems="flex-start">
@@ -43,40 +51,65 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
           <Icon className={styles.avatarIcon}>person</Icon>
         </div>
       )}
-      <div className={styles.container}>
-        <Flex
-          justifyContent="flex-start"
-          alignItems="center"
-          className={styles.header}
-        >
-          {comment.author && viewer && (
-            <UsernameWithPopoverContainer
-              className={styles.username}
-              usernameClassName={styles.username}
+      <div
+        className={cn(highlighted ? styles.highlight : "", styles.container)}
+      >
+        <div className={styles.headerRoot}>
+          <Flex
+            justifyContent="flex-start"
+            alignItems="center"
+            className={styles.header}
+          >
+            {comment.author && viewer && (
+              <UsernameWithPopoverContainer
+                className={styles.username}
+                usernameClassName={styles.username}
+                comment={comment}
+                viewer={viewer}
+                settings={settings}
+              />
+            )}
+            {comment.author && !viewer && (
+              <div className={styles.username}>{comment.author?.username}</div>
+            )}
+            <UserTagsContainer
+              story={story}
               comment={comment}
-              viewer={viewer}
               settings={settings}
+              tagClassName={styles.tag}
             />
+            {comment.author && comment.author.badges && (
+              <AuthorBadges
+                badges={comment.author.badges}
+                className={styles.badge}
+              />
+            )}
+            <Timestamp className={styles.timestamp}>
+              {comment.createdAt}
+            </Timestamp>
+          </Flex>
+          {onCancel && (
+            <Button
+              className={styles.cancelButton}
+              variant="none"
+              onClick={onCancel}
+              paddingSize="extraSmall"
+            >
+              <Flex justifyContent="flex-start" alignItems="center">
+                <Icon
+                  className={styles.cancelIcon}
+                  aria-label="Read conversation"
+                >
+                  cancel
+                </Icon>
+                <Responsive minWidth={400}>
+                  <span className={styles.cancelText}>Cancel</span>
+                </Responsive>
+              </Flex>
+            </Button>
           )}
-          {comment.author && !viewer && (
-            <div className={styles.username}>{comment.author?.username}</div>
-          )}
-          <UserTagsContainer
-            story={story}
-            comment={comment}
-            settings={settings}
-            tagClassName={styles.tag}
-          />
-          {comment.author && comment.author.badges && (
-            <AuthorBadges
-              badges={comment.author.badges}
-              className={styles.badge}
-            />
-          )}
-          <Timestamp className={styles.timestamp}>
-            {comment.createdAt}
-          </Timestamp>
-        </Flex>
+        </div>
+
         <div
           className={styles.body}
           dangerouslySetInnerHTML={{ __html: comment.body || "" }}

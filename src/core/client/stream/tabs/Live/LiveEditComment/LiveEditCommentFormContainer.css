@@ -1,0 +1,37 @@
+.root {
+  background-color: white;
+
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+  color: var(--palette-text-primary);
+
+  background: white;
+}
+
+.title {
+  margin-bottom: var(--spacing-2);
+
+  font-size: var(--font-size-1);
+  color: var(--palette-text-500);
+}
+
+.closeButton {
+  border-width: 0px;
+  border-style: none;
+}
+
+.closeIcon {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: var(--font-size-3);
+  color: var(--palette-grey-700);
+
+  width: 16px;
+}
+
+.hr {
+  border-color: var(--palette-grey-300);
+  border-width: 0.5px;
+}
