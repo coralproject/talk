@@ -54,28 +54,50 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             }
           >
             {matches ? (
-              props.mode === GQLSTORY_MODE.QA ? (
-                <Localized id="general-tabBar-qaTab">
-                  <span>Q&A</span>
-                </Localized>
-              ) : (
-                <Localized id="general-tabBar-commentsTab">
-                  <span>Comments</span>
-                </Localized>
-              )
+              <>
+                {!props.mode ||
+                  (props.mode === GQLSTORY_MODE.COMMENTS && (
+                    <Localized id="general-tabBar-commentsTab">
+                      <span>Comments</span>
+                    </Localized>
+                  ))}
+                {props.mode === GQLSTORY_MODE.QA && (
+                  <Localized id="general-tabBar-qaTab">
+                    <span>Q&A</span>
+                  </Localized>
+                )}
+                {props.mode === GQLSTORY_MODE.CHAT && (
+                  <Localized id="general-tabBar-liveTab">
+                    <span>Live</span>
+                  </Localized>
+                )}
+              </>
             ) : (
               <div>
-                <Icon size="lg">
-                  {props.mode === GQLSTORY_MODE.QA ? "live_help" : "forum"}
-                </Icon>
-                {props.mode === GQLSTORY_MODE.QA ? (
-                  <Localized id="general-tabBar-qaTab">
-                    <div className={styles.smallText}>Q&A</div>
-                  </Localized>
-                ) : (
-                  <Localized id="general-tabBar-commentsTab">
-                    <div className={styles.smallText}>Comments</div>
-                  </Localized>
+                {!props.mode ||
+                  (props.mode === GQLSTORY_MODE.COMMENTS && (
+                    <>
+                      <Icon size="lg">forum</Icon>
+                      <Localized id="general-tabBar-commentsTab">
+                        <div className={styles.smallText}>Comments</div>
+                      </Localized>
+                    </>
+                  ))}
+                {props.mode === GQLSTORY_MODE.QA && (
+                  <>
+                    <Icon size="lg">live_help</Icon>
+                    <Localized id="general-tabBar-qaTab">
+                      <div className={styles.smallText}>Q&A</div>
+                    </Localized>
+                  </>
+                )}
+                {props.mode === GQLSTORY_MODE.CHAT && (
+                  <>
+                    <Icon size="lg">forum</Icon>
+                    <Localized id="general-tabBar-liveTab">
+                      <div className={styles.smallText}>Live</div>
+                    </Localized>
+                  </>
                 )}
               </div>
             )}

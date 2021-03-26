@@ -845,3 +845,7 @@ stream-footer-links-top-of-article = Top of article
 stream-footer-links-top-of-comments = Top of comments
 stream-footer-links-profile = Profile & Replies
 stream-footer-links-discussions = More discussions
+
+### Live Chat
+
+general-tabBar-liveTab = Live
