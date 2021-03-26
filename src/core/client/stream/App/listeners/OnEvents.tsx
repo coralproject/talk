@@ -23,6 +23,7 @@ export class OnEvents extends Component<Props> {
       if (rudder) {
         if (eventName.startsWith("liveChat")) {
           value.category = "liveChat";
+          eventName = `coral:${eventName}`;
         }
 
         rudder.track(eventName, value, () => {});
