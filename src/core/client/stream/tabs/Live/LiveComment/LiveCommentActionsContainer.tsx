@@ -1,7 +1,15 @@
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
+import { isBeforeDate } from "coral-common/utils";
 import { getModerationLink } from "coral-framework/helpers";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_STATUS } from "coral-framework/schema";
@@ -31,6 +39,8 @@ interface Props {
   onReply?: (comment: LiveCommentActionsContainer_comment) => void;
   showReport?: boolean;
   onToggleReport?: () => void;
+
+  onEdit?: () => void;
 }
 
 const LiveCommentActionsContainer: FunctionComponent<Props> = ({
@@ -42,6 +52,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   onReply,
   showReport,
   onToggleReport,
+  onEdit,
 }) => {
   const isViewerBanned = !!viewer?.status.current.includes(
     GQLUSER_STATUS.BANNED
@@ -52,6 +63,14 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   const isViewerWarned = !!viewer?.status.current.includes(
     GQLUSER_STATUS.WARNED
   );
+
+  const isViewerComment =
+    // Can't edit a comment if you aren't logged in!
+    !!viewer &&
+    // Can't edit a comment if there isn't an author on it!
+    !!comment.author &&
+    // Can't edit a comment if the comment isn't the viewers!
+    viewer.id === comment.author.id;
 
   const [{ accessToken }] = useLocal<LiveCommentActionsContainer_local>(graphql`
     fragment LiveCommentActionsContainer_local on Local {
@@ -77,6 +96,61 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
     return link;
   }, [comment.id, moderationLinkSuffix]);
 
+  // The editable initial value is the result of the the funtion here.
+  const [editable, setEditable] = useState(() => {
+    // Can't edit a comment that the viewer didn't write! If the user is banned
+    // or suspended too they can't edit.
+    if (
+      !isViewerComment ||
+      isViewerBanned ||
+      isViewerSuspended ||
+      isViewerWarned
+    ) {
+      return false;
+    }
+
+    // Can't edit a comment if the editable date is before the current date!
+    if (
+      !comment.editing.editableUntil ||
+      !isBeforeDate(comment.editing.editableUntil)
+    ) {
+      return false;
+    }
+
+    // Comment is editable!
+    return true;
+  });
+
+  useEffect(() => {
+    // If the comment is not editable now, it can't be editable in the future,
+    // so exit!
+    if (!editable) {
+      return;
+    }
+
+    // The comment is editable, we should register a callback to remove that
+    // status when it is no longer editable. We know that the `editableUntil` is
+    // available because it was editable!
+    const editableFor =
+      new Date(comment.editing.editableUntil!).getTime() - Date.now();
+    if (editableFor <= 0) {
+      // Can't schedule a timer for the past! The comment is no longer editable.
+      setEditable(false);
+      return;
+    }
+
+    // Setup the timeout.
+    const timeout: LongTimeout | null = setLongTimeout(() => {
+      // Mark the comment as not editable.
+      setEditable(false);
+    }, editableFor);
+
+    return () => {
+      // When this component is disposed, also clear the timeout.
+      clearLongTimeout(timeout);
+    };
+  }, [comment.editing.editableUntil, editable]);
+
   const handleOnConversation = useCallback(() => {
     if (!onConversation) {
       return;
@@ -92,6 +166,14 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
 
     onReply(comment);
   }, [comment, onReply]);
+
+  const handleOnEdit = useCallback(() => {
+    if (!onEdit) {
+      return;
+    }
+
+    onEdit();
+  }, [onEdit]);
 
   const leftActions = useMemo(() => {
     return (
@@ -147,16 +229,37 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Button>
         )}
+        {editable && onEdit && (
+          <Button
+            className={styles.editButton}
+            variant="none"
+            onClick={handleOnEdit}
+            paddingSize="extraSmall"
+          >
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon className={styles.editIcon} aria-label="Edit comment">
+                create
+              </Icon>
+              <Responsive minWidth={400}>
+                <span className={styles.action}>Edit</span>
+              </Responsive>
+            </Flex>
+          </Button>
+        )}
       </>
     );
   }, [
     comment,
+    editable,
     handleOnConversation,
+    handleOnEdit,
     handleOnReply,
     isViewerBanned,
     isViewerSuspended,
     isViewerWarned,
     onConversation,
+    onEdit,
+    onReply,
     settings,
     viewer,
   ]);
@@ -212,6 +315,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment LiveCommentActionsContainer_viewer on User {
+      id
       role
       status {
         current
@@ -228,10 +332,17 @@ const enhanced = withFragmentContainer<Props>({
         id
       }
       replyCount
+      editing {
+        editableUntil
+      }
+      author {
+        id
+      }
       ...ReportButton_comment
       ...ReportFlowContainer_comment
       ...ReactionButtonContainer_comment
       ...LiveCommentConversationContainer_comment
+      ...LiveEditCommentFormContainer_comment
     }
   `,
   settings: graphql`

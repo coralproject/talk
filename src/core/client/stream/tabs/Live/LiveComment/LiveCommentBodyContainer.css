@@ -40,6 +40,13 @@
   margin-bottom: var(--spacing-1);
 }
 
+.headerRoot {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
 .username {
   display: flex;
   justify-content: center;
@@ -72,4 +79,25 @@
 
 .badge {
   font-size: var(--font-size-2);
+}
+
+.highlight {
+  background-color: var(--palette-primary-100);
+}
+
+.cancelButton {
+  display: flex;
+
+  border-width: 0px;
+  border-style: none;
+
+  color: var(--palette-primary-500);
+}
+
+.cancelIcon {
+  margin-right: var(--spacing-1);
+}
+
+.cancelText {
+  font-size: var(--font-size-1);
 }
