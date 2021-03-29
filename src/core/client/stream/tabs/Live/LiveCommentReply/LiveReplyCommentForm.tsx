@@ -16,6 +16,8 @@ import CommentForm from "../../Comments/Stream/CommentForm";
 import { OnChangeHandler } from "../../Comments/Stream/CommentForm/CommentForm";
 import PostCommentSubmitStatusContainer from "../../Comments/Stream/PostCommentForm/PostCommentSubmitStatusContainer";
 
+import styles from "./LiveReplyCommentForm.css";
+
 export interface LiveCommentFormProps {
   className?: string;
   onSubmit: OnSubmit<any>;
@@ -60,7 +62,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.root}>
       <CommentForm
         rteRef={props.rteRef}
         siteID={props.siteID}

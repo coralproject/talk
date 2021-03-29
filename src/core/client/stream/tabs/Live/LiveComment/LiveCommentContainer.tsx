@@ -136,6 +136,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       ref={rootRef}
       className={cn(
         styles.root,
+        editing ? styles.highlight : "",
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
@@ -182,21 +183,23 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           settings={settings}
           viewer={viewer}
           story={story}
-          highlighted={editing}
+          containerClassName={editing ? styles.highlight : ""}
           onCancel={editing ? onCancelEditing : undefined}
         />
 
         <div id={`comment-${comment.id}`}>
-          <LiveCommentActionsContainer
-            story={story}
-            comment={comment}
-            viewer={viewer}
-            settings={settings}
-            onReply={handleOnReply}
-            onConversation={handleOnConversation}
-            onToggleReport={toggleShowReportFlow}
-            onEdit={editing ? undefined : handleOnEdit}
-          />
+          {!editing && (
+            <LiveCommentActionsContainer
+              story={story}
+              comment={comment}
+              viewer={viewer}
+              settings={settings}
+              onReply={handleOnReply}
+              onConversation={handleOnConversation}
+              onToggleReport={toggleShowReportFlow}
+              onEdit={editing ? undefined : handleOnEdit}
+            />
+          )}
         </div>
         {showReportFlow && (
           <ReportFlowContainer
