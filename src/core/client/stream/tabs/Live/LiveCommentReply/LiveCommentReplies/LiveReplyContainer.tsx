@@ -59,6 +59,17 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     onEdit(comment);
   }, [onEdit, comment]);
 
+  const computeOnEdit = useCallback(() => {
+    if (!onEdit) {
+      return undefined;
+    }
+    if (editing) {
+      return undefined;
+    }
+
+    return handleOnEdit;
+  }, [editing, handleOnEdit, onEdit]);
+
   const ignored = Boolean(
     comment.author &&
       viewer &&
@@ -113,7 +124,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               settings={settings}
               onToggleReport={toggleShowReportFlow}
-              onEdit={editing ? undefined : handleOnEdit}
+              onEdit={computeOnEdit()}
             />
           )}
         </div>
