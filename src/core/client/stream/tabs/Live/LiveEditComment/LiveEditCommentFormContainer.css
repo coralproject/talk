@@ -12,6 +12,7 @@
   margin-bottom: var(--spacing-2);
 
   font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
   color: var(--palette-text-500);
 }
 
