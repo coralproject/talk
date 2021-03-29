@@ -10,9 +10,10 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
 
-  margint-bottom: var(--spacing-2);
-
-  width: 100%;
+  width: calc(100% - 2 * var(--spacing-1));
+  padding-top: var(--spacing-1);
+  padding-left: var(--spacing-1);
+  padding-right: var(--spacing-1);
 }
 
 .parent {
@@ -56,4 +57,8 @@
   border-style: none;
 
   color: var(--palette-grey-500);
+}
+
+.highlight {
+  background-color: var(--palette-primary-100);
 }

@@ -15,12 +15,12 @@ import { LiveCommentConversationContainer_story } from "coral-stream/__generated
 import { LiveCommentConversationContainer_viewer } from "coral-stream/__generated__/LiveCommentConversationContainer_viewer.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
+import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
 import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
 import styles from "./LiveCommentConversationContainer.css";
-import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
 
 interface Props {
   settings: LiveCommentConversationContainer_settings;

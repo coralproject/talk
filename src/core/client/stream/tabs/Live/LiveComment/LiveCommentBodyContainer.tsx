@@ -23,8 +23,7 @@ interface Props {
   settings: LiveCommentBodyContainer_settings;
   viewer: LiveCommentBodyContainer_viewer | null;
 
-  highlighted?: boolean;
-
+  containerClassName?: string;
   onCancel?: () => void;
 }
 
@@ -33,7 +32,7 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   viewer,
-  highlighted,
+  containerClassName,
   onCancel,
 }) => {
   return (
@@ -51,9 +50,7 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
           <Icon className={styles.avatarIcon}>person</Icon>
         </div>
       )}
-      <div
-        className={cn(highlighted ? styles.highlight : "", styles.container)}
-      >
+      <div className={cn(styles.container, containerClassName)}>
         <div className={styles.headerRoot}>
           <Flex
             justifyContent="flex-start"
