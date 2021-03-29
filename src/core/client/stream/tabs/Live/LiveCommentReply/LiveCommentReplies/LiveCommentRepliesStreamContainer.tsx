@@ -7,6 +7,7 @@ import { LiveCommentRepliesStreamContainer_comment } from "coral-stream/__genera
 import { LiveCommentRepliesStreamContainer_settings } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_settings.graphql";
 import { LiveCommentRepliesStreamContainer_story } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_story.graphql";
 import { LiveCommentRepliesStreamContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesStreamContainer_viewer.graphql";
+import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import LiveCommentRepliesAfterContainer from "./LiveCommentRepliesAfterContainer";
 import LiveCommentRepliesBeforeContainer from "./LiveCommentRepliesBeforeContainer";
@@ -23,6 +24,10 @@ interface Props {
   setTailing: (value: boolean) => void;
 
   onCommentInView: (visible: boolean, commentID: string) => void;
+
+  onEdit: (comment: LiveReplyContainer_comment) => void;
+  onCancelEdit: () => void;
+  editingCommentID?: string;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
@@ -34,6 +39,9 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   tailing,
   setTailing,
   onCommentInView,
+  onEdit,
+  onCancelEdit,
+  editingCommentID,
 }) => {
   return (
     <LiveCommentRepliesBeforeContainer
@@ -74,6 +82,9 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               tailing={tailing}
               setTailing={setTailing}
               onCommentInView={onCommentInView}
+              onEdit={onEdit}
+              onCancelEdit={onCancelEdit}
+              editingCommentID={editingCommentID}
             />
           )}
         </LiveCommentRepliesAfterContainer>

@@ -13,12 +13,14 @@ import { LiveCommentConversationContainer_comment } from "coral-stream/__generat
 import { LiveCommentConversationContainer_settings } from "coral-stream/__generated__/LiveCommentConversationContainer_settings.graphql";
 import { LiveCommentConversationContainer_story } from "coral-stream/__generated__/LiveCommentConversationContainer_story.graphql";
 import { LiveCommentConversationContainer_viewer } from "coral-stream/__generated__/LiveCommentConversationContainer_viewer.graphql";
+import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
 import styles from "./LiveCommentConversationContainer.css";
+import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
 
 interface Props {
   settings: LiveCommentConversationContainer_settings;
@@ -34,6 +36,11 @@ interface Props {
 interface NewComment {
   id: string;
   cursor: string;
+}
+
+interface EditingCommentViewState {
+  visible: boolean;
+  comment: LiveReplyContainer_comment;
 }
 
 const LiveCommentConversationContainer: FunctionComponent<Props> = ({
@@ -63,6 +70,11 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
   }, [onClose]);
 
   const [cursor, setCursor] = useState(new Date(0).toISOString());
+
+  const [
+    editingComment,
+    setEditingComment,
+  ] = useState<EditingCommentViewState | null>(null);
 
   // The pagination container wouldn't allow us to start a new connection
   // by refetching with a different cursor. So we delete the connection first,
@@ -151,6 +163,17 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
     [newlyPostedReply]
   );
 
+  const handleOnEdit = useCallback((c: LiveReplyContainer_comment) => {
+    setEditingComment({ comment: c, visible: true });
+  }, []);
+  const handleOnCloseEdit = useCallback(() => {
+    setEditingComment(null);
+  }, [setEditingComment]);
+  const handleRefreshSettingsFromEdit = useCallback(
+    async (refreshSettings: { storyID: string }) => {},
+    []
+  );
+
   if (!visible) {
     return null;
   }
@@ -188,6 +211,11 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           tailing={tailing}
           setTailing={setTailing}
           onCommentInView={handleCommentInView}
+          onEdit={handleOnEdit}
+          onCancelEdit={handleOnCloseEdit}
+          editingCommentID={
+            editingComment ? editingComment.comment.id : undefined
+          }
         />
 
         {newlyPostedReply && (
@@ -214,7 +242,18 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        {showReplyForm && (
+        {editingComment && editingComment.visible && (
+          <LiveEditCommentFormContainer
+            comment={editingComment.comment}
+            story={story}
+            settings={settings}
+            viewer={viewer}
+            onClose={handleOnCloseEdit}
+            onRefreshSettings={handleRefreshSettingsFromEdit}
+            autofocus
+          />
+        )}
+        {!editingComment && showReplyForm && (
           <LiveCreateCommentReplyFormContainer
             settings={settings}
             viewer={viewer}
@@ -235,6 +274,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       url
       ...LiveCreateCommentReplyFormContainer_story
+      ...LiveEditCommentFormContainer_story
     }
   `,
   viewer: graphql`
@@ -245,12 +285,14 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...LiveCommentContainer_viewer
       ...LiveCreateCommentReplyFormContainer_viewer
+      ...LiveEditCommentFormContainer_viewer
     }
   `,
   settings: graphql`
     fragment LiveCommentConversationContainer_settings on Settings {
       ...LiveCommentContainer_settings
       ...LiveCreateCommentReplyFormContainer_settings
+      ...LiveEditCommentFormContainer_settings
     }
   `,
   comment: graphql`

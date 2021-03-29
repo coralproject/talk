@@ -26,6 +26,10 @@ interface Props {
   comment: LiveReplyContainer_comment;
   settings: LiveReplyContainer_settings;
   onInView: (visible: boolean, commentID: string) => void;
+
+  onEdit?: (comment: LiveReplyContainer_comment) => void;
+  editing?: boolean;
+  onCancelEditing?: () => void;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -34,6 +38,9 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   onInView,
+  onEdit,
+  editing,
+  onCancelEditing,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -43,6 +50,14 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     },
     [onInView, comment.id]
   );
+
+  const handleOnEdit = useCallback(() => {
+    if (!onEdit) {
+      return;
+    }
+
+    onEdit(comment);
+  }, [onEdit, comment]);
 
   const ignored = Boolean(
     comment.author &&
@@ -85,6 +100,8 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           settings={settings}
           viewer={viewer}
           story={story}
+          highlighted={editing}
+          onCancel={editing ? onCancelEditing : undefined}
         />
 
         <div id={`reply-${comment.id}`}>
@@ -94,6 +111,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             onToggleReport={toggleShowReportFlow}
+            onEdit={editing ? undefined : handleOnEdit}
           />
         </div>
         {showReportFlow && (
@@ -166,6 +184,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentActionsContainer_comment
       ...LiveCommentConversationContainer_comment
       ...LiveCommentBodyContainer_comment
+      ...LiveEditCommentFormContainer_comment
     }
   `,
   settings: graphql`

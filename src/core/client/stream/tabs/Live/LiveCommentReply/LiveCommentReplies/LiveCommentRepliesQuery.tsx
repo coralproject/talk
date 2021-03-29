@@ -5,6 +5,7 @@ import { QueryRenderer } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesQuery } from "coral-stream/__generated__/LiveCommentRepliesQuery.graphql";
+import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import LiveCommentRepliesStreamContainer from "./LiveCommentRepliesStreamContainer";
 
@@ -17,6 +18,10 @@ interface Props {
   setTailing: (value: boolean) => void;
 
   onCommentInView: (visible: boolean, commentID: string) => void;
+
+  onEdit: (comment: LiveReplyContainer_comment) => void;
+  onCancelEdit: () => void;
+  editingCommentID?: string;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
@@ -26,6 +31,9 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   tailing,
   setTailing,
   onCommentInView,
+  onEdit,
+  onCancelEdit,
+  editingCommentID,
 }) => {
   if (!cursor) {
     return <Spinner />;
@@ -82,6 +90,9 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             tailing={tailing}
             setTailing={setTailing}
             onCommentInView={onCommentInView}
+            onEdit={onEdit}
+            onCancelEdit={onCancelEdit}
+            editingCommentID={editingCommentID}
           />
         );
       }}
