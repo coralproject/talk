@@ -1,5 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, {
   FunctionComponent,
@@ -20,7 +21,7 @@ import {
   shouldTriggerSettingsRefresh,
   SubmitStatus,
 } from "coral-stream/tabs/shared/helpers";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Flex, Icon, RelativeTime } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveEditCommentFormContainer_comment } from "coral-stream/__generated__/LiveEditCommentFormContainer_comment.graphql";
@@ -173,6 +174,26 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
             </Button>
             Edit message
           </Flex>
+          {!expired && comment.editing && comment.editing.editableUntil && (
+            <Flex
+              className={cn(
+                CLASSES.editComment.remainingTime,
+                styles.timeRemaining
+              )}
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Icon className={styles.timeIcon}>alarm</Icon>
+              <Localized
+                id="liveChat-editCommentForm-editRemainingTime"
+                time={
+                  <RelativeTime date={comment.editing.editableUntil} live />
+                }
+              >
+                <span>{"<time></time> remaining"}</span>
+              </Localized>
+            </Flex>
+          )}
         </div>
 
         <LivePostCommentForm
