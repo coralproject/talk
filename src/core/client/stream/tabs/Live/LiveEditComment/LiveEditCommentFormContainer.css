@@ -9,6 +9,10 @@
 }
 
 .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   margin-bottom: var(--spacing-2);
 
   font-size: var(--font-size-1);
@@ -35,4 +39,13 @@
 .hr {
   border-color: var(--palette-grey-300);
   border-width: 0.5px;
+}
+
+.timeRemaining {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.timeIcon {
+  margin-right: var(--spacing-1);
 }
