@@ -5,7 +5,17 @@
 }
 
 .comment {
-  padding-top: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.body {
+  padding-top: 0px;
+  width: 100%;
+}
+
+.bodyHighlighted {
+  padding-top: var(--spacing-1);
+  width: 100%;
 }
 
 .replyMarker {
@@ -19,4 +29,8 @@
   background-color: var(--palette-primary-700);
 
   margin-right: var(--spacing-1);
+}
+
+.highlight {
+  background-color: var(--palette-primary-100);
 }

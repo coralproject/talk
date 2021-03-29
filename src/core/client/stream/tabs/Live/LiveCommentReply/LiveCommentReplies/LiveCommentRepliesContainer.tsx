@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -164,7 +165,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
                 settings={settings}
                 onInView={onCommentInView}
                 onEdit={onEdit}
-                editing={!!(editingCommentID === e.node.id)}
+                editing={editingCommentID === e.node.id}
                 onCancelEditing={onCancelEdit}
               />
             </Flex>
@@ -173,19 +174,33 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
       } else if (index < beforeComments.length + afterComments.length) {
         const e = afterComments[index - beforeComments.length];
         return (
-          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+          <div
+            key={`chat-reply-${e.node.id}`}
+            className={cn(
+              styles.comment,
+              editingCommentID === e.node.id ? styles.highlight : ""
+            )}
+          >
             <Flex justifyContent="flex-start" alignItems="stretch">
               <div className={styles.replyMarker}></div>
-              <LiveReplyContainer
-                story={story}
-                comment={e.node}
-                viewer={viewer}
-                settings={settings}
-                onInView={onCommentInView}
-                onEdit={onEdit}
-                editing={!!(editingCommentID === e.node.id)}
-                onCancelEditing={onCancelEdit}
-              />
+              <div
+                className={
+                  editingCommentID === e.node.id
+                    ? styles.bodyHighlighted
+                    : styles.body
+                }
+              >
+                <LiveReplyContainer
+                  story={story}
+                  comment={e.node}
+                  viewer={viewer}
+                  settings={settings}
+                  onInView={onCommentInView}
+                  onEdit={onEdit}
+                  editing={editingCommentID === e.node.id}
+                  onCancelEditing={onCancelEdit}
+                />
+              </div>
             </Flex>
           </div>
         );
