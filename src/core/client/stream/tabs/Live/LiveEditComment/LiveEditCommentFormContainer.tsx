@@ -167,10 +167,11 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
               className={styles.closeButton}
               onClick={handleOnCancelOrClose}
               color="none"
+              paddingSize="extraSmall"
             >
               <Icon className={styles.closeIcon}>cancel</Icon>
             </Button>
-            Edit comment
+            Edit message
           </Flex>
         </div>
 
