@@ -493,6 +493,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       handleReplyToParent,
       handleOnEdit,
       editingComment,
+      handleCancelEdit,
     ]
   );
 

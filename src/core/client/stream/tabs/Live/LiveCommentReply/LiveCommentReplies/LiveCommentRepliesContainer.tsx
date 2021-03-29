@@ -25,6 +25,7 @@ import { LiveCommentRepliesContainer_story } from "coral-stream/__generated__/Li
 import { LiveCommentRepliesContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesContainer_viewer.graphql";
 import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerAfterCommentEdge.graphql";
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
+import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import LiveSkeleton from "../../LiveSkeleton";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
@@ -55,6 +56,10 @@ interface Props {
   setTailing: (value: boolean) => void;
 
   onCommentInView: (visible: boolean, commentID: string) => void;
+
+  onEdit: (comment: LiveReplyContainer_comment) => void;
+  onCancelEdit: () => void;
+  editingCommentID?: string;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -73,6 +78,9 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   tailing,
   setTailing,
   onCommentInView,
+  onEdit,
+  onCancelEdit,
+  editingCommentID,
 }) => {
   const { eventEmitter } = useCoralContext();
   const [height, setHeight] = useState(0);
@@ -155,6 +163,9 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
                 viewer={viewer}
                 settings={settings}
                 onInView={onCommentInView}
+                onEdit={onEdit}
+                editing={!!(editingCommentID === e.node.id)}
+                onCancelEditing={onCancelEdit}
               />
             </Flex>
           </div>
@@ -171,6 +182,9 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
                 viewer={viewer}
                 settings={settings}
                 onInView={onCommentInView}
+                onEdit={onEdit}
+                editing={!!(editingCommentID === e.node.id)}
+                onCancelEditing={onCancelEdit}
               />
             </Flex>
           </div>
@@ -181,7 +195,17 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
         throw new Error(`Index out of bounds: ${index}`);
       }
     },
-    [afterComments, beforeComments, onCommentInView, settings, story, viewer]
+    [
+      afterComments,
+      beforeComments,
+      editingCommentID,
+      onCancelEdit,
+      onCommentInView,
+      onEdit,
+      settings,
+      story,
+      viewer,
+    ]
   );
 
   return (
