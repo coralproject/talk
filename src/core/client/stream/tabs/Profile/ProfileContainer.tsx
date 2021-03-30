@@ -53,7 +53,6 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
   `,
   settings: graphql`
     fragment ProfileContainer_settings on Settings {
-      featureFlags
       ...UserBoxContainer_settings
       ...AccountSettingsContainer_settings
       ...MyCommentsContainer_settings
