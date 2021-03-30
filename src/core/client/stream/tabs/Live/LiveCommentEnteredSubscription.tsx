@@ -31,11 +31,15 @@ function insertComment(
   comment: RecordProxy
 ) {
   const story = store.get(storyID)!;
-  const afterConnection = ConnectionHandler.getConnection(story, "Chat_after")!;
+  const afterConnection = ConnectionHandler.getConnection(story, "Chat_after");
+  if (!afterConnection) {
+    return;
+  }
+
   const beforeConnection = ConnectionHandler.getConnection(
     story,
     "Chat_before"
-  )!;
+  );
 
   const liveInsertion = liveInsertionEnabled(environment);
 
@@ -43,15 +47,15 @@ function insertComment(
     const edge = ConnectionHandler.createEdge(store, comment, comment, "");
     edge.setValue(comment.getValue("createdAt"), "cursor");
 
-    if (afterConnection) {
-      ConnectionHandler.insertEdgeAfter(afterConnection, edge);
-    }
+    ConnectionHandler.insertEdgeAfter(afterConnection, edge);
   } else {
     const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
     // Should not be falsy because Relay uses this information to determine
     // whether or not new data is available to load.
     if (!pageInfoAfter.getValue("endCursor")) {
-      const beforeEdges = beforeConnection.getLinkedRecords("edges")!;
+      const beforeEdges = beforeConnection
+        ? beforeConnection.getLinkedRecords("edges")!
+        : [];
       const endCursor =
         beforeEdges.length > 0
           ? beforeEdges[0].getValue("cursor")
