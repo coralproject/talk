@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -77,9 +77,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
     return false;
   }, [props.ssoURL, props.isSSO]);
 
-  const isLiveChat =
-    props.settings.featureFlags.some((f) => f === GQLFEATURE_FLAG.CHAT) &&
-    local.storyMode === GQLSTORY_MODE.CHAT;
+  const isLiveChat = local.storyMode === GQLSTORY_MODE.CHAT;
 
   return (
     <HorizontalGutter size="double">

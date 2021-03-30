@@ -130,10 +130,7 @@ const initLocalState: InitLocalState = async ({
     // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
 
-    if (
-      featureFlags.some((f) => f === GQLFEATURE_FLAG.CHAT) &&
-      query.storyMode === GQLSTORY_MODE.CHAT
-    ) {
+    if (query.storyMode === GQLSTORY_MODE.CHAT) {
       localRecord.setValue("PREFERENCES", "profileTab");
     } else {
       localRecord.setValue("MY_COMMENTS", "profileTab");
