@@ -55,6 +55,7 @@ import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
 
 import styles from "./LiveChatContainer.css";
+import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 
 interface ConversationViewState {
   visible: boolean;
@@ -186,6 +187,17 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       disposable.dispose();
     };
   }, [story.id, subscribeToCommentEntered, afterHasMore]);
+
+  const subscribeToCommentEdited = useSubscription(
+    LiveCommentEditedSubscription
+  );
+  useEffect(() => {
+    const disposable = subscribeToCommentEdited({ storyID: story.id });
+
+    return () => {
+      disposable.dispose();
+    };
+  }, [story.id, subscribeToCommentEdited]);
 
   const handleCommentVisible = useCallback(
     async (visible: boolean, id: string, createdAt: string, cursor: string) => {

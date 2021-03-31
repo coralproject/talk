@@ -2,11 +2,13 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   Comment,
   CommentModerationQueueCounts,
+  getLatestRevision,
   hasModeratorStatus,
   hasPublishedStatus,
 } from "coral-server/models/comment";
 import {
   publishCommentCreated,
+  publishCommentEditedChanges,
   publishCommentReleased,
   publishCommentReplyCreated,
   publishCommentReplyReleased,
@@ -45,6 +47,13 @@ export default async function publishChanges(
         input.commentRevisionID,
         input.after.storyID,
         input.moderatorID || null
+      ),
+      publishCommentEditedChanges(
+        broker,
+        input.before.storyID,
+        input.before.id,
+        getLatestRevision(input.before).id,
+        getLatestRevision(input.after).id
       )
     );
 
