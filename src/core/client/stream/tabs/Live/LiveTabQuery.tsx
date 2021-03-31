@@ -34,7 +34,7 @@ const LiveTabQuery: FunctionComponent = () => {
       storyURL
     }
   `);
-  const context = useCoralContext();
+  const { localStorage } = useCoralContext();
 
   const [paginationState, setPaginationState] = useState<PaginationState>({
     cursor: "",
@@ -46,7 +46,7 @@ const LiveTabQuery: FunctionComponent = () => {
     const loadCursor = async () => {
       const key = `liveCursor:${storyID}:${storyURL}`;
 
-      const rawValue = await context.sessionStorage.getItem(key);
+      const rawValue = await localStorage.getItem(key);
       let current: CursorState | null = null;
       if (rawValue) {
         current = JSON.parse(rawValue);
@@ -61,7 +61,7 @@ const LiveTabQuery: FunctionComponent = () => {
     };
 
     void loadCursor();
-  }, [context.sessionStorage, storyID, storyURL]);
+  }, [localStorage, storyID, storyURL]);
 
   const { relayEnvironment } = useCoralContext();
 
