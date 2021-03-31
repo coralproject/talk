@@ -98,3 +98,8 @@
 .cancelText {
   font-size: var(--font-size-1);
 }
+
+.edited {
+  font-size: var(--font-size-1);
+  margin-left: var(--spacing-1);
+}
