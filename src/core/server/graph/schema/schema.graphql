@@ -8540,6 +8540,16 @@ type CommentEnteredPayload {
 }
 
 """
+CommentEditedPayload is returned when a Comment is edited on a story.
+"""
+type CommentEditedPayload {
+  """
+  comment is the Comment that was edited on the Story.
+  """
+  comment: Comment!
+}
+
+"""
 CommentReplyCreatedPayload is returned when a Comment is created as a reply to
 another Comment where the selected ancestor Comment is in the ancestor chain.
 """
@@ -8606,6 +8616,11 @@ type Subscription {
   commentEntered returns when a Comment is created or released anywhere in the Story.
   """
   commentEntered(storyID: ID!, ancestorID: ID): CommentEnteredPayload!
+
+  """
+  commentEdited returns when a Comment is edited anywhere in the Story.
+  """
+  commentEdited(storyID: ID!): CommentEditedPayload!
 
   """
   commentCreated returns when a Comment is created on the top level of a Story

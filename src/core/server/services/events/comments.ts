@@ -1,5 +1,6 @@
 import {
   CommentCreatedCoralEvent,
+  CommentEditedCoralEvent,
   CommentEnteredCoralEvent,
   CommentEnteredModerationQueueCoralEvent,
   CommentFeaturedCoralEvent,
@@ -23,6 +24,21 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_QUEUE,
 } from "coral-server/graph/schema/__generated__/types";
+
+export async function publishCommentEditedChanges(
+  broker: CoralEventPublisherBroker,
+  storyID: string,
+  commentID: string,
+  oldRevisionId: string,
+  newRevisionId: string
+) {
+  if (oldRevisionId !== newRevisionId) {
+    await CommentEditedCoralEvent.publish(broker, {
+      storyID,
+      commentID,
+    });
+  }
+}
 
 export async function publishCommentStatusChanges(
   broker: CoralEventPublisherBroker,
