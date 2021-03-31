@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import Responsive from "react-responsive";
@@ -16,7 +17,6 @@ import { LiveCommentBodyContainer_story } from "coral-stream/__generated__/LiveC
 import { LiveCommentBodyContainer_viewer } from "coral-stream/__generated__/LiveCommentBodyContainer_viewer.graphql";
 
 import styles from "./LiveCommentBodyContainer.css";
-import { Localized } from "@fluent/react/compat";
 
 interface Props {
   story: LiveCommentBodyContainer_story;
