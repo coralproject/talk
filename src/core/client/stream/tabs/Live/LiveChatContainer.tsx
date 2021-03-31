@@ -111,7 +111,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   setCursor,
   cursor: currentCursor,
 }) => {
-  const context = useCoralContext();
+  const { localStorage, eventEmitter } = useCoralContext();
   const [
     {
       storyID,
@@ -158,18 +158,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       setLocal({ liveChat: { tailing: value } });
 
       if (value) {
-        LiveChatStartTailingEvent.emit(context.eventEmitter, {
+        LiveChatStartTailingEvent.emit(eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
       } else {
-        LiveChatStopTailingEvent.emit(context.eventEmitter, {
+        LiveChatStopTailingEvent.emit(eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
       }
     },
-    [context.eventEmitter, setLocal, story.id, viewer]
+    [eventEmitter, setLocal, story.id, viewer]
   );
 
   const subscribeToCommentEntered = useSubscription(
@@ -207,7 +207,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       // Set the constant updating cursor
       const key = `liveCursor:${storyID}:${storyURL}`;
 
-      const rawValue = await context.sessionStorage.getItem(key);
+      const rawValue = await localStorage.getItem(key);
       let current: CursorState | null = null;
       if (rawValue) {
         current = JSON.parse(rawValue);
@@ -217,7 +217,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         !current ||
         (current && new Date(createdAt) > new Date(current.createdAt))
       ) {
-        await context.sessionStorage.setItem(
+        await localStorage.setItem(
           key,
           JSON.stringify({
             createdAt,
@@ -233,7 +233,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         setNewlyPostedComment(null);
       }
     },
-    [context.sessionStorage, newlyPostedComment, storyID, storyURL]
+    [localStorage, newlyPostedComment, storyID, storyURL]
   );
 
   const showConversation = useCallback(
@@ -244,25 +244,25 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       type: Required<ConversationViewState>["type"]
     ) => {
       if (type === "conversation") {
-        LiveChatOpenConversationEvent.emit(context.eventEmitter, {
+        LiveChatOpenConversationEvent.emit(eventEmitter, {
           storyID: story.id,
           commentID: comment.id,
           viewerID: viewer ? viewer.id : "",
         });
       } else if (type === "parent") {
-        LiveChatOpenParentEvent.emit(context.eventEmitter, {
+        LiveChatOpenParentEvent.emit(eventEmitter, {
           storyID: story.id,
           commentID: comment.id,
           viewerID: viewer ? viewer.id : "",
         });
       } else if (type === "reply") {
-        LiveChatOpenReplyEvent.emit(context.eventEmitter, {
+        LiveChatOpenReplyEvent.emit(eventEmitter, {
           storyID: story.id,
           commentID: comment.id,
           viewerID: viewer ? viewer.id : "",
         });
       } else if (type === "replyToParent") {
-        LiveChatOpenReplyToParentEvent.emit(context.eventEmitter, {
+        LiveChatOpenReplyToParentEvent.emit(eventEmitter, {
           storyID: story.id,
           commentID: comment.id,
           viewerID: viewer ? viewer.id : "",
@@ -275,7 +275,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         type,
       });
     },
-    [context.eventEmitter, story.id, viewer]
+    [eventEmitter, story.id, viewer]
   );
 
   const handleReplyToComment = useCallback(
@@ -319,12 +319,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
     setCursor(newlyPostedComment.cursor);
 
-    LiveChatJumpToCommentEvent.emit(context.eventEmitter, {
+    LiveChatJumpToCommentEvent.emit(eventEmitter, {
       storyID: story.id,
       commentID: newlyPostedComment.id,
       viewerID: viewer ? viewer.id : "",
     });
-  }, [newlyPostedComment, setCursor, story.id, viewer, context.eventEmitter]);
+  }, [newlyPostedComment, setCursor, story.id, viewer, eventEmitter]);
 
   const handleCommentSubmitted = useCallback(
     (commentID: string, cursor: string) => {
@@ -335,14 +335,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       if (!tailing) {
         setNewlyPostedComment({ id: commentID, cursor });
 
-        LiveChatSubmitCommentWhenNotTailingEvent.emit(context.eventEmitter, {
+        LiveChatSubmitCommentWhenNotTailingEvent.emit(eventEmitter, {
           storyID: story.id,
           commentID,
           viewerID: viewer ? viewer.id : "",
         });
       }
     },
-    [context.eventEmitter, story.id, tailing, viewer]
+    [eventEmitter, story.id, tailing, viewer]
   );
 
   const closeJumpToComment = useCallback(() => {
@@ -363,20 +363,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     const target = new Date(new Date(currentCursor).getTime() - 1);
     setCursor(target.toISOString());
 
-    LiveChatJumpToNewEvent.emit(context.eventEmitter, {
+    LiveChatJumpToNewEvent.emit(eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
-  }, [setCursor, currentCursor, context.eventEmitter, story.id, viewer]);
+  }, [setCursor, currentCursor, eventEmitter, story.id, viewer]);
 
   const jumpToLive = useCallback(() => {
     setCursor(new Date().toISOString());
 
-    LiveChatJumpToLiveEvent.emit(context.eventEmitter, {
+    LiveChatJumpToLiveEvent.emit(eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
-  }, [context.eventEmitter, story.id, viewer, setCursor]);
+  }, [eventEmitter, story.id, viewer, setCursor]);
 
   const onScroll = useCallback(() => {
     setShowJumpToLive(
@@ -513,7 +513,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     (atTop: boolean) => {
       if (atTop && beforeHasMore && !isLoadingMoreBefore) {
         void loadMoreBefore();
-        LiveChatLoadBeforeEvent.emit(context.eventEmitter, {
+        LiveChatLoadBeforeEvent.emit(eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
@@ -521,7 +521,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     },
     [
       beforeHasMore,
-      context.eventEmitter,
+      eventEmitter,
       isLoadingMoreBefore,
       loadMoreBefore,
       story.id,
@@ -532,7 +532,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     (atBottom: boolean) => {
       if (atBottom && afterHasMore && !isLoadingMoreAfter) {
         void loadMoreAfter();
-        LiveChatLoadAfterEvent.emit(context.eventEmitter, {
+        LiveChatLoadAfterEvent.emit(eventEmitter, {
           storyID: story.id,
           viewerID: viewer ? viewer.id : "",
         });
@@ -541,7 +541,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     },
     [
       afterHasMore,
-      context.eventEmitter,
+      eventEmitter,
       isLoadingMoreAfter,
       loadMoreAfter,
       setTailing,
