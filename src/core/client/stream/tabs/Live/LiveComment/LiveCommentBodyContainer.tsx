@@ -16,6 +16,7 @@ import { LiveCommentBodyContainer_story } from "coral-stream/__generated__/LiveC
 import { LiveCommentBodyContainer_viewer } from "coral-stream/__generated__/LiveCommentBodyContainer_viewer.graphql";
 
 import styles from "./LiveCommentBodyContainer.css";
+import { Localized } from "@fluent/react/compat";
 
 interface Props {
   story: LiveCommentBodyContainer_story;
@@ -84,6 +85,11 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
             <Timestamp className={styles.timestamp}>
               {comment.createdAt}
             </Timestamp>
+            {comment.editing.edited && (
+              <Localized id="liveChat-editedMarker-edited">
+                <span className={styles.edited}>(Edited)</span>
+              </Localized>
+            )}
           </Flex>
           {onCancel && (
             <Button
@@ -139,6 +145,9 @@ const enhanced = withFragmentContainer<Props>({
         username
         avatar
         badges
+      }
+      editing {
+        edited
       }
       ...UsernameWithPopoverContainer_comment
       ...UserTagsContainer_comment

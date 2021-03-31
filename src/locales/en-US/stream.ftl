@@ -851,3 +851,4 @@ stream-footer-links-discussions = More discussions
 general-tabBar-liveTab = Live
 
 liveChat-editCommentForm-editRemainingTime = <time></time> remaining
+liveChat-editedMarker-edited = (Edited)
