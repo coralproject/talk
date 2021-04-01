@@ -416,6 +416,12 @@ const config = convict({
     default: false,
     env: "MOUNT_DOCUMENTATION",
   },
+  create_comment_rate_limit: {
+    doc: "Specifies the rate limit in ms for creating comments and replies",
+    format: "ms",
+    default: ms("3s"),
+    env: "CREATE_COMMENT_RATE_LIMIT",
+  },
 });
 
 export type Config = typeof config;
