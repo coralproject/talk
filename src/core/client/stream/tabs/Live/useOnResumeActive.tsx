@@ -5,6 +5,8 @@ interface Options {
   thresholdMs: number;
 }
 
+// TODO: (cvle) use different strategies if available, see:
+// https://stackoverflow.com/questions/15959244/is-it-possible-in-javascript-to-detect-when-the-screen-is-turned-off-in-the-an
 const useOnResumeActive = (
   onResume: () => void,
   options: Options = {

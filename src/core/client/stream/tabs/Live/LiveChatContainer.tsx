@@ -397,7 +397,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setEditingComment(null);
   }, [setEditingComment]);
   const handleRefreshSettingsFromEdit = useCallback(
-    async (refreshSettings: { storyID: string }) => {},
+    async (refreshSettings: { storyID: string }) => {
+      // TODO: implement refresh settings.
+    },
     []
   );
   const handleCancelEdit = useCallback(() => {
@@ -512,6 +514,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
       if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+        // TODO: (cvle) Better load more UX.
         void loadMoreBefore();
         LiveChatLoadBeforeEvent.emit(eventEmitter, {
           storyID: story.id,

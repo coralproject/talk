@@ -94,6 +94,14 @@ interface Props {
   rteRef?: Ref<CoralRTE>;
 }
 
+const classes: PropTypesOf<typeof CommentForm>["classes"] = {
+  root: CLASSES.createComment.$root,
+  disabledMessage: CLASSES.createComment.disabledMessage,
+  cancelButton: CLASSES.createComment.cancel,
+  submitButton: CLASSES.createComment.submit,
+  rteFocus: CLASSES.createComment.rteFocus,
+};
+
 const PostCommentForm: FunctionComponent<Props> = ({
   disabled = false,
   disabledMessage,
@@ -127,6 +135,7 @@ const PostCommentForm: FunctionComponent<Props> = ({
         />
       )}
       <CommentForm
+        classes={classes}
         rteRef={rteRef}
         siteID={siteID}
         onSubmit={onSubmit}
@@ -143,7 +152,6 @@ const PostCommentForm: FunctionComponent<Props> = ({
         placeholder={translation.placeholder.text}
         mediaConfig={mediaConfig}
         onFocus={onFocus}
-        classNameRoot="createComment"
         bodyInputID="comments-postCommentForm-field"
         bodyLabel={
           <Localized id={translation.label.id}>

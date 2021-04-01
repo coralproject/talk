@@ -28,6 +28,7 @@ import {
   RelativeTime,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
+import useStyles from "coral-ui/hooks/useStyles";
 
 import { getCommentBodyValidators } from "../../../shared/helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -101,7 +102,6 @@ interface Props {
   editableUntil?: string;
   expired?: boolean;
   submitStatus?: React.ReactNode;
-  classNameRoot: "createComment" | "editComment" | "createReplyComment";
   mediaConfig: MediaConfig;
   mode?: "rating" | "comment" | "chat";
   placeholder: string;
@@ -110,6 +110,7 @@ interface Props {
   siteID: string;
   topBorder?: boolean;
   className?: string;
+  classes?: Partial<typeof styles>;
   focusAfterSubmit?: boolean;
   autoHideToolbar?: boolean;
   autoFocus?: boolean;
@@ -148,7 +149,6 @@ const CommentForm: FunctionComponent<Props> = ({
   bodyInputID,
   bodyLabel,
   className,
-  classNameRoot,
   disabled = false,
   disabledMessage,
   editableUntil,
@@ -173,6 +173,7 @@ const CommentForm: FunctionComponent<Props> = ({
   autoHideToolbar,
   focusAfterSubmit,
   autoFocus,
+  classes,
 }) => {
   const myRTERef = useRef<CoralRTE | null>(null);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
@@ -324,8 +325,10 @@ const CommentForm: FunctionComponent<Props> = ({
   const showGifSelector = mediaWidget === "giphy";
   const showExternalImageInput = mediaWidget === "external";
 
+  const css = useStyles(styles, classes);
+
   return (
-    <div className={cn(CLASSES[classNameRoot].$root, className, styles.root)}>
+    <div className={cn(className, css.root)}>
       <Form onSubmit={onFormSubmit} initialValues={initialValues}>
         {({
           handleSubmit,
@@ -339,11 +342,11 @@ const CommentForm: FunctionComponent<Props> = ({
           const disabledMessageElement = disabledMessage && (
             <ErrorCallout
               error={disabledMessage}
-              className={CLASSES.editComment.expiredTime}
+              className={css.disabledMessage}
             />
           );
           const expiredMessageElement = !expired && editableUntil && (
-            <Message className={CLASSES.editComment.remainingTime} fullWidth>
+            <Message className={css.remainingTime} fullWidth>
               <MessageIcon>alarm</MessageIcon>
               <Localized
                 id="comments-editCommentForm-editRemainingTime"
@@ -356,10 +359,10 @@ const CommentForm: FunctionComponent<Props> = ({
           const rteElement = (
             <div
               className={cn(
-                styles.commentFormBox,
+                css.commentFormBox,
                 {
-                  [styles.noTopBorder]: !topBorder,
-                  [styles.rteFocus]: rteFocus && mode === "chat",
+                  [css.noTopBorder]: !topBorder,
+                  [css.rteFocus]: rteFocus && mode === "chat",
                 },
                 CLASSES.commentForm
               )}
@@ -372,8 +375,8 @@ const CommentForm: FunctionComponent<Props> = ({
                       config={rteConfig}
                       onFocus={rteOnFocus}
                       onBlur={rteOnBlur}
-                      contentClassName={cn(styles.content, {
-                        [styles.chatContent]: mode === "chat",
+                      contentClassName={cn(css.content, {
+                        [css.chatContent]: mode === "chat",
                       })}
                       onWillPaste={(event) => {
                         if (
@@ -449,7 +452,7 @@ const CommentForm: FunctionComponent<Props> = ({
                               onClick={toggleGIFSelector}
                             >
                               <Flex alignItems="center" container="span">
-                                <Icon className={styles.icon}>add</Icon>
+                                <Icon className={css.icon}>add</Icon>
                                 GIF
                               </Flex>
                             </RTEButton>
@@ -488,8 +491,8 @@ const CommentForm: FunctionComponent<Props> = ({
                   (!!editableUntil && pristine)
                 }
                 type="submit"
-                className={cn(styles.chatSubmitButton, {
-                  [styles.chatSubmitButtonWithToolbar]: showToolbar,
+                className={cn(css.chatSubmitButton, {
+                  [css.chatSubmitButtonWithToolbar]: showToolbar,
                 })}
                 title={editableUntil ? "Save changes" : "Submit"}
               >
@@ -513,7 +516,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           disabled={submitting}
                           onClick={onCancel}
                           fullWidth={matches}
-                          className={CLASSES[classNameRoot].cancel}
+                          className={css.cancelButton}
                           upperCase
                         >
                           Cancel
@@ -538,7 +541,7 @@ const CommentForm: FunctionComponent<Props> = ({
                         }
                         type="submit"
                         fullWidth={matches}
-                        className={CLASSES[classNameRoot].submit}
+                        className={css.submitButton}
                         upperCase
                       >
                         {editableUntil ? "Save changes" : "Submit"}
@@ -613,7 +616,7 @@ const CommentForm: FunctionComponent<Props> = ({
                     {submitStatus}
                   </>
                 )}
-                <div className={styles.rteContainer}>
+                <div className={css.rteContainer}>
                   {bodyLabel}
                   {rteElement}
                   {mode === "chat" && chatButtonElement}

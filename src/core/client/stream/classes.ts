@@ -155,6 +155,11 @@ const CLASSES = {
     message: "coral coral-createComment-message",
 
     /**
+     * disabledMessage is the box containing the disabled message.
+     */
+    disabledMessage: "coral coral-createComment-disabledMessage",
+
+    /**
      * closed is the box containing the message when the story is closed.
      */
     closed: "coral coral-createComment-closed",
@@ -211,6 +216,11 @@ const CLASSES = {
      * in review.
      */
     inReview: "coral coral-createReplyComment-inReview",
+
+    /**
+     * disabledMessage is the box containing the disabled message.
+     */
+    disabledMessage: "coral coral-createComment-disabledMessage",
 
     /**
      * submit is the button for submitting a new reply.

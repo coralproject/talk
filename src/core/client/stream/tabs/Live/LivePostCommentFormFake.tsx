@@ -27,6 +27,7 @@ const PostCommentFormFake: FunctionComponent<Props> = ({
   rteConfig,
   onFocus,
 }) => {
+  // TODO: Make a generic hook like `useFocus`.
   const [focus, setFocus] = useState(false);
   const handleFocus = useCallback(() => {
     setFocus(true);

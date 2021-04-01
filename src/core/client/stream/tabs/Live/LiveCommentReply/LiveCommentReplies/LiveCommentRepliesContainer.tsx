@@ -107,6 +107,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
       if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+        // TODO: (cvle) Better load more UX.
         void loadMoreBefore();
         LiveChatRepliesLoadBeforeEvent.emit(eventEmitter, {
           storyID: story.id,

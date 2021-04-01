@@ -38,10 +38,20 @@ export interface LiveCommentFormProps {
   autoFocus?: boolean;
 }
 
+const classes: PropTypesOf<typeof CommentForm>["classes"] = {
+  // TODO (@cvle): Setup the right classes.
+  /*
+  root: CLASSES.editComment.$root,
+  disabledMessage: CLASSES.editComment.expiredTime,
+  remainingTime: CLASSES.editComment.remainingTime,
+  cancelButton: CLASSES.editComment.cancel,
+  submitButton: CLASSES.editComment.submit,
+  rteFocus: CLASSES.editComment.rteFocus,
+  */
+};
+
 const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   const inputID = `comments-LiveCommentReplyForm-rte`;
-  // TODO @cvle.
-  const classNameRoot = "createComment";
 
   // TODO @nick-funk, hook up media config when we have designs
   const mediaConfig = {
@@ -64,6 +74,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   return (
     <div className={styles.root}>
       <CommentForm
+        classes={classes}
         rteRef={props.rteRef}
         siteID={props.siteID}
         onSubmit={props.onSubmit}
@@ -72,7 +83,6 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
         min={props.min}
         max={props.max}
         disabled={props.disabled}
-        classNameRoot={classNameRoot}
         disabledMessage={props.disabledMessage}
         onFocus={props.onFocus}
         onBlur={props.onBlur}

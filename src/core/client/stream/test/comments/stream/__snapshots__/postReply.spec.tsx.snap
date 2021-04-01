@@ -268,7 +268,7 @@ exports[`post a reply: open reply form 1`] = `
     </div>
     <div>
       <div
-        className="coral coral-createReplyComment CommentForm-root"
+        className="CommentForm-root coral coral-createReplyComment"
       >
         <form
           autoComplete="off"
@@ -428,7 +428,7 @@ exports[`post a reply: open reply form 1`] = `
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
-                className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-createReplyComment-cancel"
+                className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase CommentForm-cancelButton coral coral-createReplyComment-cancel"
                 data-variant="outlined"
                 disabled={false}
                 onBlur={[Function]}
@@ -442,7 +442,7 @@ exports[`post a reply: open reply form 1`] = `
                 Cancel
               </button>
               <button
-                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-createReplyComment-submit"
+                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-createReplyComment-submit"
                 data-variant="filled"
                 disabled={true}
                 onBlur={[Function]}

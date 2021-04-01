@@ -332,7 +332,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root CommentForm-root"
+      className="EditCommentForm-root CommentForm-root coral coral-editComment"
     >
       <form
         autoComplete="off"
@@ -460,7 +460,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"
@@ -484,7 +484,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
           >
             <button
-              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-editComment-cancel"
+              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase CommentForm-cancelButton coral coral-editComment-cancel"
               data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
@@ -498,7 +498,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               Cancel
             </button>
             <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-editComment-submit"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-editComment-submit"
               data-variant="filled"
               disabled={true}
               onBlur={[Function]}
@@ -555,7 +555,7 @@ exports[`edit a comment: edit form 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root CommentForm-root"
+      className="EditCommentForm-root CommentForm-root coral coral-editComment"
     >
       <form
         autoComplete="off"
@@ -683,7 +683,7 @@ exports[`edit a comment: edit form 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"
@@ -707,7 +707,7 @@ exports[`edit a comment: edit form 1`] = `
             className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
           >
             <button
-              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-editComment-cancel"
+              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase CommentForm-cancelButton coral coral-editComment-cancel"
               data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
@@ -721,7 +721,7 @@ exports[`edit a comment: edit form 1`] = `
               Cancel
             </button>
             <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-editComment-submit"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-editComment-submit"
               data-variant="filled"
               disabled={true}
               onBlur={[Function]}
@@ -778,7 +778,7 @@ exports[`edit a comment: optimistic response 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root CommentForm-root"
+      className="EditCommentForm-root CommentForm-root coral coral-editComment"
     >
       <form
         autoComplete="off"
@@ -906,7 +906,7 @@ exports[`edit a comment: optimistic response 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"
@@ -930,7 +930,7 @@ exports[`edit a comment: optimistic response 1`] = `
             className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
           >
             <button
-              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-disabled Button-upperCase coral coral-editComment-cancel"
+              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-disabled Button-upperCase CommentForm-cancelButton coral coral-editComment-cancel"
               data-variant="outlined"
               disabled={true}
               onBlur={[Function]}
@@ -944,7 +944,7 @@ exports[`edit a comment: optimistic response 1`] = `
               Cancel
             </button>
             <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-editComment-submit"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-editComment-submit"
               data-variant="filled"
               disabled={true}
               onBlur={[Function]}
@@ -1895,7 +1895,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       </div>
     </div>
     <div
-      className="coral coral-editComment EditCommentForm-root CommentForm-root"
+      className="EditCommentForm-root CommentForm-root coral coral-editComment"
     >
       <form
         autoComplete="off"
@@ -2023,7 +2023,7 @@ exports[`shows expiry message: edit time expired 1`] = `
             </div>
           </div>
           <div
-            className="CallOut-root CallOut-error CallOut-leftBorder coral coral-editComment-expiredTime"
+            className="CallOut-root CallOut-error CallOut-leftBorder CommentForm-disabledMessage coral coral-editComment-expiredTime"
           >
             <div
               className="CallOut-container"
@@ -2056,7 +2056,7 @@ exports[`shows expiry message: edit time expired 1`] = `
             className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
           >
             <button
-              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-editComment-cancel"
+              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase CommentForm-cancelButton coral coral-editComment-cancel"
               data-variant="outlined"
               disabled={false}
               onBlur={[Function]}
@@ -2070,7 +2070,7 @@ exports[`shows expiry message: edit time expired 1`] = `
               Cancel
             </button>
             <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-editComment-submit"
+              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-editComment-submit"
               data-variant="filled"
               disabled={true}
               onBlur={[Function]}
