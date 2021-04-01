@@ -4,6 +4,8 @@ import React, { FunctionComponent } from "react";
 
 import { Flex, Icon, Typography } from "coral-ui/components/v2";
 
+import styles from "./RemainingCharacters.css";
+
 interface Props {
   className?: string;
   remaining: number;
@@ -13,7 +15,7 @@ const RemainingCharacters: FunctionComponent<Props> = (props) => {
   const belowZero = props.remaining < 0;
   return (
     <Flex
-      className={cn(props.className)}
+      className={cn(props.className, styles.root)}
       alignItems="center"
       justifyContent="flex-end"
       itemGutter="half"
