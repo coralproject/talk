@@ -1,4 +1,5 @@
 import path from "path";
+
 import {
   CommandExecutor,
   Config,
@@ -11,6 +12,13 @@ const config: Config = {
     generateSchemaTypes: {
       paths: ["core/server/**/*.graphql"],
       executor: new CommandExecutor("npx gulp server:schema", {
+        runOnInit: true,
+      }),
+    },
+    generateDocs: {
+      // TODO: there doesn't seem to be a way to watch for files outside the rootDir
+      paths: ["core/server/**/*.graphql"],
+      executor: new CommandExecutor("npm run generate:docs", {
         runOnInit: true,
       }),
     },
@@ -133,6 +141,10 @@ const config: Config = {
         "npm run --silent start:webpackDevServer"
       ),
     },
+    runDocs: {
+      paths: [],
+      executor: new LongRunningExecutor("npm run docs:watch"),
+    },
     runDocz: {
       paths: [],
       executor: new LongRunningExecutor("npm run --silent docz -- dev"),
@@ -141,12 +153,14 @@ const config: Config = {
   defaultSet: "client",
   sets: {
     server: [
+      "generateDocs",
       "generateSchemaTypes",
       "runServer",
       "runServerLint",
       "runServerSyntaxCheck",
     ],
     client: [
+      "generateDocs",
       "runServerWithoutClientRoutes",
       "runServerLint",
       "runServerSyntaxCheck",
@@ -160,7 +174,9 @@ const config: Config = {
       "generateSchemaTypes",
     ],
     docz: ["runDocz", "generate"],
+    docs: ["generateDocs", "runDocs"],
     generate: [
+      "generateDocs",
       "generateSchemaTypes",
       "generateCSSTypes",
       "generateRelayStream",
