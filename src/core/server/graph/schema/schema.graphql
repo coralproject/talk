@@ -71,7 +71,12 @@ directive @constraint(min: Int, max: Int) on ARGUMENT_DEFINITION
 """
 rate enforces a rate limit on requests made by the user.
 """
-directive @rate(max: Int = 1, seconds: Int!, key: String) on FIELD_DEFINITION
+directive @rate(
+  max: Int = 1
+  seconds: Int!
+  key: String
+  env: String
+) on FIELD_DEFINITION
 
 """
 deprecated indicates that a field should not be used in the future.
@@ -7844,7 +7849,7 @@ type Mutation {
   """
   createComment(input: CreateCommentInput!): CreateCommentPayload!
     @auth
-    @rate(seconds: 3, key: "createComment")
+    @rate(seconds: 3, key: "createComment", env: "create_comment_rate_limit")
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -7852,7 +7857,9 @@ type Mutation {
   """
   createCommentReply(
     input: CreateCommentReplyInput!
-  ): CreateCommentReplyPayload! @auth @rate(seconds: 3, key: "createComment")
+  ): CreateCommentReplyPayload!
+    @auth
+    @rate(seconds: 3, key: "createComment", env: "create_comment_rate_limit")
 
   """
   editComment will allow the author of a comment to change the body within the
