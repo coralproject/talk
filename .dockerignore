@@ -27,3 +27,4 @@ yarn.lock
 dist
 *.css.d.ts
 __generated__
+docs/.next

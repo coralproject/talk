@@ -4,6 +4,7 @@ import createDOMPurify from "dompurify";
 import {
   Message,
   MessageAttachment,
+  MessageHeaders,
   SMTPClient,
   SMTPConnectionOptions,
 } from "emailjs";
@@ -19,7 +20,7 @@ import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
@@ -27,7 +28,14 @@ import {
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
 
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
+
 export const JOB_NAME = "mailer";
+
+interface TemplateMeta {
+  name: string;
+  context: object;
+}
 
 export interface MailProcessorOptions {
   config: Config;
@@ -38,6 +46,7 @@ export interface MailProcessorOptions {
 
 export interface MailerData {
   templateName: string;
+  templateContext: object;
   message: {
     to: string;
     html: string;
@@ -47,6 +56,7 @@ export interface MailerData {
 
 const MailerDataSchema = Joi.object().keys({
   templateName: Joi.string(),
+  templateContext: Joi.object().unknown(true),
   message: Joi.object().keys({
     to: Joi.string(),
     html: Joi.string(),
@@ -176,14 +186,29 @@ function createMessageTranslator(i18n: I18n) {
     // Generate the text content of the message from the HTML.
     const text = htmlToText.fromString(html);
 
-    // Prepare the message payload.
-    return new Message({
+    const headers: Partial<MessageHeaders> = {
       from: fromAddress,
       to: data.message.to,
       text,
       subject,
       attachment,
-    });
+    };
+
+    // If the EMAIL_META feature flag is enabled, add the `X-Coral-Template`
+    // header.
+    if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.EMAIL_META)) {
+      const template: TemplateMeta = {
+        name: data.templateName,
+        context: data.templateContext,
+      };
+
+      logger.debug({ template }, "adding template context");
+
+      headers["X-Coral-Template"] = JSON.stringify(template);
+    }
+
+    // Prepare the message payload.
+    return new Message(headers);
   };
 }
 
