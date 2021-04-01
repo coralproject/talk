@@ -84,6 +84,7 @@ export class MailerQueue {
     return this.task.add({
       tenantID,
       templateName: template.name,
+      templateContext: template.context,
       message: {
         to,
         html,

@@ -531,6 +531,12 @@ enum FEATURE_FLAG {
   overrides the configuration option available in the Admin UI for that tenant.
   """
   DISABLE_LIVE_UPDATES
+
+  """
+  EMAIL_META will add the email template context as a header to the SMTP as the
+  `X-Coral-Template` header.
+  """
+  EMAIL_META
 }
 
 # The moderation mode of the site.
