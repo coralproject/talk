@@ -22,7 +22,10 @@ async function beginWatch(
   }
   for await (const filePath of watcher.watch(rootDir, paths, { ignore })) {
     // eslint-disable-next-line no-console
-    console.log(chalk.cyanBright(`Execute "${key}"`));
+    console.log(
+      chalk.cyanBright(`Execute "${key}" `) +
+        chalk.grey(`["${filePath}" changed]`)
+    );
     executor.execute(filePath);
   }
 }

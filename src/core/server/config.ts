@@ -409,6 +409,13 @@ const config = convict({
     default: ["cdn.ampproject.org"],
     env: "AMP_CACHE_DOMAINS",
   },
+  mount_documentation: {
+    doc:
+      "Enables administrative documentation in production and development documentation in development.",
+    format: Boolean,
+    default: false,
+    env: "MOUNT_DOCUMENTATION",
+  },
 });
 
 export type Config = typeof config;

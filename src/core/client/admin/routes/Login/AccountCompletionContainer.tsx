@@ -2,6 +2,7 @@ import { RouterState, withRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
+import { SetRedirectPathMutation } from "coral-admin/mutations";
 import {
   useLocal,
   useMutation,
@@ -29,6 +30,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   const completed = useRef<boolean>(false);
   const completeAccount = useMutation(CompleteAccountMutation);
   const setAuthView = useMutation(SetAuthViewMutation);
+  const setRedirectPath = useMutation(SetRedirectPathMutation);
 
   const [
     {
@@ -94,11 +96,18 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
 
     async function finish() {
       try {
-        // Initiate full user session.
-        // This will also reset local client state
+        // Initiate full user session. This will also reset local client state
         // and `authView` will restore to `SIGN_IN`.
         await completeAccount({ accessToken: accessToken! });
-        router.replace(redirectPath || "/admin");
+        await setRedirectPath({ path: null });
+
+        // If the redirect path exists and does not start with /admin, then use
+        // the `window.location.href` navigation, otherwise use the router.
+        if (redirectPath && !redirectPath.startsWith("/admin")) {
+          window.location.href = redirectPath;
+        } else {
+          router.replace({ pathname: redirectPath || "/admin" });
+        }
       } catch (err) {
         window.console.error(err);
       }
@@ -120,6 +129,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     localProfileEnabled,
     redirectPath,
     router,
+    setRedirectPath,
     viewer,
   ]);
 
