@@ -236,6 +236,7 @@ export const LiveCreateCommentMutation = createMutation(
         break;
     }
 
+    // TODO: use correct optimistic response.
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
         environment,

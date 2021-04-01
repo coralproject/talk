@@ -44,6 +44,8 @@ const LiveTabQuery: FunctionComponent = () => {
 
   useEffect(() => {
     const loadCursor = async () => {
+      // TODO: (cvle) Cursor should be saved to a "userSessionStorage" instead of localStorage.
+      // TODO: (cvle) Put cursor in Local, and sync with localStorage.
       const key = `liveCursor:${storyID}:${storyURL}`;
 
       const rawValue = await localStorage.getItem(key);
@@ -65,7 +67,7 @@ const LiveTabQuery: FunctionComponent = () => {
 
   const { relayEnvironment } = useCoralContext();
 
-  // this is a possibly undesirable way to detect that
+  // TODO: this is a possibly undesirable way to detect that
   // the page has come back from sleeping (likely due to
   // mobile phone locking and unlocking). We will want to
   // look into some more optimal solutions that detect when

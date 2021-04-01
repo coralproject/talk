@@ -736,7 +736,7 @@ exports[`report comment as offensive 1`] = `
           className="CallOut-actions"
         >
           <button
-            className="BaseButton-root"
+            className="BaseButton-root CallOut-closeButton"
             data-testid="callout-close-button"
             onBlur={[Function]}
             onClick={[Function]}

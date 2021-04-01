@@ -383,7 +383,7 @@ exports[`renders message box when logged in 1`] = `
         />
       </div>
       <div
-        className="coral coral-createComment CommentForm-root"
+        className="CommentForm-root coral coral-createComment"
       >
         <form
           autoComplete="off"
@@ -520,7 +520,7 @@ exports[`renders message box when logged in 1`] = `
               className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
             >
               <button
-                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-createComment-submit"
+                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase CommentForm-submitButton coral coral-createComment-submit"
                 data-variant="filled"
                 disabled={true}
                 onBlur={[Function]}

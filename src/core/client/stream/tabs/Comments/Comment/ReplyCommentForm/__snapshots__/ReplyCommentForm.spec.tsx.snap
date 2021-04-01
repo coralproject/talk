@@ -21,7 +21,15 @@ exports[`renders correctly 1`] = `
         />
       </React.Fragment>
     }
-    classNameRoot="createReplyComment"
+    classes={
+      Object {
+        "cancelButton": "coral coral-createReplyComment-cancel",
+        "disabledMessage": "coral coral-createComment-disabledMessage",
+        "root": "coral coral-createReplyComment",
+        "rteFocus": "coral coral-createComment-rteFocus",
+        "submitButton": "coral coral-createReplyComment-submit",
+      }
+    }
     disabled={false}
     max={500}
     min={3}

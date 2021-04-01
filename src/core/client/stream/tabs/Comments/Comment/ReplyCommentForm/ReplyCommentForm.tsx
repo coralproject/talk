@@ -10,6 +10,7 @@ import React, {
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
 import { ReplyCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
@@ -37,6 +38,14 @@ export interface ReplyCommentFormProps {
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
 }
 
+const classes: PropTypesOf<typeof CommentForm>["classes"] = {
+  root: CLASSES.createReplyComment.$root,
+  disabledMessage: CLASSES.createReplyComment.disabledMessage,
+  cancelButton: CLASSES.createReplyComment.cancel,
+  submitButton: CLASSES.createReplyComment.submit,
+  rteFocus: CLASSES.createReplyComment.rteFocus,
+};
+
 const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
   const emitFocusEvent = useViewerEvent(ReplyCommentFocusEvent);
@@ -47,6 +56,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   return (
     <div>
       <CommentForm
+        classes={classes}
         rteRef={props.rteRef}
         siteID={props.siteID}
         onSubmit={props.onSubmit}
@@ -55,7 +65,6 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
         min={props.min}
         max={props.max}
         disabled={props.disabled}
-        classNameRoot="createReplyComment"
         disabledMessage={props.disabledMessage}
         onFocus={onFocus}
         onCancel={props.onCancel}

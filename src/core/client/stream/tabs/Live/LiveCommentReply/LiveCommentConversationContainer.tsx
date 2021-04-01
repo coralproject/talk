@@ -170,7 +170,9 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
     setEditingComment(null);
   }, [setEditingComment]);
   const handleRefreshSettingsFromEdit = useCallback(
-    async (refreshSettings: { storyID: string }) => {},
+    async (refreshSettings: { storyID: string }) => {
+      // TODO: implement refresh settings.
+    },
     []
   );
 

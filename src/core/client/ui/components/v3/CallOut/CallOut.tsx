@@ -99,6 +99,7 @@ const CallOut: FunctionComponent<Props> = ({
         {onClose && (
           <div className={classes.actions}>
             <BaseButton
+              className={classes.closeButton}
               onClick={onCloseClicked}
               data-testid="callout-close-button"
             >

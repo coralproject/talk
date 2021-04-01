@@ -3,6 +3,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 
 import { OnSubmit } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
@@ -34,6 +35,15 @@ export interface EditCommentFormProps {
   siteID: string;
 }
 
+const classes: PropTypesOf<typeof CommentForm>["classes"] = {
+  root: CLASSES.editComment.$root,
+  disabledMessage: CLASSES.editComment.expiredTime,
+  remainingTime: CLASSES.editComment.remainingTime,
+  cancelButton: CLASSES.editComment.cancel,
+  submitButton: CLASSES.editComment.submit,
+  rteFocus: CLASSES.editComment.rteFocus,
+};
+
 const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
   const inputID = `comments-editCommentForm-rte-${props.id}`;
 
@@ -51,6 +61,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
       </div>
 
       <CommentForm
+        classes={classes}
         siteID={props.siteID}
         onSubmit={props.onSubmit}
         min={props.min}
@@ -60,7 +71,6 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = (props) => {
         initialValues={props.initialValues}
         onCancel={props.onCancel}
         editableUntil={props.editableUntil}
-        classNameRoot="editComment"
         mediaConfig={props.mediaConfig}
         expired={props.expired}
         placeholder="Edit comment"
