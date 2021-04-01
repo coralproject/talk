@@ -54,12 +54,24 @@ const LiveTabQuery: FunctionComponent = () => {
         current = JSON.parse(rawValue);
       }
 
-      const newCursor = current?.cursor || new Date().toISOString();
+      // Render empty state first, so that GC has a chance to run.
       setPaginationState({
-        cursor: newCursor,
+        cursor: "",
         inclusiveAfter: false,
         inclusiveBefore: true,
       });
+
+      // Now set the new cursor.
+      const newCursor = current?.cursor || new Date().toISOString();
+      setTimeout(
+        () =>
+          setPaginationState({
+            cursor: newCursor,
+            inclusiveAfter: false,
+            inclusiveBefore: true,
+          }),
+        0
+      );
     };
 
     void loadCursor();
