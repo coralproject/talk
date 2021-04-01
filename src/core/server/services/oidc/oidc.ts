@@ -48,7 +48,7 @@ export const OIDCIDTokenSchema = Joi.object()
     iss: Joi.string().required(),
     aud: Joi.string().required(),
     exp: Joi.number().required(),
-    email: Joi.string(),
+    email: Joi.string().lowercase().email(),
     email_verified: Joi.boolean().default(false),
     picture: Joi.string(),
     name: Joi.string(),
