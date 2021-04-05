@@ -8,7 +8,6 @@ import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { globalErrorReporter } from "coral-framework/lib/errors";
 import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
@@ -42,6 +41,15 @@ const LiveTabQuery: FunctionComponent = () => {
     inclusiveBefore: true,
   });
 
+  const { relayEnvironment } = useCoralContext();
+
+  const store = relayEnvironment.getStore();
+  const forceCollect = (store as any).__gc.bind(store);
+
+  const garbageCollect = useCallback(() => {
+    forceCollect();
+  }, [forceCollect]);
+
   useEffect(() => {
     const loadCursor = async () => {
       // TODO: (cvle) Cursor should be saved to a "userSessionStorage" instead of localStorage.
@@ -54,12 +62,13 @@ const LiveTabQuery: FunctionComponent = () => {
         current = JSON.parse(rawValue);
       }
 
-      // Render empty state first, so that GC has a chance to run.
-      setPaginationState({
-        cursor: "",
-        inclusiveAfter: false,
-        inclusiveBefore: true,
-      });
+      // In case we're loading after a set cursor event, we want to
+      // clean up any old connections that might be lying around.
+      // Relay will hold onto old cache items to find optimal times
+      // to garbage collect, but since we delete connections on cursor
+      // change, we need to make sure they're gone before we go loading
+      // data from a new cursor position.
+      garbageCollect();
 
       // Now set the new cursor.
       const newCursor = current?.cursor || new Date().toISOString();
@@ -75,9 +84,7 @@ const LiveTabQuery: FunctionComponent = () => {
     };
 
     void loadCursor();
-  }, [localStorage, storyID, storyURL]);
-
-  const { relayEnvironment } = useCoralContext();
+  }, [garbageCollect, localStorage, storyID, storyURL]);
 
   // TODO: this is a possibly undesirable way to detect that
   // the page has come back from sleeping (likely due to
@@ -149,10 +156,11 @@ const LiveTabQuery: FunctionComponent = () => {
         // by refetching with a different cursor. So we delete the connection first,
         // before starting the refetch.
         const deleteConnectionsAndSetCursor = (s: string) => {
-          commitLocalUpdate(relayEnvironment, (store) => {
+          commitLocalUpdate(relayEnvironment, (st) => {
             // TODO: (cvle) use `getConnectionID` after update:
             // https://github.com/facebook/relay/pull/3332
-            const storyRecord = store.get(data.props!.story!.id)!;
+            const storyRecord = st.get(data.props!.story!.id)!;
+
             const chatAfter = ConnectionHandler.getConnection(
               storyRecord,
               "Chat_after"
@@ -162,30 +170,28 @@ const LiveTabQuery: FunctionComponent = () => {
               "Chat_before"
             );
 
-            if (chatAfter) {
-              store.delete(chatAfter.getValue("__id") as string);
-            } else {
-              const err = new Error(`Chat_after connection is ${chatAfter}`);
-              globalErrorReporter.report(err);
-              if (process.env.NODE_ENV !== "production") {
-                throw err;
-              }
-            }
             if (chatBefore) {
-              store.delete(chatBefore.getValue("__id") as string);
-            } else {
-              const err = new Error(`Chat_before connection is ${chatBefore}`);
-              globalErrorReporter.report(err);
-              if (process.env.NODE_ENV !== "production") {
-                throw err;
-              }
+              st.delete(chatBefore.getValue("__id") as string);
+            }
+            if (chatAfter) {
+              st.delete(chatAfter.getValue("__id") as string);
             }
           });
+
+          // I'm not 100% sure whether it's before or after setting the
+          // cursor state that Relay will see we need to garbage collect
+          // the old connections, but I'm going to force it both before
+          // and after, and then also do a clear in the set cursor effect
+          // above
+          garbageCollect();
+
           setPaginationState({
             cursor: s,
             inclusiveAfter: true,
             inclusiveBefore: false,
           });
+
+          garbageCollect();
 
           window.requestAnimationFrame(() => {
             const el = document.getElementById("live-chat-footer");
