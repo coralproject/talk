@@ -105,8 +105,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
         }
       });
 
-      setCursor("");
-      setTimeout(() => setCursor(s), 0);
+      setCursor(s);
     },
     [comment.id, relayEnvironment]
   );

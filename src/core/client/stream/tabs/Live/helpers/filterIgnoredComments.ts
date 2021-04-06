@@ -8,6 +8,8 @@ export default function filterIgnoredComments<
   }>
 >(ignoredUsers: string[], edges: T): T {
   return edges.filter(
-    (e) => !e.node.author || !ignoredUsers.includes(e.node.author.id)
+    (e) =>
+      // TODO: Check why e could be null, but edges != [].
+      e && (!e.node.author || !ignoredUsers.includes(e.node.author.id))
   ) as any;
 }
