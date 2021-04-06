@@ -8,7 +8,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { LiveChatJumpToReplyEvent } from "coral-stream/events";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { ClickOutside, Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLUSER_STATUS } from "coral-framework/schema/__generated__/types";
@@ -190,85 +190,87 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   return (
     <>
       <div className={styles.overlay}></div>
-      <div className={styles.root}>
-        <Button className={styles.closeButton} onClick={close} color="none">
-          <Icon className={styles.closeIcon}>cancel</Icon>
-        </Button>
+      <ClickOutside onClickOutside={close}>
+        <div className={styles.root}>
+          <Button className={styles.closeButton} onClick={close} color="none">
+            <Icon className={styles.closeIcon}>cancel</Icon>
+          </Button>
 
-        <div className={styles.title}>
-          <Flex justifyContent="flex-start" alignItems="center">
-            <ShortcutIcon
-              width="14px"
-              height="14px"
-              className={styles.replyingToIcon}
-            />
-            <div className={styles.replyingTo}>Replying to</div>
-            <div className={styles.username}>
-              {comment.author ? comment.author.username || "" : ""}
-            </div>
-          </Flex>
-        </div>
-
-        <LiveCommentRepliesQuery
-          commentID={comment.id}
-          storyID={story.id}
-          cursor={cursor}
-          tailing={tailing}
-          setTailing={setTailing}
-          onCommentInView={handleCommentInView}
-          onEdit={handleOnEdit}
-          onCancelEdit={handleOnCloseEdit}
-          editingCommentID={
-            editingComment ? editingComment.comment.id : undefined
-          }
-        />
-
-        {newlyPostedReply && (
-          <div className={styles.scrollToNewReply}>
-            <Flex justifyContent="center" alignItems="center">
-              <Flex alignItems="center">
-                <Button
-                  onClick={jumpToReply}
-                  color="primary"
-                  className={styles.jumpButton}
-                >
-                  Reply posted below <Icon>arrow_downward</Icon>
-                </Button>
-                <Button
-                  onClick={closeJumpToReply}
-                  color="primary"
-                  aria-valuetext="close"
-                  className={styles.jumpButtonClose}
-                >
-                  <Icon>close</Icon>
-                </Button>
-              </Flex>
+          <div className={styles.title}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <ShortcutIcon
+                width="14px"
+                height="14px"
+                className={styles.replyingToIcon}
+              />
+              <div className={styles.replyingTo}>Replying to</div>
+              <div className={styles.username}>
+                {comment.author ? comment.author.username || "" : ""}
+              </div>
             </Flex>
           </div>
-        )}
 
-        {editingComment && editingComment.visible && (
-          <LiveEditCommentFormContainer
-            comment={editingComment.comment}
-            story={story}
-            settings={settings}
-            viewer={viewer}
-            onClose={handleOnCloseEdit}
-            onRefreshSettings={handleRefreshSettingsFromEdit}
-            autofocus
+          <LiveCommentRepliesQuery
+            commentID={comment.id}
+            storyID={story.id}
+            cursor={cursor}
+            tailing={tailing}
+            setTailing={setTailing}
+            onCommentInView={handleCommentInView}
+            onEdit={handleOnEdit}
+            onCancelEdit={handleOnCloseEdit}
+            editingCommentID={
+              editingComment ? editingComment.comment.id : undefined
+            }
           />
-        )}
-        {!editingComment && showReplyForm && (
-          <LiveCreateCommentReplyFormContainer
-            settings={settings}
-            viewer={viewer}
-            story={story}
-            parentID={comment.id}
-            parentRevisionID={comment.revision.id}
-            onSubmitted={submit}
-          />
-        )}
-      </div>
+
+          {newlyPostedReply && (
+            <div className={styles.scrollToNewReply}>
+              <Flex justifyContent="center" alignItems="center">
+                <Flex alignItems="center">
+                  <Button
+                    onClick={jumpToReply}
+                    color="primary"
+                    className={styles.jumpButton}
+                  >
+                    Reply posted below <Icon>arrow_downward</Icon>
+                  </Button>
+                  <Button
+                    onClick={closeJumpToReply}
+                    color="primary"
+                    aria-valuetext="close"
+                    className={styles.jumpButtonClose}
+                  >
+                    <Icon>close</Icon>
+                  </Button>
+                </Flex>
+              </Flex>
+            </div>
+          )}
+
+          {editingComment && editingComment.visible && (
+            <LiveEditCommentFormContainer
+              comment={editingComment.comment}
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              onClose={handleOnCloseEdit}
+              onRefreshSettings={handleRefreshSettingsFromEdit}
+              autofocus
+            />
+          )}
+          {!editingComment && showReplyForm && (
+            <LiveCreateCommentReplyFormContainer
+              settings={settings}
+              viewer={viewer}
+              story={story}
+              parentID={comment.id}
+              parentRevisionID={comment.revision.id}
+              onSubmitted={submit}
+            />
+          )}
+        </div>
+      </ClickOutside>
     </>
   );
 };
