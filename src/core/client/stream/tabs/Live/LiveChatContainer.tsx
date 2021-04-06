@@ -49,7 +49,7 @@ import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCom
 import CursorState from "./cursorState";
 import LiveCommentContainer from "./LiveComment";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
-import LiveCommentConversationContainer from "./LiveCommentReply/LiveCommentConversationContainer";
+import LiveConversationContainer from "./LiveConversation/LiveConversationContainer";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
@@ -59,9 +59,7 @@ import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 
 interface ConversationViewState {
   visible: boolean;
-  comment?:
-    | PropTypesOf<typeof LiveCommentConversationContainer>["comment"]
-    | null;
+  comment?: PropTypesOf<typeof LiveConversationContainer>["comment"] | null;
   type?: "conversation" | "parent" | "reply" | "replyToParent";
 }
 
@@ -648,7 +646,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
       {conversationView.visible && conversationView.comment && (
-        <LiveCommentConversationContainer
+        <LiveConversationContainer
           settings={settings}
           viewer={viewer}
           story={story}
@@ -708,7 +706,7 @@ const enhanced = withFragmentContainer<Props>({
       url
       status
       ...LivePostCommentFormContainer_story
-      ...LiveCommentConversationContainer_story
+      ...LiveConversationContainer_story
       ...LiveCommentContainer_story
       ...LiveEditCommentFormContainer_story
     }
@@ -721,7 +719,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
-      ...LiveCommentConversationContainer_viewer
+      ...LiveConversationContainer_viewer
       ...LiveEditCommentFormContainer_viewer
     }
   `,
@@ -729,7 +727,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveChatContainer_settings on Settings {
       ...LivePostCommentFormContainer_settings
       ...LiveCommentContainer_settings
-      ...LiveCommentConversationContainer_settings
+      ...LiveConversationContainer_settings
       ...LiveEditCommentFormContainer_settings
     }
   `,

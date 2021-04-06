@@ -341,7 +341,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportButton_comment
       ...ReportFlowContainer_comment
       ...ReactionButtonContainer_comment
-      ...LiveCommentConversationContainer_comment
+      ...LiveConversationContainer_comment
       ...LiveEditCommentFormContainer_comment
     }
   `,

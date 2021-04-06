@@ -12,10 +12,10 @@ import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLUSER_STATUS } from "coral-framework/schema/__generated__/types";
-import { LiveCommentConversationContainer_comment } from "coral-stream/__generated__/LiveCommentConversationContainer_comment.graphql";
-import { LiveCommentConversationContainer_settings } from "coral-stream/__generated__/LiveCommentConversationContainer_settings.graphql";
-import { LiveCommentConversationContainer_story } from "coral-stream/__generated__/LiveCommentConversationContainer_story.graphql";
-import { LiveCommentConversationContainer_viewer } from "coral-stream/__generated__/LiveCommentConversationContainer_viewer.graphql";
+import { LiveConversationContainer_comment } from "coral-stream/__generated__/LiveConversationContainer_comment.graphql";
+import { LiveConversationContainer_settings } from "coral-stream/__generated__/LiveConversationContainer_settings.graphql";
+import { LiveConversationContainer_story } from "coral-stream/__generated__/LiveConversationContainer_story.graphql";
+import { LiveConversationContainer_viewer } from "coral-stream/__generated__/LiveConversationContainer_viewer.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
@@ -23,13 +23,13 @@ import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
-import styles from "./LiveCommentConversationContainer.css";
+import styles from "./LiveConversationContainer.css";
 
 interface Props {
-  settings: LiveCommentConversationContainer_settings;
-  viewer: LiveCommentConversationContainer_viewer | null;
-  story: LiveCommentConversationContainer_story;
-  comment: LiveCommentConversationContainer_comment;
+  settings: LiveConversationContainer_settings;
+  viewer: LiveConversationContainer_viewer | null;
+  story: LiveConversationContainer_story;
+  comment: LiveConversationContainer_comment;
 
   visible?: boolean;
   onClose: () => void;
@@ -46,7 +46,7 @@ interface EditingCommentViewState {
   comment: LiveReplyContainer_comment;
 }
 
-const LiveCommentConversationContainer: FunctionComponent<Props> = ({
+const LiveConversationContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
   story,
@@ -275,7 +275,7 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
-    fragment LiveCommentConversationContainer_story on Story {
+    fragment LiveConversationContainer_story on Story {
       id
       url
       ...LiveCreateCommentReplyFormContainer_story
@@ -283,7 +283,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   viewer: graphql`
-    fragment LiveCommentConversationContainer_viewer on User {
+    fragment LiveConversationContainer_viewer on User {
       id
       status {
         current
@@ -294,14 +294,14 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   settings: graphql`
-    fragment LiveCommentConversationContainer_settings on Settings {
+    fragment LiveConversationContainer_settings on Settings {
       ...LiveCommentContainer_settings
       ...LiveCreateCommentReplyFormContainer_settings
       ...LiveEditCommentFormContainer_settings
     }
   `,
   comment: graphql`
-    fragment LiveCommentConversationContainer_comment on Comment {
+    fragment LiveConversationContainer_comment on Comment {
       id
       revision {
         id
@@ -322,6 +322,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(LiveCommentConversationContainer);
+})(LiveConversationContainer);
 
 export default enhanced;
