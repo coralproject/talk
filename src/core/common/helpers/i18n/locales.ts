@@ -23,7 +23,7 @@ export type LanguageCode =
  * name in native language.
  */
 export const LOCALES_MAP: Record<LanguageCode, string> = {
-  "af-ZA": "Afrikaans"
+  "af-ZA": "Afrikaans",
   "en-US": "English",
   "pt-BR": "Português brasileiro",
   es: "Español",
