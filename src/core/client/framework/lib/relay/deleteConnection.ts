@@ -6,7 +6,7 @@ import { RecordSourceProxy } from "relay-runtime";
 function deleteConnection(source: RecordSourceProxy, connectionID: string) {
   const connection = source.get(connectionID);
   if (!connection) {
-    return;
+    throw new Error("unable to delete connection, connection not found");
   }
   const pageInfo = connection.getLinkedRecord("pageInfo");
   if (pageInfo) {

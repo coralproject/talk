@@ -3,7 +3,10 @@ import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  deleteConnection,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { LiveChatJumpToReplyEvent } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -94,15 +97,15 @@ const LiveCommentConversationContainer: FunctionComponent<Props> = ({
           "Replies_before"
         );
 
-        if (chatAfter) {
-          store.delete(chatAfter.getValue("__id") as string);
-        }
         if (chatBefore) {
-          store.delete(chatBefore.getValue("__id") as string);
+          deleteConnection(store, chatBefore.getDataID());
+        }
+        if (chatAfter) {
+          deleteConnection(store, chatAfter.getDataID());
         }
       });
-      setCursor("");
-      setTimeout(() => setCursor(s), 0);
+
+      setCursor(s);
     },
     [comment.id, relayEnvironment]
   );
