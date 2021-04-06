@@ -247,7 +247,7 @@ const enhanced = withFragmentContainer<Props>({
           username
         }
         body
-        ...LiveCommentConversationContainer_comment
+        ...LiveConversationContainer_comment
       }
       actionCounts {
         reaction {
@@ -256,7 +256,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
-      ...LiveCommentConversationContainer_comment
+      ...LiveConversationContainer_comment
       ...LiveCommentBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
     }
