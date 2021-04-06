@@ -8,7 +8,11 @@ import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
+import {
+  deleteConnection,
+  QueryRenderer,
+  useLocal,
+} from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
@@ -43,13 +47,6 @@ const LiveTabQuery: FunctionComponent = () => {
 
   const { relayEnvironment } = useCoralContext();
 
-  const store = relayEnvironment.getStore();
-  const forceCollect = (store as any).__gc.bind(store);
-
-  const garbageCollect = useCallback(() => {
-    forceCollect();
-  }, [forceCollect]);
-
   useEffect(() => {
     const loadCursor = async () => {
       // TODO: (cvle) Cursor should be saved to a "userSessionStorage" instead of localStorage.
@@ -62,29 +59,17 @@ const LiveTabQuery: FunctionComponent = () => {
         current = JSON.parse(rawValue);
       }
 
-      // In case we're loading after a set cursor event, we want to
-      // clean up any old connections that might be lying around.
-      // Relay will hold onto old cache items to find optimal times
-      // to garbage collect, but since we delete connections on cursor
-      // change, we need to make sure they're gone before we go loading
-      // data from a new cursor position.
-      garbageCollect();
-
       // Now set the new cursor.
       const newCursor = current?.cursor || new Date().toISOString();
-      setTimeout(
-        () =>
-          setPaginationState({
-            cursor: newCursor,
-            inclusiveAfter: false,
-            inclusiveBefore: true,
-          }),
-        0
-      );
+      setPaginationState({
+        cursor: newCursor,
+        inclusiveAfter: false,
+        inclusiveBefore: true,
+      });
     };
 
     void loadCursor();
-  }, [garbageCollect, localStorage, storyID, storyURL]);
+  }, [localStorage, storyID, storyURL]);
 
   // TODO: this is a possibly undesirable way to detect that
   // the page has come back from sleeping (likely due to
@@ -156,10 +141,10 @@ const LiveTabQuery: FunctionComponent = () => {
         // by refetching with a different cursor. So we delete the connection first,
         // before starting the refetch.
         const deleteConnectionsAndSetCursor = (s: string) => {
-          commitLocalUpdate(relayEnvironment, (st) => {
+          commitLocalUpdate(relayEnvironment, (store) => {
             // TODO: (cvle) use `getConnectionID` after update:
             // https://github.com/facebook/relay/pull/3332
-            const storyRecord = st.get(data.props!.story!.id)!;
+            const storyRecord = store.get(data.props!.story!.id)!;
 
             const chatAfter = ConnectionHandler.getConnection(
               storyRecord,
@@ -171,27 +156,18 @@ const LiveTabQuery: FunctionComponent = () => {
             );
 
             if (chatBefore) {
-              st.delete(chatBefore.getValue("__id") as string);
+              deleteConnection(store, chatBefore.getDataID());
             }
             if (chatAfter) {
-              st.delete(chatAfter.getValue("__id") as string);
+              deleteConnection(store, chatAfter.getDataID());
             }
           });
-
-          // I'm not 100% sure whether it's before or after setting the
-          // cursor state that Relay will see we need to garbage collect
-          // the old connections, but I'm going to force it both before
-          // and after, and then also do a clear in the set cursor effect
-          // above
-          garbageCollect();
 
           setPaginationState({
             cursor: s,
             inclusiveAfter: true,
             inclusiveBefore: false,
           });
-
-          garbageCollect();
 
           window.requestAnimationFrame(() => {
             const el = document.getElementById("live-chat-footer");
