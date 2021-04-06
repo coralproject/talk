@@ -2,6 +2,7 @@ import cons from "consolidate";
 import cors from "cors";
 import express, { Express } from "express";
 import enforceHTTPSMiddleware from "express-enforces-ssl";
+import serveStatic from "express-static-gzip";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import {
@@ -49,7 +50,6 @@ import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
 import { accessLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
-import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
@@ -84,7 +84,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   configureApplication(options);
 
   // Pull the parent out of the options.
-  const { parent } = options;
+  const { parent, config } = options;
 
   // Logging
   parent.use(accessLogger);
@@ -120,8 +120,27 @@ export async function createApp(options: AppOptions): Promise<Express> {
   parent.use(
     "/assets",
     cacheHeadersMiddleware({ cacheDuration: "1w" }),
-    serveStatic
+    serveStatic(
+      path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "dist",
+        "static",
+        "assets"
+      ),
+      { index: false }
+    )
   );
+
+  if (config.get("mount_documentation")) {
+    logger.debug("mounting documentation routes");
+    await configureDocumentation(options);
+  } else {
+    logger.debug("not mounting documentation routes");
+  }
 
   // Error Handling
   parent.use(notFoundMiddleware);
@@ -217,6 +236,34 @@ function configureApplicationViews(options: AppOptions) {
 
   // set .html as the default extension.
   parent.set("view engine", "html");
+}
+
+async function configureDocumentation({ parent, config }: AppOptions) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const next = await import("next");
+
+  const app = next.default({
+    dir: path.join(__dirname, "..", "..", "..", "..", "docs"),
+    dev: config.get("env") !== "production",
+  });
+
+  // Prepare the documentation without await to start the server faster. This
+  // means that when the server is started, documentation may not be immediately
+  // available while it is preparing.
+  logger.info("preparing documentation");
+  app
+    .prepare()
+    .then(() => {
+      logger.info("documentation has been prepared");
+    })
+    .catch((err: Error) => {
+      logger.fatal({ err }, "could not prepare documentation");
+    });
+
+  const handler = app.getRequestHandler();
+
+  parent.all("/docs", (req, res) => handler(req, res));
+  parent.all("/docs/*", (req, res) => handler(req, res));
 }
 
 export default function createMetricsServer(config: Config) {

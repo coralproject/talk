@@ -22,6 +22,11 @@ role-plural-commenter = Commentaristas
 userStatus-active = Activo
 userStatus-banned = Prohibido
 userStatus-suspended = Suspendido
+userStatus-premod = Siempre pre-moderar
+userStatus-warned = Advertido
+
+queue-sortMenu-newest = Más nuevo
+queue-sortMenu-oldest = Más viejo
 
 ## Navigation
 navigation-moderate = Moderar
@@ -57,6 +62,13 @@ login-signIn-passwordLabel = Contraseña
 login-signIn-passwordTextField =
   .placeholder = Contraseña
 
+## moderate
+moderate-navigation-reported = Reportados
+moderate-navigation-pending = Pendientes
+moderate-navigation-unmoderated = No-moderados
+moderate-navigation-rejected = Rechazados
+moderate-navigation-approved = Aprobados
+
 ## Community
 
 community-banModal-areYouSure = ¿Estás seguro que quieres banear a <username></username>?
@@ -79,6 +91,14 @@ community-suspendModal-duration-604800 = 7 días
 community-suspendModal-cancel = Cancelar
 community-suspendModal-suspendUser = Suspender Usuario
 
+community-suspendModal-customize = Personalizar el mensaje de correo electrónico de suspensión
+
+community-suspendModal-success =
+  <strong>{ $username }</strong> ha sido suspendido por <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Cerrar
+community-suspendModal-selectDuration = Seleccione la duración de la suspensión
+
 community-premodModal-areYouSure =
   ¿Estás seguro que siempre quieres pre-moderar a <strong>{ $username }</strong>?
 community-premodModal-consequence =
@@ -96,3 +116,30 @@ community-warnModal-message-required = Requerido
 community-warnModal-message-description = Explique a este usuario cómo debe cambiar su comportamiento en su sitio.
 community-warnModal-cancel = Cancelar
 community-warnModal-warnUser = Advertir usuario
+
+## Invite
+
+dashboard-heading-last-updated = Última actualización:
+
+dashboard-today-heading = Actividad de hoy
+dashboard-today-new-comments = Nuevos comentarios
+dashboard-alltime-new-comments = Total de todos los tiempos
+dashboard-today-rejections = Tasa de rechazo
+dashboard-alltime-rejections = Promedio de todos los tiempos
+dashboard-today-staff-comments = Comentarios del equipo
+dashboard-alltime-staff-comments = Total de todos los tiempos
+dashboard-today-signups = Nuevos miembros de la comunidad
+dashboard-alltime-signups = Total de miembros
+dashboard-today-bans = Miembros baneados
+dashboard-alltime-bans = Total de miembros baneados
+
+dashboard-top-stories-today-heading = Las historias más comentadas de hoy
+dashboard-top-stories-table-header-story = Historias
+dashboard-top-stories-table-header-comments = Comentarios
+dashboard-top-stories-no-comments = No hay comentarios hoy
+
+dashboard-commenters-activity-heading = Nuevos miembros de la comunidad esta semana
+
+dashboard-comment-activity-heading = Actividad de comentarios por hora
+dashboard-comment-activity-tooltip-comments = Comentarios
+dashboard-comment-activity-legend = Promedio de los últimos 3 días

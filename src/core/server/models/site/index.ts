@@ -84,7 +84,7 @@ export async function retrieveTenantSites(mongo: Db, tenantID: string) {
 export async function retrieveManySites(
   mongo: Db,
   tenantID: string,
-  ids: string[]
+  ids: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     id: { $in: ids },

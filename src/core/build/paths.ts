@@ -49,6 +49,7 @@ export default {
   appAdminIndex: resolveSrc("core/client/admin/index.tsx"),
 
   appEmbedIndex: resolveSrc("core/client/embed/index.ts"),
+  appEmbedPolyfill: resolveSrc("core/client/embed/polyfills.ts"),
   appEmbedHTML: resolveSrc("core/client/embed/index.html"),
   appEmbedStoryHTML: resolveSrc("core/client/embed/story.html"),
   appEmbedStoryButtonHTML: resolveSrc("core/client/embed/storyButton.html"),

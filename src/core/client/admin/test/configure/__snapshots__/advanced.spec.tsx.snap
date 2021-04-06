@@ -551,6 +551,148 @@ scrape request.
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Authentication
+                  </label>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.scraping.authentication-true"
+                        name="stories.scraping.authentication"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="stories.scraping.authentication-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.scraping.authentication-false"
+                        name="stories.scraping.authentication"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="stories.scraping.authentication-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  className="Subheader-root"
+                >
+                  Scraping credentials
+                </h3>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Username
+                  </label>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                  >
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        id="stories.scraping.username"
+                        name="stories.scraping.username"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Password
+                  </label>
+                  <div
+                    className="PasswordField-fullWidth PasswordField-root"
+                  >
+                    <div
+                      className="PasswordField-wrapper"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="new-password"
+                        autoCorrect="off"
+                        className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                        data-testid="password-field"
+                        disabled={true}
+                        id="stories.scraping.password"
+                        name="stories.scraping.password"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="password"
+                        value=""
+                      />
+                      <div
+                        className="PasswordField-icon"
+                        onClick={[Function]}
+                        onKeyUp={[Function]}
+                        role="button"
+                        tabIndex={0}
+                        title="Hide password"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm"
+                        >
+                          visibility
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -10,4 +10,6 @@ export { default as useLive } from "./useLive";
 export { default as useVisibilityState } from "./useVisibilityState";
 export { default as useEffectAtUnmount } from "./useEffectAtUnmount";
 export { default as usePersistedState } from "./usePersistedState";
+export { default as usePersistedLocalState } from "./usePersistedLocalState";
+export { default as usePersistedSessionState } from "./usePersistedSessionState";
 export { default as useMemoizer } from "./useMemoizer";

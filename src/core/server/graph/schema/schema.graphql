@@ -531,6 +531,12 @@ enum FEATURE_FLAG {
   overrides the configuration option available in the Admin UI for that tenant.
   """
   DISABLE_LIVE_UPDATES
+
+  """
+  EMAIL_META will add the email template context as a header to the SMTP as the
+  `X-Coral-Template` header.
+  """
+  EMAIL_META
 }
 
 # The moderation mode of the site.
@@ -1559,6 +1565,22 @@ type StoryScrapingConfiguration {
   requests made during the scraping process.
   """
   customUserAgent: String
+
+  """
+  authentication is whether alternative authentication credentials have been
+  provided for scraping activities.
+  """
+  authentication: Boolean!
+
+  """
+  username is the username to use with basic authentication for scraping jobs.
+  """
+  username: String
+
+  """
+  password is the password to use with basic authentication for scraping jobs.
+  """
+  password: String
 }
 
 """
@@ -3279,27 +3301,29 @@ type CommentTagCounts {
 }
 
 """
-Comment is a comment left by a User on an Story or another Comment as a reply.
+Comment is a comment left by a [User](/reference/object/User) on an
+[Story](/reference/object/Story) or another [Comment](/reference/object/Comment)
+as a reply.
 """
 type Comment @cacheControl(maxAge: 5) {
   """
-  id is the identifier of the Comment.
+  id is the identifier of the [Comment](/reference/object/Comment).
   """
   id: ID!
 
   """
-  body is the content of the Comment, and is an alias to the body of the
-  `currentRevision.body`.
+  body is the content of the [Comment](/reference/object/Comment), and is an alias to the body of the
+  `revision.body`.
   """
   body: String
 
   """
-  revision is the current revision of the Comment's body.
+  revision is the current revision of the [Comment](/reference/object/Comment)'s body.
   """
   revision: CommentRevision
 
   """
-  revisionHistory stores the previous CommentRevision's, with the most recent
+  revisionHistory stores the previous [CommentRevision](/reference/object/CommentRevision)'s, with the most recent
   edit last.
   """
   revisionHistory: [CommentRevision!]!
@@ -4814,6 +4838,22 @@ input StoryScrapingConfigurationInput {
   requests made during the scraping process.
   """
   customUserAgent: String
+
+  """
+  authentication is whether alternative authentication credentials have been
+  provided for scraping activities.
+  """
+  authentication: Boolean!
+
+  """
+  username is the username to use with basic authentication for scraping jobs.
+  """
+  username: String
+
+  """
+  password is the password to use with basic authentication for scraping jobs.
+  """
+  password: String
 }
 
 """

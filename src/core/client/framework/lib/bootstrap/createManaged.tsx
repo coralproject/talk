@@ -201,8 +201,10 @@ function createManagedCoralContextProvider(
       nextAccessToken?: string,
       options: { ephemeral?: boolean } = {}
     ) => {
-      // Clear session storage.
-      void this.state.context.sessionStorage.clear();
+      // Clear session storage on logouts otherwise keep it!
+      if (!nextAccessToken) {
+        void this.state.context.sessionStorage.clear();
+      }
 
       // Pause subscriptions.
       subscriptionClient.pause();
