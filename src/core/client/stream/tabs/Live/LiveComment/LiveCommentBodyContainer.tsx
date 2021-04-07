@@ -5,6 +5,8 @@ import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
+import HTMLContent from "coral-stream/common/HTMLContent";
 import { UserTagsContainer } from "coral-stream/tabs/Comments/Comment";
 import AuthorBadges from "coral-stream/tabs/Comments/Comment/AuthorBadges";
 import { UsernameWithPopoverContainer } from "coral-stream/tabs/Comments/Comment/Username";
@@ -113,10 +115,9 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
           )}
         </div>
 
-        <div
-          className={styles.body}
-          dangerouslySetInnerHTML={{ __html: comment.body || "" }}
-        ></div>
+        <HTMLContent className={cn(styles.body, CLASSES.comment.content)}>
+          {comment.body || ""}
+        </HTMLContent>
       </div>
     </Flex>
   );
@@ -151,6 +152,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...UsernameWithPopoverContainer_comment
       ...UserTagsContainer_comment
+      ...MediaSectionContainer_comment
     }
   `,
   settings: graphql`
@@ -159,6 +161,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentActionsContainer_settings
       ...UsernameWithPopoverContainer_settings
       ...UserTagsContainer_settings
+      ...MediaSectionContainer_settings
     }
   `,
 })(LiveCommentBodyContainer);
