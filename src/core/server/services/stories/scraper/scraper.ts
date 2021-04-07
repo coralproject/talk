@@ -211,7 +211,12 @@ export async function scrape(
 
   const { authentication, username, password } = tenant.stories.scraping;
   if (authentication && username && password) {
-    options.authorization = `Basic ${atob(`${username}:${password}`)}`;
+    const credentials = Buffer.from(
+      `${username}:${password}`,
+      "utf-8"
+    ).toString("base64");
+
+    options.authorization = `Basic ${credentials}`;
   }
 
   // Get the metadata from the scraped html.
