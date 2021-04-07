@@ -14,6 +14,7 @@ function deleteConnection(source: RecordSourceProxy, connectionID: string) {
   }
   const edges = connection.getLinkedRecords("edges");
   if (edges) {
+    connection.setLinkedRecords([], "edges");
     edges.forEach((e) => {
       source.delete(e.getDataID());
     });
