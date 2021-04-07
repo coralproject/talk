@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
+import { waitFor } from "coral-common/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   deleteConnection,
@@ -83,10 +84,16 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   // by refetching with a different cursor. So we delete the connection first,
   // before starting the refetch.
   const deleteConnectionsAndSetCursor = useCallback(
-    (s: string) => {
-      commitLocalUpdate(relayEnvironment, (store) => {
-        // TODO: (cvle) use `getConnectionID` after update:
-        // https://github.com/facebook/relay/pull/3332
+    async (s: string) => {
+      // Setting empty cursor will trigger loading state and stops rendering any of the
+      // pagination containers.
+      setCursor("");
+      // Wait for loading state to render.
+      await waitFor(0);
+      // Clear current connections, this will cause data to be stale and invalid,
+      // no problems though, because we are in loading state and not rendering the
+      // full tree.
+      commitLocalUpdate(relayEnvironment, async (store) => {
         const commentRecord = store.get(comment.id)!;
         const chatAfter = ConnectionHandler.getConnection(
           commentRecord,
@@ -104,7 +111,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           deleteConnection(store, chatAfter.getDataID());
         }
       });
-
+      // Now reload with a new cursor.
       setCursor(s);
     },
     [comment.id, relayEnvironment]
@@ -129,7 +136,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   const jumpToReply = useCallback(() => {
     if (newlyPostedReply && newlyPostedReply.cursor) {
       setNewlyPostedReply(null);
-      deleteConnectionsAndSetCursor(newlyPostedReply.cursor);
+      void deleteConnectionsAndSetCursor(newlyPostedReply.cursor);
 
       LiveChatJumpToReplyEvent.emit(eventEmitter, {
         storyID: story.id,
