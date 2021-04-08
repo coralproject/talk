@@ -1,61 +1,47 @@
 import { useCallback, useEffect, useRef } from "react";
 
-const useOnResumeActive = (onResume: () => void, onPause?: () => void) => {
-  const hidden = useRef<string | null>(null);
-  const visibilityChange = useRef<string | null>(null);
+interface Options {
+  intervalMs: number;
+  thresholdMs: number;
+}
 
-  const handleVisibilityChange = useCallback(() => {
-    if (!hidden.current || !visibilityChange.current) {
-      return;
-    }
-    const doc = document as any;
+// TODO: (cvle) use different strategies if available, see:
+// https://stackoverflow.com/questions/15959244/is-it-possible-in-javascript-to-detect-when-the-screen-is-turned-off-in-the-an
+const useOnResumeActive = (
+  onResume: () => void,
+  options: Options = {
+    intervalMs: 500,
+    thresholdMs: 1500,
+  }
+) => {
+  const intervalRef = useRef<number | null>(null);
+  const prevTime = useRef<number | null>(null);
 
-    if (doc[hidden.current] && onPause) {
-      onPause();
-    } else {
-      onResume();
-    }
-  }, [onPause, onResume]);
+  const heartbeat = useCallback(() => {
+    if (prevTime.current) {
+      const now = Date.now();
+      const diff = now - prevTime.current;
 
-  useEffect(() => {
-    const doc = document as any;
-    if (typeof doc.hidden !== "undefined") {
-      hidden.current = "hidden";
-      visibilityChange.current = "visibilitychange";
-    } else if (typeof doc.msHidden !== "undefined") {
-      hidden.current = "msHidden";
-      visibilityChange.current = "msvisibilitychange";
-    } else if (typeof doc.webkitHidden !== "undefined") {
-      hidden.current = "webkitHidden";
-      visibilityChange.current = "webkitvisibilitychange";
-    }
-
-    if (
-      typeof document.addEventListener === "undefined" ||
-      !hidden.current ||
-      !visibilityChange.current
-    ) {
-      return;
-    } else {
-      document.addEventListener(
-        visibilityChange.current,
-        handleVisibilityChange,
-        false
-      );
-    }
-
-    return () => {
-      if (!visibilityChange.current) {
-        return;
+      if (diff >= options.thresholdMs) {
+        onResume();
       }
 
-      document.removeEventListener(
-        visibilityChange.current,
-        handleVisibilityChange,
-        false
-      );
+      prevTime.current = now;
+    }
+  }, [onResume, options.thresholdMs]);
+
+  useEffect(() => {
+    prevTime.current = Date.now();
+    intervalRef.current = window.setInterval(heartbeat, options.intervalMs);
+
+    return () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+      }
     };
-  }, [handleVisibilityChange, onResume]);
+  }, [options.intervalMs, heartbeat]);
+
+  return { options, onResume };
 };
 
 export default useOnResumeActive;
