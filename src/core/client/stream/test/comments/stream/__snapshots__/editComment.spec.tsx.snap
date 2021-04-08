@@ -460,7 +460,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"
@@ -683,7 +683,7 @@ exports[`edit a comment: edit form 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"
@@ -906,7 +906,7 @@ exports[`edit a comment: optimistic response 1`] = `
             </div>
           </div>
           <div
-            className="Message-root Message-colorGrey Message-fullWidth CommentForm-remainingTime coral coral-editComment-remainingTime"
+            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
           >
             <i
               aria-hidden="true"

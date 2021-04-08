@@ -2,45 +2,60 @@
 
 exports[`renders correctly 1`] = `
 <div>
-  <CommentForm
-    bodyInputID="comments-replyCommentForm-rte-reply-0"
-    bodyLabel={
-      <React.Fragment>
-        <Localized
-          id="comments-replyCommentForm-rteLabel"
-        >
-          <ForwardRef(forwardRef)
-            component="label"
-            htmlFor="comments-replyCommentForm-rte-reply-0"
-          >
-            Write a reply
-          </ForwardRef(forwardRef)>
-        </Localized>
-        <ReplyTo
-          username="parent-user-0"
-        />
-      </React.Fragment>
-    }
-    classes={
+  <Localized
+    attrs={
       Object {
-        "cancelButton": "coral coral-createReplyComment-cancel",
-        "disabledMessage": "coral coral-createComment-disabledMessage",
-        "root": "coral coral-createReplyComment",
-        "rteFocus": "coral coral-createComment-rteFocus",
-        "submitButton": "coral coral-createReplyComment-submit",
+        "placeholder": true,
       }
     }
-    disabled={false}
-    max={500}
-    min={3}
-    onCancel={[Function]}
-    onChange={[Function]}
-    onFocus={[Function]}
-    onSubmit={[Function]}
-    placeHolderId="comments-replyCommentForm-rte"
-    placeholder="Write a reply"
-    siteID="site-0"
-    topBorder={false}
-  />
+    id="comments-replyCommentForm-rte"
+  >
+    <CommentForm
+      bodyInputID="comments-replyCommentForm-rte-reply-0"
+      bodyLabel={
+        <React.Fragment>
+          <Localized
+            id="comments-replyCommentForm-rteLabel"
+          >
+            <ForwardRef(forwardRef)
+              component="label"
+              htmlFor="comments-replyCommentForm-rte-reply-0"
+            >
+              Write a reply
+            </ForwardRef(forwardRef)>
+          </Localized>
+          <ReplyTo
+            username="parent-user-0"
+          />
+        </React.Fragment>
+      }
+      classes={
+        Object {
+          "cancelButton": "coral coral-createReplyComment-cancel",
+          "disabledMessage": "coral coral-createComment-disabledMessage",
+          "root": "coral coral-createReplyComment",
+          "rteFocus": "coral coral-createComment-rteFocus",
+          "submitButton": "coral coral-createReplyComment-submit",
+        }
+      }
+      disabled={false}
+      max={500}
+      min={3}
+      onCancel={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onSubmit={[Function]}
+      placeholder="Write a reply"
+      siteID="site-0"
+      submitButtonContent={
+        <Localized
+          id="comments-commentForm-submit"
+        >
+          Submit
+        </Localized>
+      }
+      topBorder={false}
+    />
+  </Localized>
 </div>
 `;
