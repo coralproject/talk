@@ -47,7 +47,10 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import CursorState from "./cursorState";
+import InView from "./InView";
 import LiveCommentContainer from "./LiveComment";
+import { CommentPosition } from "./LiveComment/LiveCommentContainer";
+import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveConversationContainer from "./LiveConversation/LiveConversationContainer";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
@@ -55,7 +58,6 @@ import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
 
 import styles from "./LiveChatContainer.css";
-import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 
 interface ConversationViewState {
   visible: boolean;
@@ -143,8 +145,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment,
   ] = useState<NewComment | null>(null);
 
-  const [showJumpToLive, setShowJumpToLive] = useState(false);
   const mostRecentViewedCursor = useRef<string | null>(null);
+  const [
+    mostRecentViewedPosition,
+    setMostRecentViewedPosition,
+  ] = useState<CommentPosition | null>(null);
+  const [cursorInView, setCursorInView] = useState<boolean>(false);
 
   const [
     editingComment,
@@ -198,7 +204,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [story.id, subscribeToCommentEdited]);
 
   const handleCommentVisible = useCallback(
-    async (visible: boolean, id: string, createdAt: string, cursor: string) => {
+    async (
+      visible: boolean,
+      id: string,
+      createdAt: string,
+      cursor: string,
+      position: CommentPosition
+    ) => {
       if (!visible) {
         return;
       }
@@ -225,6 +237,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       }
 
       mostRecentViewedCursor.current = createdAt;
+      setMostRecentViewedPosition(position);
 
       // Hide the "Jump to new comment" button if we can see its target comment
       if (newlyPostedComment && newlyPostedComment.id === id) {
@@ -376,18 +389,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     });
   }, [eventEmitter, story.id, viewer, setCursor]);
 
-  const onScroll = useCallback(() => {
-    setShowJumpToLive(
-      !!(
-        mostRecentViewedCursor.current &&
-        new Date(mostRecentViewedCursor.current) >= new Date(currentCursor) &&
-        !newlyPostedComment &&
-        !tailing &&
-        afterHasMore
-      )
-    );
-  }, [afterHasMore, currentCursor, newlyPostedComment, tailing]);
-
   const handleOnEdit = useCallback((comment: LiveCommentContainer_comment) => {
     setEditingComment({ comment, visible: true });
   }, []);
@@ -402,6 +403,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
   const handleCancelEdit = useCallback(() => {
     setEditingComment(null);
+  }, []);
+
+  const onCursorInView = useCallback((visible: boolean) => {
+    setCursorInView(visible);
   }, []);
 
   // Render an item or a loading indicator.
@@ -437,6 +442,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
                 )
               }
               onCancelEditing={handleCancelEdit}
+              position={CommentPosition.Before}
             />
           </div>
         );
@@ -447,6 +453,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             <div id="before-after" style={{ minHeight: "1px" }}>
               {afterComments && afterComments.length > 0 && (
                 <Flex justifyContent="center" alignItems="center">
+                  <InView onInView={onCursorInView} />
                   <hr className={styles.newhr} />
                   <div className={styles.newDiv}>
                     New <Icon size="md">arrow_downward</Icon>
@@ -482,6 +489,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
                 )
               }
               onCancelEditing={handleCancelEdit}
+              position={CommentPosition.After}
             />
           </div>
         );
@@ -506,6 +514,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       handleOnEdit,
       editingComment,
       handleCancelEdit,
+      onCursorInView,
     ]
   );
 
@@ -585,66 +594,77 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         overscan={OVERSCAN}
         atTopStateChange={handleAtTopStateChange}
         atBottomStateChange={handleAtBottomStateChange}
-        onScroll={onScroll}
       />
 
-      {/* TODO: Refactoring canditate */}
-      {newlyPostedComment && (
-        <div className={styles.jumpToContainer}>
-          <Flex justifyContent="center" alignItems="center">
-            <Flex alignItems="center">
-              <Button
-                onClick={jumpToComment}
-                color="primary"
-                className={styles.jumpToReplyButton}
-              >
-                Message posted below <Icon>arrow_downward</Icon>
-              </Button>
-              <Button
-                onClick={closeJumpToComment}
-                color="primary"
-                aria-valuetext="close"
-                className={styles.jumpToReplyButtonClose}
-              >
-                <Icon>close</Icon>
-              </Button>
+      <Flex justifyContent="center" alignItems="center">
+        {/* TODO: Refactoring canditate */}
+        {newlyPostedComment && (
+          <div className={styles.jumpToContainer}>
+            <Flex justifyContent="center" alignItems="center">
+              <Flex alignItems="center">
+                <Button
+                  onClick={jumpToComment}
+                  color="primary"
+                  className={styles.jumpToReplyButton}
+                >
+                  Message posted below <Icon>arrow_downward</Icon>
+                </Button>
+                <Button
+                  onClick={closeJumpToComment}
+                  color="primary"
+                  aria-valuetext="close"
+                  className={styles.jumpToReplyButtonClose}
+                >
+                  <Icon>close</Icon>
+                </Button>
+              </Flex>
             </Flex>
-          </Flex>
-        </div>
-      )}
+          </div>
+        )}
 
-      {!showJumpToLive && !newlyPostedComment && !tailing && afterHasMore && (
-        <div className={styles.jumpToContainer}>
-          <Flex justifyContent="center" alignItems="center">
-            <Flex alignItems="center">
-              <Button
-                onClick={jumpToNew}
-                color="primary"
-                className={styles.jumpButton}
-              >
-                New messages <Icon>arrow_downward</Icon>
-              </Button>
-            </Flex>
-          </Flex>
-        </div>
-      )}
+        {!newlyPostedComment &&
+          !tailing &&
+          afterHasMore &&
+          !cursorInView &&
+          (!mostRecentViewedPosition ||
+            mostRecentViewedPosition === CommentPosition.Before) && (
+            <div className={styles.jumpToContainer}>
+              <Flex justifyContent="center" alignItems="center">
+                <Flex alignItems="center">
+                  <Button
+                    onClick={jumpToNew}
+                    color="primary"
+                    className={styles.jumpButton}
+                  >
+                    New messages <Icon>arrow_downward</Icon>
+                  </Button>
+                </Flex>
+              </Flex>
+            </div>
+          )}
 
-      {/* TODO: Refactoring canditate */}
-      {showJumpToLive && (
-        <div className={styles.jumpToContainer}>
-          <Flex justifyContent="center" alignItems="center">
-            <Flex alignItems="center">
-              <Button
-                onClick={jumpToLive}
-                color="primary"
-                className={styles.jumpButton}
-              >
-                Jump to live <Icon>arrow_downward</Icon>
-              </Button>
-            </Flex>
-          </Flex>
-        </div>
-      )}
+        {/* TODO: Refactoring canditate */}
+        {mostRecentViewedPosition &&
+          mostRecentViewedPosition === CommentPosition.After &&
+          !newlyPostedComment &&
+          !tailing &&
+          afterHasMore && (
+            <div className={styles.jumpToContainer}>
+              <Flex justifyContent="center" alignItems="center">
+                <Flex alignItems="center">
+                  <Button
+                    onClick={jumpToLive}
+                    color="primary"
+                    className={styles.jumpButton}
+                  >
+                    Jump to live <Icon>arrow_downward</Icon>
+                  </Button>
+                </Flex>
+              </Flex>
+            </div>
+          )}
+      </Flex>
+
       {conversationView.visible && conversationView.comment && (
         <LiveConversationContainer
           settings={settings}
