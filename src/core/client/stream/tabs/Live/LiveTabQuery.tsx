@@ -72,10 +72,21 @@ const LiveTabQuery: FunctionComponent = () => {
     void loadCursor();
   }, [localStorage, storyID, storyURL]);
 
+  // TODO: this is a possibly undesirable way to detect that
+  // the page has come back from sleeping (likely due to
+  // mobile phone locking and unlocking). We will want to
+  // look into some more optimal solutions that detect when
+  // we have re-awakened our running javascript environment
+  // and correctly refresh the query using relay and any
+  // underlying socket connections instead of just brute
+  // forcing the whole iframe reload.
   const reload = useCallback(() => {
     window.location.reload();
   }, []);
-  useOnResumeActive(reload);
+  useOnResumeActive(reload, {
+    intervalMs: 500,
+    thresholdMs: 8000,
+  });
 
   if (!storyURL) {
     return null;
