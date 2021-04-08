@@ -852,3 +852,21 @@ general-tabBar-liveTab = Live
 
 liveChat-editCommentForm-editRemainingTime = <time></time> remaining
 liveChat-editedMarker-edited = (Edited)
+
+liveChat-postCommentForm-rte =
+  .placeholder = Write a message...
+  .submitButtonTitle = Submit
+liveChat-postCommentForm-rteLabel = Write a message...
+
+liveChat-replyCommentForm-rte =
+  .placeholder = Write a reply...
+  .submitButtonTitle = Submit
+liveChat-replyCommentForm-rteLabel = Write a reply...
+
+liveChat-editCommentForm-rte =
+  .placeholder = Edit message
+  .submitButtonTitle = Save changes
+liveChat-editCommentForm-rteLabel = Edit message
+
+liveChat-editCommentForm-editRemainingTime = Edit: <time></time> remaining
+liveChat-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?

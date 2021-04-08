@@ -85,7 +85,7 @@ const LiveEditCommentForm: FunctionComponent<LiveEditCommentFormProps> = (
           max={props.max}
           disabled={props.disabled}
           disabledMessage={
-            <Localized id="comments-editCommentForm-editTimeExpired">
+            <Localized id="liveChat-editCommentForm-editTimeExpired">
               Edit time has expired. You can no longer edit this comment. Why
               not post another one?
             </Localized>
@@ -100,7 +100,7 @@ const LiveEditCommentForm: FunctionComponent<LiveEditCommentFormProps> = (
             <>
               <Localized id="liveChat-editCommentForm-rteLabel">
                 <AriaInfo component="label" htmlFor={inputID}>
-                  Edit comment
+                  Edit message
                 </AriaInfo>
               </Localized>
             </>

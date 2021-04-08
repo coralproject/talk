@@ -95,7 +95,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
           bodyInputID={inputID}
           bodyLabel={
             <>
-              <Localized id="comments-liveCommentForm-rteLabel">
+              <Localized id="liveChat-replyCommentForm-rteLabel">
                 <AriaInfo component="label" htmlFor={inputID}>
                   Write a reply...
                 </AriaInfo>
