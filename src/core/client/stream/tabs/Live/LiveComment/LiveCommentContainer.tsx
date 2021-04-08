@@ -23,6 +23,12 @@ import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
 
 import styles from "./LiveCommentContainer.css";
 
+export enum CommentPosition {
+  Unknown = 0,
+  Before = 1,
+  After = 2,
+}
+
 interface Props {
   story: LiveCommentContainer_story;
   viewer: LiveCommentContainer_viewer | null;
@@ -33,7 +39,8 @@ interface Props {
     visible: boolean,
     id: string,
     createdAt: string,
-    cursor: string
+    cursor: string,
+    position: CommentPosition
   ) => void;
 
   onShowConversation: (comment: LiveCommentContainer_comment) => void;
@@ -48,6 +55,7 @@ interface Props {
   onEdit?: (comment: LiveCommentContainer_comment) => void;
   editing?: boolean;
   onCancelEditing?: () => void;
+  position: CommentPosition;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -64,6 +72,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   onEdit,
   editing,
   onCancelEditing,
+  position,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -77,9 +86,9 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
   const handleInView = useCallback(
     (visible: boolean) => {
-      onInView(visible, comment.id, comment.createdAt, cursor);
+      onInView(visible, comment.id, comment.createdAt, cursor, position);
     },
-    [comment.createdAt, comment.id, cursor, onInView]
+    [comment.createdAt, comment.id, cursor, onInView, position]
   );
 
   const handleOnShowParentConversation = useCallback(() => {
