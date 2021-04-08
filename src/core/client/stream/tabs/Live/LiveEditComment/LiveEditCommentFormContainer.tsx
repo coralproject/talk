@@ -29,7 +29,7 @@ import { LiveEditCommentFormContainer_settings } from "coral-stream/__generated_
 import { LiveEditCommentFormContainer_story } from "coral-stream/__generated__/LiveEditCommentFormContainer_story.graphql";
 import { LiveEditCommentFormContainer_viewer } from "coral-stream/__generated__/LiveEditCommentFormContainer_viewer.graphql";
 
-import LivePostCommentForm from "../LivePostCommentForm";
+import LiveEditCommentForm from "./LiveEditCommentForm";
 import { LiveEditCommentMutation } from "./LiveEditCommentMutation";
 
 import styles from "./LiveEditCommentFormContainer.css";
@@ -195,8 +195,7 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
             </Flex>
           )}
         </div>
-
-        <LivePostCommentForm
+        <LiveEditCommentForm
           siteID={comment.site.id}
           onSubmit={handleOnSubmit}
           initialValues={initialValues}
@@ -205,13 +204,6 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
           min={settings.charCount.enabled ? settings.charCount.min : null}
           max={settings.charCount.enabled ? settings.charCount.max : null}
           disabled={expired}
-          disabledMessage={
-            <Localized id="comments-editCommentForm-editTimeExpired">
-              Edit time has expired. You can no longer edit this comment. Why
-              not post another one?
-            </Localized>
-          }
-          submitStatus={submitStatus}
           rteRef={handleRTERef}
           onFocus={onFocus}
         />

@@ -12,11 +12,10 @@ import { OnSubmit } from "coral-framework/lib/form";
 import { AriaInfo } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
-import CommentForm from "../Comments/Stream/CommentForm";
-import { OnChangeHandler } from "../Comments/Stream/CommentForm/CommentForm";
-import PostCommentSubmitStatusContainer from "../Comments/Stream/PostCommentForm/PostCommentSubmitStatusContainer";
+import CommentForm from "../../Comments/Stream/CommentForm";
+import { OnChangeHandler } from "../../Comments/Stream/CommentForm/CommentForm";
 
-export interface LiveCommentFormProps {
+export interface LiveEditCommentFormProps {
   className?: string;
   onSubmit: OnSubmit<any>;
   onCancel?: EventHandler<MouseEvent<any>>;
@@ -27,10 +26,8 @@ export interface LiveCommentFormProps {
   max: number | null;
   disabled?: boolean;
   siteID: string;
-  disabledMessage?: React.ReactNode;
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   mediaConfig: PropTypesOf<typeof CommentForm>["mediaConfig"];
-  submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showToolbar?: boolean;
   editableUntil?: string;
   onFocus?: EventHandler<FocusEvent>;
@@ -48,8 +45,10 @@ const classes: PropTypesOf<typeof CommentForm>["classes"] = {
   */
 };
 
-const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
-  const inputID = "liveChat-postCommentForm-field";
+const LiveEditCommentForm: FunctionComponent<LiveEditCommentFormProps> = (
+  props
+) => {
+  const inputID = "liveChat-editCommentForm-field";
 
   // TODO @nick-funk, hook up media config when we have designs
   const mediaConfig = {
@@ -72,7 +71,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   return (
     <div>
       <Localized
-        id="liveChat-postCommentForm-rte"
+        id="liveChat-editCommentForm-rte"
         attrs={{ placeholder: true, submitButtonTitle: true }}
       >
         <CommentForm
@@ -85,28 +84,30 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
           min={props.min}
           max={props.max}
           disabled={props.disabled}
-          disabledMessage={props.disabledMessage}
+          disabledMessage={
+            <Localized id="comments-editCommentForm-editTimeExpired">
+              Edit time has expired. You can no longer edit this comment. Why
+              not post another one?
+            </Localized>
+          }
           onFocus={props.onFocus}
           onBlur={props.onBlur}
           onCancel={props.onCancel}
           mediaConfig={mediaConfig}
-          placeholder="Write a message..."
+          placeholder="Edit Comment"
           bodyInputID={inputID}
           bodyLabel={
             <>
-              <Localized id="liveChat-postCommentForm-rteLabel">
+              <Localized id="liveChat-editCommentForm-rteLabel">
                 <AriaInfo component="label" htmlFor={inputID}>
-                  Write a message...
+                  Edit comment
                 </AriaInfo>
               </Localized>
             </>
           }
           rteConfig={props.rteConfig}
           mode="chat"
-          submitStatus={
-            <PostCommentSubmitStatusContainer status={props.submitStatus} />
-          }
-          submitButtonTitle="Submit"
+          submitButtonTitle="Save changes"
           autoHideToolbar
           focusAfterSubmit
         />
@@ -115,4 +116,4 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
   );
 };
 
-export default LiveCommentForm;
+export default LiveEditCommentForm;

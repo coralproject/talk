@@ -43,7 +43,6 @@ const classes: PropTypesOf<typeof CommentForm>["classes"] = {
   /*
   root: CLASSES.editComment.$root,
   disabledMessage: CLASSES.editComment.expiredTime,
-  remainingTime: CLASSES.editComment.remainingTime,
   cancelButton: CLASSES.editComment.cancel,
   submitButton: CLASSES.editComment.submit,
   rteFocus: CLASSES.editComment.rteFocus,
@@ -51,7 +50,7 @@ const classes: PropTypesOf<typeof CommentForm>["classes"] = {
 };
 
 const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
-  const inputID = `comments-LiveCommentReplyForm-rte`;
+  const inputID = "liveChat-replyCommentForm-field";
 
   // TODO @nick-funk, hook up media config when we have designs
   const mediaConfig = {
@@ -73,43 +72,48 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
 
   return (
     <div className={styles.root}>
-      <CommentForm
-        classes={classes}
-        rteRef={props.rteRef}
-        siteID={props.siteID}
-        onSubmit={props.onSubmit}
-        onChange={props.onChange}
-        initialValues={props.initialValues}
-        min={props.min}
-        max={props.max}
-        disabled={props.disabled}
-        disabledMessage={props.disabledMessage}
-        onFocus={props.onFocus}
-        onBlur={props.onBlur}
-        onCancel={props.onCancel}
-        mediaConfig={mediaConfig}
-        placeHolderId="comments-liveCommentForm-rte"
-        placeholder="Write a reply..."
-        bodyInputID={inputID}
-        bodyLabel={
-          <>
-            <Localized id="comments-liveCommentForm-rteLabel">
-              <AriaInfo component="label" htmlFor={inputID}>
-                Write a reply...
-              </AriaInfo>
-            </Localized>
-          </>
-        }
-        rteConfig={props.rteConfig}
-        mode="chat"
-        submitStatus={
-          <PostCommentSubmitStatusContainer status={props.submitStatus} />
-        }
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={props.autoFocus}
-        autoHideToolbar
-        focusAfterSubmit
-      />
+      <Localized
+        id="liveChat-replyCommentForm-rte"
+        attrs={{ placeholder: true, submitButtonTitle: true }}
+      >
+        <CommentForm
+          classes={classes}
+          rteRef={props.rteRef}
+          siteID={props.siteID}
+          onSubmit={props.onSubmit}
+          onChange={props.onChange}
+          initialValues={props.initialValues}
+          min={props.min}
+          max={props.max}
+          disabled={props.disabled}
+          disabledMessage={props.disabledMessage}
+          onFocus={props.onFocus}
+          onBlur={props.onBlur}
+          onCancel={props.onCancel}
+          mediaConfig={mediaConfig}
+          placeholder="Write a reply..."
+          bodyInputID={inputID}
+          bodyLabel={
+            <>
+              <Localized id="comments-liveCommentForm-rteLabel">
+                <AriaInfo component="label" htmlFor={inputID}>
+                  Write a reply...
+                </AriaInfo>
+              </Localized>
+            </>
+          }
+          rteConfig={props.rteConfig}
+          mode="chat"
+          submitStatus={
+            <PostCommentSubmitStatusContainer status={props.submitStatus} />
+          }
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={props.autoFocus}
+          autoHideToolbar
+          focusAfterSubmit
+          submitButtonTitle="Submit"
+        />
+      </Localized>
     </div>
   );
 };

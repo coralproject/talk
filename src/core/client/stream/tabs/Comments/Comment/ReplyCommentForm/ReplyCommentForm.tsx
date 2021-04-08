@@ -55,38 +55,42 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
 
   return (
     <div>
-      <CommentForm
-        classes={classes}
-        rteRef={props.rteRef}
-        siteID={props.siteID}
-        onSubmit={props.onSubmit}
-        onChange={props.onChange}
-        initialValues={props.initialValues}
-        min={props.min}
-        max={props.max}
-        disabled={props.disabled}
-        disabledMessage={props.disabledMessage}
-        onFocus={onFocus}
-        onCancel={props.onCancel}
-        mediaConfig={props.mediaConfig}
-        placeHolderId="comments-replyCommentForm-rte"
-        placeholder="Write a reply"
-        bodyInputID={inputID}
-        bodyLabel={
-          <>
-            <Localized id="comments-replyCommentForm-rteLabel">
-              <AriaInfo component="label" htmlFor={inputID}>
-                Write a reply
-              </AriaInfo>
-            </Localized>
-            {props.parentUsername && (
-              <ReplyTo username={props.parentUsername} />
-            )}
-          </>
-        }
-        rteConfig={props.rteConfig}
-        topBorder={false}
-      />
+      <Localized
+        id="comments-replyCommentForm-rte"
+        attrs={{ placeholder: true }}
+      >
+        <CommentForm
+          classes={classes}
+          rteRef={props.rteRef}
+          siteID={props.siteID}
+          onSubmit={props.onSubmit}
+          onChange={props.onChange}
+          initialValues={props.initialValues}
+          min={props.min}
+          max={props.max}
+          disabled={props.disabled}
+          disabledMessage={props.disabledMessage}
+          onFocus={onFocus}
+          onCancel={props.onCancel}
+          mediaConfig={props.mediaConfig}
+          placeholder="Write a reply"
+          bodyInputID={inputID}
+          bodyLabel={
+            <>
+              <Localized id="comments-replyCommentForm-rteLabel">
+                <AriaInfo component="label" htmlFor={inputID}>
+                  Write a reply
+                </AriaInfo>
+              </Localized>
+              {props.parentUsername && (
+                <ReplyTo username={props.parentUsername} />
+              )}
+            </>
+          }
+          rteConfig={props.rteConfig}
+          topBorder={false}
+        />
+      </Localized>
     </div>
   );
 };

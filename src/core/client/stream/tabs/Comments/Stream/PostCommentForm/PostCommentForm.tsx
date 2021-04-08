@@ -34,7 +34,7 @@ interface FormSubmitProps extends FormProps, FormError {}
 type Mode = "rating" | "question" | "comments";
 
 interface TranslationEntry {
-  id: string;
+  Localized: React.ReactElement;
   text: string;
 }
 
@@ -43,34 +43,47 @@ interface Translations {
   label: TranslationEntry;
 }
 
+// TODO: (cvle) refactor this to make translations statically queriable for future tooling support.
 const translations: Record<Mode, Translations> = {
   rating: {
     placeholder: {
-      id: "comments-addAReviewForm-rte",
+      Localized: (
+        <Localized
+          id="comments-addAReviewForm-rte"
+          attrs={{ placeholder: true }}
+        />
+      ),
       text: "Add a review (optional)",
     },
     label: {
-      id: "comments-addAReviewForm-rteLabel",
+      Localized: <Localized id="comments-addAReviewForm-rteLabel" />,
       text: "Add a review (optional)",
     },
   },
   comments: {
     placeholder: {
-      id: "comments-postCommentForm-rte",
+      Localized: (
+        <Localized
+          id="comments-postCommentForm-rte"
+          attrs={{ placeholder: true }}
+        />
+      ),
       text: "Post a comment",
     },
     label: {
-      id: "comments-postCommentForm-rteLabel",
+      Localized: <Localized id="comments-postCommentForm-rteLabel" />,
       text: "Post a comment",
     },
   },
   question: {
     placeholder: {
-      id: "qa-postQuestionForm-rte",
+      Localized: (
+        <Localized id="qa-postQuestionForm-rte" attrs={{ placeholder: true }} />
+      ),
       text: "Post a question",
     },
     label: {
-      id: "qa-postQuestionForm-rteLabel",
+      Localized: <Localized id="qa-postQuestionForm-rteLabel" />,
       text: "Post a question",
     },
   },
@@ -134,39 +147,42 @@ const PostCommentForm: FunctionComponent<Props> = ({
           className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
-      <CommentForm
-        classes={classes}
-        rteRef={rteRef}
-        siteID={siteID}
-        onSubmit={onSubmit}
-        onChange={onChange}
-        min={min}
-        topBorder={!showMessageBox && mode !== "rating"}
-        initialValues={initialValues}
-        max={max}
-        disabled={disabled}
-        disabledMessage={disabledMessage}
-        mode={mode === "rating" ? "rating" : "comment"}
-        rteConfig={rteConfig}
-        placeHolderId={translation.placeholder.id}
-        placeholder={translation.placeholder.text}
-        mediaConfig={mediaConfig}
-        onFocus={onFocus}
-        bodyInputID="comments-postCommentForm-field"
-        bodyLabel={
-          <Localized id={translation.label.id}>
+      {React.cloneElement(
+        translation.placeholder.Localized,
+        {},
+        <CommentForm
+          classes={classes}
+          rteRef={rteRef}
+          siteID={siteID}
+          onSubmit={onSubmit}
+          onChange={onChange}
+          min={min}
+          topBorder={!showMessageBox && mode !== "rating"}
+          initialValues={initialValues}
+          max={max}
+          disabled={disabled}
+          disabledMessage={disabledMessage}
+          mode={mode === "rating" ? "rating" : "comment"}
+          rteConfig={rteConfig}
+          placeholder={translation.placeholder.text}
+          mediaConfig={mediaConfig}
+          onFocus={onFocus}
+          bodyInputID="comments-postCommentForm-field"
+          bodyLabel={React.cloneElement(
+            translation.label.Localized,
+            {},
             <AriaInfo
               component="label"
               htmlFor="comments-postCommentForm-field"
             >
               {translation.label.text}
             </AriaInfo>
-          </Localized>
-        }
-        submitStatus={
-          <PostCommentSubmitStatusContainer status={submitStatus} />
-        }
-      />
+          )}
+          submitStatus={
+            <PostCommentSubmitStatusContainer status={submitStatus} />
+          }
+        />
+      )}
     </div>
   );
 };
