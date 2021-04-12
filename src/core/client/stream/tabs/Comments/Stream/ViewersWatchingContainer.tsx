@@ -24,6 +24,7 @@ import styles from "./ViewersWatchingContainer.css";
 interface Props {
   story: ViewersWatchingContainer_story;
   settings: ViewersWatchingContainer_settings;
+  className?: string;
 }
 
 const TIMEOUT = 20000;
@@ -33,6 +34,7 @@ const MAX_TIMEOUT = TIMEOUT + TIMEOUT_JITTER;
 const ViewersWatchingContainer: FunctionComponent<Props> = ({
   story,
   settings,
+  className,
 }) => {
   const { inView, intersectionRef } = useInView();
   const [lastRefreshed, setLastRefreshed] = useState<number>(Date.now());
@@ -122,7 +124,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
       story.viewerCount + 1;
 
   return (
-    <div ref={intersectionRef}>
+    <div className={className} ref={intersectionRef}>
       <CallOut
         classes={{
           icon: styles.icon,
