@@ -9,14 +9,10 @@ moderation, comment display, and conversation. Use Coral to add smarter, safer d
 More than 130 newsrooms in 16 countries trust Coral to power their on-site communities, including The Washington Post, The Wall Street Journal, and Der Spiegel. [Read more about Coral here](https://coralproject.net/).
 
 <div class="callout">
-  We offer hosting and support packages for Coral, as well as exclusive, customer-only features. [Contact us for more information.](https://coralproject.net/pricing/)
+  We offer hosting and support packages for Coral, as well as exclusive, customer-only features. <a href="https://coralproject.net/pricing/">Contact us for more information.</a>.
 </div>
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
-
-Try a test version of Coral by running it via a Heroku App:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
 ## Requirements
 
