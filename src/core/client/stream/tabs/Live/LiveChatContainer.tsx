@@ -21,6 +21,7 @@ import {
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
+import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 import {
   LiveChatJumpToCommentEvent,
   LiveChatJumpToLiveEvent,
@@ -35,6 +36,9 @@ import {
   LiveChatStopTailingEvent,
   LiveChatSubmitCommentWhenNotTailingEvent,
 } from "coral-stream/events";
+import BannedInfo from "coral-stream/tabs/Comments/Stream/BannedInfo";
+import { SuspendedInfoContainer } from "coral-stream/tabs/Comments/Stream/SuspendedInfo";
+import WarningContainer from "coral-stream/tabs/Comments/Stream/Warning/WarningContainer";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -560,142 +564,155 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     ]
   );
   return (
-    <div className={styles.root}>
-      <div className={styles.filler}></div>
-      {story.status === GQLSTORY_STATUS.OPEN &&
-        afterComments.length === 0 &&
-        beforeComments.length === 0 && (
-          <Localized id="comments-noCommentsYet">
-            <CallOut color="primary">
-              There are no comments yet. Why don't you write one?
-            </CallOut>
-          </Localized>
-        )}
-      {story.status === GQLSTORY_STATUS.CLOSED &&
-        afterComments.length === 0 &&
-        beforeComments.length === 0 && (
-          <Localized id="comments-noCommentsAtAll">
-            <CallOut color="mono">There are no comments on this story.</CallOut>
-          </Localized>
-        )}
-      <Virtuoso
-        firstItemIndex={START_INDEX - beforeComments.length}
-        id="live-chat-comments"
-        className={styles.streamContainer}
-        totalCount={
-          beforeComments.length +
-          afterComments.length +
-          (isLoadingMoreAfter ? 1 : 0)
-        }
-        initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
-        itemContent={itemContent}
-        alignToBottom
-        followOutput="smooth"
-        overscan={OVERSCAN}
-        atTopStateChange={handleAtTopStateChange}
-        atBottomStateChange={handleAtBottomStateChange}
-      />
+    <>
+      {(banned || warned || suspended) && (
+        <div id={VIEWER_STATUS_CONTAINER_ID} className={styles.viewerStatus}>
+          {banned && <BannedInfo />}
+          {suspended && (
+            <SuspendedInfoContainer viewer={viewer} settings={settings} />
+          )}
+          {warned && <WarningContainer viewer={viewer} />}
+        </div>
+      )}
+      <div className={styles.root}>
+        <div className={styles.filler}></div>
+        {story.status === GQLSTORY_STATUS.OPEN &&
+          afterComments.length === 0 &&
+          beforeComments.length === 0 && (
+            <Localized id="comments-noCommentsYet">
+              <CallOut color="primary">
+                There are no comments yet. Why don't you write one?
+              </CallOut>
+            </Localized>
+          )}
+        {story.status === GQLSTORY_STATUS.CLOSED &&
+          afterComments.length === 0 &&
+          beforeComments.length === 0 && (
+            <Localized id="comments-noCommentsAtAll">
+              <CallOut color="mono">
+                There are no comments on this story.
+              </CallOut>
+            </Localized>
+          )}
+        <Virtuoso
+          firstItemIndex={START_INDEX - beforeComments.length}
+          id="live-chat-comments"
+          className={styles.streamContainer}
+          totalCount={
+            beforeComments.length +
+            afterComments.length +
+            (isLoadingMoreAfter ? 1 : 0)
+          }
+          initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+          itemContent={itemContent}
+          alignToBottom
+          followOutput="smooth"
+          overscan={OVERSCAN}
+          atTopStateChange={handleAtTopStateChange}
+          atBottomStateChange={handleAtBottomStateChange}
+        />
 
-      <Flex justifyContent="center" alignItems="center">
-        {/* TODO: Refactoring canditate */}
-        {newlyPostedComment && (
-          <div className={styles.jumpToContainer}>
-            <Flex justifyContent="center" alignItems="center">
-              <Flex alignItems="center">
-                <Button
-                  onClick={jumpToComment}
-                  color="primary"
-                  className={styles.jumpToReplyButton}
-                >
-                  Message posted below <Icon>arrow_downward</Icon>
-                </Button>
-                <Button
-                  onClick={closeJumpToComment}
-                  color="primary"
-                  aria-valuetext="close"
-                  className={styles.jumpToReplyButtonClose}
-                >
-                  <Icon>close</Icon>
-                </Button>
-              </Flex>
-            </Flex>
-          </div>
-        )}
-
-        {!newlyPostedComment &&
-          !tailing &&
-          afterHasMore &&
-          !cursorInView &&
-          (!mostRecentViewedPosition ||
-            mostRecentViewedPosition === CommentPosition.Before) && (
+        <Flex justifyContent="center" alignItems="center">
+          {/* TODO: Refactoring canditate */}
+          {newlyPostedComment && (
             <div className={styles.jumpToContainer}>
               <Flex justifyContent="center" alignItems="center">
                 <Flex alignItems="center">
                   <Button
-                    onClick={jumpToNew}
+                    onClick={jumpToComment}
                     color="primary"
-                    className={styles.jumpButton}
+                    className={styles.jumpToReplyButton}
                   >
-                    New messages <Icon>arrow_downward</Icon>
+                    Message posted below <Icon>arrow_downward</Icon>
+                  </Button>
+                  <Button
+                    onClick={closeJumpToComment}
+                    color="primary"
+                    aria-valuetext="close"
+                    className={styles.jumpToReplyButtonClose}
+                  >
+                    <Icon>close</Icon>
                   </Button>
                 </Flex>
               </Flex>
             </div>
           )}
 
-        {/* TODO: Refactoring canditate */}
-        {mostRecentViewedPosition &&
-          mostRecentViewedPosition === CommentPosition.After &&
-          !newlyPostedComment &&
-          !tailing &&
-          afterHasMore && (
-            <div className={styles.jumpToContainer}>
-              <Flex justifyContent="center" alignItems="center">
-                <Flex alignItems="center">
-                  <Button
-                    onClick={jumpToLive}
-                    color="primary"
-                    className={styles.jumpButton}
-                  >
-                    Jump to live <Icon>arrow_downward</Icon>
-                  </Button>
+          {!newlyPostedComment &&
+            !tailing &&
+            afterHasMore &&
+            !cursorInView &&
+            (!mostRecentViewedPosition ||
+              mostRecentViewedPosition === CommentPosition.Before) && (
+              <div className={styles.jumpToContainer}>
+                <Flex justifyContent="center" alignItems="center">
+                  <Flex alignItems="center">
+                    <Button
+                      onClick={jumpToNew}
+                      color="primary"
+                      className={styles.jumpButton}
+                    >
+                      New messages <Icon>arrow_downward</Icon>
+                    </Button>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </div>
-          )}
-      </Flex>
+              </div>
+            )}
 
-      {conversationView.visible && conversationView.comment && (
-        <LiveConversationContainer
-          settings={settings}
-          viewer={viewer}
-          story={story}
-          comment={conversationView.comment}
-          visible={conversationView.visible}
-          onClose={handleCloseConversation}
-        />
-      )}
-      {editingComment && editingComment.visible && (
-        <LiveEditCommentFormContainer
-          comment={editingComment.comment}
-          story={story}
-          settings={settings}
-          viewer={viewer}
-          onClose={handleOnCloseEdit}
-          onRefreshSettings={handleRefreshSettingsFromEdit}
-          autofocus
-        />
-      )}
-      {!editingComment && showCommentForm && (
-        <LivePostCommentFormContainer
-          settings={settings}
-          story={story}
-          viewer={viewer}
-          commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-          onSubmitted={handleCommentSubmitted}
-        />
-      )}
-    </div>
+          {/* TODO: Refactoring canditate */}
+          {mostRecentViewedPosition &&
+            mostRecentViewedPosition === CommentPosition.After &&
+            !newlyPostedComment &&
+            !tailing &&
+            afterHasMore && (
+              <div className={styles.jumpToContainer}>
+                <Flex justifyContent="center" alignItems="center">
+                  <Flex alignItems="center">
+                    <Button
+                      onClick={jumpToLive}
+                      color="primary"
+                      className={styles.jumpButton}
+                    >
+                      Jump to live <Icon>arrow_downward</Icon>
+                    </Button>
+                  </Flex>
+                </Flex>
+              </div>
+            )}
+        </Flex>
+
+        {conversationView.visible && conversationView.comment && (
+          <LiveConversationContainer
+            settings={settings}
+            viewer={viewer}
+            story={story}
+            comment={conversationView.comment}
+            visible={conversationView.visible}
+            onClose={handleCloseConversation}
+          />
+        )}
+        {editingComment && editingComment.visible && (
+          <LiveEditCommentFormContainer
+            comment={editingComment.comment}
+            story={story}
+            settings={settings}
+            viewer={viewer}
+            onClose={handleOnCloseEdit}
+            onRefreshSettings={handleRefreshSettingsFromEdit}
+            autofocus
+          />
+        )}
+        {!editingComment && showCommentForm && (
+          <LivePostCommentFormContainer
+            settings={settings}
+            story={story}
+            viewer={viewer}
+            commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+            onSubmitted={handleCommentSubmitted}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
@@ -741,6 +758,8 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentContainer_viewer
       ...LiveConversationContainer_viewer
       ...LiveEditCommentFormContainer_viewer
+      ...SuspendedInfoContainer_viewer
+      ...WarningContainer_viewer
     }
   `,
   settings: graphql`
@@ -749,6 +768,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentContainer_settings
       ...LiveConversationContainer_settings
       ...LiveEditCommentFormContainer_settings
+      ...SuspendedInfoContainer_settings
     }
   `,
 })(LiveChatContainer);
