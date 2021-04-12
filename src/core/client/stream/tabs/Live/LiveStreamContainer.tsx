@@ -3,6 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
+import ViewersWatchingContainer from "coral-stream/tabs/Comments/Stream/ViewersWatchingContainer";
 
 import { LiveStreamContainer_settings } from "coral-stream/__generated__/LiveStreamContainer_settings.graphql";
 import { LiveStreamContainer_story } from "coral-stream/__generated__/LiveStreamContainer_story.graphql";
@@ -11,6 +12,8 @@ import { LiveStreamContainer_viewer } from "coral-stream/__generated__/LiveStrea
 import LiveChatContainer from "./LiveChatContainer";
 import LiveCommentsAfterContainer from "./LiveCommentsAfterContainer";
 import LiveCommentsBeforeContainer from "./LiveCommentsBeforeContainer";
+
+import styles from "./LiveStreamContainer.css";
 
 interface Props {
   story: LiveStreamContainer_story;
@@ -29,7 +32,15 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <UserBoxContainer viewer={viewer} settings={settings} />
+      <div className={styles.header}>
+        <UserBoxContainer viewer={viewer} settings={settings} />
+        <ViewersWatchingContainer
+          className={styles.viewersWatching}
+          story={story}
+          settings={settings}
+        />
+      </div>
+
       <LiveCommentsBeforeContainer
         story={story}
         viewer={viewer}
@@ -88,6 +99,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentsAfterContainer_story
         @arguments(cursor: $cursor, inclusive: $inclusiveAfter)
       ...LiveChatContainer_story
+      ...ViewersWatchingContainer_story
     }
   `,
   viewer: graphql`
@@ -102,6 +114,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveStreamContainer_settings on Settings {
       ...LiveChatContainer_settings
       ...UserBoxContainer_settings
+      ...ViewersWatchingContainer_settings
     }
   `,
 })(LiveStreamContainer);
