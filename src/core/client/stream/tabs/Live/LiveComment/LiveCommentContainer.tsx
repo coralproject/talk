@@ -207,6 +207,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
               onConversation={handleOnConversation}
               onToggleReport={toggleShowReportFlow}
               onEdit={editing ? undefined : handleOnEdit}
+              showReport={showReportFlow}
             />
           )}
         </div>
