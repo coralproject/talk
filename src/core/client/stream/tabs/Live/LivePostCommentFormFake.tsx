@@ -63,6 +63,7 @@ const PostCommentFormFake: FunctionComponent<Props> = ({
                 blockquote: true,
                 bulletList: false,
               }}
+              showToolbar={false}
             />
           </Localized>
         </div>
