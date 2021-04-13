@@ -22,6 +22,9 @@ interface Props {
   onEdit: (comment: LiveReplyContainer_comment) => void;
   onCancelEdit: () => void;
   editingCommentID?: string;
+
+  newlyPostedReply?: boolean;
+  onJumpToLive: () => void;
 }
 
 const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
@@ -34,6 +37,8 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
   onEdit,
   onCancelEdit,
   editingCommentID,
+  newlyPostedReply,
+  onJumpToLive,
 }) => {
   if (!cursor) {
     return <Spinner />;
@@ -93,6 +98,8 @@ const LiveCommentRepliesQuery: FunctionComponent<Props> = ({
             onEdit={onEdit}
             onCancelEdit={onCancelEdit}
             editingCommentID={editingCommentID}
+            newlyPostedReply={newlyPostedReply}
+            onJumpToLive={onJumpToLive}
           />
         );
       }}

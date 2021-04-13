@@ -18,7 +18,7 @@ import {
   LiveChatRepliesLoadAfterEvent,
   LiveChatRepliesLoadBeforeEvent,
 } from "coral-stream/events";
-import { Flex } from "coral-ui/components/v2";
+import { Flex, Icon } from "coral-ui/components/v2";
 
 import { LiveCommentRepliesContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesContainer_comment.graphql";
 import { LiveCommentRepliesContainer_settings } from "coral-stream/__generated__/LiveCommentRepliesContainer_settings.graphql";
@@ -28,6 +28,7 @@ import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__gene
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
+import JumpToButton from "../../JumpToButton";
 import LiveSkeleton from "../../LiveSkeleton";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
 import LiveReplyContainer from "./LiveReplyContainer";
@@ -61,6 +62,9 @@ interface Props {
   onEdit: (comment: LiveReplyContainer_comment) => void;
   onCancelEdit: () => void;
   editingCommentID?: string;
+
+  newlyPostedReply?: boolean;
+  onJumpToLive: () => void;
 }
 
 const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
@@ -82,8 +86,11 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   onEdit,
   onCancelEdit,
   editingCommentID,
+  newlyPostedReply,
+  onJumpToLive,
 }) => {
   const { eventEmitter } = useCoralContext();
+
   const [height, setHeight] = useState(0);
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
@@ -258,6 +265,13 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           setHeight(h);
         }}
       />
+      {!newlyPostedReply && !tailing && afterHasMore && (
+        <JumpToButton onClick={onJumpToLive}>
+          <>
+            Jump to live <Icon>arrow_downward</Icon>
+          </>
+        </JumpToButton>
+      )}
     </div>
   );
 };

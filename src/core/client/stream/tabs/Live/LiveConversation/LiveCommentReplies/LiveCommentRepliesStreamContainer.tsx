@@ -28,6 +28,9 @@ interface Props {
   onEdit: (comment: LiveReplyContainer_comment) => void;
   onCancelEdit: () => void;
   editingCommentID?: string;
+
+  newlyPostedReply?: boolean;
+  onJumpToLive: () => void;
 }
 
 const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
@@ -42,6 +45,8 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   onEdit,
   onCancelEdit,
   editingCommentID,
+  newlyPostedReply,
+  onJumpToLive,
 }) => {
   return (
     <LiveCommentRepliesBeforeContainer
@@ -85,6 +90,8 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               onEdit={onEdit}
               onCancelEdit={onCancelEdit}
               editingCommentID={editingCommentID}
+              newlyPostedReply={newlyPostedReply}
+              onJumpToLive={onJumpToLive}
             />
           )}
         </LiveCommentRepliesAfterContainer>

@@ -50,6 +50,7 @@ type LiveChatCursor {
 
 type LiveChatState {
   tailing: Boolean
+  tailingConversation: Boolean
 }
 
 extend type Comment {

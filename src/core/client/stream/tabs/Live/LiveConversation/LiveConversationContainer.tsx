@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
@@ -6,6 +11,7 @@ import { waitFor } from "coral-common/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   deleteConnection,
+  useLocal,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { LiveChatJumpToReplyEvent } from "coral-stream/events";
@@ -17,6 +23,7 @@ import { LiveConversationContainer_comment } from "coral-stream/__generated__/Li
 import { LiveConversationContainer_settings } from "coral-stream/__generated__/LiveConversationContainer_settings.graphql";
 import { LiveConversationContainer_story } from "coral-stream/__generated__/LiveConversationContainer_story.graphql";
 import { LiveConversationContainer_viewer } from "coral-stream/__generated__/LiveConversationContainer_viewer.graphql";
+import { LiveConversationContainerLocal } from "coral-stream/__generated__/LiveConversationContainerLocal.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
 import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
@@ -57,6 +64,28 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   visible,
 }) => {
   const { eventEmitter, relayEnvironment } = useCoralContext();
+  const [
+    {
+      liveChat: { tailingConversation: tailing },
+    },
+    setLocal,
+  ] = useLocal<LiveConversationContainerLocal>(graphql`
+    fragment LiveConversationContainerLocal on Local {
+      liveChat {
+        tailingConversation
+      }
+    }
+  `);
+  const setTailing = useCallback(
+    (value: boolean) => {
+      setLocal({ liveChat: { tailingConversation: value } });
+    },
+    [setLocal]
+  );
+  // Initialize tailing on open, runs only once
+  useEffect(() => {
+    setTailing(false);
+  }, [setTailing]);
 
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
@@ -67,11 +96,11 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   const [newlyPostedReply, setNewlyPostedReply] = useState<NewComment | null>(
     null
   );
-  const [tailing, setTailing] = useState<boolean>(false);
 
   const close = useCallback(() => {
+    setTailing(false);
     onClose();
-  }, [onClose]);
+  }, [onClose, setTailing]);
 
   const [cursor, setCursor] = useState(new Date(0).toISOString());
 
@@ -152,6 +181,10 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     viewer,
   ]);
 
+  const handleJumpToLive = useCallback(() => {
+    void deleteConnectionsAndSetCursor(new Date().toISOString());
+  }, [deleteConnectionsAndSetCursor]);
+
   const closeJumpToReply = useCallback(() => {
     if (!newlyPostedReply) {
       return;
@@ -221,7 +254,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
             commentID={comment.id}
             storyID={story.id}
             cursor={cursor}
-            tailing={tailing}
+            tailing={!!tailing}
             setTailing={setTailing}
             onCommentInView={handleCommentInView}
             onEdit={handleOnEdit}
@@ -229,6 +262,8 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
             editingCommentID={
               editingComment ? editingComment.comment.id : undefined
             }
+            newlyPostedReply={!!newlyPostedReply}
+            onJumpToLive={handleJumpToLive}
           />
 
           {newlyPostedReply && (
