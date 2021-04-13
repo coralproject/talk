@@ -178,18 +178,16 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   const leftActions = useMemo(() => {
     return (
       <>
-        {viewer && (
-          <ReactionButtonContainer
-            reactedClassName=""
-            comment={comment}
-            settings={settings}
-            viewer={viewer}
-            readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
-            isQA={false}
-            isChat
-            className={styles.action}
-          />
-        )}
+        <ReactionButtonContainer
+          reactedClassName=""
+          comment={comment}
+          settings={settings}
+          viewer={viewer}
+          readOnly={isViewerBanned || isViewerSuspended || isViewerWarned}
+          isQA={false}
+          isChat
+          className={styles.action}
+        />
         {onReply && (
           <Button
             className={styles.replyButton}
