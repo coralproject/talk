@@ -153,6 +153,7 @@ const initLocalState: InitLocalState = async ({
       LIVE_CHAT_STATE_TYPE
     );
     liveChatState.setValue(false, "tailing");
+    liveChatState.setValue(false, "tailingConversation");
     localRecord.setLinkedRecord(liveChatState, "liveChat");
   });
 };

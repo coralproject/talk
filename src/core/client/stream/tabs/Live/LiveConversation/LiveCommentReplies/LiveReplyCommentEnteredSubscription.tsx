@@ -8,6 +8,8 @@ import {
 
 import {
   createSubscription,
+  LOCAL_ID,
+  lookup,
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
@@ -19,16 +21,23 @@ import {
 
 import { LiveReplyCommentEnteredSubscription } from "coral-stream/__generated__/LiveReplyCommentEnteredSubscription.graphql";
 
+function liveInsertionEnabled(environment: Environment): boolean {
+  const liveChat = lookup(environment, LOCAL_ID).liveChat;
+
+  return liveChat.tailingConversation;
+}
+
 function insertComment(
+  environment: Environment,
   store: RecordSourceSelectorProxy<unknown>,
-  comment: RecordProxy,
-  parent: RecordProxy | null,
   parentID: string,
-  connectionKey: string
+  parent: RecordProxy | null,
+  comment: RecordProxy
 ) {
   if (!parent) {
     return;
   }
+
   const pID = parent.getValue("id")! as string;
   // Wrong reply stream, bail out
   if (parentID !== pID) {
@@ -40,25 +49,43 @@ function insertComment(
     return;
   }
 
-  const connection = ConnectionHandler.getConnection(parent, connectionKey);
-
-  if (!connection) {
-    return;
-  }
-
-  if (connection.getLinkedRecord("pageInfo")!.getValue("hasNextPage")) {
-    // It hasn't loaded all comments yet, ignore this one.
-    return;
-  }
-
-  const commentsEdge = store.create(
-    `edge-${comment.getValue("id")!}`,
-    "CommentsEdge"
+  const afterConnection = ConnectionHandler.getConnection(
+    parent,
+    "Replies_after"
   );
-  commentsEdge.setValue(comment.getValue("createdAt"), "cursor");
-  commentsEdge.setLinkedRecord(comment, "node");
+  if (!afterConnection) {
+    return;
+  }
 
-  ConnectionHandler.insertEdgeAfter(connection, commentsEdge);
+  const beforeConnection = ConnectionHandler.getConnection(
+    parent,
+    "Replies_before"
+  );
+
+  const liveInsertion = liveInsertionEnabled(environment);
+
+  if (liveInsertion) {
+    const edge = ConnectionHandler.createEdge(store, comment, comment, "");
+    edge.setValue(comment.getValue("createdAt"), "cursor");
+
+    ConnectionHandler.insertEdgeAfter(afterConnection, edge);
+  } else {
+    const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
+    // Should not be falsy because Relay uses this information to determine
+    // whether or not new data is available to load.
+    if (!pageInfoAfter.getValue("endCursor")) {
+      const beforeEdges = beforeConnection
+        ? beforeConnection.getLinkedRecords("edges")!
+        : [];
+      const endCursor =
+        beforeEdges.length > 0
+          ? beforeEdges[0].getValue("cursor")
+          : new Date(0).toISOString();
+      // Set cursor to oldest date, to load from the beginning.
+      pageInfoAfter.setValue(endCursor, "endCursor");
+    }
+    pageInfoAfter.setValue(true, "hasNextPage");
+  }
 }
 
 type CommentEnteredVariables = Omit<
@@ -129,11 +156,11 @@ const LiveReplyCommentEnteredSubscription = createSubscription(
         } else {
           comment.setValue(true, "enteredLive");
           insertComment(
+            environment,
             store,
-            comment,
-            parent,
             variables.parentID,
-            variables.connectionKey
+            parent,
+            comment
           );
         }
       },
