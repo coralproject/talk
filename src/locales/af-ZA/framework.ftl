@@ -17,24 +17,6 @@ framework-shortNumber-1000000000 = 0.0B
 
 ## Validation
 
-framework-validation-required = This field is required.
-framework-validation-tooShort = Please enter at least {$minLength} characters.
-framework-validation-tooLong = Please enter at max {$maxLength} characters.
-framework-validation-usernameTooShort = Username must contain at least {$minLength} characters.
-framework-validation-usernameTooLong = Usernames cannot be longer than {$maxLength} characters.
-framework-validation-invalidCharacters = Invalid characters. Try again.
-framework-validation-invalidEmail = Please enter a valid email address.
-framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
-framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
-framework-validation-invalidURL = Invalid URL
-framework-validation-emailsDoNotMatch = Emails do not match. Try again.
-framework-validation-notAWholeNumberBetween = Please enter a whole number between { $min } and { $max }.
-framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
-framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
-framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
-framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
-framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
-framework-validation-media-url-invalid = Please enter a valid image URL (.png, .jpg, or .gif)
 
 framework-timeago-just-now = Nou
 
@@ -84,53 +66,37 @@ framework-copyButton-copy = Kopieër
 framework-copyButton-copied = Gekopieër
 
 ### Password Field
-framework-passwordField =
-  .showPasswordTitle = Show password
-  .hidePasswordTitle = Hide password
 
 ### Markdown Editor
-framework-markdownEditor-bold = Bold
-framework-markdownEditor-italic = Italic
-framework-markdownEditor-titleSubtitleHeading = Title, Subtitle, Heading
-framework-markdownEditor-quote = Quote
-framework-markdownEditor-genericList = Generic List
-framework-markdownEditor-numberedList = Numbered List
-framework-markdownEditor-createLink = Create Link
-framework-markdownEditor-insertImage = Insert Image
-framework-markdownEditor-togglePreview = Toggle Preview
-framework-markdownEditor-toggleSideBySide = Toggle Side by Side
-framework-markdownEditor-toggleFullscreen = Toggle Fullscreen
-framework-markdownEditor-markdownGuide = Markdown Guide
 
 ### Duration Field
-
 framework-durationField-unit =
   { $unit ->
     [second] { $value ->
-      [1] Second
-      *[other] Seconds
+      [1] Sekonde
+      *[other] Sekondes
     }
     [minute] { $value ->
-      [1] Minute
-      *[other] Minutes
+      [1] Minuut
+      *[other] Minute
     }
     [hour] { $value ->
-      [1] Hour
-      *[other] Hours
+      [1] Uur
+      *[other] Ure
     }
     [day] { $value ->
-      [1] Day
-      *[other] Days
+      [1] Dag
+      *[other] Dae
     }
     [week] { $value ->
       [1] Week
-      *[other] Weeks
+      *[other] Weke
     }
-    *[other] unknown unit
+    *[other] onbekende eenheid
   }
 
 framework-starRating =
   .aria-label = { $value ->
-    [1] 1 Star
-    *[other] {$value} Stars
+    [1] 1 Ster
+    *[other] {$value} Sterre
   }
