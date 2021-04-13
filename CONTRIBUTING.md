@@ -155,53 +155,27 @@ should be wrapped in localization components to support other languages.
 
 ## Localization
 
-We use the [fluent](http://projectfluent.org/) library and store our
-translations in [FTL](http://projectfluent.org/fluent/guide/) files in
-`src/locales/` and `src/core/server/locales/`.
-
-Strings are added or removed from localization bundles in the translation files
-as needed. Strings **MUST NOT** be _changed_ after they've been committed and
-pushed to `main`. Changing a string requires creating a new ID with a new name
-(preferably descriptive instead of incremented) and deletion of the obsolete ID.
-It's often useful to add a comment above the string with info about how and
-where the string is used.
-
-Once a language has enough coverage, it should be added to
-`src/core/common/helpers/i18n/locales.ts`.
-
-The [Perspective API](https://github.com/conversationai/perspectiveapi/blob/master/2-api/methods.md#analyzecomment-request)
-also supports comments in specific languages. When the language is supported in
-Coral and supported by the Perspective API, the language should be added to the
-language map in `src/core/server/services/comments/pipeline/phases/toxic.ts`.
-
-To assist with the translation process, we have a script that is based on the
-work by @cristiandean in https://github.com/coralproject/talk/pull/2949 that
-will detect missing, new, or changed translation keys for the specified
-language. You can use this with:
-
-```sh
-# usage: ./scripts/i18n/validate.ts <locale>
-./scripts/i18n/validate.ts pt-BR
-```
+For information on localization, see our
+[Contributing a Translation](https://docs.coralproject.net/talk/v5/developing#contributing)
+guide.
 
 ## Documentation
 
 Documentation that is publicly shown on
-[docs.coralproject.net](https://docs.coralproject.net/coral/) is stored under
-the `release/4` branch as it contains information for versions 4.0 onwards of
-Coral.
+[https://docs.coralproject.net/](https://docs.coralproject.net/) is available in
+our `docs/` folder.
 
-To contribute new docs, you can either click the "Suggest Edits" in the top
-right of each page, or you can edit directly via source. We suggest that for
+To contribute new docs, you can either click the "Suggest Edits" in the bottom
+of each page, or you can edit directly via source. We suggest that for
 individual fixes or contributions to the documentation.
 
 If you want to contribute via source files, you can follow the procedure
 outlined below:
 
 1. Clone the Talk repository via `git clone https://github.com/coralproject/talk.git`
-2. Switch to the `release/4` branch via `git checkout release/4`
-3. Follow the procedure outlined on that branch's [CONTRIBUTING.md](https://github.com/coralproject/talk/blob/release/4/CONTRIBUTING.md#contributing-documentation) file for contributing documentation changes
-4. Create a pull request to merge your changes back into the `release/4` branch
+2. Follow the procedure outlined in the [`docs/README.md`](docs/README.md) file
+   for contributing documentation changes
+3. Create a pull request to merge your changes back
 
 ## Design Principles
 
@@ -356,7 +330,9 @@ You can learn more about GraphQL Enumeration types in their documentation:
 
 #### Mutation Types
 
-Mutations are a request to GraphQL to initiate an action which will result in a response. As such,they're broken up into an `Input` and `Payload` pair that matches a mutation's request and response pair.
+Mutations are a request to GraphQL to initiate an action which will result in a
+response. As such,they're broken up into an `Input` and `Payload` pair that
+matches a mutation's request and response pair.
 
 An example is the `CreateCommentInput` and `CreateCommentPayload`:
 

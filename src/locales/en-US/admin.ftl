@@ -831,6 +831,8 @@ configure-advanced-embedCode-comment =
   https://docs.coralproject.net for all the configuration
   options.
 
+
+
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history
@@ -1375,6 +1377,11 @@ configure-advanced-stories-custom-user-agent = Custom Scraper User Agent Header
 configure-advanced-stories-custom-user-agent-detail =
   When specified, overrides the <code>User-Agent</code> header sent with each
   scrape request.
+
+configure-advanced-stories-authentication = Authentication
+configure-advanced-stories-scrapingCredentialsHeader = Scraping credentials
+configure-advanced-stories-scraping-usernameLabel = Username
+configure-advanced-stories-scraping-passwordLabel = Password
 
 commentAuthor-status-banned = Banned
 commentAuthor-status-premod = Pre-mod

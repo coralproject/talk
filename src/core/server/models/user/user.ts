@@ -583,7 +583,7 @@ export interface FindOrCreateUserInput {
  */
 async function findOrCreateUserInput(
   tenantID: string,
-  { id = uuid(), profile, ...input }: FindOrCreateUserInput,
+  { id = uuid(), profile, email, ...input }: FindOrCreateUserInput,
   now: Date
 ): Promise<Readonly<User>> {
   // default are the properties set by the application when a new user is
@@ -630,26 +630,33 @@ async function findOrCreateUserInput(
   const profiles: Profile[] = [];
 
   // Mutate the profiles to ensure we mask handle any secrets.
-  switch (profile.type) {
-    case "local": {
+  if (profile.type === "local") {
+    profiles.push({
+      type: "local",
+      // Lowercase the email address.
+      id: profile.id.toLowerCase(),
       // Hash the user's password with bcrypt.
-      const password = await hashPassword(profile.password);
-      profiles.push({ ...profile, password });
-      break;
-    }
-    default:
-      // Push the profile onto the User.
-      profiles.push(profile);
-      break;
+      password: await hashPassword(profile.password),
+      passwordID: profile.passwordID,
+    });
+  } else {
+    profiles.push(profile);
   }
 
   // Merge the defaults and the input together.
-  return {
+  const user: User = {
     ...defaults,
     ...input,
     profiles,
     id,
   };
+
+  // Lowercase the email address if we have one now.
+  if (email) {
+    user.email = email.toLowerCase();
+  }
+
+  return user;
 }
 
 export async function findOrCreateUser(
@@ -691,10 +698,10 @@ export async function findOrCreateUser(
     if (err instanceof MongoError && err.code === 11000) {
       // Check if duplicate index was about the email.
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
-        throw new DuplicateEmailError(input.email!);
+        throw new DuplicateEmailError(user.email!);
       }
 
-      // Some other error occured.
+      // Some other error occurred.
       throw new DuplicateUserError(err);
     }
 
@@ -721,7 +728,7 @@ export async function createUser(
     if (err instanceof MongoError && err.code === 11000) {
       // Check if duplicate index was about the email.
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
-        throw new DuplicateEmailError(input.email!);
+        throw new DuplicateEmailError(user.email!);
       }
 
       // Some other error occured.
@@ -741,7 +748,7 @@ export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
 export async function retrieveManyUsers(
   mongo: Db,
   tenantID: string,
-  ids: string[]
+  ids: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     tenantID,
@@ -771,8 +778,10 @@ export async function retrieveUserWithProfile(
 export async function retrieveUserWithEmail(
   mongo: Db,
   tenantID: string,
-  email: string
+  emailAddress: string
 ) {
+  const email = emailAddress.toLowerCase();
+
   return collection(mongo).findOne({
     tenantID,
     $or: [
@@ -820,7 +829,7 @@ export async function mergeUserSiteModerationScopes(
   mongo: Db,
   tenantID: string,
   id: string,
-  siteIDs: string[]
+  siteIDs: ReadonlyArray<string>
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
@@ -846,7 +855,7 @@ export async function pullUserSiteModerationScopes(
   mongo: Db,
   tenantID: string,
   id: string,
-  siteIDs: string[]
+  siteIDs: ReadonlyArray<string>
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },

@@ -115,9 +115,7 @@ jobs:
           at: ~/coralproject/talk
       - restore_cache:
           keys:
-            - v1-build-cache-{{ .Branch }}-{{ .Revision }}
-            - v1-build-cache-{{ .Branch }}-
-            - v1-build-cache-
+            - v1-build-cache-{{ .Branch }}
       - run:
           name: Build
           command: npm run build
@@ -126,7 +124,7 @@ jobs:
           name: Verify Bundle Size
           command: npx bundlesize2 --enable-github-checks
       - save_cache:
-          key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
+          key: v1-build-cache-{{ .Branch }}
           paths:
             - ./dist
       - persist_to_workspace:
@@ -134,8 +132,8 @@ jobs:
           paths:
             - dist
 
-  # release static assets to cdn.
-  release_static:
+  # upload static assets to cdn.
+  upload_static:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -146,7 +144,6 @@ jobs:
           command: |
             CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
             docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
-            docker cp "${CONTAINER_ID}:/usr/src/app/src/core/server/graph/schema/__generated__/introspection.json" static/introspection.json
             docker rm "${CONTAINER_ID}"
             find ./static -type f -name "*.gz" -print -delete
       - run:
@@ -159,13 +156,9 @@ jobs:
           name: Deploy static files to Google Cloud Storage Bucket
           command: |
             gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${CIRCLE_TAG/#v}/"
-      - run:
-          name: Deploy introspection json to Google Cloud Storage Bucket
-          command: |
-            gsutil -h "Cache-Control: public, max-age=86400" cp -z "json" "./static/introspection.json" "gs://${GOOGLE_CLOUD_BUCKET}"
 
   # upload release artifacts to sentry.
-  release_sentry:
+  upload_sentry:
     <<: *job_node_defaults
     steps:
       - setup_remote_docker:
@@ -184,18 +177,6 @@ jobs:
           name: Upload source maps to sentry
           command: |
             npx @sentry/cli releases files "coral@${CIRCLE_TAG/#v}" upload-sourcemaps ./dist
-
-  # docker_tests will test that the docker build process completes.
-  docker_tests:
-    <<: *job_node_defaults
-    steps:
-      - checkout
-      - setup_remote_docker:
-          <<: *setup_remote_docker_defaults
-      - deploy:
-          name: Test Building
-          command: bash ./scripts/docker.sh
-          no_output_timeout: 30m
 
   # release_docker will build and push the Docker image.
   release_docker:
@@ -219,12 +200,11 @@ filter_release: &filter_release
     branches:
       only:
         - main
-        - develop
     tags:
       only: /^v.*/
 
-# filter_tagged_release will add the filters for a deploy job in a workflow to make it
-# only execute on a tagged release.
+# filter_tagged_release will add the filters for a deploy job in a workflow to
+# make it only execute on a tagged release.
 filter_tagged_release: &filter_tagged_release
   filters:
     branches:
@@ -238,13 +218,10 @@ filter_develop: &filter_develop
     branches:
       ignore:
         - main
-        - develop
 
 workflows:
   build-test:
     jobs:
-      - docker_tests:
-          <<: *filter_develop
       - npm_dependencies:
           <<: *filter_develop
       - lint:
@@ -281,11 +258,11 @@ workflows:
             - lint
             - unit_tests
             - build
-      - release_static:
+      - upload_static:
           <<: *filter_tagged_release
           requires:
             - release_docker
-      - release_sentry:
+      - upload_sentry:
           <<: *filter_tagged_release
           requires:
             - release_docker
