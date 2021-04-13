@@ -57,6 +57,12 @@ const PostCommentFormFake: FunctionComponent<Props> = ({
               onFocus={handleFocus}
               onBlur={handleBlur}
               contentClassName={styles.content}
+              featureOverrides={{
+                bold: true,
+                italic: true,
+                blockquote: true,
+                bulletList: false,
+              }}
             />
           </Localized>
         </div>
