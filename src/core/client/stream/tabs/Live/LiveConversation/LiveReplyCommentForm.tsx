@@ -112,6 +112,12 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
           autoHideToolbar
           focusAfterSubmit
           submitButtonTitle="Submit"
+          featureOverrides={{
+            bold: true,
+            italic: true,
+            blockquote: true,
+            bulletList: false,
+          }}
         />
       </Localized>
     </div>

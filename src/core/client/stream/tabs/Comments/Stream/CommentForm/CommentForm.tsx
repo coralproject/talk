@@ -31,6 +31,7 @@ import { getCommentBodyValidators } from "../../../shared/helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
 import { RTELocalized } from "../../RTE/RTE";
+import { RTEFeatureOverrides } from "../../RTE/RTEContainer";
 import FormSync from "./FormSync";
 import MediaField, { Widget } from "./MediaField";
 import RatingInput from "./RatingInput";
@@ -112,6 +113,7 @@ interface Props {
   noSubmitWhenPristine?: boolean;
   submitButtonContent?: React.ReactNode;
   submitButtonTitle?: string;
+  featureOverrides?: RTEFeatureOverrides;
 }
 
 function createWidgetToggle(desiredWidget: Widget) {
@@ -173,6 +175,7 @@ const CommentForm: FunctionComponent<Props> = ({
   autoFocus,
   classes,
   noSubmitWhenPristine,
+  featureOverrides,
 }) => {
   const myRTERef = useRef<CoralRTE | null>(null);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
@@ -446,6 +449,7 @@ const CommentForm: FunctionComponent<Props> = ({
                         ) : null}
                       </>
                     }
+                    featureOverrides={featureOverrides}
                   />
                 )}
               </Field>

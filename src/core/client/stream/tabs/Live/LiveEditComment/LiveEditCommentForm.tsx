@@ -110,6 +110,12 @@ const LiveEditCommentForm: FunctionComponent<LiveEditCommentFormProps> = (
           submitButtonTitle="Save changes"
           autoHideToolbar
           focusAfterSubmit
+          featureOverrides={{
+            bold: true,
+            italic: true,
+            blockquote: true,
+            bulletList: false,
+          }}
         />
       </Localized>
     </div>
