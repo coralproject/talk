@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { graphql } from "react-relay";
-import { Virtuoso } from "react-virtuoso";
+import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -134,6 +134,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     }
   `);
 
+  const virtuoso = useRef<VirtuosoHandle | null>(null);
+
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
@@ -180,6 +182,18 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     },
     [eventEmitter, setLocal, story.id, viewer]
   );
+
+  // We define a period at the beginning as cold start, where
+  // different state might not yet be stable.
+  const [coldStart, setColdStart] = useState(true);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setColdStart(false);
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const subscribeToCommentEntered = useSubscription(
     LiveCommentEnteredSubscription
@@ -370,20 +384,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [newlyPostedComment, setNewlyPostedComment]);
 
   const jumpToNew = useCallback(() => {
-    // TODO: figure out why setting the cursor to its same
-    // value causes the stream's before and after to come back null.
-    //
-    // For now, I'm subtracting 1 ms from the time. Unlikely this will
-    // cause an issue unless the user can somehow click this 1000 times
-    // or more in one second. Which seems highly improbable.
-    const target = new Date(new Date(currentCursor).getTime() - 1);
-    setCursor(target.toISOString());
+    if (!virtuoso.current) {
+      throw new Error("Virtuoso ref was null");
+    }
+    virtuoso.current.scrollToIndex({
+      align: "center",
+      index: beforeComments.length,
+      behavior: "smooth",
+    });
 
     LiveChatJumpToNewEvent.emit(eventEmitter, {
       storyID: story.id,
       viewerID: viewer ? viewer.id : "",
     });
-  }, [setCursor, currentCursor, eventEmitter, story.id, viewer]);
+  }, [beforeComments.length, eventEmitter, story.id, viewer]);
 
   const jumpToLive = useCallback(() => {
     setCursor(new Date().toISOString());
@@ -598,6 +612,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         <Virtuoso
           firstItemIndex={START_INDEX - beforeComments.length}
           id="live-chat-comments"
+          ref={virtuoso}
           className={styles.streamContainer}
           totalCount={
             beforeComments.length +
@@ -625,6 +640,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           {!newlyPostedComment &&
             !tailing &&
             afterHasMore &&
+            !coldStart &&
             !cursorInView &&
             (!mostRecentViewedPosition ||
               mostRecentViewedPosition === CommentPosition.Before) && (
@@ -635,10 +651,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               </JumpToButton>
             )}
 
-          {mostRecentViewedPosition &&
-            mostRecentViewedPosition === CommentPosition.After &&
+          {((mostRecentViewedPosition &&
+            mostRecentViewedPosition === CommentPosition.After) ||
+            cursorInView) &&
             !newlyPostedComment &&
             !tailing &&
+            !coldStart &&
             afterHasMore && (
               <JumpToButton onClick={jumpToLive}>
                 <>
