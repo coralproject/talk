@@ -40,7 +40,7 @@ import BannedInfo from "coral-stream/tabs/Comments/Stream/BannedInfo";
 import { SuspendedInfoContainer } from "coral-stream/tabs/Comments/Stream/SuspendedInfo";
 import WarningContainer from "coral-stream/tabs/Comments/Stream/Warning/WarningContainer";
 import { Flex, Icon } from "coral-ui/components/v2";
-import { Button, CallOut } from "coral-ui/components/v3";
+import { CallOut } from "coral-ui/components/v3";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -52,6 +52,7 @@ import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCom
 
 import CursorState from "./cursorState";
 import InView from "./InView";
+import JumpToButton from "./JumpToButton";
 import LiveCommentContainer from "./LiveComment";
 import { CommentPosition } from "./LiveComment/LiveCommentContainer";
 import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
@@ -615,27 +616,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         <Flex justifyContent="center" alignItems="center">
           {/* TODO: Refactoring canditate */}
           {newlyPostedComment && (
-            <div className={styles.jumpToContainer}>
-              <Flex justifyContent="center" alignItems="center">
-                <Flex alignItems="center">
-                  <Button
-                    onClick={jumpToComment}
-                    color="primary"
-                    className={styles.jumpToReplyButton}
-                  >
-                    Message posted below <Icon>arrow_downward</Icon>
-                  </Button>
-                  <Button
-                    onClick={closeJumpToComment}
-                    color="primary"
-                    aria-valuetext="close"
-                    className={styles.jumpToReplyButtonClose}
-                  >
-                    <Icon>close</Icon>
-                  </Button>
-                </Flex>
-              </Flex>
-            </div>
+            <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
+              <>
+                Message posted below <Icon>arrow_downward</Icon>
+              </>
+            </JumpToButton>
           )}
 
           {!newlyPostedComment &&
@@ -644,19 +629,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             !cursorInView &&
             (!mostRecentViewedPosition ||
               mostRecentViewedPosition === CommentPosition.Before) && (
-              <div className={styles.jumpToContainer}>
-                <Flex justifyContent="center" alignItems="center">
-                  <Flex alignItems="center">
-                    <Button
-                      onClick={jumpToNew}
-                      color="primary"
-                      className={styles.jumpButton}
-                    >
-                      New messages <Icon>arrow_downward</Icon>
-                    </Button>
-                  </Flex>
-                </Flex>
-              </div>
+              <JumpToButton onClick={jumpToNew}>
+                <>
+                  New messages <Icon>arrow_downward</Icon>
+                </>
+              </JumpToButton>
             )}
 
           {/* TODO: Refactoring canditate */}
@@ -665,19 +642,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             !newlyPostedComment &&
             !tailing &&
             afterHasMore && (
-              <div className={styles.jumpToContainer}>
-                <Flex justifyContent="center" alignItems="center">
-                  <Flex alignItems="center">
-                    <Button
-                      onClick={jumpToLive}
-                      color="primary"
-                      className={styles.jumpButton}
-                    >
-                      Jump to live <Icon>arrow_downward</Icon>
-                    </Button>
-                  </Flex>
-                </Flex>
-              </div>
+              <JumpToButton onClick={jumpToLive}>
+                <>
+                  Jump to live <Icon>arrow_downward</Icon>
+                </>
+              </JumpToButton>
             )}
         </Flex>
 
