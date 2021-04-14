@@ -43,14 +43,17 @@ type AuthPopup {
   view: VIEW
 }
 
-type LiveChatCursor {
-  storyID: String!
-  cursor: String!
-}
-
 type LiveChatState {
   tailing: Boolean
   tailingConversation: Boolean
+
+  # The current cursor that is shown at the "New" divider
+  # in the live chat.
+  currentCursor: String
+
+  # The latest comment cursor that the player has read
+  # in the live chat stream.
+  latestCursor: String
 }
 
 extend type Comment {

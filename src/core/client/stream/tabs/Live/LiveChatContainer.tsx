@@ -50,7 +50,7 @@ import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/L
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
-import CursorState from "./cursorState";
+import { persistCursor } from "./cursorState";
 import InView from "./InView";
 import JumpToButton from "./JumpToButton";
 import LiveCommentContainer from "./LiveComment";
@@ -121,7 +121,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     {
       storyID,
       storyURL,
-      liveChat: { tailing },
+      liveChat: { tailing, latestCursor },
     },
     setLocal,
   ] = useLocal<LiveChatContainerLocal>(graphql`
@@ -130,6 +130,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       storyURL
       liveChat {
         tailing
+        latestCursor
       }
     }
   `);
@@ -233,26 +234,15 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       if (!visible) {
         return;
       }
-      // Set the constant updating cursor
-      const key = `liveCursor:${storyID}:${storyURL}`;
-
-      const rawValue = await localStorage.getItem(key);
-      let current: CursorState | null = null;
-      if (rawValue) {
-        current = JSON.parse(rawValue);
-      }
 
       if (
-        !current ||
-        (current && new Date(createdAt) > new Date(current.createdAt))
+        !latestCursor ||
+        (latestCursor && new Date(createdAt) > new Date(latestCursor))
       ) {
-        await localStorage.setItem(
-          key,
-          JSON.stringify({
-            createdAt,
-            cursor,
-          })
-        );
+        await persistCursor(localStorage, setLocal, storyID, storyURL, {
+          cursor,
+          createdAt,
+        });
       }
 
       mostRecentViewedCursor.current = createdAt;
@@ -263,7 +253,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         setNewlyPostedComment(null);
       }
     },
-    [localStorage, newlyPostedComment, storyID, storyURL]
+    [
+      latestCursor,
+      localStorage,
+      newlyPostedComment,
+      setLocal,
+      storyID,
+      storyURL,
+    ]
   );
 
   const showConversation = useCallback(

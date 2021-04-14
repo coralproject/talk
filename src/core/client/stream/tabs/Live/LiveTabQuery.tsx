@@ -19,7 +19,6 @@ import { Spinner } from "coral-ui/components/v2";
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
-import CursorState from "./cursorState";
 import LiveStreamContainer from "./LiveStreamContainer";
 import useOnResumeActive from "./useOnResumeActive";
 
@@ -32,10 +31,20 @@ interface PaginationState {
 }
 
 const LiveTabQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL }] = useLocal<LiveTabQueryLocal>(graphql`
+  const [
+    {
+      storyID,
+      storyURL,
+      liveChat: { currentCursor },
+    },
+    setLocal,
+  ] = useLocal<LiveTabQueryLocal>(graphql`
     fragment LiveTabQueryLocal on Local {
       storyID
       storyURL
+      liveChat {
+        currentCursor
+      }
     }
   `);
   const { localStorage } = useCoralContext();
@@ -50,18 +59,8 @@ const LiveTabQuery: FunctionComponent = () => {
 
   useEffect(() => {
     const loadCursor = async () => {
-      // TODO: (cvle) Cursor should be saved to a "userSessionStorage" instead of localStorage.
-      // TODO: (cvle) Put cursor in Local, and sync with localStorage.
-      const key = `liveCursor:${storyID}:${storyURL}`;
-
-      const rawValue = await localStorage.getItem(key);
-      let current: CursorState | null = null;
-      if (rawValue) {
-        current = JSON.parse(rawValue);
-      }
-
       // Now set the new cursor.
-      const newCursor = current?.cursor || new Date().toISOString();
+      const newCursor = currentCursor || new Date().toISOString();
       setPaginationState({
         cursor: newCursor,
         inclusiveAfter: false,
@@ -70,7 +69,7 @@ const LiveTabQuery: FunctionComponent = () => {
     };
 
     void loadCursor();
-  }, [localStorage, storyID, storyURL]);
+  }, [currentCursor, localStorage, storyID, storyURL]);
 
   // TODO: this is a possibly undesirable way to detect that
   // the page has come back from sleeping (likely due to
@@ -144,6 +143,7 @@ const LiveTabQuery: FunctionComponent = () => {
         const deleteConnectionsAndSetCursor = async (s: string) => {
           // Setting empty cursor will trigger loading state and stops rendering any of the
           // pagination containers.
+          setLocal({ liveChat: { currentCursor: "" } });
           setPaginationState({
             cursor: "",
             inclusiveAfter: true,
@@ -177,6 +177,7 @@ const LiveTabQuery: FunctionComponent = () => {
           });
 
           // Now reload with a new cursor.
+          setLocal({ liveChat: { currentCursor: s } });
           setPaginationState({
             cursor: s,
             inclusiveAfter: true,
