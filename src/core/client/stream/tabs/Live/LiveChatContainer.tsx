@@ -614,7 +614,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         />
 
         <Flex justifyContent="center" alignItems="center">
-          {/* TODO: Refactoring canditate */}
           {newlyPostedComment && (
             <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
               <>
@@ -636,7 +635,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               </JumpToButton>
             )}
 
-          {/* TODO: Refactoring canditate */}
           {mostRecentViewedPosition &&
             mostRecentViewedPosition === CommentPosition.After &&
             !newlyPostedComment &&
