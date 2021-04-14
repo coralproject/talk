@@ -32,43 +32,6 @@
   color: var(--palette-primary-500);
 }
 
-.jumpToContainer {
-  position: relative;
-
-  top: -40px;
-  left: 0;
-  width: 100%;
-  height: 0px;
-  z-index: 998;
-
-  text-align: center;
-
-  background: transparent;
-}
-
-.jumpButton {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-
-.jumpToReplyButton {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-
-  margin-right: 1px;
-}
-
-.jumpToReplyButtonClose {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
 .filler {
   flex-grow: 1;
 }
