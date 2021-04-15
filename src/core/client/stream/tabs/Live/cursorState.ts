@@ -1,40 +1,35 @@
-import { DeepPartial } from "coral-common/types";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
-import { RecordProxy } from "relay-runtime";
-
-type AdvancedUpdater = (record: RecordProxy) => void;
-type LocalUpdater = DeepPartial<any> | AdvancedUpdater;
 
 export default interface CursorState {
   cursor: string;
   createdAt: string;
 }
 
-export const persistCursorToLocalStorage = async (
+const computeKey = (storyID?: string | null, storyURL?: string | null) => {
+  return `liveCursor:${storyID}:${storyURL}`;
+};
+
+export const getLatestCursorState = async (
+  localStorage: PromisifiedStorage,
+  storyID?: string | null,
+  storyURL?: string | null
+): Promise<CursorState | null> => {
+  const key = computeKey(storyID, storyURL);
+  const rawValue = await localStorage.getItem(key);
+  let currentCursor: CursorState | null = null;
+  if (rawValue) {
+    currentCursor = JSON.parse(rawValue);
+  }
+
+  return currentCursor;
+};
+
+export const persistLatestCursorState = async (
   localStorage: PromisifiedStorage,
   storyID: string | null,
   storyURL: string | null,
   state: CursorState
 ) => {
-  // Set the constant updating cursor
-  const key = `liveCursor:${storyID}:${storyURL}`;
+  const key = computeKey(storyID, storyURL);
   await localStorage.setItem(key, JSON.stringify(state));
-};
-
-export const persistLatestCursorToRelay = async (
-  setLocal: LocalUpdater,
-  state: CursorState
-) => {
-  setLocal({ liveChat: { latestCursor: state.cursor } });
-};
-
-export const persistCursor = async (
-  localStorage: PromisifiedStorage,
-  setLocal: LocalUpdater,
-  storyID: string | null,
-  storyURL: string | null,
-  state: CursorState
-) => {
-  await persistCursorToLocalStorage(localStorage, storyID, storyURL, state);
-  await persistLatestCursorToRelay(setLocal, state);
 };
