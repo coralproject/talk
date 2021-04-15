@@ -11,43 +11,26 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLComment } from "coral-framework/schema";
 import { EditCommentEvent } from "coral-stream/events";
+import { isPublished } from "coral-stream/tabs/shared/helpers";
 
 import { LiveEditCommentMutation as MutationTypes } from "coral-stream/__generated__/LiveEditCommentMutation.graphql";
+import removeLiveChatComment from "../helpers/removeLiveChatComment";
 
-export type LiveEditCommentInput = MutationInput<MutationTypes>;
+export type LiveEditCommentInput = MutationInput<MutationTypes> & {
+  storyID: string;
+  ancestorID?: string;
+};
 
 const mutation = graphql`
   mutation LiveEditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
       comment {
+        ...MediaSectionContainer_comment @relay(mask: false)
         id
         body
         status
         revision {
           id
-          media {
-            __typename
-            ... on GiphyMedia {
-              url
-              title
-              width
-              height
-              still
-              video
-            }
-            ... on ExternalMedia {
-              url
-            }
-            ... on TwitterMedia {
-              url
-              width
-            }
-            ... on YouTubeMedia {
-              url
-              width
-              height
-            }
-          }
         }
         editing {
           edited
@@ -70,6 +53,7 @@ async function commit(
     commentID: input.commentID,
   });
   try {
+    const lookupComment = lookup<GQLComment>(environment, input.commentID)!;
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
@@ -85,10 +69,13 @@ async function commit(
             comment: {
               id: input.commentID,
               body: input.body,
-              status: lookup<GQLComment>(environment, input.commentID)!.status,
+              status: lookupComment.status,
               revision: {
                 id: uuidGenerator(),
                 media: null,
+              },
+              site: {
+                id: lookupComment.site.id,
               },
               editing: {
                 edited: true,
@@ -98,7 +85,22 @@ async function commit(
           },
         },
         updater: (store) => {
-          store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
+          const commentRecordFromCache = store.get(input.commentID)!;
+          commentRecordFromCache.setValue("EDIT", "lastViewerAction");
+
+          const commentRecord = store
+            .getRootField("editComment")!
+            .getLinkedRecord("comment")!;
+
+          // Comment is not published after edit, so don't render it anymore.
+          if (!isPublished(commentRecord.getValue("status"))) {
+            removeLiveChatComment(
+              store,
+              input.commentID,
+              input.storyID,
+              input.ancestorID
+            );
+          }
         },
       }
     );

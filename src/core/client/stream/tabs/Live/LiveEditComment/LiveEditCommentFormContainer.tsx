@@ -27,7 +27,6 @@ import { Button } from "coral-ui/components/v3";
 import { LiveEditCommentFormContainer_comment } from "coral-stream/__generated__/LiveEditCommentFormContainer_comment.graphql";
 import { LiveEditCommentFormContainer_settings } from "coral-stream/__generated__/LiveEditCommentFormContainer_settings.graphql";
 import { LiveEditCommentFormContainer_story } from "coral-stream/__generated__/LiveEditCommentFormContainer_story.graphql";
-import { LiveEditCommentFormContainer_viewer } from "coral-stream/__generated__/LiveEditCommentFormContainer_viewer.graphql";
 
 import LiveEditCommentForm from "./LiveEditCommentForm";
 import { LiveEditCommentMutation } from "./LiveEditCommentMutation";
@@ -38,22 +37,22 @@ interface Props {
   comment: LiveEditCommentFormContainer_comment;
   story: LiveEditCommentFormContainer_story;
   settings: LiveEditCommentFormContainer_settings;
-  viewer: LiveEditCommentFormContainer_viewer | null;
 
   autofocus: boolean;
 
   onClose: () => void;
   onRefreshSettings: (settings: { storyID: string }) => void;
+  ancestorID?: string;
 }
 
 const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
   comment,
   story,
   settings,
-  viewer,
   autofocus,
   onClose,
   onRefreshSettings,
+  ancestorID,
 }) => {
   const editComment = useMutation(LiveEditCommentMutation);
 
@@ -105,6 +104,8 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
             commentID: comment.id,
             body: input.body,
             media: input.media,
+            storyID: story.id,
+            ancestorID,
           })
         );
         if (status !== "RETRY") {
@@ -126,7 +127,7 @@ const LiveEditCommentFormContainer: FunctionComponent<Props> = ({
       }
       return;
     },
-    [comment.id, editComment, onClose, onRefreshSettings, story.id]
+    [ancestorID, comment.id, editComment, onClose, onRefreshSettings, story.id]
   );
 
   const handleOnCancelOrClose = useCallback(() => {
@@ -217,26 +218,17 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveEditCommentFormContainer_comment on Comment {
       id
       body
-      createdAt
-      author {
-        username
-      }
       editing {
         editableUntil
       }
       site {
         id
       }
-      revision {
-        id
-      }
-      ...LiveCommentBodyContainer_comment
     }
   `,
   story: graphql`
     fragment LiveEditCommentFormContainer_story on Story {
       id
-      ...LiveCommentBodyContainer_story
     }
   `,
   settings: graphql`
@@ -249,12 +241,6 @@ const enhanced = withFragmentContainer<Props>({
       rte {
         ...RTEContainer_config
       }
-      ...LiveCommentBodyContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment LiveEditCommentFormContainer_viewer on User {
-      ...LiveCommentBodyContainer_viewer
     }
   `,
 })(LiveEditCommentFormContainer);
