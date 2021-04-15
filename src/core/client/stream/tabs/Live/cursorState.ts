@@ -9,7 +9,7 @@ const computeKey = (storyID?: string | null, storyURL?: string | null) => {
   return `liveCursor:${storyID}:${storyURL}`;
 };
 
-export const getLatestCursor = async (
+export const getLatestCursorState = async (
   localStorage: PromisifiedStorage,
   storyID?: string | null,
   storyURL?: string | null
@@ -24,7 +24,7 @@ export const getLatestCursor = async (
   return currentCursor;
 };
 
-export const persistLatestCursor = async (
+export const persistLatestCursorState = async (
   localStorage: PromisifiedStorage,
   storyID: string | null,
   storyURL: string | null,

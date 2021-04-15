@@ -50,7 +50,7 @@ import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/L
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
-import { getLatestCursor, persistLatestCursor } from "./cursorState";
+import { getLatestCursorState, persistLatestCursorState } from "./cursorState";
 import InView from "./InView";
 import JumpToButton from "./JumpToButton";
 import LiveCommentContainer from "./LiveComment";
@@ -234,20 +234,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         return;
       }
 
-      const latestCursor = await getLatestCursor(
+      const latestCursorState = await getLatestCursorState(
         localStorage,
         storyID,
         storyURL
       );
 
       if (
-        !latestCursor ||
-        !latestCursor.cursor ||
-        (latestCursor &&
-          latestCursor.cursor &&
-          new Date(createdAt) > new Date(latestCursor.cursor))
+        !latestCursorState ||
+        !latestCursorState.cursor ||
+        (latestCursorState &&
+          latestCursorState.cursor &&
+          new Date(createdAt) > new Date(latestCursorState.cursor))
       ) {
-        await persistLatestCursor(localStorage, storyID, storyURL, {
+        await persistLatestCursorState(localStorage, storyID, storyURL, {
           cursor,
           createdAt,
         });
