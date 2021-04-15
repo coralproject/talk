@@ -58,7 +58,7 @@ const mutation = graphql`
       edge {
         cursor
         node {
-          ...LiveCommentContainer_comment
+          ...LiveReplyContainer_comment
           id
           status
           story {
@@ -68,14 +68,6 @@ const mutation = graphql`
               live {
                 enabled
               }
-            }
-            ...LiveCreateCommentMutation_story @relay(mask: false)
-          }
-          parent {
-            id
-            replyCount
-            tags {
-              code
             }
           }
         }
@@ -196,11 +188,8 @@ async function commit(
               cursor: currentDate,
               node: {
                 id,
-                enteredLive: false,
                 createdAt: currentDate,
                 status: "NONE",
-                pending: false,
-                lastViewerAction: null,
                 author: {
                   id: viewer.id,
                   username: viewer.username || null,
@@ -215,14 +204,12 @@ async function commit(
                   id: uuidGenerator(),
                   media: null,
                 },
-                rating: null,
                 parent: {
                   createdAt: parentComment.createdAt,
                   id: parentComment.id,
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
-                  tags: parentComment.tags,
                   body: parentComment.body,
                 },
                 editing: {
@@ -253,12 +240,7 @@ async function commit(
                 site: {
                   id: uuidGenerator(),
                 },
-                replies: {
-                  edges: [],
-                  viewNewEdges: [],
-                  pageInfo: { endCursor: null, hasNextPage: false },
-                },
-                deleted: false,
+                replyCount: 0,
               },
             },
             clientMutationId: (clientMutationId++).toString(),
