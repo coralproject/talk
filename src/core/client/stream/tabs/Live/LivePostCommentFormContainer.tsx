@@ -12,7 +12,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { usePersistedState } from "coral-framework/hooks";
+import { usePersistedSessionState } from "coral-framework/hooks";
 import {
   InvalidRequestError,
   ModerationNudgeError,
@@ -89,10 +89,10 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   const [nudge, setNudge] = useState(true);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
-  const [draft = "", setDraft, initialDraft] = usePersistedState<string>(
+  const [draft = "", setDraft, initialDraft] = usePersistedSessionState<string>(
     "LivePostCommentFormContainer:draft"
   );
-  const [, setToggle] = usePersistedState<Toggle>(
+  const [, setToggle] = usePersistedSessionState<Toggle>(
     "LivePostCommentFormContainer:toggle"
   );
 

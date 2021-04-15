@@ -50,7 +50,7 @@ import { LiveChatContainerBeforeCommentEdge } from "coral-stream/__generated__/L
 import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatContainerLocal.graphql";
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
-import { persistCursor } from "./cursorState";
+import { getLatestCursorState, persistLatestCursorState } from "./cursorState";
 import InView from "./InView";
 import JumpToButton from "./JumpToButton";
 import LiveCommentContainer from "./LiveComment";
@@ -121,7 +121,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     {
       storyID,
       storyURL,
-      liveChat: { tailing, latestCursor },
+      liveChat: { tailing },
     },
     setLocal,
   ] = useLocal<LiveChatContainerLocal>(graphql`
@@ -130,7 +130,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       storyURL
       liveChat {
         tailing
-        latestCursor
       }
     }
   `);
@@ -235,11 +234,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         return;
       }
 
+      const latestCursorState = await getLatestCursorState(
+        localStorage,
+        storyID,
+        storyURL
+      );
+
       if (
-        !latestCursor ||
-        (latestCursor && new Date(createdAt) > new Date(latestCursor))
+        !latestCursorState ||
+        !latestCursorState.cursor ||
+        (latestCursorState &&
+          latestCursorState.cursor &&
+          new Date(createdAt) > new Date(latestCursorState.cursor))
       ) {
-        await persistCursor(localStorage, setLocal, storyID, storyURL, {
+        await persistLatestCursorState(localStorage, storyID, storyURL, {
           cursor,
           createdAt,
         });
@@ -253,14 +261,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         setNewlyPostedComment(null);
       }
     },
-    [
-      latestCursor,
-      localStorage,
-      newlyPostedComment,
-      setLocal,
-      storyID,
-      storyURL,
-    ]
+    [localStorage, newlyPostedComment, storyID, storyURL]
   );
 
   const showConversation = useCallback(
