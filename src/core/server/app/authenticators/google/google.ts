@@ -27,7 +27,7 @@ interface Options {
 const GoogleUserProfileSchema = Joi.object().keys({
   sub: Joi.string().required(),
   picture: Joi.string().required(),
-  email: Joi.string().email(),
+  email: Joi.string().lowercase().email(),
 });
 
 interface GoogleUserProfile {

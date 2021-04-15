@@ -415,6 +415,13 @@ const config = convict({
     default: ms("3s"),
     env: "CREATE_COMMENT_RATE_LIMIT",
   },
+  mount_documentation: {
+    doc:
+      "Enables administrative documentation in production and development documentation in development.",
+    format: Boolean,
+    default: false,
+    env: "MOUNT_DOCUMENTATION",
+  },
 });
 
 export type Config = typeof config;
