@@ -678,7 +678,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             comment={editingComment.comment}
             story={story}
             settings={settings}
-            viewer={viewer}
             onClose={handleOnCloseEdit}
             onRefreshSettings={handleRefreshSettingsFromEdit}
             autofocus
@@ -739,7 +738,6 @@ const enhanced = withFragmentContainer<Props>({
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
       ...LiveConversationContainer_viewer
-      ...LiveEditCommentFormContainer_viewer
       ...SuspendedInfoContainer_viewer
       ...WarningContainer_viewer
     }

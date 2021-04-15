@@ -21,34 +21,12 @@ const mutation = graphql`
   mutation EditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
       comment {
+        ...MediaSectionContainer_comment @relay(mask: false)
         id
         body
         status
         revision {
           id
-          media {
-            __typename
-            ... on GiphyMedia {
-              url
-              title
-              width
-              height
-              still
-              video
-            }
-            ... on ExternalMedia {
-              url
-            }
-            ... on TwitterMedia {
-              url
-              width
-            }
-            ... on YouTubeMedia {
-              url
-              width
-              height
-            }
-          }
         }
         editing {
           edited
@@ -71,6 +49,7 @@ async function commit(
     commentID: input.commentID,
   });
   try {
+    const lookupComment = lookup<GQLComment>(environment, input.commentID)!;
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
@@ -86,13 +65,16 @@ async function commit(
             comment: {
               id: input.commentID,
               body: input.body,
-              status: lookup<GQLComment>(environment, input.commentID)!.status,
+              status: lookupComment.status,
               revision: {
                 id: uuidGenerator(),
                 media: null,
               },
               editing: {
                 edited: true,
+              },
+              site: {
+                id: lookupComment.site.id,
               },
             },
             clientMutationId: (clientMutationId++).toString(),

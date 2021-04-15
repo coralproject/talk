@@ -293,9 +293,9 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           {editingComment && editingComment.visible && (
             <LiveEditCommentFormContainer
               comment={editingComment.comment}
+              ancestorID={comment.id}
               story={story}
               settings={settings}
-              viewer={viewer}
               onClose={handleOnCloseEdit}
               onRefreshSettings={handleRefreshSettingsFromEdit}
               autofocus
@@ -334,7 +334,6 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...LiveCommentContainer_viewer
       ...LiveCreateCommentReplyFormContainer_viewer
-      ...LiveEditCommentFormContainer_viewer
     }
   `,
   settings: graphql`

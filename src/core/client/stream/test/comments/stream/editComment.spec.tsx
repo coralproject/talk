@@ -59,6 +59,9 @@ async function createTestRenderer(
             revision: {
               id: commentWithReplies.revision!.id,
             },
+            site: {
+              id: "siteID",
+            },
           },
           clientMutationId: data.input.clientMutationId,
         };
