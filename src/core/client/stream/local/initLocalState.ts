@@ -12,7 +12,7 @@ import {
   initLocalBaseState,
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
-import CursorState from "coral-stream/tabs/Live/cursorState";
+import { getLatestCursor } from "coral-stream/tabs/Live/cursorState";
 
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
@@ -90,13 +90,11 @@ const initLocalState: InitLocalState = async ({
   // Parse query params
   const query = parseQuery(location.search);
 
-  const key = `liveCursor:${query.storyID}:${query.storyURL}`;
-
-  const rawValue = await context.localStorage.getItem(key);
-  let currentCursor: CursorState | null = null;
-  if (rawValue) {
-    currentCursor = JSON.parse(rawValue);
-  }
+  const currentCursor = await getLatestCursor(
+    context.localStorage,
+    query.storyID,
+    query.storyURL
+  );
 
   commitLocalUpdate(environment, (source) => {
     const root = source.getRoot();
@@ -163,9 +161,8 @@ const initLocalState: InitLocalState = async ({
     );
     liveChatState.setValue(false, "tailing");
     liveChatState.setValue(false, "tailingConversation");
-    if (currentCursor) {
+    if (currentCursor && currentCursor.cursor) {
       liveChatState.setValue(currentCursor.cursor, "currentCursor");
-      liveChatState.setValue(currentCursor.cursor, "latestCursor");
     }
     localRecord.setLinkedRecord(liveChatState, "liveChat");
   });
