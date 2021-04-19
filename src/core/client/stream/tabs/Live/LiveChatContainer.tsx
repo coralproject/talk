@@ -40,7 +40,7 @@ import BannedInfo from "coral-stream/tabs/Comments/Stream/BannedInfo";
 import { SuspendedInfoContainer } from "coral-stream/tabs/Comments/Stream/SuspendedInfo";
 import WarningContainer from "coral-stream/tabs/Comments/Stream/Warning/WarningContainer";
 import { Flex, Icon } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { LiveChatContainer_settings } from "coral-stream/__generated__/LiveChatContainer_settings.graphql";
 import { LiveChatContainer_story } from "coral-stream/__generated__/LiveChatContainer_story.graphql";
@@ -381,6 +381,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment(null);
   }, [newlyPostedComment, setNewlyPostedComment]);
 
+  const jumpToTop = useCallback(() => {
+    setCursor(new Date(0).toISOString());
+  }, [setCursor]);
+
   const jumpToNew = useCallback(() => {
     if (!virtuoso.current) {
       throw new Error("Virtuoso ref was null");
@@ -693,6 +697,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             onSubmitted={handleCommentSubmitted}
           />
         )}
+        <div>
+          <Flex justifyContent="flex-end">
+            <Button
+              onClick={jumpToTop}
+              className={styles.footerAction}
+              variant="none"
+              fontSize="extraSmall"
+              paddingSize="extraSmall"
+              underline
+            >
+              Jump to top
+            </Button>
+          </Flex>
+        </div>
       </div>
     </>
   );

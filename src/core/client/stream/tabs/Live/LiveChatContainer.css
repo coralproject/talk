@@ -40,3 +40,10 @@
   margin-top: var(--spacing-1);
   margin-bottom: var(--spacing-1);
 }
+
+.footerAction {
+  border-width: 0px;
+  border-style: none;
+
+  color: var(--palette-primary-500);
+}
