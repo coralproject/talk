@@ -287,6 +287,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
               open={showReport}
               viewer={viewer}
               comment={comment}
+              variant="chat"
             />
           )}
         {showModerationCaret && (
@@ -294,7 +295,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             href={gotoModerateCommentHref}
             target="_blank"
             variant="flat"
-            fontSize="small"
+            fontSize="extraSmall"
             paddingSize="extraSmall"
           >
             Moderate
