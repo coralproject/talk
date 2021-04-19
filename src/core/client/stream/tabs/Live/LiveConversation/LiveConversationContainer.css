@@ -38,7 +38,10 @@
 .replyingToIcon {
   margin-right: var(--spacing-2);
 
+  font-size: 14px;
   color: var(--palette-grey-500);
+
+  transform: scaleX(-1) scaleY(-1);
 }
 
 .replyingTo {

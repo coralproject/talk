@@ -26,8 +26,8 @@ import { LiveConversationContainer_viewer } from "coral-stream/__generated__/Liv
 import { LiveConversationContainerLocal } from "coral-stream/__generated__/LiveConversationContainerLocal.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
+import ShortcutIcon from "../Icons/ShortcutIcon";
 import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
-import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
 
@@ -238,11 +238,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
 
           <div className={styles.title}>
             <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon
-                width="14px"
-                height="14px"
-                className={styles.replyingToIcon}
-              />
+              <ShortcutIcon className={styles.replyingToIcon} />
               <div className={styles.replyingTo}>Replying to</div>
               <div className={styles.username}>
                 {comment.author ? comment.author.username || "" : ""}

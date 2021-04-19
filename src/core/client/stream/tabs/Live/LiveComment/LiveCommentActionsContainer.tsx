@@ -25,7 +25,7 @@ import { LiveCommentActionsContainer_settings } from "coral-stream/__generated__
 import { LiveCommentActionsContainer_story } from "coral-stream/__generated__/LiveCommentActionsContainer_story.graphql";
 import { LiveCommentActionsContainer_viewer } from "coral-stream/__generated__/LiveCommentActionsContainer_viewer.graphql";
 
-import ShortcutIcon from "../ShortcutIcon";
+import ShortcutIcon from "../Icons/ShortcutIcon";
 
 import styles from "./LiveCommentActionsContainer.css";
 
@@ -195,12 +195,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             onClick={handleOnReply}
           >
             <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon
-                width="16px"
-                height="16px"
-                className={styles.replyIcon}
-                ariaLabel="Reply"
-              />
+              <ShortcutIcon className={styles.replyIcon} ariaLabel="Reply" />
               <Responsive minWidth={400}>
                 <span className={styles.action}>Reply</span>
               </Responsive>
