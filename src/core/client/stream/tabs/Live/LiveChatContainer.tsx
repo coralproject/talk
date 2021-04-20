@@ -598,7 +598,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
       <div className={styles.root}>
-        <div className={styles.topGradient}></div>
         <div className={styles.filler}></div>
         {story.status === GQLSTORY_STATUS.OPEN &&
           afterComments.length === 0 &&
@@ -686,9 +685,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           />
         )}
         <div className={styles.commentForm}>
-          {!conversationView.visible && (
-            <div className={styles.bottomGradient}></div>
-          )}
           {editingComment && editingComment.visible && (
             <LiveEditCommentFormContainer
               comment={editingComment.comment}
