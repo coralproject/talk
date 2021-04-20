@@ -23,6 +23,7 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 import {
+  LiveChatGoToStartEvent,
   LiveChatJumpToCommentEvent,
   LiveChatJumpToLiveEvent,
   LiveChatJumpToNewEvent,
@@ -381,9 +382,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setNewlyPostedComment(null);
   }, [newlyPostedComment, setNewlyPostedComment]);
 
-  const jumpToTop = useCallback(() => {
+  const handleGoToStart = useCallback(() => {
     setCursor(new Date(0).toISOString());
-  }, [setCursor]);
+
+    LiveChatGoToStartEvent.emit(eventEmitter, {
+      storyID: story.id,
+      viewerID: viewer ? viewer.id : "",
+    });
+  }, [eventEmitter, setCursor, story.id, viewer]);
 
   const jumpToNew = useCallback(() => {
     if (!virtuoso.current) {
@@ -698,16 +704,16 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           />
         )}
         <div>
-          <Flex justifyContent="flex-end">
+          <Flex justifyContent="flex-start">
             <Button
-              onClick={jumpToTop}
+              onClick={handleGoToStart}
               className={styles.footerAction}
               variant="none"
               fontSize="extraSmall"
               paddingSize="extraSmall"
               underline
             >
-              Jump to top
+              Go to start
             </Button>
           </Flex>
         </div>

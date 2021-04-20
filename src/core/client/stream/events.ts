@@ -718,3 +718,8 @@ export const LiveChatSubmitCommentWhenNotTailingEvent = createViewerEvent<{
   viewerID: string;
   commentID: string;
 }>("liveChatSubmitCommentWhenNotTailingEvent");
+
+export const LiveChatGoToStartEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatGoToStartEvent");
