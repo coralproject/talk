@@ -13,14 +13,14 @@
 
 .reportChat {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-1);
   line-height: 1;
 }
 
 .reportedChat {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-1);
   line-height: 1;
 
