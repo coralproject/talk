@@ -28,6 +28,8 @@ interface Props {
 
   containerClassName?: string;
   onCancel?: () => void;
+
+  truncateBody?: boolean;
 }
 
 const LiveCommentBodyContainer: FunctionComponent<Props> = ({
@@ -37,6 +39,7 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
   viewer,
   containerClassName,
   onCancel,
+  truncateBody,
 }) => {
   return (
     <Flex justifyContent="flex-start" alignItems="flex-start">
@@ -115,9 +118,15 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
           )}
         </div>
 
-        <HTMLContent className={cn(styles.body, CLASSES.comment.content)}>
-          {comment.body || ""}
-        </HTMLContent>
+        <div
+          className={cn({
+            [styles.truncatedBody]: truncateBody,
+          })}
+        >
+          <HTMLContent className={cn(styles.body, CLASSES.comment.content)}>
+            {comment.body || ""}
+          </HTMLContent>
+        </div>
       </div>
     </Flex>
   );

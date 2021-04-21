@@ -70,6 +70,18 @@
   margin-left: var(--spacing-2);
 }
 
+.truncatedBody {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+
+  line-height: 1.3rem;
+  max-height: calc(4 * 1.3rem);
+
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
 .body {
   font-size: var(--font-size-2);
   font-family: var(--font-family-primary);
