@@ -37,7 +37,8 @@ exports[`init local state 1`] = `
   \\"client:root.local.liveChat\\": {
     \\"__id\\": \\"client:root.local.liveChat\\",
     \\"__typename\\": \\"LiveChatState\\",
-    \\"tailing\\": false
+    \\"tailing\\": false,
+    \\"tailingConversation\\": false
   }
 }"
 `;
