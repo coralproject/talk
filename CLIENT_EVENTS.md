@@ -94,6 +94,7 @@ createComment.error
 - <a href="#featureComment">featureComment</a>
 - <a href="#gotoModeration">gotoModeration</a>
 - <a href="#ignoreUser">ignoreUser</a>
+- <a href="#liveChatGoToStart">liveChatGoToStart</a>
 - <a href="#liveChatJumpToComment">liveChatJumpToComment</a>
 - <a href="#liveChatJumpToLive">liveChatJumpToLive</a>
 - <a href="#liveChatJumpToNew">liveChatJumpToNew</a>
@@ -322,6 +323,13 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="liveChatGoToStart">**liveChatGoToStart**</a>: 
+  ```ts
+  {
+      storyID: string;
+      viewerID: string;
   }
   ```
 - <a id="liveChatJumpToComment">**liveChatJumpToComment**</a>: 
