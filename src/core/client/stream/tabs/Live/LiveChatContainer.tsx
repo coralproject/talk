@@ -728,6 +728,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveConversationContainer_story
       ...LiveCommentContainer_story
       ...LiveEditCommentFormContainer_story
+      ...LiveCreateCommentMutation_story
     }
   `,
   viewer: graphql`
@@ -741,6 +742,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveConversationContainer_viewer
       ...SuspendedInfoContainer_viewer
       ...WarningContainer_viewer
+      ...LiveCreateCommentMutation_viewer
     }
   `,
   settings: graphql`
