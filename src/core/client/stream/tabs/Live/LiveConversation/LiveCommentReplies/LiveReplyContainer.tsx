@@ -163,31 +163,10 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment LiveReplyContainer_comment on Comment {
       id
-      revision {
-        id
-      }
       author {
         id
         username
       }
-      body
-      createdAt
-      parent {
-        id
-        parent {
-          id
-        }
-        revision {
-          id
-        }
-        author {
-          id
-          username
-        }
-        createdAt
-        body
-      }
-      replyCount
       actionCounts {
         reaction {
           total

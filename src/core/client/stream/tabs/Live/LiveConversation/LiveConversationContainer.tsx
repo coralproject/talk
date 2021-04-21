@@ -324,6 +324,7 @@ const enhanced = withFragmentContainer<Props>({
       url
       ...LiveCreateCommentReplyFormContainer_story
       ...LiveEditCommentFormContainer_story
+      ...LiveCreateCommentReplyMutation_story
     }
   `,
   viewer: graphql`
@@ -334,6 +335,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...LiveCommentContainer_viewer
       ...LiveCreateCommentReplyFormContainer_viewer
+      ...LiveCreateCommentReplyMutation_viewer
     }
   `,
   settings: graphql`

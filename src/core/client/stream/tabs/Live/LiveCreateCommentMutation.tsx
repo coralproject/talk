@@ -30,7 +30,7 @@ import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.gr
 
 export type LiveCreateCommentInput = Omit<
   MutationInput<MutationTypes>,
-  "flattenReplies"
+  "flattenReplies" | "rating"
 > & {
   commentsOrderBy?: COMMENT_SORT;
   tag?: GQLTAG;
@@ -130,23 +130,8 @@ graphql`
 graphql`
   fragment LiveCreateCommentMutation_story on Story {
     id
-    viewerRating {
-      id
-      tags {
-        code
-      }
-      rating
-    }
     settings {
       moderation
-      mode
-      live {
-        enabled
-      }
-    }
-    ratings {
-      count
-      average
     }
   }
 `;
@@ -165,11 +150,6 @@ const mutation = graphql`
           }
           story {
             id
-            ratings {
-              count
-              average
-            }
-            ...LiveCreateCommentMutation_story @relay(mask: false)
           }
           ...LiveCommentContainer_comment
           ...LiveEditCommentFormContainer_comment
@@ -248,7 +228,6 @@ export const LiveCreateCommentMutation = createMutation(
               body: input.body || "",
               nudge: input.nudge,
               media: input.media,
-              rating: input.rating,
               clientMutationId: clientMutationId.toString(),
             },
           },
@@ -258,11 +237,8 @@ export const LiveCreateCommentMutation = createMutation(
                 cursor: currentDate,
                 node: {
                   id,
-                  enteredLive: false,
                   createdAt: currentDate,
                   status: "NONE",
-                  pending: false,
-                  lastViewerAction: null,
                   author: {
                     id: viewer.id,
                     username: viewer.username || null,
@@ -279,7 +255,6 @@ export const LiveCreateCommentMutation = createMutation(
                     id: uuidGenerator(),
                     media: null,
                   },
-                  rating: input.rating,
                   parent: null,
                   body: input.body || "",
                   editing: {
@@ -297,27 +272,10 @@ export const LiveCreateCommentMutation = createMutation(
                     dontAgree: false,
                     flag: false,
                   },
-                  replies: {
-                    edges: [],
-                    viewNewEdges: [],
-                    pageInfo: { endCursor: null, hasNextPage: false },
-                  },
                   story: {
                     id: input.storyID,
-                    settings: {
-                      moderation: storySettings.moderation,
-                      mode: storySettings.mode,
-                      live: {
-                        enabled: true,
-                      },
-                    },
-                    viewerRating: null,
-                    ratings: {
-                      count: 0,
-                      number: 0,
-                    },
                   },
-                  deleted: false,
+                  replyCount: 0,
                 },
               },
               clientMutationId: (clientMutationId++).toString(),
