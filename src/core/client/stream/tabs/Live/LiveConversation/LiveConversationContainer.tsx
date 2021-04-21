@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { commitLocalUpdate, graphql } from "react-relay";
 import { ConnectionHandler } from "relay-runtime";
 
@@ -82,10 +77,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     },
     [setLocal]
   );
-  // Initialize tailing on open, runs only once
-  useEffect(() => {
-    setTailing(false);
-  }, [setTailing]);
 
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
