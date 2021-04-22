@@ -6,8 +6,6 @@ import Responsive from "react-responsive";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import LiveReactIcon from "./LiveReactIcon";
-
 import styles from "./ReactionButton.css";
 
 interface ReactionButtonProps {
@@ -57,7 +55,9 @@ function render(props: ReactionButtonProps) {
     >
       <Flex alignItems="center" container="span">
         {props.isChat && (
-          <LiveReactIcon className={styles.icon} width="16" height="16" />
+          <Icon className={styles.icon}>
+            {reacted ? (iconActive ? iconActive : icon) : icon}
+          </Icon>
         )}
         {props.isQA && <Icon className={styles.icon}>arrow_upward</Icon>}
         {!props.isQA && !props.isChat && (
@@ -77,11 +77,15 @@ function render(props: ReactionButtonProps) {
             </span>
           </Responsive>
         )}
+
         {props.isChat && (
           <Responsive minWidth={400}>
-            <span>{reacted ? `Rec'd` : `Rec`}</span>
+            <span className={styles.chatLabel}>
+              {reacted ? labelActive : label}
+            </span>
           </Responsive>
         )}
+
         {!props.isQA && !props.isChat && (
           <Responsive minWidth={400}>
             <span>{reacted ? labelActive : label}</span>

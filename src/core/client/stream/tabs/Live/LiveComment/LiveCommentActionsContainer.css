@@ -17,9 +17,8 @@
 }
 
 .replyIcon {
-  transform: scaleX(-1);
-
   margin-right: var(--spacing-1);
+  font-size: 16px;
 }
 
 .conversationButton {

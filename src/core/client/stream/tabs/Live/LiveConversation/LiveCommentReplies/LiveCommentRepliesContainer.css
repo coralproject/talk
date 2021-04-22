@@ -4,6 +4,10 @@
   max-height: 300px;
 }
 
+.header {
+  border-bottom: solid 2px var(--palette-grey-300);
+}
+
 .comment {
   padding-top: var(--spacing-2);
 }

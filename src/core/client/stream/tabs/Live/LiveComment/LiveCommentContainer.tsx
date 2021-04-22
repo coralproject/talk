@@ -16,8 +16,8 @@ import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCo
 import { LiveCommentContainer_story } from "coral-stream/__generated__/LiveCommentContainer_story.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 
+import ShortcutIcon from "../Icons/ShortcutIcon";
 import InView from "../InView";
-import ShortcutIcon from "../ShortcutIcon";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
 import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
 
@@ -156,11 +156,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
         {comment.parent && (
           <div className={styles.parent}>
             <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon
-                width="36px"
-                height="20px"
-                className={styles.parentArrow}
-              />
+              <ShortcutIcon className={styles.parentArrow} />
               <Button
                 variant="none"
                 paddingSize="none"

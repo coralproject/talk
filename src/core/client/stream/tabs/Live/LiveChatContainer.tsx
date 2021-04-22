@@ -684,26 +684,26 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             onClose={handleCloseConversation}
           />
         )}
-        {editingComment && editingComment.visible && (
-          <LiveEditCommentFormContainer
-            comment={editingComment.comment}
-            story={story}
-            settings={settings}
-            onClose={handleOnCloseEdit}
-            onRefreshSettings={handleRefreshSettingsFromEdit}
-            autofocus
-          />
-        )}
-        {!editingComment && showCommentForm && (
-          <LivePostCommentFormContainer
-            settings={settings}
-            story={story}
-            viewer={viewer}
-            commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
-            onSubmitted={handleCommentSubmitted}
-          />
-        )}
-        <div>
+        <div className={styles.commentForm}>
+          {editingComment && editingComment.visible && (
+            <LiveEditCommentFormContainer
+              comment={editingComment.comment}
+              story={story}
+              settings={settings}
+              onClose={handleOnCloseEdit}
+              onRefreshSettings={handleRefreshSettingsFromEdit}
+              autofocus
+            />
+          )}
+          {!editingComment && showCommentForm && (
+            <LivePostCommentFormContainer
+              settings={settings}
+              story={story}
+              viewer={viewer}
+              commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
+              onSubmitted={handleCommentSubmitted}
+            />
+          )}
           <Flex justifyContent="flex-start">
             <Button
               onClick={handleGoToStart}

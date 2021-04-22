@@ -10,3 +10,19 @@
 
   color: var(--palette-error-500);
 }
+
+.reportChat {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-1);
+  line-height: 1;
+}
+
+.reportedChat {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-1);
+  line-height: 1;
+
+  color: var(--palette-error-500);
+}
