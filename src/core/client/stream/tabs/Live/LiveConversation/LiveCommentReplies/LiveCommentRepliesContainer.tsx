@@ -233,7 +233,11 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <div className={styles.comment}>
+      <div
+        className={cn(styles.comment, {
+          [styles.header]: beforeComments.length + afterComments.length > 0,
+        })}
+      >
         <LiveReplyContainer
           story={story}
           comment={comment}

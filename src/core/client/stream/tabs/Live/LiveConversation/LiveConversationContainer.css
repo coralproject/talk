@@ -38,7 +38,10 @@
 .replyingToIcon {
   margin-right: var(--spacing-2);
 
+  font-size: 14px;
   color: var(--palette-grey-500);
+
+  transform: scaleX(-1) scaleY(-1);
 }
 
 .replyingTo {
@@ -114,4 +117,9 @@
   border-bottom-left-radius: 0px;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+
+.commentForm {
+  border-top: solid 1px var(--palette-grey-300);
+  padding-top: var(--spacing-2);
 }
