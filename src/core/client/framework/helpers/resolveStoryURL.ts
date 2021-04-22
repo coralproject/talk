@@ -14,15 +14,15 @@ function resolveStoryURL() {
   );
 
   // ensure that urls are encoded properly and lowercase
-  let pathname = window.location.pathname
+  let pathname = window.location.pathname;
   // if the pathname is already encoded, decode it
   // this keeps percent escapes uppercase
-  if(pathname !== decodeURIComponent(pathname || '')){
-    pathname = decodeURI(pathname)
+  if(pathname !== decodeURIComponent(pathname || "")){
+    pathname = decodeURI(pathname);
   }
   // first make the path lowercase and then encode it again
-  pathname = pathname.toLowerCase()
-  pathname = encodeURI(pathname)
+  pathname = pathname.toLowerCase();
+  pathname = encodeURI(pathname);
 
   return getLocationOrigin() + pathname;
 }
