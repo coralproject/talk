@@ -1,42 +1,73 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
-import { commitLocalUpdate, graphql } from "react-relay";
-import { ConnectionHandler } from "relay-runtime";
+import cn from "classnames";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { graphql } from "react-relay";
+import { Virtuoso } from "react-virtuoso";
 
-import { waitFor } from "coral-common/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
-  deleteConnection,
   useLocal,
+  useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { LiveChatJumpToReplyEvent } from "coral-stream/events";
-import { ClickOutside, Flex, Icon } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
+import {
+  LiveChatJumpToReplyEvent,
+  LiveChatRepliesLoadAfterEvent,
+  LiveChatRepliesLoadBeforeEvent,
+} from "coral-stream/events";
+import { ClickOutside, Flex, Icon, Spinner } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { GQLUSER_STATUS } from "coral-framework/schema/__generated__/types";
+import { LiveConversationContainer_afterComments } from "coral-stream/__generated__/LiveConversationContainer_afterComments.graphql";
+import { LiveConversationContainer_beforeComments } from "coral-stream/__generated__/LiveConversationContainer_beforeComments.graphql";
 import { LiveConversationContainer_comment } from "coral-stream/__generated__/LiveConversationContainer_comment.graphql";
+import { LiveConversationContainer_commentDeferred } from "coral-stream/__generated__/LiveConversationContainer_commentDeferred.graphql";
 import { LiveConversationContainer_settings } from "coral-stream/__generated__/LiveConversationContainer_settings.graphql";
 import { LiveConversationContainer_story } from "coral-stream/__generated__/LiveConversationContainer_story.graphql";
 import { LiveConversationContainer_viewer } from "coral-stream/__generated__/LiveConversationContainer_viewer.graphql";
 import { LiveConversationContainerLocal } from "coral-stream/__generated__/LiveConversationContainerLocal.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
+import useColdStart from "../helpers/useColdStart";
 import ShortcutIcon from "../Icons/ShortcutIcon";
+import JumpToButton from "../JumpToButton";
 import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
-import LiveCommentRepliesQuery from "./LiveCommentReplies/LiveCommentRepliesQuery";
+import LiveSkeleton from "../LiveSkeleton";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
+import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
+import LiveReplyContainer from "./LiveReplyContainer";
 
 import styles from "./LiveConversationContainer.css";
 
+const START_INDEX = 100000;
+const OVERSCAN = { main: 500, reverse: 500 };
 interface Props {
   settings: LiveConversationContainer_settings;
   viewer: LiveConversationContainer_viewer | null;
   story: LiveConversationContainer_story;
   comment: LiveConversationContainer_comment;
+  commentDeferred: LiveConversationContainer_commentDeferred | null;
 
-  visible?: boolean;
+  beforeComments: LiveConversationContainer_beforeComments;
+  beforeHasMore: boolean;
+  loadMoreBefore: () => Promise<void>;
+  isLoadingMoreBefore: boolean;
+
+  afterComments: LiveConversationContainer_afterComments;
+  afterHasMore: boolean;
+  loadMoreAfter: () => Promise<void>;
+  isLoadingMoreAfter: boolean;
+
+  setCursor: (cursor: string) => void;
   onClose: () => void;
-  onSubmitted?: (commentID: string | undefined, cursor: string) => void;
+  error: string;
+  isLoading: boolean;
+  afterHasMoreFromMutation: boolean;
 }
 
 interface NewComment {
@@ -54,11 +85,22 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   viewer,
   story,
   comment,
+  commentDeferred,
   onClose,
-  onSubmitted,
-  visible,
+  setCursor,
+  isLoading,
+  error,
+  beforeComments,
+  afterComments,
+  afterHasMore,
+  beforeHasMore,
+  isLoadingMoreAfter,
+  isLoadingMoreBefore,
+  loadMoreAfter,
+  loadMoreBefore,
+  afterHasMoreFromMutation,
 }) => {
-  const { eventEmitter, relayEnvironment } = useCoralContext();
+  const { eventEmitter } = useCoralContext();
   const [
     {
       liveChat: { tailingConversation: tailing },
@@ -93,49 +135,12 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     onClose();
   }, [onClose, setTailing]);
 
-  const [cursor, setCursor] = useState(new Date(0).toISOString());
-
   const [
     editingComment,
     setEditingComment,
   ] = useState<EditingCommentViewState | null>(null);
 
-  // The pagination container wouldn't allow us to start a new connection
-  // by refetching with a different cursor. So we delete the connection first,
-  // before starting the refetch.
-  const deleteConnectionsAndSetCursor = useCallback(
-    async (s: string) => {
-      // Setting empty cursor will trigger loading state and stops rendering any of the
-      // pagination containers.
-      setCursor("");
-      // Wait for loading state to render.
-      await waitFor(0);
-      // Clear current connections, this will cause data to be stale and invalid,
-      // no problems though, because we are in loading state and not rendering the
-      // full tree.
-      commitLocalUpdate(relayEnvironment, async (store) => {
-        const commentRecord = store.get(comment.id)!;
-        const chatAfter = ConnectionHandler.getConnection(
-          commentRecord,
-          "Replies_after"
-        );
-        const chatBefore = ConnectionHandler.getConnection(
-          commentRecord,
-          "Replies_before"
-        );
-
-        if (chatBefore) {
-          deleteConnection(store, chatBefore.getDataID());
-        }
-        if (chatAfter) {
-          deleteConnection(store, chatAfter.getDataID());
-        }
-      });
-      // Now reload with a new cursor.
-      setCursor(s);
-    },
-    [comment.id, relayEnvironment]
-  );
+  const editingCommentID = editingComment?.comment.id;
 
   const submit = useCallback(
     (commentID: string | undefined, cur: string) => {
@@ -145,18 +150,14 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           cursor: cur,
         });
       }
-
-      if (onSubmitted) {
-        onSubmitted(commentID, cur);
-      }
     },
-    [onSubmitted, tailing]
+    [tailing]
   );
 
   const jumpToReply = useCallback(() => {
     if (newlyPostedReply && newlyPostedReply.cursor) {
       setNewlyPostedReply(null);
-      void deleteConnectionsAndSetCursor(newlyPostedReply.cursor);
+      setCursor(newlyPostedReply.cursor);
 
       LiveChatJumpToReplyEvent.emit(eventEmitter, {
         storyID: story.id,
@@ -164,17 +165,11 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
         viewerID: viewer ? viewer.id : "",
       });
     }
-  }, [
-    deleteConnectionsAndSetCursor,
-    eventEmitter,
-    newlyPostedReply,
-    story.id,
-    viewer,
-  ]);
+  }, [setCursor, eventEmitter, newlyPostedReply, story.id, viewer]);
 
   const handleJumpToLive = useCallback(() => {
-    void deleteConnectionsAndSetCursor(new Date().toISOString());
-  }, [deleteConnectionsAndSetCursor]);
+    setCursor(new Date().toISOString());
+  }, [setCursor]);
 
   const closeJumpToReply = useCallback(() => {
     if (!newlyPostedReply) {
@@ -210,13 +205,148 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     []
   );
 
-  if (!visible) {
-    return null;
-  }
+  const [height, setHeight] = useState(0);
+  const subscribeToCommentEntered = useSubscription(
+    LiveReplyCommentEnteredSubscription
+  );
+  const activeSubscription = !afterHasMore || afterHasMoreFromMutation;
+  useEffect(() => {
+    if (!activeSubscription) {
+      return;
+    }
+    const disposable = subscribeToCommentEntered({
+      storyID: story.id,
+      ancestorID: comment.id,
+    });
 
-  if (!comment.revision) {
-    return null;
-  }
+    return () => {
+      disposable.dispose();
+    };
+  }, [story.id, comment.id, subscribeToCommentEntered, activeSubscription]);
+
+  const handleAtTopStateChange = useCallback(
+    (atTop: boolean) => {
+      if (atTop && beforeHasMore && !isLoadingMoreBefore) {
+        // TODO: (cvle) Better load more UX.
+        void loadMoreBefore();
+        LiveChatRepliesLoadBeforeEvent.emit(eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
+    },
+    [
+      beforeHasMore,
+      eventEmitter,
+      isLoadingMoreBefore,
+      loadMoreBefore,
+      story.id,
+      viewer,
+    ]
+  );
+  const handleAtBottomStateChange = useCallback(
+    (atBottom: boolean) => {
+      if (atBottom && afterHasMore && !isLoadingMoreAfter) {
+        void loadMoreAfter();
+        LiveChatRepliesLoadAfterEvent.emit(eventEmitter, {
+          storyID: story.id,
+          viewerID: viewer ? viewer.id : "",
+        });
+      }
+      setTailing(atBottom);
+    },
+    [
+      afterHasMore,
+      eventEmitter,
+      isLoadingMoreAfter,
+      loadMoreAfter,
+      setTailing,
+      story.id,
+      viewer,
+    ]
+  );
+
+  // Render an item or a loading indicator.
+  const itemContent = useCallback(
+    (index) => {
+      index = index - (START_INDEX - beforeComments.length);
+      if (index < 0) {
+        throw new Error(`Unexpected index < 0, was '${index}'`);
+      }
+      if (index < beforeComments.length) {
+        const e = beforeComments[index];
+        return (
+          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+            <Flex justifyContent="flex-start" alignItems="stretch">
+              <div className={styles.replyMarker}></div>
+              <LiveReplyContainer
+                story={story}
+                comment={e.node}
+                viewer={viewer}
+                settings={settings}
+                onInView={handleCommentInView}
+                onEdit={handleOnEdit}
+                editing={editingCommentID === e.node.id}
+                onCancelEditing={handleOnCloseEdit}
+              />
+            </Flex>
+          </div>
+        );
+      } else if (index < beforeComments.length + afterComments.length) {
+        const e = afterComments[index - beforeComments.length];
+        return (
+          <div
+            key={`chat-reply-${e.node.id}`}
+            className={cn(
+              styles.comment,
+              editingCommentID === e.node.id ? styles.highlight : ""
+            )}
+          >
+            <Flex justifyContent="flex-start" alignItems="stretch">
+              <div className={styles.replyMarker}></div>
+              <div
+                className={
+                  editingCommentID === e.node.id
+                    ? styles.bodyHighlighted
+                    : styles.body
+                }
+              >
+                <LiveReplyContainer
+                  story={story}
+                  comment={e.node}
+                  viewer={viewer}
+                  settings={settings}
+                  onInView={handleCommentInView}
+                  onEdit={handleOnEdit}
+                  editing={editingCommentID === e.node.id}
+                  onCancelEditing={handleOnCloseEdit}
+                />
+              </div>
+            </Flex>
+          </div>
+        );
+      } else if (index === beforeComments.length + afterComments.length) {
+        return <LiveSkeleton />;
+      } else {
+        throw new Error(`Index out of bounds: ${index}`);
+      }
+    },
+    [
+      afterComments,
+      beforeComments,
+      editingCommentID,
+      handleCommentInView,
+      handleOnCloseEdit,
+      handleOnEdit,
+      settings,
+      story,
+      viewer,
+    ]
+  );
+
+  // We define a period at the beginning as cold start, where
+  // different state might not yet be stable.
+  const coldStart = useColdStart();
 
   return (
     <>
@@ -232,26 +362,74 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
               <ShortcutIcon className={styles.replyingToIcon} />
               <div className={styles.replyingTo}>Replying to</div>
               <div className={styles.username}>
-                {comment.author ? comment.author.username || "" : ""}
+                {commentDeferred?.author?.username || ""}
               </div>
             </Flex>
           </div>
 
-          <LiveCommentRepliesQuery
-            commentID={comment.id}
-            storyID={story.id}
-            cursor={cursor}
-            tailing={!!tailing}
-            setTailing={setTailing}
-            onCommentInView={handleCommentInView}
-            onEdit={handleOnEdit}
-            onCancelEdit={handleOnCloseEdit}
-            editingCommentID={
-              editingComment ? editingComment.comment.id : undefined
-            }
-            newlyPostedReply={!!newlyPostedReply}
-            onJumpToLive={handleJumpToLive}
-          />
+          {isLoading && <Spinner />}
+          {error && (
+            <CallOut
+              color="error"
+              title={error}
+              titleWeight="semiBold"
+              icon={<Icon>error</Icon>}
+            />
+          )}
+
+          {!isLoading && commentDeferred && (
+            <div>
+              <div
+                className={cn(styles.comment, {
+                  [styles.header]:
+                    beforeComments.length + afterComments.length > 0,
+                })}
+              >
+                <LiveReplyContainer
+                  story={story}
+                  comment={commentDeferred}
+                  viewer={viewer}
+                  settings={settings}
+                  onInView={handleCommentInView}
+                  truncateBody
+                />
+              </div>
+              <Virtuoso
+                className={styles.replies}
+                style={{ height }}
+                firstItemIndex={START_INDEX - beforeComments.length}
+                totalCount={
+                  beforeComments.length +
+                  afterComments.length +
+                  (isLoadingMoreAfter ? 1 : 0)
+                }
+                initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+                itemContent={itemContent}
+                alignToBottom
+                followOutput="smooth"
+                overscan={OVERSCAN}
+                atTopStateChange={handleAtTopStateChange}
+                atBottomStateChange={handleAtBottomStateChange}
+                totalListHeightChanged={(h) => {
+                  if (height >= 300) {
+                    return;
+                  }
+                  setHeight(h);
+                }}
+              />
+              {!newlyPostedReply &&
+                !tailing &&
+                afterHasMore &&
+                !afterHasMoreFromMutation &&
+                !coldStart && (
+                  <JumpToButton onClick={handleJumpToLive}>
+                    <>
+                      Jump to live <Icon>arrow_downward</Icon>
+                    </>
+                  </JumpToButton>
+                )}
+            </div>
+          )}
 
           {newlyPostedReply && (
             <div className={styles.scrollToNewReply}>
@@ -276,7 +454,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
               </Flex>
             </div>
           )}
-
           <div className={styles.commentForm}>
             {editingComment && editingComment.visible && (
               <LiveEditCommentFormContainer
@@ -289,7 +466,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                 autofocus
               />
             )}
-            {!editingComment && showReplyForm && (
+            {!editingComment && showReplyForm && comment.revision && (
               <LiveCreateCommentReplyFormContainer
                 settings={settings}
                 viewer={viewer}
@@ -311,6 +488,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveConversationContainer_story on Story {
       id
       url
+      ...LiveReplyContainer_story
       ...LiveCreateCommentReplyFormContainer_story
       ...LiveEditCommentFormContainer_story
       ...LiveCreateCommentReplyMutation_story
@@ -322,14 +500,14 @@ const enhanced = withFragmentContainer<Props>({
       status {
         current
       }
-      ...LiveCommentContainer_viewer
+      ...LiveReplyContainer_viewer
       ...LiveCreateCommentReplyFormContainer_viewer
       ...LiveCreateCommentReplyMutation_viewer
     }
   `,
   settings: graphql`
     fragment LiveConversationContainer_settings on Settings {
-      ...LiveCommentContainer_settings
+      ...LiveReplyContainer_settings
       ...LiveCreateCommentReplyFormContainer_settings
       ...LiveEditCommentFormContainer_settings
     }
@@ -340,6 +518,10 @@ const enhanced = withFragmentContainer<Props>({
       revision {
         id
       }
+    }
+  `,
+  commentDeferred: graphql`
+    fragment LiveConversationContainer_commentDeferred on Comment {
       author {
         id
         username
@@ -353,6 +535,37 @@ const enhanced = withFragmentContainer<Props>({
         }
         createdAt
         body
+      }
+      ...LiveReplyContainer_comment
+    }
+  `,
+  beforeComments: graphql`
+    fragment LiveConversationContainer_beforeComments on CommentEdge
+      @relay(plural: true) {
+      cursor
+      node {
+        id
+        body
+        createdAt
+        author {
+          username
+        }
+        ...LiveReplyContainer_comment
+      }
+    }
+  `,
+  afterComments: graphql`
+    fragment LiveConversationContainer_afterComments on CommentEdge
+      @relay(plural: true) {
+      cursor
+      node {
+        id
+        body
+        createdAt
+        author {
+          username
+        }
+        ...LiveReplyContainer_comment
       }
     }
   `,

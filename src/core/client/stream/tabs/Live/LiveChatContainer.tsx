@@ -16,7 +16,6 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS, GQLUSER_STATUS } from "coral-framework/schema";
-import { PropTypesOf } from "coral-framework/types";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 import {
   LiveChatGoToStartEvent,
@@ -55,7 +54,7 @@ import LiveCommentContainer from "./LiveComment";
 import { CommentPosition } from "./LiveComment/LiveCommentContainer";
 import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
-import LiveConversationContainer from "./LiveConversation/LiveConversationContainer";
+import LiveConversationQuery from "./LiveConversation/LiveConversationQuery";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
@@ -64,7 +63,10 @@ import styles from "./LiveChatContainer.css";
 
 interface ConversationViewState {
   visible: boolean;
-  comment?: PropTypesOf<typeof LiveConversationContainer>["comment"] | null;
+  comment?:
+    | LiveCommentContainer_comment
+    | NonNullable<LiveCommentContainer_comment["parent"]>
+    | null;
   type?: "conversation" | "parent" | "reply" | "replyToParent";
 }
 
@@ -668,12 +670,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </Flex>
 
         {conversationView.visible && conversationView.comment && (
-          <LiveConversationContainer
+          <LiveConversationQuery
             settings={settings}
             viewer={viewer}
             story={story}
             comment={conversationView.comment}
-            visible={conversationView.visible}
             onClose={handleCloseConversation}
           />
         )}
@@ -741,7 +742,7 @@ const enhanced = withFragmentContainer<Props>({
       url
       status
       ...LivePostCommentFormContainer_story
-      ...LiveConversationContainer_story
+      ...LiveConversationQuery_story
       ...LiveCommentContainer_story
       ...LiveEditCommentFormContainer_story
       ...LiveCreateCommentMutation_story
@@ -755,7 +756,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...LivePostCommentFormContainer_viewer
       ...LiveCommentContainer_viewer
-      ...LiveConversationContainer_viewer
+      ...LiveConversationQuery_viewer
       ...SuspendedInfoContainer_viewer
       ...WarningContainer_viewer
       ...LiveCreateCommentMutation_viewer
@@ -765,7 +766,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveChatContainer_settings on Settings {
       ...LivePostCommentFormContainer_settings
       ...LiveCommentContainer_settings
-      ...LiveConversationContainer_settings
+      ...LiveConversationQuery_settings
       ...LiveEditCommentFormContainer_settings
       ...SuspendedInfoContainer_settings
     }

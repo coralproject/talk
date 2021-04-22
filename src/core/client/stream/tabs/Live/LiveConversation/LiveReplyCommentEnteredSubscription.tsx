@@ -11,7 +11,7 @@ import {
 import { isPublished } from "coral-stream/tabs/shared/helpers";
 
 import { LiveReplyCommentEnteredSubscription } from "coral-stream/__generated__/LiveReplyCommentEnteredSubscription.graphql";
-import insertReplyToAncestor from "../../helpers/insertReplyToAncestor";
+import insertReplyToAncestor from "../helpers/insertReplyToAncestor";
 
 function liveInsertionEnabled(environment: Environment): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;

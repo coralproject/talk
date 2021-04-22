@@ -10,7 +10,7 @@ import { LiveCommentRepliesBeforeContainer_comment } from "coral-stream/__genera
 import { LiveCommentRepliesBeforeContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesBeforeContainer_viewer.graphql";
 import { LiveCommentRepliesBeforeContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesBeforeContainerPaginationQuery.graphql";
 
-import filterIgnoredComments from "../../helpers/filterIgnoredComments";
+import filterIgnoredComments from "../helpers/filterIgnoredComments";
 
 interface RenderProps {
   beforeComments: LiveCommentRepliesBeforeContainer_comment["before"]["edges"];
@@ -91,7 +91,7 @@ const enhanced = withPaginationContainer<
           inclusive: true
         ) @connection(key: "Replies_before", filters: []) {
           edges {
-            ...LiveCommentRepliesContainerBeforeCommentEdge
+            ...LiveConversationContainer_beforeComments
             node {
               author {
                 id
