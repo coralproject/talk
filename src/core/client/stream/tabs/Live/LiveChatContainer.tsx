@@ -78,7 +78,6 @@ interface Props {
 
   afterComments: LiveChatContainerAfterCommentEdge;
   afterHasMore: boolean;
-  afterHasMoreFromMutation: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 
@@ -109,7 +108,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   afterComments,
   afterHasMore,
-  afterHasMoreFromMutation,
   loadMoreAfter,
   isLoadingMoreAfter,
   viewer,
@@ -192,10 +190,9 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     LiveCommentEnteredSubscription
   );
 
-  const activeSubscription = !afterHasMore || afterHasMoreFromMutation;
   useEffect(() => {
     // There is no need for checking tailing here.
-    if (!activeSubscription) {
+    if (afterHasMore) {
       return;
     }
     const disposable = subscribeToCommentEntered({ storyID: story.id });
@@ -203,7 +200,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, subscribeToCommentEntered, activeSubscription]);
+  }, [story.id, subscribeToCommentEntered, afterHasMore]);
 
   const subscribeToCommentEdited = useSubscription(
     LiveCommentEditedSubscription
@@ -641,7 +638,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           {!newlyPostedComment &&
             !tailing &&
             afterHasMore &&
-            !afterHasMoreFromMutation &&
             !coldStart &&
             !cursorInView &&
             (!mostRecentViewedPosition ||
@@ -659,8 +655,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             !newlyPostedComment &&
             !tailing &&
             !coldStart &&
-            afterHasMore &&
-            !afterHasMoreFromMutation && (
+            afterHasMore && (
               <JumpToButton onClick={jumpToLive}>
                 <>
                   Jump to live <Icon>arrow_downward</Icon>

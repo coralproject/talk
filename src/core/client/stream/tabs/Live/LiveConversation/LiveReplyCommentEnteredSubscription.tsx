@@ -11,7 +11,7 @@ import {
 import { isPublished } from "coral-stream/tabs/shared/helpers";
 
 import { LiveReplyCommentEnteredSubscription } from "coral-stream/__generated__/LiveReplyCommentEnteredSubscription.graphql";
-import insertReplyToAncestor from "../helpers/insertReplyToAncestor";
+import handleNewReplyInConversation from "../helpers/handleNewReplyInConversation";
 
 function liveInsertionEnabled(environment: Environment): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
@@ -68,9 +68,8 @@ const LiveReplyCommentEnteredSubscription = createSubscription(
         }
         comment.setValue(true, "enteredLive");
 
-        insertReplyToAncestor(store, variables.ancestorID, comment, {
+        handleNewReplyInConversation(store, variables.ancestorID, comment, {
           liveInsertion: liveInsertionEnabled(environment),
-          fromMutation: false,
         });
       },
     });

@@ -2,8 +2,7 @@ import { RecordProxy } from "relay-runtime";
 
 export default function markHasNextPage(
   afterConnection: RecordProxy,
-  beforeConnection: RecordProxy | null | undefined,
-  fromMutation: boolean
+  beforeConnection: RecordProxy | null | undefined
 ) {
   const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
   // Should not be falsy because Relay uses this information to determine
@@ -20,5 +19,4 @@ export default function markHasNextPage(
     pageInfoAfter.setValue(endCursor, "endCursor");
   }
   pageInfoAfter.setValue(true, "hasNextPage");
-  pageInfoAfter.setValue(fromMutation, "hasNextPageFromMutation");
 }

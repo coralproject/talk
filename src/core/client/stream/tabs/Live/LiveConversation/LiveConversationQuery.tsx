@@ -94,7 +94,6 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
     beforeHasMore: false,
     isLoadingMoreBefore: false,
     loadMoreBefore: () => Promise.resolve(),
-    afterHasMoreFromMutation: false,
   };
 
   if (!cursor) {
@@ -151,7 +150,6 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
                   afterHasMore,
                   loadMoreAfter,
                   isLoadingMoreAfter,
-                  afterHasMoreFromMutation,
                 }) => (
                   <LiveConversationContainer
                     {...props}
@@ -163,7 +161,6 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
                     afterHasMore={afterHasMore}
                     loadMoreAfter={loadMoreAfter}
                     isLoadingMoreAfter={isLoadingMoreAfter}
-                    afterHasMoreFromMutation={afterHasMoreFromMutation}
                   />
                 )}
               </LiveCommentRepliesAfterContainer>

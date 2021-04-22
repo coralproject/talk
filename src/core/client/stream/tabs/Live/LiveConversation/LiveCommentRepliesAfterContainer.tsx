@@ -15,7 +15,6 @@ import filterIgnoredComments from "../helpers/filterIgnoredComments";
 interface RenderProps {
   afterComments: LiveCommentRepliesAfterContainer_comment["after"]["edges"];
   afterHasMore: boolean;
-  afterHasMoreFromMutation: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 }
@@ -42,11 +41,6 @@ const LiveCommentRepliesAfterContainer: FunctionComponent<Props> = ({
     comment.after && comment.after.pageInfo
       ? comment.after.pageInfo.hasNextPage
       : false;
-  const afterHasMoreFromMutation = Boolean(
-    comment.after && comment.after.pageInfo
-      ? comment.after.pageInfo.hasNextPageFromMutation
-      : false
-  );
 
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
@@ -65,7 +59,6 @@ const LiveCommentRepliesAfterContainer: FunctionComponent<Props> = ({
   return children({
     afterComments: filtered,
     afterHasMore,
-    afterHasMoreFromMutation,
     loadMoreAfter: loadMore,
     isLoadingMoreAfter: isLoadingMore,
   });
@@ -105,7 +98,6 @@ const enhanced = withPaginationContainer<
           }
           pageInfo {
             hasNextPage
-            hasNextPageFromMutation
           }
         }
       }

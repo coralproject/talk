@@ -67,7 +67,6 @@ interface Props {
   onClose: () => void;
   error: string;
   isLoading: boolean;
-  afterHasMoreFromMutation: boolean;
 }
 
 interface NewComment {
@@ -98,7 +97,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   loadMoreAfter,
   loadMoreBefore,
-  afterHasMoreFromMutation,
 }) => {
   const { eventEmitter } = useCoralContext();
   const [
@@ -209,9 +207,8 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
   );
-  const activeSubscription = !afterHasMore || afterHasMoreFromMutation;
   useEffect(() => {
-    if (!activeSubscription) {
+    if (afterHasMore) {
       return;
     }
     const disposable = subscribeToCommentEntered({
@@ -222,7 +219,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, comment.id, subscribeToCommentEntered, activeSubscription]);
+  }, [story.id, comment.id, subscribeToCommentEntered, afterHasMore]);
 
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
@@ -417,17 +414,13 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   setHeight(h);
                 }}
               />
-              {!newlyPostedReply &&
-                !tailing &&
-                afterHasMore &&
-                !afterHasMoreFromMutation &&
-                !coldStart && (
-                  <JumpToButton onClick={handleJumpToLive}>
-                    <>
-                      Jump to live <Icon>arrow_downward</Icon>
-                    </>
-                  </JumpToButton>
-                )}
+              {!newlyPostedReply && !tailing && afterHasMore && !coldStart && (
+                <JumpToButton onClick={handleJumpToLive}>
+                  <>
+                    Jump to live <Icon>arrow_downward</Icon>
+                  </>
+                </JumpToButton>
+              )}
             </div>
           )}
 

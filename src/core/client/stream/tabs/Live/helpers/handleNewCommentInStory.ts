@@ -7,13 +7,12 @@ import {
 import insertComment from "./insertComment";
 import markHasNextPage from "./markHasNextPage";
 
-export default function insertCommentToStory(
+export default function handleNewCommentInStory(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   comment: RecordProxy,
   options: {
     liveInsertion?: boolean;
-    fromMutation?: boolean;
   } = {}
 ) {
   const story = store.get(storyID)!;
@@ -21,17 +20,20 @@ export default function insertCommentToStory(
   if (!afterConnection) {
     return;
   }
+  const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
+  const hasNextPage = pageInfoAfter.getValue("hasNextPage")!;
+
   const beforeConnection = ConnectionHandler.getConnection(
     story,
     "Chat_before"
   );
   if (options.liveInsertion) {
-    insertComment(store, comment, afterConnection);
-  } else {
-    markHasNextPage(
-      afterConnection,
-      beforeConnection,
-      Boolean(options.fromMutation)
-    );
+    if (!hasNextPage) {
+      insertComment(store, comment, afterConnection);
+    }
+    return;
+  }
+  if (!hasNextPage) {
+    markHasNextPage(afterConnection, beforeConnection);
   }
 }

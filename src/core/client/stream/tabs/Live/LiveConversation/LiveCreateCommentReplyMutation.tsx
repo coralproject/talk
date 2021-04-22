@@ -6,7 +6,6 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
-  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
@@ -16,8 +15,8 @@ import { CreateCommentReplyEvent } from "coral-stream/events";
 import { LiveCreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/LiveCreateCommentReplyMutation.graphql";
 import { LiveCreateCommentReplyMutation_viewer } from "coral-stream/__generated__/LiveCreateCommentReplyMutation_viewer.graphql";
 
-import insertCommentToStory from "../helpers/insertCommentToStory";
-import insertReplyToAncestor from "../helpers/insertReplyToAncestor";
+import handleNewCommentInStory from "../helpers/handleNewCommentInStory";
+import handleNewReplyInConversation from "../helpers/handleNewReplyInConversation";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -75,8 +74,7 @@ let clientMutationId = 0;
 
 function sharedUpdater(
   store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentReplyInput,
-  isTailing: boolean
+  input: LiveCreateCommentReplyInput
 ) {
   const commentEdge = store
     .getRootField("createCommentReply")!
@@ -87,13 +85,11 @@ function sharedUpdater(
   const node = commentEdge.getLinkedRecord("node")!;
   commentEdge.setValue(node.getValue("createdAt"), "cursor");
 
-  insertCommentToStory(store, input.storyID, node, {
-    liveInsertion: false,
-    fromMutation: true,
+  handleNewCommentInStory(store, input.storyID, node, {
+    liveInsertion: true,
   });
-  insertReplyToAncestor(store, input.parentID, node, {
-    liveInsertion: isTailing,
-    fromMutation: true,
+  handleNewReplyInConversation(store, input.parentID, node, {
+    liveInsertion: true,
   });
 }
 
@@ -120,8 +116,6 @@ async function commit(
     body: input.body,
     parentID: input.parentID,
   });
-
-  const isTailing = lookup(environment, LOCAL_ID).liveChat.tailingConversation;
 
   try {
     // TODO: use correct optimistic response.
@@ -205,11 +199,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(store, input, isTailing);
+          sharedUpdater(store, input);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(store, input, isTailing);
+          sharedUpdater(store, input);
         },
       }
     );
