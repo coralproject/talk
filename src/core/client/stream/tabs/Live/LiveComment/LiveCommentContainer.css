@@ -29,6 +29,11 @@
 
 .parentArrow {
   color: var(--palette-grey-600);
+  transform: scaleX(-1) scaleY(-1);
+  font-size: 20px;
+  width: 20px;
+  margin-left: 6px;
+  margin-right: 8px;
 }
 
 .parentUser {

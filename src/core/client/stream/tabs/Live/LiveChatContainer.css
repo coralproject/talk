@@ -3,6 +3,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  border-top: solid 2px var(--palette-grey-300);
 }
 
 .streamContainer {
@@ -46,4 +49,13 @@
   border-style: none;
 
   color: var(--palette-primary-500);
+}
+
+.stream {
+  position: relative;
+}
+
+.commentForm {
+  border-top: solid 1px var(--palette-grey-300);
+  padding-top: var(--spacing-2);
 }

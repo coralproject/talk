@@ -25,6 +25,8 @@ interface Props {
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
+
+  variant?: "chat" | "regular";
 }
 
 const ReportButton: FunctionComponent<Props> = ({
@@ -33,6 +35,7 @@ const ReportButton: FunctionComponent<Props> = ({
   comment,
   viewer,
   open,
+  variant = "regular",
 }) => {
   const isLoggedIn = !!viewer;
 
@@ -52,10 +55,10 @@ const ReportButton: FunctionComponent<Props> = ({
         attrs={{ "aria-label": true }}
       >
         <div
-          className={cn(
-            CLASSES.comment.actionBar.reportedButton,
-            styles.reported
-          )}
+          className={cn(CLASSES.comment.actionBar.reportedButton, {
+            [styles.reported]: variant === "regular",
+            [styles.reportedChat]: variant === "chat",
+          })}
           data-testid="comment-reported-button"
         >
           <Flex alignItems="center">
@@ -84,7 +87,9 @@ const ReportButton: FunctionComponent<Props> = ({
       $username={comment.author ? comment.author.username : ""}
     >
       <Button
-        className={cn(CLASSES.comment.actionBar.reportButton)}
+        className={cn(CLASSES.comment.actionBar.reportButton, {
+          [styles.reportChat]: variant === "chat",
+        })}
         variant={open ? "filled" : "flat"}
         active={Boolean(open)}
         color="secondary"

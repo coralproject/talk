@@ -30,6 +30,8 @@ interface Props {
   onEdit?: (comment: LiveReplyContainer_comment) => void;
   editing?: boolean;
   onCancelEditing?: () => void;
+
+  truncateBody?: boolean;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -41,6 +43,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   onEdit,
   editing,
   onCancelEditing,
+  truncateBody,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -114,6 +117,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           story={story}
           containerClassName={editing ? styles.highlight : ""}
           onCancel={editing ? onCancelEditing : undefined}
+          truncateBody={truncateBody}
         />
 
         <div id={`reply-${comment.id}`}>
