@@ -118,3 +118,8 @@
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
+.commentForm {
+  border-top: solid 1px var(--palette-grey-300);
+  padding-top: var(--spacing-2);
+}

@@ -57,5 +57,5 @@
 
 .commentForm {
   border-top: solid 1px var(--palette-grey-300);
-  padding-top: var(--spacing-1);
+  padding-top: var(--spacing-2);
 }

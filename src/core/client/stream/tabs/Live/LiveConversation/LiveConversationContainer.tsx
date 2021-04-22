@@ -286,27 +286,29 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
             </div>
           )}
 
-          {editingComment && editingComment.visible && (
-            <LiveEditCommentFormContainer
-              comment={editingComment.comment}
-              ancestorID={comment.id}
-              story={story}
-              settings={settings}
-              onClose={handleOnCloseEdit}
-              onRefreshSettings={handleRefreshSettingsFromEdit}
-              autofocus
-            />
-          )}
-          {!editingComment && showReplyForm && (
-            <LiveCreateCommentReplyFormContainer
-              settings={settings}
-              viewer={viewer}
-              story={story}
-              parentID={comment.id}
-              parentRevisionID={comment.revision.id}
-              onSubmitted={submit}
-            />
-          )}
+          <div className={styles.commentForm}>
+            {editingComment && editingComment.visible && (
+              <LiveEditCommentFormContainer
+                comment={editingComment.comment}
+                ancestorID={comment.id}
+                story={story}
+                settings={settings}
+                onClose={handleOnCloseEdit}
+                onRefreshSettings={handleRefreshSettingsFromEdit}
+                autofocus
+              />
+            )}
+            {!editingComment && showReplyForm && (
+              <LiveCreateCommentReplyFormContainer
+                settings={settings}
+                viewer={viewer}
+                story={story}
+                parentID={comment.id}
+                parentRevisionID={comment.revision.id}
+                onSubmitted={submit}
+              />
+            )}
+          </div>
         </div>
       </ClickOutside>
     </>
