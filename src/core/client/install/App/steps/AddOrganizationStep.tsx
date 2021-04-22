@@ -12,6 +12,7 @@ import {
   required,
   validateEmail,
   validateURL,
+  validateURLStart,
 } from "coral-framework/lib/validation";
 import {
   CallOut,
@@ -141,7 +142,7 @@ class AddOrganizationStep extends React.Component<Props> {
 
               <Field
                 name="siteURL"
-                validate={composeValidators(required, validateURL)}
+                validate={composeValidators(required, validateURL, validateURLStart)}
               >
                 {({ input, meta }) => (
                   <FormField>
