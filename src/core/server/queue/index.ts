@@ -42,10 +42,6 @@ const createQueueOptions = (config: Config): Queue.QueueOptions => {
     // together to support the atomic operations. See:
     //  https://redis.io/topics/cluster-tutorial
     prefix: "{queue}",
-
-    settings: {
-      maxStalledCount: 0,
-    },
   };
 };
 
