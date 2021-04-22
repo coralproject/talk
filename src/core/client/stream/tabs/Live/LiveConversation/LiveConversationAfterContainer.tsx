@@ -6,14 +6,14 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 
-import { LiveCommentRepliesAfterContainer_comment } from "coral-stream/__generated__/LiveCommentRepliesAfterContainer_comment.graphql";
-import { LiveCommentRepliesAfterContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesAfterContainer_viewer.graphql";
-import { LiveCommentRepliesAfterContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveCommentRepliesAfterContainerPaginationQuery.graphql";
+import { LiveConversationAfterContainer_comment } from "coral-stream/__generated__/LiveConversationAfterContainer_comment.graphql";
+import { LiveConversationAfterContainer_viewer } from "coral-stream/__generated__/LiveConversationAfterContainer_viewer.graphql";
+import { LiveConversationAfterContainerPaginationQueryVariables } from "coral-stream/__generated__/LiveConversationAfterContainerPaginationQuery.graphql";
 
 import filterIgnoredComments from "../helpers/filterIgnoredComments";
 
 interface RenderProps {
-  afterComments: LiveCommentRepliesAfterContainer_comment["after"]["edges"];
+  afterComments: LiveConversationAfterContainer_comment["after"]["edges"];
   afterHasMore: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
@@ -22,14 +22,14 @@ interface RenderProps {
 type RenderPropsCallback = (props: RenderProps) => React.ReactElement;
 
 interface Props {
-  comment: LiveCommentRepliesAfterContainer_comment;
-  viewer: LiveCommentRepliesAfterContainer_viewer | null;
+  comment: LiveConversationAfterContainer_comment;
+  viewer: LiveConversationAfterContainer_viewer | null;
   relay: RelayPaginationProp;
   cursor: string;
   children: RenderPropsCallback;
 }
 
-const LiveCommentRepliesAfterContainer: FunctionComponent<Props> = ({
+const LiveConversationAfterContainer: FunctionComponent<Props> = ({
   comment,
   viewer,
   relay,
@@ -65,18 +65,18 @@ const LiveCommentRepliesAfterContainer: FunctionComponent<Props> = ({
 };
 
 type FragmentVariables = Omit<
-  LiveCommentRepliesAfterContainerPaginationQueryVariables,
+  LiveConversationAfterContainerPaginationQueryVariables,
   "storyID"
 >;
 
 const enhanced = withPaginationContainer<
   Props,
-  LiveCommentRepliesAfterContainerPaginationQueryVariables,
+  LiveConversationAfterContainerPaginationQueryVariables,
   FragmentVariables
 >(
   {
     comment: graphql`
-      fragment LiveCommentRepliesAfterContainer_comment on Comment
+      fragment LiveConversationAfterContainer_comment on Comment
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
@@ -103,7 +103,7 @@ const enhanced = withPaginationContainer<
       }
     `,
     viewer: graphql`
-      fragment LiveCommentRepliesAfterContainer_viewer on User {
+      fragment LiveConversationAfterContainer_viewer on User {
         id
         ignoredUsers {
           id
@@ -127,19 +127,19 @@ const enhanced = withPaginationContainer<
       };
     },
     query: graphql`
-      query LiveCommentRepliesAfterContainerPaginationQuery(
+      query LiveConversationAfterContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
         $commentID: ID!
       ) {
         comment(id: $commentID) {
           id
-          ...LiveCommentRepliesAfterContainer_comment
+          ...LiveConversationAfterContainer_comment
             @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
-)(LiveCommentRepliesAfterContainer);
+)(LiveConversationAfterContainer);
 
 export default enhanced;

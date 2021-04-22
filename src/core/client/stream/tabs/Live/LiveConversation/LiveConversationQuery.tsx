@@ -17,8 +17,8 @@ import { LiveConversationQuery_settings } from "coral-stream/__generated__/LiveC
 import { LiveConversationQuery_story } from "coral-stream/__generated__/LiveConversationQuery_story.graphql";
 import { LiveConversationQuery_viewer } from "coral-stream/__generated__/LiveConversationQuery_viewer.graphql";
 
-import LiveCommentRepliesAfterContainer from "./LiveCommentRepliesAfterContainer";
-import LiveCommentRepliesBeforeContainer from "./LiveCommentRepliesBeforeContainer";
+import LiveConversationAfterContainer from "./LiveConversationAfterContainer";
+import LiveConversationBeforeContainer from "./LiveConversationBeforeContainer";
 import LiveConversationContainer from "./LiveConversationContainer";
 
 interface Props {
@@ -105,9 +105,9 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
       query={graphql`
         query LiveConversationQuery($commentID: ID!, $cursor: Cursor) {
           comment(id: $commentID) {
-            ...LiveCommentRepliesBeforeContainer_comment
+            ...LiveConversationBeforeContainer_comment
               @arguments(cursor: $cursor)
-            ...LiveCommentRepliesAfterContainer_comment
+            ...LiveConversationAfterContainer_comment
               @arguments(cursor: $cursor)
             ...LiveConversationContainer_commentDeferred
           }
@@ -129,7 +129,7 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
           return <LiveConversationContainer {...props} />;
         }
         return (
-          <LiveCommentRepliesBeforeContainer
+          <LiveConversationBeforeContainer
             comment={data.props!.comment!}
             viewer={viewer}
             cursor={cursor}
@@ -140,7 +140,7 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
               loadMoreBefore,
               isLoadingMoreBefore,
             }) => (
-              <LiveCommentRepliesAfterContainer
+              <LiveConversationAfterContainer
                 comment={data.props!.comment!}
                 viewer={viewer}
                 cursor={cursor}
@@ -163,9 +163,9 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
                     isLoadingMoreAfter={isLoadingMoreAfter}
                   />
                 )}
-              </LiveCommentRepliesAfterContainer>
+              </LiveConversationAfterContainer>
             )}
-          </LiveCommentRepliesBeforeContainer>
+          </LiveConversationBeforeContainer>
         );
       }}
     />
@@ -181,8 +181,8 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LiveConversationQuery_viewer on User {
       ...LiveConversationContainer_viewer
-      ...LiveCommentRepliesBeforeContainer_viewer
-      ...LiveCommentRepliesAfterContainer_viewer
+      ...LiveConversationBeforeContainer_viewer
+      ...LiveConversationAfterContainer_viewer
     }
   `,
   settings: graphql`

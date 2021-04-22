@@ -480,7 +480,6 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveConversationContainer_story on Story {
       id
-      url
       ...LiveReplyContainer_story
       ...LiveCreateCommentReplyFormContainer_story
       ...LiveEditCommentFormContainer_story
@@ -516,18 +515,7 @@ const enhanced = withFragmentContainer<Props>({
   commentDeferred: graphql`
     fragment LiveConversationContainer_commentDeferred on Comment {
       author {
-        id
         username
-      }
-      body
-      createdAt
-      parent {
-        author {
-          id
-          username
-        }
-        createdAt
-        body
       }
       ...LiveReplyContainer_comment
     }
@@ -535,14 +523,8 @@ const enhanced = withFragmentContainer<Props>({
   beforeComments: graphql`
     fragment LiveConversationContainer_beforeComments on CommentEdge
       @relay(plural: true) {
-      cursor
       node {
         id
-        body
-        createdAt
-        author {
-          username
-        }
         ...LiveReplyContainer_comment
       }
     }
@@ -550,14 +532,8 @@ const enhanced = withFragmentContainer<Props>({
   afterComments: graphql`
     fragment LiveConversationContainer_afterComments on CommentEdge
       @relay(plural: true) {
-      cursor
       node {
         id
-        body
-        createdAt
-        author {
-          username
-        }
         ...LiveReplyContainer_comment
       }
     }

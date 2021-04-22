@@ -54,7 +54,7 @@ import LiveCommentContainer from "./LiveComment";
 import { CommentPosition } from "./LiveComment/LiveCommentContainer";
 import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
-import LiveConversationQuery from "./LiveConversation/LiveConversationQuery";
+import { LiveConversationQuery } from "./LiveConversation";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
