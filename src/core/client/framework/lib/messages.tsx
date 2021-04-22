@@ -84,6 +84,12 @@ export const INVALID_URL = () => (
   </Localized>
 );
 
+export const INVALID_URL_START = () => (
+  <Localized id="framework-validation-invalidURLStart">
+    <span>Be sure to include http:// or https:// in your URL</span>
+  </Localized>
+);
+
 export const NOT_A_WHOLE_NUMBER = () => (
   <Localized id="framework-validation-notAWholeNumber">
     <span>Please enter a valid whole number</span>
