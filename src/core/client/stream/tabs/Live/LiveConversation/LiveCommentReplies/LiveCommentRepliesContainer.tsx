@@ -240,6 +240,7 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           viewer={viewer}
           settings={settings}
           onInView={onCommentInView}
+          truncateBody
         />
       </div>
       <Virtuoso
