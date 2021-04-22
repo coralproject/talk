@@ -19,6 +19,7 @@ import {
   INVALID_EMAIL,
   INVALID_MEDIA_URL,
   INVALID_URL,
+  INVALID_URL_START,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
   NOT_A_WHOLE_NUMBER,
   NOT_A_WHOLE_NUMBER_BETWEEN,
@@ -105,6 +106,18 @@ export const validateURL = createValidator(
   (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
+
+/**
+ * validateURLStart is a Validator that checks that the URL starts with 'http'.
+ */
+export const validateURLStart = createValidator((v) => {
+
+  if (!startsWith(v, "http")) {
+    return false;
+  }
+
+  return true;
+}, INVALID_URL_START());
 
 /**
  * validateMinLength is a Validator that checks that the field has a min length of characters
@@ -249,7 +262,23 @@ export const validatePercentage = (min: number, max: number) =>
 export const validateDeleteConfirmation = (phrase: string) =>
   createValidator((v) => v === phrase, DELETE_CONFIRMATION_INVALID());
 
-export const validateStrictURLList = createValidator((v) => {
+/**
+* validateURLListStart is a validator that checks if a list of URLs all begin with 'http'.
+*/
+export const validateURLListStart = createValidator((v) => {
+  for (const url of v) {
+    if (!startsWith(url, "http")) {
+      return false;
+    }
+  }
+
+  return true;
+}, INVALID_URL_START());
+
+/*
+* validateWeakURLList is validator that Checks if a list of URLs are all valid URLs.
+*/
+export const validateWeakURLList = createValidator((v) => {
   if (!Array.isArray(v)) {
     return false;
   }
@@ -262,14 +291,19 @@ export const validateStrictURLList = createValidator((v) => {
     if (!URL_REGEX.test(url)) {
       return false;
     }
-
-    if (!startsWith(url, "http")) {
-      return false;
-    }
   }
 
   return true;
 }, INVALID_URL());
+
+/**
+ * validateStrictURLList is a validator that checks if a list
+ * of URLs are all valid and start with 'http'
+ */
+ export const validateStrictURLList = composeValidators(
+  validateWeakURLList,
+  validateURLListStart
+);
 
 /**
  * Condition represents a given check that can be performed for the purpose of
