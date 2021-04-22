@@ -111,7 +111,6 @@ export const validateURL = createValidator(
  * validateURLStart is a Validator that checks that the URL starts with 'http'.
  */
 export const validateURLStart = createValidator((v) => {
-
   if (!startsWith(v, "http")) {
     return false;
   }
@@ -263,9 +262,9 @@ export const validateDeleteConfirmation = (phrase: string) =>
   createValidator((v) => v === phrase, DELETE_CONFIRMATION_INVALID());
 
 /**
-* validateURLListStart is a validator that checks if a list of URLs all begin with 'http'.
-*/
-export const validateURLListStart = createValidator((v) => {
+ * validateURLListStart is a validator that checks if a list of URLs all begin with 'http'.
+ */
+ export const validateURLListStart = createValidator((v) => {
   for (const url of v) {
     if (!startsWith(url, "http")) {
       return false;
@@ -276,9 +275,9 @@ export const validateURLListStart = createValidator((v) => {
 }, INVALID_URL_START());
 
 /*
-* validateWeakURLList is validator that Checks if a list of URLs are all valid URLs.
-*/
-export const validateWeakURLList = createValidator((v) => {
+ * validateWeakURLList is validator that Checks if a list of URLs are all valid URLs.
+ */
+ export const validateWeakURLList = createValidator((v) => {
   if (!Array.isArray(v)) {
     return false;
   }
@@ -301,8 +300,8 @@ export const validateWeakURLList = createValidator((v) => {
  * of URLs are all valid and start with 'http'
  */
  export const validateStrictURLList = composeValidators(
-  validateWeakURLList,
-  validateURLListStart
+ validateWeakURLList,
+ validateURLListStart
 );
 
 /**
