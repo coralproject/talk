@@ -1,13 +1,13 @@
 import { pick } from "lodash";
 import { Environment, graphql } from "react-relay";
-import { ConnectionHandler, RecordSourceSelectorProxy } from "relay-runtime";
-import { getConnection } from "relay-runtime/lib/handlers/connection/ConnectionHandler";
+import { RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
@@ -16,6 +16,9 @@ import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { LiveCreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/LiveCreateCommentReplyMutation.graphql";
 import { LiveCreateCommentReplyMutation_viewer } from "coral-stream/__generated__/LiveCreateCommentReplyMutation_viewer.graphql";
+
+import insertCommentToStory from "../helpers/insertCommentToStory";
+import insertReplyToAncestor from "../helpers/insertReplyToAncestor";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -35,12 +38,6 @@ graphql`
     role
     badges
     createdAt
-    status {
-      current
-      ban {
-        active
-      }
-    }
   }
 `;
 /** end */
@@ -48,9 +45,7 @@ graphql`
 export type LiveCreateCommentReplyInput = Omit<
   MutationInput<MutationTypes>,
   "flattenReplies"
-> & {
-  local?: boolean;
-};
+>;
 
 const mutation = graphql`
   mutation LiveCreateCommentReplyMutation($input: CreateCommentReplyInput!) {
@@ -79,65 +74,27 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function insertIntoLiveChat(
-  environment: Environment,
-  store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentReplyInput
-) {
-  const commentEdge = store
-    .getRootField("createCommentReply")!
-    .getLinkedRecord("edge")!;
-
-  if (!commentEdge) {
-    return;
-  }
-
-  const node = commentEdge.getLinkedRecord("node");
-  commentEdge.setValue(node!.getValue("createdAt"), "cursor");
-
-  const streamProxy = store.get(input.storyID)!;
-  const connectionKey = "Chat_after";
-
-  const connection = getConnection(streamProxy, connectionKey);
-
-  if (connection) {
-    ConnectionHandler.insertEdgeAfter(connection, commentEdge);
-  }
-}
-
-function insertIntoReplyChat(
-  environment: Environment,
-  store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentReplyInput
-) {
-  const commentEdge = store
-    .getRootField("createCommentReply")!
-    .getLinkedRecord("edge")!;
-
-  if (!commentEdge) {
-    return;
-  }
-
-  commentEdge.setValue(new Date().toISOString(), "cursor");
-
-  const connectionKey = "Replies_after";
-  const comment = commentEdge.getLinkedRecord("node")!;
-  const parent = comment.getLinkedRecord("parent")!;
-
-  const connection = getConnection(parent, connectionKey);
-
-  if (connection) {
-    ConnectionHandler.insertEdgeAfter(connection, commentEdge);
-  }
-}
-
 function sharedUpdater(
-  environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentReplyInput
+  input: LiveCreateCommentReplyInput,
+  isTailing: boolean
 ) {
-  insertIntoLiveChat(environment, store, input);
-  insertIntoReplyChat(environment, store, input);
+  const commentEdge = store
+    .getRootField("createCommentReply")!
+    .getLinkedRecord("edge")!;
+  if (!commentEdge) {
+    return;
+  }
+  const node = commentEdge.getLinkedRecord("node")!;
+
+  insertCommentToStory(store, input.storyID, node, {
+    liveInsertion: false,
+    fromMutation: true,
+  });
+  insertReplyToAncestor(store, input.parentID, node, {
+    liveInsertion: isTailing,
+    fromMutation: true,
+  });
 }
 
 async function commit(
@@ -164,6 +121,8 @@ async function commit(
     body: input.body,
     parentID: input.parentID,
   });
+
+  const isTailing = lookup(environment, LOCAL_ID).liveChat.tailingConversation;
 
   try {
     // TODO: use correct optimistic response.
@@ -252,11 +211,11 @@ async function commit(
           if (expectPremoderation) {
             return;
           }
-          sharedUpdater(environment, store, input);
+          sharedUpdater(store, input, isTailing);
           store.get(id)!.setValue(true, "pending");
         },
         updater: (store) => {
-          sharedUpdater(environment, store, input);
+          sharedUpdater(store, input, isTailing);
         },
       }
     );

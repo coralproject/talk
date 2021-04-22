@@ -39,8 +39,6 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   cursor,
-  tailing,
-  setTailing,
   onCommentInView,
   onEdit,
   onCancelEdit,
@@ -68,6 +66,7 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
           {({
             afterComments,
             afterHasMore,
+            afterHasMoreFromMutation,
             loadMoreAfter,
             isLoadingMoreAfter,
           }) => (
@@ -78,14 +77,13 @@ const LiveCommentRepliesStreamContainer: FunctionComponent<Props> = ({
               isLoadingMoreBefore={isLoadingMoreBefore}
               afterComments={afterComments}
               afterHasMore={afterHasMore}
+              afterHasMoreFromMutation={afterHasMoreFromMutation}
               loadMoreAfter={loadMoreAfter}
               isLoadingMoreAfter={isLoadingMoreAfter}
               comment={comment}
               viewer={viewer}
               settings={settings}
               story={story}
-              tailing={tailing}
-              setTailing={setTailing}
               onCommentInView={onCommentInView}
               onEdit={onEdit}
               onCancelEdit={onCancelEdit}

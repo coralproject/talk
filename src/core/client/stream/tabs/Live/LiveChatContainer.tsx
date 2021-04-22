@@ -15,11 +15,7 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT,
-  GQLSTORY_STATUS,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
+import { GQLSTORY_STATUS, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 import {
@@ -52,6 +48,7 @@ import { LiveChatContainerLocal } from "coral-stream/__generated__/LiveChatConta
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
 
 import { getLatestCursorState, persistLatestCursorState } from "./cursorState";
+import useColdStart from "./helpers/useColdStart";
 import InView from "./InView";
 import JumpToButton from "./JumpToButton";
 import LiveCommentContainer from "./LiveComment";
@@ -79,6 +76,7 @@ interface Props {
 
   afterComments: LiveChatContainerAfterCommentEdge;
   afterHasMore: boolean;
+  afterHasMoreFromMutation: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 
@@ -109,13 +107,13 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   afterComments,
   afterHasMore,
+  afterHasMoreFromMutation,
   loadMoreAfter,
   isLoadingMoreAfter,
   viewer,
   settings,
   story,
   setCursor,
-  cursor: currentCursor,
 }) => {
   const { localStorage, eventEmitter } = useCoralContext();
   const [
@@ -186,23 +184,16 @@ const LiveChatContainer: FunctionComponent<Props> = ({
 
   // We define a period at the beginning as cold start, where
   // different state might not yet be stable.
-  const [coldStart, setColdStart] = useState(true);
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setColdStart(false);
-    }, 1000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+  const coldStart = useColdStart();
 
   const subscribeToCommentEntered = useSubscription(
     LiveCommentEnteredSubscription
   );
 
+  const activeSubscription = !afterHasMore || afterHasMoreFromMutation;
   useEffect(() => {
     // There is no need for checking tailing here.
-    if (afterHasMore) {
+    if (!activeSubscription) {
       return;
     }
     const disposable = subscribeToCommentEntered({ storyID: story.id });
@@ -210,7 +201,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     return () => {
       disposable.dispose();
     };
-  }, [story.id, subscribeToCommentEntered, afterHasMore]);
+  }, [story.id, subscribeToCommentEntered, activeSubscription]);
 
   const subscribeToCommentEdited = useSubscription(
     LiveCommentEditedSubscription
@@ -648,6 +639,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           {!newlyPostedComment &&
             !tailing &&
             afterHasMore &&
+            !afterHasMoreFromMutation &&
             !coldStart &&
             !cursorInView &&
             (!mostRecentViewedPosition ||
@@ -665,7 +657,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             !newlyPostedComment &&
             !tailing &&
             !coldStart &&
-            afterHasMore && (
+            afterHasMore &&
+            !afterHasMoreFromMutation && (
               <JumpToButton onClick={jumpToLive}>
                 <>
                   Jump to live <Icon>arrow_downward</Icon>
@@ -700,7 +693,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               settings={settings}
               story={story}
               viewer={viewer}
-              commentsOrderBy={GQLCOMMENT_SORT.CREATED_AT_ASC}
               onSubmitted={handleCommentSubmitted}
             />
           )}
