@@ -1,16 +1,12 @@
 import { graphql } from "react-relay";
-import {
-  ConnectionHandler,
-  Environment,
-  RecordProxy,
-  RecordSourceSelectorProxy,
-} from "relay-runtime";
+import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
@@ -26,29 +22,29 @@ import incrementTagCommentCounts from "coral-stream/tabs/shared/helpers/incremen
 import { LiveCreateCommentMutation as MutationTypes } from "coral-stream/__generated__/LiveCreateCommentMutation.graphql";
 import { LiveCreateCommentMutation_story } from "coral-stream/__generated__/LiveCreateCommentMutation_story.graphql";
 import { LiveCreateCommentMutation_viewer } from "coral-stream/__generated__/LiveCreateCommentMutation_viewer.graphql";
-import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
+
+import insertCommentToStory from "./helpers/insertCommentToStory";
 
 export type LiveCreateCommentInput = Omit<
   MutationInput<MutationTypes>,
   "flattenReplies" | "rating"
 > & {
-  commentsOrderBy?: COMMENT_SORT;
   tag?: GQLTAG;
 };
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentInput
+  input: LiveCreateCommentInput,
+  isTailing: boolean
 ) {
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
 
-  const node = commentEdge.getLinkedRecord("node");
-  commentEdge.setValue(node!.getValue("createdAt"), "cursor");
-
-  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+  const node = commentEdge.getLinkedRecord("node")!;
+  commentEdge.setValue(node.getValue("createdAt"), "cursor");
+  const status = node.getValue("status");
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
     return;
@@ -60,50 +56,11 @@ function sharedUpdater(
 
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
-  addCommentToStory(store, input, commentEdge);
-}
 
-function getConnection(
-  streamProxy: RecordProxy | null,
-  connectionKey: string,
-  filters?: any
-) {
-  if (!streamProxy) {
-    return null;
-  }
-
-  const con = ConnectionHandler.getConnection(
-    streamProxy,
-    connectionKey,
-    filters
-  );
-
-  return con;
-}
-
-/**
- * update integrates new comment into the CommentConnection.
- */
-function addCommentToStory(
-  store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentInput,
-  commentEdge: RecordProxy
-) {
-  // Get stream proxy.
-  const streamProxy = store.get(input.storyID)!;
-  const connectionKey = "Chat_after";
-
-  if (input.commentsOrderBy === "CREATED_AT_ASC") {
-    const con = getConnection(streamProxy, connectionKey, {});
-    if (con) {
-      ConnectionHandler.insertEdgeAfter(con, commentEdge);
-    }
-  } else {
-    const con = getConnection(streamProxy, connectionKey, {});
-    if (con) {
-      ConnectionHandler.insertEdgeBefore(con, commentEdge);
-    }
-  }
+  insertCommentToStory(store, input.storyID, node, {
+    liveInsertion: isTailing,
+    fromMutation: true,
+  });
 }
 
 /** These are needed to be included when querying for the stream. */
@@ -117,12 +74,6 @@ graphql`
     createdAt
     role
     username
-    status {
-      current
-      ban {
-        active
-      }
-    }
   }
 `;
 
@@ -181,6 +132,8 @@ export const LiveCreateCommentMutation = createMutation(
     if (!storySettings || !storySettings.moderation) {
       throw new Error("Moderation mode of the story was not included");
     }
+
+    const isTailing = lookup(environment, LOCAL_ID).liveChat.tailing;
 
     // TODO: Generate and use schema types.
     const expectPremoderation =
@@ -287,11 +240,11 @@ export const LiveCreateCommentMutation = createMutation(
             if (expectPremoderation) {
               return;
             }
-            sharedUpdater(environment, store, { ...input, tag });
+            sharedUpdater(environment, store, { ...input, tag }, isTailing);
             store.get(id)!.setValue(true, "pending");
           },
           updater: (store) => {
-            sharedUpdater(environment, store, { ...input, tag });
+            sharedUpdater(environment, store, { ...input, tag }, isTailing);
           },
         }
       );

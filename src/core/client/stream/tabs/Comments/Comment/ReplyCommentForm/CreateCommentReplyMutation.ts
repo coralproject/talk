@@ -234,12 +234,6 @@ graphql`
     role
     badges
     createdAt
-    status {
-      current
-      ban {
-        active
-      }
-    }
   }
 `;
 /** end */

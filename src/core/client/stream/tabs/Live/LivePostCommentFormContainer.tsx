@@ -48,7 +48,6 @@ import {
 import { LivePostCommentFormContainer_settings } from "coral-stream/__generated__/LivePostCommentFormContainer_settings.graphql";
 import { LivePostCommentFormContainer_story } from "coral-stream/__generated__/LivePostCommentFormContainer_story.graphql";
 import { LivePostCommentFormContainer_viewer } from "coral-stream/__generated__/LivePostCommentFormContainer_viewer.graphql";
-import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import { LiveCreateCommentMutation } from "./LiveCreateCommentMutation";
 import LivePostCommentForm from "./LivePostCommentForm";
@@ -58,7 +57,6 @@ interface Props {
   settings: LivePostCommentFormContainer_settings;
   viewer: LivePostCommentFormContainer_viewer | null;
   story: LivePostCommentFormContainer_story;
-  commentsOrderBy?: COMMENT_SORT;
 
   onSubmitted: (commentID: string | undefined, cursor: string) => void;
 }
@@ -67,7 +65,6 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
   story,
-  commentsOrderBy,
   onSubmitted,
 }) => {
   const rteRef = useRef<CoralRTE | null>(null);
@@ -112,7 +109,6 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
         const response = await createComment({
           storyID: story.id,
           nudge,
-          commentsOrderBy,
           body: input.body,
           media: input.media,
         });
@@ -175,7 +171,6 @@ export const LivePostCommentFormContainer: FunctionComponent<Props> = ({
       return;
     },
     [
-      commentsOrderBy,
       createComment,
       nudge,
       onSubmitted,

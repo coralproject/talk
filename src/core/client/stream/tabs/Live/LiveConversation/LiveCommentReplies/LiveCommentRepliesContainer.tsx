@@ -10,10 +10,10 @@ import { Virtuoso } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
+  useLocal,
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import {
   LiveChatRepliesLoadAfterEvent,
   LiveChatRepliesLoadBeforeEvent,
@@ -26,8 +26,10 @@ import { LiveCommentRepliesContainer_story } from "coral-stream/__generated__/Li
 import { LiveCommentRepliesContainer_viewer } from "coral-stream/__generated__/LiveCommentRepliesContainer_viewer.graphql";
 import { LiveCommentRepliesContainerAfterCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerAfterCommentEdge.graphql";
 import { LiveCommentRepliesContainerBeforeCommentEdge } from "coral-stream/__generated__/LiveCommentRepliesContainerBeforeCommentEdge.graphql";
+import { LiveCommentRepliesContainerLocal } from "coral-stream/__generated__/LiveCommentRepliesContainerLocal.graphql";
 import { LiveReplyContainer_comment } from "coral-stream/__generated__/LiveReplyContainer_comment.graphql";
 
+import useColdStart from "../../helpers/useColdStart";
 import JumpToButton from "../../JumpToButton";
 import LiveSkeleton from "../../LiveSkeleton";
 import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
@@ -46,6 +48,7 @@ interface Props {
 
   afterComments: LiveCommentRepliesContainerAfterCommentEdge;
   afterHasMore: boolean;
+  afterHasMoreFromMutation: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 
@@ -53,9 +56,6 @@ interface Props {
   comment: LiveCommentRepliesContainer_comment;
   viewer: LiveCommentRepliesContainer_viewer | null;
   settings: LiveCommentRepliesContainer_settings;
-
-  tailing: boolean;
-  setTailing: (value: boolean) => void;
 
   onCommentInView: (visible: boolean, commentID: string) => void;
 
@@ -74,14 +74,13 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   afterComments,
   afterHasMore,
+  afterHasMoreFromMutation,
   loadMoreAfter,
   isLoadingMoreAfter,
   story,
   comment,
   viewer,
   settings,
-  tailing,
-  setTailing,
   onCommentInView,
   onEdit,
   onCancelEdit,
@@ -91,25 +90,46 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
 }) => {
   const { eventEmitter } = useCoralContext();
 
+  const [
+    {
+      liveChat: { tailingConversation: tailing },
+    },
+    setLocal,
+  ] = useLocal<LiveCommentRepliesContainerLocal>(graphql`
+    fragment LiveCommentRepliesContainerLocal on Local {
+      liveChat {
+        tailingConversation
+      }
+    }
+  `);
+
+  // We define a period at the beginning as cold start, where
+  // different state might not yet be stable.
+  const coldStart = useColdStart();
+
+  const setTailing = useCallback(
+    (b: boolean) => setLocal({ liveChat: { tailingConversation: b } }),
+    [setLocal]
+  );
+
   const [height, setHeight] = useState(0);
   const subscribeToCommentEntered = useSubscription(
     LiveReplyCommentEnteredSubscription
   );
+  const activeSubscription = !afterHasMore || afterHasMoreFromMutation;
   useEffect(() => {
-    if (afterHasMore) {
+    if (!activeSubscription) {
       return;
     }
     const disposable = subscribeToCommentEntered({
       storyID: story.id,
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-      connectionKey: "Replies_after",
-      parentID: comment.id,
+      ancestorID: comment.id,
     });
 
     return () => {
       disposable.dispose();
     };
-  }, [story.id, comment.id, subscribeToCommentEntered, afterHasMore]);
+  }, [story.id, comment.id, subscribeToCommentEntered, activeSubscription]);
 
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
@@ -270,13 +290,17 @@ const LiveCommentRepliesContainer: FunctionComponent<Props> = ({
           setHeight(h);
         }}
       />
-      {!newlyPostedReply && !tailing && afterHasMore && (
-        <JumpToButton onClick={onJumpToLive}>
-          <>
-            Jump to live <Icon>arrow_downward</Icon>
-          </>
-        </JumpToButton>
-      )}
+      {!newlyPostedReply &&
+        !tailing &&
+        afterHasMore &&
+        !afterHasMoreFromMutation &&
+        !coldStart && (
+          <JumpToButton onClick={onJumpToLive}>
+            <>
+              Jump to live <Icon>arrow_downward</Icon>
+            </>
+          </JumpToButton>
+        )}
     </div>
   );
 };

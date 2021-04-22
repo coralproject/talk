@@ -168,12 +168,6 @@ graphql`
     createdAt
     role
     username
-    status {
-      current
-      ban {
-        active
-      }
-    }
   }
 `;
 
