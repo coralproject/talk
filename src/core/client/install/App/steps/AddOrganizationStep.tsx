@@ -143,10 +143,10 @@ class AddOrganizationStep extends React.Component<Props> {
               <Field
                 name="siteURL"
                 validate={composeValidators(
-                            required,
-                            validateURL,
-                            validateURLStart
-                          )}
+                  required,
+                  validateURL,
+                  validateURLStart
+                )}
               >
                 {({ input, meta }) => (
                   <FormField>
