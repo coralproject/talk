@@ -142,7 +142,19 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   }
 
   if (comment.status === GQLCOMMENT_STATUS.REJECTED) {
-    return <div>REJECTED</div>;
+    return (
+      <Tombstone
+        className={cn(CLASSES.rejectedTombstone, styles.tombstone)}
+        fullWidth
+      >
+        <Localized id="liveChat-tombstone-rejected">
+          <span>
+            This comment has been removed because it violated our commenting
+            guidelines
+          </span>
+        </Localized>
+      </Tombstone>
+    );
   }
 
   return (
