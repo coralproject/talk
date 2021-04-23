@@ -43,12 +43,6 @@ type AuthPopup {
   view: VIEW
 }
 
-extend type PageInfo {
-  # This can be set to true, if "hasNextPage" in the connection was set through
-  # a locally ran mutation.
-  hasNextPageFromMutation: Boolean
-}
-
 type LiveChatState {
   tailing: Boolean
   tailingConversation: Boolean

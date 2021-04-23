@@ -253,7 +253,7 @@ const enhanced = withFragmentContainer<Props>({
           username
         }
         body
-        ...LiveConversationContainer_comment
+        ...LiveConversationQuery_comment
       }
       actionCounts {
         reaction {
@@ -262,9 +262,9 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
-      ...LiveConversationContainer_comment
       ...LiveCommentBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
+      ...LiveConversationQuery_comment
     }
   `,
   settings: graphql`
