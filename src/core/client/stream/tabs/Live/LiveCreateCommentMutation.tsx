@@ -6,7 +6,6 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
-  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
@@ -23,7 +22,7 @@ import { LiveCreateCommentMutation as MutationTypes } from "coral-stream/__gener
 import { LiveCreateCommentMutation_story } from "coral-stream/__generated__/LiveCreateCommentMutation_story.graphql";
 import { LiveCreateCommentMutation_viewer } from "coral-stream/__generated__/LiveCreateCommentMutation_viewer.graphql";
 
-import insertCommentToStory from "./helpers/insertCommentToStory";
+import handleNewCommentInStory from "./helpers/handleNewCommentInStory";
 
 export type LiveCreateCommentInput = Omit<
   MutationInput<MutationTypes>,
@@ -35,8 +34,7 @@ export type LiveCreateCommentInput = Omit<
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: LiveCreateCommentInput,
-  isTailing: boolean
+  input: LiveCreateCommentInput
 ) {
   const commentEdge = store
     .getRootField("createComment")!
@@ -57,9 +55,8 @@ function sharedUpdater(
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
 
-  insertCommentToStory(store, input.storyID, node, {
-    liveInsertion: isTailing,
-    fromMutation: true,
+  handleNewCommentInStory(store, input.storyID, node, {
+    liveInsertion: true,
   });
 }
 
@@ -132,8 +129,6 @@ export const LiveCreateCommentMutation = createMutation(
     if (!storySettings || !storySettings.moderation) {
       throw new Error("Moderation mode of the story was not included");
     }
-
-    const isTailing = lookup(environment, LOCAL_ID).liveChat.tailing;
 
     // TODO: Generate and use schema types.
     const expectPremoderation =
@@ -240,11 +235,11 @@ export const LiveCreateCommentMutation = createMutation(
             if (expectPremoderation) {
               return;
             }
-            sharedUpdater(environment, store, { ...input, tag }, isTailing);
+            sharedUpdater(environment, store, { ...input, tag });
             store.get(id)!.setValue(true, "pending");
           },
           updater: (store) => {
-            sharedUpdater(environment, store, { ...input, tag }, isTailing);
+            sharedUpdater(environment, store, { ...input, tag });
           },
         }
       );

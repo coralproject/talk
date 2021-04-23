@@ -9,13 +9,12 @@ import determineDepthTillAncestor from "coral-stream/tabs/shared/helpers/determi
 import insertComment from "./insertComment";
 import markHasNextPage from "./markHasNextPage";
 
-export default function insertReplyToAncestor(
+export default function handleNewReplyInConversation(
   store: RecordSourceSelectorProxy<unknown>,
   ancestorID: string,
   comment: RecordProxy,
   options: {
     liveInsertion?: boolean;
-    fromMutation?: boolean;
   } = {}
 ) {
   const parent = comment.getLinkedRecord("parent");
@@ -42,18 +41,19 @@ export default function insertReplyToAncestor(
     return;
   }
 
+  const pageInfoAfter = afterConnection.getLinkedRecord("pageInfo")!;
+  const hasNextPage = pageInfoAfter.getValue("hasNextPage")!;
+
   const beforeConnection = ConnectionHandler.getConnection(
     parent,
     "Replies_before"
   );
 
   if (options.liveInsertion) {
-    insertComment(store, comment, afterConnection);
-  } else {
-    markHasNextPage(
-      afterConnection,
-      beforeConnection,
-      Boolean(options.fromMutation)
-    );
+    if (!hasNextPage) {
+      insertComment(store, comment, afterConnection);
+    }
+    return;
   }
+  markHasNextPage(afterConnection, beforeConnection);
 }

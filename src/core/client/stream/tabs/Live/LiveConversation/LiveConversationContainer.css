@@ -123,3 +123,44 @@
   border-top: solid 1px var(--palette-grey-300);
   padding-top: var(--spacing-2);
 }
+
+.replies {
+  position: relative;
+  min-height: 1px;
+  max-height: 300px;
+}
+
+.comment {
+  padding-top: var(--spacing-2);
+}
+
+.body {
+  padding-top: 0px;
+  width: 100%;
+}
+
+.bodyHighlighted {
+  padding-top: var(--spacing-1);
+  width: 100%;
+}
+
+.replyMarker {
+  flex-shrink: 0;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 2px;
+  background-color: var(--palette-primary-700);
+
+  margin-right: var(--spacing-1);
+}
+
+.highlight {
+  background-color: var(--palette-primary-100);
+}
+
+.header {
+  border-bottom: solid 2px var(--palette-grey-300);
+}

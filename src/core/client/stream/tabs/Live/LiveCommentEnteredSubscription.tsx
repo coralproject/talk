@@ -12,7 +12,7 @@ import {
 import { LiveCommentEnteredSubscription } from "coral-stream/__generated__/LiveCommentEnteredSubscription.graphql";
 
 import { isPublished } from "../shared/helpers";
-import insertCommentToStory from "./helpers/insertCommentToStory";
+import handleNewCommentInStory from "./helpers/handleNewCommentInStory";
 
 function liveInsertionEnabled(environment: Environment): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
@@ -76,9 +76,8 @@ const LiveCommentEnteredSubscription = createSubscription(
         }
 
         comment.setValue(true, "enteredLive");
-        insertCommentToStory(store, variables.storyID, comment, {
+        handleNewCommentInStory(store, variables.storyID, comment, {
           liveInsertion: liveInsertionEnabled(environment),
-          fromMutation: false,
         });
       },
     });

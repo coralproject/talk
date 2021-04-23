@@ -21,7 +21,6 @@ interface RenderProps {
     >;
   }>;
   afterHasMore: boolean;
-  afterHasMoreFromMutation: boolean;
   loadMoreAfter: () => Promise<void>;
   isLoadingMoreAfter: boolean;
 }
@@ -64,11 +63,6 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
     story.after && story.after.pageInfo
       ? story.after.pageInfo.hasNextPage
       : false;
-  const afterHasMoreFromMutation = Boolean(
-    story.after && story.after.pageInfo
-      ? story.after.pageInfo.hasNextPageFromMutation
-      : false
-  );
 
   const initialIgnoredUsers = useMemo(
     () => (viewer ? viewer.ignoredUsers.map((u) => u.id) : []),
@@ -87,7 +81,6 @@ const LiveCommentsAfterContainer: FunctionComponent<Props> = ({
   return children({
     afterComments: filtered,
     afterHasMore,
-    afterHasMoreFromMutation,
     loadMoreAfter: loadMore,
     isLoadingMoreAfter: isLoadingMore,
   });
@@ -129,7 +122,6 @@ const enhanced = withPaginationContainer<
           }
           pageInfo {
             hasNextPage
-            hasNextPageFromMutation
           }
         }
       }

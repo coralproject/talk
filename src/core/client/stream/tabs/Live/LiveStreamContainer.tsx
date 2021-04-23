@@ -60,7 +60,6 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
             {({
               afterComments,
               afterHasMore,
-              afterHasMoreFromMutation,
               loadMoreAfter,
               isLoadingMoreAfter,
             }) => (
@@ -71,7 +70,6 @@ const LiveStreamContainer: FunctionComponent<Props> = ({
                 isLoadingMoreBefore={isLoadingMoreBefore}
                 afterComments={afterComments}
                 afterHasMore={afterHasMore}
-                afterHasMoreFromMutation={afterHasMoreFromMutation}
                 loadMoreAfter={loadMoreAfter}
                 isLoadingMoreAfter={isLoadingMoreAfter}
                 viewer={viewer}

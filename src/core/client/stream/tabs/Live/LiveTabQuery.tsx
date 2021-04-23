@@ -19,8 +19,8 @@ import { Spinner } from "coral-ui/components/v2";
 import { LiveTabQuery } from "coral-stream/__generated__/LiveTabQuery.graphql";
 import { LiveTabQueryLocal } from "coral-stream/__generated__/LiveTabQueryLocal.graphql";
 
+import useOnResumeActive from "./helpers/useOnResumeActive";
 import LiveStreamContainer from "./LiveStreamContainer";
-import useOnResumeActive from "./useOnResumeActive";
 
 import styles from "./LiveTabQuery.css";
 
