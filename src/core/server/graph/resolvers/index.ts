@@ -22,6 +22,7 @@ import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
+import { CommentStatusChangedPayload } from "./CommentStatusChangedPayload";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
 import { EditInfo } from "./EditInfo";
@@ -151,6 +152,7 @@ const Resolvers: GQLResolver = {
   WebhookEndpoint,
   YouTubeMediaConfiguration,
   CommentEditedPayload,
+  CommentStatusChangedPayload,
 };
 
 export default Resolvers;

@@ -9,6 +9,7 @@ import {
   CommentReactionCreatedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
+  CommentStatusChangedCoralEvent,
   CommentStatusUpdatedCoralEvent,
 } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -50,6 +51,7 @@ export async function publishCommentStatusChanges(
   moderatorID: string | null
 ) {
   if (oldStatus !== newStatus) {
+    // Admin specific event
     await CommentStatusUpdatedCoralEvent.publish(broker, {
       newStatus,
       oldStatus,
@@ -57,6 +59,15 @@ export async function publishCommentStatusChanges(
       commentRevisionID,
       storyID,
       moderatorID,
+    });
+
+    // Public story wide event
+    await CommentStatusChangedCoralEvent.publish(broker, {
+      commentID,
+      commentRevisionID,
+      storyID,
+      newStatus,
+      oldStatus,
     });
   }
 }

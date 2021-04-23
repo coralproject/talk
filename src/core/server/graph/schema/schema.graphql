@@ -8565,6 +8565,29 @@ type CommentEditedPayload {
 }
 
 """
+CommentStatusChangedPayload is returned when a Comment's status changes
+on a story.
+"""
+type CommentStatusChangedPayload {
+  """
+  newStatus  is the new status assigned to the Comment. This status may not
+  match the status provided by `comment.status` due to race conditions in the
+  data loaders.
+  """
+  newStatus: COMMENT_STATUS!
+
+  """
+  oldStatus is the previous status assigned to the Comment.
+  """
+  oldStatus: COMMENT_STATUS!
+
+  """
+  commentID is the comment id that was changed on the story.
+  """
+  commentID: ID!
+}
+
+"""
 CommentReplyCreatedPayload is returned when a Comment is created as a reply to
 another Comment where the selected ancestor Comment is in the ancestor chain.
 """
@@ -8636,6 +8659,11 @@ type Subscription {
   commentEdited returns when a Comment is edited anywhere in the Story.
   """
   commentEdited(storyID: ID!): CommentEditedPayload!
+
+  """
+  commentRejected returns when a Comment has been rejected anywhere in the Story.
+  """
+  commentStatusChanged(storyID: ID!): CommentStatusChangedPayload!
 
   """
   commentCreated returns when a Comment is created on the top level of a Story

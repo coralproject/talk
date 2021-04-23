@@ -7,6 +7,7 @@ import {
   CommentLeftModerationQueueInput,
   CommentReleasedInput,
   CommentReplyCreatedInput,
+  CommentStatusChangedInput,
   CommentStatusUpdatedInput,
 } from "coral-server/graph/resolvers/Subscription";
 import { FLAG_REASON } from "coral-server/models/action/comment";
@@ -146,3 +147,12 @@ export type CommentEditedCoralEventPayload = CoralEventPayload<
 export const CommentEditedCoralEvent = createCoralEvent<
   CommentEditedCoralEventPayload
 >(CoralEventType.COMMENT_EDITED);
+
+export type CommentStatusChangedCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_STATUS_CHANGED,
+  CommentStatusChangedInput
+>;
+
+export const CommentStatusChangedCoralEvent = createCoralEvent<
+  CommentStatusChangedCoralEventPayload
+>(CoralEventType.COMMENT_STATUS_CHANGED);

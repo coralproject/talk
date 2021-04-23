@@ -6,6 +6,7 @@ import { graphql } from "react-relay";
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { useToggleState } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { ReportFlowContainer } from "coral-stream/tabs/shared/ReportFlow";
 import { Flex } from "coral-ui/components/v2";
@@ -140,6 +141,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     );
   }
 
+  if (comment.status === GQLCOMMENT_STATUS.REJECTED) {
+    return <div>REJECTED</div>;
+  }
+
   return (
     <div
       ref={rootRef}
@@ -260,6 +265,7 @@ const enhanced = withFragmentContainer<Props>({
           total
         }
       }
+      status
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveCommentBodyContainer_comment
