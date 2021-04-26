@@ -128,3 +128,9 @@ framework-durationField-unit =
     }
     *[other] tuntematon yksikkö
   }
+
+framework-starRating =
+  .aria-label = { $value ->
+    [1] 1 Tähti
+    *[other] {$value} Tähteä
+  }  
