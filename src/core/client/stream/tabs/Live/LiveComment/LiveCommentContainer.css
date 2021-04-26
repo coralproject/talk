@@ -23,6 +23,29 @@
   width: 100%;
 }
 
+.parentHighlight {
+  background-color: var(--palette-grey-700);
+
+  border-top-right-radius: var(--round-corners);
+  border-bottom-right-radius: var(--round-corners);
+}
+
+.replyToViewerBar {
+  width: 4px;
+  background-color: var(--palette-grey-700);
+}
+
+.bodyAndActions {
+  width: 100%;
+}
+
+.paddedBodyAndActions {
+  margin-top: var(--spacing-1);
+  margin-left: var(--spacing-1);
+
+  width: calc(100% - var(--spacing-1));
+}
+
 .parentButton {
   height: 20px;
 }
@@ -36,9 +59,27 @@
   margin-right: 8px;
 }
 
+.parentArrowHighlight {
+  color: var(--palette-grey-100);
+
+  transform: scaleX(-1) scaleY(-1);
+  font-size: 20px;
+  width: 20px;
+  margin-left: 16px;
+  margin-right: 12px;
+}
+
 .parentUser {
   font-weight: var(--font-weight-primary-semi-bold);
   color: var(--palette-grey-600);
+
+  margin-right: var(--spacing-2);
+  height: 20px;
+}
+
+.parentUserHighlight {
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: var(--palette-text-000);
 
   margin-right: var(--spacing-2);
   height: 20px;
@@ -52,6 +93,19 @@
   text-align: left;
 
   color: var(--palette-grey-500);
+
+  margin-right: var(--spacing-1);
+  height: 20px;
+}
+
+.parentBodyHighlight {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+
+  color: var(--palette-text-000);
 
   margin-right: var(--spacing-1);
   height: 20px;
