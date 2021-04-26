@@ -56,6 +56,7 @@ import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentRejectedSubscription from "./LiveCommentRejectedSubscription";
 import { LiveConversationQuery } from "./LiveConversation";
+import { HighlightedConvCommentState } from "./LiveConversation/LiveConversationQuery";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
@@ -164,8 +165,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setEditingComment,
   ] = useState<EditingCommentViewState | null>(null);
 
-  const [convHighlightedCommentID, setConvHighlightedCommentID] = useState<
-    string | undefined
+  const [highlightedConvComment, setHighlightedConvComment] = useState<
+    HighlightedConvCommentState | undefined
   >(undefined);
 
   const setTailing = useCallback(
@@ -318,9 +319,12 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const handleReplyToParent = useCallback(
     (
       parent: NonNullable<LiveCommentContainer_comment["parent"]>,
-      commentID: string
+      comment: LiveCommentContainer_comment
     ) => {
-      setConvHighlightedCommentID(commentID);
+      setHighlightedConvComment({
+        id: comment.id,
+        cursor: comment.createdAt,
+      });
       showConversation(parent, "replyToParent");
     },
     [showConversation]
@@ -341,7 +345,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   const handleCloseConversation = useCallback(() => {
-    setConvHighlightedCommentID(undefined);
+    setHighlightedConvComment(undefined);
     setConversationView({
       visible: false,
       comment: null,
@@ -680,7 +684,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             story={story}
             comment={conversationView.comment}
             onClose={handleCloseConversation}
-            highlightedCommentID={convHighlightedCommentID}
+            highlightedCommentState={highlightedConvComment}
           />
         )}
         <div className={styles.commentForm}>

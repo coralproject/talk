@@ -21,6 +21,11 @@ import LiveConversationAfterContainer from "./LiveConversationAfterContainer";
 import LiveConversationBeforeContainer from "./LiveConversationBeforeContainer";
 import LiveConversationContainer from "./LiveConversationContainer";
 
+export interface HighlightedConvCommentState {
+  id: string;
+  cursor: string;
+}
+
 interface Props {
   settings: LiveConversationQuery_settings;
   viewer: LiveConversationQuery_viewer | null;
@@ -29,7 +34,7 @@ interface Props {
 
   onClose: () => void;
 
-  highlightedCommentID?: string;
+  highlightedCommentState?: HighlightedConvCommentState;
 }
 
 const LiveConversationQuery: FunctionComponent<Props> = ({
@@ -38,10 +43,16 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
   settings,
   comment,
   onClose,
-  highlightedCommentID,
+  highlightedCommentState,
 }) => {
   const { relayEnvironment } = useCoralContext();
-  const [cursor, setCursor] = useState(new Date(0).toISOString());
+  const [cursor, setCursor] = useState(
+    highlightedCommentState
+      ? new Date(
+          new Date(highlightedCommentState.cursor).getTime() - 10
+        ).toISOString()
+      : new Date(0).toISOString()
+  );
 
   // The pagination container wouldn't allow us to start a new connection
   // by refetching with a different cursor. So we delete the connection first,
@@ -164,7 +175,11 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
                     afterHasMore={afterHasMore}
                     loadMoreAfter={loadMoreAfter}
                     isLoadingMoreAfter={isLoadingMoreAfter}
-                    highlightedCommentID={highlightedCommentID}
+                    highlightedCommentID={
+                      highlightedCommentState
+                        ? highlightedCommentState.id
+                        : undefined
+                    }
                   />
                 )}
               </LiveConversationAfterContainer>
