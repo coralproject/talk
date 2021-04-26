@@ -32,6 +32,7 @@ interface Props {
   onCancelEditing?: () => void;
 
   truncateBody?: boolean;
+  highlight?: boolean;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -44,6 +45,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   editing,
   onCancelEditing,
   truncateBody,
+  highlight,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -102,7 +104,10 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     <div
       className={cn(
         styles.root,
-        editing ? styles.highlight : "",
+        {
+          [styles.highlight]: highlight,
+          [styles.editHighlight]: editing,
+        },
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
@@ -115,7 +120,10 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           settings={settings}
           viewer={viewer}
           story={story}
-          containerClassName={editing ? styles.highlight : ""}
+          containerClassName={cn({
+            [styles.highlight]: highlight,
+            [styles.editHighlight]: editing,
+          })}
           onCancel={editing ? onCancelEditing : undefined}
           truncateBody={truncateBody}
         />

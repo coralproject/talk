@@ -50,7 +50,8 @@ interface Props {
   ) => void;
   onReplyToComment: (comment: LiveCommentContainer_comment) => void;
   onReplyToParent: (
-    parent: NonNullable<LiveCommentContainer_comment["parent"]>
+    parent: NonNullable<LiveCommentContainer_comment["parent"]>,
+    commentID: string
   ) => void;
 
   onEdit?: (comment: LiveCommentContainer_comment) => void;
@@ -114,7 +115,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   const handleOnReply = useCallback(() => {
     const parent = comment.parent;
     if (parent) {
-      onReplyToParent(parent);
+      onReplyToParent(parent, comment.id);
     } else {
       onReplyToComment(comment);
     }

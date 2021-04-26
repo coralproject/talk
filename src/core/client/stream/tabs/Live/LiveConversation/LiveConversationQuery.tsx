@@ -28,6 +28,8 @@ interface Props {
   comment: LiveConversationQuery_comment;
 
   onClose: () => void;
+
+  highlightedCommentID?: string;
 }
 
 const LiveConversationQuery: FunctionComponent<Props> = ({
@@ -36,6 +38,7 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
   settings,
   comment,
   onClose,
+  highlightedCommentID,
 }) => {
   const { relayEnvironment } = useCoralContext();
   const [cursor, setCursor] = useState(new Date(0).toISOString());
@@ -161,6 +164,7 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
                     afterHasMore={afterHasMore}
                     loadMoreAfter={loadMoreAfter}
                     isLoadingMoreAfter={isLoadingMoreAfter}
+                    highlightedCommentID={highlightedCommentID}
                   />
                 )}
               </LiveConversationAfterContainer>

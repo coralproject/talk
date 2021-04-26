@@ -164,6 +164,10 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setEditingComment,
   ] = useState<EditingCommentViewState | null>(null);
 
+  const [convHighlightedCommentID, setConvHighlightedCommentID] = useState<
+    string | undefined
+  >(undefined);
+
   const setTailing = useCallback(
     (value: boolean) => {
       setLocal({ liveChat: { tailing: value } });
@@ -312,7 +316,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [showConversation]
   );
   const handleReplyToParent = useCallback(
-    (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
+    (
+      parent: NonNullable<LiveCommentContainer_comment["parent"]>,
+      commentID: string
+    ) => {
+      setConvHighlightedCommentID(commentID);
       showConversation(parent, "replyToParent");
     },
     [showConversation]
@@ -333,6 +341,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   const handleCloseConversation = useCallback(() => {
+    setConvHighlightedCommentID(undefined);
     setConversationView({
       visible: false,
       comment: null,
@@ -671,6 +680,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             story={story}
             comment={conversationView.comment}
             onClose={handleCloseConversation}
+            highlightedCommentID={convHighlightedCommentID}
           />
         )}
         <div className={styles.commentForm}>

@@ -67,6 +67,8 @@ interface Props {
   onClose: () => void;
   error: string;
   isLoading: boolean;
+
+  highlightedCommentID?: string;
 }
 
 interface NewComment {
@@ -97,6 +99,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   isLoadingMoreBefore,
   loadMoreAfter,
   loadMoreBefore,
+  highlightedCommentID,
 }) => {
   const { eventEmitter } = useCoralContext();
   const [
@@ -272,41 +275,24 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
       }
       if (index < beforeComments.length) {
         const e = beforeComments[index];
-        return (
-          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
-            <Flex justifyContent="flex-start" alignItems="stretch">
-              <div className={styles.replyMarker}></div>
-              <LiveReplyContainer
-                story={story}
-                comment={e.node}
-                viewer={viewer}
-                settings={settings}
-                onInView={handleCommentInView}
-                onEdit={handleOnEdit}
-                editing={editingCommentID === e.node.id}
-                onCancelEditing={handleOnCloseEdit}
-              />
-            </Flex>
-          </div>
-        );
-      } else if (index < beforeComments.length + afterComments.length) {
-        const e = afterComments[index - beforeComments.length];
+        const isHighlighted = highlightedCommentID === e.node.id;
+        const isEditing = editingCommentID === e.node.id;
+
         return (
           <div
             key={`chat-reply-${e.node.id}`}
-            className={cn(
-              styles.comment,
-              editingCommentID === e.node.id ? styles.highlight : ""
-            )}
+            className={cn(styles.comment, {
+              [styles.highlight]: isEditing,
+              [styles.highlight]: isHighlighted,
+            })}
           >
             <Flex justifyContent="flex-start" alignItems="stretch">
               <div className={styles.replyMarker}></div>
               <div
-                className={
-                  editingCommentID === e.node.id
-                    ? styles.bodyHighlighted
-                    : styles.body
-                }
+                className={cn({
+                  [styles.bodyHighlighted]: isEditing || isHighlighted,
+                  [styles.body]: !isEditing && !isHighlighted,
+                })}
               >
                 <LiveReplyContainer
                   story={story}
@@ -315,8 +301,44 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   settings={settings}
                   onInView={handleCommentInView}
                   onEdit={handleOnEdit}
-                  editing={editingCommentID === e.node.id}
+                  editing={isEditing}
                   onCancelEditing={handleOnCloseEdit}
+                />
+              </div>
+            </Flex>
+          </div>
+        );
+      } else if (index < beforeComments.length + afterComments.length) {
+        const e = afterComments[index - beforeComments.length];
+        const isHighlighted = highlightedCommentID === e.node.id;
+        const isEditing = editingCommentID === e.node.id;
+
+        return (
+          <div
+            key={`chat-reply-${e.node.id}`}
+            className={cn(styles.comment, {
+              [styles.editHighlight]: isEditing,
+              [styles.highlight]: isHighlighted,
+            })}
+          >
+            <Flex justifyContent="flex-start" alignItems="stretch">
+              <div className={styles.replyMarker}></div>
+              <div
+                className={cn({
+                  [styles.bodyHighlighted]: isEditing || isHighlighted,
+                  [styles.body]: !isEditing && !isHighlighted,
+                })}
+              >
+                <LiveReplyContainer
+                  story={story}
+                  comment={e.node}
+                  viewer={viewer}
+                  settings={settings}
+                  onInView={handleCommentInView}
+                  onEdit={handleOnEdit}
+                  editing={isEditing}
+                  onCancelEditing={handleOnCloseEdit}
+                  highlight={isEditing || isHighlighted}
                 />
               </div>
             </Flex>
@@ -335,6 +357,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
       handleCommentInView,
       handleOnCloseEdit,
       handleOnEdit,
+      highlightedCommentID,
       settings,
       story,
       viewer,
