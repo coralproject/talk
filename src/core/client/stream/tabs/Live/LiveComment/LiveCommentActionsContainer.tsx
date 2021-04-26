@@ -188,7 +188,27 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           isChat
           className={styles.action}
         />
-        {onReply && (
+        {comment.parent && onReply && (
+          <Button
+            className={styles.conversationButton}
+            variant="none"
+            onClick={handleOnReply}
+            paddingSize="extraSmall"
+          >
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon
+                className={styles.conversationIcon}
+                aria-label="Read conversation"
+              >
+                forum
+              </Icon>
+              <Responsive minWidth={400}>
+                <span className={styles.action}>Read Conversation</span>
+              </Responsive>
+            </Flex>
+          </Button>
+        )}
+        {!comment.parent && onReply && (
           <Button
             className={styles.replyButton}
             variant="none"
@@ -202,7 +222,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Button>
         )}
-        {comment.replyCount > 0 && onConversation && (
+        {!comment.parent && comment.replyCount > 0 && onConversation && (
           <Button
             className={styles.conversationButton}
             variant="none"
