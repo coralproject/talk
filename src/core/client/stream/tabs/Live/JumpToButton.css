@@ -1,15 +1,16 @@
-.jumpToContainer {
+.root {
   position: relative;
+}
 
-  top: -40px;
-  left: 0;
-  width: 100%;
-  height: 0px;
+.jumpToContainer {
+  position: absolute;
+
+  bottom: var(--spacing-1);
+  left: 50%;
   z-index: 998;
 
-  text-align: center;
-
-  background: transparent;
+  transform: translate(-50%, 0%);
+  white-space: nowrap;
 }
 
 .jumpButton {
