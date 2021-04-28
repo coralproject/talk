@@ -37,7 +37,7 @@ export class AnalyticsCoralEventListener
     CoralEventType.COMMENT_FLAG_CREATED,
     CoralEventType.STORY_CREATED,
     CoralEventType.COMMENT_EDITED,
-    CoralEventType.COMMENT_STATUS_CHANGED,
+    CoralEventType.COMMENT_REJECTED,
   ];
 
   public readonly disabled: boolean = false;

@@ -3,9 +3,9 @@ import { CommentEditedSubscription } from "./commentEdited";
 import { CommentEnteredModerationQueueSubscription } from "./commentEnteredModerationQueue";
 import { CommentFeaturedSubscription } from "./commentFeatured";
 import { CommentLeftModerationQueueSubscription } from "./commentLeftModerationQueue";
+import { CommentRejectedSubscription } from "./commentRejected";
 import { CommentReleasedSubscription } from "./commentReleased";
 import { CommentReplyCreatedSubscription } from "./commentReplyCreated";
-import { CommentStatusChangedSubscription } from "./commentStatusChanged";
 import { CommentStatusUpdatedSubscription } from "./commentStatusUpdated";
 
 export enum SUBSCRIPTION_CHANNELS {
@@ -18,7 +18,7 @@ export enum SUBSCRIPTION_CHANNELS {
   COMMENT_FEATURED = "COMMENT_FEATURED",
   COMMENT_RELEASED = "COMMENT_RELEASED",
   COMMENT_EDITED = "COMMENT_EDITED",
-  COMMENT_STATUS_CHANGED = "COMMENT_STATUS_CHANGED",
+  COMMENT_REJECTED = "COMMENT_REJECTED",
 }
 
 export interface SubscriptionPayload {
@@ -42,4 +42,4 @@ export type SUBSCRIPTION_INPUT =
   | CommentFeaturedSubscription
   | CommentReleasedSubscription
   | CommentEditedSubscription
-  | CommentStatusChangedSubscription;
+  | CommentRejectedSubscription;

@@ -7,9 +7,9 @@ import {
   CommentFlagCreatedCoralEvent,
   CommentLeftModerationQueueCoralEvent,
   CommentReactionCreatedCoralEvent,
+  CommentRejectedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
-  CommentStatusChangedCoralEvent,
   CommentStatusUpdatedCoralEvent,
 } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -61,14 +61,14 @@ export async function publishCommentStatusChanges(
       moderatorID,
     });
 
-    // Public story wide event
-    await CommentStatusChangedCoralEvent.publish(broker, {
-      commentID,
-      commentRevisionID,
-      storyID,
-      newStatus,
-      oldStatus,
-    });
+    // If the new status is rejected, broadcast this as well
+    if (newStatus === GQLCOMMENT_STATUS.REJECTED) {
+      await CommentRejectedCoralEvent.publish(broker, {
+        commentID,
+        commentRevisionID,
+        storyID,
+      });
+    }
   }
 }
 

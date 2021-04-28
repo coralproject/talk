@@ -54,7 +54,7 @@ import LiveCommentContainer from "./LiveComment";
 import { CommentPosition } from "./LiveComment/LiveCommentContainer";
 import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
-import LiveCommentStatusChangedSubscription from "./LiveCommentStatusChangedSubscription";
+import LiveCommentRejectedSubscription from "./LiveCommentRejectedSubscription";
 import { LiveConversationQuery } from "./LiveConversation";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
@@ -206,20 +206,20 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const subscribeToCommentEdited = useSubscription(
     LiveCommentEditedSubscription
   );
-  const subscribeToCommentStatusChanged = useSubscription(
-    LiveCommentStatusChangedSubscription
+  const subscribeToCommentRejected = useSubscription(
+    LiveCommentRejectedSubscription
   );
   useEffect(() => {
     const editedDisposable = subscribeToCommentEdited({ storyID: story.id });
-    const changedDisposable = subscribeToCommentStatusChanged({
+    const rejectedDisposable = subscribeToCommentRejected({
       storyID: story.id,
     });
 
     return () => {
       editedDisposable.dispose();
-      changedDisposable.dispose();
+      rejectedDisposable.dispose();
     };
-  }, [story.id, subscribeToCommentEdited, subscribeToCommentStatusChanged]);
+  }, [story.id, subscribeToCommentEdited, subscribeToCommentRejected]);
 
   const handleCommentVisible = useCallback(
     async (

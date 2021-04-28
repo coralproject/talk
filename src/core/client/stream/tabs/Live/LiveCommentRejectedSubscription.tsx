@@ -6,22 +6,21 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 
-import { LiveCommentStatusChangedSubscription } from "coral-stream/__generated__/LiveCommentStatusChangedSubscription.graphql";
+import { LiveCommentRejectedSubscription } from "coral-stream/__generated__/LiveCommentRejectedSubscription.graphql";
 
 type StatusChangedVariables = SubscriptionVariables<
-  LiveCommentStatusChangedSubscription
+  LiveCommentRejectedSubscription
 >;
 
-const LiveCommentStatusChangedSubscription = createSubscription(
-  "subscribeToCommentStatusChanged",
+const LiveCommentRejectedSubscription = createSubscription(
+  "subscribeToCommentRejected",
   (environment: Environment, variables: StatusChangedVariables) => {
     return requestSubscription(environment, {
       subscription: graphql`
-        subscription LiveCommentStatusChangedSubscription($storyID: ID!) {
-          commentStatusChanged(storyID: $storyID) {
-            newStatus
-            oldStatus
+        subscription LiveCommentRejectedSubscription($storyID: ID!) {
+          commentRejected(storyID: $storyID) {
             commentID
           }
         }
@@ -30,18 +29,14 @@ const LiveCommentStatusChangedSubscription = createSubscription(
         storyID: variables.storyID,
       },
       updater: (store) => {
-        const root = store.getRootField("commentStatusChanged");
+        const root = store.getRootField("commentRejected");
         if (!root) {
           return;
         }
 
         const commentID = root.getValue("commentID") as string;
-        const newStatus = root.getValue("newStatus");
 
         if (!commentID) {
-          return;
-        }
-        if (!newStatus) {
           return;
         }
         const comment = store.get(commentID);
@@ -57,10 +52,10 @@ const LiveCommentStatusChangedSubscription = createSubscription(
           return;
         }
 
-        comment.setValue(newStatus, "status");
+        comment.setValue(GQLCOMMENT_STATUS.REJECTED, "status");
       },
     });
   }
 );
 
-export default LiveCommentStatusChangedSubscription;
+export default LiveCommentRejectedSubscription;
