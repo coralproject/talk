@@ -7,6 +7,7 @@ import {
   CommentFlagCreatedCoralEvent,
   CommentLeftModerationQueueCoralEvent,
   CommentReactionCreatedCoralEvent,
+  CommentRejectedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
   CommentStatusUpdatedCoralEvent,
@@ -50,6 +51,7 @@ export async function publishCommentStatusChanges(
   moderatorID: string | null
 ) {
   if (oldStatus !== newStatus) {
+    // Admin specific event
     await CommentStatusUpdatedCoralEvent.publish(broker, {
       newStatus,
       oldStatus,
@@ -58,6 +60,15 @@ export async function publishCommentStatusChanges(
       storyID,
       moderatorID,
     });
+
+    // If the new status is rejected, broadcast this as well
+    if (newStatus === GQLCOMMENT_STATUS.REJECTED) {
+      await CommentRejectedCoralEvent.publish(broker, {
+        commentID,
+        commentRevisionID,
+        storyID,
+      });
+    }
   }
 }
 

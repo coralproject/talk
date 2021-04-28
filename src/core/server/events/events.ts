@@ -5,6 +5,7 @@ import {
   CommentEnteredModerationQueueInput,
   CommentFeaturedInput,
   CommentLeftModerationQueueInput,
+  CommentRejectedInput,
   CommentReleasedInput,
   CommentReplyCreatedInput,
   CommentStatusUpdatedInput,
@@ -146,3 +147,12 @@ export type CommentEditedCoralEventPayload = CoralEventPayload<
 export const CommentEditedCoralEvent = createCoralEvent<
   CommentEditedCoralEventPayload
 >(CoralEventType.COMMENT_EDITED);
+
+export type CommentRejectedCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_REJECTED,
+  CommentRejectedInput
+>;
+
+export const CommentRejectedCoralEvent = createCoralEvent<
+  CommentRejectedCoralEventPayload
+>(CoralEventType.COMMENT_REJECTED);

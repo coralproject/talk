@@ -8566,6 +8566,17 @@ type CommentEditedPayload {
 }
 
 """
+CommentRejectedPayload is returned when a Comment has been rejected
+on a story.
+"""
+type CommentRejectedPayload {
+  """
+  comment is the comment that was rejected on the story.
+  """
+  comment: Comment!
+}
+
+"""
 CommentReplyCreatedPayload is returned when a Comment is created as a reply to
 another Comment where the selected ancestor Comment is in the ancestor chain.
 """
@@ -8637,6 +8648,11 @@ type Subscription {
   commentEdited returns when a Comment is edited anywhere in the Story.
   """
   commentEdited(storyID: ID!): CommentEditedPayload!
+
+  """
+  commentRejected returns when a Comment has been rejected anywhere in the Story.
+  """
+  commentRejected(storyID: ID!): CommentRejectedPayload!
 
   """
   commentCreated returns when a Comment is created on the top level of a Story

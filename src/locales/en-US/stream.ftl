@@ -870,3 +870,6 @@ liveChat-editCommentForm-rteLabel = Edit message
 
 liveChat-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 liveChat-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
+
+liveChat-tombstone-rejected =
+  This comment has been removed because it violated our commenting guidelines

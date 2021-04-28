@@ -33,10 +33,15 @@ import {
 
 import GraphContext from "../context";
 
+interface MaybeLoadOnlyIDOptions {
+  filterNonVisible: boolean;
+}
+
 export const maybeLoadOnlyID = (
   ctx: GraphContext,
   info: GraphQLResolveInfo,
-  id: string
+  id: string,
+  options: MaybeLoadOnlyIDOptions
 ) => {
   // Get the field names of the fields being requested, if it's only the ID,
   // we have that, so no need to make a database request.
@@ -47,9 +52,15 @@ export const maybeLoadOnlyID = (
     };
   }
 
+  // Conditionally filter non-visible comments
+  // (i.e. rejected, withheld comments)
+  if (options.filterNonVisible) {
+    return ctx.loaders.Comments.visible.load(id);
+  }
+
   // We want more than the ID! Get the comment!
   // TODO: (wyattjoh) if the parent and the parents (containing the parent) are requested, the parent comment is retrieved from the database twice. Investigate ways of reducing i/o.
-  return ctx.loaders.Comments.visible.load(id);
+  return ctx.loaders.Comments.comment.load(id);
 };
 
 export const Comment: GQLCommentTypeResolver<comment.Comment> = {
@@ -145,10 +156,14 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>
     hasAncestors(c)
-      ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1])
+      ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1], {
+          filterNonVisible: true,
+        })
       : null,
   parent: (c, input, ctx, info) =>
-    hasAncestors(c) ? maybeLoadOnlyID(ctx, info, c.parentID) : null,
+    hasAncestors(c)
+      ? maybeLoadOnlyID(ctx, info, c.parentID, { filterNonVisible: true })
+      : null,
   parents: (c, input, ctx) =>
     // Some resolver optimization.
     hasAncestors(c)
