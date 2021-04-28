@@ -188,7 +188,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           isChat
           className={styles.action}
         />
-        {comment.parent && onReply && (
+        {onReply && (
           <Button
             className={styles.conversationButton}
             variant="none"
@@ -196,29 +196,29 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
             paddingSize="extraSmall"
           >
             <Flex justifyContent="flex-start" alignItems="center">
-              <Icon
-                className={styles.conversationIcon}
-                aria-label="Read conversation"
-              >
-                forum
-              </Icon>
-              <Responsive minWidth={400}>
-                <span className={styles.action}>Read Conversation</span>
-              </Responsive>
-            </Flex>
-          </Button>
-        )}
-        {!comment.parent && onReply && (
-          <Button
-            className={styles.replyButton}
-            variant="none"
-            onClick={handleOnReply}
-          >
-            <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon className={styles.replyIcon} ariaLabel="Reply" />
-              <Responsive minWidth={400}>
-                <span className={styles.action}>Reply</span>
-              </Responsive>
+              {comment.parent ? (
+                <>
+                  <Icon
+                    className={styles.conversationIcon}
+                    aria-label="Read conversation"
+                  >
+                    forum
+                  </Icon>
+                  <Responsive minWidth={400}>
+                    <span className={styles.action}>Read Conversation</span>
+                  </Responsive>
+                </>
+              ) : (
+                <>
+                  <ShortcutIcon
+                    className={styles.replyIcon}
+                    ariaLabel="Reply"
+                  />
+                  <Responsive minWidth={400}>
+                    <span className={styles.action}>Reply</span>
+                  </Responsive>
+                </>
+              )}
             </Flex>
           </Button>
         )}
