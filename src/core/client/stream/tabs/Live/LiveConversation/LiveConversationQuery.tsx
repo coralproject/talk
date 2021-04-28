@@ -48,9 +48,7 @@ const LiveConversationQuery: FunctionComponent<Props> = ({
   const { relayEnvironment } = useCoralContext();
   const [cursor, setCursor] = useState(
     highlightedCommentState
-      ? new Date(
-          new Date(highlightedCommentState.cursor).getTime() - 10
-        ).toISOString()
+      ? new Date(highlightedCommentState.cursor).toISOString()
       : new Date(0).toISOString()
   );
 
