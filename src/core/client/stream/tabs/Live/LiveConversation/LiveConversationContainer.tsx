@@ -303,6 +303,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   onEdit={handleOnEdit}
                   editing={isEditing}
                   onCancelEditing={handleOnCloseEdit}
+                  highlight={isEditing || isHighlighted}
                 />
               </div>
             </Flex>
