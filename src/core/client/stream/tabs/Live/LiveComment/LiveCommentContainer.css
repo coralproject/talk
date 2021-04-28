@@ -65,8 +65,8 @@
   transform: scaleX(-1) scaleY(-1);
   font-size: 20px;
   width: 20px;
-  margin-left: 16px;
-  margin-right: 12px;
+  margin-left: var(--spacing-4);
+  margin-right: var(--spacing-3);
 }
 
 .parentUser {
@@ -82,7 +82,7 @@
   color: var(--palette-text-000);
 
   margin-right: var(--spacing-2);
-  height: 20px;
+  line-height: 20px;
 }
 
 .parentBody {
@@ -95,7 +95,7 @@
   color: var(--palette-grey-500);
 
   margin-right: var(--spacing-1);
-  height: 20px;
+  line-height: 20px;
 }
 
 .parentBodyHighlight {
@@ -108,7 +108,7 @@
   color: var(--palette-text-000);
 
   margin-right: var(--spacing-1);
-  height: 20px;
+  line-height: 20px;
 }
 
 .replyButton {
