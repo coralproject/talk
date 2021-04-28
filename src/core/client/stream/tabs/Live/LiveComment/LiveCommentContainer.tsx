@@ -86,11 +86,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
 
-  const isReplyToViewer =
-    viewer &&
-    comment.parent &&
-    comment.parent.author &&
-    comment.parent.author.id === viewer.id;
+  const isReplyToViewer = comment.parent?.author?.id === viewer?.id;
 
   const handleInView = useCallback(
     (visible: boolean) => {
