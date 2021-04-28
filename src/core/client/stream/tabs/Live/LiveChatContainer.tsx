@@ -24,10 +24,6 @@ import {
   LiveChatJumpToNewEvent,
   LiveChatLoadAfterEvent,
   LiveChatLoadBeforeEvent,
-  LiveChatOpenConversationEvent,
-  LiveChatOpenParentEvent,
-  LiveChatOpenReplyEvent,
-  LiveChatOpenReplyToParentEvent,
   LiveChatStartTailingEvent,
   LiveChatStopTailingEvent,
   LiveChatSubmitCommentWhenNotTailingEvent,
@@ -56,21 +52,12 @@ import LiveCommentEditedSubscription from "./LiveCommentEditedSubscription";
 import LiveCommentEnteredSubscription from "./LiveCommentEnteredSubscription";
 import LiveCommentRejectedSubscription from "./LiveCommentRejectedSubscription";
 import { LiveConversationQuery } from "./LiveConversation";
-import { HighlightedConvCommentState } from "./LiveConversation/LiveConversationQuery";
+import useConversation from "./LiveConversation/useConversation";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
 
 import styles from "./LiveChatContainer.css";
-
-interface ConversationViewState {
-  visible: boolean;
-  comment?:
-    | LiveCommentContainer_comment
-    | NonNullable<LiveCommentContainer_comment["parent"]>
-    | null;
-  type?: "conversation" | "parent" | "reply" | "replyToParent";
-}
 
 interface Props {
   beforeComments: LiveChatContainerBeforeCommentEdge;
@@ -142,11 +129,11 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
 
   const showCommentForm = !banned && !suspended && !warned;
-  const [conversationView, setConversationView] = useState<
-    ConversationViewState
-  >({
-    visible: false,
-  });
+  const [
+    conversationState,
+    showConversation,
+    hideConversation,
+  ] = useConversation(eventEmitter);
 
   const [
     newlyPostedComment,
@@ -164,10 +151,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     editingComment,
     setEditingComment,
   ] = useState<EditingCommentViewState | null>(null);
-
-  const [highlightedConvComment, setHighlightedConvComment] = useState<
-    HighlightedConvCommentState | undefined
-  >(undefined);
 
   const setTailing = useCallback(
     (value: boolean) => {
@@ -268,89 +251,52 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     [localStorage, newlyPostedComment, storyID, storyURL]
   );
 
-  const showConversation = useCallback(
-    (
-      comment:
-        | LiveCommentContainer_comment
-        | NonNullable<LiveCommentContainer_comment["parent"]>,
-      type: Required<ConversationViewState>["type"]
-    ) => {
-      if (type === "conversation") {
-        LiveChatOpenConversationEvent.emit(eventEmitter, {
-          storyID: story.id,
-          commentID: comment.id,
-          viewerID: viewer ? viewer.id : "",
-        });
-      } else if (type === "parent") {
-        LiveChatOpenParentEvent.emit(eventEmitter, {
-          storyID: story.id,
-          commentID: comment.id,
-          viewerID: viewer ? viewer.id : "",
-        });
-      } else if (type === "reply") {
-        LiveChatOpenReplyEvent.emit(eventEmitter, {
-          storyID: story.id,
-          commentID: comment.id,
-          viewerID: viewer ? viewer.id : "",
-        });
-      } else if (type === "replyToParent") {
-        LiveChatOpenReplyToParentEvent.emit(eventEmitter, {
-          storyID: story.id,
-          commentID: comment.id,
-          viewerID: viewer ? viewer.id : "",
-        });
-      }
-
-      setConversationView({
-        visible: true,
-        comment,
-        type,
-      });
-    },
-    [eventEmitter, story.id, viewer]
-  );
-
   const handleReplyToComment = useCallback(
     (comment: LiveCommentContainer_comment) => {
-      showConversation(comment, "reply");
+      showConversation(comment, story.id, viewer ? viewer.id : "", "reply");
     },
-    [showConversation]
+    [showConversation, story.id, viewer]
   );
   const handleReplyToParent = useCallback(
     (
       parent: NonNullable<LiveCommentContainer_comment["parent"]>,
       comment: LiveCommentContainer_comment
     ) => {
-      setHighlightedConvComment({
-        id: comment.id,
-        cursor: comment.createdAt,
-      });
-      showConversation(parent, "replyToParent");
+      showConversation(
+        parent,
+        story.id,
+        viewer ? viewer.id : "",
+        "replyToParent",
+        {
+          highlight: comment,
+        }
+      );
     },
-    [showConversation]
+    [showConversation, story.id, viewer]
   );
 
   const handleShowConversation = useCallback(
     (comment: LiveCommentContainer_comment) => {
-      showConversation(comment, "conversation");
+      showConversation(
+        comment,
+        story.id,
+        viewer ? viewer.id : "",
+        "conversation"
+      );
     },
-    [showConversation]
+    [showConversation, story.id, viewer]
   );
 
   const handleShowParentConversation = useCallback(
     (parent: NonNullable<LiveCommentContainer_comment["parent"]>) => {
-      showConversation(parent, "parent");
+      showConversation(parent, story.id, viewer ? viewer.id : "", "parent");
     },
-    [showConversation]
+    [showConversation, story.id, viewer]
   );
 
   const handleCloseConversation = useCallback(() => {
-    setHighlightedConvComment(undefined);
-    setConversationView({
-      visible: false,
-      comment: null,
-    });
-  }, [setConversationView]);
+    hideConversation();
+  }, [hideConversation]);
 
   const jumpToComment = useCallback(() => {
     if (!newlyPostedComment) {
@@ -677,14 +623,14 @@ const LiveChatContainer: FunctionComponent<Props> = ({
             </JumpToButton>
           )}
 
-        {conversationView.visible && conversationView.comment && (
+        {conversationState.visible && conversationState.comment && (
           <LiveConversationQuery
             settings={settings}
             viewer={viewer}
             story={story}
-            comment={conversationView.comment}
+            comment={conversationState.comment}
             onClose={handleCloseConversation}
-            highlightedCommentState={highlightedConvComment}
+            highlightedCommentState={conversationState.highlightedComment}
           />
         )}
         <div className={styles.commentForm}>

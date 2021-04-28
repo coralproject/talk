@@ -318,6 +318,7 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       parent {
         id
+        createdAt
         author {
           id
           username

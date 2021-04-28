@@ -20,11 +20,7 @@ import { LiveConversationQuery_viewer } from "coral-stream/__generated__/LiveCon
 import LiveConversationAfterContainer from "./LiveConversationAfterContainer";
 import LiveConversationBeforeContainer from "./LiveConversationBeforeContainer";
 import LiveConversationContainer from "./LiveConversationContainer";
-
-export interface HighlightedConvCommentState {
-  id: string;
-  cursor: string;
-}
+import { HighlightedComment } from "./useConversation";
 
 interface Props {
   settings: LiveConversationQuery_settings;
@@ -34,7 +30,7 @@ interface Props {
 
   onClose: () => void;
 
-  highlightedCommentState?: HighlightedConvCommentState;
+  highlightedCommentState?: HighlightedComment;
 }
 
 const LiveConversationQuery: FunctionComponent<Props> = ({
