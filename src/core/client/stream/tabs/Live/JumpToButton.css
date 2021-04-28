@@ -1,3 +1,7 @@
+.root {
+  position: relative;
+}
+
 .jumpToContainer {
   position: absolute;
 
@@ -6,8 +10,7 @@
   z-index: 998;
 
   transform: translate(-50%, 0%);
-
-  background: transparent;
+  white-space: nowrap;
 }
 
 .jumpButton {

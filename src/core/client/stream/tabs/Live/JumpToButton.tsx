@@ -1,14 +1,14 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./JumpToButton.css";
 
 interface Props {
   onClick: () => void;
-  children: string | React.ReactNode;
+  children: React.ReactNode;
 
   onCancel?: () => void;
 }
@@ -19,28 +19,30 @@ const JumpToButton: FunctionComponent<Props> = ({
   onCancel,
 }) => {
   return (
-    <Flex alignItems="center" className={styles.jumpToContainer}>
-      <Button
-        onClick={onClick}
-        color="primary"
-        className={cn({
-          [styles.jumpButton]: !onCancel,
-          [styles.jumpToWithCancel]: onCancel,
-        })}
-      >
-        {children}
-      </Button>
-      {onCancel && (
+    <div className={styles.root}>
+      <div className={styles.jumpToContainer}>
         <Button
-          onClick={onCancel}
+          onClick={onClick}
           color="primary"
-          aria-valuetext="close"
-          className={styles.jumpToCancelButton}
+          className={cn({
+            [styles.jumpButton]: !onCancel,
+            [styles.jumpToWithCancel]: onCancel,
+          })}
         >
-          <Icon>close</Icon>
+          {children}
         </Button>
-      )}
-    </Flex>
+        {onCancel && (
+          <Button
+            onClick={onCancel}
+            color="primary"
+            aria-valuetext="close"
+            className={styles.jumpToCancelButton}
+          >
+            <Icon>close</Icon>
+          </Button>
+        )}
+      </div>
+    </div>
   );
 };
 

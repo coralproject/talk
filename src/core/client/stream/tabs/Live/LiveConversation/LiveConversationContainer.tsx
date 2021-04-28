@@ -375,7 +375,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           )}
 
           {!isLoading && commentDeferred && (
-            <div className={styles.stream}>
+            <div>
               <div
                 className={cn(styles.comment, {
                   [styles.header]:
@@ -416,16 +416,12 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
               />
               {!newlyPostedReply && !tailing && afterHasMore && !coldStart && (
                 <JumpToButton onClick={handleJumpToLive}>
-                  <>
-                    Jump to live <Icon>arrow_downward</Icon>
-                  </>
+                  Jump to live <Icon>arrow_downward</Icon>
                 </JumpToButton>
               )}
               {newlyPostedReply && (
                 <JumpToButton onClick={jumpToReply} onCancel={closeJumpToReply}>
-                  <>
-                    Reply posted below <Icon>arrow_downward</Icon>
-                  </>
+                  Reply posted below <Icon>arrow_downward</Icon>
                 </JumpToButton>
               )}
             </div>

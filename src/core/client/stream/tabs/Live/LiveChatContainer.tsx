@@ -588,81 +588,73 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
       <div className={styles.root}>
-        <div className={styles.stream}>
-          <div className={styles.filler}></div>
-          {story.status === GQLSTORY_STATUS.OPEN &&
-            afterComments.length === 0 &&
-            beforeComments.length === 0 && (
-              <Localized id="comments-noCommentsYet">
-                <CallOut color="primary">
-                  There are no comments yet. Why don't you write one?
-                </CallOut>
-              </Localized>
-            )}
-          {story.status === GQLSTORY_STATUS.CLOSED &&
-            afterComments.length === 0 &&
-            beforeComments.length === 0 && (
-              <Localized id="comments-noCommentsAtAll">
-                <CallOut color="mono">
-                  There are no comments on this story.
-                </CallOut>
-              </Localized>
-            )}
-          <Virtuoso
-            firstItemIndex={START_INDEX - beforeComments.length}
-            id="live-chat-comments"
-            ref={virtuoso}
-            className={styles.virtuoso}
-            totalCount={
-              beforeComments.length +
-              afterComments.length +
-              (isLoadingMoreAfter ? 1 : 0)
-            }
-            initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
-            itemContent={itemContent}
-            alignToBottom
-            followOutput="smooth"
-            overscan={OVERSCAN}
-            atTopStateChange={handleAtTopStateChange}
-            atBottomStateChange={handleAtBottomStateChange}
-          />
+        <div className={styles.filler}></div>
+        {story.status === GQLSTORY_STATUS.OPEN &&
+          afterComments.length === 0 &&
+          beforeComments.length === 0 && (
+            <Localized id="comments-noCommentsYet">
+              <CallOut color="primary">
+                There are no comments yet. Why don't you write one?
+              </CallOut>
+            </Localized>
+          )}
+        {story.status === GQLSTORY_STATUS.CLOSED &&
+          afterComments.length === 0 &&
+          beforeComments.length === 0 && (
+            <Localized id="comments-noCommentsAtAll">
+              <CallOut color="mono">
+                There are no comments on this story.
+              </CallOut>
+            </Localized>
+          )}
+        <Virtuoso
+          firstItemIndex={START_INDEX - beforeComments.length}
+          id="live-chat-comments"
+          ref={virtuoso}
+          className={styles.streamContainer}
+          totalCount={
+            beforeComments.length +
+            afterComments.length +
+            (isLoadingMoreAfter ? 1 : 0)
+          }
+          initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+          itemContent={itemContent}
+          alignToBottom
+          followOutput="smooth"
+          overscan={OVERSCAN}
+          atTopStateChange={handleAtTopStateChange}
+          atBottomStateChange={handleAtBottomStateChange}
+        />
 
-          {newlyPostedComment && (
-            <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
-              <>
-                Message posted below <Icon>arrow_downward</Icon>
-              </>
+        {newlyPostedComment && (
+          <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
+            Message posted below <Icon>arrow_downward</Icon>
+          </JumpToButton>
+        )}
+
+        {!newlyPostedComment &&
+          !tailing &&
+          afterHasMore &&
+          !coldStart &&
+          !cursorInView &&
+          (!mostRecentViewedPosition ||
+            mostRecentViewedPosition === CommentPosition.Before) && (
+            <JumpToButton onClick={jumpToNew}>
+              New messages <Icon>arrow_downward</Icon>
             </JumpToButton>
           )}
 
-          {!newlyPostedComment &&
-            !tailing &&
-            afterHasMore &&
-            !coldStart &&
-            !cursorInView &&
-            (!mostRecentViewedPosition ||
-              mostRecentViewedPosition === CommentPosition.Before) && (
-              <JumpToButton onClick={jumpToNew}>
-                <>
-                  New messages <Icon>arrow_downward</Icon>
-                </>
-              </JumpToButton>
-            )}
-
-          {((mostRecentViewedPosition &&
-            mostRecentViewedPosition === CommentPosition.After) ||
-            cursorInView) &&
-            !newlyPostedComment &&
-            !tailing &&
-            !coldStart &&
-            afterHasMore && (
-              <JumpToButton onClick={jumpToLive}>
-                <>
-                  Jump to live <Icon>arrow_downward</Icon>
-                </>
-              </JumpToButton>
-            )}
-        </div>
+        {((mostRecentViewedPosition &&
+          mostRecentViewedPosition === CommentPosition.After) ||
+          cursorInView) &&
+          !newlyPostedComment &&
+          !tailing &&
+          !coldStart &&
+          afterHasMore && (
+            <JumpToButton onClick={jumpToLive}>
+              Jump to live <Icon>arrow_downward</Icon>
+            </JumpToButton>
+          )}
 
         {conversationView.visible && conversationView.comment && (
           <LiveConversationQuery
