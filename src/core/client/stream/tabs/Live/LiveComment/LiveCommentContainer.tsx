@@ -222,7 +222,12 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       )}
       id={`comment-${comment.id}-top`}
     >
-      <div className={styles.comment}>
+      <div
+        className={cn({
+          [styles.comment]: !isReplyToViewer,
+          [styles.emphasizedReplyComment]: isReplyToViewer,
+        })}
+      >
         <InView onInView={handleInView} />
         {comment.parent && (
           <div

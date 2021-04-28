@@ -16,6 +16,15 @@
   padding-right: var(--spacing-1);
 }
 
+.emphasizedReplyComment {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+
+  width: calc(100% - 2 * var(--spacing-1));
+  padding-top: var(--spacing-1);
+  padding-right: var(--spacing-1);
+}
+
 .parent {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-1);
@@ -36,7 +45,8 @@
 }
 
 .bodyAndActions {
-  width: 100%;
+  margin-left: var(--spacing-1);
+  width: calc(100% - var(--spacing-1));
 }
 
 .paddedBodyAndActions {
@@ -55,8 +65,8 @@
   transform: scaleX(-1) scaleY(-1);
   font-size: 20px;
   width: 20px;
-  margin-left: 6px;
-  margin-right: 8px;
+  margin-left: var(--spacing-2);
+  margin-right: var(--spacing-4);
 }
 
 .parentArrowHighlight {
@@ -65,8 +75,8 @@
   transform: scaleX(-1) scaleY(-1);
   font-size: 20px;
   width: 20px;
-  margin-left: var(--spacing-4);
-  margin-right: var(--spacing-3);
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-4);
 }
 
 .parentUser {
@@ -74,7 +84,7 @@
   color: var(--palette-grey-600);
 
   margin-right: var(--spacing-2);
-  height: 20px;
+  line-height: 20px;
 }
 
 .parentUserHighlight {
