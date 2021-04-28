@@ -588,45 +588,45 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
       <div className={styles.root}>
-        <div className={styles.filler}></div>
-        {story.status === GQLSTORY_STATUS.OPEN &&
-          afterComments.length === 0 &&
-          beforeComments.length === 0 && (
-            <Localized id="comments-noCommentsYet">
-              <CallOut color="primary">
-                There are no comments yet. Why don't you write one?
-              </CallOut>
-            </Localized>
-          )}
-        {story.status === GQLSTORY_STATUS.CLOSED &&
-          afterComments.length === 0 &&
-          beforeComments.length === 0 && (
-            <Localized id="comments-noCommentsAtAll">
-              <CallOut color="mono">
-                There are no comments on this story.
-              </CallOut>
-            </Localized>
-          )}
-        <Virtuoso
-          firstItemIndex={START_INDEX - beforeComments.length}
-          id="live-chat-comments"
-          ref={virtuoso}
-          className={styles.streamContainer}
-          totalCount={
-            beforeComments.length +
-            afterComments.length +
-            (isLoadingMoreAfter ? 1 : 0)
-          }
-          initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
-          itemContent={itemContent}
-          alignToBottom
-          followOutput="smooth"
-          overscan={OVERSCAN}
-          atTopStateChange={handleAtTopStateChange}
-          atBottomStateChange={handleAtBottomStateChange}
-        />
+        <div className={styles.stream}>
+          <div className={styles.filler}></div>
+          {story.status === GQLSTORY_STATUS.OPEN &&
+            afterComments.length === 0 &&
+            beforeComments.length === 0 && (
+              <Localized id="comments-noCommentsYet">
+                <CallOut color="primary">
+                  There are no comments yet. Why don't you write one?
+                </CallOut>
+              </Localized>
+            )}
+          {story.status === GQLSTORY_STATUS.CLOSED &&
+            afterComments.length === 0 &&
+            beforeComments.length === 0 && (
+              <Localized id="comments-noCommentsAtAll">
+                <CallOut color="mono">
+                  There are no comments on this story.
+                </CallOut>
+              </Localized>
+            )}
+          <Virtuoso
+            firstItemIndex={START_INDEX - beforeComments.length}
+            id="live-chat-comments"
+            ref={virtuoso}
+            className={styles.virtuoso}
+            totalCount={
+              beforeComments.length +
+              afterComments.length +
+              (isLoadingMoreAfter ? 1 : 0)
+            }
+            initialTopMostItemIndex={Math.max(beforeComments.length - 1, 0)}
+            itemContent={itemContent}
+            alignToBottom
+            followOutput="smooth"
+            overscan={OVERSCAN}
+            atTopStateChange={handleAtTopStateChange}
+            atBottomStateChange={handleAtBottomStateChange}
+          />
 
-        <Flex justifyContent="center" alignItems="center">
           {newlyPostedComment && (
             <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
               <>
@@ -662,7 +662,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
                 </>
               </JumpToButton>
             )}
-        </Flex>
+        </div>
 
         {conversationView.visible && conversationView.comment && (
           <LiveConversationQuery

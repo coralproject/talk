@@ -375,7 +375,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           )}
 
           {!isLoading && commentDeferred && (
-            <div>
+            <div className={styles.stream}>
               <div
                 className={cn(styles.comment, {
                   [styles.header]:
@@ -421,30 +421,13 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   </>
                 </JumpToButton>
               )}
-            </div>
-          )}
-
-          {newlyPostedReply && (
-            <div className={styles.scrollToNewReply}>
-              <Flex justifyContent="center" alignItems="center">
-                <Flex alignItems="center">
-                  <Button
-                    onClick={jumpToReply}
-                    color="primary"
-                    className={styles.jumpButton}
-                  >
+              {newlyPostedReply && (
+                <JumpToButton onClick={jumpToReply} onCancel={closeJumpToReply}>
+                  <>
                     Reply posted below <Icon>arrow_downward</Icon>
-                  </Button>
-                  <Button
-                    onClick={closeJumpToReply}
-                    color="primary"
-                    aria-valuetext="close"
-                    className={styles.jumpButtonClose}
-                  >
-                    <Icon>close</Icon>
-                  </Button>
-                </Flex>
-              </Flex>
+                  </>
+                </JumpToButton>
+              )}
             </div>
           )}
           <div className={styles.commentForm}>

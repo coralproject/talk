@@ -26,6 +26,10 @@
   background-color: rgba(125, 125, 125, 0.5);
 }
 
+.stream {
+  position: relative;
+}
+
 .title {
   margin-bottom: var(--spacing-2);
 

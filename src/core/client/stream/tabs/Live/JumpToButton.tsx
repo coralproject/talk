@@ -19,30 +19,28 @@ const JumpToButton: FunctionComponent<Props> = ({
   onCancel,
 }) => {
   return (
-    <div className={styles.jumpToContainer}>
-      <Flex alignItems="center" className={styles.noHeight}>
+    <Flex alignItems="center" className={styles.jumpToContainer}>
+      <Button
+        onClick={onClick}
+        color="primary"
+        className={cn({
+          [styles.jumpButton]: !onCancel,
+          [styles.jumpToWithCancel]: onCancel,
+        })}
+      >
+        {children}
+      </Button>
+      {onCancel && (
         <Button
-          onClick={onClick}
+          onClick={onCancel}
           color="primary"
-          className={cn({
-            [styles.jumpButton]: !onCancel,
-            [styles.jumpToWithCancel]: onCancel,
-          })}
+          aria-valuetext="close"
+          className={styles.jumpToCancelButton}
         >
-          {children}
+          <Icon>close</Icon>
         </Button>
-        {onCancel && (
-          <Button
-            onClick={onCancel}
-            color="primary"
-            aria-valuetext="close"
-            className={styles.jumpToCancelButton}
-          >
-            <Icon>close</Icon>
-          </Button>
-        )}
-      </Flex>
-    </div>
+      )}
+    </Flex>
   );
 };
 

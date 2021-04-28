@@ -1,5 +1,4 @@
 .root {
-  height: 600px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -8,7 +7,12 @@
   border-top: solid 2px var(--palette-grey-300);
 }
 
-.streamContainer {
+.stream {
+  height: 525px;
+  position: relative;
+}
+
+.virtuoso {
   position: relative;
 }
 
