@@ -43,6 +43,26 @@ interface Props {
   onEdit?: () => void;
 }
 
+const ReadConversationButton: React.FC<{ onClick: React.MouseEventHandler }> = (
+  props
+) => (
+  <Button
+    className={styles.conversationButton}
+    variant="none"
+    onClick={props.onClick}
+    paddingSize="extraSmall"
+  >
+    <Flex justifyContent="flex-start" alignItems="center">
+      <Icon className={styles.conversationIcon} aria-label="Read conversation">
+        forum
+      </Icon>
+      <Responsive minWidth={400}>
+        <span className={styles.action}>Read Conversation</span>
+      </Responsive>
+    </Flex>
+  </Button>
+);
+
 const LiveCommentActionsContainer: FunctionComponent<Props> = ({
   story,
   comment,
@@ -188,59 +208,25 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           isChat
           className={styles.action}
         />
-        {onReply && (
+        {!comment.parent && onReply && (
           <Button
-            className={styles.conversationButton}
+            className={styles.replyButton}
             variant="none"
             onClick={handleOnReply}
-            paddingSize="extraSmall"
           >
             <Flex justifyContent="flex-start" alignItems="center">
-              {comment.parent ? (
-                <>
-                  <Icon
-                    className={styles.conversationIcon}
-                    aria-label="Read conversation"
-                  >
-                    forum
-                  </Icon>
-                  <Responsive minWidth={400}>
-                    <span className={styles.action}>Read Conversation</span>
-                  </Responsive>
-                </>
-              ) : (
-                <>
-                  <ShortcutIcon
-                    className={styles.replyIcon}
-                    ariaLabel="Reply"
-                  />
-                  <Responsive minWidth={400}>
-                    <span className={styles.action}>Reply</span>
-                  </Responsive>
-                </>
-              )}
-            </Flex>
-          </Button>
-        )}
-        {!comment.parent && comment.replyCount > 0 && onConversation && (
-          <Button
-            className={styles.conversationButton}
-            variant="none"
-            onClick={handleOnConversation}
-            paddingSize="extraSmall"
-          >
-            <Flex justifyContent="flex-start" alignItems="center">
-              <Icon
-                className={styles.conversationIcon}
-                aria-label="Read conversation"
-              >
-                forum
-              </Icon>
+              <ShortcutIcon className={styles.replyIcon} ariaLabel="Reply" />
               <Responsive minWidth={400}>
-                <span className={styles.action}>Read Conversation</span>
+                <span className={styles.action}>Reply</span>
               </Responsive>
             </Flex>
           </Button>
+        )}
+        {comment.parent && onReply && (
+          <ReadConversationButton onClick={handleOnReply} />
+        )}
+        {!comment.parent && comment.replyCount > 0 && onConversation && (
+          <ReadConversationButton onClick={handleOnConversation} />
         )}
         {editable && onEdit && (
           <Button
