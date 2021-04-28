@@ -8,6 +8,7 @@ import {
   CommentEnteredModerationQueueCoralEventPayload,
   CommentFeaturedCoralEventPayload,
   CommentLeftModerationQueueCoralEventPayload,
+  CommentRejectedCoralEventPayload,
   CommentReleasedCoralEventPayload,
   CommentReplyCreatedCoralEventPayload,
   CommentStatusUpdatedCoralEventPayload,
@@ -24,7 +25,8 @@ type SubscriptionCoralEventListenerPayloads =
   | CommentCreatedCoralEventPayload
   | CommentFeaturedCoralEventPayload
   | CommentReleasedCoralEventPayload
-  | CommentEditedCoralEventPayload;
+  | CommentEditedCoralEventPayload
+  | CommentRejectedCoralEventPayload;
 
 export class SubscriptionCoralEventListener
   implements CoralEventListener<SubscriptionCoralEventListenerPayloads> {
@@ -39,6 +41,7 @@ export class SubscriptionCoralEventListener
     CoralEventType.COMMENT_FEATURED,
     CoralEventType.COMMENT_RELEASED,
     CoralEventType.COMMENT_EDITED,
+    CoralEventType.COMMENT_REJECTED,
   ];
 
   private translate(
@@ -63,6 +66,8 @@ export class SubscriptionCoralEventListener
         return SUBSCRIPTION_CHANNELS.COMMENT_ENTERED;
       case CoralEventType.COMMENT_EDITED:
         return SUBSCRIPTION_CHANNELS.COMMENT_EDITED;
+      case CoralEventType.COMMENT_REJECTED:
+        return SUBSCRIPTION_CHANNELS.COMMENT_REJECTED;
     }
   }
 
