@@ -8570,9 +8570,9 @@ on a story.
 """
 type CommentRejectedPayload {
   """
-  commentID is the comment id that was rejected on the story.
+  comment is the comment that was rejected on the story.
   """
-  commentID: ID!
+  comment: Comment!
 }
 
 """

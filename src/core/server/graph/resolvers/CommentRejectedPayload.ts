@@ -1,6 +1,8 @@
 import { GQLCommentRejectedPayloadTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { maybeLoadOnlyID } from "./Comment";
 import { CommentRejectedInput } from "./Subscription/commentRejected";
 
 export const CommentRejectedPayload: GQLCommentRejectedPayloadTypeResolver<CommentRejectedInput> = {
-  commentID: ({ commentID }, args, ctx, info) => commentID,
+  comment: ({ commentID }, args, ctx, info) =>
+    maybeLoadOnlyID(ctx, info, commentID, { filterNonVisible: false }),
 };
