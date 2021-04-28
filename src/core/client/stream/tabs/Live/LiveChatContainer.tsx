@@ -634,43 +634,35 @@ const LiveChatContainer: FunctionComponent<Props> = ({
           atBottomStateChange={handleAtBottomStateChange}
         />
 
-        <Flex justifyContent="center" alignItems="center">
-          {newlyPostedComment && (
-            <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
-              <>
-                Message posted below <Icon>arrow_downward</Icon>
-              </>
+        {newlyPostedComment && (
+          <JumpToButton onClick={jumpToComment} onCancel={closeJumpToComment}>
+            Message posted below <Icon>arrow_downward</Icon>
+          </JumpToButton>
+        )}
+
+        {!newlyPostedComment &&
+          !tailing &&
+          afterHasMore &&
+          !coldStart &&
+          !cursorInView &&
+          (!mostRecentViewedPosition ||
+            mostRecentViewedPosition === CommentPosition.Before) && (
+            <JumpToButton onClick={jumpToNew}>
+              New messages <Icon>arrow_downward</Icon>
             </JumpToButton>
           )}
 
-          {!newlyPostedComment &&
-            !tailing &&
-            afterHasMore &&
-            !coldStart &&
-            !cursorInView &&
-            (!mostRecentViewedPosition ||
-              mostRecentViewedPosition === CommentPosition.Before) && (
-              <JumpToButton onClick={jumpToNew}>
-                <>
-                  New messages <Icon>arrow_downward</Icon>
-                </>
-              </JumpToButton>
-            )}
-
-          {((mostRecentViewedPosition &&
-            mostRecentViewedPosition === CommentPosition.After) ||
-            cursorInView) &&
-            !newlyPostedComment &&
-            !tailing &&
-            !coldStart &&
-            afterHasMore && (
-              <JumpToButton onClick={jumpToLive}>
-                <>
-                  Jump to live <Icon>arrow_downward</Icon>
-                </>
-              </JumpToButton>
-            )}
-        </Flex>
+        {((mostRecentViewedPosition &&
+          mostRecentViewedPosition === CommentPosition.After) ||
+          cursorInView) &&
+          !newlyPostedComment &&
+          !tailing &&
+          !coldStart &&
+          afterHasMore && (
+            <JumpToButton onClick={jumpToLive}>
+              Jump to live <Icon>arrow_downward</Icon>
+            </JumpToButton>
+          )}
 
         {conversationView.visible && conversationView.comment && (
           <LiveConversationQuery
