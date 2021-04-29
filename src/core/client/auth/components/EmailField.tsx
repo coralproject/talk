@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field } from "react-final-form";
 
 import { streamColorFromMeta } from "coral-framework/lib/form";
@@ -13,17 +13,18 @@ import { ValidationMessage } from "coral-ui/components/v3";
 
 interface Props {
   disabled: boolean;
-  focus?: boolean;
+  autofocus?: boolean;
 }
 
 const EmailField: FunctionComponent<Props> = (props) => {
-  let inputRef: HTMLInputElement | null = null;
-  useEffect(() => {
-    if (props.focus) {
-      // eslint-disable-next-line no-unused-expressions
-      inputRef?.focus();
-    }
-  }, [inputRef, props.focus]);
+  const handleRef = useCallback(
+    (ref: HTMLInputElement | null) => {
+      if (props.autofocus && ref) {
+        ref.focus();
+      }
+    },
+    [props.autofocus]
+  );
 
   return (
     <Field name="email" validate={composeValidators(required, validateEmail)}>
@@ -44,11 +45,7 @@ const EmailField: FunctionComponent<Props> = (props) => {
               color={streamColorFromMeta(meta)}
               disabled={props.disabled}
               fullWidth
-              ref={(field) => {
-                if (props.focus) {
-                  inputRef = field;
-                }
-              }}
+              ref={handleRef}
             />
           </Localized>
           <ValidationMessage meta={meta} />
