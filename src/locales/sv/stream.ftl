@@ -115,7 +115,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing = Du ser just nu en
 comments-permalinkView-singleConversation = ENSKILD DISKUSSION
 comments-inReplyTo = Som svar till <Username></Username>
-comments-replyTo = Svarar till: <Username></Username>
+comments-replyingTo = Svarar till: <Username></Username>
 
 comments-reportButton-report = Anmäl
 comments-reportButton-reported = Anmäld
