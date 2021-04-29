@@ -279,34 +279,24 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
         const isEditing = editingCommentID === e.node.id;
 
         return (
-          <div
-            key={`chat-reply-${e.node.id}`}
-            className={cn(styles.comment, {
-              [styles.highlight]: isEditing,
-              [styles.highlight]: isHighlighted,
-            })}
-          >
-            <Flex justifyContent="flex-start" alignItems="stretch">
-              <div className={styles.replyMarker}></div>
-              <div
-                className={cn({
-                  [styles.bodyHighlighted]: isEditing || isHighlighted,
-                  [styles.body]: !isEditing && !isHighlighted,
-                })}
-              >
-                <LiveReplyContainer
-                  story={story}
-                  comment={e.node}
-                  viewer={viewer}
-                  settings={settings}
-                  onInView={handleCommentInView}
-                  onEdit={handleOnEdit}
-                  editing={isEditing}
-                  onCancelEditing={handleOnCloseEdit}
-                  highlight={isEditing || isHighlighted}
-                />
-              </div>
-            </Flex>
+          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+            <div
+              className={cn(styles.body, {
+                [styles.bodyHighlight]: isEditing || isHighlighted,
+              })}
+            >
+              <LiveReplyContainer
+                story={story}
+                comment={e.node}
+                viewer={viewer}
+                settings={settings}
+                onInView={handleCommentInView}
+                onEdit={handleOnEdit}
+                editing={isEditing}
+                onCancelEditing={handleOnCloseEdit}
+                highlight={isEditing || isHighlighted}
+              />
+            </div>
           </div>
         );
       } else if (index < beforeComments.length + afterComments.length) {
@@ -315,34 +305,24 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
         const isEditing = editingCommentID === e.node.id;
 
         return (
-          <div
-            key={`chat-reply-${e.node.id}`}
-            className={cn(styles.comment, {
-              [styles.editHighlight]: isEditing,
-              [styles.highlight]: isHighlighted,
-            })}
-          >
-            <Flex justifyContent="flex-start" alignItems="stretch">
-              <div className={styles.replyMarker}></div>
-              <div
-                className={cn({
-                  [styles.bodyHighlighted]: isEditing || isHighlighted,
-                  [styles.body]: !isEditing && !isHighlighted,
-                })}
-              >
-                <LiveReplyContainer
-                  story={story}
-                  comment={e.node}
-                  viewer={viewer}
-                  settings={settings}
-                  onInView={handleCommentInView}
-                  onEdit={handleOnEdit}
-                  editing={isEditing}
-                  onCancelEditing={handleOnCloseEdit}
-                  highlight={isEditing || isHighlighted}
-                />
-              </div>
-            </Flex>
+          <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
+            <div
+              className={cn(styles.body, {
+                [styles.bodyHighlight]: isEditing || isHighlighted,
+              })}
+            >
+              <LiveReplyContainer
+                story={story}
+                comment={e.node}
+                viewer={viewer}
+                settings={settings}
+                onInView={handleCommentInView}
+                onEdit={handleOnEdit}
+                editing={isEditing}
+                onCancelEditing={handleOnCloseEdit}
+                highlight={isEditing || isHighlighted}
+              />
+            </div>
           </div>
         );
       } else if (index === beforeComments.length + afterComments.length) {

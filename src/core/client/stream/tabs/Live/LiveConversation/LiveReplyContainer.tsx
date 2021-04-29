@@ -16,7 +16,7 @@ import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyC
 
 import InView from "../InView";
 import LiveCommentActionsContainer from "../LiveComment/LiveCommentActionsContainer";
-import LiveCommentBodyContainer from "../LiveComment/LiveCommentBodyContainer";
+import LiveCommentAvatarAndBodyContainer from "../LiveComment/LiveCommentAvatarAndBodyContainer";
 
 import styles from "./LiveReplyContainer.css";
 
@@ -115,7 +115,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     >
       <div className={styles.comment}>
         <InView onInView={handleInView} />
-        <LiveCommentBodyContainer
+        <LiveCommentAvatarAndBodyContainer
           comment={comment}
           settings={settings}
           viewer={viewer}
@@ -158,7 +158,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveReplyContainer_story on Story {
       ...LiveCommentActionsContainer_story
-      ...LiveCommentBodyContainer_story
+      ...LiveCommentAvatarAndBodyContainer_story
     }
   `,
   viewer: graphql`
@@ -169,7 +169,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
-      ...LiveCommentBodyContainer_viewer
+      ...LiveCommentAvatarAndBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -188,7 +188,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveConversationContainer_comment
-      ...LiveCommentBodyContainer_comment
+      ...LiveCommentAvatarAndBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
     }
   `,
@@ -196,7 +196,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveReplyContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
-      ...LiveCommentBodyContainer_settings
+      ...LiveCommentAvatarAndBodyContainer_settings
     }
   `,
 })(LiveReplyContainer);

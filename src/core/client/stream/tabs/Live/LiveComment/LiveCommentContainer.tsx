@@ -20,7 +20,7 @@ import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveComm
 import ShortcutIcon from "../Icons/ShortcutIcon";
 import InView from "../InView";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
-import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
+import LiveCommentAvatarAndBodyContainer from "./LiveCommentAvatarAndBodyContainer";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -125,15 +125,15 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     onEdit(comment);
   }, [onEdit, comment]);
 
-  const commentBodyAndActions = useMemo(() => {
+  const commentAvatarBodyAndActions = useMemo(() => {
     return (
       <>
-        <LiveCommentBodyContainer
+        <LiveCommentAvatarAndBodyContainer
           comment={comment}
           settings={settings}
           viewer={viewer}
           story={story}
-          containerClassName={editing ? styles.highlight : ""}
+          containerClassName={editing ? styles.bodyHighlight : ""}
           onCancel={editing ? onCancelEditing : undefined}
         />
 
@@ -216,18 +216,13 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       ref={rootRef}
       className={cn(
         styles.root,
-        editing ? styles.highlight : "",
+        editing ? styles.bodyHighlight : "",
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
       id={`comment-${comment.id}-top`}
     >
-      <div
-        className={cn({
-          [styles.comment]: !isReplyToViewer,
-          [styles.emphasizedReplyComment]: isReplyToViewer,
-        })}
-      >
+      <div className={styles.container}>
         <InView onInView={handleInView} />
         {comment.parent && (
           <div
@@ -237,8 +232,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           >
             <Flex justifyContent="flex-start" alignItems="center">
               <ShortcutIcon
-                className={cn({
-                  [styles.parentArrow]: !isReplyToViewer,
+                className={cn(styles.parentArrow, {
                   [styles.parentArrowHighlight]: isReplyToViewer,
                 })}
               />
@@ -257,16 +251,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                   className={styles.parentButton}
                 >
                   <div
-                    className={cn({
-                      [styles.parentUser]: !isReplyToViewer,
+                    className={cn(styles.parentUser, {
                       [styles.parentUserHighlight]: isReplyToViewer,
                     })}
                   >
                     {comment.parent.author?.username}:
                   </div>
                   <div
-                    className={cn({
-                      [styles.parentBody]: !isReplyToViewer,
+                    className={cn(styles.parentBody, {
                       [styles.parentBodyHighlight]: isReplyToViewer,
                     })}
                   >
@@ -278,16 +270,13 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        <Flex>
-          {isReplyToViewer && <div className={styles.replyToViewerBar}></div>}
-          <div
-            className={cn(styles.bodyAndActions, {
-              [styles.paddedBodyAndActions]: isReplyToViewer,
-            })}
-          >
-            {commentBodyAndActions}
-          </div>
-        </Flex>
+        <div
+          className={cn(styles.avatarBodyAndActions, {
+            [styles.avatarBodyAndActionsHighlight]: isReplyToViewer,
+          })}
+        >
+          {commentAvatarBodyAndActions}
+        </div>
       </div>
       <div id={`comment-${comment.id}-bottom`}></div>
     </div>
@@ -298,7 +287,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveCommentContainer_story on Story {
       ...LiveCommentActionsContainer_story
-      ...LiveCommentBodyContainer_story
+      ...LiveCommentAvatarAndBodyContainer_story
     }
   `,
   viewer: graphql`
@@ -309,7 +298,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
-      ...LiveCommentBodyContainer_viewer
+      ...LiveCommentAvatarAndBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -339,7 +328,7 @@ const enhanced = withFragmentContainer<Props>({
       status
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
-      ...LiveCommentBodyContainer_comment
+      ...LiveCommentAvatarAndBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
       ...LiveConversationQuery_comment
     }
@@ -348,7 +337,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveCommentContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
-      ...LiveCommentBodyContainer_settings
+      ...LiveCommentAvatarAndBodyContainer_settings
     }
   `,
 })(LiveCommentContainer);

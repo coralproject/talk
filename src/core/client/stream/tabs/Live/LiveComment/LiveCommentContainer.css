@@ -1,59 +1,23 @@
 .root {
-  width: 100%;
 }
 
 .tombstone {
   margin-top: 1px;
 }
 
-.comment {
+.container {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
-
-  width: calc(100% - 2 * var(--spacing-1));
   padding-top: var(--spacing-1);
-  padding-left: var(--spacing-1);
-  padding-right: var(--spacing-1);
-}
-
-.emphasizedReplyComment {
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-2);
-
-  width: calc(100% - 2 * var(--spacing-1));
-  padding-top: var(--spacing-1);
-  padding-right: var(--spacing-1);
 }
 
 .parent {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-1);
-
-  width: 100%;
 }
 
 .parentHighlight {
   background-color: var(--palette-grey-700);
-
-  border-top-right-radius: var(--round-corners);
-  border-bottom-right-radius: var(--round-corners);
-}
-
-.replyToViewerBar {
-  width: 4px;
-  background-color: var(--palette-grey-700);
-}
-
-.bodyAndActions {
-  margin-left: var(--spacing-1);
-  width: calc(100% - var(--spacing-1));
-}
-
-.paddedBodyAndActions {
-  margin-top: var(--spacing-1);
-  margin-left: var(--spacing-1);
-
-  width: calc(100% - var(--spacing-1));
 }
 
 .parentButton {
@@ -71,10 +35,6 @@
 
 .parentArrowHighlight {
   color: var(--palette-grey-100);
-
-  transform: scaleX(-1) scaleY(-1);
-  font-size: 20px;
-  width: 20px;
   margin-left: var(--spacing-3);
   margin-right: var(--spacing-4);
 }
@@ -88,11 +48,7 @@
 }
 
 .parentUserHighlight {
-  font-weight: var(--font-weight-primary-semi-bold);
   color: var(--palette-text-000);
-
-  margin-right: var(--spacing-2);
-  line-height: 20px;
 }
 
 .parentBody {
@@ -109,16 +65,22 @@
 }
 
 .parentBodyHighlight {
-  width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-
   color: var(--palette-text-000);
+}
 
-  margin-right: var(--spacing-1);
-  line-height: 20px;
+.avatarBodyAndActions {
+  padding-left: calc(var(--spacing-1) * 2);
+  padding-right: var(--spacing-1);
+}
+
+.avatarBodyAndActionsHighlight {
+  border-left: var(--spacing-1) solid var(--palette-grey-700);
+  padding-top: var(--spacing-1);
+  padding-left: var(--spacing-1);
+}
+
+.bodyHighlight {
+  background-color: var(--palette-primary-100);
 }
 
 .replyButton {
@@ -126,8 +88,4 @@
   border-style: none;
 
   color: var(--palette-grey-500);
-}
-
-.highlight {
-  background-color: var(--palette-primary-100);
 }
