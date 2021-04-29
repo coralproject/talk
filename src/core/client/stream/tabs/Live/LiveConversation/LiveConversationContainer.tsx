@@ -282,7 +282,8 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
             <div
               className={cn(styles.body, {
-                [styles.bodyHighlight]: isEditing || isHighlighted,
+                [styles.bodyHighlight]: isHighlighted,
+                [styles.bodyEditing]: isEditing,
               })}
             >
               <LiveReplyContainer
@@ -308,7 +309,8 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
           <div key={`chat-reply-${e.node.id}`} className={styles.comment}>
             <div
               className={cn(styles.body, {
-                [styles.bodyHighlight]: isEditing || isHighlighted,
+                [styles.bodyHighlight]: isHighlighted,
+                [styles.bodyEditing]: isEditing,
               })}
             >
               <LiveReplyContainer

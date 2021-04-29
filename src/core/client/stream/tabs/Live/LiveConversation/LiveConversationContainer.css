@@ -145,6 +145,10 @@
   background-color: var(--palette-primary-200);
 }
 
+.bodyEditing {
+  background-color: var(--palette-primary-100);
+}
+
 .header {
   border-bottom: solid 2px var(--palette-grey-300);
 }
