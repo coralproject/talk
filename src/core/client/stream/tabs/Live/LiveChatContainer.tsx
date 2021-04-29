@@ -119,6 +119,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       storyURL
       liveChat {
         tailing
+        conversationRootCommentID
       }
     }
   `);
@@ -136,7 +137,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     conversationState,
     showConversation,
     hideConversation,
-  ] = useConversation(eventEmitter);
+  ] = useConversation(eventEmitter, setLocal);
 
   const [
     newlyPostedComment,
@@ -183,10 +184,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    // There is no need for checking tailing here.
-    if (afterHasMore) {
-      return;
-    }
     const disposable = subscribeToCommentEntered({ storyID: story.id });
 
     return () => {

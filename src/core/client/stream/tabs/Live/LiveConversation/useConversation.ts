@@ -1,6 +1,8 @@
 import { EventEmitter2 } from "eventemitter2";
 import { useCallback, useState } from "react";
+import { RecordProxy } from "relay-runtime";
 
+import { DeepPartial } from "coral-common/types";
 import {
   LiveChatOpenConversationEvent,
   LiveChatOpenParentEvent,
@@ -32,7 +34,8 @@ export interface ShowConversationOptions {
 }
 
 const useConversation = (
-  eventEmitter: EventEmitter2
+  eventEmitter: EventEmitter2,
+  setLocal: (update: DeepPartial<any> | ((record: RecordProxy) => void)) => void
 ): [
   ConversationViewState,
   (
@@ -100,8 +103,9 @@ const useConversation = (
               }
             : undefined,
       });
+      setLocal({ liveChat: { conversationRootCommentID: comment.id } });
     },
-    [eventEmitter]
+    [eventEmitter, setLocal]
   );
 
   const hideConversation = useCallback(() => {

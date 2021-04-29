@@ -50,6 +50,8 @@ type LiveChatState {
   # The current cursor that is shown at the "New" divider
   # in the live chat.
   currentCursor: String
+
+  conversationRootCommentID: String
 }
 
 extend type Comment {
