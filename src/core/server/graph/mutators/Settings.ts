@@ -1,4 +1,5 @@
 import GraphContext from "coral-server/graph/context";
+import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
@@ -68,9 +69,13 @@ export const Settings = ({
   deactivateSSOSigningSecret: ({ kid }: GQLDeactivateSSOSigningSecretInput) =>
     deactivateSSOSigningSecret(mongo, redis, tenantCache, tenant, kid, now),
   enableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
-    enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
+    enableFeatureFlag(mongo, redis, tenantCache, tenant, flag).then((flags) =>
+      flags.filter(validFeatureFlagsFilter(user))
+    ),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
-    disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
+    disableFeatureFlag(mongo, redis, tenantCache, tenant, flag).then((flags) =>
+      flags.filter(validFeatureFlagsFilter(user))
+    ),
   createAnnouncement: (input: WithoutMutationID<GQLCreateAnnouncementInput>) =>
     createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
