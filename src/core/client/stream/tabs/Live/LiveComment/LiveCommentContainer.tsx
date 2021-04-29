@@ -133,7 +133,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           settings={settings}
           viewer={viewer}
           story={story}
-          containerClassName={editing ? styles.bodyHighlight : ""}
+          containerClassName={editing ? styles.editingBackground : ""}
           onCancel={editing ? onCancelEditing : undefined}
         />
 
@@ -216,7 +216,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       ref={rootRef}
       className={cn(
         styles.root,
-        editing ? styles.bodyHighlight : "",
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
@@ -273,6 +272,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
         <div
           className={cn(styles.avatarBodyAndActions, {
             [styles.avatarBodyAndActionsHighlight]: isReplyToViewer,
+            [styles.editingBackground]: editing,
           })}
         >
           {commentAvatarBodyAndActions}
