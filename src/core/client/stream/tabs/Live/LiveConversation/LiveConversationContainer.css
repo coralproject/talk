@@ -132,32 +132,20 @@
 
 .comment {
   padding-top: var(--spacing-2);
+  padding-right: var(--spacing-1);
+  padding-left: var(--spacing-1);
 }
 
 .body {
-  padding-top: 0px;
-  width: 100%;
+  border-left: 2px solid var(--palette-primary-700);
+  padding-left: var(--spacing-1);
 }
 
-.bodyHighlighted {
-  padding-top: var(--spacing-1);
-  width: 100%;
+.bodyHighlight {
+  background-color: var(--palette-primary-200);
 }
 
-.replyMarker {
-  flex-shrink: 0;
-
-  top: 0;
-  bottom: 0;
-  left: 0;
-
-  width: 2px;
-  background-color: var(--palette-primary-700);
-
-  margin-right: var(--spacing-1);
-}
-
-.highlight {
+.bodyEditing {
   background-color: var(--palette-primary-100);
 }
 

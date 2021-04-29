@@ -16,7 +16,7 @@ import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyC
 
 import InView from "../InView";
 import LiveCommentActionsContainer from "../LiveComment/LiveCommentActionsContainer";
-import LiveCommentBodyContainer from "../LiveComment/LiveCommentBodyContainer";
+import LiveCommentAvatarAndBodyContainer from "../LiveComment/LiveCommentAvatarAndBodyContainer";
 
 import styles from "./LiveReplyContainer.css";
 
@@ -32,6 +32,7 @@ interface Props {
   onCancelEditing?: () => void;
 
   truncateBody?: boolean;
+  highlight?: boolean;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -44,6 +45,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   editing,
   onCancelEditing,
   truncateBody,
+  highlight,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -102,7 +104,10 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     <div
       className={cn(
         styles.root,
-        editing ? styles.highlight : "",
+        {
+          [styles.highlight]: highlight,
+          [styles.editHighlight]: editing,
+        },
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
@@ -110,12 +115,15 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
     >
       <div className={styles.comment}>
         <InView onInView={handleInView} />
-        <LiveCommentBodyContainer
+        <LiveCommentAvatarAndBodyContainer
           comment={comment}
           settings={settings}
           viewer={viewer}
           story={story}
-          containerClassName={editing ? styles.highlight : ""}
+          containerClassName={cn({
+            [styles.highlight]: highlight,
+            [styles.editHighlight]: editing,
+          })}
           onCancel={editing ? onCancelEditing : undefined}
           truncateBody={truncateBody}
         />
@@ -150,7 +158,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveReplyContainer_story on Story {
       ...LiveCommentActionsContainer_story
-      ...LiveCommentBodyContainer_story
+      ...LiveCommentAvatarAndBodyContainer_story
     }
   `,
   viewer: graphql`
@@ -161,7 +169,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
-      ...LiveCommentBodyContainer_viewer
+      ...LiveCommentAvatarAndBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -180,7 +188,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
       ...LiveConversationContainer_comment
-      ...LiveCommentBodyContainer_comment
+      ...LiveCommentAvatarAndBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
     }
   `,
@@ -188,7 +196,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveReplyContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
-      ...LiveCommentBodyContainer_settings
+      ...LiveCommentAvatarAndBodyContainer_settings
     }
   `,
 })(LiveReplyContainer);

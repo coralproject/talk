@@ -88,7 +88,7 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: CREATED_AT_DESC
           first: $count
-          inclusive: true
+          inclusive: false
         ) @connection(key: "Replies_before", filters: []) {
           edges {
             ...LiveConversationContainer_beforeComments

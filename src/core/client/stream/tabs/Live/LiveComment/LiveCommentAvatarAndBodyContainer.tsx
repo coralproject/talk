@@ -13,18 +13,18 @@ import { UsernameWithPopoverContainer } from "coral-stream/tabs/Comments/Comment
 import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { LiveCommentBodyContainer_comment } from "coral-stream/__generated__/LiveCommentBodyContainer_comment.graphql";
-import { LiveCommentBodyContainer_settings } from "coral-stream/__generated__/LiveCommentBodyContainer_settings.graphql";
-import { LiveCommentBodyContainer_story } from "coral-stream/__generated__/LiveCommentBodyContainer_story.graphql";
-import { LiveCommentBodyContainer_viewer } from "coral-stream/__generated__/LiveCommentBodyContainer_viewer.graphql";
+import { LiveCommentAvatarAndBodyContainer_comment } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_comment.graphql";
+import { LiveCommentAvatarAndBodyContainer_settings } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_settings.graphql";
+import { LiveCommentAvatarAndBodyContainer_story } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_story.graphql";
+import { LiveCommentAvatarAndBodyContainer_viewer } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_viewer.graphql";
 
-import styles from "./LiveCommentBodyContainer.css";
+import styles from "./LiveCommentAvatarAndBodyContainer.css";
 
 interface Props {
-  story: LiveCommentBodyContainer_story;
-  comment: LiveCommentBodyContainer_comment;
-  settings: LiveCommentBodyContainer_settings;
-  viewer: LiveCommentBodyContainer_viewer | null;
+  story: LiveCommentAvatarAndBodyContainer_story;
+  comment: LiveCommentAvatarAndBodyContainer_comment;
+  settings: LiveCommentAvatarAndBodyContainer_settings;
+  viewer: LiveCommentAvatarAndBodyContainer_viewer | null;
 
   containerClassName?: string;
   onCancel?: () => void;
@@ -32,7 +32,7 @@ interface Props {
   truncateBody?: boolean;
 }
 
-const LiveCommentBodyContainer: FunctionComponent<Props> = ({
+const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
   story,
   comment,
   settings,
@@ -134,19 +134,19 @@ const LiveCommentBodyContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
-    fragment LiveCommentBodyContainer_story on Story {
+    fragment LiveCommentAvatarAndBodyContainer_story on Story {
       id
       ...UserTagsContainer_story
     }
   `,
   viewer: graphql`
-    fragment LiveCommentBodyContainer_viewer on User {
+    fragment LiveCommentAvatarAndBodyContainer_viewer on User {
       id
       ...UsernameWithPopoverContainer_viewer
     }
   `,
   comment: graphql`
-    fragment LiveCommentBodyContainer_comment on Comment {
+    fragment LiveCommentAvatarAndBodyContainer_comment on Comment {
       id
       createdAt
       body
@@ -165,7 +165,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   settings: graphql`
-    fragment LiveCommentBodyContainer_settings on Settings {
+    fragment LiveCommentAvatarAndBodyContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
       ...UsernameWithPopoverContainer_settings
@@ -173,6 +173,6 @@ const enhanced = withFragmentContainer<Props>({
       ...MediaSectionContainer_settings
     }
   `,
-})(LiveCommentBodyContainer);
+})(LiveCommentAvatarAndBodyContainer);
 
 export default enhanced;

@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useRef } from "react";
+import React, { FunctionComponent, useCallback, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
@@ -20,7 +20,7 @@ import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveComm
 import ShortcutIcon from "../Icons/ShortcutIcon";
 import InView from "../InView";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
-import LiveCommentBodyContainer from "./LiveCommentBodyContainer";
+import LiveCommentAvatarAndBodyContainer from "./LiveCommentAvatarAndBodyContainer";
 
 import styles from "./LiveCommentContainer.css";
 
@@ -50,7 +50,8 @@ interface Props {
   ) => void;
   onReplyToComment: (comment: LiveCommentContainer_comment) => void;
   onReplyToParent: (
-    parent: NonNullable<LiveCommentContainer_comment["parent"]>
+    parent: NonNullable<LiveCommentContainer_comment["parent"]>,
+    comment: LiveCommentContainer_comment
   ) => void;
 
   onEdit?: (comment: LiveCommentContainer_comment) => void;
@@ -85,6 +86,8 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
 
+  const isReplyToViewer = comment.parent?.author?.id === viewer?.id;
+
   const handleInView = useCallback(
     (visible: boolean) => {
       onInView(visible, comment.id, comment.createdAt, cursor, position);
@@ -108,7 +111,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   const handleOnReply = useCallback(() => {
     const parent = comment.parent;
     if (parent) {
-      onReplyToParent(parent);
+      onReplyToParent(parent, comment);
     } else {
       onReplyToComment(comment);
     }
@@ -121,6 +124,57 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
 
     onEdit(comment);
   }, [onEdit, comment]);
+
+  const commentAvatarBodyAndActions = useMemo(() => {
+    return (
+      <>
+        <LiveCommentAvatarAndBodyContainer
+          comment={comment}
+          settings={settings}
+          viewer={viewer}
+          story={story}
+          containerClassName={editing ? styles.editingBackground : ""}
+          onCancel={editing ? onCancelEditing : undefined}
+        />
+
+        <div id={`comment-${comment.id}`}>
+          {!editing && (
+            <LiveCommentActionsContainer
+              story={story}
+              comment={comment}
+              viewer={viewer}
+              settings={settings}
+              onReply={handleOnReply}
+              onConversation={handleOnConversation}
+              onToggleReport={toggleShowReportFlow}
+              onEdit={editing ? undefined : handleOnEdit}
+              showReport={showReportFlow}
+            />
+          )}
+        </div>
+        {showReportFlow && (
+          <ReportFlowContainer
+            viewer={viewer}
+            comment={comment}
+            settings={settings}
+            onClose={toggleShowReportFlow}
+          />
+        )}
+      </>
+    );
+  }, [
+    comment,
+    editing,
+    handleOnConversation,
+    handleOnEdit,
+    handleOnReply,
+    onCancelEditing,
+    settings,
+    showReportFlow,
+    story,
+    toggleShowReportFlow,
+    viewer,
+  ]);
 
   if (ignored) {
     return (
@@ -162,18 +216,25 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
       ref={rootRef}
       className={cn(
         styles.root,
-        editing ? styles.highlight : "",
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`
       )}
       id={`comment-${comment.id}-top`}
     >
-      <div className={styles.comment}>
+      <div className={styles.container}>
         <InView onInView={handleInView} />
         {comment.parent && (
-          <div className={styles.parent}>
+          <div
+            className={cn(styles.parent, {
+              [styles.parentHighlight]: isReplyToViewer,
+            })}
+          >
             <Flex justifyContent="flex-start" alignItems="center">
-              <ShortcutIcon className={styles.parentArrow} />
+              <ShortcutIcon
+                className={cn(styles.parentArrow, {
+                  [styles.parentArrowHighlight]: isReplyToViewer,
+                })}
+              />
               <Button
                 variant="none"
                 paddingSize="none"
@@ -188,10 +249,18 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
                   alignItems="center"
                   className={styles.parentButton}
                 >
-                  <div className={styles.parentUser}>
+                  <div
+                    className={cn(styles.parentUser, {
+                      [styles.parentUserHighlight]: isReplyToViewer,
+                    })}
+                  >
                     {comment.parent.author?.username}:
                   </div>
-                  <div className={styles.parentBody}>
+                  <div
+                    className={cn(styles.parentBody, {
+                      [styles.parentBodyHighlight]: isReplyToViewer,
+                    })}
+                  >
                     {getHTMLPlainText(comment.parent?.body || "")}
                   </div>
                 </Flex>
@@ -200,38 +269,14 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
           </div>
         )}
 
-        <LiveCommentBodyContainer
-          comment={comment}
-          settings={settings}
-          viewer={viewer}
-          story={story}
-          containerClassName={editing ? styles.highlight : ""}
-          onCancel={editing ? onCancelEditing : undefined}
-        />
-
-        <div id={`comment-${comment.id}`}>
-          {!editing && (
-            <LiveCommentActionsContainer
-              story={story}
-              comment={comment}
-              viewer={viewer}
-              settings={settings}
-              onReply={handleOnReply}
-              onConversation={handleOnConversation}
-              onToggleReport={toggleShowReportFlow}
-              onEdit={editing ? undefined : handleOnEdit}
-              showReport={showReportFlow}
-            />
-          )}
+        <div
+          className={cn(styles.avatarBodyAndActions, {
+            [styles.avatarBodyAndActionsHighlight]: isReplyToViewer,
+            [styles.editingBackground]: editing,
+          })}
+        >
+          {commentAvatarBodyAndActions}
         </div>
-        {showReportFlow && (
-          <ReportFlowContainer
-            viewer={viewer}
-            comment={comment}
-            settings={settings}
-            onClose={toggleShowReportFlow}
-          />
-        )}
       </div>
       <div id={`comment-${comment.id}-bottom`}></div>
     </div>
@@ -242,17 +287,18 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment LiveCommentContainer_story on Story {
       ...LiveCommentActionsContainer_story
-      ...LiveCommentBodyContainer_story
+      ...LiveCommentAvatarAndBodyContainer_story
     }
   `,
   viewer: graphql`
     fragment LiveCommentContainer_viewer on User {
+      id
       ignoredUsers {
         id
       }
       ...ReportFlowContainer_viewer
       ...LiveCommentActionsContainer_viewer
-      ...LiveCommentBodyContainer_viewer
+      ...LiveCommentAvatarAndBodyContainer_viewer
     }
   `,
   comment: graphql`
@@ -266,7 +312,9 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       parent {
         id
+        createdAt
         author {
+          id
           username
         }
         body
@@ -280,7 +328,7 @@ const enhanced = withFragmentContainer<Props>({
       status
       ...ReportFlowContainer_comment
       ...LiveCommentActionsContainer_comment
-      ...LiveCommentBodyContainer_comment
+      ...LiveCommentAvatarAndBodyContainer_comment
       ...LiveEditCommentFormContainer_comment
       ...LiveConversationQuery_comment
     }
@@ -289,7 +337,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment LiveCommentContainer_settings on Settings {
       ...ReportFlowContainer_settings
       ...LiveCommentActionsContainer_settings
-      ...LiveCommentBodyContainer_settings
+      ...LiveCommentAvatarAndBodyContainer_settings
     }
   `,
 })(LiveCommentContainer);
