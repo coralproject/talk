@@ -110,6 +110,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing = Actualmente estás viendo
 comments-permalinkView-singleConversation = UNA SOLA CONVERSACIÓN
 comments-inReplyTo = En respuesta a: <Username></Username>
+comments-replyingTo = En respuesta a <Username></Username>
 comments-replyTo = En respuesta a: <Username></Username>
 
 comments-reportButton-report = Reportar
