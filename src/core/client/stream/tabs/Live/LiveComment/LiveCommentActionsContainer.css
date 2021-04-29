@@ -47,16 +47,6 @@
   margin-left: calc(30px + var(--spacing-2));
 }
 
-.leftActions {
-  flex-shrink: 0;
-  width: 150px;
-}
-
-.leftActionsWide {
-  flex-shrink: 0;
-  width: 300px;
-}
-
 .rightActions {
   flex-grow: 1;
 }

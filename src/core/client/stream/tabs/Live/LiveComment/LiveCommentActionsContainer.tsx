@@ -269,13 +269,7 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
       alignItems="center"
       className={styles.actionBar}
     >
-      <Responsive minWidth={400}>
-        <div className={styles.leftActionsWide}>{leftActions}</div>
-      </Responsive>
-      <Responsive maxWidth={400}>
-        <div className={styles.leftActions}>{leftActions}</div>
-      </Responsive>
-
+      <div>{leftActions}</div>
       <Flex className={styles.rightActions} justifyContent="flex-end">
         {viewer &&
           !isViewerBanned &&
