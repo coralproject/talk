@@ -80,7 +80,8 @@
 }
 
 .editingBackground {
-  background-color: var(--palette-primary-100);
+  /* this is grey-100, explicit because this shouldn't be overridden by SBN */
+  background-color: #F4F7F7;
 }
 
 .replyButton {

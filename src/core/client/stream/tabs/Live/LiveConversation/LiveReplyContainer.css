@@ -14,9 +14,11 @@
 }
 
 .highlight {
-  background-color: var(--palette-primary-200);
+  /* this is grey-200, explicit because this shouldn't be overridden by SBN */
+  background-color: #EAEFF0;
 }
 
 .editHighlight {
-  background-color: var(--palette-primary-100);
+  /* this is grey-100, explicit because this shouldn't be overridden by SBN */
+  background-color: #F4F7F7;
 }
