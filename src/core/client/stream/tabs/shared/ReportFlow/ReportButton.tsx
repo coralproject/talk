@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
-import Responsive from "react-responsive";
 
 import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -103,11 +102,11 @@ const ReportButton: FunctionComponent<Props> = ({
           <Icon size="sm" className={styles.icon}>
             flag
           </Icon>
-          <Responsive minWidth={400}>
+          <MatchMedia gteWidth="mobile">
             <Localized id="comments-reportButton-report">
               <span>Report</span>
             </Localized>
-          </Responsive>
+          </MatchMedia>
         </Flex>
       </Button>
     </Localized>

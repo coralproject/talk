@@ -1,7 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -10,7 +9,7 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import { UserTagsContainer } from "coral-stream/tabs/Comments/Comment";
 import AuthorBadges from "coral-stream/tabs/Comments/Comment/AuthorBadges";
 import { UsernameWithPopoverContainer } from "coral-stream/tabs/Comments/Comment/Username";
-import { Flex, Icon, Timestamp } from "coral-ui/components/v2";
+import { Flex, Icon, MatchMedia, Timestamp } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentAvatarAndBodyContainer_comment } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_comment.graphql";
@@ -110,9 +109,9 @@ const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
                 >
                   cancel
                 </Icon>
-                <Responsive minWidth={400}>
+                <MatchMedia gteWidth="mobile">
                   <span className={styles.cancelText}>Cancel</span>
-                </Responsive>
+                </MatchMedia>
               </Flex>
             </Button>
           )}

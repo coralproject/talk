@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import Responsive from "react-responsive";
 import { graphql } from "relay-runtime";
 
 import { isBeforeDate } from "coral-common/utils";
@@ -16,7 +15,7 @@ import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
 import { ReactionButtonContainer } from "coral-stream/tabs/shared/ReactionButton";
 import { ReportButton } from "coral-stream/tabs/shared/ReportFlow";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { LiveCommentActionsContainer_comment } from "coral-stream/__generated__/LiveCommentActionsContainer_comment.graphql";
@@ -56,9 +55,9 @@ const ReadConversationButton: React.FC<{ onClick: React.MouseEventHandler }> = (
       <Icon className={styles.conversationIcon} aria-label="Read conversation">
         forum
       </Icon>
-      <Responsive minWidth={400}>
+      <MatchMedia gteWidth="mobile">
         <span className={styles.action}>Read Conversation</span>
-      </Responsive>
+      </MatchMedia>
     </Flex>
   </Button>
 );
@@ -216,9 +215,9 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
           >
             <Flex justifyContent="flex-start" alignItems="center">
               <ShortcutIcon className={styles.replyIcon} ariaLabel="Reply" />
-              <Responsive minWidth={400}>
+              <MatchMedia gteWidth="mobile">
                 <span className={styles.action}>Reply</span>
-              </Responsive>
+              </MatchMedia>
             </Flex>
           </Button>
         )}
@@ -239,9 +238,9 @@ const LiveCommentActionsContainer: FunctionComponent<Props> = ({
               <Icon className={styles.editIcon} aria-label="Edit comment">
                 create
               </Icon>
-              <Responsive minWidth={400}>
+              <MatchMedia gteWidth="mobile">
                 <span className={styles.action}>Edit</span>
-              </Responsive>
+              </MatchMedia>
             </Flex>
           </Button>
         )}
