@@ -30,6 +30,10 @@ interface PaginationState {
   inclusiveBefore: boolean;
 }
 
+export interface SetCursorOptions {
+  scrollToEnd?: boolean;
+}
+
 const LiveTabQuery: FunctionComponent = () => {
   const [
     {
@@ -140,7 +144,10 @@ const LiveTabQuery: FunctionComponent = () => {
         // The pagination container wouldn't allow us to start a new connection
         // by refetching with a different cursor. So we delete the connection first,
         // before starting the refetch.
-        const deleteConnectionsAndSetCursor = async (s: string) => {
+        const deleteConnectionsAndSetCursor = async (
+          s: string,
+          options: SetCursorOptions | undefined = { scrollToEnd: true }
+        ) => {
           // Setting empty cursor will trigger loading state and stops rendering any of the
           // pagination containers.
           setLocal({ liveChat: { currentCursor: "" } });
@@ -184,12 +191,14 @@ const LiveTabQuery: FunctionComponent = () => {
             inclusiveBefore: false,
           });
 
-          window.requestAnimationFrame(() => {
-            const el = document.getElementById("live-chat-footer");
-            if (el) {
-              el.scrollIntoView();
-            }
-          });
+          if (options && options.scrollToEnd) {
+            window.requestAnimationFrame(() => {
+              const el = document.getElementById("live-chat-footer");
+              if (el) {
+                el.scrollIntoView();
+              }
+            });
+          }
         };
 
         return (
