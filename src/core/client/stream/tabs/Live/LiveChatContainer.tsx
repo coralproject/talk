@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -127,6 +128,8 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
   const warned = !!viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+
+  const noComments = afterComments.length === 0 && beforeComments.length === 0;
 
   const showCommentForm = !banned && !suspended && !warned;
   const [
@@ -555,25 +558,23 @@ const LiveChatContainer: FunctionComponent<Props> = ({
         </div>
       )}
       <div className={styles.root}>
-        <div className={styles.filler}></div>
-        {story.status === GQLSTORY_STATUS.OPEN &&
-          afterComments.length === 0 &&
-          beforeComments.length === 0 && (
-            <Localized id="comments-noCommentsYet">
-              <CallOut color="primary">
-                There are no comments yet. Why don't you write one?
-              </CallOut>
-            </Localized>
-          )}
-        {story.status === GQLSTORY_STATUS.CLOSED &&
-          afterComments.length === 0 &&
-          beforeComments.length === 0 && (
-            <Localized id="comments-noCommentsAtAll">
-              <CallOut color="mono">
-                There are no comments on this story.
-              </CallOut>
-            </Localized>
-          )}
+        <div
+          className={cn(styles.filler, {
+            [styles.fillerEmptyStream]: noComments,
+          })}
+        ></div>
+        {story.status === GQLSTORY_STATUS.OPEN && noComments && (
+          <Localized id="comments-noCommentsYet">
+            <CallOut color="mono">
+              There are no comments yet. Why don't you write one?
+            </CallOut>
+          </Localized>
+        )}
+        {story.status === GQLSTORY_STATUS.CLOSED && noComments && (
+          <Localized id="comments-noCommentsAtAll">
+            <CallOut color="mono">There are no comments on this story.</CallOut>
+          </Localized>
+        )}
         <Virtuoso
           firstItemIndex={START_INDEX - beforeComments.length}
           id="live-chat-comments"
