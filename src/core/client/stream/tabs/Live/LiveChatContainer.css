@@ -39,6 +39,10 @@
   flex-grow: 1;
 }
 
+.fillerEmptyStream {
+  padding-top: var(--spacing-3);
+}
+
 .viewerStatus {
   margin-top: var(--spacing-1);
   margin-bottom: var(--spacing-1);
