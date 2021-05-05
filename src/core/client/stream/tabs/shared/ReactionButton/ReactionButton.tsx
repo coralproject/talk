@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
-import Responsive from "react-responsive";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReactionButton.css";
@@ -67,7 +66,7 @@ function render(props: ReactionButtonProps) {
         )}
 
         {props.isQA && (
-          <Responsive minWidth={400}>
+          <MatchMedia gteWidth="mobile">
             <span>
               {reacted ? (
                 <Localized id="qa-reaction-voted">Voted</Localized>
@@ -75,21 +74,21 @@ function render(props: ReactionButtonProps) {
                 <Localized id="qa-reaction-vote">Vote</Localized>
               )}
             </span>
-          </Responsive>
+          </MatchMedia>
         )}
 
         {props.isChat && (
-          <Responsive minWidth={400}>
+          <MatchMedia gteWidth="mobile">
             <span className={styles.chatLabel}>
               {reacted ? labelActive : label}
             </span>
-          </Responsive>
+          </MatchMedia>
         )}
 
         {!props.isQA && !props.isChat && (
-          <Responsive minWidth={400}>
+          <MatchMedia gteWidth="mobile">
             <span>{reacted ? labelActive : label}</span>
-          </Responsive>
+          </MatchMedia>
         )}
 
         {!!totalReactions && (
