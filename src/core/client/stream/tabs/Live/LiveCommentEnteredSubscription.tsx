@@ -15,19 +15,21 @@ import { isPublished } from "../shared/helpers";
 import handleNewCommentInStory from "./helpers/handleNewCommentInStory";
 import handleNewReplyInConversation from "./helpers/handleNewReplyInConversation";
 
-function liveMainStreamInsertionEnabled(environment: Environment): boolean {
+function getLiveMainStreamInsertionEnabled(environment: Environment): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
 
   return liveChat.tailing;
 }
 
-function liveConversationInsertionEnabled(environment: Environment): boolean {
+function getLiveConversationInsertionEnabled(
+  environment: Environment
+): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
 
   return liveChat.tailingConversation;
 }
 
-function conversationRootCommentID(environment: Environment): string | null {
+function getConversationRootCommentID(environment: Environment): string | null {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
 
   return liveChat.conversationRootCommentID;
@@ -90,13 +92,13 @@ const LiveCommentEnteredSubscription = createSubscription(
 
         comment.setValue(true, "enteredLive");
         handleNewCommentInStory(store, variables.storyID, comment, {
-          liveInsertion: liveMainStreamInsertionEnabled(environment),
+          liveInsertion: getLiveMainStreamInsertionEnabled(environment),
         });
 
-        const convRootCommentID = conversationRootCommentID(environment);
+        const convRootCommentID = getConversationRootCommentID(environment);
         if (convRootCommentID) {
           handleNewReplyInConversation(store, convRootCommentID, comment, {
-            liveInsertion: liveConversationInsertionEnabled(environment),
+            liveInsertion: getLiveConversationInsertionEnabled(environment),
           });
         }
       },
