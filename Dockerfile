@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:16-alpine
 
 # Install build dependancies.
 RUN apk --no-cache add git python
