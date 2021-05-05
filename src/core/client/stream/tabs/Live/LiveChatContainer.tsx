@@ -137,7 +137,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     conversationState,
     showConversation,
     hideConversation,
-  ] = useConversation(eventEmitter, setLocal);
+  ] = useConversation();
 
   const [
     newlyPostedComment,

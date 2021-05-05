@@ -1,8 +1,8 @@
-import { EventEmitter2 } from "eventemitter2";
 import { useCallback, useState } from "react";
-import { RecordProxy } from "relay-runtime";
+import { graphql } from "relay-runtime";
 
-import { DeepPartial } from "coral-common/types";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useLocal } from "coral-framework/lib/relay";
 import {
   LiveChatOpenConversationEvent,
   LiveChatOpenParentEvent,
@@ -11,6 +11,7 @@ import {
 } from "coral-stream/events";
 
 import { LiveCommentContainer_comment } from "coral-stream/__generated__/LiveCommentContainer_comment.graphql";
+import { useConversationLocal } from "coral-stream/__generated__/useConversationLocal.graphql";
 
 export interface HighlightedComment {
   id: string;
@@ -33,10 +34,7 @@ export interface ShowConversationOptions {
     | NonNullable<LiveCommentContainer_comment["parent"]>;
 }
 
-const useConversation = (
-  eventEmitter: EventEmitter2,
-  setLocal: (update: DeepPartial<any> | ((record: RecordProxy) => void)) => void
-): [
+const useConversation = (): [
   ConversationViewState,
   (
     comment:
@@ -49,6 +47,15 @@ const useConversation = (
   ) => void,
   () => void
 ] => {
+  const { eventEmitter } = useCoralContext();
+  const [, setLocal] = useLocal<useConversationLocal>(graphql`
+    fragment useConversationLocal on Local {
+      liveChat {
+        conversationRootCommentID
+      }
+    }
+  `);
+
   const [conversationState, setConversationState] = useState<
     ConversationViewState
   >({
