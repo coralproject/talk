@@ -281,7 +281,7 @@
     "cross-spawn": "^7.0.1",
     "css-loader": "^3.4.2",
     "css-vars-ponyfill": "^2.2.1",
-    "del": "^5.1.0",
+    "del": "^6.0.0",
     "doctoc": "^1.4.0",
     "docz": "^v2.3.0-alpha.14",
     "enzyme": "^3.11.0",
