@@ -56,7 +56,6 @@ import useConversation from "./LiveConversation/useConversation";
 import LiveEditCommentFormContainer from "./LiveEditComment/LiveEditCommentFormContainer";
 import LivePostCommentFormContainer from "./LivePostCommentFormContainer";
 import LiveSkeleton from "./LiveSkeleton";
-import { SetCursorOptions } from "./LiveTabQuery";
 
 import styles from "./LiveChatContainer.css";
 
@@ -76,7 +75,7 @@ interface Props {
   story: LiveChatContainer_story;
 
   cursor: string;
-  setCursor: (cursor: string, scrollToEnd?: SetCursorOptions) => void;
+  setCursor: (cursor: string) => void;
 }
 
 interface NewComment {
@@ -341,7 +340,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
   }, [newlyPostedComment, setNewlyPostedComment]);
 
   const handleGoToStart = useCallback(() => {
-    setCursor(new Date(0).toISOString(), { scrollToEnd: false });
+    setCursor(new Date(0).toISOString());
 
     LiveChatGoToStartEvent.emit(eventEmitter, {
       storyID: story.id,
