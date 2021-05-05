@@ -183,26 +183,16 @@ const LiveTabQuery: FunctionComponent = () => {
             inclusiveAfter: true,
             inclusiveBefore: false,
           });
-
-          window.requestAnimationFrame(() => {
-            const el = document.getElementById("live-chat-footer");
-            if (el) {
-              el.scrollIntoView();
-            }
-          });
         };
 
         return (
-          <>
-            <LiveStreamContainer
-              story={data.props.story}
-              viewer={data.props.viewer}
-              settings={data.props.settings}
-              cursor={paginationState.cursor}
-              setCursor={deleteConnectionsAndSetCursor}
-            />
-            <div id="live-chat-footer"></div>
-          </>
+          <LiveStreamContainer
+            story={data.props.story}
+            viewer={data.props.viewer}
+            settings={data.props.settings}
+            cursor={paginationState.cursor}
+            setCursor={deleteConnectionsAndSetCursor}
+          />
         );
       }}
     />
