@@ -37,6 +37,17 @@ export default async function injectConditionalPolyfills() {
   if (!browser.supports.cssVariables) {
     pending.push(polyfillCSSVars());
   }
+  if (!browser.supports.scrollTo) {
+    // TODO: This is only needed for live chat and most probably only IE11.
+    // Could improve this by polyfilling only when loading live chat instead of
+    // always.
+    const scrollPromise = (async () => {
+      const smoothScroll = (await import("smoothscroll-polyfill")).default;
+      smoothScroll.polyfill();
+      return;
+    })();
+    pending.push(scrollPromise);
+  }
 
   await Promise.all(pending);
 }
