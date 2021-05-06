@@ -119,7 +119,6 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       storyURL
       liveChat {
         tailing
-        conversationRootCommentID
       }
     }
   `);
