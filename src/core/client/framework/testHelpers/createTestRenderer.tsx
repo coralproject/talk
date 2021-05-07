@@ -112,6 +112,7 @@ export default function createTestRenderer<
         intl: true,
         intlPluralRules: true,
         proxyObject: true,
+        scrollTo: true,
       },
       version: 10.0,
       ios: false,
