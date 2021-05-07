@@ -1,19 +1,10 @@
 import cn from "classnames";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import {
-  useLocal,
-  useSubscription,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   LiveChatJumpToReplyEvent,
   LiveChatRepliesLoadAfterEvent,
@@ -39,7 +30,6 @@ import JumpToButton from "../JumpToButton";
 import LiveEditCommentFormContainer from "../LiveEditComment/LiveEditCommentFormContainer";
 import LiveSkeleton from "../LiveSkeleton";
 import LiveCreateCommentReplyFormContainer from "./LiveCreateCommentReplyFormContainer";
-import LiveReplyCommentEnteredSubscription from "./LiveReplyCommentEnteredSubscription";
 import LiveReplyContainer from "./LiveReplyContainer";
 
 import styles from "./LiveConversationContainer.css";
@@ -207,23 +197,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
   );
 
   const [height, setHeight] = useState(0);
-  const subscribeToCommentEntered = useSubscription(
-    LiveReplyCommentEnteredSubscription
-  );
-  useEffect(() => {
-    if (afterHasMore) {
-      return;
-    }
-    const disposable = subscribeToCommentEntered({
-      storyID: story.id,
-      ancestorID: comment.id,
-    });
-
-    return () => {
-      disposable.dispose();
-    };
-  }, [story.id, comment.id, subscribeToCommentEntered, afterHasMore]);
-
   const handleAtTopStateChange = useCallback(
     (atTop: boolean) => {
       if (atTop && beforeHasMore && !isLoadingMoreBefore) {

@@ -13,11 +13,26 @@ import { LiveCommentEnteredSubscription } from "coral-stream/__generated__/LiveC
 
 import { isPublished } from "../shared/helpers";
 import handleNewCommentInStory from "./helpers/handleNewCommentInStory";
+import handleNewReplyInConversation from "./helpers/handleNewReplyInConversation";
 
-function liveInsertionEnabled(environment: Environment): boolean {
+function getLiveMainStreamInsertionEnabled(environment: Environment): boolean {
   const liveChat = lookup(environment, LOCAL_ID).liveChat;
 
   return liveChat.tailing;
+}
+
+function getLiveConversationInsertionEnabled(
+  environment: Environment
+): boolean {
+  const liveChat = lookup(environment, LOCAL_ID).liveChat;
+
+  return liveChat.tailingConversation;
+}
+
+function getConversationRootCommentID(environment: Environment): string | null {
+  const liveChat = lookup(environment, LOCAL_ID).liveChat;
+
+  return liveChat.conversationRootCommentID;
 }
 
 type CommentEnteredVariables = Omit<
@@ -77,8 +92,15 @@ const LiveCommentEnteredSubscription = createSubscription(
 
         comment.setValue(true, "enteredLive");
         handleNewCommentInStory(store, variables.storyID, comment, {
-          liveInsertion: liveInsertionEnabled(environment),
+          liveInsertion: getLiveMainStreamInsertionEnabled(environment),
         });
+
+        const convRootCommentID = getConversationRootCommentID(environment);
+        if (convRootCommentID) {
+          handleNewReplyInConversation(store, convRootCommentID, comment, {
+            liveInsertion: getLiveConversationInsertionEnabled(environment),
+          });
+        }
       },
     });
   }
