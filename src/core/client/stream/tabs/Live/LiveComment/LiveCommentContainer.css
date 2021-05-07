@@ -29,8 +29,8 @@
   transform: scaleX(-1) scaleY(-1);
   font-size: 20px;
   width: 20px;
-  margin-left: var(--spacing-2);
-  margin-right: var(--spacing-4);
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-3);
 }
 
 .parentArrowHighlight {
@@ -69,7 +69,7 @@
 }
 
 .avatarBodyAndActions {
-  padding-left: calc(var(--spacing-1) * 2);
+  padding-left: var(--spacing-2);
   padding-right: var(--spacing-1);
 }
 

@@ -383,10 +383,31 @@ const CommentForm: FunctionComponent<Props> = ({
                       onBodyChange(html, values as FormProps, form);
                     }}
                     onKeyDown={(event: React.KeyboardEvent<Element>) => {
+                      if (submitting || disabled || !event.isTrusted) {
+                        // isTrusted is false, if the event was created by javascript.
+                        return;
+                      }
+
+                      // Detect shift+Enter when in chat mode.
+                      if (
+                        mode === "chat" &&
+                        event.shiftKey &&
+                        !event.ctrlKey &&
+                        !event.altKey &&
+                        (event.key === "Enter" || event.keyCode === 13)
+                      ) {
+                        // Prevent and dispatch a regular Enter keydown event instead.
+                        const enterEvent = new KeyboardEvent("keydown", {
+                          keyCode: event.keyCode,
+                        } as any);
+                        event.target.dispatchEvent(
+                          new KeyboardEvent("keydown", enterEvent)
+                        );
+                        event.preventDefault();
+                        return;
+                      }
                       if (
                         hasValidationErrors ||
-                        submitting ||
-                        disabled ||
                         (noSubmitWhenPristine && pristine)
                       ) {
                         return;
