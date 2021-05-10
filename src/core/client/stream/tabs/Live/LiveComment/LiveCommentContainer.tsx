@@ -58,6 +58,8 @@ interface Props {
   editing?: boolean;
   onCancelEditing?: () => void;
   position: CommentPosition;
+
+  scrollParentToID: (id: string) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -75,10 +77,23 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   editing,
   onCancelEditing,
   position,
+  scrollParentToID,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
+  const scrollToReportDialog = useCallback(() => {
+    const id = `comments-reportPopover-reportThisComment-${comment.id}`;
+    scrollParentToID(id);
+  }, [comment.id, scrollParentToID]);
+  const toggleAndScrollReportFlow = useCallback(() => {
+    if (!showReportFlow) {
+      toggleShowReportFlow();
+      setTimeout(scrollToReportDialog, 300);
+    } else {
+      toggleShowReportFlow();
+    }
+  }, [scrollToReportDialog, showReportFlow, toggleShowReportFlow]);
 
   const ignored = Boolean(
     comment.author &&
@@ -146,7 +161,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
               settings={settings}
               onReply={handleOnReply}
               onConversation={handleOnConversation}
-              onToggleReport={toggleShowReportFlow}
+              onToggleReport={toggleAndScrollReportFlow}
               onEdit={editing ? undefined : handleOnEdit}
               showReport={showReportFlow}
             />
@@ -172,6 +187,7 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     settings,
     showReportFlow,
     story,
+    toggleAndScrollReportFlow,
     toggleShowReportFlow,
     viewer,
   ]);

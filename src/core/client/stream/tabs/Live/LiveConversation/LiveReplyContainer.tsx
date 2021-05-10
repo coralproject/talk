@@ -33,6 +33,8 @@ interface Props {
 
   truncateBody?: boolean;
   highlight?: boolean;
+
+  scrollParentToID: (id: string) => void;
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -46,8 +48,21 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   onCancelEditing,
   truncateBody,
   highlight,
+  scrollParentToID,
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
+  const scrollToReportDialog = useCallback(() => {
+    const id = `comments-reportPopover-reportThisComment-${comment.id}`;
+    scrollParentToID(id);
+  }, [scrollParentToID, comment.id]);
+  const toggleAndScrollReportFlow = useCallback(() => {
+    if (!showReportFlow) {
+      toggleShowReportFlow();
+      setTimeout(scrollToReportDialog, 300);
+    } else {
+      toggleShowReportFlow();
+    }
+  }, [scrollToReportDialog, showReportFlow, toggleShowReportFlow]);
 
   const handleInView = useCallback(
     (visible: boolean) => {
@@ -135,7 +150,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
               comment={comment}
               viewer={viewer}
               settings={settings}
-              onToggleReport={toggleShowReportFlow}
+              onToggleReport={toggleAndScrollReportFlow}
               onEdit={computeOnEdit()}
             />
           )}

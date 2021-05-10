@@ -72,7 +72,7 @@ class ReportCommentForm extends React.Component<Props> {
               className={styles.root}
               id="report-comments-form"
             >
-              <div>
+              <div id={`comments-reportPopover-reportThisComment-${id}`}>
                 <Localized id="comments-reportPopover-reportThisComment">
                   <div className={styles.title}>Report This Comment</div>
                 </Localized>

@@ -392,6 +392,19 @@ const LiveChatContainer: FunctionComponent<Props> = ({
     setCursorInView(visible);
   }, []);
 
+  const scrollStreamToID = useCallback((id: string) => {
+    if (!virtuoso || !virtuoso.current) {
+      return;
+    }
+
+    const el = document.getElementById(id);
+    if (!el) {
+      return;
+    }
+
+    virtuoso.current.scrollTo({ left: 0, top: el.offsetTop });
+  }, []);
+
   // Render an item or a loading indicator.
   const itemContent = useCallback(
     (index) => {
@@ -426,6 +439,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               }
               onCancelEditing={handleCancelEdit}
               position={CommentPosition.Before}
+              scrollParentToID={scrollStreamToID}
             />
           </div>
         );
@@ -473,6 +487,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
               }
               onCancelEditing={handleCancelEdit}
               position={CommentPosition.After}
+              scrollParentToID={scrollStreamToID}
             />
           </div>
         );
@@ -497,6 +512,7 @@ const LiveChatContainer: FunctionComponent<Props> = ({
       handleOnEdit,
       editingComment,
       handleCancelEdit,
+      scrollStreamToID,
       onCursorInView,
     ]
   );
