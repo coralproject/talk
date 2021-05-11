@@ -809,3 +809,8 @@ stream-footer-links-top-of-article = Revenir au début du contenu
 stream-footer-links-top-of-comments = Revenir au début des commentaires
 stream-footer-links-profile = Profile et réponses
 stream-footer-links-discussions = Plus de discussions
+
+go-to-top-of-article = Aller en haut de l'article
+go-to-top-of-comments = Aller en haut des commentaires
+go-to-more-discussions = Lire plus de commentaires
+go-to-profile-and-replies = Aller au profil et aux réponses

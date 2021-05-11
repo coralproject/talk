@@ -3,21 +3,24 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
-
 import styles from "./CommentsLinks.css";
+
 
 interface Props {
   showGoToDiscussions: boolean;
   showGoToProfile: boolean;
+  getMessage: GetMessage;
 }
 
 const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
   showGoToProfile,
+  getMessage
 }) => {
   const { pym } = useCoralContext();
   const onGoToArticleTop = useCallback(() => {
@@ -58,7 +61,10 @@ const CommentsLinks: FunctionComponent<Props> = ({
       {showGoToProfile && (
         <Button
           className={cn(styles.link, CLASSES.streamFooter.profileLink)}
-          title="Go to profile and replies"
+          title={getMessage(
+            "go-to-profile-and-replies",
+            "Go to profile and replies"
+          )}
           onClick={onGoToProfile}
           variant="textUnderlined"
           color="regular"
@@ -66,7 +72,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
           classes={classes}
           uppercase={false}
         >
-          <ButtonIcon className={styles.icon}>account_box</ButtonIcon>
+          <ButtonIcon className={styles.icon}>account-box</ButtonIcon>
           <Localized id="stream-footer-links-profile">
             <span>Profile and replies</span>
           </Localized>
@@ -75,7 +81,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
       {showGoToDiscussions && (
         <Button
           className={cn(styles.link, CLASSES.streamFooter.discussionsLink)}
-          title="Go to more discussions"
+          title={getMessage("go-to-more-discussions", "Go to more discussions")}
           onClick={onGoToDiscussions}
           variant="textUnderlined"
           color="regular"
@@ -83,7 +89,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
           classes={classes}
           uppercase={false}
         >
-          <ButtonIcon className={styles.icon}>list_alt</ButtonIcon>
+          <ButtonIcon className={styles.icon}>list-alt</ButtonIcon>
           <Localized id="stream-footer-links-discussions">
             <span>More discussions</span>
           </Localized>
@@ -91,7 +97,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
       )}
       <Button
         className={cn(styles.link, CLASSES.streamFooter.commentsTopLink)}
-        title="Go to top of comments"
+        title={getMessage("go-to-top-of-comments", "Go to top of comments")}
         onClick={onGoToCommentsTop}
         variant="textUnderlined"
         color="regular"
@@ -106,7 +112,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
       </Button>
       <Button
         className={cn(styles.link, CLASSES.streamFooter.articleTopLink)}
-        title="Go to top of article"
+        title={getMessage("go-to-top-of-article", "Go to top of article")}
         onClick={onGoToArticleTop}
         variant="textUnderlined"
         color="regular"
@@ -123,4 +129,6 @@ const CommentsLinks: FunctionComponent<Props> = ({
   );
 };
 
-export default CommentsLinks;
+const enhanced = withGetMessage(CommentsLinks);
+
+export default enhanced;
