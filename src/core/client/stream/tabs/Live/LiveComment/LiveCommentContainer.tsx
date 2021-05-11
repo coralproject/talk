@@ -17,6 +17,7 @@ import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCo
 import { LiveCommentContainer_story } from "coral-stream/__generated__/LiveCommentContainer_story.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 
+import { ensureRefInView } from "../helpers/ensureRefInView";
 import ShortcutIcon from "../Icons/ShortcutIcon";
 import InView from "../InView";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";
@@ -58,8 +59,6 @@ interface Props {
   editing?: boolean;
   onCancelEditing?: () => void;
   position: CommentPosition;
-
-  scrollParentToID: (id: string) => void;
 }
 
 const LiveCommentContainer: FunctionComponent<Props> = ({
@@ -77,23 +76,10 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
   editing,
   onCancelEditing,
   position,
-  scrollParentToID,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
-  const scrollToReportDialog = useCallback(() => {
-    const id = `comments-reportPopover-reportThisComment-${comment.id}`;
-    scrollParentToID(id);
-  }, [comment.id, scrollParentToID]);
-  const toggleAndScrollReportFlow = useCallback(() => {
-    if (!showReportFlow) {
-      toggleShowReportFlow();
-      setTimeout(scrollToReportDialog, 300);
-    } else {
-      toggleShowReportFlow();
-    }
-  }, [scrollToReportDialog, showReportFlow, toggleShowReportFlow]);
 
   const ignored = Boolean(
     comment.author &&
@@ -161,19 +147,21 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
               settings={settings}
               onReply={handleOnReply}
               onConversation={handleOnConversation}
-              onToggleReport={toggleAndScrollReportFlow}
+              onToggleReport={toggleShowReportFlow}
               onEdit={editing ? undefined : handleOnEdit}
               showReport={showReportFlow}
             />
           )}
         </div>
         {showReportFlow && (
-          <ReportFlowContainer
-            viewer={viewer}
-            comment={comment}
-            settings={settings}
-            onClose={toggleShowReportFlow}
-          />
+          <div ref={ensureRefInView}>
+            <ReportFlowContainer
+              viewer={viewer}
+              comment={comment}
+              settings={settings}
+              onClose={toggleShowReportFlow}
+            />
+          </div>
         )}
       </>
     );
@@ -187,7 +175,6 @@ const LiveCommentContainer: FunctionComponent<Props> = ({
     settings,
     showReportFlow,
     story,
-    toggleAndScrollReportFlow,
     toggleShowReportFlow,
     viewer,
   ]);

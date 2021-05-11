@@ -1,7 +1,7 @@
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useRef, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
-import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { Virtuoso } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
@@ -110,8 +110,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     },
     [setLocal]
   );
-
-  const virtuoso = useRef<VirtuosoHandle | null>(null);
 
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
   const suspended = !!viewer?.status.current.includes(GQLUSER_STATUS.SUSPENDED);
@@ -241,19 +239,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
     ]
   );
 
-  const scrollStreamToID = useCallback((id: string) => {
-    if (!virtuoso || !virtuoso.current) {
-      return;
-    }
-
-    const el = document.getElementById(id);
-    if (!el) {
-      return;
-    }
-
-    virtuoso.current.scrollTo({ left: 0, top: el.offsetTop });
-  }, []);
-
   // Render an item or a loading indicator.
   const itemContent = useCallback(
     (index) => {
@@ -284,7 +269,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                 editing={isEditing}
                 onCancelEditing={handleOnCloseEdit}
                 highlight={isEditing || isHighlighted}
-                scrollParentToID={scrollStreamToID}
               />
             </div>
           </div>
@@ -312,7 +296,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                 editing={isEditing}
                 onCancelEditing={handleOnCloseEdit}
                 highlight={isEditing || isHighlighted}
-                scrollParentToID={scrollStreamToID}
               />
             </div>
           </div>
@@ -331,7 +314,6 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
       handleOnCloseEdit,
       handleOnEdit,
       highlightedCommentID,
-      scrollStreamToID,
       settings,
       story,
       viewer,
@@ -386,11 +368,9 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   settings={settings}
                   onInView={handleCommentInView}
                   truncateBody
-                  scrollParentToID={scrollStreamToID}
                 />
               </div>
               <Virtuoso
-                ref={virtuoso}
                 className={styles.replies}
                 style={{ height }}
                 firstItemIndex={START_INDEX - beforeComments.length}
