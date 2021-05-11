@@ -10,7 +10,6 @@ import CLASSES from "coral-stream/classes";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 import styles from "./CommentsLinks.css";
 
-
 interface Props {
   showGoToDiscussions: boolean;
   showGoToProfile: boolean;
@@ -20,7 +19,7 @@ interface Props {
 const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
   showGoToProfile,
-  getMessage
+  getMessage,
 }) => {
   const { pym } = useCoralContext();
   const onGoToArticleTop = useCallback(() => {
