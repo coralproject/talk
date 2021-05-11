@@ -17,7 +17,7 @@ import { LiveCommentContainer_settings } from "coral-stream/__generated__/LiveCo
 import { LiveCommentContainer_story } from "coral-stream/__generated__/LiveCommentContainer_story.graphql";
 import { LiveCommentContainer_viewer } from "coral-stream/__generated__/LiveCommentContainer_viewer.graphql";
 
-import { ensureRefInView } from "../helpers/ensureRefInView";
+import ensureRefInView from "../helpers/ensureRefInView";
 import ShortcutIcon from "../Icons/ShortcutIcon";
 import InView from "../InView";
 import LiveCommentActionsContainer from "./LiveCommentActionsContainer";

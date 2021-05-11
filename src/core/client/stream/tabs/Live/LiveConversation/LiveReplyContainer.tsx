@@ -14,7 +14,7 @@ import { LiveReplyContainer_settings } from "coral-stream/__generated__/LiveRepl
 import { LiveReplyContainer_story } from "coral-stream/__generated__/LiveReplyContainer_story.graphql";
 import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyContainer_viewer.graphql";
 
-import { ensureRefInView } from "../helpers/ensureRefInView";
+import ensureRefInView from "../helpers/ensureRefInView";
 import InView from "../InView";
 import LiveCommentActionsContainer from "../LiveComment/LiveCommentActionsContainer";
 import LiveCommentAvatarAndBodyContainer from "../LiveComment/LiveCommentAvatarAndBodyContainer";
