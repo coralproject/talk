@@ -35,7 +35,7 @@ const FooterButton: FC<
     uppercase={false}
   >
     <ButtonIcon className={styles.icon}>{props.icon}</ButtonIcon>
-    {props.children}
+    <span>{props.children}</span>
   </Button>
 );
 
