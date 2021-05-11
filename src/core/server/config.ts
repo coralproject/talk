@@ -35,9 +35,10 @@ convict.addFormat({
   },
 });
 
-// Add a custom format for the optional-url that includes a trailing slash.
+// Add a custom format for the optional-trailing-url that includes a trailing
+// slash.
 convict.addFormat({
-  name: "optional-url",
+  name: "optional-trailing-url",
   validate: (url: string) => {
     if (url) {
       Joi.assert(url, Joi.string().uri());
@@ -45,6 +46,16 @@ convict.addFormat({
   },
   // Ensure that there is an ending slash.
   coerce: (url: string) => (url ? ensureEndSlash(url) : url),
+});
+
+// Add a custom format for the optional-url.
+convict.addFormat({
+  name: "optional-url",
+  validate: (url: string) => {
+    if (url) {
+      Joi.assert(url, Joi.string().uri());
+    }
+  },
 });
 
 // Add a custom format for a list of comma seperated strings.
@@ -203,9 +214,16 @@ const config = convict({
   },
   static_uri: {
     doc: "The URL that static assets will be hosted from",
-    format: "optional-url",
+    format: "optional-trailing-url",
     default: "",
     env: "STATIC_URI",
+  },
+  graphql_subscription_uri: {
+    doc:
+      "The URL that should be used for GraphQL subscription traffic over websockets",
+    format: "optional-url",
+    default: "",
+    env: "GRAPHQL_SUBSCRIPTION_URI",
   },
   websocket_keep_alive_timeout: {
     doc:
@@ -331,7 +349,7 @@ const config = convict({
   },
   analytics_data_plane_url: {
     doc: "Analytics URL to the RudderStack data plane instance.",
-    format: "optional-url",
+    format: "optional-trailing-url",
     default: "",
     env: "ANALYTICS_DATA_PLANE_URL",
   },
