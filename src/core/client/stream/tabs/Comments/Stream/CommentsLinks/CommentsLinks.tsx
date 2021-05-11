@@ -72,7 +72,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
           classes={classes}
           uppercase={false}
         >
-          <ButtonIcon className={styles.icon}>account-box</ButtonIcon>
+          <ButtonIcon className={styles.icon}>account_box</ButtonIcon>
           <Localized id="stream-footer-links-profile">
             <span>Profile and replies</span>
           </Localized>
@@ -89,7 +89,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
           classes={classes}
           uppercase={false}
         >
-          <ButtonIcon className={styles.icon}>list-alt</ButtonIcon>
+          <ButtonIcon className={styles.icon}>list_alt</ButtonIcon>
           <Localized id="stream-footer-links-discussions">
             <span>More discussions</span>
           </Localized>
