@@ -14,6 +14,7 @@ import { LiveReplyContainer_settings } from "coral-stream/__generated__/LiveRepl
 import { LiveReplyContainer_story } from "coral-stream/__generated__/LiveReplyContainer_story.graphql";
 import { LiveReplyContainer_viewer } from "coral-stream/__generated__/LiveReplyContainer_viewer.graphql";
 
+import ensureRefInView from "../helpers/ensureRefInView";
 import InView from "../InView";
 import LiveCommentActionsContainer from "../LiveComment/LiveCommentActionsContainer";
 import LiveCommentAvatarAndBodyContainer from "../LiveComment/LiveCommentAvatarAndBodyContainer";
@@ -141,12 +142,14 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           )}
         </div>
         {showReportFlow && (
-          <ReportFlowContainer
-            viewer={viewer}
-            comment={comment}
-            settings={settings}
-            onClose={toggleShowReportFlow}
-          />
+          <div ref={ensureRefInView}>
+            <ReportFlowContainer
+              viewer={viewer}
+              comment={comment}
+              settings={settings}
+              onClose={toggleShowReportFlow}
+            />
+          </div>
         )}
       </div>
       <div id={`reply-${comment.id}-bottom`}></div>
