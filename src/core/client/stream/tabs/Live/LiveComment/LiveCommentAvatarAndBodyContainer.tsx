@@ -31,6 +31,7 @@ interface Props {
   onCancel?: () => void;
 
   truncateBody?: boolean;
+  mediaMode?: "default" | "mini";
 }
 
 const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
@@ -41,6 +42,7 @@ const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
   containerClassName,
   onCancel,
   truncateBody,
+  mediaMode = "default",
 }) => {
   return (
     <Flex justifyContent="flex-start" alignItems="flex-start">
@@ -131,6 +133,7 @@ const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
             comment={comment}
             settings={settings}
             defaultExpanded={true}
+            mode={mediaMode}
           />
         </div>
       </div>

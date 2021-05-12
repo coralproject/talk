@@ -20,12 +20,14 @@ interface Props {
   comment: LiveMediaSectionContainer_comment;
   settings: LiveMediaSectionContainer_settings;
   defaultExpanded?: boolean;
+  mode?: "default" | "mini";
 }
 
 const LiveMediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   defaultExpanded = false,
+  mode = "default",
 }) => {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const onToggleExpand = useCallback(() => {
@@ -46,7 +48,7 @@ const LiveMediaSectionContainer: FunctionComponent<Props> = ({
     return null;
   }
 
-  if (!expanded) {
+  if (!expanded || mode === "mini") {
     return (
       <Button
         iconLeft
@@ -65,24 +67,30 @@ const LiveMediaSectionContainer: FunctionComponent<Props> = ({
           />
         )}
 
-        <ButtonIcon>add</ButtonIcon>
-        {media.__typename === "TwitterMedia" && (
-          <Localized id="comments-embedLinks-show-twitter">
-            Show Tweet
-          </Localized>
-        )}
-        {media.__typename === "YouTubeMedia" && (
-          <Localized id="comments-embedLinks-show-youtube">
-            Show video
-          </Localized>
-        )}
-        {media.__typename === "ExternalMedia" && (
-          <Localized id="comments-embedLinks-show-external">
-            Show image
-          </Localized>
-        )}
-        {media.__typename === "GiphyMedia" && (
-          <Localized id="comments-embedLinks-show-giphy">Show GIF</Localized>
+        {mode !== "mini" && (
+          <>
+            <ButtonIcon>add</ButtonIcon>
+            {media.__typename === "TwitterMedia" && (
+              <Localized id="comments-embedLinks-show-twitter">
+                Show Tweet
+              </Localized>
+            )}
+            {media.__typename === "YouTubeMedia" && (
+              <Localized id="comments-embedLinks-show-youtube">
+                Show video
+              </Localized>
+            )}
+            {media.__typename === "ExternalMedia" && (
+              <Localized id="comments-embedLinks-show-external">
+                Show image
+              </Localized>
+            )}
+            {media.__typename === "GiphyMedia" && (
+              <Localized id="comments-embedLinks-show-giphy">
+                Show GIF
+              </Localized>
+            )}
+          </>
         )}
       </Button>
     );
