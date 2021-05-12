@@ -220,7 +220,7 @@ const config = convict({
   },
   graphql_subscription_uri: {
     doc:
-      "The URL that should be used for GraphQL subscription traffic over websockets",
+      "The URL that should be used for GraphQL subscription traffic over websockets. Example: wss://yourdomain.com/api/graphql/live",
     format: "optional-url",
     default: "",
     env: "GRAPHQL_SUBSCRIPTION_URI",
