@@ -3,6 +3,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
+import LiveMediaPreview from "coral-stream/tabs/Live/LiveMedia/LiveMediaPreview";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -29,6 +30,7 @@ interface Props {
   pastedMedia: MediaLink | null;
   setPastedMedia: (media: MediaLink | null) => void;
   giphyConfig: GiphyConfig;
+  mode?: "rating" | "comment" | "chat";
 }
 
 interface Media {
@@ -46,6 +48,7 @@ const MediaField: FunctionComponent<Props> = ({
   pastedMedia,
   setPastedMedia,
   giphyConfig,
+  mode = "comment",
 }) => {
   const {
     input: { value, onChange },
@@ -161,7 +164,20 @@ const MediaField: FunctionComponent<Props> = ({
       {/* If there's no widget, and we have a valid url, display preview */}
       {!widget && value?.url && valid ? (
         isMediaLink(value) ? (
-          <MediaPreview media={value} siteID={siteID} onRemove={onRemove} />
+          mode === "chat" ? (
+            <LiveMediaPreview
+              media={value}
+              siteID={siteID}
+              onRemove={onRemove}
+            />
+          ) : (
+            <MediaPreview
+              media={value}
+              siteID={siteID}
+              onRemove={onRemove}
+              mode={mode}
+            />
+          )
         ) : (
           <GifPreview url={value.url} onRemove={onRemove} />
         )

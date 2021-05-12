@@ -17,6 +17,8 @@ import { LiveCommentAvatarAndBodyContainer_settings } from "coral-stream/__gener
 import { LiveCommentAvatarAndBodyContainer_story } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_story.graphql";
 import { LiveCommentAvatarAndBodyContainer_viewer } from "coral-stream/__generated__/LiveCommentAvatarAndBodyContainer_viewer.graphql";
 
+import LiveMediaSectionContainer from "../LiveMedia/LiveMediaSectionContainer";
+
 import styles from "./LiveCommentAvatarAndBodyContainer.css";
 
 interface Props {
@@ -125,6 +127,11 @@ const LiveCommentAvatarAndBodyContainer: FunctionComponent<Props> = ({
           <HTMLContent className={cn(styles.body, CLASSES.comment.content)}>
             {comment.body || ""}
           </HTMLContent>
+          <LiveMediaSectionContainer
+            comment={comment}
+            settings={settings}
+            defaultExpanded={true}
+          />
         </div>
       </div>
     </Flex>
@@ -160,7 +167,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...UsernameWithPopoverContainer_comment
       ...UserTagsContainer_comment
-      ...MediaSectionContainer_comment
+      ...LiveMediaSectionContainer_comment
     }
   `,
   settings: graphql`
@@ -169,7 +176,7 @@ const enhanced = withFragmentContainer<Props>({
       ...LiveCommentActionsContainer_settings
       ...UsernameWithPopoverContainer_settings
       ...UserTagsContainer_settings
-      ...MediaSectionContainer_settings
+      ...LiveMediaSectionContainer_settings
     }
   `,
 })(LiveCommentAvatarAndBodyContainer);

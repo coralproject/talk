@@ -8,9 +8,10 @@ interface Props {
   id?: string;
   src: string;
   sandbox?: boolean;
+  className?: string;
 }
 
-const Frame: FunctionComponent<Props> = ({ id, src, sandbox }) => {
+const Frame: FunctionComponent<Props> = ({ id, src, sandbox, className }) => {
   const containerID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
     [id]
@@ -37,7 +38,7 @@ const Frame: FunctionComponent<Props> = ({ id, src, sandbox }) => {
   }, [containerID, sandbox, src]);
 
   return (
-    <div id={containerID}>
+    <div id={containerID} className={className}>
       {/* pym will replace the spinner with the iframe when it loads up */}
       <Spinner />
     </div>

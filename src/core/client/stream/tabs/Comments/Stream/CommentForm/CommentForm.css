@@ -41,16 +41,12 @@ $rteButtonActive: #ddd;
 .chatSubmitButton {
   position: absolute;
   z-index: 1;
-  bottom: 10px;
+  top: 10px;
   right: 8px;
   padding-left: var(--spacing-1);
   padding-right: var(--spacing-1);
   padding-top: var(--spacing-1);
   padding-bottom: var(--spacing-1);
-}
-
-.chatSubmitButtonWithToolbar {
-  bottom: 46px;
 }
 
 .expiredTime {}
