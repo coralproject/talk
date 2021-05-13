@@ -53,6 +53,7 @@ const mutation = graphql`
         editing {
           edited
         }
+        lastViewerAction
       }
       clientMutationId
     }
@@ -95,11 +96,15 @@ async function commit(
                 edited: true,
               },
             },
+            lastViewerAction: "EDIT",
             clientMutationId: (clientMutationId++).toString(),
           },
         },
         updater: (store) => {
-          store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
+          const comment = store
+            .getRootField("editComment")!
+            .getLinkedRecord("comment")!;
+          comment.setValue("EDIT", "lastViewerAction");
         },
       }
     );

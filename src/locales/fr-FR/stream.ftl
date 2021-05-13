@@ -241,8 +241,8 @@ comments-moderationDropdown-moderateStory = Modérer l'article
 comments-moderationDropdown-caretButton =
   .aria-label = Modérer
 
-comments-rejectedTombstone-title = Vous avez rejeté ce commentaire.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Vous avez rejeté ce commentaire.
+comments-moderationRejectedTombstone-moderateLink =
   Allez à la vue de la modération pour réviser cette décision
 
 comments-featuredTag = Mis en avant

@@ -247,8 +247,8 @@ comments-moderationDropdown-moderateStory = Moderoi juttu
 comments-moderationDropdown-caretButton =
   .aria-label = Moderoi
 
-comments-rejectedTombstone-title = Olet hylännyt tämän kommentin.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Olet hylännyt tämän kommentin.
+comments-moderationRejectedTombstone-moderateLink =
   Voit muuttaa päätöksen moderoinnin kautta.
 
 comments-featuredTag = Valitut-listalla
@@ -336,7 +336,7 @@ comments-stream-deleteAccount-callOut-cancel =
   Peruuta kirjoittajatilin poistopyyntö
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Peruuta kirjoittajatilin poisto
-  
+
 comments-permalink-copyLink = Kopioi linkki
 comments-permalink-linkCopied = Linkki kopioitu
 
