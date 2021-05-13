@@ -30,6 +30,13 @@ export interface StaticConfig {
   reporter?: ReporterConfig;
 
   /**
+   * graphQLSubscriptionURI is the endpoint that should be used when trying to
+   * execute subscription GraphQL requests. If an empty string, the default
+   * should be used that's based on the iFrame location.
+   */
+  graphQLSubscriptionURI: string;
+
+  /**
    * featureFlags are all the feature flags currently enabled on the tenant.
    */
   featureFlags: string[];
