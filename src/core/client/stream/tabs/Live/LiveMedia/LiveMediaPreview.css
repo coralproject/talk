@@ -29,4 +29,6 @@
 
 .miniFrame {
   width: 80px;
+  max-height: 165px;
+  overflow: hidden;
 }

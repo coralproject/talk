@@ -4,4 +4,12 @@
 
 .miniFrame {
   width: 80px;
+  max-height: 165px;
+  overflow: hidden;
+}
+
+.frameLimits {
+  max-width: 350px;
+  max-height: 725px;
+  overflow: hidden;
 }

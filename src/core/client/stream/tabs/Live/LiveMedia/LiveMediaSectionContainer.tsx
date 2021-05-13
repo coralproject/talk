@@ -133,6 +133,7 @@ const LiveMediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          className={styles.frameLimits}
         />
       )}
       {media.__typename === "TwitterMedia" && (
