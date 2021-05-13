@@ -89,11 +89,6 @@ interface CreateContextArguments {
   tokenRefreshProvider?: TokenRefreshProvider;
 }
 
-/** websocketURL points to our live graphql server */
-const websocketURL = `${location.protocol === "https:" ? "wss" : "ws"}://${
-  location.host
-}/api/graphql/live`;
-
 /**
  * timeagoFormatter integrates timeago into our translation
  * framework. It gets injected into the UIContext.
@@ -316,6 +311,18 @@ function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
   return createPromisifiedStorage(createSessionStorage());
 }
 
+function resolveGraphQLSubscriptionURI(
+  staticConfig: StaticConfig | null
+): string {
+  if (staticConfig && staticConfig.graphQLSubscriptionURI) {
+    return staticConfig.graphQLSubscriptionURI;
+  }
+
+  return `${location.protocol === "https:" ? "wss" : "ws"}://${
+    location.host
+  }/api/graphql/live`;
+}
+
 /**
  * `createManaged` establishes the dependencies of our framework
  * and returns a `ManagedCoralContextProvider` that provides the context
@@ -383,8 +390,13 @@ export default async function createManaged({
   /** clientID is sent to the server with every request */
   const clientID = uuid();
 
+  const staticConfig = getStaticConfig();
+
+  // websocketEndpoint points to our graphql server's live endpoint.
+  const graphQLSubscriptionURI = resolveGraphQLSubscriptionURI(staticConfig);
+
   const subscriptionClient = createManagedSubscriptionClient(
-    websocketURL,
+    graphQLSubscriptionURI,
     clientID,
     bundle,
     bundleConfig
@@ -426,7 +438,7 @@ export default async function createManaged({
     environment: context.relayEnvironment,
     context,
     auth,
-    staticConfig: getStaticConfig(),
+    staticConfig,
   });
 
   // Set new token for the websocket connection.
