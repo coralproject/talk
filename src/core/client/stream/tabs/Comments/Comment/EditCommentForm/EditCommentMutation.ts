@@ -95,8 +95,8 @@ async function commit(
               editing: {
                 edited: true,
               },
+              lastViewerAction: "EDIT",
             },
-            lastViewerAction: "EDIT",
             clientMutationId: (clientMutationId++).toString(),
           },
         },
