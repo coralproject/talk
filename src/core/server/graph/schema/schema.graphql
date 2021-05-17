@@ -316,10 +316,25 @@ type FlagReasonActionCounts {
 
 type Flag {
   """
+  id is the identifier for this flag action.
+  """
+  id: ID!
+
+  """
   flagger is the User that created the Flag. If this is null, then the system
   created the Flag.
   """
   flagger: User
+
+  """
+  comment is the comment this flag was created on.
+  """
+  comment: Comment
+
+  """
+  commentRevisionID is the revision of the comment this flag was created on.
+  """
+  commentRevisionID: ID!
 
   """
   reason is the selected reason why the Flag is being created. If the reason is
@@ -333,6 +348,17 @@ type Flag {
   created or is relevant.
   """
   additionalDetails: String
+
+  """
+  reviewed is whether this flag reason and details have been reviewed by a
+  moderator.
+  """
+  reviewed: Boolean
+
+  """
+  createdAt is when this flag was created.
+  """
+  createdAt: Time!
 }
 
 type FlagEdge {
@@ -4088,6 +4114,14 @@ type Query {
   """
   externalModerationPhase(id: ID!): ExternalModerationPhase
     @auth(roles: [ADMIN])
+
+  """
+  flagged are the list of non-reviewed flags from user reported comments.
+  """
+  flagged(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -7812,6 +7846,26 @@ type TestSMTPPayload {
   clientMutationId: String!
 }
 
+input ReviewCommentFlagInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  id: ID!
+
+  reviewed: Boolean!
+}
+
+type ReviewCommentFlagPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  flag: Flag!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8403,6 +8457,12 @@ type Mutation {
   testSMTP sends a test email.
   """
   testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
+
+  """
+  review
+  """
+  reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

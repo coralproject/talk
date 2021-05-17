@@ -1,11 +1,13 @@
 import GraphContext from "coral-server/graph/context";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import { approveComment, rejectComment } from "coral-server/stacks";
+import reviewCommentAction from "coral-server/stacks/reviewCommentAction";
 
 import {
   GQLApproveCommentInput,
   GQLFEATURE_FLAG,
   GQLRejectCommentInput,
+  GQLReviewCommentFlagInput,
 } from "../schema/__generated__/types";
 
 import { validateUserModerationScopes } from "./helpers";
@@ -46,6 +48,14 @@ export const Actions = (ctx: GraphContext) => ({
       input.commentRevisionID,
       ctx.user!.id,
       ctx.now
+    );
+  },
+  reviewFlag: async (input: GQLReviewCommentFlagInput) => {
+    return await reviewCommentAction(
+      ctx.mongo,
+      ctx.tenant,
+      input.id,
+      input.reviewed
     );
   },
 });

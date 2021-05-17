@@ -1,3 +1,6 @@
+import { defaultTo } from "lodash";
+
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getExternalModerationPhase } from "coral-server/models/settings";
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
@@ -36,4 +39,12 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
+  flagged: (source, { first, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first: defaultTo(first, 10),
+      after,
+      filter: {
+        actionType: ACTION_TYPE.FLAG,
+      },
+    }),
 };

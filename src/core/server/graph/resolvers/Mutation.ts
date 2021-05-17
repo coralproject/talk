@@ -421,4 +421,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateBio(input),
     clientMutationId: input.clientMutationId,
   }),
+  reviewCommentFlag: async (source, { input }, ctx) => ({
+    flag: await ctx.mutators.Actions.reviewFlag(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

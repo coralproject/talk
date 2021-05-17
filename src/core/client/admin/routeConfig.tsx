@@ -37,6 +37,7 @@ import LoginRoute from "./routes/Login";
 import ModerateRoute from "./routes/Moderate";
 import {
   ApprovedQueueRouteConfig,
+  ForReviewQueueRouteConfig,
   ModerationQueue,
   PendingQueueRoute,
   RejectedQueueRouteConfig,
@@ -88,6 +89,7 @@ export default makeRouteConfig(
           />
           <Route path="approved" {...ApprovedQueueRouteConfig} />
           <Route path="rejected" {...RejectedQueueRouteConfig} />
+          <Route path="review" {...ForReviewQueueRouteConfig} />
           <Route
             path="rejected/stories/:storyID"
             {...RejectedQueueRouteConfig}

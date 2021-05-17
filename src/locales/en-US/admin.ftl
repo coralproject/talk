@@ -884,6 +884,7 @@ moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
 moderate-navigation-approved = approved
 moderate-navigation-comment-count = { SHORT_NUMBER($count) }
+moderate-navigation-forReview = for review
 
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link

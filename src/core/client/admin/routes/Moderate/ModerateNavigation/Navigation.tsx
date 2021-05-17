@@ -41,8 +41,9 @@ const Navigation: FunctionComponent<Props> = ({
       getModerationLink({ queue: "unmoderated", storyID, siteID, section }),
       getModerationLink({ queue: "approved", storyID, siteID, section }),
       getModerationLink({ queue: "rejected", storyID, siteID, section }),
+      getModerationLink({ queue: "review", storyID, siteID, section }),
     ];
-  }, [storyID, siteID]);
+  }, [storyID, siteID, section]);
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
@@ -67,7 +68,7 @@ const Navigation: FunctionComponent<Props> = ({
         key.unbind(`${i + 1}`);
       }
     };
-  }, [match, moderationLinks]);
+  }, [match, moderationLinks, router]);
 
   return (
     <SubBarNavigation>
@@ -131,6 +132,12 @@ const Navigation: FunctionComponent<Props> = ({
         <Icon>cancel</Icon>
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>
+        </Localized>
+      </NavigationLink>
+      <NavigationLink to={moderationLinks[5]}>
+        <Icon>check</Icon>
+        <Localized id="moderate-navigation-forReview">
+          <span>For Review</span>
         </Localized>
       </NavigationLink>
     </SubBarNavigation>

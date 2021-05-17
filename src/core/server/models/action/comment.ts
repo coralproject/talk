@@ -134,6 +134,11 @@ export interface CommentAction extends TenantResource {
    * metadata is arbitrary information stored for this Action.
    */
   metadata?: Record<string, any>;
+
+  /**
+   * reviewed is whether this comment action has been reviewed by a moderator.
+   */
+  reviewed?: boolean;
 }
 
 const ActionSchema = Joi.compile([
