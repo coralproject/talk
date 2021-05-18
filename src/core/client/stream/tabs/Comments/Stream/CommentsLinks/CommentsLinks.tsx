@@ -1,12 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FC, FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./CommentsLinks.css";
 
@@ -14,6 +15,29 @@ interface Props {
   showGoToDiscussions: boolean;
   showGoToProfile: boolean;
 }
+
+const FooterButton: FC<
+  Pick<
+    PropTypesOf<typeof Button>,
+    "onClick" | "title" | "className" | "children" | "classes"
+  > & {
+    icon: string;
+  }
+> = (props) => (
+  <Button
+    className={cn(styles.link, props.className)}
+    title={props.title}
+    onClick={props.onClick}
+    variant="textUnderlined"
+    color="regular"
+    iconLeft
+    classes={props.classes}
+    uppercase={false}
+  >
+    <ButtonIcon className={styles.icon}>{props.icon}</ButtonIcon>
+    <span>{props.children}</span>
+  </Button>
+);
 
 const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
@@ -56,69 +80,59 @@ const CommentsLinks: FunctionComponent<Props> = ({
   return (
     <div className={cn(styles.container, CLASSES.streamFooter.$root)}>
       {showGoToProfile && (
-        <Button
-          className={cn(styles.link, CLASSES.streamFooter.profileLink)}
-          title="Go to profile and replies"
-          onClick={onGoToProfile}
-          variant="textUnderlined"
-          color="regular"
-          iconLeft
-          classes={classes}
-          uppercase={false}
-        >
-          <ButtonIcon className={styles.icon}>account_box</ButtonIcon>
-          <Localized id="stream-footer-links-profile">
-            <span>Profile and replies</span>
-          </Localized>
-        </Button>
+        <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
+          <FooterButton
+            className={CLASSES.streamFooter.profileLink}
+            title="Go to profile and replies"
+            onClick={onGoToProfile}
+            classes={classes}
+            icon="account_box"
+          >
+            Profile and replies
+          </FooterButton>
+        </Localized>
       )}
       {showGoToDiscussions && (
-        <Button
-          className={cn(styles.link, CLASSES.streamFooter.discussionsLink)}
-          title="Go to more discussions"
-          onClick={onGoToDiscussions}
-          variant="textUnderlined"
-          color="regular"
-          iconLeft
-          classes={classes}
-          uppercase={false}
-        >
-          <ButtonIcon className={styles.icon}>list_alt</ButtonIcon>
-          <Localized id="stream-footer-links-discussions">
-            <span>More discussions</span>
-          </Localized>
-        </Button>
+        <Localized id="stream-footer-links-discussions" attrs={{ title: true }}>
+          <FooterButton
+            className={CLASSES.streamFooter.discussionsLink}
+            title="Go to more discussions"
+            onClick={onGoToDiscussions}
+            classes={classes}
+            icon="list_alt"
+          >
+            More discussions
+          </FooterButton>
+        </Localized>
       )}
-      <Button
-        className={cn(styles.link, CLASSES.streamFooter.commentsTopLink)}
-        title="Go to top of comments"
-        onClick={onGoToCommentsTop}
-        variant="textUnderlined"
-        color="regular"
-        iconLeft
-        classes={classes}
-        uppercase={false}
+      <Localized
+        id="stream-footer-links-top-of-comments"
+        attrs={{ title: true }}
       >
-        <ButtonIcon className={styles.icon}>forum</ButtonIcon>
-        <Localized id="stream-footer-links-top-of-comments">
-          <span>Top of comments</span>
-        </Localized>
-      </Button>
-      <Button
-        className={cn(styles.link, CLASSES.streamFooter.articleTopLink)}
-        title="Go to top of article"
-        onClick={onGoToArticleTop}
-        variant="textUnderlined"
-        color="regular"
-        iconLeft
-        classes={classes}
-        uppercase={false}
+        <FooterButton
+          className={CLASSES.streamFooter.commentsTopLink}
+          title="Go to top of comments"
+          onClick={onGoToCommentsTop}
+          classes={classes}
+          icon="forum"
+        >
+          Top of comments
+        </FooterButton>
+      </Localized>
+      <Localized
+        id="stream-footer-links-top-of-article"
+        attrs={{ title: true }}
       >
-        <ButtonIcon className={styles.icon}>description</ButtonIcon>
-        <Localized id="stream-footer-links-top-of-article">
-          <span>Top of article</span>
-        </Localized>
-      </Button>
+        <FooterButton
+          className={CLASSES.streamFooter.articleTopLink}
+          title="Go to top of article"
+          onClick={onGoToArticleTop}
+          classes={classes}
+          icon="description"
+        >
+          Top of article
+        </FooterButton>
+      </Localized>
     </div>
   );
 };
