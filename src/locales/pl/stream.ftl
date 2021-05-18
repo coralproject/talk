@@ -238,8 +238,8 @@ comments-moderationDropdown-moderateStory = Moderuj komentarze
 comments-moderationDropdown-caretButton =
   .aria-label = Moderuj
 
-comments-rejectedTombstone-title = Odrzuciłaś/eś ten komentarz.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Odrzuciłaś/eś ten komentarz.
+comments-moderationRejectedTombstone-moderateLink =
   Przejdź do moderacji, by przyjrzeć się tej decyzji.
 
 comments-featuredTag = Wyróżniony

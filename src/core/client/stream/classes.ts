@@ -434,16 +434,22 @@ const CLASSES = {
   },
 
   /**
-   * rejectedTombstone is shown when a comment got rejected.
+   * moderationRejectedTombstone is shown to the moderator when a comment got rejected.
    */
-  rejectedTombstone: {
-    $root: "coral coral-rejectedtombstone",
-    goToModerateButton: "coral coral-rejectedtombstone-goToModerateButton",
+  moderationRejectedTombstone: {
+    $root: "coral coral-moderationRejectedTombstone",
+    goToModerateButton:
+      "coral coral-moderationRejectedTombstone-goToModerateButton",
   },
+  /**
+   * rejectedTombstone is shown when a comment has been rejected.
+   */
+  rejectedTombstone: "coral coral-rejectedTombstone",
+
   /**
    * deletedTombstone is shown when a comment has been deleted.
    */
-  deletedTombstone: "coral coral-rejectedtombstone",
+  deletedTombstone: "coral coral-deletedTombstone",
 
   /**
    * ignoredTombstown is shown when a comment got ignored.
