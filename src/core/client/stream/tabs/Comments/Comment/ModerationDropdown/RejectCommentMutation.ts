@@ -8,8 +8,8 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLComment, GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { RejectCommentEvent } from "coral-stream/events";
+import { GQLComment, GQLCOMMENT_STATUS } from "coral-stream/schema";
 
 import { RejectCommentMutation as MutationTypes } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 

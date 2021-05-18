@@ -5,18 +5,15 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
+import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
-import {
-  GQLCOMMENT_SORT_RL,
-  GQLMODERATION_QUEUE_RL,
-} from "coral-framework/schema";
 
 export default function getQueueConnection(
   store: RecordSourceSelectorProxy | RecordSourceProxy,
-  queue: GQLMODERATION_QUEUE_RL | "REJECTED" | "APPROVED",
+  queue: GQLMODERATION_QUEUE | "REJECTED" | "APPROVED",
   storyID?: string | null,
   siteID?: string | null,
-  orderBy?: GQLCOMMENT_SORT_RL | null,
+  orderBy?: GQLCOMMENT_SORT | null,
   section?: SectionFilter | null
 ): RecordProxy | null | undefined {
   const root = store.getRoot();

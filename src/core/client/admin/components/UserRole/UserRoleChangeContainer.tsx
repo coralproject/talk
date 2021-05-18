@@ -2,12 +2,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
+import { GQLFEATURE_FLAG, GQLUSER_ROLE } from "coral-admin/schema";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  GQLFEATURE_FLAG,
-  GQLUSER_ROLE,
-  GQLUSER_ROLE_RL,
-} from "coral-framework/schema";
 
 import { UserRoleChangeContainer_query } from "coral-admin/__generated__/UserRoleChangeContainer_query.graphql";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
@@ -39,7 +35,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     UpdateUserModerationScopesMutation
   );
   const handleOnChangeRole = useCallback(
-    async (role: GQLUSER_ROLE_RL) => {
+    async (role: GQLUSER_ROLE) => {
       if (role === user.role) {
         // No role change is needed! User already has the selected role.
         return;

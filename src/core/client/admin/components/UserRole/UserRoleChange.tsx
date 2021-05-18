@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { useToggleState } from "coral-framework/hooks";
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,
@@ -22,9 +22,9 @@ import styles from "./UserRoleChange.css";
 
 interface Props {
   username: string | null;
-  onChangeRole: (role: GQLUSER_ROLE_RL) => Promise<void>;
+  onChangeRole: (role: GQLUSER_ROLE) => Promise<void>;
   onChangeModerationScopes: (siteIDs: string[]) => Promise<void>;
-  role: GQLUSER_ROLE_RL;
+  role: GQLUSER_ROLE;
   scoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
@@ -53,7 +53,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
    * moderation scopes.
    */
   const handleChangeRole = useCallback(
-    async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
+    async (r: GQLUSER_ROLE, siteIDs: string[] = []) => {
       await onChangeRole(r);
 
       if (moderationScopesEnabled) {
@@ -63,7 +63,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [onChangeRole, onChangeModerationScopes, moderationScopesEnabled]
   );
   const onClick = useCallback(
-    (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => async () => {
+    (r: GQLUSER_ROLE, siteIDs: string[] = []) => async () => {
       await handleChangeRole(r, siteIDs);
       togglePopoverVisibility();
     },

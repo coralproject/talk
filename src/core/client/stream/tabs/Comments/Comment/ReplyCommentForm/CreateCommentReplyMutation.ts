@@ -13,20 +13,21 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
-  LOCAL_ID,
   lookup,
+  lookupLocal,
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+import { CreateCommentReplyEvent } from "coral-stream/events";
 import {
   GQLComment,
+  GQLLocal,
   GQLStory,
   GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
-} from "coral-framework/schema";
-import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
-import { CreateCommentReplyEvent } from "coral-stream/events";
+} from "coral-stream/schema";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
@@ -153,7 +154,7 @@ function addCommentReplyToStory(
   commentEdge: RecordProxy
 ) {
   const flattenReplies = lookupFlattenReplies(environment);
-  const singleCommentID = lookup(environment, LOCAL_ID).commentID;
+  const singleCommentID = lookupLocal<GQLLocal>(environment).commentID;
   const comment = commentEdge.getLinkedRecord("node")!;
   const depth = determineDepthTillAncestor(comment, singleCommentID);
 

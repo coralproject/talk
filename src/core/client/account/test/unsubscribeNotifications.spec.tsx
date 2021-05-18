@@ -2,7 +2,6 @@ import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { GQLResolver } from "coral-framework/schema";
 import {
   act,
   createAccessToken,
@@ -11,6 +10,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 
 import create from "./create";
 

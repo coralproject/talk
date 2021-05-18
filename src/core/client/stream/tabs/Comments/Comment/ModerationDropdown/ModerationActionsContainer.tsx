@@ -10,9 +10,9 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
+import { GQLSTORY_MODE } from "coral-stream/schema";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";

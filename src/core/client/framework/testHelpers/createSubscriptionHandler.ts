@@ -1,4 +1,4 @@
-import { GQLSubscription } from "coral-framework/schema";
+import { GQLSubscription } from "coral-framework/testHelpers/schema";
 import { DeepPartial } from "coral-framework/types";
 
 export type SubscriptionVariables<

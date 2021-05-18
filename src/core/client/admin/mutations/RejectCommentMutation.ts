@@ -2,13 +2,13 @@ import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { getQueueConnection } from "coral-admin/helpers";
+import { GQLCOMMENT_SORT } from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 import { RejectCommentMutation as MutationTypes } from "coral-admin/__generated__/RejectCommentMutation.graphql";
 
@@ -22,7 +22,7 @@ const RejectCommentMutation = createMutation(
       storyID: string | null;
       siteID: string | null;
       section: SectionFilter | null;
-      orderBy: GQLCOMMENT_SORT_RL | null;
+      orderBy: GQLCOMMENT_SORT | null;
     }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {

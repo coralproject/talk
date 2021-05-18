@@ -10,8 +10,8 @@ import {
   requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+import { GQLCOMMENT_SORT } from "coral-stream/schema";
 
 import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEnteredSubscription.graphql";
 
@@ -146,7 +146,7 @@ type CommentEnteredVariables = Omit<
   "flattenReplies"
 > & {
   /** orderBy that was supplied to the `comments` connection on Story */
-  orderBy?: GQLCOMMENT_SORT_RL;
+  orderBy?: GQLCOMMENT_SORT;
   /** Tag that was supplied to the `comments` connection on Story */
   tag?: string;
   /** If set together with ancestorID, direct replies to the ancestor will immediately displayed */

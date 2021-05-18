@@ -7,8 +7,8 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_STATUS, GQLTAG } from "coral-framework/schema";
 import { FeatureCommentEvent } from "coral-stream/events";
+import { GQLCOMMENT_STATUS, GQLTAG } from "coral-stream/schema";
 
 import { FeatureCommentMutation as MutationTypes } from "coral-stream/__generated__/FeatureCommentMutation.graphql";
 

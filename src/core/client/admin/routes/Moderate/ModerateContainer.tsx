@@ -2,10 +2,10 @@ import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { GQLFEATURE_FLAG } from "coral-admin/schema";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Spinner } from "coral-ui/components/v2";
 
 import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";

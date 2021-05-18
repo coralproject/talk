@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { GQLSTORY_STATUS } from "coral-admin/schema";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
@@ -32,7 +32,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
   const [searchFilter, setSearchFilter] = useState<string>(
     props.initialSearchFilter || ""
   );
-  const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS_RL | null>(
+  const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS | null>(
     null
   );
   const [siteFilter, setSiteFilter] = useState<string | null>(null);

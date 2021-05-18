@@ -2,12 +2,16 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
+import {
+  GQLCOMMENT_SORT,
+  GQLLocal,
+  GQLMODERATION_QUEUE,
+} from "coral-admin/schema";
 import { SectionFilter } from "coral-common/section";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
-  LOCAL_ID,
-  lookup,
+  lookupLocal,
   useLoadMore,
   useLocal,
   useMutation,
@@ -16,7 +20,6 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-framework/schema";
 import { Spinner } from "coral-ui/components/v2";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
@@ -78,7 +81,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
     orderBy: moderationQueueSort,
   });
 
-  const orderBy = moderationQueueSort as GQLCOMMENT_SORT;
+  const orderBy = moderationQueueSort;
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
@@ -210,8 +213,9 @@ const createQueueRoute = (
 ) => {
   const enhanced = withRouteConfig<Props, any>({
     prepareVariables: (params, match) => {
-      const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
-        .moderationQueueSort;
+      const initialOrderBy = lookupLocal<GQLLocal>(
+        match.context.relayEnvironment
+      ).moderationQueueSort;
       return {
         ...params,
         initialOrderBy,

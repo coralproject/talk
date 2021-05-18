@@ -13,7 +13,7 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_STATUS } from "coral-stream/schema";
 import { Flex, Icon, TextField } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -75,8 +75,8 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
-  const [roleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
-  const [statusFilter] = useState<GQLUSER_STATUS_RL | null>(null);
+  const [roleFilter] = useState<GQLUSER_ROLE | null>(null);
+  const [statusFilter] = useState<GQLUSER_STATUS | null>(null);
   const [, isRefetching] = useRefetch(relay, 10, {
     searchFilter: searchFilter || null,
     roleFilter,

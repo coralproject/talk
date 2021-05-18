@@ -1,12 +1,12 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { MOD_QUEUE_SORT_ORDER } from "coral-admin/constants";
+import { GQLCOMMENT_SORT } from "coral-admin/schema";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT_RL } from "coral-framework/schema";
 
 export interface Input {
-  sortOrder: GQLCOMMENT_SORT_RL;
+  sortOrder: GQLCOMMENT_SORT;
 }
 
 export async function commit(

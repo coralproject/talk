@@ -1,11 +1,5 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLComment,
-  GQLResolver,
-  GQLStory,
-  SubscriptionToCommentEnteredResolver,
-} from "coral-framework/schema";
-import {
   act,
   createFixture,
   createResolversStub,
@@ -15,6 +9,12 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLComment,
+  GQLResolver,
+  GQLStory,
+  SubscriptionToCommentEnteredResolver,
+} from "coral-framework/testHelpers/schema";
 import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
 
 import { baseComment, baseStory, comments, settings } from "../../fixtures";

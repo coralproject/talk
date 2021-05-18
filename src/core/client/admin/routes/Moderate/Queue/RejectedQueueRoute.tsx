@@ -2,11 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { GQLLocal } from "coral-admin/schema";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
-  LOCAL_ID,
-  lookup,
+  lookupLocal,
   useLocal,
   useRefetch,
   withPaginationContainer,
@@ -202,7 +202,7 @@ export const routeConfig = createRouteConfig<Props, RejectedQueueRoute_query>({
     }
   `,
   prepareVariables: (params, match) => {
-    const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+    const initialOrderBy = lookupLocal<GQLLocal>(match.context.relayEnvironment)
       .moderationQueueSort;
     return {
       ...params,

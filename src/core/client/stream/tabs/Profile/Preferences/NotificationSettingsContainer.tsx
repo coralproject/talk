@@ -7,8 +7,8 @@ import { graphql } from "react-relay";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLDIGEST_FREQUENCY } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import { GQLDIGEST_FREQUENCY } from "coral-stream/schema";
 import {
   CheckBox,
   FieldSet,

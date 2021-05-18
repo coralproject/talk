@@ -1,6 +1,6 @@
 import { RecordSourceSelectorProxy } from "relay-runtime";
 
-import { GQLMODERATION_QUEUE } from "coral-framework/schema";
+import { GQLMODERATION_QUEUE } from "coral-admin/schema";
 
 export default function changeQueueCount(
   store: RecordSourceSelectorProxy<unknown>,

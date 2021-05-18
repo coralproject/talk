@@ -1,9 +1,5 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLResolver,
-  MutationToUpdateStorySettingsResolver,
-} from "coral-framework/schema";
-import {
   act,
   createMutationResolverStub,
   createResolversStub,
@@ -14,6 +10,10 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  MutationToUpdateStorySettingsResolver,
+} from "coral-framework/testHelpers/schema";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";

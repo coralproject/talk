@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { GQLSettings } from "coral-admin/schema";
 import { DeepNullable } from "coral-common/types";
 import {
   colorFromMeta,
@@ -16,7 +17,6 @@ import {
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import { GQLSettings } from "coral-framework/schema";
 import {
   FormField,
   FormFieldDescription,

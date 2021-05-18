@@ -1,13 +1,5 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLCOMMENT_SORT,
-  GQLCOMMENT_STATUS,
-  GQLMODERATION_QUEUE,
-  GQLResolver,
-  ModerationQueueToCommentsResolver,
-  SubscriptionToCommentLeftModerationQueueResolver,
-} from "coral-framework/schema";
-import {
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -15,6 +7,14 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+  GQLMODERATION_QUEUE,
+  GQLResolver,
+  ModerationQueueToCommentsResolver,
+  SubscriptionToCommentLeftModerationQueueResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

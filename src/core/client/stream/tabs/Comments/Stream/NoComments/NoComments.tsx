@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG } from "coral-stream/schema";
 import { CallOut } from "coral-ui/components/v2";
 
 import NoQuestionAndAnswers from "./NoQuestionAndAnswers";

@@ -12,17 +12,17 @@ import {
   useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT,
-  GQLFEATURE_FLAG,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
   LoadMoreFeaturedCommentsEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLUSER_STATUS,
+} from "coral-stream/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 

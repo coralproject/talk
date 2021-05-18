@@ -1,13 +1,13 @@
 import timekeeper from "timekeeper";
 
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 import {
   createComment,
   createComments,

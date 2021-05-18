@@ -8,7 +8,6 @@ import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
-import { GQLResolver } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -18,6 +17,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 
 import { baseComment, commenters, settings, stories } from "../../fixtures";
 import create from "./create";

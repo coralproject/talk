@@ -5,8 +5,8 @@ import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
+import { GQLCOMMENT_SORT, GQLTAG } from "coral-stream/schema";
 
 interface Input {
   storyID: string;

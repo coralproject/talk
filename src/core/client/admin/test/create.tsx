@@ -1,11 +1,14 @@
 import React from "react";
 
 import App from "coral-admin/App";
-import { GQLCOMMENT_SORT, GQLResolver } from "coral-framework/schema";
 import {
   createTestRenderer,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
+import {
+  GQLCOMMENT_SORT,
+  GQLResolver,
+} from "coral-framework/testHelpers/schema";
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTestRenderer<GQLResolver>("admin", <App />, {

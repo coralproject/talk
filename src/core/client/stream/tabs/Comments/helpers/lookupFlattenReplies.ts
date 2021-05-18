@@ -1,9 +1,10 @@
 import { Environment } from "react-relay";
 
-import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
+import { lookupLocal } from "coral-framework/lib/relay";
+import { GQLLocal } from "coral-stream/schema";
 
 export default function lookupFlattenReplies(
   environment: Environment
 ): boolean {
-  return !!lookup(environment, LOCAL_ID).flattenReplies;
+  return !!lookupLocal<GQLLocal>(environment).flattenReplies;
 }

@@ -1,4 +1,4 @@
-import { GQLAuthIntegrations } from "../schema/__generated__/types";
+import { GQLAuthIntegrations } from "coral-common/schema";
 
 interface Integration {
   enabled: boolean;

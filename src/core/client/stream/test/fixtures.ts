@@ -1,5 +1,13 @@
 import TIME from "coral-common/time";
 import {
+  createFixture,
+  createFixtures,
+  denormalizeComment,
+  denormalizeComments,
+  denormalizeStories,
+  denormalizeStory,
+} from "coral-framework/testHelpers";
+import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
@@ -13,15 +21,7 @@ import {
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
-} from "coral-framework/schema";
-import {
-  createFixture,
-  createFixtures,
-  denormalizeComment,
-  denormalizeComments,
-  denormalizeStories,
-  denormalizeStory,
-} from "coral-framework/testHelpers";
+} from "coral-framework/testHelpers/schema";
 import { NULL_VALUE } from "coral-test/helpers/fixture";
 
 export const settings = createFixture<GQLSettings>({

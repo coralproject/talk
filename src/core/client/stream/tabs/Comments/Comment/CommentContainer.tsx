@@ -17,12 +17,6 @@ import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import {
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
-  GQLTAG,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
@@ -37,6 +31,12 @@ import {
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_STATUS,
+} from "coral-stream/schema";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 

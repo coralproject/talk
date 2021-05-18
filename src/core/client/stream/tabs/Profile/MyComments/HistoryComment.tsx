@@ -2,10 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
+import { GQLSTORY_MODE } from "coral-stream/schema";
 import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";

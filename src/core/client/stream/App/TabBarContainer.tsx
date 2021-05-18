@@ -5,8 +5,8 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-stream/schema";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";

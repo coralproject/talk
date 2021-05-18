@@ -1,11 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 
 interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
-  role: GQLUSER_ROLE_RL;
+  role: GQLUSER_ROLE;
   scoped?: boolean;
   moderationScopesEnabled: boolean;
 }

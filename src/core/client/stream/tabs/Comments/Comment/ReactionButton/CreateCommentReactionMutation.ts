@@ -10,8 +10,8 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLComment } from "coral-framework/schema";
 import { CreateCommentReactionEvent } from "coral-stream/events";
+import { GQLComment } from "coral-stream/schema";
 
 import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
 
@@ -40,8 +40,8 @@ async function commit(
   input: CreateCommentReactionInput,
   { eventEmitter }: Pick<CoralContext, "eventEmitter">
 ) {
-  const currentCount = lookup(environment, input.commentID).actionCounts
-    .reaction.total;
+  const currentCount = lookup<GQLComment>(environment, input.commentID)!
+    .actionCounts.reaction.total;
 
   const createCommentReactionEvent = CreateCommentReactionEvent.begin(
     eventEmitter,

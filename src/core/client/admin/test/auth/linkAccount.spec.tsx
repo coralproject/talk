@@ -1,7 +1,6 @@
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
 import {
   act,
   createAccessToken,
@@ -12,6 +11,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver } from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import { settings, users } from "../fixtures";

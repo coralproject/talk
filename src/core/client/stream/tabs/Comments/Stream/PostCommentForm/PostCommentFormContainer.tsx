@@ -20,11 +20,11 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { GQLSTORY_MODE, GQLTAG } from "coral-stream/schema";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";

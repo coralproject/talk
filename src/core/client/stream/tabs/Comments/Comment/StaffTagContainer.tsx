@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLTAG_RL } from "coral-framework/schema";
+import { GQLTAG } from "coral-stream/schema";
 import { Tag } from "coral-ui/components/v2";
 
 import { StaffTagContainer_settings } from "coral-stream/__generated__/StaffTagContainer_settings.graphql";
@@ -12,7 +12,7 @@ import styles from "./StaffTagContainer.css";
 
 interface Props {
   settings: StaffTagContainer_settings;
-  tags: GQLTAG_RL[];
+  tags: GQLTAG[];
   className?: string;
 }
 

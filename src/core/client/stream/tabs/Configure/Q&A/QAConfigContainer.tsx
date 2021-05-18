@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-stream/schema";
 import { HorizontalRule, Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 

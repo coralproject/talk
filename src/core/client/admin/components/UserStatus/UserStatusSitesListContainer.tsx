@@ -9,12 +9,12 @@ import { useField } from "react-final-form";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   CheckBox,
   FieldSet,

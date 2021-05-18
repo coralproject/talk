@@ -4,8 +4,8 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { GQLUSER_ROLE } from "coral-admin/schema";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
   CheckBox,

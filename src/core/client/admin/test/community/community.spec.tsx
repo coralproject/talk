@@ -2,13 +2,6 @@ import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLResolver,
-  GQLUSER_ROLE,
-  GQLUSER_STATUS,
-  QueryToSettingsResolver,
-  QueryToUsersResolver,
-} from "coral-framework/schema";
-import {
   act,
   createQueryResolverStub,
   createResolversStub,
@@ -19,6 +12,13 @@ import {
   waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLResolver,
+  GQLUSER_ROLE,
+  GQLUSER_STATUS,
+  QueryToSettingsResolver,
+  QueryToUsersResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

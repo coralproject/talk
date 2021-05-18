@@ -9,7 +9,7 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLUser, GQLUSER_STATUS } from "coral-stream/schema";
 let clientMutationId = 0;
 import { AcknowledgeWarningMutation as MutationTypes } from "coral-stream/__generated__/AcknowledgeWarningMutation.graphql";
 

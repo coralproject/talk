@@ -2,6 +2,7 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { GQLUser } from "coral-admin/schema";
 import { getViewer } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -10,7 +11,6 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLUser } from "coral-framework/schema";
 
 import { CreateModeratorNoteMutation as MutationTypes } from "coral-admin/__generated__/CreateModeratorNoteMutation.graphql";
 

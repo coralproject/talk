@@ -2,12 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import {
-  GQLUSER_ROLE,
-  GQLUSER_ROLE_RL,
-  GQLUSER_STATUS_FILTER,
-  GQLUSER_STATUS_FILTER_RL,
-} from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_STATUS_FILTER } from "coral-admin/schema";
 import {
   Button,
   FieldSet,
@@ -27,10 +22,10 @@ import { InviteUsersContainer } from "./InviteUsers";
 import styles from "./UserTableFilter.css";
 
 interface Props {
-  roleFilter: GQLUSER_ROLE_RL | null;
-  onSetRoleFilter: (role: GQLUSER_ROLE_RL) => void;
-  statusFilter: GQLUSER_STATUS_FILTER_RL | null;
-  onSetStatusFilter: (role: GQLUSER_STATUS_FILTER_RL) => void;
+  roleFilter: GQLUSER_ROLE | null;
+  onSetRoleFilter: (role: GQLUSER_ROLE) => void;
+  statusFilter: GQLUSER_STATUS_FILTER | null;
+  onSetStatusFilter: (role: GQLUSER_STATUS_FILTER) => void;
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
   viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];

@@ -1,7 +1,7 @@
 import sinon from "sinon";
 
-import { GQLRTEConfiguration } from "coral-framework/schema";
 import { act, waitForElement, within } from "coral-framework/testHelpers";
+import { GQLRTEConfiguration } from "coral-framework/testHelpers/schema";
 import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import { commenters, settings, stories } from "../../fixtures";

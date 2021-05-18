@@ -2,8 +2,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
+import { GQLSTORY_STATUS } from "coral-admin/schema";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_STATUS } from "coral-framework/schema";
 
 import { StoryActionsContainer_story } from "coral-admin/__generated__/StoryActionsContainer_story.graphql";
 import { StoryActionsContainer_viewer } from "coral-admin/__generated__/StoryActionsContainer_viewer.graphql";

@@ -1,4 +1,4 @@
-import { GQLTAG } from "coral-framework/schema";
+import { GQLTAG } from "coral-stream/schema";
 import { RecordSourceProxy } from "relay-runtime";
 
 export default function incrementTagCommentCounts(

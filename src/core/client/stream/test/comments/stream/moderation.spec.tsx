@@ -1,5 +1,4 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -8,6 +7,10 @@ import {
   waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLCOMMENT_STATUS,
+  GQLResolver,
+} from "coral-framework/testHelpers/schema";
 
 import { featuredTag, moderators, settings, stories } from "../../fixtures";
 import create from "./create";

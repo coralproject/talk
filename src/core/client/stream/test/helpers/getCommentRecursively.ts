@@ -1,4 +1,7 @@
-import { GQLComment, GQLCommentsConnection } from "coral-framework/schema";
+import {
+  GQLComment,
+  GQLCommentsConnection,
+} from "coral-framework/testHelpers/schema";
 
 /**
  * Finds comment recursively inside of connection.

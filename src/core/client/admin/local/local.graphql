@@ -27,10 +27,10 @@ extend type CommentsConnection {
 
 extend type Local {
   redirectPath: String
-  authView: View
+  authView: View!
   authError: String
   # Duplicate email found when adding email during auth.
   authDuplicateEmail: String
   siteID: String
-  moderationQueueSort: COMMENT_SORT
+  moderationQueueSort: COMMENT_SORT!
 }

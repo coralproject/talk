@@ -1,7 +1,7 @@
 import { Environment } from "relay-runtime";
 
+import { GQLUser } from "coral-common/schema";
 import { lookup } from "coral-framework/lib/relay";
-import { GQLUser } from "coral-framework/schema";
 
 import getViewerSourceID from "./getViewerSourceID";
 

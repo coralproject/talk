@@ -1,10 +1,10 @@
 import React from "react";
 
-import { GQLUser } from "coral-framework/schema";
 import {
   createTestRenderer as createTestRendererGeneric,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
+import { GQLUser } from "coral-framework/testHelpers/schema";
 
 import Harness from "./harness";
 

@@ -1,6 +1,11 @@
 import { v4 as uuid } from "uuid";
 
 import {
+  createFixture,
+  denormalizeComment,
+  denormalizeStory,
+} from "coral-framework/testHelpers";
+import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
@@ -12,12 +17,7 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   GQLUserStatus,
-} from "coral-framework/schema";
-import {
-  createFixture,
-  denormalizeComment,
-  denormalizeStory,
-} from "coral-framework/testHelpers";
+} from "coral-framework/testHelpers/schema";
 
 // TODO (cvle) Temporary way to use `null` in fixtures as the gql types
 // are incorrect by not including `null` as an allowed value.

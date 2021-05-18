@@ -6,6 +6,7 @@ import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import getExternalModerationPhaseLink from "coral-admin/helpers/getExternalModerationPhaseLink";
+import { GQLCOMMENT_BODY_FORMAT } from "coral-admin/schema";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   colorFromMeta,
@@ -19,7 +20,6 @@ import {
   validateURL,
   validateWholeNumberBetween,
 } from "coral-framework/lib/validation";
-import { GQLCOMMENT_BODY_FORMAT } from "coral-framework/schema";
 import {
   Button,
   CallOut,

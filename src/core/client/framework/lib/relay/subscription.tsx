@@ -46,10 +46,10 @@ export function createSubscription<N extends string, V>(
   };
 }
 
-export function requestSubscription<TSubscriptionPayload>(
+export function requestSubscription<T extends { response: any }>(
   environment: Environment,
   // tslint:disable-next-line no-unnecessary-generics
-  config: GraphQLSubscriptionConfig<TSubscriptionPayload>
+  config: GraphQLSubscriptionConfig<T["response"]>
 ): Disposable {
   return requestSubscriptionRelay(environment, {
     ...config,

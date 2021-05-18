@@ -9,10 +9,10 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
+import { GQLFEATURE_FLAG } from "coral-admin/schema";
 import { getModerationLink } from "coral-framework/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { Flex, Spinner } from "coral-ui/components/v2";
 import { blur } from "coral-ui/helpers";

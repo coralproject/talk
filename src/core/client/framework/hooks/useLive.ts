@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG } from "coral-common/schema";
 
 import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 

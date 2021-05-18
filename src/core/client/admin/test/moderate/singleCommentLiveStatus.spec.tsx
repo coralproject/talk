@@ -1,16 +1,16 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLCOMMENT_STATUS,
-  GQLResolver,
-  SubscriptionToCommentStatusUpdatedResolver,
-} from "coral-framework/schema";
-import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLCOMMENT_STATUS,
+  GQLResolver,
+  SubscriptionToCommentStatusUpdatedResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import { reportedComments, settings, users } from "../fixtures";

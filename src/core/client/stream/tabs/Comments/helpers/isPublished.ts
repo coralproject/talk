@@ -1,4 +1,4 @@
-import { GQLCOMMENT_STATUS } from "coral-framework/schema";
+import { GQLCOMMENT_STATUS } from "coral-stream/schema";
 
 const PUBLISHED_STATUSES = [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.APPROVED];
 

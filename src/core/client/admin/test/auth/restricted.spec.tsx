@@ -1,8 +1,8 @@
 import sinon from "sinon";
 
+import { GQLLocal } from "coral-admin/schema";
 import { pureMerge } from "coral-common/utils";
-import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
-import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
+import { lookupLocal } from "coral-framework/lib/relay";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -11,6 +11,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { GQLResolver, GQLUSER_ROLE } from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {
@@ -98,7 +99,7 @@ it("sign out when clicking on sign in as", async () => {
   within(authBox).getByText("Sign in with a different account").props.onClick();
 
   await wait(() => {
-    expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+    expect(lookupLocal<GQLLocal>(context.relayEnvironment).redirectPath).toBe(
       "/admin/moderate/reported"
     );
   });

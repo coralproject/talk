@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { GQLTAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import { GQLTAG } from "coral-stream/schema";
 import { CallOut } from "coral-ui/components/v2";
 
 interface Props {

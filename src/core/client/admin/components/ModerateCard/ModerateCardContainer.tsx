@@ -13,6 +13,13 @@ import {
   ApproveCommentMutation,
   RejectCommentMutation,
 } from "coral-admin/mutations";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+  GQLUSER_STATUS,
+} from "coral-admin/schema";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { getModerationLink } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
@@ -21,13 +28,6 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import {
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
-  GQLTAG,
-  GQLUSER_ROLE,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,

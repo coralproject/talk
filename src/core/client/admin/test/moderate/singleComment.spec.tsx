@@ -1,12 +1,5 @@
 import { pureMerge } from "coral-common/utils";
 import {
-  GQLCOMMENT_STATUS,
-  GQLResolver,
-  MutationToApproveCommentResolver,
-  MutationToRejectCommentResolver,
-  QueryToCommentResolver,
-} from "coral-framework/schema";
-import {
   createMutationResolverStub,
   createQueryResolverStub,
   createResolversStub,
@@ -16,6 +9,13 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import {
+  GQLCOMMENT_STATUS,
+  GQLResolver,
+  MutationToApproveCommentResolver,
+  MutationToRejectCommentResolver,
+  QueryToCommentResolver,
+} from "coral-framework/testHelpers/schema";
 
 import create from "../create";
 import {

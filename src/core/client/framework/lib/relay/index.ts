@@ -48,3 +48,4 @@ export { default as purgeMetadata } from "./purgeMetadata";
 export { default as waitForLocalState } from "./waitForLocalState";
 export { default as lookupQuery } from "./lookupQuery";
 export { default as retainQuery } from "./retainQuery";
+export { default as lookupLocal } from "./lookupLocal";
