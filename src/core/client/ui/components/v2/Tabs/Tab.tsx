@@ -39,7 +39,7 @@ export interface TabProps {
 
   uppercase?: boolean;
 
-  ariaLabel?: string;
+  "aria-label"?: string;
   title?: string;
 }
 
@@ -59,7 +59,7 @@ class Tab extends React.Component<TabProps> {
       active,
       variant,
       uppercase,
-      ariaLabel,
+      "aria-label": ariaLabel,
       title,
     } = this.props;
 
