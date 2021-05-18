@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
@@ -25,6 +26,19 @@ export interface Props {
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
+  const getMessage = useGetMessage();
+
+  let commentsTabText: string;
+  switch (props.mode) {
+    case "QA":
+      commentsTabText = getMessage("general-tabBar-qaTab", "Q&A");
+      break;
+    case "RATINGS_AND_REVIEWS":
+      commentsTabText = getMessage("general-tabBar-reviewsTab", "Reviews");
+      break;
+    default:
+      commentsTabText = getMessage("general-tabBar-commentsTab", "Comments");
+  }
   return (
     <MatchMedia gteWidth="sm">
       {(matches) => (
@@ -41,35 +55,30 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             })}
             tabID="COMMENTS"
             variant="streamPrimary"
-            localizationId={
-              props.mode === GQLSTORY_MODE.QA
-                ? "general-tabBar-aria-qa"
-                : "general-tabBar-aria-comments"
-            }
+            title={commentsTabText}
           >
             {matches ? (
-              props.mode === GQLSTORY_MODE.QA ? (
-                <Localized id="general-tabBar-qaTab">
-                  <span>Q&A</span>
-                </Localized>
-              ) : (
-                <Localized id="general-tabBar-commentsTab">
-                  <span>Comments</span>
-                </Localized>
-              )
+              <span>{commentsTabText}</span>
             ) : (
               <div>
-                <Icon size="lg">
-                  {props.mode === GQLSTORY_MODE.QA ? "live_help" : "forum"}
-                </Icon>
-                {props.mode === GQLSTORY_MODE.QA ? (
-                  <Localized id="general-tabBar-qaTab">
-                    <div className={styles.smallText}>Q&A</div>
-                  </Localized>
-                ) : (
-                  <Localized id="general-tabBar-commentsTab">
-                    <div className={styles.smallText}>Comments</div>
-                  </Localized>
+                {!props.mode ||
+                  (props.mode === GQLSTORY_MODE.COMMENTS && (
+                    <>
+                      <Icon size="lg">forum</Icon>
+                      <div className={styles.smallText}>{commentsTabText}</div>
+                    </>
+                  ))}
+                {props.mode === GQLSTORY_MODE.QA && (
+                  <>
+                    <Icon size="lg">live_help</Icon>
+                    <div className={styles.smallText}>{commentsTabText}</div>
+                  </>
+                )}
+                {props.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS && (
+                  <>
+                    <Icon size="lg">star</Icon>
+                    <div className={styles.smallText}>{commentsTabText}</div>
+                  </>
                 )}
               </div>
             )}
@@ -83,7 +92,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="DISCUSSIONS"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-discussions"
+              title={getMessage("general-tabBar-discussionsTab", "Discussions")}
             >
               {matches ? (
                 <Localized id="general-tabBar-discussionsTab">
@@ -108,7 +117,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="PROFILE"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-myProfile"
+              title={getMessage("general-tabBar-myProfileTab", "My Profile")}
             >
               {matches ? (
                 <Localized id="general-tabBar-myProfileTab">
@@ -132,7 +141,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="CONFIGURE"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-configure"
+              title={getMessage("general-tabBar-configure", "Configure")}
             >
               {matches ? (
                 <Localized id="general-tabBar-configure">
