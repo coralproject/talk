@@ -21,7 +21,6 @@ exports[`renders comment stream 1`] = `
       >
         <button
           aria-controls="tabPane-COMMENTS"
-          aria-label="Comments"
           aria-selected={true}
           className="BaseButton-root Tab-button Tab-streamPrimary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active TabBar-smallTab"
           onBlur={[Function]}
