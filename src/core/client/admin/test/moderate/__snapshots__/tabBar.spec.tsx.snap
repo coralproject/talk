@@ -139,6 +139,25 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             </span>
           </a>
         </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/review"
+            onClick={[Function]}
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              done_all
+            </i>
+            <span>
+              for review
+            </span>
+          </a>
+        </li>
       </ul>
     </nav>
     <div

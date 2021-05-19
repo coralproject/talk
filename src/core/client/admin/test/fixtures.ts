@@ -757,11 +757,13 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-0-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[0],
             additionalDetails: "This looks like an ad",
           },
           {
+            id: "comment-0-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[1],
             additionalDetails: "",
@@ -792,16 +794,19 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-1-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
           {
+            id: "comment-1-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[1],
             additionalDetails: "Not like that",
           },
           {
+            id: "comment-1-flag-2",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[2],
             additionalDetails: "",
@@ -834,11 +839,13 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-2-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
           {
+            id: "comment-2-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],
             additionalDetails: "",
@@ -870,6 +877,7 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-3-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],
             additionalDetails: "",
