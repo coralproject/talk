@@ -135,7 +135,7 @@ const Navigation: FunctionComponent<Props> = ({
         </Localized>
       </NavigationLink>
       <NavigationLink to={moderationLinks[5]}>
-        <Icon>check</Icon>
+        <Icon>done_all</Icon>
         <Localized id="moderate-navigation-forReview">
           <span>For Review</span>
         </Localized>
