@@ -353,7 +353,7 @@ type Flag {
   reviewed is whether this flag reason and details have been reviewed by a
   moderator.
   """
-  reviewed: Boolean
+  reviewed: Boolean!
 
   """
   createdAt is when this flag was created.
@@ -4116,9 +4116,9 @@ type Query {
     @auth(roles: [ADMIN])
 
   """
-  flagged are the list of non-reviewed flags from user reported comments.
+  flags are the list of non-reviewed flags from user reported comments.
   """
-  flagged(
+  flags(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     orderBy: COMMENT_SORT

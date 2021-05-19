@@ -25,7 +25,7 @@ export const Flag: GQLFlagTypeResolver<actions.CommentAction> = {
 
     return null;
   },
-  reviewed: ({ reviewed }) => reviewed,
+  reviewed: ({ reviewed = false }) => reviewed,
   comment: ({ commentID }, args, ctx) =>
     ctx.loaders.Comments.comment.load(commentID),
 };

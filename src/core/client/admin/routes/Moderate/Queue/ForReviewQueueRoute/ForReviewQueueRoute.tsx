@@ -99,9 +99,7 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
     return <LoadingQueue />;
   }
 
-  const flagActions = query.flagged.edges.map(
-    (edge: { node: any }) => edge.node
-  );
+  const flagActions = query.flags.edges.map((edge: { node: any }) => edge.node);
 
   return (
     <IntersectionProvider>
@@ -181,8 +179,8 @@ const enhanced = withPaginationContainer<
           section: { type: "SectionFilter" }
           orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
         ) {
-        flagged(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ForReviewQueue_flagged") {
+        flags(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ForReviewQueue_flags") {
           edges {
             node {
               id
@@ -213,7 +211,7 @@ const enhanced = withPaginationContainer<
   },
   {
     getConnectionFromProps(props) {
-      return props.query && props.query.flagged;
+      return props.query && props.query.flags;
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {

@@ -42,7 +42,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
-  flagged: (source, { first, after, orderBy }, ctx) =>
+  flags: (source, { first, after, orderBy }, ctx) =>
     ctx.loaders.CommentActions.connection({
       first: defaultTo(first, 10),
       after,
