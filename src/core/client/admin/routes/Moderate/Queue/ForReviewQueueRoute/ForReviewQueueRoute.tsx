@@ -1,8 +1,8 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
-import { CommentContent } from "coral-admin/components/Comment";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
@@ -15,7 +15,6 @@ import {
 } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import {
-  CheckBox,
   Flex,
   HorizontalGutter,
   Spinner,
@@ -24,9 +23,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Timestamp,
 } from "coral-ui/components/v2";
-import { ComponentLink } from "coral-ui/components/v3";
 
 import { ForReviewQueueRoute_query } from "coral-admin/__generated__/ForReviewQueueRoute_query.graphql";
 import { ForReviewQueueRouteLocal } from "coral-admin/__generated__/ForReviewQueueRouteLocal.graphql";
@@ -36,8 +33,8 @@ import {
 } from "coral-admin/__generated__/ForReviewQueueRoutePaginationQuery.graphql";
 
 import LoadingQueue from "../LoadingQueue";
+import ForReviewQueueRow from "./ForReviewQueueRow";
 import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
-import { getLocationOrigin } from "coral-framework/utils";
 
 interface Props {
   query: ForReviewQueueRoute_query;
@@ -112,55 +109,39 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
         <Table fullWidth>
           <TableHead>
             <TableRow>
-              <TableCell>Time</TableCell>
-              <TableCell>Comment</TableCell>
-              <TableCell>Reported By</TableCell>
-              <TableCell>Reason</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Reviewed</TableCell>
+              <TableCell>
+                <Localized id="forReview-time">Time</Localized>
+              </TableCell>
+              <TableCell>
+                <Localized id="forReview-comment">Comment</Localized>
+              </TableCell>
+              <TableCell>
+                <Localized id="forReview-reportedBy">Reported by</Localized>
+              </TableCell>
+              <TableCell>
+                <Localized id="forReview-reason">Reason</Localized>
+              </TableCell>
+              <TableCell>
+                <Localized id="forReview-description">Description</Localized>
+              </TableCell>
+              <TableCell>
+                <Localized id="forReview-reviewed">Reviewed</Localized>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {flagActions.map((a, i) => (
-              <>
-                <TableRow key={i}>
-                  <TableCell>
-                    <Timestamp>{a.createdAt}</Timestamp>
-                  </TableCell>
-                  <TableCell>
-                    {
-                      <ComponentLink
-                        href={`${getLocationOrigin()}/admin/moderate/comment/${
-                          a.comment.id
-                        }`}
-                      >
-                        <CommentContent>
-                          {
-                            a.comment.revisionHistory.find(
-                              (r: { id: string }) =>
-                                r.id === a.commentRevisionID
-                            ).body
-                          }
-                        </CommentContent>
-                      </ComponentLink>
-                    }
-                  </TableCell>
-                  <TableCell>{a.flagger.username}</TableCell>
-                  <TableCell>{a.reason}</TableCell>
-                  <TableCell>{a.additionalDetails}</TableCell>
-                  <TableCell>
-                    <CheckBox
-                      checked={a.reviewed}
-                      onChange={(event) => {
-                        const enabled = !!(event.currentTarget.value === "on");
-                        void onReview(a.id, enabled);
-                      }}
-                    >
-                      {""}
-                    </CheckBox>
-                  </TableCell>
-                </TableRow>
-              </>
+              <ForReviewQueueRow
+                key={a.id}
+                id={a.id}
+                comment={{ revisionID: a.commentRevisionID, ...a.comment }}
+                username={a.flagger.username}
+                reason={a.reason}
+                additionalDetails={a.additionalDetails}
+                createdAt={a.createdAt}
+                reviewed={a.reviewed}
+                onReview={onReview}
+              />
             ))}
           </TableBody>
         </Table>

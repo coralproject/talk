@@ -1436,3 +1436,29 @@ conversation-modal-showMoreParents = Show more of this conversation
 conversation-modal-showReplies = Show replies
 conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
+conversation-modal-header-title = Conversation on:
+conversation-modal-header-moderate-link = Moderate story
+
+# For Review Queue
+
+forReview-time = Time
+forReview-comment = Comment
+forReview-reportedBy = Reported by
+forReview-reason = Reason
+forReview-description = Description
+forReview-reviewed = Reviewed
+
+forReview-detectedBannedWord = Detected banned word
+forReview-detectedLinks = Detected links
+forReview-detectedNewCommenter = Detected new commenter
+forReview-detectedPreModUser = Detected pre-moderated user
+forReview-detectedRecentHistory = Detected problematic recent history
+forReview-detectedRepeatPost = Detected a repeat post
+forReview-detectedSpam = Detected spam
+forReview-detectedSuspectWord = Detected a suspect word
+forReview-detectedToxic = Detected toxic language
+forReview-reportedAbusive = Reported abusive
+forReview-reportedBio = Reported user bio
+forReview-reportedOffensive = Reported offensive language
+forReview-reportedOther = Other reported reason
+forReview-reportedSpam = Reported spam
