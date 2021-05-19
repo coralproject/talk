@@ -27,6 +27,7 @@ import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
   GQLComment,
+  GQLCOMMENT_SORT,
   GQLCommentTypeResolver,
   GQLFEATURE_FLAG,
 } from "coral-server/graph/schema/__generated__/types";
@@ -117,6 +118,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     ctx.loaders.CommentActions.connection({
       first: defaultTo(first, 10),
       after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: {
         actionType: ACTION_TYPE.REACTION,
         commentID: id,
@@ -126,6 +128,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     ctx.loaders.CommentActions.connection({
       first: defaultTo(first, 10),
       after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: {
         actionType: ACTION_TYPE.FLAG,
         commentID: id,

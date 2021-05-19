@@ -4121,6 +4121,7 @@ type Query {
   flagged(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
+    orderBy: COMMENT_SORT
   ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 

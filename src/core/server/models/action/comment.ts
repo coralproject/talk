@@ -7,8 +7,8 @@ import { Sub } from "coral-common/types";
 import logger from "coral-server/logger";
 import {
   Connection,
-  ConnectionInput,
   FilterQuery,
+  OrderedConnectionInput,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
@@ -20,6 +20,7 @@ import {
   GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLCOMMENT_SORT,
   GQLDontAgreeActionCounts,
   GQLFlagActionCounts,
   GQLReactionActionCounts,
@@ -283,20 +284,41 @@ export async function createActions(
   );
 }
 
-export type CommentActionConnectionInput = ConnectionInput<CommentAction>;
+export type CommentActionConnectionInput = OrderedConnectionInput<
+  CommentAction,
+  GQLCOMMENT_SORT
+>;
 
-async function retrieveConnection(
+function applyInputToQuery(
+  tenantID: string,
   input: CommentActionConnectionInput,
   query: Query<CommentAction>
-): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
-  if (input.after) {
-    query.where({ createdAt: { $lt: input.after as Date } });
+) {
+  const tenantFilter = { tenantID };
+  let where: any = {};
+
+  switch (input.orderBy) {
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
+      query.orderBy({ createdAt: -1 });
+      if (input.after) {
+        where = { createdAt: { $lt: input.after as Date } };
+      }
+      break;
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
+      query.orderBy({ createdAt: 1 });
+      if (input.after) {
+        where = { createdAt: { $gt: input.after as Date } };
+      }
+      break;
   }
 
-  // Return a connection.
-  return resolveConnection(query, input, (action) => action.createdAt);
+  if (input.filter) {
+    where = { ...tenantFilter, ...where, ...input.filter };
+  }
+
+  query.where(where);
+
+  return query;
 }
 
 export async function retrieveCommentActionConnection(
@@ -305,14 +327,10 @@ export async function retrieveCommentActionConnection(
   input: CommentActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  let query = new Query(collection(mongo));
+  query = applyInputToQuery(tenantID, input, query);
 
-  // If a filter is being applied, filter it as well.
-  if (input.filter) {
-    query.where(input.filter);
-  }
-
-  return retrieveConnection(input, query);
+  return resolveConnection(query, input, (action) => action.createdAt);
 }
 
 export async function retrieveUserAction(

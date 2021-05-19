@@ -4,7 +4,10 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getExternalModerationPhase } from "coral-server/models/settings";
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
-import { GQLQueryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_SORT,
+  GQLQueryTypeResolver,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
 import { setCacheHintWhenTruthy } from "./util";
@@ -39,10 +42,11 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
-  flagged: (source, { first, after }, ctx) =>
+  flagged: (source, { first, after, orderBy }, ctx) =>
     ctx.loaders.CommentActions.connection({
       first: defaultTo(first, 10),
       after,
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       filter: {
         actionType: ACTION_TYPE.FLAG,
       },

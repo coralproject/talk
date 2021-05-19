@@ -181,7 +181,7 @@ const enhanced = withPaginationContainer<
           section: { type: "SectionFilter" }
           orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
         ) {
-        flagged(first: $count, after: $cursor)
+        flagged(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ForReviewQueue_flagged") {
           edges {
             node {
