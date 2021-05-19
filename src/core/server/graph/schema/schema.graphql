@@ -332,9 +332,9 @@ type Flag {
   comment: Comment
 
   """
-  commentRevisionID is the revision of the comment this flag was created on.
+  revision is the comment revision this flag was generated upon.
   """
-  commentRevisionID: ID!
+  revision: CommentRevision!
 
   """
   reason is the selected reason why the Flag is being created. If the reason is

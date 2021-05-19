@@ -13,13 +13,13 @@ import { ComponentLink } from "coral-ui/components/v3";
 
 import { COMMENT_FLAG_REASON } from "coral-admin/__generated__/ForReviewQueueRoute_query.graphql";
 
+interface ForReviewRevision {
+  readonly body: string | null;
+}
+
 interface ForReviewComment {
   id: string;
-  revisionHistory: ReadonlyArray<{
-    readonly id: string;
-    readonly body: string | null;
-  }>;
-  revisionID: string;
+  revision: ForReviewRevision;
 }
 
 interface Props {
@@ -38,14 +38,11 @@ const getRevision = (comment: ForReviewComment | null) => {
     return "";
   }
 
-  const revision = comment.revisionHistory.find(
-    (r: { id: string }) => r.id === comment.revisionID
-  );
-  if (!revision) {
+  if (!comment.revision) {
     return "";
   }
 
-  return revision.body || "";
+  return comment.revision.body || "";
 };
 
 const getModerationURL = (comment: ForReviewComment | null) => {

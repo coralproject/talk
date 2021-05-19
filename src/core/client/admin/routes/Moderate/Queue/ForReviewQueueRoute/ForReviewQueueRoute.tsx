@@ -132,7 +132,7 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
               <ForReviewQueueRow
                 key={a.id}
                 id={a.id}
-                comment={{ revisionID: a.commentRevisionID, ...a.comment }}
+                comment={{ ...a.comment, revision: a.revision }}
                 username={a.flagger.username}
                 reason={a.reason}
                 additionalDetails={a.additionalDetails}
@@ -194,12 +194,10 @@ const enhanced = withPaginationContainer<
               reviewed
               comment {
                 id
-                revisionHistory {
-                  id
-                  body
-                }
               }
-              commentRevisionID
+              revision {
+                body
+              }
             }
           }
         }
