@@ -51,6 +51,7 @@ const RejectCommentMutation = createMutation(
                       }
                     }
                   }
+                  lastViewerAction
                 }
                 clientMutationId
               }
@@ -68,7 +69,12 @@ const RejectCommentMutation = createMutation(
               comment: {
                 id: input.commentID,
                 status: GQLCOMMENT_STATUS.REJECTED,
-                tags: lookup<GQLComment>(environment, input.commentID)!.tags,
+                tags: lookup<GQLComment>(
+                  environment,
+                  input.commentID
+                )!.tags.map((t) => ({
+                  code: t.code,
+                })),
                 story: {
                   id: input.storyID,
                   commentCounts: {
@@ -77,12 +83,16 @@ const RejectCommentMutation = createMutation(
                     },
                   },
                 },
+                lastViewerAction: "REJECT",
               },
               clientMutationId: clientMutationId.toString(),
             },
           },
           updater: (store) => {
-            store.get(input.commentID)!.setValue("REJECT", "lastViewerAction");
+            const comment = store
+              .getRootField("rejectComment")!
+              .getLinkedRecord("comment")!;
+            comment.setValue("REJECT", "lastViewerAction");
           },
         }
       );

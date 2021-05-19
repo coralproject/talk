@@ -150,7 +150,8 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
               story={story}
               settings={settings}
               liveDirectRepliesInsertion
-              allowTombstoneReveal
+              allowIgnoredTombstoneReveal
+              disableHideIgnoredTombstone
             />
           </div>
         </HorizontalGutter>

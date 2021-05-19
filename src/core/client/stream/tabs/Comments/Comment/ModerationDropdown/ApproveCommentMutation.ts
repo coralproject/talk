@@ -34,6 +34,7 @@ const ApproveCommentMutation = createMutation(
                 comment {
                   id
                   status
+                  lastViewerAction
                 }
                 clientMutationId
               }
@@ -44,6 +45,7 @@ const ApproveCommentMutation = createMutation(
               comment: {
                 id: input.commentID,
                 status: GQLCOMMENT_STATUS.APPROVED,
+                lastViewerAction: "APPROVE",
               },
               clientMutationId: clientMutationId.toString(),
             },
@@ -55,7 +57,10 @@ const ApproveCommentMutation = createMutation(
             },
           },
           updater: (store) => {
-            store.get(input.commentID)!.setValue("APPROVE", "lastViewerAction");
+            const comment = store
+              .getRootField("approveComment")!
+              .getLinkedRecord("comment")!;
+            comment.setValue("APPROVE", "lastViewerAction");
           },
         }
       );

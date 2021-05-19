@@ -245,8 +245,8 @@ comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
-comments-rejectedTombstone-title = You have rejected this comment.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = You have rejected this comment.
+comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision
 
 comments-featuredTag = Featured
@@ -761,6 +761,8 @@ comments-tombstone-ignore = This comment is hidden because you ignored {$usernam
 comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
+comments-tombstone-rejected =
+  This commenter has been removed by a moderator for violating our community guidelines.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
@@ -842,9 +844,13 @@ comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
 stream-footer-links-top-of-article = Top of article
+  .title = Go to top of article
 stream-footer-links-top-of-comments = Top of comments
+  .title = Go to top of comments
 stream-footer-links-profile = Profile & Replies
+  .title = Go to profile and replies
 stream-footer-links-discussions = More discussions
+  .title = Go to more discussions
 
 ### Live Chat
 

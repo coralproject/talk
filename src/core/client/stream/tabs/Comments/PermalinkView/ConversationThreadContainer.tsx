@@ -18,21 +18,23 @@ import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalR
 import { Counter, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ConversationThreadContainer_comment as CommentData } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
-import { ConversationThreadContainer_settings as SettingsData } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
-import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
-import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
+import { ConversationThreadContainer_comment } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
+import { ConversationThreadContainer_settings } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
+import { ConversationThreadContainer_story } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
+import { ConversationThreadContainer_viewer } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 
+import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
+import RejectedTombstoneContainer from "./RejectedTombstoneContainer";
 import { Circle, Line } from "./Timeline";
 
 import styles from "./ConversationThreadContainer.css";
 
 interface Props {
-  comment: CommentData;
-  story: StoryData;
-  settings: SettingsData;
-  viewer: ViewerData | null;
+  comment: ConversationThreadContainer_comment;
+  story: ConversationThreadContainer_story;
+  settings: ConversationThreadContainer_settings;
+  viewer: ConversationThreadContainer_viewer | null;
   pym: PymChild | undefined;
   relay: RelayPaginationProp;
 }
@@ -54,23 +56,38 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
     }
-  }, [loadMore, beginLoadMoreEvent]);
-  const parents = comment.parents.edges.map((edge) => edge.node);
-  const remaining = comment.parentCount - comment.parents.edges.length;
-  const hasMore = relay.hasMore();
-  const rootParent = hasMore && comment && comment.rootParent;
+  }, [beginLoadMoreEvent, comment.id, loadMore]);
+  const rootParent = comment.rootParent;
+  const parents = comment.parents.edges
+    .map((edge) => edge.node)
+    .filter((n) => n.id !== comment.rootParent?.id);
+  let remaining = comment.parentCount - parents.length;
+  if (rootParent) {
+    remaining -= 1;
+  }
 
   const dataTestID = "comments-permalinkView-conversationThread";
-  if (remaining === 0 && parents.length === 0) {
+  if (comment.parentCount === 0) {
     return (
       <div className={styles.root} data-testid={dataTestID}>
-        <CommentContainer
-          comment={comment}
-          story={story}
-          settings={settings}
+        <IgnoredTombstoneOrHideContainer
           viewer={viewer}
-          highlight
-        />
+          comment={comment}
+          allowTombstoneReveal
+          disableHide
+        >
+          <RejectedTombstoneContainer comment={comment}>
+            <DeletedTombstoneContainer comment={comment}>
+              <CommentContainer
+                comment={comment}
+                story={story}
+                settings={settings}
+                viewer={viewer}
+                highlight
+              />
+            </DeletedTombstoneContainer>
+          </RejectedTombstoneContainer>
+        </IgnoredTombstoneOrHideContainer>
       </div>
     );
   }
@@ -83,13 +100,34 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
         <HorizontalGutter container={Line}>
           {rootParent && (
             <Circle>
-              <CommentContainer
-                comment={rootParent}
-                story={story}
+              <IgnoredTombstoneOrHideContainer
                 viewer={viewer}
-                settings={settings}
-                localReply
-              />
+                comment={rootParent}
+                allowTombstoneReveal
+                disableHide
+              >
+                <RejectedTombstoneContainer comment={rootParent}>
+                  <DeletedTombstoneContainer comment={rootParent}>
+                    <CommentContainer
+                      comment={rootParent}
+                      story={story}
+                      viewer={viewer}
+                      settings={settings}
+                      localReply
+                    />
+                  </DeletedTombstoneContainer>
+                </RejectedTombstoneContainer>
+                {viewer && (
+                  <LocalReplyListContainer
+                    story={story}
+                    viewer={viewer}
+                    settings={settings}
+                    comment={rootParent}
+                    indentLevel={1}
+                    allowIgnoredTombstoneReveal
+                  />
+                )}
+              </IgnoredTombstoneOrHideContainer>
             </Circle>
           )}
         </HorizontalGutter>
@@ -130,14 +168,19 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   viewer={viewer}
                   comment={parent}
                   allowTombstoneReveal
+                  disableHide
                 >
-                  <CommentContainer
-                    comment={parent}
-                    story={story}
-                    viewer={viewer}
-                    settings={settings}
-                    localReply
-                  />
+                  <RejectedTombstoneContainer comment={parent}>
+                    <DeletedTombstoneContainer comment={parent}>
+                      <CommentContainer
+                        comment={parent}
+                        story={story}
+                        viewer={viewer}
+                        settings={settings}
+                        localReply
+                      />
+                    </DeletedTombstoneContainer>
+                  </RejectedTombstoneContainer>
                   {viewer && (
                     <LocalReplyListContainer
                       story={story}
@@ -145,7 +188,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                       settings={settings}
                       comment={parent}
                       indentLevel={1}
-                      allowTombstoneReveal={true}
+                      allowIgnoredTombstoneReveal
                     />
                   )}
                 </IgnoredTombstoneOrHideContainer>
@@ -156,14 +199,25 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
 
         <div className={styles.targetComment}>
           <Circle end>
-            <CommentContainer
-              className={CLASSES.conversationThread.hightlighted}
-              comment={comment}
-              story={story}
-              settings={settings}
+            <IgnoredTombstoneOrHideContainer
               viewer={viewer}
-              highlight
-            />
+              comment={comment}
+              allowTombstoneReveal
+              disableHide
+            >
+              <RejectedTombstoneContainer comment={comment}>
+                <DeletedTombstoneContainer comment={comment}>
+                  <CommentContainer
+                    className={CLASSES.conversationThread.hightlighted}
+                    comment={comment}
+                    story={story}
+                    settings={settings}
+                    viewer={viewer}
+                    highlight
+                  />
+                </DeletedTombstoneContainer>
+              </RejectedTombstoneContainer>
+            </IgnoredTombstoneOrHideContainer>
           </Circle>
         </div>
       </div>
@@ -209,6 +263,8 @@ const enhanced = withContext((ctx) => ({
           id
           ...CommentContainer_comment
           ...IgnoredTombstoneOrHideContainer_comment
+          ...RejectedTombstoneContainer_comment
+          ...DeletedTombstoneContainer_comment
           rootParent {
             id
             author {
@@ -219,6 +275,9 @@ const enhanced = withContext((ctx) => ({
             ...UserTagsContainer_comment
             ...CommentContainer_comment
             ...IgnoredTombstoneOrHideContainer_comment
+            ...LocalReplyListContainer_comment
+            ...RejectedTombstoneContainer_comment
+            ...DeletedTombstoneContainer_comment
           }
           parentCount
           parents(last: $count, before: $cursor)
@@ -229,6 +288,8 @@ const enhanced = withContext((ctx) => ({
                 ...CommentContainer_comment
                 ...LocalReplyListContainer_comment
                 ...IgnoredTombstoneOrHideContainer_comment
+                ...RejectedTombstoneContainer_comment
+                ...DeletedTombstoneContainer_comment
               }
             }
           }

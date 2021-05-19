@@ -13,6 +13,7 @@ import { AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated_
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";
+import DeletedTombstoneContainer from "../../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import ReplyListContainer from "../../ReplyList/ReplyListContainer";
 
@@ -43,14 +44,16 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
                 [styles.borderedComment]: !collapsed && !isLast,
               })}
             >
-              <CommentContainer
-                collapsed={collapsed}
-                viewer={viewer}
-                settings={settings}
-                comment={comment}
-                story={story}
-                toggleCollapsed={toggleCollapsed}
-              />
+              <DeletedTombstoneContainer comment={comment}>
+                <CommentContainer
+                  collapsed={collapsed}
+                  viewer={viewer}
+                  settings={settings}
+                  comment={comment}
+                  story={story}
+                  toggleCollapsed={toggleCollapsed}
+                />
+              </DeletedTombstoneContainer>
               <div
                 className={cn({
                   [styles.hiddenReplies]: collapsed,
@@ -97,6 +100,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CommentContainer_comment
       ...ReplyListContainer1_comment
       ...IgnoredTombstoneOrHideContainer_comment
+      ...DeletedTombstoneContainer_comment
     }
   `,
 })(AllCommentsTabCommentContainer);
