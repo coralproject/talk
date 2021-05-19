@@ -31,14 +31,14 @@ const ConversationModalHeaderContainer: FunctionComponent<Props> = ({
     <ModalHeader onClose={onClose} focusableRef={focusableRef}>
       <HorizontalGutter spacing={3}>
         <h1 className={styles.title}>
-          <Localized id="conversation-modal-header-title">
+          <Localized id="conversation-modal-conversationOn">
             <span className={styles.conversationTitle}>Conversation on:</span>
           </Localized>
           {comment.story.metadata
             ? comment.story.metadata.title
             : comment.story.url}
         </h1>
-        <Localized id="conversation-modal-header-moderate-link">
+        <Localized id="conversation-modal-moderateStory">
           <Button
             variant="outlined"
             color="mono"
