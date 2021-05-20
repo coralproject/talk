@@ -23,19 +23,6 @@ general-tabBar-commentsTab = Комментарии
 general-tabBar-myProfileTab = Профиль
 general-tabBar-configure = Конфигурирование
 
-general-tabBar-aria-comments =
-  .aria-label = Комментарии
-  .title = Комментарии
-general-tabBar-aria-qa =
-  .aria-label = Вопрос/Ответ
-  .title = Вопрос/Ответ
-general-tabBar-aria-myProfile =
-  .aria-label = Профиль
-  .title = Профиль
-general-tabBar-aria-configure =
-  .aria-label = Конфигурирование
-  .title = Конфигурирование
-
 ## Comment Count
 
 comment-count-text =

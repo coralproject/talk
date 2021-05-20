@@ -319,6 +319,10 @@ const enhanced = withPaginationContainer<
         }
         commentCounts {
           totalPublished
+          tags {
+            REVIEW
+            QUESTION
+          }
         }
         comments(
           first: $count

@@ -45,7 +45,7 @@ const AllCommentsTabViewNewMutation = createMutation(
       });
 
       // Increment the count.
-      incrementStoryCommentCounts(store, storyID, viewNewEdges.length);
+      incrementStoryCommentCounts(store, storyID, viewNewEdges.length, tag);
 
       ViewNewCommentsEvent.emit(eventEmitter, {
         storyID,

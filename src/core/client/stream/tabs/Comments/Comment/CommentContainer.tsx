@@ -222,6 +222,15 @@ export const CommentContainer: FunctionComponent<Props> = ({
       return false;
     }
 
+    // Don't allow editing of rating comments
+    if (
+      !comment.body &&
+      comment.rating &&
+      !comment.tags.find((t) => t.code === GQLTAG.REVIEW)
+    ) {
+      return false;
+    }
+
     // Comment is editable!
     return true;
   });

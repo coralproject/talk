@@ -1,7 +1,7 @@
-import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
@@ -31,6 +31,29 @@ export interface Props {
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
+  const getMessage = useGetMessage();
+
+  let commentsTabText: string;
+  switch (props.mode) {
+    case GQLSTORY_MODE.QA:
+      commentsTabText = getMessage("general-tabBar-qaTab", "Q&A");
+      break;
+    case GQLSTORY_MODE.RATINGS_AND_REVIEWS:
+      commentsTabText = getMessage("general-tabBar-reviewsTab", "Reviews");
+      break;
+    case GQLSTORY_MODE.CHAT:
+      commentsTabText = getMessage("general-tabBar-liveTab", "Live");
+      break;
+    default:
+      commentsTabText = getMessage("general-tabBar-commentsTab", "Comments");
+  }
+  const discussionsText = getMessage(
+    "general-tabBar-discussionsTab",
+    "Discussions"
+  );
+  const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
+  const configureText = getMessage("general-tabBar-configure", "Configure");
+
   return (
     <MatchMedia gteWidth="sm">
       {(matches) => (
@@ -47,56 +70,31 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             })}
             tabID="COMMENTS"
             variant="streamPrimary"
-            localizationId={
-              props.mode === GQLSTORY_MODE.QA
-                ? "general-tabBar-aria-qa"
-                : "general-tabBar-aria-comments"
-            }
+            title={commentsTabText}
+            aria-label={commentsTabText}
           >
             {matches ? (
-              <>
-                {!props.mode ||
-                  (props.mode === GQLSTORY_MODE.COMMENTS && (
-                    <Localized id="general-tabBar-commentsTab">
-                      <span>Comments</span>
-                    </Localized>
-                  ))}
-                {props.mode === GQLSTORY_MODE.QA && (
-                  <Localized id="general-tabBar-qaTab">
-                    <span>Q&A</span>
-                  </Localized>
-                )}
-                {props.mode === GQLSTORY_MODE.CHAT && (
-                  <Localized id="general-tabBar-liveTab">
-                    <span>Live</span>
-                  </Localized>
-                )}
-              </>
+              <span>{commentsTabText}</span>
             ) : (
               <div>
-                {!props.mode ||
-                  (props.mode === GQLSTORY_MODE.COMMENTS && (
-                    <>
-                      <Icon size="lg">forum</Icon>
-                      <Localized id="general-tabBar-commentsTab">
-                        <div className={styles.smallText}>Comments</div>
-                      </Localized>
-                    </>
-                  ))}
+                {(!props.mode ||
+                  props.mode === GQLSTORY_MODE.COMMENTS ||
+                  props.mode === GQLSTORY_MODE.CHAT) && (
+                  <>
+                    <Icon size="lg">forum</Icon>
+                    <div className={styles.smallText}>{commentsTabText}</div>
+                  </>
+                )}
                 {props.mode === GQLSTORY_MODE.QA && (
                   <>
                     <Icon size="lg">live_help</Icon>
-                    <Localized id="general-tabBar-qaTab">
-                      <div className={styles.smallText}>Q&A</div>
-                    </Localized>
+                    <div className={styles.smallText}>{commentsTabText}</div>
                   </>
                 )}
-                {props.mode === GQLSTORY_MODE.CHAT && (
+                {props.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS && (
                   <>
-                    <Icon size="lg">forum</Icon>
-                    <Localized id="general-tabBar-liveTab">
-                      <div className={styles.smallText}>Live</div>
-                    </Localized>
+                    <Icon size="lg">star</Icon>
+                    <div className={styles.smallText}>{commentsTabText}</div>
                   </>
                 )}
               </div>
@@ -111,18 +109,15 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="DISCUSSIONS"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-discussions"
+              title={discussionsText}
+              aria-label={discussionsText}
             >
               {matches ? (
-                <Localized id="general-tabBar-discussionsTab">
-                  <span>Discussions</span>
-                </Localized>
+                <span>{discussionsText}</span>
               ) : (
                 <div>
                   <Icon size="lg">list_alt</Icon>
-                  <Localized id="general-tabBar-discussionsTab">
-                    <div className={styles.smallText}>Discussions</div>
-                  </Localized>
+                  <div className={styles.smallText}>{discussionsText}</div>
                 </div>
               )}
             </Tab>
@@ -136,18 +131,15 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="PROFILE"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-myProfile"
+              title={myProfileText}
+              aria-label={myProfileText}
             >
               {matches ? (
-                <Localized id="general-tabBar-myProfileTab">
-                  <span>My Profile</span>
-                </Localized>
+                <span>{myProfileText}</span>
               ) : (
                 <div>
                   <Icon size="lg">account_circle</Icon>
-                  <Localized id="general-tabBar-myProfileTab">
-                    <div className={styles.smallText}>My Profile</div>
-                  </Localized>
+                  <div className={styles.smallText}>{myProfileText}</div>
                 </div>
               )}
             </Tab>
@@ -160,12 +152,11 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="CONFIGURE"
               variant="streamPrimary"
-              localizationId="general-tabBar-aria-configure"
+              title={configureText}
+              aria-label={configureText}
             >
               {matches ? (
-                <Localized id="general-tabBar-configure">
-                  <span>Configure</span>
-                </Localized>
+                <span>{configureText}</span>
               ) : (
                 <div>
                   <Icon size="md">settings</Icon>

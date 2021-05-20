@@ -19,24 +19,9 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
+general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
 general-tabBar-live = Live
-
-general-tabBar-aria-comments =
-  .aria-label = Comments
-  .title = Comments
-general-tabBar-aria-qa =
-  .aria-label = Q&A
-  .title = Q&A
-general-tabBar-aria-myProfile =
-  .aria-label = My Profile
-  .title = My Profile
-general-tabBar-aria-configure =
-  .aria-label = Configure
-  .title = My Profile
-general-tabBar-aria-discussions =
-  .aria-label = Discussions
-  .title = Discussions
 
 ## Comment Count
 
