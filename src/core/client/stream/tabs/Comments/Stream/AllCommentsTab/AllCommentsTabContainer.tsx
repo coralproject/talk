@@ -28,6 +28,7 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -43,7 +44,6 @@ import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
-import CommentEnteredSubscription from "./CommentEnteredSubscription";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";

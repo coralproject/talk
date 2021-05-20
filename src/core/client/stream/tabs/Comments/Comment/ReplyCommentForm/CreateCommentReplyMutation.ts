@@ -63,7 +63,7 @@ function sharedUpdater(
     return;
   }
 
-  incrementStoryCommentCounts(store, input.storyID);
+  incrementStoryCommentCounts(store, input.storyID, commentEdge);
   prependCommentEdgeToProfile(environment, store, commentEdge);
   tagExpertAnswers(environment, store, input, commentEdge, uuidGenerator);
   if (input.local) {

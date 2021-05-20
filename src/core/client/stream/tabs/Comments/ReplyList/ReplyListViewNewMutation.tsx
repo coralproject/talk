@@ -43,10 +43,8 @@ const ReplyListViewNewMutation = createMutation(
       }
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeAfter(connection, edge);
+        incrementStoryCommentCounts(store, input.storyID, edge);
       });
-
-      // Increment the count.
-      incrementStoryCommentCounts(store, input.storyID, viewNewEdges.length);
 
       connection.setLinkedRecords([], "viewNewEdges");
       ShowMoreRepliesEvent.emit(eventEmitter, {
