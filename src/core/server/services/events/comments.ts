@@ -1,11 +1,13 @@
 import {
   CommentCreatedCoralEvent,
+  CommentEditedCoralEvent,
   CommentEnteredCoralEvent,
   CommentEnteredModerationQueueCoralEvent,
   CommentFeaturedCoralEvent,
   CommentFlagCreatedCoralEvent,
   CommentLeftModerationQueueCoralEvent,
   CommentReactionCreatedCoralEvent,
+  CommentRejectedCoralEvent,
   CommentReleasedCoralEvent,
   CommentReplyCreatedCoralEvent,
   CommentStatusUpdatedCoralEvent,
@@ -24,6 +26,21 @@ import {
   GQLMODERATION_QUEUE,
 } from "coral-server/graph/schema/__generated__/types";
 
+export async function publishCommentEditedChanges(
+  broker: CoralEventPublisherBroker,
+  storyID: string,
+  commentID: string,
+  oldRevisionId: string,
+  newRevisionId: string
+) {
+  if (oldRevisionId !== newRevisionId) {
+    await CommentEditedCoralEvent.publish(broker, {
+      storyID,
+      commentID,
+    });
+  }
+}
+
 export async function publishCommentStatusChanges(
   broker: CoralEventPublisherBroker,
   oldStatus: GQLCOMMENT_STATUS,
@@ -34,6 +51,7 @@ export async function publishCommentStatusChanges(
   moderatorID: string | null
 ) {
   if (oldStatus !== newStatus) {
+    // Admin specific event
     await CommentStatusUpdatedCoralEvent.publish(broker, {
       newStatus,
       oldStatus,
@@ -42,6 +60,15 @@ export async function publishCommentStatusChanges(
       storyID,
       moderatorID,
     });
+
+    // If the new status is rejected, broadcast this as well
+    if (newStatus === GQLCOMMENT_STATUS.REJECTED) {
+      await CommentRejectedCoralEvent.publish(broker, {
+        commentID,
+        commentRevisionID,
+        storyID,
+      });
+    }
   }
 }
 

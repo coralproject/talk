@@ -94,17 +94,31 @@ const ratingFilter = (
   return { rating };
 };
 
-const flattenFilter = (
+const flattenedRepliesFilter = (
   parentID: string,
-  options: { enabled: boolean } = { enabled: true }
+  flatten?: boolean
 ): CommentConnectionInput["filter"] => {
-  if (options.enabled) {
+  if (flatten) {
     return {
       ancestorIDs: parentID,
       parentID: undefined,
     };
   }
   return {};
+};
+
+const flattenedFilter = (
+  flatten?: boolean
+): CommentConnectionInput["filter"] => {
+  if (flatten) {
+    // When we flatten the comments being returned, we simply don't query for
+    // the specific conditions of the `parentID`.
+    return {};
+  }
+
+  // Only get Comments that are top level. If the client wants to load
+  // another layer, they can request another nested connection.
+  return { parentID: null };
 };
 
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
@@ -287,7 +301,15 @@ export default (ctx: GraphContext) => ({
     }).then(primeCommentsFromConnection(ctx)),
   forStory: async (
     storyID: string,
-    { first, orderBy, after, tag, rating }: StoryToCommentsArgs
+    {
+      first,
+      orderBy,
+      after,
+      tag,
+      rating,
+      flatten,
+      inclusive,
+    }: StoryToCommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -298,19 +320,20 @@ export default (ctx: GraphContext) => ({
       first: defaultTo(first, 10),
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
+      inclusive: defaultTo(inclusive, false),
       filter: {
         ...tagFilter(tag),
         ...ratingFilter(ctx.tenant, story, rating),
-        // Only get Comments that are top level. If the client wants to load
-        // another layer, they can request another nested connection.
-        parentID: null,
+        ...flattenedFilter(
+          flatten && hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.CHAT)
+        ),
       },
     }).then(primeCommentsFromConnection(ctx));
   },
   forParent: (
     storyID: string,
     parentID: string,
-    { first, orderBy, after, flatten }: CommentToRepliesArgs
+    { first, orderBy, after, flatten, inclusive }: CommentToRepliesArgs
   ) =>
     retrieveCommentRepliesConnection(
       ctx.mongo,
@@ -321,8 +344,13 @@ export default (ctx: GraphContext) => ({
         first: defaultTo(first, 10),
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
         after,
+        inclusive: defaultTo(inclusive, false),
         filter: {
-          ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
+          ...flattenedRepliesFilter(
+            parentID,
+            flatten &&
+              hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.FLATTEN_REPLIES)
+          ),
         },
       }
     ).then(primeCommentsFromConnection(ctx)),

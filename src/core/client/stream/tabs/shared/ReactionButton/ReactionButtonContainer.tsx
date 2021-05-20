@@ -10,13 +10,13 @@ import {
 } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
+import RefreshViewerFetch from "coral-stream/tabs/Comments/RefreshViewerFetch";
+import { shouldTriggerViewerRefresh } from "coral-stream/tabs/shared/helpers";
 
 import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
 import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
 import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
-import { shouldTriggerViewerRefresh } from "../../helpers";
-import RefreshViewerFetch from "../../RefreshViewerFetch";
 import CreateCommentReactionMutation from "./CreateCommentReactionMutation";
 import ReactionButton from "./ReactionButton";
 import RemoveCommentReactionMutation from "./RemoveCommentReactionMutation";
@@ -29,6 +29,7 @@ interface Props {
   className?: string;
   reactedClassName: string;
   isQA?: boolean;
+  isChat?: boolean;
 }
 
 const ReactionButtonContainer: FunctionComponent<Props> = ({
@@ -39,6 +40,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   className,
   reactedClassName,
   isQA = false,
+  isChat = false,
 }) => {
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
@@ -121,6 +123,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       iconActive={iconActive}
       readOnly={readOnly}
       isQA={isQA}
+      isChat={isChat}
       author={comment.author?.username}
     />
   );

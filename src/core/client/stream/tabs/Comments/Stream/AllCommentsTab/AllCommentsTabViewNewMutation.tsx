@@ -8,7 +8,7 @@ import {
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
 
-import { incrementStoryCommentCounts } from "../../helpers";
+import { incrementStoryCommentCounts } from "../../../shared/helpers";
 
 interface Input {
   storyID: string;

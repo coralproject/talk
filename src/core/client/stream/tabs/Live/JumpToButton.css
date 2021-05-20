@@ -1,0 +1,37 @@
+.root {
+  position: relative;
+}
+
+.jumpToContainer {
+  position: absolute;
+
+  bottom: var(--spacing-1);
+  left: 50%;
+  z-index: 998;
+
+  transform: translate(-50%, 0%);
+  white-space: nowrap;
+}
+
+.jumpButton {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.jumpToWithCancel {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+
+  margin-right: 1px;
+}
+
+.jumpToCancelButton {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}

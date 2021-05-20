@@ -3,6 +3,8 @@ import { graphql } from "react-relay";
 
 import { withLocalStateContainer } from "coral-framework/lib/relay";
 
+import { IntersectionProvider } from "coral-framework/lib/intersection";
+
 import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContainerLocal.graphql";
 
 import App from "./App";
@@ -37,11 +39,11 @@ class AppContainer extends React.Component<Props> {
     } = this.props;
 
     return (
-      <>
+      <IntersectionProvider>
         {this.props.disableListeners ? null : listeners}
         <RefreshTokenHandler />
         <App activeTab={activeTab} />
-      </>
+      </IntersectionProvider>
     );
   }
 }

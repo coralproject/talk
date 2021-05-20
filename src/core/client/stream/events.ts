@@ -407,6 +407,20 @@ export const CreateCommentFocusEvent = createViewerEvent("createCommentFocus");
 export const ReplyCommentFocusEvent = createViewerEvent("replyCommentFocus");
 
 /**
+ * This event is emitted when the viewer focus on the RTE on live chat
+ */
+export const LiveCreateCommentFocusEvent = createViewerEvent(
+  "liveCreateCommentFocus"
+);
+
+/**
+ * This event is emitted when the viewer focus on the RTE on live chat
+ */
+export const LiveReplyCommentFocusEvent = createViewerEvent(
+  "liveReplyCommentFocus"
+);
+
+/**
  * This event is emitted when the viewer exits the single conversation.
  */
 export const ViewFullDiscussionEvent = createViewerEvent<{
@@ -622,3 +636,90 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
     code?: string;
   };
 }>("cancelAccountDeletionEvent");
+
+export const LiveChatLoadBeforeEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatLoadBeforeEvent");
+
+export const LiveChatLoadAfterEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatLoadAfterEvent");
+
+export const LiveChatRepliesLoadBeforeEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatRepliesLoadBeforeEvent");
+
+export const LiveChatRepliesLoadAfterEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatRepliesLoadAfterEvent");
+
+export const LiveChatOpenConversationEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatOpenConversationEvent");
+
+export const LiveChatOpenParentEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatOpenParentEvent");
+
+export const LiveChatOpenReplyEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatOpenReplyEvent");
+
+export const LiveChatOpenReplyToParentEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatOpenReplyToParentEvent");
+
+export const LiveChatJumpToCommentEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatJumpToCommentEvent");
+
+export const LiveChatJumpToReplyEvent = createViewerEvent<{
+  storyID: string;
+  commentID: string;
+  viewerID: string;
+}>("liveChatJumpToReplyEvent");
+
+export const LiveChatJumpToNewEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatJumpToNewEvent");
+
+export const LiveChatJumpToLiveEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatJumpToLiveEvent");
+
+export const LiveChatStartTailingEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatStartTailingEvent");
+
+export const LiveChatStopTailingEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatStopTailingEvent");
+
+export const LiveChatSubmitCommentWhenNotTailingEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+  commentID: string;
+}>("liveChatSubmitCommentWhenNotTailingEvent");
+
+export const LiveChatGoToStartEvent = createViewerEvent<{
+  storyID: string;
+  viewerID: string;
+}>("liveChatGoToStartEvent");

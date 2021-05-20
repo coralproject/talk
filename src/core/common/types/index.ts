@@ -73,3 +73,5 @@ export type FirstDeepPartial<T> = T extends object
 
 /** Turns an enum into a string literal type. */
 export type RelayEnumLiteral<T> = keyof T | "%future added value";
+
+export type UnpackReadonlyArray<T> = T extends ReadonlyArray<infer U> ? U : T;

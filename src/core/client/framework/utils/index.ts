@@ -5,3 +5,5 @@ export { default as areWeInIframe } from "./areWeInIframe";
 export { default as parseHashQuery } from "./parseHashQuery";
 export { default as getLocationOrigin } from "./getLocationOrigin";
 export { default as jsonp } from "./jsonp";
+export { default as ensureInView } from "./ensureInView";
+export { default as getScrollParent } from "./getScrollParent";

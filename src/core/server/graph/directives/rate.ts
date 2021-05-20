@@ -10,6 +10,7 @@ export interface RateDirectiveArgs {
   max?: number;
   seconds?: number;
   key?: string;
+  env?: string;
 }
 
 const rate: DirectiveResolverFn<
@@ -18,7 +19,7 @@ const rate: DirectiveResolverFn<
 > = async (
   next,
   src,
-  { max = 1, seconds, key: forceResource }: RateDirectiveArgs,
+  { max = 1, seconds, key: forceResource, env }: RateDirectiveArgs,
   { user, tenant, now, redis, config },
   info
 ) => {
@@ -44,6 +45,13 @@ const rate: DirectiveResolverFn<
 
   // Compute the resource key for this element.
   const resource = forceResource || calculateLocationKey(info);
+
+  if (env && config.has(env)) {
+    const value = config.get(env);
+    if (typeof value === "number") {
+      seconds = Math.floor(value / 1000.0);
+    }
+  }
 
   // TODO: (wyattjoh) depending on `resource`, maybe override (max, seconds)
 

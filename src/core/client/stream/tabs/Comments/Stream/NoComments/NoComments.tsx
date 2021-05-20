@@ -12,6 +12,7 @@ interface Props {
     | "COMMENTS"
     | "QA"
     | "RATINGS_AND_REVIEWS"
+    | "CHAT"
     | "%future added value"
     | null;
   isClosed: boolean;

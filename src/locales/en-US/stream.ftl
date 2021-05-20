@@ -21,6 +21,7 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+general-tabBar-live = Live
 
 ## Comment Count
 
@@ -835,3 +836,31 @@ stream-footer-links-profile = Profile & Replies
   .title = Go to profile and replies
 stream-footer-links-discussions = More discussions
   .title = Go to more discussions
+
+### Live Chat
+
+general-tabBar-liveTab = Live
+
+liveChat-editCommentForm-editRemainingTime = <time></time> remaining
+liveChat-editedMarker-edited = (Edited)
+
+liveChat-postCommentForm-rte =
+  .placeholder = Write a message...
+  .submitButtonTitle = Submit
+liveChat-postCommentForm-rteLabel = Write a message...
+
+liveChat-replyCommentForm-rte =
+  .placeholder = Write a reply...
+  .submitButtonTitle = Submit
+liveChat-replyCommentForm-rteLabel = Write a reply...
+
+liveChat-editCommentForm-rte =
+  .placeholder = Edit message
+  .submitButtonTitle = Save changes
+liveChat-editCommentForm-rteLabel = Edit message
+
+liveChat-editCommentForm-editRemainingTime = Edit: <time></time> remaining
+liveChat-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
+
+liveChat-tombstone-rejected =
+  This comment has been removed because it violated our commenting guidelines

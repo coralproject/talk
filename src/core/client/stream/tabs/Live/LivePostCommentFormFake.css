@@ -1,0 +1,15 @@
+$commentsBorder: var(--palette-grey-300);
+.root {
+}
+.rteContainer {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--round-corners);
+}
+.focus {
+  border: 1px solid var(--palette-grey-700);
+}
+.content {
+  max-height: 300px;
+  min-height: 0px;
+}
+

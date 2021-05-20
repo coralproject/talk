@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
-import Responsive from "react-responsive";
 
 import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -25,6 +24,8 @@ interface Props {
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
+
+  variant?: "chat" | "regular";
 }
 
 const ReportButton: FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ const ReportButton: FunctionComponent<Props> = ({
   comment,
   viewer,
   open,
+  variant = "regular",
 }) => {
   const isLoggedIn = !!viewer;
 
@@ -52,10 +54,10 @@ const ReportButton: FunctionComponent<Props> = ({
         attrs={{ "aria-label": true }}
       >
         <div
-          className={cn(
-            CLASSES.comment.actionBar.reportedButton,
-            styles.reported
-          )}
+          className={cn(CLASSES.comment.actionBar.reportedButton, {
+            [styles.reported]: variant === "regular",
+            [styles.reportedChat]: variant === "chat",
+          })}
           data-testid="comment-reported-button"
         >
           <Flex alignItems="center">
@@ -84,7 +86,9 @@ const ReportButton: FunctionComponent<Props> = ({
       $username={comment.author ? comment.author.username : ""}
     >
       <Button
-        className={cn(CLASSES.comment.actionBar.reportButton)}
+        className={cn(CLASSES.comment.actionBar.reportButton, {
+          [styles.reportChat]: variant === "chat",
+        })}
         variant={open ? "filled" : "flat"}
         active={Boolean(open)}
         color="secondary"
@@ -98,11 +102,11 @@ const ReportButton: FunctionComponent<Props> = ({
           <Icon size="sm" className={styles.icon}>
             flag
           </Icon>
-          <Responsive minWidth={400}>
+          <MatchMedia gteWidth="mobile">
             <Localized id="comments-reportButton-report">
               <span>Report</span>
             </Localized>
-          </Responsive>
+          </MatchMedia>
         </Flex>
       </Button>
     </Localized>

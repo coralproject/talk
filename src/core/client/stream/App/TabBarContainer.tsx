@@ -9,7 +9,10 @@ import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { Ability, can } from "coral-stream/permissions";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
-import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
+import {
+  STORY_MODE,
+  TabBarContainer_story,
+} from "coral-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
 import { TabBarContainerLocal } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 
@@ -29,7 +32,7 @@ interface Props {
 }
 
 export const TabBarContainer: FunctionComponent<Props> = ({
-  local: { activeTab },
+  local: { activeTab, storyMode },
   viewer,
   story,
   settings,
@@ -59,9 +62,16 @@ export const TabBarContainer: FunctionComponent<Props> = ({
     [viewer, story]
   );
 
+  let mode: STORY_MODE = GQLSTORY_MODE.COMMENTS;
+  if (storyMode) {
+    mode = storyMode;
+  } else if (story && story.settings && story.settings.mode) {
+    mode = story.settings.mode;
+  }
+
   return (
     <TabBar
-      mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+      mode={mode}
       activeTab={activeTab}
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
@@ -76,6 +86,7 @@ const enhanced = withSetActiveTabMutation(
     graphql`
       fragment TabBarContainerLocal on Local {
         activeTab
+        storyMode
       }
     `
   )(

@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
+import Live from "coral-stream/tabs/Live";
 import {
   AriaInfo,
   HorizontalGutter,
@@ -17,7 +18,12 @@ import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "LIVE"
+  | "%future added value";
 
 export interface AppProps {
   activeTab: TabValue;
@@ -59,6 +65,9 @@ const App: FunctionComponent<AppProps> = (props) => {
             data-testid="current-tab-pane"
           >
             <Configure />
+          </TabPane>
+          <TabPane tabID="LIVE" data-testid="current-tab-pane">
+            <Live />
           </TabPane>
         </TabContent>
       </main>

@@ -1,0 +1,122 @@
+.avatar {
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+
+  margin-right: var(--spacing-1);
+
+  font-size: var(--font-size-1);
+}
+
+.emptyAvatar {
+  background: grey;
+
+  font-size: 30px;
+  width: 30px;
+
+  color: white;
+}
+
+.avatarIcon {
+  vertical-align: top;
+
+  font-size: 30px;
+  width: 30px;
+
+  color: white;
+}
+
+.container {
+  flex-grow: 1;
+  background-color: var(--palette-grey-100);
+
+  padding: var(--spacing-2);
+  padding-top: var(--spacing-1);
+  border-radius: 5px;
+}
+
+.header {
+  margin-bottom: var(--spacing-1);
+}
+
+.headerRoot {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username {
+  display: flex;
+  justify-content: center;
+
+  line-height: 1.14;
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-3);
+  font-style: normal;
+
+  margin-right: var(--spacing-1);
+}
+
+.timestamp {
+  display: flex;
+  justify-content: center;
+
+  font-size: var(--font-size-1);
+
+  margin-left: var(--spacing-2);
+}
+
+.truncatedBody {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+
+  line-height: 1.3rem;
+  max-height: calc(4 * 1.3rem);
+
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.body {
+  font-size: var(--font-size-2);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: 1.25;
+  color: var(--palette-text-900);
+  word-wrap: break-word;
+}
+
+.tag {
+  font-size: var(--font-size-2);
+}
+
+.badge {
+  font-size: var(--font-size-2);
+}
+
+.cancelButton {
+  display: flex;
+
+  border-width: 0px;
+  border-style: none;
+
+  color: var(--palette-primary-500);
+}
+
+.cancelIcon {
+  margin-right: var(--spacing-1);
+}
+
+.cancelText {
+  font-size: var(--font-size-1);
+}
+
+.edited {
+  font-size: var(--font-size-1);
+  margin-left: var(--spacing-1);
+}

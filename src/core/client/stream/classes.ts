@@ -155,6 +155,11 @@ const CLASSES = {
     message: "coral coral-createComment-message",
 
     /**
+     * disabledMessage is the box containing the disabled message.
+     */
+    disabledMessage: "coral coral-createComment-disabledMessage",
+
+    /**
      * closed is the box containing the message when the story is closed.
      */
     closed: "coral coral-createComment-closed",
@@ -189,6 +194,11 @@ const CLASSES = {
      * cancel is the button for cancelling the post.
      */
     cancel: "coral coral-createComment-cancel",
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**
@@ -206,6 +216,11 @@ const CLASSES = {
      * in review.
      */
     inReview: "coral coral-createReplyComment-inReview",
+
+    /**
+     * disabledMessage is the box containing the disabled message.
+     */
+    disabledMessage: "coral coral-createComment-disabledMessage",
 
     /**
      * submit is the button for submitting a new reply.
@@ -230,6 +245,11 @@ const CLASSES = {
       text: "coral coral-createReplyComment-replyToText",
       username: "coral coral-createReplyComment-replyToUsername",
     },
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**
@@ -276,6 +296,11 @@ const CLASSES = {
      * dimiss is the button to dismiss the message after submit.
      */
     dismiss: "coral coral-editComment-dismiss",
+
+    /**
+     * rteFocus is applied to the RTE when the RTE has the focus.
+     */
+    rteFocus: "coral coral-createComment-rteFocus",
   },
 
   /**

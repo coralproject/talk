@@ -12,6 +12,7 @@ export interface BrowserInfo {
     intl: boolean;
     intlPluralRules: boolean;
     intersectionObserver: boolean;
+    scrollTo: boolean;
   };
 }
 
@@ -38,6 +39,7 @@ export function getBrowserInfo(): BrowserInfo {
           "IntersectionObserverEntry" in window &&
           "intersectionRatio" in
             (window as any).IntersectionObserverEntry.prototype,
+        scrollTo: "scrollTo" in document.body,
       },
       ios,
       msie,

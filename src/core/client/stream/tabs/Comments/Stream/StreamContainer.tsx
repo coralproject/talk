@@ -5,7 +5,6 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   GQLCOMMENT_SORT,
@@ -251,12 +250,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             <AddACommentButton isQA={isQA} />
           ) : (
             <>
-              <IntersectionProvider>
-                <ViewersWatchingContainer
-                  story={props.story}
-                  settings={props.settings}
-                />
-              </IntersectionProvider>
+              <ViewersWatchingContainer
+                story={props.story}
+                settings={props.settings}
+              />
               <PostCommentFormContainer
                 settings={props.settings}
                 story={props.story}

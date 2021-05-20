@@ -11,12 +11,18 @@ import {
   fetchQuery,
   initLocalBaseState,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
+import { getLatestCursorState } from "coral-stream/tabs/Live/cursorState";
 
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
-import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
+import {
+  AUTH_POPUP_ID,
+  AUTH_POPUP_TYPE,
+  LIVE_CHAT_STATE_ID,
+  LIVE_CHAT_STATE_TYPE,
+} from "./constants";
 
 async function determineFeatureFlags(
   environment: Environment,
@@ -81,15 +87,23 @@ const initLocalState: InitLocalState = async ({
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
     "CREATED_AT_DESC";
 
-  commitLocalUpdate(environment, (s) => {
-    const root = s.getRoot();
-    const localRecord = root.getLinkedRecord("local")!;
+  // Parse query params
+  const query = parseQuery(location.search);
 
-    // Parse query params
-    const query = parseQuery(location.search);
+  const latestCursorState = await getLatestCursorState(
+    context.localStorage,
+    query.storyID,
+    query.storyURL
+  );
+
+  commitLocalUpdate(environment, (source) => {
+    const root = source.getRoot();
+    const localRecord = root.getLinkedRecord("local")!;
 
     if (query.storyID) {
       localRecord.setValue(query.storyID, "storyID");
+    } else if (staticConfig && staticConfig.storyID) {
+      localRecord.setValue(staticConfig.storyID, "storyID");
     }
 
     if (query.storyURL) {
@@ -111,7 +125,7 @@ const initLocalState: InitLocalState = async ({
     // Create authPopup Record
     const authPopupRecord = createAndRetain(
       environment,
-      s,
+      source,
       AUTH_POPUP_ID,
       AUTH_POPUP_TYPE
     );
@@ -122,7 +136,12 @@ const initLocalState: InitLocalState = async ({
 
     // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
-    localRecord.setValue("MY_COMMENTS", "profileTab");
+
+    if (query.storyMode === GQLSTORY_MODE.CHAT) {
+      localRecord.setValue("PREFERENCES", "profileTab");
+    } else {
+      localRecord.setValue("MY_COMMENTS", "profileTab");
+    }
 
     // Initialize the comments tab to NONE for now, it will be initialized to an
     // actual tab when we find out how many feature comments there are.
@@ -133,6 +152,19 @@ const initLocalState: InitLocalState = async ({
       featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
       "flattenReplies"
     );
+
+    const liveChatState = createAndRetain(
+      environment,
+      source,
+      LIVE_CHAT_STATE_ID,
+      LIVE_CHAT_STATE_TYPE
+    );
+    liveChatState.setValue(false, "tailing");
+    liveChatState.setValue(false, "tailingConversation");
+    if (latestCursorState && latestCursorState.cursor) {
+      liveChatState.setValue(latestCursorState.cursor, "currentCursor");
+    }
+    localRecord.setLinkedRecord(liveChatState, "liveChat");
   });
 };
 

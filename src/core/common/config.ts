@@ -24,6 +24,11 @@ export interface StaticConfig {
   staticURI: string;
 
   /**
+   * storyID is the storyID for the currently loaded embed.
+   */
+  storyID: string;
+
+  /**
    * reporter stores the reporter configuration for the current reporter
    * available.
    */

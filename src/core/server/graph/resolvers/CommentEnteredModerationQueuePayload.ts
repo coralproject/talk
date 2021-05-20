@@ -5,5 +5,5 @@ import { CommentEnteredModerationQueueInput } from "./Subscription/commentEntere
 
 export const CommentEnteredModerationQueuePayload: GQLCommentEnteredModerationQueuePayloadTypeResolver<CommentEnteredModerationQueueInput> = {
   comment: ({ commentID }, args, ctx, info) =>
-    maybeLoadOnlyID(ctx, info, commentID),
+    maybeLoadOnlyID(ctx, info, commentID, { filterNonVisible: true }),
 };

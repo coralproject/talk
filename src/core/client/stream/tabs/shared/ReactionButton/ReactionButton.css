@@ -19,3 +19,7 @@
 .totalReactions {
   margin-left: var(--spacing-1);
 }
+
+.chatLabel {
+  font-weight: var(--font-weight-primary-bold)
+}

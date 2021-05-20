@@ -137,7 +137,7 @@ interface Props {
   onChange?: (html: string) => void;
   onFocus?: EventHandler<FocusEvent>;
   onBlur?: EventHandler<FocusEvent>;
-  onKeyPress?: React.KeyboardEventHandler;
+  onKeyDown?: React.KeyboardEventHandler;
 
   disabled?: boolean;
 
@@ -148,6 +148,8 @@ interface Props {
   toolbarButtons?: React.ReactElement | null;
 
   onWillPaste?: (event: PasteEvent) => void;
+
+  showToolbar?: boolean;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -169,7 +171,8 @@ const RTE: FunctionComponent<Props> = (props) => {
     onBlur,
     features,
     onWillPaste,
-    onKeyPress,
+    onKeyDown,
+    showToolbar,
     ...rest
   } = props;
 
@@ -280,7 +283,8 @@ const RTE: FunctionComponent<Props> = (props) => {
           toolbarClassName,
           styles.toolbar,
           {
-            [styles.toolbarHidden]: featureElements.length === 0,
+            [styles.toolbarHidden]:
+              featureElements.length === 0 || !showToolbar,
           }
         )}
         contentContainerClassName={cn(
@@ -290,7 +294,7 @@ const RTE: FunctionComponent<Props> = (props) => {
         )}
         contentClassNameDisabled={styles.disabled}
         onChange={onChange}
-        value={value || defaultValue || "<div><br></div>"}
+        value={value || defaultValue || RTE_RESET_VALUE}
         disabled={disabled}
         placeholder={placeholder}
         features={featureElements}
@@ -299,13 +303,17 @@ const RTE: FunctionComponent<Props> = (props) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onWillPaste={onWillPaste}
-        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         sanitizeToDOMFragment={sanitizeToDOMFragment}
         ButtonComponent={RTEButton}
         {...rest}
       />
     </div>
   );
+};
+
+RTE.defaultProps = {
+  showToolbar: true,
 };
 
 export default RTE;

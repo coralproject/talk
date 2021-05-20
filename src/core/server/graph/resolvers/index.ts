@@ -13,11 +13,13 @@ import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
+import { CommentEditedPayload } from "./CommentEditedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentEnteredPayload } from "./CommentEnteredPayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
 import { CommentMedia } from "./CommentMedia";
 import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentRejectedPayload } from "./CommentRejectedPayload";
 import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
@@ -149,6 +151,8 @@ const Resolvers: GQLResolver = {
   WarningStatusHistory,
   WebhookEndpoint,
   YouTubeMediaConfiguration,
+  CommentEditedPayload,
+  CommentRejectedPayload,
 };
 
 export default Resolvers;

@@ -108,3 +108,5 @@
   border-color: var(--palette-warning-500);
   color: var(--palette-text-500);
 }
+
+.closeButton {}

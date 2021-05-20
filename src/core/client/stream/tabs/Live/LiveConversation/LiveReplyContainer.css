@@ -1,0 +1,24 @@
+.root {
+  width: 100%;
+}
+
+.tombstone {
+  margin-top: 1px;
+}
+
+.comment {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+
+  width: 100%;
+}
+
+.highlight {
+  /* this is grey-200, explicit because this shouldn't be overridden by SBN */
+  background-color: #EAEFF0;
+}
+
+.editHighlight {
+  /* this is grey-100, explicit because this shouldn't be overridden by SBN */
+  background-color: #F4F7F7;
+}

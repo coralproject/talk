@@ -45,6 +45,12 @@ exports[`renders correctly 1`] = `
       >
         <withContext(withLocalStateContainer(ConfigureQuery)) />
       </TabPane>
+      <TabPane
+        data-testid="current-tab-pane"
+        tabID="LIVE"
+      >
+        <LiveTabQuery />
+      </TabPane>
     </TabContent>
   </main>
 </ForwardRef(forwardRef)>

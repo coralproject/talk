@@ -5,5 +5,5 @@ import { CommentLeftModerationQueueInput } from "./Subscription/commentLeftModer
 
 export const CommentLeftModerationQueuePayload: GQLCommentLeftModerationQueuePayloadTypeResolver<CommentLeftModerationQueueInput> = {
   comment: ({ commentID }, args, ctx, info) =>
-    maybeLoadOnlyID(ctx, info, commentID),
+    maybeLoadOnlyID(ctx, info, commentID, { filterNonVisible: true }),
 };

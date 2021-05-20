@@ -1,0 +1,92 @@
+.root {
+}
+
+.tombstone {
+  margin-top: 1px;
+}
+
+.container {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  padding-top: var(--spacing-1);
+}
+
+.parent {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-1);
+}
+
+.parentHighlight {
+  background-color: var(--palette-grey-700);
+}
+
+.parentButton {
+  height: 20px;
+}
+
+.parentArrow {
+  color: var(--palette-grey-600);
+  transform: scaleX(-1) scaleY(-1);
+  font-size: 20px;
+  width: 20px;
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-3);
+}
+
+.parentArrowHighlight {
+  color: var(--palette-grey-100);
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-4);
+}
+
+.parentUser {
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: var(--palette-grey-600);
+
+  margin-right: var(--spacing-2);
+  line-height: 20px;
+}
+
+.parentUserHighlight {
+  color: var(--palette-text-000);
+}
+
+.parentBody {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+
+  color: var(--palette-grey-500);
+
+  margin-right: var(--spacing-1);
+  line-height: 20px;
+}
+
+.parentBodyHighlight {
+  color: var(--palette-text-000);
+}
+
+.avatarBodyAndActions {
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-1);
+}
+
+.avatarBodyAndActionsHighlight {
+  border-left: var(--spacing-1) solid var(--palette-grey-700);
+  padding-top: var(--spacing-1);
+  padding-left: var(--spacing-1);
+}
+
+.editingBackground {
+  /* this is grey-100, explicit because this shouldn't be overridden by SBN */
+  background-color: #F4F7F7;
+}
+
+.replyButton {
+  border-width: 0px;
+  border-style: none;
+
+  color: var(--palette-grey-500);
+}

@@ -21,7 +21,7 @@ import {
   getSubmitStatus,
   shouldTriggerSettingsRefresh,
   SubmitStatus,
-} from "../../helpers";
+} from "../../../shared/helpers";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import EditCommentForm, { EditCommentFormProps } from "./EditCommentForm";

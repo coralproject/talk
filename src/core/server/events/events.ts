@@ -1,9 +1,11 @@
 import {
   CommentCreatedInput,
+  CommentEditedInput,
   CommentEnteredInput,
   CommentEnteredModerationQueueInput,
   CommentFeaturedInput,
   CommentLeftModerationQueueInput,
+  CommentRejectedInput,
   CommentReleasedInput,
   CommentReplyCreatedInput,
   CommentStatusUpdatedInput,
@@ -136,3 +138,21 @@ export type StoryCreatedCoralEventPayload = CoralEventPayload<
 export const StoryCreatedCoralEvent = createCoralEvent<
   StoryCreatedCoralEventPayload
 >(CoralEventType.STORY_CREATED);
+
+export type CommentEditedCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_EDITED,
+  CommentEditedInput
+>;
+
+export const CommentEditedCoralEvent = createCoralEvent<
+  CommentEditedCoralEventPayload
+>(CoralEventType.COMMENT_EDITED);
+
+export type CommentRejectedCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_REJECTED,
+  CommentRejectedInput
+>;
+
+export const CommentRejectedCoralEvent = createCoralEvent<
+  CommentRejectedCoralEventPayload
+>(CoralEventType.COMMENT_REJECTED);

@@ -4,10 +4,12 @@ import cn from "classnames";
 import { FormApi, FormState, FormSubscription } from "final-form";
 import React, {
   EventHandler,
+  FocusEvent,
   FunctionComponent,
   MouseEvent,
   Ref,
   useCallback,
+  useRef,
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
@@ -21,16 +23,15 @@ import {
   HorizontalGutter,
   Icon,
   MatchMedia,
-  Message,
-  MessageIcon,
-  RelativeTime,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
+import useStyles from "coral-ui/hooks/useStyles";
 
-import { getCommentBodyValidators } from "../../helpers";
+import { getCommentBodyValidators } from "../../../shared/helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
 import { RTELocalized } from "../../RTE/RTE";
+import { RTEFeatureOverrides } from "../../RTE/RTEContainer";
 import FormSync from "./FormSync";
 import MediaField, { Widget } from "./MediaField";
 import RatingInput from "./RatingInput";
@@ -92,21 +93,27 @@ interface Props {
   disabledMessage?: React.ReactNode;
   bodyLabel: React.ReactNode;
   rteConfig: PropTypesOf<typeof RTEContainer>["config"];
-  onFocus?: () => void;
+  onFocus?: EventHandler<FocusEvent>;
+  onBlur?: EventHandler<FocusEvent>;
   rteRef?: Ref<CoralRTE>;
   onCancel?: EventHandler<MouseEvent<any>>;
-  editableUntil?: string;
-  expired?: boolean;
+  message?: React.ReactNode;
   submitStatus?: React.ReactNode;
-  classNameRoot: "createComment" | "editComment" | "createReplyComment";
   mediaConfig: MediaConfig;
-  mode?: "rating" | "comment";
+  mode?: "rating" | "comment" | "chat";
   placeholder: string;
-  placeHolderId: string;
   bodyInputID: string;
   siteID: string;
   topBorder?: boolean;
   className?: string;
+  classes?: Partial<typeof styles>;
+  focusAfterSubmit?: boolean;
+  autoHideToolbar?: boolean;
+  autoFocus?: boolean;
+  noSubmitWhenPristine?: boolean;
+  submitButtonContent?: React.ReactNode;
+  submitButtonTitle?: string;
+  featureOverrides?: RTEFeatureOverrides;
 }
 
 function createWidgetToggle(desiredWidget: Widget) {
@@ -125,15 +132,28 @@ const subscription: FormSubscription = {
   touched: true,
 };
 
+const ErrorCallout: FunctionComponent<{ error: any; className?: string }> = ({
+  error,
+  className,
+}) => (
+  <CallOut
+    className={className}
+    color="error"
+    title={error}
+    titleWeight="semiBold"
+    icon={<Icon>error</Icon>}
+  />
+);
+
 const CommentForm: FunctionComponent<Props> = ({
   bodyInputID,
   bodyLabel,
   className,
-  classNameRoot,
   disabled = false,
   disabledMessage,
-  editableUntil,
-  expired,
+  message,
+  submitButtonContent,
+  submitButtonTitle,
   initialValues,
   max,
   mediaConfig,
@@ -142,27 +162,59 @@ const CommentForm: FunctionComponent<Props> = ({
   onCancel,
   onChange,
   onFocus,
+  onBlur,
   onSubmit,
   placeholder,
-  placeHolderId,
   rteConfig,
   rteRef,
   siteID,
   submitStatus,
   topBorder,
+  autoHideToolbar,
+  focusAfterSubmit,
+  autoFocus,
+  classes,
+  noSubmitWhenPristine,
+  featureOverrides,
 }) => {
+  const myRTERef = useRef<CoralRTE | null>(null);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
 
+  const setRTERef = useCallback(
+    (ref: CoralRTE | null) => {
+      if (rteRef) {
+        if (ref && autoFocus) {
+          ref.focus();
+        }
+        if ("current" in rteRef) {
+          (rteRef as any).current = ref;
+        } else {
+          rteRef(ref);
+        }
+        myRTERef.current = ref;
+      }
+    },
+    [autoFocus, rteRef]
+  );
   const onFormSubmit = useCallback(
-    (values: FormSubmitProps, form: FormApi) => {
+    async (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
       setPastedMedia(null);
 
       // Submit the form.
-      return onSubmit(values, form);
+      const result = await onSubmit(values, form);
+      if (focusAfterSubmit) {
+        // @cvle: Verified that this doesn't need a `clearTimeout` :-)
+        setTimeout(() => {
+          if (myRTERef.current) {
+            myRTERef.current.focus();
+          }
+        }, 100);
+      }
+      return result;
     },
-    [onSubmit, setPastedMedia]
+    [onSubmit, setPastedMedia, focusAfterSubmit]
   );
 
   const onBodyChange = useCallback(
@@ -223,6 +275,47 @@ const CommentForm: FunctionComponent<Props> = ({
     [setPastedMedia, mediaConfig]
   );
 
+  /* Handle showing toolbar */
+  const currentBodyRef = useRef("");
+  const [showToolbar, setShowToolbar] = useState(!autoHideToolbar);
+  const [rteFocus, setRTEFocus] = useState(false);
+  const handleOnChange: OnChangeHandler = useCallback(
+    (state, form) => {
+      // Track current body value to determine wheter or not we want to
+      // auto hide the toolbar if enabled.
+      currentBodyRef.current = state.values.body;
+      if (onChange) {
+        return onChange(state, form);
+      }
+    },
+    [onChange]
+  );
+  const rteOnFocus = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onFocus) {
+        onFocus(event);
+      }
+      setRTEFocus(true);
+      if (!autoHideToolbar) {
+        return;
+      }
+      setShowToolbar(true);
+    },
+    [autoHideToolbar, onFocus]
+  );
+  const rteOnBlur = useCallback(
+    (event: React.FocusEvent<Element>) => {
+      if (onBlur) {
+        onBlur(event);
+      }
+      setRTEFocus(false);
+      if (!autoHideToolbar) {
+        return;
+      }
+    },
+    [autoHideToolbar, onBlur]
+  );
+
   const toggleExternalImageInput = useCallback(() => {
     setMediaWidget(createWidgetToggle("external"));
   }, []);
@@ -234,8 +327,10 @@ const CommentForm: FunctionComponent<Props> = ({
   const showGifSelector = mediaWidget === "giphy";
   const showExternalImageInput = mediaWidget === "external";
 
+  const css = useStyles(styles, classes);
+
   return (
-    <div className={cn(CLASSES[classNameRoot].$root, className)}>
+    <div className={cn(className, css.root)}>
       <Form onSubmit={onFormSubmit} initialValues={initialValues}>
         {({
           handleSubmit,
@@ -245,253 +340,309 @@ const CommentForm: FunctionComponent<Props> = ({
           form,
           pristine,
           values,
-        }) => (
-          <form
-            autoComplete="off"
-            onSubmit={handleSubmit}
-            id="comments-postCommentForm-form"
-          >
-            {mode === "rating" && (
-              <RatingInput disabled={submitting || disabled} />
-            )}
-            <HorizontalGutter>
-              {onChange && (
-                <FormSync onChange={onChange} subscription={subscription} />
+        }) => {
+          const disabledMessageElement = disabledMessage && (
+            <ErrorCallout
+              error={disabledMessage}
+              className={css.disabledMessage}
+            />
+          );
+          const rteElement = (
+            <div
+              className={cn(
+                css.commentFormBox,
+                {
+                  [css.noTopBorder]: !topBorder,
+                  [css.rteFocus]: rteFocus && mode === "chat",
+                },
+                CLASSES.commentForm
               )}
-              <div>
-                {bodyLabel}
-                <div
-                  className={cn(
-                    styles.commentFormBox,
-                    {
-                      [styles.noTopBorder]: !topBorder,
-                    },
-                    CLASSES.commentForm
-                  )}
-                >
-                  <Field
-                    name="body"
-                    validate={getCommentBodyValidators(min, max)}
-                  >
-                    {({ input }) => (
-                      <Localized
-                        id={placeHolderId}
-                        attrs={{ placeholder: true }}
-                      >
-                        <RTEContainer
-                          inputID={bodyInputID}
-                          config={rteConfig}
-                          onFocus={onFocus}
-                          onWillPaste={(event) => {
-                            if (
-                              !(
+            >
+              <Field name="body" validate={getCommentBodyValidators(min, max)}>
+                {({ input }) => (
+                  <RTEContainer
+                    inputID={bodyInputID}
+                    config={rteConfig}
+                    onFocus={rteOnFocus}
+                    onBlur={rteOnBlur}
+                    contentClassName={cn(css.content, {
+                      [css.chatContent]: mode === "chat",
+                    })}
+                    onWillPaste={(event) => {
+                      if (
+                        !(
+                          (values as FormProps).media &&
+                          (values as FormProps).media?.url
+                        )
+                      ) {
+                        onPaste(event);
+                      }
+                    }}
+                    onChange={(html: string) => {
+                      input.onChange(html);
+                      onBodyChange(html, values as FormProps, form);
+                    }}
+                    onKeyDown={(event: React.KeyboardEvent<Element>) => {
+                      if (submitting || disabled || !event.isTrusted) {
+                        // isTrusted is false, if the event was created by javascript.
+                        return;
+                      }
+
+                      // Detect shift+Enter when in chat mode.
+                      if (
+                        mode === "chat" &&
+                        event.shiftKey &&
+                        !event.ctrlKey &&
+                        !event.altKey &&
+                        (event.key === "Enter" || event.keyCode === 13)
+                      ) {
+                        // Prevent and dispatch a regular Enter keydown event instead.
+                        const enterEvent = new KeyboardEvent("keydown", {
+                          keyCode: event.keyCode,
+                        } as any);
+                        event.target.dispatchEvent(
+                          new KeyboardEvent("keydown", enterEvent)
+                        );
+                        event.preventDefault();
+                        return;
+                      }
+                      if (
+                        hasValidationErrors ||
+                        (noSubmitWhenPristine && pristine)
+                      ) {
+                        return;
+                      }
+                      if (
+                        (mode === "chat" || event.ctrlKey) &&
+                        !event.shiftKey &&
+                        (event.key === "Enter" || event.keyCode === 13)
+                      ) {
+                        void handleSubmit();
+                        event.preventDefault();
+                      }
+                    }}
+                    value={input.value}
+                    placeholder={placeholder}
+                    disabled={submitting || disabled}
+                    ref={setRTERef}
+                    showToolbar={showToolbar}
+                    toolbarButtons={
+                      <>
+                        {mediaConfig && mediaConfig.external.enabled ? (
+                          <RTELocalized
+                            key="image"
+                            id="comments-rte-externalImage"
+                            attrs={{ title: true }}
+                          >
+                            <RTEButton
+                              disabled={
+                                !!pastedMedia ||
+                                !!(
+                                  (values as FormProps).media &&
+                                  (values as FormProps).media?.url
+                                )
+                              }
+                              aria-pressed={showExternalImageInput}
+                              onClick={toggleExternalImageInput}
+                            >
+                              <Icon size="md">add_photo_alternate</Icon>
+                            </RTEButton>
+                          </RTELocalized>
+                        ) : null}
+                        {mediaConfig && mediaConfig.giphy.enabled ? (
+                          <RTEButton
+                            key="gif"
+                            disabled={
+                              !!pastedMedia ||
+                              !!(
                                 (values as FormProps).media &&
                                 (values as FormProps).media?.url
                               )
-                            ) {
-                              onPaste(event);
                             }
-                          }}
-                          onChange={(html: string) => {
-                            input.onChange(html);
-                            onBodyChange(html, values as FormProps, form);
-                          }}
-                          onKeyPress={async (
-                            event: React.KeyboardEvent<Element>
-                          ) => {
-                            if (
-                              event.ctrlKey &&
-                              (event.key === "Enter" || event.keyCode === 13)
-                            ) {
-                              await onFormSubmit(values as any, form);
-                            }
-                          }}
-                          value={input.value}
-                          placeholder={placeholder}
-                          disabled={submitting || disabled}
-                          ref={rteRef || null}
-                          toolbarButtons={
-                            <>
-                              {mediaConfig && mediaConfig.external.enabled ? (
-                                <RTELocalized
-                                  key="image"
-                                  id="comments-rte-externalImage"
-                                  attrs={{ title: true }}
-                                >
-                                  <RTEButton
-                                    disabled={
-                                      !!pastedMedia ||
-                                      !!(
-                                        (values as FormProps).media &&
-                                        (values as FormProps).media?.url
-                                      )
-                                    }
-                                    aria-pressed={showExternalImageInput}
-                                    onClick={toggleExternalImageInput}
-                                  >
-                                    <Icon size="md">add_photo_alternate</Icon>
-                                  </RTEButton>
-                                </RTELocalized>
-                              ) : null}
-                              {mediaConfig && mediaConfig.giphy.enabled ? (
-                                <RTEButton
-                                  key="gif"
-                                  disabled={
-                                    !!pastedMedia ||
-                                    !!(
-                                      (values as FormProps).media &&
-                                      (values as FormProps).media?.url
-                                    )
-                                  }
-                                  aria-pressed={showGifSelector}
-                                  onClick={toggleGIFSelector}
-                                >
-                                  <Flex alignItems="center" container="span">
-                                    <Icon className={styles.icon}>add</Icon>
-                                    GIF
-                                  </Flex>
-                                </RTEButton>
-                              ) : null}
-                            </>
-                          }
-                        />
-                      </Localized>
-                    )}
-                  </Field>
-                  <MediaField
-                    widget={mediaWidget}
-                    setWidget={setMediaWidget}
-                    pastedMedia={pastedMedia}
-                    setPastedMedia={setPastedMedia}
-                    siteID={siteID}
-                    giphyConfig={mediaConfig.giphy}
-                  />
-                </div>
-              </div>
-              {!expired && editableUntil && (
-                <Message
-                  className={CLASSES.editComment.remainingTime}
-                  fullWidth
-                >
-                  <MessageIcon>alarm</MessageIcon>
-                  <Localized
-                    id="comments-editCommentForm-editRemainingTime"
-                    time={<RelativeTime date={editableUntil} live />}
-                  >
-                    <span>{"Edit: <time></time> remaining"}</span>
-                  </Localized>
-                </Message>
-              )}
-              {disabled ? (
-                <>
-                  {disabledMessage && (
-                    <CallOut
-                      className={CLASSES.editComment.expiredTime}
-                      color="error"
-                      title={disabledMessage}
-                      titleWeight="semiBold"
-                      icon={<Icon>error</Icon>}
-                    />
-                  )}
-                </>
-              ) : (
-                <Field
-                  name="body"
-                  subscription={{
-                    touched: true,
-                    error: true,
-                    submitError: true,
-                    value: true,
-                    dirtySinceLastSubmit: true,
-                  }}
-                >
-                  {({
-                    input: { value },
-                    meta: {
-                      touched,
-                      error,
-                      submitError: localSubmitError,
-                      dirtySinceLastSubmit,
-                    },
-                  }) => (
-                    <>
-                      {touched &&
-                        (error ||
-                          (localSubmitError && !dirtySinceLastSubmit)) && (
-                          <CallOut
-                            color="error"
-                            title={error || localSubmitError}
-                            titleWeight="semiBold"
-                            icon={<Icon>error</Icon>}
-                          />
-                        )}
-                      {max && (
-                        <RemainingCharactersContainer value={value} max={max} />
-                      )}
-                    </>
-                  )}
-                </Field>
-              )}
-              {/* Only show the submit error when the stream hasn't been disabled */}
-              {!disabled && submitError && (
-                <CallOut
-                  color="error"
-                  title={submitError}
-                  titleWeight="semiBold"
-                  icon={<Icon>error</Icon>}
-                />
-              )}
-              <Flex justifyContent="flex-end" spacing={1}>
-                <MatchMedia ltWidth="sm">
-                  {(matches) => (
-                    <>
-                      {onCancel && (
-                        <Localized id="comments-commentForm-cancel">
-                          <Button
-                            color="secondary"
-                            variant="outlined"
-                            disabled={submitting}
-                            onClick={onCancel}
-                            fullWidth={matches}
-                            className={CLASSES[classNameRoot].cancel}
-                            upperCase
+                            aria-pressed={showGifSelector}
+                            onClick={toggleGIFSelector}
                           >
-                            Cancel
-                          </Button>
-                        </Localized>
-                      )}
-                      <Localized
-                        id={
-                          editableUntil
-                            ? "comments-commentForm-saveChanges"
-                            : "comments-commentForm-submit"
-                        }
-                      >
+                            <Flex alignItems="center" container="span">
+                              <Icon className={css.icon}>add</Icon>
+                              GIF
+                            </Flex>
+                          </RTEButton>
+                        ) : null}
+                      </>
+                    }
+                    featureOverrides={featureOverrides}
+                  />
+                )}
+              </Field>
+              <MediaField
+                widget={mediaWidget}
+                setWidget={setMediaWidget}
+                pastedMedia={pastedMedia}
+                setPastedMedia={setPastedMedia}
+                siteID={siteID}
+                giphyConfig={mediaConfig.giphy}
+              />
+            </div>
+          );
+          const chatButtonElement = mode === "chat" && (
+            <Button
+              color="primary"
+              variant="filled"
+              disabled={
+                hasValidationErrors ||
+                submitting ||
+                disabled ||
+                (noSubmitWhenPristine && pristine)
+              }
+              type="submit"
+              className={cn(css.chatSubmitButton, {
+                [css.chatSubmitButtonWithToolbar]: showToolbar,
+              })}
+              title={submitButtonTitle}
+            >
+              <Icon>send</Icon>
+            </Button>
+          );
+          const submitErrorElement = !disabled && submitError && (
+            <ErrorCallout error={submitError} />
+          );
+          const formButtonsElement = mode !== "chat" && (
+            <Flex justifyContent="flex-end" spacing={1}>
+              <MatchMedia ltWidth="sm">
+                {(matches) => (
+                  <>
+                    {onCancel && (
+                      <Localized id="comments-commentForm-cancel">
                         <Button
-                          color="primary"
-                          variant="filled"
-                          disabled={
-                            hasValidationErrors ||
-                            submitting ||
-                            disabled ||
-                            (!!editableUntil && pristine)
-                          }
-                          type="submit"
+                          color="secondary"
+                          variant="outlined"
+                          disabled={submitting}
+                          onClick={onCancel}
                           fullWidth={matches}
-                          className={CLASSES[classNameRoot].submit}
+                          className={css.cancelButton}
                           upperCase
                         >
-                          {editableUntil ? "Save changes" : "Submit"}
+                          Cancel
                         </Button>
                       </Localized>
-                    </>
-                  )}
-                </MatchMedia>
-              </Flex>
-              {submitStatus}
-            </HorizontalGutter>
-          </form>
-        )}
+                    )}
+                    <Button
+                      color="primary"
+                      variant="filled"
+                      disabled={
+                        hasValidationErrors ||
+                        submitting ||
+                        disabled ||
+                        (noSubmitWhenPristine && pristine)
+                      }
+                      type="submit"
+                      fullWidth={matches}
+                      className={css.submitButton}
+                      title={submitButtonTitle}
+                      upperCase
+                    >
+                      {submitButtonContent}
+                    </Button>
+                  </>
+                )}
+              </MatchMedia>
+            </Flex>
+          );
+          const remainingCharactersElement = (
+            <Field
+              name="body"
+              subscription={{
+                value: true,
+              }}
+            >
+              {({ input: { value } }) =>
+                (max && (
+                  <RemainingCharactersContainer value={value} max={max} />
+                )) ||
+                null
+              }
+            </Field>
+          );
+          const bodyErrorElement = (
+            <Field
+              name="body"
+              subscription={{
+                touched: true,
+                error: true,
+                submitError: true,
+                dirtySinceLastSubmit: true,
+              }}
+            >
+              {({
+                meta: {
+                  touched,
+                  error,
+                  submitError: localSubmitError,
+                  dirtySinceLastSubmit,
+                },
+              }) =>
+                (touched &&
+                  (error || (localSubmitError && !dirtySinceLastSubmit)) && (
+                    <ErrorCallout error={error || localSubmitError} />
+                  )) ||
+                null
+              }
+            </Field>
+          );
+
+          return (
+            <form
+              autoComplete="off"
+              onSubmit={handleSubmit}
+              id="comments-postCommentForm-form"
+            >
+              {mode === "rating" && (
+                <RatingInput disabled={submitting || disabled} />
+              )}
+              <HorizontalGutter>
+                <FormSync
+                  onChange={handleOnChange}
+                  subscription={subscription}
+                />
+                {mode === "chat" && (
+                  <>
+                    {disabled ? disabledMessageElement : bodyErrorElement}
+                    {submitErrorElement}
+                    {formButtonsElement}
+                    {submitStatus}
+                  </>
+                )}
+                <div className={css.rteContainer}>
+                  {bodyLabel}
+                  {rteElement}
+                  {mode === "chat" && chatButtonElement}
+                </div>
+                {mode !== "chat" && (
+                  <>
+                    {message}
+                    {disabled ? (
+                      disabledMessageElement
+                    ) : (
+                      <>
+                        {bodyErrorElement}
+                        {remainingCharactersElement}
+                      </>
+                    )}
+                    {submitErrorElement}
+                    {formButtonsElement}
+                    {submitStatus}
+                  </>
+                )}
+                {mode === "chat" && (
+                  <>
+                    {message}
+                    {!disabled && remainingCharactersElement}
+                  </>
+                )}
+              </HorizontalGutter>
+            </form>
+          );
+        }}
       </Form>
     </div>
   );
@@ -499,6 +650,9 @@ const CommentForm: FunctionComponent<Props> = ({
 
 CommentForm.defaultProps = {
   topBorder: true,
+  submitButtonContent: (
+    <Localized id="comments-commentForm-submit">Submit</Localized>
+  ),
 };
 
 export default CommentForm;

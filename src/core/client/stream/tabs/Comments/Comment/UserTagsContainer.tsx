@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { intersection } from "lodash";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
@@ -20,6 +21,7 @@ interface Props {
   comment: UserTagsContainer_comment;
   settings: UserTagsContainer_settings;
   className?: string;
+  tagClassName?: string;
 }
 
 function storyIsInQAMode(story: UserTagsContainer_story) {
@@ -63,6 +65,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   settings,
   comment,
   className,
+  tagClassName,
 }) => {
   const staffTag = hasStaffTag(comment);
   const expertTag = hasExpertTag(story, comment);
@@ -75,7 +78,11 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   return (
     <Flex alignItems="center">
       {expertTag && (
-        <Tag variant="regular" color="primary" className={styles.tag}>
+        <Tag
+          variant="regular"
+          color="primary"
+          className={cn(tagClassName, styles.tag)}
+        >
           <Flex alignItems="center">
             <Icon size="xs" className={styles.icon}>
               star
@@ -88,7 +95,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
         <StaffTagContainer
           settings={settings}
           tags={tagStrings(comment)}
-          className={className}
+          className={cn(tagClassName, className)}
         />
       )}
     </Flex>

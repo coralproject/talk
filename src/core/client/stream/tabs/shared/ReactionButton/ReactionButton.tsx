@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
-import Responsive from "react-responsive";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReactionButton.css";
@@ -19,6 +18,7 @@ interface ReactionButtonProps {
   readOnly?: boolean;
   className?: string;
   isQA?: boolean;
+  isChat?: boolean;
   author?: string | null;
 }
 
@@ -53,15 +53,20 @@ function render(props: ReactionButtonProps) {
       paddingSize="extraSmall"
     >
       <Flex alignItems="center" container="span">
-        {props.isQA ? (
-          <Icon className={styles.icon}>arrow_upward</Icon>
-        ) : (
+        {props.isChat && (
           <Icon className={styles.icon}>
             {reacted ? (iconActive ? iconActive : icon) : icon}
           </Icon>
         )}
-        <Responsive minWidth={400}>
-          {props.isQA ? (
+        {props.isQA && <Icon className={styles.icon}>arrow_upward</Icon>}
+        {!props.isQA && !props.isChat && (
+          <Icon className={styles.icon}>
+            {reacted ? (iconActive ? iconActive : icon) : icon}
+          </Icon>
+        )}
+
+        {props.isQA && (
+          <MatchMedia gteWidth="mobile">
             <span>
               {reacted ? (
                 <Localized id="qa-reaction-voted">Voted</Localized>
@@ -69,10 +74,23 @@ function render(props: ReactionButtonProps) {
                 <Localized id="qa-reaction-vote">Vote</Localized>
               )}
             </span>
-          ) : (
+          </MatchMedia>
+        )}
+
+        {props.isChat && (
+          <MatchMedia gteWidth="mobile">
+            <span className={styles.chatLabel}>
+              {reacted ? labelActive : label}
+            </span>
+          </MatchMedia>
+        )}
+
+        {!props.isQA && !props.isChat && (
+          <MatchMedia gteWidth="mobile">
             <span>{reacted ? labelActive : label}</span>
-          )}
-        </Responsive>
+          </MatchMedia>
+        )}
+
         {!!totalReactions && (
           <span className={styles.totalReactions}>{totalReactions}</span>
         )}

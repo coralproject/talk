@@ -13,7 +13,7 @@ import { Delay, Spinner } from "coral-ui/components/v2";
 import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
-import { useStaticFlattenReplies } from "../helpers";
+import { useStaticFlattenReplies } from "../../shared/helpers";
 import PermalinkViewContainer from "./PermalinkViewContainer";
 
 interface Props {

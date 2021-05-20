@@ -27,8 +27,8 @@ import {
   isPublished,
   lookupFlattenReplies,
   prependCommentEdgeToProfile,
-} from "../../helpers";
-import incrementTagCommentCounts from "../../helpers/incrementTagCommentCounts";
+} from "../../../shared/helpers";
+import incrementTagCommentCounts from "../../../shared/helpers/incrementTagCommentCounts";
 
 export type CreateCommentInput = Omit<
   MutationInput<MutationTypes>,
@@ -168,12 +168,6 @@ graphql`
     createdAt
     role
     username
-    status {
-      current
-      ban {
-        active
-      }
-    }
   }
 `;
 

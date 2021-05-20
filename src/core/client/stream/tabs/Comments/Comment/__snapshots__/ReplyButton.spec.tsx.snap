@@ -29,8 +29,8 @@ exports[`renders correctly 1`] = `
       >
         reply
       </ForwardRef(forwardRef)>
-      <MediaQuery
-        minWidth={400}
+      <MatchMedia
+        gteWidth="mobile"
       >
         <Localized
           id="comments-replyButton-reply"
@@ -39,7 +39,7 @@ exports[`renders correctly 1`] = `
             Reply
           </span>
         </Localized>
-      </MediaQuery>
+      </MatchMedia>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
 </Localized>

@@ -8,7 +8,12 @@ import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "CHAT"
+  | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
@@ -20,6 +25,7 @@ export interface Props {
     | "COMMENTS"
     | "QA"
     | "RATINGS_AND_REVIEWS"
+    | "CHAT"
     | "%future added value"
     | null;
 }
@@ -29,11 +35,14 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
   let commentsTabText: string;
   switch (props.mode) {
-    case "QA":
+    case GQLSTORY_MODE.QA:
       commentsTabText = getMessage("general-tabBar-qaTab", "Q&A");
       break;
-    case "RATINGS_AND_REVIEWS":
+    case GQLSTORY_MODE.RATINGS_AND_REVIEWS:
       commentsTabText = getMessage("general-tabBar-reviewsTab", "Reviews");
+      break;
+    case GQLSTORY_MODE.CHAT:
+      commentsTabText = getMessage("general-tabBar-liveTab", "Live");
       break;
     default:
       commentsTabText = getMessage("general-tabBar-commentsTab", "Comments");
@@ -68,13 +77,14 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               <span>{commentsTabText}</span>
             ) : (
               <div>
-                {!props.mode ||
-                  (props.mode === GQLSTORY_MODE.COMMENTS && (
-                    <>
-                      <Icon size="lg">forum</Icon>
-                      <div className={styles.smallText}>{commentsTabText}</div>
-                    </>
-                  ))}
+                {(!props.mode ||
+                  props.mode === GQLSTORY_MODE.COMMENTS ||
+                  props.mode === GQLSTORY_MODE.CHAT) && (
+                  <>
+                    <Icon size="lg">forum</Icon>
+                    <div className={styles.smallText}>{commentsTabText}</div>
+                  </>
+                )}
                 {props.mode === GQLSTORY_MODE.QA && (
                   <>
                     <Icon size="lg">live_help</Icon>
