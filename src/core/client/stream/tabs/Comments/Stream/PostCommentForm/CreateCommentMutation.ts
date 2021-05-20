@@ -16,10 +16,14 @@ import {
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
-import { GQLCOMMENT_SORT } from "coral-account/schema/__generated__/accountSchemaTypes";
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 import { CreateCommentMutation_story } from "coral-stream/__generated__/CreateCommentMutation_story.graphql";
 import { CreateCommentMutation_viewer } from "coral-stream/__generated__/CreateCommentMutation_viewer.graphql";
