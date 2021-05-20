@@ -21,22 +21,6 @@ general-tabBar-myProfileTab = Mein Profil
 general-tabBar-discussionsTab = Diskussionen
 general-tabBar-configure = Konfigurieren
 
-general-tabBar-aria-comments =
-  .aria-label = Kommentare
-  .title = Kommentare
-general-tabBar-aria-qa =
-  .aria-label = Q&A
-  .title = Q&A
-general-tabBar-aria-myProfile =
-  .aria-label = Mein Profil
-  .title = Mein Profil
-general-tabBar-aria-configure =
-  .aria-label = Konfigurieren
-  .title = Mein Profil
-general-tabBar-aria-discussions =
-  .aria-label = Diskussionen
-  .title = Diskussionen
-
 ## Comment Count
 
 comment-count-text =
