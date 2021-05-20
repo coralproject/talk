@@ -36,12 +36,12 @@ beforeEach(() => {
           },
           edges: [
             {
-              node: comments[1],
-              cursor: comments[1].createdAt,
-            },
-            {
               node: commentsFromStaff[0],
               cursor: commentsFromStaff[0].createdAt,
+            },
+            {
+              node: comments[1],
+              cursor: comments[1].createdAt,
             },
           ],
         })

@@ -45,7 +45,7 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
           <Flex alignItems="center">
             <Circle hollow={true} className={styles.topCircle} />
             <Button underline variant="text" onClick={loadMore}>
-              <Localized id="conversation-modal-show-more-parents">
+              <Localized id="conversation-modal-showMoreParents">
                 <span>Show more of this conversation</span>
               </Localized>
               <Counter>{comment.parentCount}</Counter>
