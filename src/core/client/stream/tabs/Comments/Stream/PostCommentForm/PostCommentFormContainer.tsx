@@ -117,16 +117,14 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
-      const params: any = {
+      const response = await createComment({
         storyID: story.id,
         nudge,
         commentsOrderBy,
         body: input.body,
         rating: input.rating,
         media: input.media,
-      };
-
-      const response = await createComment(params);
+      });
 
       const status = getSubmitStatus(response);
 
