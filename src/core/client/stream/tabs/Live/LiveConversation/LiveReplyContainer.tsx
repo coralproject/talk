@@ -34,6 +34,7 @@ interface Props {
 
   truncateBody?: boolean;
   highlight?: boolean;
+  mediaMode?: "default" | "mini";
 }
 
 const LiveReplyContainer: FunctionComponent<Props> = ({
@@ -47,6 +48,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
   onCancelEditing,
   truncateBody,
   highlight,
+  mediaMode = "default",
 }) => {
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
 
@@ -127,6 +129,7 @@ const LiveReplyContainer: FunctionComponent<Props> = ({
           })}
           onCancel={editing ? onCancelEditing : undefined}
           truncateBody={truncateBody}
+          mediaMode={mediaMode}
         />
 
         <div id={`reply-${comment.id}`}>

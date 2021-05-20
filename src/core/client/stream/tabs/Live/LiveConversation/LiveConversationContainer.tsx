@@ -368,6 +368,7 @@ const LiveConversationContainer: FunctionComponent<Props> = ({
                   settings={settings}
                   onInView={handleCommentInView}
                   truncateBody
+                  mediaMode="mini"
                 />
               </div>
               <Virtuoso

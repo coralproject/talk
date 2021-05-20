@@ -481,6 +481,7 @@ const CommentForm: FunctionComponent<Props> = ({
                 setPastedMedia={setPastedMedia}
                 siteID={siteID}
                 giphyConfig={mediaConfig.giphy}
+                mode={mode}
               />
             </div>
           );
@@ -495,9 +496,7 @@ const CommentForm: FunctionComponent<Props> = ({
                 (noSubmitWhenPristine && pristine)
               }
               type="submit"
-              className={cn(css.chatSubmitButton, {
-                [css.chatSubmitButtonWithToolbar]: showToolbar,
-              })}
+              className={css.chatSubmitButton}
               title={submitButtonTitle}
             >
               <Icon>send</Icon>

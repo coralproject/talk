@@ -54,9 +54,7 @@ const LiveCommentForm: FunctionComponent<LiveCommentFormProps> = (props) => {
 
   // TODO @nick-funk, hook up media config when we have designs
   const mediaConfig = {
-    external: {
-      enabled: false,
-    },
+    external: props.mediaConfig.external,
     youtube: {
       enabled: false,
     },

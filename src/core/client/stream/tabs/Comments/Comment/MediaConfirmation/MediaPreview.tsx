@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { MediaLink } from "coral-common/helpers/findMediaLinks";
@@ -23,6 +24,7 @@ interface Props {
   media: MediaLink;
   onRemove: () => void;
   siteID: string;
+  mode?: "rating" | "comment" | "chat";
 }
 
 const RemoveButton: FunctionComponent<Pick<Props, "onRemove">> = ({
@@ -45,6 +47,7 @@ const MediaPreview: FunctionComponent<Props> = ({
   media,
   onRemove,
   siteID,
+  mode,
 }) => {
   return (
     <MatchMedia gteWidth="xs">
@@ -67,7 +70,11 @@ const MediaPreview: FunctionComponent<Props> = ({
 
             {/* Show the actual media. */}
             {media.type === "external" ? (
-              <ExternalMedia url={media.url} siteID={siteID} />
+              <ExternalMedia
+                url={media.url}
+                siteID={siteID}
+                className={cn({ [styles.miniFrame]: mode === "chat" })}
+              />
             ) : media.type === "twitter" ? (
               <TwitterMedia url={media.url} siteID={siteID} />
             ) : media.type === "youtube" ? (

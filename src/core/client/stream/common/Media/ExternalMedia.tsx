@@ -6,15 +6,23 @@ interface Props {
   id?: string;
   url: string;
   siteID: string;
+  className?: string;
 }
 
-const ExternalMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
+const ExternalMedia: FunctionComponent<Props> = ({
+  id,
+  url,
+  siteID,
+  className,
+}) => {
   const component = encodeURIComponent(url);
+
   return (
     <Frame
       id={id}
       src={`/api/external-media?url=${component}&siteID=${siteID}`}
       sandbox
+      className={className}
     />
   );
 };
