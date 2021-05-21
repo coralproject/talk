@@ -5,6 +5,7 @@ import { getExternalModerationPhase } from "coral-server/models/settings";
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
 import {
+  GQLCOMMENT_FLAG_REPORTED_REASON,
   GQLCOMMENT_SORT,
   GQLQueryTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
@@ -49,6 +50,15 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       filter: {
         actionType: ACTION_TYPE.FLAG,
+        reason: {
+          $in: [
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_ABUSIVE,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_BIO,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_OFFENSIVE,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_OTHER,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_SPAM,
+          ],
+        },
       },
     }),
 };
