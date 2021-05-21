@@ -1,11 +1,14 @@
 import { Db } from "mongodb";
 
 import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
 import { commentActions } from "coral-server/services/mongodb/collections";
 
 const reviewCommentAction = async (
   mongo: Db,
   tenant: Tenant,
+  viewer: User | undefined,
+  now: Date,
   commentActionID: string,
   reviewed: boolean
 ) => {
@@ -15,7 +18,7 @@ const reviewCommentAction = async (
       id: commentActionID,
     },
     {
-      $set: { reviewed },
+      $set: { reviewed, reviewedBy: viewer ? viewer.id : "", reviewedAt: now },
     },
     {
       returnOriginal: false,

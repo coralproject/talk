@@ -54,6 +54,8 @@ export const Actions = (ctx: GraphContext) => ({
     return await reviewCommentAction(
       ctx.mongo,
       ctx.tenant,
+      ctx.user,
+      ctx.now,
       input.id,
       input.reviewed
     );
