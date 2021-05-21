@@ -329,12 +329,12 @@ type Flag {
   """
   comment is the comment this flag was created on.
   """
-  comment: Comment
+  comment: Comment!
 
   """
   revision is the comment revision this flag was generated upon.
   """
-  revision: CommentRevision!
+  revision: CommentRevision
 
   """
   reason is the selected reason why the Flag is being created. If the reason is
