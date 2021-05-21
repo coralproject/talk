@@ -1,0 +1,7 @@
+.commentLink {
+  max-width: 125px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

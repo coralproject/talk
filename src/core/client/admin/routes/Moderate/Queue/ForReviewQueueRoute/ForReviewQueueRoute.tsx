@@ -36,6 +36,8 @@ import LoadingQueue from "../LoadingQueue";
 import ForReviewQueueRow from "./ForReviewQueueRow";
 import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
 
+import styles from "./ForReviewQueueRoute.css";
+
 interface Props {
   query: ForReviewQueueRoute_query;
   relay: RelayPaginationProp;
@@ -104,7 +106,7 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
   return (
     <IntersectionProvider>
       <HorizontalGutter size="double">
-        <Table fullWidth>
+        <Table fullWidth className={styles.table}>
           <TableHead>
             <TableRow>
               <TableCell>
