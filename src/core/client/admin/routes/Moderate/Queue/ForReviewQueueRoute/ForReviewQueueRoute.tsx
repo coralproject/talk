@@ -17,7 +17,6 @@ import { createRouteConfig } from "coral-framework/lib/router";
 import {
   Flex,
   HorizontalGutter,
-  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -145,11 +144,6 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
             ))}
           </TableBody>
         </Table>
-        {relay.isLoading() && (
-          <Flex justifyContent="center">
-            <Spinner />
-          </Flex>
-        )}
         {relay.hasMore() && (
           <Flex justifyContent="center">
             <AutoLoadMore
