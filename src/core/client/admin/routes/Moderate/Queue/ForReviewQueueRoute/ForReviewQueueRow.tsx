@@ -1,55 +1,30 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import CommentParser from "coral-admin/components/Comment/CommentParser";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
-import { CheckBox, Flex, TableCell, TableRow } from "coral-ui/components/v2";
+import {
+  CheckBox,
+  Flex,
+  TableCell,
+  TableRow,
+  TextLink,
+} from "coral-ui/components/v2";
 import { TimestampFormatter } from "coral-ui/components/v2/Timestamp";
-import { ComponentLink } from "coral-ui/components/v3";
 
-import { COMMENT_FLAG_REASON } from "coral-admin/__generated__/ForReviewQueueRoute_query.graphql";
+import {
+  COMMENT_FLAG_REASON,
+  ForReviewQueueRow_flag,
+} from "coral-admin/__generated__/ForReviewQueueRow_flag.graphql";
 
 import styles from "./ForReviewQueueRow.css";
 
-interface ForReviewRevision {
-  readonly body: string | null;
-}
-
-interface ForReviewComment {
-  id: string;
-  revision: ForReviewRevision;
-}
-
 interface Props {
-  id: string;
-  comment: ForReviewComment | null;
-  username: string | null;
-  reason: COMMENT_FLAG_REASON | null;
-  additionalDetails: string | null;
-  createdAt: string;
-  reviewed: boolean;
   onReview: (id: string, enabled: boolean) => void;
+  flag: ForReviewQueueRow_flag;
 }
-
-const getRevision = (comment: ForReviewComment | null) => {
-  if (!comment) {
-    return "";
-  }
-
-  if (!comment.revision) {
-    return "";
-  }
-
-  return comment.revision.body || "";
-};
-
-const getModerationURL = (comment: ForReviewComment | null) => {
-  if (!comment) {
-    return "";
-  }
-
-  return `${getLocationOrigin()}/admin/moderate/comment/${comment.id}`;
-};
 
 interface ReasonTextProps {
   reason: COMMENT_FLAG_REASON | null;
@@ -110,42 +85,37 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
   }
 };
 
-const ForReviewQueueRow: FunctionComponent<Props> = ({
-  id,
-  comment,
-  username,
-  reason,
-  additionalDetails,
-  createdAt,
-  onReview,
-  reviewed,
-}) => {
+const ForReviewQueueRow: FunctionComponent<Props> = ({ onReview, flag }) => {
   return (
     <TableRow>
       <TableCell>
-        <TimestampFormatter>{createdAt}</TimestampFormatter>
+        <TimestampFormatter>{flag.createdAt}</TimestampFormatter>
       </TableCell>
       <TableCell>
         {
-          <ComponentLink href={getModerationURL(comment)}>
+          <TextLink
+            href={`${getLocationOrigin()}/admin/moderate/comment/${
+              flag.comment.id
+            }`}
+          >
             <CommentParser className={styles.commentLink}>
-              {getRevision(comment)}
+              {flag.revision ? flag.revision.body || "" : ""}
             </CommentParser>
-          </ComponentLink>
+          </TextLink>
         }
       </TableCell>
-      <TableCell>{username}</TableCell>
+      <TableCell>{flag.flagger ? flag.flagger.username : ""}</TableCell>
       <TableCell>
-        <ReasonText reason={reason} />
+        <ReasonText reason={flag.reason} />
       </TableCell>
-      <TableCell>{additionalDetails}</TableCell>
+      <TableCell>{flag.additionalDetails}</TableCell>
       <TableCell>
         <Flex alignItems="center" justifyContent="space-evenly">
           <CheckBox
-            checked={reviewed}
+            checked={flag.reviewed}
             onChange={(event) => {
               const enabled = !!(event.currentTarget.value === "on");
-              void onReview(id, enabled);
+              void onReview(flag.id, enabled);
             }}
           >
             {""}
@@ -156,4 +126,32 @@ const ForReviewQueueRow: FunctionComponent<Props> = ({
   );
 };
 
-export default ForReviewQueueRow;
+const enhanced = withFragmentContainer<Props>({
+  flag: graphql`
+    fragment ForReviewQueueRow_flag on Flag {
+      id
+      createdAt
+      flagger {
+        id
+        username
+      }
+      reason
+      additionalDetails
+      reviewed
+      revision {
+        body
+      }
+      comment {
+        id
+        story {
+          id
+        }
+      }
+      revision {
+        body
+      }
+    }
+  `,
+})(ForReviewQueueRow);
+
+export default enhanced;

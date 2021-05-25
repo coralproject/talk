@@ -129,17 +129,11 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {flagActions.map((a, i) => (
+            {flagActions.map((flag) => (
               <ForReviewQueueRow
-                key={a.id}
-                id={a.id}
-                comment={{ ...a.comment, revision: a.revision }}
-                username={a.flagger ? a.flagger.username : ""}
-                reason={a.reason}
-                additionalDetails={a.additionalDetails}
-                createdAt={a.createdAt}
-                reviewed={a.reviewed}
+                key={flag.id}
                 onReview={onReview}
+                flag={flag}
               />
             ))}
           </TableBody>
@@ -184,20 +178,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              createdAt
-              flagger {
-                id
-                username
-              }
-              reason
-              additionalDetails
-              reviewed
-              comment {
-                id
-              }
-              revision {
-                body
-              }
+              ...ForReviewQueueRow_flag
             }
           }
         }
