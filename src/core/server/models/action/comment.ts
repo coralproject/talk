@@ -290,33 +290,27 @@ export type CommentActionConnectionInput = OrderedConnectionInput<
 >;
 
 function applyInputToQuery(
-  tenantID: string,
-  input: CommentActionConnectionInput,
-  query: Query<CommentAction>
+  query: Query<CommentAction>,
+  input: CommentActionConnectionInput
 ) {
-  const tenantFilter = { tenantID };
-  let where: any = {};
-
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ createdAt: -1 });
       if (input.after) {
-        where = { createdAt: { $lt: input.after as Date } };
+        query.where({ createdAt: { $lt: input.after as Date } });
       }
       break;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
-        where = { createdAt: { $gt: input.after as Date } };
+        query.where({ createdAt: { $lt: input.after as Date } });
       }
       break;
   }
 
   if (input.filter) {
-    where = { ...tenantFilter, ...where, ...input.filter };
+    query.where({ ...input.filter });
   }
-
-  query.where(where);
 
   return query;
 }
@@ -326,9 +320,9 @@ export async function retrieveCommentActionConnection(
   tenantID: string,
   input: CommentActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  // Create the query.
-  let query = new Query(collection(mongo));
-  query = applyInputToQuery(tenantID, input, query);
+  const tenantFilter = { tenantID };
+  const query = new Query(collection(mongo)).where(tenantFilter);
+  applyInputToQuery(query, input);
 
   return resolveConnection(query, input, (action) => action.createdAt);
 }
