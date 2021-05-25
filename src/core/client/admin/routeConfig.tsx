@@ -89,12 +89,17 @@ export default makeRouteConfig(
           />
           <Route path="approved" {...ApprovedQueueRouteConfig} />
           <Route path="rejected" {...RejectedQueueRouteConfig} />
-          <Route path="review" {...ForReviewQueueRouteConfig} />
           <Route
             path="rejected/stories/:storyID"
             {...RejectedQueueRouteConfig}
           />
           <Route path="rejected/sites/:siteID" {...RejectedQueueRouteConfig} />
+          <Route path="review" {...ForReviewQueueRouteConfig} />
+          <Route
+            path="review/stories/:storyID"
+            {...ForReviewQueueRouteConfig}
+          />
+          <Route path="review/sites/:siteID" {...ForReviewQueueRouteConfig} />
           <Route
             path="approved/stories/:storyID"
             {...ApprovedQueueRouteConfig}

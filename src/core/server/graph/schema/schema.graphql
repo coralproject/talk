@@ -4122,6 +4122,7 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     orderBy: COMMENT_SORT
+    storyID: ID
   ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 
@@ -7853,8 +7854,14 @@ input ReviewCommentFlagInput {
   """
   clientMutationId: String!
 
+  """
+  id is the id of the Flag being reviewed.
+  """
   id: ID!
 
+  """
+  reviewed is whether this flag is reviewed or not.
+  """
   reviewed: Boolean!
 }
 
@@ -7864,6 +7871,9 @@ type ReviewCommentFlagPayload {
   """
   clientMutationId: String!
 
+  """
+  flag is the flag that was reviewed by the review action.
+  """
   flag: Flag!
 }
 
