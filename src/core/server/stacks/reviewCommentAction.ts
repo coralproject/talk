@@ -7,7 +7,7 @@ import { commentActions } from "coral-server/services/mongodb/collections";
 const reviewCommentAction = async (
   mongo: Db,
   tenant: Tenant,
-  viewer: User | undefined,
+  viewer: User,
   now: Date,
   commentActionID: string,
   reviewed: boolean
