@@ -303,7 +303,7 @@ function applyInputToQuery(
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
-        query.where({ createdAt: { $lt: input.after as Date } });
+        query.where({ createdAt: { $gt: input.after as Date } });
       }
       break;
   }
