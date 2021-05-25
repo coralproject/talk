@@ -1429,5 +1429,9 @@ dashboard-comment-activity-heading = Hourly comment activity
 dashboard-comment-activity-tooltip-comments = Comments
 dashboard-comment-activity-legend = Average last 3 days
 
-conversation-modal-header-title = Conversation on:
-conversation-modal-header-moderate-link = Moderate story
+conversation-modal-conversationOn = Conversation on:
+conversation-modal-moderateStory = Moderate story
+conversation-modal-showMoreParents = Show more of this conversation
+conversation-modal-showReplies = Show replies
+conversation-modal-commentNotFound = Comment not found.
+conversation-modal-showMoreReplies = Show more replies

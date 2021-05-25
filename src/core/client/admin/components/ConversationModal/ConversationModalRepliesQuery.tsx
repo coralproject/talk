@@ -52,7 +52,7 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
           return (
             <div>
               <CallOut>
-                <Localized id="conversation-modal-comment-not-found">
+                <Localized id="conversation-modal-commentNotFound">
                   Comment not found.
                 </Localized>
               </CallOut>

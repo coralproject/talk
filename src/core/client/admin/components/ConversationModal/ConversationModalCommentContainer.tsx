@@ -103,7 +103,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
       {isReply && comment.replyCount > 0 && (
         <div className={styles.showReplies}>
           {!showReplies && (
-            <Localized id="conversation-modal-reply-show-replies">
+            <Localized id="conversation-modal-showReplies">
               <Button
                 color="mono"
                 variant="outlined"
