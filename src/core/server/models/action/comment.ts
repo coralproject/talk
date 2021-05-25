@@ -309,7 +309,7 @@ function applyInputToQuery(
   }
 
   if (input.filter) {
-    query.where({ ...input.filter });
+    query.where(input.filter);
   }
 
   return query;
@@ -320,8 +320,7 @@ export async function retrieveCommentActionConnection(
   tenantID: string,
   input: CommentActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  const tenantFilter = { tenantID };
-  const query = new Query(collection(mongo)).where(tenantFilter);
+  const query = new Query(collection(mongo)).where({ tenantID });
   applyInputToQuery(query, input);
 
   return resolveConnection(query, input, (action) => action.createdAt);
