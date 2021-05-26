@@ -11,6 +11,10 @@ import {
   CoralContext,
   CoralContextProvider,
 } from "coral-framework/lib/bootstrap";
+import {
+  CONNECTION_STATUS,
+  ConnectionStatusListenerCallback,
+} from "coral-framework/lib/network";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
@@ -21,7 +25,6 @@ import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
   SubscriptionHandlerReadOnly,
 } from "./createSubscriptionHandler";
-import { CONNECTION_STATUS, ConnectionStatusListenerCallback } from "coral-framework/lib/network";
 
 export type Resolver<V, R> = (
   parent: any,
