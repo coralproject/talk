@@ -21,6 +21,7 @@ import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
   SubscriptionHandlerReadOnly,
 } from "./createSubscriptionHandler";
+import { CONNECTION_STATUS, ConnectionStatusListenerCallback } from "coral-framework/lib/network";
 
 export type Resolver<V, R> = (
   parent: any,
@@ -99,6 +100,13 @@ export default function createTestRenderer<
       pause: () => {},
       resume: () => {},
       setAccessToken: () => {},
+      getConnectionStatus: () => CONNECTION_STATUS.CONNECTED,
+      on: (
+        status: CONNECTION_STATUS.CONNECTED,
+        callback: ConnectionStatusListenerCallback
+      ) => {
+        return () => {};
+      },
     },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
