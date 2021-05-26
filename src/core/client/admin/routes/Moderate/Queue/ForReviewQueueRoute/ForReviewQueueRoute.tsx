@@ -9,7 +9,6 @@ import {
   LOCAL_ID,
   lookup,
   useLocal,
-  useMutation,
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
@@ -32,8 +31,7 @@ import {
 } from "coral-admin/__generated__/ForReviewQueueRoutePaginationQuery.graphql";
 
 import LoadingQueue from "../LoadingQueue";
-import ForReviewQueueRow from "./ForReviewQueueRow";
-import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
+import ForReviewQueueRowContainer from "./ForReviewQueueRowContainer";
 
 import styles from "./ForReviewQueueRoute.css";
 
@@ -50,8 +48,6 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
   query,
 }) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
-
-  const markFlagged = useMutation(MarkFlagReviewedMutation);
 
   const [{ moderationQueueSort }] = useLocal<ForReviewQueueRouteLocal>(graphql`
     fragment ForReviewQueueRouteLocal on Local {
@@ -85,13 +81,6 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
     );
   }, [relay]);
 
-  const onReview = useCallback(
-    async (id: string, reviewed: boolean) => {
-      await markFlagged({ id, reviewed });
-    },
-    [markFlagged]
-  );
-
   if (!query || !query.viewer) {
     return null;
   }
@@ -108,33 +97,29 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
         <Table fullWidth className={styles.table}>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-time">Time</Localized>
               </TableCell>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-comment">Comment</Localized>
               </TableCell>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-reportedBy">Reported by</Localized>
               </TableCell>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-reason">Reason</Localized>
               </TableCell>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-description">Description</Localized>
               </TableCell>
-              <TableCell>
+              <TableCell className={styles.column}>
                 <Localized id="forReview-reviewed">Reviewed</Localized>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {flagActions.map((flag) => (
-              <ForReviewQueueRow
-                key={flag.id}
-                onReview={onReview}
-                flag={flag}
-              />
+              <ForReviewQueueRowContainer key={flag.id} flag={flag} />
             ))}
           </TableBody>
         </Table>
@@ -162,7 +147,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment ForReviewQueueRoute_query on Query
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 15 }
           cursor: { type: "Cursor" }
           storyID: { type: "ID" }
           siteID: { type: "ID" }
@@ -174,11 +159,13 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: $orderBy
           storyID: $storyID
+          siteID: $siteID
+          section: $section
         ) @connection(key: "ForReviewQueue_flags") {
           edges {
             node {
               id
-              ...ForReviewQueueRow_flag
+              ...ForReviewQueueRowContainer_flag
             }
           }
         }

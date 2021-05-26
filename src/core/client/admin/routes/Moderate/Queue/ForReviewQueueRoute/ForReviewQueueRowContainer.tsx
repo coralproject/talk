@@ -1,13 +1,14 @@
 import { Localized } from "@fluent/react/compat";
+import { Link } from "found";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import CommentParser from "coral-admin/components/Comment/CommentParser";
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { getLocationOrigin } from "coral-framework/utils";
+import NotAvailable from "coral-admin/components/NotAvailable";
+import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
+import getModerationLink from "coral-framework/helpers/getModerationLink";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CheckBox,
-  Flex,
   TableCell,
   TableRow,
   TextLink,
@@ -16,14 +17,15 @@ import { TimestampFormatter } from "coral-ui/components/v2/Timestamp";
 
 import {
   COMMENT_FLAG_REASON,
-  ForReviewQueueRow_flag,
-} from "coral-admin/__generated__/ForReviewQueueRow_flag.graphql";
+  ForReviewQueueRowContainer_flag,
+} from "coral-admin/__generated__/ForReviewQueueRowContainer_flag.graphql";
 
-import styles from "./ForReviewQueueRow.css";
+import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
+
+import styles from "./ForReviewQueueRowContainer.css";
 
 interface Props {
-  onReview: (id: string, enabled: boolean) => void;
-  flag: ForReviewQueueRow_flag;
+  flag: ForReviewQueueRowContainer_flag;
 }
 
 interface ReasonTextProps {
@@ -85,42 +87,42 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
   }
 };
 
-const ForReviewQueueRow: FunctionComponent<Props> = ({ onReview, flag }) => {
+const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
+  const markFlagged = useMutation(MarkFlagReviewedMutation);
+  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    void markFlagged({ id: flag.id, reviewed: event.currentTarget.checked });
+  };
+
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className={styles.column}>
         <TimestampFormatter>{flag.createdAt}</TimestampFormatter>
       </TableCell>
-      <TableCell>
-        {
-          <TextLink
-            href={`${getLocationOrigin()}/admin/moderate/comment/${
-              flag.comment.id
-            }`}
+      <TableCell className={styles.column}>
+        <div className={styles.commentContainer}>
+          <Link
+            as={TextLink}
+            to={getModerationLink({ commentID: flag.comment.id })}
           >
-            <CommentParser className={styles.commentLink}>
-              {flag.revision ? flag.revision.body || "" : ""}
-            </CommentParser>
-          </TextLink>
-        }
+            {getHTMLPlainText(flag.revision?.body || "")
+              .trim()
+              .substr(0, 50) || "No text content"}
+          </Link>
+        </div>
       </TableCell>
-      <TableCell>{flag.flagger ? flag.flagger.username : ""}</TableCell>
-      <TableCell>
+      <TableCell className={styles.column}>
+        <div className={styles.reportedByContainer}>
+          {flag.flagger?.username || <NotAvailable />}
+        </div>
+      </TableCell>
+      <TableCell className={styles.column}>
         <ReasonText reason={flag.reason} />
       </TableCell>
-      <TableCell>{flag.additionalDetails}</TableCell>
-      <TableCell>
-        <Flex alignItems="center" justifyContent="space-evenly">
-          <CheckBox
-            checked={flag.reviewed}
-            onChange={(event) => {
-              const enabled = !!(event.currentTarget.value === "on");
-              void onReview(flag.id, enabled);
-            }}
-          >
-            {""}
-          </CheckBox>
-        </Flex>
+      <TableCell className={styles.descriptionColumn}>
+        {flag.additionalDetails}
+      </TableCell>
+      <TableCell className={styles.reviewedColumn} align="center">
+        <CheckBox checked={flag.reviewed} onChange={handleCheckBoxChange} />
       </TableCell>
     </TableRow>
   );
@@ -128,11 +130,10 @@ const ForReviewQueueRow: FunctionComponent<Props> = ({ onReview, flag }) => {
 
 const enhanced = withFragmentContainer<Props>({
   flag: graphql`
-    fragment ForReviewQueueRow_flag on Flag {
+    fragment ForReviewQueueRowContainer_flag on Flag {
       id
       createdAt
       flagger {
-        id
         username
       }
       reason
@@ -143,15 +144,12 @@ const enhanced = withFragmentContainer<Props>({
       }
       comment {
         id
-        story {
-          id
-        }
       }
       revision {
         body
       }
     }
   `,
-})(ForReviewQueueRow);
+})(ForReviewQueueRowContainer);
 
 export default enhanced;

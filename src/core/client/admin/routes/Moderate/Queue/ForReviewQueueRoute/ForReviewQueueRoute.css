@@ -1,3 +1,7 @@
 .table {
   max-width: 900px;
 }
+
+.column {
+  white-space: nowrap;
+}

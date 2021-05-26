@@ -29,6 +29,7 @@ const queueNames: QUEUE_NAME[] = [
   "unmoderated",
   "approved",
   "rejected",
+  "review",
 ];
 
 const ModerateContainer: FunctionComponent<Props> = ({
@@ -41,8 +42,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
   const queueName = useMemo(
     () =>
       // TODO: (tessalt) get active route in a better way
-      queueNames.find((name) => match.location.pathname.includes(name)) ||
-      "default",
+      queueNames.find((name) => match.location.pathname.includes(name)),
     [match.location.pathname]
   );
 
@@ -75,7 +75,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
     const redirect = () =>
       router.push(
         getModerationLink({
-          queue: queueName === "default" ? undefined : queueName,
+          queue: queueName,
           // We'll grab the first site in the moderation scopes (a user can only
           // be scoped if there is at least one site).
           siteID: sites[0].id,
@@ -110,7 +110,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
       redirect();
       return;
     }
-  }, [router, match, data]);
+  }, [router, match, data, queueName]);
 
   // Get some options for the moderate cards.
   const { section } = parseModerationOptions(match);

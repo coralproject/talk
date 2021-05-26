@@ -1,0 +1,26 @@
+.commentContainer {
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.reportedByContainer {
+  width: 125px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.descriptionColumn {
+  word-break: break-word;
+}
+
+.column {
+  vertical-align: top;
+}
+
+.reviewedColumn {
+  vertical-align: top;
+  padding-top: 4px;
+}

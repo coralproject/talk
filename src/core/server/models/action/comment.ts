@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { StoryNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -25,6 +26,8 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
+
+import { retrieveStory } from "../story";
 
 export enum ACTION_TYPE {
   /**
@@ -140,6 +143,13 @@ export interface CommentAction extends TenantResource {
    * reviewed is whether this comment action has been reviewed by a moderator.
    */
   reviewed?: boolean;
+
+  /**
+   * section is the section of the story of the comment that this action was
+   * performed on. If the section was not available when the action was authored,
+   * the section will be null here.
+   */
+  section?: string;
 }
 
 const ActionSchema = Joi.compile([
@@ -232,11 +242,19 @@ export async function createAction(
     ...rest,
   };
 
+  // Grab the story that we'll use to check moderation pieces with.
+  const story = await retrieveStory(mongo, tenantID, input.storyID);
+  if (!story) {
+    throw new StoryNotFoundError(input.storyID);
+  }
+
   // Merge the defaults with the input.
   const action: Readonly<CommentAction> = {
     ...defaults,
     ...input,
     additionalDetails,
+    // Copy the current story section into the comment if it exists.
+    section: story.metadata?.section,
   };
 
   // Create the upsert/update operation.

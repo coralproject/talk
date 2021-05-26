@@ -43,11 +43,13 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
-  flags: (source, { first, after, orderBy, storyID }, ctx) =>
+  flags: (source, { first, after, orderBy, storyID, siteID, section }, ctx) =>
     ctx.loaders.CommentActions.forFilter({
       first: defaultTo(first, 10),
       after,
       storyID,
+      siteID,
+      section,
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       filter: {
         actionType: ACTION_TYPE.FLAG,

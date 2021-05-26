@@ -4116,13 +4116,15 @@ type Query {
     @auth(roles: [ADMIN])
 
   """
-  flags are the list of non-reviewed flags from user reported comments.
+  flags are the list of flags from user reported comments.
   """
   flags(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     orderBy: COMMENT_SORT
     storyID: ID
+    siteID: ID
+    section: SectionFilter
   ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 
