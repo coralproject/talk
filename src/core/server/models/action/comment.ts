@@ -253,7 +253,7 @@ export async function createAction(
     ...defaults,
     ...input,
     additionalDetails,
-    // Copy the current story section into the comment if it exists.
+    // Copy the current story section if it exists.
     section: story.metadata?.section,
   };
 
