@@ -9,6 +9,10 @@ const allStatus = [
   CONNECTION_STATUS.DISCONNECTED,
 ];
 
+/**
+ * Returns connection status of the graphql subscription client.
+ * You can limit the status that you're interested in with `only`.
+ */
 export default function useSubscriptionConnectionStatus(
   only?: CONNECTION_STATUS[]
 ): CONNECTION_STATUS {

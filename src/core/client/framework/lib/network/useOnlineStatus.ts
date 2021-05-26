@@ -7,6 +7,9 @@ function isOnline() {
     : true;
 }
 
+/**
+ * Returns a boolean indicating the network online status.
+ */
 export default function useOnlineStatus() {
   const [onlineStatus, setOnlineStatus] = useState(isOnline());
   const handleOnline = () => setOnlineStatus(true);
