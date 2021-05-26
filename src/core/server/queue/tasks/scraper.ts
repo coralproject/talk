@@ -62,5 +62,9 @@ export function createScraperTask(
     // give the scraper a chance to time itself out after the scraper fails, but
     // will catch it if the scraping takes too long.
     timeout: options.config.get("scrape_timeout") * 2,
+    // We will generate a stable job ID for these scrape jobs. This ensures that
+    // we cannot add multiple scraper jobs for the same story multiple times
+    // while one is already in progress.
+    jobIdGenerator: ({ tenantID, storyID }) => `${tenantID}:${storyID}`,
   });
 }
