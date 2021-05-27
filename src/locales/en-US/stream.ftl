@@ -551,7 +551,7 @@ comments-reportPopover-reportThisComment = Report This Comment
 comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
 
 comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonAbusive = This is abusive behaviour
+comments-reportPopover-reasonAbusive = This commenter is being abusive
 comments-reportPopover-reasonIDisagree = I disagree with this comment
 comments-reportPopover-reasonSpam = This looks like an ad or marketing
 comments-reportPopover-reasonOther = Other

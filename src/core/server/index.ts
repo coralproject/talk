@@ -157,6 +157,15 @@ class Server {
       );
     }
 
+    if (
+      this.config.get("smtp_transport_timeout") >=
+      this.config.get("mailer_job_timeout")
+    ) {
+      throw new Error(
+        "SMTP_TRANSPORT_TIMEOUT must be less than MAILER_JOB_TIMEOUT"
+      );
+    }
+
     // Configure the error reporter.
     if (
       this.config.get("env") === "production" &&

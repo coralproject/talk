@@ -42,10 +42,8 @@ const AllCommentsTabViewNewMutation = createMutation(
       // Insert new edges into the view.
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeBefore(connection, edge);
+        incrementStoryCommentCounts(store, storyID, edge);
       });
-
-      // Increment the count.
-      incrementStoryCommentCounts(store, storyID, viewNewEdges.length, tag);
 
       ViewNewCommentsEvent.emit(eventEmitter, {
         storyID,
