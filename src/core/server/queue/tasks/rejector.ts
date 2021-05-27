@@ -116,5 +116,9 @@ export function createRejectorTask(
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options),
     queue,
+    // We will generate a stable job ID for these rejector jobs. This ensures
+    // that we cannot add multiple rejector jobs for the same user while one is
+    // already in progress.
+    jobIdGenerator: ({ tenantID, authorID }) => `${tenantID}:${authorID}`,
   });
 }

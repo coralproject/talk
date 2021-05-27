@@ -434,6 +434,27 @@ const config = convict({
     default: false,
     env: "MOUNT_DOCUMENTATION",
   },
+  smtp_transport_send_max: {
+    doc:
+      "Maximum number of emails that a given transport can send before it's reset.",
+    env: "SMTP_TRANSPORT_SEND_MAX",
+    format: Number,
+    default: 50,
+  },
+  smtp_transport_timeout: {
+    doc:
+      "Maximum time that the transport can take sending a Email before it aborts.",
+    format: "ms",
+    default: ms("20s"),
+    env: "SMTP_TRANSPORT_TIMEOUT",
+  },
+  mailer_job_timeout: {
+    doc:
+      "Maximum time that the mailer can take to process any mailer jobs before it aborts.",
+    format: "ms",
+    default: ms("30s"),
+    env: "MAILER_JOB_TIMEOUT",
+  },
 });
 
 export type Config = typeof config;
