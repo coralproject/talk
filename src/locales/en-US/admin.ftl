@@ -2,6 +2,8 @@
 
 ## General
 general-notAvailable = Not available
+general-none = None
+general-noTextContent = No text content
 
 ## Story Status
 storyStatus-open = Open
@@ -1070,6 +1072,10 @@ moderate-user-drawer-notes-field =
 moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
+
+
+moderate-forReview-reviewButton =
+  .aria-label = Mark as reviewed
 
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.

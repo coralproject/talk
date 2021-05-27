@@ -105,7 +105,7 @@ const Moderate: FunctionComponent<Props> = ({
           />
         }
       />
-      <SubBar data-testid="moderate-tabBar-container">
+      <SubBar data-testid="moderate-tabBar-container" className={styles.subBar}>
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}

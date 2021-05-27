@@ -10,10 +10,7 @@ import {
 
 import { MarkFlagReviewedMutation as MutationTypes } from "coral-admin/__generated__/MarkFlagReviewedMutation.graphql";
 
-export type MarkFlagReviewedInput = MutationInput<MutationTypes> & {
-  id: string;
-  reviewed: boolean;
-};
+export type MarkFlagReviewedInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation MarkFlagReviewedMutation($input: ReviewCommentFlagInput!) {
@@ -43,7 +40,6 @@ export const MarkFlagReviewedMutation = createMutation(
         variables: {
           input: {
             id: input.id,
-            reviewed: input.reviewed,
             clientMutationId: clientMutationId.toString(),
           },
         },
@@ -51,16 +47,10 @@ export const MarkFlagReviewedMutation = createMutation(
           reviewCommentFlag: {
             flag: {
               id: input.id,
-              reviewed: input.reviewed,
+              reviewed: true,
             },
             clientMutationId: (clientMutationId++).toString(),
           },
-        },
-        optimisticUpdater: () => {
-          // Let Relay handle this
-        },
-        updater: () => {
-          // Let Relay handle this
         },
       }
     );

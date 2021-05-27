@@ -48,10 +48,12 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       disposable.dispose();
     };
   }, [
-    Boolean(props.moderationQueues),
     props.story,
     props.siteID,
     props.section,
+    props.moderationQueues,
+    subscribeToCommentEntered,
+    subscribeToCommentLeft,
   ]);
 
   if (!props.moderationQueues) {

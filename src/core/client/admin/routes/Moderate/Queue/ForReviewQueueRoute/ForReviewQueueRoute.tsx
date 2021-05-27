@@ -43,6 +43,8 @@ interface Props {
   section?: SectionFilter | null;
 }
 
+const Background = () => <div className={styles.background} />;
+
 export const ForReviewQueueRoute: FunctionComponent<Props> = ({
   relay,
   query,
@@ -240,9 +242,10 @@ export const routeConfig = createRouteConfig<Props, ForReviewQueueRoute_query>({
   cacheConfig: { force: true },
   // eslint-disable-next-line react/display-name
   render: ({ Component, data, match }) => {
+    let render = <LoadingQueue />;
     if (Component && data) {
       const { storyID, siteID, section } = parseModerationOptions(match);
-      return (
+      render = (
         <Component
           query={data}
           storyID={storyID}
@@ -251,7 +254,12 @@ export const routeConfig = createRouteConfig<Props, ForReviewQueueRoute_query>({
         />
       );
     }
-    return <LoadingQueue />;
+    return (
+      <>
+        <Background />
+        {render}
+      </>
+    );
   },
 });
 

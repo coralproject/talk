@@ -3,17 +3,14 @@ import { Link } from "found";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import None from "coral-admin/components/None";
 import NotAvailable from "coral-admin/components/NotAvailable";
+import NoTextContent from "coral-admin/components/NoTextContent";
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import getModerationLink from "coral-framework/helpers/getModerationLink";
+import useDateTimeFormatter from "coral-framework/hooks/useDateTimeFormatter";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  CheckBox,
-  TableCell,
-  TableRow,
-  TextLink,
-} from "coral-ui/components/v2";
-import { TimestampFormatter } from "coral-ui/components/v2/Timestamp";
+import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
 
 import {
   COMMENT_FLAG_REASON,
@@ -23,6 +20,7 @@ import {
 import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
 
 import styles from "./ForReviewQueueRowContainer.css";
+import ReviewButton from "./ReviewButton";
 
 interface Props {
   flag: ForReviewQueueRowContainer_flag;
@@ -89,14 +87,22 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
 
 const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
   const markFlagged = useMutation(MarkFlagReviewedMutation);
-  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    void markFlagged({ id: flag.id, reviewed: event.currentTarget.checked });
+  const handleReviewButtonClick = () => {
+    void markFlagged({ id: flag.id, reviewed: true });
   };
+
+  const formatter = useDateTimeFormatter({
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <TableRow>
-      <TableCell className={styles.column}>
-        <TimestampFormatter>{flag.createdAt}</TimestampFormatter>
+      <TableCell className={styles.timeColumn}>
+        {formatter(flag.createdAt)}
       </TableCell>
       <TableCell className={styles.column}>
         <div className={styles.commentContainer}>
@@ -106,7 +112,7 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
           >
             {getHTMLPlainText(flag.revision?.body || "")
               .trim()
-              .substr(0, 50) || "No text content"}
+              .substr(0, 40) || <NoTextContent />}
           </Link>
         </div>
       </TableCell>
@@ -119,10 +125,14 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
         <ReasonText reason={flag.reason} />
       </TableCell>
       <TableCell className={styles.descriptionColumn}>
-        {flag.additionalDetails}
+        {flag.additionalDetails || <None />}
       </TableCell>
       <TableCell className={styles.reviewedColumn} align="center">
-        <CheckBox checked={flag.reviewed} onChange={handleCheckBoxChange} />
+        <ReviewButton
+          checked={flag.reviewed}
+          readOnly={flag.reviewed}
+          onClick={handleReviewButtonClick}
+        />
       </TableCell>
     </TableRow>
   );

@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from "react";
+import cn from "classnames";
+import React, { FunctionComponent, useCallback, useState } from "react";
+
+import { AbsoluteTime, BaseButton, RelativeTime } from "coral-ui/components/v2";
 
 import styles from "./Timestamp.css";
-import TimestampFormatter from "./TimestampFormatter";
-
 export interface TimestampProps {
   className?: string;
   children: string;
@@ -16,16 +17,24 @@ const Timestamp: FunctionComponent<TimestampProps> = ({
   toggleAbsolute,
   onToggleAbsolute,
 }) => {
+  const [showAbsolute, setShowAbsolute] = useState(false);
+  const toggleShowAbsolute = useCallback(() => {
+    if (toggleAbsolute) {
+      if (onToggleAbsolute) {
+        onToggleAbsolute(!showAbsolute);
+      }
+
+      setShowAbsolute(!showAbsolute);
+    }
+  }, [toggleAbsolute, onToggleAbsolute, showAbsolute, setShowAbsolute]);
   return (
-    <TimestampFormatter
-      className={className}
-      rootClassName={styles.root}
-      textClassName={styles.text}
-      toggleAbsolute={toggleAbsolute}
-      onToggleAbsolute={onToggleAbsolute}
-    >
-      {children}
-    </TimestampFormatter>
+    <BaseButton className={styles.root} onClick={toggleShowAbsolute}>
+      {showAbsolute ? (
+        <AbsoluteTime date={children} className={cn(styles.text, className)} />
+      ) : (
+        <RelativeTime className={cn(styles.text, className)} date={children} />
+      )}
+    </BaseButton>
   );
 };
 
