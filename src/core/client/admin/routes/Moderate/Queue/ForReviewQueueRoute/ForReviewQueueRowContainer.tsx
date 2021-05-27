@@ -88,7 +88,7 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
 const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
   const markFlagged = useMutation(MarkFlagReviewedMutation);
   const handleReviewButtonClick = () => {
-    void markFlagged({ id: flag.id, reviewed: true });
+    void markFlagged({ id: flag.id });
   };
 
   const formatter = useDateTimeFormatter({
