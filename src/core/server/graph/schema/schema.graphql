@@ -7860,11 +7860,6 @@ input ReviewCommentFlagInput {
   id is the id of the Flag being reviewed.
   """
   id: ID!
-
-  """
-  reviewed is whether this flag is reviewed or not.
-  """
-  reviewed: Boolean!
 }
 
 type ReviewCommentFlagPayload {
@@ -8472,7 +8467,7 @@ type Mutation {
   testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
 
   """
-  review
+  reviewCommentFlag marks comment flag as reviewed
   """
   reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
     @auth(roles: [ADMIN, MODERATOR])
@@ -8488,7 +8483,7 @@ after it was created.
 """
 type CommentStatusUpdatedPayload {
   """
-  newStatus  is the new status assigned to the Comment. This status may not
+  newStatus is the new status assigned to the Comment. This status may not
   match the status provided by `comment.status` due to race conditions in the
   data loaders.
   """

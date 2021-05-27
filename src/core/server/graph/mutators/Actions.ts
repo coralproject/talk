@@ -50,15 +50,14 @@ export const Actions = (ctx: GraphContext) => ({
       ctx.now
     );
   },
-  reviewFlag: async (input: GQLReviewCommentFlagInput) => {
+  reviewCommentFlag: async (input: GQLReviewCommentFlagInput) => {
     return await reviewCommentAction(
       ctx.mongo,
       ctx.tenant,
       // User must be available here, auth directive requires admin/mod
       ctx.user!,
       ctx.now,
-      input.id,
-      input.reviewed
+      input.id
     );
   },
 });

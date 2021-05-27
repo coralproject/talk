@@ -9,8 +9,7 @@ const reviewCommentAction = async (
   tenant: Tenant,
   viewer: User,
   now: Date,
-  commentActionID: string,
-  reviewed: boolean
+  commentActionID: string
 ) => {
   const result = await commentActions(mongo).findOneAndUpdate(
     {
@@ -18,7 +17,11 @@ const reviewCommentAction = async (
       id: commentActionID,
     },
     {
-      $set: { reviewed, reviewedBy: viewer ? viewer.id : "", reviewedAt: now },
+      $set: {
+        reviewed: true,
+        reviewedBy: viewer ? viewer.id : "",
+        reviewedAt: now,
+      },
     },
     {
       returnOriginal: false,

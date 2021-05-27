@@ -4,7 +4,6 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
-import { StoryNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -26,8 +25,6 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
-
-import { retrieveStory } from "../story";
 
 export enum ACTION_TYPE {
   /**
@@ -242,19 +239,11 @@ export async function createAction(
     ...rest,
   };
 
-  // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo, tenantID, input.storyID);
-  if (!story) {
-    throw new StoryNotFoundError(input.storyID);
-  }
-
   // Merge the defaults with the input.
   const action: Readonly<CommentAction> = {
     ...defaults,
     ...input,
     additionalDetails,
-    // Copy the current story section if it exists.
-    section: story.metadata?.section,
   };
 
   // Create the upsert/update operation.
