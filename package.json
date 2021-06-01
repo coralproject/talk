@@ -133,7 +133,7 @@
     "luxon": "^1.22.2",
     "metascraper-author": "^5.11.6",
     "metascraper-description": "^5.11.6",
-    "metascraper-image": "^5.11.6",
+    "metascraper-image": "^5.22.0",
     "metascraper-title": "^5.11.6",
     "mongodb": "^3.5.9",
     "mongodb-core": "^3.2.7",
