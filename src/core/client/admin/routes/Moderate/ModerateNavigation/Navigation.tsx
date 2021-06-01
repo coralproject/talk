@@ -21,6 +21,7 @@ interface Props {
   router: Router;
   match: Match;
   mode?: "PRE" | "POST" | "%future added value" | null;
+  enableForReview?: boolean;
 }
 
 const Navigation: FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ const Navigation: FunctionComponent<Props> = ({
   router,
   match,
   mode,
+  enableForReview,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
@@ -134,12 +136,14 @@ const Navigation: FunctionComponent<Props> = ({
           <span>Rejected</span>
         </Localized>
       </NavigationLink>
-      <NavigationLink to={moderationLinks[5]}>
-        <Icon>done_all</Icon>
-        <Localized id="moderate-navigation-forReview">
-          <span>For Review</span>
-        </Localized>
-      </NavigationLink>
+      {enableForReview && (
+        <NavigationLink to={moderationLinks[5]}>
+          <Icon>done_all</Icon>
+          <Localized id="moderate-navigation-forReview">
+            <span>For Review</span>
+          </Localized>
+        </NavigationLink>
+      )}
     </SubBarNavigation>
   );
 };

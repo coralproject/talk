@@ -13,6 +13,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import {
   Flex,
   HorizontalGutter,
@@ -83,7 +84,11 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
     );
   }, [relay]);
 
-  if (!query || !query.viewer) {
+  if (
+    !query ||
+    !query.viewer ||
+    !query.settings.featureFlags.includes(GQLFEATURE_FLAG.FOR_REVIEW)
+  ) {
     return null;
   }
 
@@ -177,6 +182,9 @@ const enhanced = withPaginationContainer<
         }
         viewer {
           id
+        }
+        settings {
+          featureFlags
         }
       }
     `,

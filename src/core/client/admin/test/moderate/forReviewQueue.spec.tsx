@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
   GQLResolver,
   MutationToReviewCommentFlagResolver,
 } from "coral-framework/schema";
@@ -44,7 +45,10 @@ async function createTestRenderer(
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          settings: () => settings,
+          settings: () => ({
+            ...settings,
+            featureFlags: [GQLFEATURE_FLAG.FOR_REVIEW],
+          }),
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           flags: () => emptyFlags,
@@ -62,6 +66,15 @@ async function createTestRenderer(
   });
   return { testRenderer, context, subscriptionHandler };
 }
+
+it("renders 'For Review' Navigation Item", async () => {
+  const { testRenderer } = await createTestRenderer();
+  const { getByTestID } = within(testRenderer.root);
+  const tabBar = await waitForElement(() =>
+    getByTestID("moderate-tabBar-container")
+  );
+  within(tabBar).getByText("For Review", { selector: "a", exact: false });
+});
 
 it("renders empty For Review queue", async () => {
   const { testRenderer } = await createTestRenderer();
