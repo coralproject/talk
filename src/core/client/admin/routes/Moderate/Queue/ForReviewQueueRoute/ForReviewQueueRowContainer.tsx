@@ -123,6 +123,9 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
     minute: "2-digit",
   });
 
+  const username = flag.flagger?.username || "";
+  const usernameTitle = username.length >= 20 ? username : undefined;
+
   return (
     <TableRow data-testid={`moderate-flag-${flag.id}`}>
       <TableCell className={styles.timeColumn}>
@@ -134,18 +137,19 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
             as={TextLink}
             to={getModerationLink({ commentID: flag.comment.id })}
           >
-            {getHTMLPlainText(flag.revision?.body || "")
-              .trim()
-              .substr(0, 40) || <NoTextContent />}
+            {flag.revision === null ? (
+              <NotAvailable />
+            ) : (
+              getHTMLPlainText(flag.revision?.body || "")
+                .trim()
+                .substr(0, 40) || <NoTextContent />
+            )}
           </Link>
         </div>
       </TableCell>
       <TableCell className={styles.column}>
-        <div
-          className={styles.reportedByContainer}
-          title={flag.flagger?.username || undefined}
-        >
-          {flag.flagger?.username || <NotAvailable />}
+        <div className={styles.reportedByContainer} title={usernameTitle}>
+          {username || <NotAvailable />}
         </div>
       </TableCell>
       <TableCell className={styles.column}>

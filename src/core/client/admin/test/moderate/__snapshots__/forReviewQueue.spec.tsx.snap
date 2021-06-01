@@ -87,7 +87,6 @@ exports[`renders For Review queue with flags 1`] = `
             >
               <div
                 className="ForReviewQueueRowContainer-reportedByContainer"
-                title="Isabelle"
               >
                 Isabelle
               </div>
@@ -148,7 +147,6 @@ exports[`renders For Review queue with flags 1`] = `
             >
               <div
                 className="ForReviewQueueRowContainer-reportedByContainer"
-                title="Isabelle"
               >
                 Isabelle
               </div>
@@ -207,7 +205,7 @@ exports[`renders For Review queue with flags 1`] = `
                   <span
                     className="NotAvailable-root"
                   >
-                    No text content
+                    Not available
                   </span>
                 </a>
               </div>
@@ -217,7 +215,6 @@ exports[`renders For Review queue with flags 1`] = `
             >
               <div
                 className="ForReviewQueueRowContainer-reportedByContainer"
-                title="Isabelle"
               >
                 Isabelle
               </div>
@@ -278,7 +275,6 @@ exports[`renders For Review queue with flags 1`] = `
             >
               <div
                 className="ForReviewQueueRowContainer-reportedByContainer"
-                title="Isabelle"
               >
                 Isabelle
               </div>
